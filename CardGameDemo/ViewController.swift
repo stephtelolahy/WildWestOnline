@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CardGameCore
 import CardGameMechanics
 
 class ViewController: UIViewController {
@@ -15,8 +14,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        var cards = Cards.all
-        
+        let cards = Cards.all
+        _ = cards.count
     }
 
 

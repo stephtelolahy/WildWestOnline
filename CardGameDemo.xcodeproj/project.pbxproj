@@ -13,8 +13,7 @@
 		26699F2228455FB8008040E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26699F2028455FB8008040E5 /* Main.storyboard */; };
 		26699F2428455FB9008040E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26699F2328455FB9008040E5 /* Assets.xcassets */; };
 		26699F2728455FB9008040E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26699F2528455FB9008040E5 /* LaunchScreen.storyboard */; };
-		26699F31284565CE008040E5 /* CardGameCore in Frameworks */ = {isa = PBXBuildFile; productRef = 26699F30284565CE008040E5 /* CardGameCore */; };
-		26699F342845674F008040E5 /* CardGameMechanics in Frameworks */ = {isa = PBXBuildFile; productRef = 26699F332845674F008040E5 /* CardGameMechanics */; };
+		26A4295028456F750049E990 /* CardGameMechanics in Frameworks */ = {isa = PBXBuildFile; productRef = 26A4294F28456F750049E990 /* CardGameMechanics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +25,8 @@
 		26699F2328455FB9008040E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26699F2628455FB9008040E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26699F2828455FB9008040E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		26699F2E28456085008040E5 /* CardGameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGameCore; sourceTree = "<group>"; };
-		26699F322845670D008040E5 /* CardGameMechanics */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGameMechanics; sourceTree = "<group>"; };
+		26699F3A28456B62008040E5 /* CardGameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGameCore; sourceTree = "<group>"; };
+		26699F3B28456B86008040E5 /* CardGameMechanics */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGameMechanics; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,8 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26699F342845674F008040E5 /* CardGameMechanics in Frameworks */,
-				26699F31284565CE008040E5 /* CardGameCore in Frameworks */,
+				26A4295028456F750049E990 /* CardGameMechanics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,8 +44,7 @@
 		26699F0E28455FB8008040E5 = {
 			isa = PBXGroup;
 			children = (
-				26699F2E28456085008040E5 /* CardGameCore */,
-				26699F322845670D008040E5 /* CardGameMechanics */,
+				26699F3928456B62008040E5 /* Packages */,
 				26699F1928455FB8008040E5 /* CardGameDemo */,
 				26699F1828455FB8008040E5 /* Products */,
 				26699F2F284565CE008040E5 /* Frameworks */,
@@ -83,6 +80,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		26699F3928456B62008040E5 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				26699F3A28456B62008040E5 /* CardGameCore */,
+				26699F3B28456B86008040E5 /* CardGameMechanics */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -100,8 +106,7 @@
 			);
 			name = CardGameDemo;
 			packageProductDependencies = (
-				26699F30284565CE008040E5 /* CardGameCore */,
-				26699F332845674F008040E5 /* CardGameMechanics */,
+				26A4294F28456F750049E990 /* CardGameMechanics */,
 			);
 			productName = CardGameDemo;
 			productReference = 26699F1728455FB8008040E5 /* CardGameDemo.app */;
@@ -380,11 +385,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		26699F30284565CE008040E5 /* CardGameCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CardGameCore;
-		};
-		26699F332845674F008040E5 /* CardGameMechanics */ = {
+		26A4294F28456F750049E990 /* CardGameMechanics */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CardGameMechanics;
 		};
