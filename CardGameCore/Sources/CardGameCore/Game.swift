@@ -32,6 +32,9 @@ class Game: GameProtocol {
     /// commands queue
     private var commands: [Move] = []
     
+    /// game rules
+    private let rules = Rules()
+    
     /// initialize game
     init(_ initialState: State) {
         state = CurrentValueSubject(initialState)
@@ -81,13 +84,21 @@ private extension Game {
         
         guard let cardRef = currState.leafSequenceRef() else {
             /// game idle
-            if currState.verifyGameOver() {
+            if rules.isGameOver(ctx: currState) {
                 currState.isGameOver = true
                 state.send(currState)
-            } else {
-                generateActiveMoves()
+                return false
+                
             }
-            return false
+            
+            if let turn = currState.turn,
+                      let moves = rules.possibleMoves(actor: turn, ctx: currState) {
+                currState.decisions[turn] = Decision(options: moves)
+                state.send(currState)
+                return false
+            }
+            
+            fatalError("Illegal state")
         }
         
         var sequence = currState.sequence(cardRef)
@@ -119,64 +130,6 @@ private extension Game {
             message.send(newEvent)
         }
     }
-    
-    /// Generate active moves of current turn player
-    func generateActiveMoves() {
-        var currState = state.value
-        guard let turn = currState.turn else {
-            return
-        }
-        
-        let actorObj = currState.player(turn)
-        let moves = (actorObj.common + actorObj.hand)
-            .map { generateActiveMoves(card: $0, actor: turn, ctx: currState) ?? [] }
-            .flatMap { $0 }
-        
-        guard !moves.isEmpty else {
-            return
-        }
-        
-        currState.decisions[turn] = Decision(options: moves)
-        
-        state.send(currState)
-    }
-    
-    func generateActiveMoves(card: Card, actor: String, ctx: State) -> [Move]? {
-        guard canPlay(card: card, actor: actor, ctx: ctx) else {
-            return nil
-        }
-        
-        if let target = card.target {
-            guard case let .success(pIds) = Args.resolveTarget(target, ctx: ctx, actor: actor) else {
-                return nil
-            }
-            
-            return pIds.map { Play(card: card.id, actor: actor, target: $0) }
-        } else {
-            return [Play(card: card.id, actor: actor)]
-        }
-    }
-    
-    func canPlay(card: Card, actor: String, ctx: State) -> Bool {
-        if ctx.turnNotStarted,
-           card.activationMode != .activePrepareTurn {
-            return false
-        }
-        
-        if !ctx.turnNotStarted,
-           card.activationMode != .active {
-            return false
-        }
-        
-        let sequence = Sequence(actor: actor, card: card)
-        for playReq in card.canPlay {
-            if case .failure = playReq.verify(ctx: ctx, sequence: sequence) {
-                return false
-            }
-        }
-        
-        return true
-    }
 }
 
 private extension State {
@@ -184,12 +137,6 @@ private extension State {
     /// Get leaf `PlaySequence`
     func leafSequenceRef() -> String? {
         sequences.leaf
-    }
-    
-    /// Check if game is Over
-    func verifyGameOver() -> Bool {
-        #warning("implement game over")
-        return players.contains { $0.value.health == 0 }
     }
 }
 
