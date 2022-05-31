@@ -8,4 +8,3 @@
 /// Displayable event
 public protocol Event {
 }
-

@@ -12,4 +12,5 @@
 /// - effect partially resolved, replace with child effects
 /// - effect resolved, remove from queue, you could render it
 public protocol Effect: Event {
+    func resolve(ctx: State, cardRef: String) -> Update
 }

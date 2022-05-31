@@ -1,0 +1,107 @@
+disabled_rules: # rule identifiers to exclude from running
+  - trailing_whitespace
+opt_in_rules: # some rules are only opt-in
+  - empty_count
+  - empty_string
+  - array_init
+  - closure_end_indentation
+  - closure_spacing
+  - contains_over_first_not_nil
+  - explicit_init
+  - first_where
+  - implicit_return
+  - joined_default_parameter
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+  - multiline_arguments
+  - multiline_parameters
+  - operator_usage_whitespace
+  - override_in_extension
+  - pattern_matching_keywords
+  - private_action
+  - private_outlet
+  - private_over_fileprivate
+  - quick_discouraged_call
+  - redundant_nil_coalescing
+  - required_enum_case
+  - sorted_first_last
+  - switch_case_on_newline
+  - trailing_whitespace
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+  - object_literal
+  - implicitly_unwrapped_optional
+  - force_unwrapping
+  - attributes
+  - collection_alignment
+  - colon # promote to error
+  - convenience_type
+  - discouraged_object_literal
+  - empty_collection_literal
+  - enum_case_associated_values_count
+  - fatal_error_message
+  - last_where
+  - legacy_random
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters_brackets
+  - overridden_super_call
+  - prefer_self_type_over_type_of_self
+  - redundant_type_annotation
+  - strict_fileprivate
+  - toggle_bool
+  - trailing_closure
+  - unused_import
+  - vertical_whitespace_closing_braces
+
+custom_rules:
+  empty_line_after_multiline_guard:
+    name: "Empty Line After Guard"
+    regex: '(^ *guard[ a-zA-Z0-9=?.\(\),><!]*\{[ a-zA-Z0-9=?.\(\)\n,><!]*\}\n *(?!(?:return|guard))\S+)'
+    message: "There should be an empty line after a guard"
+    severity: warning
+
+  # Find all the available rules by running:
+  # swiftlint rules
+included: # paths to include during linting. `--path` is ignored if present.
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - GameEngineTests/
+
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+line_length: 160
+# they can set both implicitly with an array
+type_body_length:
+  - 100 # warning
+  - 256 # error
+# or they can set both explicitly
+function_body_length:
+  - 35 # warning
+  - 35 # error
+file_length:
+  warning: 500
+  error: 1200
+# naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+type_name:
+  min_length: 3 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded:
+    - iPhone # excluded via string
+identifier_name:
+  min_length: # only min_length
+    error: 3 # only error
+  excluded: # excluded via string array
+    - id
+    - to
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)

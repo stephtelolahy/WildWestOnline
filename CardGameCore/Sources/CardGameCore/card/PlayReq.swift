@@ -6,6 +6,6 @@
 //
 
 /// Play condition based on current game state
-protocol PlayReq {
+public protocol PlayReq {
+    func verify(ctx: State, sequence: Sequence) -> VoidResult
 }
-
