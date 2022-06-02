@@ -32,9 +32,7 @@ public struct Sequence {
     public var queue: [Effect] = []
 }
 
-#warning("move to Args")
-extension Sequence {
+extension Args {
     
-    /// String value for randomHand
-    static let keyRandomHand = "randomHand"
+    static let cardRandomHand = "CARD_RANDOM_HAND"
 }

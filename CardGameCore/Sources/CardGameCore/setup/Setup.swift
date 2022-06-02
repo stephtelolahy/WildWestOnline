@@ -48,4 +48,3 @@ public struct Setup {
         return cards.shuffled()
     }
 }
-

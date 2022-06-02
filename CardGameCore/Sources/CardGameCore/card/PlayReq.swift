@@ -7,5 +7,5 @@
 
 /// Play condition based on current game state
 public protocol PlayReq {
-    func verify(ctx: State, sequence: Sequence) -> VoidResult
+    func verify(ctx: State, actor: String, card: Card) -> VoidResult
 }

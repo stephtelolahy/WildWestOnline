@@ -82,13 +82,12 @@ private extension Game {
             return false
         }
         
-        guard let cardRef = currState.leafSequenceRef() else {
+        guard let cardRef = currState.sequences.leaf else {
             /// game idle
             if rules.isGameOver(ctx: currState) {
                 currState.isGameOver = true
                 state.send(currState)
                 return false
-                
             }
             
             if let turn = currState.turn,
@@ -98,7 +97,8 @@ private extension Game {
                 return false
             }
             
-            fatalError("Illegal state")
+            #warning("Illegal state")
+            return false
         }
         
         var sequence = currState.sequence(cardRef)
@@ -120,7 +120,7 @@ private extension Game {
         return true
     }
     
-    /// Emit state changes and message
+    /// Emit changes
     func send(_ update: Update) {
         if let newState = update.state {
             state.send(newState)
@@ -129,14 +129,6 @@ private extension Game {
         if let newEvent = update.event {
             message.send(newEvent)
         }
-    }
-}
-
-private extension State {
-    
-    /// Get leaf `PlaySequence`
-    func leafSequenceRef() -> String? {
-        sequences.leaf
     }
 }
 

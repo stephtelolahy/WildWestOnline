@@ -58,9 +58,8 @@ private extension Rules {
             return false
         }
         
-        let sequence = Sequence(actor: actor, card: card)
         for playReq in card.canPlay {
-            if case .failure = playReq.verify(ctx: ctx, sequence: sequence) {
+            if case .failure = playReq.verify(ctx: ctx, actor: actor, card: card) {
                 return false
             }
         }

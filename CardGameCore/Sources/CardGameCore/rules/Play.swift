@@ -36,11 +36,9 @@ public struct Play: Move, Equatable {
             fatalError(.playerCardNotFound(card))
         }
         
-        var sequence = Sequence(actor: actor, card: cardObj, selectedTarget: target)
-        
         // validate playReqs
         for playReq in cardObj.canPlay {
-            if case let .failure(error) = playReq.verify(ctx: ctx, sequence: sequence) {
+            if case let .failure(error) = playReq.verify(ctx: ctx, actor: actor, card: cardObj) {
                 return Update(event: error)
             }
         }
@@ -62,7 +60,7 @@ public struct Play: Move, Equatable {
             }
         }
         
-        sequence.queue = cardObj.onPlay
+        var sequence = Sequence(actor: actor, card: cardObj, selectedTarget: target, queue: cardObj.onPlay)
         
         if let decision = ctx.decision(waiting: self) {
             state.decisions.removeValue(forKey: actor)

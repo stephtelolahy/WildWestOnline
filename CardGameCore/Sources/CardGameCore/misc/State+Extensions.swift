@@ -47,4 +47,3 @@ extension State {
         return deck.removeFirst()
     }
 }
-
