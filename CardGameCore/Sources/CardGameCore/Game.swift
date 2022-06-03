@@ -8,13 +8,10 @@
 import Combine
 
 /// The game engine
-protocol GameProtocol {
+public protocol GameProtocol {
     
     /// state to be rendered
     var state: CurrentValueSubject<State, Never> { get }
-    
-    /// event or error to be rendered
-    var message: PassthroughSubject<Event, Never> { get }
     
     /// input a move
     func input(_ move: Move)
@@ -23,30 +20,24 @@ protocol GameProtocol {
     func loopUpdate()
 }
 
-class Game: GameProtocol {
+public class Game: GameProtocol {
     
-    var state: CurrentValueSubject<State, Never>
-    
-    var message: PassthroughSubject<Event, Never>
+    public var state: CurrentValueSubject<State, Never>
     
     /// commands queue
     private var commands: [Move] = []
     
-    /// game rules
-    private let rules = Rules()
-    
     /// initialize game
-    init(_ initialState: State) {
+    public init(_ initialState: State) {
         state = CurrentValueSubject(initialState)
-        message = PassthroughSubject()
     }
     
-    func input(_ move: Move) {
+    public func input(_ move: Move) {
         commands.append(move)
         loopUpdate()
     }
     
-    func loopUpdate() {
+    public func loopUpdate() {
         var running = false
         repeat {
             running = update()
@@ -72,8 +63,9 @@ private extension Game {
         /// process queued command immediately
         if !commands.isEmpty {
             let command = commands.removeFirst()
-            let result = command.dispatch(ctx: currState)
-            send(result)
+            if let newState = command.dispatch(ctx: currState) {
+                state.send(newState)
+            }
             return true
         }
         
@@ -84,20 +76,21 @@ private extension Game {
         
         guard let cardRef = currState.sequences.leaf else {
             /// game idle
-            if rules.isGameOver(ctx: currState) {
+            if isGameOver(ctx: currState) {
                 currState.isGameOver = true
+                currState.lastEvent = nil
                 state.send(currState)
                 return false
             }
             
             if let turn = currState.turn,
-                      let moves = rules.possibleMoves(actor: turn, ctx: currState) {
+               let moves = possibleMoves(actor: turn, ctx: currState) {
                 currState.decisions[turn] = Decision(options: moves)
                 state.send(currState)
                 return false
             }
             
-            #warning("Illegal state")
+#warning("Illegal state")
             return false
         }
         
@@ -106,6 +99,7 @@ private extension Game {
         guard !sequence.queue.isEmpty else {
             /// queued effects completed
             currState.sequences.removeValue(forKey: cardRef)
+            currState.lastEvent = nil
             state.send(currState)
             return true
         }
@@ -115,20 +109,30 @@ private extension Game {
         currState.sequences[cardRef] = sequence
         state.send(currState)
         
-        let result = effect.resolve(ctx: currState, cardRef: cardRef)
-        send(result)
+        if let newState = effect.resolve(ctx: currState, cardRef: cardRef) {
+            state.send(newState)
+        }
         return true
     }
     
-    /// Emit changes
-    func send(_ update: Update) {
-        if let newState = update.state {
-            state.send(newState)
+    /// Generate active moves
+    func possibleMoves(actor: String, ctx: State) -> [Move]? {
+        let actorObj = ctx.player(actor)
+        let moves = (actorObj.inner + actorObj.hand)
+            .filter { card in card.canPlay.allSatisfy { $0.verify(ctx: ctx, actor: actor, card: card) == nil } }
+            .map { Play(card: $0.id, actor: actor) }
+        
+        guard !moves.isEmpty else {
+            return nil
         }
         
-        if let newEvent = update.event {
-            message.send(newEvent)
-        }
+        return moves
+    }
+    
+    /// Check if game is over
+    #warning("move into effect")
+    func isGameOver(ctx: State) -> Bool {
+        ctx.players.contains { $0.value.health == 0 }
     }
 }
 

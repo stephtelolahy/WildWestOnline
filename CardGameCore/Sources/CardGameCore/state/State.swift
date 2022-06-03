@@ -17,8 +17,8 @@ public struct State {
     /// current player
     public var turn: String?
     
-    /// ask player to draw 2 cards before starting his turn
-    public var turnNotStarted = false
+    /// ready to play any card
+    public var turnReady = false
     
     /// played cards during current turn
     public var turnPlayed: [String] = []
@@ -33,11 +33,34 @@ public struct State {
     public var store: [Card] = []
     
     /// played cards sequence
-    var sequences: [String: Sequence] = [:]
+    public var sequences: [String: Sequence] = [:]
     
     /// pending action by player
     public var decisions: [String: Decision] = [:]
     
     /// is Game over
     public var isGameOver = false
+    
+    /// last executed event
+    public var lastEvent: Event?
+    
+    public init(
+        players: [String: Player] = [:],
+        playOrder: [String] = [],
+        turn: String? = nil,
+        turnReady: Bool = false,
+        deck: [Card] = [],
+        sequences: [String: Sequence] = [:],
+        decisions: [String: Decision] = [:],
+        isGameOver: Bool = false
+    ) {
+        self.players = players
+        self.playOrder = playOrder
+        self.turn = turn
+        self.turnReady = turnReady
+        self.deck = deck
+        self.sequences = sequences
+        self.decisions = decisions
+        self.isGameOver = isGameOver
+    }
 }

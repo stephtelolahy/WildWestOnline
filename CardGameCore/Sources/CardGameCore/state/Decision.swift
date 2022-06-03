@@ -8,9 +8,14 @@
 /// A decision to be resolved by a player
 public struct Decision {
     
-    /// Played card's reference
-    public var cardRef: String?
-    
     /// Moves to choose
     public let options: [Move]
+    
+    /// Played card's reference
+    public let cardRef: String?
+    
+    public init(options: [Move], cardRef: String? = nil) {
+        self.options = options
+        self.cardRef = cardRef
+    }
 }

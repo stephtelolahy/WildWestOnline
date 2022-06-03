@@ -19,8 +19,11 @@ public struct Sequence {
     /// parent card triggering this sequence
     public var parentRef: String?
     
-    /// targeted player
-    public var selectedTarget: String?
+    /// pending events
+    public var queue: [Effect] = []
+    
+    /// selected target
+    public var selectedTarget: [String: String] = [:]
     
     /// selected card by player
     public var selectedCard: [String: String] = [:]
@@ -28,11 +31,15 @@ public struct Sequence {
     /// players that won't react to card's effects
     public var selectedPass: [String: Bool] = [:]
     
-    /// pending events
-    public var queue: [Effect] = []
-}
-
-extension Args {
-    
-    static let cardRandomHand = "CARD_RANDOM_HAND"
+    public init(
+        actor: String,
+        card: Card,
+        parentRef: String? = nil,
+        queue: [Effect] = []
+    ) {
+        self.actor = actor
+        self.card = card
+        self.parentRef = parentRef
+        self.queue = queue
+    }
 }

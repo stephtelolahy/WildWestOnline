@@ -8,20 +8,34 @@
 public struct Player {
     
     /// player name
-    public var name: String = ""
+    public let name: String
     
     /// max health
-    public var maxHealth: Int = 0
+    public let maxHealth: Int
     
     /// current health
-    public var health: Int = 0
+    public var health: Int
     
     /// built-in cards
-    public var common: [Card] = []
+    public var inner: [Card]
     
     /// hand cards
-    public var hand: [Card] = []
+    public var hand: [Card]
     
     /// in play cards
     public var inPlay: [Card] = []
+    
+    public init(
+        name: String = "",
+        maxHealth: Int = 0,
+        health: Int = 0,
+        inner: [Card] = [],
+        hand: [Card] = []
+    ) {
+        self.name = name
+        self.maxHealth = maxHealth
+        self.health = health
+        self.inner = inner
+        self.hand = hand
+    }
 }

@@ -10,7 +10,9 @@ struct DummyEffect: Effect, Equatable {
     
     let id: String
     
-    func resolve(ctx: State, cardRef: String) -> Update {
-        Update(state: ctx, event: self)
+    func resolve(ctx: State, cardRef: String) -> State? {
+        var state = ctx
+        state.lastEvent = self
+        return state
     }
 }

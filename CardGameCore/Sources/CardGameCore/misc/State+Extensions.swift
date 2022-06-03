@@ -5,7 +5,7 @@
 //  Created by TELOLAHY Hugues Stéphano on 31/05/2022.
 //
 
-extension State {
+public extension State {
     
     /// Get `non-null` `Player` with given identifier
     func player(_ id: String) -> Player {
