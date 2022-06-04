@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Game.swift
 //  
 //
 //  Created by TELOLAHY Hugues Stéphano on 31/05/2022.
@@ -143,8 +143,12 @@ private extension Game {
             state.send(newState)
             
         case let .failure(error):
+            guard let event = error as? Event else {
+                fatalError(.errorMustBeAnEvent(error.localizedDescription))
+            }
+            
             var currState = state.value
-            currState.lastEvent = (error as? Event).unsafelyUnwrapped
+            currState.lastEvent = event
             state.send(currState)
         }
     }

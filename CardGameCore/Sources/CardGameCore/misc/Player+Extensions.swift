@@ -5,7 +5,7 @@
 //  Created by TELOLAHY Hugues Stéphano on 01/06/2022.
 //
 
-extension Player {
+public extension Player {
     
     /// Gun range
     var weapon: Int {

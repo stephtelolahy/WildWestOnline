@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Sequence.swift
 //  
 //
 //  Created by TELOLAHY Hugues Stéphano on 31/05/2022.
@@ -22,14 +22,8 @@ public struct Sequence {
     /// pending events
     public var queue: [Effect] = []
     
-    /// selected target
-    public var selectedTarget: String?
-    
-    /// selected card by player
-    public var selectedCard: [String: String] = [:]
-    
-    /// players that won't react to card's effects
-    public var selectedPass: [String: Bool] = [:]
+    /// selected arguments duting effect resolution
+    public var selectedArgs: [String: String] = [:]
     
     public init(
         actor: String,

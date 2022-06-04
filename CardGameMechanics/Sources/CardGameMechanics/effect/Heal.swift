@@ -9,7 +9,8 @@ import CardGameCore
 public struct Heal: Effect {
     
     let value: Int
-    var target: String
+    
+    let target: String
     
     public init(value: Int, target: String = Args.playerActor) {
         self.value = value
@@ -19,11 +20,21 @@ public struct Heal: Effect {
     public func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
         let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
         switch result {
-        case let .success(pIds):
-            if pIds.allSatisfy({ ctx.player($0).health == ctx.player($0).maxHealth }) {
-                return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds[0]))
-            } else {
-                return .success
+        case let .success(data):
+            switch data {
+            case let .identified(pIds):
+                if pIds.allSatisfy({ ctx.player($0).health == ctx.player($0).maxHealth }) {
+                    return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds[0]))
+                } else {
+                    return .success
+                }
+                
+            case let .selectable(pIds):
+                if pIds.allSatisfy({ ctx.player($0).health == ctx.player($0).maxHealth }) {
+                    return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds[0]))
+                } else {
+                    return .success
+                }
             }
             
         case let .failure(error):

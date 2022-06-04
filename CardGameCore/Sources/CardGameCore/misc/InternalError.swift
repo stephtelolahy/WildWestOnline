@@ -13,7 +13,7 @@ public func fatalError(_ error: InternalError, file: StaticString = #file, line:
 public enum InternalError: Error {
     case playerCardNotFound(String)
     case playerNotFound(String)
-    case sequenceParentRefNotFound
+    case sequenceParentRefNotFound(String)
     case sequenceNotFound(String)
     case storeMustNotBeEmpty
     case storeCardNotFound(String)
@@ -22,4 +22,5 @@ public enum InternalError: Error {
     case targetValueInvalid(String)
     case playerValueInvalid(String)
     case numberValueInvalid(String)
+    case errorMustBeAnEvent(String)
 }

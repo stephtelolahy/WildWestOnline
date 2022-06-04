@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  RandomAI.swift
 //  
 //
 //  Created by TELOLAHY Hugues Stéphano on 02/06/2022.
@@ -11,7 +11,7 @@ import Combine
 public class RandomAI {
     
     private var cancellables: [Cancellable] = []
-    private var moveCounter = 0
+    private var moves = 0
     
     public init() {}
     
@@ -23,8 +23,8 @@ public class RandomAI {
         
         if let message = state.lastEvent {
             if message is Move {
-                moveCounter += 1
-                print("\(moveCounter) - \(String(describing: message))")
+                moves += 1
+                print("\(moves) - \(String(describing: message))")
             } else {
                 print("\t\(String(describing: message))")
             }

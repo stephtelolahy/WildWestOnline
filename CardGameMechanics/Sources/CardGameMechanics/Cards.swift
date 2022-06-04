@@ -11,7 +11,12 @@ public enum Cards {
     public static let all: [Card] = [
         Card(name: "beer",
              canPlay: [IsPlayersAtLeast(count: 3)],
-             onPlay: [Heal(value: 1)])
+             onPlay: [Heal(value: 1)]),
+        Card(name: "bang",
+             canPlay: [IsTimesPerTurn(maxTimes: 1)],
+             onPlay: [Damage(value: 1, target: Args.targetReachable, type: Args.effectTypeShoot)]),
+        Card(name: "missed",
+             onPlay: [Silent(type: Args.effectTypeShoot)])
     ]
 }
 

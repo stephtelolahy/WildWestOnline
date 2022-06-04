@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DummyEffect.swift
 //  
 //
 //  Created by TELOLAHY Hugues Stéphano on 02/06/2022.
