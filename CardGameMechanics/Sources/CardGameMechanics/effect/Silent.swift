@@ -8,7 +8,7 @@
 import CardGameCore
 
 /// prevents a card from taking effect on a player
-public struct Silent: Effect, Equatable {
+public struct Silent: Effect {
     
     let type: String
     

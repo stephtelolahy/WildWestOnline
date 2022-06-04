@@ -15,6 +15,10 @@ public enum Cards {
         Card(name: "playableStart",
              canPlay: [IsYourTurn(), IsPhase(phase: 1)]),
         
+        Card(name: "startTurn",
+             prototype: "playableStart",
+             onPlay: [Draw(value: 2), SetPhase(value: 2)]),
+        
         Card(name: "beer",
              prototype: "playableTurn",
              canPlay: [IsPlayersAtLeast(count: 3)],
@@ -36,9 +40,9 @@ public enum Cards {
 
 public extension Cards {
     
+    /// resolving complete card script
     static func get(_ name: String) -> Card {
         var card = all.first { $0.name == name }.unsafelyUnwrapped
-        
         var parent: String? = card.prototype
         while parent != nil {
             let parentCard = all.first { $0.name == parent }.unsafelyUnwrapped
@@ -46,11 +50,10 @@ public extension Cards {
             card.onPlay = parentCard.onPlay + card.onPlay
             parent = parentCard.prototype
         }
-        
         return card
     }
     
     static let playable: [Card] = ["beer", "bang", "missed"].map { get($0) }
     
-    static let inner: [Card] = []
+    static let inner: [Card] = ["startTurn"].map { get($0) }
 }

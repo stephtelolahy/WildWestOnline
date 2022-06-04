@@ -7,7 +7,7 @@
 import CardGameCore
 
 /// deals damage to a character, attempting to reduce its Health by the stated amount
-public struct Damage: Effect, Silentable, Equatable {
+public struct Damage: Effect, Silentable {
     
     let value: Int
     

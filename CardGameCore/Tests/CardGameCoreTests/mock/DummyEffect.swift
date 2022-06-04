@@ -6,7 +6,7 @@
 //
 @testable import CardGameCore
 
-struct DummyEffect: Effect, Equatable {
+struct DummyEffect: Effect {
     
     let id: String
     
