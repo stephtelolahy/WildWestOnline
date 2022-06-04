@@ -6,7 +6,7 @@
 //
 import CardGameCore
 
-public struct ErrorPlayersMustBeAtLeast: PlayError {
+public struct ErrorPlayersMustBeAtLeast: Error, Event {
     let count: Int
     
     public init(count: Int) {

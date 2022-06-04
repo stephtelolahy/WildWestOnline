@@ -17,7 +17,7 @@ public struct Heal: Effect {
         self.target = target
     }
     
-    public func resolve(ctx: State, cardRef: String) -> State? {
-        nil
+    public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {
+        .success(ctx)
     }
 }

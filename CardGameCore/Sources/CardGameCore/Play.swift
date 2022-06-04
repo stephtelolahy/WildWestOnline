@@ -21,7 +21,7 @@ public struct Play: Move, Equatable {
         self.actor = actor
     }
     
-    public func dispatch(ctx: State) -> State? {
+    public func dispatch(ctx: State) -> Result<State, Error> {
         var state = ctx
         var actorObj = ctx.player(actor)
         
@@ -41,10 +41,8 @@ public struct Play: Move, Equatable {
         
         // validate playReqs
         for playReq in cardObj.canPlay {
-            if let error = playReq.verify(ctx: ctx, actor: actor, card: cardObj) {
-                var newState = ctx
-                newState.lastEvent = error
-                return newState
+            if case let .failure(error) = playReq.verify(ctx: ctx, actor: actor, card: cardObj) {
+                return .failure(error)
             }
         }
         
@@ -61,6 +59,6 @@ public struct Play: Move, Equatable {
         state.sequences[card] = sequence
         state.turnPlayed.append(cardObj.name)
         state.lastEvent = self
-        return state
+        return .success(state)
     }
 }

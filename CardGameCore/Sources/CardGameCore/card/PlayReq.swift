@@ -7,5 +7,9 @@
 
 /// Play condition based on current game state
 public protocol PlayReq {
-    func verify(ctx: State, actor: String, card: Card) -> PlayError?
+    func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error>
+}
+
+public extension Result where Success == Void {
+    static var success: Result { .success(()) }
 }

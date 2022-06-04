@@ -63,9 +63,7 @@ private extension Game {
         /// process queued command immediately
         if !commands.isEmpty {
             let command = commands.removeFirst()
-            if let newState = command.dispatch(ctx: currState) {
-                state.send(newState)
-            }
+            sendResult(command.dispatch(ctx: currState))
             return true
         }
         
@@ -90,7 +88,7 @@ private extension Game {
                 return false
             }
             
-#warning("Illegal state")
+            #warning("Illegal state")
             return false
         }
         
@@ -109,9 +107,8 @@ private extension Game {
         currState.sequences[cardRef] = sequence
         state.send(currState)
         
-        if let newState = effect.resolve(ctx: currState, cardRef: cardRef) {
-            state.send(newState)
-        }
+        /// try to resolve effect
+        sendResult(effect.resolve(ctx: currState, cardRef: cardRef))
         return true
     }
     
@@ -119,7 +116,15 @@ private extension Game {
     func possibleMoves(actor: String, ctx: State) -> [Move]? {
         let actorObj = ctx.player(actor)
         let moves = (actorObj.inner + actorObj.hand)
-            .filter { card in card.canPlay.allSatisfy { $0.verify(ctx: ctx, actor: actor, card: card) == nil } }
+            .filter { card in
+                card.canPlay.allSatisfy {
+                    if case .success = $0.verify(ctx: ctx, actor: actor, card: card) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            }
             .map { Play(card: $0.id, actor: actor) }
         
         guard !moves.isEmpty else {
@@ -133,6 +138,18 @@ private extension Game {
     #warning("move into effect")
     func isGameOver(ctx: State) -> Bool {
         ctx.players.contains { $0.value.health == 0 }
+    }
+    
+    func sendResult(_ result: Result<State, Error>) {
+        switch result {
+        case let .success(newState):
+            state.send(newState)
+            
+        case let .failure(error):
+            var currState = state.value
+            currState.lastEvent = (error as? Event).unsafelyUnwrapped
+            state.send(currState)
+        }
     }
 }
 
