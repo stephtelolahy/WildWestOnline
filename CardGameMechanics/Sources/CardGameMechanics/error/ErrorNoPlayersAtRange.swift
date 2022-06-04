@@ -9,4 +9,8 @@ import CardGameCore
 
 public struct ErrorNoPlayersAtRange: Error, Event {
     let distance: Int
+    
+    public init(distance: Int) {
+        self.distance = distance
+    }
 }

@@ -16,7 +16,9 @@ public enum Cards {
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
              onPlay: [Damage(value: 1, target: Args.targetReachable, type: Args.effectTypeShoot)]),
         Card(name: "missed",
-             onPlay: [Silent(type: Args.effectTypeShoot)])
+             onPlay: [Silent(type: Args.effectTypeShoot)]),
+        Card(name: "gatling",
+             onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)])
     ]
 }
 

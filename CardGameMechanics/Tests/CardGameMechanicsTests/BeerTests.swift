@@ -74,10 +74,4 @@ class BeerTests: XCTestCase {
         XCTAssertEqual(messages, [ErrorPlayersMustBeAtLeast(count: 3)])
         XCTAssertEqual(sut.state.value.sequences, [:])
     }
-    
-    func test_CannotPlayBeer_IfNotYourTurn() {
-        #warning("TODO: impelment")
-        XCTAssertTrue(true)
-    }
-    
 }

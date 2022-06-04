@@ -20,7 +20,32 @@ public struct Silent: Effect, Equatable {
     }
     
     public func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
-        .success
+        let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
+        switch result {
+        case let .success(data):
+            switch data {
+            case let .identified(pIds),
+                let .selectable(pIds):
+                let pId = pIds[0]
+                guard ctx.sequences.values.contains(where: { sequence in
+                    sequence.queue.contains(where: { effect in
+                        guard let silentable = effect as? Silentable,
+                              silentable.type == type,
+                              silentable.target == pId else {
+                            return false
+                        }
+                        return true
+                    })
+                }) else {
+                    return .failure(ErrorNoEffectToSilent(type: type))
+                }
+                
+                return .success
+            }
+            
+        case let .failure(error):
+            return .failure(error)
+        }
     }
     
     public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {
@@ -35,7 +60,7 @@ public struct Silent: Effect, Equatable {
         
         let sequence = state.sequence(cardRef)
         guard let parentRef = sequence.parentRef else {
-            fatalError(.sequenceParentRefNotFound(cardRef))
+            return .failure(ErrorNoEffectToSilent(type: type))
         }
         
         var parentSequence = state.sequence(parentRef)
