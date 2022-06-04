@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 /// The game engine
 public protocol GameProtocol {
@@ -65,9 +66,7 @@ private extension Game {
         if !commands.isEmpty {
             let command = commands.removeFirst()
             currState.lastEvent = nil
-            state.send(currState)
-            
-            sendResult(command.dispatch(ctx: currState))
+            sendResult(command.dispatch(ctx: currState), from: currState)
             return true
         }
         
@@ -85,6 +84,7 @@ private extension Game {
                 return false
             }
             
+            /// game idle, ask play decision
             if let turn = currState.turn,
                let moves = possibleMoves(actor: turn, ctx: currState) {
                 currState.decisions[turn] = Decision(options: moves)
@@ -99,7 +99,7 @@ private extension Game {
         var sequence = currState.sequence(cardRef)
         
         guard !sequence.queue.isEmpty else {
-            /// queued effects completed
+            /// queue empty, remove sequence
             currState.sequences.removeValue(forKey: cardRef)
             currState.lastEvent = nil
             state.send(currState)
@@ -110,10 +110,7 @@ private extension Game {
         let effect = sequence.queue.remove(at: 0)
         currState.sequences[cardRef] = sequence
         currState.lastEvent = nil
-        state.send(currState)
-        
-        /// try to resolve effect
-        sendResult(effect.resolve(ctx: currState, cardRef: cardRef))
+        sendResult(effect.resolve(ctx: currState, cardRef: cardRef), from: currState)
         return true
     }
     
@@ -137,19 +134,19 @@ private extension Game {
         ctx.players.contains { $0.value.health == 0 }
     }
     
-    func sendResult(_ result: Result<State, Error>) {
+    func sendResult(_ result: Result<State, Error>, from currState: State) {
         switch result {
-        case let .success(newState):
-            state.send(newState)
+        case let .success(successState):
+            state.send(successState)
             
         case let .failure(error):
             guard let event = error as? Event else {
                 fatalError(.errorMustBeAnEvent(error.localizedDescription))
             }
             
-            var currState = state.value
-            currState.lastEvent = event
-            state.send(currState)
+            var failureState = currState
+            failureState.lastEvent = event
+            state.send(failureState)
         }
     }
 }

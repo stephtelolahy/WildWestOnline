@@ -22,7 +22,9 @@ class GatlingTests: XCTestCase {
         let p2 = Player(health: 2)
         let p3 = Player(health: 3)
         let state = State(players: ["p1": p1, "p2": p2, "p3": p3],
-                          playOrder: ["p3", "p1", "p2"])
+                          playOrder: ["p3", "p1", "p2"],
+                          turn: "p1",
+                          turnPhase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })

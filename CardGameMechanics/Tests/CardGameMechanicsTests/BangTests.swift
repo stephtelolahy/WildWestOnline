@@ -21,7 +21,9 @@ class BangTests: XCTestCase {
         let p1 = Player(hand: [c1])
         let p2 = Player(health: 2)
         let state = State(players: ["p1": p1, "p2": p2],
-                          playOrder: ["p1", "p2"])
+                          playOrder: ["p1", "p2"],
+                          turn: "p1",
+                          turnPhase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -54,7 +56,10 @@ class BangTests: XCTestCase {
         // Given
         let c1 = Cards.get("bang").withId("c1")
         let p1 = Player(hand: [c1])
-        let state = State(players: ["p1": p1], playOrder: ["p1"], turn: "p1")
+        let state = State(players: ["p1": p1],
+                          playOrder: ["p1"],
+                          turn: "p1",
+                          turnPhase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -72,7 +77,9 @@ class BangTests: XCTestCase {
         let p1 = Player(hand: [c1])
         let p2 = Player(health: 2)
         let state = State(players: ["p1": p1, "p2": p2],
-                          playOrder: ["p1", "p2"])
+                          playOrder: ["p1", "p2"],
+                          turn: "p1",
+                          turnPhase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -105,7 +112,8 @@ class BangTests: XCTestCase {
         // Given
         let c1 = Cards.get("bang").withId("c1")
         let p1 = Player(health: 1, hand: [c1])
-        let state = State(players: ["p1": p1], playOrder: ["p2", "p1"])
+        let state = State(players: ["p1": p1],
+                          playOrder: ["p2", "p1"])
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -114,6 +122,6 @@ class BangTests: XCTestCase {
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [])
+        XCTAssertEqual(messages, [ErrorIsYourTurn()])
     }
 }

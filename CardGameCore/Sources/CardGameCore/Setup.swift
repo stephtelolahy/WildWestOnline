@@ -34,7 +34,7 @@ public enum Setup {
         return State(players: players,
                      playOrder: playOrder,
                      turn: playOrder.first,
-                     turnReady: false,
+                     turnPhase: 1,
                      deck: deck)
     }
     
