@@ -23,7 +23,7 @@ public struct Sequence {
     public var queue: [Effect] = []
     
     /// selected target
-    public var selectedTarget: [String: String] = [:]
+    public var selectedTarget: String?
     
     /// selected card by player
     public var selectedCard: [String: String] = [:]

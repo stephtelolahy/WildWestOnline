@@ -46,7 +46,7 @@ public struct Play: Move, Equatable {
             }
         }
         
-        var sequence = Sequence(actor: actor, card: cardObj)
+        var sequence = Sequence(actor: actor, card: cardObj, queue: cardObj.onPlay)
         
         if let decision = ctx.decision(waiting: self) {
             state.decisions.removeValue(forKey: actor)

@@ -7,6 +7,7 @@
 
 import XCTest
 
+/// Asset equality of any non-equatable array
 public func XCTAssertEqual<T: Any>(
     _ first: [T]?,
     _ second: [T],
@@ -21,6 +22,7 @@ public func XCTAssertEqual<T: Any>(
     XCTAssertEqual(String(describing: unwrapedFirst), String(describing: second), file: file, line: line)
 }
 
+/// Asset equality of any non-equatable dictionary
 public func XCTAssertEqual<T: Any>(
     _ first: [String: T],
     _ second: [String: T],
@@ -30,6 +32,7 @@ public func XCTAssertEqual<T: Any>(
     XCTAssertEqual(String(describing: first), String(describing: second), file: file, line: line)
 }
 
+/// Asset equality of any non-equatable type
 public func XCTAssertEqual<T: Any>(
     _ first: T?,
     _ second: T,

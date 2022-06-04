@@ -17,6 +17,8 @@ public protocol GameProtocol {
     func input(_ move: Move)
     
     /// loop update
+    
+    /// loop update until idle or waiting decision
     func loopUpdate()
 }
 
@@ -27,7 +29,6 @@ public class Game: GameProtocol {
     /// commands queue
     private var commands: [Move] = []
     
-    /// initialize game
     public init(_ initialState: State) {
         state = CurrentValueSubject(initialState)
     }
@@ -51,6 +52,7 @@ private extension Game {
     /// - Returns:
     /// `true` if an update occurred,
     /// `false` if idle or waiting action
+    // swiftlint:disable function_body_length
     @discardableResult
     func update() -> Bool {
         var currState = state.value
@@ -63,6 +65,9 @@ private extension Game {
         /// process queued command immediately
         if !commands.isEmpty {
             let command = commands.removeFirst()
+            currState.lastEvent = nil
+            state.send(currState)
+            
             sendResult(command.dispatch(ctx: currState))
             return true
         }
@@ -73,7 +78,7 @@ private extension Game {
         }
         
         guard let cardRef = currState.sequences.leaf else {
-            /// game idle
+            /// game idle, process eliminated, check game over
             if isGameOver(ctx: currState) {
                 currState.isGameOver = true
                 currState.lastEvent = nil
@@ -84,11 +89,11 @@ private extension Game {
             if let turn = currState.turn,
                let moves = possibleMoves(actor: turn, ctx: currState) {
                 currState.decisions[turn] = Decision(options: moves)
+                currState.lastEvent = nil
                 state.send(currState)
                 return false
             }
             
-            #warning("Illegal state")
             return false
         }
         
@@ -105,6 +110,7 @@ private extension Game {
         /// process queued effect
         let effect = sequence.queue.remove(at: 0)
         currState.sequences[cardRef] = sequence
+        currState.lastEvent = nil
         state.send(currState)
         
         /// try to resolve effect

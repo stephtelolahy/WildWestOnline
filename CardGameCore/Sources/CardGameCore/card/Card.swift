@@ -18,13 +18,15 @@ public struct Card {
     public var value: String = ""
     
     /// play requirements
-    public var canPlay: [PlayReq] = []
+    public let canPlay: [PlayReq]
     
     /// side effects on playing this card
-    public var onPlay: [Effect] = []
+    public let onPlay: [Effect]
     
-    public init(id: String = "", name: String = "") {
+    public init(id: String = "", name: String = "", canPlay: [PlayReq] = [], onPlay: [Effect] = []) {
         self.id = id
         self.name = name
+        self.canPlay = canPlay
+        self.onPlay = onPlay
     }
 }

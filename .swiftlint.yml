@@ -67,6 +67,7 @@ custom_rules:
 included: # paths to include during linting. `--path` is ignored if present.
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - ExtensionsKit/Tests/
   - CardGameCore/Tests/
   - CardGameMechanics/Tests/
 

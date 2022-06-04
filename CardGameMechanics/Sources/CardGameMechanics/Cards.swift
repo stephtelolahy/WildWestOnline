@@ -9,7 +9,9 @@ import CardGameCore
 public enum Cards {
     
     public static let all: [Card] = [
-        Card(name: "beer")
+        Card(name: "beer",
+             canPlay: [IsPlayersAtLeast(count: 3)],
+             onPlay: [Heal(value: 1)])
     ]
 }
 
