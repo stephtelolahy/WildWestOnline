@@ -48,6 +48,16 @@
                ReferencedContainer = "container:CardGameMechanics">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ExtensionsKitTests"
+               BuildableName = "ExtensionsKitTests"
+               BlueprintName = "ExtensionsKitTests"
+               ReferencedContainer = "container:ExtensionsKit">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

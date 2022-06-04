@@ -9,6 +9,7 @@ import XCTest
 import CardGameCore
 import CardGameMechanics
 import Combine
+import ExtensionsKit
 
 class BeerTests: XCTestCase {
     
@@ -74,4 +75,5 @@ class BeerTests: XCTestCase {
         XCTAssertEqual(messages, [ErrorPlayersMustBeAtLeast(count: 3)])
         XCTAssertEqual(sut.state.value.sequences, [:])
     }
+    
 }

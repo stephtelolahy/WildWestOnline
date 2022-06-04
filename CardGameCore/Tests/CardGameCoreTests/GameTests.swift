@@ -7,6 +7,7 @@
 
 import XCTest
 import Combine
+import ExtensionsKit
 @testable import CardGameCore
 
 class GameTests: XCTestCase {
@@ -91,4 +92,5 @@ class GameTests: XCTestCase {
         XCTAssertEqual(messages, [])
         XCTAssertTrue(sut.state.value.isGameOver)
     }
+    
 }
