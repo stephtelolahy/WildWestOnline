@@ -16,6 +16,21 @@ public struct Heal: Effect {
         self.target = target
     }
     
+    public func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
+        let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
+        switch result {
+        case let .success(pIds):
+            if pIds.allSatisfy({ ctx.player($0).health == ctx.player($0).maxHealth }) {
+                return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds[0]))
+            } else {
+                return .success
+            }
+            
+        case let .failure(error):
+            return .failure(error)
+        }
+    }
+    
     public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {
         guard Args.isPlayerResolved(target, ctx: ctx) else {
             return Args.resolvePlayer(target,

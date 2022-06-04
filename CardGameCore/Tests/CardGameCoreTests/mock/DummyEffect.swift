@@ -15,4 +15,8 @@ struct DummyEffect: Effect, Equatable {
         state.lastEvent = self
         return .success(state)
     }
+    
+    func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
+        .success
+    }
 }

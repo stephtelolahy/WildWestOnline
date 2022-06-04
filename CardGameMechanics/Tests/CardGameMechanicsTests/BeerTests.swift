@@ -15,7 +15,7 @@ class BeerTests: XCTestCase {
     
     private var cancellables: [Cancellable] = []
     
-    func test_GainHealth_IfPlayingBeer_Damaged() {
+    func test_GainHealth_IfPlayingBeer() {
         // Given
         let c1 = Cards.get("beer").withId("c1")
         let p1 = Player(maxHealth: 4, health: 1, hand: [c1])
@@ -37,7 +37,7 @@ class BeerTests: XCTestCase {
         XCTAssertEqual(sut.state.value.sequences, [:])
     }
     
-    func test_NoEffect_IfPlayingBeer_MaxHealth() {
+    func test_CannotPlayBeer_IfMaxHealth() {
         // Given
         let c1 = Cards.get("beer").withId("c1")
         let p1 = Player(maxHealth: 4, health: 4, hand: [c1])
@@ -50,11 +50,10 @@ class BeerTests: XCTestCase {
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  ErrorPlayerAlreadyMaxHealth(player: "p1")])
+        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
         
-        XCTAssertEqual(sut.state.value.player("p1").hand, [])
-        XCTAssertEqual(sut.state.value.discard, [c1])
+        XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
+        XCTAssertEqual(sut.state.value.discard, [])
         XCTAssertEqual(sut.state.value.player("p1").health, 4)
         XCTAssertEqual(sut.state.value.sequences, [:])
     }

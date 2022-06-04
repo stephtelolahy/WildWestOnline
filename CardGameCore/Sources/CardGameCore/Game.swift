@@ -52,7 +52,6 @@ private extension Game {
     /// - Returns:
     /// `true` if an update occurred,
     /// `false` if idle or waiting action
-    // swiftlint:disable function_body_length
     @discardableResult
     func update() -> Bool {
         var currState = state.value
@@ -122,15 +121,7 @@ private extension Game {
     func possibleMoves(actor: String, ctx: State) -> [Move]? {
         let actorObj = ctx.player(actor)
         let moves = (actorObj.inner + actorObj.hand)
-            .filter { card in
-                card.canPlay.allSatisfy {
-                    if case .success = $0.verify(ctx: ctx, actor: actor, card: card) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-            }
+            .filter { if case .success = $0.isPlayable(ctx, actor: actor) { return true } else { return false } }
             .map { Play(card: $0.id, actor: actor) }
         
         guard !moves.isEmpty else {

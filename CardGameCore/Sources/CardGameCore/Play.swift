@@ -39,11 +39,9 @@ public struct Play: Move, Equatable {
             fatalError(.playerCardNotFound(card))
         }
         
-        // validate playReqs
-        for playReq in cardObj.canPlay {
-            if case let .failure(error) = playReq.verify(ctx: ctx, actor: actor, card: cardObj) {
-                return .failure(error)
-            }
+        // validate play
+        if case let .failure(error) = cardObj.isPlayable(ctx, actor: actor) {
+            return .failure(error)
         }
         
         var sequence = Sequence(actor: actor, card: cardObj, queue: cardObj.onPlay)
@@ -60,5 +58,25 @@ public struct Play: Move, Equatable {
         state.turnPlayed.append(cardObj.name)
         state.lastEvent = self
         return .success(state)
+    }
+}
+
+extension Card {
+    
+    /// Check if a card can be played
+    func isPlayable(_ ctx: State, actor: String) -> Result<Void, Error> {
+        for playReq in canPlay {
+            if case let .failure(error) = playReq.verify(ctx: ctx, actor: actor, card: self) {
+                return .failure(error)
+            }
+        }
+        
+        for effect in onPlay {
+            if case let .failure(error) = effect.canResolve(ctx: ctx, actor: actor) {
+                return .failure(error)
+            }
+        }
+        
+        return .success
     }
 }

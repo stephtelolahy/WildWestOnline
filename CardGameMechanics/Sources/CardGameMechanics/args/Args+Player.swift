@@ -19,9 +19,6 @@ public extension Args {
     /// all players
     static let playerAll = "PLAYER_ALL"
     
-    /// card's targeted player
-    static let playerTarget = "PLAYER_TARGET"
-    
     /// player after current turn
     static let playerNext = "PLAYER_NEXT"
     
@@ -32,7 +29,8 @@ public extension Args {
         ctx: State,
         cardRef: String
     ) -> Result<State, Error> {
-        switch resolvePlayer(player, ctx: ctx, cardRef: cardRef) {
+        let actor = ctx.sequence(cardRef).actor
+        switch resolvePlayer(player, ctx: ctx, actor: actor) {
         case let .success(pIds):
             let events = pIds.map { copyWithTarget($0) }
             var state = ctx
@@ -49,32 +47,19 @@ public extension Args {
     static func isPlayerResolved(_ player: String, ctx: State) -> Bool {
         ctx.players.contains { $0.key == player }
     }
-}
-
-private extension Args {
     
-    static func resolvePlayer(_ player: String, ctx: State, cardRef: String) -> Result<[String], Error> {
+    static func resolvePlayer(_ player: String, ctx: State, actor: String) -> Result<[String], Error> {
         switch player {
         case playerActor:
-            let actor = ctx.sequence(cardRef).actor
             return .success([actor])
             
         case playerOthers:
-            let actor = ctx.sequence(cardRef).actor
             let others = Array(ctx.playOrder.starting(with: actor).dropFirst())
             return .success(others)
             
         case playerAll:
-            let actor = ctx.sequence(cardRef).actor
             let all = ctx.playOrder.starting(with: actor)
             return .success(all)
-            
-        case playerTarget:
-            guard let targeted = ctx.sequence(cardRef).selectedTarget else {
-                return .failure(ErrorInvalidTarget(player: nil))
-            }
-            
-            return .success([targeted])
             
         case playerNext:
             guard let turn = ctx.turn else {
