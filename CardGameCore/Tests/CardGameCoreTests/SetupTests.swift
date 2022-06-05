@@ -55,6 +55,6 @@ class SetupTests: XCTestCase {
         XCTAssertEqual(state.player("p2").inner[0].id, "f1")
         XCTAssertEqual(state.deck.count, 72) // 80 - 2x4
         XCTAssertEqual(state.turn, "p1")
-        XCTAssertEqual(state.turnPhase, 1)
+        XCTAssertEqual(state.phase, 1)
     }
 }

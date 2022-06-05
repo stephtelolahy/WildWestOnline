@@ -50,7 +50,7 @@ class SimulationTests: XCTestCase {
     private func printEvent(_ event: Event) {
         if event is Move {
             moves += 1
-            print("\(moves) - \(String(describing: event))")
+            print("\(moves)\t\(String(describing: event))")
         } else {
             print("\t\(String(describing: event))")
         }

@@ -20,7 +20,10 @@ class StartTurnTests: XCTestCase {
         let startTurn = Cards.get("startTurn").withId("startTurn")
         let p1 = Player(inner: [startTurn])
         let deck = [Card(), Card()]
-        let state = State(players: ["p1": p1], turn: "p1", turnPhase: 1, deck: deck)
+        let state = State(players: ["p1": p1],
+                          turn: "p1",
+                          phase: 1,
+                          deck: deck)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -34,7 +37,7 @@ class StartTurnTests: XCTestCase {
                                   Draw(target: "p1"),
                                   SetPhase(value: 2)])
         
-        XCTAssertEqual(sut.state.value.turnPhase, 2)
+        XCTAssertEqual(sut.state.value.phase, 2)
         XCTAssertEqual(sut.state.value.player("p1").hand.count, 2)
     }
 }

@@ -7,7 +7,7 @@
 
 import CardGameCore
 
-/// prevents a card from taking effect on a player
+/// prevents an effect from being applied to a player
 public struct Silent: Effect {
     
     let type: String

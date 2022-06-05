@@ -17,7 +17,18 @@ public enum Cards {
         
         Card(name: "startTurn",
              prototype: "playableStart",
-             onPlay: [Draw(value: 2), SetPhase(value: 2)]),
+             onPlay: [
+                Draw(value: 2),
+                SetPhase(value: 2)
+             ]),
+        
+        Card(name: "endTurn",
+             prototype: "playableTurn",
+             onPlay: [
+                Discard(card: Args.cardSelectHand, times: Args.numExcessHand),
+                SetTurn(player: Args.playerNext),
+                SetPhase(value: 1)
+             ]),
         
         Card(name: "beer",
              prototype: "playableTurn",
@@ -55,5 +66,5 @@ public extension Cards {
     
     static let playable: [Card] = ["beer", "bang", "missed"].map { get($0) }
     
-    static let inner: [Card] = ["startTurn"].map { get($0) }
+    static let inner: [Card] = ["startTurn", "endTurn"].map { get($0) }
 }

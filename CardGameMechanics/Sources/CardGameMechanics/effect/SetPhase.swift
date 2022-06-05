@@ -22,7 +22,7 @@ public struct SetPhase: Effect {
     
     public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {
         var state = ctx
-        state.turnPhase = value
+        state.phase = value
         state.lastEvent = self
         
         return .success(state)

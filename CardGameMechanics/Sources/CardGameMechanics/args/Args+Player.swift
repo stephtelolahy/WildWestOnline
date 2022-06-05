@@ -64,7 +64,7 @@ public extension Args {
                     return .success(state)
                 }
                 
-                // ask decision
+                // set choose target decision
                 let actions = pIds.map { Choose(value: $0, key: key, actor: actor) }
                 state.decisions[actor] = Decision(options: actions, cardRef: cardRef)
                 let originalEffect = copyWithTarget(player)

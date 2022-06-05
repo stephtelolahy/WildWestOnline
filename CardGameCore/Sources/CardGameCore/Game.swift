@@ -53,12 +53,11 @@ private extension Game {
     /// - Returns:
     /// `true` if an update occurred,
     /// `false` if idle or waiting action
-    @discardableResult
     func update() -> Bool {
         var currState = state.value
         
-        guard !currState.isGameOver else {
-            /// game is over, do nothing
+        /// if game is over, do nothing
+        if currState.isGameOver {
             return false
         }
         
@@ -66,52 +65,45 @@ private extension Game {
         if !commands.isEmpty {
             let command = commands.removeFirst()
             currState.lastEvent = nil
-            sendResult(command.dispatch(ctx: currState), from: currState)
+            let newState = optimalChange(command.dispatch(ctx: currState), from: currState)
+            state.send(newState)
             return true
         }
         
-        guard currState.decisions.isEmpty else {
-            /// waiting decision, do nothing
+        /// if waiting decision, do nothing
+        if !currState.decisions.isEmpty {
             return false
         }
         
-        guard let cardRef = currState.sequences.leaf else {
-            /// game idle, process eliminated, check game over
-            if isGameOver(ctx: currState) {
-                currState.isGameOver = true
-                currState.lastEvent = nil
-                state.send(currState)
-                return false
-            }
-            
-            /// game idle, ask play decision
-            if let turn = currState.turn,
-               let moves = possibleMoves(actor: turn, ctx: currState) {
-                currState.decisions[turn] = Decision(options: moves)
-                currState.lastEvent = nil
-                state.send(currState)
-                return false
-            }
-            
-            return false
+        /// process leaf sequence
+        if let cardRef = currState.sequences.leaf {
+            var sequence = currState.sequence(cardRef)
+            let effect = sequence.queue.remove(at: 0)
+            currState.sequences[cardRef] = sequence
+            currState.lastEvent = nil
+            let newState = optimalChange(effect.resolve(ctx: currState, cardRef: cardRef), from: currState)
+            state.send(newState)
+            return true
         }
         
-        var sequence = currState.sequence(cardRef)
-        
-        guard !sequence.queue.isEmpty else {
-            /// queue empty, remove sequence
-            currState.sequences.removeValue(forKey: cardRef)
+        /// game idle, process eliminated player and game over
+        if isGameOver(ctx: currState) {
+            currState.isGameOver = true
             currState.lastEvent = nil
             state.send(currState)
-            return true
+            return false
         }
         
-        /// process queued effect
-        let effect = sequence.queue.remove(at: 0)
-        currState.sequences[cardRef] = sequence
-        currState.lastEvent = nil
-        sendResult(effect.resolve(ctx: currState, cardRef: cardRef), from: currState)
-        return true
+        /// game idle, set play decision
+        if let turn = currState.turn,
+           let moves = possibleMoves(actor: turn, ctx: currState) {
+            currState.decisions[turn] = Decision(options: moves)
+            currState.lastEvent = nil
+            state.send(currState)
+            return false
+        }
+        
+        return false
     }
     
     /// Generate active moves
@@ -129,15 +121,16 @@ private extension Game {
     }
     
     /// Check if game is over
-    #warning("move into effect")
     func isGameOver(ctx: State) -> Bool {
         ctx.players.contains { $0.value.health == 0 }
     }
     
-    func sendResult(_ result: Result<State, Error>, from currState: State) {
+    /// Emit result state or original state with error
+    func optimalChange(_ result: Result<State, Error>, from currState: State) -> State {
         switch result {
-        case let .success(successState):
-            state.send(successState)
+        case var .success(successState):
+            successState.cleanupSequences()
+            return successState
             
         case let .failure(error):
             guard let event = error as? Event else {
@@ -145,8 +138,24 @@ private extension Game {
             }
             
             var failureState = currState
+            failureState.cleanupSequences()
             failureState.lastEvent = event
-            state.send(failureState)
+            return failureState
+        }
+    }
+}
+
+private extension State {
+    
+    /// Remove leaf sequences with empty queue
+    mutating func cleanupSequences() {
+        while true {
+            if let cardRef = sequences.leaf,
+               sequence(cardRef).queue.isEmpty {
+                sequences.removeValue(forKey: cardRef)
+            } else {
+                break
+            }
         }
     }
 }

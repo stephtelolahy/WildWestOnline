@@ -18,7 +18,7 @@ public struct State {
     public var turn: String?
     
     /// current turn's phase
-    public var turnPhase: Int
+    public var phase: Int
     
     /// played cards during current turn
     public var turnPlayed: [String] = []
@@ -48,7 +48,7 @@ public struct State {
         players: [String: Player] = [:],
         playOrder: [String] = [],
         turn: String? = nil,
-        turnPhase: Int = 1,
+        phase: Int = 1,
         deck: [Card] = [],
         sequences: [String: Sequence] = [:],
         decisions: [String: Decision] = [:],
@@ -57,7 +57,7 @@ public struct State {
         self.players = players
         self.playOrder = playOrder
         self.turn = turn
-        self.turnPhase = turnPhase
+        self.phase = phase
         self.deck = deck
         self.sequences = sequences
         self.decisions = decisions

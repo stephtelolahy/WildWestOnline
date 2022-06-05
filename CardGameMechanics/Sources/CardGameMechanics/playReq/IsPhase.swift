@@ -16,7 +16,7 @@ public struct IsPhase: PlayReq {
     }
     
     public func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error> {
-        if ctx.turnPhase == phase {
+        if ctx.phase == phase {
             return .success
         } else {
             return .failure(ErrorIsPhase(phase: phase))
