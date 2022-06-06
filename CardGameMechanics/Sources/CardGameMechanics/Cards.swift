@@ -16,6 +16,7 @@ public enum Cards {
              canPlay: [IsYourTurn(), IsPhase(phase: 1)]),
         
         Card(name: "startTurn",
+             type: .inner,
              prototype: "playableStart",
              onPlay: [
                 Draw(value: 2),
@@ -23,6 +24,7 @@ public enum Cards {
              ]),
         
         Card(name: "endTurn",
+             type: .inner,
              prototype: "playableTurn",
              onPlay: [
                 Discard(card: Args.cardSelectHand, times: Args.numExcessHand),
@@ -31,23 +33,28 @@ public enum Cards {
              ]),
         
         Card(name: "beer",
+             type: .playable,
              prototype: "playableTurn",
              canPlay: [IsPlayersAtLeast(count: 3)],
              onPlay: [Heal(value: 1)]),
         
         Card(name: "bang",
+             type: .playable,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
              onPlay: [Damage(value: 1, target: Args.targetReachable, type: Args.effectTypeShoot)]),
         
         Card(name: "missed",
+             type: .playable,
              onPlay: [Silent(type: Args.effectTypeShoot)]),
         
         Card(name: "gatling",
+             type: .playable,
              prototype: "playableTurn",
              onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)]),
         
         Card(name: "saloon",
+             type: .playable,
              prototype: "playableTurn",
              onPlay: [Heal(value: 1, target: Args.playerAll)])
     ]
@@ -68,7 +75,8 @@ public extension Cards {
         return card
     }
     
-    static let playable: [Card] = ["beer", "bang", "missed", "saloon"].map { get($0) }
-    
-    static let inner: [Card] = ["startTurn", "endTurn"].map { get($0) }
+    /// all cards of given type
+    static func getAll(type: CardType) -> [Card] {
+        all.filter { $0.type == type }.map { get($0.name) }
+    }
 }

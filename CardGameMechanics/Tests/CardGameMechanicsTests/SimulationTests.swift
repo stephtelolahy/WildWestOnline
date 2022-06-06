@@ -30,8 +30,8 @@ class SimulationTests: XCTestCase {
     }
     
     private func runSimulation(playersCount: Int, completed: @escaping () -> Void) {
-        let deck = Setup.buildDeck(uniqueCards: Cards.playable, cardSets: CardSets.all)
-        let state = Setup.buildGame(playersCount: playersCount, deck: deck, inner: Cards.inner)
+        let deck = Setup.buildDeck(uniqueCards: Cards.getAll(type: .playable), cardSets: CardSets.all)
+        let state = Setup.buildGame(playersCount: playersCount, deck: deck, inner: Cards.getAll(type: .inner))
         sut = Game(state)
         cancellables.append(sut.state.sink { [weak self] in
             if $0.isGameOver {

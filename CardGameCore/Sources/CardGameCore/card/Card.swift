@@ -14,6 +14,10 @@ public struct Card {
     /// card name
     public let name: String
     
+    /// card type
+    public let type: CardType?
+    
+    /// prototype card
     public let prototype: String?
     
     /// play requirements
@@ -25,11 +29,31 @@ public struct Card {
     /// card value
     public var value: String = ""
     
-    public init(id: String = "", name: String = "", prototype: String? = nil, canPlay: [PlayReq] = [], onPlay: [Effect] = []) {
+    public init(
+        id: String = "",
+        name: String = "",
+        type: CardType? = nil,
+        prototype: String? = nil,
+        canPlay: [PlayReq] = [],
+        onPlay: [Effect] = []
+    ) {
         self.id = id
         self.name = name
+        self.type = type
         self.prototype = prototype
         self.canPlay = canPlay
         self.onPlay = onPlay
     }
+}
+
+public enum CardType: String {
+    
+    /// collectible and playable
+    case playable
+    
+    /// buil-in for each player
+    case inner
+    
+    /// character special ability
+    case character
 }
