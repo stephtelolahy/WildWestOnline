@@ -25,7 +25,7 @@ public struct Heal: Effect {
             case let .identified(pIds),
                 let .selectable(pIds):
                 if pIds.allSatisfy({ ctx.player($0).health == ctx.player($0).maxHealth }) {
-                    return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds[0]))
+                    return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds.joined(separator: ", ")))
                 } else {
                     return .success
                 }

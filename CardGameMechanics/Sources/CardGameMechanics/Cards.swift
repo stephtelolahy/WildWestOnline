@@ -45,7 +45,11 @@ public enum Cards {
         
         Card(name: "gatling",
              prototype: "playableTurn",
-             onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)])
+             onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)]),
+        
+        Card(name: "saloon",
+             prototype: "playableTurn",
+             onPlay: [Heal(value: 1, target: Args.playerAll)])
     ]
 }
 
@@ -64,7 +68,7 @@ public extension Cards {
         return card
     }
     
-    static let playable: [Card] = ["beer", "bang", "missed"].map { get($0) }
+    static let playable: [Card] = ["beer", "bang", "missed", "saloon"].map { get($0) }
     
     static let inner: [Card] = ["startTurn", "endTurn"].map { get($0) }
 }
