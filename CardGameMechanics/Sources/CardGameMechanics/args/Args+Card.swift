@@ -115,6 +115,7 @@ public extension Args {
             return resolveSelectHand(source: source, actor: actor, ctx: ctx, cardRef: cardRef)
             
         default:
+            /// assume identified card
             return .success(.identified([card]))
         }
     }

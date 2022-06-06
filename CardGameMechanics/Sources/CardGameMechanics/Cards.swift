@@ -67,7 +67,7 @@ private extension Cards {
              type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
-             onPlay: [Damage(value: 1, target: Args.targetReachable, type: Args.effectTypeShoot)]),
+             onPlay: [Damage(value: 1, target: Args.playerSelectReachable, type: Args.effectTypeShoot)]),
         
         Card(name: "missed",
              type: .collectible,
@@ -96,6 +96,11 @@ private extension Cards {
         Card(name: "catBalou",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Discard(card: Args.cardSelectAny, target: Args.targetAny)])
+             onPlay: [Discard(card: Args.cardSelectAny, target: Args.playerSelectAny)]),
+        
+        Card(name: "panic",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [Steal(card: Args.cardSelectAny, target: Args.playerSelectAt1)])
     ]
 }

@@ -23,10 +23,13 @@ public extension Args {
     static let playerNext = "PLAYER_NEXT"
     
     /// select any other player
-    static let targetAny = "TARGET_ANY"
+    static let playerSelectAny = "PLAYER_SELECT_ANY"
     
     /// select any reachable player
-    static let targetReachable = "TARGET_REACHABLE"
+    static let playerSelectReachable = "PLAYER_SELECT_REACHABLE"
+    
+    /// select any player at distance of 1
+    static let playerSelectAt1 = "PLAYER_SELECT_AT_1"
     
     /// resolve player argument
     static func resolvePlayer<T: Effect>(
@@ -104,18 +107,16 @@ public extension Args {
             let next = ctx.playOrder.element(after: turn)
             return .success(.identified([next]))
             
-        case targetAny:
+        case playerSelectAny:
             let others = ctx.playOrder.filter { $0 != actor }
             return .success(.selectable(others))
             
-        case targetReachable:
+        case playerSelectReachable:
             let weapon = ctx.player(actor).weapon
-            let players = ctx.playersAt(weapon, actor: actor)
-            guard !players.isEmpty else {
-                return .failure(ErrorNoPlayersAtRange(distance: weapon))
-            }
+            return resolvePlayerAtDistance(weapon, ctx: ctx, actor: actor)
             
-            return .success(.selectable(players))
+        case playerSelectAt1:
+            return resolvePlayerAtDistance(1, ctx: ctx, actor: actor)
             
         default:
             /// assume identified player
@@ -130,5 +131,17 @@ public extension Args {
     enum PlayerResolved {
         case identified([String])
         case selectable([String])
+    }
+}
+
+private extension Args {
+    
+    static func resolvePlayerAtDistance(_ distance: Int, ctx: State, actor: String) -> Result<PlayerResolved, Error> {
+        let players = ctx.playersAt(distance, actor: actor)
+        guard !players.isEmpty else {
+            return .failure(ErrorNoPlayersAtRange(distance: distance))
+        }
+        
+        return .success(.selectable(players))
     }
 }
