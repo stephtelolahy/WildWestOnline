@@ -14,6 +14,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        _ = Cards.getAll(type: .playable)
+        _ = Cards.getAll(type: .collectible)
     }
 }

@@ -23,19 +23,21 @@ public struct Player {
     public var hand: [Card]
     
     /// in play cards
-    public var inPlay: [Card] = []
+    public var inPlay: [Card]
     
     public init(
         name: String = "",
         maxHealth: Int = 0,
         health: Int = 0,
         inner: [Card] = [],
-        hand: [Card] = []
+        hand: [Card] = [],
+        inPlay: [Card] = []
     ) {
         self.name = name
         self.maxHealth = maxHealth
         self.health = health
         self.inner = inner
         self.hand = hand
+        self.inPlay = inPlay
     }
 }

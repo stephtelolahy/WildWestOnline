@@ -22,4 +22,5 @@ public enum InternalError: Error {
     case playerValueInvalid(String)
     case numberValueInvalid(String)
     case errorMustBeAnEvent(String)
+    case cardScriptNotFound(String)
 }

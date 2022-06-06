@@ -8,7 +8,32 @@ import CardGameCore
 
 public enum Cards {
     
-    private static let all: [Card] = [
+    /// resolving complete card script
+    public static func get(_ name: String) -> Card {
+        guard var card = all.first(where: { $0.name == name }) else {
+            fatalError(.cardScriptNotFound(name))
+        }
+        
+        var parent: String? = card.prototype
+        while parent != nil {
+            let parentCard = all.first { $0.name == parent }.unsafelyUnwrapped
+            card.canPlay = parentCard.canPlay + card.canPlay
+            card.onPlay = parentCard.onPlay + card.onPlay
+            parent = parentCard.prototype
+        }
+        return card
+    }
+    
+    /// all cards of given type
+    public static func getAll(type: CardType) -> [Card] {
+        all.filter { $0.type == type }.map { get($0.name) }
+    }
+}
+
+private extension Cards {
+    
+    /// cards database
+    static let all: [Card] = [
         Card(name: "playableTurn",
              canPlay: [IsYourTurn(), IsPhase(phase: 2)]),
         
@@ -33,50 +58,44 @@ public enum Cards {
              ]),
         
         Card(name: "beer",
-             type: .playable,
+             type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsPlayersAtLeast(count: 3)],
              onPlay: [Heal(value: 1)]),
         
         Card(name: "bang",
-             type: .playable,
+             type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
              onPlay: [Damage(value: 1, target: Args.targetReachable, type: Args.effectTypeShoot)]),
         
         Card(name: "missed",
-             type: .playable,
+             type: .collectible,
              onPlay: [Silent(type: Args.effectTypeShoot)]),
         
         Card(name: "gatling",
-             type: .playable,
+             type: .collectible,
              prototype: "playableTurn",
              onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)]),
         
         Card(name: "saloon",
-             type: .playable,
+             type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Heal(value: 1, target: Args.playerAll)])
+             onPlay: [Heal(value: 1, target: Args.playerAll)]),
+        
+        Card(name: "stagecoach",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [Draw(value: 2)]),
+        
+        Card(name: "wellsFargo",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [Draw(value: 3)]),
+        
+        Card(name: "catBalou",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [Discard(card: Args.cardSelectAny, target: Args.targetAny)])
     ]
-}
-
-public extension Cards {
-    
-    /// resolving complete card script
-    static func get(_ name: String) -> Card {
-        var card = all.first { $0.name == name }.unsafelyUnwrapped
-        var parent: String? = card.prototype
-        while parent != nil {
-            let parentCard = all.first { $0.name == parent }.unsafelyUnwrapped
-            card.canPlay = parentCard.canPlay + card.canPlay
-            card.onPlay = parentCard.onPlay + card.onPlay
-            parent = parentCard.prototype
-        }
-        return card
-    }
-    
-    /// all cards of given type
-    static func getAll(type: CardType) -> [Card] {
-        all.filter { $0.type == type }.map { get($0.name) }
-    }
 }

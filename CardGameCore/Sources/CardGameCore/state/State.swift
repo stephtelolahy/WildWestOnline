@@ -24,10 +24,10 @@ public struct State {
     public var turnPlayed: [String] = []
     
     /// deck
-    public var deck: [Card] = []
+    public var deck: [Card]
     
     /// discard pile
-    public var discard: [Card] = []
+    public var discard: [Card]
     
     /// choosable zone
     public var store: [Card] = []
@@ -50,6 +50,7 @@ public struct State {
         turn: String? = nil,
         phase: Int = 1,
         deck: [Card] = [],
+        discard: [Card] = [],
         sequences: [String: Sequence] = [:],
         decisions: [String: Decision] = [:],
         isGameOver: Bool = false
@@ -59,6 +60,7 @@ public struct State {
         self.turn = turn
         self.phase = phase
         self.deck = deck
+        self.discard = discard
         self.sequences = sequences
         self.decisions = decisions
         self.isGameOver = isGameOver

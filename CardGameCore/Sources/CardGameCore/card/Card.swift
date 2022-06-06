@@ -48,10 +48,10 @@ public struct Card {
 
 public enum CardType: String {
     
-    /// collectible and playable
-    case playable
+    /// basic card
+    case collectible
     
-    /// buil-in for each player
+    /// buil-in player ability
     case inner
     
     /// character special ability
