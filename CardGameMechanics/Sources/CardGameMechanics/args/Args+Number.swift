@@ -13,14 +13,16 @@ public extension Args {
     
     /// Number of excess cards
     static let numExcessHand = "NUM_EXCESS_HAND"
+}
+
+extension Args {
     
-    static func resolveNumber(_ number: String, ctx: State, cardRef: String) -> Int {
+    static func resolveNumber(_ number: String, actor: String, ctx: State) -> Int {
         switch number {
         case numPlayers:
             return ctx.playOrder.count
             
         case numExcessHand:
-            let actor = ctx.sequence(cardRef).actor
             let actorObj = ctx.player(actor)
             return max(actorObj.hand.count - actorObj.handLimit, 0)
             

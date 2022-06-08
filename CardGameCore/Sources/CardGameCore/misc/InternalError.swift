@@ -20,7 +20,9 @@ public enum InternalError: Error {
     case turnUndefined
     case targetValueInvalid(String)
     case playerValueInvalid(String)
+    case cardValueInvalid(String)
     case numberValueInvalid(String)
     case errorMustBeAnEvent(String)
     case cardScriptNotFound(String)
+    case chooseOptionNotFound
 }

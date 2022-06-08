@@ -22,7 +22,7 @@ public struct Sequence {
     /// pending events
     public var queue: [Effect] = []
     
-    /// selected arguments duting effect resolution
+    /// selected arguments during effect resolution
     public var selectedArgs: [String: String] = [:]
     
     public init(

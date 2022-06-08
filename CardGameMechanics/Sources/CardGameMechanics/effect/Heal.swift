@@ -18,22 +18,34 @@ public struct Heal: Effect {
     }
     
     public func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
-        let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
-        switch result {
-        case let .success(data):
-            switch data {
-            case let .identified(pIds),
-                let .selectable(pIds):
-                if pIds.allSatisfy({ ctx.player($0).health == ctx.player($0).maxHealth }) {
-                    return .failure(ErrorPlayerAlreadyMaxHealth(player: pIds.joined(separator: ", ")))
-                } else {
-                    return .success
+        guard Args.isPlayerResolved(target, ctx: ctx) else {
+            let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
+            switch result {
+            case let .success(data):
+                switch data {
+                case let .identified(pIds),
+                    let .selectable(pIds):
+                    let options = pIds.map { Heal(value: value, target: $0) }
+                    let results: [Result<Void, Error>] = options.map { $0.canResolve(ctx: ctx, actor: actor) }
+                    if results.contains(where: { if case .success = $0 { return true } else { return false } }) {
+                        return .success
+                    } else {
+                        return results[0]
+                    }
                 }
+                
+            case let .failure(error):
+                return .failure(error)
             }
-            
-        case let .failure(error):
-            return .failure(error)
         }
+        
+        let player = ctx.player(target)
+        let currHealth = player.health
+        guard currHealth < player.maxHealth else {
+            return .failure(ErrorPlayerAlreadyMaxHealth(player: target))
+        }
+        
+        return .success
     }
     
     public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {

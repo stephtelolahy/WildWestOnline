@@ -30,6 +30,9 @@ public extension Args {
     
     /// select any player at distance of 1
     static let playerSelectAt1 = "PLAYER_SELECT_AT_1"
+}
+
+extension Args {
     
     /// resolve player argument
     static func resolvePlayer<T: Effect>(
@@ -120,7 +123,7 @@ public extension Args {
             
         default:
             /// assume identified player
-            guard ctx.players.contains(where: { $0.key == player }) else {
+            guard isPlayerResolved(player, ctx: ctx) else {
                 fatalError(.playerValueInvalid(player))
             }
             

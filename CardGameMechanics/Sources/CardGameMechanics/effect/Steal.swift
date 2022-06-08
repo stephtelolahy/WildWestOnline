@@ -21,8 +21,73 @@ public struct Steal: Effect {
         self.target = target
     }
     
+    // swiftlint:disable function_body_length
+    // swiftlint:disable cyclomatic_complexity
     public func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
-        .success
+        guard Args.isPlayerResolved(actor, ctx: ctx) else {
+            let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
+            switch result {
+            case let .success(data):
+                switch data {
+                case let .identified(pIds),
+                    let .selectable(pIds):
+                    let options = pIds.map { Steal(actor: actor, card: card, target: $0) }
+                    let results: [Result<Void, Error>] = options.map { $0.canResolve(ctx: ctx, actor: actor) }
+                    if results.contains(where: { if case .success = $0 { return true } else { return false } }) {
+                        return .success
+                    } else {
+                        return results[0]
+                    }
+                }
+                
+            case let .failure(error):
+                return .failure(error)
+            }
+        }
+        
+        guard Args.isPlayerResolved(target, ctx: ctx) else {
+            let result = Args.resolvePlayer(target, ctx: ctx, actor: actor)
+            switch result {
+            case let .success(data):
+                switch data {
+                case let .identified(pIds),
+                    let .selectable(pIds):
+                    let options = pIds.map { Steal(actor: actor, card: card, target: $0) }
+                    let results: [Result<Void, Error>] = options.map { $0.canResolve(ctx: ctx, actor: actor) }
+                    if results.contains(where: { if case .success = $0 { return true } else { return false } }) {
+                        return .success
+                    } else {
+                        return results[0]
+                    }
+                }
+                
+            case let .failure(error):
+                return .failure(error)
+            }
+        }
+        
+        guard Args.isCardResolved(card, source: .player(target), ctx: ctx) else {
+            let result = Args.resolveCard(card, source: .player(target), actor: actor, ctx: ctx)
+            switch result {
+            case let .success(data):
+                switch data {
+                case let .identified(cIds),
+                    let .selectable(cIds):
+                    let options = cIds.map { Steal(actor: actor, card: $0, target: target) }
+                    let results: [Result<Void, Error>] = options.map { $0.canResolve(ctx: ctx, actor: actor) }
+                    if results.contains(where: { if case .success = $0 { return true } else { return false } }) {
+                        return .success
+                    } else {
+                        return results[0]
+                    }
+                }
+                
+            case let .failure(error):
+                return .failure(error)
+            }
+        }
+        
+        return .success
     }
     
     public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {

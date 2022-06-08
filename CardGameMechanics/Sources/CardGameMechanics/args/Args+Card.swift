@@ -20,8 +20,11 @@ public extension Args {
     
     /// select a hand card
     static let cardSelectHand = "CARD_SELECT_HAND"
+}
+
+extension Args {
     
-    // swiftlint:disable:next function_parameter_count
+    // swiftlint:disable function_parameter_count
     static func resolveCard<T: Effect>(
         _ card: String,
         copyWithCard: @escaping (String) -> T,
@@ -30,7 +33,7 @@ public extension Args {
         ctx: State,
         cardRef: String
     ) -> Result<State, Error> {
-        switch resolveCard(card, source: source, actor: actor, ctx: ctx, cardRef: cardRef) {
+        switch resolveCard(card, source: source, actor: actor, ctx: ctx) {
             
         case let .success(data):
             switch data {
@@ -98,8 +101,7 @@ public extension Args {
         _ card: String,
         source: EffectCardSource,
         actor: String,
-        ctx: State,
-        cardRef: String
+        ctx: State
     ) -> Result<EffectCardResolved, Error> {
         switch card {
         case cardRandomHand:
@@ -109,16 +111,23 @@ public extension Args {
             return resolveAll(source: source, ctx: ctx)
             
         case cardSelectAny:
-            return resolveSelectAny(source: source, actor: actor, ctx: ctx, cardRef: cardRef)
+            return resolveSelectAny(source: source, actor: actor, ctx: ctx)
             
         case cardSelectHand:
-            return resolveSelectHand(source: source, actor: actor, ctx: ctx, cardRef: cardRef)
+            return resolveSelectHand(source: source, actor: actor, ctx: ctx)
             
         default:
             /// assume identified card
+            guard isCardResolved(card, source: source, ctx: ctx) else {
+                fatalError(.cardValueInvalid(card))
+            }
+            
             return .success(.identified([card]))
         }
     }
+}
+
+private extension Args {
     
     static func resolveRandomHand(source: EffectCardSource, ctx: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
@@ -148,7 +157,7 @@ public extension Args {
         return .success(.identified(all))
     }
     
-    static func resolveSelectAny(source: EffectCardSource, actor: String, ctx: State, cardRef: String) -> Result<EffectCardResolved, Error> {
+    static func resolveSelectAny(source: EffectCardSource, actor: String, ctx: State) -> Result<EffectCardResolved, Error> {
         // setup options
         switch source {
         case let .player(pId):
@@ -184,13 +193,17 @@ public extension Args {
         }
     }
     
-    static func resolveSelectHand(source: EffectCardSource, actor: String, ctx: State, cardRef: String) -> Result<EffectCardResolved, Error> {
+    static func resolveSelectHand(source: EffectCardSource, actor: String, ctx: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
             fatalError(.cardSourceMustBePlayer)
         }
         
         let playerObj = ctx.player(pId)
         let cards = playerObj.hand.map { $0.id }
+        guard !cards.isEmpty else {
+            return .failure(ErrorPlayerHasNoCard(player: pId))
+        }
+        
         return .success(.selectable(cards))
     }
 }

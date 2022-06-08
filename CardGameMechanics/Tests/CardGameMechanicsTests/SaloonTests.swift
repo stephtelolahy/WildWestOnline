@@ -62,7 +62,7 @@ class SaloonTests: XCTestCase {
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1, p2")])
+        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
         XCTAssertEqual(sut.state.value.player("p1").health, 4)

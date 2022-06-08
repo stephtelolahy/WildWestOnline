@@ -6,6 +6,7 @@
 //
 
 /// select an argument during effect resolution
+/// this action shoukld be a decision
 public struct Choose: Move, Equatable {
     
     let value: String
@@ -23,7 +24,7 @@ public struct Choose: Move, Equatable {
     public func dispatch(ctx: State) -> Result<State, Error> {
         guard let decision = ctx.decision(waiting: self),
               let cardRef = decision.cardRef else {
-            return .failure(ErrorInvalidAction())
+            fatalError(.chooseOptionNotFound)
         }
         
         var state = ctx

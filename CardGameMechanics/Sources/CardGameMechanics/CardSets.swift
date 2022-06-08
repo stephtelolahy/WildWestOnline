@@ -4,6 +4,7 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 04/06/2022.
 //
+
 // swiftlint:disable line_length
 
 public enum CardSets {
