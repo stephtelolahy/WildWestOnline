@@ -58,7 +58,7 @@ private extension Effect {
         case let .suspended(options):
             var state = ctx
             state.decisions[actor] = options
-            let states: [State] = options.compactMap { if case let .success(state) = $0.dispatch(ctx: state) { return state } else { return nil } }
+            let states: [State] = options.compactMap { if case let .success(state, _) = $0.dispatch(ctx: state) { return state } else { return nil } }
             let results = states.map { self.verify(ctx: $0, actor: actor) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]

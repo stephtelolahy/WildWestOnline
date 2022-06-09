@@ -21,7 +21,7 @@ public struct Play: Move, Equatable {
         self.actor = actor
     }
     
-    public func dispatch(ctx: State) -> Result<State, Error> {
+    public func dispatch(ctx: State) -> MoveResult {
         var state = ctx
         var actorObj = ctx.player(actor)
         
@@ -49,11 +49,10 @@ public struct Play: Move, Equatable {
             state.decisions.removeValue(forKey: actor)
         }
         
-        let effects = cardObj.onPlay.map { SequenceNode(effect: $0, actor: actor) }
-        state.sequences.insert(contentsOf: effects, at: 0)
+        let nodes = cardObj.onPlay.map { SequenceNode(effect: $0, actor: actor) }
         
         state.turnPlayed.append(cardObj.name)
         
-        return .success(state)
+        return .success(state, nodes)
     }
 }

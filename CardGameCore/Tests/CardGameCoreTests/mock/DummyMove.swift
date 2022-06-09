@@ -11,7 +11,7 @@ struct DummyMove: Move, Equatable {
     
     let id: String
     
-    func dispatch(ctx: State) -> Result<State, Error> {
-        .success(ctx)
+    func dispatch(ctx: State) -> MoveResult {
+        .success(ctx, [])
     }
 }

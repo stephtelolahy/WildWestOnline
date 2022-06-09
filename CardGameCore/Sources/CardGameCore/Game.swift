@@ -26,10 +26,17 @@ public class Game: GameProtocol {
     public var state: CurrentValueSubject<State, Never>
     
     /// commands queue
-    private var commands: [Move] = []
+    private var commands: [Move]
     
-    public init(_ initialState: State) {
+    /// played cards sequences, last played card is on the top
+    /// A Sequence is what begins when a Player Action is taken.
+    /// Consists of one or more Effects that are resolved in order.
+    private var sequences: [SequenceNode]
+    
+    public init(_ initialState: State, commands: [Move] = [], sequences: [SequenceNode] = []) {
         state = CurrentValueSubject(initialState)
+        self.commands = commands
+        self.sequences = sequences
     }
     
     public func input(_ move: Move) {
@@ -74,7 +81,7 @@ private extension Game {
         }
         
         /// process leaf sequence
-        if let node = currState.sequences.first {
+        if let node = sequences.first {
             let effect = node.effect
             let actor = node.actor
             let result = effect.resolve(ctx: currState, actor: actor)
@@ -122,9 +129,10 @@ private extension Game {
     }
     
     /// Emit move execution result
-    func emitMoveResult(_ result: Result<State, Error>, from currState: State, move: Move) {
+    func emitMoveResult(_ result: MoveResult, from currState: State, move: Move) {
         switch result {
-        case let .success(aState):
+        case let .success(aState, nodes):
+            sequences.insert(contentsOf: nodes, at: 0)
             var newState = aState
             newState.lastEvent = move
             state.send(newState)
@@ -144,8 +152,8 @@ private extension Game {
     func emitEffectResult(_ result: EffectResult, currState: State, effect: Effect, actor: String) {
         switch result {
         case let .success(aState):
+            sequences.remove(at: 0)
             var newState = aState
-            newState.sequences.remove(at: 0)
             newState.lastEvent = effect
             state.send(newState)
             
@@ -156,20 +164,30 @@ private extension Game {
             
             var newState = currState
             newState.lastEvent = event
-            newState.sequences.remove(at: 0)
+            sequences.remove(at: 0)
             state.send(newState)
             
         case let .resolving(effects):
-            var newState = currState
-            newState.sequences.remove(at: 0)
+            sequences.remove(at: 0)
             let nodes = effects.map { SequenceNode(effect: $0, actor: actor) }
-            newState.sequences.insert(contentsOf: nodes, at: 0)
-            state.send(newState)
+            sequences.insert(contentsOf: nodes, at: 0)
             
         case let .suspended(options):
             var newState = currState
             newState.decisions[actor] = options
             state.send(newState)
         }
+    }
+}
+
+public struct SequenceNode {
+    
+    let effect: Effect
+    
+    let actor: String
+    
+    public init(effect: Effect, actor: String) {
+        self.effect = effect
+        self.actor = actor
     }
 }

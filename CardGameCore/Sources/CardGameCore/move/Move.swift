@@ -8,5 +8,12 @@
 /// Moves are actions a player chooses to take on their turn while nothing is happening
 /// such as playing a card, using your Hero Power and ending your turn
 public protocol Move: Event {
-    func dispatch(ctx: State) -> Result<State, Error>
+    func dispatch(ctx: State) -> MoveResult
+}
+
+public enum MoveResult {
+    
+    case success(State, [SequenceNode])
+    
+    case failure(Error)
 }

@@ -24,9 +24,7 @@ class GameTests: XCTestCase {
         let ctx2 = SequenceNode(effect: e2, actor: "p2")
         let ctx3 = SequenceNode(effect: e3, actor: "p3")
         let ctx4 = SequenceNode(effect: e4, actor: "p4")
-        let state = State(sequences: [ctx4, ctx3, ctx2, ctx1])
-        
-        let sut = Game(state)
+        let sut = Game(State(), sequences: [ctx4, ctx3, ctx2, ctx1])
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         

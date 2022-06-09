@@ -35,12 +35,6 @@ public struct State {
     /// is Game over
     public var isGameOver = false
     
-    /// played cards sequences, last played card is on the top
-    /// A Sequence is what begins when a Player Action is taken.
-    /// Consists of one or more Effects that are resolved in order.
-    #warning("move to Game")
-    var sequences: [SequenceNode] = []
-    
     /// selected arguments during effect resolution
     #warning("move to SequenceNode")
     public var selectedArgs: [String: String] = [:]
@@ -60,7 +54,6 @@ public struct State {
         phase: Int = 1,
         deck: [Card] = [],
         discard: [Card] = [],
-        sequences: [SequenceNode] = [],
         decisions: [String: [Move]] = [:],
         isGameOver: Bool = false
     ) {
@@ -70,20 +63,7 @@ public struct State {
         self.phase = phase
         self.deck = deck
         self.discard = discard
-        self.sequences = sequences
         self.decisions = decisions
         self.isGameOver = isGameOver
-    }
-}
-
-public struct SequenceNode {
-    
-    let effect: Effect
-    
-    let actor: String
-    
-    public init(effect: Effect, actor: String) {
-        self.effect = effect
-        self.actor = actor
     }
 }
