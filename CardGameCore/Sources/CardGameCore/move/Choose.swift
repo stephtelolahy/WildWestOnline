@@ -11,13 +11,10 @@ public struct Choose: Move, Equatable {
     
     let value: String
     
-    let key: String
-    
     let actor: String
     
-    public init(value: String, key: String, actor: String) {
+    public init(value: String, actor: String) {
         self.value = value
-        self.key = key
         self.actor = actor
     }
     
@@ -30,7 +27,7 @@ public struct Choose: Move, Equatable {
         var state = ctx
         var sequence = state.sequence(cardRef)
         state.decisions.removeValue(forKey: actor)
-        sequence.selectedArgs[key] = value
+        sequence.selectedArgs[actor] = value
         state.sequences[cardRef] = sequence
         state.lastEvent = self
         

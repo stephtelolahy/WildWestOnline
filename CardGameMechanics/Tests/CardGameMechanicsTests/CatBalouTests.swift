@@ -37,15 +37,15 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
         
         // Phase: select target
         // When
         messages.removeAll()
-        sut.input(Choose(value: "p2", key: "p1-target", actor: "p1"))
+        sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "p2", key: "p1-target", actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
                                   Discard(card: "c2", target: "p2")])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
@@ -75,24 +75,24 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
         
         // Phase: select target
         // When
         messages.removeAll()
-        sut.input(Choose(value: "p2", key: "p1-target", actor: "p1"))
+        sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "p2", key: "p1-target", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c3", key: "p1-card", actor: "p1"),
-                                                                  Choose(value: Args.cardRandomHand, key: "p1-card", actor: "p1")])
+        XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c3", actor: "p1"),
+                                                                  Choose(value: Args.cardRandomHand, actor: "p1")])
         
         // Phase: Select card
         messages.removeAll()
-        sut.input(Choose(value: Args.cardRandomHand, key: "p1-card", actor: "p1"))
+        sut.input(Choose(value: Args.cardRandomHand, actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: Args.cardRandomHand, key: "p1-card", actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: Args.cardRandomHand, actor: "p1"),
                                   Discard(card: "c2", target: "p2")])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [c3])
@@ -123,24 +123,24 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
         
         // Phase: select target
         // When
         messages.removeAll()
-        sut.input(Choose(value: "p2", key: "p1-target", actor: "p1"))
+        sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "p2", key: "p1-target", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c3", key: "p1-card", actor: "p1"),
-                                                                  Choose(value: Args.cardRandomHand, key: "p1-card", actor: "p1")])
+        XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c3", actor: "p1"),
+                                                                  Choose(value: Args.cardRandomHand, actor: "p1")])
         
         // Phase: Select card
         messages.removeAll()
-        sut.input(Choose(value: "c3", key: "p1-card", actor: "p1"))
+        sut.input(Choose(value: "c3", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "c3", key: "p1-card", actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: "c3", actor: "p1"),
                                   Discard(card: "c3", target: "p2")])
         
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])

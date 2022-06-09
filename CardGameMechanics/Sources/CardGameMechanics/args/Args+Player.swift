@@ -58,11 +58,10 @@ extension Args {
             case let .selectable(pIds):
                 var state = ctx
                 var sequence = ctx.sequence(cardRef)
-                let key = "\(actor)-target"
                 
                 // pick and remove selection
-                if let selectedId = sequence.selectedArgs[key] {
-                    sequence.selectedArgs.removeValue(forKey: key)
+                if let selectedId = sequence.selectedArgs[actor] {
+                    sequence.selectedArgs.removeValue(forKey: actor)
                     let copy = copyWithTarget(selectedId)
                     sequence.queue.insert(copy, at: 0)
                     state.sequences[cardRef] = sequence
@@ -71,7 +70,7 @@ extension Args {
                 }
                 
                 // set choose target decision
-                let actions = pIds.map { Choose(value: $0, key: key, actor: actor) }
+                let actions = pIds.map { Choose(value: $0, actor: actor) }
                 state.decisions[actor] = Decision(options: actions, cardRef: cardRef)
                 let originalEffect = copyWithTarget(player)
                 sequence.queue.insert(originalEffect, at: 0)

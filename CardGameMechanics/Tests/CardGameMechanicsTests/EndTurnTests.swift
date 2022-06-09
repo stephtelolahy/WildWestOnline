@@ -61,15 +61,15 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "endTurn", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", key: "p1-card", actor: "p1"),
-                                                                  Choose(value: "c2", key: "p1-card", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", actor: "p1"),
+                                                                  Choose(value: "c2", actor: "p1")])
         
         // phase: p1 discard card
         messages.removeAll()
-        sut.input(Choose(value: "c2", key: "p1-card", actor: "p1"))
+        sut.input(Choose(value: "c2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "c2", key: "p1-card", actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
                                   Discard(card: "c2", target: "p1"),
                                   SetTurn(player: "p2"),
                                   SetPhase(value: 1)])
@@ -100,26 +100,26 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "endTurn", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", key: "p1-card", actor: "p1"),
-                                                                  Choose(value: "c2", key: "p1-card", actor: "p1"),
-                                                                  Choose(value: "c3", key: "p1-card", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", actor: "p1"),
+                                                                  Choose(value: "c2", actor: "p1"),
+                                                                  Choose(value: "c3", actor: "p1")])
         
         // phase: p1 discard first card
         messages.removeAll()
-        sut.input(Choose(value: "c2", key: "p1-card", actor: "p1"))
+        sut.input(Choose(value: "c2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "c2", key: "p1-card", actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
                                   Discard(card: "c2", target: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", key: "p1-card", actor: "p1"),
-                                                                  Choose(value: "c3", key: "p1-card", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", actor: "p1"),
+                                                                  Choose(value: "c3", actor: "p1")])
         
         // phase: p1 discard second card
         messages.removeAll()
-        sut.input(Choose(value: "c3", key: "p1-card", actor: "p1"))
+        sut.input(Choose(value: "c3", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "c3", key: "p1-card", actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: "c3", actor: "p1"),
                                   Discard(card: "c3", target: "p1"),
                                   SetTurn(player: "p2"),
                                   SetPhase(value: 1)])

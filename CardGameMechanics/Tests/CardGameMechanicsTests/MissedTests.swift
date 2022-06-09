@@ -37,16 +37,16 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
         
         // Phase: p1 choose target p2
         messages.removeAll()
-        sut.input(Choose(value: "p2", key: "p1-target", actor: "p1"))
+        sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions["p2"]?.options, [Play(card: "c2", actor: "p2"),
-                                                                  Choose(value: "true", key: "p2-pass", actor: "p2")])
+                                                                  Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 counter
         // when
@@ -84,24 +84,24 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
         
         // Phase: p1 choose target p2
         messages.removeAll()
-        sut.input(Choose(value: "p2", key: "p1-target", actor: "p1"))
+        sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "p2", key: "p1-target", actor: "p1")])
+        XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions["p2"]?.options, [Play(card: "c2", actor: "p2"),
-                                                                  Choose(value: "true", key: "p2-pass", actor: "p2")])
+                                                                  Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 passes
         // when
         messages.removeAll()
-        sut.input(Choose(value: "true", key: "p2-pass", actor: "p2"))
+        sut.input(Choose(value: Args.choosePass, actor: "p2"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "true", key: "p2-pass", actor: "p2"),
+        XCTAssertEqual(messages, [Choose(value: Args.choosePass, actor: "p2"),
                                   Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
@@ -133,7 +133,7 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.decisions["p2"]?.options, [Play(card: "c2", actor: "p2"),
-                                                                  Choose(value: "true", key: "p2-pass", actor: "p2")])
+                                                                  Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 counter
         // When
@@ -145,7 +145,7 @@ class MissedTests: XCTestCase {
                                   Silent(type: Args.effectTypeShoot, target: "p2")])
         
         XCTAssertEqual(sut.state.value.decisions["p3"]?.options, [Play(card: "c3", actor: "p3"),
-                                                                  Choose(value: "true", key: "p3-pass", actor: "p3")])
+                                                                  Choose(value: Args.choosePass, actor: "p3")])
         
         // Phase: p3 counter
         // When

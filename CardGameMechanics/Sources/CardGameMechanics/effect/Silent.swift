@@ -7,6 +7,13 @@
 
 import CardGameCore
 
+public extension Args {
+    
+    /// do nothing about played card's effect
+    static let choosePass = "Pass"
+}
+
+
 /// prevents an effect from being applied to a player
 public struct Silent: Effect {
     
@@ -106,14 +113,14 @@ extension Silentable where Self: Effect {
         let targetObj = ctx.player(target)
         let silentCards = targetObj.hand.filter { $0.onPlay.contains { ($0 as? Silent)?.type == effectType } }
         
-        let key = "\(target)-pass"
         guard !silentCards.isEmpty,
-              sequence.selectedArgs[key] == nil  else {
+              sequence.selectedArgs[target] != Args.choosePass  else {
+            sequence.selectedArgs.removeValue(forKey: target)
             return nil
         }
         
         var actions: [Move] = silentCards.map { Play(card: $0.id, actor: target) }
-        actions.append(Choose(value: "true", key: key, actor: target))
+        actions.append(Choose(value: Args.choosePass, actor: target))
         
         var state = ctx
         state.decisions[target] = Decision(options: actions, cardRef: cardRef)
