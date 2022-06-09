@@ -27,7 +27,7 @@ class GatlingTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -41,7 +41,6 @@ class GatlingTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
         XCTAssertEqual(sut.state.value.player("p3").health, 2)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
 
 }

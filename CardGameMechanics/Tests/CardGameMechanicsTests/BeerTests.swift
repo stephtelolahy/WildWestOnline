@@ -25,7 +25,7 @@ class BeerTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -37,7 +37,6 @@ class BeerTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBeer_IfTwoPlayersLeft() {
@@ -50,14 +49,13 @@ class BeerTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [ErrorIsPlayersAtLeast(count: 3)])
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBeer_IfMaxHealth() {
@@ -70,13 +68,12 @@ class BeerTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
 }

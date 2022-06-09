@@ -14,9 +14,6 @@ public protocol GameProtocol {
     /// state to be rendered
     var state: CurrentValueSubject<State, Never> { get }
     
-    /// event or error to be rendered
-    var message: PassthroughSubject<Event, Never> { get }
-    
     /// input a move
     func input(_ move: Move)
     
@@ -28,14 +25,11 @@ public class Game: GameProtocol {
     
     public var state: CurrentValueSubject<State, Never>
     
-    public var message: PassthroughSubject<Event, Never>
-    
     /// commands queue
     private var commands: [Move] = []
     
     public init(_ initialState: State) {
         state = CurrentValueSubject(initialState)
-        message = PassthroughSubject()
     }
     
     public func input(_ move: Move) {
@@ -58,7 +52,8 @@ private extension Game {
     /// `true` if an update occurred,
     /// `false` if idle or waiting action
     func update() -> Bool {
-        let currState = state.value
+        var currState = state.value
+        currState.lastEvent = nil
         
         /// if game is over, do nothing
         if currState.isGameOver {
@@ -130,15 +125,18 @@ private extension Game {
     func emitMoveResult(_ result: Result<State, Error>, from currState: State, move: Move) {
         switch result {
         case let .success(aState):
-            state.send(aState)
-            message.send(move)
+            var newState = aState
+            newState.lastEvent = move
+            state.send(newState)
             
         case let .failure(error):
             guard let event = error as? Event else {
                 fatalError(.errorMustBeAnEvent(error.localizedDescription))
             }
             
-            message.send(event)
+            var newState = currState
+            newState.lastEvent = event
+            state.send(newState)
         }
     }
     
@@ -148,16 +146,16 @@ private extension Game {
         case let .success(aState):
             var newState = aState
             newState.sequences.remove(at: 0)
+            newState.lastEvent = effect
             state.send(newState)
-            message.send(effect)
             
         case let .failure(error):
             guard let event = error as? Event else {
                 fatalError(.errorMustBeAnEvent(error.localizedDescription))
             }
             
-            message.send(event)
             var newState = currState
+            newState.lastEvent = event
             newState.sequences.remove(at: 0)
             state.send(newState)
             

@@ -23,5 +23,4 @@ public enum InternalError: Error {
     case numberValueInvalid(String)
     case errorMustBeAnEvent(String)
     case cardScriptNotFound(String)
-    case chooseOptionNotFound
 }

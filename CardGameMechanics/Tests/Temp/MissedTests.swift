@@ -27,7 +27,7 @@ class MissedTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -59,7 +59,6 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_DoNotCounterShoot_IfMissedNotPlayed() {
@@ -74,7 +73,7 @@ class MissedTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -106,7 +105,6 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CounterMultipleShoot_IfPlayingMultipleMissed() {
@@ -121,7 +119,7 @@ class MissedTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -157,7 +155,6 @@ class MissedTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.player("p3").health, 3)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayMissed_IfNoEffectToSilent() {
@@ -167,7 +164,7 @@ class MissedTests: XCTestCase {
         let state = State(players: ["p1": p1], turn: "p1")
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))

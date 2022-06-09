@@ -28,7 +28,7 @@ class GameTests: XCTestCase {
         
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.loopUpdate()
@@ -38,7 +38,6 @@ class GameTests: XCTestCase {
                                   e3,
                                   e2,
                                   e1])
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_AskPossibleMoves_IfPlayReqVerified() {
@@ -49,7 +48,7 @@ class GameTests: XCTestCase {
         let state = State(players: ["p1": p1], playOrder: ["p2", "p1"], turn: "p1")
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.loopUpdate()
@@ -67,7 +66,7 @@ class GameTests: XCTestCase {
         let state = State(players: ["p1": p1], turn: "p1", isGameOver: true)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.loopUpdate()
@@ -84,7 +83,7 @@ class GameTests: XCTestCase {
         let state = State(players: ["p1": p1, "p2": p2])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.loopUpdate()

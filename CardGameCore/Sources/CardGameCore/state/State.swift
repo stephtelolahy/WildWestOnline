@@ -5,10 +5,8 @@
 //  Created by TELOLAHY Hugues Stéphano on 31/05/2022.
 //
 
-/// Stores the information of the game state of all players.
+/// Stores all the information of the game
 public struct State {
-    
-    // MARK: - Renderable objects
     
     /// all players by player identifier
     public var players: [String: Player] = [:]
@@ -37,18 +35,21 @@ public struct State {
     /// is Game over
     public var isGameOver = false
     
-    // MARK: - Effect resolution objects
-    
     /// played cards sequences, last played card is on the top
     /// A Sequence is what begins when a Player Action is taken.
     /// Consists of one or more Effects that are resolved in order.
-    public var sequences: [SequenceNode] = []
+    #warning("move to Game")
+    var sequences: [SequenceNode] = []
     
     /// selected arguments during effect resolution
+    #warning("move to SequenceNode")
     public var selectedArgs: [String: String] = [:]
     
     /// pending action by player
     public var decisions: [String: [Move]] = [:]
+    
+    /// last occurred event
+    public var lastEvent: Event?
     
     // MARK: - Init
     

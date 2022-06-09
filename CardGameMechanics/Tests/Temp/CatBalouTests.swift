@@ -27,7 +27,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -49,7 +49,6 @@ class CatBalouTests: XCTestCase {
                                   Discard(card: "c2", target: "p2")])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_DiscardOthersHandCard_IfPlayingCatBalou() {
@@ -65,7 +64,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -97,7 +96,6 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [c3])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_DiscardOthersInPlayCard_IfPlayingCatBalou() {
@@ -113,7 +111,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -146,7 +144,6 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [])
         XCTAssertEqual(sut.state.value.discard, [c1, c3])
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayCatBalou_IfNoCardsToDiscard() {
@@ -160,7 +157,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When

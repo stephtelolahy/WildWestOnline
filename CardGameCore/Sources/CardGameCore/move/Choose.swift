@@ -20,7 +20,7 @@ public struct Choose: Move, Equatable {
     
     public func dispatch(ctx: State) -> Result<State, Error> {
         guard ctx.isWaiting(self) else {
-            fatalError(.chooseOptionNotFound)
+            return .failure(ErrorChooseOptionNotFound())
         }
         
         var state = ctx
@@ -29,4 +29,7 @@ public struct Choose: Move, Equatable {
         
         return .success(state)
     }
+}
+
+public struct ErrorChooseOptionNotFound: Error, Event {
 }

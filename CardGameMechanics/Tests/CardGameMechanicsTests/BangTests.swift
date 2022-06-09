@@ -26,7 +26,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -49,7 +49,6 @@ class BangTests: XCTestCase {
                                   Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBang_IfNoPlayerReachable() {
@@ -62,7 +61,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -82,7 +81,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // Phase: Play
         // When
@@ -105,7 +104,6 @@ class BangTests: XCTestCase {
                                   Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
-        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBang_IfNotYourTurn() {
@@ -116,7 +114,7 @@ class BangTests: XCTestCase {
                           playOrder: ["p2", "p1"])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.message.sink { messages.append($0) })
+        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
