@@ -79,10 +79,11 @@ private extension Game {
         }
         
         /// process leaf sequence
-        if let sequence = currState.sequences.first {
-            let effect = sequence.queue[0]
-            let result = effect.resolve(ctx: currState, actor: sequence.actor)
-            emitEffectResult(result, currState: currState, effect: effect, actor: sequence.actor)
+        if let node = currState.sequences.first {
+            let effect = node.effect
+            let actor = node.actor
+            let result = effect.resolve(ctx: currState, actor: actor)
+            emitEffectResult(result, currState: currState, effect: node.effect, actor: actor)
             return true
         }
         
@@ -146,8 +147,7 @@ private extension Game {
         switch result {
         case let .success(aState):
             var newState = aState
-            newState.removeFirstEffect()
-            newState.cleanupSequences()
+            newState.sequences.remove(at: 0)
             state.send(newState)
             message.send(effect)
             
@@ -158,46 +158,20 @@ private extension Game {
             
             message.send(event)
             var newState = currState
-            newState.removeFirstEffect()
-            newState.cleanupSequences()
+            newState.sequences.remove(at: 0)
             state.send(newState)
             
         case let .resolving(effects):
             var newState = currState
-            newState.removeFirstEffect()
-            newState.insertEffects(effects)
+            newState.sequences.remove(at: 0)
+            let nodes = effects.map { SequenceNode(effect: $0, actor: actor) }
+            newState.sequences.insert(contentsOf: nodes, at: 0)
             state.send(newState)
             
         case let .suspended(options):
             var newState = currState
             newState.decisions[actor] = options
             state.send(newState)
-        }
-    }
-}
-
-private extension State {
-    
-    /// remove first effect in top sequence's queue
-    mutating func removeFirstEffect() {
-        if var sequence = sequences.first {
-            sequence.queue.remove(at: 0)
-            sequences[0] = sequence
-        }
-    }
-    
-    /// remove empty sequence
-    mutating func cleanupSequences() {
-        if let sequence = sequences.first,
-           sequence.queue.isEmpty {
-            sequences.remove(at: 0)
-        }
-    }
-    
-    mutating func insertEffects(_ effects: [Effect]) {
-        if var sequence = sequences.first {
-            sequence.queue.insert(contentsOf: effects, at: 0)
-            sequences[0] = sequence
         }
     }
 }

@@ -49,8 +49,8 @@ public struct Play: Move, Equatable {
             state.decisions.removeValue(forKey: actor)
         }
         
-        let sequence = Sequence(actor: actor, queue: cardObj.onPlay)
-        state.sequences.insert(sequence, at: 0)
+        let effects = cardObj.onPlay.map { SequenceNode(effect: $0, actor: actor) }
+        state.sequences.insert(contentsOf: effects, at: 0)
         
         state.turnPlayed.append(cardObj.name)
         

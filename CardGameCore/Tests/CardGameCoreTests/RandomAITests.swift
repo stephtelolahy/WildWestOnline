@@ -14,9 +14,7 @@ class RandomAITests: XCTestCase {
         // Given
         let move1 = DummyMove(id: "m1")
         let move2 = DummyMove(id: "m2")
-        let ctx1 = Sequence(actor: "p1")
-        let state = State(sequences: [ctx1],
-                          decisions: ["p1": [move1, move2]])
+        let state = State(decisions: ["p1": [move1, move2]])
         let mockGame = MockGame(state)
         let sut = RandomAI()
         
