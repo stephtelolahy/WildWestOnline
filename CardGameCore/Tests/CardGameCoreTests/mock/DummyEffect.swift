@@ -11,6 +11,6 @@ struct DummyEffect: Effect {
     let id: String
     
     func resolve(ctx: State, actor: String) -> EffectResult {
-        return .success(ctx)
+        .success(ctx)
     }
 }

@@ -29,7 +29,6 @@ public struct Choose: Move, Equatable {
         state.decisions.removeValue(forKey: actor)
         sequence.selectedArgs[actor] = value
         state.sequences[cardRef] = sequence
-        state.lastEvent = self
         
         return .success(state)
     }

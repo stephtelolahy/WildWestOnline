@@ -25,7 +25,7 @@ class BeerTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -40,30 +40,6 @@ class BeerTests: XCTestCase {
         XCTAssertEqual(sut.state.value.sequences, [:])
     }
     
-    func test_CannotPlayBeer_IfMaxHealth() {
-        // Given
-        let c1 = Cards.get("beer").withId("c1")
-        let p1 = Player(maxHealth: 4, health: 4, hand: [c1])
-        let state = State(players: ["p1": p1],
-                          playOrder: ["p1", "p2", "p3"],
-                          turn: "p1",
-                          phase: 2)
-        let sut = Game(state)
-        var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
-        
-        // When
-        sut.input(Play(card: "c1", actor: "p1"))
-        
-        // Assert
-        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
-        
-        XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
-        XCTAssertEqual(sut.state.value.discard, [])
-        XCTAssertEqual(sut.state.value.player("p1").health, 4)
-        XCTAssertEqual(sut.state.value.sequences, [:])
-    }
-    
     func test_CannotPlayBeer_IfTwoPlayersLeft() {
         // Given
         let c1 = Cards.get("beer").withId("c1")
@@ -74,13 +50,33 @@ class BeerTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [ErrorIsPlayersAtLeast(count: 3)])
+        XCTAssertEqual(sut.state.value.sequences, [:])
+    }
+    
+    func test_CannotPlayBeer_IfMaxHealth() {
+        // Given
+        let c1 = Cards.get("beer").withId("c1")
+        let p1 = Player(maxHealth: 4, health: 4, hand: [c1])
+        let state = State(players: ["p1": p1],
+                          playOrder: ["p1", "p2", "p3"],
+                          turn: "p1",
+                          phase: 2)
+        let sut = Game(state)
+        var messages: [Event] = []
+        cancellables.append(sut.message.sink { messages.append($0) })
+        
+        // When
+        sut.input(Play(card: "c1", actor: "p1"))
+        
+        // Assert
+        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
         XCTAssertEqual(sut.state.value.sequences, [:])
     }
 }

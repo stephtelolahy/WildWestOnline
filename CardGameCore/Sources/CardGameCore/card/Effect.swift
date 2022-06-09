@@ -17,11 +17,12 @@ public enum EffectResult {
     case success(State)
     
     /// Failed with an `Error`, remove it from queue
-    case failed(Event)
-    
-    /// Suspended waiting user decision among an array of `Move`, keep it in queue
-    case suspended([Move])
+    /// Returned error must implement `Event` protocol
+    case failure(Error)
     
     /// Partially resolved, replace it with child effects
     case resolving([Effect])
+    
+    /// Suspended waiting user decision among an array of `Move`, keep it in queue
+    case suspended([Move])
 }

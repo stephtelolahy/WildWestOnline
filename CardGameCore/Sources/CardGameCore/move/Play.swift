@@ -28,13 +28,16 @@ public struct Play: Move, Equatable {
         let cardObj: Card
         if let handIndex = actorObj.hand.firstIndex(where: { $0.id == card }) {
             cardObj = actorObj.hand.remove(at: handIndex)
+            
             // discard played hand card immediately
             var discard = state.discard
             discard.append(cardObj)
             state.discard = discard
             state.players[actor] = actorObj
+            
         } else if let figureIndex = actorObj.inner.firstIndex(where: { $0.id == card }) {
             cardObj = actorObj.inner[figureIndex]
+            
         } else {
             fatalError(.playerCardNotFound(card))
         }
@@ -56,22 +59,7 @@ public struct Play: Move, Equatable {
         
         state.sequences[card] = sequence
         state.turnPlayed.append(cardObj.name)
-        state.lastEvent = self
-        return .success(state)
-    }
-}
-
-extension Card {
-    
-    /// Check if a card can be played
-    func isPlayable(_ ctx: State, actor: String) -> Result<Void, Error> {
-        for playReq in canPlay {
-            if case let .failure(error) = playReq.verify(ctx: ctx, actor: actor, card: self) {
-                return .failure(error)
-            }
-        }
         
-        #warning("TODO: add effect verification")
-        return .success
+        return .success(state)
     }
 }

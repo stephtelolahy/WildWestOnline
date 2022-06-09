@@ -41,9 +41,6 @@ public struct State {
     /// is Game over
     public var isGameOver = false
     
-    /// last executed event
-    public var lastEvent: Event?
-    
     public init(
         players: [String: Player] = [:],
         playOrder: [String] = [],

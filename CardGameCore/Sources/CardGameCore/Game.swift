@@ -14,6 +14,9 @@ public protocol GameProtocol {
     /// state to be rendered
     var state: CurrentValueSubject<State, Never> { get }
     
+    /// event or error to be rendered
+    var message: PassthroughSubject<Event, Never> { get }
+    
     /// input a move
     func input(_ move: Move)
     
@@ -25,11 +28,14 @@ public class Game: GameProtocol {
     
     public var state: CurrentValueSubject<State, Never>
     
+    public var message: PassthroughSubject<Event, Never>
+    
     /// commands queue
     private var commands: [Move] = []
     
     public init(_ initialState: State) {
         state = CurrentValueSubject(initialState)
+        message = PassthroughSubject()
     }
     
     public func input(_ move: Move) {
@@ -52,7 +58,7 @@ private extension Game {
     /// `true` if an update occurred,
     /// `false` if idle or waiting action
     func update() -> Bool {
-        let currState = state.value.settingLastEvent(nil)
+        let currState = state.value
         
         /// if game is over, do nothing
         if currState.isGameOver {
@@ -63,8 +69,7 @@ private extension Game {
         if !commands.isEmpty {
             let command = commands.removeFirst()
             let result = command.dispatch(ctx: currState)
-            let newState = mapMoveResult(result, from: currState, move: command)
-            state.send(newState)
+            emitMoveResult(result, from: currState, move: command)
             return true
         }
         
@@ -78,8 +83,7 @@ private extension Game {
             let sequence = currState.sequence(cardRef)
             let effect = sequence.queue[0]
             let result = effect.resolve(ctx: currState, actor: sequence.actor)
-            let newState = mapEffectResult(result, currState: currState, cardRef: cardRef, effect: effect)
-            state.send(newState)
+            emitEffectResult(result, currState: currState, cardRef: cardRef, effect: effect)
             return true
         }
         
@@ -122,65 +126,55 @@ private extension Game {
         ctx.players.contains { $0.value.health == 0 }
     }
     
-    /// Return optimal `State` from a move execution result
-    func mapMoveResult(_ result: Result<State, Error>, from currState: State, move: Move) -> State {
+    /// Emit move execution result
+    func emitMoveResult(_ result: Result<State, Error>, from currState: State, move: Move) {
         switch result {
         case let .success(aState):
-            assert(aState.lastEvent == nil)
-            
-            var newState = currState
-            newState.lastEvent = move
-            return aState
+            state.send(aState)
+            message.send(move)
             
         case let .failure(error):
-            assert(currState.lastEvent == nil)
-            
-            guard error is Event else {
+            guard let event = error as? Event else {
                 fatalError(.errorMustBeAnEvent(error.localizedDescription))
             }
             
-            var newState = currState
-            newState.lastEvent = error as? Event
-            return newState
+            message.send(event)
         }
     }
     
-    /// Return optimal `State` from a effect execution result
-    func mapEffectResult(_ result: EffectResult, currState: State, cardRef: String, effect: Effect) -> State {
+    /// Emit effect execution result
+    func emitEffectResult(_ result: EffectResult, currState: State, cardRef: String, effect: Effect) {
         switch result {
         case let .success(aState):
-            assert(aState.lastEvent == nil)
-            
             var newState = aState.removingFirstEffect(cardRef)
             newState.cleanupSequences()
-            newState.lastEvent = effect
-            return newState
+            state.send(newState)
+            message.send(effect)
             
-        case let .failed(error):
-            assert(currState.lastEvent == nil)
+        case let .failure(error):
+            guard let event = error as? Event else {
+                fatalError(.errorMustBeAnEvent(error.localizedDescription))
+            }
             
+            message.send(event)
             var newState = currState.removingFirstEffect(cardRef)
             newState.cleanupSequences()
-            newState.lastEvent = error
-            return newState
-            
-        case let .suspended(moves):
-            fatalError()
+            state.send(newState)
             
         case let .resolving(effects):
+            var newState = currState.removingFirstEffect(cardRef)
+            var sequence = newState.sequence(cardRef)
+            sequence.queue.insert(contentsOf: effects, at: 0)
+            newState.sequences[cardRef] = sequence
+            state.send(newState)
+            
+        case let .suspended(moves):
             fatalError()
         }
     }
 }
 
 private extension State {
-    
-    /// copy state setting last Event
-    func settingLastEvent(_ event: Event?) -> State {
-        var state = self
-        state.lastEvent = event
-        return state
-    }
     
     /// remove first effect in sequence queue and add it as lastEvent
     func removingFirstEffect(_ cardRef: String) -> State {

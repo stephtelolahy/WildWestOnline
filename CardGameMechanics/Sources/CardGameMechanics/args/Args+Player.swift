@@ -37,25 +37,20 @@ extension Args {
     /// resolve player argument
     static func resolvePlayer<T: Effect>(
         _ player: String,
-        copyWithTarget: @escaping (String) -> T,
+        copyWithPlayer: @escaping (String) -> T,
         ctx: State,
-        cardRef: String
-    ) -> Result<State, Error> {
-        let actor = ctx.sequence(cardRef).actor
+        actor: String
+    ) -> EffectResult {
         switch resolvePlayer(player, ctx: ctx, actor: actor) {
             
         case let .success(data):
             switch data {
             case let .identified(pIds):
-                let events = pIds.map { copyWithTarget($0) }
-                var state = ctx
-                var sequence = state.sequence(cardRef)
-                sequence.queue.insert(contentsOf: events, at: 0)
-                state.sequences[cardRef] = sequence
-                
-                return .success(state)
+                let effects = pIds.map { copyWithPlayer($0) }
+                return .resolving(effects)
                 
             case let .selectable(pIds):
+                /*
                 var state = ctx
                 var sequence = ctx.sequence(cardRef)
                 
@@ -77,6 +72,8 @@ extension Args {
                 state.sequences[cardRef] = sequence
                 
                 return .success(state)
+                 */
+                fatalError()
             }
             
         case let .failure(error):
@@ -86,6 +83,14 @@ extension Args {
     
     static func isPlayerResolved(_ player: String, ctx: State) -> Bool {
         ctx.players.contains { $0.key == player }
+    }
+}
+
+private extension Args {
+    
+    enum PlayerResolved {
+        case identified([String])
+        case selectable([String])
     }
     
     static func resolvePlayer(_ player: String, ctx: State, actor: String) -> Result<PlayerResolved, Error> {
@@ -129,14 +134,6 @@ extension Args {
             return .success(.identified([player]))
         }
     }
-    
-    enum PlayerResolved {
-        case identified([String])
-        case selectable([String])
-    }
-}
-
-private extension Args {
     
     static func resolvePlayerAtDistance(_ distance: Int, ctx: State, actor: String) -> Result<PlayerResolved, Error> {
         let players = ctx.playersAt(distance, actor: actor)

@@ -4,8 +4,9 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 01/06/2022.
 //
+import CardGameCore
 
-public extension Player {
+extension Player {
     
     /// Gun range
     var weapon: Int {

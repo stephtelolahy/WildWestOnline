@@ -27,23 +27,4 @@ public extension State {
     func decision<T: Equatable>(waiting move: T) -> Decision? {
         decisions.first { $0.value.options.contains { $0 as? T == move } }?.value
     }
-    
-    /// Get players within given distance
-    func playersAt(_ distance: Int, actor: String) -> [String] {
-        #warning("implement distance rules")
-        return playOrder.filter { $0 != actor }
-    }
-    
-    /// Remove top deck card
-    mutating func removeTopDeck() -> Card {
-        // reseting deck if empty
-        if deck.isEmpty,
-           discard.count >= 2 {
-            let cards = discard
-            deck.append(contentsOf: cards.dropLast().shuffled())
-            discard = cards.suffix(1)
-        }
-        
-        return deck.removeFirst()
-    }
 }

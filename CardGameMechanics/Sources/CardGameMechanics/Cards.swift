@@ -34,13 +34,13 @@ private extension Cards {
     
     /// cards database
     static let all: [Card] = [
-        /*
+        
         Card(name: "playableTurn",
              canPlay: [IsYourTurn(), IsPhase(phase: 2)]),
         
         Card(name: "playableStart",
              canPlay: [IsYourTurn(), IsPhase(phase: 1)]),
-        
+        /*
         Card(name: "startTurn",
              type: .inner,
              prototype: "playableStart",
@@ -57,13 +57,13 @@ private extension Cards {
                 SetTurn(player: Args.playerNext),
                 SetPhase(value: 1)
              ]),
-        
+        */
         Card(name: "beer",
              type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsPlayersAtLeast(count: 3)],
              onPlay: [Heal(value: 1)]),
-        
+        /*
         Card(name: "bang",
              type: .collectible,
              prototype: "playableTurn",

@@ -12,8 +12,6 @@ struct DummyMove: Move, Equatable {
     let id: String
     
     func dispatch(ctx: State) -> Result<State, Error> {
-        var state = ctx
-        state.lastEvent = self
-        return .success(state)
+        .success(ctx)
     }
 }
