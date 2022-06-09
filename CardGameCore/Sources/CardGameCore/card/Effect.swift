@@ -13,7 +13,7 @@ public protocol Effect: Event {
 
 public enum EffectResult {
     
-    /// Resolved with an outcome `State`, remove it from queue
+    /// Resolved with an updated `State`, remove it from queue
     case success(State)
     
     /// Failed with an `Error`, remove it from queue
@@ -24,5 +24,8 @@ public enum EffectResult {
     case resolving([Effect])
     
     /// Suspended waiting user decision among an array of `Move`, keep it in queue
-    case suspended([Move])
+    case suspended([String: [Move]])
+    
+    /// Remove first effect matching a predicate
+    case remove((Effect) -> Bool, Error)
 }

@@ -37,7 +37,7 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
         
         // Phase: p1 choose target p2
         messages.removeAll()
@@ -45,8 +45,8 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p2"]?.options, [Play(card: "c2", actor: "p2"),
-                                                                  Choose(value: Args.choosePass, actor: "p2")])
+        XCTAssertEqual(sut.state.value.decisions["p2"], [Play(card: "c2", actor: "p2"),
+                                                         Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 counter
         // when
@@ -83,7 +83,7 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
         
         // Phase: p1 choose target p2
         messages.removeAll()
@@ -91,8 +91,8 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p2"]?.options, [Play(card: "c2", actor: "p2"),
-                                                                  Choose(value: Args.choosePass, actor: "p2")])
+        XCTAssertEqual(sut.state.value.decisions["p2"], [Play(card: "c2", actor: "p2"),
+                                                         Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 passes
         // when
@@ -130,8 +130,8 @@ class MissedTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p2"]?.options, [Play(card: "c2", actor: "p2"),
-                                                                  Choose(value: Args.choosePass, actor: "p2")])
+        XCTAssertEqual(sut.state.value.decisions["p2"], [Play(card: "c2", actor: "p2"),
+                                                         Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 counter
         // When
@@ -142,8 +142,8 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c2", actor: "p2"),
                                   Silent(type: Args.effectTypeShoot, target: "p2")])
         
-        XCTAssertEqual(sut.state.value.decisions["p3"]?.options, [Play(card: "c3", actor: "p3"),
-                                                                  Choose(value: Args.choosePass, actor: "p3")])
+        XCTAssertEqual(sut.state.value.decisions["p3"], [Play(card: "c3", actor: "p3"),
+                                                         Choose(value: Args.choosePass, actor: "p3")])
         
         // Phase: p3 counter
         // When
@@ -155,21 +155,5 @@ class MissedTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.player("p3").health, 3)
-    }
-    
-    func test_CannotPlayMissed_IfNoEffectToSilent() {
-        // Given
-        let c1 = Cards.get("missed").withId("c1")
-        let p1 = Player(hand: [c1])
-        let state = State(players: ["p1": p1], turn: "p1")
-        let sut = Game(state)
-        var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
-        
-        // When
-        sut.input(Play(card: "c1", actor: "p1"))
-        
-        // Assert
-        XCTAssertEqual(messages, [ErrorNoEffectToSilent(type: Args.effectTypeShoot)])
     }
 }

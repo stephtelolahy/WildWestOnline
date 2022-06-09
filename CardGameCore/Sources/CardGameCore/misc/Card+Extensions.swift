@@ -56,13 +56,17 @@ private extension Effect {
             }
             
         case let .suspended(options):
-            let argValues: [String] = options.compactMap { if let choose = $0 as? Choose { return choose.value } else { return nil } }
+            let moves = options.values.flatMap { $0 }
+            let argValues: [String] = moves.compactMap { if let choose = $0 as? Choose { return choose.value } else { return nil } }
             let results = argValues.map { self.verify(ctx: ctx, actor: actor, selectedArg: $0) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
             } else {
                 return .success
             }
+            
+        case .remove:
+            return .success
         }
     }
 }

@@ -69,7 +69,7 @@ private extension Cards {
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
              onPlay: [Damage(value: 1, target: Args.playerSelectReachable, type: Args.effectTypeShoot)]),
-        /*
+        
         Card(name: "missed",
              type: .collectible,
              onPlay: [Silent(type: Args.effectTypeShoot)]),
@@ -78,7 +78,7 @@ private extension Cards {
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)]),
-        
+        /*
         Card(name: "saloon",
              type: .collectible,
              prototype: "playableTurn",

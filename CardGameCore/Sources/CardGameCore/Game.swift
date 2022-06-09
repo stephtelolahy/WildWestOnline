@@ -177,10 +177,28 @@ private extension Game {
             let nodes = effects.map { SequenceNode(effect: $0, actor: actor) }
             sequences.insert(contentsOf: nodes, at: 0)
             
-        case let .suspended(options):
+        case let .suspended(decisions):
             var newState = currState
-            newState.decisions[actor] = options
+            newState.decisions = decisions
             state.send(newState)
+            
+        case let .remove(filter, error):
+            sequences.remove(at: 0)
+            
+            if let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) {
+                sequences.remove(at: indexToRemove)
+                var newState = currState
+                newState.lastEvent = effect
+                state.send(newState)
+            } else {
+                guard let event = error as? Event else {
+                    fatalError(.errorMustBeAnEvent(error.localizedDescription))
+                }
+                
+                var newState = currState
+                newState.lastEvent = event
+                state.send(newState)
+            }
         }
     }
 }
