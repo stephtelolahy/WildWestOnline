@@ -26,7 +26,7 @@ class EndTurnTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "endTurn", actor: "p1"))
@@ -54,7 +54,7 @@ class EndTurnTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "endTurn", actor: "p1"))
@@ -93,7 +93,7 @@ class EndTurnTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "endTurn", actor: "p1"))

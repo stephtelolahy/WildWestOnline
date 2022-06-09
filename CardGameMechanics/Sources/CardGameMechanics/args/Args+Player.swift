@@ -50,30 +50,14 @@ extension Args {
                 return .resolving(effects)
                 
             case let .selectable(pIds):
-                /*
-                var state = ctx
-                var sequence = ctx.sequence(cardRef)
-                
-                // pick and remove selection
-                if let selectedId = sequence.selectedArgs[actor] {
-                    sequence.selectedArgs.removeValue(forKey: actor)
-                    let copy = copyWithTarget(selectedId)
-                    sequence.queue.insert(copy, at: 0)
-                    state.sequences[cardRef] = sequence
-                    
-                    return .success(state)
+                if let selectedId = ctx.selectedArgs[actor],
+                    pIds.contains(selectedId) {
+                    let copy = copyWithPlayer(selectedId)
+                    return .resolving([copy])
+                } else {
+                    let options = pIds.map { Choose(value: $0, actor: actor) }
+                    return .suspended(options)
                 }
-                
-                // set choose target decision
-                let actions = pIds.map { Choose(value: $0, actor: actor) }
-                state.decisions[actor] = Decision(options: actions, cardRef: cardRef)
-                let originalEffect = copyWithTarget(player)
-                sequence.queue.insert(originalEffect, at: 0)
-                state.sequences[cardRef] = sequence
-                
-                return .success(state)
-                 */
-                fatalError()
             }
             
         case let .failure(error):

@@ -8,6 +8,8 @@
 /// Stores the information of the game state of all players.
 public struct State {
     
+    // MARK: - Renderable objects
+    
     /// all players by player identifier
     public var players: [String: Player] = [:]
     
@@ -32,14 +34,21 @@ public struct State {
     /// choosable zone
     public var store: [Card] = []
     
-    /// played cards sequence
-    public var sequences: [String: Sequence] = [:]
-    
-    /// pending action by player
-    public var decisions: [String: Decision] = [:]
-    
     /// is Game over
     public var isGameOver = false
+    
+    // MARK: - Effect resolution objects
+    
+    /// played cards sequences, last played card is on the top
+    public var sequences: [Sequence] = []
+    
+    /// selected arguments during effect resolution
+    public var selectedArgs: [String: String] = [:]
+    
+    /// pending action by player
+    public var decisions: [String: [Move]] = [:]
+    
+    // MARK: - Init
     
     public init(
         players: [String: Player] = [:],
@@ -48,8 +57,8 @@ public struct State {
         phase: Int = 1,
         deck: [Card] = [],
         discard: [Card] = [],
-        sequences: [String: Sequence] = [:],
-        decisions: [String: Decision] = [:],
+        sequences: [Sequence] = [],
+        decisions: [String: [Move]] = [:],
         isGameOver: Bool = false
     ) {
         self.players = players

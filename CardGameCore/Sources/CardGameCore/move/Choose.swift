@@ -9,9 +9,9 @@
 /// this action shoukld be a decision
 public struct Choose: Move, Equatable {
     
-    let value: String
+    private let value: String
     
-    let actor: String
+    private let actor: String
     
     public init(value: String, actor: String) {
         self.value = value
@@ -19,16 +19,13 @@ public struct Choose: Move, Equatable {
     }
     
     public func dispatch(ctx: State) -> Result<State, Error> {
-        guard let decision = ctx.decision(waiting: self),
-              let cardRef = decision.cardRef else {
+        guard ctx.isWaiting(self) else {
             fatalError(.chooseOptionNotFound)
         }
         
         var state = ctx
-        var sequence = state.sequence(cardRef)
         state.decisions.removeValue(forKey: actor)
-        sequence.selectedArgs[actor] = value
-        state.sequences[cardRef] = sequence
+        state.selectedArgs[actor] = value
         
         return .success(state)
     }

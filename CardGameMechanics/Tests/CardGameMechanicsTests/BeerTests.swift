@@ -37,7 +37,7 @@ class BeerTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBeer_IfTwoPlayersLeft() {
@@ -57,7 +57,7 @@ class BeerTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [ErrorIsPlayersAtLeast(count: 3)])
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBeer_IfMaxHealth() {
@@ -77,6 +77,6 @@ class BeerTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
 }

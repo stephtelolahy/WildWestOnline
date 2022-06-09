@@ -26,7 +26,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // Phase: Play
         // When
@@ -37,7 +37,7 @@ class BangTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When
@@ -49,7 +49,7 @@ class BangTests: XCTestCase {
                                   Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBang_IfNoPlayerReachable() {
@@ -62,7 +62,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -82,7 +82,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // Phase: Play
         // When
@@ -93,7 +93,7 @@ class BangTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When
@@ -105,7 +105,7 @@ class BangTests: XCTestCase {
                                   Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayBang_IfNotYourTurn() {
@@ -116,7 +116,7 @@ class BangTests: XCTestCase {
                           playOrder: ["p2", "p1"])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))

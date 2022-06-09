@@ -97,12 +97,12 @@ protocol Silentable {
     var type: String? { get }
     
     /// Return a new state containing silent decision
-    func prepareSilent(ctx: State, cardRef: String) -> State?
+    func resolveSilent(ctx: State, cardRef: String) -> State?
 }
 
 extension Silentable where Self: Effect {
     
-    func prepareSilent(ctx: State, cardRef: String) -> State? {
+    func resolveSilent(ctx: State, cardRef: String) -> State? {
         guard Args.isPlayerResolved(target, ctx: ctx),
               let effectType = type else {
             return nil

@@ -28,7 +28,7 @@ class WellsFargoTests: XCTestCase {
                           deck: [c2, c3, c4])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -41,7 +41,7 @@ class WellsFargoTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p1").hand, [c2, c3, c4])
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
 }

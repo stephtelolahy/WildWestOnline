@@ -26,7 +26,7 @@ class StartTurnTests: XCTestCase {
                           deck: deck)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "startTurn", actor: "p1"))

@@ -27,7 +27,7 @@ class PanicTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // Phase: Play
         // When
@@ -50,7 +50,7 @@ class PanicTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p1").hand, [c2])
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_StealOthersInPlayCard_IfPlayingPanic() {
@@ -66,7 +66,7 @@ class PanicTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // Phase: Play
         // When
@@ -101,7 +101,7 @@ class PanicTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [])
         XCTAssertEqual(sut.state.value.player("p1").hand, [c3])
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlayPanic_IfNoCardsToSteal() {
@@ -115,7 +115,7 @@ class PanicTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // Phase: Play
         // When

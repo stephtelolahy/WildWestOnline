@@ -79,11 +79,10 @@ private extension Game {
         }
         
         /// process leaf sequence
-        if let cardRef = currState.sequences.leaf {
-            let sequence = currState.sequence(cardRef)
+        if let sequence = currState.sequences.first {
             let effect = sequence.queue[0]
             let result = effect.resolve(ctx: currState, actor: sequence.actor)
-            emitEffectResult(result, currState: currState, cardRef: cardRef, effect: effect)
+            emitEffectResult(result, currState: currState, effect: effect, actor: sequence.actor)
             return true
         }
         
@@ -99,7 +98,7 @@ private extension Game {
         if let turn = currState.turn,
            let moves = possibleMoves(actor: turn, ctx: currState) {
             var newState = currState
-            newState.decisions[turn] = Decision(options: moves)
+            newState.decisions[turn] = moves
             state.send(newState)
             return false
         }
@@ -143,10 +142,11 @@ private extension Game {
     }
     
     /// Emit effect execution result
-    func emitEffectResult(_ result: EffectResult, currState: State, cardRef: String, effect: Effect) {
+    func emitEffectResult(_ result: EffectResult, currState: State, effect: Effect, actor: String) {
         switch result {
         case let .success(aState):
-            var newState = aState.removingFirstEffect(cardRef)
+            var newState = aState
+            newState.removeFirstEffect()
             newState.cleanupSequences()
             state.send(newState)
             message.send(effect)
@@ -157,54 +157,47 @@ private extension Game {
             }
             
             message.send(event)
-            var newState = currState.removingFirstEffect(cardRef)
+            var newState = currState
+            newState.removeFirstEffect()
             newState.cleanupSequences()
             state.send(newState)
             
         case let .resolving(effects):
-            var newState = currState.removingFirstEffect(cardRef)
-            var sequence = newState.sequence(cardRef)
-            sequence.queue.insert(contentsOf: effects, at: 0)
-            newState.sequences[cardRef] = sequence
+            var newState = currState
+            newState.removeFirstEffect()
+            newState.insertEffects(effects)
             state.send(newState)
             
-        case let .suspended(moves):
-            fatalError()
+        case let .suspended(options):
+            var newState = currState
+            newState.decisions[actor] = options
+            state.send(newState)
         }
     }
 }
 
 private extension State {
     
-    /// remove first effect in sequence queue and add it as lastEvent
-    func removingFirstEffect(_ cardRef: String) -> State {
-        var state = self
-        var sequence = sequence(cardRef)
-        sequence.queue.remove(at: 0)
-        state.sequences[cardRef] = sequence
-        return state
-    }
-    
-    /// Remove leaf sequences with empty queue
-    mutating func cleanupSequences() {
-        while true {
-            if let cardRef = sequences.leaf,
-               sequence(cardRef).queue.isEmpty {
-                sequences.removeValue(forKey: cardRef)
-            } else {
-                break
-            }
+    /// remove first effect in top sequence's queue
+    mutating func removeFirstEffect() {
+        if var sequence = sequences.first {
+            sequence.queue.remove(at: 0)
+            sequences[0] = sequence
         }
     }
-}
-
-private extension Dictionary where Key == String, Value == Sequence {
     
-    var leaf: String? {
-        first { isLeaf($0.key) }?.key
+    /// remove empty sequence
+    mutating func cleanupSequences() {
+        if let sequence = sequences.first,
+           sequence.queue.isEmpty {
+            sequences.remove(at: 0)
+        }
     }
     
-    private func isLeaf(_ key: String) -> Bool {
-        allSatisfy { $0.value.parentRef != key }
+    mutating func insertEffects(_ effects: [Effect]) {
+        if var sequence = sequences.first {
+            sequence.queue.insert(contentsOf: effects, at: 0)
+            sequences[0] = sequence
+        }
     }
 }

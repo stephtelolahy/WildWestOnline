@@ -15,16 +15,8 @@ public extension State {
         return result
     }
     
-    /// Get `non-null` `PlaySequence` with given card
-    func sequence(_ cardRef: String) -> Sequence {
-        guard let result = sequences[cardRef] else {
-            fatalError(.sequenceNotFound(cardRef))
-        }
-        return result
-    }
-    
-    /// Get `Decision` waiting a given action
-    func decision<T: Equatable>(waiting move: T) -> Decision? {
-        decisions.first { $0.value.options.contains { $0 as? T == move } }?.value
+    /// Check if waiting a given action
+    func isWaiting<T: Equatable>(_ move: T) -> Bool {
+        decisions.contains { $0.value.contains { $0 as? T == move } }
     }
 }

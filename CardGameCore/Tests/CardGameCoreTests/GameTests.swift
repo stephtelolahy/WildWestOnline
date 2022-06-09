@@ -19,12 +19,12 @@ class GameTests: XCTestCase {
         let e1 = DummyEffect(id: "e1")
         let ctx1 = Sequence(actor: "p1", queue: [e1])
         let e2 = DummyEffect(id: "e2")
-        let ctx2 = Sequence(actor: "p2", parentRef: "c1", queue: [e2])
+        let ctx2 = Sequence(actor: "p2", queue: [e2])
         let e3 = DummyEffect(id: "e3")
-        let ctx3 = Sequence(actor: "p3", parentRef: "c2", queue: [e3])
+        let ctx3 = Sequence(actor: "p3", queue: [e3])
         let e4 = DummyEffect(id: "e4")
-        let ctx4 = Sequence(actor: "p4", parentRef: "c3", queue: [e4])
-        let state = State(sequences: ["c1": ctx1, "c2": ctx2, "c3": ctx3, "c4": ctx4])
+        let ctx4 = Sequence(actor: "p4", queue: [e4])
+        let state = State(sequences: [ctx4, ctx3, ctx2, ctx1])
         
         let sut = Game(state)
         var messages: [Event] = []
@@ -38,7 +38,7 @@ class GameTests: XCTestCase {
                                   e3,
                                   e2,
                                   e1])
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_AskPossibleMoves_IfPlayReqVerified() {
@@ -56,7 +56,8 @@ class GameTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [])
-        XCTAssertEqual(sut.state.value.decisions["p1"], Decision(options: [Play(card: "c1", actor: "p1"), Play(card: "c2", actor: "p1")]))
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Play(card: "c1", actor: "p1"),
+                                                         Play(card: "c2", actor: "p1")])
     }
     
     func test_StopUpdates_IfGameIsOver() {

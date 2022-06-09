@@ -19,8 +19,8 @@ public class RandomAI {
     }
     
     private func processState(_ state: State, game: GameProtocol) {
-        if let decision = state.decisions.first?.value,
-           let bestMove = decision.options.randomElement() {
+        if let options = state.decisions.first?.value,
+           let bestMove = options.randomElement() {
             DispatchQueue.main.async {
                 game.input(bestMove)
             }

@@ -11,10 +11,10 @@
 public struct Play: Move, Equatable {
     
     /// played card
-    let card: String
+    private let card: String
     
     /// player
-    let actor: String
+    private let actor: String
     
     public init(card: String, actor: String) {
         self.card = card
@@ -34,10 +34,8 @@ public struct Play: Move, Equatable {
             discard.append(cardObj)
             state.discard = discard
             state.players[actor] = actorObj
-            
         } else if let figureIndex = actorObj.inner.firstIndex(where: { $0.id == card }) {
             cardObj = actorObj.inner[figureIndex]
-            
         } else {
             fatalError(.playerCardNotFound(card))
         }
@@ -47,17 +45,13 @@ public struct Play: Move, Equatable {
             return .failure(error)
         }
         
-        var sequence = Sequence(actor: actor, queue: cardObj.onPlay)
-        
-        if let decision = ctx.decision(waiting: self) {
+        if ctx.isWaiting(self) {
             state.decisions.removeValue(forKey: actor)
-            
-            if let parentRef = decision.cardRef {
-                sequence.parentRef = parentRef
-            }
         }
         
-        state.sequences[card] = sequence
+        let sequence = Sequence(actor: actor, queue: cardObj.onPlay)
+        state.sequences.insert(sequence, at: 0)
+        
         state.turnPlayed.append(cardObj.name)
         
         return .success(state)

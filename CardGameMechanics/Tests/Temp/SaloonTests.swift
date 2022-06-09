@@ -27,7 +27,7 @@ class SaloonTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -43,7 +43,7 @@ class SaloonTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
         XCTAssertEqual(sut.state.value.player("p2").health, 3)
         XCTAssertEqual(sut.state.value.player("p3").health, 3)
-        XCTAssertEqual(sut.state.value.sequences, [:])
+        XCTAssertEqual(sut.state.value.sequences, [])
     }
     
     func test_CannotPlaySaloon_IfAllPlayersMaxHealth() {
@@ -56,7 +56,7 @@ class SaloonTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        cancellables.append(sut.message.sink { messages.append($0) })
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))

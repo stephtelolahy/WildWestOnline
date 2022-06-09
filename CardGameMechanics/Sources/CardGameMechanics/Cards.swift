@@ -63,13 +63,13 @@ private extension Cards {
              prototype: "playableTurn",
              canPlay: [IsPlayersAtLeast(count: 3)],
              onPlay: [Heal(value: 1)]),
-        /*
+        
         Card(name: "bang",
              type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
              onPlay: [Damage(value: 1, target: Args.playerSelectReachable, type: Args.effectTypeShoot)]),
-        
+        /*
         Card(name: "missed",
              type: .collectible,
              onPlay: [Silent(type: Args.effectTypeShoot)]),
