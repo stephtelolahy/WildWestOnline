@@ -17,13 +17,13 @@ class GameTests: XCTestCase {
     func test_ProcessLeafSequenceFirst() {
         // Given
         let e1 = DummyEffect(id: "e1")
-        let ctx1 = Sequence(actor: "p1", card: Card(), queue: [e1])
+        let ctx1 = Sequence(actor: "p1", queue: [e1])
         let e2 = DummyEffect(id: "e2")
-        let ctx2 = Sequence(actor: "p2", card: Card(), parentRef: "c1", queue: [e2])
+        let ctx2 = Sequence(actor: "p2", parentRef: "c1", queue: [e2])
         let e3 = DummyEffect(id: "e3")
-        let ctx3 = Sequence(actor: "p3", card: Card(), parentRef: "c2", queue: [e3])
+        let ctx3 = Sequence(actor: "p3", parentRef: "c2", queue: [e3])
         let e4 = DummyEffect(id: "e4")
-        let ctx4 = Sequence(actor: "p4", card: Card(), parentRef: "c3", queue: [e4])
+        let ctx4 = Sequence(actor: "p4", parentRef: "c3", queue: [e4])
         let state = State(sequences: ["c1": ctx1, "c2": ctx2, "c3": ctx3, "c4": ctx4])
         
         let sut = Game(state)

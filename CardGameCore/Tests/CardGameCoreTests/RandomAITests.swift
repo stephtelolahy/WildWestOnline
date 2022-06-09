@@ -14,7 +14,7 @@ class RandomAITests: XCTestCase {
         // Given
         let move1 = DummyMove(id: "m1")
         let move2 = DummyMove(id: "m2")
-        let ctx1 = Sequence(actor: "p1", card: Card())
+        let ctx1 = Sequence(actor: "p1")
         let decision = Decision(options: [move1, move2], cardRef: "c1")
         let state = State(sequences: ["p1": ctx1], decisions: ["p1": decision])
         let mockGame = MockGame(state)

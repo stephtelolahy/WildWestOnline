@@ -13,7 +13,6 @@ public extension Args {
     static let choosePass = "Pass"
 }
 
-
 /// prevents an effect from being applied to a player
 public struct Silent: Effect {
     

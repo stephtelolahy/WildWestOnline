@@ -5,18 +5,23 @@
 //  Created by TELOLAHY Hugues Stéphano on 30/05/2022.
 //
 
-/// Effects have full power to update the game state
+/// Effects are card abilities that update the game state
+/// The process of resolving an efect is similar to a depth-first search
 public protocol Effect: Event {
+    func resolve(ctx: State, actor: String) -> EffectResult
+}
+
+public enum EffectResult {
     
-    /// Resolving effect recursively to determine undetermined arguments
-    /// When dispatching an effect it can have several outcomes:
-    /// - effect just prepared, triggering additional effects, don’t remove from queue
-    /// - effect partially resolved, replace with child effects
-    /// - effect resolved, remove from queue, you could render it
-    /// - effect failed, remove from queue, you could display error message
-    func resolve(ctx: State, cardRef: String) -> Result<State, Error>
+    /// Resolved with an outcome `State`, remove it from queue
+    case success(State)
     
-    /// Determines whever an effect resolution will succeed
-    /// Use this condition to determine if a card is playable
-    func canResolve(ctx: State, actor: String) -> Result<Void, Error>
+    /// Failed with an `Error`, remove it from queue
+    case failed(Event)
+    
+    /// Suspended waiting user decision among an array of `Move`, keep it in queue
+    case suspended([Move])
+    
+    /// Partially resolved, replace it with child effects
+    case resolving([Effect])
 }

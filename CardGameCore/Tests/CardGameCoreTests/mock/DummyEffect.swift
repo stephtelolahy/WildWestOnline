@@ -10,13 +10,7 @@ struct DummyEffect: Effect {
     
     let id: String
     
-    func resolve(ctx: State, cardRef: String) -> Result<State, Error> {
-        var state = ctx
-        state.lastEvent = self
-        return .success(state)
-    }
-    
-    func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
-        .success
+    func resolve(ctx: State, actor: String) -> EffectResult {
+        return .success(ctx)
     }
 }

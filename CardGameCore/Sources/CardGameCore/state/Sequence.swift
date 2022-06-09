@@ -13,9 +13,6 @@ public struct Sequence {
     /// who is playing the card
     public let actor: String
     
-    /// played card
-    public let card: Card
-    
     /// parent card triggering this sequence
     public var parentRef: String?
     
@@ -27,12 +24,10 @@ public struct Sequence {
     
     public init(
         actor: String,
-        card: Card,
         parentRef: String? = nil,
         queue: [Effect] = []
     ) {
         self.actor = actor
-        self.card = card
         self.parentRef = parentRef
         self.queue = queue
     }

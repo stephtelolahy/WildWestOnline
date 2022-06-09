@@ -44,7 +44,7 @@ public struct Play: Move, Equatable {
             return .failure(error)
         }
         
-        var sequence = Sequence(actor: actor, card: cardObj, queue: cardObj.onPlay)
+        var sequence = Sequence(actor: actor, queue: cardObj.onPlay)
         
         if let decision = ctx.decision(waiting: self) {
             state.decisions.removeValue(forKey: actor)
@@ -71,12 +71,7 @@ extension Card {
             }
         }
         
-        for effect in onPlay {
-            if case let .failure(error) = effect.canResolve(ctx: ctx, actor: actor) {
-                return .failure(error)
-            }
-        }
-        
+        #warning("TODO: add effect verification")
         return .success
     }
 }

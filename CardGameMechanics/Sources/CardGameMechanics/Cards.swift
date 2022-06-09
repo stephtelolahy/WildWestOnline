@@ -34,6 +34,7 @@ private extension Cards {
     
     /// cards database
     static let all: [Card] = [
+        /*
         Card(name: "playableTurn",
              canPlay: [IsYourTurn(), IsPhase(phase: 2)]),
         
@@ -102,5 +103,6 @@ private extension Cards {
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [Steal(card: Args.cardSelectAny, target: Args.playerSelectAt1)])
+         */
     ]
 }
