@@ -12,6 +12,6 @@ struct DummyMove: Move, Equatable {
     let id: String
     
     func dispatch(ctx: State) -> MoveResult {
-        .success(ctx, [])
+        .success(state: ctx, nodes: nil, selectedArg: nil)
     }
 }

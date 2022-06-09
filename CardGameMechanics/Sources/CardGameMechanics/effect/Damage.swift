@@ -21,7 +21,7 @@ public struct Damage: Effect/*, Silentable*/ {
         self.type = type
     }
     
-    public func resolve(ctx: State, actor: String) -> EffectResult {
+    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
         /*
         if let silentDecisionState = resolveSilent(ctx: ctx, cardRef: cardRef) {
             return .success(silentDecisionState)
@@ -31,7 +31,8 @@ public struct Damage: Effect/*, Silentable*/ {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Damage(value: value, target: $0, type: type) },
                                       ctx: ctx,
-                                      actor: actor)
+                                      actor: actor,
+                                      selectedArg: selectedArg)
         }
         
         var state = ctx

@@ -30,6 +30,7 @@ public struct Play: Move, Equatable {
             cardObj = actorObj.hand.remove(at: handIndex)
             
             // discard played hand card immediately
+            #warning("prototype put to discard when played")
             var discard = state.discard
             discard.append(cardObj)
             state.discard = discard
@@ -53,6 +54,6 @@ public struct Play: Move, Equatable {
         
         state.turnPlayed.append(cardObj.name)
         
-        return .success(state, nodes)
+        return .success(state: state, nodes: nodes, selectedArg: nil)
     }
 }

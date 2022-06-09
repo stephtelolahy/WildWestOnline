@@ -29,8 +29,6 @@ public class Game: GameProtocol {
     private var commands: [Move]
     
     /// played cards sequences, last played card is on the top
-    /// A Sequence is what begins when a Player Action is taken.
-    /// Consists of one or more Effects that are resolved in order.
     private var sequences: [SequenceNode]
     
     public init(_ initialState: State, commands: [Move] = [], sequences: [SequenceNode] = []) {
@@ -84,7 +82,7 @@ private extension Game {
         if let node = sequences.first {
             let effect = node.effect
             let actor = node.actor
-            let result = effect.resolve(ctx: currState, actor: actor)
+            let result = effect.resolve(ctx: currState, actor: actor, selectedArg: node.selectedArg)
             emitEffectResult(result, currState: currState, effect: node.effect, actor: actor)
             return true
         }
@@ -124,6 +122,7 @@ private extension Game {
     }
     
     /// Check if game is over
+    #warning("implement gameOver rules as effect")
     func isGameOver(ctx: State) -> Bool {
         ctx.players.contains { $0.value.health == 0 }
     }
@@ -131,8 +130,14 @@ private extension Game {
     /// Emit move execution result
     func emitMoveResult(_ result: MoveResult, from currState: State, move: Move) {
         switch result {
-        case let .success(aState, nodes):
-            sequences.insert(contentsOf: nodes, at: 0)
+        case let .success(aState, nodes, arg):
+            if let arg = arg {
+                sequences.first?.selectedArg = arg
+            }
+            if let nodes = nodes {
+                sequences.insert(contentsOf: nodes, at: 0)
+            }
+            
             var newState = aState
             newState.lastEvent = move
             state.send(newState)
@@ -177,17 +182,5 @@ private extension Game {
             newState.decisions[actor] = options
             state.send(newState)
         }
-    }
-}
-
-public struct SequenceNode {
-    
-    let effect: Effect
-    
-    let actor: String
-    
-    public init(effect: Effect, actor: String) {
-        self.effect = effect
-        self.actor = actor
     }
 }

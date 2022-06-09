@@ -8,7 +8,7 @@
 /// Effects are card abilities that update the game state
 /// The process of resolving an efect is similar to a depth-first search
 public protocol Effect: Event {
-    func resolve(ctx: State, actor: String) -> EffectResult
+    func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult
 }
 
 public enum EffectResult {

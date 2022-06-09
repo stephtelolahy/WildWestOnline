@@ -13,7 +13,7 @@ public protocol Move: Event {
 
 public enum MoveResult {
     
-    case success(State, [SequenceNode])
+    case success(state: State, nodes: [SequenceNode]?, selectedArg: String?)
     
     case failure(Error)
 }

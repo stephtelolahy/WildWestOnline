@@ -39,7 +39,8 @@ extension Args {
         _ player: String,
         copyWithPlayer: @escaping (String) -> T,
         ctx: State,
-        actor: String
+        actor: String,
+        selectedArg: String?
     ) -> EffectResult {
         switch resolvePlayer(player, ctx: ctx, actor: actor) {
             
@@ -50,7 +51,7 @@ extension Args {
                 return .resolving(effects)
                 
             case let .selectable(pIds):
-                if let selectedId = ctx.selectedArgs[actor],
+                if let selectedId = selectedArg,
                     pIds.contains(selectedId) {
                     let copy = copyWithPlayer(selectedId)
                     return .resolving([copy])

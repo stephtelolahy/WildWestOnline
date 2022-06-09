@@ -35,10 +35,6 @@ public struct State {
     /// is Game over
     public var isGameOver = false
     
-    /// selected arguments during effect resolution
-    #warning("move to SequenceNode")
-    public var selectedArgs: [String: String] = [:]
-    
     /// pending action by player
     public var decisions: [String: [Move]] = [:]
     

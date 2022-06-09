@@ -9,7 +9,7 @@
 /// this action shoukld be a decision
 public struct Choose: Move, Equatable {
     
-    private let value: String
+    public let value: String
     
     private let actor: String
     
@@ -25,9 +25,8 @@ public struct Choose: Move, Equatable {
         
         var state = ctx
         state.decisions.removeValue(forKey: actor)
-        state.selectedArgs[actor] = value
         
-        return .success(state, [])
+        return .success(state: state, nodes: nil, selectedArg: value)
     }
 }
 

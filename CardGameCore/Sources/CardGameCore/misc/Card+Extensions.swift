@@ -26,7 +26,7 @@ extension Card {
         }
         
         for effect in onPlay {
-            if case let .failure(error) = effect.verify(ctx: ctx, actor: actor) {
+            if case let .failure(error) = effect.verify(ctx: ctx, actor: actor, selectedArg: nil) {
                 return .failure(error)
             }
         }
@@ -38,8 +38,8 @@ extension Card {
 private extension Effect {
     
     /// check if an effect will be resolved successfully
-    func verify(ctx: State, actor: String) -> Result<Void, Error> {
-        let result = resolve(ctx: ctx, actor: actor)
+    func verify(ctx: State, actor: String, selectedArg: String?) -> Result<Void, Error> {
+        let result = resolve(ctx: ctx, actor: actor, selectedArg: selectedArg)
         switch result {
         case .success:
             return .success
@@ -48,7 +48,7 @@ private extension Effect {
             return .failure(error)
             
         case let .resolving(effects):
-            let results = effects.map { $0.verify(ctx: ctx, actor: actor) }
+            let results = effects.map { $0.verify(ctx: ctx, actor: actor, selectedArg: nil) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
             } else {
@@ -56,10 +56,8 @@ private extension Effect {
             }
             
         case let .suspended(options):
-            var state = ctx
-            state.decisions[actor] = options
-            let states: [State] = options.compactMap { if case let .success(state, _) = $0.dispatch(ctx: state) { return state } else { return nil } }
-            let results = states.map { self.verify(ctx: $0, actor: actor) }
+            let argValues: [String] = options.compactMap { if let choose = $0 as? Choose { return choose.value } else { return nil } }
+            let results = argValues.map { self.verify(ctx: ctx, actor: actor, selectedArg: $0) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
             } else {

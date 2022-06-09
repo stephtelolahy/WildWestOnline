@@ -17,12 +17,13 @@ public struct Heal: Effect {
         self.target = target
     }
     
-    public func resolve(ctx: State, actor: String) -> EffectResult {
+    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
         guard Args.isPlayerResolved(target, ctx: ctx) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Heal(value: value, target: $0) },
                                       ctx: ctx,
-                                      actor: actor)
+                                      actor: actor,
+                                      selectedArg: selectedArg)
         }
         
         var targetObj = ctx.player(target)
