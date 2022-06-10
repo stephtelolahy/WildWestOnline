@@ -93,7 +93,7 @@ private extension Args {
             
         case playerNext:
             guard let turn = ctx.turn else {
-                fatalError(.turnUndefined)
+                fatalError(.turnValueInvalid)
             }
             
             let next = ctx.playOrder.element(after: turn)

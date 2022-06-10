@@ -102,6 +102,14 @@ private extension Cards {
         Card(name: "panic",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Steal(card: Args.cardSelectAny, target: Args.playerSelectAt1)])
+             onPlay: [Steal(card: Args.cardSelectAny, target: Args.playerSelectAt1)]),
+        
+        Card(name: "generalStore",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [
+                DeckToStore(times: Args.numPlayers),
+                DrawStore(card: Args.cardSelectAny, target: Args.playerAll)
+             ])
     ]
 }

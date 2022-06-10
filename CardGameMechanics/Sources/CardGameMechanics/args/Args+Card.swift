@@ -112,7 +112,7 @@ private extension Args {
     
     static func resolveRandomHand(source: EffectCardSource, ctx: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
-            fatalError(.cardSourceMustBePlayer)
+            fatalError(.cardSourceInvalid)
         }
         
         let playerObj = ctx.player(pId)
@@ -126,7 +126,7 @@ private extension Args {
     
     static func resolveAll(source: EffectCardSource, ctx: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
-            fatalError(.cardSourceMustBePlayer)
+            fatalError(.cardSourceInvalid)
         }
         
         let playerObj = ctx.player(pId)
@@ -163,7 +163,7 @@ private extension Args {
         case .store:
             let cards = ctx.store.map { $0.id }
             guard !cards.isEmpty else {
-                fatalError(.storeMustNotBeEmpty)
+                return .failure(ErrorStoreHasNoCard())
             }
             
             if cards.count == 1 {
@@ -176,7 +176,7 @@ private extension Args {
     
     static func resolveSelectHand(source: EffectCardSource, actor: String, ctx: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
-            fatalError(.cardSourceMustBePlayer)
+            fatalError(.cardSourceInvalid)
         }
         
         let playerObj = ctx.player(pId)

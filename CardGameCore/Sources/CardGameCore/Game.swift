@@ -97,7 +97,7 @@ private extension Game {
         
         /// game idle, process active moves
         if let turn = currState.turn,
-           let moves = possibleMoves(actor: turn, ctx: currState) {
+           let moves = activeMoves(actor: turn, ctx: currState) {
             var newState = currState
             newState.decisions[turn] = moves
             state.send(newState)
@@ -108,7 +108,7 @@ private extension Game {
     }
     
     /// Generate active moves
-    func possibleMoves(actor: String, ctx: State) -> [Move]? {
+    func activeMoves(actor: String, ctx: State) -> [Move]? {
         let actorObj = ctx.player(actor)
         let moves = (actorObj.inner + actorObj.hand)
             .filter { if case .success = $0.isPlayable(ctx, actor: actor) { return true } else { return false } }
@@ -145,7 +145,7 @@ private extension Game {
             
         case let .failure(error):
             guard let event = error as? Event else {
-                fatalError(.errorMustBeAnEvent(error.localizedDescription))
+                fatalError(.errorTypeInvalid(error.localizedDescription))
             }
             
             var newState = currState
@@ -165,7 +165,7 @@ private extension Game {
             
         case let .failure(error):
             guard let event = error as? Event else {
-                fatalError(.errorMustBeAnEvent(error.localizedDescription))
+                fatalError(.errorTypeInvalid(error.localizedDescription))
             }
             
             var newState = currState
@@ -193,7 +193,7 @@ private extension Game {
                 state.send(newState)
             } else {
                 guard let event = error as? Event else {
-                    fatalError(.errorMustBeAnEvent(error.localizedDescription))
+                    fatalError(.errorTypeInvalid(error.localizedDescription))
                 }
                 
                 var newState = currState

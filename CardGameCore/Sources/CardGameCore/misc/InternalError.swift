@@ -11,15 +11,16 @@ public func fatalError(_ error: InternalError, file: StaticString = #file, line:
 
 /// Fatal game state error
 public enum InternalError: Error {
+    
     case playerCardNotFound(String)
     case playerNotFound(String)
-    case storeMustNotBeEmpty
     case storeCardNotFound(String)
-    case cardSourceMustBePlayer
-    case turnUndefined
+    case cardScriptNotFound(String)
+    
+    case turnValueInvalid
+    case cardSourceInvalid
+    case errorTypeInvalid(String)
     case playerValueInvalid(String)
     case cardValueInvalid(String)
     case numberValueInvalid(String)
-    case errorMustBeAnEvent(String)
-    case cardScriptNotFound(String)
 }
