@@ -93,7 +93,7 @@ private extension Cards {
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [Draw(times: "3")]),
-        /*
+        
         Card(name: "catBalou",
              type: .collectible,
              prototype: "playableTurn",
@@ -103,6 +103,5 @@ private extension Cards {
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [Steal(card: Args.cardSelectAny, target: Args.playerSelectAt1)])
-         */
     ]
 }

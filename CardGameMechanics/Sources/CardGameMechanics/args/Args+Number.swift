@@ -17,6 +17,21 @@ public extension Args {
 
 extension Args {
     
+    static func resolveNumber<T: Effect>(
+        _ number: String,
+        copy: @escaping () -> T,
+        actor: String,
+        ctx: State
+    ) -> EffectResult {
+        let value = resolveNumber(number, actor: actor, ctx: ctx)
+        guard value > 0 else {
+            return .nothing
+        }
+        
+        let effects = (0..<value).map { _ in copy() }
+        return .resolving(effects)
+    }
+    
     static func resolveNumber(_ number: String, actor: String, ctx: State) -> Int {
         switch number {
         case numPlayers:

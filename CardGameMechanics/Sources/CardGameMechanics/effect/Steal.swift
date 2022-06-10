@@ -1,45 +1,50 @@
 //
-//  Discard.swift
+//  Steal.swift
 //  
 //
-//  Created by TELOLAHY Hugues Stéphano on 05/06/2022.
+//  Created by TELOLAHY Hugues Stéphano on 06/06/2022.
 //
 import CardGameCore
 
-/// discard player's card to discard pile
-public struct Discard: Effect {
+/// draw some cards from other player
+public struct Steal: Effect {
+    
+    private let actor: String
     
     private let card: String
     
     private let target: String
     
-    private let times: String?
-    
-    public init(card: String, target: String = Args.playerActor, times: String? = nil) {
+    public init(actor: String = Args.playerActor, card: String, target: String) {
+        assert(!actor.isEmpty)
         assert(!card.isEmpty)
         assert(!target.isEmpty)
         
+        self.actor = actor
         self.card = card
         self.target = target
-        self.times = times
     }
     
     public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Discard(card: card, target: $0, times: times) },
+        guard Args.isPlayerResolved(actor, ctx: ctx) else {
+            return Args.resolvePlayer(actor,
+                                      copyWithPlayer: { [self] in Steal(actor: $0, card: card, target: target) },
                                       ctx: ctx,
                                       actor: actor,
                                       selectedArg: selectedArg)
         }
         
-        if let times = times {
-            return Args.resolveNumber(times, copy: { Discard(card: card, target: target) }, actor: actor, ctx: ctx)
+        guard Args.isPlayerResolved(target, ctx: ctx) else {
+            return Args.resolvePlayer(target,
+                                      copyWithPlayer: { [self] in Steal(actor: actor, card: card, target: $0) },
+                                      ctx: ctx,
+                                      actor: actor,
+                                      selectedArg: selectedArg)
         }
         
         guard Args.isCardResolved(card, source: .player(target), ctx: ctx) else {
             return Args.resolveCard(card,
-                                    copyWithCard: { Discard(card: $0, target: target) },
+                                    copyWithCard: { Steal(actor: actor, card: $0, target: target) },
                                     source: .player(target),
                                     ctx: ctx,
                                     actor: actor,
@@ -47,18 +52,20 @@ public struct Discard: Effect {
         }
         
         var state = ctx
+        var actorObj = state.player(actor)
         var targetObj = state.player(target)
         
         if let handIndex = targetObj.hand.firstIndex(where: { $0.id == card }) {
             let cardObj = targetObj.hand.remove(at: handIndex)
-            state.discard.append(cardObj)
+            actorObj.hand.append(cardObj)
         }
         
         if let inPlayIndex = targetObj.inPlay.firstIndex(where: { $0.id == card }) {
             let cardObj = targetObj.inPlay.remove(at: inPlayIndex)
-            state.discard.append(cardObj)
+            actorObj.hand.append(cardObj)
         }
         
+        state.players[actor] = actorObj
         state.players[target] = targetObj
         
         return .success(state)

@@ -30,13 +30,7 @@ public struct Draw: Effect {
         }
         
         if let times = times {
-            let value = Args.resolveNumber(times, actor: actor, ctx: ctx)
-            guard value > 0 else {
-                return .nothing
-            }
-            
-            let effects = (0..<value).map { _ in Draw(target: target) }
-            return .resolving(effects)
+            return Args.resolveNumber(times, copy: { Draw(target: target) }, actor: actor, ctx: ctx)
         }
         
         var state = ctx
