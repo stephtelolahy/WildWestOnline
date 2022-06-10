@@ -15,11 +15,11 @@ public struct IsPhase: PlayReq {
         self.phase = phase
     }
     
-    public func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error> {
-        if ctx.phase == phase {
-            return .success
-        } else {
+    public func verify(state: State, actor: String, card: Card) -> Result<Void, Error> {
+        guard state.phase == phase else {
             return .failure(ErrorIsPhase(phase: phase))
         }
+        
+        return .success
     }
 }

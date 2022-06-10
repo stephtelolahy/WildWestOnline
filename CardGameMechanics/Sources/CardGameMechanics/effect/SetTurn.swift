@@ -17,16 +17,15 @@ public struct SetTurn: Effect {
         self.player = player
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(player, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { SetTurn(player: $0) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
-        var state = ctx
+        var state = state
         state.turn = player
         state.turnPlayed = []
         

@@ -18,8 +18,8 @@ public struct SetPhase: Effect {
         self.value = value
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        var state = ctx
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        var state = state
         state.phase = value
         
         return .success(state)

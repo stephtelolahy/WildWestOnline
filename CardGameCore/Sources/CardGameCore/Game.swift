@@ -31,12 +31,11 @@ public class Game: GameProtocol {
     /// played cards sequences, last played card is on the top
     /// A Sequence is what begins when a Player Action is taken.
     /// Consists of one or more Effects that are resolved in order.
-    private var sequences: [SequenceNode]
+    private var sequences: [SequenceNode] = []
     
-    public init(_ initialState: State, commands: [Move] = [], sequences: [SequenceNode] = []) {
-        state = CurrentValueSubject(initialState)
+    public init(_ initialState: State, commands: [Move] = []) {
+        self.state = CurrentValueSubject(initialState)
         self.commands = commands
-        self.sequences = sequences
     }
     
     public func input(_ move: Move) {
@@ -70,7 +69,7 @@ private extension Game {
         /// process queued command immediately
         if !commands.isEmpty {
             let command = commands.removeFirst()
-            let result = command.dispatch(ctx: currState)
+            let result = command.dispatch(state: currState)
             emitMoveResult(result, from: currState, move: command)
             return true
         }
@@ -83,14 +82,14 @@ private extension Game {
         /// process leaf sequence
         if let node = sequences.first {
             let effect = node.effect
-            let actor = node.actor
-            let result = effect.resolve(ctx: currState, actor: actor, selectedArg: node.selectedArg)
-            emitEffectResult(result, currState: currState, effect: node.effect, actor: actor)
+            let ctx = node.ctx
+            let result = effect.resolve(state: currState, ctx: ctx)
+            emitEffectResult(result, currState: currState, effect: node.effect, ctx: ctx)
             return true
         }
         
         /// game idle, process eliminated player and game over
-        if isGameOver(ctx: currState) {
+        if isGameOver(state: currState) {
             var newState = currState
             newState.isGameOver = true
             state.send(newState)
@@ -99,7 +98,7 @@ private extension Game {
         
         /// game idle, process active moves
         if let turn = currState.turn,
-           let moves = activeMoves(actor: turn, ctx: currState) {
+           let moves = activeMoves(actor: turn, state: currState) {
             var newState = currState
             newState.decisions[turn] = moves
             state.send(newState)
@@ -110,10 +109,10 @@ private extension Game {
     }
     
     /// Generate active moves
-    func activeMoves(actor: String, ctx: State) -> [Move]? {
-        let actorObj = ctx.player(actor)
+    func activeMoves(actor: String, state: State) -> [Move]? {
+        let actorObj = state.player(actor)
         let moves = (actorObj.inner + actorObj.hand)
-            .filter { if case .success = $0.isPlayable(ctx, actor: actor) { return true } else { return false } }
+            .filter { if case .success = $0.isPlayable(state, actor: actor) { return true } else { return false } }
             .map { Play(card: $0.id, actor: actor) }
         
         guard !moves.isEmpty else {
@@ -124,20 +123,21 @@ private extension Game {
     }
     
     /// Check if game is over
-    #warning("implement gameOver rules as effect")
-    func isGameOver(ctx: State) -> Bool {
-        ctx.players.contains { $0.value.health == 0 }
+    func isGameOver(state: State) -> Bool {
+        state.players.contains { $0.value.health == 0 }
     }
     
     /// Emit move execution result
     func emitMoveResult(_ result: MoveResult, from currState: State, move: Move) {
         switch result {
-        case let .success(aState, nodes, arg):
+        case let .success(aState, effects, arg):
             /// assume selected arg is for the first effect
             if let arg = arg {
-                sequences.first?.selectedArg = arg
+                sequences.first?.ctx.selectedArg = arg
             }
-            if let nodes = nodes {
+            if let effects = effects {
+                let ctx = PlayContext(actor: move.actor)
+                let nodes = effects.map { SequenceNode(effect: $0, ctx: ctx) }
                 sequences.insert(contentsOf: nodes, at: 0)
             }
             
@@ -157,7 +157,7 @@ private extension Game {
     }
     
     /// Emit effect execution result
-    func emitEffectResult(_ result: EffectResult, currState: State, effect: Effect, actor: String) {
+    func emitEffectResult(_ result: EffectResult, currState: State, effect: Effect, ctx: PlayContext) {
         switch result {
         case let .success(aState):
             sequences.remove(at: 0)
@@ -177,7 +177,7 @@ private extension Game {
             
         case let .resolving(effects):
             sequences.remove(at: 0)
-            let nodes = effects.map { SequenceNode(effect: $0, actor: actor) }
+            let nodes = effects.map { SequenceNode(effect: $0, ctx: ctx) }
             sequences.insert(contentsOf: nodes, at: 0)
             
         case let .suspended(decisions):
@@ -206,5 +206,19 @@ private extension Game {
         case .nothing:
             sequences.remove(at: 0)
         }
+    }
+}
+
+private struct SequenceNode {
+    
+    /// effect to be resolved
+    let effect: Effect
+    
+    /// all data about effect resolution
+    let ctx: PlayContext
+    
+    init(effect: Effect, ctx: PlayContext) {
+        self.effect = effect
+        self.ctx = ctx
     }
 }

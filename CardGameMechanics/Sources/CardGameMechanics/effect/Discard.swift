@@ -24,29 +24,28 @@ public struct Discard: Effect {
         self.times = times
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Discard(card: card, target: $0, times: times) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
         if let times = times {
-            return Args.resolveNumber(times, copy: { Discard(card: card, target: target) }, actor: actor, ctx: ctx)
+            return Args.resolveNumber(times, copy: { Discard(card: card, target: target) }, actor: ctx.actor, state: state)
         }
         
-        guard Args.isCardResolved(card, source: .player(target), ctx: ctx) else {
+        guard Args.isCardResolved(card, source: .player(target), state: state) else {
             return Args.resolveCard(card,
                                     copyWithCard: { Discard(card: $0, target: target) },
+                                    chooser: ctx.actor,
                                     source: .player(target),
-                                    ctx: ctx,
-                                    actor: actor,
-                                    selectedArg: selectedArg)
+                                    state: state,
+                                    ctx: ctx)
         }
         
-        var state = ctx
+        var state = state
         var targetObj = state.player(target)
         
         if let handIndex = targetObj.hand.firstIndex(where: { $0.id == card }) {

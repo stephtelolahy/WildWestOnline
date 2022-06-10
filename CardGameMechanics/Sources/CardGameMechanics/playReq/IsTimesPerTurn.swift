@@ -11,13 +11,13 @@ public struct IsTimesPerTurn: PlayReq {
     
     let maxTimes: Int
     
-    public func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error> {
+    public func verify(state: State, actor: String, card: Card) -> Result<Void, Error> {
         /// No limit
         if maxTimes == 0 {
             return .success
         }
         
-        let playedTimes = ctx.turnPlayed.filter { $0 == card.name }.count
+        let playedTimes = state.turnPlayed.filter { $0 == card.name }.count
         guard playedTimes < maxTimes else {
             return .failure(ErrorIsTimesPerTurn(count: maxTimes))
         }

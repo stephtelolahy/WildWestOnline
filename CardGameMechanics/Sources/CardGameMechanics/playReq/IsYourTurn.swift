@@ -11,11 +11,11 @@ public class IsYourTurn: PlayReq {
     
     public init() {}
     
-    public func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error> {
-        if ctx.turn == actor {
-            return .success
-        } else {
+    public func verify(state: State, actor: String, card: Card) -> Result<Void, Error> {
+        guard state.turn == actor else {
             return .failure(ErrorIsYourTurn())
         }
+        
+        return .success
     }
 }

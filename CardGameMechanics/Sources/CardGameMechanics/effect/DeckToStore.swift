@@ -15,12 +15,12 @@ public struct DeckToStore: Effect {
         self.times = times
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
         if let times = self.times {
-            return Args.resolveNumber(times, copy: { DeckToStore() }, actor: actor, ctx: ctx)
+            return Args.resolveNumber(times, copy: { DeckToStore() }, actor: ctx.actor, state: state)
         }
         
-        var state = ctx
+        var state = state
         let card = state.removeTopDeck()
         state.store.append(card)
         

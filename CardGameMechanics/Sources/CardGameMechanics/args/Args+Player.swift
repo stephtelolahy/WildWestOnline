@@ -41,11 +41,10 @@ extension Args {
     static func resolvePlayer<T: Effect>(
         _ player: String,
         copyWithPlayer: @escaping (String) -> T,
-        ctx: State,
-        actor: String,
-        selectedArg: String?
+        state: State,
+        ctx: PlayContext
     ) -> EffectResult {
-        switch resolvePlayer(player, ctx: ctx, actor: actor) {
+        switch resolvePlayer(player, state: state, ctx: ctx) {
             
         case let .success(data):
             switch data {
@@ -54,13 +53,13 @@ extension Args {
                 return .resolving(effects)
                 
             case let .selectable(pIds):
-                if let selectedId = selectedArg,
+                if let selectedId = ctx.selectedArg,
                     pIds.contains(selectedId) {
                     let copy = copyWithPlayer(selectedId)
                     return .resolving([copy])
                 } else {
-                    let options = pIds.map { Choose(value: $0, actor: actor) }
-                    return .suspended([actor: options])
+                    let options = pIds.map { Choose(value: $0, actor: ctx.actor) }
+                    return .suspended([ctx.actor: options])
                 }
             }
             
@@ -69,8 +68,8 @@ extension Args {
         }
     }
     
-    static func isPlayerResolved(_ player: String, ctx: State) -> Bool {
-        ctx.players.contains { $0.key == player }
+    static func isPlayerResolved(_ player: String, state: State) -> Bool {
+        state.players.contains { $0.key == player }
     }
 }
 
@@ -81,44 +80,48 @@ private extension Args {
         case selectable([String])
     }
     
-    static func resolvePlayer(_ player: String, ctx: State, actor: String) -> Result<PlayerResolved, Error> {
+    static func resolvePlayer(_ player: String, state: State, ctx: PlayContext) -> Result<PlayerResolved, Error> {
         switch player {
         case playerActor:
-            return .success(.identified([actor]))
+            return .success(.identified([ctx.actor]))
             
         case playerOthers:
-            let others = Array(ctx.playOrder.starting(with: actor).dropFirst())
+            let others = Array(state.playOrder.starting(with: ctx.actor).dropFirst())
             return .success(.identified(others))
             
         case playerAll:
-            let all = ctx.playOrder.starting(with: actor)
+            let all = state.playOrder.starting(with: ctx.actor)
             return .success(.identified(all))
             
         case playerNext:
-            guard let turn = ctx.turn else {
+            guard let turn = state.turn else {
                 fatalError(.turnValueInvalid)
             }
             
-            let next = ctx.playOrder.element(after: turn)
+            let next = state.playOrder.element(after: turn)
             return .success(.identified([next]))
             
         case playerSelectAny:
-            let others = ctx.playOrder.filter { $0 != actor }
+            let others = state.playOrder.filter { $0 != ctx.actor }
             return .success(.selectable(others))
             
         case playerSelectReachable:
-            let weapon = ctx.player(actor).weapon
-            return resolvePlayerAtDistance(weapon, ctx: ctx, actor: actor)
+            let weapon = state.player(ctx.actor).weapon
+            return resolvePlayerAtDistance(weapon, state: state, actor: ctx.actor)
             
         case playerSelectAt1:
-            return resolvePlayerAtDistance(1, ctx: ctx, actor: actor)
+            return resolvePlayerAtDistance(1, state: state, actor: ctx.actor)
             
         case playerTarget:
-            fatalError()
+            guard let target = ctx.target else {
+                fatalError(.contextTargetNotFound)
+            }
+            
+            return .success(.identified([target]))
             
         default:
             /// assume identified player
-            guard isPlayerResolved(player, ctx: ctx) else {
+            guard isPlayerResolved(player, state: state) else {
                 fatalError(.playerValueInvalid(player))
             }
             
@@ -126,8 +129,8 @@ private extension Args {
         }
     }
     
-    static func resolvePlayerAtDistance(_ distance: Int, ctx: State, actor: String) -> Result<PlayerResolved, Error> {
-        let players = ctx.playersAt(distance, actor: actor)
+    static func resolvePlayerAtDistance(_ distance: Int, state: State, actor: String) -> Result<PlayerResolved, Error> {
+        let players = state.playersAt(distance, actor: actor)
         guard !players.isEmpty else {
             return .failure(ErrorNoPlayersAtRange(distance: distance))
         }

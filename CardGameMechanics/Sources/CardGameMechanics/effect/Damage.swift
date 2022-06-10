@@ -24,20 +24,19 @@ public struct Damage: Effect, Silentable {
         self.type = type
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        if let options = silentOptions(ctx: ctx, selectedArg: selectedArg) {
-            return .suspended(options)
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        if let options = silentOptions(state: state, selectedArg: ctx.selectedArg) {
+            return .suspended([target: options])
         }
         
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Damage(value: value, target: $0, type: type) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
-        var state = ctx
+        var state = state
         var player = state.player(target)
         player.health -= value
         state.players[target] = player

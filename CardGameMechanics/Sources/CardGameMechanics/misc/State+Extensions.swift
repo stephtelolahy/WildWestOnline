@@ -10,8 +10,7 @@ extension State {
     
     /// Get players within given distance
     func playersAt(_ distance: Int, actor: String) -> [String] {
-        #warning("implement distance rules")
-        return playOrder.filter { $0 != actor }
+        playOrder.filter { $0 != actor }
     }
     
     /// Remove top deck card

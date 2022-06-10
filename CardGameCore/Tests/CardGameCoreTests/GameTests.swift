@@ -14,30 +14,6 @@ class GameTests: XCTestCase {
     
     private var cancellables: [Cancellable] = []
     
-    func test_ProcessLeafSequenceFirst() {
-        // Given
-        let e1 = DummyEffect(id: "e1")
-        let e2 = DummyEffect(id: "e2")
-        let e3 = DummyEffect(id: "e3")
-        let e4 = DummyEffect(id: "e4")
-        let ctx1 = SequenceNode(effect: e1, actor: "p1")
-        let ctx2 = SequenceNode(effect: e2, actor: "p2")
-        let ctx3 = SequenceNode(effect: e3, actor: "p3")
-        let ctx4 = SequenceNode(effect: e4, actor: "p4")
-        let sut = Game(State(), sequences: [ctx4, ctx3, ctx2, ctx1])
-        var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
-        
-        // When
-        sut.loopUpdate()
-        
-        // Assert
-        XCTAssertEqual(messages, [e4,
-                                  e3,
-                                  e2,
-                                  e1])
-    }
-    
     func test_AskPossibleMoves_IfPlayReqVerified() {
         // Given
         let c1 = Card().withId("c1")

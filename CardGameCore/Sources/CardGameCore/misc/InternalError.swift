@@ -16,6 +16,7 @@ public enum InternalError: Error {
     case playerNotFound(String)
     case storeCardNotFound(String)
     case cardScriptNotFound(String)
+    case contextTargetNotFound
     
     case turnValueInvalid
     case cardSourceInvalid

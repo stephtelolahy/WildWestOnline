@@ -11,22 +11,22 @@ public struct Choose: Move, Equatable {
     
     public let value: String
     
-    private let actor: String
+    public let actor: String
     
     public init(value: String, actor: String) {
         self.value = value
         self.actor = actor
     }
     
-    public func dispatch(ctx: State) -> MoveResult {
-        guard ctx.isWaiting(self) else {
+    public func dispatch(state: State) -> MoveResult {
+        guard state.isWaiting(self) else {
             return .failure(ErrorChooseOptionNotFound())
         }
         
-        var state = ctx
+        var state = state
         state.decisions.removeValue(forKey: actor)
         
-        return .success(state: state, nodes: nil, selectedArg: value)
+        return .success(state: state, effects: nil, selectedArg: value)
     }
 }
 

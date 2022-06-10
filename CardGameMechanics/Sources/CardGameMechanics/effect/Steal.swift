@@ -25,33 +25,31 @@ public struct Steal: Effect {
         self.target = target
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(actor, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(actor, state: state) else {
             return Args.resolvePlayer(actor,
                                       copyWithPlayer: { [self] in Steal(actor: $0, card: card, target: target) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Steal(actor: actor, card: card, target: $0) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
-        guard Args.isCardResolved(card, source: .player(target), ctx: ctx) else {
+        guard Args.isCardResolved(card, source: .player(target), state: state) else {
             return Args.resolveCard(card,
                                     copyWithCard: { Steal(actor: actor, card: $0, target: target) },
+                                    chooser: ctx.actor,
                                     source: .player(target),
-                                    ctx: ctx,
-                                    actor: actor,
-                                    selectedArg: selectedArg)
+                                    state: state,
+                                    ctx: ctx)
         }
         
-        var state = ctx
+        var state = state
         var actorObj = state.player(actor)
         var targetObj = state.player(target)
         

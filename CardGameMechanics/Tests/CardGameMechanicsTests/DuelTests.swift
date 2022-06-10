@@ -21,7 +21,9 @@ class DuelTests: XCTestCase {
         let p1 = Player(health: 2, hand: [c1])
         let p2 = Player(health: 2)
         let state = State(players: ["p1": p1, "p2": p2],
-                          playOrder: ["p1", "p2"])
+                          playOrder: ["p1", "p2"],
+                          turn: "p1",
+                          phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -57,7 +59,9 @@ class DuelTests: XCTestCase {
         let p1 = Player(health: 2, hand: [c1])
         let p2 = Player(health: 2, hand: [c2])
         let state = State(players: ["p1": p1, "p2": p2],
-                          playOrder: ["p1", "p2"])
+                          playOrder: ["p1", "p2"],
+                          turn: "p1",
+                          phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -105,7 +109,9 @@ class DuelTests: XCTestCase {
         let p1 = Player(health: 2, hand: [c1, c3])
         let p2 = Player(health: 2, hand: [c2])
         let state = State(players: ["p1": p1, "p2": p2],
-                          playOrder: ["p1", "p2"])
+                          playOrder: ["p1", "p2"],
+                          turn: "p1",
+                          phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
         cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
@@ -117,7 +123,7 @@ class DuelTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         
-        XCTAssertEqual(sut.state.value.player("p1").hand, [])
+        XCTAssertEqual(sut.state.value.player("p1").hand, [c3])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
         

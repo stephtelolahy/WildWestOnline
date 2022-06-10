@@ -25,29 +25,31 @@ public struct ForceDiscard: Effect {
         self.otherwise = otherwise
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in ForceDiscard(card: card, target: $0, challenger: challenger, otherwise: otherwise) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
+        // Make sure target is transmitted to next effects
+        ctx.target = target
+        
         // you choosed to pass, then apply otherwise effects
-        if selectedArg == Args.choosePass {
+        if ctx.selectedArg == Args.choosePass {
             return .resolving(otherwise)
         }
         
         // you cannot discard required card, then apply otherwise effects
-        let targetObj = ctx.player(target)
+        let targetObj = state.player(target)
         let matchingCards = targetObj.hand.filter { $0.name == card }.map { $0.id }
         if matchingCards.isEmpty {
             return .resolving(otherwise)
         }
         
         // request a decision if no card chosen
-        guard let chosen = selectedArg,
+        guard let chosen = ctx.selectedArg,
                 matchingCards.contains(chosen) else {
             var options: [Move] = matchingCards.map { Choose(value: $0, actor: target) }
             options.append(Choose(value: Args.choosePass, actor: target))

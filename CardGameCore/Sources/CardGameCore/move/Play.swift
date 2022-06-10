@@ -14,23 +14,22 @@ public struct Play: Move, Equatable {
     private let card: String
     
     /// player
-    private let actor: String
+    public let actor: String
     
     public init(card: String, actor: String) {
         self.card = card
         self.actor = actor
     }
     
-    public func dispatch(ctx: State) -> MoveResult {
-        var state = ctx
-        var actorObj = ctx.player(actor)
+    public func dispatch(state: State) -> MoveResult {
+        var state = state
+        var actorObj = state.player(actor)
         
         let cardObj: Card
         if let handIndex = actorObj.hand.firstIndex(where: { $0.id == card }) {
             cardObj = actorObj.hand.remove(at: handIndex)
             
             // discard played hand card immediately
-            #warning("prototype put to discard when played")
             var discard = state.discard
             discard.append(cardObj)
             state.discard = discard
@@ -42,18 +41,16 @@ public struct Play: Move, Equatable {
         }
         
         // validate play
-        if case let .failure(error) = cardObj.isPlayable(ctx, actor: actor) {
+        if case let .failure(error) = cardObj.isPlayable(state, actor: actor) {
             return .failure(error)
         }
         
-        if ctx.isWaiting(self) {
+        if state.isWaiting(self) {
             state.decisions.removeValue(forKey: actor)
         }
         
-        let nodes = cardObj.onPlay.map { SequenceNode(effect: $0, actor: actor) }
-        
         state.turnPlayed.append(cardObj.name)
         
-        return .success(state: state, nodes: nodes, selectedArg: nil)
+        return .success(state: state, effects: cardObj.onPlay, selectedArg: nil)
     }
 }

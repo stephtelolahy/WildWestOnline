@@ -18,15 +18,15 @@ public extension Card {
 extension Card {
     
     /// Check if a card can be played
-    func isPlayable(_ ctx: State, actor: String) -> Result<Void, Error> {
+    func isPlayable(_ state: State, actor: String) -> Result<Void, Error> {
         for playReq in canPlay {
-            if case let .failure(error) = playReq.verify(ctx: ctx, actor: actor, card: self) {
+            if case let .failure(error) = playReq.verify(state: state, actor: actor, card: self) {
                 return .failure(error)
             }
         }
         
         for effect in onPlay {
-            if case let .failure(error) = effect.verify(ctx: ctx, actor: actor, selectedArg: nil) {
+            if case let .failure(error) = effect.verify(state: state, ctx: PlayContext(actor: actor)) {
                 return .failure(error)
             }
         }
@@ -38,8 +38,8 @@ extension Card {
 private extension Effect {
     
     /// check if an effect will be resolved successfully
-    func verify(ctx: State, actor: String, selectedArg: String?) -> Result<Void, Error> {
-        let result = resolve(ctx: ctx, actor: actor, selectedArg: selectedArg)
+    func verify(state: State, ctx: PlayContext) -> Result<Void, Error> {
+        let result = resolve(state: state, ctx: ctx)
         switch result {
         case .success:
             return .success
@@ -50,7 +50,7 @@ private extension Effect {
         case let .resolving(effects):
             assert(!effects.isEmpty)
             
-            let results = effects.map { $0.verify(ctx: ctx, actor: actor, selectedArg: nil) }
+            let results = effects.map { $0.verify(state: state, ctx: PlayContext(actor: ctx.actor)) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
             } else {
@@ -62,7 +62,7 @@ private extension Effect {
             let argValues: [String] = moves.compactMap { if let choose = $0 as? Choose { return choose.value } else { return nil } }
             assert(!argValues.isEmpty)
             
-            let results = argValues.map { self.verify(ctx: ctx, actor: actor, selectedArg: $0) }
+            let results = argValues.map { self.verify(state: state, ctx: PlayContext(actor: ctx.actor, selectedArg: $0)) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
             } else {

@@ -18,29 +18,28 @@ public struct DrawStore: Effect {
         self.target = target
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in DrawStore(card: card, target: $0) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
-        guard Args.isCardResolved(card, source: .store, ctx: ctx) else {
+        guard Args.isCardResolved(card, source: .store, state: state) else {
             return Args.resolveCard(card,
                                     copyWithCard: { DrawStore(card: $0, target: target) },
+                                    chooser: target,
                                     source: .store,
-                                    ctx: ctx,
-                                    actor: actor,
-                                    selectedArg: selectedArg)
+                                    state: state,
+                                    ctx: ctx)
         }
         
-        guard let storeIndex = ctx.store.firstIndex(where: { $0.id == card }) else {
+        guard let storeIndex = state.store.firstIndex(where: { $0.id == card }) else {
             fatalError(.storeCardNotFound(card))
         }
         
-        var state = ctx
+        var state = state
         var targetObj = state.player(target)
         let cardObj = state.store.remove(at: storeIndex)
         targetObj.hand.append(cardObj)

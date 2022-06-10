@@ -20,23 +20,22 @@ public struct Heal: Effect {
         self.target = target
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Heal(value: value, target: $0) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
-        var targetObj = ctx.player(target)
+        var targetObj = state.player(target)
         guard targetObj.health < targetObj.maxHealth else {
             return .failure(ErrorPlayerAlreadyMaxHealth(player: target))
         }
         
         let newHealth = min(targetObj.health + value, targetObj.maxHealth)
         targetObj.health = newHealth
-        var state = ctx
+        var state = state
         state.players[target] = targetObj
         
         return .success(state)

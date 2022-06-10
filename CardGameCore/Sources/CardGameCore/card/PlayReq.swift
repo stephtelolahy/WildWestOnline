@@ -8,7 +8,7 @@
 /// Play condition based on current game state
 /// Returned error must implement `Event` protocol
 public protocol PlayReq {
-    func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error>
+    func verify(state: State, actor: String, card: Card) -> Result<Void, Error>
 }
 
 public extension Result where Success == Void {

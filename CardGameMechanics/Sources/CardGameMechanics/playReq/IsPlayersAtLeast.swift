@@ -11,8 +11,8 @@ struct IsPlayersAtLeast: PlayReq {
     
     let count: Int
     
-    func verify(ctx: State, actor: String, card: Card) -> Result<Void, Error> {
-        guard ctx.playOrder.count >= count else {
+    func verify(state: State, actor: String, card: Card) -> Result<Void, Error> {
+        guard state.playOrder.count >= count else {
             return .failure(ErrorIsPlayersAtLeast(count: count))
         }
         

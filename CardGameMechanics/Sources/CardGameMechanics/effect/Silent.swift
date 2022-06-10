@@ -28,13 +28,12 @@ public struct Silent: Effect {
         self.target = target
     }
     
-    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
-        guard Args.isPlayerResolved(target, ctx: ctx) else {
+    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+        guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Silent(type: type, target: $0) },
-                                      ctx: ctx,
-                                      actor: actor,
-                                      selectedArg: selectedArg)
+                                      state: state,
+                                      ctx: ctx)
         }
         
         let filter: (Effect) -> Bool = { effect in
@@ -58,14 +57,14 @@ protocol Silentable {
     
     var type: String? { get }
     
-    /// Return counter decisions
-    func silentOptions(ctx: State, selectedArg: String?) -> [String: [Move]]?
+    /// Return counter moves
+    func silentOptions(state: State, selectedArg: String?) -> [Move]?
 }
 
 extension Silentable where Self: Effect {
     
-    func silentOptions(ctx: State, selectedArg: String?) -> [String: [Move]]? {
-        guard Args.isPlayerResolved(target, ctx: ctx),
+    func silentOptions(state: State, selectedArg: String?) -> [Move]? {
+        guard Args.isPlayerResolved(target, state: state),
               let effectType = type else {
             return nil
         }
@@ -74,7 +73,7 @@ extension Silentable where Self: Effect {
             return nil
         }
         
-        let targetObj = ctx.player(target)
+        let targetObj = state.player(target)
         let silentCards = targetObj.hand.filter { $0.onPlay.contains { ($0 as? Silent)?.type == effectType } }
         guard !silentCards.isEmpty else {
             return nil
@@ -83,6 +82,6 @@ extension Silentable where Self: Effect {
         var options: [Move] = silentCards.map { Play(card: $0.id, actor: target) }
         options.append(Choose(value: Args.choosePass, actor: target))
         
-        return [target: options]
+        return options
     }
 }

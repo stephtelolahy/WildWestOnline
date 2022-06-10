@@ -24,16 +24,15 @@ public extension Args {
 
 extension Args {
     
-    // swiftlint:disable function_parameter_count
     static func resolveCard<T: Effect>(
         _ card: String,
         copyWithCard: @escaping (String) -> T,
+        chooser: String,
         source: EffectCardSource,
-        ctx: State,
-        actor: String,
-        selectedArg: String?
+        state: State,
+        ctx: PlayContext
     ) -> EffectResult {
-        switch resolveCard(card, source: source, ctx: ctx, actor: actor) {
+        switch resolveCard(card, source: source, state: state, actor: ctx.actor) {
             
         case let .success(data):
             switch data {
@@ -42,13 +41,13 @@ extension Args {
                 return .resolving(effects)
                 
             case let .selectable(cIds):
-                if let selectedId = selectedArg,
+                if let selectedId = ctx.selectedArg,
                    cIds.contains(selectedId) {
                     let copy = copyWithCard(selectedId)
                     return .resolving([copy])
                 } else {
-                    let options = cIds.map { Choose(value: $0, actor: actor) }
-                    return .suspended([actor: options])
+                    let options = cIds.map { Choose(value: $0, actor: chooser) }
+                    return .suspended([chooser: options])
                 }
             }
             
@@ -57,14 +56,14 @@ extension Args {
         }
     }
     
-    static func isCardResolved(_ card: String, source: EffectCardSource, ctx: State) -> Bool {
+    static func isCardResolved(_ card: String, source: EffectCardSource, state: State) -> Bool {
         switch source {
         case let .player(pId):
-            let playerObj = ctx.player(pId)
+            let playerObj = state.player(pId)
             return (playerObj.hand + playerObj.inPlay).contains { $0.id == card }
             
         case .store:
-            return ctx.store.contains { $0.id == card }
+            return state.store.contains { $0.id == card }
         }
     }
     
@@ -81,25 +80,25 @@ extension Args {
     static func resolveCard(
         _ card: String,
         source: EffectCardSource,
-        ctx: State,
+        state: State,
         actor: String
     ) -> Result<EffectCardResolved, Error> {
         switch card {
         case cardRandomHand:
-            return resolveRandomHand(source: source, ctx: ctx)
+            return resolveRandomHand(source: source, state: state)
             
         case cardAll:
-            return resolveAll(source: source, ctx: ctx)
+            return resolveAll(source: source, state: state)
             
         case cardSelectAny:
-            return resolveSelectAny(source: source, actor: actor, ctx: ctx)
+            return resolveSelectAny(source: source, actor: actor, state: state)
             
         case cardSelectHand:
-            return resolveSelectHand(source: source, actor: actor, ctx: ctx)
+            return resolveSelectHand(source: source, actor: actor, state: state)
             
         default:
             /// assume identified card
-            guard isCardResolved(card, source: source, ctx: ctx) else {
+            guard isCardResolved(card, source: source, state: state) else {
                 fatalError(.cardValueInvalid(card))
             }
             
@@ -110,12 +109,12 @@ extension Args {
 
 private extension Args {
     
-    static func resolveRandomHand(source: EffectCardSource, ctx: State) -> Result<EffectCardResolved, Error> {
+    static func resolveRandomHand(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
             fatalError(.cardSourceInvalid)
         }
         
-        let playerObj = ctx.player(pId)
+        let playerObj = state.player(pId)
         guard !playerObj.hand.isEmpty,
               let randId = playerObj.hand.map({ $0.id }).randomElement() else {
             return .failure(ErrorPlayerHasNoCard(player: pId))
@@ -124,12 +123,12 @@ private extension Args {
         return .success(.identified([randId]))
     }
     
-    static func resolveAll(source: EffectCardSource, ctx: State) -> Result<EffectCardResolved, Error> {
+    static func resolveAll(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
             fatalError(.cardSourceInvalid)
         }
         
-        let playerObj = ctx.player(pId)
+        let playerObj = state.player(pId)
         let all = (playerObj.inPlay + playerObj.hand).map { $0.id }
         guard !all.isEmpty else {
             return .failure(ErrorPlayerHasNoCard(player: pId))
@@ -138,11 +137,11 @@ private extension Args {
         return .success(.identified(all))
     }
     
-    static func resolveSelectAny(source: EffectCardSource, actor: String, ctx: State) -> Result<EffectCardResolved, Error> {
+    static func resolveSelectAny(source: EffectCardSource, actor: String, state: State) -> Result<EffectCardResolved, Error> {
         // setup options
         switch source {
         case let .player(pId):
-            let playerObj = ctx.player(pId)
+            let playerObj = state.player(pId)
             if playerObj.inPlay.isEmpty {
                 // random hand
                 if !playerObj.hand.isEmpty,
@@ -161,7 +160,7 @@ private extension Args {
             }
             
         case .store:
-            let cards = ctx.store.map { $0.id }
+            let cards = state.store.map { $0.id }
             guard !cards.isEmpty else {
                 return .failure(ErrorStoreHasNoCard())
             }
@@ -174,12 +173,12 @@ private extension Args {
         }
     }
     
-    static func resolveSelectHand(source: EffectCardSource, actor: String, ctx: State) -> Result<EffectCardResolved, Error> {
+    static func resolveSelectHand(source: EffectCardSource, actor: String, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
             fatalError(.cardSourceInvalid)
         }
         
-        let playerObj = ctx.player(pId)
+        let playerObj = state.player(pId)
         let cards = playerObj.hand.map { $0.id }
         guard !cards.isEmpty else {
             return .failure(ErrorPlayerHasNoCard(player: pId))
