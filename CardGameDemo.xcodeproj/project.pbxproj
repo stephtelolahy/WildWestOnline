@@ -18,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		261F9F86284B2EF500FA0D29 /* ExtensionsKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ExtensionsKit; sourceTree = "<group>"; };
+		26505A772853692800E6A422 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26699F1728455FB8008040E5 /* CardGameDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardGameDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26699F1A28455FB8008040E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26699F1C28455FB8008040E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		26699F0E28455FB8008040E5 = {
 			isa = PBXGroup;
 			children = (
+				26505A772853692800E6A422 /* README.md */,
 				26699F3928456B62008040E5 /* Packages */,
 				26699F1928455FB8008040E5 /* CardGameDemo */,
 				26699F1828455FB8008040E5 /* Products */,
