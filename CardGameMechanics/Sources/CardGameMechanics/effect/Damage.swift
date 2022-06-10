@@ -16,6 +16,9 @@ public struct Damage: Effect, Silentable {
     let type: String?
     
     public init(value: Int, target: String = Args.playerActor, type: String? = nil) {
+        assert(value > 0)
+        assert(!target.isEmpty)
+        
         self.value = value
         self.target = target
         self.type = type

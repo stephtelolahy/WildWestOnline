@@ -12,7 +12,7 @@ import CardGameMechanics
 import ExtensionsKit
 
 class EndTurnTests: XCTestCase {
-
+    
     private var cancellables: [Cancellable] = []
     
     func test_SetNextTurn_IfEndingTurn() {
@@ -61,8 +61,8 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "endTurn", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", actor: "p1"),
-                                                                  Choose(value: "c2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c1", actor: "p1"),
+                                                         Choose(value: "c2", actor: "p1")])
         
         // phase: p1 discard card
         messages.removeAll()
@@ -100,9 +100,9 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "endTurn", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", actor: "p1"),
-                                                                  Choose(value: "c2", actor: "p1"),
-                                                                  Choose(value: "c3", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c1", actor: "p1"),
+                                                         Choose(value: "c2", actor: "p1"),
+                                                         Choose(value: "c3", actor: "p1")])
         
         // phase: p1 discard first card
         messages.removeAll()
@@ -111,8 +111,8 @@ class EndTurnTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
                                   Discard(card: "c2", target: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"]?.options, [Choose(value: "c1", actor: "p1"),
-                                                                  Choose(value: "c3", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c1", actor: "p1"),
+                                                         Choose(value: "c3", actor: "p1")])
         
         // phase: p1 discard second card
         messages.removeAll()

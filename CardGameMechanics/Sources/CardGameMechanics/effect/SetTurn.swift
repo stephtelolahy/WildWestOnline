@@ -9,28 +9,26 @@ import CardGameCore
 /// Set turn
 public struct SetTurn: Effect {
     
-    let player: String
+    private let player: String
     
     public init(player: String) {
+        assert(!player.isEmpty)
+        
         self.player = player
     }
     
-    public func canResolve(ctx: State, actor: String) -> Result<Void, Error> {
-        .success
-    }
-    
-    public func resolve(ctx: State, cardRef: String) -> Result<State, Error> {
+    public func resolve(ctx: State, actor: String, selectedArg: String?) -> EffectResult {
         guard Args.isPlayerResolved(player, ctx: ctx) else {
             return Args.resolvePlayer(player,
-                                      copyWithTarget: { SetTurn(player: $0) },
+                                      copyWithPlayer: { SetTurn(player: $0) },
                                       ctx: ctx,
-                                      cardRef: cardRef)
+                                      actor: actor,
+                                      selectedArg: selectedArg)
         }
         
         var state = ctx
         state.turn = player
         state.turnPlayed = []
-        state.lastEvent = self
         
         return .success(state)
     }

@@ -28,46 +28,28 @@ extension Args {
     static func resolveCard<T: Effect>(
         _ card: String,
         copyWithCard: @escaping (String) -> T,
-        actor: String,
         source: EffectCardSource,
         ctx: State,
-        cardRef: String
-    ) -> Result<State, Error> {
-        switch resolveCard(card, source: source, actor: actor, ctx: ctx) {
+        actor: String,
+        selectedArg: String?
+    ) -> EffectResult {
+        switch resolveCard(card, source: source, ctx: ctx, actor: actor) {
             
         case let .success(data):
             switch data {
             case let .identified(cIds):
-                let events = cIds.map { copyWithCard($0) }
-                var state = ctx
-                var sequence = state.sequence(cardRef)
-                sequence.queue.insert(contentsOf: events, at: 0)
-                state.sequences[cardRef] = sequence
-                
-                return .success(state)
+                let effects = cIds.map { copyWithCard($0) }
+                return .resolving(effects)
                 
             case let .selectable(cIds):
-                var state = ctx
-                var sequence = ctx.sequence(cardRef)
-                
-                // pick and remove selection
-                if let selectedId = sequence.selectedArgs[actor] {
-                    sequence.selectedArgs.removeValue(forKey: actor)
+                if let selectedId = selectedArg,
+                   cIds.contains(selectedId) {
                     let copy = copyWithCard(selectedId)
-                    sequence.queue.insert(copy, at: 0)
-                    state.sequences[cardRef] = sequence
-                    
-                    return .success(state)
+                    return .resolving([copy])
+                } else {
+                    let options = cIds.map { Choose(value: $0, actor: actor) }
+                    return .suspended([actor: options])
                 }
-                
-                // set choose card decision
-                let actions = cIds.map { Choose(value: $0, actor: actor) }
-                state.decisions[actor] = Decision(options: actions, cardRef: cardRef)
-                let originalEffect = copyWithCard(card)
-                sequence.queue.insert(originalEffect, at: 0)
-                state.sequences[cardRef] = sequence
-                
-                return .success(state)
             }
             
         case let .failure(error):
@@ -99,8 +81,8 @@ extension Args {
     static func resolveCard(
         _ card: String,
         source: EffectCardSource,
-        actor: String,
-        ctx: State
+        ctx: State,
+        actor: String
     ) -> Result<EffectCardResolved, Error> {
         switch card {
         case cardRandomHand:

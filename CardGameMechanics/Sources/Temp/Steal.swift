@@ -130,7 +130,6 @@ public struct Steal: Effect {
         
         state.players[actor] = actorObj
         state.players[target] = targetObj
-        state.lastEvent = self
         
         return .success(state)
     }

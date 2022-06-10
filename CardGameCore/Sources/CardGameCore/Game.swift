@@ -131,6 +131,7 @@ private extension Game {
     func emitMoveResult(_ result: MoveResult, from currState: State, move: Move) {
         switch result {
         case let .success(aState, nodes, arg):
+            /// assume selected arg is for the first effect
             if let arg = arg {
                 sequences.first?.selectedArg = arg
             }
@@ -199,6 +200,9 @@ private extension Game {
                 newState.lastEvent = event
                 state.send(newState)
             }
+            
+        case .nothing:
+            sequences.remove(at: 0)
         }
     }
 }

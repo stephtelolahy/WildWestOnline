@@ -28,4 +28,7 @@ public enum EffectResult {
     
     /// Remove first effect matching a predicate
     case remove((Effect) -> Bool, Error)
+    
+    /// Nothing happens, remove it from queue, do not mention it
+    case nothing
 }

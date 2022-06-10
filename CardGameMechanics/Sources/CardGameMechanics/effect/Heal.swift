@@ -13,6 +13,9 @@ public struct Heal: Effect {
     private let target: String
     
     public init(value: Int, target: String = Args.playerActor) {
+        assert(value > 0)
+        assert(!target.isEmpty)
+        
         self.value = value
         self.target = target
     }

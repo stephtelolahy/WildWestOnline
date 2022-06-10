@@ -48,6 +48,8 @@ private extension Effect {
             return .failure(error)
             
         case let .resolving(effects):
+            assert(!effects.isEmpty)
+            
             let results = effects.map { $0.verify(ctx: ctx, actor: actor, selectedArg: nil) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
@@ -58,6 +60,8 @@ private extension Effect {
         case let .suspended(options):
             let moves = options.values.flatMap { $0 }
             let argValues: [String] = moves.compactMap { if let choose = $0 as? Choose { return choose.value } else { return nil } }
+            assert(!argValues.isEmpty)
+            
             let results = argValues.map { self.verify(ctx: ctx, actor: actor, selectedArg: $0) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]
@@ -65,7 +69,7 @@ private extension Effect {
                 return .success
             }
             
-        case .remove:
+        default:
             return .success
         }
     }

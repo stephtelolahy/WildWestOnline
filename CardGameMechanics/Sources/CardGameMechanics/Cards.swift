@@ -40,12 +40,12 @@ private extension Cards {
         
         Card(name: "playableStart",
              canPlay: [IsYourTurn(), IsPhase(phase: 1)]),
-        /*
+        
         Card(name: "startTurn",
              type: .inner,
              prototype: "playableStart",
              onPlay: [
-                Draw(value: 2),
+                Draw(times: "2"),
                 SetPhase(value: 2)
              ]),
         
@@ -57,7 +57,7 @@ private extension Cards {
                 SetTurn(player: Args.playerNext),
                 SetPhase(value: 1)
              ]),
-        */
+        
         Card(name: "beer",
              type: .collectible,
              prototype: "playableTurn",
@@ -78,7 +78,7 @@ private extension Cards {
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)]),
-        /*
+        
         Card(name: "saloon",
              type: .collectible,
              prototype: "playableTurn",
@@ -87,13 +87,13 @@ private extension Cards {
         Card(name: "stagecoach",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Draw(value: 2)]),
+             onPlay: [Draw(times: "2")]),
         
         Card(name: "wellsFargo",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Draw(value: 3)]),
-        
+             onPlay: [Draw(times: "3")]),
+        /*
         Card(name: "catBalou",
              type: .collectible,
              prototype: "playableTurn",

@@ -21,6 +21,9 @@ public struct Silent: Effect {
     private let target: String
     
     public init(type: String, target: String = Args.playerActor) {
+        assert(!type.isEmpty)
+        assert(!target.isEmpty)
+        
         self.type = type
         self.target = target
     }
@@ -33,7 +36,6 @@ public struct Silent: Effect {
                                       actor: actor,
                                       selectedArg: selectedArg)
         }
-        
         
         let filter: (Effect) -> Bool = { effect in
             if let silentable = effect as? Silentable,
