@@ -5,18 +5,20 @@
 //  Created by TELOLAHY Hugues Stéphano on 09/06/2022.
 //
 
-/// A Sequence is what begins when a Player Action is taken.
-/// Consists of one or more Effects that are resolved in order.
+/// All data about resolving an effect
 public class SequenceNode {
     
     /// effect to be resolved
     let effect: Effect
     
-    /// who is playing the card
+    /// the player that played the card the effects belong to
     let actor: String
     
     /// selected argument during effect resolution
     var selectedArg: String?
+    
+    /// target player from previous effect
+    var target: String?
     
     public init(effect: Effect, actor: String) {
         self.effect = effect

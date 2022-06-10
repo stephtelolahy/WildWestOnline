@@ -30,6 +30,9 @@ public extension Args {
     
     /// select any player at distance of 1
     static let playerSelectAt1 = "PLAYER_SELECT_AT_1"
+    
+    /// previous effect's target
+    static let playerTarget = "PLAYER_TARGET"
 }
 
 extension Args {
@@ -109,6 +112,9 @@ private extension Args {
             
         case playerSelectAt1:
             return resolvePlayerAtDistance(1, ctx: ctx, actor: actor)
+            
+        case playerTarget:
+            fatalError()
             
         default:
             /// assume identified player

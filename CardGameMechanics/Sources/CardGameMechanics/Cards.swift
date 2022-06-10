@@ -4,6 +4,8 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 30/05/2022.
 //
+// swiftlint:disable line_length
+
 import CardGameCore
 
 public enum Cards {
@@ -110,6 +112,16 @@ private extension Cards {
              onPlay: [
                 DeckToStore(times: Args.numPlayers),
                 DrawStore(card: Args.cardSelectAny, target: Args.playerAll)
-             ])
+             ]),
+        
+        Card(name: "indians",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [ForceDiscard(card: "bang", target: Args.playerOthers, otherwise: [Damage(value: 1, target: Args.playerTarget)])]),
+        
+        Card(name: "duel",
+             type: .collectible,
+             prototype: "playableTurn",
+             onPlay: [ForceDiscard(card: "bang", target: Args.playerSelectAny, challenger: Args.playerActor, otherwise: [Damage(value: 1, target: Args.playerTarget)])])
     ]
 }

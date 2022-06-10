@@ -29,6 +29,8 @@ public class Game: GameProtocol {
     private var commands: [Move]
     
     /// played cards sequences, last played card is on the top
+    /// A Sequence is what begins when a Player Action is taken.
+    /// Consists of one or more Effects that are resolved in order.
     private var sequences: [SequenceNode]
     
     public init(_ initialState: State, commands: [Move] = [], sequences: [SequenceNode] = []) {
