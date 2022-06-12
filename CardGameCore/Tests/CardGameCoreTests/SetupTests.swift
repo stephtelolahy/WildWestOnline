@@ -9,28 +9,6 @@ import XCTest
 import CardGameCore
 
 class SetupTests: XCTestCase {
-
-    func test_InitialDeckIsShuffledFromCardSet() throws {
-        // Given
-        let uniqueCards = [Card(name: "bang"),
-                           Card(name: "missed"),
-                           Card(name: "beer")]
-        let cardSets = ["bang": ["A♠️", "2♦️"],
-                        "beer": ["7♥️", "10♥️"],
-                        "missed": ["Q♣️"],
-                        "indians": ["K♦️"]]
-        
-        // When
-        let deck = Setup.buildDeck(uniqueCards: uniqueCards, cardSets: cardSets)
-        
-        // Assert
-        XCTAssertEqual(deck.count, 5)
-        XCTAssertTrue(deck.contains { $0.id == "bang-A♠️" })
-        XCTAssertTrue(deck.contains { $0.id == "bang-2♦️" })
-        XCTAssertTrue(deck.contains { $0.id == "beer-7♥️" })
-        XCTAssertTrue(deck.contains { $0.id == "beer-10♥️" })
-        XCTAssertTrue(deck.contains { $0.id == "missed-Q♣️" })
-    }
     
     func test_EachPlayerHasMaxHealthAndHand_IfSetup() {
         // Given
