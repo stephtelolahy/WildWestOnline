@@ -38,14 +38,14 @@ public struct ForceDiscard: Effect {
         
         // you choosed to pass, then apply otherwise effects
         if ctx.selectedArg == Args.choosePass {
-            return .resolving(otherwise)
+            return .transformed(otherwise)
         }
         
         // you cannot discard required card, then apply otherwise effects
         let targetObj = state.player(target)
         let matchingCards = targetObj.hand.filter { $0.name == card }.map { $0.id }
         if matchingCards.isEmpty {
-            return .resolving(otherwise)
+            return .transformed(otherwise)
         }
         
         // request a decision if no card chosen
@@ -66,6 +66,6 @@ public struct ForceDiscard: Effect {
             effects.append(toggleEffect)
         }
         
-        return .resolving(effects)
+        return .transformed(effects)
     }
 }

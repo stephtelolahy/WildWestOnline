@@ -19,16 +19,17 @@ extension Card {
     
     /// Check if a card can be played
     func isPlayable(_ state: State, actor: String) -> Result<Void, Error> {
+        // verify all requirements
         for playReq in canPlay {
             if case let .failure(error) = playReq.verify(state: state, actor: actor, card: self) {
                 return .failure(error)
             }
         }
         
-        for effect in onPlay {
-            if case let .failure(error) = effect.verify(state: state, ctx: PlayContext(actor: actor)) {
-                return .failure(error)
-            }
+        // verify first card effect
+        if let effect = onPlay.first,
+           case let .failure(error) = effect.verify(state: state, ctx: PlayContext(actor: actor)) {
+            return .failure(error)
         }
         
         return .success
@@ -41,9 +42,6 @@ private extension Effect {
     func verify(state: State, ctx: PlayContext) -> Result<Void, Error> {
         let result = resolve(state: state, ctx: ctx)
         switch result {
-        case .success:
-            return .success
-            
         case let .failure(error):
             return .failure(error)
             

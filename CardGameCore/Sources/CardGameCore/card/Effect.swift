@@ -20,8 +20,11 @@ public enum EffectResult {
     /// Returned error must implement `Event` protocol
     case failure(Error)
     
-    /// Partially resolved, replace it with child effects
+    /// Resolving an argument, replace it with resolved copies
     case resolving([Effect])
+    
+    /// Transformed, replace it with child effects
+    case transformed([Effect])
     
     /// Suspended waiting user decision among an array of `Move`, keep it in queue
     case suspended([String: [Move]])
@@ -46,8 +49,9 @@ public class PlayContext {
     /// target player from previous effect
     public var target: String?
     
-    public init(actor: String, selectedArg: String? = nil) {
+    public init(actor: String, selectedArg: String? = nil, target: String? = nil) {
         self.actor = actor
         self.selectedArg = selectedArg
+        self.target = target
     }
 }

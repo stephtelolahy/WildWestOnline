@@ -170,6 +170,6 @@ class MissedTests: XCTestCase {
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [ErrorNoEffectToSilent(type: "EFFECT_TYPE_SHOOT")])
+        XCTAssertEqual(messages, [ErrorNoEffectToSilent(type: Args.effectTypeShoot)])
     }
 }

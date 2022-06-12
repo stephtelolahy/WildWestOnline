@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Foundation
 
 /// The game engine
 public protocol GameProtocol {
@@ -175,7 +174,8 @@ private extension Game {
             sequences.remove(at: 0)
             state.send(newState)
             
-        case let .resolving(effects):
+        case let .resolving(effects),
+            let .transformed(effects):
             sequences.remove(at: 0)
             let nodes = effects.map { SequenceNode(effect: $0, ctx: ctx) }
             sequences.insert(contentsOf: nodes, at: 0)
@@ -216,9 +216,4 @@ private struct SequenceNode {
     
     /// all data about effect resolution
     let ctx: PlayContext
-    
-    init(effect: Effect, ctx: PlayContext) {
-        self.effect = effect
-        self.ctx = ctx
-    }
 }
