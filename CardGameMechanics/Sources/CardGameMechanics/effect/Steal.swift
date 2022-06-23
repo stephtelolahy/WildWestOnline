@@ -15,7 +15,7 @@ public struct Steal: Effect {
     
     private let target: String
     
-    public init(actor: String = Args.playerActor, card: String, target: String) {
+    public init(actor: String, card: String, target: String) {
         assert(!actor.isEmpty)
         assert(!card.isEmpty)
         assert(!target.isEmpty)

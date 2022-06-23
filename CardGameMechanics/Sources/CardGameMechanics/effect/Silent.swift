@@ -46,7 +46,7 @@ public struct Silent: Effect {
             }
         }
         
-        return .remove(filter, ErrorNoEffectToSilent(type: type))
+        return .cancel(filter, ErrorNoEffectToSilent(type: type))
     }
 }
 

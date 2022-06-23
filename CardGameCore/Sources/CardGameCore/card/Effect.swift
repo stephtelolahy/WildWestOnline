@@ -20,17 +20,14 @@ public enum EffectResult {
     /// Returned error must implement `Event` protocol
     case failure(Error)
     
-    /// Resolving an argument, replace it with resolved copies
+    /// Resolving arguments, replace it with child effects
     case resolving([Effect])
-    
-    /// Transformed, replace it with child effects
-    case transformed([Effect])
     
     /// Suspended waiting user decision among an array of `Move`, keep it in queue
     case suspended([String: [Move]])
     
-    /// Remove first effect matching a predicate
-    case remove((Effect) -> Bool, Error)
+    /// Remove first queued effect matching a predicate
+    case cancel((Effect) -> Bool, Error)
     
     /// Nothing happens, remove it from queue, do not mention it
     case nothing

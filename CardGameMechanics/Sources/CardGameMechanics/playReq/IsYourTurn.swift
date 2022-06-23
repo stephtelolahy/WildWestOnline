@@ -7,7 +7,7 @@
 import CardGameCore
 
 /// Must be your turn
-public class IsYourTurn: PlayReq {
+public struct IsYourTurn: PlayReq {
     
     public init() {}
     

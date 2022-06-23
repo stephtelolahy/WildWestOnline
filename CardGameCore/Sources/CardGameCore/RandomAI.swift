@@ -15,7 +15,7 @@ public class RandomAI {
     public init() {}
     
     public func observe(game: GameProtocol) {
-        cancellables.append(game.state.sink { [unowned self] in processState($0, game: game) })
+        cancellables.append(game.state.sink { [weak self] in self?.processState($0, game: game) })
     }
     
     private func processState(_ state: State, game: GameProtocol) {

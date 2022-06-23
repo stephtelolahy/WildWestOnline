@@ -121,7 +121,7 @@ private enum UniqueCards {
         Card(name: "panic",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Steal(card: Args.cardSelectAny, target: Args.playerSelectAt1)]),
+             onPlay: [Steal(actor: Args.playerActor, card: Args.cardSelectAny, target: Args.playerSelectAt1)]),
         
         Card(name: "generalStore",
              type: .collectible,

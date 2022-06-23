@@ -48,6 +48,12 @@ private extension Effect {
         case let .resolving(effects):
             assert(!effects.isEmpty)
             
+            // <HACK: do not verify resolving effects with target to avoid infinite loop>
+            if ctx.target != nil {
+                return .success
+            }
+            // </HACK>
+            
             let results = effects.map { $0.verify(state: state, ctx: PlayContext(actor: ctx.actor)) }
             if results.allSatisfy({ if case .failure = $0 { return true } else { return false } }) {
                 return results[0]

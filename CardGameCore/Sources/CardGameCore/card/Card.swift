@@ -51,7 +51,7 @@ public enum CardType: String {
     /// basic card
     case collectible
     
-    /// buil-in player ability
+    /// built-in player ability
     case inner
     
     /// character special ability
