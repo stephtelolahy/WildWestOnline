@@ -30,9 +30,9 @@ extension Args {
         chooser: String,
         source: EffectCardSource,
         state: State,
-        ctx: PlayContext
+        ctx: [String: String]
     ) -> Result<EffectOutput, Error> {
-        switch resolveCard(card, source: source, state: state, actor: ctx.actor) {
+        switch resolveCard(card, source: source, state: state, actor: ctx[Args.playerActor]!) {
             
         case let .success(data):
             switch data {
@@ -41,7 +41,7 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(cIds):
-                if let selectedId = ctx.selectedArg,
+                if let selectedId = ctx[Args.selected],
                    cIds.contains(selectedId) {
                     let copy = copyWithCard(selectedId)
                     return .success(EffectOutput(effects: [copy]))

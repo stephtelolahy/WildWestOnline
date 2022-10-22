@@ -7,12 +7,6 @@
 
 import CardGameCore
 
-public extension Args {
-    
-    /// do nothing about played card's effect
-    static let choosePass = "CHOOSE_PASS"
-}
-
 /// prevents an effect from being applied to a player
 public struct Silent: Effect {
     
@@ -28,7 +22,7 @@ public struct Silent: Effect {
         self.target = target
     }
     
-    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Silent(type: type, target: $0) },
@@ -84,4 +78,9 @@ extension Silentable where Self: Effect {
         
         return options
     }
+}
+
+public extension Args {
+    /// do nothing about played card's effect
+    static let choosePass = "CHOOSE_PASS"
 }

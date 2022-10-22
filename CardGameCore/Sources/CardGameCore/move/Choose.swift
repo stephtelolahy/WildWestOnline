@@ -26,9 +26,14 @@ public struct Choose: Move, Equatable {
         var state = state
         state.removeDecisions(for: actor)
         
-        return .success(MoveOutput(state: state, selectedArg: value))
+        return .success(MoveOutput(state: state, nextCtx: [Args.selected: value]))
     }
 }
 
 public struct ErrorChooseOptionNotFound: Error, Event {
+}
+
+public extension Args {
+    /// selected item during effect resolution
+    static let selected = "EFFECT_SELECTED"
 }

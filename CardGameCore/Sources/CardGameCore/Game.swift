@@ -109,14 +109,16 @@ private extension Game {
     func handleMoveResult(_ result: Result<MoveOutput, Error>, from currState: State, move: Move) {
         switch result {
         case let .success(output):
-            /// assume selected arg is for the first effect
-            if let arg = output.selectedArg {
-                sequences.first?.ctx.selectedArg = arg
+            
+            if let nextCtx = output.nextCtx {
+                var node = sequences[0]
+                node.ctx.merge(nextCtx) { _, new in new }
+                sequences[0] = node
             }
             
             if let effects = output.effects {
-                let ctx = PlayContext(actor: move.actor)
-                let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
+                let childCtx = output.childCtx ?? [:]
+                let nodes = effects.map { EffectNode(effect: $0, ctx: childCtx) }
                 sequences.insert(contentsOf: nodes, at: 0)
             }
             
@@ -136,7 +138,7 @@ private extension Game {
     }
     
     /// Handle effect execution result
-    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect, ctx: PlayContext) {
+    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect, ctx: [String: String]) {
         sequences.remove(at: 0)
         
         switch result {
@@ -158,6 +160,11 @@ private extension Game {
             }
             
             if let effects = output.effects {
+                var ctx = ctx
+                if let childCtx = output.childCtx {
+                    ctx.merge(childCtx) { _, new in new }
+                }
+                
                 let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
                 sequences.insert(contentsOf: nodes, at: 0)
             }
@@ -206,7 +213,7 @@ private struct EffectNode {
     let effect: Effect
     
     /// all data about effect resolution
-    let ctx: PlayContext
+    var ctx: [String: String]
 }
 
 struct ErrorNoEffectToSilent: Error, Event {

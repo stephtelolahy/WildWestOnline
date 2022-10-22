@@ -24,8 +24,8 @@ public struct Damage: Effect, Silentable {
         self.type = type
     }
     
-    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
-        if let options = silentOptions(state: state, selectedArg: ctx.selectedArg) {
+    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
+        if let options = silentOptions(state: state, selectedArg: ctx[Args.selected]) {
             return .success(EffectOutput(decisions: options))
         }
         

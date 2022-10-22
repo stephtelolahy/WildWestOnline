@@ -9,9 +9,6 @@ import CardGameCore
 /// Effect's player argument
 public extension Args {
     
-    /// who is playing the card
-    static let playerActor = "PLAYER_ACTOR"
-    
     /// other players
     static let playerOthers = "PLAYER_OTHERS"
     
@@ -41,7 +38,7 @@ extension Args {
         _ player: String,
         copyWithPlayer: @escaping (String) -> T,
         state: State,
-        ctx: PlayContext
+        ctx: [String: String]
     ) -> Result<EffectOutput, Error> {
         switch resolvePlayer(player, state: state, ctx: ctx) {
             
@@ -52,12 +49,12 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(pIds):
-                if let selectedId = ctx.selectedArg,
+                if let selectedId = ctx[Args.selected],
                    pIds.contains(selectedId) {
                     let copy = copyWithPlayer(selectedId)
                     return .success(EffectOutput(effects: [copy]))
                 } else {
-                    let options = pIds.map { Choose(value: $0, actor: ctx.actor) }
+                    let options = pIds.map { Choose(value: $0, actor: ctx[Args.playerActor]!) }
                     return .success(EffectOutput(decisions: options))
                 }
             }
@@ -79,17 +76,17 @@ private extension Args {
         case selectable([String])
     }
     
-    static func resolvePlayer(_ player: String, state: State, ctx: PlayContext) -> Result<PlayerResolved, Error> {
+    static func resolvePlayer(_ player: String, state: State, ctx: [String: String]) -> Result<PlayerResolved, Error> {
         switch player {
         case playerActor:
-            return .success(.identified([ctx.actor]))
+            return .success(.identified([ctx[Args.playerActor]!]))
             
         case playerOthers:
-            let others = Array(state.playOrder.starting(with: ctx.actor).dropFirst())
+            let others = Array(state.playOrder.starting(with: ctx[Args.playerActor]!).dropFirst())
             return .success(.identified(others))
             
         case playerAll:
-            let all = state.playOrder.starting(with: ctx.actor)
+            let all = state.playOrder.starting(with: ctx[Args.playerActor]!)
             return .success(.identified(all))
             
         case playerNext:
@@ -101,18 +98,18 @@ private extension Args {
             return .success(.identified([next]))
             
         case playerSelectAny:
-            let others = state.playOrder.filter { $0 != ctx.actor }
+            let others = state.playOrder.filter { $0 != ctx[Args.playerActor]! }
             return .success(.selectable(others))
             
         case playerSelectReachable:
-            let weapon = state.player(ctx.actor).weapon
-            return resolvePlayerAtDistance(weapon, state: state, actor: ctx.actor)
+            let weapon = state.player(ctx[Args.playerActor]!).weapon
+            return resolvePlayerAtDistance(weapon, state: state, actor: ctx[Args.playerActor]!)
             
         case playerSelectAt1:
-            return resolvePlayerAtDistance(1, state: state, actor: ctx.actor)
+            return resolvePlayerAtDistance(1, state: state, actor: ctx[Args.playerActor]!)
             
         case playerTarget:
-            guard let target = ctx.target else {
+            guard let target = ctx[Args.playerTarget] else {
                 fatalError(.contextTargetNotFound)
             }
             

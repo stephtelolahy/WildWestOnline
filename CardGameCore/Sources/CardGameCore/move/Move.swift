@@ -15,15 +15,26 @@ public protocol Move: Event {
 }
 
 public struct MoveOutput {
+    
+    /// Updated state
     let state: State
+    
+    /// Child effects to be queued
     var effects: [Effect]?
-    var selectedArg: String?
+    
+    /// Context to transmit to all child effects
+    var childCtx: [String: String]?
+    
+    /// Context to transmit to just next effect
+    var nextCtx: [String: String]?
     
     public init(state: State,
                 effects: [Effect]? = nil,
-                selectedArg: String? = nil) {
+                childCtx: [String: String]? = nil,
+                nextCtx: [String: String]? = nil) {
         self.state = state
         self.effects = effects
-        self.selectedArg = selectedArg
+        self.childCtx = childCtx
+        self.nextCtx = nextCtx
     }
 }

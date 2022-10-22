@@ -17,7 +17,7 @@ public extension State {
     
     /// Check if waiting a given action
     func isWaiting<T: Equatable>(_ move: T) -> Bool {
-        decisions.contains {  $0 as? T == move }
+        decisions.contains { $0 as? T == move }
     }
     
     mutating func removeDecisions(for actor: String) {

@@ -18,7 +18,7 @@ public struct DrawStore: Effect {
         self.target = target
     }
     
-    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in DrawStore(card: card, target: $0) },

@@ -51,6 +51,11 @@ public struct Play: Move, Equatable {
         
         state.played.append(cardObj.name)
         
-        return .success(MoveOutput(state: state, effects: cardObj.onPlay))
+        return .success(MoveOutput(state: state, effects: cardObj.onPlay, childCtx: [Args.playerActor: actor]))
     }
+}
+
+public extension Args {
+    /// who is playing the card
+    static let playerActor = "PLAYER_ACTOR"
 }

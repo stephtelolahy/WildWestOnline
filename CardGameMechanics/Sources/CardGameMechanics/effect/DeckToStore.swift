@@ -15,9 +15,9 @@ public struct DeckToStore: Effect {
         self.times = times
     }
     
-    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
         if let times {
-            return Args.resolveNumber(times, copy: { DeckToStore() }, actor: ctx.actor, state: state)
+            return Args.resolveNumber(times, copy: { DeckToStore() }, actor: ctx[Args.playerActor]!, state: state)
         }
         
         var state = state

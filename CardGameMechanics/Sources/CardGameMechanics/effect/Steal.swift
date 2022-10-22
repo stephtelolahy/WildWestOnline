@@ -25,7 +25,7 @@ public struct Steal: Effect {
         self.target = target
     }
     
-    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(actor, state: state) else {
             return Args.resolvePlayer(actor,
                                       copyWithPlayer: { [self] in Steal(actor: $0, card: card, target: target) },
@@ -43,7 +43,7 @@ public struct Steal: Effect {
         guard Args.isCardResolved(card, source: .player(target), state: state) else {
             return Args.resolveCard(card,
                                     copyWithCard: { Steal(actor: actor, card: $0, target: target) },
-                                    chooser: ctx.actor,
+                                    chooser: ctx[Args.playerActor]!,
                                     source: .player(target),
                                     state: state,
                                     ctx: ctx)

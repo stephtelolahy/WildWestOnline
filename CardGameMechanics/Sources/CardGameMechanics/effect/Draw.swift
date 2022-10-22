@@ -20,7 +20,7 @@ public struct Draw: Effect {
         self.times = times
     }
     
-    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Draw(target: $0, times: times) },
@@ -29,7 +29,7 @@ public struct Draw: Effect {
         }
         
         if let times {
-            return Args.resolveNumber(times, copy: { Draw(target: target) }, actor: ctx.actor, state: state)
+            return Args.resolveNumber(times, copy: { Draw(target: target) }, actor: ctx[Args.playerActor]!, state: state)
         }
         
         var state = state
