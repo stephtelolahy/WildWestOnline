@@ -31,23 +31,23 @@ extension Args {
         source: EffectCardSource,
         state: State,
         ctx: PlayContext
-    ) -> EffectResult {
+    ) -> Result<EffectOutput, Error> {
         switch resolveCard(card, source: source, state: state, actor: ctx.actor) {
             
         case let .success(data):
             switch data {
             case let .identified(cIds):
                 let effects = cIds.map { copyWithCard($0) }
-                return .resolving(effects)
+                return .success(EffectOutput(effects: effects))
                 
             case let .selectable(cIds):
                 if let selectedId = ctx.selectedArg,
                    cIds.contains(selectedId) {
                     let copy = copyWithCard(selectedId)
-                    return .resolving([copy])
+                    return .success(EffectOutput(effects: [copy]))
                 } else {
                     let options = cIds.map { Choose(value: $0, actor: chooser) }
-                    return .suspended(options)
+                    return .success(EffectOutput(decisions: options))
                 }
             }
             

@@ -8,34 +8,38 @@
 /// Effects are card abilities that update the game state
 /// The process of resolving an efect is similar to a depth-first search
 public protocol Effect: Event {
-    func resolve(state: State, ctx: PlayContext) -> EffectResult
+    func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error>
 }
 
-public enum EffectResult {
+public struct EffectOutput {
     
     /// Resolved with an updated `State`, remove it from queue
-    case success(State)
-    
-    /// Failed with an `Error`, remove it from queue
-    /// Returned error must implement `Event` protocol
-    case failure(Error)
+    var state: State?
     
     /// Resolving arguments, replace it with child effects
     /// Must transmit context to child effects
-    case resolving([Effect])
+    var effects: [Effect]?
     
     /// Suspended waiting user decision among an array of `Move`, keep it in queue
-    case suspended([Move])
+    var decisions: [Move]?
     
     /// Remove first queued effect matching a predicate
-    case cancel((Effect) -> Bool)
+    var cancel: ((Effect) -> Bool)?
     
-    /// Nothing happens, remove it from queue
-    case nothing
+    public init(state: State? = nil,
+                effects: [Effect]? = nil,
+                decisions: [Move]? = nil,
+                cancel: ((Effect) -> Bool)? = nil) {
+        self.state = state
+        self.effects = effects
+        self.decisions = decisions
+        self.cancel = cancel
+    }
 }
 
 /// All data about resolving an effect
 /// It is transmitted during sequence resolution
+// TODO: replace with plain dictionary
 public class PlayContext {
     
     /// the player that played the card the effects belong to

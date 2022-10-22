@@ -36,7 +36,7 @@ class EndTurnTests: XCTestCase {
                                   SetPhase(value: 1)])
         
         XCTAssertEqual(sut.state.value.turn, "p2")
-        XCTAssertEqual(sut.state.value.turnPlayed, [])
+        XCTAssertEqual(sut.state.value.played, [])
         XCTAssertEqual(sut.state.value.phase, 1)
     }
     
@@ -75,7 +75,7 @@ class EndTurnTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
         XCTAssertEqual(sut.state.value.turn, "p2")
-        XCTAssertEqual(sut.state.value.turnPlayed, [])
+        XCTAssertEqual(sut.state.value.played, [])
     }
     
     func test_DiscardExcess2Cards_IfEndingTurn() {
@@ -125,6 +125,6 @@ class EndTurnTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
         XCTAssertEqual(sut.state.value.turn, "p2")
-        XCTAssertEqual(sut.state.value.turnPlayed, [])
+        XCTAssertEqual(sut.state.value.played, [])
     }
 }

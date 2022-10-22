@@ -18,7 +18,7 @@ public struct DrawStore: Effect {
         self.target = target
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in DrawStore(card: card, target: $0) },
@@ -45,6 +45,6 @@ public struct DrawStore: Effect {
         targetObj.hand.append(cardObj)
         state.players[target] = targetObj
         
-        return .success(state)
+        return .success(EffectOutput(state: state))
     }
 }

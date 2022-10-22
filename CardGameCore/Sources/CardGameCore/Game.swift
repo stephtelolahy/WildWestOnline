@@ -80,8 +80,8 @@ private extension Game {
         if let node = sequences.first {
             let effect = node.effect
             let ctx = node.ctx
-            let result = effect.resolve(state: currState, ctx: ctx)
-            emitEffectResult(result, currState: currState, effect: node.effect, ctx: ctx)
+            let result = effect.resolve(in: currState, ctx: ctx)
+            handleEffectResult(result, currState: currState, effect: node.effect, ctx: ctx)
             return true
         }
         
@@ -135,17 +135,12 @@ private extension Game {
         }
     }
     
-    /// Emit effect execution result
-    func emitEffectResult(_ result: EffectResult, currState: State, effect: Effect, ctx: PlayContext) {
+    /// Handle effect execution result
+    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect, ctx: PlayContext) {
+        sequences.remove(at: 0)
+        
         switch result {
-        case let .success(aState):
-            sequences.remove(at: 0)
-            var newState = aState
-            newState.lastEvent = effect
-            state.send(newState)
-            
         case let .failure(error):
-            sequences.remove(at: 0)
             guard let event = error as? Event else {
                 fatalError(.errorTypeInvalid(error.localizedDescription))
             }
@@ -154,32 +149,34 @@ private extension Game {
             newState.lastEvent = event
             state.send(newState)
             
-        case let .resolving(effects):
-            sequences.remove(at: 0)
-            let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
-            sequences.insert(contentsOf: nodes, at: 0)
-            
-        case let .suspended(decisions):
+        case let .success(output):
             var newState = currState
-            newState.decisions = decisions
-            state.send(newState)
             
-        case let .cancel(filter):
-            sequences.remove(at: 0)
-            guard let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) else {
-                var newState = currState
-                newState.lastEvent = ErrorNoEffectToSilent()
-                state.send(newState)
-                return
+            if let updatedState = output.state {
+                newState = updatedState
+                newState.lastEvent = effect
             }
-
-            sequences.remove(at: indexToRemove)
-            var newState = currState
-            newState.lastEvent = effect
-            state.send(newState)
             
-        case .nothing:
-            sequences.remove(at: 0)
+            if let effects = output.effects {
+                let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
+                sequences.insert(contentsOf: nodes, at: 0)
+            }
+            
+            if let decisions = output.decisions {
+                sequences.insert(EffectNode(effect: effect, ctx: ctx), at: 0)
+                newState.decisions = decisions
+            }
+            
+            if let filter = output.cancel {
+                if let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) {
+                    sequences.remove(at: indexToRemove)
+                    newState.lastEvent = effect
+                } else {
+                    newState.lastEvent = ErrorNoEffectToSilent()
+                }
+            }
+            
+            state.send(newState)
         }
     }
     

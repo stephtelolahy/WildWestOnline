@@ -24,9 +24,9 @@ public struct Damage: Effect, Silentable {
         self.type = type
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         if let options = silentOptions(state: state, selectedArg: ctx.selectedArg) {
-            return .suspended(options)
+            return .success(EffectOutput(decisions: options))
         }
         
         guard Args.isPlayerResolved(target, state: state) else {
@@ -41,6 +41,6 @@ public struct Damage: Effect, Silentable {
         player.health -= value
         state.players[target] = player
         
-        return .success(state)
+        return .success(EffectOutput(state: state))
     }
 }

@@ -20,7 +20,7 @@ public struct Heal: Effect {
         self.target = target
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Heal(value: value, target: $0) },
@@ -38,6 +38,6 @@ public struct Heal: Effect {
         var state = state
         state.players[target] = targetObj
         
-        return .success(state)
+        return .success(EffectOutput(state: state))
     }
 }

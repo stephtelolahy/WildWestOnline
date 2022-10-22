@@ -42,23 +42,23 @@ extension Args {
         copyWithPlayer: @escaping (String) -> T,
         state: State,
         ctx: PlayContext
-    ) -> EffectResult {
+    ) -> Result<EffectOutput, Error> {
         switch resolvePlayer(player, state: state, ctx: ctx) {
             
         case let .success(data):
             switch data {
             case let .identified(pIds):
                 let effects = pIds.map { copyWithPlayer($0) }
-                return .resolving(effects)
+                return .success(EffectOutput(effects: effects))
                 
             case let .selectable(pIds):
                 if let selectedId = ctx.selectedArg,
-                    pIds.contains(selectedId) {
+                   pIds.contains(selectedId) {
                     let copy = copyWithPlayer(selectedId)
-                    return .resolving([copy])
+                    return .success(EffectOutput(effects: [copy]))
                 } else {
                     let options = pIds.map { Choose(value: $0, actor: ctx.actor) }
-                    return .suspended(options)
+                    return .success(EffectOutput(decisions: options))
                 }
             }
             

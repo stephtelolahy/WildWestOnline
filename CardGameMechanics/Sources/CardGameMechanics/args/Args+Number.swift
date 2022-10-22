@@ -22,14 +22,10 @@ extension Args {
         copy: @escaping () -> T,
         actor: String,
         state: State
-    ) -> EffectResult {
+    ) -> Result<EffectOutput, Error> {
         let value = resolveNumber(number, actor: actor, state: state)
-        guard value > 0 else {
-            return .nothing
-        }
-        
         let effects = (0..<value).map { _ in copy() }
-        return .resolving(effects)
+        return .success(EffectOutput(effects: effects))
     }
     
     static func resolveNumber(_ number: String, actor: String, state: State) -> Int {

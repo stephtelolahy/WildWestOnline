@@ -18,10 +18,10 @@ public struct SetPhase: Effect {
         self.value = value
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         var state = state
         state.phase = value
         
-        return .success(state)
+        return .success(EffectOutput(state: state))
     }
 }

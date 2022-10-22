@@ -19,7 +19,9 @@ public struct MoveOutput {
     var effects: [Effect]?
     var selectedArg: String?
     
-    public init(state: State, effects: [Effect]? = nil, selectedArg: String? = nil) {
+    public init(state: State,
+                effects: [Effect]? = nil,
+                selectedArg: String? = nil) {
         self.state = state
         self.effects = effects
         self.selectedArg = selectedArg

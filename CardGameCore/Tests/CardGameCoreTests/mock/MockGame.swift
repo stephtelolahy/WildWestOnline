@@ -12,13 +12,10 @@ class MockGame: GameProtocol {
     
     var state: CurrentValueSubject<State, Never>
     
-    var message: PassthroughSubject<Event, Never>
-    
     var inputCallback: ((Move) -> Void)?
     
     init(_ initialState: State) {
         state = CurrentValueSubject(initialState)
-        message = PassthroughSubject()
     }
     
     func input(_ move: Move) {

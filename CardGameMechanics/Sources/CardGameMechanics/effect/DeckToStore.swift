@@ -15,7 +15,7 @@ public struct DeckToStore: Effect {
         self.times = times
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         if let times {
             return Args.resolveNumber(times, copy: { DeckToStore() }, actor: ctx.actor, state: state)
         }
@@ -24,6 +24,6 @@ public struct DeckToStore: Effect {
         let card = state.removeTopDeck()
         state.store.append(card)
         
-        return .success(state)
+        return .success(EffectOutput(state: state))
     }
 }

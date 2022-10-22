@@ -6,6 +6,7 @@
 //
 
 /// Stores all the information of the game
+/// containing renderable objects and occurred events
 public struct State {
     
     /// all players by player identifier
@@ -21,7 +22,7 @@ public struct State {
     public var phase: Int
     
     /// played cards during current turn
-    public var turnPlayed: [String] = []
+    public var played: [String] = []
     
     /// deck
     public var deck: [Card]

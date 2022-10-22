@@ -49,7 +49,7 @@ public struct Play: Move, Equatable {
             state.removeDecisions(for: actor)
         }
         
-        state.turnPlayed.append(cardObj.name)
+        state.played.append(cardObj.name)
         
         return .success(MoveOutput(state: state, effects: cardObj.onPlay))
     }

@@ -24,7 +24,7 @@ public struct Discard: Effect {
         self.times = times
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Discard(card: card, target: $0, times: times) },
@@ -32,7 +32,7 @@ public struct Discard: Effect {
                                       ctx: ctx)
         }
         
-        if let times = times {
+        if let times {
             return Args.resolveNumber(times, copy: { Discard(card: card, target: target) }, actor: ctx.actor, state: state)
         }
         
@@ -60,6 +60,6 @@ public struct Discard: Effect {
         
         state.players[target] = targetObj
         
-        return .success(state)
+        return .success(EffectOutput(state: state))
     }
 }

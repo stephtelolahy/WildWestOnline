@@ -25,7 +25,7 @@ public struct ForceDiscard: Effect {
         self.otherwise = otherwise
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in ForceDiscard(card: card, target: $0, challenger: challenger, otherwise: otherwise) },
@@ -38,14 +38,14 @@ public struct ForceDiscard: Effect {
         
         // you choosed to pass, then apply otherwise effects
         if ctx.selectedArg == Args.choosePass {
-            return .resolving(otherwise)
+            return .success(EffectOutput(effects: otherwise))
         }
         
         // you cannot discard required card, then apply otherwise effects
         let targetObj = state.player(target)
         let matchingCards = targetObj.hand.filter { $0.name == card }.map { $0.id }
         if matchingCards.isEmpty {
-            return .resolving(otherwise)
+            return .success(EffectOutput(effects: otherwise))
         }
         
         // request a decision if no card chosen
@@ -53,7 +53,7 @@ public struct ForceDiscard: Effect {
                 matchingCards.contains(chosen) else {
             var options: [Move] = matchingCards.map { Choose(value: $0, actor: target) }
             options.append(Choose(value: Args.choosePass, actor: target))
-            return .suspended(options)
+            return .success(EffectOutput(decisions: options))
         }
         
         // discard card
@@ -66,6 +66,6 @@ public struct ForceDiscard: Effect {
             effects.append(toggleEffect)
         }
         
-        return .resolving(effects)
+        return .success(EffectOutput(effects: effects))
     }
 }

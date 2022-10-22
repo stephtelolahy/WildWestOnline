@@ -28,7 +28,7 @@ public struct Silent: Effect {
         self.target = target
     }
     
-    public func resolve(state: State, ctx: PlayContext) -> EffectResult {
+    public func resolve(in state: State, ctx: PlayContext) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
                                       copyWithPlayer: { [self] in Silent(type: type, target: $0) },
@@ -46,7 +46,7 @@ public struct Silent: Effect {
             }
         }
         
-        return .cancel(filter)
+        return .success(EffectOutput(cancel: filter))
     }
 }
 
