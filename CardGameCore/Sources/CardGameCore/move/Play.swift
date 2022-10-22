@@ -21,7 +21,7 @@ public struct Play: Move, Equatable {
         self.actor = actor
     }
     
-    public func dispatch(state: State) -> MoveResult {
+    public func dispatch(in state: State) -> Result<MoveOutput, Error> {
         var state = state
         var actorObj = state.player(actor)
         
@@ -51,6 +51,6 @@ public struct Play: Move, Equatable {
         
         state.turnPlayed.append(cardObj.name)
         
-        return .success(state: state, effects: cardObj.onPlay, selectedArg: nil)
+        return .success(MoveOutput(state: state, effects: cardObj.onPlay))
     }
 }

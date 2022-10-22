@@ -13,7 +13,7 @@ struct DummyMove: Move, Equatable {
     
     let actor: String = ""
     
-    func dispatch(state: State) -> MoveResult {
-        .success(state: state, effects: nil, selectedArg: nil)
+    func dispatch(in state: State) -> Result<MoveOutput, Error> {
+        .success(MoveOutput(state: state))
     }
 }

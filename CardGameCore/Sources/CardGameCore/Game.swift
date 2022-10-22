@@ -66,8 +66,8 @@ private extension Game {
         /// process queued command immediately
         if !commands.isEmpty {
             let command = commands.removeFirst()
-            let result = command.dispatch(state: currState)
-            emitMoveResult(result, from: currState, move: command)
+            let result = command.dispatch(in: currState)
+            handleMoveResult(result, from: currState, move: command)
             return true
         }
         
@@ -105,22 +105,22 @@ private extension Game {
         return false
     }
     
-    /// Emit move execution result
-    func emitMoveResult(_ result: MoveResult, from currState: State, move: Move) {
+    /// Handle move execution result
+    func handleMoveResult(_ result: Result<MoveOutput, Error>, from currState: State, move: Move) {
         switch result {
-        case let .success(aState, effects, arg):
+        case let .success(output):
             /// assume selected arg is for the first effect
-            if let arg {
+            if let arg = output.selectedArg {
                 sequences.first?.ctx.selectedArg = arg
             }
             
-            if let effects {
+            if let effects = output.effects {
                 let ctx = PlayContext(actor: move.actor)
                 let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
                 sequences.insert(contentsOf: nodes, at: 0)
             }
             
-            var newState = aState
+            var newState = output.state
             newState.lastEvent = move
             state.send(newState)
             
@@ -212,6 +212,5 @@ private struct EffectNode {
     let ctx: PlayContext
 }
 
-
-public struct ErrorNoEffectToSilent: Error, Event {
+struct ErrorNoEffectToSilent: Error, Event {
 }

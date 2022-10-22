@@ -18,7 +18,7 @@ public struct Choose: Move, Equatable {
         self.actor = actor
     }
     
-    public func dispatch(state: State) -> MoveResult {
+    public func dispatch(in state: State) -> Result<MoveOutput, Error> {
         guard state.isWaiting(self) else {
             return .failure(ErrorChooseOptionNotFound())
         }
@@ -26,7 +26,7 @@ public struct Choose: Move, Equatable {
         var state = state
         state.removeDecisions(for: actor)
         
-        return .success(state: state, effects: nil, selectedArg: value)
+        return .success(MoveOutput(state: state, selectedArg: value))
     }
 }
 

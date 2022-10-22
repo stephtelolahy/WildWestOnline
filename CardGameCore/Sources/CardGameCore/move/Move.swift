@@ -11,12 +11,17 @@ public protocol Move: Event {
     
     var actor: String { get }
     
-    func dispatch(state: State) -> MoveResult
+    func dispatch(in state: State) -> Result<MoveOutput, Error>
 }
 
-public enum MoveResult {
+public struct MoveOutput {
+    let state: State
+    var effects: [Effect]?
+    var selectedArg: String?
     
-    case success(state: State, effects: [Effect]?, selectedArg: String?)
-    
-    case failure(Error)
+    public init(state: State, effects: [Effect]? = nil, selectedArg: String? = nil) {
+        self.state = state
+        self.effects = effects
+        self.selectedArg = selectedArg
+    }
 }
