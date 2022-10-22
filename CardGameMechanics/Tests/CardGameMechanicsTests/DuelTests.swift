@@ -36,7 +36,7 @@ class DuelTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When
@@ -74,7 +74,7 @@ class DuelTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When
@@ -83,8 +83,8 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p2"], [Choose(value: "c2", actor: "p2"),
-                                                         Choose(value: Args.choosePass, actor: "p2")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c2", actor: "p2"),
+                                                   Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 discard bang
         // When
@@ -124,7 +124,7 @@ class DuelTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [c3])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When
@@ -133,8 +133,8 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p2"], [Choose(value: "c2", actor: "p2"),
-                                                         Choose(value: Args.choosePass, actor: "p2")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c2", actor: "p2"),
+                                                   Choose(value: Args.choosePass, actor: "p2")])
         
         // Phase: p2 discard bang
         // When
@@ -144,8 +144,8 @@ class DuelTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p2"),
                                   Discard(card: "c2", target: "p2")])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c3", actor: "p1"),
-                                                         Choose(value: Args.choosePass, actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
+                                                   Choose(value: Args.choosePass, actor: "p1")])
         
         // Phase: p1 discard bang
         // When

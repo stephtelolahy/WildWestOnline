@@ -26,16 +26,17 @@ extension Card {
             }
         }
         
-        // verify first card effect
+        // TODO: verify first card effect
+        /*
         if let effect = onPlay.first,
            case let .failure(error) = effect.verify(state: state, ctx: PlayContext(actor: actor)) {
             return .failure(error)
         }
-        
+        */
         return .success
     }
 }
-
+/*
 private extension Effect {
     
     /// check if an effect will be resolved successfully
@@ -78,3 +79,4 @@ private extension Effect {
         }
     }
 }
+*/

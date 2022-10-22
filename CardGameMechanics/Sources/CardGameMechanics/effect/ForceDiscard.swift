@@ -53,7 +53,7 @@ public struct ForceDiscard: Effect {
                 matchingCards.contains(chosen) else {
             var options: [Move] = matchingCards.map { Choose(value: $0, actor: target) }
             options.append(Choose(value: Args.choosePass, actor: target))
-            return .suspended([target: options])
+            return .suspended(options)
         }
         
         // discard card

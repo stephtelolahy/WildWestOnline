@@ -24,7 +24,7 @@ public struct Choose: Move, Equatable {
         }
         
         var state = state
-        state.decisions.removeValue(forKey: actor)
+        state.removeDecisions(for: actor)
         
         return .success(state: state, effects: nil, selectedArg: value)
     }

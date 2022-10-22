@@ -46,7 +46,7 @@ public struct Play: Move, Equatable {
         }
         
         if state.isWaiting(self) {
-            state.decisions.removeValue(forKey: actor)
+            state.removeDecisions(for: actor)
         }
         
         state.turnPlayed.append(cardObj.name)

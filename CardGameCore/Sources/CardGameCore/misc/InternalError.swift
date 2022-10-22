@@ -17,6 +17,7 @@ public enum InternalError: Error {
     case storeCardNotFound(String)
     case cardScriptNotFound(String)
     case contextTargetNotFound
+    case contextCancelEffectNotFound
     
     case turnValueInvalid
     case cardSourceInvalid

@@ -21,15 +21,16 @@ public enum EffectResult {
     case failure(Error)
     
     /// Resolving arguments, replace it with child effects
+    /// Must transmit context to child effects
     case resolving([Effect])
     
     /// Suspended waiting user decision among an array of `Move`, keep it in queue
-    case suspended([String: [Move]])
+    case suspended([Move])
     
     /// Remove first queued effect matching a predicate
-    case cancel((Effect) -> Bool, Error)
+    case cancel((Effect) -> Bool)
     
-    /// Nothing happens, remove it from queue, do not mention it
+    /// Nothing happens, remove it from queue
     case nothing
 }
 

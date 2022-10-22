@@ -35,8 +35,8 @@ public struct State {
     /// is Game over
     public var isGameOver = false
     
-    /// pending action by player
-    public var decisions: [String: [Move]] = [:]
+    /// pending actions
+    public var decisions: [Move] = []
     
     /// last occurred event
     public var lastEvent: Event?
@@ -50,7 +50,7 @@ public struct State {
         phase: Int = 1,
         deck: [Card] = [],
         discard: [Card] = [],
-        decisions: [String: [Move]] = [:],
+        decisions: [Move] = [],
         isGameOver: Bool = false
     ) {
         self.players = players

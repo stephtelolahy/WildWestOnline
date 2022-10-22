@@ -36,7 +36,7 @@ class BangTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When
@@ -91,7 +91,7 @@ class BangTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: choose target
         // When

@@ -36,7 +36,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: select target
         // When
@@ -73,7 +73,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: select target
         // When
@@ -82,7 +82,7 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c3", actor: "p1"),
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
                                                          Choose(value: Args.cardRandomHand, actor: "p1")])
         
         // Phase: Select card
@@ -120,7 +120,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "p2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
         // Phase: select target
         // When
@@ -129,7 +129,7 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c3", actor: "p1"),
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
                                                          Choose(value: Args.cardRandomHand, actor: "p1")])
         
         // Phase: Select card

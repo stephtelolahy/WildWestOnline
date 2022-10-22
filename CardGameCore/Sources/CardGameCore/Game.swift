@@ -97,7 +97,7 @@ private extension Game {
         if let turn = currState.turn,
            let moves = activeMoves(actor: turn, state: currState) {
             var newState = currState
-            newState.decisions[turn] = moves
+            newState.decisions = moves
             state.send(newState)
             return false
         }
@@ -164,23 +164,19 @@ private extension Game {
             newState.decisions = decisions
             state.send(newState)
             
-        case let .cancel(filter, error):
+        case let .cancel(filter):
             sequences.remove(at: 0)
-            
-            if let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) {
-                sequences.remove(at: indexToRemove)
+            guard let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) else {
                 var newState = currState
-                newState.lastEvent = effect
+                newState.lastEvent = ErrorNoEffectToSilent()
                 state.send(newState)
-            } else {
-                guard let event = error as? Event else {
-                    fatalError(.errorTypeInvalid(error.localizedDescription))
-                }
-                
-                var newState = currState
-                newState.lastEvent = event
-                state.send(newState)
+                return
             }
+
+            sequences.remove(at: indexToRemove)
+            var newState = currState
+            newState.lastEvent = effect
+            state.send(newState)
             
         case .nothing:
             sequences.remove(at: 0)
@@ -214,4 +210,8 @@ private struct EffectNode {
     
     /// all data about effect resolution
     let ctx: PlayContext
+}
+
+
+public struct ErrorNoEffectToSilent: Error, Event {
 }

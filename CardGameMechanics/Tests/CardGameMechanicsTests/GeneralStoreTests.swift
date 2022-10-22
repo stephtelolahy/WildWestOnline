@@ -42,11 +42,9 @@ class GeneralStoreTests: XCTestCase {
                                   DeckToStore(),
                                   DeckToStore()])
         XCTAssertEqual(sut.state.value.store, [c2, c3, c4])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Choose(value: "c2", actor: "p1"),
-                                                         Choose(value: "c3", actor: "p1"),
-                                                         Choose(value: "c4", actor: "p1")])
-        XCTAssertNil(sut.state.value.decisions["p2"])
-        XCTAssertNil(sut.state.value.decisions["p3"])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c2", actor: "p1"),
+                                                   Choose(value: "c3", actor: "p1"),
+                                                   Choose(value: "c4", actor: "p1")])
         
         // Phase: p1 Choose card
         // When
@@ -58,8 +56,8 @@ class GeneralStoreTests: XCTestCase {
                                   DrawStore(card: "c2", target: "p1")])
         XCTAssertEqual(sut.state.value.store, [c3, c4])
         XCTAssertEqual(sut.state.value.players["p1"]?.hand, [c2])
-        XCTAssertEqual(sut.state.value.decisions["p2"], [Choose(value: "c3", actor: "p2"),
-                                                         Choose(value: "c4", actor: "p2")])
+        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p2"),
+                                                   Choose(value: "c4", actor: "p2")])
         
         // Phase: p2 Choose card
         messages.removeAll()

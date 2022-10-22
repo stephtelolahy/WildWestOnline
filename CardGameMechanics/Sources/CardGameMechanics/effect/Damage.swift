@@ -26,7 +26,7 @@ public struct Damage: Effect, Silentable {
     
     public func resolve(state: State, ctx: PlayContext) -> EffectResult {
         if let options = silentOptions(state: state, selectedArg: ctx.selectedArg) {
-            return .suspended([target: options])
+            return .suspended(options)
         }
         
         guard Args.isPlayerResolved(target, state: state) else {

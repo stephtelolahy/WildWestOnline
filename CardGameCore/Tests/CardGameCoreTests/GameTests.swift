@@ -28,8 +28,8 @@ class GameTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [])
-        XCTAssertEqual(sut.state.value.decisions["p1"], [Play(card: "c1", actor: "p1"),
-                                                         Play(card: "c2", actor: "p1")])
+        XCTAssertEqual(sut.state.value.decisions, [Play(card: "c1", actor: "p1"),
+                                                   Play(card: "c2", actor: "p1")])
     }
     
     func test_StopUpdates_IfGameIsOver() {

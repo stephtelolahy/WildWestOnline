@@ -58,7 +58,7 @@ extension Args {
                     return .resolving([copy])
                 } else {
                     let options = pIds.map { Choose(value: $0, actor: ctx.actor) }
-                    return .suspended([ctx.actor: options])
+                    return .suspended(options)
                 }
             }
             
