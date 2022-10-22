@@ -61,7 +61,7 @@ public struct ForceDiscard: Effect {
         effects.append(Discard(card: chosen, target: target))
         
         // if challenger, toggle target
-        if let challenger = self.challenger {
+        if let challenger {
             let toggleEffect = ForceDiscard(card: card, target: challenger, challenger: target, otherwise: otherwise)
             effects.append(toggleEffect)
         }

@@ -16,7 +16,7 @@ public struct DeckToStore: Effect {
     }
     
     public func resolve(state: State, ctx: PlayContext) -> EffectResult {
-        if let times = self.times {
+        if let times {
             return Args.resolveNumber(times, copy: { DeckToStore() }, actor: ctx.actor, state: state)
         }
         

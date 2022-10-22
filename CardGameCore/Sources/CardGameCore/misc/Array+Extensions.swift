@@ -8,8 +8,8 @@
 public extension Array {
     
     /// append a element if not `nil`
-    mutating func append(_ newElement: Element?) {
-        if let element = newElement {
+    mutating func append(_ element: Element?) {
+        if let element {
             self.append(element)
         }
     }

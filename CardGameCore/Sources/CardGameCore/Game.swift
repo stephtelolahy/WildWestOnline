@@ -110,11 +110,11 @@ private extension Game {
         switch result {
         case let .success(aState, effects, arg):
             /// assume selected arg is for the first effect
-            if let arg = arg {
+            if let arg {
                 sequences.first?.ctx.selectedArg = arg
             }
             
-            if let effects = effects {
+            if let effects {
                 let ctx = PlayContext(actor: move.actor)
                 let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
                 sequences.insert(contentsOf: nodes, at: 0)

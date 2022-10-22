@@ -28,7 +28,7 @@ public struct Draw: Effect {
                                       ctx: ctx)
         }
         
-        if let times = times {
+        if let times {
             return Args.resolveNumber(times, copy: { Draw(target: target) }, actor: ctx.actor, state: state)
         }
         
