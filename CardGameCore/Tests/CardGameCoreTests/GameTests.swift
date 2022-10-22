@@ -7,7 +7,6 @@
 
 import XCTest
 import Combine
-import ExtensionsKit
 @testable import CardGameCore
 
 class GameTests: XCTestCase {

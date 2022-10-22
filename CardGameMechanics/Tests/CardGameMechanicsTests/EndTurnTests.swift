@@ -9,7 +9,6 @@ import XCTest
 import Combine
 import CardGameCore
 import CardGameMechanics
-import ExtensionsKit
 
 class EndTurnTests: XCTestCase {
     

@@ -9,7 +9,6 @@ import XCTest
 import CardGameCore
 import CardGameMechanics
 import Combine
-import ExtensionsKit
 
 class CatBalouTests: XCTestCase {
     

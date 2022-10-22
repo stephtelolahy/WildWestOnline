@@ -5,7 +5,6 @@
 //  Created by TELOLAHY Hugues Stéphano on 23/04/2022.
 //
 import CardGameCore
-import ExtensionsKit
 
 /// Effect's player argument
 public extension Args {
