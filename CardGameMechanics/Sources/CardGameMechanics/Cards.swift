@@ -71,8 +71,8 @@ private enum UniqueCards {
              type: .inner,
              prototype: "playableTurn",
              onPlay: [
-                Discard(card: Args.cardSelectHand, times: Args.numExcessHand),
-                SetTurn(player: Args.playerNext),
+                Discard(card: .CARD_SELECT_HAND, times: .NUM_EXCESS_HAND),
+                SetTurn(player: .PLAYER_NEXT),
                 SetPhase(value: 1)
              ]),
         
@@ -86,21 +86,21 @@ private enum UniqueCards {
              type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
-             onPlay: [Damage(value: 1, player: Args.playerSelectReachable, type: Args.effectTypeShoot)]),
+             onPlay: [Damage(value: 1, player: .PLAYER_SELECT_REACHABLE, type: .TYPE_SHOOT)]),
         
         Card(name: "missed",
              type: .collectible,
-             onPlay: [Silent(type: Args.effectTypeShoot)]),
+             onPlay: [Silent(type: .TYPE_SHOOT)]),
         
         Card(name: "gatling",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Damage(value: 1, player: Args.playerOthers, type: Args.effectTypeShoot)]),
+             onPlay: [Damage(value: 1, player: .PLAYER_OTHERS, type: .TYPE_SHOOT)]),
         
         Card(name: "saloon",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Heal(value: 1, player: Args.playerAll)]),
+             onPlay: [Heal(value: 1, player: .PLAYER_ALL)]),
         
         Card(name: "stagecoach",
              type: .collectible,
@@ -115,30 +115,30 @@ private enum UniqueCards {
         Card(name: "catBalou",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Discard(card: Args.cardSelectAny, player: Args.playerSelectAny)]),
+             onPlay: [Discard(card: .CARD_SELECT_ANY, player: .PLAYER_SELECT_ANY)]),
         
         Card(name: "panic",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Steal(player: Args.playerActor, card: Args.cardSelectAny, target: Args.playerSelectAt1)]),
+             onPlay: [Steal(player: .PLAYER_ACTOR, card: .CARD_SELECT_ANY, target: .PLAYER_SELECT_AT_1)]),
         
         Card(name: "generalStore",
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [
-                DeckToStore(times: Args.numPlayers),
-                DrawStore(card: Args.cardSelectAny, player: Args.playerAll)
+                DeckToStore(times: .NUM_PLAYERS),
+                DrawStore(card: .CARD_SELECT_ANY, player: .PLAYER_ALL)
              ]),
         
         Card(name: "indians",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [ForceDiscard(card: "bang", player: Args.playerOthers, otherwise: [Damage(value: 1, player: Args.playerTarget)])]),
+             onPlay: [ForceDiscard(card: "bang", player: .PLAYER_OTHERS, otherwise: [Damage(value: 1, player: .PLAYER_TARGET)])]),
         
         Card(name: "duel",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [ForceDiscard(card: "bang", player: Args.playerSelectAny, otherwise: [Damage(value: 1, player: Args.playerTarget)], challenger: Args.playerActor)])
+             onPlay: [ForceDiscard(card: "bang", player: .PLAYER_SELECT_ANY, otherwise: [Damage(value: 1, player: .PLAYER_TARGET)], challenger: .PLAYER_ACTOR)])
     ]
 }
 

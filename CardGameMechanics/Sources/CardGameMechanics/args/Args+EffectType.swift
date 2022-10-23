@@ -4,11 +4,10 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 04/06/2022.
 //
-import CardGameCore
+// swiftlint:disable identifier_name
 
-/// Effect's type argument
-public extension Args {
+public extension String {
     
     /// well known shoot effect
-    static let effectTypeShoot = "EFFECT_TYPE_SHOOT"
+    static let TYPE_SHOOT = "TYPE_SHOOT"
 }

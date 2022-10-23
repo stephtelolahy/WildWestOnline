@@ -62,7 +62,7 @@ class IndiansTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c2", actor: "p2"),
-                                                   Choose(value: Args.choosePass, actor: "p2")])
+                                                   Choose(value: .CHOOSE_PASS, actor: "p2")])
         
         // Phase: p2 discard bang
         // When
@@ -75,15 +75,15 @@ class IndiansTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p3"),
-                                                   Choose(value: Args.choosePass, actor: "p3")])
+                                                   Choose(value: .CHOOSE_PASS, actor: "p3")])
         
         // Phase: p3 passed
         // When
         messages.removeAll()
-        sut.input(Choose(value: Args.choosePass, actor: "p3"))
+        sut.input(Choose(value: .CHOOSE_PASS, actor: "p3"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: Args.choosePass, actor: "p3"),
+        XCTAssertEqual(messages, [Choose(value: .CHOOSE_PASS, actor: "p3"),
                                   Damage(value: 1, player: "p3")])
         
         XCTAssertEqual(sut.state.value.player("p3").health, 1)

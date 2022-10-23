@@ -17,7 +17,7 @@ public struct SetPhase: Effect {
         self.value = value
     }
     
-    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
         var state = state
         state.phase = value
         

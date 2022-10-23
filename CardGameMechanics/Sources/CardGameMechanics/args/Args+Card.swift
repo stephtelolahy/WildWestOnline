@@ -4,22 +4,24 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 05/06/2022.
 //
+// swiftlint:disable identifier_name
+
 import CardGameCore
 
 /// Effect's card argument of a player
-public extension Args {
+public extension String {
     
     /// random hand card
-    static let cardRandomHand = "CARD_RANDOM_HAND"
+    static let CARD_RANDOM_HAND = "CARD_RANDOM_HAND"
     
     /// all cards
-    static let cardAll = "CARD_ALL"
+    static let CARD_ALL = "CARD_ALL"
     
     /// select any card
-    static let cardSelectAny = "CARD_SELECT_ANY"
+    static let CARD_SELECT_ANY = "CARD_SELECT_ANY"
     
     /// select a hand card
-    static let cardSelectHand = "CARD_SELECT_HAND"
+    static let CARD_SELECT_HAND = "CARD_SELECT_HAND"
 }
 
 extension Args {
@@ -29,7 +31,7 @@ extension Args {
         copyWithCard: @escaping (String) -> T,
         chooser: String,
         source: EffectCardSource,
-        ctx: [String: String],
+        ctx: [EffectKey: String],
         state: State
     ) -> Result<EffectOutput, Error> {
         switch resolveCard(card, source: source, state: state) {
@@ -41,7 +43,7 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(cIds):
-                if let selectedId = ctx[Args.selected],
+                if let selectedId = ctx[.SELECTED],
                    cIds.contains(selectedId) {
                     let copy = copyWithCard(selectedId)
                     return .success(EffectOutput(effects: [copy]))
@@ -86,16 +88,16 @@ private extension Args {
         state: State
     ) -> Result<EffectCardResolved, Error> {
         switch card {
-        case cardRandomHand:
+        case .CARD_RANDOM_HAND:
             return resolveRandomHand(source: source, state: state)
             
-        case cardAll:
+        case .CARD_ALL:
             return resolveAll(source: source, state: state)
             
-        case cardSelectAny:
+        case .CARD_SELECT_ANY:
             return resolveSelectAny(source: source, state: state)
             
-        case cardSelectHand:
+        case .CARD_SELECT_HAND:
             return resolveSelectHand(source: source, state: state)
             
         default:
@@ -153,7 +155,7 @@ private extension Args {
                 // select inPlay
                 var cards = playerObj.inPlay.map { $0.id }
                 if !playerObj.hand.isEmpty {
-                    cards.append(Args.cardRandomHand)
+                    cards.append(.CARD_RANDOM_HAND)
                 }
                 return .success(.selectable(cards))
             }

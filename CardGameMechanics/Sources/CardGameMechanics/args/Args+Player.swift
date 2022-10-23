@@ -4,31 +4,35 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 23/04/2022.
 //
+// swiftlint:disable identifier_name
+
 import CardGameCore
 
-/// Effect's player argument
-public extension Args {
+public extension String {
+    
+    /// who is playing the card
+    static let PLAYER_ACTOR = "PLAYER_ACTOR"
     
     /// other players
-    static let playerOthers = "PLAYER_OTHERS"
+    static let PLAYER_OTHERS = "PLAYER_OTHERS"
     
     /// all players
-    static let playerAll = "PLAYER_ALL"
+    static let PLAYER_ALL = "PLAYER_ALL"
     
     /// player after current turn
-    static let playerNext = "PLAYER_NEXT"
+    static let PLAYER_NEXT = "PLAYER_NEXT"
     
     /// select any other player
-    static let playerSelectAny = "PLAYER_SELECT_ANY"
+    static let PLAYER_SELECT_ANY = "PLAYER_SELECT_ANY"
     
     /// select any reachable player
-    static let playerSelectReachable = "PLAYER_SELECT_REACHABLE"
+    static let PLAYER_SELECT_REACHABLE = "PLAYER_SELECT_REACHABLE"
     
     /// select any player at distance of 1
-    static let playerSelectAt1 = "PLAYER_SELECT_AT_1"
+    static let PLAYER_SELECT_AT_1 = "PLAYER_SELECT_AT_1"
     
     /// previous effect's target
-    static let playerTarget = "PLAYER_TARGET"
+    static let PLAYER_TARGET = "PLAYER_TARGET"
 }
 
 extension Args {
@@ -37,7 +41,7 @@ extension Args {
     static func resolvePlayer<T: Effect>(
         _ player: String,
         copyWithPlayer: @escaping (String) -> T,
-        ctx: [String: String],
+        ctx: [EffectKey: String],
         state: State 
     ) -> Result<EffectOutput, Error> {
         switch resolvePlayer(player, ctx: ctx, state: state) {
@@ -49,12 +53,12 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(pIds):
-                if let selectedId = ctx[Args.selected],
+                if let selectedId = ctx[.SELECTED],
                    pIds.contains(selectedId) {
                     let copy = copyWithPlayer(selectedId)
                     return .success(EffectOutput(effects: [copy]))
                 } else {
-                    let options = pIds.map { Choose(value: $0, actor: ctx[Args.playerActor]!) }
+                    let options = pIds.map { Choose(value: $0, actor: ctx[.ACTOR]!) }
                     return .success(EffectOutput(decisions: options))
                 }
             }
@@ -76,20 +80,20 @@ private extension Args {
         case selectable([String])
     }
     
-    static func resolvePlayer(_ player: String, ctx: [String: String], state: State) -> Result<PlayerResolved, Error> {
+    static func resolvePlayer(_ player: String, ctx: [EffectKey: String], state: State) -> Result<PlayerResolved, Error> {
         switch player {
-        case playerActor:
-            return .success(.identified([ctx[Args.playerActor]!]))
+        case .PLAYER_ACTOR:
+            return .success(.identified([ctx[.ACTOR]!]))
             
-        case playerOthers:
-            let others = Array(state.playOrder.starting(with: ctx[Args.playerActor]!).dropFirst())
+        case .PLAYER_OTHERS:
+            let others = Array(state.playOrder.starting(with: ctx[.ACTOR]!).dropFirst())
             return .success(.identified(others))
             
-        case playerAll:
-            let all = state.playOrder.starting(with: ctx[Args.playerActor]!)
+        case .PLAYER_ALL:
+            let all = state.playOrder.starting(with: ctx[.ACTOR]!)
             return .success(.identified(all))
             
-        case playerNext:
+        case .PLAYER_NEXT:
             guard let turn = state.turn else {
                 fatalError(.turnValueInvalid)
             }
@@ -97,19 +101,19 @@ private extension Args {
             let next = state.playOrder.element(after: turn)
             return .success(.identified([next]))
             
-        case playerSelectAny:
-            let others = state.playOrder.filter { $0 != ctx[Args.playerActor]! }
+        case .PLAYER_SELECT_ANY:
+            let others = state.playOrder.filter { $0 != ctx[.ACTOR]! }
             return .success(.selectable(others))
             
-        case playerSelectReachable:
-            let weapon = state.player(ctx[Args.playerActor]!).weapon
-            return resolvePlayerAtDistance(weapon, state: state, actor: ctx[Args.playerActor]!)
+        case .PLAYER_SELECT_REACHABLE:
+            let weapon = state.player(ctx[.ACTOR]!).weapon
+            return resolvePlayerAtDistance(weapon, state: state, actor: ctx[.ACTOR]!)
             
-        case playerSelectAt1:
-            return resolvePlayerAtDistance(1, state: state, actor: ctx[Args.playerActor]!)
+        case .PLAYER_SELECT_AT_1:
+            return resolvePlayerAtDistance(1, state: state, actor: ctx[.ACTOR]!)
             
-        case playerTarget:
-            guard let target = ctx[Args.playerTarget] else {
+        case .PLAYER_TARGET:
+            guard let target = ctx[.TARGET] else {
                 fatalError(.contextTargetNotFound)
             }
             

@@ -10,7 +10,7 @@ public struct Heal: Effect {
     let value: Int
     let player: String
     
-    public init(value: Int, player: String = Args.playerActor) {
+    public init(value: Int, player: String = .PLAYER_ACTOR) {
         assert(value > 0)
         assert(!player.isEmpty)
         
@@ -18,7 +18,7 @@ public struct Heal: Effect {
         self.player = player
     }
     
-    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Heal(value: value, player: $0) },

@@ -23,15 +23,15 @@ public struct MoveOutput {
     var effects: [Effect]?
     
     /// Context to transmit to all child effects
-    var childCtx: [String: String]?
+    var childCtx: [EffectKey: String]?
     
     /// Context to transmit to just next effect
-    var nextCtx: [String: String]?
+    var nextCtx: [EffectKey: String]?
     
     public init(state: State,
                 effects: [Effect]? = nil,
-                childCtx: [String: String]? = nil,
-                nextCtx: [String: String]? = nil) {
+                childCtx: [EffectKey: String]? = nil,
+                nextCtx: [EffectKey: String]? = nil) {
         self.state = state
         self.effects = effects
         self.childCtx = childCtx

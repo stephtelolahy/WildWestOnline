@@ -8,7 +8,7 @@
 /// Effects are card abilities that update the game state
 /// The process of resolving an efect is similar to a depth-first search
 public protocol Effect: Event {
-    func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error>
+    func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error>
 }
 
 public struct EffectOutput {
@@ -21,7 +21,7 @@ public struct EffectOutput {
     var effects: [Effect]?
     
     /// Additional context data to transmit to child effects
-    var childCtx: [String: String]?
+    var childCtx: [EffectKey: String]?
     
     /// Suspended waiting user decision among an array of `Move`, keep it in queue
     var decisions: [Move]?
@@ -31,7 +31,7 @@ public struct EffectOutput {
     
     public init(state: State? = nil,
                 effects: [Effect]? = nil,
-                childCtx: [String: String]? = nil,
+                childCtx: [EffectKey: String]? = nil,
                 decisions: [Move]? = nil,
                 cancel: ((Effect) -> Bool)? = nil) {
         self.state = state
@@ -40,4 +40,16 @@ public struct EffectOutput {
         self.decisions = decisions
         self.cancel = cancel
     }
+}
+
+public enum EffectKey: String {
+    
+    /// who played the Move
+    case ACTOR
+    
+    /// selected item during effect resolution
+    case SELECTED
+    
+    /// previous effect's target
+    case TARGET
 }

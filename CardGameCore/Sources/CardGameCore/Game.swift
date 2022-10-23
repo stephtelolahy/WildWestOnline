@@ -137,7 +137,7 @@ private extension Game {
     }
     
     /// Handle effect execution result
-    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect, ctx: [String: String]) {
+    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect, ctx: [EffectKey: String]) {
         sequences.remove(at: 0)
         
         switch result {
@@ -212,7 +212,7 @@ private struct EffectNode {
     let effect: Effect
     
     /// all data about effect resolution
-    var ctx: [String: String]
+    var ctx: [EffectKey: String]
 }
 
 struct ErrorNoEffectToSilent: Error, Event {

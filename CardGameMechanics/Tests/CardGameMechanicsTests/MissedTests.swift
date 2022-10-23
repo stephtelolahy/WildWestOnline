@@ -45,7 +45,7 @@ class MissedTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions, [Play(card: "c2", actor: "p2"),
-                                                   Choose(value: Args.choosePass, actor: "p2")])
+                                                   Choose(value: .CHOOSE_PASS, actor: "p2")])
         
         // Phase: p2 counter
         // when
@@ -54,7 +54,7 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c2", actor: "p2"),
-                                  Silent(type: Args.effectTypeShoot, player: "p2")])
+                                  Silent(type: .TYPE_SHOOT, player: "p2")])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
@@ -91,16 +91,16 @@ class MissedTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions, [Play(card: "c2", actor: "p2"),
-                                                   Choose(value: Args.choosePass, actor: "p2")])
+                                                   Choose(value: .CHOOSE_PASS, actor: "p2")])
         
         // Phase: p2 passes
         // when
         messages.removeAll()
-        sut.input(Choose(value: Args.choosePass, actor: "p2"))
+        sut.input(Choose(value: .CHOOSE_PASS, actor: "p2"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: Args.choosePass, actor: "p2"),
-                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot)])
+        XCTAssertEqual(messages, [Choose(value: .CHOOSE_PASS, actor: "p2"),
+                                  Damage(value: 1, player: "p2", type: .TYPE_SHOOT)])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
@@ -130,7 +130,7 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.decisions, [Play(card: "c2", actor: "p2"),
-                                                   Choose(value: Args.choosePass, actor: "p2")])
+                                                   Choose(value: .CHOOSE_PASS, actor: "p2")])
         
         // Phase: p2 counter
         // When
@@ -139,10 +139,10 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c2", actor: "p2"),
-                                  Silent(type: Args.effectTypeShoot, player: "p2")])
+                                  Silent(type: .TYPE_SHOOT, player: "p2")])
         
         XCTAssertEqual(sut.state.value.decisions, [Play(card: "c3", actor: "p3"),
-                                                   Choose(value: Args.choosePass, actor: "p3")])
+                                                   Choose(value: .CHOOSE_PASS, actor: "p3")])
         
         // Phase: p3 counter
         // When
@@ -150,7 +150,7 @@ class MissedTests: XCTestCase {
         sut.input(Play(card: "c3", actor: "p3"))
         
         XCTAssertEqual(messages, [Play(card: "c3", actor: "p3"),
-                                  Silent(type: Args.effectTypeShoot, player: "p3")])
+                                  Silent(type: .TYPE_SHOOT, player: "p3")])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.player("p3").health, 3)

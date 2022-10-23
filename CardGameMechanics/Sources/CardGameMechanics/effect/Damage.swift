@@ -13,7 +13,7 @@ public struct Damage: Effect, Silentable {
     let player: String
     let type: String?
     
-    public init(value: Int, player: String = Args.playerActor, type: String? = nil) {
+    public init(value: Int, player: String = .PLAYER_ACTOR, type: String? = nil) {
         assert(value > 0)
         assert(!player.isEmpty)
         
@@ -22,7 +22,7 @@ public struct Damage: Effect, Silentable {
         self.type = type
     }
     
-    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Damage(value: value, player: $0, type: type) },

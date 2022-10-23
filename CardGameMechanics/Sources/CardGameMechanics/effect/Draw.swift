@@ -11,14 +11,14 @@ public struct Draw: Effect {
     let player: String
     let times: String?
     
-    public init(player: String = Args.playerActor, times: String? = nil) {
+    public init(player: String = .PLAYER_ACTOR, times: String? = nil) {
         assert(!player.isEmpty)
         
         self.player = player
         self.times = times
     }
     
-    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Draw(player: $0, times: times) },

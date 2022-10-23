@@ -83,14 +83,14 @@ class CatBalouTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
-                                                         Choose(value: Args.cardRandomHand, actor: "p1")])
+                                                   Choose(value: .CARD_RANDOM_HAND, actor: "p1")])
         
         // Phase: Select card
         messages.removeAll()
-        sut.input(Choose(value: Args.cardRandomHand, actor: "p1"))
+        sut.input(Choose(value: .CARD_RANDOM_HAND, actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: Args.cardRandomHand, actor: "p1"),
+        XCTAssertEqual(messages, [Choose(value: .CARD_RANDOM_HAND, actor: "p1"),
                                   Discard(card: "c2", player: "p2")])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [c3])
@@ -130,7 +130,7 @@ class CatBalouTests: XCTestCase {
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
-                                                         Choose(value: Args.cardRandomHand, actor: "p1")])
+                                                   Choose(value: .CARD_RANDOM_HAND, actor: "p1")])
         
         // Phase: Select card
         messages.removeAll()

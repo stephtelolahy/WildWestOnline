@@ -84,7 +84,7 @@ class PanicTests: XCTestCase {
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1")])
         
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
-                                                                  Choose(value: Args.cardRandomHand, actor: "p1")])
+                                                   Choose(value: .CARD_RANDOM_HAND, actor: "p1")])
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
         

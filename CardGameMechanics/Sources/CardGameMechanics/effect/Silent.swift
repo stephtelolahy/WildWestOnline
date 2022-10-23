@@ -13,7 +13,7 @@ public struct Silent: Effect {
     let type: String
     let player: String
     
-    public init(type: String, player: String = Args.playerActor) {
+    public init(type: String, player: String = .PLAYER_ACTOR) {
         assert(!type.isEmpty)
         assert(!player.isEmpty)
         
@@ -21,7 +21,7 @@ public struct Silent: Effect {
         self.player = player
     }
     
-    public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Silent(type: type, player: $0) },
@@ -49,18 +49,18 @@ protocol Silentable {
     var player: String { get }
     var type: String? { get }
     
-    func counterMoves(state: State, ctx: [String: String]) -> [Move]?
+    func counterMoves(state: State, ctx: [EffectKey: String]) -> [Move]?
 }
 
 extension Silentable where Self: Effect {
     
-    func counterMoves(state: State, ctx: [String: String]) -> [Move]? {
+    func counterMoves(state: State, ctx: [EffectKey: String]) -> [Move]? {
         guard Args.isPlayerResolved(player, state: state),
               let effectType = type else {
             return nil
         }
         
-        guard ctx[Args.selected] != Args.choosePass else {
+        guard ctx[.SELECTED] != .CHOOSE_PASS else {
             return nil
         }
         
@@ -71,13 +71,8 @@ extension Silentable where Self: Effect {
         }
         
         var moves: [Move] = silentCards.map { Play(card: $0.id, actor: player) }
-        moves.append(Choose(value: Args.choosePass, actor: player))
+        moves.append(Choose(value: .CHOOSE_PASS, actor: player))
         
         return moves
     }
-}
-
-public extension Args {
-    /// do nothing about played card's effect
-    static let choosePass = "CHOOSE_PASS"
 }

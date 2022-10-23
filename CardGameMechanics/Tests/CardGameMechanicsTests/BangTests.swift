@@ -45,7 +45,7 @@ class BangTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot)])
+                                  Damage(value: 1, player: "p2", type: .TYPE_SHOOT)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
     }
@@ -100,7 +100,7 @@ class BangTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot)])
+                                  Damage(value: 1, player: "p2", type: .TYPE_SHOOT)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
     }
