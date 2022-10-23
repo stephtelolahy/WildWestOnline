@@ -20,21 +20,21 @@ extension Args {
     static func resolveNumber<T: Effect>(
         _ number: String,
         copy: @escaping () -> T,
-        actor: String,
+        ctx: [String: String],
         state: State
     ) -> Result<EffectOutput, Error> {
-        let value = resolveNumber(number, actor: actor, state: state)
+        let value = resolveNumber(number, ctx: ctx, state: state)
         let effects = (0..<value).map { _ in copy() }
         return .success(EffectOutput(effects: effects))
     }
     
-    static func resolveNumber(_ number: String, actor: String, state: State) -> Int {
+    static func resolveNumber(_ number: String, ctx: [String: String], state: State) -> Int {
         switch number {
         case numPlayers:
             return state.playOrder.count
             
         case numExcessHand:
-            let actorObj = state.player(actor)
+            let actorObj = state.player(ctx[Args.playerActor]!)
             return max(actorObj.hand.count - actorObj.handLimit, 0)
             
         default:

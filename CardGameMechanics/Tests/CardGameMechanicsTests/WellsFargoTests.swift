@@ -12,7 +12,7 @@ import CardGameCore
 
 class WellsFargoTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_Draw3Cards_IfPlayingWellsFargo() {
         // Given
@@ -27,16 +27,16 @@ class WellsFargoTests: XCTestCase {
                           deck: [c2, c3, c4])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  Draw(target: "p1"),
-                                  Draw(target: "p1"),
-                                  Draw(target: "p1")])
+                                  Draw(player: "p1"),
+                                  Draw(player: "p1"),
+                                  Draw(player: "p1")])
         
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p1").hand, [c2, c3, c4])

@@ -12,7 +12,7 @@ import CardGameMechanics
 
 class StartTurnTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_Draw2CardsAndSetTurnStarted_IfStartingTurn() {
         // Given
@@ -25,15 +25,15 @@ class StartTurnTests: XCTestCase {
                           deck: deck)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "startTurn", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "startTurn", actor: "p1"),
-                                  Draw(target: "p1"),
-                                  Draw(target: "p1"),
+                                  Draw(player: "p1"),
+                                  Draw(player: "p1"),
                                   SetPhase(value: 2)])
         
         XCTAssertEqual(sut.state.value.phase, 2)

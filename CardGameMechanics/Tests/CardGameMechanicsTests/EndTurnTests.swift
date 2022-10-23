@@ -12,7 +12,7 @@ import CardGameMechanics
 
 class EndTurnTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_SetNextTurn_IfEndingTurn() {
         // Given
@@ -25,7 +25,7 @@ class EndTurnTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "endTurn", actor: "p1"))
@@ -53,7 +53,7 @@ class EndTurnTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "endTurn", actor: "p1"))
@@ -69,7 +69,7 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
-                                  Discard(card: "c2", target: "p1"),
+                                  Discard(card: "c2", player: "p1"),
                                   SetTurn(player: "p2"),
                                   SetPhase(value: 1)])
         
@@ -92,7 +92,7 @@ class EndTurnTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "endTurn", actor: "p1"))
@@ -109,7 +109,7 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
-                                  Discard(card: "c2", target: "p1")])
+                                  Discard(card: "c2", player: "p1")])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c1", actor: "p1"),
                                                    Choose(value: "c3", actor: "p1")])
         
@@ -119,7 +119,7 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c3", actor: "p1"),
-                                  Discard(card: "c3", target: "p1"),
+                                  Discard(card: "c3", player: "p1"),
                                   SetTurn(player: "p2"),
                                   SetPhase(value: 1)])
         

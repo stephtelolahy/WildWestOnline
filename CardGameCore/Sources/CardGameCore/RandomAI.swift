@@ -10,12 +10,12 @@ import Combine
 
 public class RandomAI {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     public init() {}
     
     public func observe(game: GameProtocol) {
-        cancellables.append(game.state.sink { [weak self] in self?.processState($0, game: game) })
+        game.state.sink { [weak self] in self?.processState($0, game: game) }.store(in: &cancellables)
     }
     
     private func processState(_ state: State, game: GameProtocol) {

@@ -7,33 +7,32 @@
 
 import CardGameCore
 
-/// prevents an effect from being applied to a player
+/// prevents an effect of some `Type` from being applied to a `player`
+///
 public struct Silent: Effect {
-    
     let type: String
+    let player: String
     
-    private let target: String
-    
-    public init(type: String, target: String = Args.playerActor) {
+    public init(type: String, player: String = Args.playerActor) {
         assert(!type.isEmpty)
-        assert(!target.isEmpty)
+        assert(!player.isEmpty)
         
         self.type = type
-        self.target = target
+        self.player = player
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        guard Args.isPlayerResolved(target, state: state) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Silent(type: type, target: $0) },
-                                      state: state,
-                                      ctx: ctx)
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in Silent(type: type, player: $0) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
         let filter: (Effect) -> Bool = { effect in
             if let silentable = effect as? Silentable,
                silentable.type == type,
-               silentable.target == target {
+               silentable.player == player {
                 return true
             } else {
                 return false
@@ -44,39 +43,37 @@ public struct Silent: Effect {
     }
 }
 
-/// An effect that can be countered by target player
+/// Describing an effect that can be countered by target player
+///
 protocol Silentable {
-    
-    var target: String { get }
-    
+    var player: String { get }
     var type: String? { get }
     
-    /// Return counter moves
-    func silentOptions(state: State, selectedArg: String?) -> [Move]?
+    func counterMoves(state: State, ctx: [String: String]) -> [Move]?
 }
 
 extension Silentable where Self: Effect {
     
-    func silentOptions(state: State, selectedArg: String?) -> [Move]? {
-        guard Args.isPlayerResolved(target, state: state),
+    func counterMoves(state: State, ctx: [String: String]) -> [Move]? {
+        guard Args.isPlayerResolved(player, state: state),
               let effectType = type else {
             return nil
         }
         
-        guard selectedArg != Args.choosePass else {
+        guard ctx[Args.selected] != Args.choosePass else {
             return nil
         }
         
-        let targetObj = state.player(target)
-        let silentCards = targetObj.hand.filter { $0.onPlay.contains { ($0 as? Silent)?.type == effectType } }
+        let playerObj = state.player(player)
+        let silentCards = playerObj.hand.filter { $0.onPlay.contains { ($0 as? Silent)?.type == effectType } }
         guard !silentCards.isEmpty else {
             return nil
         }
         
-        var options: [Move] = silentCards.map { Play(card: $0.id, actor: target) }
-        options.append(Choose(value: Args.choosePass, actor: target))
+        var moves: [Move] = silentCards.map { Play(card: $0.id, actor: player) }
+        moves.append(Choose(value: Args.choosePass, actor: player))
         
-        return options
+        return moves
     }
 }
 

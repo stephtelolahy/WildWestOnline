@@ -12,7 +12,7 @@ import CardGameCore
 
 class IndiansTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_OtherPlayersLooseHealth_IfPlayingIndians_AndNoBangCards() {
         // Given
@@ -26,15 +26,15 @@ class IndiansTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  Damage(value: 1, target: "p2"),
-                                  Damage(value: 1, target: "p3")])
+                                  Damage(value: 1, player: "p2"),
+                                  Damage(value: 1, player: "p3")])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
         XCTAssertEqual(sut.state.value.player("p3").health, 1)
@@ -54,7 +54,7 @@ class IndiansTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -71,7 +71,7 @@ class IndiansTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p2"),
-                                  Discard(card: "c2", target: "p2")])
+                                  Discard(card: "c2", player: "p2")])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p3"),
@@ -84,7 +84,7 @@ class IndiansTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: Args.choosePass, actor: "p3"),
-                                  Damage(value: 1, target: "p3")])
+                                  Damage(value: 1, player: "p3")])
         
         XCTAssertEqual(sut.state.value.player("p3").health, 1)
     }

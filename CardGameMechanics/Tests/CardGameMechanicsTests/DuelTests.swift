@@ -12,7 +12,7 @@ import Combine
 
 class DuelTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_TargetPlayerLooseHealth_IfPlayingDuel_AndNoBangCards() {
         // Given
@@ -25,7 +25,7 @@ class DuelTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -45,7 +45,7 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Damage(value: 1, target: "p2")])
+                                  Damage(value: 1, player: "p2")])
         
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
@@ -63,7 +63,7 @@ class DuelTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -93,8 +93,8 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p2"),
-                                  Discard(card: "c2", target: "p2"),
-                                  Damage(value: 1, target: "p1")])
+                                  Discard(card: "c2", player: "p2"),
+                                  Damage(value: 1, player: "p1")])
         
         XCTAssertEqual(sut.state.value.player("p1").health, 1)
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
@@ -113,7 +113,7 @@ class DuelTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -143,7 +143,7 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p2"),
-                                  Discard(card: "c2", target: "p2")])
+                                  Discard(card: "c2", player: "p2")])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p1"),
                                                    Choose(value: Args.choosePass, actor: "p1")])
         
@@ -154,8 +154,8 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c3", actor: "p1"),
-                                  Discard(card: "c3", target: "p1"),
-                                  Damage(value: 1, target: "p2")])
+                                  Discard(card: "c3", player: "p1"),
+                                  Damage(value: 1, player: "p2")])
         
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
         XCTAssertEqual(sut.state.value.player("p2").health, 1)

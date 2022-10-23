@@ -56,7 +56,7 @@ private extension Game {
     /// `false` if idle or waiting action
     func update() -> Bool {
         var currState = state.value
-        currState.lastEvent = nil
+        currState.event = nil
         
         /// if game is over, do nothing
         if currState.isGameOver {
@@ -109,7 +109,6 @@ private extension Game {
     func handleMoveResult(_ result: Result<MoveOutput, Error>, from currState: State, move: Move) {
         switch result {
         case let .success(output):
-            
             if let nextCtx = output.nextCtx {
                 var node = sequences[0]
                 node.ctx.merge(nextCtx) { _, new in new }
@@ -123,7 +122,7 @@ private extension Game {
             }
             
             var newState = output.state
-            newState.lastEvent = move
+            newState.event = move
             state.send(newState)
             
         case let .failure(error):
@@ -132,7 +131,7 @@ private extension Game {
             }
             
             var newState = currState
-            newState.lastEvent = event
+            newState.event = event
             state.send(newState)
         }
     }
@@ -142,21 +141,12 @@ private extension Game {
         sequences.remove(at: 0)
         
         switch result {
-        case let .failure(error):
-            guard let event = error as? Event else {
-                fatalError(.errorTypeInvalid(error.localizedDescription))
-            }
-            
-            var newState = currState
-            newState.lastEvent = event
-            state.send(newState)
-            
         case let .success(output):
             var newState = currState
             
             if let updatedState = output.state {
                 newState = updatedState
-                newState.lastEvent = effect
+                newState.event = effect
             }
             
             if let effects = output.effects {
@@ -177,12 +167,21 @@ private extension Game {
             if let filter = output.cancel {
                 if let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) {
                     sequences.remove(at: indexToRemove)
-                    newState.lastEvent = effect
+                    newState.event = effect
                 } else {
-                    newState.lastEvent = ErrorNoEffectToSilent()
+                    newState.event = ErrorNoEffectToSilent()
                 }
             }
             
+            state.send(newState)
+            
+        case let .failure(error):
+            guard let event = error as? Event else {
+                fatalError(.errorTypeInvalid(error.localizedDescription))
+            }
+            
+            var newState = currState
+            newState.event = event
             state.send(newState)
         }
     }

@@ -8,8 +8,7 @@ import CardGameCore
 
 /// Draw card from deck to choosable zone
 public struct DeckToStore: Effect {
-    
-    private let times: String?
+    let times: String?
     
     public init(times: String? = nil) {
         self.times = times
@@ -17,7 +16,7 @@ public struct DeckToStore: Effect {
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
         if let times {
-            return Args.resolveNumber(times, copy: { DeckToStore() }, actor: ctx[Args.playerActor]!, state: state)
+            return Args.resolveNumber(times, copy: { DeckToStore() }, ctx: ctx, state: state)
         }
         
         var state = state

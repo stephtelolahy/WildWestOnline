@@ -12,7 +12,7 @@ import CardGameCore
 
 class SaloonTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_AllDamagedPlayersGainHealth_IfPlayingSaloon() {
         // Given
@@ -26,15 +26,15 @@ class SaloonTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  Heal(value: 1, target: "p1"),
-                                  Heal(value: 1, target: "p2"),
+                                  Heal(value: 1, player: "p1"),
+                                  Heal(value: 1, player: "p2"),
                                   ErrorPlayerAlreadyMaxHealth(player: "p3")])
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
@@ -54,7 +54,7 @@ class SaloonTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))

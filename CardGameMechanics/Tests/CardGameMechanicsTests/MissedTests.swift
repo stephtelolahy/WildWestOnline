@@ -12,7 +12,7 @@ import CardGameCore
 
 class MissedTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_CounterShoot_IfPlayingMissed() {
         // Given
@@ -26,7 +26,7 @@ class MissedTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -54,7 +54,7 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c2", actor: "p2"),
-                                  Silent(type: Args.effectTypeShoot, target: "p2")])
+                                  Silent(type: Args.effectTypeShoot, player: "p2")])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
@@ -72,7 +72,7 @@ class MissedTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -100,7 +100,7 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: Args.choosePass, actor: "p2"),
-                                  Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
+                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot)])
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
@@ -118,7 +118,7 @@ class MissedTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -139,7 +139,7 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c2", actor: "p2"),
-                                  Silent(type: Args.effectTypeShoot, target: "p2")])
+                                  Silent(type: Args.effectTypeShoot, player: "p2")])
         
         XCTAssertEqual(sut.state.value.decisions, [Play(card: "c3", actor: "p3"),
                                                    Choose(value: Args.choosePass, actor: "p3")])
@@ -150,7 +150,7 @@ class MissedTests: XCTestCase {
         sut.input(Play(card: "c3", actor: "p3"))
         
         XCTAssertEqual(messages, [Play(card: "c3", actor: "p3"),
-                                  Silent(type: Args.effectTypeShoot, target: "p3")])
+                                  Silent(type: Args.effectTypeShoot, player: "p3")])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.player("p3").health, 3)
@@ -163,7 +163,7 @@ class MissedTests: XCTestCase {
         let state = State(players: ["p1": p1])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))

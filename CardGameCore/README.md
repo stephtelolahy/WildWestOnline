@@ -35,3 +35,25 @@ Effect may be blocked waiting user input.
 
 ![](docs/sequence.png)
 
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+## Conception
+
+Game 
+    - List<Card>: stateless
+    - List<GameObject>: statefull (players, zones, turn, sequence, events...) 
+
+Card
+    - List<Effect>: stateless
+
+Move
+    - ctx.actor: who played the Move
+    - card: the played card
+
+Effect 
+    - ctx.actor: who played the Move originating the effect
+    - player: who apply effect
+    - target: who is target of the effect
+    - more attributes 

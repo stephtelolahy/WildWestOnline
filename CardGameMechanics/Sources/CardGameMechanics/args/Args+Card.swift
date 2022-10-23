@@ -29,10 +29,10 @@ extension Args {
         copyWithCard: @escaping (String) -> T,
         chooser: String,
         source: EffectCardSource,
-        state: State,
-        ctx: [String: String]
+        ctx: [String: String],
+        state: State
     ) -> Result<EffectOutput, Error> {
-        switch resolveCard(card, source: source, state: state, actor: ctx[Args.playerActor]!) {
+        switch resolveCard(card, source: source, state: state) {
             
         case let .success(data):
             switch data {
@@ -71,6 +71,9 @@ extension Args {
         case player(String)
         case store
     }
+}
+
+private extension Args {
     
     enum EffectCardResolved {
         case identified([String])
@@ -80,8 +83,7 @@ extension Args {
     static func resolveCard(
         _ card: String,
         source: EffectCardSource,
-        state: State,
-        actor: String
+        state: State
     ) -> Result<EffectCardResolved, Error> {
         switch card {
         case cardRandomHand:
@@ -91,10 +93,10 @@ extension Args {
             return resolveAll(source: source, state: state)
             
         case cardSelectAny:
-            return resolveSelectAny(source: source, actor: actor, state: state)
+            return resolveSelectAny(source: source, state: state)
             
         case cardSelectHand:
-            return resolveSelectHand(source: source, actor: actor, state: state)
+            return resolveSelectHand(source: source, state: state)
             
         default:
             /// assume identified card
@@ -105,9 +107,6 @@ extension Args {
             return .success(.identified([card]))
         }
     }
-}
-
-private extension Args {
     
     static func resolveRandomHand(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
@@ -137,7 +136,7 @@ private extension Args {
         return .success(.identified(all))
     }
     
-    static func resolveSelectAny(source: EffectCardSource, actor: String, state: State) -> Result<EffectCardResolved, Error> {
+    static func resolveSelectAny(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         // setup options
         switch source {
         case let .player(pId):
@@ -173,7 +172,7 @@ private extension Args {
         }
     }
     
-    static func resolveSelectHand(source: EffectCardSource, actor: String, state: State) -> Result<EffectCardResolved, Error> {
+    static func resolveSelectHand(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
             fatalError(.cardSourceInvalid)
         }

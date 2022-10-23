@@ -40,7 +40,7 @@ public struct State {
     public var decisions: [Move] = []
     
     /// last occurred event
-    public var lastEvent: Event?
+    public var event: Event?
     
     // MARK: - Init
     

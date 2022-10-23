@@ -12,7 +12,7 @@ import CardGameCore
 
 class GeneralStoreTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_EachPlayerChooseCard_IfPlayingGeneralStore() {
         // Given
@@ -30,7 +30,7 @@ class GeneralStoreTests: XCTestCase {
                           deck: [c2, c3, c4])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -53,7 +53,7 @@ class GeneralStoreTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
-                                  DrawStore(card: "c2", target: "p1")])
+                                  DrawStore(card: "c2", player: "p1")])
         XCTAssertEqual(sut.state.value.store, [c3, c4])
         XCTAssertEqual(sut.state.value.players["p1"]?.hand, [c2])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p2"),
@@ -65,8 +65,8 @@ class GeneralStoreTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c4", actor: "p2"),
-                                  DrawStore(card: "c4", target: "p2"),
-                                  DrawStore(card: "c3", target: "p3")])
+                                  DrawStore(card: "c4", player: "p2"),
+                                  DrawStore(card: "c3", player: "p3")])
         XCTAssertEqual(sut.state.value.store, [])
         XCTAssertEqual(sut.state.value.players["p2"]?.hand, [c4])
         XCTAssertEqual(sut.state.value.players["p3"]?.hand, [c3])

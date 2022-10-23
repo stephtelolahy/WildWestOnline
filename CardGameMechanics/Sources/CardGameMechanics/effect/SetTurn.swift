@@ -8,8 +8,7 @@ import CardGameCore
 
 /// Set turn
 public struct SetTurn: Effect {
-    
-    private let player: String
+    let player: String
     
     public init(player: String) {
         assert(!player.isEmpty)
@@ -21,8 +20,8 @@ public struct SetTurn: Effect {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { SetTurn(player: $0) },
-                                      state: state,
-                                      ctx: ctx)
+                                      ctx: ctx,
+                                      state: state)
         }
         
         var state = state

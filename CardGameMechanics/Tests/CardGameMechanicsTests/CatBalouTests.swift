@@ -12,7 +12,7 @@ import Combine
 
 class CatBalouTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_DiscardOthersUniqueHandCard_IfPlayingPanic() {
         // Given
@@ -26,7 +26,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -38,14 +38,14 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
-        // Phase: select target
+        // Phase: choose target
         // When
         messages.removeAll()
         sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Discard(card: "c2", target: "p2")])
+                                  Discard(card: "c2", player: "p2")])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
     }
@@ -63,7 +63,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -75,7 +75,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
-        // Phase: select target
+        // Phase: choose target
         // When
         messages.removeAll()
         sut.input(Choose(value: "p2", actor: "p1"))
@@ -91,7 +91,7 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: Args.cardRandomHand, actor: "p1"),
-                                  Discard(card: "c2", target: "p2")])
+                                  Discard(card: "c2", player: "p2")])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [c3])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
@@ -110,7 +110,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -122,7 +122,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
-        // Phase: select target
+        // Phase: choose target
         // When
         messages.removeAll()
         sut.input(Choose(value: "p2", actor: "p1"))
@@ -138,7 +138,7 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c3", actor: "p1"),
-                                  Discard(card: "c3", target: "p2")])
+                                  Discard(card: "c3", player: "p2")])
         
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [])
@@ -156,7 +156,7 @@ class CatBalouTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When

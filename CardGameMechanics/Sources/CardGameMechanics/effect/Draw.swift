@@ -8,35 +8,33 @@ import CardGameCore
 
 /// draw a card from top deck
 public struct Draw: Effect {
+    let player: String
+    let times: String?
     
-    private let target: String
-    
-    private let times: String?
-    
-    public init(target: String = Args.playerActor, times: String? = nil) {
-        assert(!target.isEmpty)
+    public init(player: String = Args.playerActor, times: String? = nil) {
+        assert(!player.isEmpty)
         
-        self.target = target
+        self.player = player
         self.times = times
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        guard Args.isPlayerResolved(target, state: state) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Draw(target: $0, times: times) },
-                                      state: state,
-                                      ctx: ctx)
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in Draw(player: $0, times: times) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
         if let times {
-            return Args.resolveNumber(times, copy: { Draw(target: target) }, actor: ctx[Args.playerActor]!, state: state)
+            return Args.resolveNumber(times, copy: { Draw(player: player) }, ctx: ctx, state: state)
         }
         
         var state = state
-        var player = state.player(target)
+        var playerObj = state.player(player)
         let card = state.removeTopDeck()
-        player.hand.append(card)
-        state.players[target] = player
+        playerObj.hand.append(card)
+        state.players[player] = playerObj
         
         return .success(EffectOutput(state: state))
     }

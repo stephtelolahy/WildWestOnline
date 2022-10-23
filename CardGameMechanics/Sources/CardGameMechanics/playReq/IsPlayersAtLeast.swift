@@ -8,7 +8,6 @@ import CardGameCore
 
 /// The minimum number of alive players is X
 struct IsPlayersAtLeast: PlayReq {
-    
     let count: Int
     
     func verify(state: State, actor: String, card: Card) -> Result<Void, Error> {

@@ -12,7 +12,7 @@ import CardGameCore
 
 class PanicTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_StealOthersUniqueHandCard_IfPlayingPanic() {
         // Given
@@ -26,7 +26,7 @@ class PanicTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -37,14 +37,14 @@ class PanicTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
-        // Phase: select target
+        // Phase: choose target
         // When
         messages.removeAll()
         sut.input(Choose(value: "p2", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Steal(actor: "p1", card: "c2", target: "p2")])
+                                  Steal(player: "p1", card: "c2", target: "p2")])
         
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
@@ -64,7 +64,7 @@ class PanicTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -75,7 +75,7 @@ class PanicTests: XCTestCase {
         
         XCTAssertEqual(sut.state.value.decisions, [Choose(value: "p2", actor: "p1")])
         
-        // Phase: select target
+        // Phase: choose target
         // When
         messages.removeAll()
         sut.input(Choose(value: "p2", actor: "p1"))
@@ -94,7 +94,7 @@ class PanicTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "c3", actor: "p1"),
-                                  Steal(actor: "p1", card: "c3", target: "p2")])
+                                  Steal(player: "p1", card: "c3", target: "p2")])
         
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [])
@@ -112,7 +112,7 @@ class PanicTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When

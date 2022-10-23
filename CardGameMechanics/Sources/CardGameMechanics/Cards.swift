@@ -4,7 +4,6 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 30/05/2022.
 //
-// swiftlint:disable line_length
 
 import CardGameCore
 
@@ -87,7 +86,7 @@ private enum UniqueCards {
              type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
-             onPlay: [Damage(value: 1, target: Args.playerSelectReachable, type: Args.effectTypeShoot)]),
+             onPlay: [Damage(value: 1, player: Args.playerSelectReachable, type: Args.effectTypeShoot)]),
         
         Card(name: "missed",
              type: .collectible,
@@ -96,12 +95,12 @@ private enum UniqueCards {
         Card(name: "gatling",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Damage(value: 1, target: Args.playerOthers, type: Args.effectTypeShoot)]),
+             onPlay: [Damage(value: 1, player: Args.playerOthers, type: Args.effectTypeShoot)]),
         
         Card(name: "saloon",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Heal(value: 1, target: Args.playerAll)]),
+             onPlay: [Heal(value: 1, player: Args.playerAll)]),
         
         Card(name: "stagecoach",
              type: .collectible,
@@ -116,30 +115,30 @@ private enum UniqueCards {
         Card(name: "catBalou",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Discard(card: Args.cardSelectAny, target: Args.playerSelectAny)]),
+             onPlay: [Discard(card: Args.cardSelectAny, player: Args.playerSelectAny)]),
         
         Card(name: "panic",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Steal(actor: Args.playerActor, card: Args.cardSelectAny, target: Args.playerSelectAt1)]),
+             onPlay: [Steal(player: Args.playerActor, card: Args.cardSelectAny, target: Args.playerSelectAt1)]),
         
         Card(name: "generalStore",
              type: .collectible,
              prototype: "playableTurn",
              onPlay: [
                 DeckToStore(times: Args.numPlayers),
-                DrawStore(card: Args.cardSelectAny, target: Args.playerAll)
+                DrawStore(card: Args.cardSelectAny, player: Args.playerAll)
              ]),
         
         Card(name: "indians",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [ForceDiscard(card: "bang", target: Args.playerOthers, otherwise: [Damage(value: 1, target: Args.playerTarget)])]),
+             onPlay: [ForceDiscard(card: "bang", player: Args.playerOthers, otherwise: [Damage(value: 1, player: Args.playerTarget)])]),
         
         Card(name: "duel",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [ForceDiscard(card: "bang", target: Args.playerSelectAny, challenger: Args.playerActor, otherwise: [Damage(value: 1, target: Args.playerTarget)])])
+             onPlay: [ForceDiscard(card: "bang", player: Args.playerSelectAny, otherwise: [Damage(value: 1, player: Args.playerTarget)], challenger: Args.playerActor)])
     ]
 }
 

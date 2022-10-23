@@ -14,7 +14,7 @@ class SimulationTests: XCTestCase {
     
     private var sut: Game!
     private let ai = RandomAI()
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     private var moves = 0
     
     func test_Simulate2PlayersGame() {
@@ -32,15 +32,15 @@ class SimulationTests: XCTestCase {
     private func runSimulation(playersCount: Int, completed: @escaping () -> Void) {
         let state = Setup.buildGame(playersCount: playersCount, deck: Cards.getDeck(), inner: Cards.getAll(type: .inner))
         sut = Game(state)
-        cancellables.append(sut.state.sink { [weak self] in
+        sut.state.sink { [weak self] in
             if $0.isGameOver {
                 completed()
             }
             
-            if let message = $0.lastEvent {
+            if let message = $0.event {
                 self?.printEvent(message)
             }
-        })
+        }.store(in: &cancellables)
         
         sut.loopUpdate()
         ai.observe(game: sut)

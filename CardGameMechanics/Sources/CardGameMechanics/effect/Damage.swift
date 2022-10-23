@@ -6,40 +6,38 @@
 //
 import CardGameCore
 
-/// deals damage to a character, attempting to reduce its Health by the stated amount
+/// Deals damage to a character, attempting to reduce its Health by the stated amount
+///
 public struct Damage: Effect, Silentable {
-    
-    private let value: Int
-    
-    let target: String
-    
+    let value: Int
+    let player: String
     let type: String?
     
-    public init(value: Int, target: String = Args.playerActor, type: String? = nil) {
+    public init(value: Int, player: String = Args.playerActor, type: String? = nil) {
         assert(value > 0)
-        assert(!target.isEmpty)
+        assert(!player.isEmpty)
         
         self.value = value
-        self.target = target
+        self.player = player
         self.type = type
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        if let options = silentOptions(state: state, selectedArg: ctx[Args.selected]) {
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in Damage(value: value, player: $0, type: type) },
+                                      ctx: ctx,
+                                      state: state)
+        }
+        
+        if let options = counterMoves(state: state, ctx: ctx) {
             return .success(EffectOutput(decisions: options))
         }
         
-        guard Args.isPlayerResolved(target, state: state) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Damage(value: value, target: $0, type: type) },
-                                      state: state,
-                                      ctx: ctx)
-        }
-        
         var state = state
-        var player = state.player(target)
-        player.health -= value
-        state.players[target] = player
+        var playerObj = state.player(player)
+        playerObj.health -= value
+        state.players[player] = playerObj
         
         return .success(EffectOutput(state: state))
     }

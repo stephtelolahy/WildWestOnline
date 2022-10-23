@@ -8,31 +8,32 @@ import CardGameCore
 
 /// Choose some cards from store zone
 public struct DrawStore: Effect {
+    let card: String
+    let player: String
     
-    private let card: String
-    
-    private let target: String
-    
-    public init(card: String, target: String) {
+    public init(card: String, player: String) {
+        assert(!card.isEmpty)
+        assert(!player.isEmpty)
+        
         self.card = card
-        self.target = target
+        self.player = player
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        guard Args.isPlayerResolved(target, state: state) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in DrawStore(card: card, target: $0) },
-                                      state: state,
-                                      ctx: ctx)
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in DrawStore(card: card, player: $0) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
         guard Args.isCardResolved(card, source: .store, state: state) else {
             return Args.resolveCard(card,
-                                    copyWithCard: { DrawStore(card: $0, target: target) },
-                                    chooser: target,
+                                    copyWithCard: { DrawStore(card: $0, player: player) },
+                                    chooser: player,
                                     source: .store,
-                                    state: state,
-                                    ctx: ctx)
+                                    ctx: ctx,
+                                    state: state)
         }
         
         guard let storeIndex = state.store.firstIndex(where: { $0.id == card }) else {
@@ -40,10 +41,10 @@ public struct DrawStore: Effect {
         }
         
         var state = state
-        var targetObj = state.player(target)
+        var playerObj = state.player(player)
         let cardObj = state.store.remove(at: storeIndex)
-        targetObj.hand.append(cardObj)
-        state.players[target] = targetObj
+        playerObj.hand.append(cardObj)
+        state.players[player] = playerObj
         
         return .success(EffectOutput(state: state))
     }

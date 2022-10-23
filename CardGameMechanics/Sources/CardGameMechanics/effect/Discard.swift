@@ -8,57 +8,54 @@ import CardGameCore
 
 /// discard player's card to discard pile
 public struct Discard: Effect {
+    let card: String
+    let player: String
+    let times: String?
     
-    private let card: String
-    
-    private let target: String
-    
-    private let times: String?
-    
-    public init(card: String, target: String = Args.playerActor, times: String? = nil) {
+    public init(card: String, player: String = Args.playerActor, times: String? = nil) {
         assert(!card.isEmpty)
-        assert(!target.isEmpty)
+        assert(!player.isEmpty)
         
         self.card = card
-        self.target = target
+        self.player = player
         self.times = times
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        guard Args.isPlayerResolved(target, state: state) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Discard(card: card, target: $0, times: times) },
-                                      state: state,
-                                      ctx: ctx)
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in Discard(card: card, player: $0, times: times) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
         if let times {
-            return Args.resolveNumber(times, copy: { Discard(card: card, target: target) }, actor: ctx[Args.playerActor]!, state: state)
+            return Args.resolveNumber(times, copy: { Discard(card: card, player: player) }, ctx: ctx, state: state)
         }
         
-        guard Args.isCardResolved(card, source: .player(target), state: state) else {
+        guard Args.isCardResolved(card, source: .player(player), state: state) else {
             return Args.resolveCard(card,
-                                    copyWithCard: { Discard(card: $0, target: target) },
+                                    copyWithCard: { Discard(card: $0, player: player) },
                                     chooser: ctx[Args.playerActor]!,
-                                    source: .player(target),
-                                    state: state,
-                                    ctx: ctx)
+                                    source: .player(player),
+                                    ctx: ctx,
+                                    state: state)
         }
         
         var state = state
-        var targetObj = state.player(target)
+        var playerObj = state.player(player)
         
-        if let handIndex = targetObj.hand.firstIndex(where: { $0.id == card }) {
-            let cardObj = targetObj.hand.remove(at: handIndex)
+        if let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) {
+            let cardObj = playerObj.hand.remove(at: handIndex)
             state.discard.append(cardObj)
         }
         
-        if let inPlayIndex = targetObj.inPlay.firstIndex(where: { $0.id == card }) {
-            let cardObj = targetObj.inPlay.remove(at: inPlayIndex)
+        if let inPlayIndex = playerObj.inPlay.firstIndex(where: { $0.id == card }) {
+            let cardObj = playerObj.inPlay.remove(at: inPlayIndex)
             state.discard.append(cardObj)
         }
         
-        state.players[target] = targetObj
+        state.players[player] = playerObj
         
         return .success(EffectOutput(state: state))
     }

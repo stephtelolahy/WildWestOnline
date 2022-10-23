@@ -8,7 +8,6 @@ import CardGameCore
 
 /// Must be on phase X and no playing hit
 public struct IsPhase: PlayReq {
-    
     let phase: Int
     
     public init(phase: Int) {

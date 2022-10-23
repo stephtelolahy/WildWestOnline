@@ -8,7 +8,6 @@ import CardGameCore
 
 /// The maximum times per turn this card may be played is X
 public struct IsTimesPerTurn: PlayReq {
-    
     let maxTimes: Int
     
     public func verify(state: State, actor: String, card: Card) -> Result<Void, Error> {

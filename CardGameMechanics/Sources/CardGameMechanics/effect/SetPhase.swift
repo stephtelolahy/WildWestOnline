@@ -9,8 +9,7 @@ import UIKit
 
 /// Set  phase
 public struct SetPhase: Effect {
-    
-    private let value: Int
+    let value: Int
     
     public init(value: Int) {
         assert(value > 0)

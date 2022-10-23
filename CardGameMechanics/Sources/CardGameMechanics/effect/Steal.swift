@@ -8,62 +8,59 @@ import CardGameCore
 
 /// draw some cards from other player
 public struct Steal: Effect {
+    let player: String
+    let card: String
+    let target: String
     
-    private let actor: String
-    
-    private let card: String
-    
-    private let target: String
-    
-    public init(actor: String, card: String, target: String) {
-        assert(!actor.isEmpty)
+    public init(player: String, card: String, target: String) {
+        assert(!player.isEmpty)
         assert(!card.isEmpty)
         assert(!target.isEmpty)
         
-        self.actor = actor
+        self.player = player
         self.card = card
         self.target = target
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        guard Args.isPlayerResolved(actor, state: state) else {
-            return Args.resolvePlayer(actor,
-                                      copyWithPlayer: { [self] in Steal(actor: $0, card: card, target: target) },
-                                      state: state,
-                                      ctx: ctx)
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in Steal(player: $0, card: card, target: target) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Steal(actor: actor, card: card, target: $0) },
-                                      state: state,
-                                      ctx: ctx)
+                                      copyWithPlayer: { [self] in Steal(player: player, card: card, target: $0) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
         guard Args.isCardResolved(card, source: .player(target), state: state) else {
             return Args.resolveCard(card,
-                                    copyWithCard: { Steal(actor: actor, card: $0, target: target) },
-                                    chooser: ctx[Args.playerActor]!,
+                                    copyWithCard: { Steal(player: player, card: $0, target: target) },
+                                    chooser: player,
                                     source: .player(target),
-                                    state: state,
-                                    ctx: ctx)
+                                    ctx: ctx,
+                                    state: state)
         }
         
         var state = state
-        var actorObj = state.player(actor)
+        var playerObj = state.player(player)
         var targetObj = state.player(target)
         
         if let handIndex = targetObj.hand.firstIndex(where: { $0.id == card }) {
             let cardObj = targetObj.hand.remove(at: handIndex)
-            actorObj.hand.append(cardObj)
+            playerObj.hand.append(cardObj)
         }
         
         if let inPlayIndex = targetObj.inPlay.firstIndex(where: { $0.id == card }) {
             let cardObj = targetObj.inPlay.remove(at: inPlayIndex)
-            actorObj.hand.append(cardObj)
+            playerObj.hand.append(cardObj)
         }
         
-        state.players[actor] = actorObj
+        state.players[player] = playerObj
         state.players[target] = targetObj
         
         return .success(EffectOutput(state: state))

@@ -37,10 +37,10 @@ extension Args {
     static func resolvePlayer<T: Effect>(
         _ player: String,
         copyWithPlayer: @escaping (String) -> T,
-        state: State,
-        ctx: [String: String]
+        ctx: [String: String],
+        state: State 
     ) -> Result<EffectOutput, Error> {
-        switch resolvePlayer(player, state: state, ctx: ctx) {
+        switch resolvePlayer(player, ctx: ctx, state: state) {
             
         case let .success(data):
             switch data {
@@ -76,7 +76,7 @@ private extension Args {
         case selectable([String])
     }
     
-    static func resolvePlayer(_ player: String, state: State, ctx: [String: String]) -> Result<PlayerResolved, Error> {
+    static func resolvePlayer(_ player: String, ctx: [String: String], state: State) -> Result<PlayerResolved, Error> {
         switch player {
         case playerActor:
             return .success(.identified([ctx[Args.playerActor]!]))

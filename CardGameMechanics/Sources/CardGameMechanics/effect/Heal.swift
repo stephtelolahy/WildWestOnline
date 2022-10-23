@@ -7,36 +7,34 @@
 import CardGameCore
 
 public struct Heal: Effect {
+    let value: Int
+    let player: String
     
-    private let value: Int
-    
-    private let target: String
-    
-    public init(value: Int, target: String = Args.playerActor) {
+    public init(value: Int, player: String = Args.playerActor) {
         assert(value > 0)
-        assert(!target.isEmpty)
+        assert(!player.isEmpty)
         
         self.value = value
-        self.target = target
+        self.player = player
     }
     
     public func resolve(in state: State, ctx: [String: String]) -> Result<EffectOutput, Error> {
-        guard Args.isPlayerResolved(target, state: state) else {
-            return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Heal(value: value, target: $0) },
-                                      state: state,
-                                      ctx: ctx)
+        guard Args.isPlayerResolved(player, state: state) else {
+            return Args.resolvePlayer(player,
+                                      copyWithPlayer: { [self] in Heal(value: value, player: $0) },
+                                      ctx: ctx,
+                                      state: state)
         }
         
-        var targetObj = state.player(target)
-        guard targetObj.health < targetObj.maxHealth else {
-            return .failure(ErrorPlayerAlreadyMaxHealth(player: target))
+        var playerObj = state.player(player)
+        guard playerObj.health < playerObj.maxHealth else {
+            return .failure(ErrorPlayerAlreadyMaxHealth(player: player))
         }
         
-        let newHealth = min(targetObj.health + value, targetObj.maxHealth)
-        targetObj.health = newHealth
+        let newHealth = min(playerObj.health + value, playerObj.maxHealth)
+        playerObj.health = newHealth
         var state = state
-        state.players[target] = targetObj
+        state.players[player] = playerObj
         
         return .success(EffectOutput(state: state))
     }

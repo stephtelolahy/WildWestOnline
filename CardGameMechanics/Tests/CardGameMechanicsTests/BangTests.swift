@@ -12,7 +12,7 @@ import CardGameCore
 
 class BangTests: XCTestCase {
     
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_DealDamage_IfPlayingBang() {
         // Given
@@ -25,7 +25,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -45,7 +45,7 @@ class BangTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
+                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
     }
@@ -60,7 +60,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
@@ -80,7 +80,7 @@ class BangTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
@@ -100,7 +100,7 @@ class BangTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(messages, [Choose(value: "p2", actor: "p1"),
-                                  Damage(value: 1, target: "p2", type: Args.effectTypeShoot)])
+                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
     }
@@ -113,7 +113,7 @@ class BangTests: XCTestCase {
                           playOrder: ["p2", "p1"])
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))

@@ -12,7 +12,7 @@ import CardGameCore
 
 class GatlingTests: XCTestCase {
 
-    private var cancellables: [Cancellable] = []
+    private var cancellables = Set<AnyCancellable>()
     
     func test_DamageOthers_IfPlayingGatling() {
         // Given
@@ -26,15 +26,15 @@ class GatlingTests: XCTestCase {
                           phase: 2)
         let sut = Game(state)
         var messages: [Event] = []
-        cancellables.append(sut.state.sink { messages.append($0.lastEvent) })
+        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
         XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  Damage(value: 1, target: "p2", type: Args.effectTypeShoot),
-                                  Damage(value: 1, target: "p3", type: Args.effectTypeShoot)])
+                                  Damage(value: 1, player: "p2", type: Args.effectTypeShoot),
+                                  Damage(value: 1, player: "p3", type: Args.effectTypeShoot)])
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
