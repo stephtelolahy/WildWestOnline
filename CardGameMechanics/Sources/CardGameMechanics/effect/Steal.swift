@@ -22,7 +22,7 @@ public struct Steal: Effect {
         self.target = target
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Steal(player: $0, card: card, target: target) },

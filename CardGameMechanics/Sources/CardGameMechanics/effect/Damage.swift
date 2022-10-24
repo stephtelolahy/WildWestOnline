@@ -22,7 +22,7 @@ public struct Damage: Effect, Silentable {
         self.type = type
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Damage(value: value, player: $0, type: type) },

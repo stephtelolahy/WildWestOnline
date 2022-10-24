@@ -31,7 +31,7 @@ extension Args {
         copyWithCard: @escaping (String) -> T,
         chooser: String,
         source: EffectCardSource,
-        ctx: [EffectKey: String],
+        ctx: [EffectKey: any Equatable],
         state: State
     ) -> Result<EffectOutput, Error> {
         switch resolveCard(card, source: source, state: state) {
@@ -43,7 +43,7 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(cIds):
-                if let selectedId = ctx[.SELECTED],
+                if let selectedId = ctx.stringForKey(.SELECTED),
                    cIds.contains(selectedId) {
                     let copy = copyWithCard(selectedId)
                     return .success(EffectOutput(effects: [copy]))

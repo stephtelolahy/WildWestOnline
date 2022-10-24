@@ -41,7 +41,7 @@ extension Args {
     static func resolvePlayer<T: Effect>(
         _ player: String,
         copyWithPlayer: @escaping (String) -> T,
-        ctx: [EffectKey: String],
+        ctx: [EffectKey: any Equatable],
         state: State 
     ) -> Result<EffectOutput, Error> {
         switch resolvePlayer(player, ctx: ctx, state: state) {
@@ -53,12 +53,12 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(pIds):
-                if let selectedId = ctx[.SELECTED],
+                if let selectedId = ctx.stringForKey(.SELECTED),
                    pIds.contains(selectedId) {
                     let copy = copyWithPlayer(selectedId)
                     return .success(EffectOutput(effects: [copy]))
                 } else {
-                    let options = pIds.map { Choose(value: $0, actor: ctx[.ACTOR]!) }
+                    let options = pIds.map { Choose(value: $0, actor: ctx.stringForKey(.ACTOR)!) }
                     return .success(EffectOutput(decisions: options))
                 }
             }
@@ -80,17 +80,17 @@ private extension Args {
         case selectable([String])
     }
     
-    static func resolvePlayer(_ player: String, ctx: [EffectKey: String], state: State) -> Result<PlayerResolved, Error> {
+    static func resolvePlayer(_ player: String, ctx: [EffectKey: any Equatable], state: State) -> Result<PlayerResolved, Error> {
         switch player {
         case .PLAYER_ACTOR:
-            return .success(.identified([ctx[.ACTOR]!]))
+            return .success(.identified([ctx.stringForKey(.ACTOR)!]))
             
         case .PLAYER_OTHERS:
-            let others = Array(state.playOrder.starting(with: ctx[.ACTOR]!).dropFirst())
+            let others = Array(state.playOrder.starting(with: ctx.stringForKey(.ACTOR)!).dropFirst())
             return .success(.identified(others))
             
         case .PLAYER_ALL:
-            let all = state.playOrder.starting(with: ctx[.ACTOR]!)
+            let all = state.playOrder.starting(with: ctx.stringForKey(.ACTOR)!)
             return .success(.identified(all))
             
         case .PLAYER_NEXT:
@@ -102,18 +102,18 @@ private extension Args {
             return .success(.identified([next]))
             
         case .PLAYER_SELECT_ANY:
-            let others = state.playOrder.filter { $0 != ctx[.ACTOR]! }
+            let others = state.playOrder.filter { $0 != ctx.stringForKey(.ACTOR) }
             return .success(.selectable(others))
             
         case .PLAYER_SELECT_REACHABLE:
-            let weapon = state.player(ctx[.ACTOR]!).weapon
-            return resolvePlayerAtDistance(weapon, state: state, actor: ctx[.ACTOR]!)
+            let weapon = state.player(ctx.stringForKey(.ACTOR)!).weapon
+            return resolvePlayerAtDistance(weapon, state: state, actor: ctx.stringForKey(.ACTOR)!)
             
         case .PLAYER_SELECT_AT_1:
-            return resolvePlayerAtDistance(1, state: state, actor: ctx[.ACTOR]!)
+            return resolvePlayerAtDistance(1, state: state, actor: ctx.stringForKey(.ACTOR)!)
             
         case .PLAYER_TARGET:
-            guard let target = ctx[.TARGET] else {
+            guard let target = ctx.stringForKey(.TARGET) else {
                 fatalError(.contextTargetNotFound)
             }
             

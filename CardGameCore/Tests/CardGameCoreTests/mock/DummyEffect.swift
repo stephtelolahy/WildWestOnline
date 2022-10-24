@@ -10,7 +10,7 @@ struct DummyEffect: Effect {
     
     let id: String
     
-    func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
+    func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
         .success(EffectOutput())
     }
 }

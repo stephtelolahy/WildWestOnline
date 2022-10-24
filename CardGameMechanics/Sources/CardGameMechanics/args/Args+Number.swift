@@ -22,7 +22,7 @@ extension Args {
     static func resolveNumber<T: Effect>(
         _ number: String,
         copy: @escaping () -> T,
-        ctx: [EffectKey: String],
+        ctx: [EffectKey: any Equatable],
         state: State
     ) -> Result<EffectOutput, Error> {
         let value = resolveNumber(number, ctx: ctx, state: state)
@@ -30,13 +30,13 @@ extension Args {
         return .success(EffectOutput(effects: effects))
     }
     
-    static func resolveNumber(_ number: String, ctx: [EffectKey: String], state: State) -> Int {
+    static func resolveNumber(_ number: String, ctx: [EffectKey: any Equatable], state: State) -> Int {
         switch number {
         case .NUM_PLAYERS:
             return state.playOrder.count
             
         case .NUM_EXCESS_HAND:
-            let actorObj = state.player(ctx[.ACTOR]!)
+            let actorObj = state.player(ctx.stringForKey(.ACTOR)!)
             return max(actorObj.hand.count - actorObj.handLimit, 0)
             
         default:

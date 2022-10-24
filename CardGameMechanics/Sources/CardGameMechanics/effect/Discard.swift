@@ -21,7 +21,7 @@ public struct Discard: Effect {
         self.times = times
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
                                       copyWithPlayer: { [self] in Discard(card: card, player: $0, times: times) },
@@ -36,7 +36,7 @@ public struct Discard: Effect {
         guard Args.isCardResolved(card, source: .player(player), state: state) else {
             return Args.resolveCard(card,
                                     copyWithCard: { Discard(card: $0, player: player) },
-                                    chooser: ctx[.ACTOR]!,
+                                    chooser: ctx.stringForKey(.ACTOR)!,
                                     source: .player(player),
                                     ctx: ctx,
                                     state: state)

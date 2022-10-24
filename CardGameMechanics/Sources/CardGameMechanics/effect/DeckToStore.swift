@@ -14,7 +14,7 @@ public struct DeckToStore: Effect {
         self.times = times
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: String]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
         if let times {
             return Args.resolveNumber(times, copy: { DeckToStore() }, ctx: ctx, state: state)
         }
