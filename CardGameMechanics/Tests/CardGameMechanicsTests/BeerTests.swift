@@ -23,15 +23,16 @@ class BeerTests: XCTestCase {
                           turn: "p1",
                           phase: 2)
         let sut = Game(state)
-        var messages: [Event] = []
-        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
+        var events: [Event] = []
+        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  Heal(value: 1, player: "p1")])
+        XCTAssertEqual(events.count, 2)
+        XCTAssertEqual(events[0], Play(card: "c1", actor: "p1"))
+        XCTAssertEqual(events[1], Heal(value: 1, player: "p1"))
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
@@ -47,14 +48,15 @@ class BeerTests: XCTestCase {
                           turn: "p1",
                           phase: 2)
         let sut = Game(state)
-        var messages: [Event] = []
-        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
+        var events: [Event] = []
+        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [ErrorIsPlayersAtLeast(count: 3)])
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events[0], ErrorIsPlayersAtLeast(count: 3))
     }
     
     func test_CannotPlayBeer_IfMaxHealth() {
@@ -66,13 +68,14 @@ class BeerTests: XCTestCase {
                           turn: "p1",
                           phase: 2)
         let sut = Game(state)
-        var messages: [Event] = []
-        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
+        var events: [Event] = []
+        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events[0], ErrorPlayerAlreadyMaxHealth(player: "p1"))
     }
 }

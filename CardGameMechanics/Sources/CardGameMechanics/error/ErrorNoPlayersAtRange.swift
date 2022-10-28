@@ -7,7 +7,7 @@
 
 import CardGameCore
 
-public struct ErrorNoPlayersAtRange: Error, Event {
+public struct ErrorNoPlayersAtRange: Error, Event, Equatable {
     let distance: Int
     
     public init(distance: Int) {

@@ -16,11 +16,6 @@ public enum Setup {
             let id = "p\(index)"
             let health = 4
             let hand: [Card] = Array(1...health).map { _ in deck.removeFirst() }
-            let inner: [Card] = inner.map {
-                var copy = $0
-                copy.id = $0.name
-                return copy
-            }
             let player = Player(name: id,
                                 maxHealth: health,
                                 health: health,

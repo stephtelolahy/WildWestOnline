@@ -29,47 +29,56 @@ class GeneralStoreTests: XCTestCase {
                           phase: 2,
                           deck: [c2, c3, c4])
         let sut = Game(state)
-        var messages: [Event] = []
-        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
+        var events: [Event] = []
+        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
         
         // Phase: Play
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  DeckToStore(),
-                                  DeckToStore(),
-                                  DeckToStore()])
+        XCTAssertEqual(events.count, 4)
+        XCTAssertEqual(events[0], Play(card: "c1", actor: "p1"))
+        XCTAssertEqual(events[1], DeckToStore())
+        XCTAssertEqual(events[2], DeckToStore())
+        XCTAssertEqual(events[3], DeckToStore())
+        
         XCTAssertEqual(sut.state.value.store, [c2, c3, c4])
-        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c2", actor: "p1"),
-                                                   Choose(value: "c3", actor: "p1"),
-                                                   Choose(value: "c4", actor: "p1")])
+        
+        XCTAssertEqual(sut.state.value.decisions.count, 3)
+        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[2], Choose(value: "c4", actor: "p1"))
         
         // Phase: p1 Choose card
         // When
-        messages.removeAll()
-        sut.input(Choose(value: "c2", actor: "p1"))
+        events.removeAll()
+        sut.input(sut.state.value.decisions[0])
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "c2", actor: "p1"),
-                                  DrawStore(card: "c2", player: "p1")])
+        XCTAssertEqual(events.count, 2)
+        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p1"))
+        XCTAssertEqual(events[1], DrawStore(card: "c2", player: "p1"))
+        
         XCTAssertEqual(sut.state.value.store, [c3, c4])
         XCTAssertEqual(sut.state.value.players["p1"]?.hand, [c2])
-        XCTAssertEqual(sut.state.value.decisions, [Choose(value: "c3", actor: "p2"),
-                                                   Choose(value: "c4", actor: "p2")])
+        
+        XCTAssertEqual(sut.state.value.decisions.count, 2)
+        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c3", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c4", actor: "p2"))
         
         // Phase: p2 Choose card
-        messages.removeAll()
-        sut.input(Choose(value: "c4", actor: "p2"))
+        events.removeAll()
+        sut.input(sut.state.value.decisions[1])
         
         // Assert
-        XCTAssertEqual(messages, [Choose(value: "c4", actor: "p2"),
-                                  DrawStore(card: "c4", player: "p2"),
-                                  DrawStore(card: "c3", player: "p3")])
+        XCTAssertEqual(events.count, 3)
+        XCTAssertEqual(events[0], Choose(value: "c4", actor: "p2"))
+        XCTAssertEqual(events[1], DrawStore(card: "c4", player: "p2"))
+        XCTAssertEqual(events[2], DrawStore(card: "c3", player: "p3"))
+        
         XCTAssertEqual(sut.state.value.store, [])
         XCTAssertEqual(sut.state.value.players["p2"]?.hand, [c4])
         XCTAssertEqual(sut.state.value.players["p3"]?.hand, [c3])
     }
-    
 }

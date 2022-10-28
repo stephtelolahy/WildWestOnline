@@ -33,7 +33,7 @@ class SimulationTests: XCTestCase {
         let state = Setup.buildGame(playersCount: playersCount, deck: Cards.getDeck(), inner: Cards.getAll(type: .inner))
         sut = Game(state)
         sut.state.sink { [weak self] in
-            if $0.isGameOver {
+            if $0.isOver {
                 completed()
             }
             

@@ -7,13 +7,15 @@
 
 import CardGameCore
 
-struct DummyMove: Move, Equatable {
+struct DummyMove: Move {
     
     let id: String
     
     let actor: String = ""
     
-    func dispatch(in state: State) -> Result<MoveOutput, Error> {
-        .success(MoveOutput(state: state))
+    var ctx: [ContextKey: Any] = [:]
+    
+    func resolve(in state: State) -> Result<EffectOutput, Error> {
+        .success(EffectOutput())
     }
 }

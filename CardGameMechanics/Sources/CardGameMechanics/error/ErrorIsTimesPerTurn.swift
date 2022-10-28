@@ -7,10 +7,11 @@
 
 import CardGameCore
 
-public struct ErrorIsTimesPerTurn: Error, Event {
-    let count: Int
+public struct ErrorIsTimesPerTurn: Error, Event, Equatable {
     
-    init(count: Int) {
-        self.count = count
+    let max: Int
+    
+    public init(max: Int) {
+        self.max = max
     }
 }

@@ -18,7 +18,7 @@ public struct IsTimesPerTurn: PlayReq {
         
         let playedTimes = state.played.filter { $0 == card.name }.count
         guard playedTimes < maxTimes else {
-            return .failure(ErrorIsTimesPerTurn(count: maxTimes))
+            return .failure(ErrorIsTimesPerTurn(max: maxTimes))
         }
         
         return .success

@@ -5,30 +5,25 @@
 //  Created by TELOLAHY Hugues Stéphano on 04/06/2022.
 //
 
-/// select an argument during effect resolution
-/// this action shoukld be a decision
+/// select an option during effect resolution
 public struct Choose: Move, Equatable {
-    
-    public let value: String
-    
+    let value: String?
     public let actor: String
     
-    public init(value: String, actor: String) {
+    @EquatableNoop
+    public var effects: [Effect]
+    
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(value: String?, actor: String, effects: [Effect] = [], ctx: [ContextKey: Any] = [:]) {
         self.value = value
         self.actor = actor
+        self.effects = effects
+        self.ctx = ctx
     }
     
-    public func dispatch(in state: State) -> Result<MoveOutput, Error> {
-        guard state.isWaiting(self) else {
-            return .failure(ErrorChooseOptionNotFound())
-        }
-        
-        var state = state
-        state.removeDecisions(for: actor)
-        
-        return .success(MoveOutput(state: state, nextCtx: [.SELECTED: value]))
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
+        .success(EffectOutput(state: state, effects: effects))
     }
-}
-
-public struct ErrorChooseOptionNotFound: Error, Event {
 }

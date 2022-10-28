@@ -20,7 +20,7 @@ class RandomAITests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "AI should input a valid move")
         mockGame.inputCallback = { command in
-            XCTAssertTrue(command as? DummyMove == move1 || command as? DummyMove == move2 )
+            XCTAssertTrue(command is DummyMove )
             expectation.fulfill()
         }
         

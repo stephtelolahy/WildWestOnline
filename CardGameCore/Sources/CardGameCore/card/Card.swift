@@ -6,7 +6,7 @@
 //
 
 /// Describing card
-public struct Card {
+public struct Card: Equatable {
     
     /// card unique identifier
     public var id: String
@@ -17,13 +17,16 @@ public struct Card {
     /// card type
     public let type: CardType?
     
-    /// prototype card
+    /// prototype or parent card name
+    /// this card will inherit the same `canPlay` and `onPlay attributes
     public let prototype: String?
     
     /// play requirements
+    @EquatableNoop
     public var canPlay: [PlayReq]
     
     /// side effects on playing this card
+    @EquatableNoop
     public var onPlay: [Effect]
     
     /// card value
@@ -48,12 +51,13 @@ public struct Card {
 
 public enum CardType: String {
     
-    /// playable card
+    /// card that can be collected from deck and played manually
     case collectible
     
-    /// built-in card attributed to any players
+    /// built-in card
+    /// attributed to any players
     case inner
     
-    /// specific character card
+    /// card that is specific to a character
     case character
 }

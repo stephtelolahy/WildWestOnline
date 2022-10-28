@@ -13,8 +13,9 @@ public struct ForceDiscard: Effect {
     let player: String
     let otherwise: [Effect]
     let challenger: String?
+    public var ctx: [ContextKey: Any]
     
-    public init(card: String, player: String, otherwise: [Effect], challenger: String? = nil) {
+    public init(card: String, player: String, otherwise: [Effect], challenger: String? = nil, ctx: [ContextKey: Any] = [:]) {
         assert(!card.isEmpty)
         assert(!player.isEmpty)
         assert(!otherwise.isEmpty)
@@ -23,12 +24,13 @@ public struct ForceDiscard: Effect {
         self.player = player
         self.otherwise = otherwise
         self.challenger = challenger
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { [self] in ForceDiscard(card: card, player: $0, otherwise: otherwise, challenger: challenger) },
+                                      copy: { ForceDiscard(card: card, player: $0, otherwise: otherwise, challenger: challenger, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }
@@ -37,28 +39,31 @@ public struct ForceDiscard: Effect {
         // or if you choosed to pass, then apply otherwise effects
         let playerObj = state.player(player)
         let matchingCards = playerObj.hand.filter { $0.name == card }.map { $0.id }
-        if matchingCards.isEmpty || ctx.stringForKey(.SELECTED) == .CHOOSE_PASS {
-            return .success(EffectOutput(effects: otherwise, childCtx: [.TARGET: player]))
+        if matchingCards.isEmpty || ctx.booleanForKey(.PASS) == true {
+            // update otherwise effects with current context and targeted player
+            let otherwiseWithCtx = otherwise.map {
+                var copy = $0
+                copy.ctx = ctx
+                copy.ctx[.TARGET] = player
+                return copy
+            }
+            return .success(EffectOutput(effects: otherwiseWithCtx))
         }
-        
-        // request a decision if no card chosen
-        guard let chosen = ctx.stringForKey(.SELECTED),
-              matchingCards.contains(chosen) else {
-            var options: [Move] = matchingCards.map { Choose(value: $0, actor: player) }
-            options.append(Choose(value: .CHOOSE_PASS, actor: player))
-            return .success(EffectOutput(decisions: options))
-        }
-        
-        // discard card
-        var effects: [Effect] = []
-        effects.append(Discard(card: chosen, player: player))
         
         // if challenger, toggle target
+        var toggle: [Effect] = []
         if let challenger {
-            let toggleEffect = ForceDiscard(card: card, player: challenger, otherwise: otherwise, challenger: player)
-            effects.append(toggleEffect)
+            toggle = [ForceDiscard(card: card, player: challenger, otherwise: otherwise, challenger: player, ctx: ctx)]
         }
         
-        return .success(EffectOutput(effects: effects))
+        // request a decision:
+        // - discard one of matching card
+        // - or Pass
+        var options: [Move] = matchingCards.map { Choose(value: $0, actor: player, effects: [Discard(card: $0, player: player)] + toggle) }
+        var pass = self
+        pass.ctx[.PASS] = true
+        options.append(Choose(value: nil, actor: player, effects: [pass]))
+        
+        return .success(EffectOutput(options: options))
     }
 }

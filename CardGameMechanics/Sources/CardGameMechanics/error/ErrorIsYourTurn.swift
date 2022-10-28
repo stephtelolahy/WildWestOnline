@@ -7,7 +7,7 @@
 
 import CardGameCore
 
-public struct ErrorIsYourTurn: Error, Event {
+public struct ErrorIsYourTurn: Error, Event, Equatable {
     
     public init() {}
 }

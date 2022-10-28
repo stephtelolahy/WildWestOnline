@@ -9,19 +9,19 @@
 /// Brown cards are put immediately in discard pile
 /// Blue cards are put in play
 public struct Play: Move, Equatable {
-    
-    /// played card
-    private let card: String
-    
-    /// player
+    let card: String
     public let actor: String
     
-    public init(card: String, actor: String) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(card: String, actor: String, ctx: [ContextKey: Any] = [:]) {
         self.card = card
         self.actor = actor
+        self.ctx = ctx
     }
     
-    public func dispatch(in state: State) -> Result<MoveOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         var state = state
         var actorObj = state.player(actor)
         
@@ -34,23 +34,28 @@ public struct Play: Move, Equatable {
             discard.append(cardObj)
             state.discard = discard
             state.players[actor] = actorObj
+            
+            // TODO: handle blue cards
+            
         } else if let figureIndex = actorObj.inner.firstIndex(where: { $0.id == card }) {
             cardObj = actorObj.inner[figureIndex]
         } else {
-            fatalError(.playerCardNotFound(card))
+            fatalError(.missingPlayerCard(card))
         }
         
-        // validate play
-        if case let .failure(error) = cardObj.isPlayable(state, actor: actor) {
+        // verify card playable
+        if case let .failure(error) = state.canPlay(cardObj, actor: actor) {
             return .failure(error)
-        }
-        
-        if state.isWaiting(self) {
-            state.removeDecisions(for: actor)
         }
         
         state.played.append(cardObj.name)
         
-        return .success(MoveOutput(state: state, effects: cardObj.onPlay, childCtx: [.ACTOR: actor]))
+        let effects = cardObj.onPlay.map {
+            var copy = $0
+            copy.ctx = [.ACTOR: actor]
+            return copy
+        }
+        
+        return .success(EffectOutput(state: state, effects: effects))
     }
 }

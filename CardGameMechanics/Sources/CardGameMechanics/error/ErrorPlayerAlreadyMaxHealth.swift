@@ -6,7 +6,7 @@
 //
 import CardGameCore
 
-public struct ErrorPlayerAlreadyMaxHealth: Error, Event {
+public struct ErrorPlayerAlreadyMaxHealth: Error, Event, Equatable {
     let player: String
     
     public init(player: String) {

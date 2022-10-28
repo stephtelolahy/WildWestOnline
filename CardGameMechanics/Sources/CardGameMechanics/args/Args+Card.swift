@@ -4,34 +4,17 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 05/06/2022.
 //
-// swiftlint:disable identifier_name
 
 import CardGameCore
-
-/// Effect's card argument of a player
-public extension String {
-    
-    /// random hand card
-    static let CARD_RANDOM_HAND = "CARD_RANDOM_HAND"
-    
-    /// all cards
-    static let CARD_ALL = "CARD_ALL"
-    
-    /// select any card
-    static let CARD_SELECT_ANY = "CARD_SELECT_ANY"
-    
-    /// select a hand card
-    static let CARD_SELECT_HAND = "CARD_SELECT_HAND"
-}
 
 extension Args {
     
     static func resolveCard<T: Effect>(
         _ card: String,
-        copyWithCard: @escaping (String) -> T,
+        copy: @escaping (String) -> T,
         chooser: String,
         source: EffectCardSource,
-        ctx: [EffectKey: any Equatable],
+        ctx: [ContextKey: Any],
         state: State
     ) -> Result<EffectOutput, Error> {
         switch resolveCard(card, source: source, state: state) {
@@ -39,18 +22,12 @@ extension Args {
         case let .success(data):
             switch data {
             case let .identified(cIds):
-                let effects = cIds.map { copyWithCard($0) }
+                let effects = cIds.map { copy($0) }
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(cIds):
-                if let selectedId = ctx.stringForKey(.SELECTED),
-                   cIds.contains(selectedId) {
-                    let copy = copyWithCard(selectedId)
-                    return .success(EffectOutput(effects: [copy]))
-                } else {
-                    let options = cIds.map { Choose(value: $0, actor: chooser) }
-                    return .success(EffectOutput(decisions: options))
-                }
+                let options = cIds.map { Choose(value: $0, actor: chooser, effects: [copy($0)]) }
+                return .success(EffectOutput(options: options))
             }
             
         case let .failure(error):
@@ -103,7 +80,7 @@ private extension Args {
         default:
             /// assume identified card
             guard isCardResolved(card, source: source, state: state) else {
-                fatalError(.cardValueInvalid(card))
+                fatalError(.invalidCard(card))
             }
             
             return .success(.identified([card]))
@@ -112,7 +89,7 @@ private extension Args {
     
     static func resolveRandomHand(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
-            fatalError(.cardSourceInvalid)
+            fatalError(.invalidCardSource)
         }
         
         let playerObj = state.player(pId)
@@ -126,7 +103,7 @@ private extension Args {
     
     static func resolveAll(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
-            fatalError(.cardSourceInvalid)
+            fatalError(.invalidCardSource)
         }
         
         let playerObj = state.player(pId)
@@ -176,7 +153,7 @@ private extension Args {
     
     static func resolveSelectHand(source: EffectCardSource, state: State) -> Result<EffectCardResolved, Error> {
         guard case let .player(pId) = source else {
-            fatalError(.cardSourceInvalid)
+            fatalError(.invalidCardSource)
         }
         
         let playerObj = state.player(pId)

@@ -7,19 +7,23 @@
 import CardGameCore
 
 /// Set turn
-public struct SetTurn: Effect {
+public struct SetTurn: Effect, Equatable {
     let player: String
     
-    public init(player: String) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(player: String, ctx: [ContextKey: Any] = [:]) {
         assert(!player.isEmpty)
         
         self.player = player
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { SetTurn(player: $0) },
+                                      copy: { SetTurn(player: $0, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }

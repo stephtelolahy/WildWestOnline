@@ -7,10 +7,10 @@
 @testable import CardGameCore
 
 struct DummyEffect: Effect {
-    
     let id: String
+    var ctx: [ContextKey: Any] = [:]
     
-    func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    func resolve(in state: State) -> Result<EffectOutput, Error> {
         .success(EffectOutput())
     }
 }

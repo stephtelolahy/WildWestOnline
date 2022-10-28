@@ -11,7 +11,7 @@ Prototyping a game engine for the [Bang](<https://en.wikipedia.org/wiki/Bang!_(c
 
 ## Data driven
 
-- Game = State + Commands
+- Game = State + Sequence
 - Move = Any action taken by the player
 - Sequence = A Sequence is what begins when a Player Action is taken
 - Effect = Any change in the game state = Action + Args + Context
@@ -19,41 +19,18 @@ Prototyping a game engine for the [Bang](<https://en.wikipedia.org/wiki/Bang!_(c
 ## Effect solving
 
 Effect may be blocked waiting user input.
-=> show request input through state
+=> show options through state
 
 ## Architecture
 
 ### Layers
 
-![](docs/dependency.png)
+![](../docs/dependency.png)
 
 ### Game objects
 
-![](docs/data_structure.png)
+![](../docs/data_structure.png)
 
 ### Sequence
 
-![](docs/sequence.png)
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-## Conception
-
-Game 
-    - List<Card>: stateless
-    - List<GameObject>: statefull (players, zones, turn, sequence, events...) 
-
-Card
-    - List<Effect>: stateless
-
-Move
-    - ctx.actor: who played the Move
-    - card: the played card
-
-Effect 
-    - ctx.actor: who played the Move originating the effect
-    - player: who apply effect
-    - target: who is target of the effect
-    - more attributes 
+![](../docs/sequence.png)

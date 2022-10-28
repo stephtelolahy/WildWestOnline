@@ -4,32 +4,35 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 04/06/2022.
 //
-
 import CardGameCore
 
 /// prevents an effect of some `Type` from being applied to a `player`
 ///
-public struct Silent: Effect {
+public struct Silent: Effect, Equatable {
     let type: String
     let player: String
     
-    public init(type: String, player: String = .PLAYER_ACTOR) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(type: String, player: String = .PLAYER_ACTOR, ctx: [ContextKey: Any] = [:]) {
         assert(!type.isEmpty)
         assert(!player.isEmpty)
         
         self.type = type
         self.player = player
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { [self] in Silent(type: type, player: $0) },
+                                      copy: { Silent(type: type, player: $0, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }
         
-        let filter: (Effect) -> Bool = { effect in
+        let filter: (Effect) -> Bool = { [self] effect in
             if let silentable = effect as? Silentable,
                silentable.type == type,
                silentable.player == player {
@@ -39,7 +42,7 @@ public struct Silent: Effect {
             }
         }
         
-        return .success(EffectOutput(cancel: filter))
+        return .success(EffectOutput(cancel: (filter, ErrorNoEffectToSilent())))
     }
 }
 
@@ -49,18 +52,19 @@ protocol Silentable {
     var player: String { get }
     var type: String? { get }
     
-    func counterMoves(state: State, ctx: [EffectKey: any Equatable]) -> [Move]?
+    /// Possible reaction options
+    func reactionMoves(in state: State) -> [Move]?
 }
 
 extension Silentable where Self: Effect {
     
-    func counterMoves(state: State, ctx: [EffectKey: any Equatable]) -> [Move]? {
+    func reactionMoves(in state: State) -> [Move]? {
         guard Args.isPlayerResolved(player, state: state),
               let effectType = type else {
             return nil
         }
         
-        if ctx.stringForKey(.SELECTED) == .CHOOSE_PASS {
+        if ctx.booleanForKey(.PASS) == true {
             return nil
         }
         
@@ -70,9 +74,10 @@ extension Silentable where Self: Effect {
             return nil
         }
         
-        var moves: [Move] = silentCards.map { Play(card: $0.id, actor: player) }
-        moves.append(Choose(value: .CHOOSE_PASS, actor: player))
-        
-        return moves
+        var options: [Move] = silentCards.map { Play(card: $0.id, actor: player) }
+        var pass = self
+        pass.ctx[.PASS] = true
+        options.append(Choose(value: nil, actor: player, effects: [pass]))
+        return options
     }
 }

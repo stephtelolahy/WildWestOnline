@@ -6,7 +6,7 @@
 //
 import CardGameCore
 
-public struct ErrorPlayerHasNoCard: Error, Event {
+public struct ErrorPlayerHasNoCard: Error, Event, Equatable {
     let player: String
     
     public init(player: String) {

@@ -7,36 +7,40 @@
 import CardGameCore
 
 /// discard player's card to discard pile
-public struct Discard: Effect {
+public struct Discard: Effect, Equatable {
     let card: String
     let player: String
     let times: String?
     
-    public init(card: String, player: String = .PLAYER_ACTOR, times: String? = nil) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(card: String, player: String = .PLAYER_ACTOR, times: String? = nil, ctx: [ContextKey: Any] = [:]) {
         assert(!card.isEmpty)
         assert(!player.isEmpty)
         
         self.card = card
         self.player = player
         self.times = times
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { [self] in Discard(card: card, player: $0, times: times) },
+                                      copy: { Discard(card: card, player: $0, times: times, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }
         
         if let times {
-            return Args.resolveNumber(times, copy: { Discard(card: card, player: player) }, ctx: ctx, state: state)
+            return Args.resolveNumber(times, copy: { Discard(card: card, player: player, ctx: ctx) }, ctx: ctx, state: state)
         }
         
         guard Args.isCardResolved(card, source: .player(player), state: state) else {
             return Args.resolveCard(card,
-                                    copyWithCard: { Discard(card: $0, player: player) },
-                                    chooser: ctx.stringForKey(.ACTOR)!,
+                                    copy: { Discard(card: $0, player: player, ctx: ctx) },
+                                    chooser: ctx.actor,
                                     source: .player(player),
                                     ctx: ctx,
                                     state: state)

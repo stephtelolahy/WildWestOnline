@@ -25,17 +25,17 @@ class SaloonTests: XCTestCase {
                           turn: "p1",
                           phase: 2)
         let sut = Game(state)
-        var messages: [Event] = []
-        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
+        var events: [Event] = []
+        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [Play(card: "c1", actor: "p1"),
-                                  Heal(value: 1, player: "p1"),
-                                  Heal(value: 1, player: "p2"),
-                                  ErrorPlayerAlreadyMaxHealth(player: "p3")])
+        XCTAssertEqual(events.count, 3)
+        XCTAssertEqual(events[0], Play(card: "c1", actor: "p1"))
+        XCTAssertEqual(events[1], Heal(value: 1, player: "p1"))
+        XCTAssertEqual(events[2], Heal(value: 1, player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])
@@ -53,18 +53,14 @@ class SaloonTests: XCTestCase {
                           turn: "p1",
                           phase: 2)
         let sut = Game(state)
-        var messages: [Event] = []
-        sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
+        var events: [Event] = []
+        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
         
         // When
         sut.input(Play(card: "c1", actor: "p1"))
         
         // Assert
-        XCTAssertEqual(messages, [ErrorPlayerAlreadyMaxHealth(player: "p1")])
-        
-        XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
-        XCTAssertEqual(sut.state.value.player("p1").health, 4)
-        XCTAssertEqual(sut.state.value.player("p2").health, 3)
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events[0], ErrorNoPlayerDamaged())
     }
-    
 }

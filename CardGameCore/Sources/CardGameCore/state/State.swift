@@ -34,9 +34,10 @@ public struct State {
     public var store: [Card] = []
     
     /// is Game over
-    public var isGameOver = false
+    public var isOver = false
     
     /// pending actions
+    /// among which one must be choosen to proceed effect resolving
     public var decisions: [Move] = []
     
     /// last occurred event
@@ -49,18 +50,20 @@ public struct State {
         playOrder: [String] = [],
         turn: String? = nil,
         phase: Int = 1,
+        played: [String] = [],
         deck: [Card] = [],
         discard: [Card] = [],
         decisions: [Move] = [],
-        isGameOver: Bool = false
+        isOver: Bool = false
     ) {
         self.players = players
         self.playOrder = playOrder
         self.turn = turn
         self.phase = phase
+        self.played = played
         self.deck = deck
         self.discard = discard
         self.decisions = decisions
-        self.isGameOver = isGameOver
+        self.isOver = isOver
     }
 }

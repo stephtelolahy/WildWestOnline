@@ -7,14 +7,18 @@
 import CardGameCore
 
 /// Draw card from deck to choosable zone
-public struct DeckToStore: Effect {
+public struct DeckToStore: Effect, Equatable {
     let times: String?
     
-    public init(times: String? = nil) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(times: String? = nil, ctx: [ContextKey: Any] = [:]) {
         self.times = times
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: CardGameCore.State) -> Result<CardGameCore.EffectOutput, Error> {
         if let times {
             return Args.resolveNumber(times, copy: { DeckToStore() }, ctx: ctx, state: state)
         }

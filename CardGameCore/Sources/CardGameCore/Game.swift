@@ -24,19 +24,19 @@ public class Game: GameProtocol {
     
     public var state: CurrentValueSubject<State, Never>
     
-    /// commands queue
-    private var commands: [Move]
-    
     /// effects queue that have to be resolved in order
-    private var sequences: [EffectNode] = []
+    private var queue: [Effect] = []
     
-    public init(_ initialState: State, commands: [Move] = []) {
+    public init(_ initialState: State, queue: [Effect] = []) {
         self.state = CurrentValueSubject(initialState)
-        self.commands = commands
+        self.queue = queue
     }
     
     public func input(_ move: Move) {
-        commands.append(move)
+        // assert queue empty or waiting decision
+        assert(queue.isEmpty || !state.value.decisions.isEmpty)
+        
+        queue.insert(move, at: 0)
         loopUpdate()
     }
     
@@ -59,36 +59,30 @@ private extension Game {
         currState.event = nil
         
         /// if game is over, do nothing
-        if currState.isGameOver {
+        if currState.isOver {
             return false
         }
         
-        /// process queued command immediately
-        if !commands.isEmpty {
-            let command = commands.removeFirst()
-            let result = command.dispatch(in: currState)
-            handleMoveResult(result, from: currState, move: command)
-            return true
-        }
-        
-        /// if waiting decision, do nothing
-        if !currState.decisions.isEmpty {
+        /// if waiting decision and top queue is not a move, do nothing
+        guard currState.decisions.isEmpty || queue.first is Move else {
             return false
         }
+        
+        /// assume pending decision is resolved
+        currState.decisions.removeAll()
         
         /// process queued effect
-        if let node = sequences.first {
-            let effect = node.effect
-            let ctx = node.ctx
-            let result = effect.resolve(in: currState, ctx: ctx)
-            handleEffectResult(result, currState: currState, effect: node.effect, ctx: ctx)
+        if !queue.isEmpty {
+            let effect = queue.remove(at: 0)
+            let result = effect.resolve(in: currState)
+            handleEffectResult(result, currState: currState, effect: effect)
             return true
         }
         
         /// game idle, process eliminated player and game over
         if isGameOver(state: currState) {
             var newState = currState
-            newState.isGameOver = true
+            newState.isOver = true
             state.send(newState)
             return false
         }
@@ -105,41 +99,8 @@ private extension Game {
         return false
     }
     
-    /// Handle move execution result
-    func handleMoveResult(_ result: Result<MoveOutput, Error>, from currState: State, move: Move) {
-        switch result {
-        case let .success(output):
-            if let nextCtx = output.nextCtx {
-                var node = sequences[0]
-                node.ctx.merge(nextCtx) { _, new in new }
-                sequences[0] = node
-            }
-            
-            if let effects = output.effects {
-                let childCtx = output.childCtx ?? [:]
-                let nodes = effects.map { EffectNode(effect: $0, ctx: childCtx) }
-                sequences.insert(contentsOf: nodes, at: 0)
-            }
-            
-            var newState = output.state
-            newState.event = move
-            state.send(newState)
-            
-        case let .failure(error):
-            guard let event = error as? Event else {
-                fatalError(.errorTypeInvalid(error.localizedDescription))
-            }
-            
-            var newState = currState
-            newState.event = event
-            state.send(newState)
-        }
-    }
-    
     /// Handle effect execution result
-    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect, ctx: [EffectKey: any Equatable]) {
-        sequences.remove(at: 0)
-        
+    func handleEffectResult(_ result: Result<EffectOutput, Error>, currState: State, effect: Effect) {
         switch result {
         case let .success(output):
             var newState = currState
@@ -150,26 +111,19 @@ private extension Game {
             }
             
             if let effects = output.effects {
-                var ctx = ctx
-                if let childCtx = output.childCtx {
-                    ctx.merge(childCtx) { _, new in new }
-                }
-                
-                let nodes = effects.map { EffectNode(effect: $0, ctx: ctx) }
-                sequences.insert(contentsOf: nodes, at: 0)
+                queue.insert(contentsOf: effects, at: 0)
             }
             
-            if let decisions = output.decisions {
-                sequences.insert(EffectNode(effect: effect, ctx: ctx), at: 0)
-                newState.decisions = decisions
+            if let options = output.options {
+                newState.decisions = options
             }
             
-            if let filter = output.cancel {
-                if let indexToRemove = sequences.firstIndex(where: { filter($0.effect) }) {
-                    sequences.remove(at: indexToRemove)
+            if let (filter, error) = output.cancel {
+                if let indexToRemove = queue.firstIndex(where: { filter($0) }) {
+                    queue.remove(at: indexToRemove)
                     newState.event = effect
                 } else {
-                    newState.event = ErrorNoEffectToSilent()
+                    newState.event = error
                 }
             }
             
@@ -177,7 +131,7 @@ private extension Game {
             
         case let .failure(error):
             guard let event = error as? Event else {
-                fatalError(.errorTypeInvalid(error.localizedDescription))
+                fatalError(.invalidError(error.localizedDescription))
             }
             
             var newState = currState
@@ -195,7 +149,7 @@ private extension Game {
     func activeMoves(actor: String, state: State) -> [Move]? {
         let actorObj = state.player(actor)
         let moves = (actorObj.inner + actorObj.hand)
-            .filter { if case .success = $0.isPlayable(state, actor: actor) { return true } else { return false } }
+            .filter { state.canPlay($0, actor: actor).isSuccess }
             .map { Play(card: $0.id, actor: actor) }
         
         guard !moves.isEmpty else {
@@ -204,16 +158,4 @@ private extension Game {
         
         return moves
     }
-}
-
-private struct EffectNode {
-    
-    /// effect to be resolved
-    let effect: Effect
-    
-    /// all data about effect resolution
-    var ctx: [EffectKey: any Equatable]
-}
-
-struct ErrorNoEffectToSilent: Error, Event {
 }

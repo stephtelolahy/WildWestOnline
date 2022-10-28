@@ -4,44 +4,38 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 05/06/2022.
 //
-// swiftlint:disable identifier_name
 
 import CardGameCore
-
-public extension String {
-    
-    /// Number of active players
-    static let NUM_PLAYERS = "NUM_PLAYERS"
-    
-    /// Number of excess cards
-    static let NUM_EXCESS_HAND = "NUM_EXCESS_HAND"
-}
 
 extension Args {
     
     static func resolveNumber<T: Effect>(
         _ number: String,
         copy: @escaping () -> T,
-        ctx: [EffectKey: any Equatable],
+        ctx: [ContextKey: Any],
         state: State
     ) -> Result<EffectOutput, Error> {
         let value = resolveNumber(number, ctx: ctx, state: state)
+        guard value > 0 else {
+            return .success(EffectOutput())
+        }
+        
         let effects = (0..<value).map { _ in copy() }
         return .success(EffectOutput(effects: effects))
     }
     
-    static func resolveNumber(_ number: String, ctx: [EffectKey: any Equatable], state: State) -> Int {
+    static func resolveNumber(_ number: String, ctx: [ContextKey: Any], state: State) -> Int {
         switch number {
         case .NUM_PLAYERS:
             return state.playOrder.count
             
         case .NUM_EXCESS_HAND:
-            let actorObj = state.player(ctx.stringForKey(.ACTOR)!)
+            let actorObj = state.player(ctx.actor)
             return max(actorObj.hand.count - actorObj.handLimit, 0)
             
         default:
             guard let value = Int(number) else {
-                fatalError(.numberValueInvalid(number))
+                fatalError(.invalidNumber(number))
             }
             
             return value

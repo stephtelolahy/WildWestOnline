@@ -27,16 +27,17 @@ class GameTests: XCTestCase {
         sut.loopUpdate()
         
         // Assert
-        XCTAssertEqual(messages, [])
-        XCTAssertEqual(sut.state.value.decisions, [Play(card: "c1", actor: "p1"),
-                                                   Play(card: "c2", actor: "p1")])
+        XCTAssertEqual(messages.count, 0)
+        XCTAssertEqual(sut.state.value.decisions.count, 2)
+        XCTAssertEqual(sut.state.value.decisions[0], Play(card: "c1", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Play(card: "c2", actor: "p1"))
     }
     
     func test_StopUpdates_IfGameIsOver() {
         // Given
         let c1 = Card()
         let p1 = Player(health: 1, inner: [c1])
-        let state = State(players: ["p1": p1], turn: "p1", isGameOver: true)
+        let state = State(players: ["p1": p1], turn: "p1", isOver: true)
         let sut = Game(state)
         var messages: [Event] = []
         sut.state.sink { messages.append($0.event) }.store(in: &cancellables)
@@ -45,7 +46,7 @@ class GameTests: XCTestCase {
         sut.loopUpdate()
         
         // Assert
-        XCTAssertEqual(messages, [])
+        XCTAssertEqual(messages.count, 0)
         XCTAssertTrue(sut.state.value.decisions.isEmpty)
     }
     
@@ -62,8 +63,8 @@ class GameTests: XCTestCase {
         sut.loopUpdate()
         
         // Assert
-        XCTAssertEqual(messages, [])
-        XCTAssertTrue(sut.state.value.isGameOver)
+        XCTAssertEqual(messages.count, 0)
+        XCTAssertTrue(sut.state.value.isOver)
     }
     
 }

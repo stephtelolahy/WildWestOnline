@@ -7,12 +7,15 @@
 import CardGameCore
 
 /// draw some cards from other player
-public struct Steal: Effect {
+public struct Steal: Effect, Equatable {
     let player: String
     let card: String
     let target: String
     
-    public init(player: String, card: String, target: String) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(player: String, card: String, target: String, ctx: [ContextKey: Any] = [:]) {
         assert(!player.isEmpty)
         assert(!card.isEmpty)
         assert(!target.isEmpty)
@@ -20,26 +23,27 @@ public struct Steal: Effect {
         self.player = player
         self.card = card
         self.target = target
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { [self] in Steal(player: $0, card: card, target: target) },
+                                      copy: { Steal(player: $0, card: card, target: target, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }
         
         guard Args.isPlayerResolved(target, state: state) else {
             return Args.resolvePlayer(target,
-                                      copyWithPlayer: { [self] in Steal(player: player, card: card, target: $0) },
+                                      copy: { Steal(player: player, card: card, target: $0, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }
         
         guard Args.isCardResolved(card, source: .player(target), state: state) else {
             return Args.resolveCard(card,
-                                    copyWithCard: { Steal(player: player, card: $0, target: target) },
+                                    copy: { Steal(player: player, card: $0, target: target, ctx: ctx) },
                                     chooser: player,
                                     source: .player(target),
                                     ctx: ctx,

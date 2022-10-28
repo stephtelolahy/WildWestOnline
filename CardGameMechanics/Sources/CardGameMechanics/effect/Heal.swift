@@ -6,22 +6,26 @@
 //
 import CardGameCore
 
-public struct Heal: Effect {
+public struct Heal: Effect, Equatable {
     let value: Int
     let player: String
     
-    public init(value: Int, player: String = .PLAYER_ACTOR) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(value: Int, player: String = .PLAYER_ACTOR, ctx: [ContextKey: Any] = [:]) {
         assert(value > 0)
         assert(!player.isEmpty)
         
         self.value = value
         self.player = player
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { [self] in Heal(value: value, player: $0) },
+                                      copy: { Heal(value: value, player: $0, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }

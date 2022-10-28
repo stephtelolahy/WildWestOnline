@@ -10,10 +10,11 @@ import CardGameCore
 /// Card scripting database
 public enum Cards {
     
-    /// resolving complete card script
+    /// complete card script
+    /// set name as default id
     public static func get(_ name: String) -> Card {
         guard var card = UniqueCards.all.first(where: { $0.name == name }) else {
-            fatalError(.cardScriptNotFound(name))
+            fatalError(.missingCardScript(name))
         }
         
         var parent: String? = card.prototype
@@ -23,6 +24,8 @@ public enum Cards {
             card.onPlay = parentCard.onPlay + card.onPlay
             parent = parentCard.prototype
         }
+        
+        card.id = name
         return card
     }
     
@@ -31,6 +34,7 @@ public enum Cards {
         UniqueCards.all.filter { $0.type == type }.map { get($0.name) }
     }
     
+    /// build random deck with all stored cards
     public static func getDeck() -> [Card] {
         let cardSets = CardSets.all
         let uniqueCards = UniqueCards.all
@@ -100,7 +104,7 @@ private enum UniqueCards {
         Card(name: "saloon",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Heal(value: 1, player: .PLAYER_ALL)]),
+             onPlay: [Heal(value: 1, player: .PLAYER_DAMAGED)]),
         
         Card(name: "stagecoach",
              type: .collectible,

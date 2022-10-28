@@ -7,27 +7,31 @@
 import CardGameCore
 
 /// draw a card from top deck
-public struct Draw: Effect {
+public struct Draw: Effect, Equatable {
     let player: String
     let times: String?
     
-    public init(player: String = .PLAYER_ACTOR, times: String? = nil) {
+    @EquatableNoop
+    public var ctx: [ContextKey: Any]
+    
+    public init(player: String = .PLAYER_ACTOR, times: String? = nil, ctx: [ContextKey: Any] = [:]) {
         assert(!player.isEmpty)
         
         self.player = player
         self.times = times
+        self.ctx = ctx
     }
     
-    public func resolve(in state: State, ctx: [EffectKey: any Equatable]) -> Result<EffectOutput, Error> {
+    public func resolve(in state: State) -> Result<EffectOutput, Error> {
         guard Args.isPlayerResolved(player, state: state) else {
             return Args.resolvePlayer(player,
-                                      copyWithPlayer: { [self] in Draw(player: $0, times: times) },
+                                      copy: { Draw(player: $0, times: times, ctx: ctx) },
                                       ctx: ctx,
                                       state: state)
         }
         
         if let times {
-            return Args.resolveNumber(times, copy: { Draw(player: player) }, ctx: ctx, state: state)
+            return Args.resolveNumber(times, copy: { Draw(player: player, ctx: ctx) }, ctx: ctx, state: state)
         }
         
         var state = state
