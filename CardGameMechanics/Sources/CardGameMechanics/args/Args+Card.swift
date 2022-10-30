@@ -14,7 +14,7 @@ extension Args {
         copy: @escaping (String) -> T,
         chooser: String,
         source: EffectCardSource,
-        ctx: [ContextKey: Any],
+        ctx: [String: Any],
         state: State
     ) -> Result<EffectOutput, Error> {
         switch resolveCard(card, source: source, state: state) {
@@ -26,7 +26,7 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(cIds):
-                let options = cIds.map { Choose(value: $0, actor: chooser, effects: [copy($0)]) }
+                let options = cIds.map { Select(value: $0, actor: chooser, effects: [copy($0)]) }
                 return .success(EffectOutput(options: options))
             }
             
@@ -140,7 +140,7 @@ private extension Args {
         case .store:
             let cards = state.store.map { $0.id }
             guard !cards.isEmpty else {
-                return .failure(ErrorStoreHasNoCard())
+                return .failure(ErrorNoCardInStore())
             }
             
             if cards.count == 1 {

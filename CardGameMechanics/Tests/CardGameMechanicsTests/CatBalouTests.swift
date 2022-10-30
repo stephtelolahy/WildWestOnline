@@ -40,7 +40,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -49,10 +49,11 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_DiscardOthersHandCard_IfPlayingCatBalou() {
@@ -81,7 +82,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -90,11 +91,11 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c3", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: .CARD_RANDOM_HAND, actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: .CARD_RANDOM_HAND, actor: "p1"))
         
         // Phase: Select card
         events.removeAll()
@@ -102,12 +103,13 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: .CARD_RANDOM_HAND, actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: .CARD_RANDOM_HAND, actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [c3])
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_DiscardOthersInPlayCard_IfPlayingCatBalou() {
@@ -137,7 +139,7 @@ class CatBalouTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -146,11 +148,11 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c3", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: .CARD_RANDOM_HAND, actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: .CARD_RANDOM_HAND, actor: "p1"))
         
         // Phase: Select card
         events.removeAll()
@@ -158,12 +160,13 @@ class CatBalouTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "c3", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "c3", actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c3", player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").inPlay, [])
         XCTAssertEqual(sut.state.value.discard, [c1, c3])
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_CannotPlayCatBalou_IfNoCardsToDiscard() {

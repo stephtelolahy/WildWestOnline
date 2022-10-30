@@ -13,7 +13,7 @@ extension Args {
     static func resolvePlayer<T: Effect>(
         _ player: String,
         copy: @escaping (String) -> T,
-        ctx: [ContextKey: Any],
+        ctx: [String: Any],
         state: State 
     ) -> Result<EffectOutput, Error> {
         switch resolvePlayer(player, ctx: ctx, state: state) {
@@ -25,7 +25,7 @@ extension Args {
                 return .success(EffectOutput(effects: effects))
                 
             case let .selectable(pIds):
-                let options = pIds.map { Choose(value: $0, actor: ctx.actor, effects: [copy($0)]) }
+                let options = pIds.map { Select(value: $0, actor: ctx.actor, effects: [copy($0)]) }
                 return .success(EffectOutput(options: options))
             }
             
@@ -46,7 +46,7 @@ private extension Args {
         case selectable([String])
     }
     
-    static func resolvePlayer(_ player: String, ctx: [ContextKey: Any], state: State) -> Result<PlayerResolved, Error> {
+    static func resolvePlayer(_ player: String, ctx: [String: Any], state: State) -> Result<PlayerResolved, Error> {
         switch player {
         case .PLAYER_ACTOR:
             return .success(.identified([ctx.actor]))
@@ -77,7 +77,7 @@ private extension Args {
             return .success(.identified([next]))
             
         case .PLAYER_SELECT_ANY:
-            let others = state.playOrder.filter { $0 != ctx.stringForKey(.ACTOR) }
+            let others = state.playOrder.filter { $0 != ctx.actor }
             return .success(.selectable(others))
             
         case .PLAYER_SELECT_REACHABLE:

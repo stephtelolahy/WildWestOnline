@@ -25,11 +25,13 @@ public extension State {
         }
         
         // verify first card effect
-        if var effect = card.onPlay.first {
-            effect.ctx = [.ACTOR: actor]
-            if case let .failure(error) = verify(effect) {
-                return .failure(error)
-            }
+        guard var effect = card.onPlay.first else {
+            return .failure(ErrorCardHasNoEffect())
+        }
+        
+        effect.ctx = [.ACTOR: actor]
+        if case let .failure(error) = verify(effect) {
+            return .failure(error)
         }
         
         return .success
@@ -43,6 +45,7 @@ public extension State {
             return .failure(error)
             
         case let .success(output):
+            // update state
             let state = output.state ?? self
             
             // handle child effects: one of them must succeed
@@ -50,13 +53,11 @@ public extension State {
                 return state.verify(effects)
             }
             
-            // handle decision: one of options must succeed
+            // handle options: one of them must succeed
             if let options = output.options {
-                let effects: [Effect] = options.map { ($0 as? Choose)?.effects[0] ?? $0 }
+                let effects: [Effect] = options.map { ($0 as? Select)?.effects[0] ?? $0 }
                 return state.verify(effects)
             }
-            
-            // TODO: handle cancel
             
             return .success
         }
@@ -72,4 +73,8 @@ public extension State {
             return .success
         }
     }
+}
+
+public struct ErrorCardHasNoEffect: Error, Event, Equatable {
+    public init() {}
 }

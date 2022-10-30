@@ -13,9 +13,9 @@ public struct DrawStore: Effect, Equatable {
     let player: String
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(card: String, player: String, ctx: [ContextKey: Any] = [:]) {
+    public init(card: String, player: String, ctx: [String: Any] = [:]) {
         assert(!card.isEmpty)
         assert(!player.isEmpty)
         

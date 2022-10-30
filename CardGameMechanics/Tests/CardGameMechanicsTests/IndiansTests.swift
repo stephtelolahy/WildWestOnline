@@ -65,8 +65,8 @@ class IndiansTests: XCTestCase {
         XCTAssertEqual(events[0], Play(card: "c1", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c2", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p2"))
         
         // Phase: p2 discard bang
         // When
@@ -75,14 +75,14 @@ class IndiansTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p2"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p2"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c3", actor: "p3"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p3"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c3", actor: "p3"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p3"))
         
         // Phase: p3 passed
         // When
@@ -91,9 +91,10 @@ class IndiansTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: nil, actor: "p3"))
+        XCTAssertEqual(events[0], Select(value: nil, actor: "p3"))
         XCTAssertEqual(events[1], Damage(value: 1, player: "p3"))
         
         XCTAssertEqual(sut.state.value.player("p3").health, 1)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
 }

@@ -8,7 +8,7 @@
 
 struct DummyEffect: Effect {
     let id: String
-    var ctx: [ContextKey: Any] = [:]
+    var ctx: [String: Any] = [:]
     
     func resolve(in state: State) -> Result<EffectOutput, Error> {
         .success(EffectOutput())

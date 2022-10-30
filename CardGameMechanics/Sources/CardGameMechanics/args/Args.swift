@@ -25,11 +25,6 @@ public extension String {
     /// select a hand card
     static let CARD_SELECT_HAND = "CARD_SELECT_HAND"
     
-    // MARK: - Effect type
-    
-    /// well known shoot effect
-    static let TYPE_SHOOT = "TYPE_SHOOT"
-    
     // MARK: - Number
     
     /// Number of active players

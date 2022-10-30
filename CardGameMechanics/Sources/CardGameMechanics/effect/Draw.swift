@@ -12,9 +12,9 @@ public struct Draw: Effect, Equatable {
     let times: String?
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(player: String = .PLAYER_ACTOR, times: String? = nil, ctx: [ContextKey: Any] = [:]) {
+    public init(player: String = .PLAYER_ACTOR, times: String? = nil, ctx: [String: Any] = [:]) {
         assert(!player.isEmpty)
         
         self.player = player

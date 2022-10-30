@@ -11,9 +11,9 @@ public struct Heal: Effect, Equatable {
     let player: String
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(value: Int, player: String = .PLAYER_ACTOR, ctx: [ContextKey: Any] = [:]) {
+    public init(value: Int, player: String = .PLAYER_ACTOR, ctx: [String: Any] = [:]) {
         assert(value > 0)
         assert(!player.isEmpty)
         

@@ -58,14 +58,11 @@ private enum UniqueCards {
     static let all: [Card] = [
         
         Card(name: "playableTurn",
-             canPlay: [IsYourTurn(), IsPhase(phase: 2)]),
-        
-        Card(name: "playableStart",
-             canPlay: [IsYourTurn(), IsPhase(phase: 1)]),
+             canPlay: [IsPhase(phase: 2)]),
         
         Card(name: "startTurn",
              type: .inner,
-             prototype: "playableStart",
+             canPlay: [IsPhase(phase: 1)],
              onPlay: [
                 Draw(times: "2"),
                 SetPhase(value: 2)
@@ -90,16 +87,15 @@ private enum UniqueCards {
              type: .collectible,
              prototype: "playableTurn",
              canPlay: [IsTimesPerTurn(maxTimes: 1)],
-             onPlay: [Damage(value: 1, player: .PLAYER_SELECT_REACHABLE, type: .TYPE_SHOOT)]),
+             onPlay: [ForceDiscard(card: "missed", player: .PLAYER_SELECT_REACHABLE, otherwise: [Damage(value: 1, player: .PLAYER_TARGET)])]),
         
         Card(name: "missed",
-             type: .collectible,
-             onPlay: [Silent(type: .TYPE_SHOOT)]),
+             type: .collectible),
         
         Card(name: "gatling",
              type: .collectible,
              prototype: "playableTurn",
-             onPlay: [Damage(value: 1, player: .PLAYER_OTHERS, type: .TYPE_SHOOT)]),
+             onPlay: [ForceDiscard(card: "missed", player: .PLAYER_OTHERS, otherwise: [Damage(value: 1, player: .PLAYER_TARGET)])]),
         
         Card(name: "saloon",
              type: .collectible,

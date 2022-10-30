@@ -13,9 +13,9 @@ public struct Play: Move, Equatable {
     public let actor: String
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(card: String, actor: String, ctx: [ContextKey: Any] = [:]) {
+    public init(card: String, actor: String, ctx: [String: Any] = [:]) {
         self.card = card
         self.actor = actor
         self.ctx = ctx
@@ -34,8 +34,6 @@ public struct Play: Move, Equatable {
             discard.append(cardObj)
             state.discard = discard
             state.players[actor] = actorObj
-            
-            // TODO: handle blue cards
             
         } else if let figureIndex = actorObj.inner.firstIndex(where: { $0.id == card }) {
             cardObj = actorObj.inner[figureIndex]
@@ -58,4 +56,10 @@ public struct Play: Move, Equatable {
         
         return .success(EffectOutput(state: state, effects: effects))
     }
+}
+
+public extension String {
+    
+    /// the player who played the card owning the effect
+    static let ACTOR = "ACTOR"
 }

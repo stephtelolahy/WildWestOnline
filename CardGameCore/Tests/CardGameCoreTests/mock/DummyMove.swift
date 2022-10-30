@@ -13,7 +13,7 @@ struct DummyMove: Move {
     
     let actor: String = ""
     
-    var ctx: [ContextKey: Any] = [:]
+    var ctx: [String: Any] = [:]
     
     func resolve(in state: State) -> Result<EffectOutput, Error> {
         .success(EffectOutput())

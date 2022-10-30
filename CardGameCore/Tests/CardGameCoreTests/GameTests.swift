@@ -15,8 +15,8 @@ class GameTests: XCTestCase {
     
     func test_AskPossibleMoves_IfPlayReqVerified() {
         // Given
-        let c1 = Card().withId("c1")
-        let c2 = Card().withId("c2")
+        let c1 = Card(onPlay: [DummyEffect(id: "e1")]).withId("c1")
+        let c2 = Card(onPlay: [DummyEffect(id: "e1")]).withId("c2")
         let p1 = Player(health: 1, inner: [c1], hand: [c2])
         let state = State(players: ["p1": p1], playOrder: ["p2", "p1"], turn: "p1")
         let sut = Game(state)

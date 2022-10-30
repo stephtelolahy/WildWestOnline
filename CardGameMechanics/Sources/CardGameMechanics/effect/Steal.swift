@@ -13,9 +13,9 @@ public struct Steal: Effect, Equatable {
     let target: String
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(player: String, card: String, target: String, ctx: [ContextKey: Any] = [:]) {
+    public init(player: String, card: String, target: String, ctx: [String: Any] = [:]) {
         assert(!player.isEmpty)
         assert(!card.isEmpty)
         assert(!target.isEmpty)

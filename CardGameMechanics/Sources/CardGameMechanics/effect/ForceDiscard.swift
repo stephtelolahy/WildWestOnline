@@ -13,9 +13,9 @@ public struct ForceDiscard: Effect {
     let player: String
     let otherwise: [Effect]
     let challenger: String?
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(card: String, player: String, otherwise: [Effect], challenger: String? = nil, ctx: [ContextKey: Any] = [:]) {
+    public init(card: String, player: String, otherwise: [Effect], challenger: String? = nil, ctx: [String: Any] = [:]) {
         assert(!card.isEmpty)
         assert(!player.isEmpty)
         assert(!otherwise.isEmpty)
@@ -59,11 +59,21 @@ public struct ForceDiscard: Effect {
         // request a decision:
         // - discard one of matching card
         // - or Pass
-        var options: [Move] = matchingCards.map { Choose(value: $0, actor: player, effects: [Discard(card: $0, player: player)] + toggle) }
+        var options: [Move] = matchingCards.map { Select(value: $0, actor: player, effects: [Discard(card: $0, player: player)] + toggle) }
         var pass = self
         pass.ctx[.PASS] = true
-        options.append(Choose(value: nil, actor: player, effects: [pass]))
+        options.append(Select(value: nil, actor: player, effects: [pass]))
         
         return .success(EffectOutput(options: options))
     }
+}
+
+public extension String {
+    
+    /// previous effect's target
+    static let TARGET = "TARGET"
+    
+    /// pass the effect
+    /// choose to not counter card effect
+    static let PASS = "PASS"
 }

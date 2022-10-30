@@ -11,9 +11,9 @@ public struct SetTurn: Effect, Equatable {
     let player: String
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(player: String, ctx: [ContextKey: Any] = [:]) {
+    public init(player: String, ctx: [String: Any] = [:]) {
         assert(!player.isEmpty)
         
         self.player = player

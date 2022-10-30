@@ -11,9 +11,9 @@ public struct DeckToStore: Effect, Equatable {
     let times: String?
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(times: String? = nil, ctx: [ContextKey: Any] = [:]) {
+    public init(times: String? = nil, ctx: [String: Any] = [:]) {
         self.times = times
         self.ctx = ctx
     }

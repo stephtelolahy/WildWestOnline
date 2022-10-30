@@ -64,8 +64,8 @@ class EndTurnTests: XCTestCase {
         XCTAssertEqual(events[0], Play(card: "endTurn", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c1", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c1", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: "c2", actor: "p1"))
         
         // phase: p1 discard card
         events.removeAll()
@@ -73,7 +73,7 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 4)
-        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p1"))
         XCTAssertEqual(events[2], SetTurn(player: "p2"))
         XCTAssertEqual(events[3], SetPhase(value: 1))
@@ -81,6 +81,7 @@ class EndTurnTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
         XCTAssertEqual(sut.state.value.turn, "p2")
         XCTAssertEqual(sut.state.value.played, [])
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_DiscardExcess2Cards_IfEndingTurn() {
@@ -107,9 +108,9 @@ class EndTurnTests: XCTestCase {
         XCTAssertEqual(events[0], Play(card: "endTurn", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 3)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c1", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c2", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[2], Choose(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c1", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: "c2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[2], Select(value: "c3", actor: "p1"))
         
         // phase: p1 discard first card
         events.removeAll()
@@ -117,12 +118,12 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c1", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c1", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: "c3", actor: "p1"))
         
         // phase: p1 discard second card
         events.removeAll()
@@ -130,7 +131,7 @@ class EndTurnTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 4)
-        XCTAssertEqual(events[0], Choose(value: "c3", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "c3", actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c3", player: "p1"))
         XCTAssertEqual(events[2], SetTurn(player: "p2"))
         XCTAssertEqual(events[3], SetPhase(value: 1))
@@ -138,5 +139,6 @@ class EndTurnTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand, [c1])
         XCTAssertEqual(sut.state.value.turn, "p2")
         XCTAssertEqual(sut.state.value.played, [])
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
 }

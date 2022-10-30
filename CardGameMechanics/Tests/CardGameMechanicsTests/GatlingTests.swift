@@ -34,8 +34,8 @@ class GatlingTests: XCTestCase {
         // Assert
         XCTAssertEqual(events.count, 3)
         XCTAssertEqual(events[0], Play(card: "c1", actor: "p1"))
-        XCTAssertEqual(events[1], Damage(value: 1, player: "p2", type: .TYPE_SHOOT))
-        XCTAssertEqual(events[2], Damage(value: 1, player: "p3", type: .TYPE_SHOOT))
+        XCTAssertEqual(events[1], Damage(value: 1, player: "p2"))
+        XCTAssertEqual(events[2], Damage(value: 1, player: "p3"))
         
         XCTAssertEqual(sut.state.value.player("p1").hand, [])
         XCTAssertEqual(sut.state.value.discard, [c1])

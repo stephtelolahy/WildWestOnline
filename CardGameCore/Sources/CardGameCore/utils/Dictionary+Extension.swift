@@ -5,7 +5,7 @@
 //  Created by TELOLAHY Hugues Stéphano on 24/10/2022.
 //
 
-public extension Dictionary where Key == ContextKey {
+public extension Dictionary where Key == String {
     
     func stringForKey(_ key: Key) -> String? {
         self[key] as? String

@@ -13,9 +13,9 @@ public struct Discard: Effect, Equatable {
     let times: String?
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(card: String, player: String = .PLAYER_ACTOR, times: String? = nil, ctx: [ContextKey: Any] = [:]) {
+    public init(card: String, player: String = .PLAYER_ACTOR, times: String? = nil, ctx: [String: Any] = [:]) {
         assert(!card.isEmpty)
         assert(!player.isEmpty)
         

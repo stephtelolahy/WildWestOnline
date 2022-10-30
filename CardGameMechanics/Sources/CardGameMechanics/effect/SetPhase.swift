@@ -11,9 +11,9 @@ public struct SetPhase: Effect, Equatable {
     let value: Int
     
     @EquatableNoop
-    public var ctx: [ContextKey: Any]
+    public var ctx: [String: Any]
     
-    public init(value: Int, ctx: [ContextKey: Any] = [:]) {
+    public init(value: Int, ctx: [String: Any] = [:]) {
         assert(value > 0)
         
         self.value = value

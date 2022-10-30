@@ -46,9 +46,9 @@ class GeneralStoreTests: XCTestCase {
         XCTAssertEqual(sut.state.value.store, [c2, c3, c4])
         
         XCTAssertEqual(sut.state.value.decisions.count, 3)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c2", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c3", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[2], Choose(value: "c4", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[2], Select(value: "c4", actor: "p1"))
         
         // Phase: p1 Choose card
         // When
@@ -57,15 +57,15 @@ class GeneralStoreTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p1"))
         XCTAssertEqual(events[1], DrawStore(card: "c2", player: "p1"))
         
         XCTAssertEqual(sut.state.value.store, [c3, c4])
         XCTAssertEqual(sut.state.value.players["p1"]?.hand, [c2])
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c3", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: "c4", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c3", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: "c4", actor: "p2"))
         
         // Phase: p2 Choose card
         events.removeAll()
@@ -73,12 +73,13 @@ class GeneralStoreTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 3)
-        XCTAssertEqual(events[0], Choose(value: "c4", actor: "p2"))
+        XCTAssertEqual(events[0], Select(value: "c4", actor: "p2"))
         XCTAssertEqual(events[1], DrawStore(card: "c4", player: "p2"))
         XCTAssertEqual(events[2], DrawStore(card: "c3", player: "p3"))
         
         XCTAssertEqual(sut.state.value.store, [])
         XCTAssertEqual(sut.state.value.players["p2"]?.hand, [c4])
         XCTAssertEqual(sut.state.value.players["p3"]?.hand, [c3])
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
 }

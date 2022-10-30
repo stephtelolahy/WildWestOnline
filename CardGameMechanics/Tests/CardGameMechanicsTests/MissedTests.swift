@@ -40,7 +40,7 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: p1 choose target p2
         events.removeAll()
@@ -48,11 +48,11 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Play(card: "c2", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p2"))
         
         // Phase: p2 counter
         // when
@@ -61,12 +61,13 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Play(card: "c2", actor: "p2"))
-        XCTAssertEqual(events[1], Silent(type: .TYPE_SHOOT, player: "p2"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         
         XCTAssertEqual(sut.state.value.discard, [c1, c2])
         XCTAssertEqual(sut.state.value.player("p2").hand, [])
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_DoNotCounterShoot_IfMissedNotPlayed() {
@@ -95,7 +96,7 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: p1 choose target p2
         events.removeAll()
@@ -103,11 +104,11 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Play(card: "c2", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p2"))
         
         // Phase: p2 passes
         // when
@@ -116,12 +117,13 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: nil, actor: "p2"))
-        XCTAssertEqual(events[1], Damage(value: 1, player: "p2", type: .TYPE_SHOOT))
+        XCTAssertEqual(events[0], Select(value: nil, actor: "p2"))
+        XCTAssertEqual(events[1], Damage(value: 1, player: "p2"))
         
         XCTAssertEqual(sut.state.value.discard, [c1])
         XCTAssertEqual(sut.state.value.player("p2").hand, [c2])
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_CounterMultipleShoot_IfPlayingMultipleMissed() {
@@ -150,8 +152,8 @@ class MissedTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Play(card: "c2", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p2"))
         
         // Phase: p2 counter
         // When
@@ -160,12 +162,12 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Play(card: "c2", actor: "p2"))
-        XCTAssertEqual(events[1], Silent(type: .TYPE_SHOOT, player: "p2"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Play(card: "c3", actor: "p3"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p3"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c3", actor: "p3"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p3"))
         
         // Phase: p3 counter
         // When
@@ -173,14 +175,15 @@ class MissedTests: XCTestCase {
         sut.input(sut.state.value.decisions[0])
         
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Play(card: "c3", actor: "p3"))
-        XCTAssertEqual(events[1], Silent(type: .TYPE_SHOOT, player: "p3"))
+        XCTAssertEqual(events[0], Select(value: "c3", actor: "p3"))
+        XCTAssertEqual(events[1], Discard(card: "c3", player: "p3"))
         
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
         XCTAssertEqual(sut.state.value.player("p3").health, 3)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
-    func test_CannotPlayMissed_IfNoEffectToCounter() {
+    func test_CannotPlayMissed_CardHasNoEffect() {
         // Given
         let c1 = Cards.get("missed").withId("c1")
         let p1 = Player(hand: [c1])
@@ -194,6 +197,6 @@ class MissedTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], ErrorNoEffectToSilent())
+        XCTAssertEqual(events[0], ErrorCardHasNoEffect())
     }
 }

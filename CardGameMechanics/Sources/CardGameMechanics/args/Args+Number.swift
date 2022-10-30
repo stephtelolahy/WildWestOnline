@@ -12,7 +12,7 @@ extension Args {
     static func resolveNumber<T: Effect>(
         _ number: String,
         copy: @escaping () -> T,
-        ctx: [ContextKey: Any],
+        ctx: [String: Any],
         state: State
     ) -> Result<EffectOutput, Error> {
         let value = resolveNumber(number, ctx: ctx, state: state)
@@ -24,7 +24,7 @@ extension Args {
         return .success(EffectOutput(effects: effects))
     }
     
-    static func resolveNumber(_ number: String, ctx: [ContextKey: Any], state: State) -> Int {
+    static func resolveNumber(_ number: String, ctx: [String: Any], state: State) -> Int {
         switch number {
         case .NUM_PLAYERS:
             return state.playOrder.count

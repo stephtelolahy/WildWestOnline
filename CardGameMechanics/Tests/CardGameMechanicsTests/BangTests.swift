@@ -39,7 +39,7 @@ class BangTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -48,10 +48,11 @@ class BangTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
-        XCTAssertEqual(events[1], Damage(value: 1, player: "p2", type: .TYPE_SHOOT))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[1], Damage(value: 1, player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_CannotPlayBang_IfNoPlayerReachable() {
@@ -96,23 +97,5 @@ class BangTests: XCTestCase {
         // Assert
         XCTAssertEqual(events.count, 1)
         XCTAssertEqual(events[0], ErrorIsTimesPerTurn(max: 1))
-    }
-    
-    func test_CannotPlayBang_IfNotYourTurn() {
-        // Given
-        let c1 = Cards.get("bang").withId("c1")
-        let p1 = Player(health: 1, hand: [c1])
-        let state = State(players: ["p1": p1],
-                          playOrder: ["p2", "p1"])
-        let sut = Game(state)
-        var events: [Event] = []
-        sut.state.sink { events.append($0.event) }.store(in: &cancellables)
-        
-        // When
-        sut.input(Play(card: "c1", actor: "p1"))
-        
-        // Assert
-        XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], ErrorIsYourTurn())
     }
 }

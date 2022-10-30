@@ -39,7 +39,7 @@ class DuelTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -48,11 +48,12 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         XCTAssertEqual(events[1], Damage(value: 1, player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_TargetPlayersDoNotLooseHealth_IfPlayingDuel_AndDiscarding1BangCards() {
@@ -81,7 +82,7 @@ class DuelTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -90,11 +91,11 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c2", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p2"))
         
         // Phase: p2 discard bang
         // When
@@ -103,12 +104,13 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 3)
-        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p2"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p2"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         XCTAssertEqual(events[2], Damage(value: 1, player: "p1"))
         
         XCTAssertEqual(sut.state.value.player("p1").health, 1)
         XCTAssertEqual(sut.state.value.player("p2").health, 2)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
     
     func test_TargetPlayersLooseHealth_IfPlayingDuel_AndDiscarding2BangCards() {
@@ -138,7 +140,7 @@ class DuelTests: XCTestCase {
         XCTAssertEqual(sut.state.value.discard, [c1])
         
         XCTAssertEqual(sut.state.value.decisions.count, 1)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "p2", actor: "p1"))
         
         // Phase: choose target
         // When
@@ -147,11 +149,11 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 1)
-        XCTAssertEqual(events[0], Choose(value: "p2", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "p2", actor: "p1"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c2", actor: "p2"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c2", actor: "p2"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p2"))
         
         // Phase: p2 discard bang
         // When
@@ -160,12 +162,12 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 2)
-        XCTAssertEqual(events[0], Choose(value: "c2", actor: "p2"))
+        XCTAssertEqual(events[0], Select(value: "c2", actor: "p2"))
         XCTAssertEqual(events[1], Discard(card: "c2", player: "p2"))
         
         XCTAssertEqual(sut.state.value.decisions.count, 2)
-        XCTAssertEqual(sut.state.value.decisions[0], Choose(value: "c3", actor: "p1"))
-        XCTAssertEqual(sut.state.value.decisions[1], Choose(value: nil, actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[0], Select(value: "c3", actor: "p1"))
+        XCTAssertEqual(sut.state.value.decisions[1], Select(value: nil, actor: "p1"))
         
         // Phase: p1 discard bang
         // When
@@ -174,11 +176,12 @@ class DuelTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 3)
-        XCTAssertEqual(events[0], Choose(value: "c3", actor: "p1"))
+        XCTAssertEqual(events[0], Select(value: "c3", actor: "p1"))
         XCTAssertEqual(events[1], Discard(card: "c3", player: "p1"))
         XCTAssertEqual(events[2], Damage(value: 1, player: "p2"))
         
         XCTAssertEqual(sut.state.value.player("p1").health, 2)
         XCTAssertEqual(sut.state.value.player("p2").health, 1)
+        XCTAssertEqual(sut.state.value.decisions.count, 0)
     }
 }

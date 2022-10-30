@@ -118,15 +118,6 @@ private extension Game {
                 newState.decisions = options
             }
             
-            if let (filter, error) = output.cancel {
-                if let indexToRemove = queue.firstIndex(where: { filter($0) }) {
-                    queue.remove(at: indexToRemove)
-                    newState.event = effect
-                } else {
-                    newState.event = error
-                }
-            }
-            
             state.send(newState)
             
         case let .failure(error):

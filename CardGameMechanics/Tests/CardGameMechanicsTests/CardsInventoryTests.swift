@@ -42,7 +42,7 @@ final class CardsInventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == "catBalou" })
         XCTAssertTrue(cards.contains { $0.name == "duel" })
         XCTAssertTrue(cards.contains { $0.name == "gatling" })
-//        XCTAssertTrue(cards.contains { $0.name == "generalstore" })
+        XCTAssertTrue(cards.contains { $0.name == "generalStore" })
         XCTAssertTrue(cards.contains { $0.name == "indians" })
         XCTAssertTrue(cards.contains { $0.name == "missed" })
         XCTAssertTrue(cards.contains { $0.name == "panic" })
