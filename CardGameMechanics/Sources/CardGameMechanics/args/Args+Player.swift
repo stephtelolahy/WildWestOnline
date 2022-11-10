@@ -88,7 +88,7 @@ private extension Args {
             return resolvePlayerAtDistance(1, state: state, actor: ctx.actor)
             
         case .PLAYER_TARGET:
-            guard let target = ctx.stringForKey(.TARGET) else {
+            guard let target = ctx.stringForKey(.CTX_TARGET) else {
                 fatalError(.missingTarget)
             }
             

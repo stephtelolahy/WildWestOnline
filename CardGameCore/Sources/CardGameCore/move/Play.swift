@@ -4,6 +4,7 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 01/06/2022.
 //
+// swiftlint:disable identifier_name
 
 /// play a card
 /// Brown cards are put immediately in discard pile
@@ -50,7 +51,7 @@ public struct Play: Move, Equatable {
         
         let effects = cardObj.onPlay.map {
             var copy = $0
-            copy.ctx = [.ACTOR: actor]
+            copy.ctx = [.CTX_ACTOR: actor]
             return copy
         }
         
@@ -61,5 +62,5 @@ public struct Play: Move, Equatable {
 public extension String {
     
     /// the player who played the card owning the effect
-    static let ACTOR = "ACTOR"
+    static let CTX_ACTOR = "ACTOR"
 }

@@ -16,7 +16,7 @@ public extension Dictionary where Key == String {
     }
     
     var actor: String {
-        guard let actor = stringForKey(.ACTOR) else {
+        guard let actor = stringForKey(.CTX_ACTOR) else {
             fatalError(.missingActor)
         }
         return actor

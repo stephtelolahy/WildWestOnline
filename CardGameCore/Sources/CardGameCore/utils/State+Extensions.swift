@@ -29,7 +29,7 @@ public extension State {
             return .failure(ErrorCardHasNoEffect())
         }
         
-        effect.ctx = [.ACTOR: actor]
+        effect.ctx = [.CTX_ACTOR: actor]
         if case let .failure(error) = verify(effect) {
             return .failure(error)
         }

@@ -4,6 +4,8 @@
 //
 //  Created by TELOLAHY Hugues Stéphano on 10/06/2022.
 //
+// swiftlint:disable identifier_name
+
 import CardGameCore
 
 /// Player must discard a specific card. If cannot, then apply some effects
@@ -39,12 +41,12 @@ public struct ForceDiscard: Effect {
         // or if you choosed to pass, then apply otherwise effects
         let playerObj = state.player(player)
         let matchingCards = playerObj.hand.filter { $0.name == card }.map { $0.id }
-        if matchingCards.isEmpty || ctx.booleanForKey(.PASS) == true {
+        if matchingCards.isEmpty || ctx.booleanForKey(.CTX_PASS) == true {
             // update otherwise effects with current context and targeted player
             let otherwiseWithCtx = otherwise.map {
                 var copy = $0
                 copy.ctx = ctx
-                copy.ctx[.TARGET] = player
+                copy.ctx[.CTX_TARGET] = player
                 return copy
             }
             return .success(EffectOutput(effects: otherwiseWithCtx))
@@ -61,7 +63,7 @@ public struct ForceDiscard: Effect {
         // - or Pass
         var options: [Move] = matchingCards.map { Select(value: $0, actor: player, effects: [Discard(card: $0, player: player)] + toggle) }
         var pass = self
-        pass.ctx[.PASS] = true
+        pass.ctx[.CTX_PASS] = true
         options.append(Select(value: nil, actor: player, effects: [pass]))
         
         return .success(EffectOutput(options: options))
@@ -71,9 +73,9 @@ public struct ForceDiscard: Effect {
 public extension String {
     
     /// previous effect's target
-    static let TARGET = "TARGET"
+    static let CTX_TARGET = "TARGET"
     
     /// pass the effect
     /// choose to not counter card effect
-    static let PASS = "PASS"
+    static let CTX_PASS = "PASS"
 }

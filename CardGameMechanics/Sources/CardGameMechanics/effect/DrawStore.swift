@@ -9,7 +9,6 @@ import CardGameCore
 /// Choose some cards from store zone
 public struct DrawStore: Effect, Equatable {
     let card: String
-    
     let player: String
     
     @EquatableNoop

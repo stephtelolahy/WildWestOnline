@@ -9,9 +9,7 @@ import CardGameCore
 /// Deals damage to a character, attempting to reduce its Health by the stated amount
 ///
 public struct Damage: Effect, Equatable {
-    
     let value: Int
-    
     let player: String
     
     @EquatableNoop
