@@ -28,6 +28,7 @@
 		26699F2828455FB9008040E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26699F3A28456B62008040E5 /* CardGameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGameCore; sourceTree = "<group>"; };
 		26699F3B28456B86008040E5 /* CardGameMechanics */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGameMechanics; sourceTree = "<group>"; };
+		267449822943D0170045948F /* Bang */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Bang; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +86,7 @@
 		26699F3928456B62008040E5 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				267449822943D0170045948F /* Bang */,
 				26699F3A28456B62008040E5 /* CardGameCore */,
 				26699F3B28456B86008040E5 /* CardGameMechanics */,
 			);
