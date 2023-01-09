@@ -4,17 +4,13 @@
 //
 //  Created by Hugues Telolahy on 09/01/2023.
 //
+// swiftlint:disable: line_length
 
 enum Inventory {
     
     static let uniqueCards: [CardImpl] = [
-        // start turn should be a triggered effect
-//        .init(name: "startTurn",
-//              type: .inner,
-//              onPlay: [.loop(times: "2", effect: .draw(player: .PLAYER_ACTOR)),
-//                       .setPhase(value: 2)]),
         .init(name: "endTurn",
-              type: .inner,
+              type: .defaultAbility,
               onPlay: [.loop(times: .NUM_EXCESS_HAND, effect: .discard(player: .PLAYER_ACTOR, card: .CARD_SELECT_HAND)),
                        .setTurn(player: .PLAYER_NEXT),
                        .setPhase(value: 1)]),
@@ -28,10 +24,10 @@ enum Inventory {
               type: .collectible),
         .init(name: "gatling",
               type: .collectible,
-              onPlay: [.apply(players: .PLAYER_OTHERS, effect: .forceDiscard(player: .PLAYER_TARGET, card: "missed", otherwise: .damage(player: .PLAYER_TARGET, value: 1)))]),
+              onPlay: [.apply(player: .PLAYER_OTHERS, effect: .forceDiscard(player: .PLAYER_TARGET, card: "missed", otherwise: .damage(player: .PLAYER_TARGET, value: 1)))]),
         .init(name: "saloon",
               type: .collectible,
-              onPlay: [.apply(players: .PLAYER_ALL, effect: .heal(player: .PLAYER_TARGET, value: 1))]),
+              onPlay: [.apply(player: .PLAYER_ALL, effect: .heal(player: .PLAYER_TARGET, value: 1))]),
         .init(name: "stagecoach",
               type: .collectible,
               onPlay: [.loop(times: "2", effect: .draw(player: .PLAYER_ACTOR))]),
@@ -47,10 +43,10 @@ enum Inventory {
         .init(name: "generalStore",
               type: .collectible,
               onPlay: [.loop(times: .NUM_PLAYERS, effect: .store),
-                       .apply(players: .PLAYER_ALL, effect: .choose(player: .PLAYER_TARGET, card: .CARD_SELECT_ANY))]),
+                       .apply(player: .PLAYER_ALL, effect: .choose(player: .PLAYER_TARGET, card: .CARD_SELECT_ANY))]),
         .init(name: "indians",
               type: .collectible,
-              onPlay: [.apply(players: .PLAYER_OTHERS, effect: .forceDiscard(player: .PLAYER_TARGET, card: "bang", otherwise: .damage(player: .PLAYER_TARGET, value: 1)))]),
+              onPlay: [.apply(player: .PLAYER_OTHERS, effect: .forceDiscard(player: .PLAYER_TARGET, card: "bang", otherwise: .damage(player: .PLAYER_TARGET, value: 1)))]),
         .init(name: "duel",
               type: .collectible,
               onPlay: [.challengeDiscard(player: .PLAYER_SELECT_ANY, card: .CARD_SELECT_ANY, challenger: .PLAYER_ACTOR, otherwise: .damage(player: .PLAYER_TARGET, value: 1))])
@@ -81,5 +77,3 @@ enum Inventory {
         "wellsFargo": ["3♥️"]
     ]
 }
-
-

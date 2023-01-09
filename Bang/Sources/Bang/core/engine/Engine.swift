@@ -16,4 +16,3 @@ public protocol Engine {
     /// handle input
     func input(_ move: Move)
 }
-

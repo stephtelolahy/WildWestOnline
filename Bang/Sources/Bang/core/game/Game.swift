@@ -9,7 +9,7 @@
 public protocol Game {
     
     /// all players
-    var players: [String: Player] { get }
+    var players: [String: Player] { get set }
     
     /// active players, playing order
     var playOrder: [String] { get }
@@ -42,5 +42,5 @@ public protocol Game {
     var queue: [Effect] { get }
     
     /// last occurred event
-    var event: Event? { get }
+    var event: Result<Effect, GameError>? { get }
 }

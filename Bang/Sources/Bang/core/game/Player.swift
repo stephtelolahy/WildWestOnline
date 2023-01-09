@@ -17,10 +17,10 @@ public protocol Player {
     var maxHealth: Int { get }
     
     /// current health
-    var health: Int { get }
+    var health: Int { get set }
     
-    /// built-in cards
-    var inner: [Card] { get }
+    /// abilities
+    var ability: [Card] { get }
     
     /// hand cards
     var hand: [Card] { get }

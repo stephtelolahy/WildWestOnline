@@ -10,7 +10,6 @@ opt_in_rules: # some rules are only opt-in
   - array_init
   - attributes
   - balanced_xctest_lifecycle
-  - capture_variable
   - closure_body_length
   - closure_end_indentation
   - closure_spacing
@@ -31,7 +30,6 @@ opt_in_rules: # some rules are only opt-in
   - enum_case_associated_values_count
   - expiring_todo
   - explicit_init
-  - explicit_self
   - extension_access_modifier
   - fallthrough
   - fatal_error_message
@@ -81,13 +79,10 @@ opt_in_rules: # some rules are only opt-in
   - switch_case_on_newline
   - test_case_accessibility
   - toggle_bool
-  - typesafe_array_init
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - unowned_variable_capture
   - untyped_error_in_catch
-  - unused_declaration
-  - unused_import
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_between_cases
   - weak_delegate
@@ -106,9 +101,16 @@ custom_rules:
 included: # paths to include during linting. `--path` is ignored if present.
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - ExtensionsKit/Tests/
-  - CardGameCore/Tests/
-  - CardGameMechanics/Tests/
+  - ExtensionsKit
+  - CardGameCore
+  - CardGameMechanics
+
+analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
+- capture_variable
+- explicit_self
+- typesafe_array_init
+- unused_declaration
+- unused_import
 
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level

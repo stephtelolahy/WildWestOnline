@@ -6,7 +6,7 @@
 //
 
 /// Elementary card effect
-public indirect enum Effect: Codable {
+public indirect enum Effect: Codable, Equatable {
     
     /// Deals damage to a character, attempting to reduce its Health by the stated amount
     case damage(player: String, value: Int)
@@ -45,11 +45,5 @@ public indirect enum Effect: Codable {
     case loop(times: String, effect: Effect)
     
     /// Apply an effect to a group of players
-    case apply(players: String, effect: Effect)
-}
-
-public protocol EffectResolving {
- 
-    /// Resolving an effect will update game and may result in another effects
-    func resolve(ctx: Game) -> Result<[Effect], Error>
+    case apply(player: String, effect: Effect)
 }

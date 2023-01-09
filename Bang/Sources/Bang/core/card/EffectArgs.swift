@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 09/01/2023.
 //
+// swiftlint:disable identifier_name
 
 /// Effect's argument constants
 extension String {
