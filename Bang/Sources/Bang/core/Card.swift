@@ -30,7 +30,7 @@ public protocol Card {
 /// Card type
 public enum CardType: String {
     
-    /// card that can be collected from deck and played manually
+    /// card that can be collected from deck and played during your turn
     case collectible
     
     /// built-in card for any player
