@@ -24,8 +24,7 @@ final class PlayTests: CardTests {
         // assert
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
-            let p1 = try XCTUnwrap(ctx.players["p1"])
-            XCTAssertEqual(p1.hand.map(\.id), [])
+            XCTAssertEqual(ctx.player("p1").hand.map(\.id), [])
             XCTAssertEqual(ctx.discard.map(\.id), ["c1"])
         }
     }

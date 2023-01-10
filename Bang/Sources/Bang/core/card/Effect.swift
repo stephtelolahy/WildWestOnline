@@ -48,8 +48,5 @@ public indirect enum Effect: Codable, Equatable {
     
     /// Set turn
     case setTurn(player: ArgPlayer)
-    
-    /// Repeat an effect
-    case loop(times: ArgNumber, effect: Effect)
 }
 */

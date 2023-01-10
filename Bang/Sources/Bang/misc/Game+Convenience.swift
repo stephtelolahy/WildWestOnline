@@ -5,15 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-extension Game {
-    
-    func actor() -> String {
-        guard let actorId = data[.actor] as? String else {
-            fatalError("missing actor")
-        }
-        
-        return actorId
-    }
+public extension Game {
     
     func player(_ id: String) -> Player {
         guard let playerObject = players[id] else {
@@ -24,3 +16,13 @@ extension Game {
     }
 }
 
+extension Game {
+    
+    func actor() -> String {
+        guard let actorId = data[.actor] as? String else {
+            fatalError("missing actor")
+        }
+        
+        return actorId
+    }
+}
