@@ -27,8 +27,11 @@ public struct EffectResolverMain: EffectResolver {
         case .emitError:
             return EffectResolverEmitError()
             
+        case .apply:
+            return EffectResolverApply(resolverPlayer: ArgResolverPlayerImpl())
+            
         default:
-            fatalError("Undefined resolver for \(self)")
+            fatalError("Undefined resolver for \(effect)")
         }
     }
 }

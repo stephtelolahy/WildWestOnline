@@ -13,6 +13,7 @@ import Combine
 class CardTests: XCTestCase {
     
     var sut: Engine!
+    let inventory: Inventory = InventoryImpl()
     var events: [Result<Effect, GameError>] = []
     var state: Game { sut.state.value }
     private var cancellables = Set<AnyCancellable>()

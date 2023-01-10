@@ -14,6 +14,9 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected players count to be leat X
     case playersMustBeAtLeast(Int)
     
-    /// Card has no effect
+    /// Expected card to have onPlay effect
     case cardHasNoEffect
+    
+    /// Expected some player damaged
+    case noPlayerDamaged
 }

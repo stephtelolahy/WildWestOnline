@@ -6,7 +6,6 @@
 //
 
 struct EffectResolverPlay: EffectResolver {
-    
     let verifier: PlayReqVerifier
     let mainResolver: EffectResolver
     

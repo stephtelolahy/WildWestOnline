@@ -12,9 +12,7 @@ import Combine
 
 final class BeerTests: CardTests {
     
-    private let inventory: Inventory = InventoryImpl()
-    
-    func test_SuccessFulSequence_IfPlayingBeer() throws {
+    func test_GainHealth_IfPlayingBeer() throws {
         // Given
         let c1 = inventory.getCard("beer", withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
@@ -31,9 +29,8 @@ final class BeerTests: CardTests {
         assertIsSuccess(events[0], equalTo: .play(actor: "p1", card: "c1"))
         assertIsSuccess(events[1], equalTo: .heal(player: .id("p1"), value: 1))
         
-        let op1 = try XCTUnwrap(state.players["p1"])
-        XCTAssertEqual(op1.hand.map(\.id), [])
-        XCTAssertEqual(op1.health, 2)
+        XCTAssertEqual(state.players["p1"]!.hand.map(\.id), [])
+        XCTAssertEqual(state.players["p1"]!.health, 2)
         XCTAssertEqual(state.discard.map(\.id), ["c1"])
     }
     
