@@ -15,14 +15,3 @@ public extension Game {
         return playerObject
     }
 }
-
-extension Game {
-    
-    func actor() -> String {
-        guard let actorId = data[.actor] as? String else {
-            fatalError("missing actor")
-        }
-        
-        return actorId
-    }
-}

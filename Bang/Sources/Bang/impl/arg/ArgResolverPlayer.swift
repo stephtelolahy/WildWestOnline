@@ -15,11 +15,11 @@ enum ArgResolverPlayer {
         // TODO: handle choice first, then identify the rest
             
         case .actor:
-            let children = [copy(ctx.actor())]
+            let children = [copy(ctx.actor)]
             return .success(EffectOutputImpl(effects: children))
             
         case .damaged:
-            let damaged = ctx.playOrder.starting(with: ctx.actor())
+            let damaged = ctx.playOrder.starting(with: ctx.actor)
                 .filter { ctx.player($0).health < ctx.player($0).maxHealth }
             
             guard !damaged.isEmpty else {
@@ -32,5 +32,16 @@ enum ArgResolverPlayer {
         default:
             fatalError("unimplemented resolver for player \(player)")
         }
+    }
+}
+
+private extension Game {
+    
+    var actor: String {
+        guard let actorId = data[.actor] as? String else {
+            fatalError("missing actor")
+        }
+        
+        return actorId
     }
 }
