@@ -5,7 +5,7 @@
 //  Created by TELOLAHY Hugues Stéphano on 09/12/2022.
 //
 
-/// All game objects
+/// All aspects of game state
 public protocol Game {
     
     /// all players
@@ -24,7 +24,7 @@ public protocol Game {
     var deck: [Card] { get }
     
     /// discard pile
-    var discard: [Card] { get }
+    var discard: [Card] { get set }
     
     /// choosable zone
     var store: [Card] { get }
@@ -33,14 +33,15 @@ public protocol Game {
     var isOver: Bool { get }
     
     /// played cards during current turn
-    var played: [String] { get }
+    var played: [String] { get set }
     
     /// pending actions among which one must be choosen to proceed effect resolving
-    var decisions: [Move] { get }
+    var decisions: [Effect] { get }
     
     /// effects queue that have to be resolved in order
     var queue: [Effect] { get }
     
     /// last occurred event
-    var event: Result<Effect, GameError>? { get }
+    /// that updated the game state
+    var event: Result<Effect, GameError>? { get set }
 }

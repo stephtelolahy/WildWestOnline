@@ -6,11 +6,14 @@
 //
 
 /// Elementary game play error
-public enum GameError: Error, Equatable {
+public enum GameError: Error, Codable, Equatable {
     
     /// Expected player to be damaged
     case playerAlreadyMaxHealth(String)
     
     /// Expected players count to be leat X
     case playersMustBeAtLeast(Int)
+    
+    /// Card has no effect
+    case cardHasNoEffect
 }

@@ -23,7 +23,7 @@ public protocol Player {
     var ability: [Card] { get }
     
     /// hand cards
-    var hand: [Card] { get }
+    var hand: [Card] { get set }
     
     /// in play cards
     var inPlay: [Card] { get }

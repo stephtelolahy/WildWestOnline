@@ -1,14 +1,29 @@
 //
-//  Inventory.swift
+//  InventoryImpl.swift
 //
 //
 //  Created by Hugues Telolahy on 09/01/2023.
 //
 // swiftlint:disable: line_length
 
-enum Inventory {
+public struct InventoryImpl: Inventory {
     
-    static let uniqueCards: [CardImpl] = [
+    public init() {}
+    
+    public func getCard(_ name: String, withId id: String?) -> Card {
+        guard var card = Self.uniqueCards.first(where: { $0.name == name }) else {
+            fatalError("undefined card \(name)")
+        }
+        
+        card.id = id ?? name
+        return card
+    }
+}
+
+private extension InventoryImpl {
+    
+    static let uniqueCards: [CardImpl] =
+    [
         .init(name: "endTurn",
               type: .defaultAbility,
               onPlay: [.loop(times: .numExcessHand,
@@ -17,10 +32,12 @@ enum Inventory {
                        .setPhase(value: 1)]),
         .init(name: "beer",
               type: .collectible,
+              canPlay: [.isPlayersAtLeast(3)],
               onPlay: [.heal(player: .actor,
                              value: 1)]),
         .init(name: "bang",
               type: .collectible,
+              canPlay: [.isTimesPerTurn(1)],
               onPlay: [.forceDiscard(player: .actor,
                                      card: .select(.match("missed")),
                                      otherwise: .damage(player: .actor, value: 1))]),
@@ -74,7 +91,8 @@ enum Inventory {
                                          challenger: .actor)])
     ]
     
-    static let cardSets: [String: [String]] = [
+    static let cardSets: [String: [String]] =
+    [
         "barrel": ["Q♠️", "K♠️"],
         "dynamite": ["2♥️"],
         "jail": ["J♠️", "10♠️", "4♥️"],

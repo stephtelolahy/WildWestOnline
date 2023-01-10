@@ -8,15 +8,16 @@
 /// Some  event that can be resolved
 public protocol EffectResolver {
     
-    /// Resolving an effect will update game and may result in another effects
+    /// Resolving an effect
+    /// may update game or push another effects
     func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError>
 }
 
 public protocol EffectOutput {
     
-    /// Resolved with an updated `State`
+    /// Resolved successfully with an updated `State`
     var state: Game? { get }
     
-    /// Resolving arguments, replace it with child effects by transmitting context data
+    /// Resolving effect arguments, by pushing child effects
     var effects: [Effect]? { get }
 }

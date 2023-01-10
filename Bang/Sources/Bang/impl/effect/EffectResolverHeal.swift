@@ -1,30 +1,16 @@
 //
-//  EffectResolverImpl.swift
+//  EffectResolverHeal.swift
 //  
 //
-//  Created by Hugues Telolahy on 09/01/2023.
+//  Created by Hugues Telolahy on 10/01/2023.
 //
 
-import UIKit
-
-public struct EffectResolverImpl: EffectResolver {
+struct EffectResolverHeal: EffectResolver {
     
-    public init() {}
-    
-    public func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
-        switch effect {
-        case let .heal(player, value):
-            return resolveHeal(player: player, value: value, ctx: ctx)
-            
-        default:
-            fatalError("unimplemented resolver for \(effect)")
+    func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
+        guard case let .heal(player, value) = effect else {
+            fatalError("unexpected effect type \(effect)")
         }
-    }
-}
-
-private extension EffectResolverImpl {
-    
-    func resolveHeal(player: ArgPlayer, value: Int, ctx: Game) -> Result<EffectOutput, GameError> {
         
         guard case let .id(playerId) = player else {
             fatalError("player not resolved \(player)")
@@ -46,4 +32,5 @@ private extension EffectResolverImpl {
         
         return .success(EffectOutputImpl(state: state))
     }
+    
 }

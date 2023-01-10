@@ -46,4 +46,15 @@ public indirect enum Effect: Codable, Equatable {
     
     /// Apply an effect to a group of players
     case apply(player: ArgPlayer, effect: Effect)
+    
+    /// play a card
+    /// Brown cards are put immediately in discard pile
+    /// Blue cards are put in play
+    case play(actor: String, card: String)
+    
+    /// dummy efffect
+    case dummy
+    
+    /// effect triggering an error
+    case emitError(GameError)
 }

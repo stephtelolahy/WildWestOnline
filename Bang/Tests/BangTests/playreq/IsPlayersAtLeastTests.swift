@@ -10,7 +10,7 @@ import Bang
 
 final class IsPlayersAtLeastTests: XCTestCase {
     
-    private lazy var sut: PlayReqVerifier = PlayReqVerifierImpl()
+    private let sut: PlayReqVerifier = PlayReqVerifierImpl()
     
     func test_ReturnTrue_IfPlayersMoreThanValue() throws {
         // Given
@@ -21,7 +21,7 @@ final class IsPlayersAtLeastTests: XCTestCase {
         let result = sut.verify(playReq, ctx: ctx)
         
         // assert
-        try assertIsSuccess(result)
+        assertIsSuccess(result)
     }
     
     func test_ReturnTrue_IfPlayersEqualValue() throws {
@@ -33,7 +33,7 @@ final class IsPlayersAtLeastTests: XCTestCase {
         let result = sut.verify(playReq, ctx: ctx)
         
         // assert
-        try assertIsSuccess(result)
+        assertIsSuccess(result)
     }
     
     func test_ReturnTrue_IfPlayersLessThanValue() throws {
@@ -45,9 +45,6 @@ final class IsPlayersAtLeastTests: XCTestCase {
         let result = sut.verify(playReq, ctx: ctx)
         
         // assert
-        try assertIsFailure(result) {
-            XCTAssertEqual($0, .playersMustBeAtLeast(2))
-        }
-    }
-    
+        assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
+    }    
 }

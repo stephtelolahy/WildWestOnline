@@ -14,5 +14,5 @@ public protocol Engine {
     var state: CurrentValueSubject<Game, Never> { get }
     
     /// handle input
-    func input(_ move: Move)
+    func input(_ move: Effect)
 }

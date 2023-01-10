@@ -43,6 +43,7 @@ public extension ArgPlayer {
         case any
         
         /// any player at distance of X
+        // swiftlint:disable: identifier_name
         case at(Int)
     }
 }
