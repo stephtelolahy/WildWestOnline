@@ -13,8 +13,8 @@ public struct EffectResolverImpl: EffectResolver {
     
     public func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
         switch effect {
-        case .heal:
-            return resolveHeal(effect, ctx: ctx)
+        case let .heal(player, value):
+            return resolveHeal(player: player, value: value, ctx: ctx)
             
         default:
             fatalError("unimplemented resolver for \(effect)")
@@ -24,24 +24,25 @@ public struct EffectResolverImpl: EffectResolver {
 
 private extension EffectResolverImpl {
     
-    func resolveHeal(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .heal(player, value) = effect else {
-            fatalError("unexpected effect type \(effect)")
+    func resolveHeal(player: ArgPlayer, value: Int, ctx: Game) -> Result<EffectOutput, GameError> {
+        
+        guard case let .id(playerId) = player else {
+            fatalError("player not resolved \(player)")
         }
         
-        guard var playerObj = ctx.players[player] else {
-            fatalError("player not found \(player)")
+        guard var playerObj = ctx.players[playerId] else {
+            fatalError("player not found \(playerId)")
         }
         
         guard playerObj.health < playerObj.maxHealth else {
-            return .failure(.playerAlreadyMaxHealth(player))
+            return .failure(.playerAlreadyMaxHealth(playerId))
         }
         
         let newHealth = min(playerObj.health + value, playerObj.maxHealth)
         playerObj.health = newHealth
         
         var state = ctx
-        state.players[player] = playerObj
+        state.players[playerId] = playerObj
         
         return .success(EffectOutputImpl(state: state))
     }

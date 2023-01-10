@@ -11,12 +11,12 @@ import Bang
 final class HealTests: XCTestCase {
     
     private lazy var sut: EffectResolver = EffectResolverImpl()
-
+    
     func test_Gain1LifePoint_IfDamaged() throws {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let effect: Effect = .heal(player: "p1", value: 1)
+        let effect: Effect = .heal(player: .id("p1"), value: 1)
         
         // When
         let result = sut.resolve(effect, ctx: ctx)
@@ -34,7 +34,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let effect: Effect = .heal(player: "p1", value: 2)
+        let effect: Effect = .heal(player: .id("p1"), value: 2)
         
         // When
         let result = sut.resolve(effect, ctx: ctx)
@@ -52,7 +52,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 4)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let effect: Effect = .heal(player: "p1", value: 1)
+        let effect: Effect = .heal(player: .id("p1"), value: 1)
         
         // When
         let result = sut.resolve(effect, ctx: ctx)
@@ -67,7 +67,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 3)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let effect: Effect = .heal(player: "p1", value: 2)
+        let effect: Effect = .heal(player: .id("p1"), value: 2)
         
         // When
         let result = sut.resolve(effect, ctx: ctx)

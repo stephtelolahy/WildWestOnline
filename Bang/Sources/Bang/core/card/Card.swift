@@ -36,6 +36,6 @@ public enum CardType: String {
     /// ability for any player
     case defaultAbility
     
-    /// special charcter ability
+    /// special character ability
     case specialAbility
 }

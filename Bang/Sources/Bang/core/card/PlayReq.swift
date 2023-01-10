@@ -6,7 +6,14 @@
 //
 
 /// Elemenetary condition to play a card
-public protocol PlayReq {
+public enum PlayReq: Codable, Equatable {
     
-    func verify(ctx: Game) -> Result<Void, Error>
+    /// Must be on phase X and no playing hit
+    case isPhase(Int)
+    
+    /// The minimum number of alive players is X
+    case isPlayersAtLeast(Int)
+    
+    /// The maximum times per turn this card may be played is X
+    case isTimesPerTurn(Int)
 }
