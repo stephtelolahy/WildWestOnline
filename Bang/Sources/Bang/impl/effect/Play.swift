@@ -19,10 +19,7 @@ public struct Play: Effect, Equatable {
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         
-        guard var playerObj = ctx.players[actor] else {
-            fatalError("player not found \(actor)")
-        }
-        
+        var playerObj = ctx.player(actor)
         guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) else {
             fatalError("card not found \(card)")
         }

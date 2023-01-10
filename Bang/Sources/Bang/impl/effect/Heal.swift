@@ -24,10 +24,7 @@ public struct Heal: Effect, Equatable {
             }
         }
         
-        guard var playerObj = ctx.players[playerId] else {
-            fatalError("player not found \(playerId)")
-        }
-        
+        var playerObj = ctx.player(playerId)
         guard playerObj.health < playerObj.maxHealth else {
             return .failure(.playerAlreadyMaxHealth(playerId))
         }

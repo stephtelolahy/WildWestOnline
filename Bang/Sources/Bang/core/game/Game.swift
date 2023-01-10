@@ -18,7 +18,7 @@ public protocol Game {
     var turn: String { get }
     
     /// deck
-    var deck: [Card] { get }
+    var deck: [Card] { get set }
     
     /// discard pile
     var discard: [Card] { get set }

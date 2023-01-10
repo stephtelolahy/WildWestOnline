@@ -6,7 +6,7 @@
 //
 
 /// Effect resulting an error
-public struct EmitError: Effect {
+public struct EmitError: Effect, Equatable {
     
     private let error: GameError
     
