@@ -11,15 +11,14 @@ import Bang
 
 final class HealTests: XCTestCase {
     
-    private let sut: EffectResolver = EffectResolverMain()
-    
     func test_Gain1LifePoint_IfDamaged() throws {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
+        let sut = Heal(player: .id("p1"), value: 1)
         
         // When
-        let result = sut.resolve(.heal(player: .id("p1"), value: 1), ctx: ctx)
+        let result = sut.resolve(ctx)
         
         // assert
         assertIsSuccess(result) {
@@ -34,9 +33,10 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
+        let sut = Heal(player: .id("p1"), value: 2)
         
         // When
-        let result = sut.resolve(.heal(player: .id("p1"), value: 2), ctx: ctx)
+        let result = sut.resolve(ctx)
         
         // assert
         assertIsSuccess(result) {
@@ -51,9 +51,10 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 3)
         let ctx: Game = GameImpl(players: ["p1": p1])
+        let sut = Heal(player: .id("p1"), value: 2)
         
         // When
-        let result = sut.resolve(.heal(player: .id("p1"), value: 2), ctx: ctx)
+        let result = sut.resolve(ctx)
         
         // assert
         assertIsSuccess(result) {
@@ -68,9 +69,10 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 4)
         let ctx: Game = GameImpl(players: ["p1": p1])
+        let sut = Heal(player: .id("p1"), value: 1)
         
         // When
-        let result = sut.resolve(.heal(player: .id("p1"), value: 1), ctx: ctx)
+        let result = sut.resolve(ctx)
         
         // assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))

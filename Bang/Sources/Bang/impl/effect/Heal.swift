@@ -1,21 +1,26 @@
 //
-//  EffectResolverHeal.swift
+//  Heal.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-struct EffectResolverHeal: EffectResolver {
-    let resolverPlayer: ArgResolverPlayer
+/// Restore character's health, limited to maxHealth
+public struct Heal: Effect, Equatable {
     
-    func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .heal(player, value) = effect else {
-            fatalError("unexpected effect type \(effect)")
-        }
+    private let player: ArgPlayer
+    private let value: Int
+    
+    public init(player: ArgPlayer, value: Int) {
+        self.player = player
+        self.value = value
+    }
+    
+    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         
         guard case let .id(playerId) = player else {
-            return resolverPlayer.resolve(player, ctx: ctx) {
-                .heal(player: .id($0), value: value)
+            return ArgResolverPlayer.resolve(player, ctx: ctx) {
+                Heal(player: .id($0), value: value)
             }
         }
         
@@ -35,5 +40,4 @@ struct EffectResolverHeal: EffectResolver {
         
         return .success(EffectOutputImpl(state: ctx))
     }
-    
 }

@@ -13,13 +13,19 @@ import Combine
 class CardTests: XCTestCase {
     
     var sut: Engine!
+    
     let inventory: Inventory = InventoryImpl()
+    
     var events: [Result<Effect, GameError>] = []
+    
     var state: Game { sut.state.value }
+    
     private var cancellables = Set<AnyCancellable>()
     
     func setupInitialState(_ ctx: Game) {
-        sut = EngineImpl(ctx: ctx, resolver: EffectResolverMain())
-        sut.state.sink { [weak self] in self?.events.appendNotNil($0.event) }.store(in: &cancellables)
+        sut = EngineImpl(ctx: ctx)
+        sut.state.sink { [weak self] in
+            self?.events.appendNotNil($0.event)
+        }.store(in: &cancellables)
     }
 }

@@ -41,17 +41,6 @@ extension XCTestCase {
         }
     }
     
-    func assertIsSuccess<T: Equatable, E: Error>(
-        _ result: Result<T, E>,
-        equalTo aValue: T,
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        assertIsSuccess(result) {
-            XCTAssertEqual($0, aValue, file: file, line: line)
-        }
-    }
-    
     func assertIsFailure<T, E: Error & Equatable>(
         _ result: Result<T, E>,
         equalTo anError: E,

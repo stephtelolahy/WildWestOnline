@@ -1,0 +1,24 @@
+//
+//  IsPlayersAtLeast.swift
+//  
+//
+//  Created by Hugues Telolahy on 10/01/2023.
+//
+
+/// The minimum number of alive players is X
+public struct IsPlayersAtLeast: PlayReq {
+    
+    private let count: Int
+    
+    public init(count: Int) {
+        self.count = count
+    }
+    
+    public func verify(_ ctx: Game) -> Result<Void, GameError> {
+        guard ctx.playOrder.count >= count else {
+            return .failure(.playersMustBeAtLeast(count))
+        }
+        
+        return .success(())
+    }
+}

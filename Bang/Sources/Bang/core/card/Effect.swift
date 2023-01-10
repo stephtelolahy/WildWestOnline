@@ -6,13 +6,27 @@
 //
 
 /// Elementary card effect
+public protocol Effect {
+    
+    func resolve(_ ctx: Game) -> Result<EffectOutput, GameError>
+}
+
+/// Resolving an effect may update game or push another effects
+public protocol EffectOutput {
+    
+    /// Resolved successfully with an updated `State`
+    var state: Game? { get }
+    
+    /// Resolving effect arguments, by pushing child effects
+    var effects: [Effect]? { get }
+}
+
+/*
+/// Elementary card effect
 public indirect enum Effect: Codable, Equatable {
     
     /// Deals damage to a character, attempting to reduce its Health by the stated amount
     case damage(player: ArgPlayer, value: Int)
-    
-    /// Restore character's health, limited to maxHealth
-    case heal(player: ArgPlayer, value: Int)
     
     /// Draw a card from top deck
     case draw(player: ArgPlayer)
@@ -40,18 +54,5 @@ public indirect enum Effect: Codable, Equatable {
     
     /// Repeat an effect
     case loop(times: ArgNumber, effect: Effect)
-    
-    /// Apply an effect to a group of players
-    case apply(player: ArgPlayer, effect: Effect)
-    
-    /// Play a card
-    /// `Brown` cards are put immediately in discard pile
-    /// `Blue` cards are put in play
-    case play(actor: String, card: String)
-    
-    /// Dummy efffect
-    case dummy
-    
-    /// Effect resulting an error
-    case emitError(GameError)
 }
+*/

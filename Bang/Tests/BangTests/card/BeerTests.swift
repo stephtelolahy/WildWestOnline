@@ -22,12 +22,12 @@ final class BeerTests: CardTests {
         setupInitialState(ctx)
         
         // When
-        sut.input(.play(actor: "p1", card: "c1"))
+        sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
         try XCTSkipUnless(events.count == 2, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: .play(actor: "p1", card: "c1"))
-        assertIsSuccess(events[1], equalTo: .heal(player: .id("p1"), value: 1))
+        assertIsSuccess(events[0], equalTo: Play(actor: "p1", card: "c1"))
+        assertIsSuccess(events[1], equalTo: Heal(player: .id("p1"), value: 1))
         
         XCTAssertEqual(state.players["p1"]!.hand.map(\.id), [])
         XCTAssertEqual(state.players["p1"]!.health, 2)
@@ -44,7 +44,7 @@ final class BeerTests: CardTests {
         setupInitialState(ctx)
         
         // When
-        sut.input(.play(actor: "p1", card: "c1"))
+        sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
         try XCTSkipUnless(events.count == 1, "Unexpected events count \(events.count)")
@@ -61,7 +61,7 @@ final class BeerTests: CardTests {
         setupInitialState(ctx)
         
         // When
-        sut.input(.play(actor: "p1", card: "c1"))
+        sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
         try XCTSkipUnless(events.count == 1, "Unexpected events count \(events.count)")

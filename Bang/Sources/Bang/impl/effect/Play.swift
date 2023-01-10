@@ -1,18 +1,23 @@
 //
-//  EffectResolverPlay.swift
+//  Play.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-struct EffectResolverPlay: EffectResolver {
-    let verifier: PlayReqVerifier
-    let mainResolver: EffectResolver
+/// Play a card
+/// `Brown` cards are put immediately in discard pile
+/// `Blue` cards are put in play
+public struct Play: Effect, Equatable {
+    private let actor: String
+    private let card: String
     
-    func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .play(actor, card) = effect else {
-            fatalError("unexpected effect type \(effect)")
-        }
+    public init(actor: String, card: String) {
+        self.actor = actor
+        self.card = card
+    }
+    
+    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         
         guard var playerObj = ctx.players[actor] else {
             fatalError("player not found \(actor)")
@@ -36,7 +41,7 @@ struct EffectResolverPlay: EffectResolver {
         
         /// verify all requirements
         for playReq in cardObj.canPlay {
-            if case let .failure(error) = verifier.verify(playReq, ctx: ctx) {
+            if case let .failure(error) = playReq.verify(ctx) {
                 return .failure(error)
             }
         }
@@ -62,7 +67,7 @@ struct EffectResolverPlay: EffectResolver {
     
     /// recursively resolve an effect until completed
     private func resolveUntilCompleted(_ effect: Effect, ctx: Game) -> Result<Void, GameError> {
-        let result = mainResolver.resolve(effect, ctx: ctx)
+        let result = effect.resolve(ctx)
         switch result {
         case let .failure(error):
             return .failure(error)

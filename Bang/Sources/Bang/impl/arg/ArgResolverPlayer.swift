@@ -7,15 +7,9 @@
 
 import UIKit
 
-protocol ArgResolverPlayer {
-
-    /// resolve player argument
-    func resolve(_ player: ArgPlayer, ctx: Game, copy: @escaping (String) -> Effect) -> Result<EffectOutput, GameError>
-}
-
-struct ArgResolverPlayerImpl: ArgResolverPlayer {
+enum ArgResolverPlayer {
     
-    func resolve(_ player: ArgPlayer, ctx: Game, copy: @escaping (String) -> Effect) -> Result<EffectOutput, GameError> {
+    static func resolve(_ player: ArgPlayer, ctx: Game, copy: @escaping (String) -> Effect) -> Result<EffectOutput, GameError> {
         switch player {
             
         // TODO: handle choice first, then identify the rest

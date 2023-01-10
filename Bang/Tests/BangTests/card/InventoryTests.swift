@@ -12,7 +12,7 @@ final class InventoryTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
 
-    func test_BangInnerCards() throws {
+    func test_BangDefaultCards() throws {
         // Given
         // When
         let cards = inventory.getAll(.defaultAbility)

@@ -8,23 +8,20 @@ import Combine
 
 public struct EngineImpl: Engine {
     
-    private let resolver: EffectResolver
-    
     public var state: CurrentValueSubject<Game, Never>
     
-    public init(ctx: Game, resolver: EffectResolver) {
+    public init(ctx: Game) {
         self.state = CurrentValueSubject(ctx)
-        self.resolver = resolver
     }
     
     public func input(_ move: Effect) {
         var ctx = state.value
         ctx.queue.insert(move, at: 0)
         
-        // remove decision if move is part of pending options
-        if ctx.decisions.contains(move) {
-            ctx.decisions.removeAll()
-        }
+        // TODO: remove decision if move is part of pending options
+//        if ctx.decisions.contains(move) {
+//            ctx.decisions.removeAll()
+//        }
         
         state.send(ctx)
         update()
@@ -53,7 +50,7 @@ public struct EngineImpl: Engine {
         let effect = queue.remove(at: 0)
         ctx.queue = queue
         
-        let result = resolver.resolve(effect, ctx: ctx)
+        let result = effect.resolve(ctx)
         
         switch result {
         case let .success(output):

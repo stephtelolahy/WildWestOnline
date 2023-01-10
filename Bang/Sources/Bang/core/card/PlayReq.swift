@@ -6,11 +6,15 @@
 //
 
 /// Elemenetary condition to play a card
-public enum PlayReq: Codable, Equatable {
+public protocol PlayReq {
     
-    /// The minimum number of alive players is X
-    case isPlayersAtLeast(Int)
+    func verify(_ ctx: Game) -> Result<Void, GameError>
+}
+
+/*
+public enum PlayReq: Codable, Equatable {
     
     /// The maximum times per turn this card may be played is X
     case isTimesPerTurn(Int)
 }
+*/
