@@ -1,30 +1,31 @@
 //
-//  CardsInventoryTests.swift
+//  InventoryTests.swift
 //  
 //
-//  Created by TELOLAHY Hugues Stéphano on 29/10/2022.
+//  Created by Hugues Telolahy on 10/01/2023.
 //
 
-import CardGameCore
-import CardGameMechanics
 import XCTest
+import Bang
 
-final class CardsInventoryTests: XCTestCase {
+final class InventoryTests: XCTestCase {
     
+    private let inventory: Inventory = InventoryImpl()
+
     func test_BangInnerCards() throws {
         // Given
         // When
-        let cards = Cards.getAll(type: .inner)
+        let cards = inventory.getAll(.defaultAbility)
         
         // Assert
-        XCTAssertTrue(cards.contains { $0.name == "startTurn" })
+//        XCTAssertTrue(cards.contains { $0.name == "startTurn" })
         XCTAssertTrue(cards.contains { $0.name == "endTurn" })
     }
 
     func test_BangCollectibleCards() throws {
         // Given
         // When
-        let cards = Cards.getAll(type: .collectible)
+        let cards = inventory.getAll(.collectible)
         
         // Assert
 //        XCTAssertTrue(cards.contains { $0.name == "barrel" })
@@ -54,7 +55,7 @@ final class CardsInventoryTests: XCTestCase {
     func test_BangCharacterCards() throws {
         // Given
         // When
-//        let cards = Cards.getAll(type: .character)
+        let cards = inventory.getAll(.specialAbility)
         
         // Assert
 //        XCTAssertTrue(cards.contains { $0.name == "bartCassidy" })
@@ -74,4 +75,5 @@ final class CardsInventoryTests: XCTestCase {
 //        XCTAssertTrue(cards.contains { $0.name == "vultureSam" })
 //        XCTAssertTrue(cards.contains { $0.name == "willyTheKid" })
     }
+
 }

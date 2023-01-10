@@ -8,9 +8,6 @@
 /// Elemenetary condition to play a card
 public enum PlayReq: Codable, Equatable {
     
-    /// Must be on phase X and no playing hit
-    case isPhase(Int)
-    
     /// The minimum number of alive players is X
     case isPlayersAtLeast(Int)
     

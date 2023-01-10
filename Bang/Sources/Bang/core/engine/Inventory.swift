@@ -9,4 +9,5 @@
 public protocol Inventory {
     
     func getCard(_ name: String, withId: String?) -> Card
+    func getAll(_ type: CardType) -> [Card]
 }

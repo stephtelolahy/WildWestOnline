@@ -10,7 +10,7 @@ import Bang
 
 final class IsPlayersAtLeastTests: XCTestCase {
     
-    private let sut: PlayReqVerifier = PlayReqVerifierImpl()
+    private let sut: PlayReqVerifier = PlayReqVerifierMain()
     
     func test_ReturnTrue_IfPlayersMoreThanValue() throws {
         // Given

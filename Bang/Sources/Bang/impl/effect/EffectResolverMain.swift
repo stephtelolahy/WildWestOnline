@@ -19,7 +19,7 @@ public struct EffectResolverMain: EffectResolver {
             return EffectResolverHeal(resolverPlayer: ArgResolverPlayerImpl())
             
         case .play:
-            return EffectResolverPlay(verifier: PlayReqVerifierImpl(), mainResolver: self)
+            return EffectResolverPlay(verifier: PlayReqVerifierMain(), mainResolver: self)
             
         case .dummy:
             return EffectResolverDummy()

@@ -18,6 +18,10 @@ public struct InventoryImpl: Inventory {
         card.id = id ?? name
         return card
     }
+    
+    public func getAll(_ type: CardType) -> [Card] {
+        Self.uniqueCards.filter { $0.type == type }
+    }
 }
 
 private extension InventoryImpl {
