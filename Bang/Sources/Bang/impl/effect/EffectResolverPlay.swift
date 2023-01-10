@@ -23,14 +23,17 @@ struct EffectResolverPlay: EffectResolver {
             fatalError("card not found \(card)")
         }
         
-        var state = ctx
+        var ctx = ctx
+        
+        /// keep actor as context data
+        ctx.data[.actor] = actor
         
         /// discard played card
         let cardObj = playerObj.hand.remove(at: handIndex)
-        var discard = state.discard
+        var discard = ctx.discard
         discard.append(cardObj)
-        state.discard = discard
-        state.players[actor] = playerObj
+        ctx.discard = discard
+        ctx.players[actor] = playerObj
         
         /// verify all requirements
         for playReq in cardObj.canPlay {
@@ -50,12 +53,12 @@ struct EffectResolverPlay: EffectResolver {
         }
         
         /// update turn played card
-        state.played.append(cardObj.name)
+        ctx.played.append(cardObj.name)
         
         /// push child effects
         let children = cardObj.onPlay
         
-        return .success(EffectOutputImpl(state: state, effects: children))
+        return .success(EffectOutputImpl(state: ctx, effects: children))
     }
     
     /// recursively resolve an effect until completed
@@ -70,7 +73,7 @@ struct EffectResolverPlay: EffectResolver {
             if let children = output.effects {
                 let state = output.state ?? ctx
                 let results = children.map { resolveUntilCompleted($0, ctx: state) }
-                let allFailed = results.allSatisfy({ $0.isError })
+                let allFailed = results.allSatisfy { if case .failure = $0 { return true } else { return false } }
                 if allFailed {
                     return results[0]
                 }
@@ -78,20 +81,5 @@ struct EffectResolverPlay: EffectResolver {
             
             return .success(())
         }
-    }
-}
-
-private extension Result {
-    
-    var isSuccess: Bool {
-        if case .success = self {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    var isError: Bool {
-        !isSuccess
     }
 }

@@ -17,9 +17,6 @@ public protocol Game {
     /// current player
     var turn: String { get }
     
-    /// current phase
-    var phase: Int { get }
-    
     /// deck
     var deck: [Card] { get }
     
@@ -36,12 +33,19 @@ public protocol Game {
     var played: [String] { get set }
     
     /// pending actions among which one must be choosen to proceed effect resolving
-    var decisions: [Effect] { get }
+    var decisions: [Effect] { get set }
     
     /// effects queue that have to be resolved in order
-    var queue: [Effect] { get }
+    var queue: [Effect] { get set }
     
     /// last occurred event
     /// that updated the game state
     var event: Result<Effect, GameError>? { get set }
+    
+    /// play context data
+    var data: [ContextKey: Any] { get set }
+}
+
+public enum ContextKey: String {
+    case actor
 }

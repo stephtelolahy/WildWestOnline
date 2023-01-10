@@ -6,6 +6,7 @@
 //
 
 struct EffectResolverHeal: EffectResolver {
+    let resolverPlayer: ArgResolverPlayer
     
     func resolve(_ effect: Effect, ctx: Game) -> Result<EffectOutput, GameError> {
         guard case let .heal(player, value) = effect else {
@@ -13,7 +14,9 @@ struct EffectResolverHeal: EffectResolver {
         }
         
         guard case let .id(playerId) = player else {
-            fatalError("player not resolved \(player)")
+            return resolverPlayer.resolve(player, ctx: ctx) {
+                .heal(player: .id($0), value: value)
+            }
         }
         
         guard var playerObj = ctx.players[playerId] else {
@@ -27,10 +30,10 @@ struct EffectResolverHeal: EffectResolver {
         let newHealth = min(playerObj.health + value, playerObj.maxHealth)
         playerObj.health = newHealth
         
-        var state = ctx
-        state.players[playerId] = playerObj
+        var ctx = ctx
+        ctx.players[playerId] = playerObj
         
-        return .success(EffectOutputImpl(state: state))
+        return .success(EffectOutputImpl(state: ctx))
     }
     
 }

@@ -14,10 +14,10 @@ public indirect enum Effect: Codable, Equatable {
     /// Restore character's health, limited to maxHealth
     case heal(player: ArgPlayer, value: Int)
     
-    /// draw a card from top deck
+    /// Draw a card from top deck
     case draw(player: ArgPlayer)
     
-    /// discard player's card to discard pile
+    /// Discard player's card to discard pile
     case discard(player: ArgPlayer, card: ArgCard)
     
     /// Player must discard a specific card. If cannot, then apply some effects
@@ -32,14 +32,11 @@ public indirect enum Effect: Codable, Equatable {
     /// Choose some cards from store zone
     case choose(player: ArgPlayer, card: ArgCard)
     
-    /// Set  phase
-    case setPhase(value: Int)
+    /// Draw some cards from other player
+    case steal(player: ArgPlayer, target: ArgPlayer, card: ArgCard)
     
     /// Set turn
     case setTurn(player: ArgPlayer)
-    
-    /// draw some cards from other player
-    case steal(player: ArgPlayer, target: ArgPlayer, card: ArgCard)
     
     /// Repeat an effect
     case loop(times: ArgNumber, effect: Effect)
@@ -47,14 +44,14 @@ public indirect enum Effect: Codable, Equatable {
     /// Apply an effect to a group of players
     case apply(player: ArgPlayer, effect: Effect)
     
-    /// play a card
-    /// Brown cards are put immediately in discard pile
-    /// Blue cards are put in play
+    /// Play a card
+    /// `Brown` cards are put immediately in discard pile
+    /// `Blue` cards are put in play
     case play(actor: String, card: String)
     
-    /// dummy efffect
+    /// Dummy efffect
     case dummy
     
-    /// effect triggering an error
+    /// Effect resulting an error
     case emitError(GameError)
 }

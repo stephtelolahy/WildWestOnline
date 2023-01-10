@@ -16,7 +16,7 @@ public struct EffectResolverMain: EffectResolver {
     private func resolver(for effect: Effect) -> EffectResolver {
         switch effect {
         case .heal:
-            return EffectResolverHeal()
+            return EffectResolverHeal(resolverPlayer: ArgResolverPlayerImpl())
             
         case .play:
             return EffectResolverPlay(verifier: PlayReqVerifierImpl(), mainResolver: self)
