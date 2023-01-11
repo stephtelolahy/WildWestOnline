@@ -11,7 +11,7 @@ struct EmitError: Effect, Equatable {
     
     let error: GameError
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         .failure(error)
     }
 }

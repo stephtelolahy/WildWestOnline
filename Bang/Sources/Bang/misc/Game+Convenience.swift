@@ -21,8 +21,8 @@ public extension Game {
 extension Game {
     
     /// Remove top deck card
+    /// reseting deck if empty
     mutating func removeTopDeck() -> Card {
-        // reseting deck if empty
         if deck.isEmpty,
            discard.count >= 2 {
             let cards = discard

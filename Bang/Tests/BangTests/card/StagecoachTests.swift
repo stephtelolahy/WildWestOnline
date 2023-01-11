@@ -4,12 +4,13 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+// swiftlint:disable identifier_name
 
 import XCTest
 import Bang
 
 final class StagecoachTests: CardTests {
-
+    
     func test_Draw2Cards_IfPlayingStagecoach() throws {
         // Given
         let c1 = inventory.getCard("stagecoach", withId: "c1")
@@ -17,8 +18,8 @@ final class StagecoachTests: CardTests {
         let c3 = CardImpl(id: "c3")
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
-                          turn: "p1",
-                          deck: [c2, c3])
+                           turn: "p1",
+                           deck: [c2, c3])
         setupInitialState(ctx)
         
         // When
@@ -33,5 +34,5 @@ final class StagecoachTests: CardTests {
         XCTAssertEqual(state.discard.map(\.id), ["c1"])
         XCTAssertEqual(state.player("p1").hand.map(\.id), ["c2", "c3"])
     }
-
+    
 }

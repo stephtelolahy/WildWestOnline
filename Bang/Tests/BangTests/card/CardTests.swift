@@ -4,6 +4,8 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+// swiftlint:disable implicitly_unwrapped_optional
+// swiftlint:disable test_case_accessibility
 
 import XCTest
 import Bang
@@ -26,6 +28,7 @@ class CardTests: XCTestCase {
         sut = EngineImpl(ctx: ctx)
         sut.state.sink { [weak self] in
             self?.events.appendNotNil($0.event)
-        }.store(in: &cancellables)
+        }
+        .store(in: &cancellables)
     }
 }

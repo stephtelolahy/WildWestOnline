@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+// swiftlint:disable force_cast
 
 import XCTest
 import Bang

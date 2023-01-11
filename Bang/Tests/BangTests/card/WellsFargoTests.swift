@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+// swiftlint:disable identifier_name
 
 import XCTest
 import Bang
@@ -18,8 +19,8 @@ final class WellsFargoTests: CardTests {
         let c4 = CardImpl(id: "c4")
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
-                          turn: "p1",
-                          deck: [c2, c3, c4])
+                           turn: "p1",
+                           deck: [c2, c3, c4])
         setupInitialState(ctx)
         
         // When
@@ -35,5 +36,5 @@ final class WellsFargoTests: CardTests {
         XCTAssertEqual(state.discard.map(\.id), ["c1"])
         XCTAssertEqual(state.player("p1").hand.map(\.id), ["c2", "c3", "c4"])
     }
-
+    
 }

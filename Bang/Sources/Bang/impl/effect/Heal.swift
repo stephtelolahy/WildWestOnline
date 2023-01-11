@@ -20,7 +20,7 @@ public struct Heal: Effect, Equatable {
         
         guard case let .id(playerId) = player else {
             return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                Heal(player: .id($0), value: value)
+                Self(player: .id($0), value: value)
             }
         }
         

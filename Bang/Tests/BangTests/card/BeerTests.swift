@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 // swiftlint:disable identifier_name
+// swiftlint:disable force_unwrapping
 
 import XCTest
 import Bang

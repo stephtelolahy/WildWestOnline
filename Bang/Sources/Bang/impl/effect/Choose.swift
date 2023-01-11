@@ -6,11 +6,13 @@
 //
 
 /// select an option during effect resolution
-public class Choose: Effect, Equatable {
+public struct Choose: Effect, Equatable {
     
     private let actor: String
     private let value: String?
-    private let effects: [Effect]
+    
+    @EquatableNoop
+    private var effects: [Effect]
     
     public init(actor: String, value: String?, effects: [Effect]) {
         self.actor = actor
@@ -23,9 +25,4 @@ public class Choose: Effect, Equatable {
         /// to mark that effect was successfully resolved
         .success(EffectOutputImpl(state: ctx, effects: effects))
     }
-    
-    public static func == (lhs: Choose, rhs: Choose) -> Bool {
-        String(describing: lhs) == String(describing: rhs)
-    }
-    
 }

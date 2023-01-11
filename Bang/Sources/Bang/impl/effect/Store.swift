@@ -6,7 +6,7 @@
 //
 
 /// Draw card from deck to store zone
-public struct Store: Effect {
+public struct Store: Effect, Equatable {
     
     public init() {}
     

@@ -74,13 +74,23 @@ public struct Play: Effect, Equatable {
             if let children = output.effects {
                 let state = output.state ?? ctx
                 let results = children.map { resolveUntilCompleted($0, ctx: state) }
-                let allFailed = results.allSatisfy { if case .failure = $0 { return true } else { return false } }
-                if allFailed {
+                if results.allSatisfy({ $0.isFailure }) {
                     return results[0]
                 }
             }
             
             return .success(())
+        }
+    }
+}
+
+private extension Result {
+    
+    var isFailure: Bool {
+        if case .failure = self {
+            return true
+        } else {
+            return false
         }
     }
 }

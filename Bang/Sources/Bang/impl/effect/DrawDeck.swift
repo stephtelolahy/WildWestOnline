@@ -17,7 +17,7 @@ public struct DrawDeck: Effect, Equatable {
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         guard case let .id(playerId) = player else {
             return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                DrawDeck(player: .id($0))
+                Self(player: .id($0))
             }
         }
         
@@ -30,4 +30,3 @@ public struct DrawDeck: Effect, Equatable {
         return .success(EffectOutputImpl(state: ctx))
     }
 }
-

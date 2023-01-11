@@ -15,12 +15,11 @@ enum ArgResolverCard {
     ) -> Result<EffectOutput, GameError> {
         
         switch resolve(card, chooser: chooser, ctx: ctx) {
-            
         case let .success(data):
             switch data {
             case let .identified(cIds):
-                let effects = cIds.map { copy($0) }
-                return .success(EffectOutputImpl(effects: effects))
+                let children = cIds.map { copy($0) }
+                return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(cIds):
                 let options = cIds.map { Choose(actor: chooser, value: $0, effects: [copy($0)]) }

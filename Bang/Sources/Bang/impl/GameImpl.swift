@@ -30,7 +30,7 @@ public struct GameImpl: Game {
                 decisions: [Effect] = [],
                 queue: [Effect] = [],
                 event: Result<Effect, GameError>? = nil,
-                data: [ContextKey : Any] = [:]) {
+                data: [ContextKey: Any] = [:]) {
         self.players = players
         self.playOrder = playOrder
         self.turn = turn

@@ -6,7 +6,7 @@
 //
 import Combine
 
-public struct EngineImpl: Engine {
+public class EngineImpl: Engine {
     
     public var state: CurrentValueSubject<Game, Never>
     
@@ -18,10 +18,10 @@ public struct EngineImpl: Engine {
         var ctx = state.value
         ctx.queue.insert(move, at: 0)
         
-        // TODO: remove decision if move is part of pending options
-//        if ctx.decisions.contains(move) {
-//            ctx.decisions.removeAll()
-//        }
+        // remove decision if move is part of pending options
+        if ctx.isWaiting(move) {
+            ctx.decisions.removeAll()
+        }
         
         state.send(ctx)
         update()
@@ -64,6 +64,10 @@ public struct EngineImpl: Engine {
                 ctx.queue = queue
             }
             
+            if let options = output.options {
+                ctx.decisions = options
+            }
+            
             state.send(ctx)
             
         case let .failure(error):
@@ -74,5 +78,20 @@ public struct EngineImpl: Engine {
         /// game updated
         /// repeat
         update()
+    }
+}
+
+private extension Game {
+    
+    func isWaiting<T: Effect>(_ move: T) -> Bool {
+        decisions.contains(where: {
+            guard let option = $0 as? T else {
+                return false
+            }
+            
+            // TODO: compare using Equatable
+            return String(describing: option) == String(describing: move)
+            
+        })
     }
 }

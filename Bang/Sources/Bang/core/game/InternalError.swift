@@ -18,4 +18,3 @@ public enum InternalError: Error {
     case missingCardScript(String)
     case missingStoreCard(String)
 }
-

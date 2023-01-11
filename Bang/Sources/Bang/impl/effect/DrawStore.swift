@@ -19,13 +19,13 @@ public struct DrawStore: Effect, Equatable {
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         guard case let .id(playerId) = player else {
             return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                DrawStore(player: .id($0), card: card)
+                Self(player: .id($0), card: card)
             }
         }
         
         guard case let .id(cardId) = card else {
             return ArgResolverCard.resolve(card, chooser: playerId, ctx: ctx) {
-                DrawStore(player: player, card: .id($0))
+                Self(player: player, card: .id($0))
             }
         }
         
