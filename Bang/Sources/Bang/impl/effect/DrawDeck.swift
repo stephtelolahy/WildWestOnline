@@ -1,12 +1,12 @@
 //
-//  Draw.swift
+//  DrawDeck.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-/// Draw a card from top deck
-public struct Draw: Effect, Equatable {
+/// Draw top deck card
+public struct DrawDeck: Effect, Equatable {
     
     private let player: ArgPlayer
     
@@ -17,7 +17,7 @@ public struct Draw: Effect, Equatable {
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         guard case let .id(playerId) = player else {
             return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                Draw(player: .id($0))
+                DrawDeck(player: .id($0))
             }
         }
         

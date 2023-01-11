@@ -27,8 +27,8 @@ final class StagecoachTests: CardTests {
         // Assert
         try XCTSkipUnless(events.count == 3, "Unexpected events count \(events.count)")
         assertIsSuccess(events[0], equalTo: Play(actor: "p1", card: "c1"))
-        assertIsSuccess(events[1], equalTo: Draw(player: .id("p1")))
-        assertIsSuccess(events[2], equalTo: Draw(player: .id("p1")))
+        assertIsSuccess(events[1], equalTo: DrawDeck(player: .id("p1")))
+        assertIsSuccess(events[2], equalTo: DrawDeck(player: .id("p1")))
         
         XCTAssertEqual(state.discard.map(\.id), ["c1"])
         XCTAssertEqual(state.player("p1").hand.map(\.id), ["c2", "c3"])

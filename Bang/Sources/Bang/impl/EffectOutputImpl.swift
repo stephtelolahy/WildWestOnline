@@ -8,9 +8,11 @@
 public struct EffectOutputImpl: EffectOutput {
     public var state: Game?
     public var effects: [Effect]?
+    public var options: [Effect]?
     
-    public init(state: Game? = nil, effects: [Effect]? = nil) {
+    public init(state: Game? = nil, effects: [Effect]? = nil, options: [Effect]? = nil) {
         self.state = state
         self.effects = effects
+        self.options = options
     }
 }

@@ -19,4 +19,7 @@ public enum GameError: Error, Codable, Equatable {
     
     /// Expected some player damaged
     case noPlayerDamaged
+    
+    /// Expected store to contain come cards
+    case noCardInStore
 }

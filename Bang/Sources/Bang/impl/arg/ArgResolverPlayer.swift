@@ -5,8 +5,6 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-import UIKit
-
 enum ArgResolverPlayer {
     
     static func resolve(_ player: ArgPlayer, ctx: Game, copy: @escaping (String) -> Effect) -> Result<EffectOutput, GameError> {

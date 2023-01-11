@@ -1,0 +1,76 @@
+//
+//  DrawStoreTests.swift
+//  
+//
+//  Created by Hugues Telolahy on 11/01/2023.
+//
+
+import XCTest
+import Bang
+
+final class DrawStoreTests: XCTestCase {
+    
+    func test_DrawSpecificStoreCard() throws {
+        // Given
+        let c1 = CardImpl(id: "c1")
+        let c2 = CardImpl(id: "c2")
+        let p1 = PlayerImpl()
+        let ctx = GameImpl(players: ["p1": p1],
+                           store: [c1, c2])
+        let sut = DrawStore(player: .id("p1"), card: .id("c1"))
+        
+        // When
+        let result = sut.resolve(ctx)
+        
+        // Assert
+        assertIsSuccess(result) {
+            let ctx = try XCTUnwrap($0.state)
+            XCTAssertEqual(ctx.player("p1").hand.map(\.id), ["c1"])
+            XCTAssertEqual(ctx.store.map(\.id), ["c2"])
+            XCTAssertNil($0.effects)
+        }
+    }
+    
+    func test_AskToChooseStoreCard() throws {
+        // Given
+        let c1 = CardImpl(id: "c1")
+        let c2 = CardImpl(id: "c2")
+        let p1 = PlayerImpl()
+        let ctx = GameImpl(players: ["p1": p1],
+                           store: [c1, c2])
+        let sut = DrawStore(player: .id("p1"), card: .select(.store))
+        
+        // When
+        let result = sut.resolve(ctx)
+        
+        // Assert
+        assertIsSuccess(result) {
+            let options = try XCTUnwrap($0.options)
+            XCTAssertEqual(options.count, 2)
+            assertEqual(options[0], Choose(actor: "p1", value: "c1", effects: [DrawStore(player: .id("p1"), card: .id("c1"))]))
+            assertEqual(options[1], Choose(actor: "p1", value: "c2", effects: [DrawStore(player: .id("p1"), card: .id("c2"))]))
+            XCTAssertNil($0.state)
+            XCTAssertNil($0.effects)
+        }
+    }
+    
+    func test_DoNotAskToChooseStoreCard() throws {
+        // Given
+        let c1 = CardImpl(id: "c1")
+        let p1 = PlayerImpl()
+        let ctx = GameImpl(players: ["p1": p1],
+                           store: [c1])
+        let sut = DrawStore(player: .id("p1"), card: .select(.store))
+        
+        // When
+        let result = sut.resolve(ctx)
+        
+        // Assert
+        assertIsSuccess(result) {
+            let children = try XCTUnwrap($0.effects)
+            XCTAssertEqual(children.count, 1)
+            assertEqual(children[0], DrawStore(player: .id("p1"), card: .id("c1")))
+        }
+    }
+    
+}

@@ -19,6 +19,9 @@ public protocol EffectOutput {
     
     /// Resolving effect arguments, by pushing child effects
     var effects: [Effect]? { get }
+    
+    /// Suspended waiting user decision
+    var options: [Effect]? { get }
 }
 
 /*
@@ -36,9 +39,6 @@ public indirect enum Effect: Codable, Equatable {
     
     /// Player must discard a specific card. If cannot, then apply some effects
     case challengeDiscard(player: ArgPlayer, card: ArgCard, otherwise: Effect, challenger: ArgPlayer)
-    
-    /// Choose some cards from store zone
-    case choose(player: ArgPlayer, card: ArgCard)
     
     /// Draw some cards from other player
     case steal(player: ArgPlayer, target: ArgPlayer, card: ArgCard)

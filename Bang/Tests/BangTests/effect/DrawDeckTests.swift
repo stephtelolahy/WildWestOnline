@@ -1,5 +1,5 @@
 //
-//  DrawTests.swift
+//  DrawDeckTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
@@ -8,7 +8,7 @@
 import XCTest
 import Bang
 
-final class DrawTests: XCTestCase {
+final class DrawDeckTests: XCTestCase {
     
     func test_DrawACardWhenHandNotEmpty() throws {
         // Given
@@ -18,7 +18,7 @@ final class DrawTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
                            deck: [c2, c3])
-        let sut = Draw(player: .id("p1"))
+        let sut = DrawDeck(player: .id("p1"))
         
         // When
         let result = sut.resolve(ctx)
@@ -39,7 +39,7 @@ final class DrawTests: XCTestCase {
         let p1 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1],
                            deck: [c2, c3])
-        let sut = Draw(player: .id("p1"))
+        let sut = DrawDeck(player: .id("p1"))
         
         // When
         let result = sut.resolve(ctx)
@@ -60,7 +60,7 @@ final class DrawTests: XCTestCase {
         let p1 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1],
                            discard: [c2, c3])
-        let sut = Draw(player: .id("p1"))
+        let sut = DrawDeck(player: .id("p1"))
         
         // When
         let result = sut.resolve(ctx)

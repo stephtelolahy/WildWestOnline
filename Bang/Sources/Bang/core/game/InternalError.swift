@@ -16,5 +16,6 @@ public enum InternalError: Error {
     case missingActor
     case missingPlayerCard(String)
     case missingCardScript(String)
+    case missingStoreCard(String)
 }
 
