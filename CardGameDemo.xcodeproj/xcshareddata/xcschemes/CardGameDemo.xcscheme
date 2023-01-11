@@ -53,7 +53,7 @@
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CardGameCoreTests"
@@ -63,7 +63,7 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CardGameMechanicsTests"
@@ -76,10 +76,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ExtensionsKitTests"
-               BuildableName = "ExtensionsKitTests"
-               BlueprintName = "ExtensionsKitTests"
-               ReferencedContainer = "container:ExtensionsKit">
+               BlueprintIdentifier = "BangTests"
+               BuildableName = "BangTests"
+               BlueprintName = "BangTests"
+               ReferencedContainer = "container:Bang">
             </BuildableReference>
          </TestableReference>
       </Testables>

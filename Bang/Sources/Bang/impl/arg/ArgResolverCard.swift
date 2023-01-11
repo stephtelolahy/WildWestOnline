@@ -7,14 +7,22 @@
 
 enum ArgResolverCard {
     
+    /// Resolve card argument
+    /// - Parameters:
+    ///   - card: card definition
+    ///   - owner: player owning the card if any
+    ///   - chooser: player making choice
+    ///   - ctx: game
+    ///   - copy: child effect template
     static func resolve(
         _ card: ArgCard,
+        owner: String?,
         chooser: String,
         ctx: Game,
         copy: @escaping (String) -> Effect
     ) -> Result<EffectOutput, GameError> {
         
-        switch resolve(card, chooser: chooser, ctx: ctx) {
+        switch resolve(card, owner: owner, chooser: chooser, ctx: ctx) {
         case let .success(data):
             switch data {
             case let .identified(cIds):
@@ -31,8 +39,13 @@ enum ArgResolverCard {
         }
     }
     
-    private static func resolve(
+}
+
+private extension ArgResolverCard {
+    
+    static func resolve(
         _ card: ArgCard,
+        owner: String?,
         chooser: String,
         ctx: Game
     ) -> Result<ArgResolved, GameError> {
@@ -41,16 +54,10 @@ enum ArgResolverCard {
             
             switch zone {
             case .store:
-                let cards = ctx.store.map(\.id)
-                guard !cards.isEmpty else {
-                    return .failure(.noCardInStore)
-                }
+                return resolveSelectStore(chooser: chooser, ctx: ctx)
                 
-                if cards.count == 1 {
-                    return .success(.identified(cards))
-                }
-                
-                return .success(.selectable(cards))
+            case .hand:
+                return resolveSelectHand(owner: owner, chooser: chooser, ctx: ctx)
                 
             default:
                 fatalError("unimplemented resolver for zone \(zone)")
@@ -59,5 +66,32 @@ enum ArgResolverCard {
         default:
             fatalError("unimplemented resolver for card \(card)")
         }
+    }
+    
+    static func resolveSelectStore(chooser: String, ctx: Game) -> Result<ArgResolved, GameError> {
+        let cards = ctx.store.map(\.id)
+        guard !cards.isEmpty else {
+            return .failure(.noCardInStore)
+        }
+        
+        if cards.count == 1 {
+            return .success(.identified(cards))
+        }
+        
+        return .success(.selectable(cards))
+    }
+    
+    static func resolveSelectHand(owner: String?, chooser: String, ctx: Game) -> Result<ArgResolved, GameError> {
+        guard let playerId = owner else {
+            fatalError(.missingCardOwner)
+        }
+        
+        let playerObj = ctx.player(playerId)
+        let cards = playerObj.hand.map(\.id)
+        guard !cards.isEmpty else {
+            return .failure(.playerHasNoCard(playerId))
+        }
+        
+        return .success(.selectable(cards))
     }
 }

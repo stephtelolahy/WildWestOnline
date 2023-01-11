@@ -12,6 +12,10 @@ enum ArgResolverNumber {
         case .numPlayers:
             return ctx.playOrder.count
             
+        case .numExcessHand:
+            let actorObj = ctx.player(ctx.actor)
+            return max(actorObj.hand.count - actorObj.handLimit, 0)
+            
         default:
             fatalError("unimplemented resolver for number \(number)")
         }

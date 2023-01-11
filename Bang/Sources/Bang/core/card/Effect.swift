@@ -31,9 +31,6 @@ public indirect enum Effect: Codable, Equatable {
     /// Deals damage to a character, attempting to reduce its Health by the stated amount
     case damage(player: ArgPlayer, value: Int)
     
-    /// Discard player's card to discard pile
-    case discard(player: ArgPlayer, card: ArgCard)
-    
     /// Player must discard a specific card. If cannot, then apply some effects
     case forceDiscard(player: ArgPlayer, card: ArgCard, otherwise: Effect)
     
@@ -42,8 +39,5 @@ public indirect enum Effect: Codable, Equatable {
     
     /// Draw some cards from other player
     case steal(player: ArgPlayer, target: ArgPlayer, card: ArgCard)
-    
-    /// Set turn
-    case setTurn(player: ArgPlayer)
 }
 */

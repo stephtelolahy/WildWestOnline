@@ -7,7 +7,6 @@
 
 /// Apply an effect to a group of players
 public struct Apply: Effect, Equatable {
-    
     private let player: ArgPlayer
     
     @EquatableNoop
@@ -19,6 +18,6 @@ public struct Apply: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        fatalError("unimplemented")
+        fatalError("unimplemented resolver for \(self)")
     }
 }

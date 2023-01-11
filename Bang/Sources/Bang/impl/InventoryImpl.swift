@@ -28,11 +28,11 @@ private extension InventoryImpl {
     
     static let uniqueCards: [CardImpl] =
     [
-//        .init(name: "endTurn",
-//              type: .defaultAbility,
-//              onPlay: [.loop(times: .numExcessHand,
-//                             effect: .discard(player: .actor, card: .select(.hand))),
-//                       .setTurn(player: .next)]),
+        .init(name: "endTurn",
+              type: .defaultAbility,
+              onPlay: [Repeat(times: .numExcessHand,
+                              effect: Discard(player: .actor, card: .select(.hand))),
+                       SetTurn(player: .next)]),
         .init(name: "beer",
               type: .collectible,
               canPlay: [IsPlayersAtLeast(count: 3)],

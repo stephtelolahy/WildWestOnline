@@ -7,7 +7,6 @@
 
 /// Repeat an effect
 public struct Repeat: Effect, Equatable {
-
     private let times: ArgNumber
     
     @EquatableNoop
@@ -24,6 +23,10 @@ public struct Repeat: Effect, Equatable {
             number = value
         } else {
             number = ArgResolverNumber.resolve(times, ctx: ctx)
+        }
+        
+        guard number > 0 else {
+            return .success(EffectOutputImpl())
         }
         
         let children: [Effect] = (0..<number).map { _ in effect }

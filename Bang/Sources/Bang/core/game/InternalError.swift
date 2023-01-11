@@ -17,4 +17,6 @@ public enum InternalError: Error {
     case missingPlayerCard(String)
     case missingCardScript(String)
     case missingStoreCard(String)
+    case missingTurn
+    case missingCardOwner
 }

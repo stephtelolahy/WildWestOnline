@@ -7,14 +7,13 @@
 
 /// select an option during effect resolution
 public struct Choose: Effect, Equatable {
-    
     private let actor: String
     private let value: String?
     
     @EquatableNoop
-    private var effects: [Effect]
+    var effects: [Effect]
     
-    public init(actor: String, value: String?, effects: [Effect]) {
+    public init(actor: String, value: String?, effects: [Effect] = []) {
         self.actor = actor
         self.value = value
         self.effects = effects

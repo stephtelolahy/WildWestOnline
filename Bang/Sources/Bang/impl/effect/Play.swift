@@ -18,23 +18,29 @@ public struct Play: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        
-        var playerObj = ctx.player(actor)
-        guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) else {
-            fatalError(.missingPlayerCard(card))
-        }
-        
         var ctx = ctx
         
-        /// keep actor as context data
+        /// track actor as context data
         ctx.data[.actor] = actor
         
-        /// discard played card
-        let cardObj = playerObj.hand.remove(at: handIndex)
-        var discard = ctx.discard
-        discard.append(cardObj)
-        ctx.discard = discard
-        ctx.players[actor] = playerObj
+        var playerObj = ctx.player(actor)
+        
+        /// finc card reference
+        let cardObj: Card
+        if let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) {
+            /// discard played card immediately
+            cardObj = playerObj.hand.remove(at: handIndex)
+            var discard = ctx.discard
+            discard.append(cardObj)
+            ctx.discard = discard
+            ctx.players[actor] = playerObj
+            
+        } else if let abilityIndex = playerObj.abilities.firstIndex(where: { $0.id == card }) {
+            cardObj = playerObj.abilities[abilityIndex]
+            
+        } else {
+            fatalError(.missingPlayerCard(card))
+        }
         
         /// verify all requirements
         for playReq in cardObj.canPlay {
@@ -49,7 +55,7 @@ public struct Play: Effect, Equatable {
         }
         
         /// verify first effect
-        if case let .failure(error) = resolveUntilCompleted(cardObj.onPlay[0], ctx: ctx) {
+        if case let .failure(error) = cardObj.onPlay[0].resolveUntilCompleted(ctx: ctx) {
             return .failure(error)
         }
         
@@ -61,19 +67,32 @@ public struct Play: Effect, Equatable {
         
         return .success(EffectOutputImpl(state: ctx, effects: children))
     }
+}
+
+private extension Effect {
     
     /// recursively resolve an effect until completed
-    private func resolveUntilCompleted(_ effect: Effect, ctx: Game) -> Result<Void, GameError> {
-        let result = effect.resolve(ctx)
-        switch result {
+    func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
+        switch resolve(ctx) {
         case let .failure(error):
             return .failure(error)
             
         case let .success(output):
+            // update state
+            let state = output.state ?? ctx
+            
             // handle child effects: one of them must succeed
             if let children = output.effects {
-                let state = output.state ?? ctx
-                let results = children.map { resolveUntilCompleted($0, ctx: state) }
+                let results = children.map { $0.resolveUntilCompleted(ctx: state) }
+                if results.allSatisfy({ $0.isFailure }) {
+                    return results[0]
+                }
+            }
+            
+            // handle decision options: one of them must succeed
+            if let options = output.options {
+                let children: [Effect] = options.map { ($0 as? Choose)?.effects[0] ?? $0 }
+                let results = children.map { $0.resolveUntilCompleted(ctx: state) }
                 if results.allSatisfy({ $0.isFailure }) {
                     return results[0]
                 }

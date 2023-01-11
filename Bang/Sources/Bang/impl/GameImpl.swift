@@ -8,7 +8,7 @@
 public struct GameImpl: Game {
     public var players: [String: Player]
     public var playOrder: [String]
-    public var turn: String
+    public var turn: String?
     public var deck: [Card]
     public var discard: [Card]
     public var store: [Card]
@@ -21,7 +21,7 @@ public struct GameImpl: Game {
     
     public init(players: [String: Player] = [:],
                 playOrder: [String] = [],
-                turn: String = "",
+                turn: String? = nil,
                 deck: [Card] = [],
                 discard: [Card] = [],
                 store: [Card] = [],

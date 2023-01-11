@@ -15,7 +15,7 @@ public protocol Game {
     var playOrder: [String] { get }
     
     /// current player
-    var turn: String { get }
+    var turn: String? { get set }
     
     /// deck
     var deck: [Card] { get set }

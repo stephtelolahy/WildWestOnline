@@ -25,17 +25,20 @@ enum ArgResolverPlayer {
         }
     }
     
-    static func resolve(_ player: ArgPlayer, ctx: Game) -> Result<ArgResolved, GameError> {
+    private static func resolve(_ player: ArgPlayer, ctx: Game) -> Result<ArgResolved, GameError> {
         switch player {
             
         case .actor:
             return .success(.identified([ctx.actor]))
             
         case .all:
-            return .success(.identified(ctx.playOrder.starting(with: ctx.actor)))
+            let players = ctx.playOrder
+                .starting(with: ctx.actor)
+            return .success(.identified(players))
             
         case .damaged:
-            let damaged = ctx.playOrder.starting(with: ctx.actor)
+            let damaged = ctx.playOrder
+                .starting(with: ctx.actor)
                 .filter { ctx.player($0).health < ctx.player($0).maxHealth }
             
             guard !damaged.isEmpty else {
@@ -44,19 +47,17 @@ enum ArgResolverPlayer {
             
             return .success(.identified(damaged))
             
+        case .next:
+            guard let turn = ctx.turn else {
+                fatalError(.missingTurn)
+            }
+            
+            let next = ctx.playOrder
+                .element(after: turn)
+            return .success(.identified([next]))
+            
         default:
             fatalError("unimplemented resolver for player \(player)")
         }
-    }
-}
-
-private extension Game {
-    
-    var actor: String {
-        guard let actorId = data[.actor] as? String else {
-            fatalError(.missingActor)
-        }
-        
-        return actorId
     }
 }

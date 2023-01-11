@@ -8,7 +8,6 @@ import Bang
 
 /// Effect resulting an error
 struct EmitError: Effect, Equatable {
-    
     let error: GameError
     
     func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {

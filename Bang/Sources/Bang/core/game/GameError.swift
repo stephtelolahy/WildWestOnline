@@ -8,11 +8,14 @@
 /// Elementary game play error
 public enum GameError: Error, Codable, Equatable {
     
+    /// Expected players count to be leat X
+    case playersMustBeAtLeast(Int)
+    
     /// Expected player to be damaged
     case playerAlreadyMaxHealth(String)
     
-    /// Expected players count to be leat X
-    case playersMustBeAtLeast(Int)
+    /// Expected player to have cards
+    case playerHasNoCard(String)
     
     /// Expected card to have onPlay effect
     case cardHasNoEffect

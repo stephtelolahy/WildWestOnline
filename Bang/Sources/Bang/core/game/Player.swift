@@ -20,11 +20,14 @@ public protocol Player {
     var health: Int { get set }
     
     /// abilities
-    var ability: [Card] { get }
+    var abilities: [Card] { get }
     
     /// hand cards
     var hand: [Card] { get set }
     
     /// in play cards
-    var inPlay: [Card] { get }
+    var inPlay: [Card] { get set }
+    
+    /// Maximum allowed hand cards at the end of his turn
+    var handLimit: Int { get }
 }

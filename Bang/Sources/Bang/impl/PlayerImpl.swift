@@ -10,7 +10,7 @@ public struct PlayerImpl: Player {
     public var name: String
     public var maxHealth: Int
     public var health: Int
-    public var ability: [Card]
+    public var abilities: [Card]
     public var hand: [Card]
     public var inPlay: [Card]
     
@@ -18,16 +18,18 @@ public struct PlayerImpl: Player {
                 name: String = "",
                 maxHealth: Int = 0,
                 health: Int = 0,
-                ability: [Card] = [],
+                abilities: [Card] = [],
                 hand: [Card] = [],
                 inPlay: [Card] = []) {
         self.id = id
         self.name = name
         self.maxHealth = maxHealth
         self.health = health
-        self.ability = ability
+        self.abilities = abilities
         self.hand = hand
         self.inPlay = inPlay
     }
+    
+    public var handLimit: Int { health }
 
 }

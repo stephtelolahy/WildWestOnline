@@ -20,6 +20,14 @@ public extension Game {
 /// Internal usage only
 extension Game {
     
+    var actor: String {
+        guard let actorId = data[.actor] as? String else {
+            fatalError(.missingActor)
+        }
+        
+        return actorId
+    }
+    
     /// Remove top deck card
     /// reseting deck if empty
     mutating func removeTopDeck() -> Card {
