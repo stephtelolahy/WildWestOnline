@@ -31,19 +31,3 @@ public struct Draw: Effect, Equatable {
     }
 }
 
-private extension Game {
-    
-    /// Remove top deck card
-    mutating func removeTopDeck() -> Card {
-        // reseting deck if empty
-        if deck.isEmpty,
-           discard.count >= 2 {
-            let cards = discard
-            deck.append(contentsOf: cards.dropLast().shuffled())
-            discard = cards.suffix(1)
-        }
-        
-        return deck.removeFirst()
-    }
-}
-

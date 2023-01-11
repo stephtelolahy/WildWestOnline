@@ -7,11 +7,29 @@
 
 public extension Game {
     
+    /// Get player with given identifier
     func player(_ id: String) -> Player {
         guard let playerObject = players[id] else {
-            fatalError("player not found")
+            fatalError(.missingPlayer(id))
         }
         
         return playerObject
+    }
+}
+
+/// Internal usage only
+extension Game {
+    
+    /// Remove top deck card
+    mutating func removeTopDeck() -> Card {
+        // reseting deck if empty
+        if deck.isEmpty,
+           discard.count >= 2 {
+            let cards = discard
+            deck.append(contentsOf: cards.dropLast().shuffled())
+            discard = cards.suffix(1)
+        }
+        
+        return deck.removeFirst()
     }
 }

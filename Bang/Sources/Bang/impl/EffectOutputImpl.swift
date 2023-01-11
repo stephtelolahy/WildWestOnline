@@ -5,7 +5,12 @@
 //  Created by Hugues Telolahy on 09/01/2023.
 //
 
-struct EffectOutputImpl: EffectOutput {
-    var state: Game?
-    var effects: [Effect]?
+public struct EffectOutputImpl: EffectOutput {
+    public var state: Game?
+    public var effects: [Effect]?
+    
+    public init(state: Game? = nil, effects: [Effect]? = nil) {
+        self.state = state
+        self.effects = effects
+    }
 }

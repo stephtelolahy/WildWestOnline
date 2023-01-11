@@ -37,9 +37,6 @@ public indirect enum Effect: Codable, Equatable {
     /// Player must discard a specific card. If cannot, then apply some effects
     case challengeDiscard(player: ArgPlayer, card: ArgCard, otherwise: Effect, challenger: ArgPlayer)
     
-    /// Draw card from deck to store zone
-    case store
-    
     /// Choose some cards from store zone
     case choose(player: ArgPlayer, card: ArgCard)
     

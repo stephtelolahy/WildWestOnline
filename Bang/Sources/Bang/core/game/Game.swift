@@ -24,7 +24,7 @@ public protocol Game {
     var discard: [Card] { get set }
     
     /// choosable zone
-    var store: [Card] { get }
+    var store: [Card] { get set }
     
     /// is Game over
     var isOver: Bool { get }

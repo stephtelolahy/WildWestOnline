@@ -39,7 +39,7 @@ private extension Game {
     
     var actor: String {
         guard let actorId = data[.actor] as? String else {
-            fatalError("missing actor")
+            fatalError(.missingActor)
         }
         
         return actorId

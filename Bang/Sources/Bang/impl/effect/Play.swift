@@ -21,7 +21,7 @@ public struct Play: Effect, Equatable {
         
         var playerObj = ctx.player(actor)
         guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) else {
-            fatalError("card not found \(card)")
+            fatalError(.missingPlayerCard(card))
         }
         
         var ctx = ctx

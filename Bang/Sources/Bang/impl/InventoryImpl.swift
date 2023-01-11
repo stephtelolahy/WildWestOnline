@@ -12,7 +12,7 @@ public struct InventoryImpl: Inventory {
     
     public func getCard(_ name: String, withId id: String?) -> Card {
         guard var card = Self.uniqueCards.first(where: { $0.name == name }) else {
-            fatalError("undefined card \(name)")
+            fatalError(.missingCardScript(name))
         }
         
         card.id = id ?? name
