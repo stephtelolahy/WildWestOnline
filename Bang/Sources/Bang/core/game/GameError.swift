@@ -17,6 +17,9 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected player to have cards
     case playerHasNoCard(String)
     
+    /// Expected player to have hand cards
+    case playerHasNoHandCard(String)
+    
     /// Expected card to have onPlay effect
     case cardHasNoEffect
     

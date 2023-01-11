@@ -48,8 +48,8 @@ final class DrawStoreTests: XCTestCase {
         assertIsSuccess(result) {
             let options = try XCTUnwrap($0.options)
             XCTAssertEqual(options.count, 2)
-            assertEqual(options[0], Choose(actor: "p1", value: "c1", effects: [DrawStore(player: .id("p1"), card: .id("c1"))]))
-            assertEqual(options[1], Choose(actor: "p1", value: "c2", effects: [DrawStore(player: .id("p1"), card: .id("c2"))]))
+            assertEqual(options[0], Choose(actor: "p1", label: "c1", effects: [DrawStore(player: .id("p1"), card: .id("c1"))]))
+            assertEqual(options[1], Choose(actor: "p1", label: "c2", effects: [DrawStore(player: .id("p1"), card: .id("c2"))]))
             XCTAssertNil($0.state)
             XCTAssertNil($0.effects)
         }

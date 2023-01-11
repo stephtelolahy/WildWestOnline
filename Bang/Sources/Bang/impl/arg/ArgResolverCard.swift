@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 11/01/2023.
 //
+// swiftlint:disable force_unwrapping
 
 enum ArgResolverCard {
     
@@ -29,8 +30,8 @@ enum ArgResolverCard {
                 let children = cIds.map { copy($0) }
                 return .success(EffectOutputImpl(effects: children))
                 
-            case let .selectable(cIds):
-                let options = cIds.map { Choose(actor: chooser, value: $0, effects: [copy($0)]) }
+            case let .selectable(items):
+                let options = items.map { Choose(actor: chooser, label: $0.label, effects: [copy($0.value)]) }
                 return .success(EffectOutputImpl(options: options))
             }
             
@@ -59,6 +60,9 @@ private extension ArgResolverCard {
             case .hand:
                 return resolveSelectHand(owner: owner, chooser: chooser, ctx: ctx)
                 
+            case .any:
+                return resolveSelectAny(owner: owner, chooser: chooser, ctx: ctx)
+                
             default:
                 fatalError("unimplemented resolver for zone \(zone)")
             }
@@ -78,7 +82,7 @@ private extension ArgResolverCard {
             return .success(.identified(cards))
         }
         
-        return .success(.selectable(cards))
+        return .success(.selectable(cards.toOptions()))
     }
     
     static func resolveSelectHand(owner: String?, chooser: String, ctx: Game) -> Result<ArgResolved, GameError> {
@@ -87,11 +91,54 @@ private extension ArgResolverCard {
         }
         
         let playerObj = ctx.player(playerId)
-        let cards = playerObj.hand.map(\.id)
-        guard !cards.isEmpty else {
+        var options: [ArgResolved.Option] = []
+        
+        if !playerObj.hand.isEmpty {
+            if chooser != owner {
+                let randomId = playerObj.hand.map(\.id).randomElement()!
+                let randomOption = ArgResolved.Option(value: randomId, label: ArgCard.randomHandLabel)
+                options.append(randomOption)
+            } else {
+                let handOptions = playerObj.hand.map(\.id).toOptions()
+                options.append(contentsOf: handOptions)
+            }
+        }
+        
+        guard !options.isEmpty else {
+            return .failure(.playerHasNoHandCard(playerId))
+        }
+        
+        return .success(.selectable(options))
+    }
+    
+    static func resolveSelectAny(owner: String?, chooser: String, ctx: Game) -> Result<ArgResolved, GameError> {
+        guard let playerId = owner else {
+            fatalError(.missingCardOwner)
+        }
+        
+        let playerObj = ctx.player(playerId)
+        var options: [ArgResolved.Option] = []
+        
+        if !playerObj.inPlay.isEmpty {
+            let inPlayOptions = playerObj.inPlay.map(\.id).toOptions()
+            options.append(contentsOf: inPlayOptions)
+        }
+        
+        if !playerObj.hand.isEmpty {
+            if chooser != owner {
+                let randomId = playerObj.hand.map(\.id).randomElement()!
+                let randomOption = ArgResolved.Option(value: randomId, label: ArgCard.randomHandLabel)
+                options.append(randomOption)
+            } else {
+                let handOptions = playerObj.hand.map(\.id).toOptions()
+                options.append(contentsOf: handOptions)
+            }
+        }
+        
+        guard !options.isEmpty else {
             return .failure(.playerHasNoCard(playerId))
         }
         
-        return .success(.selectable(cards))
+        return .success(.selectable(options))
     }
 }

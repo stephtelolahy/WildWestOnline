@@ -24,16 +24,23 @@ public extension ArgCard {
     
     enum Zone: Codable, Equatable {
         
-        /// any hand or inPlay card
+        /// any player's hand or inPlay card
         case any
         
-        /// any hand card
+        /// any player's hand card
         case hand
         
-        /// any hand card matching given name
+        /// any player's hand card matching given name
         case match(String)
         
         /// any store card
         case store
     }
+}
+
+public extension ArgCard {
+    
+    /// Random hand card label
+    /// displayed when choosing random hand card
+    static let randomHandLabel = "randomHand"
 }

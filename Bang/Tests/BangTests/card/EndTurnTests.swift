@@ -53,8 +53,8 @@ final class EndTurnTests: CardTests {
         assertIsSuccess(events[0], equalTo: Play(actor: "p1", card: "endTurn"))
 
         try XCTSkipUnless(state.decisions.count == 2, "Unexpected decisions count \(state.decisions.count)")
-        assertEqual(state.decisions[0], Choose(actor: "p1", value: "c1"))
-        assertEqual(state.decisions[1], Choose(actor: "p1", value: "c2"))
+        assertEqual(state.decisions[0], Choose(actor: "p1", label: "c1"))
+        assertEqual(state.decisions[1], Choose(actor: "p1", label: "c2"))
 
         // phase: p1 discard card
         events.removeAll()
@@ -62,7 +62,7 @@ final class EndTurnTests: CardTests {
 
         // Assert
         try XCTSkipUnless(events.count == 3, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", value: "c2"))
+        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", label: "c2"))
         assertIsSuccess(events[1], equalTo: Discard(player: .id("p1"), card: .id("c2")))
         assertIsSuccess(events[2], equalTo: SetTurn(player: .id("p2")))
 
@@ -93,9 +93,9 @@ final class EndTurnTests: CardTests {
         assertIsSuccess(events[0], equalTo: Play(actor: "p1", card: "endTurn"))
 
         try XCTSkipUnless(state.decisions.count == 3, "Unexpected decisions count \(state.decisions.count)")
-        assertEqual(state.decisions[0], Choose(actor: "p1", value: "c1"))
-        assertEqual(state.decisions[1], Choose(actor: "p1", value: "c2"))
-        assertEqual(state.decisions[2], Choose(actor: "p1", value: "c3"))
+        assertEqual(state.decisions[0], Choose(actor: "p1", label: "c1"))
+        assertEqual(state.decisions[1], Choose(actor: "p1", label: "c2"))
+        assertEqual(state.decisions[2], Choose(actor: "p1", label: "c3"))
 
         // phase: p1 discard first card
         events.removeAll()
@@ -103,12 +103,12 @@ final class EndTurnTests: CardTests {
 
         // Assert
         try XCTSkipUnless(events.count == 2, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", value: "c2"))
+        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", label: "c2"))
         assertIsSuccess(events[1], equalTo: Discard(player: .id("p1"), card: .id("c2")))
 
         try XCTSkipUnless(state.decisions.count == 2, "Unexpected decisions count \(state.decisions.count)")
-        assertEqual(state.decisions[0], Choose(actor: "p1", value: "c1"))
-        assertEqual(state.decisions[1], Choose(actor: "p1", value: "c3"))
+        assertEqual(state.decisions[0], Choose(actor: "p1", label: "c1"))
+        assertEqual(state.decisions[1], Choose(actor: "p1", label: "c3"))
 
         // phase: p1 discard second card
         events.removeAll()
@@ -116,7 +116,7 @@ final class EndTurnTests: CardTests {
 
         // Assert
         try XCTSkipUnless(events.count == 3, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", value: "c3"))
+        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", label: "c3"))
         assertIsSuccess(events[1], equalTo: Discard(player: .id("p1"), card: .id("c3")))
         assertIsSuccess(events[2], equalTo: SetTurn(player: .id("p2")))
 

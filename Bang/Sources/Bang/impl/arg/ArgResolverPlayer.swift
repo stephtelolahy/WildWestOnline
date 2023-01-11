@@ -14,9 +14,9 @@ enum ArgResolverPlayer {
             case let .identified(pIds):
                 let children = pIds.map { copy($0) }
                 return .success(EffectOutputImpl(effects: children))
-                
-            case let .selectable(cIds):
-                let options = cIds.map { Choose(actor: ctx.actor, value: $0, effects: [copy($0)]) }
+            
+            case let .selectable(items):
+                let options = items.map { Choose(actor: ctx.actor, label: $0.label, effects: [copy($0.value)]) }
                 return .success(EffectOutputImpl(options: options))
             }
             
@@ -27,6 +27,16 @@ enum ArgResolverPlayer {
     
     private static func resolve(_ player: ArgPlayer, ctx: Game) -> Result<ArgResolved, GameError> {
         switch player {
+            
+        case let .select(distance):
+            switch distance {
+            case .any:
+                let others = ctx.playOrder.filter { $0 != ctx.actor }
+                return .success(.selectable(others.toOptions()))
+                
+            default:
+                fatalError("unimplemented resolver for distance \(distance)")
+            }
             
         case .actor:
             return .success(.identified([ctx.actor]))

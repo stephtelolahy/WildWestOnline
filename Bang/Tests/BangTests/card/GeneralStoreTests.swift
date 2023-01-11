@@ -41,9 +41,9 @@ final class GeneralStoreTests: CardTests {
         XCTAssertEqual(state.store.map(\.id), ["c2", "c3", "c4"])
         
         try XCTSkipUnless(state.decisions.count == 3, "Unexpected decisions count \(state.decisions.count)")
-        assertEqual(state.decisions[0], Choose(actor: "p1", value: "c2"))
-        assertEqual(state.decisions[1], Choose(actor: "p1", value: "c3"))
-        assertEqual(state.decisions[2], Choose(actor: "p1", value: "c4"))
+        assertEqual(state.decisions[0], Choose(actor: "p1", label: "c2"))
+        assertEqual(state.decisions[1], Choose(actor: "p1", label: "c3"))
+        assertEqual(state.decisions[2], Choose(actor: "p1", label: "c4"))
         
         // Phase: p1 Choose card
         // When
@@ -52,15 +52,15 @@ final class GeneralStoreTests: CardTests {
         
         // Assert
         try XCTSkipUnless(events.count == 2, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", value: "c2"))
+        assertIsSuccess(events[0], equalTo: Choose(actor: "p1", label: "c2"))
         assertIsSuccess(events[1], equalTo: DrawStore(player: .id("p1"), card: .id("c2")))
         
         XCTAssertEqual(state.store.map(\.id), ["c3", "c4"])
         XCTAssertEqual(state.player("p1").hand.map(\.id), ["c2"])
         
         try XCTSkipUnless(state.decisions.count == 2, "Unexpected decisions count \(state.decisions.count)")
-        assertEqual(state.decisions[0], Choose(actor: "p2", value: "c3"))
-        assertEqual(state.decisions[1], Choose(actor: "p2", value: "c4"))
+        assertEqual(state.decisions[0], Choose(actor: "p2", label: "c3"))
+        assertEqual(state.decisions[1], Choose(actor: "p2", label: "c4"))
         
         // Phase: p2 Choose card
         events.removeAll()
@@ -68,7 +68,7 @@ final class GeneralStoreTests: CardTests {
         
         // Assert
         try XCTSkipUnless(events.count == 3, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Choose(actor: "p2", value: "c4"))
+        assertIsSuccess(events[0], equalTo: Choose(actor: "p2", label: "c4"))
         assertIsSuccess(events[1], equalTo: DrawStore(player: .id("p2"), card: .id("c4")))
         assertIsSuccess(events[2], equalTo: DrawStore(player: .id("p3"), card: .id("c3")))
         
