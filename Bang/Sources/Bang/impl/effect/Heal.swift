@@ -7,7 +7,7 @@
 
 /// Restore character's health, limited to maxHealth
 public struct Heal: Effect, Equatable {
-    private let player: ArgPlayer
+    @EquatableCast private var player: ArgPlayer
     private let value: Int
     
     public init(player: ArgPlayer, value: Int) {
@@ -16,9 +16,9 @@ public struct Heal: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .id(playerId) = player else {
-            return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                Self(player: .id($0), value: value)
+        guard let playerId = (player as? PlayerId)?.id else {
+            return resolve(player, ctx: ctx) {
+                Self(player: PlayerId($0), value: value)
             }
         }
         

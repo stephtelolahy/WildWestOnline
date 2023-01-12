@@ -7,9 +7,9 @@
 
 /// draw card from other player
 public struct Steal: Effect, Equatable {
-    private let player: ArgPlayer
-    private let target: ArgPlayer
-    private let card: ArgCard
+    @EquatableCast private var player: ArgPlayer
+    @EquatableCast private var target: ArgPlayer
+    @EquatableCast private var card: ArgCard
     
     public init(player: ArgPlayer, target: ArgPlayer, card: ArgCard) {
         self.player = player
@@ -18,21 +18,21 @@ public struct Steal: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .id(playerId) = player else {
-            return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                Self(player: .id($0), target: target, card: card)
+        guard let playerId = (player as? PlayerId)?.id else {
+            return resolve(player, ctx: ctx) {
+                Self(player: PlayerId($0), target: target, card: card)
             }
         }
         
-        guard case let .id(targetId) = target else {
-            return ArgResolverPlayer.resolve(target, ctx: ctx) {
-                Self(player: player, target: .id($0), card: card)
+        guard let targetId = (target as? PlayerId)?.id else {
+            return resolve(target, ctx: ctx) {
+                Self(player: player, target: PlayerId($0), card: card)
             }
         }
         
-        guard case let .id(cardId) = card else {
-            return ArgResolverCard.resolve(card, owner: targetId, chooser: playerId, ctx: ctx) {
-                Self(player: player, target: target, card: .id($0))
+        guard let cardId = (card as? CardId)?.id else {
+            return resolve(card, ctx: ctx, chooser: playerId, owner: targetId) {
+                Self(player: player, target: target, card: CardId($0))
             }
         }
         

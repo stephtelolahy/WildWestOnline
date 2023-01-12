@@ -10,8 +10,7 @@ public struct Choose: Effect, Equatable {
     private let actor: String
     private let label: String
     
-    @EquatableNoop
-    var effects: [Effect]
+    @EquatableIgnore var effects: [Effect]
     
     public init(actor: String, label: String, effects: [Effect] = []) {
         self.actor = actor
@@ -24,4 +23,10 @@ public struct Choose: Effect, Equatable {
         /// to mark that effect was successfully resolved
         .success(EffectOutputImpl(state: ctx, effects: effects))
     }
+}
+
+public enum Label {
+    /// Random hand card label
+    /// displayed when choosing random hand card
+    public static let randomHand = "randomHand"
 }

@@ -7,8 +7,8 @@
 
 /// Draw some cards from store zone
 public struct DrawStore: Effect, Equatable {
-    private let player: ArgPlayer
-    private let card: ArgCard
+    @EquatableCast private var player: ArgPlayer
+    @EquatableCast private var card: ArgCard
     
     public init(player: ArgPlayer, card: ArgCard) {
         self.player = player
@@ -16,15 +16,15 @@ public struct DrawStore: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .id(playerId) = player else {
-            return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                Self(player: .id($0), card: card)
+        guard let playerId = (player as? PlayerId)?.id else {
+            return resolve(player, ctx: ctx) {
+                Self(player: PlayerId($0), card: card)
             }
         }
         
-        guard case let .id(cardId) = card else {
-            return ArgResolverCard.resolve(card, owner: nil, chooser: playerId, ctx: ctx) {
-                Self(player: player, card: .id($0))
+        guard let cardId = (card as? CardId)?.id else {
+            return resolve(card, ctx: ctx, chooser: playerId, owner: nil) {
+                Self(player: player, card: CardId($0))
             }
         }
         

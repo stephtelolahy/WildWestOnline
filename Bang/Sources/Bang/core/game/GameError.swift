@@ -30,5 +30,5 @@ public enum GameError: Error, Codable, Equatable {
     case noCardInStore
     
     /// Expected some players at given range
-    case noPlayersAtRange(Int)
+    case noPlayersAt(Int)
 }

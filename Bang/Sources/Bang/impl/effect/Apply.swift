@@ -7,10 +7,8 @@
 
 /// Apply an effect to a group of players
 public struct Apply: Effect, Equatable {
-    private let player: ArgPlayer
-    
-    @EquatableNoop
-    private var effect: Effect
+    @EquatableCast private var player: ArgPlayer
+    @EquatableCast private var effect: Effect
     
     public init(player: ArgPlayer, effect: Effect) {
         self.player = player

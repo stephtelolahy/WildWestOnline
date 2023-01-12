@@ -40,13 +40,13 @@ final class GeneralStoreTests: EngineTestCase {
                    Choose(actor: "p1", label: "c4")],
                   input: 0),
             .success(Choose(actor: "p1", label: "c2")),
-            .success(DrawStore(player: .id("p1"), card: .id("c2"))),
+            .success(DrawStore(player: PlayerId("p1"), card: CardId("c2"))),
             .wait([Choose(actor: "p2", label: "c3"),
                    Choose(actor: "p2", label: "c4")],
                   input: 1),
             .success(Choose(actor: "p2", label: "c4")),
-            .success(DrawStore(player: .id("p2"), card: .id("c4"))),
-            .success(DrawStore(player: .id("p3"), card: .id("c3")))
+            .success(DrawStore(player: PlayerId("p2"), card: CardId("c4"))),
+            .success(DrawStore(player: PlayerId("p3"), card: CardId("c3")))
         ])
     }
 }

@@ -33,9 +33,6 @@ public enum CardType: String {
     /// card that can be collected from deck and played during player's turn
     case collectible
     
-    /// ability for any player
-    case defaultAbility
-    
-    /// special character ability
-    case specialAbility
+    /// implements a player ability
+    case ability
 }

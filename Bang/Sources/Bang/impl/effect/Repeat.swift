@@ -7,10 +7,8 @@
 
 /// Repeat an effect
 public struct Repeat: Effect, Equatable {
-    private let times: ArgNumber
-    
-    @EquatableNoop
-    private var effect: Effect
+    @EquatableCast private var times: ArgNumber
+    @EquatableCast private var effect: Effect
     
     public init(times: ArgNumber, effect: Effect) {
         self.times = times
@@ -18,19 +16,17 @@ public struct Repeat: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        let number: Int
-        if case let .exact(value) = times {
-            number = value
-        } else {
-            number = ArgResolverNumber.resolve(times, ctx: ctx)
+        switch times.resolve(ctx) {
+        case let .failure(error):
+            return .failure(error)
+            
+        case let .success(number):
+            guard number > 0 else {
+                return .success(EffectOutputImpl())
+            }
+            
+            let children: [Effect] = (0..<number).map { _ in effect }
+            return .success(EffectOutputImpl(effects: children))
         }
-        
-        guard number > 0 else {
-            return .success(EffectOutputImpl())
-        }
-        
-        let children: [Effect] = (0..<number).map { _ in effect }
-        return .success(EffectOutputImpl(effects: children))
-
     }
 }

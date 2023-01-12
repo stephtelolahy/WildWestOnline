@@ -7,16 +7,16 @@
 
 /// Draw top deck card
 public struct DrawDeck: Effect, Equatable {
-    private let player: ArgPlayer
+    @EquatableCast private var player: ArgPlayer
     
     public init(player: ArgPlayer) {
         self.player = player
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        guard case let .id(playerId) = player else {
-            return ArgResolverPlayer.resolve(player, ctx: ctx) {
-                Self(player: .id($0))
+        guard let playerId = (player as? PlayerId)?.id else {
+            return resolve(player, ctx: ctx) {
+                Self(player: PlayerId($0))
             }
         }
         

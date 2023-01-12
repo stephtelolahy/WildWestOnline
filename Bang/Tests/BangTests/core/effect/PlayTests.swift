@@ -52,7 +52,7 @@ final class PlayTests: XCTestCase {
     func test_ThrowsError_IfAnyRequirementNotMatched() {
         // Given
         let c1 = CardImpl(id: "c1",
-                          canPlay: [IsPlayersAtLeast(count: 2)],
+                          canPlay: [IsPlayersAtLeast(2)],
                           onPlay: [Dummy()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
@@ -68,7 +68,7 @@ final class PlayTests: XCTestCase {
     func test_DoNotThrowsError_IfAllRequirementsMatched() {
         // Given
         let c1 = CardImpl(id: "c1",
-                          canPlay: [IsPlayersAtLeast(count: 2)],
+                          canPlay: [IsPlayersAtLeast(2)],
                           onPlay: [Dummy()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1], playOrder: ["p1", "p2"])

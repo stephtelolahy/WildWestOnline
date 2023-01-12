@@ -31,10 +31,10 @@ final class CatBalouTests: EngineTestCase {
             .wait([Choose(actor: "p1", label: "p2")],
                   input: 0),
             .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: ArgCard.randomHandLabel)],
+            .wait([Choose(actor: "p1", label: Label.randomHand)],
                   input: 0),
-            .success(Choose(actor: "p1", label: ArgCard.randomHandLabel)),
-            .success(Discard(player: .id("p2"), card: .id("c2")))
+            .success(Choose(actor: "p1", label: Label.randomHand)),
+            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
         ])
     }
     
@@ -58,10 +58,10 @@ final class CatBalouTests: EngineTestCase {
             .wait([Choose(actor: "p1", label: "p2")],
                   input: 0),
             .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: ArgCard.randomHandLabel)],
+            .wait([Choose(actor: "p1", label: Label.randomHand)],
                   input: 0),
-            .success(Choose(actor: "p1", label: ArgCard.randomHandLabel)),
-            .success(Discard(player: .id("p2"), card: .id("c2")))
+            .success(Choose(actor: "p1", label: Label.randomHand)),
+            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
         ])
     }
     
@@ -88,7 +88,7 @@ final class CatBalouTests: EngineTestCase {
             .wait([Choose(actor: "p1", label: "c2")],
                   input: 0),
             .success(Choose(actor: "p1", label: "c2")),
-            .success(Discard(player: .id("p2"), card: .id("c2")))
+            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
         ])
     }
     

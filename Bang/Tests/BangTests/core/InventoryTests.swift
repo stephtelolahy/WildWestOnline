@@ -15,7 +15,7 @@ final class InventoryTests: XCTestCase {
     func test_BangDefaultCards() throws {
         // Given
         // When
-        let cards = inventory.getAll(.defaultAbility)
+        let cards = inventory.getAll(.ability)
         
         // Assert
 //        XCTAssertTrue(cards.contains { $0.name == "startTurn" })
@@ -45,8 +45,8 @@ final class InventoryTests: XCTestCase {
 //        XCTAssertTrue(cards.contains { $0.name == "gatling" })
         XCTAssertTrue(cards.contains { $0.name == "generalStore" })
 //        XCTAssertTrue(cards.contains { $0.name == "indians" })
-//        XCTAssertTrue(cards.contains { $0.name == "missed" })
-//        XCTAssertTrue(cards.contains { $0.name == "panic" })
+        XCTAssertTrue(cards.contains { $0.name == "missed" })
+        XCTAssertTrue(cards.contains { $0.name == "panic" })
         XCTAssertTrue(cards.contains { $0.name == "saloon" })
         XCTAssertTrue(cards.contains { $0.name == "stagecoach" })
         XCTAssertTrue(cards.contains { $0.name == "wellsFargo" })

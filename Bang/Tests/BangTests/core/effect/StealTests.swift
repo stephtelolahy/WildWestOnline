@@ -18,7 +18,7 @@ final class StealTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2])
-        let sut = Steal(player: .id("p1"), target: .id("p2"), card: .id("c2"))
+        let sut = Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2"))
         
         // When
         let result = sut.resolve(ctx)
@@ -38,7 +38,7 @@ final class StealTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(inPlay: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2])
-        let sut = Steal(player: .id("p1"), target: .id("p2"), card: .id("c2"))
+        let sut = Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2"))
         
         // When
         let result = sut.resolve(ctx)

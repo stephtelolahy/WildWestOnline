@@ -10,11 +10,3 @@ public protocol PlayReq {
     
     func verify(_ ctx: Game) -> Result<Void, GameError>
 }
-
-/*
-public enum PlayReq: Codable, Equatable {
-    
-    /// The maximum times per turn this card may be played is X
-    case isTimesPerTurn(Int)
-}
-*/

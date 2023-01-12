@@ -31,10 +31,10 @@ final class PanicTests: EngineTestCase {
             .wait([Choose(actor: "p1", label: "p2")],
                   input: 0),
             .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: ArgCard.randomHandLabel)],
+            .wait([Choose(actor: "p1", label: Label.randomHand)],
                   input: 0),
-            .success(Choose(actor: "p1", label: ArgCard.randomHandLabel)),
-            .success(Steal(player: .id("p1"), target: .id("p2"), card: .id("c2")))
+            .success(Choose(actor: "p1", label: Label.randomHand)),
+            .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2")))
         ])
     }
     

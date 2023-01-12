@@ -18,7 +18,7 @@ final class DiscardTests: XCTestCase {
         let c3 = CardImpl(id: "c3")
         let p1 = PlayerImpl(hand: [c1, c2, c3])
         let ctx = GameImpl(players: ["p1": p1])
-        let sut = Discard(player: .id("p1"), card: .id("c2"))
+        let sut = Discard(player: PlayerId("p1"), card: CardId("c2"))
         
         // When
         let result = sut.resolve(ctx)

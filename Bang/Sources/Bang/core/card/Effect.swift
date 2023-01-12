@@ -23,18 +23,3 @@ public protocol EffectOutput {
     /// Suspended waiting user decision
     var options: [Effect]? { get }
 }
-
-/*
-/// Elementary card effect
-public indirect enum Effect: Codable, Equatable {
-    
-    /// Deals damage to a character, attempting to reduce its Health by the stated amount
-    case damage(player: ArgPlayer, value: Int)
-    
-    /// Player must discard a specific card. If cannot, then apply some effects
-    case forceDiscard(player: ArgPlayer, card: ArgCard, otherwise: Effect)
-    
-    /// Player must discard a specific card. If cannot, then apply some effects
-    case challengeDiscard(player: ArgPlayer, card: ArgCard, otherwise: Effect, challenger: ArgPlayer)
-}
-*/

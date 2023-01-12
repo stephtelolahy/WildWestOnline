@@ -28,8 +28,8 @@ final class StagecoachTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .success(DrawDeck(player: .id("p1"))),
-            .success(DrawDeck(player: .id("p1")))
+            .success(DrawDeck(player: PlayerId("p1"))),
+            .success(DrawDeck(player: PlayerId("p1")))
         ])
     }
     

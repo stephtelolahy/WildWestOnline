@@ -15,7 +15,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let sut = Heal(player: .id("p1"), value: 1)
+        let sut = Heal(player: PlayerId("p1"), value: 1)
         
         // When
         let result = sut.resolve(ctx)
@@ -31,7 +31,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let sut = Heal(player: .id("p1"), value: 2)
+        let sut = Heal(player: PlayerId("p1"), value: 2)
         
         // When
         let result = sut.resolve(ctx)
@@ -47,7 +47,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 3)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let sut = Heal(player: .id("p1"), value: 2)
+        let sut = Heal(player: PlayerId("p1"), value: 2)
         
         // When
         let result = sut.resolve(ctx)
@@ -63,7 +63,7 @@ final class HealTests: XCTestCase {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 4)
         let ctx: Game = GameImpl(players: ["p1": p1])
-        let sut = Heal(player: .id("p1"), value: 1)
+        let sut = Heal(player: PlayerId("p1"), value: 1)
         
         // When
         let result = sut.resolve(ctx)

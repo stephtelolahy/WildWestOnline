@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 11/01/2023.
 //
 
-/// Rerepsenting resolved argument
-enum ArgResolved {
+/// Resolved argument
+public enum ArgResolved {
     
     /// Create similar child effects with well known objects identifiers
     case identified([String])
@@ -15,17 +15,9 @@ enum ArgResolved {
     case selectable([Option])
 }
 
-extension ArgResolved {
-    
+public extension ArgResolved {
     struct Option {
         let value: String
         let label: String
-    }
-}
-
-extension Array where Element == String {
-    
-    func toOptions() -> [ArgResolved.Option] {
-        map { ArgResolved.Option(value: $0, label: $0) }
     }
 }

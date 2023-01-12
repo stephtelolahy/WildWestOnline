@@ -28,8 +28,8 @@ final class SaloonTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .success(Heal(player: .id("p1"), value: 1)),
-            .success(Heal(player: .id("p2"), value: 1))
+            .success(Heal(player: PlayerId("p1"), value: 1)),
+            .success(Heal(player: PlayerId("p2"), value: 1))
         ])
     }
     
