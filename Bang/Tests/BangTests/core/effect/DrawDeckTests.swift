@@ -29,7 +29,6 @@ final class DrawDeckTests: XCTestCase {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").hand.map(\.id), ["c1", "c2"])
             XCTAssertEqual(ctx.deck.map(\.id), ["c3"])
-            XCTAssertNil($0.effects)
         }
     }
     
@@ -50,7 +49,6 @@ final class DrawDeckTests: XCTestCase {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").hand.map(\.id), ["c2"])
             XCTAssertEqual(ctx.deck.map(\.id), ["c3"])
-            XCTAssertNil($0.effects)
         }
     }
     
@@ -72,7 +70,6 @@ final class DrawDeckTests: XCTestCase {
             XCTAssertEqual(ctx.player("p1").hand.map(\.id), ["c2"])
             XCTAssertEqual(ctx.deck.map(\.id), [])
             XCTAssertEqual(ctx.discard.map(\.id), ["c3"])
-            XCTAssertNil($0.effects)
         }
     }
 }

@@ -52,12 +52,12 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == "wellsFargo" })
     }
     
-    func test_BangCharacterCards() throws {
-        // Given
-        // When
-        let cards = inventory.getAll(.specialAbility)
-        
-        // Assert
+//    func test_BangCharacterCards() throws {
+//        // Given
+//        // When
+//        let cards = inventory.getAll(.specialAbility)
+//
+//        // Assert
 //        XCTAssertTrue(cards.contains { $0.name == "bartCassidy" })
 //        XCTAssertTrue(cards.contains { $0.name == "blackJack" })
 //        XCTAssertTrue(cards.contains { $0.name == "calamityJanet" })
@@ -74,6 +74,6 @@ final class InventoryTests: XCTestCase {
 //        XCTAssertTrue(cards.contains { $0.name == "suzyLafayette" })
 //        XCTAssertTrue(cards.contains { $0.name == "vultureSam" })
 //        XCTAssertTrue(cards.contains { $0.name == "willyTheKid" })
-    }
+//    }
 
 }

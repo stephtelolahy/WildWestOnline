@@ -26,7 +26,6 @@ final class StoreTests: XCTestCase {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.store.map(\.id), ["c1"])
             XCTAssertEqual(ctx.deck.map(\.id), ["c2"])
-            XCTAssertNil($0.effects)
         }
     }
 

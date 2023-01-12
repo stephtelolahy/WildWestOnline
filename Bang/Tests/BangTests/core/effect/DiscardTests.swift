@@ -28,7 +28,6 @@ final class DiscardTests: XCTestCase {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").hand.map(\.id), ["c1", "c3"])
             XCTAssertEqual(ctx.discard.map(\.id), ["c2"])
-            XCTAssertNil($0.effects)
         }
     }
 

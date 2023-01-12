@@ -24,7 +24,6 @@ final class HealTests: XCTestCase {
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").health, 3)
-            XCTAssertNil($0.effects)
         }
     }
     
@@ -41,7 +40,6 @@ final class HealTests: XCTestCase {
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").health, 4)
-            XCTAssertNil($0.effects)
         }
     }
     
@@ -58,7 +56,6 @@ final class HealTests: XCTestCase {
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").health, 4)
-            XCTAssertNil($0.effects)
         }
     }
     

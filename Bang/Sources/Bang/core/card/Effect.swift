@@ -36,8 +36,5 @@ public indirect enum Effect: Codable, Equatable {
     
     /// Player must discard a specific card. If cannot, then apply some effects
     case challengeDiscard(player: ArgPlayer, card: ArgCard, otherwise: Effect, challenger: ArgPlayer)
-    
-    /// Draw some cards from other player
-    case steal(player: ArgPlayer, target: ArgPlayer, card: ArgCard)
 }
 */

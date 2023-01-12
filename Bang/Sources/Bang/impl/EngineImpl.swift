@@ -54,8 +54,8 @@ public struct EngineImpl: Engine {
         
         switch result {
         case let .success(output):
-            if let updatedState = output.state {
-                ctx = updatedState
+            if let outputState = output.state {
+                ctx = outputState
                 ctx.event = .success(effect)
             }
             
