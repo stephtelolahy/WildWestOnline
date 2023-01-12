@@ -1,71 +1,35 @@
 //
-//  Play.swift
+//  RulePlayImpl.swift
 //  
 //
-//  Created by Hugues Telolahy on 10/01/2023.
+//  Created by Hugues Telolahy on 12/01/2023.
 //
 
-/// Play a card
-/// `Brown` cards are put immediately in discard pile
-/// `Blue` cards are put in play
-public struct Play: Effect, Equatable {
-    private let actor: String
-    private let card: String
-    
-    public init(actor: String, card: String) {
-        self.actor = actor
-        self.card = card
-    }
-    
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        var ctx = ctx
-        
+extension GameRules: RulePlay {
+ 
+    public func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError> {
         /// track actor
+        var ctx = ctx
         ctx.queueActor = actor
         
-        var playerObj = ctx.player(actor)
-        
-        /// finc card reference
-        let cardObj: Card
-        if let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) {
-            /// discard played card immediately
-            cardObj = playerObj.hand.remove(at: handIndex)
-            var discard = ctx.discard
-            discard.append(cardObj)
-            ctx.discard = discard
-            ctx.players[actor] = playerObj
-            
-        } else if let abilityIndex = playerObj.abilities.firstIndex(where: { $0.id == card }) {
-            cardObj = playerObj.abilities[abilityIndex]
-            
-        } else {
-            fatalError(.missingPlayerCard(card))
-        }
-        
         /// verify all requirements
-        for playReq in cardObj.canPlay {
+        for playReq in card.canPlay {
             if case let .failure(error) = playReq.verify(ctx) {
                 return .failure(error)
             }
         }
         
         /// verify effects not empty
-        guard !cardObj.onPlay.isEmpty else {
+        guard !card.onPlay.isEmpty else {
             return .failure(.cardHasNoEffect)
         }
         
         /// verify first effect
-        if case let .failure(error) = cardObj.onPlay[0].resolveUntilCompleted(ctx: ctx) {
+        if case let .failure(error) = card.onPlay[0].resolveUntilCompleted(ctx: ctx) {
             return .failure(error)
         }
         
-        /// update turn played card
-        ctx.played.append(cardObj.name)
-        
-        /// push child effects
-        let children = cardObj.onPlay
-        
-        return .success(EffectOutputImpl(state: ctx, effects: children))
+        return .success(())
     }
 }
 

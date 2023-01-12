@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
+// swiftlint:disable line_length
 
 /// Bang cards list
 enum Bang {

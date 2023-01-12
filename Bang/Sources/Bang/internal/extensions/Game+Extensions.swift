@@ -29,10 +29,4 @@ extension Game {
         
         return deck.removeFirst()
     }
-    
-    /// Get players within given distance
-    func playersAt(_ distance: Int, from player: String) -> [String] {
-        // TODO: implement distance rules
-        playOrder.filter { $0 != player }
-    }
 }
