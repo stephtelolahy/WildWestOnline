@@ -20,8 +20,8 @@ public struct Play: Effect, Equatable {
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         var ctx = ctx
         
-        /// track actor as context data
-        ctx.data[.actor] = actor
+        /// track actor
+        ctx.queueActor = actor
         
         var playerObj = ctx.player(actor)
         

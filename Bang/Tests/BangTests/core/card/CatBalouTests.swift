@@ -28,12 +28,12 @@ final class CatBalouTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(actor: "p1", label: "p2")],
+            .wait([Choose(player: "p1", label: "p2")],
                   input: 0),
-            .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: Label.randomHand)],
+            .success(Choose(player: "p1", label: "p2")),
+            .wait([Choose(player: "p1", label: Label.randomHand)],
                   input: 0),
-            .success(Choose(actor: "p1", label: Label.randomHand)),
+            .success(Choose(player: "p1", label: Label.randomHand)),
             .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
         ])
     }
@@ -55,12 +55,12 @@ final class CatBalouTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(actor: "p1", label: "p2")],
+            .wait([Choose(player: "p1", label: "p2")],
                   input: 0),
-            .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: Label.randomHand)],
+            .success(Choose(player: "p1", label: "p2")),
+            .wait([Choose(player: "p1", label: Label.randomHand)],
                   input: 0),
-            .success(Choose(actor: "p1", label: Label.randomHand)),
+            .success(Choose(player: "p1", label: Label.randomHand)),
             .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
         ])
     }
@@ -82,12 +82,12 @@ final class CatBalouTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(actor: "p1", label: "p2")],
+            .wait([Choose(player: "p1", label: "p2")],
                   input: 0),
-            .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: "c2")],
+            .success(Choose(player: "p1", label: "p2")),
+            .wait([Choose(player: "p1", label: "c2")],
                   input: 0),
-            .success(Choose(actor: "p1", label: "c2")),
+            .success(Choose(player: "p1", label: "c2")),
             .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
         ])
     }

@@ -38,19 +38,14 @@ public protocol Game {
     /// effects queue that have to be resolved in order
     var queue: [Effect] { get set }
     
-    /// last occurred event
-    /// that updated the game state
-    var event: Result<Effect, GameError>? { get set }
+    /// queue's actor
+    var queueActor: String? { get set }
     
-    /// play context data
-    var data: [ContextKey: Any] { get set }
+    /// last occurred event
+    var event: Result<Effect, GameError>? { get set }
     
     // MARK: - Convenience
     
     /// Get player with given identifier
     func player(_ id: String) -> Player
-}
-
-public enum ContextKey: String {
-    case actor
 }

@@ -22,7 +22,7 @@ extension Effect {
                 return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(items):
-                let options = items.map { Choose(actor: ctx.actor, label: $0.label, effects: [copy($0.value)]) }
+                let options = items.map { Choose(player: ctx.actor, label: $0.label, effects: [copy($0.value)]) }
                 return .success(EffectOutputImpl(options: options))
             }
             
@@ -48,7 +48,7 @@ extension Effect {
                 return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(items):
-                let options = items.map { Choose(actor: chooser, label: $0.label, effects: [copy($0.value)]) }
+                let options = items.map { Choose(player: chooser, label: $0.label, effects: [copy($0.value)]) }
                 return .success(EffectOutputImpl(options: options))
             }
             

@@ -16,8 +16,8 @@ public struct GameImpl: Game {
     public var played: [String]
     public var decisions: [Effect]
     public var queue: [Effect]
+    public var queueActor: String?
     public var event: Result<Effect, GameError>?
-    public var data: [ContextKey: Any]
     
     public init(players: [String: Player] = [:],
                 playOrder: [String] = [],
@@ -29,8 +29,8 @@ public struct GameImpl: Game {
                 played: [String] = [],
                 decisions: [Effect] = [],
                 queue: [Effect] = [],
-                event: Result<Effect, GameError>? = nil,
-                data: [ContextKey: Any] = [:]) {
+                queueActor: String? = nil,
+                event: Result<Effect, GameError>? = nil) {
         self.players = players
         self.playOrder = playOrder
         self.turn = turn
@@ -41,8 +41,8 @@ public struct GameImpl: Game {
         self.played = played
         self.decisions = decisions
         self.queue = queue
+        self.queueActor = queueActor
         self.event = event
-        self.data = data
     }
     
     public func player(_ id: String) -> Player {
