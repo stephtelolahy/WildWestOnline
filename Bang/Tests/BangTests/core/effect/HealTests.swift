@@ -20,7 +20,7 @@ final class HealTests: XCTestCase {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").health, 3)
@@ -37,7 +37,7 @@ final class HealTests: XCTestCase {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").health, 4)
@@ -54,7 +54,7 @@ final class HealTests: XCTestCase {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").health, 4)
@@ -71,7 +71,7 @@ final class HealTests: XCTestCase {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
     }
 }

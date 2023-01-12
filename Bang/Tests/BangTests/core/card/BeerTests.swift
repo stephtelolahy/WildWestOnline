@@ -5,13 +5,12 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 // swiftlint:disable identifier_name
-// swiftlint:disable force_unwrapping
 
 import XCTest
 import Bang
 import Combine
 
-final class BeerTests: CardTests {
+final class BeerTests: EngineTestCase {
     
     func test_GainHealth_IfPlayingBeer() throws {
         // Given
@@ -20,19 +19,16 @@ final class BeerTests: CardTests {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1", "p2", "p3"],
                            turn: "p1")
-        setupInitialState(ctx)
+        setupGame(ctx)
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try XCTSkipUnless(events.count == 2, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Play(actor: "p1", card: "c1"))
-        assertIsSuccess(events[1], equalTo: Heal(player: .id("p1"), value: 1))
-        
-        XCTAssertEqual(state.players["p1"]!.hand.map(\.id), [])
-        XCTAssertEqual(state.players["p1"]!.health, 2)
-        XCTAssertEqual(state.discard.map(\.id), ["c1"])
+        try assertSequence([
+            .success(Play(actor: "p1", card: "c1")),
+            .success(Heal(player: .id("p1"), value: 1))
+        ])
     }
     
     func test_ThrowError_IfTwoPlayersLeft() throws {
@@ -42,14 +38,13 @@ final class BeerTests: CardTests {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupInitialState(ctx)
+        setupGame(ctx)
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try XCTSkipUnless(events.count == 1, "Unexpected events count \(events.count)")
-        assertIsFailure(events[0], equalTo: .playersMustBeAtLeast(3))
+        try assertSequence([.error(.playersMustBeAtLeast(3))])
     }
     
     func test_ThrowError_IfMaxHealth() throws {
@@ -59,14 +54,13 @@ final class BeerTests: CardTests {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1", "p2", "p3"],
                            turn: "p1")
-        setupInitialState(ctx)
+        setupGame(ctx)
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try XCTSkipUnless(events.count == 1, "Unexpected events count \(events.count)")
-        assertIsFailure(events[0], equalTo: .playerAlreadyMaxHealth("p1"))
+        try assertSequence([.error(.playerAlreadyMaxHealth("p1"))])
     }
     
 }

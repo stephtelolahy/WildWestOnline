@@ -44,6 +44,11 @@ public protocol Game {
     
     /// play context data
     var data: [ContextKey: Any] { get set }
+    
+    // MARK: - Convenience
+    
+    /// Get player with given identifier
+    func player(_ id: String) -> Player
 }
 
 public enum ContextKey: String {

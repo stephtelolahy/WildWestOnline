@@ -6,7 +6,7 @@
 //
 import Combine
 
-public class EngineImpl: Engine {
+public struct EngineImpl: Engine {
     
     public var state: CurrentValueSubject<Game, Never>
     

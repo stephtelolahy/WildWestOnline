@@ -1,25 +1,14 @@
 //
-//  Game+Convenience.swift
+//  Game+Extensions.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-public extension Game {
-    
-    /// Get player with given identifier
-    func player(_ id: String) -> Player {
-        guard let playerObject = players[id] else {
-            fatalError(.missingPlayer(id))
-        }
-        
-        return playerObject
-    }
-}
-
 /// Internal usage only
 extension Game {
     
+    /// current actor
     var actor: String {
         guard let actorId = data[.actor] as? String else {
             fatalError(.missingActor)

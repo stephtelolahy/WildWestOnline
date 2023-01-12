@@ -18,7 +18,7 @@ final class IsPlayersAtLeastTests: XCTestCase {
         // When
         let result = sut.verify(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result)
     }
     
@@ -30,7 +30,7 @@ final class IsPlayersAtLeastTests: XCTestCase {
         // When
         let result = sut.verify(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result)
     }
     
@@ -42,7 +42,7 @@ final class IsPlayersAtLeastTests: XCTestCase {
         // When
         let result = sut.verify(ctx)
         
-        // assert
+        // Assert
         assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
     }    
 }

@@ -44,4 +44,12 @@ public struct GameImpl: Game {
         self.event = event
         self.data = data
     }
+    
+    public func player(_ id: String) -> Player {
+        guard let playerObject = players[id] else {
+            fatalError(.missingPlayer(id))
+        }
+        
+        return playerObject
+    }
 }

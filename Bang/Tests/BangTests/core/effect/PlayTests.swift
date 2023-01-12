@@ -9,7 +9,7 @@
 import XCTest
 import Bang
 
-final class PlayTests: CardTests {
+final class PlayTests: XCTestCase {
     
     func test_DiscardImmediately_IfPlayed() {
         // Given
@@ -22,7 +22,7 @@ final class PlayTests: CardTests {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result) {
             let ctx = try XCTUnwrap($0.state)
             XCTAssertEqual(ctx.player("p1").hand.map(\.id), [])
@@ -41,7 +41,7 @@ final class PlayTests: CardTests {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result) {
             let children: [Effect] = try XCTUnwrap($0.effects)
             XCTAssertEqual(children.count, 1)
@@ -61,7 +61,7 @@ final class PlayTests: CardTests {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
     }
     
@@ -77,7 +77,7 @@ final class PlayTests: CardTests {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsSuccess(result)
     }
     
@@ -91,7 +91,7 @@ final class PlayTests: CardTests {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsFailure(result, equalTo: .cardHasNoEffect)
     }
     
@@ -106,7 +106,7 @@ final class PlayTests: CardTests {
         // When
         let result = sut.resolve(ctx)
         
-        // assert
+        // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
     }
 }

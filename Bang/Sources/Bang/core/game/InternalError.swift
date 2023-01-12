@@ -10,8 +10,7 @@ func fatalError(_ error: InternalError, file: StaticString = #file, line: UInt =
 }
 
 /// Fatal game state error
-public enum InternalError: Error {
-    
+enum InternalError: Error {
     case missingPlayer(String)
     case missingActor
     case missingPlayerCard(String)

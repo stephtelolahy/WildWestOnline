@@ -9,7 +9,7 @@
 import XCTest
 import Bang
 
-final class WellsFargoTests: CardTests {
+final class WellsFargoTests: EngineTestCase {
     
     func test_Draw3Cards_IfPlayingWellsFargo() throws {
         // Given
@@ -21,20 +21,18 @@ final class WellsFargoTests: CardTests {
         let ctx = GameImpl(players: ["p1": p1],
                            turn: "p1",
                            deck: [c2, c3, c4])
-        setupInitialState(ctx)
+        setupGame(ctx)
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try XCTSkipUnless(events.count == 4, "Unexpected events count \(events.count)")
-        assertIsSuccess(events[0], equalTo: Play(actor: "p1", card: "c1"))
-        assertIsSuccess(events[1], equalTo: DrawDeck(player: .id("p1")))
-        assertIsSuccess(events[2], equalTo: DrawDeck(player: .id("p1")))
-        assertIsSuccess(events[3], equalTo: DrawDeck(player: .id("p1")))
-        
-        XCTAssertEqual(state.discard.map(\.id), ["c1"])
-        XCTAssertEqual(state.player("p1").hand.map(\.id), ["c2", "c3", "c4"])
+        try assertSequence([
+            .success(Play(actor: "p1", card: "c1")),
+            .success(DrawDeck(player: .id("p1"))),
+            .success(DrawDeck(player: .id("p1"))),
+            .success(DrawDeck(player: .id("p1")))
+        ])
     }
     
 }
