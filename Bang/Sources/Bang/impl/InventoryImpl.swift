@@ -10,12 +10,12 @@ public struct InventoryImpl: Inventory {
     
     public init() {}
     
-    public func getCard(_ name: String, withId id: String?) -> Card {
+    public func getCard(_ name: String, withId id: String) -> Card {
         guard var card = Self.uniqueCards.first(where: { $0.name == name }) else {
             fatalError(.missingCardScript(name))
         }
         
-        card.id = id ?? name
+        card.id = id
         return card
     }
     
@@ -61,6 +61,11 @@ private extension InventoryImpl {
               type: .collectible,
               onPlay: [Discard(player: .select(.any),
                                card: .select(.any))]),
+        .init(name: "panic",
+              type: .collectible,
+              onPlay: [Steal(player: .actor,
+                             target: .select(.at(1)),
+                             card: .select(.any))]),
 //        .init(name: "bang",
 //              type: .collectible,
 //              canPlay: [.isTimesPerTurn(1)],
@@ -75,11 +80,6 @@ private extension InventoryImpl {
 //                              effect: .forceDiscard(player: .current,
 //                                                    card: .select(.match("missed")),
 //                                                    otherwise: .damage(player: .current, value: 1)))]),
-//        .init(name: "panic",
-//              type: .collectible,
-//              onPlay: [.steal(player: .actor,
-//                              target: .select(.at(1)),
-//                              card: .select(.any))]),
 //        .init(name: "indians",
 //              type: .collectible,
 //              onPlay: [.apply(player: .others,

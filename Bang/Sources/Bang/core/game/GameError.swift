@@ -28,4 +28,7 @@ public enum GameError: Error, Codable, Equatable {
     
     /// Expected store to contain come cards
     case noCardInStore
+    
+    /// Expected some players at given range
+    case noPlayersAtRange(Int)
 }

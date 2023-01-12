@@ -69,9 +69,8 @@ final class CatBalouTests: EngineTestCase {
         // Given
         let c1 = inventory.getCard("catBalou", withId: "c1")
         let c2 = CardImpl(id: "c2")
-        let c3 = CardImpl(id: "c3")
         let p1 = PlayerImpl(hand: [c1])
-        let p2 = PlayerImpl(hand: [c2], inPlay: [c3])
+        let p2 = PlayerImpl(inPlay: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
@@ -86,11 +85,10 @@ final class CatBalouTests: EngineTestCase {
             .wait([Choose(actor: "p1", label: "p2")],
                   input: 0),
             .success(Choose(actor: "p1", label: "p2")),
-            .wait([Choose(actor: "p1", label: "c3"),
-                   Choose(actor: "p1", label: ArgCard.randomHandLabel)],
+            .wait([Choose(actor: "p1", label: "c2")],
                   input: 0),
-            .success(Choose(actor: "p1", label: "c3")),
-            .success(Discard(player: .id("p2"), card: .id("c3")))
+            .success(Choose(actor: "p1", label: "c2")),
+            .success(Discard(player: .id("p2"), card: .id("c2")))
         ])
     }
     

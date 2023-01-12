@@ -13,7 +13,7 @@ final class EndTurnTests: EngineTestCase {
     
     func test_SetNextTurn_IfEndingTurn() throws {
         // Given
-        let endTurn = inventory.getCard("endTurn", withId: nil)
+        let endTurn = inventory.getCard("endTurn", withId: "a1")
         let p1 = PlayerImpl(health: 1, abilities: [endTurn])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -22,18 +22,18 @@ final class EndTurnTests: EngineTestCase {
         setupGame(ctx)
         
         // When
-        sut.input(Play(actor: "p1", card: "endTurn"))
+        sut.input(Play(actor: "p1", card: "a1"))
         
         // Assert
         try assertSequence([
-            .success(Play(actor: "p1", card: "endTurn")),
+            .success(Play(actor: "p1", card: "a1")),
             .success(SetTurn(player: .id("p2")))
         ])
     }
     
     func test_DiscardExcess1Card_IfEndingTurn() throws {
         // Given
-        let endTurn = inventory.getCard("endTurn", withId: nil)
+        let endTurn = inventory.getCard("endTurn", withId: "a1")
         let c1 = CardImpl(id: "c1")
         let c2 = CardImpl(id: "c2")
         let p1 = PlayerImpl(health: 1, abilities: [endTurn], hand: [c1, c2])
@@ -44,11 +44,11 @@ final class EndTurnTests: EngineTestCase {
         setupGame(ctx)
         
         // When
-        sut.input(Play(actor: "p1", card: "endTurn"))
+        sut.input(Play(actor: "p1", card: "a1"))
         
         // Assert
         try assertSequence([
-            .success(Play(actor: "p1", card: "endTurn")),
+            .success(Play(actor: "p1", card: "a1")),
             .wait([Choose(actor: "p1", label: "c1"),
                    Choose(actor: "p1", label: "c2")],
                   input: 1),
@@ -60,7 +60,7 @@ final class EndTurnTests: EngineTestCase {
     
     func test_DiscardExcess2Cards_IfEndingTurn() throws {
         // Given
-        let endTurn = inventory.getCard("endTurn", withId: nil)
+        let endTurn = inventory.getCard("endTurn", withId: "a1")
         let c1 = CardImpl(id: "c1")
         let c2 = CardImpl(id: "c2")
         let c3 = CardImpl(id: "c3")
@@ -72,11 +72,11 @@ final class EndTurnTests: EngineTestCase {
         setupGame(ctx)
         
         // When
-        sut.input(Play(actor: "p1", card: "endTurn"))
+        sut.input(Play(actor: "p1", card: "a1"))
         
         // Assert
         try assertSequence([
-            .success(Play(actor: "p1", card: "endTurn")),
+            .success(Play(actor: "p1", card: "a1")),
             .wait([Choose(actor: "p1", label: "c1"),
                    Choose(actor: "p1", label: "c2"),
                    Choose(actor: "p1", label: "c3")],

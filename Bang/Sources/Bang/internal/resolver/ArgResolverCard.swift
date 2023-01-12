@@ -64,7 +64,7 @@ private extension ArgResolverCard {
                 return resolveSelectAny(owner: owner, chooser: chooser, ctx: ctx)
                 
             default:
-                fatalError("unimplemented resolver for zone \(zone)")
+                fatalError("unimplemented resolver for select zone \(zone)")
             }
             
         default:

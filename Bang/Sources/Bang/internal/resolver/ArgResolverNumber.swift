@@ -10,14 +10,25 @@ enum ArgResolverNumber {
     static func resolve(_ number: ArgNumber, ctx: Game) -> Int {
         switch number {
         case .numPlayers:
-            return ctx.playOrder.count
+            return resolveNumPlayers(ctx: ctx)
             
         case .numExcessHand:
-            let actorObj = ctx.player(ctx.actor)
-            return max(actorObj.hand.count - actorObj.handLimit, 0)
+            return resolveExcessHand(ctx: ctx)
             
         default:
             fatalError("unimplemented resolver for number \(number)")
         }
+    }
+}
+
+private extension ArgResolverNumber {
+    
+    static func resolveNumPlayers(ctx: Game) -> Int {
+        ctx.playOrder.count
+    }
+    
+    static func resolveExcessHand(ctx: Game) -> Int {
+        let actorObj = ctx.player(ctx.actor)
+        return max(actorObj.hand.count - actorObj.handLimit, 0)
     }
 }
