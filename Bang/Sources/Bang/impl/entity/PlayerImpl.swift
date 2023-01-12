@@ -32,4 +32,5 @@ public struct PlayerImpl: Player {
     
     public var handLimit: Int { health }
 
+    public var weapon: Int { 1 }
 }

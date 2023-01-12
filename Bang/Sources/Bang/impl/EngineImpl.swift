@@ -42,8 +42,15 @@ public struct EngineImpl: Engine {
             return
         }
         
-        // if queue empty, do nothing
+        // TODO: push triggered moves if any
+        
+        // if queue empty
         guard !ctx.queue.isEmpty else {
+            
+            // TODO: cleanup queue data
+            
+            // TODO: wait active moves
+            
             return
         }
         

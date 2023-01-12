@@ -41,6 +41,12 @@ public protocol Game {
     /// queue's actor
     var queueActor: String? { get set }
     
+    /// queue's card
+    var queueCard: Card? { get set }
+    
+    /// queue's current player id
+    var queuePlayer: String? { get set }
+    
     /// last occurred event
     var event: Result<Effect, GameError>? { get set }
     

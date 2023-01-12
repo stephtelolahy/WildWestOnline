@@ -11,6 +11,9 @@ public struct PlayerCurrent: ArgPlayer, Equatable {
     public init() {}
     
     public func resolve(_ ctx: Game) -> Result<ArgResolved, GameError> {
-        fatalError()
+        guard let current = ctx.queuePlayer else {
+            fatalError(.missingCurrentPlayer)
+        }
+        return .success(.identified([current]))
     }
 }

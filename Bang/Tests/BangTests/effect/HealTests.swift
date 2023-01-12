@@ -11,7 +11,7 @@ import Bang
 
 final class HealTests: XCTestCase {
     
-    func test_Gain1LifePoint_IfDamaged() throws {
+    func test_Gain1LifePoint_IfHeal() throws {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])
@@ -27,7 +27,7 @@ final class HealTests: XCTestCase {
         }
     }
     
-    func test_Gain2LifePoints_IfDamaged() throws {
+    func test_Gain2LifePoints_IfHeal() throws {
         // Given
         let p1: Player = PlayerImpl(maxHealth: 4, health: 2)
         let ctx: Game = GameImpl(players: ["p1": p1])

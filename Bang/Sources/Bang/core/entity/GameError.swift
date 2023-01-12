@@ -20,6 +20,9 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected player to have hand cards
     case playerHasNoHandCard(String)
     
+    /// Expected player to have cards matching pattern
+    case playerHasNoMatchingCard(String)
+    
     /// Expected card to have onPlay effect
     case cardHasNoEffect
     
@@ -31,4 +34,7 @@ public enum GameError: Error, Codable, Equatable {
     
     /// Expected some players at given range
     case noPlayersAt(Int)
+    
+    /// Expected to play below limit per turn
+    case reachedLimitPerTurn(Int)
 }

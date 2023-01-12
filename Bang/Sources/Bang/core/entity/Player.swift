@@ -30,4 +30,7 @@ public protocol Player {
     
     /// Maximum allowed hand cards at the end of his turn
     var handLimit: Int { get }
+    
+    /// Weapon range
+    var weapon: Int { get }
 }

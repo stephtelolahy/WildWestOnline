@@ -5,7 +5,8 @@
 //  Created by Hugues Telolahy on 11/01/2023.
 //
 
-/// Discard player's card to discard pile
+/// Discard a player's card to discard pile
+/// Actor is the card chooser
 public struct Discard: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard

@@ -14,8 +14,19 @@ public struct Damage: Effect, Equatable {
         self.player = player
         self.value = value
     }
-
+    
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        fatalError()
+        guard let playerId = (player as? PlayerId)?.id else {
+            return resolve(player, ctx: ctx) {
+                Self(player: PlayerId($0), value: value)
+            }
+        }
+        
+        var ctx = ctx
+        var playerObj = ctx.player(playerId)
+        playerObj.health -= value
+        ctx.players[playerId] = playerObj
+        
+        return .success(EffectOutputImpl(state: ctx))
     }
 }

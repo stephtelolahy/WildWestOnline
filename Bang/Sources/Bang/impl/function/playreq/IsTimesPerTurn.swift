@@ -13,6 +13,16 @@ public struct IsTimesPerTurn: PlayReq, Equatable {
     }
     
     public func verify(_ ctx: Game) -> Result<Void, GameError> {
-        fatalError()
+        // No limit
+        guard maxTimes > 0 else {
+            return .success(())
+        }
+        
+        let playedTimes = ctx.played.filter { $0 == ctx.queueCard?.name }.count
+        guard playedTimes < maxTimes else {
+            return .failure(.reachedLimitPerTurn(maxTimes))
+        }
+        
+        return .success(())
     }
 }
