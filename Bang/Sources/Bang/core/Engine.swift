@@ -13,9 +13,9 @@ public protocol Engine {
     /// observable game state
     var state: CurrentValueSubject<Game, Never> { get }
     
-    /// process input
+    /// process move
     func input(_ move: Effect)
     
-    /// recursivelly process game's queue until idle
+    /// update game by processing event queue
     func update()
 }

@@ -18,8 +18,8 @@ final class InventoryTests: XCTestCase {
         let cards = inventory.getAbilities()
         
         // Assert
-        XCTAssertTrue(cards.contains { $0.name == "startTurn" })
         XCTAssertTrue(cards.contains { $0.name == "endTurn" })
+        XCTAssertTrue(cards.contains { $0.name == "startTurn" })
     }
 
     func test_BangCollectibleCards() throws {

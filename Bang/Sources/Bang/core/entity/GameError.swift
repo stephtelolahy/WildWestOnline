@@ -37,4 +37,7 @@ public enum GameError: Error, Codable, Equatable {
     
     /// Expected to play below limit per turn
     case reachedLimitPerTurn(Int)
+    
+    /// Defaut  error
+    case unknown
 }

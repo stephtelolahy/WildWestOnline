@@ -15,7 +15,7 @@ public protocol RulePlay {
     func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError>
 }
 
-/// Game update by processing top queued effect
-public protocol RuleUpdate {
-    func update(_ ctx: Game) -> Game
+/// Triggered moves, sorted by priority
+public protocol RuleTrigger {
+    func triggeredMoves(_ ctx: Game) -> [Effect]
 }

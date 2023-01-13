@@ -18,7 +18,7 @@ final class EndTurnTests: XCTestCase {
         let endTurn = inventory.getCard("endTurn", withId: "a1")
         let p1 = PlayerImpl(health: 1, abilities: [endTurn])
         let p2 = PlayerImpl()
-        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
+        let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": PlayerImpl()],
                            playOrder: ["p2", "p3", "p1"],
                            turn: "p1")
         let sut = EngineImpl(ctx)

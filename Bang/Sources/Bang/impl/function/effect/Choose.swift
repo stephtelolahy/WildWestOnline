@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 11/01/2023.
 //
 
+/// Move
 /// select an option during effect resolution
 public struct Choose: Effect, Equatable {
     private let player: String

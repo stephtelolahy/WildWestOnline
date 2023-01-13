@@ -30,7 +30,7 @@ final class BangTests: XCTestCase {
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         
@@ -101,7 +101,7 @@ final class BangTests: XCTestCase {
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
@@ -134,7 +134,7 @@ final class BangTests: XCTestCase {
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(1),

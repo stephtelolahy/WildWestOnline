@@ -14,7 +14,7 @@ public struct GameImpl: Game {
     public var store: [Card]
     public var isOver: Bool
     public var played: [String]
-    public var decisions: [Effect]
+    public var options: [Effect]
     public var queue: [Effect]
     public var queueActor: String?
     public var queueCard: Card?
@@ -29,7 +29,7 @@ public struct GameImpl: Game {
                 store: [Card] = [],
                 isOver: Bool = false,
                 played: [String] = [],
-                decisions: [Effect] = [],
+                options: [Effect] = [],
                 queue: [Effect] = [],
                 queueActor: String? = nil,
                 queueCard: Card? = nil,
@@ -43,7 +43,7 @@ public struct GameImpl: Game {
         self.store = store
         self.isOver = isOver
         self.played = played
-        self.decisions = decisions
+        self.options = options
         self.queue = queue
         self.queueActor = queueActor
         self.queueCard = queueCard

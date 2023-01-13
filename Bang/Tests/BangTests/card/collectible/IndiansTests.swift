@@ -28,9 +28,9 @@ final class IndiansTests: XCTestCase {
             engine: sut,
             expected: [
                 .success(Play(actor: "p1", card: "c1")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("bang"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("bang"))),
                 .success(Damage(player: PlayerId("p2"), value: 1)),
-                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandMatch("bang"))),
+                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed("bang"))),
                 .success(Damage(player: PlayerId("p3"), value: 1))
             ])
         
@@ -58,13 +58,13 @@ final class IndiansTests: XCTestCase {
             engine: sut,
             expected: [
                 .success(Play(actor: "p1", card: "c1")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("bang"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("bang"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
                 .success(Choose(player: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
-                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandMatch("bang"))),
+                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed("bang"))),
                 .wait([Choose(player: "p3", label: "c3"),
                        Choose(player: "p3", label: Label.pass)]),
                 .input(0),

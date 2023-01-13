@@ -14,7 +14,10 @@ enum Bang {
               onPlay: [Repeat(times: NumExcessHand(),
                               effect: Discard(player: PlayerActor(), card: CardSelectHand())),
                        SetTurn(player: PlayerNext())]),
-        .init(name: "startTurn")
+        .init(name: "startTurn",
+              triggers: [OnSetTurn()],
+              onTrigger: [Repeat(times: NumExact(2),
+                                 effect: DrawDeck(player: PlayerActor()))])
     ]
     
     static let collectibleCards: [CardImpl] = [
@@ -47,16 +50,16 @@ enum Bang {
         .init(name: "bang",
               canPlay: [IsTimesPerTurn(1)],
               onPlay: [ForceDiscard(player: PlayerSelectReachable(),
-                                    card: CardSelectHandMatch("missed"),
+                                    card: CardSelectHandNamed("missed"),
                                     otherwise: [Damage(player: PlayerCurrent(), value: 1)])]),
         .init(name: "missed"),
         .init(name: "gatling",
               onPlay: [ForceDiscard(player: PlayerOthers(),
-                                    card: CardSelectHandMatch("missed"),
+                                    card: CardSelectHandNamed("missed"),
                                     otherwise: [Damage(player: PlayerCurrent(), value: 1)])]),
         .init(name: "indians",
               onPlay: [ForceDiscard(player: PlayerOthers(),
-                                    card: CardSelectHandMatch("bang"),
+                                    card: CardSelectHandNamed("bang"),
                                     otherwise: [Damage(player: PlayerCurrent(), value: 1)])])
         //        .init(name: "duel",
         //              onPlay: [.challengeDiscard(player: .select(.any),

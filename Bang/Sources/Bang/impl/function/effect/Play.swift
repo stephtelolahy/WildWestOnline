@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
+/// Move
 /// Play a card
 /// `Brown` cards are put immediately in discard pile
 /// `Blue` cards are put in play
@@ -19,7 +20,6 @@ public struct Play: Effect, Equatable {
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         var ctx = ctx
-        
         var playerObj = ctx.player(actor)
         
         /// find card reference
@@ -44,7 +44,7 @@ public struct Play: Effect, Equatable {
             return .failure(error)
         }
         
-        /// add playing data
+        /// add queue data
         ctx.queueActor = actor
         ctx.queueCard = cardObj
         ctx.played.append(cardObj.name)

@@ -18,6 +18,6 @@ public struct IsPlayersAtLeast: PlayReq {
             return .failure(.playersMustBeAtLeast(count))
         }
         
-        return .success(())
+        return .success
     }
 }

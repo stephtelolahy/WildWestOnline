@@ -17,9 +17,15 @@ public protocol Card {
     /// card value
     var value: String { get }
     
-    /// play requirements
+    /// requirements for playing this card
     var canPlay: [PlayReq] { get }
     
     /// side effects on playing this card
     var onPlay: [Effect] { get }
+    
+    /// requirements to trigger this card
+    var triggers: [PlayReq] { get }
+    
+    /// triggered effects
+    var onTrigger: [Effect] { get }
 }

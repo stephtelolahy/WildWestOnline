@@ -46,7 +46,7 @@ public struct ForceDiscard: Effect, Equatable {
                 fatalError("unexpected")
             }
             
-            // request a decision:
+            // request a choice:
             // - discard one of matching card
             // - or Pass
             var choices: [Effect] = options.map {

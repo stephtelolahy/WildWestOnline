@@ -11,16 +11,22 @@ public struct CardImpl: Card {
     public var value: String
     public var canPlay: [PlayReq]
     public var onPlay: [Effect]
+    public var triggers: [PlayReq]
+    public var onTrigger: [Effect]
     
     public init(id: String = "",
                 name: String = "",
                 value: String = "",
                 canPlay: [PlayReq] = [],
-                onPlay: [Effect] = []) {
+                onPlay: [Effect] = [],
+                triggers: [PlayReq] = [],
+                onTrigger: [Effect] = []) {
         self.id = id
         self.name = name
         self.value = value
         self.canPlay = canPlay
         self.onPlay = onPlay
+        self.triggers = triggers
+        self.onTrigger = onTrigger
     }
 }

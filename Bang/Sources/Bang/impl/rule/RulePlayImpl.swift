@@ -30,7 +30,7 @@ extension GameRules: RulePlay {
             return .failure(error)
         }
         
-        return .success(())
+        return .success
     }
 }
 
@@ -54,7 +54,7 @@ private extension Effect {
                 }
             }
             
-            // handle decision options: one of them must succeed
+            // handle options: one of them must succeed
             if let options = output.options {
                 let children: [Effect] = options.map { ($0 as? Choose)?.effects[0] ?? $0 }
                 let results = children.map { $0.resolveUntilCompleted(ctx: state) }
@@ -63,7 +63,7 @@ private extension Effect {
                 }
             }
             
-            return .success(())
+            return .success
         }
     }
 }

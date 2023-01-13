@@ -14,12 +14,12 @@ public protocol Effect {
 /// Resolving an effect may update game or push another effects
 public protocol EffectOutput {
     
-    /// Resolved successfully with an updated `State`
+    /// Updated `State`
     var state: Game? { get }
     
     /// Resolving effect arguments, by pushing child effects
     var effects: [Effect]? { get }
     
-    /// Suspended waiting user decision
+    /// Suspended queue waiting user action
     var options: [Effect]? { get }
 }
