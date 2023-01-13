@@ -17,8 +17,8 @@ final class GatlingTests: XCTestCase {
         // Given
         let c1 = inventory.getCard("gatling", withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
-        let p2 = PlayerImpl(health: 2)
-        let p3 = PlayerImpl(health: 3)
+        let p2 = PlayerImpl()
+        let p3 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
                            playOrder: ["p3", "p1", "p2"],
                            turn: "p1")
@@ -47,8 +47,8 @@ final class GatlingTests: XCTestCase {
         let c2 = inventory.getCard("missed", withId: "c2")
         let c3 = inventory.getCard("missed", withId: "c3")
         let p1 = PlayerImpl(hand: [c1])
-        let p2 = PlayerImpl(health: 2, hand: [c2])
-        let p3 = PlayerImpl(health: 2, hand: [c3])
+        let p2 = PlayerImpl(hand: [c2])
+        let p3 = PlayerImpl(hand: [c3])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
                            playOrder: ["p1", "p2", "p3"],
                            turn: "p1")

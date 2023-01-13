@@ -60,12 +60,12 @@ enum Bang {
         .init(name: "indians",
               onPlay: [ForceDiscard(player: PlayerOthers(),
                                     card: CardSelectHandNamed("bang"),
-                                    otherwise: [Damage(player: PlayerCurrent(), value: 1)])])
-        //        .init(name: "duel",
-        //              onPlay: [.challengeDiscard(player: .select(.any),
-        //                                         card: .select(.any),
-        //                                         otherwise: .damage(player: .current, value: 1),
-        //                                         challenger: .actor)])
+                                    otherwise: [Damage(player: PlayerCurrent(), value: 1)])]),
+        .init(name: "duel",
+              onPlay: [ChallengeDiscard(player: PlayerSelectAny(),
+                                        challenger: PlayerActor(),
+                                        card: CardSelectHandNamed("bang"),
+                                        otherwise: [Damage(player: PlayerCurrent(), value: 1)])])
     ]
     
     static let cardSets: [String: [String]] = [

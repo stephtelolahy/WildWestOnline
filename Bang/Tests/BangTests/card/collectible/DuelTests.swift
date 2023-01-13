@@ -1,5 +1,5 @@
 //
-//  BangTests.swift
+//  DuelTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 13/01/2023.
@@ -9,13 +9,13 @@
 import XCTest
 import Bang
 
-final class BangTests: XCTestCase {
+final class DuelTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
     
-    func test_DealDamage_IfPlayingBang() throws {
+    func test_TargetPlayerLooseHealth_IfPlayingDuel_AndNoBangCards() {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
+        let c1 = inventory.getCard("duel", withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -30,7 +30,7 @@ final class BangTests: XCTestCase {
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         
@@ -41,52 +41,10 @@ final class BangTests: XCTestCase {
         waitForExpectations(timeout: 0.1)
     }
     
-    func test_CannotPlayBang_IfNoPlayerReachable() throws {
+    func test_TargetPlayersDoNotLooseHealth_IfPlayingDuel_AndDiscarding1BangCards() {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
-        let p1 = PlayerImpl(hand: [c1])
-        let ctx = GameImpl(players: ["p1": p1],
-                           playOrder: ["p1"],
-                           turn: "p1")
-        let sut = EngineImpl(ctx)
-        
-        createExpectation(
-            engine: sut,
-            expected: [.error(.noPlayersAt(1))])
-        
-        // When
-        sut.input(Play(actor: "p1", card: "c1"))
-        
-        // Assert
-        waitForExpectations(timeout: 0.1)
-    }
-    
-    func test_CannotPlayBang_IfReachedLimitPerTurn() throws {
-        // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
-        let p1 = PlayerImpl(hand: [c1])
-        let p2 = PlayerImpl()
-        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1",
-                           played: ["bang"])
-        let sut = EngineImpl(ctx)
-        
-        createExpectation(
-            engine: sut,
-            expected: [.error(.reachedLimitPerTurn(1))])
-        
-        // When
-        sut.input(Play(actor: "p1", card: "c1"))
-        
-        // Assert
-        waitForExpectations(timeout: 0.1)
-    }
-    
-    func test_CounterBang_IfPlayingMissed() throws {
-        // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
-        let c2 = inventory.getCard("missed", withId: "c2")
+        let c1 = inventory.getCard("duel", withId: "c1")
+        let c2 = inventory.getCard("bang", withId: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -101,12 +59,14 @@ final class BangTests: XCTestCase {
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
                 .success(Choose(player: "p2", label: "c2")),
-                .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
+                .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
+                .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed("bang"))),
+                .success(Damage(player: PlayerId("p1"), value: 1))
             ])
         
         // When
@@ -116,11 +76,12 @@ final class BangTests: XCTestCase {
         waitForExpectations(timeout: 0.1)
     }
     
-    func test_DoNotCounterBang_IfMissedNotPlayed() throws {
+    func test_TargetPlayersLooseHealth_IfPlayingDuel_AndDiscarding2BangCards() {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
-        let c2 = inventory.getCard("missed", withId: "c2")
-        let p1 = PlayerImpl(hand: [c1])
+        let c1 = inventory.getCard("duel", withId: "c1")
+        let c2 = inventory.getCard("bang", withId: "c2")
+        let c3 = inventory.getCard("bang", withId: "c3")
+        let p1 = PlayerImpl(hand: [c1, c3])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
@@ -134,11 +95,19 @@ final class BangTests: XCTestCase {
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
-                .input(1),
-                .success(Choose(player: "p2", label: Label.pass)),
+                .input(0),
+                .success(Choose(player: "p2", label: "c2")),
+                .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
+                .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed("bang"))),
+                .wait([Choose(player: "p1", label: "c3"),
+                       Choose(player: "p1", label: Label.pass)]),
+                .input(0),
+                .success(Choose(player: "p1", label: "c3")),
+                .success(Discard(player: PlayerId("p1"), card: CardId("c3"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         
@@ -148,4 +117,5 @@ final class BangTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
+    
 }
