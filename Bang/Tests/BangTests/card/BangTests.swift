@@ -68,4 +68,62 @@ final class BangTests: EngineTestCase {
         // Assert
         try assertSequence([.error(.reachedLimitPerTurn(1))])
     }
+    
+    func test_CounterBang_IfPlayingMissed() throws {
+        // Given
+        let c1 = inventory.getCard("bang", withId: "c1")
+        let c2 = inventory.getCard("missed", withId: "c2")
+        let p1 = PlayerImpl(hand: [c1])
+        let p2 = PlayerImpl(hand: [c2])
+        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
+                           playOrder: ["p1", "p2"],
+                           turn: "p1")
+        setupGame(ctx)
+        
+        // When
+        sut.input(Play(actor: "p1", card: "c1"))
+        
+        // Assert
+        try assertSequence([
+            .success(Play(actor: "p1", card: "c1")),
+            .wait([Choose(player: "p1", label: "p2")]),
+            .input(0),
+            .success(Choose(player: "p1", label: "p2")),
+            .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+            .wait([Choose(player: "p2", label: "c2"),
+                   Choose(player: "p2", label: Label.pass)]),
+            .input(0),
+            .success(Choose(player: "p2", label: "c2")),
+            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
+        ])
+    }
+    
+    func test_DoNotCounterBang_IfMissedNotPlayed() throws {
+        // Given
+        let c1 = inventory.getCard("bang", withId: "c1")
+        let c2 = inventory.getCard("missed", withId: "c2")
+        let p1 = PlayerImpl(hand: [c1])
+        let p2 = PlayerImpl(hand: [c2])
+        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
+                           playOrder: ["p1", "p2"],
+                           turn: "p1")
+        setupGame(ctx)
+        
+        // When
+        sut.input(Play(actor: "p1", card: "c1"))
+        
+        // Assert
+        try assertSequence([
+            .success(Play(actor: "p1", card: "c1")),
+            .wait([Choose(player: "p1", label: "p2")]),
+            .input(0),
+            .success(Choose(player: "p1", label: "p2")),
+            .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+            .wait([Choose(player: "p2", label: "c2"),
+                   Choose(player: "p2", label: Label.pass)]),
+            .input(1),
+            .success(Choose(player: "p2", label: Label.pass)),
+            .success(Damage(player: PlayerId("p2"), value: 1))
+        ])
+    }
 }

@@ -17,22 +17,9 @@ public protocol Card {
     /// card value
     var value: String { get }
     
-    /// card type
-    var type: CardType { get }
-    
     /// play requirements
     var canPlay: [PlayReq] { get }
     
     /// side effects on playing this card
     var onPlay: [Effect] { get }
-}
-
-/// Card type
-public enum CardType: String {
-    
-    /// card that can be collected from deck and played during player's turn
-    case collectible
-    
-    /// implements a player ability
-    case ability
 }

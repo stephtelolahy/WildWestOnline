@@ -10,7 +10,7 @@ public struct InventoryImpl: Inventory {
     public init() {}
     
     public func getCard(_ name: String, withId id: String) -> Card {
-        guard var card = Bang.uniqueCards.first(where: { $0.name == name }) else {
+        guard var card = allCards.first(where: { $0.name == name }) else {
             fatalError(.missingCardScript(name))
         }
         
@@ -18,7 +18,18 @@ public struct InventoryImpl: Inventory {
         return card
     }
     
-    public func getAll(_ type: CardType) -> [Card] {
-        Bang.uniqueCards.filter { $0.type == type }
+    public func getCollectibleCards() -> [Card] {
+        Bang.collectibleCards
+    }
+    
+    public func getAbilities() -> [Card] {
+        Bang.abilities
+    }
+}
+
+private extension InventoryImpl {
+    
+    var allCards: [CardImpl] {
+        Bang.collectibleCards + Bang.abilities
     }
 }
