@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class SaloonTests: EngineTestCase {
+final class SaloonTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_AllDamagedPlayersGainHealth_IfPlayingSaloon() throws {
         // Given
@@ -20,17 +22,21 @@ final class SaloonTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
                            playOrder: ["p3", "p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .success(Heal(player: PlayerId("p1"), value: 1)),
+                .success(Heal(player: PlayerId("p2"), value: 1))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .success(Heal(player: PlayerId("p1"), value: 1)),
-            .success(Heal(player: PlayerId("p2"), value: 1))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_CannotPlaySaloon_IfAllPlayersMaxHealth() throws {
@@ -42,12 +48,16 @@ final class SaloonTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
                            playOrder: ["p3", "p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.noPlayerDamaged)])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.noPlayerDamaged)])
+        waitForExpectations(timeout: 0.1)
     }
 }

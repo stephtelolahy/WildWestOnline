@@ -31,24 +31,10 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CardGameCore"
-            BuildableName = "CardGameCore"
-            BlueprintName = "CardGameCore"
-            ReferencedContainer = "container:CardGameCore">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CardGameMechanics"
-            BuildableName = "CardGameMechanics"
-            BlueprintName = "CardGameMechanics"
-            ReferencedContainer = "container:CardGameMechanics">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "ExtensionsKit"
-            BuildableName = "ExtensionsKit"
-            BlueprintName = "ExtensionsKit"
-            ReferencedContainer = "container:ExtensionsKit">
+            BlueprintIdentifier = "Bang"
+            BuildableName = "Bang"
+            BlueprintName = "Bang"
+            ReferencedContainer = "container:Bang">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>

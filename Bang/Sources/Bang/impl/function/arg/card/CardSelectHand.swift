@@ -20,6 +20,7 @@ public struct CardSelectHand: ArgCard, Equatable {
         
         if !playerObj.hand.isEmpty {
             if chooser != owner {
+                // swiftlint:disable:next force_unwrapping
                 let randomId = playerObj.hand.map(\.id).randomElement()!
                 let randomOption = ArgResolved.Option(value: randomId, label: Label.randomHand)
                 options.append(randomOption)

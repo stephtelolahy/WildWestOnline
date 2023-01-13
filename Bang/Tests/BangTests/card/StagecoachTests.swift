@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class StagecoachTests: EngineTestCase {
+final class StagecoachTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_Draw2Cards_IfPlayingStagecoach() throws {
         // Given
@@ -20,17 +22,21 @@ final class StagecoachTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            turn: "p1",
                            deck: [c2, c3])
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .success(DrawDeck(player: PlayerId("p1"))),
+                .success(DrawDeck(player: PlayerId("p1")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .success(DrawDeck(player: PlayerId("p1"))),
-            .success(DrawDeck(player: PlayerId("p1")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
 }

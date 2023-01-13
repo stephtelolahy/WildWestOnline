@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class EndTurnTests: EngineTestCase {
+final class EndTurnTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_SetNextTurn_IfEndingTurn() throws {
         // Given
@@ -19,16 +21,20 @@ final class EndTurnTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p2", "p3", "p1"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "a1")),
+                .success(SetTurn(player: PlayerId("p2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "a1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "a1")),
-            .success(SetTurn(player: PlayerId("p2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_DiscardExcess1Card_IfEndingTurn() throws {
@@ -41,21 +47,25 @@ final class EndTurnTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "a1")),
+                .wait([Choose(player: "p1", label: "c1"),
+                       Choose(player: "p1", label: "c2")]),
+                .input(1),
+                .success(Choose(player: "p1", label: "c2")),
+                .success(Discard(player: PlayerId("p1"), card: CardId("c2"))),
+                .success(SetTurn(player: PlayerId("p2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "a1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "a1")),
-            .wait([Choose(player: "p1", label: "c1"),
-                   Choose(player: "p1", label: "c2")]),
-            .input(1),
-            .success(Choose(player: "p1", label: "c2")),
-            .success(Discard(player: PlayerId("p1"), card: CardId("c2"))),
-            .success(SetTurn(player: PlayerId("p2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_DiscardExcess2Cards_IfEndingTurn() throws {
@@ -69,26 +79,30 @@ final class EndTurnTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p2", "p1"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "a1")),
+                .wait([Choose(player: "p1", label: "c1"),
+                       Choose(player: "p1", label: "c2"),
+                       Choose(player: "p1", label: "c3")]),
+                .input(1),
+                .success(Choose(player: "p1", label: "c2")),
+                .success(Discard(player: PlayerId("p1"), card: CardId("c2"))),
+                .wait([Choose(player: "p1", label: "c1"),
+                       Choose(player: "p1", label: "c3")]),
+                .input(1),
+                .success(Choose(player: "p1", label: "c3")),
+                .success(Discard(player: PlayerId("p1"), card: CardId("c3"))),
+                .success(SetTurn(player: PlayerId("p2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "a1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "a1")),
-            .wait([Choose(player: "p1", label: "c1"),
-                   Choose(player: "p1", label: "c2"),
-                   Choose(player: "p1", label: "c3")]),
-            .input(1),
-            .success(Choose(player: "p1", label: "c2")),
-            .success(Discard(player: PlayerId("p1"), card: CardId("c2"))),
-            .wait([Choose(player: "p1", label: "c1"),
-                   Choose(player: "p1", label: "c3")]),
-            .input(1),
-            .success(Choose(player: "p1", label: "c3")),
-            .success(Discard(player: PlayerId("p1"), card: CardId("c3"))),
-            .success(SetTurn(player: PlayerId("p2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
 }

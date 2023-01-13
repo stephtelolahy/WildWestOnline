@@ -10,7 +10,9 @@ import XCTest
 import Bang
 import Combine
 
-final class BeerTests: EngineTestCase {
+final class BeerTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_GainHealth_IfPlayingBeer() throws {
         // Given
@@ -19,16 +21,20 @@ final class BeerTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1", "p2", "p3"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .success(Heal(player: PlayerId("p1"), value: 1))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .success(Heal(player: PlayerId("p1"), value: 1))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_ThrowError_IfTwoPlayersLeft() throws {
@@ -38,13 +44,17 @@ final class BeerTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.playersMustBeAtLeast(3))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.playersMustBeAtLeast(3))])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_ThrowError_IfMaxHealth() throws {
@@ -54,13 +64,17 @@ final class BeerTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1", "p2", "p3"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.playerAlreadyMaxHealth("p1"))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.playerAlreadyMaxHealth("p1"))])
+        waitForExpectations(timeout: 0.1)
     }
     
 }

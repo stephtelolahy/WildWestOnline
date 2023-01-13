@@ -9,8 +9,10 @@
 import XCTest
 import Bang
 
-final class PanicTests: EngineTestCase {
-
+final class PanicTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
+    
     func test_StealOthersUniqueHandCard_IfPlayingPanic() throws {
         // Given
         let c1 = inventory.getCard("panic", withId: "c1")
@@ -20,22 +22,26 @@ final class PanicTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .wait([Choose(player: "p1", label: Label.randomHand)]),
+                .input(0),
+                .success(Choose(player: "p1", label: Label.randomHand)),
+                .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .wait([Choose(player: "p1", label: Label.randomHand)]),
-            .input(0),
-            .success(Choose(player: "p1", label: Label.randomHand)),
-            .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_StealOthersInPlayCard_IfPlayingPanic() throws {
@@ -48,25 +54,29 @@ final class PanicTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .wait([Choose(player: "p1", label: "c3"),
+                       Choose(player: "p1", label: Label.randomHand)]),
+                .input(0),
+                .success(Choose(player: "p1", label: "c3")),
+                .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c3")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .wait([Choose(player: "p1", label: "c3"),
-                   Choose(player: "p1", label: Label.randomHand)]),
-            .input(0),
-            .success(Choose(player: "p1", label: "c3")),
-            .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c3")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
-
+    
     func test_CannotPlayPanic_IfNoCardsToSteal() throws {
         // Given
         let c1 = inventory.getCard("panic", withId: "c1")
@@ -75,13 +85,17 @@ final class PanicTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.playerHasNoCard("p2"))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.playerHasNoCard("p2"))])
+        waitForExpectations(timeout: 0.1)
     }
-
+    
 }

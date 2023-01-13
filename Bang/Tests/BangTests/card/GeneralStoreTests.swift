@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class GeneralStoreTests: EngineTestCase {
+final class GeneralStoreTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_EachPlayerChooseCard_IfPlayingGeneralStore() throws {
         // Given
@@ -24,29 +26,33 @@ final class GeneralStoreTests: EngineTestCase {
                            playOrder: ["p1", "p2", "p3"],
                            turn: "p1",
                            deck: [c2, c3, c4])
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .success(Store()),
+                .success(Store()),
+                .success(Store()),
+                .wait([Choose(player: "p1", label: "c2"),
+                       Choose(player: "p1", label: "c3"),
+                       Choose(player: "p1", label: "c4")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "c2")),
+                .success(DrawStore(player: PlayerId("p1"), card: CardId("c2"))),
+                .wait([Choose(player: "p2", label: "c3"),
+                       Choose(player: "p2", label: "c4")]),
+                .input(1),
+                .success(Choose(player: "p2", label: "c4")),
+                .success(DrawStore(player: PlayerId("p2"), card: CardId("c4"))),
+                .success(DrawStore(player: PlayerId("p3"), card: CardId("c3")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .success(Store()),
-            .success(Store()),
-            .success(Store()),
-            .wait([Choose(player: "p1", label: "c2"),
-                   Choose(player: "p1", label: "c3"),
-                   Choose(player: "p1", label: "c4")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "c2")),
-            .success(DrawStore(player: PlayerId("p1"), card: CardId("c2"))),
-            .wait([Choose(player: "p2", label: "c3"),
-                   Choose(player: "p2", label: "c4")]),
-            .input(1),
-            .success(Choose(player: "p2", label: "c4")),
-            .success(DrawStore(player: PlayerId("p2"), card: CardId("c4"))),
-            .success(DrawStore(player: PlayerId("p3"), card: CardId("c3")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
 }

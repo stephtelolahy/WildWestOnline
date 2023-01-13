@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class CatBalouTests: EngineTestCase {
+final class CatBalouTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_DiscardOthersUniqueHandCard_IfPlayingCatBalou() throws {
         // Given
@@ -20,22 +22,26 @@ final class CatBalouTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .wait([Choose(player: "p1", label: Label.randomHand)]),
+                .input(0),
+                .success(Choose(player: "p1", label: Label.randomHand)),
+                .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .wait([Choose(player: "p1", label: Label.randomHand)]),
-            .input(0),
-            .success(Choose(player: "p1", label: Label.randomHand)),
-            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_DiscardOthersRandomHandCard_IfPlayingCatBalou() throws {
@@ -47,22 +53,26 @@ final class CatBalouTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .wait([Choose(player: "p1", label: Label.randomHand)]),
+                .input(0),
+                .success(Choose(player: "p1", label: Label.randomHand)),
+                .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .wait([Choose(player: "p1", label: Label.randomHand)]),
-            .input(0),
-            .success(Choose(player: "p1", label: Label.randomHand)),
-            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_DiscardOthersInPlayCard_IfPlayingCatBalou() throws {
@@ -74,22 +84,26 @@ final class CatBalouTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .wait([Choose(player: "p1", label: "c2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "c2")),
+                .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .wait([Choose(player: "p1", label: "c2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "c2")),
-            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_CannotPlayCatBalou_IfNoCardsToDiscard() throws {
@@ -100,13 +114,17 @@ final class CatBalouTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.playerHasNoCard("p2"))])
         
         // Phase: Play
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.playerHasNoCard("p2"))])
+        waitForExpectations(timeout: 0.1)
     }
 }

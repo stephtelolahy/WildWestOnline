@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class BangTests: EngineTestCase {
+final class BangTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_DealDamage_IfPlayingBang() throws {
         // Given
@@ -19,20 +21,24 @@ final class BangTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+                .success(Damage(player: PlayerId("p2"), value: 1))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
-            .success(Damage(player: PlayerId("p2"), value: 1))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_CannotPlayBang_IfNoPlayerReachable() throws {
@@ -42,13 +48,17 @@ final class BangTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.noPlayersAt(1))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.noPlayersAt(1))])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_CannotPlayBang_IfReachedLimitPerTurn() throws {
@@ -60,13 +70,17 @@ final class BangTests: EngineTestCase {
                            playOrder: ["p1", "p2"],
                            turn: "p1",
                            played: ["bang"])
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.reachedLimitPerTurn(1))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.reachedLimitPerTurn(1))])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_CounterBang_IfPlayingMissed() throws {
@@ -78,24 +92,28 @@ final class BangTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+                .wait([Choose(player: "p2", label: "c2"),
+                       Choose(player: "p2", label: Label.pass)]),
+                .input(0),
+                .success(Choose(player: "p2", label: "c2")),
+                .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
-            .wait([Choose(player: "p2", label: "c2"),
-                   Choose(player: "p2", label: Label.pass)]),
-            .input(0),
-            .success(Choose(player: "p2", label: "c2")),
-            .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
     func test_DoNotCounterBang_IfMissedNotPlayed() throws {
@@ -107,23 +125,27 @@ final class BangTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .wait([Choose(player: "p1", label: "p2")]),
+                .input(0),
+                .success(Choose(player: "p1", label: "p2")),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
+                .wait([Choose(player: "p2", label: "c2"),
+                       Choose(player: "p2", label: Label.pass)]),
+                .input(1),
+                .success(Choose(player: "p2", label: Label.pass)),
+                .success(Damage(player: PlayerId("p2"), value: 1))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")]),
-            .input(0),
-            .success(Choose(player: "p1", label: "p2")),
-            .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
-            .wait([Choose(player: "p2", label: "c2"),
-                   Choose(player: "p2", label: Label.pass)]),
-            .input(1),
-            .success(Choose(player: "p2", label: Label.pass)),
-            .success(Damage(player: PlayerId("p2"), value: 1))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
 }

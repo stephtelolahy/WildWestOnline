@@ -10,7 +10,7 @@ public struct EngineImpl: Engine {
     
     public var state: CurrentValueSubject<Game, Never>
     
-    public init(ctx: Game) {
+    public init(_ ctx: Game) {
         self.state = CurrentValueSubject(ctx)
     }
     

@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class MissedTests: EngineTestCase {
+final class MissedTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_CannotPlayMissed_CardHasNoEffect() throws {
         // Given
@@ -17,12 +19,16 @@ final class MissedTests: EngineTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
                            turn: "p1")
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+                        
+                        createExpectation(
+                            engine: sut,
+                            expected: [.error(.cardHasNoEffect)])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([.error(.cardHasNoEffect)])
+        waitForExpectations(timeout: 0.1)
     }
 }

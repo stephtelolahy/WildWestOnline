@@ -9,7 +9,9 @@
 import XCTest
 import Bang
 
-final class WellsFargoTests: EngineTestCase {
+final class WellsFargoTests: XCTestCase {
+    
+    private let inventory: Inventory = InventoryImpl()
     
     func test_Draw3Cards_IfPlayingWellsFargo() throws {
         // Given
@@ -21,18 +23,22 @@ final class WellsFargoTests: EngineTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            turn: "p1",
                            deck: [c2, c3, c4])
-        setupGame(ctx)
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .success(DrawDeck(player: PlayerId("p1"))),
+                .success(DrawDeck(player: PlayerId("p1"))),
+                .success(DrawDeck(player: PlayerId("p1")))
+            ])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
         
         // Assert
-        try assertSequence([
-            .success(Play(actor: "p1", card: "c1")),
-            .success(DrawDeck(player: PlayerId("p1"))),
-            .success(DrawDeck(player: PlayerId("p1"))),
-            .success(DrawDeck(player: PlayerId("p1")))
-        ])
+        waitForExpectations(timeout: 0.1)
     }
     
 }
