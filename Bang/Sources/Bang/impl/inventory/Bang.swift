@@ -13,7 +13,8 @@ enum Bang {
         .init(name: "endTurn",
               onPlay: [Repeat(times: NumExcessHand(),
                               effect: Discard(player: PlayerActor(), card: CardSelectHand())),
-                       SetTurn(player: PlayerNext())])
+                       SetTurn(player: PlayerNext())]),
+        .init(name: "startTurn")
     ]
     
     static let collectibleCards: [CardImpl] = [
