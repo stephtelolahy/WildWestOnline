@@ -11,6 +11,7 @@ public struct PlayerOthers: ArgPlayer, Equatable {
     public init() {}
     
     public func resolve(_ ctx: Game) -> Result<ArgResolved, GameError> {
-        fatalError()
+        let others = Array(ctx.playOrder.starting(with: ctx.actor).dropFirst())
+        return .success(.identified(others))
     }
 }

@@ -64,7 +64,7 @@ final class MissedTests: EngineTestCase {
             .wait([Choose(player: "p2", label: "c2"),
                    Choose(player: "p2", label: Label.pass)]),
             .input(1),
-            .success(Choose(player: "p2", label: "c2")),
+            .success(Choose(player: "p2", label: Label.pass)),
             .success(Damage(player: PlayerId("p2"), value: 1))
         ])
     }
