@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
-// swiftlint:disable force_cast
 
 import XCTest
 import Bang
@@ -18,7 +17,7 @@ extension XCTestCase {
         line: UInt = #line
     ) {
         assertIsSuccess(result) {
-            XCTAssertEqual($0 as! T, aValue, file: file, line: line)
+            XCTAssertEqual($0 as? T, aValue, file: file, line: line)
         }
     }
     

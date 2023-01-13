@@ -27,8 +27,8 @@ final class BangTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")],
-                  input: 0),
+            .wait([Choose(player: "p1", label: "p2")]),
+            .input(0),
             .success(Choose(player: "p1", label: "p2")),
             .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandMatch("missed"))),
             .success(Damage(player: PlayerId("p2"), value: 1))

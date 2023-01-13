@@ -14,7 +14,8 @@ import Combine
 enum GameEvent {
     case success(Effect)
     case error(GameError)
-    case wait([Effect], input: Int)
+    case wait([Effect])
+    case input(Int)
 }
 
 /// Testing card features using engine
@@ -25,6 +26,7 @@ class EngineTestCase: XCTestCase {
     let inventory: Inventory = InventoryImpl()
     
     private var events: [Result<Effect, GameError>] = []
+    var fullSequence: [Result<Effect, GameError>?] = []
     
     private var state: Game { sut.state.value }
     
@@ -35,11 +37,13 @@ class EngineTestCase: XCTestCase {
         sut = EngineImpl(ctx: ctx)
         sut.state.sink { [weak self] in
             self?.events.appendNotNil($0.event)
+            self?.fullSequence.append($0.event)
         }
         .store(in: &cancellables)
     }
     
     /// Assert events contains given events
+    // swiftlint:disable:next cyclomatic_complexity
     func assertSequence(_ expected: [GameEvent], file: StaticString = #filePath, line: UInt = #line) throws {
         for index in expected.indices {
             switch expected[index] {
@@ -61,7 +65,7 @@ class EngineTestCase: XCTestCase {
                 
                 assertIsFailure(events.removeFirst(), equalTo: expectedError, file: file, line: line)
                 
-            case let .wait(expectedOptions, input: choiceIndex):
+            case let .wait(expectedOptions):
                 guard state.decisions.count == expectedOptions.count else {
                     throw IllegalStateError(message: "Expected decision has \(expectedOptions.count) options but got \(state.decisions.count)")
                 }
@@ -74,6 +78,8 @@ class EngineTestCase: XCTestCase {
                     assertEqual(state.decisions[optionIndex], expectedOption, file: file, line: line)
                 }
                 
+            case let .input(choiceIndex):
+                XCTAssertTrue(events.isEmpty, "Expected events to be empty before performing decision", file: file, line: line)
                 sut.input(state.decisions[choiceIndex])
             }
         }

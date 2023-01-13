@@ -24,6 +24,7 @@ public struct EngineImpl: Engine {
             ctx.decisions.removeAll()
         }
         
+        ctx.event = nil
         state.send(ctx)
         
         update()

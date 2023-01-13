@@ -57,7 +57,7 @@ public struct ForceDiscard: Effect, Equatable {
             choices.append(Choose(player: playerId,
                                   label: Label.pass,
                                   effects: otherwise))
-            return .success(EffectOutputImpl(options: choices))
+            return .success(EffectOutputImpl(state: ctx, options: choices))
         }
     }
 }

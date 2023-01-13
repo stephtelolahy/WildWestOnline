@@ -50,8 +50,8 @@ final class EndTurnTests: EngineTestCase {
         try assertSequence([
             .success(Play(actor: "p1", card: "a1")),
             .wait([Choose(player: "p1", label: "c1"),
-                   Choose(player: "p1", label: "c2")],
-                  input: 1),
+                   Choose(player: "p1", label: "c2")]),
+            .input(1),
             .success(Choose(player: "p1", label: "c2")),
             .success(Discard(player: PlayerId("p1"), card: CardId("c2"))),
             .success(SetTurn(player: PlayerId("p2")))
@@ -79,13 +79,13 @@ final class EndTurnTests: EngineTestCase {
             .success(Play(actor: "p1", card: "a1")),
             .wait([Choose(player: "p1", label: "c1"),
                    Choose(player: "p1", label: "c2"),
-                   Choose(player: "p1", label: "c3")],
-                  input: 1),
+                   Choose(player: "p1", label: "c3")]),
+            .input(1),
             .success(Choose(player: "p1", label: "c2")),
             .success(Discard(player: PlayerId("p1"), card: CardId("c2"))),
             .wait([Choose(player: "p1", label: "c1"),
-                   Choose(player: "p1", label: "c3")],
-                  input: 1),
+                   Choose(player: "p1", label: "c3")]),
+            .input(1),
             .success(Choose(player: "p1", label: "c3")),
             .success(Discard(player: PlayerId("p1"), card: CardId("c3"))),
             .success(SetTurn(player: PlayerId("p2")))

@@ -28,11 +28,11 @@ final class PanicTests: EngineTestCase {
         // Assert
         try assertSequence([
             .success(Play(actor: "p1", card: "c1")),
-            .wait([Choose(player: "p1", label: "p2")],
-                  input: 0),
+            .wait([Choose(player: "p1", label: "p2")]),
+            .input(0),
             .success(Choose(player: "p1", label: "p2")),
-            .wait([Choose(player: "p1", label: Label.randomHand)],
-                  input: 0),
+            .wait([Choose(player: "p1", label: Label.randomHand)]),
+            .input(0),
             .success(Choose(player: "p1", label: Label.randomHand)),
             .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2")))
         ])
