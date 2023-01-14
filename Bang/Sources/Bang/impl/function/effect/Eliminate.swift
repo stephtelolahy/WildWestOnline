@@ -7,7 +7,7 @@
 
 /// Remove player from game
 public struct Eliminate: Effect, Equatable {
-    @EquatableCast private var player: ArgPlayer
+    @EquatableCast var player: ArgPlayer
     
     public init(player: ArgPlayer) {
         self.player = player

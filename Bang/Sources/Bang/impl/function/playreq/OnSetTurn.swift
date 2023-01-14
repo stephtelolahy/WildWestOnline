@@ -5,8 +5,10 @@
 //  Created by Hugues Telolahy on 13/01/2023.
 //
 
-/// On setting turn
+/// When setting turn
 public struct OnSetTurn: PlayReq, Equatable {
+    
+    public init() {}
     
     public func verify(_ ctx: Game) -> Result<Void, GameError> {
         guard case let .success(effect) = ctx.event,

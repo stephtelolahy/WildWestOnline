@@ -1,5 +1,5 @@
 //
-//  LeaveGameTests.swift
+//  GameOverTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 14/01/2023.
@@ -9,24 +9,24 @@
 import XCTest
 import Bang
 
-final class LeaveGameTests: XCTestCase {
+final class GameOverTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
     
-    func test_Eliminate_OnLoosingLastHealth() {
+    func test_EndGame_OnEliminated() {
         // Given
-        let c1 = inventory.getCard("leaveGame", withId: "c1")
-        let p1 = PlayerImpl(health: 0, abilities: [c1])
+        let c1 = inventory.getCard("gameOver", withId: "c1")
+        let p1 = PlayerImpl(abilities: [c1])
         let p2 = PlayerImpl(abilities: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           event: .success(Damage(player: PlayerId("p1"), value: 1)))
+                           event: .success(Eliminate(player: PlayerId("p1"))))
         let sut = EngineImpl(ctx)
         
         createExpectation(
             engine: sut,
             expected: [
                 .success(Trigger(actor: "p1", card: "c1")),
-                .success(Eliminate(player: PlayerId("p1")))
+                .success(EndGame())
             ])
         
         // When

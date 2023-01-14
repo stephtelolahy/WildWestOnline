@@ -28,7 +28,7 @@ public struct EngineImpl: Engine {
             return
         }
         
-        // if waiting, do nothing
+        // if waiting player action, do nothing
         guard ctx.options.isEmpty else {
             return
         }
@@ -45,7 +45,7 @@ public struct EngineImpl: Engine {
         // if queue empty
         guard !ctx.queue.isEmpty else {
             // TODO: cleanup queue data
-            // TODO: wait active moves
+            // TODO: set active moves if any
             return
         }
         

@@ -20,7 +20,10 @@ enum Bang {
                                  effect: DrawDeck(player: PlayerActor()))]),
         .init(name: "leaveGame",
               triggers: [OnLooseLastHealth()],
-              onTrigger: [Eliminate(player: PlayerActor())])
+              onTrigger: [Eliminate(player: PlayerActor())]),
+        .init(name: "gameOver",
+             triggers: [OnEliminated()],
+             onTrigger: [EndGame()])
     ]
     
     static let collectibleCards: [CardImpl] = [

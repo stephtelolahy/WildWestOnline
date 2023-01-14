@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-/// The minimum number of alive players is X
+/// The minimum number of active players is X
 public struct IsPlayersAtLeast: PlayReq, Equatable {
     private let count: Int
     

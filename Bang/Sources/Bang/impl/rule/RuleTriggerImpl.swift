@@ -9,7 +9,7 @@ extension GameRules: RuleTrigger {
     
     public func triggeredMoves(_ ctx: Game) -> [Effect] {
         var result: [Effect] = []
-        for playerId in ctx.playOrder {
+        for (playerId, _) in ctx.players {
             for ability in ctx.player(playerId).abilities {
                 if case .success = willTrigger(ability, actor: playerId, ctx: ctx) {
                     result.append(Trigger(actor: playerId, card: ability.id))

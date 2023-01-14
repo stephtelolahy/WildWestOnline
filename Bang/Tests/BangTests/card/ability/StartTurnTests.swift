@@ -22,7 +22,6 @@ final class StartTurnTests: XCTestCase {
         let p2 = PlayerImpl(abilities: [c1])
         let deck = [CardImpl(), CardImpl()]
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
                            turn: "p1",
                            deck: deck,
                            event: .success(SetTurn(player: PlayerId("p1"))))

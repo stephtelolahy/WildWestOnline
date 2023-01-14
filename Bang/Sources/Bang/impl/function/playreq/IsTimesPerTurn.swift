@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 
+/// The maximum times per turn a card may be played is X
 public struct IsTimesPerTurn: PlayReq, Equatable {
     private let maxTimes: Int
     

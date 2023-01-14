@@ -27,7 +27,7 @@ public protocol Game {
     var store: [Card] { get set }
     
     /// is Game over
-    var isOver: Bool { get }
+    var isOver: Bool { get set }
     
     /// played cards during current turn
     var played: [String] { get set }

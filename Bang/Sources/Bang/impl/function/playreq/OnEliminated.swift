@@ -1,20 +1,19 @@
 //
-//  OnLooseLastHealth.swift
+//  OnEliminated.swift
 //  
 //
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 
-/// When loosing last life point
-public struct OnLooseLastHealth: PlayReq, Equatable {
+/// When just eliminated
+public struct OnEliminated: PlayReq, Equatable {
     
     public init() {}
     
     public func verify(_ ctx: Game) -> Result<Void, GameError> {
         guard case let .success(effect) = ctx.event,
-              let damage = effect as? Damage,
-              let playerId = (damage.player as? PlayerId)?.id,
-              ctx.player(playerId).health <= 0,
+              let eliminate = effect as? Eliminate,
+              let playerId = (eliminate.player as? PlayerId)?.id,
               playerId == ctx.actor else {
             return .failure(.unknown)
         }
