@@ -16,15 +16,15 @@ final class LeaveGameTests: XCTestCase {
     func test_Eliminate_OnLoosingLastHealth() {
         // Given
         let c1 = inventory.getCard("leaveGame", withId: "c1")
-        let p1 = PlayerImpl(health: 0, abilities: [c1])
+        let p1 = PlayerImpl(health: 1, abilities: [c1])
         let p2 = PlayerImpl(abilities: [c1])
-        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           event: .success(Damage(player: PlayerId("p1"), value: 1)))
-        let sut = EngineImpl(ctx)
+        let ctx = GameImpl(players: ["p1": p1, "p2": p2])
+        let sut = EngineImpl(ctx, queue: [Damage(player: PlayerId("p1"), value: 1)])
         
         createExpectation(
             engine: sut,
             expected: [
+                .success(Damage(player: PlayerId("p1"), value: 1)),
                 .success(Trigger(actor: "p1", card: "c1")),
                 .success(Eliminate(player: PlayerId("p1")))
             ])

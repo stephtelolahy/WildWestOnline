@@ -20,7 +20,7 @@ public class EngineImpl: Engine {
     public func start() {
         let ctx = state.value
         
-        // verify game already started
+        // if game already started then return
         guard ctx.turn == nil else {
             return
         }
@@ -31,42 +31,34 @@ public class EngineImpl: Engine {
     
     public func input(_ move: Effect) {
         let newCtx = Self.processInput(move, queue: &queue, ctx: state.value)
-        state.send(newCtx)
-        update()
+        _update(newCtx)
     }
     
     public func update() {
-        let ctx = state.value
-        
+        _update(state.value)
+    }
+}
+
+private extension EngineImpl {
+    
+    func _update(_ ctx: Game) {
         // if game is over, do nothing
         if ctx.isOver {
             return
         }
         
         // if waiting player action, do nothing
-        guard ctx.options.isEmpty else {
+        if !ctx.options.isEmpty {
             return
         }
         
-        // push triggered moves if any
-        let triggered = Rules.main.triggeredMoves(ctx)
-        if !triggered.isEmpty {
-            let newCtx = Self.processTriggered(triggered, queue: &queue, ctx: ctx)
-            state.send(newCtx)
-            update()
-            return
-        }
-        
-        // if queue empty
-        guard !queue.isEmpty else {
-            
-            // queue active moves if any
+        // idle, emit active moves if any
+        if queue.isEmpty {
             let active = Rules.main.activeMoves(ctx)
             if !active.isEmpty {
                 let newCtx = Self.processActive(active, ctx: ctx)
                 state.send(newCtx)
             }
-            
             return
         }
         
@@ -75,9 +67,6 @@ public class EngineImpl: Engine {
         state.send(newCtx)
         update()
     }
-}
-
-private extension EngineImpl {
     
     /// Update game when a move entered
     static func processInput(_ move: Effect, queue: inout [Effect], ctx: Game) -> Game {
@@ -96,7 +85,6 @@ private extension EngineImpl {
         
         queue.insert(move, at: 0)
         
-        ctx.event = nil
         return ctx
     }
     
@@ -104,22 +92,29 @@ private extension EngineImpl {
     static func processQueue(_ queue: inout [Effect], ctx: Game) -> Game {
         var ctx = ctx
         ctx.event = nil
+        
         let effect = queue.remove(at: 0)
         
         let result = effect.resolve(ctx)
         switch result {
         case let .success(output):
-            if let outputState = output.state {
-                ctx = outputState
+            if let update = output.state {
+                ctx = update
                 ctx.event = .success(effect)
             }
             
-            if let effects = output.effects {
-                queue.insert(contentsOf: effects, at: 0)
+            if let children = output.effects {
+                queue.insert(contentsOf: children, at: 0)
             }
             
             if let options = output.options {
                 ctx.options = options
+            }
+            
+            // push triggered moves if any
+            let triggered = Rules.main.triggeredMoves(ctx)
+            if !triggered.isEmpty {
+                queue.append(contentsOf: triggered)
             }
             
             return ctx
@@ -130,14 +125,6 @@ private extension EngineImpl {
         }
     }
     
-    /// Update game with  triggered effects
-    static func processTriggered(_ moves: [Effect], queue: inout [Effect], ctx: Game) -> Game {
-        var ctx = ctx
-        ctx.event = nil
-        queue.insert(contentsOf: moves, at: 0)
-        return ctx
-    }
-    
     /// Update game with  active moves
     static func processActive(_ moves: [Effect], ctx: Game) -> Game {
         var ctx = ctx
@@ -146,7 +133,7 @@ private extension EngineImpl {
         // cleanup
         ctx.currentCard = nil
         ctx.currentActor = nil
-        ctx.event = nil
+        ctx.currentPlayer = nil
         
         return ctx
     }

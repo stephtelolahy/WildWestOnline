@@ -23,13 +23,13 @@ final class StartTurnTests: XCTestCase {
         let deck = [CardImpl(), CardImpl()]
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            turn: "p1",
-                           deck: deck,
-                           event: .success(SetTurn(player: PlayerId("p1"))))
-        let sut = EngineImpl(ctx)
+                           deck: deck)
+        let sut = EngineImpl(ctx, queue: [SetTurn(player: PlayerId("p1"))])
         
         createExpectation(
             engine: sut,
             expected: [
+                .success(SetTurn(player: PlayerId("p1"))),
                 .success(Trigger(actor: "p1", card: "c1")),
                 .success(DrawDeck(player: PlayerId("p1"))),
                 .success(DrawDeck(player: PlayerId("p1")))

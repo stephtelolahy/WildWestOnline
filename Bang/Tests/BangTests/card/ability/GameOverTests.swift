@@ -18,13 +18,13 @@ final class GameOverTests: XCTestCase {
         let c1 = inventory.getCard("gameOver", withId: "c1")
         let p1 = PlayerImpl(abilities: [c1])
         let p2 = PlayerImpl(abilities: [c1])
-        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           event: .success(Eliminate(player: PlayerId("p1"))))
-        let sut = EngineImpl(ctx)
+        let ctx = GameImpl(players: ["p1": p1, "p2": p2])
+        let sut = EngineImpl(ctx, queue: [Eliminate(player: PlayerId("p1"))])
         
         createExpectation(
             engine: sut,
             expected: [
+                .success(Eliminate(player: PlayerId("p1"))),
                 .success(Trigger(actor: "p1", card: "c1")),
                 .success(EndGame())
             ])
