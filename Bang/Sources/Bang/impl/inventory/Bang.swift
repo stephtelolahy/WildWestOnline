@@ -22,8 +22,8 @@ enum Bang {
               triggers: [OnLooseLastHealth()],
               onTrigger: [Eliminate(player: PlayerActor())]),
         .init(name: "gameOver",
-             triggers: [OnEliminated()],
-             onTrigger: [EndGame()])
+              triggers: [OnEliminated()],
+              onTrigger: [EndGame()])
     ]
     
     static let collectibleCards: [CardImpl] = [
@@ -45,7 +45,7 @@ enum Bang {
                               effect: Store()),
                        DrawStore(player: PlayerAll(),
                                  card: CardSelectStore())]),
-        // TODO: catBalou permit to discard self's inPlay card, so add new player argument: anyOrSelf
+        // TODO: catBalou may discard self's inPlay card, so add new player argument: anyOrSelf
         .init(name: "catBalou",
               onPlay: [Discard(player: PlayerSelectAny(),
                                card: CardSelectAny())]),

@@ -9,7 +9,7 @@
 public protocol Card {
     
     /// card unique identifier
-    var id: String { get }
+    var id: String { get set }
     
     /// card name
     var name: String { get }

@@ -25,6 +25,23 @@ public struct InventoryImpl: Inventory {
     public func getAbilities() -> [Card] {
         Bang.abilities
     }
+    
+    public func getDeck() -> [Card] {
+        let cardSets = Bang.cardSets
+        let uniqueCards = Bang.collectibleCards
+        var cards: [Card] = []
+        for (key, values) in cardSets {
+            if let card = uniqueCards.first(where: { $0.name == key }) {
+                for value in values {
+                    var copy = card
+                    copy.value = value
+                    copy.id = "\(key)-\(value)"
+                    cards.append(copy)
+                }
+            }
+        }
+        return cards
+    }
 }
 
 private extension InventoryImpl {

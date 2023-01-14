@@ -16,4 +16,7 @@ public protocol Inventory {
     
     /// get all default player abilities
     func getAbilities() -> [Card]
+    
+    /// build  deck
+    func getDeck() -> [Card]
 }
