@@ -15,10 +15,10 @@ public struct GameImpl: Game {
     public var isOver: Bool
     public var played: [String]
     public var options: [Effect]
-    public var queue: [Effect]
-    public var queueActor: String?
-    public var queueCard: Card?
-    public var queuePlayer: String?
+    // TODO rename to current
+    public var currentActor: String?
+    public var currentCard: Card?
+    public var currentPlayer: String?
     public var event: Result<Effect, GameError>?
     
     public init(players: [String: Player] = [:],
@@ -30,10 +30,9 @@ public struct GameImpl: Game {
                 isOver: Bool = false,
                 played: [String] = [],
                 options: [Effect] = [],
-                queue: [Effect] = [],
-                queueActor: String? = nil,
-                queueCard: Card? = nil,
-                queuePlayer: String? = nil,
+                currentActor: String? = nil,
+                currentCard: Card? = nil,
+                currentPlayer: String? = nil,
                 event: Result<Effect, GameError>? = nil) {
         self.players = players
         self.playOrder = playOrder
@@ -44,10 +43,9 @@ public struct GameImpl: Game {
         self.isOver = isOver
         self.played = played
         self.options = options
-        self.queue = queue
-        self.queueActor = queueActor
-        self.queueCard = queueCard
-        self.queuePlayer = queuePlayer
+        self.currentActor = currentActor
+        self.currentCard = currentCard
+        self.currentPlayer = currentPlayer
         self.event = event
     }
     

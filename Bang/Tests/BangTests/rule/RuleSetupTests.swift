@@ -37,9 +37,6 @@ final class RuleSetupTests: XCTestCase {
         XCTAssertEqual(ctx.player("p2").health, 4)
         XCTAssertEqual(ctx.player("p2").hand.count, 4)
         XCTAssertEqual(ctx.player("p2").abilities.map(\.id), ["a1"])
-        
-        XCTAssertEqual(ctx.queue.count, 1)
-        XCTAssertEqual(ctx.queue.first as? SetTurn, SetTurn(player: PlayerId("p1")))
     }
     
 }

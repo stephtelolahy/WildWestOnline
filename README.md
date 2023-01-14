@@ -1,27 +1,34 @@
 # WildWestOnline
 
-Prototyping a game engine for the [Bang](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game.
+Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game.
 
 ### Features
 
-- Engine is open source
-- Powerful scripting language using JSON
-- Card design is available using human readable data
-- Any can play online using browser or mobile
+- [x] Engine is open source
+- [ ] Powerful scripting language using JSON 
+- [ ] Support classic Bang! and extensions
+- [ ] Any can play online
 
-## Data driven
-
-- Game = State + Commands
-- Move = Any action taken by the player
-- Sequence = A Sequence is what begins when a Player Action is taken
-- Effect = Any change in the game state = Action + Args + Context
+## Terminology
+- Engine: game interface
+- Queue: events queue
+- State: bunch of data describing game state
+- Card: card abilities as data
+- Effect: any change in the game state, applied with argument
+- Move: any action taken by the player
+- Sequence: what begins when a Player Action is taken
+- Option: a choice that have to be made by player when resolving sequence
 
 ## Effect solving
 
-Effect may be blocked waiting user input.
-=> show request input through state
+- Effect solving uses graph structure
+- Effect may be blocked waiting user input. => show options through state
 
 ## Architecture
+
+### Sequence
+
+![](docs/sequence.png)
 
 ### Layers
 
@@ -30,7 +37,3 @@ Effect may be blocked waiting user input.
 ### Game objects
 
 ![](docs/data_structure.png)
-
-### Sequence
-
-![](docs/sequence.png)

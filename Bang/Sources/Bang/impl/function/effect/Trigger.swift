@@ -29,9 +29,9 @@ public struct Trigger: Effect, Equatable {
             fatalError(.missingPlayerCard(card))
         }
         
-        /// add queue data
-        ctx.queueActor = actor
-        ctx.queueCard = cardObj
+        /// mark playing data
+        ctx.currentActor = actor
+        ctx.currentCard = cardObj
         
         /// push child effects
         let children = cardObj.onTrigger

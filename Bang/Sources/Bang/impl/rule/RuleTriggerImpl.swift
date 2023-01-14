@@ -26,10 +26,10 @@ extension Rules: RuleTrigger {
             return .failure(.unknown)
         }
         
-        /// add queue data
+        /// mark playing data
         var ctx = ctx
-        ctx.queueActor = actor
-        ctx.queueCard = card
+        ctx.currentActor = actor
+        ctx.currentCard = card
         
         /// verify all requirements
         for playReq in card.triggers {

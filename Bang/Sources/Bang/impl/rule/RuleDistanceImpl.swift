@@ -8,7 +8,7 @@
 extension Rules: RuleDistance {
     
     public func playersAt(_ distance: Int, from player: String, in ctx: Game) -> [String] {
-        // TODO: implement
+        // TODO: compute distance
         ctx.playOrder.filter { $0 != player }
     }
 }

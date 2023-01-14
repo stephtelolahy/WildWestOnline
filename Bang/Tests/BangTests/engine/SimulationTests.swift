@@ -36,9 +36,8 @@ final class SimulationTests: XCTestCase {
         let deck = inventory.getDeck()
         let abilities = inventory.getAbilities()
         let ctx = setup.createGame(playersCount: playersCount, deck: deck, abilities: abilities)
-        
         sut = EngineImpl(ctx)
-        
+        aiAgent.playAny(sut)
         sut.state.sink { [self] in
             
             updates += 1
@@ -54,8 +53,8 @@ final class SimulationTests: XCTestCase {
         }
         .store(in: &cancellables)
         
+        sut.start()
         sut.update()
-        aiAgent.playAny(sut)
     }
     
     private func printEvent(_ event: Result<Effect, GameError>) {

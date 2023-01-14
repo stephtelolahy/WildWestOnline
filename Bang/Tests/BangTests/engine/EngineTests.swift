@@ -15,8 +15,8 @@ class EngineTests: XCTestCase {
     
     func test_StopUpdates_IfGameIsOver() {
         // Given
-        let ctx = GameImpl(isOver: true, queue: [Dummy()])
-        let sut = EngineImpl(ctx)
+        let ctx = GameImpl(isOver: true)
+        let sut = EngineImpl(ctx, queue: [Dummy()])
         
         var events: [Result<Effect, GameError>] = []
         sut.state.sink {
@@ -29,6 +29,19 @@ class EngineTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(events.count, 0)
+    }
+    
+    func test_SetTurnToSheriff_IfStartingGame() {
+        // Given
+        let ctx = GameImpl(playOrder: ["p1", "p2", "p3"])
+        let sut = EngineImpl(ctx)
+        
+        // When
+        sut.start()
+        
+        // Assert
+        XCTAssertEqual(sut.queue.count, 1)
+        XCTAssertEqual(sut.queue.first as? SetTurn, SetTurn(player: PlayerId("p1")))
     }
     
 }

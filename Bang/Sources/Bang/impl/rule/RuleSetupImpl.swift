@@ -11,7 +11,6 @@ extension Rules: RuleSetup {
         var deck = deck.shuffled()
         var players: [String: Player] = [:]
         var playOrder: [String] = []
-        var queue: [Effect] = []
         
         let identifiableAbilities = abilities.map {
             var copy = $0
@@ -32,17 +31,11 @@ extension Rules: RuleSetup {
                                     hand: hand)
             players[id] = player
             playOrder.append(id)
-            
-            // TODO: queue event to set turn Sheriff
-            if index == 1 {
-                queue.append(SetTurn(player: PlayerId(id)))
-            }
         }
         
         return GameImpl(players: players,
                         playOrder: playOrder,
-                        deck: deck,
-                        queue: queue)
+                        deck: deck)
     }
 
 }

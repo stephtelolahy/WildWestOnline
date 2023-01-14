@@ -34,9 +34,9 @@ public struct ChallengeDiscard: Effect, Equatable {
             }
         }
         
-        // add current player to queue data
+        // mark current player
         var ctx = ctx
-        ctx.queuePlayer = playerId
+        ctx.currentPlayer = playerId
         
         // resolving card
         switch card.resolve(ctx, chooser: playerId, owner: playerId) {

@@ -122,8 +122,8 @@ extension XCTestCase {
                         return
                     }
                     
-                    guard ctx.queue.isEmpty else {
-                        XCTFail("Expected is empty but queue remains \(ctx.queue.count)", file: file, line: line)
+                    guard sut.queue.isEmpty else {
+                        XCTFail("Expected is empty but queue remains \(sut.queue.count)", file: file, line: line)
                         cancellables.removeAll()
                         return
                     }

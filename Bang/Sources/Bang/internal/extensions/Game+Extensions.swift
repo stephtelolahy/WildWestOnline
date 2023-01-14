@@ -10,7 +10,7 @@ extension Game {
     
     /// current actor
     var actor: String {
-        guard let actorId = queueActor else {
+        guard let actorId = currentActor else {
             fatalError(.missingActor)
         }
         

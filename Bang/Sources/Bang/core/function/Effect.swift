@@ -17,9 +17,9 @@ public protocol EffectOutput {
     /// Updated `State`
     var state: Game? { get }
     
-    /// Resolving effect arguments, by pushing child effects
+    /// Child effect on resolving arguments
     var effects: [Effect]? { get }
     
-    /// Suspended queue waiting user action
+    /// Waiting user action
     var options: [Effect]? { get }
 }

@@ -35,17 +35,14 @@ public protocol Game {
     /// pending actions among which one must be choosen to proceed effect resolving
     var options: [Effect] { get set }
     
-    /// effects queue that have to be resolved in order
-    var queue: [Effect] { get set }
+    /// current actor
+    var currentActor: String? { get set }
     
-    /// queue's actor
-    var queueActor: String? { get set }
+    /// currently played card
+    var currentCard: Card? { get set }
     
-    /// queue's card
-    var queueCard: Card? { get set }
-    
-    /// queue's current player id
-    var queuePlayer: String? { get set }
+    /// current player id
+    var currentPlayer: String? { get set }
     
     /// last occurred event
     var event: Result<Effect, GameError>? { get set }

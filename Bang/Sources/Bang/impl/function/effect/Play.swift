@@ -44,9 +44,9 @@ public struct Play: Effect, Equatable {
             return .failure(error)
         }
         
-        /// add queue data
-        ctx.queueActor = actor
-        ctx.queueCard = cardObj
+        /// mark playing data
+        ctx.currentActor = actor
+        ctx.currentCard = cardObj
         ctx.played.append(cardObj.name)
         
         /// push child effects

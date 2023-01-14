@@ -10,8 +10,8 @@ extension Rules: RulePlay {
     public func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError> {
         // add playing data
         var ctx = ctx
-        ctx.queueActor = actor
-        ctx.queueCard = card
+        ctx.currentActor = actor
+        ctx.currentCard = card
         
         // verify all requirements
         for playReq in card.canPlay {

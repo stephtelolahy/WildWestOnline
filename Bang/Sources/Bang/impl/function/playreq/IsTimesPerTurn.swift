@@ -19,7 +19,7 @@ public struct IsTimesPerTurn: PlayReq, Equatable {
             return .success
         }
         
-        let playedTimes = ctx.played.filter { $0 == ctx.queueCard?.name }.count
+        let playedTimes = ctx.played.filter { $0 == ctx.currentCard?.name }.count
         guard playedTimes < maxTimes else {
             return .failure(.reachedLimitPerTurn(maxTimes))
         }
