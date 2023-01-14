@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "26699F1628455FB8008040E5"
-               BuildableName = "CardGameDemo.app"
-               BlueprintName = "CardGameDemo"
-               ReferencedContainer = "container:CardGameDemo.xcodeproj">
+               BuildableName = "WildWestOnline.app"
+               BlueprintName = "WildWestOnline"
+               ReferencedContainer = "container:WildWestOnline.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "26699F1628455FB8008040E5"
-            BuildableName = "CardGameDemo.app"
-            BlueprintName = "CardGameDemo"
-            ReferencedContainer = "container:CardGameDemo.xcodeproj">
+            BuildableName = "WildWestOnline.app"
+            BlueprintName = "WildWestOnline"
+            ReferencedContainer = "container:WildWestOnline.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -102,9 +102,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "26699F1628455FB8008040E5"
-            BuildableName = "CardGameDemo.app"
-            BlueprintName = "CardGameDemo"
-            ReferencedContainer = "container:CardGameDemo.xcodeproj">
+            BuildableName = "WildWestOnline.app"
+            BlueprintName = "WildWestOnline"
+            ReferencedContainer = "container:WildWestOnline.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

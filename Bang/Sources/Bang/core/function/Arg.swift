@@ -23,7 +23,7 @@ public protocol ArgCard {
     /// Resolving card argument
     /// - Parameters:
     ///   - ctx: game state
-    ///   - chooser: player making choice if any
+    ///   - chooser: player making choice
     ///   - owner: player owning the card if any
     func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgResolved, GameError>
 }

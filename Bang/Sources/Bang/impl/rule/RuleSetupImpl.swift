@@ -1,13 +1,11 @@
 //
-//  SetupImpl.swift
+//  RuleSetupImpl.swift
 //  
 //
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 
-public struct SetupImpl: Setup {
-    
-    public init() {}
+extension Rules: RuleSetup {
     
     public func createGame(playersCount: Int, deck: [Card], abilities: [Card]) -> Game {
         var deck = deck.shuffled()
@@ -46,4 +44,5 @@ public struct SetupImpl: Setup {
                         deck: deck,
                         queue: queue)
     }
+
 }

@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  CardGameDemo
+//  WildWestOnline
 //
 //  Created by TELOLAHY Hugues Stéphano on 30/05/2022.
 //

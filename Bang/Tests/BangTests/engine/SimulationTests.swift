@@ -15,7 +15,7 @@ final class SimulationTests: XCTestCase {
     private var sut: Engine!
     private var cancellables = Set<AnyCancellable>()
     
-    private let setup: Setup = SetupImpl()
+    private let setup: RuleSetup = Rules.main
     private let inventory: Inventory = InventoryImpl()
     private let aiAgent: AIAgent = AIAgentImpl(strategy: AIStrategyRandom())
     private var updates = 0
