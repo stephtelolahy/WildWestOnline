@@ -23,7 +23,7 @@ final class SimulationTests: XCTestCase {
     func test_Simulate2PlayersGame() {
         // Given
         // When
-        let expectation = expectation(description: "Game should complete")
+        let expectation = expectation(description: "game completed")
         runSimulation(playersCount: 2) {
             expectation.fulfill()
         }

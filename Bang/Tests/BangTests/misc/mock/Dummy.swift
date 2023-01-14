@@ -10,6 +10,6 @@ import Bang
 struct Dummy: Effect, Equatable {
 
     func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        .success(EffectOutputImpl())
+        .success(EffectOutputImpl(state: ctx))
     }
 }

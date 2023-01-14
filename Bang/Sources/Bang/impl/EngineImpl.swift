@@ -82,13 +82,19 @@ private extension EngineImpl {
     /// Update game when a move entered
     static func processInput(_ move: Effect, queue: inout [Effect], ctx: Game) -> Game {
         var ctx = ctx
-        queue.insert(move, at: 0)
         
-        // remove options if move is part of them
-        let isWaiting = ctx.options.contains(where: { $0.isEqualTo(move) })
-        if isWaiting {
+        if !ctx.options.isEmpty {
+            // validate move
+            // remove options if move is part of them
+            let isValid = ctx.options.contains(where: { $0.isEqualTo(move) })
+            guard isValid else {
+                return ctx
+            }
+            
             ctx.options.removeAll()
         }
+        
+        queue.insert(move, at: 0)
         
         ctx.event = nil
         return ctx

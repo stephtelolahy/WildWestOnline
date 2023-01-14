@@ -8,7 +8,7 @@
 /// Agent that control a player in the game
 public protocol AIAgent {
     
-    /// Play any players
+    /// Take control of any players
     func playAny(_ engine: Engine)
 }
 

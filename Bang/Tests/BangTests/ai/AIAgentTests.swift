@@ -22,7 +22,7 @@ final class AIAgentTests: XCTestCase {
         let ctx = GameImpl(options: [move1, move2])
         mockEngine = MockEngine(ctx)
         
-        let expectation = expectation(description: "AI should input one of requested move")
+        let expectation = expectation(description: "AI input one of requested move")
         mockEngine.inputCallback = { move in
             if move is Dummy {
                 expectation.fulfill()
