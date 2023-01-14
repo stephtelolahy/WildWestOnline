@@ -1,4 +1,4 @@
-# CardGameEngine
+# WildWest Online
 
 Prototyping a game engine for the [Bang](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game.
 
