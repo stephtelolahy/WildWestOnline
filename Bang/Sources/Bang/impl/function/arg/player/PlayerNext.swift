@@ -15,8 +15,10 @@ public struct PlayerNext: ArgPlayer, Equatable {
             fatalError(.missingTurn)
         }
         
-        let next = ctx.playOrder
-            .element(after: turn)
+        guard let next = ctx.playOrder.element(after: turn) else {
+            fatalError(.missingNext)
+        }
+        
         return .success(.identified([next]))
     }
 }

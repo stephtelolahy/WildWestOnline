@@ -59,7 +59,7 @@ final class SimulationTests: XCTestCase {
     }
     
     private func printEvent(_ event: Result<Effect, GameError>) {
-        print("\(event)")
+        print(event)
     }
     
 }

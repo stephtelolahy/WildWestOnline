@@ -8,5 +8,5 @@
 /// Elemenetary condition to play a card
 public protocol PlayReq {
     
-    func verify(_ ctx: Game) -> Result<Void, GameError>
+    func match(_ ctx: Game) -> Result<Void, GameError>
 }

@@ -17,7 +17,7 @@ extension Array where Element: Equatable {
     }
     
     /// Get next item after a given element
-    func element(after element: Element) -> Element {
-        starting(with: element)[1]
+    func element(after element: Element) -> Element? {
+        starting(with: element).dropFirst().first
     }
 }

@@ -34,7 +34,7 @@ public struct EngineImpl: Engine {
         }
         
         // push triggered moves if any
-        let triggered = GameRules.main.triggeredMoves(ctx)
+        let triggered = Rules.main.triggeredMoves(ctx)
         if !triggered.isEmpty {
             let newCtx = Self.processTriggered(triggered, ctx: ctx)
             state.send(newCtx)
@@ -44,8 +44,14 @@ public struct EngineImpl: Engine {
         
         // if queue empty
         guard !ctx.queue.isEmpty else {
-            // TODO: cleanup queue data
-            // TODO: set active moves if any
+            
+            // queue active moves if any
+            let active = Rules.main.activeMoves(ctx)
+            if !active.isEmpty {
+                let newCtx = Self.processActive(active, ctx: ctx)
+                state.send(newCtx)
+            }
+            
             return
         }
         
@@ -103,11 +109,24 @@ private extension EngineImpl {
         }
     }
     
-    /// Update game with given triggered effects
+    /// Update game with  triggered effects
     static func processTriggered(_ moves: [Effect], ctx: Game) -> Game {
         var ctx = ctx
         ctx.event = nil
         ctx.queue.insert(contentsOf: moves, at: 0)
+        return ctx
+    }
+    
+    /// Update game with  active moves
+    static func processActive(_ moves: [Effect], ctx: Game) -> Game {
+        var ctx = ctx
+        ctx.options = moves
+        
+        // cleanup
+        ctx.queueCard = nil
+        ctx.queueActor = nil
+        ctx.event = nil
+        
         return ctx
     }
 }

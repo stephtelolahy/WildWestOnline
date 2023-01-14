@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 13/01/2023.
 //
 
-extension GameRules: RuleTrigger {
+extension Rules: RuleTrigger {
     
     public func triggeredMoves(_ ctx: Game) -> [Effect] {
         var result: [Effect] = []
@@ -17,6 +17,7 @@ extension GameRules: RuleTrigger {
             }
         }
         
+        // TODO: sort moves by priority
         return result
     }
     
@@ -32,7 +33,7 @@ extension GameRules: RuleTrigger {
         
         /// verify all requirements
         for playReq in card.triggers {
-            if case let .failure(error) = playReq.verify(ctx) {
+            if case let .failure(error) = playReq.match(ctx) {
                 return .failure(error)
             }
         }

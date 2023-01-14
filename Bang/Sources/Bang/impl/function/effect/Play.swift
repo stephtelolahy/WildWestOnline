@@ -40,7 +40,7 @@ public struct Play: Effect, Equatable {
         }
         
         /// verify can play
-        if case let .failure(error) = GameRules.main.canPlay(cardObj, actor: actor, in: ctx) {
+        if case let .failure(error) = Rules.main.canPlay(cardObj, actor: actor, in: ctx) {
             return .failure(error)
         }
         

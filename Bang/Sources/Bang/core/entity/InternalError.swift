@@ -18,5 +18,6 @@ enum InternalError: Error {
     case missingCardScript(String)
     case missingStoreCard(String)
     case missingTurn
+    case missingNext
     case missingCardOwner
 }

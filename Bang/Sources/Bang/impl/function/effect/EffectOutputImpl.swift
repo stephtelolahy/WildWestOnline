@@ -11,6 +11,10 @@ public struct EffectOutputImpl: EffectOutput {
     public var options: [Effect]?
     
     public init(state: Game? = nil, effects: [Effect]? = nil, options: [Effect]? = nil) {
+        // swiftlint:disable force_unwrapping
+        assert(options == nil || !options!.isEmpty, "options should not be empty")
+        assert(effects == nil || !effects!.isEmpty, " children should not be empty")
+        
         self.state = state
         self.effects = effects
         self.options = options

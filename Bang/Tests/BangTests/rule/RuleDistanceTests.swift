@@ -10,7 +10,7 @@ import Bang
 
 final class RuleDistanceTests: XCTestCase {
     
-    private let sut: RuleDistance = GameRules.main
+    private let sut: RuleDistance = Rules.main
 
     func test_PlayerAtDistanceOf1When3Players() {
         // Given

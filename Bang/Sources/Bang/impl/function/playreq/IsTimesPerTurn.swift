@@ -13,7 +13,7 @@ public struct IsTimesPerTurn: PlayReq, Equatable {
         self.maxTimes = maxTimes
     }
     
-    public func verify(_ ctx: Game) -> Result<Void, GameError> {
+    public func match(_ ctx: Game) -> Result<Void, GameError> {
         // No limit
         guard maxTimes > 0 else {
             return .success

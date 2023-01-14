@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 
-extension GameRules: RulePlay {
+extension Rules: RulePlay {
  
     public func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError> {
         // add playing data
@@ -15,18 +15,18 @@ extension GameRules: RulePlay {
         
         // verify all requirements
         for playReq in card.canPlay {
-            if case let .failure(error) = playReq.verify(ctx) {
+            if case let .failure(error) = playReq.match(ctx) {
                 return .failure(error)
             }
         }
         
         // verify effects not empty
-        guard !card.onPlay.isEmpty else {
+        guard let firstEffect = card.onPlay.first else {
             return .failure(.cardHasNoEffect)
         }
         
         // verify first effect
-        if case let .failure(error) = card.onPlay[0].resolveUntilCompleted(ctx: ctx) {
+        if case let .failure(error) = firstEffect.resolveUntilCompleted(ctx: ctx) {
             return .failure(error)
         }
         
@@ -64,17 +64,6 @@ private extension Effect {
             }
             
             return .success
-        }
-    }
-}
-
-private extension Result {
-    
-    var isFailure: Bool {
-        if case .failure = self {
-            return true
-        } else {
-            return false
         }
     }
 }

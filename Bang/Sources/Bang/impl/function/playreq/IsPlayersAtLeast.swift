@@ -13,7 +13,7 @@ public struct IsPlayersAtLeast: PlayReq, Equatable {
         self.count = count
     }
     
-    public func verify(_ ctx: Game) -> Result<Void, GameError> {
+    public func match(_ ctx: Game) -> Result<Void, GameError> {
         guard ctx.playOrder.count >= count else {
             return .failure(.playersMustBeAtLeast(count))
         }
