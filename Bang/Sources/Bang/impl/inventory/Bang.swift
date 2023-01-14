@@ -17,7 +17,10 @@ enum Bang {
         .init(name: "startTurn",
               triggers: [OnSetTurn()],
               onTrigger: [Repeat(times: NumExact(2),
-                                 effect: DrawDeck(player: PlayerActor()))])
+                                 effect: DrawDeck(player: PlayerActor()))]),
+        .init(name: "leaveGame",
+              triggers: [OnLooseLastHealth()],
+              onTrigger: [Eliminate(player: PlayerActor())])
     ]
     
     static let collectibleCards: [CardImpl] = [

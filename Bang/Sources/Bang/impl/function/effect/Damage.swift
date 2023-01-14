@@ -7,7 +7,7 @@
 
 /// Deals damage to a character, attempting to reduce its Health by the stated amount
 public struct Damage: Effect, Equatable {
-    @EquatableCast private var player: ArgPlayer
+    @EquatableCast var player: ArgPlayer
     private let value: Int
     
     public init(player: ArgPlayer, value: Int) {

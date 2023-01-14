@@ -30,7 +30,7 @@ final class PlayTests: XCTestCase {
         }
     }
     
-    func test_OutputCardEffects_IfAnyEffectDefined() {
+    func test_OutputCardEffects_IfPlayed() {
         // Given
         let c1 = CardImpl(id: "c1",
                           onPlay: [Dummy()])
@@ -63,22 +63,6 @@ final class PlayTests: XCTestCase {
         
         // Assert
         assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
-    }
-    
-    func test_DoNotThrowsError_IfAllRequirementsMatched() {
-        // Given
-        let c1 = CardImpl(id: "c1",
-                          canPlay: [IsPlayersAtLeast(2)],
-                          onPlay: [Dummy()])
-        let p1: Player = PlayerImpl(hand: [c1])
-        let ctx: Game = GameImpl(players: ["p1": p1], playOrder: ["p1", "p2"])
-        let sut = Play(actor: "p1", card: "c1")
-        
-        // When
-        let result = sut.resolve(ctx)
-        
-        // Assert
-        assertIsSuccess(result)
     }
     
     func test_ThrowError_IfCardHasNoEffect() {

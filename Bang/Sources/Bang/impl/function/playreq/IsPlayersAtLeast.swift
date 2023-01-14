@@ -6,7 +6,7 @@
 //
 
 /// The minimum number of alive players is X
-public struct IsPlayersAtLeast: PlayReq {
+public struct IsPlayersAtLeast: PlayReq, Equatable {
     private let count: Int
     
     public init(_ count: Int) {

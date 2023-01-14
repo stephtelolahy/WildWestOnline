@@ -20,6 +20,7 @@ final class InventoryTests: XCTestCase {
         // Assert
         XCTAssertTrue(cards.contains { $0.name == "endTurn" })
         XCTAssertTrue(cards.contains { $0.name == "startTurn" })
+        XCTAssertTrue(cards.contains { $0.name == "leaveGame" })
     }
 
     func test_BangCollectibleCards() throws {

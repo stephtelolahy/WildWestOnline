@@ -11,8 +11,8 @@ public struct OnSetTurn: PlayReq, Equatable {
     public func verify(_ ctx: Game) -> Result<Void, GameError> {
         guard case let .success(effect) = ctx.event,
               let seTurn = effect as? SetTurn,
-              let turn = (seTurn.player as? PlayerId)?.id,
-              turn == ctx.actor else {
+              let playerId = (seTurn.player as? PlayerId)?.id,
+              playerId == ctx.actor else {
             return .failure(.unknown)
         }
         

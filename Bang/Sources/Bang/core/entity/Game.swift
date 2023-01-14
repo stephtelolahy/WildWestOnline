@@ -12,7 +12,7 @@ public protocol Game {
     var players: [String: Player] { get set }
     
     /// active players, playing order
-    var playOrder: [String] { get }
+    var playOrder: [String] { get set }
     
     /// current player
     var turn: String? { get set }
