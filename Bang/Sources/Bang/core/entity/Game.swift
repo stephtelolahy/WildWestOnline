@@ -35,6 +35,9 @@ public protocol Game {
     /// pending actions among which one must be choosen to proceed effect resolving
     var options: [Effect] { get set }
     
+    /// active moves
+    var active: [Effect] { get set }
+    
     /// current actor
     var currentActor: String? { get set }
     

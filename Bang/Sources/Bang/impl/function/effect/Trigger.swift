@@ -29,7 +29,7 @@ public struct Trigger: Effect, Equatable {
             fatalError(.missingPlayerCard(card))
         }
         
-        /// mark playing data
+        /// set playing data
         ctx.currentActor = actor
         ctx.currentCard = cardObj
         

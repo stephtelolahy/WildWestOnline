@@ -8,7 +8,7 @@
 extension Rules: RulePlay {
  
     public func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError> {
-        // add playing data
+        // set playing data
         var ctx = ctx
         ctx.currentActor = actor
         ctx.currentCard = card

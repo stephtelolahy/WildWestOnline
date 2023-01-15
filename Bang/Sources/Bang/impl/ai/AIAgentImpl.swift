@@ -24,8 +24,9 @@ public class AIAgentImpl: AIAgent {
     }
     
     private func processState(_ ctx: Game, engine: Engine) {
-        if !ctx.options.isEmpty {
-            let best = strategy.bestMove(among: ctx.options, ctx: ctx)
+        let moves = ctx.options + ctx.active
+        if !moves.isEmpty {
+            let best = strategy.bestMove(among: moves, ctx: ctx)
             DispatchQueue.main.async {
                 engine.input(best)
             }

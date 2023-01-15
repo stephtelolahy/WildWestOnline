@@ -15,7 +15,7 @@ public struct GameImpl: Game {
     public var isOver: Bool
     public var played: [String]
     public var options: [Effect]
-    // TODO rename to current
+    public var active: [Effect]
     public var currentActor: String?
     public var currentCard: Card?
     public var currentPlayer: String?
@@ -30,6 +30,7 @@ public struct GameImpl: Game {
                 isOver: Bool = false,
                 played: [String] = [],
                 options: [Effect] = [],
+                active: [Effect] = [],
                 currentActor: String? = nil,
                 currentCard: Card? = nil,
                 currentPlayer: String? = nil,
@@ -43,6 +44,7 @@ public struct GameImpl: Game {
         self.isOver = isOver
         self.played = played
         self.options = options
+        self.active = active
         self.currentActor = currentActor
         self.currentCard = currentCard
         self.currentPlayer = currentPlayer

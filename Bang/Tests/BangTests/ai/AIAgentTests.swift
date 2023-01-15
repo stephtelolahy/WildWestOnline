@@ -35,4 +35,25 @@ final class AIAgentTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
+    
+    func test_ChooseAction_IfGameActiveMoves() {
+        // Given
+        let move1 = Dummy()
+        let move2 = Dummy()
+        let ctx = GameImpl(active: [move1, move2])
+        mockEngine = MockEngine(ctx)
+        
+        let expectation = expectation(description: "AI input one of requested move")
+        mockEngine.inputCallback = { move in
+            if move is Dummy {
+                expectation.fulfill()
+            }
+        }
+        
+        // When
+        sut.playAny(mockEngine)
+        
+        // Assert
+        waitForExpectations(timeout: 0.1)
+    }
 }

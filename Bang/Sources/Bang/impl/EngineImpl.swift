@@ -65,13 +65,13 @@ public class EngineImpl: Engine {
                 return
             }
             
-            ctx.options = []
+            ctx.options.removeAll()
         }
         
         // if idle, emit active moves if any
         if queue.isEmpty {
             if let active = Rules.main.activeMoves(ctx) {
-                ctx.options = active
+                ctx.active = active
                 // cleanup
                 ctx.currentCard = nil
                 ctx.currentActor = nil
@@ -85,6 +85,9 @@ public class EngineImpl: Engine {
         if ctx.event != nil {
             ctx.event = nil
         }
+        
+        // remove active moves
+        ctx.active.removeAll()
         
         // process queue
         let effect = queue.remove(at: 0)

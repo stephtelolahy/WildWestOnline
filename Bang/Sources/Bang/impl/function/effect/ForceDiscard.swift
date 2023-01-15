@@ -25,7 +25,7 @@ public struct ForceDiscard: Effect, Equatable {
             }
         }
         
-        // mark current player
+        // set current player
         var ctx = ctx
         ctx.currentPlayer = playerId
         

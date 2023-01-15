@@ -44,7 +44,7 @@ public struct Play: Effect, Equatable {
             return .failure(error)
         }
         
-        /// mark playing data
+        /// set playing data
         ctx.currentActor = actor
         ctx.currentCard = cardObj
         ctx.played.append(cardObj.name)

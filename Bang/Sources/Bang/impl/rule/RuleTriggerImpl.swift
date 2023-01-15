@@ -30,7 +30,7 @@ extension Rules: RuleTrigger {
             return .failure(.unknown)
         }
         
-        /// mark playing data
+        /// set playing data
         var ctx = ctx
         ctx.currentActor = actor
         ctx.currentCard = card
