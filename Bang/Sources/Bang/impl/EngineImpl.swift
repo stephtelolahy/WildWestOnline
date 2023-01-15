@@ -4,17 +4,19 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+import Foundation
 import Combine
 
 public class EngineImpl: Engine {
     
     public var state: CurrentValueSubject<Game, Never>
-    
     public var queue: [Effect]
+    private var delay: DispatchTimeInterval
     
-    public init(_ ctx: Game, queue: [Effect] = []) {
+    public init(_ ctx: Game, queue: [Effect] = [], delay: DispatchTimeInterval = .seconds(0)) {
         self.state = CurrentValueSubject(ctx)
         self.queue = queue
+        self.delay = delay
     }
     
     public func start() {
@@ -30,71 +32,62 @@ public class EngineImpl: Engine {
     }
     
     public func input(_ move: Effect) {
-        let newCtx = Self.processInput(move, queue: &queue, ctx: state.value)
-        _update(newCtx)
+        let ctx = state.value
+        
+        // if waiting choice, then validate move
+        if !ctx.options.isEmpty,
+           !ctx.options.contains(where: { $0.isEqualTo(move) }) {
+            return
+        }
+        
+        queue.insert(move, at: 0)
+        update()
     }
     
     public func update() {
         _update(state.value)
     }
-}
-
-private extension EngineImpl {
     
-    func _update(_ ctx: Game) {
+    // swiftlint:disable:next function_body_length cyclomatic_complexity
+    private func _update(_ ctx: Game) {
+        var ctx = ctx
+        
         // if game is over, do nothing
         if ctx.isOver {
             return
         }
         
-        // if waiting player action, do nothing
+        // if waiting choice, then verify queue
         if !ctx.options.isEmpty {
+            // if matching move queued, remove all options
+            guard let move = queue.first,
+                  ctx.options.contains(where: { $0.isEqualTo(move) }) else {
+                return
+            }
+            
+            ctx.options = []
+        }
+        
+        // if idle, emit active moves if any
+        if queue.isEmpty {
+            if let active = Rules.main.activeMoves(ctx) {
+                ctx.options = active
+                // cleanup
+                ctx.currentCard = nil
+                ctx.currentActor = nil
+                ctx.currentPlayer = nil
+                state.send(ctx)
+            }
             return
         }
         
-        // idle, emit active moves if any
-        if queue.isEmpty {
-            let active = Rules.main.activeMoves(ctx)
-            if !active.isEmpty {
-                let newCtx = Self.processActive(active, ctx: ctx)
-                state.send(newCtx)
-            }
-            return
+        // remove previous event
+        if ctx.event != nil {
+            ctx.event = nil
         }
         
         // process queue
-        let newCtx = Self.processQueue(&queue, ctx: ctx)
-        state.send(newCtx)
-        update()
-    }
-    
-    /// Update game when a move entered
-    static func processInput(_ move: Effect, queue: inout [Effect], ctx: Game) -> Game {
-        var ctx = ctx
-        
-        if !ctx.options.isEmpty {
-            // validate move
-            // remove options if move is part of them
-            let isValid = ctx.options.contains(where: { $0.isEqualTo(move) })
-            guard isValid else {
-                return ctx
-            }
-            
-            ctx.options.removeAll()
-        }
-        
-        queue.insert(move, at: 0)
-        
-        return ctx
-    }
-    
-    /// Disatch next queued effect
-    static func processQueue(_ queue: inout [Effect], ctx: Game) -> Game {
-        var ctx = ctx
-        ctx.event = nil
-        
         let effect = queue.remove(at: 0)
-        
         let result = effect.resolve(ctx)
         switch result {
         case let .success(output):
@@ -112,29 +105,27 @@ private extension EngineImpl {
             }
             
             // push triggered moves if any
-            let triggered = Rules.main.triggeredMoves(ctx)
-            if !triggered.isEmpty {
+            if let triggered = Rules.main.triggeredMoves(ctx) {
                 queue.append(contentsOf: triggered)
             }
             
-            return ctx
-            
         case let .failure(error):
             ctx.event = .failure(error)
-            return ctx
         }
-    }
-    
-    /// Update game with  active moves
-    static func processActive(_ moves: [Effect], ctx: Game) -> Game {
-        var ctx = ctx
-        ctx.options = moves
         
-        // cleanup
-        ctx.currentCard = nil
-        ctx.currentActor = nil
-        ctx.currentPlayer = nil
+        // emit state only when event ocurred or choice asked
+        let emitState = ctx.event != nil || !ctx.options.isEmpty
+        if emitState {
+            state.send(ctx)
+        }
         
-        return ctx
+        // loop update
+        if emitState {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                self?._update(ctx)
+            }
+        } else {
+            _update(ctx)
+        }
     }
 }

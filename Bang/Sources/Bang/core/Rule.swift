@@ -29,10 +29,10 @@ public protocol RulePlay {
 
 /// Generating triggered moves, sorted by priority
 public protocol RuleTrigger {
-    func triggeredMoves(_ ctx: Game) -> [Effect]
+    func triggeredMoves(_ ctx: Game) -> [Effect]?
 }
 
 /// Generating active moves
 public protocol RuleActive {
-    func activeMoves(_ ctx: Game) -> [Effect]
+    func activeMoves(_ ctx: Game) -> [Effect]?
 }

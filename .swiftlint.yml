@@ -79,7 +79,6 @@ opt_in_rules: # some rules are only opt-in
   - switch_case_on_newline
   - test_case_accessibility
   - toggle_bool
-  - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - unowned_variable_capture
   - untyped_error_in_catch

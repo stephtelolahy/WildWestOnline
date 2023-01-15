@@ -20,4 +20,5 @@ enum InternalError: Error {
     case missingTurn
     case missingNext
     case missingCardOwner
+    case unexpected
 }

@@ -14,6 +14,6 @@ public struct PlayerId: ArgPlayer, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<ArgResolved, GameError> {
-        .success(.identified([id]))
+        fatalError(.unexpected)
     }
 }

@@ -7,7 +7,7 @@
 
 extension Rules: RuleTrigger {
     
-    public func triggeredMoves(_ ctx: Game) -> [Effect] {
+    public func triggeredMoves(_ ctx: Game) -> [Effect]? {
         var result: [Effect] = []
         for (playerId, _) in ctx.players {
             for ability in ctx.player(playerId).abilities {
@@ -15,6 +15,10 @@ extension Rules: RuleTrigger {
                     result.append(Trigger(actor: playerId, card: ability.id))
                 }
             }
+        }
+        
+        guard !result.isEmpty else {
+            return nil
         }
         
         // TODO: sort moves by priority

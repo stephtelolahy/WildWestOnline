@@ -13,4 +13,12 @@ extension Array {
             self.append(element)
         }
     }
+    
+    mutating func removeSafe(at index: Index) -> Element? {
+        guard indices.contains(index) else {
+            return nil
+        }
+        
+        return remove(at: index)
+    }
 }

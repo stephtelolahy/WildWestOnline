@@ -37,5 +37,4 @@ extension Rules: RuleSetup {
                         playOrder: playOrder,
                         deck: deck)
     }
-
 }

@@ -7,9 +7,9 @@
 
 extension Rules: RuleActive {
     
-    public func activeMoves(_ ctx: Game) -> [Effect] {
+    public func activeMoves(_ ctx: Game) -> [Effect]? {
         guard let playerId = ctx.turn else {
-            return []
+            return nil
         }
         
         let playerObj = ctx.player(playerId)
@@ -17,6 +17,11 @@ extension Rules: RuleActive {
             .filter { canPlay($0, actor: playerId, in: ctx).isSuccess }
             .map { Play(actor: playerId, card: $0.id) }
             .compactMap { $0 }
+        
+        guard !moves.isEmpty else {
+            return nil
+        }
+        
         return moves
     }
 }

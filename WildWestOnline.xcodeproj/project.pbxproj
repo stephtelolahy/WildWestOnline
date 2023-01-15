@@ -102,6 +102,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				265554DA297371CA006CE5E0 /* PBXTargetDependency */,
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
@@ -190,6 +191,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		265554DA297371CA006CE5E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 265554D9297371CA006CE5E0 /* Bang */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		26699F2028455FB8008040E5 /* Main.storyboard */ = {
@@ -335,7 +343,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5845VL7S8R;
+				DEVELOPMENT_TEAM = WC7W275DZZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WildWestOnline/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -365,7 +373,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5845VL7S8R;
+				DEVELOPMENT_TEAM = WC7W275DZZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WildWestOnline/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -409,6 +417,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		265554D9297371CA006CE5E0 /* Bang */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Bang;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 26699F0F28455FB8008040E5 /* Project object */;
 }

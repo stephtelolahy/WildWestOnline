@@ -13,6 +13,6 @@ public struct CardId: ArgCard, Equatable {
     }
     
     public func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgResolved, GameError> {
-        .success(.identified([id]))
+        fatalError(.unexpected)
     }
 }
