@@ -10,19 +10,18 @@
 public struct Choose: Effect, Equatable {
     private let player: String
     private let label: String
-    @EquatableIgnore var effects: [Effect]
-    @EquatableIgnore public var playCtx: PlayContext!
+    @EquatableIgnore var children: [EffectNode]
     
-    public init(player: String, label: String, effects: [Effect] = []) {
+    public init(player: String, label: String, children: [EffectNode] = []) {
         self.player = player
         self.label = label
-        self.effects = effects
+        self.children = children
     }
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         /// emit state changes even if no changes occurred
         /// to mark that effect was successfully resolved
-        .success(EffectOutputImpl(state: ctx, effects: effects))
+        .success(EffectOutputImpl(state: ctx, effects: children))
     }
 }
 

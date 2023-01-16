@@ -19,7 +19,7 @@ final class AIAgentTests: XCTestCase {
         // Given
         let move1 = Dummy()
         let move2 = Dummy()
-        let ctx = GameImpl(options: [move1, move2])
+        let ctx = GameImpl(options: [move1.asNode(), move2.asNode()])
         mockEngine = MockEngine(ctx)
         
         let expectation = expectation(description: "AI input one of requested move")

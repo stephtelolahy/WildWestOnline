@@ -10,14 +10,13 @@
 public struct Trigger: Effect, Equatable {
     private let actor: String
     private let card: String
-    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(actor: String, card: String) {
         self.actor = actor
         self.card = card
     }
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         let playerObj = ctx.player(actor)
         
         /// find card reference

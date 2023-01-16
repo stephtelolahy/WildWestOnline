@@ -7,11 +7,10 @@
 
 /// Draw card from deck to store zone
 public struct Store: Effect, Equatable {
-    @EquatableIgnore public var playCtx: PlayContext!
     
     public init() {}
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         var ctx = ctx
         let card = ctx.removeTopDeck()
         ctx.store.append(card)

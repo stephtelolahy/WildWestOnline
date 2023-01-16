@@ -87,7 +87,7 @@ private extension XCTestCase {
         XCTAssertEqual(error, expectedError, file: file, line: line)
     }
     
-    func assertEqualOptions(_ options: [Effect], expected: EngineEvent?, file: StaticString = #file, line: UInt = #line) {
+    func assertEqualOptions(_ options: [EffectNode], expected: EngineEvent?, file: StaticString = #file, line: UInt = #line) {
         guard case let .wait(expectedOptions) = expected,
               options.count == expectedOptions.count else {
             XCTFail("Observed \(options) is different from expected \(String(describing: expected))", file: file, line: line)
@@ -102,19 +102,19 @@ private extension XCTestCase {
                 return
             }
             
-            assertEqual(options[optionIndex], expectedOption, file: file, line: line)
+            assertEqual(options[optionIndex].effect, expectedOption, file: file, line: line)
         }
         
     }
     
-    func assertPerformChoice(_ options: [Effect], expected: EngineEvent?, sut: Engine, file: StaticString = #file, line: UInt = #line) {
+    func assertPerformChoice(_ options: [EffectNode], expected: EngineEvent?, sut: Engine, file: StaticString = #file, line: UInt = #line) {
         guard case let .input(choiceIndex) = expected else {
             XCTFail("Expected \(String(describing: expected)) should be a choice", file: file, line: line)
             cancellables.removeAll()
             return
         }
         
-        sut.input(options[choiceIndex])
+        sut.input(options[choiceIndex].effect)
     }
 }
 

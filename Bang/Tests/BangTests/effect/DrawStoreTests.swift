@@ -21,7 +21,7 @@ final class DrawStoreTests: XCTestCase {
         let sut = DrawStore(player: PlayerId("p1"), card: CardId("c1"))
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -39,17 +39,16 @@ final class DrawStoreTests: XCTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            store: [c1, c2])
         let sut = DrawStore(player: PlayerId("p1"), card: CardSelectStore())
-            .withCtx(PlayContextImpl())
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
-            let options = try XCTUnwrap($0.options)
+            let options: [EffectNode] = try XCTUnwrap($0.options)
             XCTAssertEqual(options.count, 2)
-            assertEqual(options[0], Choose(player: "p1", label: "c1", effects: [DrawStore(player: PlayerId("p1"), card: CardId("c1"))]))
-            assertEqual(options[1], Choose(player: "p1", label: "c2", effects: [DrawStore(player: PlayerId("p1"), card: CardId("c2"))]))
+            assertEqual(options[0].effect, Choose(player: "p1", label: "c1", children: [DrawStore(player: PlayerId("p1"), card: CardId("c1")).asNode()]))
+            assertEqual(options[1].effect, Choose(player: "p1", label: "c2", children: [DrawStore(player: PlayerId("p1"), card: CardId("c2")).asNode()]))
         }
     }
     
@@ -60,16 +59,15 @@ final class DrawStoreTests: XCTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            store: [c1])
         let sut = DrawStore(player: PlayerId("p1"), card: CardSelectStore())
-            .withCtx(PlayContextImpl())
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
-            let children = try XCTUnwrap($0.effects)
+            let children: [EffectNode] = try XCTUnwrap($0.effects)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0], DrawStore(player: PlayerId("p1"), card: CardId("c1")))
+            assertEqual(children[0].effect, DrawStore(player: PlayerId("p1"), card: CardId("c1")))
         }
     }
     

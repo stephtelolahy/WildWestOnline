@@ -18,7 +18,7 @@ final class HealTests: XCTestCase {
         let sut = Heal(player: PlayerId("p1"), value: 1)
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -34,7 +34,7 @@ final class HealTests: XCTestCase {
         let sut = Heal(player: PlayerId("p1"), value: 2)
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -50,7 +50,7 @@ final class HealTests: XCTestCase {
         let sut = Heal(player: PlayerId("p1"), value: 2)
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -66,7 +66,7 @@ final class HealTests: XCTestCase {
         let sut = Heal(player: PlayerId("p1"), value: 1)
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))

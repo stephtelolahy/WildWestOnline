@@ -8,11 +8,7 @@
 /// Elementary card effect
 public protocol Effect {
     
-    /// Context while resolving
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    var playCtx: PlayContext! { get set }
-    
-    func resolve(_ ctx: Game) -> Result<EffectOutput, GameError>
+    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError>
 }
 
 /// Resolving an effect may update game or push another effects
@@ -22,10 +18,10 @@ public protocol EffectOutput {
     var state: Game? { get }
     
     /// Child effect on resolving arguments
-    var effects: [Effect]? { get }
+    var effects: [EffectNode]? { get }
     
     /// Waiting user action
-    var options: [Effect]? { get }
+    var options: [EffectNode]? { get }
 }
 
 public protocol PlayContext {

@@ -24,7 +24,7 @@ final class StartTurnTests: XCTestCase {
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            turn: "p1",
                            deck: deck)
-        let sut = EngineImpl(ctx, queue: [SetTurn(player: PlayerId("p1"))])
+        let sut = EngineImpl(ctx, queue: [SetTurn(player: PlayerId("p1")).asNode()])
         
         createExpectation(
             engine: sut,

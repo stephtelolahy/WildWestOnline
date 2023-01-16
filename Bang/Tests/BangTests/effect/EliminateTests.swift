@@ -16,7 +16,7 @@ final class EliminateTests: XCTestCase {
         let sut = Eliminate(player: PlayerId("p1"))
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {

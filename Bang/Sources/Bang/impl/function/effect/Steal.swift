@@ -10,7 +10,6 @@ public struct Steal: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var target: ArgPlayer
     @EquatableCast private var card: ArgCard
-    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, target: ArgPlayer, card: ArgCard) {
         self.player = player
@@ -18,21 +17,21 @@ public struct Steal: Effect, Equatable {
         self.card = card
     }
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         guard let playerId = (player as? PlayerId)?.id else {
-            return resolve(player, ctx: ctx) {
+            return resolve(player, ctx: ctx, playCtx: playCtx) {
                 Self(player: PlayerId($0), target: target, card: card)
             }
         }
         
         guard let targetId = (target as? PlayerId)?.id else {
-            return resolve(target, ctx: ctx) {
+            return resolve(target, ctx: ctx, playCtx: playCtx) {
                 Self(player: player, target: PlayerId($0), card: card)
             }
         }
         
         guard let cardId = (card as? CardId)?.id else {
-            return resolve(card, ctx: ctx, chooser: playerId, owner: targetId) {
+            return resolve(card, ctx: ctx, playCtx: playCtx, chooser: playerId, owner: targetId) {
                 Self(player: player, target: target, card: CardId($0))
             }
         }

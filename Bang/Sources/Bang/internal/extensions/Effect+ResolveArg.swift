@@ -10,6 +10,7 @@ extension Effect {
     func resolve(
         _ player: ArgPlayer,
         ctx: Game,
+        playCtx: PlayContext,
         copy: @escaping (String) -> Self
     ) -> Result<EffectOutput, GameError> {
         let result = player.resolve(ctx, playCtx: playCtx)
@@ -21,7 +22,12 @@ extension Effect {
                 return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(items):
-                let options = items.map { Choose(player: playCtx.actor, label: $0.label, effects: [copy($0.value).withCtx(playCtx)]) }
+                let options: [EffectNode] = items.map {
+                    Choose(player: playCtx.actor,
+                           label: $0.label,
+                           children: [copy($0.value).withCtx(playCtx)])
+                    .withCtx(playCtx)
+                }
                 return .success(EffectOutputImpl(options: options))
             }
             
@@ -33,6 +39,7 @@ extension Effect {
     func resolve(
         _ card: ArgCard,
         ctx: Game,
+        playCtx: PlayContext,
         chooser: String,
         owner: String?,
         copy: @escaping (String) -> Self
@@ -46,7 +53,12 @@ extension Effect {
                 return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(items):
-                let options = items.map { Choose(player: chooser, label: $0.label, effects: [copy($0.value).withCtx(playCtx)]) }
+                let options: [EffectNode] = items.map {
+                    Choose(player: chooser,
+                           label: $0.label,
+                           children: [copy($0.value).withCtx(playCtx)])
+                    .withCtx(playCtx)
+                }
                 return .success(EffectOutputImpl(options: options))
             }
             

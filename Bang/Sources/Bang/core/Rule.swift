@@ -27,9 +27,9 @@ public protocol RulePlay {
     func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError>
 }
 
-/// Generating triggered moves, sorted by priority
+/// Generating triggered effects, sorted by priority
 public protocol RuleTrigger {
-    func triggeredMoves(_ ctx: Game) -> [Effect]?
+    func triggeredEffects(_ ctx: Game) -> [EffectNode]?
 }
 
 /// Generating active moves

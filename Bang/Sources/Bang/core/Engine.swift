@@ -14,7 +14,7 @@ public protocol Engine {
     var state: CurrentValueSubject<Game, Never> { get }
     
     /// effects queue that have to be resolved in order
-    var queue: [Effect] { get }
+    var queue: [EffectNode] { get }
     
     /// process move
     func input(_ move: Effect)
@@ -24,4 +24,9 @@ public protocol Engine {
     
     /// setup queue for starting game
     func start()
+}
+
+public struct EffectNode {
+    public let effect: Effect
+    public let playCtx: PlayContext
 }

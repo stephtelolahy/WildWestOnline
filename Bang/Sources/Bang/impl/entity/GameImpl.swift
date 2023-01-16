@@ -14,7 +14,7 @@ public struct GameImpl: Game {
     public var store: [Card]
     public var isOver: Bool
     public var played: [String]
-    public var options: [Effect]
+    public var options: [EffectNode]
     public var active: [Effect]
     public var event: Result<Effect, GameError>?
     
@@ -26,7 +26,7 @@ public struct GameImpl: Game {
                 store: [Card] = [],
                 isOver: Bool = false,
                 played: [String] = [],
-                options: [Effect] = [],
+                options: [EffectNode] = [],
                 active: [Effect] = [],
                 event: Result<Effect, GameError>? = nil) {
         self.players = players

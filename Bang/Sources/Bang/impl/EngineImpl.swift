@@ -10,10 +10,10 @@ import Combine
 public class EngineImpl: Engine {
     
     public var state: CurrentValueSubject<Game, Never>
-    public var queue: [Effect]
+    public var queue: [EffectNode]
     private var delay: DispatchTimeInterval
     
-    public init(_ ctx: Game, queue: [Effect] = [], delay: DispatchTimeInterval = .seconds(0)) {
+    public init(_ ctx: Game, queue: [EffectNode] = [], delay: DispatchTimeInterval = .seconds(0)) {
         self.state = CurrentValueSubject(ctx)
         self.queue = queue
         self.delay = delay
@@ -28,7 +28,8 @@ public class EngineImpl: Engine {
         }
         
         let playerId = ctx.playOrder[0]
-        queue.append(SetTurn(player: PlayerId(playerId)))
+        let node = SetTurn(player: PlayerId(playerId)).asNode()
+        queue.append(node)
     }
     
     public func input(_ move: Effect) {
@@ -36,11 +37,12 @@ public class EngineImpl: Engine {
         
         // if waiting choice, then validate move
         if !ctx.options.isEmpty,
-           !ctx.options.contains(where: { $0.isEqualTo(move) }) {
+           !ctx.options.contains(where: { $0.effect.isEqualTo(move) }) {
             return
         }
         
-        queue.insert(move, at: 0)
+        let node = move.asNode()
+        queue.insert(node, at: 0)
         update()
     }
     
@@ -60,8 +62,8 @@ public class EngineImpl: Engine {
         // if waiting choice, then verify queue
         if !ctx.options.isEmpty {
             // if matching move queued, remove all options
-            guard let move = queue.first,
-                  ctx.options.contains(where: { $0.isEqualTo(move) }) else {
+            guard let node = queue.first,
+                  ctx.options.contains(where: { $0.effect.isEqualTo(node.effect) }) else {
                 return
             }
             
@@ -87,8 +89,9 @@ public class EngineImpl: Engine {
         ctx.active.removeAll()
         
         // process queue
-        let effect = queue.remove(at: 0)
-        let result = effect.resolve(ctx)
+        let node = queue.remove(at: 0)
+        let effect = node.effect
+        let result = effect.resolve(ctx, playCtx: node.playCtx)
         switch result {
         case let .success(output):
             if let update = output.state {
@@ -96,7 +99,7 @@ public class EngineImpl: Engine {
                 ctx.event = .success(effect)
                 
                 // push triggered moves if any
-                if let triggered = Rules.main.triggeredMoves(ctx) {
+                if let triggered = Rules.main.triggeredEffects(ctx) {
                     queue.insert(contentsOf: triggered, at: 0)
                 }
             }

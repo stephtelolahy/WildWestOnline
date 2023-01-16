@@ -20,7 +20,7 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -39,13 +39,13 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
-            let children: [Effect] = try XCTUnwrap($0.effects)
+            let children: [EffectNode] = try XCTUnwrap($0.effects)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0], Dummy())
+            assertEqual(children[0].effect, Dummy())
         }
     }
     
@@ -59,7 +59,7 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
@@ -73,7 +73,7 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsFailure(result, equalTo: .cardHasNoPlayingEffect)
@@ -88,7 +88,7 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))

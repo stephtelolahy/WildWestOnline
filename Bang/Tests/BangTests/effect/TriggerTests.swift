@@ -20,13 +20,13 @@ class TriggerTests: XCTestCase {
         let sut = Trigger(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
-            let children: [Effect] = try XCTUnwrap($0.effects)
+            let children: [EffectNode] = try XCTUnwrap($0.effects)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0], Dummy())
+            assertEqual(children[0].effect, Dummy())
         }
     }
 

@@ -24,8 +24,8 @@ extension Rules: RulePlay {
         }
         
         // verify main effect succeed
-        let effect = card.onPlay[0].withCtx(playCtx)
-        if case let .failure(error) = effect.resolveUntilCompleted(ctx: ctx) {
+        let node = card.onPlay[0].withCtx(playCtx)
+        if case let .failure(error) = node.resolveUntilCompleted(ctx: ctx) {
             return .failure(error)
         }
         
@@ -33,11 +33,11 @@ extension Rules: RulePlay {
     }
 }
 
-private extension Effect {
+private extension EffectNode {
     
     /// recursively resolve an effect until completed
     func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
-        switch resolve(ctx) {
+        switch effect.resolve(ctx, playCtx: playCtx) {
         case let .failure(error):
             return .failure(error)
             
@@ -55,7 +55,13 @@ private extension Effect {
             
             // handle options: one of them must succeed
             if let options = output.options {
-                let children: [Effect] = options.map { ($0 as? Choose)?.effects[0] ?? $0 }
+                let children: [EffectNode] = options.map {
+                    guard let choose = $0.effect as? Choose else {
+                        return $0
+                    }
+                    
+                    return choose.children[0]
+                }
                 let results = children.map { $0.resolveUntilCompleted(ctx: state) }
                 if results.allSatisfy({ $0.isFailure }) {
                     return results[0]

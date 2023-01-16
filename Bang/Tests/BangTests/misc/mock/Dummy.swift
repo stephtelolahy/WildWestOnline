@@ -6,11 +6,10 @@
 //
 import Bang
 
-/// Dummy efffect
+/// Effect resolving with a success
 struct Dummy: Effect, Equatable {
-    @EquatableIgnore var playCtx: PlayContext!
-
-    func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    
+    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         .success(EffectOutputImpl(state: ctx))
     }
 }

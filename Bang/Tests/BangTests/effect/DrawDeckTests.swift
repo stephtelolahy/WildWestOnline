@@ -22,7 +22,7 @@ final class DrawDeckTests: XCTestCase {
         let sut = DrawDeck(player: PlayerId("p1"))
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -42,7 +42,7 @@ final class DrawDeckTests: XCTestCase {
         let sut = DrawDeck(player: PlayerId("p1"))
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {
@@ -62,7 +62,7 @@ final class DrawDeckTests: XCTestCase {
         let sut = DrawDeck(player: PlayerId("p1"))
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {

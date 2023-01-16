@@ -7,11 +7,10 @@
 
 /// Mark game over
 public struct EndGame: Effect, Equatable {
-    @EquatableIgnore public var playCtx: PlayContext!
     
     public init() {}
 
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         var ctx = ctx
         ctx.isOver = true
         return .success(EffectOutputImpl(state: ctx))

@@ -10,7 +10,7 @@ import Bang
 class MockEngine: Engine {
     
     var state: CurrentValueSubject<Game, Never>
-    var queue: [Effect] = []
+    var queue: [EffectNode] = []
     var inputCallback: ((Effect) -> Void)?
     
     init(_ ctx: Game) {

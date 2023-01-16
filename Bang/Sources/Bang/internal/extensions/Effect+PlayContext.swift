@@ -8,18 +8,19 @@
 public extension Effect {
     
     /// Set playContext
-    func withCtx(_ playCtx: PlayContext) -> Self {
-        var copy = self
-        copy.playCtx = playCtx
-        return copy
+    func withCtx(_ playCtx: PlayContext) -> EffectNode {
+        EffectNode(effect: self, playCtx: playCtx)
+    }
+    
+    func asNode() -> EffectNode {
+        withCtx(PlayContextImpl())
     }
 }
 
-// TODO: constraints array of Effect
-extension Array {
+extension Array where Element == Effect {
     
     /// Set playContext
-    func withCtx(_ playCtx: PlayContext) -> [Effect] {
-        self.map { ($0 as! Effect).withCtx(playCtx) }
+    func withCtx(_ playCtx: PlayContext) -> [EffectNode] {
+        self.map { $0.withCtx(playCtx) }
     }
 }

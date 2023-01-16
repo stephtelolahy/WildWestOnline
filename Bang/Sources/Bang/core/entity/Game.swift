@@ -33,7 +33,7 @@ public protocol Game {
     var played: [String] { get set }
     
     /// pending actions among which one must be choosen to proceed effect resolving
-    var options: [Effect] { get set }
+    var options: [EffectNode] { get set }
     
     /// active moves
     var active: [Effect] { get set }

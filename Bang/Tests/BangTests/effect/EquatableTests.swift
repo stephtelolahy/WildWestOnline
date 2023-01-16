@@ -28,7 +28,7 @@ final class EquatableTests: XCTestCase {
     }
     
     func test_EquatableIgnore() {
-        XCTAssertEqual(Choose(player: "p1", label: "c1", effects: [Store()]),
-                       Choose(player: "p1", label: "c1", effects: [DrawDeck(player: PlayerId("p1"))]))
+        XCTAssertEqual(Choose(player: "p1", label: "c1", children: [Store().asNode()]),
+                       Choose(player: "p1", label: "c1", children: [Dummy().asNode()]))
     }
 }

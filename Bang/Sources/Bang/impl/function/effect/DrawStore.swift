@@ -9,22 +9,21 @@
 public struct DrawStore: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
-    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, card: ArgCard) {
         self.player = player
         self.card = card
     }
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         guard let playerId = (player as? PlayerId)?.id else {
-            return resolve(player, ctx: ctx) {
+            return resolve(player, ctx: ctx, playCtx: playCtx) {
                 Self(player: PlayerId($0), card: card)
             }
         }
         
         guard let cardId = (card as? CardId)?.id else {
-            return resolve(card, ctx: ctx, chooser: playerId, owner: nil) {
+            return resolve(card, ctx: ctx, playCtx: playCtx, chooser: playerId, owner: nil) {
                 Self(player: player, card: CardId($0))
             }
         }

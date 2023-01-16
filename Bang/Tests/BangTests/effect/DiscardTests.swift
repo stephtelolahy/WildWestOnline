@@ -21,7 +21,7 @@ final class DiscardTests: XCTestCase {
         let sut = Discard(player: PlayerId("p1"), card: CardId("c2"))
         
         // When
-        let result = sut.resolve(ctx)
+        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
         
         // Assert
         assertIsSuccess(result) {

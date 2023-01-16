@@ -11,7 +11,6 @@ public struct ForceDiscard: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
     @EquatableIgnore private var otherwise: [Effect]
-    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, card: ArgCard, otherwise: [Effect] = []) {
         self.player = player
@@ -19,9 +18,9 @@ public struct ForceDiscard: Effect, Equatable {
         self.otherwise = otherwise
     }
     
-    public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         guard let playerId = (player as? PlayerId)?.id else {
-            return resolve(player, ctx: ctx) {
+            return resolve(player, ctx: ctx, playCtx: playCtx) {
                 Self(player: PlayerId($0), card: card, otherwise: otherwise)
             }
         }
@@ -50,12 +49,13 @@ public struct ForceDiscard: Effect, Equatable {
             // request a choice:
             // - discard one of matching card
             // - or Pass
-            var choices: [Effect] = options.map {
+            var choices: [EffectNode] = options.map {
                 Choose(player: playerId,
                        label: $0.label,
-                       effects: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(childCtx)])
+                       children: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(childCtx)])
+                .withCtx(playCtx)
             }
-            choices.append(Choose(player: playerId, label: Label.pass, effects: otherwise.withCtx(childCtx)))
+            choices.append(Choose(player: playerId, label: Label.pass, children: otherwise.withCtx(childCtx)).withCtx(playCtx))
             return .success(EffectOutputImpl(state: ctx, options: choices))
         }
     }

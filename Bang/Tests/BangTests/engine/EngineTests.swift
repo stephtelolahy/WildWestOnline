@@ -16,7 +16,7 @@ class EngineTests: XCTestCase {
     func test_StopUpdates_IfGameIsOver() {
         // Given
         let ctx = GameImpl(isOver: true)
-        let sut = EngineImpl(ctx, queue: [Dummy()])
+        let sut = EngineImpl(ctx, queue: [Dummy().asNode()])
         let expectation = expectation(description: "move is queued")
         expectation.isInverted = true
         sut.state.sink { ctx in
@@ -44,7 +44,7 @@ class EngineTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(sut.queue.count, 1)
-        XCTAssertEqual(sut.queue.first as? SetTurn, SetTurn(player: PlayerId("p1")))
+        XCTAssertEqual(sut.queue.first?.effect as? SetTurn, SetTurn(player: PlayerId("p1")))
     }
     
     func test_QueueAnyInputMove_IfIdle() {
@@ -70,7 +70,7 @@ class EngineTests: XCTestCase {
     
     func test_QueueMove_IfWaitingAndValid() {
         // Given
-        let ctx = GameImpl(options: [Dummy()])
+        let ctx = GameImpl(options: [Dummy().asNode()])
         let sut = EngineImpl(ctx)
         let move = Dummy()
         let expectation = expectation(description: "move is queued")
@@ -91,7 +91,7 @@ class EngineTests: XCTestCase {
     
     func test_DoNotQueueMove_IfWaitingAndInvalid() {
         // Given
-        let ctx = GameImpl(options: [Choose(player: "p1", label: "c1")])
+        let ctx = GameImpl(options: [Choose(player: "p1", label: "c1").asNode()])
         let sut = EngineImpl(ctx)
         let move = Dummy()
         

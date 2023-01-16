@@ -7,11 +7,10 @@
 
 public struct EffectOutputImpl: EffectOutput {
     public var state: Game?
-    public var effects: [Effect]?
-    public var options: [Effect]?
-    @EquatableIgnore public var playCtx: PlayContext!
+    public var effects: [EffectNode]?
+    public var options: [EffectNode]?
     
-    public init(state: Game? = nil, effects: [Effect]? = nil, options: [Effect]? = nil) {
+    public init(state: Game? = nil, effects: [EffectNode]? = nil, options: [EffectNode]? = nil) {
         // swiftlint:disable force_unwrapping
         assert(options == nil || !options!.isEmpty, "options should not be empty")
         assert(effects == nil || !effects!.isEmpty, " children should not be empty")
