@@ -13,7 +13,7 @@ func fatalError(_ error: InternalError, file: StaticString = #file, line: UInt =
 enum InternalError: Error {
     case missingPlayer(String)
     case missingActor
-    case missingCurrentPlayer
+    case missingTarget
     case missingPlayerCard(String)
     case missingCardScript(String)
     case missingStoreCard(String)

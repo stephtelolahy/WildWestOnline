@@ -17,6 +17,9 @@ public protocol Card {
     /// card value
     var value: String { get set }
     
+    /// required target to play this card
+    var playTarget: ArgPlayer? { get }
+    
     /// requirements for playing this card
     var canPlay: [PlayReq] { get }
     

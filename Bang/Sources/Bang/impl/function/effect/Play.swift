@@ -7,15 +7,15 @@
 
 /// Move
 /// Play a card
-/// `Brown` cards are put immediately in discard pile
-/// `Blue` cards are put in play
 public struct Play: Effect, Equatable {
     private let actor: String
     private let card: String
+    private let target: String?
     
-    public init(actor: String, card: String) {
+    public init(actor: String, card: String, target: String? = nil) {
         self.actor = actor
         self.card = card
+        self.target = target
     }
     
     public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
@@ -39,8 +39,19 @@ public struct Play: Effect, Equatable {
             fatalError(.missingPlayerCard(card))
         }
         
+        /// set playing data
+        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
+        
+        /// resolve playTarget if any
+        if let playTarget = cardObj.playTarget,
+           target == nil {
+            return resolve(playTarget, ctx: ctx, playCtx: playCtx) {
+                Self(actor: actor, card: card, target: $0)
+            }
+        }
+        
         /// verify can play
-        if case let .failure(error) = Rules.main.canPlay(cardObj, actor: actor, in: ctx) {
+        if case let .failure(error) = Rules.main.canPlay(playCtx, in: ctx) {
             return .failure(error)
         }
         
@@ -48,7 +59,6 @@ public struct Play: Effect, Equatable {
         ctx.played.append(cardObj.name)
         
         /// push child effects
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
         let children = cardObj.onPlay.withCtx(playCtx)
         
         return .success(EffectOutputImpl(state: ctx, effects: children))

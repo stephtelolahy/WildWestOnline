@@ -24,7 +24,7 @@ public protocol RuleDistance {
 
 /// Verifying card playability
 public protocol RulePlay {
-    func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError>
+    func canPlay(_ playCtx: PlayContext, in ctx: Game) -> Result<Void, GameError>
 }
 
 /// Generating triggered effects, sorted by priority

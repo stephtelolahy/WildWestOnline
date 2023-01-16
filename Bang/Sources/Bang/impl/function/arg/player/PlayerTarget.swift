@@ -1,18 +1,18 @@
 //
-//  PlayerCurrent.swift
+//  PlayerTarget.swift
 //  
 //
-//  Created by Hugues Telolahy on 12/01/2023.
+//  Created by Hugues Telolahy on 16/01/2023.
 //
 
-/// current player on a group effect
-public struct PlayerCurrent: ArgPlayer, Equatable {
+/// target player
+public struct PlayerTarget: ArgPlayer, Equatable {
     
     public init() {}
     
     public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError> {
         guard let current = playCtx.target else {
-            fatalError(.missingCurrentPlayer)
+            fatalError(.missingTarget)
         }
         return .success(.identified([current]))
     }

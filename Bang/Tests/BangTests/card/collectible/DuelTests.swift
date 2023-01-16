@@ -26,10 +26,10 @@ final class DuelTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(Play(actor: "p1", card: "c1")),
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
+                .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
@@ -55,10 +55,10 @@ final class DuelTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(Play(actor: "p1", card: "c1")),
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
+                .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
@@ -91,10 +91,10 @@ final class DuelTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(Play(actor: "p1", card: "c1")),
                 .wait([Choose(player: "p1", label: "p2")]),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
+                .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),

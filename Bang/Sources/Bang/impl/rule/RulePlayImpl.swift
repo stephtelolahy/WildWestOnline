@@ -7,14 +7,35 @@
 
 extension Rules: RulePlay {
     
-    public func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError> {
+    public func canPlay(_ playCtx: PlayContext, in ctx: Game) -> Result<Void, GameError> {
+        let card = playCtx.playedCard
         // verify playing effects not empty
         guard !card.onPlay.isEmpty else {
             return .failure(.cardHasNoPlayingEffect)
         }
         
-        // set playing data
-        let playCtx = PlayContextImpl(actor: actor, playedCard: card)
+        /// verify at leat one playTarget succeed if any
+        if card.playTarget != nil,
+           playCtx.target == nil {
+            let play = Play(actor: playCtx.actor, card: card.id)
+            let result = play.resolve(ctx, playCtx: playCtx)
+            switch result {
+            case let .failure(error):
+                return .failure(error)
+                
+            case let .success(output):
+                guard let children = output.options else {
+                    fatalError(.unexpected)
+                }
+                
+                let results = children.map { $0.resolveUntilCompleted(ctx: ctx) }
+                if results.allSatisfy({ $0.isFailure }) {
+                    return results[0]
+                }
+                
+                return .success
+            }
+        }
         
         // verify all requirements
         for playReq in card.canPlay {

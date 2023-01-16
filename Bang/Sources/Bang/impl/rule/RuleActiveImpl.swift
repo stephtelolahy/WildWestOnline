@@ -14,7 +14,7 @@ extension Rules: RuleActive {
         
         let playerObj = ctx.player(playerId)
         let moves: [Effect] = (playerObj.abilities + playerObj.hand)
-            .filter { canPlay($0, actor: playerId, in: ctx).isSuccess }
+            .filter { canPlay(PlayContextImpl(actor: playerId, playedCard: $0), in: ctx).isSuccess }
             .map { Play(actor: playerId, card: $0.id) }
             .compactMap { $0 }
         
