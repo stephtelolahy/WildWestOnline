@@ -9,6 +9,7 @@
 public struct DrawStore: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, card: ArgCard) {
         self.player = player

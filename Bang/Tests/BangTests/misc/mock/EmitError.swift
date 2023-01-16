@@ -9,6 +9,7 @@ import Bang
 /// Effect resulting an error
 struct EmitError: Effect, Equatable {
     let error: GameError
+    @EquatableIgnore var playCtx: PlayContext!
     
     func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
         .failure(error)

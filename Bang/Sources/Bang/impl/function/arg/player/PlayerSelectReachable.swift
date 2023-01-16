@@ -10,9 +10,9 @@ public struct PlayerSelectReachable: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game) -> Result<ArgResolved, GameError> {
-        let playerObj = ctx.player(ctx.actor)
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError> {
+        let playerObj = ctx.player(playCtx.actor)
         let distance = playerObj.weapon
-        return PlayerSelectAt(distance).resolve(ctx)
+        return PlayerSelectAt(distance).resolve(ctx, playCtx: playCtx)
     }
 }

@@ -39,6 +39,7 @@ final class DrawStoreTests: XCTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            store: [c1, c2])
         let sut = DrawStore(player: PlayerId("p1"), card: CardSelectStore())
+            .withCtx(PlayContextImpl())
         
         // When
         let result = sut.resolve(ctx)
@@ -59,6 +60,7 @@ final class DrawStoreTests: XCTestCase {
         let ctx = GameImpl(players: ["p1": p1],
                            store: [c1])
         let sut = DrawStore(player: PlayerId("p1"), card: CardSelectStore())
+            .withCtx(PlayContextImpl())
         
         // When
         let result = sut.resolve(ctx)

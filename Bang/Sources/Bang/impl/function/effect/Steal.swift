@@ -10,6 +10,7 @@ public struct Steal: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var target: ArgPlayer
     @EquatableCast private var card: ArgCard
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, target: ArgPlayer, card: ArgCard) {
         self.player = player

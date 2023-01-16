@@ -8,6 +8,7 @@
 /// Draw top deck card
 public struct DrawDeck: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer) {
         self.player = player

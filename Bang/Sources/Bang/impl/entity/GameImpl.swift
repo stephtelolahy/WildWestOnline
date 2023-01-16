@@ -16,9 +16,6 @@ public struct GameImpl: Game {
     public var played: [String]
     public var options: [Effect]
     public var active: [Effect]
-    public var currentActor: String?
-    public var currentCard: Card?
-    public var currentPlayer: String?
     public var event: Result<Effect, GameError>?
     
     public init(players: [String: Player] = [:],
@@ -31,9 +28,6 @@ public struct GameImpl: Game {
                 played: [String] = [],
                 options: [Effect] = [],
                 active: [Effect] = [],
-                currentActor: String? = nil,
-                currentCard: Card? = nil,
-                currentPlayer: String? = nil,
                 event: Result<Effect, GameError>? = nil) {
         self.players = players
         self.playOrder = playOrder
@@ -45,9 +39,6 @@ public struct GameImpl: Game {
         self.played = played
         self.options = options
         self.active = active
-        self.currentActor = currentActor
-        self.currentCard = currentCard
-        self.currentPlayer = currentPlayer
         self.event = event
     }
     

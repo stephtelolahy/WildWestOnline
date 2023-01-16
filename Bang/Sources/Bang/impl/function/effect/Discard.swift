@@ -10,6 +10,7 @@
 public struct Discard: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, card: ArgCard) {
         self.player = player
@@ -24,7 +25,7 @@ public struct Discard: Effect, Equatable {
         }
         
         guard let cardId = (card as? CardId)?.id else {
-            return resolve(card, ctx: ctx, chooser: ctx.actor, owner: playerId) {
+            return resolve(card, ctx: ctx, chooser: playCtx.actor, owner: playerId) {
                 Self(player: player, card: CardId($0))
             }
         }

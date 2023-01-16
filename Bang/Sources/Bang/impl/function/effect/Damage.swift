@@ -9,6 +9,7 @@
 public struct Damage: Effect, Equatable {
     @EquatableCast var player: ArgPlayer
     private let value: Int
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, value: Int) {
         self.player = player

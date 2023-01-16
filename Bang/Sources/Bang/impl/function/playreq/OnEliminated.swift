@@ -10,11 +10,11 @@ public struct OnEliminated: PlayReq, Equatable {
     
     public init() {}
     
-    public func match(_ ctx: Game) -> Result<Void, GameError> {
+    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
         guard case let .success(effect) = ctx.event,
               let eliminate = effect as? Eliminate,
               let playerId = (eliminate.player as? PlayerId)?.id,
-              playerId == ctx.actor else {
+              playerId == playCtx.actor else {
             return .failure(.unknown)
         }
         

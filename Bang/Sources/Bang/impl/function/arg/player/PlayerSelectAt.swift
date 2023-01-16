@@ -13,8 +13,8 @@ public struct PlayerSelectAt: ArgPlayer, Equatable {
         self.distance = distance
     }
     
-    public func resolve(_ ctx: Game) -> Result<ArgResolved, GameError> {
-        let players = Rules.main.playersAt(distance, from: ctx.actor, in: ctx)
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError> {
+        let players = Rules.main.playersAt(distance, from: playCtx.actor, in: ctx)
         guard !players.isEmpty else {
             return .failure(.noPlayersAt(distance))
         }

@@ -10,7 +10,7 @@ public struct NumPlayers: ArgNumber, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game) -> Result<Int, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<Int, GameError> {
         .success(ctx.playOrder.count)
     }
 }

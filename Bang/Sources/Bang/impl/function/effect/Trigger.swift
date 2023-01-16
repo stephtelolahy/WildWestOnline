@@ -10,6 +10,7 @@
 public struct Trigger: Effect, Equatable {
     private let actor: String
     private let card: String
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(actor: String, card: String) {
         self.actor = actor
@@ -17,7 +18,6 @@ public struct Trigger: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EffectOutput, GameError> {
-        var ctx = ctx
         let playerObj = ctx.player(actor)
         
         /// find card reference
@@ -29,12 +29,9 @@ public struct Trigger: Effect, Equatable {
             fatalError(.missingPlayerCard(card))
         }
         
-        /// set playing data
-        ctx.currentActor = actor
-        ctx.currentCard = cardObj
-        
         /// push child effects
-        let children = cardObj.onTrigger
+        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
+        let children = cardObj.onTrigger.withCtx(playCtx)
         
         return .success(EffectOutputImpl(state: ctx, effects: children))
     }

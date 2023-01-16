@@ -23,7 +23,7 @@ final class MissedTests: XCTestCase {
                         
                         createExpectation(
                             engine: sut,
-                            expected: [.error(.cardHasNoEffect)])
+                            expected: [.error(.cardHasNoPlayingEffect)])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))

@@ -10,8 +10,8 @@
 public struct Choose: Effect, Equatable {
     private let player: String
     private let label: String
-    
     @EquatableIgnore var effects: [Effect]
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: String, label: String, effects: [Effect] = []) {
         self.player = player

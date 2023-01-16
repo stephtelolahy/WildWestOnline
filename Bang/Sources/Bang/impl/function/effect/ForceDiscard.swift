@@ -11,6 +11,7 @@ public struct ForceDiscard: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
     @EquatableIgnore private var otherwise: [Effect]
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer, card: ArgCard, otherwise: [Effect] = []) {
         self.player = player
@@ -25,9 +26,9 @@ public struct ForceDiscard: Effect, Equatable {
             }
         }
         
-        // set current player
-        var ctx = ctx
-        ctx.currentPlayer = playerId
+        // set current target
+        var childCtx: PlayContext = playCtx
+        childCtx.target = playerId
         
         // resolving card
         switch card.resolve(ctx, chooser: playerId, owner: playerId) {
@@ -35,7 +36,7 @@ public struct ForceDiscard: Effect, Equatable {
             if case .playerHasNoMatchingCard = error {
                 // do not own required card
                 // apply otherwise effects immediately
-                return .success(EffectOutputImpl(state: ctx, effects: otherwise))
+                return .success(EffectOutputImpl(state: ctx, effects: otherwise.withCtx(childCtx)))
                 
             } else {
                 return .failure(error)
@@ -52,9 +53,9 @@ public struct ForceDiscard: Effect, Equatable {
             var choices: [Effect] = options.map {
                 Choose(player: playerId,
                        label: $0.label,
-                       effects: [Discard(player: PlayerId(playerId), card: CardId($0.value))])
+                       effects: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(childCtx)])
             }
-            choices.append(Choose(player: playerId, label: Label.pass, effects: otherwise))
+            choices.append(Choose(player: playerId, label: Label.pass, effects: otherwise.withCtx(childCtx)))
             return .success(EffectOutputImpl(state: ctx, options: choices))
         }
     }

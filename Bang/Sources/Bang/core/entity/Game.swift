@@ -38,15 +38,6 @@ public protocol Game {
     /// active moves
     var active: [Effect] { get set }
     
-    /// current actor
-    var currentActor: String? { get set }
-    
-    /// currently played card
-    var currentCard: Card? { get set }
-    
-    /// current player id
-    var currentPlayer: String? { get set }
-    
     /// last occurred event
     var event: Result<Effect, GameError>? { get set }
     

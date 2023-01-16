@@ -7,6 +7,7 @@
 
 /// Draw card from deck to store zone
 public struct Store: Effect, Equatable {
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init() {}
     

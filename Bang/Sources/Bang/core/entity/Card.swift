@@ -15,7 +15,7 @@ public protocol Card {
     var name: String { get }
     
     /// card value
-    var value: String { get }
+    var value: String { get set }
     
     /// requirements for playing this card
     var canPlay: [PlayReq] { get }

@@ -8,15 +8,6 @@
 /// Internal usage only
 extension Game {
     
-    /// current actor
-    var actor: String {
-        guard let actorId = currentActor else {
-            fatalError(.missingActor)
-        }
-        
-        return actorId
-    }
-    
     /// Remove top deck card
     /// reseting deck if empty
     mutating func removeTopDeck() -> Card {

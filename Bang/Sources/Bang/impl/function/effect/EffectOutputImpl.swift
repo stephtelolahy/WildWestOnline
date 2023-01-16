@@ -9,6 +9,7 @@ public struct EffectOutputImpl: EffectOutput {
     public var state: Game?
     public var effects: [Effect]?
     public var options: [Effect]?
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(state: Game? = nil, effects: [Effect]? = nil, options: [Effect]? = nil) {
         // swiftlint:disable force_unwrapping

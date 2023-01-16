@@ -10,12 +10,12 @@ public struct OnLooseLastHealth: PlayReq, Equatable {
     
     public init() {}
     
-    public func match(_ ctx: Game) -> Result<Void, GameError> {
+    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
         guard case let .success(effect) = ctx.event,
               let damage = effect as? Damage,
               let playerId = (damage.player as? PlayerId)?.id,
               ctx.player(playerId).health <= 0,
-              playerId == ctx.actor else {
+              playerId == playCtx.actor else {
             return .failure(.unknown)
         }
         

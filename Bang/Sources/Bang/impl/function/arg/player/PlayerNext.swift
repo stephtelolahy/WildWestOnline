@@ -10,7 +10,7 @@ public struct PlayerNext: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game) -> Result<ArgResolved, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError> {
         guard let turn = ctx.turn else {
             fatalError(.missingTurn)
         }

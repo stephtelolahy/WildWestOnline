@@ -6,27 +6,26 @@
 //
 
 extension Rules: RulePlay {
- 
+    
     public func canPlay(_ card: Card, actor: String, in ctx: Game) -> Result<Void, GameError> {
+        // verify playing effects not empty
+        guard !card.onPlay.isEmpty else {
+            return .failure(.cardHasNoPlayingEffect)
+        }
+        
         // set playing data
-        var ctx = ctx
-        ctx.currentActor = actor
-        ctx.currentCard = card
+        let playCtx = PlayContextImpl(actor: actor, playedCard: card)
         
         // verify all requirements
         for playReq in card.canPlay {
-            if case let .failure(error) = playReq.match(ctx) {
+            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
                 return .failure(error)
             }
         }
         
-        // verify effects not empty
-        guard let firstEffect = card.onPlay.first else {
-            return .failure(.cardHasNoEffect)
-        }
-        
-        // verify first effect
-        if case let .failure(error) = firstEffect.resolveUntilCompleted(ctx: ctx) {
+        // verify main effect succeed
+        let effect = card.onPlay[0].withCtx(playCtx)
+        if case let .failure(error) = effect.resolveUntilCompleted(ctx: ctx) {
             return .failure(error)
         }
         

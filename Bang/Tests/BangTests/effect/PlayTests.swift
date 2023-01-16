@@ -76,7 +76,7 @@ final class PlayTests: XCTestCase {
         let result = sut.resolve(ctx)
         
         // Assert
-        assertIsFailure(result, equalTo: .cardHasNoEffect)
+        assertIsFailure(result, equalTo: .cardHasNoPlayingEffect)
     }
     
     func test_ThrowError_IfCardFirstEffectFails() {

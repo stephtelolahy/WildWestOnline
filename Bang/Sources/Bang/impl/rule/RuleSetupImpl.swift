@@ -11,12 +11,7 @@ extension Rules: RuleSetup {
         var deck = deck.shuffled()
         var players: [String: Player] = [:]
         var playOrder: [String] = []
-        
-        let identifiableAbilities = abilities.map {
-            var copy = $0
-            copy.id = copy.name
-            return copy
-        }
+        let identifiableAbilities = abilities.map { $0.withId($0.name) }
         
         Array(1...playersCount).forEach { index in
             // TODO: add figure

@@ -12,6 +12,7 @@
 public struct Play: Effect, Equatable {
     private let actor: String
     private let card: String
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(actor: String, card: String) {
         self.actor = actor
@@ -45,12 +46,11 @@ public struct Play: Effect, Equatable {
         }
         
         /// set playing data
-        ctx.currentActor = actor
-        ctx.currentCard = cardObj
         ctx.played.append(cardObj.name)
         
         /// push child effects
-        let children = cardObj.onPlay
+        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
+        let children = cardObj.onPlay.withCtx(playCtx)
         
         return .success(EffectOutputImpl(state: ctx, effects: children))
     }

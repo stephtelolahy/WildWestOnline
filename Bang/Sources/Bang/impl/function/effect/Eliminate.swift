@@ -8,6 +8,7 @@
 /// Remove player from game
 public struct Eliminate: Effect, Equatable {
     @EquatableCast var player: ArgPlayer
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init(player: ArgPlayer) {
         self.player = player

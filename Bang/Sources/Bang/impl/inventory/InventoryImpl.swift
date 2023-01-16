@@ -33,10 +33,9 @@ public struct InventoryImpl: Inventory {
         for (key, values) in cardSets {
             if let card = uniqueCards.first(where: { $0.name == key }) {
                 for value in values {
-                    var copy = card
-                    copy.value = value
-                    copy.id = "\(key)-\(value)"
-                    cards.append(copy)
+                    cards.append(card
+                        .withValue(value)
+                        .withId("\(key)-\(value)"))
                 }
             }
         }

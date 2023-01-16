@@ -12,17 +12,16 @@ extension Effect {
         ctx: Game,
         copy: @escaping (String) -> Self
     ) -> Result<EffectOutput, GameError> {
-        
-        let result = player.resolve(ctx)
+        let result = player.resolve(ctx, playCtx: playCtx)
         switch result {
         case let .success(data):
             switch data {
             case let .identified(cIds):
-                let children = cIds.map { copy($0) }
+                let children = cIds.map { copy($0).withCtx(playCtx) }
                 return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(items):
-                let options = items.map { Choose(player: ctx.actor, label: $0.label, effects: [copy($0.value)]) }
+                let options = items.map { Choose(player: playCtx.actor, label: $0.label, effects: [copy($0.value).withCtx(playCtx)]) }
                 return .success(EffectOutputImpl(options: options))
             }
             
@@ -38,17 +37,16 @@ extension Effect {
         owner: String?,
         copy: @escaping (String) -> Self
     ) -> Result<EffectOutput, GameError> {
-        
         let result = card.resolve(ctx, chooser: chooser, owner: owner)
         switch result {
         case let .success(data):
             switch data {
             case let .identified(cIds):
-                let children = cIds.map { copy($0) }
+                let children = cIds.map { copy($0).withCtx(playCtx) }
                 return .success(EffectOutputImpl(effects: children))
                 
             case let .selectable(items):
-                let options = items.map { Choose(player: chooser, label: $0.label, effects: [copy($0.value)]) }
+                let options = items.map { Choose(player: chooser, label: $0.label, effects: [copy($0.value).withCtx(playCtx)]) }
                 return .success(EffectOutputImpl(options: options))
             }
             

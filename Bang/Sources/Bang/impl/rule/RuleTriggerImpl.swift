@@ -26,18 +26,17 @@ extension Rules: RuleTrigger {
     }
     
     private func willTrigger(_ card: Card, actor: String, ctx: Game) -> Result<Void, GameError> {
-        guard !card.triggers.isEmpty else {
-            return .failure(.unknown)
+        // verify playing effects not empty
+        guard !card.onTrigger.isEmpty else {
+            return .failure(.cardHasNoTriggeredEffect)
         }
         
         /// set playing data
-        var ctx = ctx
-        ctx.currentActor = actor
-        ctx.currentCard = card
+        let playCtx = PlayContextImpl(actor: actor, playedCard: card)
         
         /// verify all requirements
         for playReq in card.triggers {
-            if case let .failure(error) = playReq.match(ctx) {
+            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
                 return .failure(error)
             }
         }

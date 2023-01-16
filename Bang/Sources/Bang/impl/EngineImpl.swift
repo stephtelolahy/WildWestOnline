@@ -72,12 +72,9 @@ public class EngineImpl: Engine {
         if queue.isEmpty {
             if let active = Rules.main.activeMoves(ctx) {
                 ctx.active = active
-                // cleanup
-                ctx.currentCard = nil
-                ctx.currentActor = nil
-                ctx.currentPlayer = nil
                 state.send(ctx)
             }
+            
             return
         }
         

@@ -7,6 +7,7 @@
 
 /// Mark game over
 public struct EndGame: Effect, Equatable {
+    @EquatableIgnore public var playCtx: PlayContext!
     
     public init() {}
 
