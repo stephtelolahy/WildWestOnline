@@ -97,6 +97,11 @@ public class EngineImpl: Engine {
             if let update = output.state {
                 ctx = update
                 ctx.event = .success(effect)
+                
+                // push triggered moves if any
+                if let triggered = Rules.main.triggeredMoves(ctx) {
+                    queue.insert(contentsOf: triggered, at: 0)
+                }
             }
             
             if let children = output.effects {
@@ -105,11 +110,6 @@ public class EngineImpl: Engine {
             
             if let options = output.options {
                 ctx.options = options
-            }
-            
-            // push triggered moves if any
-            if let triggered = Rules.main.triggeredMoves(ctx) {
-                queue.append(contentsOf: triggered)
             }
             
         case let .failure(error):
