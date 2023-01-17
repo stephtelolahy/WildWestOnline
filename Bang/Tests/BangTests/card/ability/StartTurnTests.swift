@@ -17,7 +17,7 @@ final class StartTurnTests: XCTestCase {
     
     func test_Draw2Cards_OnSetTurn() {
         // Given
-        let c1 = inventory.getCard("startTurn", withId: "c1")
+        let c1 = inventory.getCard(.startTurn, withId: "c1")
         let p1 = PlayerImpl(abilities: [c1])
         let p2 = PlayerImpl(abilities: [c1])
         let deck = [CardImpl(), CardImpl()]
@@ -44,7 +44,7 @@ final class StartTurnTests: XCTestCase {
     
     func test_DoNothing_IfNoMatchingEvent() {
         // Given
-        let c1 = inventory.getCard("startTurn", withId: "c1")
+        let c1 = inventory.getCard(.startTurn, withId: "c1")
         let p1 = PlayerImpl(abilities: [c1])
         let deck = [CardImpl(), CardImpl()]
         let ctx = GameImpl(players: ["p1": p1],

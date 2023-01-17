@@ -7,7 +7,7 @@
 
 extension Array where Element == String {
     
-    func toOptions() -> [ArgResolved.Option] {
-        map { ArgResolved.Option(value: $0, label: $0) }
+    func toOptions() -> [ArgOutput.Option] {
+        map { ArgOutput.Option(value: $0, label: $0) }
     }
 }

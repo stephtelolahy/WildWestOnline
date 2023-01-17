@@ -14,7 +14,7 @@ public protocol ArgNumber {
 /// Player argument
 public protocol ArgPlayer {
     
-    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError>
+    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, GameError>
 }
 
 /// Card argument
@@ -25,11 +25,11 @@ public protocol ArgCard {
     ///   - ctx: game state
     ///   - chooser: player making choice
     ///   - owner: player owning the card if any
-    func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgResolved, GameError>
+    func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgOutput, GameError>
 }
 
 /// Resolved argument
-public enum ArgResolved {
+public enum ArgOutput {
     
     /// Create similar child effects with well known objects identifiers
     case identified([String])
@@ -38,7 +38,7 @@ public enum ArgResolved {
     case selectable([Option])
 }
 
-public extension ArgResolved {
+public extension ArgOutput {
     struct Option {
         let value: String
         let label: String

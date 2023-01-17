@@ -15,7 +15,7 @@ final class CatBalouTests: XCTestCase {
     
     func test_DiscardOthersUniqueHandCard_IfPlayingCatBalou() throws {
         // Given
-        let c1 = inventory.getCard("catBalou", withId: "c1")
+        let c1 = inventory.getCard(.catBalou, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
@@ -46,7 +46,7 @@ final class CatBalouTests: XCTestCase {
     
     func test_DiscardOthersRandomHandCard_IfPlayingCatBalou() throws {
         // Given
-        let c1 = inventory.getCard("catBalou", withId: "c1")
+        let c1 = inventory.getCard(.catBalou, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2, c2])
@@ -77,7 +77,7 @@ final class CatBalouTests: XCTestCase {
     
     func test_DiscardOthersInPlayCard_IfPlayingCatBalou() throws {
         // Given
-        let c1 = inventory.getCard("catBalou", withId: "c1")
+        let c1 = inventory.getCard(.catBalou, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(inPlay: [c2])
@@ -108,7 +108,7 @@ final class CatBalouTests: XCTestCase {
     
     func test_CannotPlayCatBalou_IfNoCardsToDiscard() throws {
         // Given
-        let c1 = inventory.getCard("catBalou", withId: "c1")
+        let c1 = inventory.getCard(.catBalou, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],

@@ -15,7 +15,7 @@ final class BangTests: XCTestCase {
     
     func test_DealDamage_IfPlayingBang() throws {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
+        let c1 = inventory.getCard(.bang, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -30,7 +30,7 @@ final class BangTests: XCTestCase {
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         
@@ -43,7 +43,7 @@ final class BangTests: XCTestCase {
     
     func test_CannotPlayBang_IfNoPlayerReachable() throws {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
+        let c1 = inventory.getCard(.bang, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
                            playOrder: ["p1"],
@@ -63,13 +63,13 @@ final class BangTests: XCTestCase {
     
     func test_CannotPlayBang_IfReachedLimitPerTurn() throws {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
+        let c1 = inventory.getCard(.bang, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
                            turn: "p1",
-                           played: ["bang"])
+                           played: [.bang])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -90,8 +90,8 @@ final class BangTests: XCTestCase {
     
     func test_CounterBang_IfPlayingMissed() throws {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
-        let c2 = inventory.getCard("missed", withId: "c2")
+        let c1 = inventory.getCard(.bang, withId: "c1")
+        let c2 = inventory.getCard(.missed, withId: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -106,7 +106,7 @@ final class BangTests: XCTestCase {
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
@@ -123,8 +123,8 @@ final class BangTests: XCTestCase {
     
     func test_DoNotCounterBang_IfMissedNotPlayed() throws {
         // Given
-        let c1 = inventory.getCard("bang", withId: "c1")
-        let c2 = inventory.getCard("missed", withId: "c2")
+        let c1 = inventory.getCard(.bang, withId: "c1")
+        let c2 = inventory.getCard(.missed, withId: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -139,7 +139,7 @@ final class BangTests: XCTestCase {
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(1),

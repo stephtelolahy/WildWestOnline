@@ -10,13 +10,13 @@ public struct CardSelectAny: ArgCard, Equatable {
     
     public init() {}
 
-    public func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgResolved, GameError> {
+    public func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
         guard let playerId = owner else {
             fatalError(.missingCardOwner)
         }
         
         let playerObj = ctx.player(playerId)
-        var options: [ArgResolved.Option] = []
+        var options: [ArgOutput.Option] = []
         
         if !playerObj.inPlay.isEmpty {
             let inPlayOptions = playerObj.inPlay.map(\.id).toOptions()
@@ -27,7 +27,7 @@ public struct CardSelectAny: ArgCard, Equatable {
             if chooser != owner {
                 // swiftlint:disable:next force_unwrapping
                 let randomId = playerObj.hand.map(\.id).randomElement()!
-                let randomOption = ArgResolved.Option(value: randomId, label: Label.randomHand)
+                let randomOption = ArgOutput.Option(value: randomId, label: Label.randomHand)
                 options.append(randomOption)
             } else {
                 let handOptions = playerObj.hand.map(\.id).toOptions()

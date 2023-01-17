@@ -10,7 +10,7 @@ public struct PlayerActor: ArgPlayer, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, GameError> {
         .success(.identified([playCtx.actor]))
     }
 }

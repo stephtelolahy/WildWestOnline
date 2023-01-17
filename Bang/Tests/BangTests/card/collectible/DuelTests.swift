@@ -15,7 +15,7 @@ final class DuelTests: XCTestCase {
     
     func test_TargetPlayerLooseHealth_IfPlayingDuel_AndNoBangCards() {
         // Given
-        let c1 = inventory.getCard("duel", withId: "c1")
+        let c1 = inventory.getCard(.duel, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -30,7 +30,7 @@ final class DuelTests: XCTestCase {
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         
@@ -43,8 +43,8 @@ final class DuelTests: XCTestCase {
     
     func test_TargetPlayersDoNotLooseHealth_IfPlayingDuel_AndDiscarding1BangCards() {
         // Given
-        let c1 = inventory.getCard("duel", withId: "c1")
-        let c2 = inventory.getCard("bang", withId: "c2")
+        let c1 = inventory.getCard(.duel, withId: "c1")
+        let c2 = inventory.getCard(.bang, withId: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -59,13 +59,13 @@ final class DuelTests: XCTestCase {
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
                 .success(Choose(player: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
-                .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed("bang"))),
+                .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed(.bang))),
                 .success(Damage(player: PlayerId("p1"), value: 1))
             ])
         
@@ -78,9 +78,9 @@ final class DuelTests: XCTestCase {
     
     func test_TargetPlayersLooseHealth_IfPlayingDuel_AndDiscarding2BangCards() {
         // Given
-        let c1 = inventory.getCard("duel", withId: "c1")
-        let c2 = inventory.getCard("bang", withId: "c2")
-        let c3 = inventory.getCard("bang", withId: "c3")
+        let c1 = inventory.getCard(.duel, withId: "c1")
+        let c2 = inventory.getCard(.bang, withId: "c2")
+        let c3 = inventory.getCard(.bang, withId: "c3")
         let p1 = PlayerImpl(hand: [c1, c3])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
@@ -95,19 +95,19 @@ final class DuelTests: XCTestCase {
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
                 .success(Choose(player: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
-                .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed("bang"))),
+                .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed(.bang))),
                 .wait([Choose(player: "p1", label: "c3"),
                        Choose(player: "p1", label: Label.pass)]),
                 .input(0),
                 .success(Choose(player: "p1", label: "c3")),
                 .success(Discard(player: PlayerId("p1"), card: CardId("c3"))),
-                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed("bang"))),
+                .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         

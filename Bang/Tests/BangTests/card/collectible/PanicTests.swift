@@ -15,7 +15,7 @@ final class PanicTests: XCTestCase {
     
     func test_StealOthersUniqueHandCard_IfPlayingPanic() throws {
         // Given
-        let c1 = inventory.getCard("panic", withId: "c1")
+        let c1 = inventory.getCard(.panic, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
@@ -46,7 +46,7 @@ final class PanicTests: XCTestCase {
     
     func test_StealOthersInPlayCard_IfPlayingPanic() throws {
         // Given
-        let c1 = inventory.getCard("panic", withId: "c1")
+        let c1 = inventory.getCard(.panic, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let c3 = CardImpl(id: "c3")
         let p1 = PlayerImpl(hand: [c1])
@@ -79,7 +79,7 @@ final class PanicTests: XCTestCase {
     
     func test_CannotPlayPanic_IfNoCardsToSteal() throws {
         // Given
-        let c1 = inventory.getCard("panic", withId: "c1")
+        let c1 = inventory.getCard(.panic, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],

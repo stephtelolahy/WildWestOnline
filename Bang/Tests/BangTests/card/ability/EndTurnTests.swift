@@ -15,7 +15,7 @@ final class EndTurnTests: XCTestCase {
     
     func test_SetNextTurn_IfEndingTurn() throws {
         // Given
-        let endTurn = inventory.getCard("endTurn", withId: "a1")
+        let endTurn = inventory.getCard(.endTurn, withId: "a1")
         let p1 = PlayerImpl(health: 1, abilities: [endTurn])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": PlayerImpl()],
@@ -39,7 +39,7 @@ final class EndTurnTests: XCTestCase {
     
     func test_DiscardExcess1Card_IfEndingTurn() throws {
         // Given
-        let endTurn = inventory.getCard("endTurn", withId: "a1")
+        let endTurn = inventory.getCard(.endTurn, withId: "a1")
         let c1 = CardImpl(id: "c1")
         let c2 = CardImpl(id: "c2")
         let p1 = PlayerImpl(health: 1, abilities: [endTurn], hand: [c1, c2])
@@ -70,7 +70,7 @@ final class EndTurnTests: XCTestCase {
     
     func test_DiscardExcess2Cards_IfEndingTurn() throws {
         // Given
-        let endTurn = inventory.getCard("endTurn", withId: "a1")
+        let endTurn = inventory.getCard(.endTurn, withId: "a1")
         let c1 = CardImpl(id: "c1")
         let c2 = CardImpl(id: "c2")
         let c3 = CardImpl(id: "c3")

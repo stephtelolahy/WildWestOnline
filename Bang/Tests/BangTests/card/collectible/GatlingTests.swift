@@ -15,7 +15,7 @@ final class GatlingTests: XCTestCase {
     
     func test_DamageOthers_IfPlayingGatling() throws {
         // Given
-        let c1 = inventory.getCard("gatling", withId: "c1")
+        let c1 = inventory.getCard(.gatling, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let p3 = PlayerImpl()
@@ -28,9 +28,9 @@ final class GatlingTests: XCTestCase {
             engine: sut,
             expected: [
                 .success(Play(actor: "p1", card: "c1")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
                 .success(Damage(player: PlayerId("p2"), value: 1)),
-                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed(.missed))),
                 .success(Damage(player: PlayerId("p3"), value: 1))
             ])
         
@@ -43,9 +43,9 @@ final class GatlingTests: XCTestCase {
     
     func test_OtherPlayersDoNotLooseHealth_IfPlayingGatling_AndDiscardingMissedCards() throws {
         // Given
-        let c1 = inventory.getCard("gatling", withId: "c1")
-        let c2 = inventory.getCard("missed", withId: "c2")
-        let c3 = inventory.getCard("missed", withId: "c3")
+        let c1 = inventory.getCard(.gatling, withId: "c1")
+        let c2 = inventory.getCard(.missed, withId: "c2")
+        let c3 = inventory.getCard(.missed, withId: "c3")
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let p3 = PlayerImpl(hand: [c3])
@@ -58,13 +58,13 @@ final class GatlingTests: XCTestCase {
             engine: sut,
             expected: [
                 .success(Play(actor: "p1", card: "c1")),
-                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
                 .wait([Choose(player: "p2", label: "c2"),
                        Choose(player: "p2", label: Label.pass)]),
                 .input(0),
                 .success(Choose(player: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
-                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed("missed"))),
+                .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed(.missed))),
                 .wait([Choose(player: "p3", label: "c3"),
                        Choose(player: "p3", label: Label.pass)]),
                 .input(0),

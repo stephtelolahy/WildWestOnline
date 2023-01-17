@@ -1,5 +1,5 @@
 //
-//  RuleSetupTests.swift
+//  SetupTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 14/01/2023.
@@ -10,7 +10,7 @@ import Bang
 
 final class RuleSetupTests: XCTestCase {
     
-    private let sut: RuleSetup = Rules.main
+    private let sut: Setup = SetupImpl()
     
     func test_EachPlayerHasMaxHealthAndHandCards_IfSetup() {
         // Given

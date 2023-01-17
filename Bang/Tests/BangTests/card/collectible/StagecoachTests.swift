@@ -15,7 +15,7 @@ final class StagecoachTests: XCTestCase {
     
     func test_Draw2Cards_IfPlayingStagecoach() throws {
         // Given
-        let c1 = inventory.getCard("stagecoach", withId: "c1")
+        let c1 = inventory.getCard(.stagecoach, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let c3 = CardImpl(id: "c3")
         let p1 = PlayerImpl(hand: [c1])

@@ -10,7 +10,7 @@ public struct PlayerOthers: ArgPlayer, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgResolved, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, GameError> {
         let others = Array(ctx.playOrder.starting(with: playCtx.actor).dropFirst())
         return .success(.identified(others))
     }

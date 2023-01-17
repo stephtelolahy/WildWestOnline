@@ -5,7 +5,9 @@
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 
-extension Rules: RuleSetup {
+public struct SetupImpl: Setup {
+    
+    public init() {}
     
     public func createGame(playersCount: Int, deck: [Card], abilities: [Card]) -> Game {
         var deck = deck.shuffled()

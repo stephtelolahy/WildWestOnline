@@ -15,7 +15,7 @@ final class SaloonTests: XCTestCase {
     
     func test_AllDamagedPlayersGainHealth_IfPlayingSaloon() throws {
         // Given
-        let c1 = inventory.getCard("saloon", withId: "c1")
+        let c1 = inventory.getCard(.saloon, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
         let p2 = PlayerImpl(maxHealth: 3, health: 2)
         let p3 = PlayerImpl(maxHealth: 3, health: 3)
@@ -41,7 +41,7 @@ final class SaloonTests: XCTestCase {
     
     func test_CannotPlaySaloon_IfAllPlayersMaxHealth() throws {
         // Given
-        let c1 = inventory.getCard("saloon", withId: "c1")
+        let c1 = inventory.getCard(.saloon, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 4, hand: [c1])
         let p2 = PlayerImpl(maxHealth: 3, health: 3)
         let p3 = PlayerImpl(maxHealth: 3, health: 3)

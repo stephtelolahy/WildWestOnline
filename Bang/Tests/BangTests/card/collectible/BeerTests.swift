@@ -16,7 +16,7 @@ final class BeerTests: XCTestCase {
     
     func test_GainHealth_IfPlayingBeer() throws {
         // Given
-        let c1 = inventory.getCard("beer", withId: "c1")
+        let c1 = inventory.getCard(.beer, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl(), "p3": PlayerImpl()],
                            playOrder: ["p1", "p2", "p3"],
@@ -39,7 +39,7 @@ final class BeerTests: XCTestCase {
     
     func test_ThrowError_IfTwoPlayersLeft() throws {
         // Given
-        let c1 = inventory.getCard("beer", withId: "c1")
+        let c1 = inventory.getCard(.beer, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl()],
                            playOrder: ["p1", "p2"],
@@ -59,7 +59,7 @@ final class BeerTests: XCTestCase {
     
     func test_ThrowError_IfMaxHealth() throws {
         // Given
-        let c1 = inventory.getCard("beer", withId: "c1")
+        let c1 = inventory.getCard(.beer, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 4, hand: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl(), "p3": PlayerImpl()],
                            playOrder: ["p1", "p2", "p3"],

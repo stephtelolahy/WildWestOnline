@@ -18,10 +18,10 @@ final class InventoryTests: XCTestCase {
         let cards = inventory.getAbilities()
         
         // Assert
-        XCTAssertTrue(cards.contains { $0.name == "endTurn" })
-        XCTAssertTrue(cards.contains { $0.name == "startTurn" })
-        XCTAssertTrue(cards.contains { $0.name == "leaveGame" })
-        XCTAssertTrue(cards.contains { $0.name == "gameOver" })
+        XCTAssertTrue(cards.contains { $0.name == .endTurn })
+        XCTAssertTrue(cards.contains { $0.name == .startTurn })
+        XCTAssertTrue(cards.contains { $0.name == .leaveGame })
+        XCTAssertTrue(cards.contains { $0.name == .gameOver })
     }
 
     func test_BangCollectibleCards() throws {
@@ -40,18 +40,18 @@ final class InventoryTests: XCTestCase {
 //        XCTAssertTrue(cards.contains { $0.name == "scope" })
 //        XCTAssertTrue(cards.contains { $0.name == "volcanic" })
 //        XCTAssertTrue(cards.contains { $0.name == "winchester" })
-        XCTAssertTrue(cards.contains { $0.name == "bang" })
-        XCTAssertTrue(cards.contains { $0.name == "beer" })
-        XCTAssertTrue(cards.contains { $0.name == "catBalou" })
-        XCTAssertTrue(cards.contains { $0.name == "duel" })
-        XCTAssertTrue(cards.contains { $0.name == "gatling" })
-        XCTAssertTrue(cards.contains { $0.name == "generalStore" })
-        XCTAssertTrue(cards.contains { $0.name == "indians" })
-        XCTAssertTrue(cards.contains { $0.name == "missed" })
-        XCTAssertTrue(cards.contains { $0.name == "panic" })
-        XCTAssertTrue(cards.contains { $0.name == "saloon" })
-        XCTAssertTrue(cards.contains { $0.name == "stagecoach" })
-        XCTAssertTrue(cards.contains { $0.name == "wellsFargo" })
+        XCTAssertTrue(cards.contains { $0.name == .bang })
+        XCTAssertTrue(cards.contains { $0.name == .beer })
+        XCTAssertTrue(cards.contains { $0.name == .catBalou })
+        XCTAssertTrue(cards.contains { $0.name == .duel })
+        XCTAssertTrue(cards.contains { $0.name == .gatling })
+        XCTAssertTrue(cards.contains { $0.name == .generalStore })
+        XCTAssertTrue(cards.contains { $0.name == .indians })
+        XCTAssertTrue(cards.contains { $0.name == .missed })
+        XCTAssertTrue(cards.contains { $0.name == .panic })
+        XCTAssertTrue(cards.contains { $0.name == .saloon })
+        XCTAssertTrue(cards.contains { $0.name == .stagecoach })
+        XCTAssertTrue(cards.contains { $0.name == .wellsFargo })
     }
     
 //    func test_BangCharacterCards() throws {

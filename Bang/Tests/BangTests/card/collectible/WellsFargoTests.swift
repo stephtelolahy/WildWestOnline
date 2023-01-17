@@ -15,7 +15,7 @@ final class WellsFargoTests: XCTestCase {
     
     func test_Draw3Cards_IfPlayingWellsFargo() throws {
         // Given
-        let c1 = inventory.getCard("wellsFargo", withId: "c1")
+        let c1 = inventory.getCard(.wellsFargo, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let c3 = CardImpl(id: "c3")
         let c4 = CardImpl(id: "c4")

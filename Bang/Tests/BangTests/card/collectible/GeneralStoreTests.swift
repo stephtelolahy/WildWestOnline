@@ -15,7 +15,7 @@ final class GeneralStoreTests: XCTestCase {
     
     func test_EachPlayerChooseCard_IfPlayingGeneralStore() throws {
         // Given
-        let c1 = inventory.getCard("generalStore", withId: "c1")
+        let c1 = inventory.getCard(.generalStore, withId: "c1")
         let c2 = CardImpl(id: "c2")
         let c3 = CardImpl(id: "c3")
         let c4 = CardImpl(id: "c4")

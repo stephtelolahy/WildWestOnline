@@ -15,7 +15,7 @@ final class MissedTests: XCTestCase {
     
     func test_CannotPlayMissed_CardHasNoEffect() throws {
         // Given
-        let c1 = inventory.getCard("missed", withId: "c1")
+        let c1 = inventory.getCard(.missed, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
                            turn: "p1")
