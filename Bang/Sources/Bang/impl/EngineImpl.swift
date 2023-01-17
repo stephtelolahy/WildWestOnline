@@ -42,9 +42,9 @@ public class EngineImpl: Engine {
             }
         }
         
-        /// if queue not empty, then ignore
+        /// if queue not empty
         else if !queue.isEmpty {
-            return
+            fatalError(.unexpected)
         }
         
         let node = move.asNode()
@@ -83,7 +83,6 @@ public class EngineImpl: Engine {
                 ctx.event = .success(Activate(active))
                 state.send(ctx)
             }
-            
             return
         }
         
