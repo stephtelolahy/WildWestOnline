@@ -35,7 +35,7 @@ public struct ForceDiscard: Effect, Equatable {
             if case .playerHasNoMatchingCard = error {
                 // do not own required card
                 // apply otherwise effects immediately
-                return .success(EffectOutputImpl(state: ctx, effects: otherwise.withCtx(childCtx)))
+                return .success(EffectOutputImpl(state: ctx, children: otherwise.withCtx(childCtx)))
                 
             } else {
                 return .failure(error)
@@ -49,14 +49,14 @@ public struct ForceDiscard: Effect, Equatable {
             // request a choice:
             // - discard one of matching card
             // - or Pass
-            var choices: [EffectNode] = options.map {
+            var choices: [Choose] = options.map {
                 Choose(player: playerId,
                        label: $0.label,
                        children: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(childCtx)])
-                .withCtx(playCtx)
             }
-            choices.append(Choose(player: playerId, label: Label.pass, children: otherwise.withCtx(childCtx)).withCtx(playCtx))
-            return .success(EffectOutputImpl(state: ctx, options: choices))
+            choices.append(Choose(player: playerId, label: Label.pass, children: otherwise.withCtx(childCtx)))
+            let children = [ChooseOne(choices).asNode()]
+            return .success(EffectOutputImpl(state: ctx, children: children))
         }
     }
 }

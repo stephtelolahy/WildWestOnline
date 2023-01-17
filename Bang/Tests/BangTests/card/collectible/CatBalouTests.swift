@@ -27,11 +27,11 @@ final class CatBalouTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .wait([Choose(player: "p1", label: Label.randomHand)]),
+                .success(ChooseOne([Choose(player: "p1", label: Label.randomHand)])),
                 .input(0),
                 .success(Choose(player: "p1", label: Label.randomHand)),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
@@ -58,11 +58,11 @@ final class CatBalouTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .wait([Choose(player: "p1", label: Label.randomHand)]),
+                .success(ChooseOne([Choose(player: "p1", label: Label.randomHand)])),
                 .input(0),
                 .success(Choose(player: "p1", label: Label.randomHand)),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
@@ -89,11 +89,11 @@ final class CatBalouTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .wait([Choose(player: "p1", label: "c2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "c2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
@@ -119,7 +119,7 @@ final class CatBalouTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .error(.playerHasNoCard("p2"))

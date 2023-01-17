@@ -70,13 +70,13 @@ class EngineTests: XCTestCase {
     
     func test_QueueMove_IfWaitingAndValid() {
         // Given
-        let ctx = GameImpl(options: [Dummy().asNode()])
-        let sut = EngineImpl(ctx)
-        let move = Dummy()
+        let ctx = GameImpl()
+        let move = Choose(player: "p1", label: "c1", children: [Dummy().asNode()])
+        let sut = EngineImpl(ctx, queue: [ChooseOne([move]).asNode()])
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
             if case let .success(effect) = ctx.event,
-               effect is Dummy {
+               effect is Choose {
                 expectation.fulfill()
             }
         }
@@ -91,8 +91,9 @@ class EngineTests: XCTestCase {
     
     func test_DoNotQueueMove_IfWaitingAndInvalid() {
         // Given
-        let ctx = GameImpl(options: [Choose(player: "p1", label: "c1").asNode()])
-        let sut = EngineImpl(ctx)
+        let ctx = GameImpl()
+        let move1 = Choose(player: "p1", label: "c1")
+        let sut = EngineImpl(ctx, queue: [ChooseOne([move1]).asNode()])
         let move = Dummy()
         
         let expectation = expectation(description: "move is not queued")
@@ -111,6 +112,7 @@ class EngineTests: XCTestCase {
         
         // Assert
         waitForExpectations(timeout: 0.1)
-        XCTAssertEqual(sut.queue.count, 0)
+        XCTAssertEqual(sut.queue.count, 1)
+        XCTAssertTrue(sut.queue[0].effect is ChooseOne)
     }
 }

@@ -33,11 +33,17 @@ public class EngineImpl: Engine {
     }
     
     public func input(_ move: Effect) {
-        let ctx = state.value
+        /// if waiting choice, then validate move
+        if let chooseOne = queue.first?.effect as? ChooseOne {
+            if chooseOne.getOptions().contains(where: { $0.isEqualTo(move) }) {
+                queue.remove(at: 0)
+            } else {
+                return
+            }
+        }
         
-        // if waiting choice, then validate move
-        if !ctx.options.isEmpty,
-           !ctx.options.contains(where: { $0.effect.isEqualTo(move) }) {
+        /// if queue not empty, then ignore
+        else if !queue.isEmpty {
             return
         }
         
@@ -54,26 +60,27 @@ public class EngineImpl: Engine {
     private func _update(_ ctx: Game) {
         var ctx = ctx
         
-        // if game is over, do nothing
+        // if game is over
+        // then complete
         if ctx.isOver {
             return
         }
         
-        // if waiting choice, then verify queue
-        if !ctx.options.isEmpty {
-            // if matching move queued, remove all options
-            guard let node = queue.first,
-                  ctx.options.contains(where: { $0.effect.isEqualTo(node.effect) }) else {
-                return
-            }
-            
-            ctx.options.removeAll()
+        // if waiting choice
+        // emit options
+        // then complete
+        if let chooseOne = queue.first?.effect as? ChooseOne {
+            ctx.event = .success(chooseOne)
+            state.send(ctx)
+            return
         }
         
-        // if idle, emit active moves if any
+        // if idle,
+        // emit active moves if any
+        // then complete
         if queue.isEmpty {
             if let active = Rules.main.activeMoves(ctx) {
-                ctx.active = active
+                ctx.event = .success(Activate(active))
                 state.send(ctx)
             }
             
@@ -81,12 +88,7 @@ public class EngineImpl: Engine {
         }
         
         // remove previous event
-        if ctx.event != nil {
-            ctx.event = nil
-        }
-        
-        // remove active moves
-        ctx.active.removeAll()
+        ctx.event = nil
         
         // process queue
         let node = queue.remove(at: 0)
@@ -97,27 +99,32 @@ public class EngineImpl: Engine {
             if let update = output.state {
                 ctx = update
                 ctx.event = .success(effect)
-                
-                // push triggered moves if any
-                if let triggered = Rules.main.triggeredEffects(ctx) {
-                    queue.insert(contentsOf: triggered, at: 0)
-                }
             }
             
-            if let children = output.effects {
+            if let children = output.children {
                 queue.insert(contentsOf: children, at: 0)
             }
             
-            if let options = output.options {
-                ctx.options = options
+            // push triggered moves if any
+            if let triggered = Rules.main.triggeredEffects(ctx) {
+                queue.insert(contentsOf: triggered, at: 0)
             }
             
         case let .failure(error):
             ctx.event = .failure(error)
         }
         
-        // emit state only when event ocurred or choice asked
-        let emitState = ctx.event != nil || !ctx.options.isEmpty
+        #if DEBUG
+        var eventDesc = ""
+        if case let .success(effect) = ctx.event {
+            eventDesc = String(describing: effect)
+        }
+        let queueDesc = queue.map { String(describing: $0.effect) }.joined(separator: "\n")
+        print("\nevent=\(eventDesc)\nqueue=\n\(queueDesc)")
+        #endif
+        
+        // emit state only when event occurred or choice asked
+        let emitState = ctx.event != nil || queue.first?.effect is ChooseOne
         if emitState {
             state.send(ctx)
         }

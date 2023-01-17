@@ -39,8 +39,11 @@ public enum ArgOutput {
 }
 
 public extension ArgOutput {
+    
     struct Option {
+        
         let value: String
+        
         let label: String
     }
 }

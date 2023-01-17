@@ -27,11 +27,11 @@ final class PanicTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .wait([Choose(player: "p1", label: Label.randomHand)]),
+                .success(ChooseOne([Choose(player: "p1", label: Label.randomHand)])),
                 .input(0),
                 .success(Choose(player: "p1", label: Label.randomHand)),
                 .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2")))
@@ -59,12 +59,12 @@ final class PanicTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
-                .wait([Choose(player: "p1", label: "c3"),
-                       Choose(player: "p1", label: Label.randomHand)]),
+                .success(ChooseOne([Choose(player: "p1", label: "c3"),
+                                    Choose(player: "p1", label: Label.randomHand)])),
                 .input(0),
                 .success(Choose(player: "p1", label: "c3")),
                 .success(Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c3")))
@@ -90,7 +90,7 @@ final class PanicTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .wait([Choose(player: "p1", label: "p2")]),
+                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "p2")),
                 .error(.playerHasNoCard("p2"))

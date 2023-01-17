@@ -13,7 +13,6 @@ import Bang
 enum EngineEvent {
     case success(Effect)
     case error(GameError)
-    case wait([Effect])
     case input(Int)
 }
 
@@ -33,26 +32,22 @@ extension XCTestCase {
         sut.state
             .dropFirst(1)
             .sink { [self] ctx in
-                
                 if let event = ctx.event {
-                    print("\n\(event)")
                     
                     // verify event matches
                     switch event {
                     case let .success(effect):
                         assertEqualEffect(effect, expected: expected.removeSafe(at: 0), file: file, line: line)
                         
+                        // if waiting, then make choice
+                        if let chooseOne = effect as? ChooseOne {
+                            assertPerformChoice(chooseOne.getOptions(), expected: expected.removeSafe(at: 0), sut: sut, file: file, line: line)
+                            return
+                        }
+                        
                     case let .failure(error):
                         assertEqualError(error, expected: expected.removeSafe(at: 0), file: file, line: line)
                     }
-                }
-                
-                // if waiting, then make choice
-                let options = ctx.options
-                if !options.isEmpty {
-                    assertEqualOptions(options, expected: expected.removeSafe(at: 0), file: file, line: line)
-                    assertPerformChoice(options, expected: expected.removeSafe(at: 0), sut: sut, file: file, line: line)
-                    return
                 }
                 
                 // verify completed
@@ -87,34 +82,14 @@ private extension XCTestCase {
         XCTAssertEqual(error, expectedError, file: file, line: line)
     }
     
-    func assertEqualOptions(_ options: [EffectNode], expected: EngineEvent?, file: StaticString = #file, line: UInt = #line) {
-        guard case let .wait(expectedOptions) = expected,
-              options.count == expectedOptions.count else {
-            XCTFail("Observed \(options) is different from expected \(String(describing: expected))", file: file, line: line)
-            cancellables.removeAll()
-            return
-        }
-        
-        for optionIndex in expectedOptions.indices {
-            guard let expectedOption = expectedOptions[optionIndex] as? (any Equatable) else {
-                XCTFail("Observed \(options[optionIndex]) is different from \(expectedOptions[optionIndex])", file: file, line: line)
-                cancellables.removeAll()
-                return
-            }
-            
-            assertEqual(options[optionIndex].effect, expectedOption, file: file, line: line)
-        }
-        
-    }
-    
-    func assertPerformChoice(_ options: [EffectNode], expected: EngineEvent?, sut: Engine, file: StaticString = #file, line: UInt = #line) {
+    func assertPerformChoice(_ options: [Effect], expected: EngineEvent?, sut: Engine, file: StaticString = #file, line: UInt = #line) {
         guard case let .input(choiceIndex) = expected else {
             XCTFail("Expected \(String(describing: expected)) should be a choice", file: file, line: line)
             cancellables.removeAll()
             return
         }
         
-        sut.input(options[choiceIndex].effect)
+        sut.input(options[choiceIndex])
     }
 }
 

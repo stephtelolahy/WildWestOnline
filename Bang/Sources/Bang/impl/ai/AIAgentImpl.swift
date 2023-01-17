@@ -24,7 +24,15 @@ public class AIAgentImpl: AIAgent {
     }
     
     private func processState(_ ctx: Game, engine: Engine) {
-        let moves: [Effect] = ctx.options.map(\.effect) + ctx.active
+        var moves: [Effect] = []
+        if case let .success(effect) = ctx.event {
+            if let activate = effect as? Activate {
+                moves = activate.moves
+            }
+            if let chooseOne = effect as? ChooseOne {
+                moves = chooseOne.getOptions()
+            }
+        }
         if !moves.isEmpty {
             let best = strategy.bestMove(among: moves, ctx: ctx)
             DispatchQueue.main.async {

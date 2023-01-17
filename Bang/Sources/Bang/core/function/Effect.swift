@@ -17,11 +17,8 @@ public protocol EffectOutput {
     /// Updated `State`
     var state: Game? { get }
     
-    /// Child effect on resolving arguments
-    var effects: [EffectNode]? { get }
-    
-    /// Waiting user action
-    var options: [EffectNode]? { get }
+    /// Children `Effect` on resolving arguments
+    var children: [EffectNode]? { get }
 }
 
 public protocol PlayContext {
@@ -34,4 +31,12 @@ public protocol PlayContext {
     
     /// target
     var target: String? { get set }
+}
+
+/// Structure composing Effect with its Playcontext
+public struct EffectNode {
+    
+    public let effect: Effect
+    
+    public let playCtx: PlayContext
 }

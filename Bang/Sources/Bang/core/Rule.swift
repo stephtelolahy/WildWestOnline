@@ -12,11 +12,6 @@ public protocol RuleDistance {
     func playersAt(_ distance: Int, from player: String, in ctx: Game) -> [String]
 }
 
-/// Verifying card playability
-public protocol RulePlay {
-    func canPlay(_ playCtx: PlayContext, in ctx: Game) -> Result<Void, GameError>
-}
-
 /// Generating triggered effects, sorted by priority
 public protocol RuleTrigger {
     func triggeredEffects(_ ctx: Game) -> [EffectNode]?

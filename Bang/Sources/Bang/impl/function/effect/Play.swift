@@ -51,7 +51,7 @@ public struct Play: Effect, Equatable {
         }
         
         /// verify can play
-        if case let .failure(error) = Rules.main.canPlay(playCtx, in: ctx) {
+        if case let .failure(error) = Self.canPlay(playCtx, in: ctx) {
             return .failure(error)
         }
         
@@ -61,6 +61,93 @@ public struct Play: Effect, Equatable {
         /// push child effects
         let children = cardObj.onPlay.withCtx(playCtx)
         
-        return .success(EffectOutputImpl(state: ctx, effects: children))
+        return .success(EffectOutputImpl(state: ctx, children: children))
+    }
+}
+
+extension Play {
+    static func canPlay(_ playCtx: PlayContext, in ctx: Game) -> Result<Void, GameError> {
+        let card = playCtx.playedCard
+        // verify playing effects not empty
+        guard !card.onPlay.isEmpty else {
+            return .failure(.cardHasNoPlayingEffect)
+        }
+        
+        /// verify at leat one playTarget succeed if any
+        if let playTarget = card.playTarget,
+           playCtx.target == nil {
+            switch playTarget.resolve(ctx, playCtx: playCtx) {
+            case let .failure(error):
+                return .failure(error)
+                
+            case let .success(output):
+                guard case let .selectable(options) = output else {
+                    fatalError(.unexpected)
+                }
+                
+                let results: [Result<Void, GameError>] = options.map {
+                    var copy = playCtx
+                    copy.target = $0.value
+                    return canPlay(copy, in: ctx)
+                }
+                
+                if results.allSatisfy({ $0.isFailure }) {
+                    return results[0]
+                }
+                
+                return .success
+            }
+        }
+        
+        /// verify all requirements
+        for playReq in card.canPlay {
+            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                return .failure(error)
+            }
+        }
+        
+        /// verify main effect succeed
+        let node = card.onPlay[0].withCtx(playCtx)
+        if case let .failure(error) = node.resolveUntilCompleted(ctx: ctx) {
+            return .failure(error)
+        }
+        
+        return .success
+    }
+}
+
+private extension EffectNode {
+    
+    /// recursively resolve an effect until completed
+    func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
+        // handle options: one of them must succeed
+        if let chooseOne = self.effect as? ChooseOne {
+            let options = chooseOne.getOptions()
+            let children: [EffectNode] = options.map(\.children[0])
+            let results = children.map { $0.resolveUntilCompleted(ctx: ctx) }
+            if results.allSatisfy({ $0.isFailure }) {
+                return results[0]
+            }
+            
+            return .success
+        }
+        
+        switch effect.resolve(ctx, playCtx: playCtx) {
+        case let .failure(error):
+            return .failure(error)
+            
+        case let .success(output):
+            // update state
+            let state = output.state ?? ctx
+            
+            // handle child effects: one of them must succeed
+            if let children = output.children {
+                let results = children.map { $0.resolveUntilCompleted(ctx: state) }
+                if results.allSatisfy({ $0.isFailure }) {
+                    return results[0]
+                }
+            }
+            return .success
+        }
     }
 }

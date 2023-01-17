@@ -35,18 +35,52 @@ final class GeneralStoreTests: XCTestCase {
                 .success(Store()),
                 .success(Store()),
                 .success(Store()),
-                .wait([Choose(player: "p1", label: "c2"),
-                       Choose(player: "p1", label: "c3"),
-                       Choose(player: "p1", label: "c4")]),
+                .success(ChooseOne([Choose(player: "p1", label: "c2"),
+                                    Choose(player: "p1", label: "c3"),
+                                    Choose(player: "p1", label: "c4")])),
                 .input(0),
                 .success(Choose(player: "p1", label: "c2")),
                 .success(DrawStore(player: PlayerId("p1"), card: CardId("c2"))),
-                .wait([Choose(player: "p2", label: "c3"),
-                       Choose(player: "p2", label: "c4")]),
+                .success(ChooseOne([Choose(player: "p2", label: "c3"),
+                                    Choose(player: "p2", label: "c4")])),
                 .input(1),
                 .success(Choose(player: "p2", label: "c4")),
                 .success(DrawStore(player: PlayerId("p2"), card: CardId("c4"))),
                 .success(DrawStore(player: PlayerId("p3"), card: CardId("c3")))
+            ])
+        
+        // When
+        sut.input(Play(actor: "p1", card: "c1"))
+        
+        // Assert
+        waitForExpectations(timeout: 0.1)
+    }
+    
+    func test_EachPlayerChooseCard_IfPlayingGeneralStore_Case2PlayerS() throws {
+        // Given
+        let c1 = inventory.getCard(.generalStore, withId: "c1")
+        let c2 = CardImpl(id: "c2")
+        let c3 = CardImpl(id: "c3")
+        let p1 = PlayerImpl(hand: [c1])
+        let p2 = PlayerImpl()
+        let ctx = GameImpl(players: ["p1": p1, "p2": p2],
+                           playOrder: ["p1", "p2"],
+                           turn: "p1",
+                           deck: [c2, c3])
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [
+                .success(Play(actor: "p1", card: "c1")),
+                .success(Store()),
+                .success(Store()),
+                .success(ChooseOne([Choose(player: "p1", label: "c2"),
+                                    Choose(player: "p1", label: "c3")])),
+                .input(1),
+                .success(Choose(player: "p1", label: "c3")),
+                .success(DrawStore(player: PlayerId("p1"), card: CardId("c3"))),
+                .success(DrawStore(player: PlayerId("p2"), card: CardId("c2")))
             ])
         
         // When

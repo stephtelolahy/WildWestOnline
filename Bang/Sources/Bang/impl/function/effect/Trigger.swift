@@ -32,6 +32,6 @@ public struct Trigger: Effect, Equatable {
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
         let children = cardObj.onTrigger.withCtx(playCtx)
         
-        return .success(EffectOutputImpl(state: ctx, effects: children))
+        return .success(EffectOutputImpl(state: ctx, children: children))
     }
 }

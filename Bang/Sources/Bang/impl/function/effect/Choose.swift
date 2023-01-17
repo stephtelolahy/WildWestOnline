@@ -7,7 +7,7 @@
 
 /// Move
 /// select an option during effect resolution
-public struct Choose: Effect, Equatable {
+public struct Choose: Effect, Equatable, CustomStringConvertible {
     private let player: String
     private let label: String
     @EquatableIgnore var children: [EffectNode]
@@ -21,7 +21,11 @@ public struct Choose: Effect, Equatable {
     public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
         /// emit state changes even if no changes occurred
         /// to mark that effect was successfully resolved
-        .success(EffectOutputImpl(state: ctx, effects: children))
+        .success(EffectOutputImpl(state: ctx, children: children))
+    }
+    
+    public var description: String {
+        "Choose(player: \(player), label: \(label)"
     }
 }
 

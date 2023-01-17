@@ -32,12 +32,6 @@ public protocol Game {
     /// played cards during current turn
     var played: [String] { get set }
     
-    /// pending actions among which one must be choosen to proceed effect resolving
-    var options: [EffectNode] { get set }
-    
-    /// active moves
-    var active: [Effect] { get set }
-    
     /// last occurred event
     var event: Result<Effect, GameError>? { get set }
     

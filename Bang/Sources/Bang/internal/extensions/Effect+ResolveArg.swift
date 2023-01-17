@@ -19,16 +19,16 @@ extension Effect {
             switch data {
             case let .identified(cIds):
                 let children = cIds.map { copy($0).withCtx(playCtx) }
-                return .success(EffectOutputImpl(effects: children))
+                return .success(EffectOutputImpl(children: children))
                 
             case let .selectable(items):
-                let options: [EffectNode] = items.map {
+                let options: [Choose] = items.map {
                     Choose(player: playCtx.actor,
                            label: $0.label,
                            children: [copy($0.value).withCtx(playCtx)])
-                    .withCtx(playCtx)
                 }
-                return .success(EffectOutputImpl(options: options))
+                let children = [ChooseOne(options).asNode()]
+                return .success(EffectOutputImpl(children: children))
             }
             
         case let .failure(error):
@@ -50,16 +50,16 @@ extension Effect {
             switch data {
             case let .identified(cIds):
                 let children = cIds.map { copy($0).withCtx(playCtx) }
-                return .success(EffectOutputImpl(effects: children))
+                return .success(EffectOutputImpl(children: children))
                 
             case let .selectable(items):
-                let options: [EffectNode] = items.map {
+                let options: [Choose] = items.map {
                     Choose(player: chooser,
                            label: $0.label,
                            children: [copy($0.value).withCtx(playCtx)])
-                    .withCtx(playCtx)
                 }
-                return .success(EffectOutputImpl(options: options))
+                let children = [ChooseOne(options).asNode()]
+                return .success(EffectOutputImpl(children: children))
             }
             
         case let .failure(error):

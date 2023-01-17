@@ -45,10 +45,12 @@ final class DrawStoreTests: XCTestCase {
         
         // Assert
         assertIsSuccess(result) {
-            let options: [EffectNode] = try XCTUnwrap($0.options)
-            XCTAssertEqual(options.count, 2)
-            assertEqual(options[0].effect, Choose(player: "p1", label: "c1", children: [DrawStore(player: PlayerId("p1"), card: CardId("c1")).asNode()]))
-            assertEqual(options[1].effect, Choose(player: "p1", label: "c2", children: [DrawStore(player: PlayerId("p1"), card: CardId("c2")).asNode()]))
+            let children: [EffectNode] = try XCTUnwrap($0.children)
+            XCTAssertEqual(children.count, 1)
+            assertEqual(children[0].effect, ChooseOne([
+                Choose(player: "p1", label: "c1", children: [DrawStore(player: PlayerId("p1"), card: CardId("c1")).asNode()]),
+                Choose(player: "p1", label: "c2", children: [DrawStore(player: PlayerId("p1"), card: CardId("c2")).asNode()])
+            ]))
         }
     }
     
@@ -65,7 +67,7 @@ final class DrawStoreTests: XCTestCase {
         
         // Assert
         assertIsSuccess(result) {
-            let children: [EffectNode] = try XCTUnwrap($0.effects)
+            let children: [EffectNode] = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
             assertEqual(children[0].effect, DrawStore(player: PlayerId("p1"), card: CardId("c1")))
         }

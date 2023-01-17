@@ -16,17 +16,12 @@ public protocol Engine {
     /// effects queue that have to be resolved in order
     var queue: [EffectNode] { get }
     
-    /// process move
+    /// input a move
     func input(_ move: Effect)
     
-    /// update game by processing event queue
+    /// process event queue
     func update()
     
     /// setup queue for starting game
     func start()
-}
-
-public struct EffectNode {
-    public let effect: Effect
-    public let playCtx: PlayContext
 }

@@ -27,7 +27,7 @@ public struct Repeat: Effect, Equatable {
             
             let children: [EffectNode] = (0..<number).map { _ in effect.withCtx(playCtx) }
             
-            return .success(EffectOutputImpl(effects: children))
+            return .success(EffectOutputImpl(children: children))
         }
     }
 }

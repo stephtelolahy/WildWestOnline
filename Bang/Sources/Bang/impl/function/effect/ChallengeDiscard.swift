@@ -44,7 +44,7 @@ public struct ChallengeDiscard: Effect, Equatable {
             if case .playerHasNoMatchingCard = error {
                 // do not own required card
                 // apply otherwise effects immediately
-                return .success(EffectOutputImpl(state: ctx, effects: otherwise.withCtx(playCtx)))
+                return .success(EffectOutputImpl(state: ctx, children: otherwise.withCtx(playCtx)))
                 
             } else {
                 return .failure(error)
@@ -58,14 +58,15 @@ public struct ChallengeDiscard: Effect, Equatable {
             // request a choice:
             // - discard one of matching card
             // - or Pass
-            var choices: [Effect] = options.map {
+            var choices: [Choose] = options.map {
                 Choose(player: playerId,
                        label: $0.label,
                        children: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(playCtx),
                                   Self(player: challenger, challenger: player, card: card, otherwise: otherwise).withCtx(playCtx)])
             }
             choices.append(Choose(player: playerId, label: Label.pass, children: otherwise.withCtx(playCtx)))
-            return .success(EffectOutputImpl(state: ctx, options: choices.withCtx(playCtx)))
+            let children = [ChooseOne(choices).asNode()]
+            return .success(EffectOutputImpl(state: ctx, children: children))
         }
     }
     
