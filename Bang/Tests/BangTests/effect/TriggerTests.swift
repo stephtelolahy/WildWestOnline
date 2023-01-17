@@ -14,19 +14,19 @@ class TriggerTests: XCTestCase {
     func test_OutputCardEffects_IfPlayed() {
         // Given
         let c1 = CardImpl(id: "c1",
-                          onTrigger: [Dummy()])
+                          onTrigger: [DummyEffect()])
         let p1: Player = PlayerImpl(abilities: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
         let sut = Trigger(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
-            let children: [EffectNode] = try XCTUnwrap($0.children)
+            let children: [Event] = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0].effect, Dummy())
+            assertEqual(children[0], DummyEffect())
         }
     }
 

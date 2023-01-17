@@ -5,10 +5,9 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-/// Move
 /// Play a card
-public struct Play: Effect, Equatable {
-    private let actor: String
+public struct Play: Move, Equatable {
+    public let actor: String
     private let card: String
     private let target: String?
     
@@ -18,7 +17,7 @@ public struct Play: Effect, Equatable {
         self.target = target
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         var ctx = ctx
         var playerObj = ctx.player(actor)
         
@@ -45,8 +44,21 @@ public struct Play: Effect, Equatable {
         /// resolve playTarget if any
         if let playTarget = cardObj.playTarget,
            target == nil {
-            return resolve(playTarget, ctx: ctx, playCtx: playCtx) {
-                Self(actor: actor, card: card, target: $0)
+            switch playTarget.resolve(ctx, playCtx: playCtx) {
+            case let .failure(error):
+                return .failure(error)
+                
+            case let .success(output):
+                guard case let .selectable(options) = output else {
+                    fatalError(.unexpected)
+                }
+                
+                let choices: [Choose] = options.map {
+                    Choose(actor: actor,
+                           label: $0.label,
+                           children: [Self(actor: actor, card: card, target: $0.value)])
+                }
+                return .success(EventOutputImpl(children: [ChooseOne(choices)]))
             }
         }
         
@@ -61,7 +73,7 @@ public struct Play: Effect, Equatable {
         /// push child effects
         let children = cardObj.onPlay.withCtx(playCtx)
         
-        return .success(EffectOutputImpl(state: ctx, children: children))
+        return .success(EventOutputImpl(state: ctx, children: children))
     }
 }
 
@@ -116,14 +128,20 @@ extension Play {
     }
 }
 
-private extension EffectNode {
+private extension Event {
     
     /// recursively resolve an effect until completed
     func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
         // handle options: one of them must succeed
-        if let chooseOne = self.effect as? ChooseOne {
-            let options = chooseOne.getOptions()
-            let children: [EffectNode] = options.map(\.children[0])
+        if let chooseOne = self as? ChooseOne {
+            let children: [Event] = chooseOne.options.map {
+                if let choose = $0 as? Choose {
+                    return choose.children[0]
+                } else {
+                    return $0
+                }
+            }
+            
             let results = children.map { $0.resolveUntilCompleted(ctx: ctx) }
             if results.allSatisfy({ $0.isFailure }) {
                 return results[0]
@@ -132,7 +150,7 @@ private extension EffectNode {
             return .success
         }
         
-        switch effect.resolve(ctx, playCtx: playCtx) {
+        switch resolve(ctx) {
         case let .failure(error):
             return .failure(error)
             
@@ -147,6 +165,7 @@ private extension EffectNode {
                     return results[0]
                 }
             }
+            
             return .success
         }
     }

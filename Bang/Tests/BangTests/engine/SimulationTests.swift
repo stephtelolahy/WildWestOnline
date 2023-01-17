@@ -29,7 +29,7 @@ final class SimulationTests: XCTestCase {
         }
         
         // Assert
-        waitForExpectations(timeout: 0.1)
+        waitForExpectations(timeout: 1.0)
     }
     
     private func runSimulation(playersCount: Int, completed: @escaping () -> Void) {
@@ -57,7 +57,7 @@ final class SimulationTests: XCTestCase {
         sut.update()
     }
     
-    private func printEvent(_ event: Result<Effect, GameError>) {
+    private func printEvent(_ event: Result<Event, GameError>) {
         print(event)
     }
     

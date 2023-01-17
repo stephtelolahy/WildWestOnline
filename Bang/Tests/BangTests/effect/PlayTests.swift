@@ -14,13 +14,13 @@ final class PlayTests: XCTestCase {
     func test_DiscardImmediately_IfPlayed() {
         // Given
         let c1 = CardImpl(id: "c1",
-                          onPlay: [Dummy()])
+                          onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
@@ -33,19 +33,19 @@ final class PlayTests: XCTestCase {
     func test_OutputCardEffects_IfPlayed() {
         // Given
         let c1 = CardImpl(id: "c1",
-                          onPlay: [Dummy()])
+                          onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
-            let children: [EffectNode] = try XCTUnwrap($0.children)
+            let children: [Event] = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0].effect, Dummy())
+            assertEqual(children[0], DummyEffect())
         }
     }
     
@@ -53,13 +53,13 @@ final class PlayTests: XCTestCase {
         // Given
         let c1 = CardImpl(id: "c1",
                           canPlay: [IsPlayersAtLeast(2)],
-                          onPlay: [Dummy()])
+                          onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
@@ -73,7 +73,7 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsFailure(result, equalTo: .cardHasNoPlayingEffect)
@@ -88,7 +88,7 @@ final class PlayTests: XCTestCase {
         let sut = Play(actor: "p1", card: "c1")
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))

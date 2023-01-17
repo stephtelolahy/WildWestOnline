@@ -9,25 +9,26 @@
 public struct Repeat: Effect, Equatable {
     @EquatableCast private var times: ArgNumber
     @EquatableCast private var effect: Effect
+    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
     public init(times: ArgNumber, effect: Effect) {
         self.times = times
         self.effect = effect
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         switch times.resolve(ctx, playCtx: playCtx) {
         case let .failure(error):
             return .failure(error)
             
         case let .success(number):
             guard number > 0 else {
-                return .success(EffectOutputImpl())
+                return .success(EventOutputImpl())
             }
             
-            let children: [EffectNode] = (0..<number).map { _ in effect.withCtx(playCtx) }
+            let children: [Effect] = (0..<number).map { _ in effect.withCtx(playCtx) }
             
-            return .success(EffectOutputImpl(children: children))
+            return .success(EventOutputImpl(children: children))
         }
     }
 }

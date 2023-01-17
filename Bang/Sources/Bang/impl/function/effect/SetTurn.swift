@@ -8,14 +8,15 @@
 /// Set turn
 public struct SetTurn: Effect, Equatable {
     @EquatableCast var player: ArgPlayer
+    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
     public init(player: ArgPlayer) {
         self.player = player
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         guard let playerId = (player as? PlayerId)?.id else {
-            return resolve(player, ctx: ctx, playCtx: playCtx) {
+            return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0))
             }
         }
@@ -24,6 +25,6 @@ public struct SetTurn: Effect, Equatable {
         ctx.turn = playerId
         ctx.played = []
         
-        return .success(EffectOutputImpl(state: ctx))
+        return .success(EventOutputImpl(state: ctx))
     }
 }

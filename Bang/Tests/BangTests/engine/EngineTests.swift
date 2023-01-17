@@ -16,12 +16,12 @@ class EngineTests: XCTestCase {
     func test_StopUpdates_IfGameIsOver() {
         // Given
         let ctx = GameImpl(isOver: true)
-        let sut = EngineImpl(ctx, queue: [Dummy().asNode()])
+        let sut = EngineImpl(ctx, queue: [DummyEffect()])
         let expectation = expectation(description: "move is queued")
         expectation.isInverted = true
         sut.state.sink { ctx in
-            if case let .success(effect) = ctx.event,
-               effect is Dummy {
+            if case let .success(event) = ctx.event,
+               event is DummyEffect {
                 expectation.fulfill()
             }
         }
@@ -44,18 +44,18 @@ class EngineTests: XCTestCase {
         
         // Assert
         XCTAssertEqual(sut.queue.count, 1)
-        XCTAssertEqual(sut.queue.first?.effect as? SetTurn, SetTurn(player: PlayerId("p1")))
+        assertEqual(sut.queue[0], SetTurn(player: PlayerId("p1")))
     }
     
     func test_QueueAnyInputMove_IfIdle() {
         // Given
         let ctx = GameImpl()
         let sut = EngineImpl(ctx)
-        let move = Dummy()
+        let move = DummyMove()
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
-            if case let .success(effect) = ctx.event,
-               effect is Dummy {
+            if case let .success(event) = ctx.event,
+               event is DummyMove {
                 expectation.fulfill()
             }
         }
@@ -71,12 +71,12 @@ class EngineTests: XCTestCase {
     func test_QueueMove_IfWaitingAndValid() {
         // Given
         let ctx = GameImpl()
-        let move = Choose(player: "p1", label: "c1", children: [Dummy().asNode()])
-        let sut = EngineImpl(ctx, queue: [ChooseOne([move]).asNode()])
+        let move = Choose(actor: "p1", label: "c1", children: [DummyEffect()])
+        let sut = EngineImpl(ctx, queue: [ChooseOne([move])])
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
-            if case let .success(effect) = ctx.event,
-               effect is Choose {
+            if case let .success(event) = ctx.event,
+               event is Choose {
                 expectation.fulfill()
             }
         }
@@ -92,16 +92,16 @@ class EngineTests: XCTestCase {
     func test_DoNotQueueMove_IfWaitingAndInvalid() {
         // Given
         let ctx = GameImpl()
-        let move1 = Choose(player: "p1", label: "c1")
-        let sut = EngineImpl(ctx, queue: [ChooseOne([move1]).asNode()])
-        let move = Dummy()
+        let move1 = Choose(actor: "p1", label: "c1")
+        let sut = EngineImpl(ctx, queue: [ChooseOne([move1])])
+        let move = DummyMove()
         
         let expectation = expectation(description: "move is not queued")
         expectation.isInverted = true
         
         sut.state.sink { ctx in
-            if case let .success(effect) = ctx.event,
-               effect is Dummy {
+            if case let .success(event) = ctx.event,
+               event is DummyMove {
                 expectation.fulfill()
             }
         }
@@ -113,6 +113,6 @@ class EngineTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
         XCTAssertEqual(sut.queue.count, 1)
-        XCTAssertTrue(sut.queue[0].effect is ChooseOne)
+        XCTAssertTrue(sut.queue[0] is ChooseOne)
     }
 }

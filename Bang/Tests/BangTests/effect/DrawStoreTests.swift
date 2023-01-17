@@ -21,7 +21,7 @@ final class DrawStoreTests: XCTestCase {
         let sut = DrawStore(player: PlayerId("p1"), card: CardId("c1"))
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
@@ -41,15 +41,15 @@ final class DrawStoreTests: XCTestCase {
         let sut = DrawStore(player: PlayerId("p1"), card: CardSelectStore())
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
-            let children: [EffectNode] = try XCTUnwrap($0.children)
+            let children: [Event] = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0].effect, ChooseOne([
-                Choose(player: "p1", label: "c1", children: [DrawStore(player: PlayerId("p1"), card: CardId("c1")).asNode()]),
-                Choose(player: "p1", label: "c2", children: [DrawStore(player: PlayerId("p1"), card: CardId("c2")).asNode()])
+            assertEqual(children[0], ChooseOne([
+                Choose(actor: "p1", label: "c1", children: [DrawStore(player: PlayerId("p1"), card: CardId("c1"))]),
+                Choose(actor: "p1", label: "c2", children: [DrawStore(player: PlayerId("p1"), card: CardId("c2"))])
             ]))
         }
     }
@@ -63,13 +63,13 @@ final class DrawStoreTests: XCTestCase {
         let sut = DrawStore(player: PlayerId("p1"), card: CardSelectStore())
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
-            let children: [EffectNode] = try XCTUnwrap($0.children)
+            let children: [Event] = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
-            assertEqual(children[0].effect, DrawStore(player: PlayerId("p1"), card: CardId("c1")))
+            assertEqual(children[0], DrawStore(player: PlayerId("p1"), card: CardId("c1")))
         }
     }
     

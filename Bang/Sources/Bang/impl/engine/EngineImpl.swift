@@ -8,12 +8,11 @@ import Foundation
 import Combine
 
 public class EngineImpl: Engine {
-    
     public var state: CurrentValueSubject<Game, Never>
-    public var queue: [EffectNode]
+    public var queue: [Event]
     private var delay: DispatchTimeInterval
     
-    public init(_ ctx: Game, queue: [EffectNode] = [], delay: DispatchTimeInterval = .seconds(0)) {
+    public init(_ ctx: Game, queue: [Event] = [], delay: DispatchTimeInterval = .seconds(0)) {
         self.state = CurrentValueSubject(ctx)
         self.queue = queue
         self.delay = delay
@@ -28,14 +27,14 @@ public class EngineImpl: Engine {
         }
         
         let playerId = ctx.playOrder[0]
-        let node = SetTurn(player: PlayerId(playerId)).asNode()
+        let node = SetTurn(player: PlayerId(playerId))
         queue.append(node)
     }
     
-    public func input(_ move: Effect) {
+    public func input(_ move: Move) {
         /// if waiting choice, then validate move
-        if let chooseOne = queue.first?.effect as? ChooseOne {
-            if chooseOne.getOptions().contains(where: { $0.isEqualTo(move) }) {
+        if let chooseOne = queue.first as? ChooseOne {
+            if chooseOne.options.contains(where: { $0.isEqualTo(move) }) {
                 queue.remove(at: 0)
             } else {
                 return
@@ -47,8 +46,7 @@ public class EngineImpl: Engine {
             fatalError(.unexpected)
         }
         
-        let node = move.asNode()
-        queue.insert(node, at: 0)
+        queue.insert(move, at: 0)
         update()
     }
     
@@ -69,7 +67,7 @@ public class EngineImpl: Engine {
         // if waiting choice
         // emit options
         // then complete
-        if let chooseOne = queue.first?.effect as? ChooseOne {
+        if let chooseOne = queue.first as? ChooseOne {
             ctx.event = .success(chooseOne)
             state.send(ctx)
             return
@@ -90,14 +88,13 @@ public class EngineImpl: Engine {
         ctx.event = nil
         
         // process queue
-        let node = queue.remove(at: 0)
-        let effect = node.effect
-        let result = effect.resolve(ctx, playCtx: node.playCtx)
+        let event = queue.remove(at: 0)
+        let result = event.resolve(ctx)
         switch result {
         case let .success(output):
             if let update = output.state {
                 ctx = update
-                ctx.event = .success(effect)
+                ctx.event = .success(event)
             }
             
             if let children = output.children {
@@ -115,15 +112,15 @@ public class EngineImpl: Engine {
         
         #if DEBUG
         var eventDesc = ""
-        if case let .success(effect) = ctx.event {
-            eventDesc = String(describing: effect)
+        if case let .success(event) = ctx.event {
+            eventDesc = String(describing: event)
         }
-        let queueDesc = queue.map { String(describing: $0.effect) }.joined(separator: "\n")
+        let queueDesc = queue.map { String(describing: $0) }.joined(separator: "\n")
         print("\nevent=\(eventDesc)\nqueue=\n\(queueDesc)")
         #endif
         
         // emit state only when event occurred or choice asked
-        let emitState = ctx.event != nil || queue.first?.effect is ChooseOne
+        let emitState = ctx.event != nil || queue.first is ChooseOne
         if emitState {
             state.send(ctx)
         }

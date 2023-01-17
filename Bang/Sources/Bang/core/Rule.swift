@@ -14,10 +14,10 @@ public protocol RuleDistance {
 
 /// Generating triggered effects, sorted by priority
 public protocol RuleTrigger {
-    func triggeredEffects(_ ctx: Game) -> [EffectNode]?
+    func triggeredEffects(_ ctx: Game) -> [Event]?
 }
 
 /// Generating active moves
 public protocol RuleActive {
-    func activeMoves(_ ctx: Game) -> [Effect]?
+    func activeMoves(_ ctx: Game) -> [Move]?
 }

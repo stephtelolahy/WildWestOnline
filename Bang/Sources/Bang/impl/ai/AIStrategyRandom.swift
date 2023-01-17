@@ -9,7 +9,7 @@ public struct AIStrategyRandom: AIStrategy {
 
     public init() {}
     
-    public func bestMove(among moves: [Effect], ctx: Game) -> Effect {
+    public func bestMove(among moves: [Move], ctx: Game) -> Move {
         // swiftlint:disable:next force_unwrapping
         moves.randomElement()!
     }

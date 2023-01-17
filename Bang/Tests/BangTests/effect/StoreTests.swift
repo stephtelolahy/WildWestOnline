@@ -19,7 +19,7 @@ final class StoreTests: XCTestCase {
         let sut = Store()
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {

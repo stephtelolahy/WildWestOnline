@@ -9,8 +9,14 @@ import XCTest
 import Bang
 
 final class EquatableTests: XCTestCase {
-
-    func test_EquatableCast() {
+    
+    func test_EquatableEvent() {
+        let move1 = Choose(actor: "p1", label: "c1")
+        let move2 = Choose(actor: "p1", label: "c1")
+        XCTAssertTrue(move1.isEqualTo(move2))
+    }
+    
+    func test_EquatalRepeat() {
         XCTAssertEqual(Repeat(times: NumExact(2), effect: Store()),
                        Repeat(times: NumExact(2), effect: Store()))
         
@@ -27,8 +33,16 @@ final class EquatableTests: XCTestCase {
                           Repeat(times: NumPlayers(), effect: DrawDeck(player: PlayerId("p1"))))
     }
     
-    func test_EquatableIgnore() {
-        XCTAssertEqual(Choose(player: "p1", label: "c1", children: [Store().asNode()]),
-                       Choose(player: "p1", label: "c1", children: [Dummy().asNode()]))
+    func test_EqualChooseOne_IgnoringOptions() {
+        XCTAssertEqual(ChooseOne([Choose(actor: "p1", label: "c1")]),
+                       ChooseOne([Choose(actor: "p1", label: "c2")]))
+        
+        assertEqual(ChooseOne([Choose(actor: "p1", label: "c1")]) as Event,
+                    ChooseOne([Choose(actor: "p1", label: "c2")]))
+    }
+    
+    func testEqualChoose_ignoringChildren() {
+        XCTAssertEqual(Choose(actor: "p1", label: "c1", children: [Store()]),
+                       Choose(actor: "p1", label: "c1", children: [DrawDeck(player: PlayerId("p1"))]))
     }
 }

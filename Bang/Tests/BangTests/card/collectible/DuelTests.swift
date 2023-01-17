@@ -26,9 +26,9 @@ final class DuelTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
@@ -55,15 +55,15 @@ final class DuelTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
-                .success(ChooseOne([Choose(player: "p2", label: "c2"),
-                                    Choose(player: "p2", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p2", label: "c2"),
+                                    Choose(actor: "p2", label: Label.pass)])),
                 .input(0),
-                .success(Choose(player: "p2", label: "c2")),
+                .success(Choose(actor: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
                 .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed(.bang))),
                 .success(Damage(player: PlayerId("p1"), value: 1))
@@ -91,21 +91,21 @@ final class DuelTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
-                .success(ChooseOne([Choose(player: "p2", label: "c2"),
-                                    Choose(player: "p2", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p2", label: "c2"),
+                                    Choose(actor: "p2", label: Label.pass)])),
                 .input(0),
-                .success(Choose(player: "p2", label: "c2")),
+                .success(Choose(actor: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
                 .success(ChallengeDiscard(player: PlayerId("p1"), challenger: PlayerId("p2"), card: CardSelectHandNamed(.bang))),
-                .success(ChooseOne([Choose(player: "p1", label: "c3"),
-                                    Choose(player: "p1", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p1", label: "c3"),
+                                    Choose(actor: "p1", label: Label.pass)])),
                 .input(0),
-                .success(Choose(player: "p1", label: "c3")),
+                .success(Choose(actor: "p1", label: "c3")),
                 .success(Discard(player: PlayerId("p1"), card: CardId("c3"))),
                 .success(ChallengeDiscard(player: PlayerId("p2"), challenger: PlayerId("p1"), card: CardSelectHandNamed(.bang))),
                 .success(Damage(player: PlayerId("p2"), value: 1))

@@ -18,7 +18,7 @@ final class DamageTests: XCTestCase {
         let sut = Damage(player: PlayerId("p1"), value: 1)
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
@@ -34,7 +34,7 @@ final class DamageTests: XCTestCase {
         let sut = Damage(player: PlayerId("p1"), value: 2)
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {

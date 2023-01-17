@@ -5,9 +5,8 @@
 //  Created by Hugues Telolahy on 13/01/2023.
 //
 
-/// Move
-/// Trigger a card
-public struct Trigger: Effect, Equatable {
+/// Trigger a card after an event occured
+public struct Trigger: Event, Equatable {
     private let actor: String
     private let card: String
     
@@ -16,7 +15,7 @@ public struct Trigger: Effect, Equatable {
         self.card = card
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         let playerObj = ctx.player(actor)
         
         /// find card reference
@@ -32,6 +31,6 @@ public struct Trigger: Effect, Equatable {
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
         let children = cardObj.onTrigger.withCtx(playCtx)
         
-        return .success(EffectOutputImpl(state: ctx, children: children))
+        return .success(EventOutputImpl(state: ctx, children: children))
     }
 }

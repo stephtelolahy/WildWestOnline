@@ -19,7 +19,7 @@ final class GameOverTests: XCTestCase {
         let p1 = PlayerImpl(abilities: [c1])
         let p2 = PlayerImpl(abilities: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2])
-        let sut = EngineImpl(ctx, queue: [Eliminate(player: PlayerId("p1")).asNode()])
+        let sut = EngineImpl(ctx, queue: [Eliminate(player: PlayerId("p1"))])
         
         createExpectation(
             engine: sut,

@@ -6,11 +6,11 @@
 //
 import Bang
 
-/// Effect resolving with an error
 struct EmitError: Effect, Equatable {
     let error: GameError
+    @EquatableIgnore var playCtx: Bang.PlayContext = PlayContextImpl()
     
-    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         .failure(error)
     }
 }

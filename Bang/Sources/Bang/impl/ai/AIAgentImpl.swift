@@ -24,13 +24,13 @@ public class AIAgentImpl: AIAgent {
     }
     
     private func processState(_ ctx: Game, engine: Engine) {
-        var moves: [Effect] = []
-        if case let .success(effect) = ctx.event {
-            if let activate = effect as? Activate {
+        var moves: [Move] = []
+        if case let .success(event) = ctx.event {
+            if let activate = event as? Activate {
                 moves = activate.moves
             }
-            if let chooseOne = effect as? ChooseOne {
-                moves = chooseOne.getOptions()
+            if let chooseOne = event as? ChooseOne {
+                moves = chooseOne.options
             }
         }
         if !moves.isEmpty {

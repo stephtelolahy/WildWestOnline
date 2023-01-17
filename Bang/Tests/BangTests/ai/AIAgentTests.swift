@@ -17,10 +17,10 @@ final class AIAgentTests: XCTestCase {
     
     func test_ChooseAction_IfGameWaitingDecision() {
         // Given
-        let move1 = Choose(player: "p1", label: "c1")
-        let move2 = Choose(player: "p1", label: "c2")
+        let move1 = Choose(actor: "p1", label: "c1")
+        let move2 = Choose(actor: "p1", label: "c2")
         let ctx = GameImpl(event: .success(ChooseOne([move1, move2])))
-        mockEngine = MockEngine(ctx, queue: [ChooseOne([move1, move2]).asNode()])
+        mockEngine = MockEngine(ctx, queue: [ChooseOne([move1, move2])])
         
         let expectation = expectation(description: "AI input one of requested move")
         mockEngine.inputCallback = { move in
@@ -39,14 +39,14 @@ final class AIAgentTests: XCTestCase {
     
     func test_ChooseAction_IfGameActiveMoves() {
         // Given
-        let move1 = Dummy()
-        let move2 = Dummy()
+        let move1 = DummyMove()
+        let move2 = DummyMove()
         let ctx = GameImpl(event: .success(Activate([move1, move2])))
         mockEngine = MockEngine(ctx)
         
         let expectation = expectation(description: "AI input one of requested move")
         mockEngine.inputCallback = { move in
-            if move is Dummy {
+            if move is DummyMove {
                 expectation.fulfill()
             }
         }

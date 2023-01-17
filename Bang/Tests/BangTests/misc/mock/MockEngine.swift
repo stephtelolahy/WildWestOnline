@@ -10,15 +10,15 @@ import Bang
 class MockEngine: Engine {
     
     var state: CurrentValueSubject<Game, Never>
-    var queue: [EffectNode]
-    var inputCallback: ((Effect) -> Void)?
+    var queue: [Event]
+    var inputCallback: ((Move) -> Void)?
     
-    init(_ ctx: Game, queue: [EffectNode] = []) {
+    init(_ ctx: Game, queue: [Event] = []) {
         self.state = CurrentValueSubject(ctx)
         self.queue = queue
     }
     
-    func input(_ move: Effect) {
+    func input(_ move: Move) {
         inputCallback?(move)
     }
     

@@ -13,11 +13,11 @@ public protocol Engine {
     /// observable game state
     var state: CurrentValueSubject<Game, Never> { get }
     
-    /// effects queue that have to be resolved in order
-    var queue: [EffectNode] { get }
+    /// events queue that have to be resolved in order
+    var queue: [Event] { get }
     
     /// input a move
-    func input(_ move: Effect)
+    func input(_ move: Move)
     
     /// process event queue
     func update()

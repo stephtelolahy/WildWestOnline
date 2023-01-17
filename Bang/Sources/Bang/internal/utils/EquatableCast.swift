@@ -7,10 +7,14 @@
 
 /// Cast an object for Equatable Conformance
 @propertyWrapper
-struct EquatableCast<Value>: Equatable {
-    var wrappedValue: Value
+public struct EquatableCast<Value>: Equatable {
+    public var wrappedValue: Value
     
-    static func == (lhs: EquatableCast<Value>, rhs: EquatableCast<Value>) -> Bool {
+    public init(wrappedValue: Value) {
+        self.wrappedValue = wrappedValue
+    }
+    
+    public static func == (lhs: EquatableCast<Value>, rhs: EquatableCast<Value>) -> Bool {
         lhs.isEqualTo(rhs)
     }
 }

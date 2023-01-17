@@ -59,16 +59,16 @@ final class GatlingTests: XCTestCase {
             expected: [
                 .success(Play(actor: "p1", card: "c1")),
                 .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
-                .success(ChooseOne([Choose(player: "p2", label: "c2"),
-                                    Choose(player: "p2", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p2", label: "c2"),
+                                    Choose(actor: "p2", label: Label.pass)])),
                 .input(0),
-                .success(Choose(player: "p2", label: "c2")),
+                .success(Choose(actor: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2"))),
                 .success(ForceDiscard(player: PlayerId("p3"), card: CardSelectHandNamed(.missed))),
-                .success(ChooseOne([Choose(player: "p3", label: "c3"),
-                                    Choose(player: "p3", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p3", label: "c3"),
+                                    Choose(actor: "p3", label: Label.pass)])),
                 .input(0),
-                .success(Choose(player: "p3", label: "c3")),
+                .success(Choose(actor: "p3", label: "c3")),
                 .success(Discard(player: PlayerId("p3"), card: CardId("c3")))
             ])
         

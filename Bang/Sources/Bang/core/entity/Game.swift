@@ -6,6 +6,7 @@
 //
 
 /// All aspects of game state
+/// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public protocol Game {
     
     /// all players
@@ -15,6 +16,7 @@ public protocol Game {
     var playOrder: [String] { get set }
     
     /// current player
+    /// A turn is a period of the game that is associated with an individual player
     var turn: String? { get set }
     
     /// deck
@@ -33,7 +35,7 @@ public protocol Game {
     var played: [String] { get set }
     
     /// last occurred event
-    var event: Result<Effect, GameError>? { get set }
+    var event: Result<Event, GameError>? { get set }
     
     // MARK: - Convenience
     

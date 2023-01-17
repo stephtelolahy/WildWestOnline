@@ -1,5 +1,5 @@
 //
-//  XCTest+Effect.swift
+//  XCTest+Event.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
@@ -11,7 +11,7 @@ import Bang
 extension XCTestCase {
     
     func assertIsSuccess<T: Equatable, E: Error>(
-        _ result: Result<Effect, E>,
+        _ result: Result<Event, E>,
         equalTo aValue: T,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -21,9 +21,9 @@ extension XCTestCase {
         }
     }
     
-    /// Comparing any `Effect`to `Equatable` concrete type
+    /// Comparing any `Event`to `Equatable` concrete type
     public func assertEqual<T: Equatable>(
-        _ first: Effect,
+        _ first: Event,
         _ second: T,
         file: StaticString = #file,
         line: UInt = #line

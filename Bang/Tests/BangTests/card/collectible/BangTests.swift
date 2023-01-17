@@ -26,9 +26,9 @@ final class BangTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
                 .success(Damage(player: PlayerId("p2"), value: 1))
@@ -75,9 +75,9 @@ final class BangTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .error(.reachedLimitPerTurn(1))
             ])
         
@@ -102,15 +102,15 @@ final class BangTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
-                .success(ChooseOne([Choose(player: "p2", label: "c2"),
-                                    Choose(player: "p2", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p2", label: "c2"),
+                                    Choose(actor: "p2", label: Label.pass)])),
                 .input(0),
-                .success(Choose(player: "p2", label: "c2")),
+                .success(Choose(actor: "p2", label: "c2")),
                 .success(Discard(player: PlayerId("p2"), card: CardId("c2")))
             ])
         
@@ -135,15 +135,15 @@ final class BangTests: XCTestCase {
         createExpectation(
             engine: sut,
             expected: [
-                .success(ChooseOne([Choose(player: "p1", label: "p2")])),
+                .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
-                .success(Choose(player: "p1", label: "p2")),
+                .success(Choose(actor: "p1", label: "p2")),
                 .success(Play(actor: "p1", card: "c1", target: "p2")),
                 .success(ForceDiscard(player: PlayerId("p2"), card: CardSelectHandNamed(.missed))),
-                .success(ChooseOne([Choose(player: "p2", label: "c2"),
-                                    Choose(player: "p2", label: Label.pass)])),
+                .success(ChooseOne([Choose(actor: "p2", label: "c2"),
+                                    Choose(actor: "p2", label: Label.pass)])),
                 .input(1),
-                .success(Choose(player: "p2", label: Label.pass)),
+                .success(Choose(actor: "p2", label: Label.pass)),
                 .success(Damage(player: PlayerId("p2"), value: 1))
             ])
         

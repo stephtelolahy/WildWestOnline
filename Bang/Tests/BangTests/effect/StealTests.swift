@@ -21,7 +21,7 @@ final class StealTests: XCTestCase {
         let sut = Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2"))
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {
@@ -41,7 +41,7 @@ final class StealTests: XCTestCase {
         let sut = Steal(player: PlayerId("p1"), target: PlayerId("p2"), card: CardId("c2"))
         
         // When
-        let result = sut.resolve(ctx, playCtx: PlayContextImpl())
+        let result = sut.resolve(ctx)
         
         // Assert
         assertIsSuccess(result) {

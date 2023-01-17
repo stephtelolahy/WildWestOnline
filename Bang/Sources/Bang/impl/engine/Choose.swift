@@ -5,27 +5,28 @@
 //  Created by Hugues Telolahy on 11/01/2023.
 //
 
-/// Move
-/// select an option during effect resolution
-public struct Choose: Effect, Equatable, CustomStringConvertible {
-    private let player: String
+/// Select an option during effect resolution
+public struct Choose: Move, Equatable {
+    public let actor: String
     private let label: String
-    @EquatableIgnore var children: [EffectNode]
+    @EquatableIgnore var children: [Event]
     
-    public init(player: String, label: String, children: [EffectNode] = []) {
-        self.player = player
+    public init(actor: String, label: String, children: [Event] = []) {
+        self.actor = actor
         self.label = label
         self.children = children
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         /// emit state changes even if no changes occurred
         /// to mark that effect was successfully resolved
-        .success(EffectOutputImpl(state: ctx, children: children))
+        .success(EventOutputImpl(state: ctx, children: children))
     }
-    
+}
+
+extension Choose: CustomStringConvertible {
     public var description: String {
-        "Choose(player: \(player), label: \(label)"
+        "Choose(actor: \(actor), label: \(label))"
     }
 }
 

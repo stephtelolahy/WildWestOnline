@@ -7,13 +7,12 @@
 
 extension Rules: RuleTrigger {
     
-    public func triggeredEffects(_ ctx: Game) -> [EffectNode]? {
-        var result: [EffectNode] = []
+    public func triggeredEffects(_ ctx: Game) -> [Event]? {
+        var result: [Event] = []
         for (playerId, _) in ctx.players {
             for ability in ctx.player(playerId).abilities {
                 if case .success = willTrigger(ability, actor: playerId, ctx: ctx) {
-                    let playCtx = PlayContextImpl(actor: playerId, playedCard: ability)
-                    result.append(Trigger(actor: playerId, card: ability.id).withCtx(playCtx))
+                    result.append(Trigger(actor: playerId, card: ability.id))
                 }
             }
         }

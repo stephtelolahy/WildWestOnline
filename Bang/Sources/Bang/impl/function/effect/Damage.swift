@@ -9,15 +9,16 @@
 public struct Damage: Effect, Equatable {
     @EquatableCast var player: ArgPlayer
     private let value: Int
+    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
     public init(player: ArgPlayer, value: Int) {
         self.player = player
         self.value = value
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<EffectOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         guard let playerId = (player as? PlayerId)?.id else {
-            return resolve(player, ctx: ctx, playCtx: playCtx) {
+            return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), value: value)
             }
         }
@@ -27,6 +28,6 @@ public struct Damage: Effect, Equatable {
         playerObj.health -= value
         ctx.players[playerId] = playerObj
         
-        return .success(EffectOutputImpl(state: ctx))
+        return .success(EventOutputImpl(state: ctx))
     }
 }

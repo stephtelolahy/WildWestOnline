@@ -14,5 +14,5 @@ public protocol AIAgent {
 
 /// Strategy defining best move
 public protocol AIStrategy {
-    func bestMove(among moves: [Effect], ctx: Game) -> Effect
+    func bestMove(among moves: [Move], ctx: Game) -> Move
 }
