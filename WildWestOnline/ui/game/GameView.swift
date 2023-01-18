@@ -16,18 +16,14 @@ struct GameView: View {
     
     var body: some View {
         NavigationView {
-            
             List {
-                Text(viewModel.message)
-                
                 Section {
-                    ForEach(viewModel.players) { player in
-                        Text(player.name)
+                    ForEach(viewModel.players) { model in
+                        PlayerRow(player: model)
                     }
                 }
             }
-            .listStyle(GroupedListStyle())
-            .navigationBarTitle("Online ⛅️")
+            .navigationBarTitle(viewModel.message)
         }
         
     }

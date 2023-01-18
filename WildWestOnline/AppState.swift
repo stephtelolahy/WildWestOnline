@@ -11,8 +11,9 @@ enum AppState {
         let setup = SetupImpl()
         let inventory = InventoryImpl()
         let deck = inventory.getDeck()
+        let figures = inventory.getFigures()
         let abilities = inventory.getAbilities()
-        let ctx = setup.createGame(playersCount: 7, deck: deck, abilities: abilities)
+        let ctx = setup.createGame(playersCount: 5, deck: deck, abilities: abilities, figures: figures)
         return ctx
     }()
 }

@@ -35,7 +35,8 @@ final class SimulationTests: XCTestCase {
     private func runSimulation(playersCount: Int, completed: @escaping () -> Void) {
         let deck = inventory.getDeck()
         let abilities = inventory.getAbilities()
-        let ctx = setup.createGame(playersCount: playersCount, deck: deck, abilities: abilities)
+        let figures = inventory.getFigures()
+        let ctx = setup.createGame(playersCount: playersCount, deck: deck, abilities: abilities, figures: figures)
         sut = EngineImpl(ctx)
         aiAgent.playAny(sut)
         sut.state.sink { [self] in

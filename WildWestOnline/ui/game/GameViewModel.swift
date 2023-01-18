@@ -10,10 +10,10 @@ import Bang
 extension GameView {
     class ViewModel: ObservableObject {
         @Published var message: String = "Your turn"
-        @Published var players: [PlayerView.ViewModel] = []
+        @Published var players: [PlayerRow.Data] = []
         
         init(ctx: Game) {
-            players = ctx.players.map({ PlayerView.ViewModel(id: $0.key, name: $0.value.name) })
+            players = ctx.playOrder.map { PlayerRow.Data(player: ctx.player($0)) }
         }
     }
 }

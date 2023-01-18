@@ -26,7 +26,7 @@ enum CardList {
               onTrigger: [EndGame()])
     ]
     
-    static let collectibleCards: [CardImpl] = [
+    static let collectible: [CardImpl] = [
         .init(name: .beer,
               canPlay: [IsPlayersAtLeast(3)],
               onPlay: [Heal(player: PlayerActor(),
@@ -76,6 +76,41 @@ enum CardList {
                                         challenger: PlayerActor(),
                                         card: CardSelectHandNamed(.bang),
                                         otherwise: [Damage(player: PlayerTarget(), value: 1)])])
+    ]
+    
+    static let figures: [CardImpl] = [
+        .init(name: .willyTheKid,
+              desc: "he can play any number of BANG! cards during his turn."),
+        .init(name: .roseDoolan,
+              desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1. If she has another real Appaloosa card in play, she can count both of them, reducing her distance to all other players by a total of 2."),
+        .init(name: .paulRegret,
+              desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him. If he has another real Mustang card in play, he can count both of them, increasing all distances to him by a total of 2)."),
+        .init(name: .jourdonnais,
+              desc: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card."),
+        .init(name: .slabTheKiller,
+              desc: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!."),
+        .init(name: .luckyDuke,
+              desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards."),
+        .init(name: .calamityJanet,
+              desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."),
+        .init(name: .bartCassidy,
+              desc: "each time he loses a life point, he immediately draws a card from the deck."),
+        .init(name: .elGringo,
+              desc: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player."),
+        .init(name: .suzyLafayette,
+              desc: "as soon as she has no cards in her hand, she draws a card from the draw pile."),
+        .init(name: .vultureSam,
+              desc: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand."),
+        .init(name: .sidKetchum,
+              desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time. But remember: you cannot have more life points than your starting amount!"),
+        .init(name: .blackJack,
+              desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it)."),
+        .init(name: .kitCarlson,
+              desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."),
+        .init(name: .jesseJones,
+              desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck."),
+        .init(name: .pedroRamirez,
+              desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.")
     ]
     
     static let cardSets: [String: [String]] = [

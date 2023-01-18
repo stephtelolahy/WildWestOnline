@@ -9,8 +9,9 @@ import Bang
 enum Sample {
     
     static let game: Game = GameImpl(
-        players: ["p1": PlayerImpl(name: "p1"),
-                  "p2": PlayerImpl(name: "p2"),
-                  "p3": PlayerImpl(name: "p3")]
+        players: ["p1": PlayerImpl(name: "willyTheKid"),
+                  "p2": PlayerImpl(name: "blackJack"),
+                  "p3": PlayerImpl(name: "pedroRamirez")],
+        playOrder: ["p1", "p2", "p3"]
     )
 }

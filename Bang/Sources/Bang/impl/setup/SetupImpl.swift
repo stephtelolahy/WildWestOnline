@@ -9,25 +9,25 @@ public struct SetupImpl: Setup {
     
     public init() {}
     
-    public func createGame(playersCount: Int, deck: [Card], abilities: [Card]) -> Game {
+    public func createGame(playersCount: Int, deck: [Card], abilities: [Card], figures: [Card]) -> Game {
         var deck = deck.shuffled()
+        let figures = figures.shuffled()
         var players: [String: Player] = [:]
         var playOrder: [String] = []
         let identifiableAbilities = abilities.map { $0.withId($0.name) }
         
-        Array(1...playersCount).forEach { index in
-            // TODO: add figure
-            let id = "p\(index)"
+        Array(0..<playersCount).forEach { index in
+            let name = figures[index].name
             let health = 4
             
             let hand: [Card] = Array(1...health).map { _ in deck.removeFirst() }
-            let player = PlayerImpl(name: id,
+            let player = PlayerImpl(name: name,
                                     maxHealth: health,
                                     health: health,
                                     abilities: identifiableAbilities,
                                     hand: hand)
-            players[id] = player
-            playOrder.append(id)
+            players[name] = player
+            playOrder.append(name)
         }
         
         return GameImpl(players: players,

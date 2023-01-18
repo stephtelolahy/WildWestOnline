@@ -19,16 +19,20 @@ public struct InventoryImpl: Inventory {
     }
     
     public func getCollectibleCards() -> [Card] {
-        CardList.collectibleCards
+        CardList.collectible
     }
     
     public func getAbilities() -> [Card] {
         CardList.abilities
     }
     
+    public func getFigures() -> [Card] {
+        CardList.figures
+    }
+    
     public func getDeck() -> [Card] {
         let cardSets = CardList.cardSets
-        let uniqueCards = CardList.collectibleCards
+        let uniqueCards = CardList.collectible
         var cards: [Card] = []
         for (key, values) in cardSets {
             if let card = uniqueCards.first(where: { $0.name == key }) {
@@ -46,6 +50,6 @@ public struct InventoryImpl: Inventory {
 private extension InventoryImpl {
     
     var allCards: [CardImpl] {
-        CardList.collectibleCards + CardList.abilities
+        CardList.collectible + CardList.abilities
     }
 }

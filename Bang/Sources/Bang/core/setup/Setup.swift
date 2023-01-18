@@ -11,6 +11,7 @@ public protocol Setup {
     ///   - playersCount: number of players
     ///   - deck: all deck cards
     ///   - abilities: common player abilities
+    ///   - figures: all figures
     /// - Returns: Game
-    func createGame(playersCount: Int, deck: [Card], abilities: [Card]) -> Game
+    func createGame(playersCount: Int, deck: [Card], abilities: [Card], figures: [Card]) -> Game
 }
