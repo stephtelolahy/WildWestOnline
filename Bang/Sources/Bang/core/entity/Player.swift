@@ -20,6 +20,18 @@ public protocol Player {
     /// current health
     var health: Int { get set }
     
+    /// Maximum allowed hand cards at the end of his turn
+    var handLimit: Int { get }
+    
+    /// Weapon range
+    var weapon: Int { get }
+    
+    /// Increment distance from others
+    var mustang: Int { get }
+    
+    /// Decrement distance to others
+    var scope: Int { get }
+    
     /// abilities
     var abilities: [Card] { get }
     
@@ -28,10 +40,4 @@ public protocol Player {
     
     /// in play cards
     var inPlay: [Card] { get set }
-    
-    /// Maximum allowed hand cards at the end of his turn
-    var handLimit: Int { get }
-    
-    /// Weapon range
-    var weapon: Int { get }
 }

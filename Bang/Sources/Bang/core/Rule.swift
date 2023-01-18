@@ -9,7 +9,7 @@
 
 /// Getting distance between players
 public protocol RuleDistance {
-    func playersAt(_ distance: Int, from player: String, in ctx: Game) -> [String]
+    func playersAt(_ range: Int, from player: String, in ctx: Game) -> [String]
 }
 
 /// Generating triggered effects, sorted by priority

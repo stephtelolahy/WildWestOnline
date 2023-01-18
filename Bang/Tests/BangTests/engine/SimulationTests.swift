@@ -20,16 +20,16 @@ final class SimulationTests: XCTestCase {
     private let aiAgent: AIAgent = AIAgentImpl(strategy: AIStrategyRandom())
     private var updates = 0
     
-    func test_Simulate2PlayersGame() {
+    func test_Simulate5PlayersGame() {
         // Given
         // When
         let expectation = expectation(description: "game completed")
-        runSimulation(playersCount: 2) {
+        runSimulation(playersCount: 5) {
             expectation.fulfill()
         }
         
         // Assert
-        waitForExpectations(timeout: 1.0)
+        waitForExpectations(timeout: 2.0)
     }
     
     private func runSimulation(playersCount: Int, completed: @escaping () -> Void) {

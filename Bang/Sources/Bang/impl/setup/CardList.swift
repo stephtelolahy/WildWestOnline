@@ -30,7 +30,7 @@ enum CardList {
         .init(name: .gameOver,
               desc: "Game is over",
               type: .ability,
-              triggers: [OnEliminated()],
+              triggers: [OnEliminated(), IsGameOver()],
               onTrigger: [EndGame()])
     ]
     
