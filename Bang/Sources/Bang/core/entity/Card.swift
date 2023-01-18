@@ -5,7 +5,7 @@
 //  Created by TELOLAHY Hugues Stéphano on 09/12/2022.
 //
 
-/// Card description
+/// Card data
 public protocol Card {
     
     /// card unique identifier
@@ -16,6 +16,9 @@ public protocol Card {
     
     /// card description
     var desc: String { get }
+    
+    /// card type
+    var type: CardType { get }
     
     /// card value
     var value: String { get set }
@@ -34,4 +37,20 @@ public protocol Card {
     
     /// triggered effects
     var onTrigger: [Effect] { get }
+}
+
+/// Card playing type
+public enum CardType {
+    
+    /// Brown card
+    case action
+    
+    /// Blue card as equipement
+    case equipment
+    
+    /// Blue card as handicap
+    case handicap
+    
+    /// Inner ability
+    case ability
 }

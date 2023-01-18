@@ -21,6 +21,16 @@ public extension String {
     static let gatling = "gatling"
     static let indians = "indians"
     static let duel = "duel"
+    static let barrel = "barrel"
+    static let dynamite = "dynamite"
+    static let jail = "jail"
+    static let mustang = "mustang"
+    static let remington = "remington"
+    static let revCarabine = "revCarabine"
+    static let schofield = "schofield"
+    static let scope = "scope"
+    static let volcanic = "volcanic"
+    static let winchester = "winchester"
     
     // MARK: - Abilities
     

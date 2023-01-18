@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-/// Elementary game play error
+/// GamePlay error
 public enum GameError: Error, Codable, Equatable {
     
     /// Expected players count to be leat X

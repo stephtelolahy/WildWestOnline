@@ -5,6 +5,7 @@
 //  Created by TELOLAHY Hugues Stéphano on 09/12/2022.
 //
 
+/// Player data
 public protocol Player {
     
     /// player unique identifier

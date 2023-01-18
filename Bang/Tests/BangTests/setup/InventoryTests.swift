@@ -11,7 +11,7 @@ import Bang
 final class InventoryTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-
+    
     func test_BangDefaultAbilities() throws {
         // Given
         // When
@@ -22,24 +22,27 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == .startTurn })
         XCTAssertTrue(cards.contains { $0.name == .leaveGame })
         XCTAssertTrue(cards.contains { $0.name == .gameOver })
+        
+        XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
+        XCTAssertTrue(cards.allSatisfy { $0.type == .ability })
     }
-
+    
     func test_BangCollectibleCards() throws {
         // Given
         // When
         let cards = inventory.getCollectibleCards()
         
         // Assert
-//        XCTAssertTrue(cards.contains { $0.name == "barrel" })
-//        XCTAssertTrue(cards.contains { $0.name == "dynamite" })
-//        XCTAssertTrue(cards.contains { $0.name == "jail" })
-//        XCTAssertTrue(cards.contains { $0.name == "mustang" })
-//        XCTAssertTrue(cards.contains { $0.name == "remington" })
-//        XCTAssertTrue(cards.contains { $0.name == "revCarabine" })
-//        XCTAssertTrue(cards.contains { $0.name == "schofield" })
-//        XCTAssertTrue(cards.contains { $0.name == "scope" })
-//        XCTAssertTrue(cards.contains { $0.name == "volcanic" })
-//        XCTAssertTrue(cards.contains { $0.name == "winchester" })
+        XCTAssertTrue(cards.contains { $0.name == .barrel })
+        XCTAssertTrue(cards.contains { $0.name == .dynamite })
+        XCTAssertTrue(cards.contains { $0.name == .jail })
+        XCTAssertTrue(cards.contains { $0.name == .mustang })
+        XCTAssertTrue(cards.contains { $0.name == .remington })
+        XCTAssertTrue(cards.contains { $0.name == .revCarabine })
+        XCTAssertTrue(cards.contains { $0.name == .schofield })
+        XCTAssertTrue(cards.contains { $0.name == .scope })
+        XCTAssertTrue(cards.contains { $0.name == .volcanic })
+        XCTAssertTrue(cards.contains { $0.name == .winchester })
         XCTAssertTrue(cards.contains { $0.name == .bang })
         XCTAssertTrue(cards.contains { $0.name == .beer })
         XCTAssertTrue(cards.contains { $0.name == .catBalou })
@@ -52,30 +55,35 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == .saloon })
         XCTAssertTrue(cards.contains { $0.name == .stagecoach })
         XCTAssertTrue(cards.contains { $0.name == .wellsFargo })
+        
+        XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
     }
     
-//    func test_BangCharacterCards() throws {
-//        // Given
-//        // When
-//        let cards = inventory.getAll(.specialAbility)
-//
-//        // Assert
-//        XCTAssertTrue(cards.contains { $0.name == "bartCassidy" })
-//        XCTAssertTrue(cards.contains { $0.name == "blackJack" })
-//        XCTAssertTrue(cards.contains { $0.name == "calamityJanet" })
-//        XCTAssertTrue(cards.contains { $0.name == "elGringo" })
-//        XCTAssertTrue(cards.contains { $0.name == "jesseJones" })
-//        XCTAssertTrue(cards.contains { $0.name == "jourdonnais" })
-//        XCTAssertTrue(cards.contains { $0.name == "kitCarlson" })
-//        XCTAssertTrue(cards.contains { $0.name == "luckyDuke" })
-//        XCTAssertTrue(cards.contains { $0.name == "paulRegret" })
-//        XCTAssertTrue(cards.contains { $0.name == "pedroRamirez" })
-//        XCTAssertTrue(cards.contains { $0.name == "roseDoolan" })
-//        XCTAssertTrue(cards.contains { $0.name == "sidKetchum" })
-//        XCTAssertTrue(cards.contains { $0.name == "slabTheKiller" })
-//        XCTAssertTrue(cards.contains { $0.name == "suzyLafayette" })
-//        XCTAssertTrue(cards.contains { $0.name == "vultureSam" })
-//        XCTAssertTrue(cards.contains { $0.name == "willyTheKid" })
-//    }
-
+    func test_BangCharacterCards() throws {
+        // Given
+        // When
+        let cards = inventory.getFigures()
+        
+        // Assert
+        XCTAssertTrue(cards.contains { $0.name == .bartCassidy })
+        XCTAssertTrue(cards.contains { $0.name == .blackJack })
+        XCTAssertTrue(cards.contains { $0.name == .calamityJanet })
+        XCTAssertTrue(cards.contains { $0.name == .elGringo })
+        XCTAssertTrue(cards.contains { $0.name == .jesseJones })
+        XCTAssertTrue(cards.contains { $0.name == .jourdonnais })
+        XCTAssertTrue(cards.contains { $0.name == .kitCarlson })
+        XCTAssertTrue(cards.contains { $0.name == .luckyDuke })
+        XCTAssertTrue(cards.contains { $0.name == .paulRegret })
+        XCTAssertTrue(cards.contains { $0.name == .pedroRamirez })
+        XCTAssertTrue(cards.contains { $0.name == .roseDoolan })
+        XCTAssertTrue(cards.contains { $0.name == .sidKetchum })
+        XCTAssertTrue(cards.contains { $0.name == .slabTheKiller })
+        XCTAssertTrue(cards.contains { $0.name == .suzyLafayette })
+        XCTAssertTrue(cards.contains { $0.name == .vultureSam })
+        XCTAssertTrue(cards.contains { $0.name == .willyTheKid })
+        
+        XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
+        XCTAssertTrue(cards.allSatisfy { $0.type == .ability })
+    }
+    
 }
