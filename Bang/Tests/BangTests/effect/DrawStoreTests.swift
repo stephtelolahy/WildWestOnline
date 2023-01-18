@@ -45,7 +45,7 @@ final class DrawStoreTests: XCTestCase {
         
         // Assert
         assertIsSuccess(result) {
-            let children: [Event] = try XCTUnwrap($0.children)
+            let children = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
             assertEqual(children[0], ChooseOne([
                 Choose(actor: "p1", label: "c1", children: [DrawStore(player: PlayerId("p1"), card: CardId("c1"))]),
@@ -67,7 +67,7 @@ final class DrawStoreTests: XCTestCase {
         
         // Assert
         assertIsSuccess(result) {
-            let children: [Event] = try XCTUnwrap($0.children)
+            let children = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
             assertEqual(children[0], DrawStore(player: PlayerId("p1"), card: CardId("c1")))
         }

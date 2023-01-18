@@ -12,4 +12,8 @@ struct DummyMove: Move, Equatable {
     func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         .success(EventOutputImpl(state: ctx))
     }
+    
+    func isValid(_ ctx: Game) -> Result<Void, GameError> {
+        .success(())
+    }
 }

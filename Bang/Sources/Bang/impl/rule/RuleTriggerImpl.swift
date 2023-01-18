@@ -10,37 +10,20 @@ extension Rules: RuleTrigger {
     public func triggeredEffects(_ ctx: Game) -> [Event]? {
         var result: [Event] = []
         for (playerId, _) in ctx.players {
-            for ability in ctx.player(playerId).abilities {
-                if case .success = willTrigger(ability, actor: playerId, ctx: ctx) {
-                    result.append(Trigger(actor: playerId, card: ability.id))
-                }
-            }
+            let playerObj = ctx.player(playerId)
+            let triggerableCards = playerObj.inPlay + playerObj.abilities
+            let events: [Trigger] = triggerableCards
+                .map { Trigger(actor: playerId, card: $0.id) }
+                .filter { $0.isValid(ctx).isSuccess }
+                .compactMap { $0 }
+            result.append(contentsOf: events)
         }
         
         guard !result.isEmpty else {
             return nil
         }
         
-        // TODO: sort moves by priority
+        // TODO: sort effects by priority
         return result
-    }
-    
-    private func willTrigger(_ card: Card, actor: String, ctx: Game) -> Result<Void, GameError> {
-        // verify playing effects not empty
-        guard !card.onTrigger.isEmpty else {
-            return .failure(.cardHasNoTriggeredEffect)
-        }
-        
-        /// set playing data
-        let playCtx = PlayContextImpl(actor: actor, playedCard: card)
-        
-        /// verify all requirements
-        for playReq in card.triggers {
-            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
-                return .failure(error)
-            }
-        }
-        
-        return .success
     }
 }

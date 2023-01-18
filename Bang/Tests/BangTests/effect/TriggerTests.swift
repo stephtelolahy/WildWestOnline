@@ -24,7 +24,7 @@ class TriggerTests: XCTestCase {
         
         // Assert
         assertIsSuccess(result) {
-            let children: [Event] = try XCTUnwrap($0.children)
+            let children = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
             assertEqual(children[0], DummyEffect())
         }

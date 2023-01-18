@@ -11,9 +11,10 @@ import Bang
 
 final class PlayTests: XCTestCase {
     
-    func test_DiscardImmediately_IfPlayed() {
+    func test_DiscardImmediately_IfPlayingActionCard() {
         // Given
         let c1 = CardImpl(id: "c1",
+                          type: .action,
                           onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
@@ -30,7 +31,7 @@ final class PlayTests: XCTestCase {
         }
     }
     
-    func test_OutputCardEffects_IfPlayed() {
+    func test_OutputCardEffects_IfPlayingActionCard() {
         // Given
         let c1 = CardImpl(id: "c1",
                           onPlay: [DummyEffect()])
@@ -43,7 +44,7 @@ final class PlayTests: XCTestCase {
         
         // Assert
         assertIsSuccess(result) {
-            let children: [Event] = try XCTUnwrap($0.children)
+            let children = try XCTUnwrap($0.children)
             XCTAssertEqual(children.count, 1)
             assertEqual(children[0], DummyEffect())
         }
@@ -92,5 +93,24 @@ final class PlayTests: XCTestCase {
         
         // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
+    }
+    
+    func test_PutInPlay_IfPlayingEquipmentCard() {
+        // Given
+        let c1 = CardImpl(id: "c1",
+                          type: .equipment)
+        let p1: Player = PlayerImpl(hand: [c1])
+        let ctx: Game = GameImpl(players: ["p1": p1])
+        let sut = Play(actor: "p1", card: "c1")
+        
+        // When
+        let result = sut.resolve(ctx)
+        
+        // Assert
+        assertIsSuccess(result) {
+            let ctx = try XCTUnwrap($0.state)
+            XCTAssertEqual(ctx.player("p1").hand.map(\.id), [])
+            XCTAssertEqual(ctx.player("p1").inPlay.map(\.id), ["c1"])
+        }
     }
 }

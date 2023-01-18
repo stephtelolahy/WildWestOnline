@@ -10,4 +10,7 @@ public protocol Move: Event {
     
     /// Player Id who is performing the move
     var actor: String { get }
+    
+    /// Verify if applicable
+    func isValid(_ ctx: Game) -> Result<Void, GameError>
 }
