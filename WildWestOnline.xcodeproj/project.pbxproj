@@ -7,19 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		263A13C52978205D007FBA92 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A13C42978205D007FBA92 /* GameView.swift */; };
+		263A13C7297828F6007FBA92 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A13C6297828F6007FBA92 /* GameViewModel.swift */; };
+		263A13CA29782A2F007FBA92 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A13C929782A2F007FBA92 /* Sample.swift */; };
+		263A13CC29782B64007FBA92 /* Bang in Frameworks */ = {isa = PBXBuildFile; productRef = 263A13CB29782B64007FBA92 /* Bang */; };
+		263A13D029782D95007FBA92 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A13CF29782D95007FBA92 /* PlayerView.swift */; };
+		263A13D329782FFF007FBA92 /* PlayerviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A13D229782FFF007FBA92 /* PlayerviewModel.swift */; };
+		263A13D5297834C9007FBA92 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A13D4297834C9007FBA92 /* AppState.swift */; };
 		264EB0B6297814F70030C4E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264EB0B5297814F70030C4E4 /* ContentView.swift */; };
-		26699F1B28455FB8008040E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26699F1A28455FB8008040E5 /* AppDelegate.swift */; };
-		26699F1D28455FB8008040E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26699F1C28455FB8008040E5 /* SceneDelegate.swift */; };
+		26699F1B28455FB8008040E5 /* WWOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26699F1A28455FB8008040E5 /* WWOApp.swift */; };
 		26699F2428455FB9008040E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26699F2328455FB9008040E5 /* Assets.xcassets */; };
 		26699F2728455FB9008040E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26699F2528455FB9008040E5 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		263A13C42978205D007FBA92 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		263A13C6297828F6007FBA92 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		263A13C929782A2F007FBA92 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
+		263A13CF29782D95007FBA92 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		263A13D229782FFF007FBA92 /* PlayerviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerviewModel.swift; sourceTree = "<group>"; };
+		263A13D4297834C9007FBA92 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		264EB0B5297814F70030C4E4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		26505A772853692800E6A422 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26699F1728455FB8008040E5 /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		26699F1A28455FB8008040E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		26699F1C28455FB8008040E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		26699F1A28455FB8008040E5 /* WWOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWOApp.swift; sourceTree = "<group>"; };
 		26699F2328455FB9008040E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26699F2628455FB9008040E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26699F2828455FB9008040E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,12 +42,49 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				263A13CC29782B64007FBA92 /* Bang in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		263A13C229782046007FBA92 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				264EB0B5297814F70030C4E4 /* ContentView.swift */,
+				263A13C32978204F007FBA92 /* game */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		263A13C32978204F007FBA92 /* game */ = {
+			isa = PBXGroup;
+			children = (
+				263A13C42978205D007FBA92 /* GameView.swift */,
+				263A13C6297828F6007FBA92 /* GameViewModel.swift */,
+				263A13D129782FEA007FBA92 /* player */,
+			);
+			path = game;
+			sourceTree = "<group>";
+		};
+		263A13C829782A23007FBA92 /* misc */ = {
+			isa = PBXGroup;
+			children = (
+				263A13C929782A2F007FBA92 /* Sample.swift */,
+			);
+			path = misc;
+			sourceTree = "<group>";
+		};
+		263A13D129782FEA007FBA92 /* player */ = {
+			isa = PBXGroup;
+			children = (
+				263A13CF29782D95007FBA92 /* PlayerView.swift */,
+				263A13D229782FFF007FBA92 /* PlayerviewModel.swift */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
 		26699F0E28455FB8008040E5 = {
 			isa = PBXGroup;
 			children = (
@@ -59,9 +107,10 @@
 		26699F1928455FB8008040E5 /* WildWestOnline */ = {
 			isa = PBXGroup;
 			children = (
-				26699F1A28455FB8008040E5 /* AppDelegate.swift */,
-				26699F1C28455FB8008040E5 /* SceneDelegate.swift */,
-				264EB0B5297814F70030C4E4 /* ContentView.swift */,
+				26699F1A28455FB8008040E5 /* WWOApp.swift */,
+				263A13D4297834C9007FBA92 /* AppState.swift */,
+				263A13C229782046007FBA92 /* ui */,
+				263A13C829782A23007FBA92 /* misc */,
 				26699F2328455FB9008040E5 /* Assets.xcassets */,
 				26699F2528455FB9008040E5 /* LaunchScreen.storyboard */,
 				26699F2828455FB9008040E5 /* Info.plist */,
@@ -103,6 +152,7 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
+				263A13CB29782B64007FBA92 /* Bang */,
 			);
 			productName = CardGameDemo;
 			productReference = 26699F1728455FB8008040E5 /* WildWestOnline.app */;
@@ -180,8 +230,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26699F1B28455FB8008040E5 /* AppDelegate.swift in Sources */,
-				26699F1D28455FB8008040E5 /* SceneDelegate.swift in Sources */,
+				26699F1B28455FB8008040E5 /* WWOApp.swift in Sources */,
+				263A13D329782FFF007FBA92 /* PlayerviewModel.swift in Sources */,
+				263A13CA29782A2F007FBA92 /* Sample.swift in Sources */,
+				263A13D029782D95007FBA92 /* PlayerView.swift in Sources */,
+				263A13C52978205D007FBA92 /* GameView.swift in Sources */,
+				263A13D5297834C9007FBA92 /* AppState.swift in Sources */,
+				263A13C7297828F6007FBA92 /* GameViewModel.swift in Sources */,
 				264EB0B6297814F70030C4E4 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -313,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -407,6 +462,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		263A13CB29782B64007FBA92 /* Bang */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Bang;
+		};
 		265554D9297371CA006CE5E0 /* Bang */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Bang;
