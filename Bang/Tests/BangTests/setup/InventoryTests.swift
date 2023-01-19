@@ -60,7 +60,7 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
     }
     
-    func test_BangCharacterCards() throws {
+    func test_BangFigureCards() throws {
         // Given
         // When
         let cards = sut.getFigures()

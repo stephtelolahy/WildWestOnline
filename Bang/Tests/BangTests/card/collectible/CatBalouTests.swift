@@ -11,6 +11,8 @@ import Bang
 
 final class CatBalouTests: XCTestCase {
     
+    // TODO: catBalou may discard self's inPlay card, so add new player argument: anyOrSelf
+    
     private let inventory: Inventory = InventoryImpl()
     
     func test_DiscardOthersUniqueHandCard_IfPlayingCatBalou() throws {

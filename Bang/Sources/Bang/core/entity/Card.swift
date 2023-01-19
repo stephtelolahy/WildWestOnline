@@ -21,22 +21,22 @@ public protocol Card {
     var type: CardType { get }
     
     /// card value
-    var value: String { get set }
+    var value: String? { get set }
     
     /// required target to play this card
     var playTarget: ArgPlayer? { get }
     
     /// requirements for playing this card
-    var canPlay: [PlayReq] { get }
+    var canPlay: [PlayReq]? { get }
     
     /// side effects on playing this card
-    var onPlay: [Effect] { get }
+    var onPlay: [Effect]? { get }
     
     /// requirements to trigger this card
-    var triggers: [PlayReq] { get }
+    var triggers: [PlayReq]? { get }
     
     /// triggered effects
-    var onTrigger: [Effect] { get }
+    var onTrigger: [Effect]? { get }
 }
 
 /// Card playing type

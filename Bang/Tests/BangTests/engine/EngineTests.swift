@@ -115,4 +115,10 @@ class EngineTests: XCTestCase {
         XCTAssertEqual(sut.queue.count, 1)
         XCTAssertTrue(sut.queue[0] is ChooseOne)
     }
+    
+    // TODO: test emit active moves
+    
+    // TODO: test push triggered effects
+    
+    // TODO: test cancel queued effect
 }

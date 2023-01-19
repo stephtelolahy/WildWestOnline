@@ -10,7 +10,7 @@ extension Array {
     /// append a element if not `nil`
     mutating func appendNotNil(_ element: Element?) {
         if let element {
-            self.append(element)
+            append(element)
         }
     }
     

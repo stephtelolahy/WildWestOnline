@@ -10,6 +10,8 @@ public struct ChooseOne: Event, Equatable {
     @EquatableIgnore public var options: [Move]
     
     public init(_ options: [Move]) {
+        assert(!options.isEmpty)
+        
         self.options = options
     }
     

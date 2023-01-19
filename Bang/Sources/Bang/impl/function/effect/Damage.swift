@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 
-/// Deals damage to a character, attempting to reduce its Health by the stated amount
+/// Deals damage to a player, attempting to reduce its Health by the stated amount
 public struct Damage: Effect, Equatable {
     @EquatableCast var player: ArgPlayer
     private let value: Int
@@ -17,6 +17,8 @@ public struct Damage: Effect, Equatable {
     }
     
     public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+        assert(value > 0)
+        
         guard let playerId = (player as? PlayerId)?.id else {
             return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), value: value)

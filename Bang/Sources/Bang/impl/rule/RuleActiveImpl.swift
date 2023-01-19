@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 
-extension Rules: RuleActive {
+extension RuleImpl: RuleActive {
     
     public func activeMoves(_ ctx: Game) -> [Move]? {
         guard let playerId = ctx.turn else {

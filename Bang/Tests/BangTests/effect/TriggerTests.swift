@@ -11,7 +11,7 @@ import Bang
 
 class TriggerTests: XCTestCase {
 
-    func test_OutputCardEffects_IfPlayed() {
+    func test_ApplyCardEffects_IfTriggered() {
         // Given
         let c1 = CardImpl(id: "c1",
                           onTrigger: [DummyEffect()])
@@ -29,5 +29,4 @@ class TriggerTests: XCTestCase {
             assertEqual(children[0], DummyEffect())
         }
     }
-
 }

@@ -12,7 +12,7 @@ final class RuleSetupTests: XCTestCase {
     
     private let sut: Setup = SetupImpl()
     
-    func test_EachPlayerHasMaxHealthAndHandCards_IfSetup() throws {
+    func test_EachPlayerHasMaxHealthAndHandCards() throws {
         // Given
         let deck = Array(1...80).map { CardImpl(id: "c\($0)") }.shuffled()
         let abilities = [CardImpl(name: "a1")]

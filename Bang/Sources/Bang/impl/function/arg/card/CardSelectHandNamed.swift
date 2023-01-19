@@ -8,7 +8,7 @@
 /// select any self's hand card matching given name
 /// chooser is owner
 public struct CardSelectHandNamed: ArgCard, Equatable {
-    private let name: String
+    let name: String
     
     public init(_ name: String) {
         self.name = name

@@ -9,9 +9,9 @@
 public struct Choose: Move, Equatable {
     public let actor: String
     private let label: String
-    @EquatableIgnore var children: [Event]
+    @EquatableIgnore var children: [Event]?
     
-    public init(actor: String, label: String, children: [Event] = []) {
+    public init(actor: String, label: String, children: [Event]? = nil) {
         self.actor = actor
         self.label = label
         self.children = children

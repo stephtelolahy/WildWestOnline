@@ -16,13 +16,13 @@ public struct CardSelectHand: ArgCard, Equatable {
         }
         
         let playerObj = ctx.player(playerId)
-        var options: [ArgOutput.Option] = []
+        var options: [ArgOption] = []
         
         if !playerObj.hand.isEmpty {
             if chooser != owner {
                 // swiftlint:disable:next force_unwrapping
                 let randomId = playerObj.hand.map(\.id).randomElement()!
-                let randomOption = ArgOutput.Option(value: randomId, label: Label.randomHand)
+                let randomOption = ArgOptionImpl(value: randomId, label: Label.randomHand)
                 options.append(randomOption)
             } else {
                 let handOptions = playerObj.hand.map(\.id).toOptions()

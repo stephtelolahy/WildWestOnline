@@ -17,19 +17,11 @@ public struct Trigger: Move, Equatable {
     
     public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
         let playerObj = ctx.player(actor)
-        
-        /// find card reference
-        let cardObj: Card
-        if let abilityIndex = playerObj.abilities.firstIndex(where: { $0.id == card }) {
-            cardObj = playerObj.abilities[abilityIndex]
-            
-        } else {
-            fatalError(.missingPlayerCard(card))
-        }
+        let cardObj = playerObj.card(card)
         
         /// push child effects
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
-        let children = cardObj.onTrigger.withCtx(playCtx)
+        let children = cardObj.onTrigger?.withCtx(playCtx)
         
         return .success(EventOutputImpl(state: ctx, children: children))
     }
@@ -40,14 +32,16 @@ public struct Trigger: Move, Equatable {
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
         
         /// verify triggered effects not empty
-        guard !cardObj.onTrigger.isEmpty else {
+        guard cardObj.onTrigger != nil else {
             return .failure(.cardHasNoTriggeredEffect)
         }
         
         /// verify all requirements
-        for playReq in cardObj.triggers {
-            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
-                return .failure(error)
+        if let playReqs = cardObj.triggers {
+            for playReq in playReqs {
+                if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                    return .failure(error)
+                }
             }
         }
         

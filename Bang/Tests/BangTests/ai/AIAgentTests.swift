@@ -15,7 +15,7 @@ final class AIAgentTests: XCTestCase {
     private let sut: AIAgent = AIAgentImpl(strategy: AIStrategyRandom())
     private var mockEngine: MockEngine!
     
-    func test_ChooseAction_IfGameWaitingDecision() {
+    func test_ChooseAction_IfGameWaitingChoice() {
         // Given
         let move1 = Choose(actor: "p1", label: "c1")
         let move2 = Choose(actor: "p1", label: "c2")
@@ -37,7 +37,7 @@ final class AIAgentTests: XCTestCase {
         waitForExpectations(timeout: 0.1)
     }
     
-    func test_ChooseAction_IfGameActiveMoves() {
+    func test_ChooseAction_IfGameEmittedActiveMoves() {
         // Given
         let move1 = DummyMove()
         let move2 = DummyMove()

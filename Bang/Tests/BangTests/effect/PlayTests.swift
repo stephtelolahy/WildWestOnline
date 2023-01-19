@@ -11,6 +11,8 @@ import Bang
 
 final class PlayTests: XCTestCase {
     
+    // MARK: Play action card
+    
     func test_DiscardImmediately_IfPlayingActionCard() {
         // Given
         let c1 = CardImpl(id: "c1",
@@ -95,6 +97,8 @@ final class PlayTests: XCTestCase {
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
     }
     
+    // MARK: Play equipement
+    
     func test_PutInPlay_IfPlayingEquipmentCard() {
         // Given
         let c1 = CardImpl(id: "c1",
@@ -113,4 +117,8 @@ final class PlayTests: XCTestCase {
             XCTAssertEqual(ctx.player("p1").inPlay.map(\.id), ["c1"])
         }
     }
+    
+    // TODO: Play handicap
+    
+    // TODO: Play ability
 }

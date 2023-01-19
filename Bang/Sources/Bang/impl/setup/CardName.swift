@@ -39,7 +39,7 @@ public extension String {
     static let leaveGame = "leaveGame"
     static let gameOver = "gameOver"
     
-    // MARK: - Characters
+    // MARK: - Figures
     
     static let willyTheKid = "willyTheKid"
     static let roseDoolan = "roseDoolan"

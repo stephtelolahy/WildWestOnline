@@ -5,13 +5,15 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-/// Restore character's health, limited to maxHealth
+/// Restore player's health, limited to maxHealth
 public struct Heal: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     private let value: Int
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
     public init(player: ArgPlayer, value: Int) {
+        assert(value > 0)
+        
         self.player = player
         self.value = value
     }

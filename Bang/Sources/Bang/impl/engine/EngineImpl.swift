@@ -77,7 +77,7 @@ public class EngineImpl: Engine {
         // emit active moves if any
         // then complete
         if queue.isEmpty {
-            if let active = Rules.main.activeMoves(ctx) {
+            if let active = RuleImpl.main.activeMoves(ctx) {
                 ctx.event = .success(Activate(active))
                 state.send(ctx)
             }
@@ -97,12 +97,20 @@ public class EngineImpl: Engine {
                 ctx.event = .success(event)
             }
             
+            if let cancel = output.cancel {
+                if let index = queue.firstIndex(where: { cancel.match($0) }) {
+                    queue.remove(at: index)
+                    ctx.event = .success(event)
+                }
+            }
+            
+            // queue children
             if let children = output.children {
                 queue.insert(contentsOf: children, at: 0)
             }
             
             // push triggered moves if any
-            if let triggered = Rules.main.triggeredEffects(ctx) {
+            if let triggered = RuleImpl.main.triggeredEffects(ctx) {
                 queue.insert(contentsOf: triggered, at: 0)
             }
             

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 
-extension Rules: RuleDistance {
+extension RuleImpl: RuleDistance {
     
     public func playersAt(_ range: Int, from player: String, in ctx: Game) -> [String] {
         ctx.playOrder.filter { player != $0 && Self.distance(from: player, to: $0, in: ctx) <= range }

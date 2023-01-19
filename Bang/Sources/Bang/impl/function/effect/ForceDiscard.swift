@@ -9,7 +9,7 @@
 /// If cannot, then apply some effects
 public struct ForceDiscard: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
-    @EquatableCast private var card: ArgCard
+    @EquatableCast var card: ArgCard
     @EquatableIgnore private var otherwise: [Effect]
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     

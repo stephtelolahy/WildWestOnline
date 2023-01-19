@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 13/01/2023.
 //
 
-extension Rules: RuleTrigger {
+extension RuleImpl: RuleTrigger {
     
     public func triggeredEffects(_ ctx: Game) -> [Event]? {
         var result: [Event] = []
@@ -23,7 +23,6 @@ extension Rules: RuleTrigger {
             return nil
         }
         
-        // TODO: sort effects by priority
         return result
     }
 }

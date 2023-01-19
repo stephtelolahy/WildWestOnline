@@ -10,7 +10,10 @@ import SwiftUI
 extension PlayerRow {
     struct Data: Identifiable {
         let player: Player
-        let id = UUID()
+        
+        var id: String {
+            player.id
+        }
         
         var name: String {
             player.name

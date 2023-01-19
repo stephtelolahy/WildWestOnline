@@ -28,7 +28,7 @@ struct PlayAbility: Move {
         ctx.played.append(cardObj.name)
         
         /// push child effects
-        let children = cardObj.onPlay.withCtx(playCtx)
+        let children = cardObj.onPlay?.withCtx(playCtx)
         
         return .success(EventOutputImpl(state: ctx, children: children))
     }
@@ -39,14 +39,16 @@ struct PlayAbility: Move {
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
         
         /// verify playing effects not empty
-        guard !cardObj.onPlay.isEmpty else {
+        guard cardObj.onPlay != nil else {
             return .failure(.cardHasNoPlayingEffect)
         }
         
         /// verify all requirements
-        for playReq in cardObj.canPlay {
-            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
-                return .failure(error)
+        if let playReqs = cardObj.canPlay {
+            for playReq in playReqs {
+                if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                    return .failure(error)
+                }
             }
         }
         

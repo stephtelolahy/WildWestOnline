@@ -24,4 +24,6 @@ final class EliminateTests: XCTestCase {
             XCTAssertEqual(ctx.playOrder, ["p2", "p3"])
         }
     }
+    
+    // TODO: do not elmiminate is health not zero
 }

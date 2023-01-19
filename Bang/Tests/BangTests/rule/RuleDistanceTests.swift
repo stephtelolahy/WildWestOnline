@@ -11,9 +11,9 @@ import Bang
 
 final class RuleDistanceTests: XCTestCase {
     
-    private let sut: RuleDistance = Rules.main
+    private let sut: RuleDistance = RuleImpl.main
     
-    func test_ReturnLowestDistance_IfCalculatingRangeToOther() {
+    func test_ReturnLowestDistance() {
         // Given
         let p1 = PlayerImpl(id: "p1")
         let p2 = PlayerImpl(id: "p2")

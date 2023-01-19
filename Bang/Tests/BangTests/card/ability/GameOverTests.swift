@@ -11,6 +11,8 @@ import Bang
 
 final class GameOverTests: XCTestCase {
     
+    // TODO: real game over rules
+    
     private let inventory: Inventory = InventoryImpl()
     
     func test_EndGame_IfOnePlayerLast() {

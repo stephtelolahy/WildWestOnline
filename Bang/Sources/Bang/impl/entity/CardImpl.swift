@@ -10,23 +10,23 @@ public struct CardImpl: Card {
     public var name: String
     public var desc: String
     public var type: CardType
-    public var value: String
+    public var value: String?
     public var playTarget: ArgPlayer?
-    public var canPlay: [PlayReq]
-    public var onPlay: [Effect]
-    public var triggers: [PlayReq]
-    public var onTrigger: [Effect]
+    public var canPlay: [PlayReq]?
+    public var onPlay: [Effect]?
+    public var triggers: [PlayReq]?
+    public var onTrigger: [Effect]?
     
     public init(id: String = "",
                 name: String = "",
                 desc: String = "",
                 type: CardType = .action,
-                value: String = "",
+                value: String? = nil,
                 playTarget: ArgPlayer? = nil,
-                canPlay: [PlayReq] = [],
-                onPlay: [Effect] = [],
-                triggers: [PlayReq] = [],
-                onTrigger: [Effect] = []) {
+                canPlay: [PlayReq]? = nil,
+                onPlay: [Effect]? = nil,
+                triggers: [PlayReq]? = nil,
+                onTrigger: [Effect]? = nil) {
         self.id = id
         self.name = name
         self.desc = desc

@@ -31,13 +31,11 @@ struct PlayAction: Move {
         }
         
         playerObj.hand.remove(at: handIndex)
-        var discard = ctx.discard
-        discard.append(cardObj)
-        ctx.discard = discard
+        ctx.discard.append(cardObj)
         ctx.players[actor] = playerObj
         
         /// push child effects
-        let children = cardObj.onPlay.withCtx(playCtx)
+        let children = cardObj.onPlay?.withCtx(playCtx)
         
         return .success(EventOutputImpl(state: ctx, children: children))
     }
@@ -48,19 +46,24 @@ struct PlayAction: Move {
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
         
         /// verify playing effects not empty
-        guard !cardObj.onPlay.isEmpty else {
+        guard cardObj.onPlay != nil else {
             return .failure(.cardHasNoPlayingEffect)
         }
         
         /// verify all requirements
-        for playReq in cardObj.canPlay {
-            if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
-                return .failure(error)
+        if let playReqs = cardObj.canPlay {
+            for playReq in playReqs {
+                if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                    return .failure(error)
+                }
             }
         }
         
         /// verify main effect succeed
-        let node = cardObj.onPlay[0].withCtx(playCtx)
+        guard let node = cardObj.onPlay?.first?.withCtx(playCtx) else {
+            fatalError(.unexpected)
+        }
+        
         if case let .failure(error) = node.resolveUntilCompleted(ctx: ctx) {
             return .failure(error)
         }
@@ -73,9 +76,9 @@ private extension Event {
     func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
         // handle options: one of them must succeed
         if let chooseOne = self as? ChooseOne {
-            let children: [Event] = chooseOne.options.map {
+            let children: [Event] = chooseOne.options.compactMap {
                 if let choose = $0 as? Choose {
-                    return choose.children[0]
+                    return choose.children![0]
                 } else {
                     return $0
                 }

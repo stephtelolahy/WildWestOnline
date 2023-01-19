@@ -11,7 +11,6 @@ public struct IsGameOver: PlayReq {
     public init() {}
     
     public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
-        // TODO: game over rules
         guard ctx.playOrder.count == 1 else {
             return .failure(.unknown)
         }

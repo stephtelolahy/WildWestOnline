@@ -35,15 +35,15 @@ public enum ArgOutput {
     case identified([String])
     
     /// Create choice effects with well known objects identifiers
-    case selectable([Option])
+    case selectable([ArgOption])
 }
 
-public extension ArgOutput {
+/// Selectable argument option
+public protocol ArgOption {
     
-    struct Option {
-        
-        let value: String
-        
-        let label: String
-    }
+    /// arg identifier
+    var value: String { get }
+    
+    /// displayed arg label
+    var label: String { get }
 }

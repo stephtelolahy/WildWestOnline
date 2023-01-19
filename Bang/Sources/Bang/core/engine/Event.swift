@@ -16,6 +16,15 @@ public protocol EventOutput {
     /// Updated `State`
     var state: Game? { get }
     
-    /// Children on resolving
+    /// Children to be queued for resolving
     var children: [Event]? { get }
+    
+    /// Function to cancel some queued event
+    var cancel: Canceller? { get }
+}
+
+/// Function used to cancel event
+public protocol Canceller {
+    
+    func match(_ event: Event) -> Bool
 }
