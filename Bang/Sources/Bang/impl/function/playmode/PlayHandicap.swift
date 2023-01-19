@@ -5,17 +5,18 @@
 //  Created by Hugues Telolahy on 19/01/2023.
 //
 
-struct PlayHandicap: Move {
-    let actor: String
-    let card: String
-    let target: String?
-
-    func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
-        var playerObj = ctx.player(actor)
-        let cardObj = playerObj.card(card)
+/// Playing handicap card
+public struct PlayHandicap: PlayMode {
+    
+    public init() {}
+    
+    public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
+        let actor = playCtx.actor
+        var playerObj = ctx.player(playCtx.actor)
+        let cardObj = playCtx.playedCard
         
         /// verify can play
-        if case let .failure(error) = isValid(ctx) {
+        if case let .failure(error) = isValid(playCtx, ctx: ctx) {
             return .failure(error)
         }
         
@@ -24,17 +25,13 @@ struct PlayHandicap: Move {
         /// set playing data
         ctx.played.append(cardObj.name)
         
-        /// put handicap in target's inPlay
-        guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) else {
-            fatalError(.missingPlayerCard(card))
-        }
-        
-        guard let target = self.target else {
+        guard let target = playCtx.target else {
             fatalError(.missingTarget)
         }
         
+        /// put handicap in target's inPlay
         var targetObj = ctx.player(target)
-        playerObj.hand.remove(at: handIndex)
+        playerObj.hand.removeAll(where: { $0.id == cardObj.id })
         targetObj.inPlay.append(cardObj)
         ctx.players[actor] = playerObj
         ctx.players[target] = targetObj
@@ -46,10 +43,8 @@ struct PlayHandicap: Move {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    func isValid(_ ctx: Game) -> Result<Void, GameError> {
-        let playerObj = ctx.player(actor)
-        let cardObj = playerObj.card(card)
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
+    public func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, GameError> {
+        let cardObj = playCtx.playedCard
         
         /// verify all requirements
         if let playReqs = cardObj.canPlay {

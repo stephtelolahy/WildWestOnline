@@ -14,11 +14,11 @@ public protocol Card {
     /// card name
     var name: String { get }
     
-    /// card type
-    var type: CardType { get }
-    
     /// card value
     var value: String? { get set }
+    
+    /// way of playing this card
+    var playMode: PlayMode? { get }
     
     /// required target to play this card
     var playTarget: ArgPlayer? { get }
@@ -34,20 +34,4 @@ public protocol Card {
     
     /// triggered effects
     var onTrigger: [Effect]? { get }
-}
-
-/// Card playing type
-public enum CardType {
-    
-    /// Brown card
-    case action
-    
-    /// Blue card as equipement
-    case equipment
-    
-    /// Blue card as handicap
-    case handicap
-    
-    /// Inner ability
-    case ability
 }

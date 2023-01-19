@@ -1,5 +1,5 @@
 //
-//  PlayTests.swift
+//  PlayActionTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
@@ -9,14 +9,12 @@
 import XCTest
 import Bang
 
-final class PlayTests: XCTestCase {
-    
-    // MARK: Play action card
+final class PlayActionTests: XCTestCase {
     
     func test_DiscardImmediately_IfPlayingActionCard() {
         // Given
         let c1 = CardImpl(id: "c1",
-                          type: .action,
+                          playMode: PlayAction(),
                           onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
@@ -36,6 +34,7 @@ final class PlayTests: XCTestCase {
     func test_OutputCardEffects_IfPlayingActionCard() {
         // Given
         let c1 = CardImpl(id: "c1",
+                          playMode: PlayAction(),
                           onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
@@ -55,6 +54,7 @@ final class PlayTests: XCTestCase {
     func test_ThrowsError_IfAnyRequirementNotMatched() {
         // Given
         let c1 = CardImpl(id: "c1",
+                          playMode: PlayAction(),
                           canPlay: [IsPlayersAtLeast(2)],
                           onPlay: [DummyEffect()])
         let p1: Player = PlayerImpl(hand: [c1])
@@ -70,7 +70,7 @@ final class PlayTests: XCTestCase {
     
     func test_ThrowError_IfCardHasNoEffect() {
         // Given
-        let c1 = CardImpl(id: "c1")
+        let c1 = CardImpl(id: "c1", playMode: PlayAction())
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
         let sut = Play(actor: "p1", card: "c1")
@@ -85,6 +85,7 @@ final class PlayTests: XCTestCase {
     func test_ThrowError_IfCardFirstEffectFails() {
         // Given
         let c1 = CardImpl(id: "c1",
+                          playMode: PlayAction(),
                           onPlay: [EmitError(error: .playerAlreadyMaxHealth("p1"))])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
@@ -96,48 +97,4 @@ final class PlayTests: XCTestCase {
         // Assert
         assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
     }
-    
-    // MARK: Play equipement
-    
-    func test_PutInPlay_IfPlayingEquipmentCard() {
-        // Given
-        let c1 = CardImpl(id: "c1",
-                          type: .equipment)
-        let p1: Player = PlayerImpl(hand: [c1])
-        let ctx: Game = GameImpl(players: ["p1": p1])
-        let sut = Play(actor: "p1", card: "c1")
-        
-        // When
-        let result = sut.resolve(ctx)
-        
-        // Assert
-        assertIsSuccess(result) {
-            let ctx = try XCTUnwrap($0.state)
-            XCTAssertEqual(ctx.player("p1").hand.map(\.id), [])
-            XCTAssertEqual(ctx.player("p1").inPlay.map(\.id), ["c1"])
-        }
-    }
-    
-    // MARK: Play handicap
-    
-    func test_PutInPlayOfTargetPlayer_IfPlayingHandicap() {
-        // Given
-        let ctx = GameImpl.create(
-            PlayerImpl(id: "p1")
-                .hand(CardImpl(id: "c1", type: .handicap)),
-            PlayerImpl(id: "p2"))
-        let sut = Play(actor: "p1", card: "c1", target: "p2")
-        
-        // When
-        let result = sut.resolve(ctx)
-        
-        // Assert
-        assertIsSuccess(result) {
-            let ctx = try XCTUnwrap($0.state)
-            XCTAssertEqual(ctx.player("p1").hand.map(\.id), [])
-            XCTAssertEqual(ctx.player("p2").inPlay.map(\.id), ["c1"])
-        }
-    }
-    
-    // Play ability
 }

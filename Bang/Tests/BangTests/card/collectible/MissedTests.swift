@@ -13,7 +13,7 @@ final class MissedTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
     
-    func test_CannotPlayMissed_CardHasNoEffect() throws {
+    func test_CannotPlayMissed_NoPlaymode() throws {
         // Given
         let c1 = inventory.getCard(.missed, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
@@ -22,7 +22,7 @@ final class MissedTests: XCTestCase {
                         
                         createExpectation(
                             engine: sut,
-                            expected: [.error(.cardHasNoPlayingEffect)])
+                            expected: [.error(.cannotPlayThisCard)])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))

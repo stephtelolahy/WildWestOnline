@@ -6,27 +6,26 @@
 //
 
 /// Playing action card
-struct PlayAction: Move {
-    let actor: String
-    let card: String
-    let target: String?
+public struct PlayAction: PlayMode {
     
-    func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
-        var ctx = ctx
-        var playerObj = ctx.player(actor)
-        let cardObj = playerObj.card(card)
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
+    public init() {}
+    
+    public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
+        let actor =  playCtx.actor
+        var playerObj = ctx.player(playCtx.actor)
+        let cardObj = playCtx.playedCard
         
         /// verify can play
-        if case let .failure(error) = isValid(ctx) {
+        if case let .failure(error) = isValid(playCtx, ctx: ctx) {
             return .failure(error)
         }
         
         /// set playing data
+        var ctx = ctx
         ctx.played.append(cardObj.name)
         
         /// discard  action card immediately
-        guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == card }) else {
+        guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == cardObj.id }) else {
             fatalError(.unexpected)
         }
         
@@ -40,10 +39,8 @@ struct PlayAction: Move {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    func isValid(_ ctx: Game) -> Result<Void, GameError> {
-        let playerObj = ctx.player(actor)
-        let cardObj = playerObj.card(card)
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
+    public func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, GameError> {
+        let cardObj = playCtx.playedCard
         
         /// verify playing effects not empty
         guard cardObj.onPlay != nil else {

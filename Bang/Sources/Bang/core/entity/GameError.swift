@@ -47,6 +47,9 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected to specify a target
     case noTargetSelected
     
+    /// Card cannot be played
+    case cannotPlayThisCard
+    
     /// Defaut  error
     case unknown
 }

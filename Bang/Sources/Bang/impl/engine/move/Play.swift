@@ -30,7 +30,11 @@ public struct Play: Move, Equatable {
             }
         }
         
-        return implementationByCard(cardObj).resolve(ctx)
+        guard let playMode = cardObj.playMode else {
+            return .failure(.cannotPlayThisCard)
+        }
+        
+        return playMode.resolve(playCtx, ctx: ctx)
     }
     
     public func isValid(_ ctx: Game) -> Result<Void, GameError> {
@@ -63,30 +67,15 @@ public struct Play: Move, Equatable {
             }
         }
         
-        return implementationByCard(cardObj).isValid(ctx)
-    }
-}
-
-private extension Play {
-    func implementationByCard(_ cardObj: Card) -> Move {
-        switch cardObj.type {
-        case .action:
-            return PlayAction(actor: actor, card: card, target: target)
-            
-        case .equipment:
-            return PlayEquipment(actor: actor, card: card)
-            
-        case .handicap:
-            return PlayHandicap(actor: actor, card: card, target: target)
-            
-        case .ability:
-            return PlayAbility(actor: actor, card: card, target: target)
+        guard let playMode = cardObj.playMode else {
+            return .failure(.cannotPlayThisCard)
         }
+        
+        return playMode.isValid(playCtx, ctx: ctx)
     }
 }
 
 private extension Move {
-    
     func resolve(
         _ player: ArgPlayer,
         ctx: Game,

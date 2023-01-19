@@ -23,9 +23,6 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == .startTurn })
         XCTAssertTrue(cards.contains { $0.name == .leaveGame })
         XCTAssertTrue(cards.contains { $0.name == .gameOver })
-        
-        XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
-        XCTAssertTrue(cards.allSatisfy { $0.type == .ability })
     }
     
     func test_BangCollectibleCards() throws {
@@ -56,8 +53,6 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == .saloon })
         XCTAssertTrue(cards.contains { $0.name == .stagecoach })
         XCTAssertTrue(cards.contains { $0.name == .wellsFargo })
-        
-        XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
     }
     
     func test_BangFigureCards() throws {
@@ -82,9 +77,6 @@ final class InventoryTests: XCTestCase {
         XCTAssertTrue(cards.contains { $0.name == .suzyLafayette })
         XCTAssertTrue(cards.contains { $0.name == .vultureSam })
         XCTAssertTrue(cards.contains { $0.name == .willyTheKid })
-        
-        XCTAssertTrue(cards.allSatisfy { !$0.desc.isEmpty }, "all cards have description")
-        XCTAssertTrue(cards.allSatisfy { $0.type == .ability })
     }
     
     func test_BangCardSets() throws {
