@@ -40,7 +40,7 @@ public struct ChallengeDiscard: Effect, Equatable {
         playCtx.target = playerId
         
         // resolving card
-        switch card.resolve(ctx, chooser: playerId, owner: playerId) {
+        switch card.resolve(ctx, playCtx: playCtx, chooser: playerId, owner: playerId) {
         case let .failure(error):
             if case .playerHasNoMatchingCard = error {
                 // do not own required card

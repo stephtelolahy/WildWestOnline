@@ -14,7 +14,7 @@ extension RuleImpl: RuleActive {
         
         let playerObj = ctx.player(playerId)
         let playableCards = playerObj.hand + playerObj.abilities
-        let moves: [Move] = playableCards
+        let moves: [Play] = playableCards
             .map { Play(actor: playerId, card: $0.id) }
             .filter { $0.isValid(ctx).isSuccess }
             .compactMap { $0 }

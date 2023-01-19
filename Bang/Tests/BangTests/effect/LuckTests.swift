@@ -29,9 +29,9 @@ final class LuckTests: XCTestCase {
         }
     }
     
-    // TODO: test_FlipTwoCards_IfHavingAbility
+    // TODO: test_FlipTwoCards_IfHavingAttribute
     
-    // TODO: test_ApplySuccess_IfFirstFlipCardIsHeart()
+    // TODO: test_ApplySuccess_IfFirstFlipCardMatches()
     
-    // TODO: test_ApplySuccess_IfSeconfFlipCardIsHeart()
+    // TODO: test_ApplySuccess_IfSecondFlipCardMatches()
 }

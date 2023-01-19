@@ -32,6 +32,25 @@ final class BarrelTests: XCTestCase {
         XCTAssertEqual(sut.state.value.player("p1").hand.map(\.id), [])
     }
     
+    func test_CannotHaveMultipleBarrels() {
+        // Given
+        let ctx = GameImpl.create(
+            PlayerImpl(id: "p1")
+                .hand(inventory.getCard(.barrel, withId: "c1"))
+                .inPlay(inventory.getCard(.barrel, withId: "c2")))
+        let sut = EngineImpl(ctx)
+        
+        createExpectation(
+            engine: sut,
+            expected: [.error(.cannotHaveTheSameCardInPlay)])
+        
+        // When
+        sut.input(Play(actor: "p1", card: "c1"))
+        
+        // Assert
+        waitForExpectations(timeout: 0.1)
+    }
+    
     func test_CancelShoot_IfFlipCardIsHearts() throws {
         // Given
         let c1 = inventory.getCard(.barrel, withId: "c1")

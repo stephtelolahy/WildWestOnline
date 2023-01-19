@@ -41,7 +41,7 @@ extension Effect {
         owner: String?,
         copy: @escaping (String) -> Self
     ) -> Result<EventOutput, GameError> {
-        let result = card.resolve(ctx, chooser: chooser, owner: owner)
+        let result = card.resolve(ctx, playCtx: playCtx, chooser: chooser, owner: owner)
         switch result {
         case let .success(data):
             switch data {

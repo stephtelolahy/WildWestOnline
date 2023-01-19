@@ -10,7 +10,7 @@ public struct CardSelectAny: ArgCard, Equatable {
     
     public init() {}
 
-    public func resolve(_ ctx: Game, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
         guard let playerId = owner else {
             fatalError(.missingCardOwner)
         }

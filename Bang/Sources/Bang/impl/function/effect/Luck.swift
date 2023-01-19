@@ -29,9 +29,9 @@ public struct Luck: Effect, Equatable {
         let success = cardObj.matches(regex: regex)
         let children: [Effect]?
         if success {
-            children = onSuccess
+            children = onSuccess?.withCtx(playCtx)
         } else {
-            children = onFailure
+            children = onFailure?.withCtx(playCtx)
         }
         return .success(EventOutputImpl(state: ctx, children: children))
     }

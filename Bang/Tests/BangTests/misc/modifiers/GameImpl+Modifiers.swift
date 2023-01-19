@@ -23,4 +23,10 @@ extension GameImpl {
         copy.turn = value
         return copy
     }
+    
+    func deck(_ card: Card) -> Self {
+        var copy = self
+        copy.deck.append(card)
+        return copy
+    }
 }

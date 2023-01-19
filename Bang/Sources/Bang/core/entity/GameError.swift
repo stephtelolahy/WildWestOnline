@@ -41,6 +41,12 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected to play below limit per turn
     case reachedLimitPerTurn(Int)
     
+    /// Expected not to have two copies of the same card in play
+    case cannotHaveTheSameCardInPlay
+    
+    /// Expected to specify a target
+    case noTargetSelected
+    
     /// Defaut  error
     case unknown
 }
