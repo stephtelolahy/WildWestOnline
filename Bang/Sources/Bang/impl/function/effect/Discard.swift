@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 11/01/2023.
 //
+// swiftlint:disable function_default_parameter_at_end
 
 /// Discard a player's card to discard pile
 /// Actor is the card chooser
@@ -12,7 +13,7 @@ public struct Discard: Effect, Equatable {
     @EquatableCast private var card: ArgCard
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
-    public init(player: ArgPlayer, card: ArgCard) {
+    public init(player: ArgPlayer = PlayerActor(), card: ArgCard) {
         self.player = player
         self.card = card
     }

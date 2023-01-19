@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+// swiftlint:disable function_default_parameter_at_end
 
 /// Restore player's health, limited to maxHealth
 public struct Heal: Effect, Equatable {
@@ -11,7 +12,7 @@ public struct Heal: Effect, Equatable {
     private let value: Int
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
-    public init(player: ArgPlayer, value: Int) {
+    public init(player: ArgPlayer = PlayerActor(), value: Int) {
         assert(value > 0)
         
         self.player = player

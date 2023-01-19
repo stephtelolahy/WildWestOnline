@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
+// swiftlint:disable function_default_parameter_at_end
 
 /// draw card from other player
 public struct Steal: Effect, Equatable {
@@ -12,7 +13,7 @@ public struct Steal: Effect, Equatable {
     @EquatableCast private var card: ArgCard
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
-    public init(player: ArgPlayer, target: ArgPlayer, card: ArgCard) {
+    public init(player: ArgPlayer = PlayerActor(), target: ArgPlayer, card: ArgCard) {
         self.player = player
         self.target = target
         self.card = card

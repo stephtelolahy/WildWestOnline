@@ -10,7 +10,7 @@ public struct DrawDeck: Effect, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
-    public init(player: ArgPlayer) {
+    public init(player: ArgPlayer = PlayerActor()) {
         self.player = player
     }
     
