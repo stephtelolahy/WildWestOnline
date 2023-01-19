@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
-// swiftlint:disable identifier_name
 
 import XCTest
 import Bang
@@ -16,10 +15,13 @@ final class BeerTests: XCTestCase {
     
     func test_GainHealth_IfPlayingBeer() throws {
         // Given
-        let c1 = inventory.getCard(.beer, withId: "c1")
-        let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
-        let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl(), "p3": PlayerImpl()],
-                           playOrder: ["p1", "p2", "p3"])
+        let ctx = GameImpl.create(
+            PlayerImpl(id: "p1")
+                .hand(self.inventory.getCard(.beer, withId: "c1"))
+                .health(1)
+                .maxHealth(4),
+            PlayerImpl(),
+            PlayerImpl())
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -38,10 +40,12 @@ final class BeerTests: XCTestCase {
     
     func test_ThrowError_IfTwoPlayersLeft() throws {
         // Given
-        let c1 = inventory.getCard(.beer, withId: "c1")
-        let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
-        let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl()],
-                           playOrder: ["p1", "p2"])
+        let ctx = GameImpl.create(
+            PlayerImpl(id: "p1")
+                .health(1)
+                .maxHealth(4)
+                .hand(self.inventory.getCard(.beer, withId: "c1")),
+            PlayerImpl())
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -57,10 +61,13 @@ final class BeerTests: XCTestCase {
     
     func test_ThrowError_IfMaxHealth() throws {
         // Given
-        let c1 = inventory.getCard(.beer, withId: "c1")
-        let p1 = PlayerImpl(maxHealth: 4, health: 4, hand: [c1])
-        let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl(), "p3": PlayerImpl()],
-                           playOrder: ["p1", "p2", "p3"])
+        let ctx = GameImpl.create(
+            PlayerImpl(id: "p1")
+                .hand(self.inventory.getCard(.beer, withId: "c1"))
+                .health(4)
+                .maxHealth(4),
+            PlayerImpl(),
+            PlayerImpl())
         let sut = EngineImpl(ctx)
         
         createExpectation(

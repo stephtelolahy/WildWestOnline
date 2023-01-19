@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 09/01/2023.
 //
+import Foundation
 
 public struct PlayerImpl: Player {
     public var id: String
@@ -16,7 +17,7 @@ public struct PlayerImpl: Player {
     public var mustang: Int
     public var scope: Int
     
-    public init(id: String = "",
+    public init(id: String = UUID().uuidString,
                 name: String = "",
                 maxHealth: Int = 0,
                 health: Int = 0,
