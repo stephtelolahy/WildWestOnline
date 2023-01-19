@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
-import Bang
+@testable import Bang
 
 struct DummyMove: Move, Equatable {
     let actor: String = ""

@@ -7,7 +7,7 @@
 // swiftlint:disable function_body_length type_body_length
 
 import XCTest
-import Bang
+@testable import Bang
 
 final class InventoryTests: XCTestCase {
     

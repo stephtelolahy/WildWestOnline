@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Bang
+@testable import Bang
 
 final class JailTests: XCTestCase {
     
@@ -15,8 +15,7 @@ final class JailTests: XCTestCase {
     func test_playJailTargettingAnotherPlayer() {
         // Given
         let ctx = GameImpl.create(
-            PlayerImpl(id: "p1")
-                .hand(inventory.getCard(.jail, withId: "c1")),
+            PlayerImpl(id: "p1").hand(inventory.getCard(.jail, withId: "c1")),
             PlayerImpl(id: "p2"),
             PlayerImpl(id: "p3"))
         let sut = EngineImpl(ctx)
@@ -41,10 +40,8 @@ final class JailTests: XCTestCase {
     func test_cannotPlayJail_IfTargetAlreadHavetheSameCard() {
         // Given
         let ctx = GameImpl.create(
-            PlayerImpl(id: "p1")
-                .hand(inventory.getCard(.jail, withId: "c1")),
-            PlayerImpl(id: "p2")
-                .inPlay(inventory.getCard(.jail, withId: "c2")))
+            PlayerImpl(id: "p1").hand(inventory.getCard(.jail, withId: "c1")),
+            PlayerImpl(id: "p2").inPlay(inventory.getCard(.jail, withId: "c2")))
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -61,8 +58,7 @@ final class JailTests: XCTestCase {
     func test_escapeFromJail_IfFlippedCardIsHeart() {
         // Given
         let ctx = GameImpl.create(
-            PlayerImpl(id: "p1")
-                .inPlay(inventory.getCard(.jail, withId: "c1")))
+            PlayerImpl(id: "p1").inPlay(inventory.getCard(.jail, withId: "c1")))
             .deck(CardImpl(value: "7♥️"))
         let sut = EngineImpl(ctx, queue: [SetTurn(player: PlayerId("p1"))])
         
@@ -85,8 +81,7 @@ final class JailTests: XCTestCase {
     func test_stayInJail_IfFlippedCardIsNotHeart() {
         // Given
         let ctx = GameImpl.create(
-            PlayerImpl(id: "p1")
-                .inPlay(inventory.getCard(.jail, withId: "c1")),
+            PlayerImpl(id: "p1").inPlay(inventory.getCard(.jail, withId: "c1")),
             PlayerImpl(id: "p2"))
             .deck(CardImpl(value: "9♦️"))
         let sut = EngineImpl(ctx, queue: [SetTurn(player: PlayerId("p1"))])

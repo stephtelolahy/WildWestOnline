@@ -127,8 +127,8 @@ public class EngineImpl: Engine {
         print("\nevent=\(eventDesc)\nqueue=\n\(queueDesc)")
         #endif
         
-        // emit state only when event occurred or choice asked
-        let emitState = ctx.event != nil || queue.first is ChooseOne
+        // emit state only when event occurred
+        let emitState = ctx.event != nil
         if emitState {
             state.send(ctx)
         }

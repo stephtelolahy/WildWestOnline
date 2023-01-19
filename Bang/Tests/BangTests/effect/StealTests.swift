@@ -7,7 +7,7 @@
 // swiftlint:disable identifier_name
 
 import XCTest
-import Bang
+@testable import Bang
 
 final class StealTests: XCTestCase {
 

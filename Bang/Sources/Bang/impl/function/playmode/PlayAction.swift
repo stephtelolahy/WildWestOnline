@@ -5,13 +5,13 @@
 //  Created by Hugues Telolahy on 18/01/2023.
 //
 
-/// Playing action card
+/// Playing action card that will be discarded immediately
 public struct PlayAction: PlayMode {
     
     public init() {}
     
     public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
-        let actor =  playCtx.actor
+        let actor = playCtx.actor
         var playerObj = ctx.player(playCtx.actor)
         let cardObj = playCtx.playedCard
         

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Bang
+@testable import Bang
 
 final class EndTurnTests: XCTestCase {
     
@@ -17,7 +17,7 @@ final class EndTurnTests: XCTestCase {
         let ctx = GameImpl.create(
             PlayerImpl(id: "p1")
                 .health(1)
-                .ability(self.inventory.getCard(.endTurn, withId: "a1")),
+                .ability(inventory.getCard(.endTurn, withId: "a1")),
             PlayerImpl(id: "p2"))
             .turn("p1")
         let sut = EngineImpl(ctx)
@@ -41,7 +41,7 @@ final class EndTurnTests: XCTestCase {
         let ctx = GameImpl.create(
             PlayerImpl(id: "p1")
                 .health(1)
-                .ability(self.inventory.getCard(.endTurn, withId: "a1"))
+                .ability(inventory.getCard(.endTurn, withId: "a1"))
                 .hand(CardImpl(id: "c1"))
                 .hand(CardImpl(id: "c2")),
             PlayerImpl(id: "p2"))
@@ -72,7 +72,7 @@ final class EndTurnTests: XCTestCase {
         let ctx = GameImpl.create(
             PlayerImpl(id: "p1")
                 .health(1)
-                .ability(self.inventory.getCard(.endTurn, withId: "a1"))
+                .ability(inventory.getCard(.endTurn, withId: "a1"))
                 .hand(CardImpl(id: "c1"))
                 .hand(CardImpl(id: "c2"))
                 .hand(CardImpl(id: "c3")),

@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 18/01/2023.
 //
-import Bang
+@testable import Bang
 
 struct DummyEffect: Effect, Equatable {
     @EquatableIgnore var playCtx: PlayContext = PlayContextImpl()

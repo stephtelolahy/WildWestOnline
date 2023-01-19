@@ -6,15 +6,14 @@
 //
 
 import XCTest
-import Bang
+@testable import Bang
 
 final class PlayEquipmentTests: XCTestCase {
 
     func test_PutInPlay_IfPlayingEquipmentCard() {
         // Given
         let ctx = GameImpl.create(
-            PlayerImpl(id: "p1")
-                .hand(CardImpl(id: "c1", playMode: PlayEquipment())))
+            PlayerImpl(id: "p1").hand(CardImpl(id: "c1", playMode: PlayEquipment())))
         let sut = Play(actor: "p1", card: "c1")
         
         // When

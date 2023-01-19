@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Bang
+@testable import Bang
 import Combine
 
 final class BeerTests: XCTestCase {
@@ -17,7 +17,7 @@ final class BeerTests: XCTestCase {
         // Given
         let ctx = GameImpl.create(
             PlayerImpl(id: "p1")
-                .hand(self.inventory.getCard(.beer, withId: "c1"))
+                .hand(inventory.getCard(.beer, withId: "c1"))
                 .health(1)
                 .maxHealth(4),
             PlayerImpl(),
@@ -44,7 +44,7 @@ final class BeerTests: XCTestCase {
             PlayerImpl(id: "p1")
                 .health(1)
                 .maxHealth(4)
-                .hand(self.inventory.getCard(.beer, withId: "c1")),
+                .hand(inventory.getCard(.beer, withId: "c1")),
             PlayerImpl())
         let sut = EngineImpl(ctx)
         
@@ -63,7 +63,7 @@ final class BeerTests: XCTestCase {
         // Given
         let ctx = GameImpl.create(
             PlayerImpl(id: "p1")
-                .hand(self.inventory.getCard(.beer, withId: "c1"))
+                .hand(inventory.getCard(.beer, withId: "c1"))
                 .health(4)
                 .maxHealth(4),
             PlayerImpl(),

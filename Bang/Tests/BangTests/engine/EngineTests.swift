@@ -7,7 +7,7 @@
 
 import XCTest
 import Combine
-import Bang
+@testable import Bang
 
 class EngineTests: XCTestCase {
     

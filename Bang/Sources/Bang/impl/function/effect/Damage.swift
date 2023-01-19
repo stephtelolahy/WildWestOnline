@@ -11,7 +11,8 @@ public struct Damage: Effect, Equatable {
     private let value: Int
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
-    public init(player: ArgPlayer, value: Int) {
+    // swiftlint:disable:next function_default_parameter_at_end
+    public init(player: ArgPlayer = PlayerActor(), value: Int) {
         self.player = player
         self.value = value
     }

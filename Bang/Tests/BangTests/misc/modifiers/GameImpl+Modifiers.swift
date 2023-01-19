@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 19/01/2023.
 //
-import Bang
+@testable import Bang
 
 extension GameImpl {
     

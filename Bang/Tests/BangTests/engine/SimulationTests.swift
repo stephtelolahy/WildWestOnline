@@ -7,7 +7,7 @@
 // swiftlint:disable implicitly_unwrapped_optional
 
 import XCTest
-import Bang
+@testable import Bang
 import Combine
 
 final class SimulationTests: XCTestCase {

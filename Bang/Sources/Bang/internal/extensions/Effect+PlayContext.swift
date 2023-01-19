@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 16/01/2023.
 //
 
-public extension Effect {
+extension Effect {
     
     /// Set playContext
     func withCtx(_ playCtx: PlayContext) -> Effect {

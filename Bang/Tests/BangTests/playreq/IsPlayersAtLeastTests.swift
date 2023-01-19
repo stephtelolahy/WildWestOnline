@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Bang
+@testable import Bang
 
 final class IsPlayersAtLeastTests: XCTestCase {
     

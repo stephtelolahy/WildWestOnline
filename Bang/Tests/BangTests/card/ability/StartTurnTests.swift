@@ -7,7 +7,7 @@
 // swiftlint:disable identifier_name
 
 import XCTest
-import Bang
+@testable import Bang
 import Combine
 
 final class StartTurnTests: XCTestCase {
