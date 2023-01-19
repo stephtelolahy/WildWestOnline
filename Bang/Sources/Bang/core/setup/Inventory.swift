@@ -12,7 +12,7 @@ public protocol Inventory {
     func getCard(_ name: String, withId: String) -> Card
     
     /// get all playable cards
-    func getCollectibleCards() -> [Card]
+    func getCollectibles() -> [Card]
     
     /// get all default player abilities
     func getAbilities() -> [Card]

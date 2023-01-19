@@ -14,9 +14,6 @@ public protocol Card {
     /// card name
     var name: String { get }
     
-    /// card description
-    var desc: String { get }
-    
     /// card type
     var type: CardType { get }
     

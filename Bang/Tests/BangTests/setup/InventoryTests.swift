@@ -31,7 +31,7 @@ final class InventoryTests: XCTestCase {
     func test_BangCollectibleCards() throws {
         // Given
         // When
-        let cards = sut.getCollectibleCards()
+        let cards = sut.getCollectibles()
         
         // Assert
         XCTAssertTrue(cards.contains { $0.name == .barrel })
