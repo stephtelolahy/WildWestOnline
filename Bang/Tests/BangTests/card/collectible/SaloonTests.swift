@@ -20,8 +20,7 @@ final class SaloonTests: XCTestCase {
         let p2 = PlayerImpl(maxHealth: 3, health: 2)
         let p3 = PlayerImpl(maxHealth: 3, health: 3)
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
-                           playOrder: ["p3", "p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p3", "p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -46,8 +45,7 @@ final class SaloonTests: XCTestCase {
         let p2 = PlayerImpl(maxHealth: 3, health: 3)
         let p3 = PlayerImpl(maxHealth: 3, health: 3)
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
-                           playOrder: ["p3", "p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p3", "p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(

@@ -24,7 +24,6 @@ final class GeneralStoreTests: XCTestCase {
         let p3 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
                            playOrder: ["p1", "p2", "p3"],
-                           turn: "p1",
                            deck: [c2, c3, c4])
         let sut = EngineImpl(ctx)
         
@@ -65,7 +64,6 @@ final class GeneralStoreTests: XCTestCase {
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
-                           turn: "p1",
                            deck: [c2, c3])
         let sut = EngineImpl(ctx)
         

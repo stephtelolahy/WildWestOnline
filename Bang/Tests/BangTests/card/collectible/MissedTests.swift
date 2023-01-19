@@ -17,8 +17,7 @@ final class MissedTests: XCTestCase {
         // Given
         let c1 = inventory.getCard(.missed, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
-        let ctx = GameImpl(players: ["p1": p1],
-                           turn: "p1")
+        let ctx = GameImpl(players: ["p1": p1])
         let sut = EngineImpl(ctx)
                         
                         createExpectation(

@@ -19,8 +19,7 @@ final class BangTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -46,8 +45,7 @@ final class BangTests: XCTestCase {
         let c1 = inventory.getCard(.bang, withId: "c1")
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
-                           playOrder: ["p1"],
-                           turn: "p1")
+                           playOrder: ["p1"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -68,7 +66,6 @@ final class BangTests: XCTestCase {
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
                            playOrder: ["p1", "p2"],
-                           turn: "p1",
                            played: [.bang])
         let sut = EngineImpl(ctx)
         
@@ -95,8 +92,7 @@ final class BangTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -128,8 +124,7 @@ final class BangTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(

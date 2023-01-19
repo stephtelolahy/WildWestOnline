@@ -20,7 +20,6 @@ final class StagecoachTests: XCTestCase {
         let c3 = CardImpl(id: "c3")
         let p1 = PlayerImpl(hand: [c1])
         let ctx = GameImpl(players: ["p1": p1],
-                           turn: "p1",
                            deck: [c2, c3])
         let sut = EngineImpl(ctx)
         

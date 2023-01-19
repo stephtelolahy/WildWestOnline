@@ -19,8 +19,7 @@ final class BeerTests: XCTestCase {
         let c1 = inventory.getCard(.beer, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl(), "p3": PlayerImpl()],
-                           playOrder: ["p1", "p2", "p3"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2", "p3"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -42,8 +41,7 @@ final class BeerTests: XCTestCase {
         let c1 = inventory.getCard(.beer, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 1, hand: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl()],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -62,8 +60,7 @@ final class BeerTests: XCTestCase {
         let c1 = inventory.getCard(.beer, withId: "c1")
         let p1 = PlayerImpl(maxHealth: 4, health: 4, hand: [c1])
         let ctx = GameImpl(players: ["p1": p1, "p2": PlayerImpl(), "p3": PlayerImpl()],
-                           playOrder: ["p1", "p2", "p3"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2", "p3"])
         let sut = EngineImpl(ctx)
         
         createExpectation(

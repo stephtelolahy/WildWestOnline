@@ -19,8 +19,7 @@ final class DuelTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -48,8 +47,7 @@ final class DuelTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -84,8 +82,7 @@ final class DuelTests: XCTestCase {
         let p1 = PlayerImpl(hand: [c1, c3])
         let p2 = PlayerImpl(hand: [c2])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2],
-                           playOrder: ["p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(

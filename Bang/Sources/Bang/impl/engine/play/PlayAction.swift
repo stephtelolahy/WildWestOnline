@@ -76,11 +76,15 @@ private extension Event {
     func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
         // handle options: one of them must succeed
         if let chooseOne = self as? ChooseOne {
-            let children: [Event] = chooseOne.options.compactMap {
-                if let choose = $0 as? Choose {
-                    return choose.children![0]
+            let children: [Event] = chooseOne.options.compactMap { move -> Event? in
+                if let choose = move as? Choose {
+                    if let child0 = choose.children?.first {
+                        return child0
+                    } else {
+                        return nil
+                    }
                 } else {
-                    return $0
+                    return move
                 }
             }
             

@@ -118,7 +118,7 @@ final class PlayTests: XCTestCase {
         }
     }
     
-    // TODO: Play handicap
+    // Play handicap
     
-    // TODO: Play ability
+    // Play ability
 }

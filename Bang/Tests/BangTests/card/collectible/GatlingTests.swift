@@ -20,8 +20,7 @@ final class GatlingTests: XCTestCase {
         let p2 = PlayerImpl()
         let p3 = PlayerImpl()
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
-                           playOrder: ["p3", "p1", "p2"],
-                           turn: "p1")
+                           playOrder: ["p3", "p1", "p2"])
         let sut = EngineImpl(ctx)
         
         createExpectation(
@@ -50,8 +49,7 @@ final class GatlingTests: XCTestCase {
         let p2 = PlayerImpl(hand: [c2])
         let p3 = PlayerImpl(hand: [c3])
         let ctx = GameImpl(players: ["p1": p1, "p2": p2, "p3": p3],
-                           playOrder: ["p1", "p2", "p3"],
-                           turn: "p1")
+                           playOrder: ["p1", "p2", "p3"])
         let sut = EngineImpl(ctx)
         
         createExpectation(

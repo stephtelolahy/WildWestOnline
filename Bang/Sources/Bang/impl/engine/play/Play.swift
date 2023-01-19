@@ -25,21 +25,8 @@ public struct Play: Move, Equatable {
         /// resolve playTarget if any
         if let playTarget = cardObj.playTarget,
            target == nil {
-            switch playTarget.resolve(ctx, playCtx: playCtx) {
-            case let .failure(error):
-                return .failure(error)
-                
-            case let .success(output):
-                guard case let .selectable(options) = output else {
-                    fatalError(.unexpected)
-                }
-                
-                let choices: [Choose] = options.map {
-                    Choose(actor: actor,
-                           label: $0.label,
-                           children: [Self(actor: actor, card: card, target: $0.value)])
-                }
-                return .success(EventOutputImpl(children: [ChooseOne(choices)]))
+            return resolve(playTarget, ctx: ctx, playCtx: playCtx) {
+                Self(actor: actor, card: card, target: $0)
             }
         }
         
@@ -94,6 +81,33 @@ private extension Play {
             
         case .ability:
             return PlayAbility(actor: actor, card: card, target: target)
+        }
+    }
+}
+
+private extension Move {
+    
+    func resolve(
+        _ player: ArgPlayer,
+        ctx: Game,
+        playCtx: PlayContext,
+        copy: @escaping (String) -> Self
+    ) -> Result<EventOutput, GameError> {
+        switch player.resolve(ctx, playCtx: playCtx) {
+        case let .failure(error):
+            return .failure(error)
+            
+        case let .success(output):
+            guard case let .selectable(options) = output else {
+                fatalError(.unexpected)
+            }
+            
+            let choices: [Choose] = options.map {
+                Choose(actor: actor,
+                       label: $0.label,
+                       children: [copy($0.value)])
+            }
+            return .success(EventOutputImpl(children: [ChooseOne(choices)]))
         }
     }
 }
