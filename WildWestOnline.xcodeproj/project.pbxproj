@@ -37,6 +37,7 @@
 		267449822943D0170045948F /* Bang */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Bang; sourceTree = "<group>"; };
 		269660122978479B00402C42 /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		2696601429784C0C00402C42 /* PlayerRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRowData.swift; sourceTree = "<group>"; };
+		26E74590297ADC8000AF3F3A /* GameRules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameRules; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +132,7 @@
 		26699F3928456B62008040E5 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				26E74590297ADC8000AF3F3A /* GameRules */,
 				267449822943D0170045948F /* Bang */,
 			);
 			name = Packages;
