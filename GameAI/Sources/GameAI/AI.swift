@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 14/01/2023.
 //
+import GameRules
 
 /// Agent that control a player in the game
 public protocol AIAgent {

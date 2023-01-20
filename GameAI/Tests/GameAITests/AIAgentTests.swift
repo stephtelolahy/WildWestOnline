@@ -7,23 +7,24 @@
 // swiftlint:disable implicitly_unwrapped_optional
 
 import XCTest
-@testable import Bang
+@testable import GameAI
 import Combine
+import GameRules
 
 final class AIAgentTests: XCTestCase {
     
     private let sut: AIAgent = AIAgentImpl(strategy: AIStrategyRandom())
-    private var mockEngine: MockEngine!
+    private var engineMock: EngineMock!
     
     func test_ChooseAction_IfGameWaitingChoice() {
         // Given
         let move1 = Choose(actor: "p1", label: "c1")
         let move2 = Choose(actor: "p1", label: "c2")
         let ctx = GameImpl(event: .success(ChooseOne([move1, move2])))
-        mockEngine = MockEngine(ctx, queue: [ChooseOne([move1, move2])])
+        engineMock = EngineMock(ctx)
         
         let expectation = expectation(description: "AI input one of requested move")
-        mockEngine.inputCallback = { move in
+        engineMock.inputCallback = { move in
             if let choose = move as? Choose,
                choose == move1 || choose == move2 {
                 expectation.fulfill()
@@ -31,7 +32,7 @@ final class AIAgentTests: XCTestCase {
         }
         
         // When
-        sut.playAny(mockEngine)
+        sut.playAny(engineMock)
         
         // Assert
         waitForExpectations(timeout: 0.1)
@@ -39,20 +40,21 @@ final class AIAgentTests: XCTestCase {
     
     func test_ChooseAction_IfGameEmittedActiveMoves() {
         // Given
-        let move1 = DummyMove()
-        let move2 = DummyMove()
+        let move1 = Choose(actor: "p1", label: "c1")
+        let move2 = Choose(actor: "p1", label: "c2")
         let ctx = GameImpl(event: .success(Activate([move1, move2])))
-        mockEngine = MockEngine(ctx)
+        engineMock = EngineMock(ctx)
         
         let expectation = expectation(description: "AI input one of requested move")
-        mockEngine.inputCallback = { move in
-            if move is DummyMove {
+        engineMock.inputCallback = { move in
+            if let choose = move as? Choose,
+               choose == move1 || choose == move2 {
                 expectation.fulfill()
             }
         }
         
         // When
-        sut.playAny(mockEngine)
+        sut.playAny(engineMock)
         
         // Assert
         waitForExpectations(timeout: 0.1)

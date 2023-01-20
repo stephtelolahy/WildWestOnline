@@ -17,12 +17,12 @@ class EngineTests: XCTestCase {
     func test_StopUpdates_IfGameIsOver() {
         // Given
         let ctx = GameImpl(isOver: true)
-        let sut = EngineImpl(ctx, queue: [DummyEffect()], rule: ruleMock)
+        let sut = EngineImpl(ctx, queue: [EffectMock()], rule: ruleMock)
         let expectation = expectation(description: "move is queued")
         expectation.isInverted = true
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
-               event is DummyEffect {
+               event is EffectMock {
                 expectation.fulfill()
             }
         }
@@ -39,11 +39,11 @@ class EngineTests: XCTestCase {
         // Given
         let ctx = GameImpl()
         let sut = EngineImpl(ctx, rule: ruleMock)
-        let move = DummyMove()
+        let move = MoveMock()
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
-               event is DummyMove {
+               event is MoveMock {
                 expectation.fulfill()
             }
         }
@@ -59,7 +59,7 @@ class EngineTests: XCTestCase {
     func test_QueueMove_IfWaitingAndValid() {
         // Given
         let ctx = GameImpl()
-        let move = Choose(actor: "p1", label: "c1", children: [DummyEffect()])
+        let move = Choose(actor: "p1", label: "c1", children: [EffectMock()])
         let sut = EngineImpl(ctx, queue: [ChooseOne([move])], rule: ruleMock)
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
@@ -82,14 +82,14 @@ class EngineTests: XCTestCase {
         let ctx = GameImpl()
         let move1 = Choose(actor: "p1", label: "c1")
         let sut = EngineImpl(ctx, queue: [ChooseOne([move1])], rule: ruleMock)
-        let move = DummyMove()
+        let move = MoveMock()
         
         let expectation = expectation(description: "move is not queued")
         expectation.isInverted = true
         
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
-               event is DummyMove {
+               event is MoveMock {
                 expectation.fulfill()
             }
         }

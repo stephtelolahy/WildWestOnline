@@ -1,13 +1,13 @@
 //
-//  MockEngine.swift
+//  EngineMock.swift
 //  
 //
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 import Combine
-@testable import Bang
+import GameRules
 
-class MockEngine: Engine {
+class EngineMock: Engine {
     
     var state: CurrentValueSubject<Game, Never>
     var queue: [Event]
