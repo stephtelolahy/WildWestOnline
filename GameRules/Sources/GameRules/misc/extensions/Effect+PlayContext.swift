@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 16/01/2023.
 //
 
-extension Effect {
+public extension Effect {
     
     /// Set playContext
     func withCtx(_ playCtx: PlayContext) -> Effect {
@@ -15,7 +15,7 @@ extension Effect {
     }
 }
 
-extension Array where Element == Effect {
+public extension Array where Element == Effect {
     
     /// Set playContext
     func withCtx(_ playCtx: PlayContext) -> [Effect] {

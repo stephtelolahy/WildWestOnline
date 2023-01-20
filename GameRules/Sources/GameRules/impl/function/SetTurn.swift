@@ -7,7 +7,7 @@
 
 /// Set turn
 public struct SetTurn: Effect, Equatable {
-    @EquatableCast var player: ArgPlayer
+    @EquatableCast public var player: ArgPlayer
     @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
     
     public init(player: ArgPlayer) {

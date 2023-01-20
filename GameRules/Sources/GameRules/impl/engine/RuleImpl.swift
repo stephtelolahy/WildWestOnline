@@ -4,9 +4,9 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-// swiftlint:disable convenience_type
-
 public struct RuleImpl: Rule {
+    
+    public init() {}
     
     public func starting(_ ctx: Game) -> [Event]? {
         guard ctx.turn == nil else {

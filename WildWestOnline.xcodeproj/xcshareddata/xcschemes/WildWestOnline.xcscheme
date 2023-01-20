@@ -42,10 +42,30 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BangTests"
-               BuildableName = "BangTests"
-               BlueprintName = "BangTests"
-               ReferencedContainer = "container:Bang">
+               BlueprintIdentifier = "GameAITests"
+               BuildableName = "GameAITests"
+               BlueprintName = "GameAITests"
+               ReferencedContainer = "container:GameAI">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GameCardsTests"
+               BuildableName = "GameCardsTests"
+               BlueprintName = "GameCardsTests"
+               ReferencedContainer = "container:GameCards">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GameRulesTests"
+               BuildableName = "GameRulesTests"
+               BlueprintName = "GameRulesTests"
+               ReferencedContainer = "container:GameRules">
             </BuildableReference>
          </TestableReference>
       </Testables>

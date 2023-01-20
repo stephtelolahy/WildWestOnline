@@ -16,7 +16,6 @@ struct RuleMock: Rule {
         nil
     }
     
-    
     func active(_ ctx: Game) -> [Move]? {
         nil
     }

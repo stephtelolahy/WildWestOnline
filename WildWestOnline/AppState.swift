@@ -4,7 +4,8 @@
 //
 //  Created by Hugues Telolahy on 18/01/2023.
 //
-import Bang
+import GameRules
+import GameCards
 
 enum AppState {
     static let game: Game = {

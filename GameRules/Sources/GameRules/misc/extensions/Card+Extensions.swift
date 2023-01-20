@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 16/01/2023.
 //
 
-extension Card {
+public extension Card {
     
     func withId(_ id: String) -> Card {
         var copy = self

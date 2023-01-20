@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Bang
+import GameCards
 
 struct ContentView: View {
     var body: some View {

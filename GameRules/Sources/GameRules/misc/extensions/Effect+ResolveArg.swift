@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 
-extension Effect {
+public extension Effect {
     
     // TODO: move to Bang package
     func resolve(

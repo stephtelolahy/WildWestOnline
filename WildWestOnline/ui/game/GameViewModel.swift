@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 18/01/2023.
 //
 import Combine
-import Bang
+import GameRules
 
 extension GameView {
     class ViewModel: ObservableObject {

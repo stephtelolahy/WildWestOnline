@@ -13,6 +13,7 @@ public class EngineImpl: Engine {
     private let delay: DispatchTimeInterval
     private let rule: Rule
     
+    // swiftlint:disable:next function_default_parameter_at_end
     public init(
         _ ctx: Game,
         queue: [Event] = [],
@@ -119,14 +120,14 @@ public class EngineImpl: Engine {
             ctx.event = .failure(error)
         }
         
-        #if DEBUG
-        var eventDesc = ""
-        if case let .success(event) = ctx.event {
-            eventDesc = String(describing: event)
-        }
-        let queueDesc = queue.map { String(describing: $0) }.joined(separator: "\n")
-        print("\nevent=\(eventDesc)\nqueue=\n\(queueDesc)")
-        #endif
+//        #if DEBUG
+//        var eventDesc = ""
+//        if case let .success(event) = ctx.event {
+//            eventDesc = String(describing: event)
+//        }
+//        let queueDesc = queue.map { String(describing: $0) }.joined(separator: "\n")
+//        print("\nevent=\(eventDesc)\nqueue=\n\(queueDesc)")
+//        #endif
         
         // emit state only when event occurred
         let emitState = ctx.event != nil

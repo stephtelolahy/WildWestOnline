@@ -12,7 +12,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "GameAI",
-            targets: ["GameAI"]),
+            targets: ["GameAI"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -27,6 +27,6 @@ let package = Package(
             dependencies: ["GameRules"]),
         .testTarget(
             name: "GameAITests",
-            dependencies: ["GameAI"]),
+            dependencies: ["GameAI"])
     ]
 )

@@ -7,7 +7,7 @@
 
 /// player identified by
 public struct PlayerId: ArgPlayer, Equatable {
-    let id: String
+    public let id: String
     
     public init(_ id: String) {
         self.id = id

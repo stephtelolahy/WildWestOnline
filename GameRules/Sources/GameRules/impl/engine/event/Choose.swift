@@ -9,7 +9,7 @@
 public struct Choose: Move, Equatable {
     public let actor: String
     private let label: String
-    @EquatableIgnore var children: [Event]?
+    @EquatableIgnore public var children: [Event]?
     
     public init(actor: String, label: String, children: [Event]? = nil) {
         self.actor = actor
