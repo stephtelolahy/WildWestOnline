@@ -122,7 +122,7 @@ final class CatBalouTests: XCTestCase {
                 .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(actor: "p1", label: "p2")),
-                .error(.playerHasNoCard("p2"))
+                .error(GameError.playerHasNoCard("p2"))
             ])
         
         // Phase: Play

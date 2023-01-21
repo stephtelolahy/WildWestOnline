@@ -7,16 +7,16 @@
 import GameRules
 
 /// When just eliminated
-public struct OnEliminated: PlayReq, Equatable {
+struct OnEliminated: PlayReq, Equatable {
     
-    public init() {}
+    init() {}
     
-    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
+    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard case let .success(event) = ctx.event,
               let eliminate = event as? Eliminate,
               let playerId = (eliminate.player as? PlayerId)?.id,
               playerId == playCtx.actor else {
-            return .failure(.unknown)
+            return .failure(GameError.unknown)
         }
         
         return .success

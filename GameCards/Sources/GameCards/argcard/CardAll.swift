@@ -11,15 +11,15 @@ public struct CardAll: ArgCard, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         guard let playerId = owner else {
-            fatalError(.missingCardOwner)
+            fatalError(InternalError.missingCardOwner)
         }
         
         let playerObj = ctx.player(playerId)
         let all = (playerObj.inPlay + playerObj.hand).map(\.id)
         guard !all.isEmpty else {
-            return .failure(.playerHasNoCard(playerId))
+            return .failure(GameError.playerHasNoCard(playerId))
         }
         
         return .success(.identified(all))

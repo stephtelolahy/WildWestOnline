@@ -48,7 +48,7 @@ final class JailTests: XCTestCase {
         
         createExpectation(
             engine: sut,
-            expected: [.error(.cannotHaveTheSameCardInPlay)])
+            expected: [.error(GameError.cannotHaveTheSameCardInPlay)])
         
         // When
         sut.input(Play(actor: "p1", card: "c1", target: "p2"))

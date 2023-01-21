@@ -18,7 +18,7 @@ public struct Damage: Effect, Equatable {
         self.value = value
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         assert(value > 0)
         
         guard let playerId = (player as? PlayerId)?.id else {

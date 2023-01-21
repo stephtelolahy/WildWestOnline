@@ -20,7 +20,7 @@ public struct Heal: Effect, Equatable {
         self.value = value
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         guard let playerId = (player as? PlayerId)?.id else {
             return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), value: value)
@@ -29,7 +29,7 @@ public struct Heal: Effect, Equatable {
         
         var playerObj = ctx.player(playerId)
         guard playerObj.health < playerObj.maxHealth else {
-            return .failure(.playerAlreadyMaxHealth(playerId))
+            return .failure(GameError.playerAlreadyMaxHealth(playerId))
         }
         
         let newHealth = min(playerObj.health + value, playerObj.maxHealth)

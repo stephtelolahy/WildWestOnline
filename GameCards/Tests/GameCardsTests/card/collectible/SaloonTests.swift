@@ -52,7 +52,7 @@ final class SaloonTests: XCTestCase {
         
         createExpectation(
             engine: sut,
-            expected: [.error(.noPlayerDamaged)])
+            expected: [.error(GameError.noPlayerDamaged)])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))

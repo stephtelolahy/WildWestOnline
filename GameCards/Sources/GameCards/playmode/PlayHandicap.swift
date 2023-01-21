@@ -7,11 +7,11 @@
 import GameRules
 
 /// Playing handicap card
-public struct PlayHandicap: PlayMode {
+struct PlayHandicap: PlayMode {
     
-    public init() {}
+    init() {}
     
-    public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error> {
         let actor = playCtx.actor
         var playerObj = ctx.player(playCtx.actor)
         let cardObj = playCtx.playedCard
@@ -27,7 +27,7 @@ public struct PlayHandicap: PlayMode {
         ctx.played.append(cardObj.name)
         
         guard let target = playCtx.target else {
-            fatalError(.missingTarget)
+            fatalError(InternalError.missingTarget)
         }
         
         /// put handicap in target's inPlay
@@ -44,7 +44,7 @@ public struct PlayHandicap: PlayMode {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    public func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, GameError> {
+    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
         let cardObj = playCtx.playedCard
         
         /// verify all requirements

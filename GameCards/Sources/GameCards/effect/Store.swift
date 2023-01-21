@@ -12,7 +12,7 @@ public struct Store: Effect, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         var ctx = ctx
         let card = ctx.removeTopDeck()
         ctx.store.append(card)

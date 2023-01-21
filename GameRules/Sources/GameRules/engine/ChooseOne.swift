@@ -15,7 +15,7 @@ public struct ChooseOne: Event, Equatable {
         self.options = options
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
-        fatalError(.unexpected)
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
+        fatalError(InternalError.unexpected)
     }
 }

@@ -7,16 +7,16 @@
 import GameRules
 
 /// When setting turn
-public struct OnSetTurn: PlayReq, Equatable {
+struct OnSetTurn: PlayReq, Equatable {
     
-    public init() {}
+    init() {}
     
-    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
+    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard case let .success(event) = ctx.event,
               let seTurn = event as? SetTurn,
               let playerId = (seTurn.player as? PlayerId)?.id,
               playerId == playCtx.actor else {
-            return .failure(.unknown)
+            return .failure(GameError.unknown)
         }
         
         return .success

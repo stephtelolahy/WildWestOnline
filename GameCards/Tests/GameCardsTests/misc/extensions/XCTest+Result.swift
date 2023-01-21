@@ -7,12 +7,12 @@
 
 import XCTest
 
-public extension XCTestCase {
+extension XCTestCase {
     
-    func assertIsSuccess<T, E: Error>(
-        _ result: Result<T, E>,
+    func assertIsSuccess<T>(
+        _ result: Result<T, Error>,
         then assertions: (T) throws -> Void = { _ in },
-        message: (E) -> String = { "Expected to be a success but got a failure with \($0) " },
+        message: (Error) -> String = { "Expected to be a success but got a failure with \($0) " },
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
@@ -25,9 +25,9 @@ public extension XCTestCase {
         }
     }
     
-    func assertIsFailure<T, E: Error>(
-        _ result: Result<T, E>,
-        then assertions: (E) throws -> Void = { _ in },
+    func assertIsFailure<T>(
+        _ result: Result<T, Error>,
+        then assertions: (Error) throws -> Void = { _ in },
         message: (T) -> String = { "Expected to be a failure but got a success with \($0) " },
         file: StaticString = #filePath,
         line: UInt = #line
@@ -38,17 +38,6 @@ public extension XCTestCase {
             
         case .success(let value):
             XCTFail(message(value), file: file, line: line)
-        }
-    }
-    
-    func assertIsFailure<T, E: Error & Equatable>(
-        _ result: Result<T, E>,
-        equalTo anError: E,
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        assertIsFailure(result) {
-            XCTAssertEqual($0, anError, file: file, line: line)
         }
     }
 }

@@ -7,12 +7,12 @@
 import GameRules
 
 /// There is not the same card in play
-public struct IsNotHavingSameCardInPlay: PlayReq, Equatable {
+struct IsNotHavingSameCardInPlay: PlayReq, Equatable {
 
-    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
+    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         let actorObj = ctx.player(playCtx.actor)
         if actorObj.inPlay.contains(where: { $0.name == playCtx.playedCard.name }) {
-            return .failure(.cannotHaveTheSameCardInPlay)
+            return .failure(GameError.cannotHaveTheSameCardInPlay)
         }
         return .success
     }

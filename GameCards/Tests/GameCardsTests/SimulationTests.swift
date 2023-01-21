@@ -73,7 +73,7 @@ final class SimulationTests: XCTestCase {
         sut.update()
     }
     
-    private func printEvent(_ event: Result<Event, GameError>) {
+    private func printEvent(_ event: Result<Event, Error>) {
         print(event)
     }
     

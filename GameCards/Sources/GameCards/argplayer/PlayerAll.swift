@@ -11,7 +11,7 @@ public struct PlayerAll: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
         let players = ctx.playOrder
             .starting(with: playCtx.actor)
         return .success(.identified(players))

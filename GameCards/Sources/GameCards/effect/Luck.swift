@@ -22,7 +22,7 @@ public struct Luck: Effect, Equatable {
         self.onFailure = onFailure
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         var ctx = ctx
         let cardObj = ctx.removeTopDeck()
         ctx.discard.append(cardObj)
@@ -47,7 +47,7 @@ public enum CardRegex {
 private extension Card {
     func matches(regex pattern: String) -> Bool {
         guard let value = self.value else {
-            fatalError(.unexpected)
+            fatalError(InternalError.unexpected)
         }
         
         return value.matches(regex: pattern)

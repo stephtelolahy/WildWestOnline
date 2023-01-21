@@ -70,6 +70,6 @@ final class HealTests: XCTestCase {
         let result = sut.resolve(ctx)
         
         // Assert
-        assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
+        assertIsFailure(result, equalTo: GameError.playerAlreadyMaxHealth("p1"))
     }
 }

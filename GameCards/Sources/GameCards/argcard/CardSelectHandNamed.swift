@@ -15,11 +15,11 @@ public struct CardSelectHandNamed: ArgCard, Equatable {
         self.name = name
     }
 
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         let playerObj = ctx.player(chooser)
         let matchingCards = playerObj.hand.filter { $0.name == name }.map(\.id)
         guard !matchingCards.isEmpty else {
-            return .failure(.playerHasNoMatchingCard(chooser))
+            return .failure(GameError.playerHasNoMatchingCard(chooser))
         }
         
         return .success(.selectable(matchingCards.toOptions()))

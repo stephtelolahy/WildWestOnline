@@ -17,7 +17,7 @@ public struct Repeat: Effect, Equatable {
         self.effect = effect
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         switch times.resolve(ctx, playCtx: playCtx) {
         case let .failure(error):
             return .failure(error)

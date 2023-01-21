@@ -19,7 +19,7 @@ struct PassInPlay: Effect, Equatable {
         self.target = target
     }
     
-    func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         guard let playerId = (player as? PlayerId)?.id else {
             return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), card: card, target: target)
@@ -43,7 +43,7 @@ struct PassInPlay: Effect, Equatable {
         var targetObj = ctx.player(targetId)
         
         guard let inPlayIndex = playerObj.inPlay.firstIndex(where: { $0.id == cardId }) else {
-            fatalError(.missingPlayerCard(cardId))
+            fatalError(InternalError.missingPlayerCard(cardId))
         }
 
         let cardObj = playerObj.inPlay.remove(at: inPlayIndex)

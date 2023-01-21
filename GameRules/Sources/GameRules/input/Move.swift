@@ -12,5 +12,5 @@ public protocol Move: Event {
     var actor: String { get }
     
     /// Verify if applicable
-    func isValid(_ ctx: Game) -> Result<Void, GameError>
+    func isValid(_ ctx: Game) -> Result<Void, Error>
 }

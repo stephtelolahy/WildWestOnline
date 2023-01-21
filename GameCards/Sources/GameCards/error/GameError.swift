@@ -4,8 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
-
-/// GamePlay error
+/// Displayable gameplay error
 public enum GameError: Error, Codable, Equatable {
     
     /// Expected players count to be leat X
@@ -26,9 +25,6 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected card to have onPlay effect
     case cardHasNoPlayingEffect
     
-    /// Expected card to have onTriggered effect
-    case cardHasNoTriggeredEffect
-    
     /// Expected some player damaged
     case noPlayerDamaged
     
@@ -46,9 +42,6 @@ public enum GameError: Error, Codable, Equatable {
     
     /// Expected to specify a target
     case noTargetSelected
-    
-    /// Card cannot be played
-    case cannotPlayThisCard
     
     /// Defaut  error
     case unknown

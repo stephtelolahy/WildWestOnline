@@ -38,7 +38,7 @@ public class EngineImpl: Engine {
         
         /// if queue not empty
         else if !queue.isEmpty {
-            fatalError(.unexpected)
+            fatalError(InternalError.unexpected)
         }
         
         queue.insert(move, at: 0)

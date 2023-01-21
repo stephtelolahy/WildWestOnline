@@ -11,13 +11,13 @@ public struct PlayerNext: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
         guard let turn = ctx.turn else {
-            fatalError(.missingTurn)
+            fatalError(InternalError.missingTurn)
         }
         
         guard let next = ctx.playOrder.element(after: turn) else {
-            fatalError(.missingNext)
+            fatalError(InternalError.missingNext)
         }
         
         return .success(.identified([next]))

@@ -17,14 +17,14 @@ public struct Choose: Move, Equatable {
         self.children = children
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         /// emit state changes even if no changes occurred
         /// to mark that effect was successfully resolved
         .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    public func isValid(_ ctx: Game) -> Result<Void, GameError> {
-        fatalError(.unexpected)
+    public func isValid(_ ctx: Game) -> Result<Void, Error> {
+        fatalError(InternalError.unexpected)
     }
 }
 

@@ -7,7 +7,7 @@
 
 /// Engine queue's event
 public protocol Event {
-    func resolve(_ ctx: Game) -> Result<EventOutput, GameError>
+    func resolve(_ ctx: Game) -> Result<EventOutput, Error>
 }
 
 /// Resolving an event may update game or push another event

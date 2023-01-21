@@ -7,11 +7,11 @@
 import GameRules
 
 /// Playing action card that will be discarded immediately
-public struct PlayAction: PlayMode {
+struct PlayAction: PlayMode {
     
-    public init() {}
+    init() {}
     
-    public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error> {
         let actor = playCtx.actor
         var playerObj = ctx.player(playCtx.actor)
         let cardObj = playCtx.playedCard
@@ -27,7 +27,7 @@ public struct PlayAction: PlayMode {
         
         /// discard  action card immediately
         guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == cardObj.id }) else {
-            fatalError(.unexpected)
+            fatalError(InternalError.unexpected)
         }
         
         playerObj.hand.remove(at: handIndex)
@@ -40,12 +40,12 @@ public struct PlayAction: PlayMode {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    public func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, GameError> {
+    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
         let cardObj = playCtx.playedCard
         
         /// verify playing effects not empty
         guard cardObj.onPlay != nil else {
-            return .failure(.cardHasNoPlayingEffect)
+            return .failure(GameError.cardHasNoPlayingEffect)
         }
         
         /// verify all requirements
@@ -59,7 +59,7 @@ public struct PlayAction: PlayMode {
         
         /// verify main effect succeed
         guard let node = cardObj.onPlay?.first?.withCtx(playCtx) else {
-            fatalError(.unexpected)
+            fatalError(InternalError.unexpected)
         }
         
         if case let .failure(error) = node.resolveUntilCompleted(ctx: ctx) {
@@ -71,7 +71,7 @@ public struct PlayAction: PlayMode {
 }
 
 private extension Event {
-    func resolveUntilCompleted(ctx: Game) -> Result<Void, GameError> {
+    func resolveUntilCompleted(ctx: Game) -> Result<Void, Error> {
         // handle options: one of them must succeed
         if let chooseOne = self as? ChooseOne {
             let children: [Event] = chooseOne.options.compactMap { move -> Event? in

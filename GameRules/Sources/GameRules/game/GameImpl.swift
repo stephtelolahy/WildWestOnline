@@ -14,7 +14,7 @@ public struct GameImpl: Game {
     public var store: [Card]
     public var isOver: Bool
     public var played: [String]
-    public var event: Result<Event, GameError>?
+    public var event: Result<Event, Error>?
     
     public init(players: [String: Player] = [:],
                 playOrder: [String] = [],
@@ -24,7 +24,7 @@ public struct GameImpl: Game {
                 store: [Card] = [],
                 isOver: Bool = false,
                 played: [String] = [],
-                event: Result<Event, GameError>? = nil) {
+                event: Result<Event, Error>? = nil) {
         self.players = players
         self.playOrder = playOrder
         self.turn = turn
@@ -38,7 +38,7 @@ public struct GameImpl: Game {
     
     public func player(_ id: String) -> Player {
         guard let playerObject = players[id] else {
-            fatalError(.missingPlayer(id))
+            fatalError(InternalError.missingPlayer(id))
         }
         
         return playerObject

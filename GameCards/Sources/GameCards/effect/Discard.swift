@@ -19,7 +19,7 @@ public struct Discard: Effect, Equatable {
         self.card = card
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         guard let playerId = (player as? PlayerId)?.id else {
             return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), card: card)

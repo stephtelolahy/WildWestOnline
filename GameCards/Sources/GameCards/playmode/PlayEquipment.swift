@@ -7,11 +7,11 @@
 import GameRules
 
 /// Playing equipement card
-public struct PlayEquipment: PlayMode {
+struct PlayEquipment: PlayMode {
     
-    public init() {}
+    init() {}
     
-    public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error> {
         let actor = playCtx.actor
         var playerObj = ctx.player(playCtx.actor)
         let cardObj = playCtx.playedCard
@@ -28,7 +28,7 @@ public struct PlayEquipment: PlayMode {
         
         /// put equipement in self's inPlay
         guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == cardObj.id }) else {
-            fatalError(.unexpected)
+            fatalError(InternalError.unexpected)
         }
         
         playerObj.hand.remove(at: handIndex)
@@ -42,7 +42,7 @@ public struct PlayEquipment: PlayMode {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    public func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, GameError> {
+    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
         let cardObj = playCtx.playedCard
         
         /// verify all requirements

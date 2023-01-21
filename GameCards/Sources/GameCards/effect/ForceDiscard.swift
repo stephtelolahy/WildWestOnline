@@ -20,7 +20,7 @@ public struct ForceDiscard: Effect, Equatable {
         self.otherwise = otherwise
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         guard let playerId = (player as? PlayerId)?.id else {
             return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), card: card, otherwise: otherwise)
@@ -34,7 +34,8 @@ public struct ForceDiscard: Effect, Equatable {
         // resolving card
         switch card.resolve(ctx, playCtx: playCtx, chooser: playerId, owner: playerId) {
         case let .failure(error):
-            if case .playerHasNoMatchingCard = error {
+            if let gameError = error as? GameError,
+                case .playerHasNoMatchingCard = gameError {
                 // do not own required card
                 // apply otherwise effects immediately
                 return .success(EventOutputImpl(state: ctx, children: otherwise.withCtx(childCtx)))

@@ -12,7 +12,7 @@ public struct Cancel: Effect, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .success(EventOutputImpl(cancel: CancellerDefaultImpl()))
     }
 }

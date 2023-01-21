@@ -11,10 +11,10 @@ public struct CardSelectStore: ArgCard, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         let cards = ctx.store.map(\.id)
         guard !cards.isEmpty else {
-            return .failure(.noCardInStore)
+            return .failure(GameError.noCardInStore)
         }
         
         if cards.count == 1 {

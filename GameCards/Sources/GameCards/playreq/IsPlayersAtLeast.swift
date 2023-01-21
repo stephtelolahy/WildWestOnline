@@ -7,16 +7,16 @@
 import GameRules
 
 /// The minimum number of active players is X
-public struct IsPlayersAtLeast: PlayReq, Equatable {
+struct IsPlayersAtLeast: PlayReq, Equatable {
     private let count: Int
     
-    public init(_ count: Int) {
+    init(_ count: Int) {
         self.count = count
     }
     
-    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
+    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard ctx.playOrder.count >= count else {
-            return .failure(.playersMustBeAtLeast(count))
+            return .failure(GameError.playersMustBeAtLeast(count))
         }
         
         return .success

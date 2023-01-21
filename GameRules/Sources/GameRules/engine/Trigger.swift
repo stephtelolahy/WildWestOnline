@@ -15,7 +15,7 @@ public struct Trigger: Event, Equatable {
         self.card = card
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
         
@@ -26,14 +26,14 @@ public struct Trigger: Event, Equatable {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    public func isValid(_ ctx: Game) -> Result<Void, GameError> {
+    public func isValid(_ ctx: Game) -> Result<Void, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
         
         /// verify triggered effects not empty
         guard cardObj.onTrigger != nil else {
-            return .failure(.cardHasNoTriggeredEffect)
+            return .failure(EngineError.cardHasNoTriggeredEffect)
         }
         
         /// verify all requirements

@@ -35,7 +35,7 @@ public protocol Game {
     var played: [String] { get set }
     
     /// last occurred event
-    var event: Result<Event, GameError>? { get set }
+    var event: Result<Event, Error>? { get set }
     
     // MARK: - Convenience
     

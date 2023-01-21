@@ -11,9 +11,9 @@ public struct CardSelectHand: ArgCard, Equatable {
     
     public init() {}
 
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         guard let playerId = owner else {
-            fatalError(.missingCardOwner)
+            fatalError(InternalError.missingCardOwner)
         }
         
         let playerObj = ctx.player(playerId)
@@ -32,7 +32,7 @@ public struct CardSelectHand: ArgCard, Equatable {
         }
         
         guard !options.isEmpty else {
-            return .failure(.playerHasNoHandCard(playerId))
+            return .failure(GameError.playerHasNoHandCard(playerId))
         }
         
         return .success(.selectable(options))

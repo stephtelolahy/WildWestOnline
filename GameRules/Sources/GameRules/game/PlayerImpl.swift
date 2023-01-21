@@ -54,6 +54,6 @@ public struct PlayerImpl: Player {
             return inPlayCard
         }
         
-        fatalError(.missingPlayerCard(id))
+        fatalError(InternalError.missingPlayerCard(id))
     }
 }

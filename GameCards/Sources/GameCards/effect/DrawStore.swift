@@ -17,7 +17,7 @@ public struct DrawStore: Effect, Equatable {
         self.card = card
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         guard let playerId = (player as? PlayerId)?.id else {
             return resolve(player, ctx: ctx) {
                 Self(player: PlayerId($0), card: card)
@@ -31,7 +31,7 @@ public struct DrawStore: Effect, Equatable {
         }
         
         guard let storeIndex = ctx.store.firstIndex(where: { $0.id == cardId }) else {
-            fatalError(.missingStoreCard(cardId))
+            fatalError(InternalError.missingStoreCard(cardId))
         }
         
         var ctx = ctx

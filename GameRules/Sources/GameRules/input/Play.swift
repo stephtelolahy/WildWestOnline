@@ -5,8 +5,6 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 
-// TODO: move all logic into PlayMode
-
 /// Play a card
 public struct Play: Move, Equatable {
     public let actor: String
@@ -19,7 +17,7 @@ public struct Play: Move, Equatable {
         self.target = target
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
@@ -33,13 +31,13 @@ public struct Play: Move, Equatable {
         }
         
         guard let playMode = cardObj.playMode else {
-            return .failure(.cannotPlayThisCard)
+            return .failure(EngineError.cannotPlayThisCard)
         }
         
         return playMode.resolve(playCtx, ctx: ctx)
     }
     
-    public func isValid(_ ctx: Game) -> Result<Void, GameError> {
+    public func isValid(_ ctx: Game) -> Result<Void, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
@@ -53,10 +51,10 @@ public struct Play: Move, Equatable {
                 
             case let .success(output):
                 guard case let .selectable(options) = output else {
-                    fatalError(.unexpected)
+                    fatalError(InternalError.unexpected)
                 }
                 
-                let results: [Result<Void, GameError>] = options.map {
+                let results: [Result<Void, Error>] = options.map {
                     let copy = Self(actor: actor, card: card, target: $0.value)
                     return copy.isValid(ctx)
                 }
@@ -70,7 +68,7 @@ public struct Play: Move, Equatable {
         }
         
         guard let playMode = cardObj.playMode else {
-            return .failure(.cannotPlayThisCard)
+            return .failure(EngineError.cannotPlayThisCard)
         }
         
         return playMode.isValid(playCtx, ctx: ctx)
@@ -83,14 +81,14 @@ private extension Move {
         ctx: Game,
         playCtx: PlayContext,
         copy: @escaping (String) -> Self
-    ) -> Result<EventOutput, GameError> {
+    ) -> Result<EventOutput, Error> {
         switch player.resolve(ctx, playCtx: playCtx) {
         case let .failure(error):
             return .failure(error)
             
         case let .success(output):
             guard case let .selectable(options) = output else {
-                fatalError(.unexpected)
+                fatalError(InternalError.unexpected)
             }
             
             let choices: [Choose] = options.map {

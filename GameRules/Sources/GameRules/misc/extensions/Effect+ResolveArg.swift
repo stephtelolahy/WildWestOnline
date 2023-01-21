@@ -11,7 +11,7 @@ public extension Effect {
         _ player: ArgPlayer,
         ctx: Game,
         copy: @escaping (String) -> Self
-    ) -> Result<EventOutput, GameError> {
+    ) -> Result<EventOutput, Error> {
         let result = player.resolve(ctx, playCtx: playCtx)
         switch result {
         case let .success(data):
@@ -40,7 +40,7 @@ public extension Effect {
         chooser: String,
         owner: String?,
         copy: @escaping (String) -> Self
-    ) -> Result<EventOutput, GameError> {
+    ) -> Result<EventOutput, Error> {
         let result = card.resolve(ctx, playCtx: playCtx, chooser: chooser, owner: owner)
         switch result {
         case let .success(data):

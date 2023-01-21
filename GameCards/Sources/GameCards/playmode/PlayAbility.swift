@@ -7,11 +7,11 @@
 import GameRules
 
 /// Invoking ability
-public struct PlayAbility: PlayMode {
+struct PlayAbility: PlayMode {
     
-    public init() {}
+    init() {}
     
-    public func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error> {
         let cardObj = playCtx.playedCard
         
         /// verify can play
@@ -30,12 +30,12 @@ public struct PlayAbility: PlayMode {
         return .success(EventOutputImpl(state: ctx, children: children))
     }
     
-    public func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, GameError> {
+    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
         let cardObj = playCtx.playedCard
         
         /// verify playing effects not empty
         guard cardObj.onPlay != nil else {
-            return .failure(.cardHasNoPlayingEffect)
+            return .failure(GameError.cardHasNoPlayingEffect)
         }
         
         /// verify all requirements

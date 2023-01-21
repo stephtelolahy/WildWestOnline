@@ -52,7 +52,7 @@ final class BangTests: XCTestCase {
         
         createExpectation(
             engine: sut,
-            expected: [.error(.noPlayersAt(1))])
+            expected: [.error(GameError.noPlayersAt(1))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
@@ -77,7 +77,7 @@ final class BangTests: XCTestCase {
                 .success(ChooseOne([Choose(actor: "p1", label: "p2")])),
                 .input(0),
                 .success(Choose(actor: "p1", label: "p2")),
-                .error(.reachedLimitPerTurn(1))
+                .error(GameError.reachedLimitPerTurn(1))
             ])
         
         // When

@@ -14,10 +14,10 @@ public struct PlayerSelectAt: ArgPlayer, Equatable {
         self.distance = distance
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
         let players = RuleDistanceImpl().playersAt(distance, from: playCtx.actor, in: ctx)
         guard !players.isEmpty else {
-            return .failure(.noPlayersAt(distance))
+            return .failure(GameError.noPlayersAt(distance))
         }
         
         return .success(.selectable(players.toOptions()))

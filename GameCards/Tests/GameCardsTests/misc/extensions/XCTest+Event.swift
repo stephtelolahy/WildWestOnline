@@ -6,11 +6,12 @@
 //
 
 import XCTest
+import GameRules
 
-public extension XCTestCase {
+extension XCTestCase {
     
-    func assertIsSuccess<T: Equatable, E: Error>(
-        _ result: Result<Event, E>,
+    func assertIsSuccess<T: Equatable>(
+        _ result: Result<Event, Error>,
         equalTo aValue: T,
         file: StaticString = #filePath,
         line: UInt = #line

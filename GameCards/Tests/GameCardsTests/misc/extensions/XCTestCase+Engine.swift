@@ -13,7 +13,7 @@ import GameRules
 /// Engine event
 enum EngineEvent {
     case success(Event)
-    case error(GameError)
+    case error(Error)
     case input(Int)
 }
 
@@ -73,14 +73,14 @@ private extension XCTestCase {
         assertEqual(event, expectedEquatable, file: file, line: line)
     }
     
-    func assertEqualError(_ error: GameError, expected: EngineEvent?, file: StaticString = #file, line: UInt = #line) {
+    func assertEqualError(_ error: Error, expected: EngineEvent?, file: StaticString = #file, line: UInt = #line) {
         guard case let .error(expectedError) = expected else {
             XCTFail("Observed \(error) is different from expected \(String(describing: expected))", file: file, line: line)
             cancellables.removeAll()
             return
         }
-        
-        XCTAssertEqual(error, expectedError, file: file, line: line)
+        let expectedEquatable = expectedError as (any Equatable)
+        assertEqual(error, expectedEquatable, file: file, line: line)
     }
     
     func assertPerformChoice(_ options: [Move], expected: EngineEvent?, sut: Engine, file: StaticString = #file, line: UInt = #line) {

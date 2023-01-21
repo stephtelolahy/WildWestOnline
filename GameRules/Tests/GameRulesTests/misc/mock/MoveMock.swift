@@ -9,11 +9,11 @@
 struct MoveMock: Move, Equatable {
     let actor: String = ""
     
-    func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .success(EventOutputImpl(state: ctx))
     }
     
-    func isValid(_ ctx: Game) -> Result<Void, GameError> {
+    func isValid(_ ctx: Game) -> Result<Void, Error> {
         .success(())
     }
 }

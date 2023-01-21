@@ -52,7 +52,7 @@ final class BeerTests: XCTestCase {
         
         createExpectation(
             engine: sut,
-            expected: [.error(.playersMustBeAtLeast(3))])
+            expected: [.error(GameError.playersMustBeAtLeast(3))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))
@@ -74,7 +74,7 @@ final class BeerTests: XCTestCase {
         
         createExpectation(
             engine: sut,
-            expected: [.error(.playerAlreadyMaxHealth("p1"))])
+            expected: [.error(GameError.playerAlreadyMaxHealth("p1"))])
         
         // When
         sut.input(Play(actor: "p1", card: "c1"))

@@ -44,6 +44,6 @@ final class IsPlayersAtLeastTests: XCTestCase {
         let result = sut.match(ctx, playCtx: PlayContextImpl())
         
         // Assert
-        assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
+        assertIsFailure(result, equalTo: GameError.playersMustBeAtLeast(2))
     }    
 }

@@ -66,7 +66,7 @@ final class PlayActionTests: XCTestCase {
         let result = sut.resolve(ctx)
         
         // Assert
-        assertIsFailure(result, equalTo: .playersMustBeAtLeast(2))
+        assertIsFailure(result, equalTo: GameError.playersMustBeAtLeast(2))
     }
     
     func test_ThrowError_IfCardHasNoEffect() {
@@ -80,14 +80,14 @@ final class PlayActionTests: XCTestCase {
         let result = sut.resolve(ctx)
         
         // Assert
-        assertIsFailure(result, equalTo: .cardHasNoPlayingEffect)
+        assertIsFailure(result, equalTo: GameError.cardHasNoPlayingEffect)
     }
     
     func test_ThrowError_IfCardFirstEffectFails() {
         // Given
         let c1 = CardImpl(id: "c1",
                           playMode: PlayAction(),
-                          onPlay: [EmitError(error: .playerAlreadyMaxHealth("p1"))])
+                          onPlay: [EffectEmitError(error: GameError.playerAlreadyMaxHealth("p1"))])
         let p1: Player = PlayerImpl(hand: [c1])
         let ctx: Game = GameImpl(players: ["p1": p1])
         let sut = Play(actor: "p1", card: "c1")
@@ -96,6 +96,6 @@ final class PlayActionTests: XCTestCase {
         let result = sut.resolve(ctx)
         
         // Assert
-        assertIsFailure(result, equalTo: .playerAlreadyMaxHealth("p1"))
+        assertIsFailure(result, equalTo: GameError.playerAlreadyMaxHealth("p1"))
     }
 }

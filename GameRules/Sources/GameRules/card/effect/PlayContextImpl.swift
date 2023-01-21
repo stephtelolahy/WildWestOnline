@@ -18,7 +18,7 @@ public struct PlayContextImpl: PlayContext {
     
     public var actor: String {
         guard let actor = _actor else {
-            fatalError(.missingActor)
+            fatalError(InternalError.missingActor)
         }
         
         return actor
@@ -26,7 +26,7 @@ public struct PlayContextImpl: PlayContext {
     
     public var playedCard: Card {
         guard let card = _playedCard else {
-            fatalError(.missingPlayerCard(""))
+            fatalError(InternalError.missingPlayerCard(""))
         }
         
         return card

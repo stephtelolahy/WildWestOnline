@@ -6,16 +6,16 @@
 //
 import GameRules
 
-public struct IsTargetNotHavingSameCardInPlay: PlayReq, Equatable {
+struct IsTargetNotHavingSameCardInPlay: PlayReq, Equatable {
     
-    public func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, GameError> {
+    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard let target = playCtx.target else {
-            return .failure(.noTargetSelected)
+            return .failure(GameError.noTargetSelected)
         }
         
         let targetObj = ctx.player(target)
         if targetObj.inPlay.contains(where: { $0.name == playCtx.playedCard.name }) {
-            return .failure(.cannotHaveTheSameCardInPlay)
+            return .failure(GameError.cannotHaveTheSameCardInPlay)
         }
         
         return .success

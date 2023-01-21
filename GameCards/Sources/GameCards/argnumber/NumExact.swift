@@ -14,7 +14,7 @@ public struct NumExact: ArgNumber, Equatable {
         self.value = value
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<Int, GameError> {
+    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<Int, Error> {
         .success(value)
     }
 }

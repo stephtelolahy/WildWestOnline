@@ -13,7 +13,7 @@ public struct Activate: Event, Equatable {
         self.moves = moves
     }
     
-    public func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
-        fatalError(.unexpected)
+    public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
+        fatalError(InternalError.unexpected)
     }
 }

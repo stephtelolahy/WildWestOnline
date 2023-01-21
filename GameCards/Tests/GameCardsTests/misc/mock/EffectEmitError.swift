@@ -1,16 +1,16 @@
 //
-//  EmitError.swift
+//  EffectEmitError.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 import GameRules
 
-struct EmitError: Effect, Equatable {
-    let error: GameError
+struct EffectEmitError: Effect, Equatable {
+    @EquatableCast var error: Error
     @EquatableIgnore var playCtx: PlayContext = PlayContextImpl()
     
-    func resolve(_ ctx: Game) -> Result<EventOutput, GameError> {
+    func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .failure(error)
     }
 }
