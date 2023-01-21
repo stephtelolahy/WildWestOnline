@@ -15,7 +15,7 @@ final class GameOverTests: XCTestCase {
     // TODO: real game over rules
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_EndGame_IfOnePlayerLast() {
         // Given

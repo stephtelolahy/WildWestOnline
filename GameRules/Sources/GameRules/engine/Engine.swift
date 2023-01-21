@@ -21,7 +21,4 @@ public protocol Engine {
     
     /// process event queue
     func update()
-    
-    /// setup queue for starting game
-    func start()
 }

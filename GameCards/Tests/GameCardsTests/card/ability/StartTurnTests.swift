@@ -14,7 +14,7 @@ import Combine
 final class StartTurnTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     private var disposables: Set<AnyCancellable> = Set()
     
     func test_Draw2Cards_OnSetTurn() {

@@ -1,21 +1,12 @@
 //
-//  RuleImpl.swift
+//  EngineRuleImpl.swift
 //  
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-public struct RuleImpl: Rule {
+public struct EngineRuleImpl: EngineRule {
     
     public init() {}
-    
-    public func starting(_ ctx: Game) -> [Event]? {
-        guard ctx.turn == nil else {
-            return nil
-        }
-        
-        let playerId = ctx.playOrder[0]
-        return [SetTurn(player: PlayerId(playerId))]
-    }
     
     public func active(_ ctx: Game) -> [Move]? {
         guard let playerId = ctx.turn else {

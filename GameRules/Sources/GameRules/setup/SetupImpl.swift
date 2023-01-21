@@ -34,4 +34,13 @@ public struct SetupImpl: Setup {
                         playOrder: playOrder,
                         deck: deck)
     }
+    
+    public func starting(_ ctx: Game) -> [Event] {
+        guard ctx.turn == nil else {
+            return []
+        }
+        
+        let playerId = ctx.playOrder[0]
+        return [SetTurn(player: PlayerId(playerId))]
+    }
 }

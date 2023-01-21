@@ -12,7 +12,7 @@ import GameRules
 final class EndTurnTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_SetNextTurn_IfEndingTurn() throws {
         // Given

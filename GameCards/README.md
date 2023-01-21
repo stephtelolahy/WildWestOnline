@@ -1,3 +1,3 @@
 # GameCards
 
-A description of this package.
+Scripting different card with their abilities

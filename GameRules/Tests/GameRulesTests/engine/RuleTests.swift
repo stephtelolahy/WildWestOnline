@@ -9,7 +9,5 @@ import XCTest
 
 final class RuleTests: XCTestCase {
 
-    // TODO: test_SetTurnToSheriff_IfStartingGame
-    
     // TODO: sort triggered effects by priority
 }

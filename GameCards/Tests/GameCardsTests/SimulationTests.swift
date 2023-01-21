@@ -17,7 +17,7 @@ final class SimulationTests: XCTestCase {
     private var cancellables = Set<AnyCancellable>()
     
     private let setup: Setup = SetupImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     private let inventory: Inventory = InventoryImpl()
     private var updates = 0
     
@@ -38,7 +38,8 @@ final class SimulationTests: XCTestCase {
         let abilities = inventory.getAbilities()
         let figures = inventory.getFigures()
         let ctx = setup.createGame(playersCount: playersCount, deck: deck, abilities: abilities, figures: figures)
-        sut = EngineImpl(ctx, rule: rule)
+        let queue = setup.starting(ctx)
+        sut = EngineImpl(ctx, queue: queue, rule: rule)
         sut.state.sink { [self] in
             
             if $0.isOver {
@@ -46,6 +47,7 @@ final class SimulationTests: XCTestCase {
             }
             
             updates += 1
+            // swiftlint:disable:next force_unwrapping
             print("\n#\(updates) event=\($0.event != nil ? String(describing: $0.event!) : "nil") queue=\(sut.queue.count)")
             
             // choose random move
@@ -68,7 +70,6 @@ final class SimulationTests: XCTestCase {
         }
         .store(in: &cancellables)
         
-        sut.start()
         sut.update()
     }
     

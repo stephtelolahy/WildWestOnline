@@ -13,7 +13,7 @@ import Combine
 final class BeerTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_GainHealth_IfPlayingBeer() throws {
         // Given

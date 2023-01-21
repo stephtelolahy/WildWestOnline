@@ -6,7 +6,7 @@
 //
 
 /// Trigger a card after an event occured
-public struct Trigger: Move, Equatable {
+public struct Trigger: Event, Equatable {
     public let actor: String
     private let card: String
     

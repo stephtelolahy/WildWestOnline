@@ -13,7 +13,7 @@ import GameRules
 final class GeneralStoreTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_EachPlayerChooseCard_IfPlayingGeneralStore() throws {
         // Given

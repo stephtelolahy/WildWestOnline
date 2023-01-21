@@ -15,7 +15,7 @@ final class CatBalouTests: XCTestCase {
     // TODO: catBalou may discard self's inPlay card, so add new player argument: anyOrSelf
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_DiscardOthersUniqueHandCard_IfPlayingCatBalou() throws {
         // Given

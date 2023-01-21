@@ -6,8 +6,7 @@
 //
 
 public extension Effect {
-    
-    // TODO: move to Bang package
+
     func resolve(
         _ player: ArgPlayer,
         ctx: Game,

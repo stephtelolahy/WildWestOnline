@@ -6,7 +6,7 @@
 //
 @testable import GameRules
 
-struct RuleMock: Rule {
+struct RuleMock: EngineRule {
     
     func starting(_ ctx: Game) -> [Event]? {
         nil

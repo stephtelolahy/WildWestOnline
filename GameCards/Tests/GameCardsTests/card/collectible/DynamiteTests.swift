@@ -12,7 +12,7 @@ import GameRules
 final class DynamiteTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_DynamiteExplodes_IfFlipCardIsBetween2To9Spades() {
         // Given

@@ -12,7 +12,7 @@ import GameRules
 final class JailTests: XCTestCase {
     
     private let inventory: Inventory = InventoryImpl()
-    private let rule: Rule = RuleImpl()
+    private let rule: EngineRule = EngineRuleImpl()
     
     func test_playJailTargettingAnotherPlayer() {
         // Given

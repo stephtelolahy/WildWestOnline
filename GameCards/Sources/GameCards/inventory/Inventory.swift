@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
+import GameRules
 
 /// Providing cards
 public protocol Inventory {

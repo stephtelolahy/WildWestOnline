@@ -43,4 +43,5 @@ final class RuleSetupTests: XCTestCase {
         XCTAssertEqual(player2.abilities.map(\.id), ["a1"])
     }
     
+    // TODO: test_SetTurnToSheriff_IfStartingGame
 }

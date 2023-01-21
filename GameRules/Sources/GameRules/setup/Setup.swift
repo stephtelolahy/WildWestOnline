@@ -14,4 +14,7 @@ public protocol Setup {
     ///   - figures: all figures
     /// - Returns: Game
     func createGame(playersCount: Int, deck: [Card], abilities: [Card], figures: [Card]) -> Game
+    
+    /// Get starting events
+    func starting(_ ctx: Game) -> [Event]
 }

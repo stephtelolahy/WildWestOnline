@@ -11,26 +11,19 @@ public class EngineImpl: Engine {
     public var state: CurrentValueSubject<Game, Never>
     public var queue: [Event]
     private let delay: DispatchTimeInterval
-    private let rule: Rule
+    private let rule: EngineRule
     
     // swiftlint:disable:next function_default_parameter_at_end
     public init(
         _ ctx: Game,
         queue: [Event] = [],
-        rule: Rule,
+        rule: EngineRule,
         delay: DispatchTimeInterval = .seconds(0)
     ) {
         self.state = CurrentValueSubject(ctx)
         self.queue = queue
         self.rule = rule
         self.delay = delay
-    }
-    
-    public func start() {
-        let ctx = state.value
-        if let moves = rule.starting(ctx) {
-            queue.append(contentsOf: moves)
-        }
     }
     
     public func input(_ move: Move) {
