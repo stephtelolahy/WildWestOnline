@@ -9,19 +9,19 @@ import GameRules
 /// Playing equipement card
 struct PlayEquipment: PlayMode {
     
-    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<Game, Error> {
+    func resolve(_ eventCtx: EventContext, ctx: Game) -> Result<Game, Error> {
         /// put equipement in self's inPlay
         var ctx = ctx
-        let actor = playCtx.actor
+        let actor = eventCtx.actor
         var playerObj = ctx.player(actor)
-        let cardObj = playCtx.playedCard
+        let cardObj = eventCtx.card
         playerObj.hand.removeAll(where: { $0.id == cardObj.id })
         playerObj.inPlay.append(cardObj)
         ctx.players[actor] = playerObj
         return .success(ctx)
     }
     
-    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
+    func isValid(_ eventCtx: EventContext, ctx: Game) -> Result<Void, Error> {
         .success
     }
 }

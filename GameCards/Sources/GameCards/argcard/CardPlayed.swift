@@ -9,7 +9,7 @@ import GameRules
 /// Currently played card
 public struct CardPlayed: ArgCard, Equatable {
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
-        .success(.identified([playCtx.playedCard.id]))
+    public func resolve(_ ctx: Game, eventCtx: EventContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
+        .success(.identified([eventCtx.card.id]))
     }
 }

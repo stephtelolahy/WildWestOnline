@@ -11,8 +11,8 @@ public struct NumExcessHand: ArgNumber, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<Int, Error> {
-        let actorObj = ctx.player(playCtx.actor)
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<Int, Error> {
+        let actorObj = ctx.player(eventCtx.actor)
         let value = max(actorObj.hand.count - actorObj.handLimit, 0)
         return .success(value)
     }

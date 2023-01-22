@@ -8,13 +8,13 @@ import Foundation
 import GameRules
 
 /// Flip over the top card of the deck, then apply effects according to suits and values
-public struct Luck: Effect, Equatable {
+public struct Luck: Event, Equatable {
     private let regex: String
-    @EquatableIgnore private var onSuccess: [Effect]?
-    @EquatableIgnore private var onFailure: [Effect]?
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore private var onSuccess: [Event]?
+    @EquatableIgnore private var onFailure: [Event]?
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
-    public init(regex: String, onSuccess: [Effect]? = nil, onFailure: [Effect]? = nil) {
+    public init(regex: String, onSuccess: [Event]? = nil, onFailure: [Event]? = nil) {
         assert(!regex.isEmpty)
         
         self.regex = regex
@@ -27,11 +27,11 @@ public struct Luck: Effect, Equatable {
         let cardObj = ctx.removeTopDeck()
         ctx.discard.append(cardObj)
         let success = cardObj.matches(regex: regex)
-        let children: [Effect]?
+        let children: [Event]?
         if success {
-            children = onSuccess?.withCtx(playCtx)
+            children = onSuccess?.withCtx(eventCtx)
         } else {
-            children = onFailure?.withCtx(playCtx)
+            children = onFailure?.withCtx(eventCtx)
         }
         return .success(EventOutputImpl(state: ctx, children: children))
     }

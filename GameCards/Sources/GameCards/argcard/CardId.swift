@@ -14,7 +14,7 @@ public struct CardId: ArgCard, Equatable {
         self.id = id
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         fatalError(InternalError.unexpected)
     }
 }

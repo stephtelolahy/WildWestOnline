@@ -10,6 +10,7 @@ public struct Play: Move, Equatable {
     public let actor: String
     private let card: String
     private let target: String?
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(actor: String, card: String, target: String? = nil) {
         self.actor = actor
@@ -20,12 +21,12 @@ public struct Play: Move, Equatable {
     public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
+        let eventCtx = EventContextImpl(actor: actor, card: cardObj, target: target)
         
         /// resolve playTarget if any
         if let playTarget = cardObj.playTarget,
            target == nil {
-            return resolve(playTarget, ctx: ctx, playCtx: playCtx) {
+            return resolve(playTarget, ctx: ctx, eventCtx: eventCtx) {
                 Self(actor: actor, card: card, target: $0)
             }
         }
@@ -34,7 +35,7 @@ public struct Play: Move, Equatable {
             return .failure(EngineError.cannotPlayThisCard)
         }
         
-        return playMode.resolve(playCtx, ctx: ctx)
+        return playMode.resolve(eventCtx, ctx: ctx)
             .flatMap {
                 /// verify can play
                 if case let .failure(error) = isValid(ctx) {
@@ -46,7 +47,7 @@ public struct Play: Move, Equatable {
                 newCtx.played.append(cardObj.name)
                 
                 /// push child effects
-                let children = cardObj.onPlay?.withCtx(playCtx)
+                let children = cardObj.onPlay?.withCtx(eventCtx)
                 
                 return .success(EventOutputImpl(state: newCtx, children: children))
             }
@@ -55,12 +56,12 @@ public struct Play: Move, Equatable {
     func isValid(_ ctx: Game) -> Result<Void, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
+        let eventCtx = EventContextImpl(actor: actor, card: cardObj, target: target)
         
         /// verify at leat one playTarget succeed if any
         if let playTarget = cardObj.playTarget,
-           playCtx.target == nil {
-            switch playTarget.resolve(ctx, playCtx: playCtx) {
+           eventCtx.target == nil {
+            switch playTarget.resolve(ctx, eventCtx: eventCtx) {
             case let .failure(error):
                 return .failure(error)
                 
@@ -86,13 +87,13 @@ public struct Play: Move, Equatable {
             return .failure(EngineError.cannotPlayThisCard)
         }
         
-        return playMode.isValid(playCtx, ctx: ctx)
+        return playMode.isValid(eventCtx, ctx: ctx)
             .flatMap { _ in
                 
                 /// verify all requirements
                 if let playReqs = cardObj.canPlay {
                     for playReq in playReqs {
-                        if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                        if case let .failure(error) = playReq.match(ctx, eventCtx: eventCtx) {
                             return .failure(error)
                         }
                     }
@@ -107,10 +108,10 @@ private extension Play {
     func resolve(
         _ player: ArgPlayer,
         ctx: Game,
-        playCtx: PlayContext,
+        eventCtx: EventContext,
         copy: @escaping (String) -> Self
     ) -> Result<EventOutput, Error> {
-        switch player.resolve(ctx, playCtx: playCtx) {
+        switch player.resolve(ctx, eventCtx: eventCtx) {
         case let .failure(error):
             return .failure(error)
             

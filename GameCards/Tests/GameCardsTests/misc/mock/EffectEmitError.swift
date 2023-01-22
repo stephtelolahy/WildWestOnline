@@ -6,9 +6,9 @@
 //
 import GameRules
 
-struct EffectEmitError: Effect, Equatable {
+struct EffectEmitError: Event, Equatable {
     @EquatableCast var error: Error
-    @EquatableIgnore var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore var eventCtx: EventContext = EventContextImpl()
     
     func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .failure(error)

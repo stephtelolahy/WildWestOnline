@@ -7,10 +7,10 @@
 import GameRules
 
 /// Deals damage to a player, attempting to reduce its Health by the stated amount
-public struct Damage: Effect, Equatable {
+public struct Damage: Event, Equatable {
     @EquatableCast var player: ArgPlayer
     private let value: Int
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     // swiftlint:disable:next function_default_parameter_at_end
     public init(player: ArgPlayer = PlayerActor(), value: Int) {

@@ -6,11 +6,11 @@
 //
 import GameRules
 
-struct PassInPlay: Effect, Equatable {
+struct PassInPlay: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
     @EquatableCast private var target: ArgPlayer
-    @EquatableIgnore var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore var eventCtx: EventContext = EventContextImpl()
     
     // swiftlint:disable:next function_default_parameter_at_end
     init(player: ArgPlayer = PlayerActor(), card: ArgCard, target: ArgPlayer) {

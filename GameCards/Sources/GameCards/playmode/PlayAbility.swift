@@ -9,13 +9,13 @@ import GameRules
 /// Invoking ability
 struct PlayAbility: PlayMode {
     
-    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<Game, Error> {
+    func resolve(_ eventCtx: EventContext, ctx: Game) -> Result<Game, Error> {
         .success(ctx)
     }
     
-    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
+    func isValid(_ eventCtx: EventContext, ctx: Game) -> Result<Void, Error> {
         /// verify playing effects not empty
-        guard playCtx.playedCard.onPlay != nil else {
+        guard eventCtx.card.onPlay != nil else {
             return .failure(GameError.cardHasNoPlayingEffect)
         }
         

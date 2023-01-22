@@ -7,10 +7,10 @@
 import GameRules
 
 /// Draw some cards from store zone
-public struct DrawStore: Effect, Equatable {
+public struct DrawStore: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(player: ArgPlayer, card: ArgCard) {
         self.player = player

@@ -7,8 +7,8 @@
 import GameRules
 
 /// Draw card from deck to store zone
-public struct Store: Effect, Equatable {
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+public struct Store: Event, Equatable {
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init() {}
     

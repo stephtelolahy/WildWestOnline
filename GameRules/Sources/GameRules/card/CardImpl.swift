@@ -12,9 +12,9 @@ public struct CardImpl: Card {
     public var playMode: PlayMode?
     public var playTarget: ArgPlayer?
     public var canPlay: [PlayReq]?
-    public var onPlay: [Effect]?
+    public var onPlay: [Event]?
     public var triggers: [PlayReq]?
-    public var onTrigger: [Effect]?
+    public var onTrigger: [Event]?
     
     public init(id: String = "",
                 name: String = "",
@@ -22,9 +22,9 @@ public struct CardImpl: Card {
                 playMode: PlayMode? = nil,
                 playTarget: ArgPlayer? = nil,
                 canPlay: [PlayReq]? = nil,
-                onPlay: [Effect]? = nil,
+                onPlay: [Event]? = nil,
                 triggers: [PlayReq]? = nil,
-                onTrigger: [Effect]? = nil) {
+                onTrigger: [Event]? = nil) {
         self.id = id
         self.name = name
         self.value = value

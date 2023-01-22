@@ -11,7 +11,7 @@ public struct PlayerActor: ArgPlayer, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
-        .success(.identified([playCtx.actor]))
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error> {
+        .success(.identified([eventCtx.actor]))
     }
 }

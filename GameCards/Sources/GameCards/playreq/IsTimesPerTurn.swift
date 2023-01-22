@@ -14,13 +14,13 @@ struct IsTimesPerTurn: PlayReq, Equatable {
         self.maxTimes = maxTimes
     }
     
-    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
+    func match(_ ctx: Game, eventCtx: EventContext) -> Result<Void, Error> {
         // No limit
         guard maxTimes > 0 else {
             return .success
         }
         
-        let playedTimes = ctx.played.filter { $0 == playCtx.playedCard.name }.count
+        let playedTimes = ctx.played.filter { $0 == eventCtx.card.name }.count
         guard playedTimes < maxTimes else {
             return .failure(GameError.reachedLimitPerTurn(maxTimes))
         }

@@ -1,18 +1,18 @@
 //
-//  PlayContextImpl.swift
+//  EventContextImpl.swift
 //  
 //
 //  Created by Hugues Telolahy on 16/01/2023.
 //
 
-public struct PlayContextImpl: PlayContext {
+public struct EventContextImpl: EventContext {
     private var _actor: String?
-    private var _playedCard: Card?
+    private var _card: Card?
     public var target: String?
     
-    public init(actor: String? = nil, playedCard: Card? = nil, target: String? = nil) {
+    public init(actor: String? = nil, card: Card? = nil, target: String? = nil) {
         self._actor = actor
-        self._playedCard = playedCard
+        self._card = card
         self.target = target
     }
     
@@ -24,9 +24,9 @@ public struct PlayContextImpl: PlayContext {
         return actor
     }
     
-    public var playedCard: Card {
-        guard let card = _playedCard else {
-            fatalError(InternalError.missingPlayerCard(""))
+    public var card: Card {
+        guard let card = _card else {
+            fatalError(InternalError.missingPlayedCard)
         }
         
         return card

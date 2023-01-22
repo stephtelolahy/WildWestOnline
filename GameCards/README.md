@@ -1,3 +1,3 @@
 # GameCards
 
-Scripting different card with their abilities
+Scripting different Cards by composing Effects and PlayReqs

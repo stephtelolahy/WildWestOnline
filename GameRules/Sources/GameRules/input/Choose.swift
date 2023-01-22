@@ -10,6 +10,7 @@ public struct Choose: Move, Equatable {
     public let actor: String
     private let label: String
     @EquatableIgnore public var children: [Event]?
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(actor: String, label: String, children: [Event]? = nil) {
         self.actor = actor

@@ -1,5 +1,5 @@
 //
-//  CardName.swift
+//  CardNames.swift
 //  
 //
 //  Created by Hugues Telolahy on 17/01/2023.

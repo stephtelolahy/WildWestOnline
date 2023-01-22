@@ -68,6 +68,16 @@ public class EngineImpl: Engine {
             return
         }
         
+        // apply cancel if any
+        if let cancel = queue.first as? Cancel {
+            queue.remove(at: 0)
+            queue.remove(at: 0) // TODO: find event to cancel, now assuming the next
+            ctx.event = .success(cancel)
+            state.send(ctx)
+            update()
+            return
+        }
+        
         // if idle,
         // emit active moves if any
         // then complete
@@ -90,13 +100,6 @@ public class EngineImpl: Engine {
             if let update = output.state {
                 ctx = update
                 ctx.event = .success(event)
-            }
-            
-            if let cancel = output.cancel {
-                if let index = queue.firstIndex(where: { cancel.match($0) }) {
-                    queue.remove(at: index)
-                    ctx.event = .success(event)
-                }
             }
             
             // queue children

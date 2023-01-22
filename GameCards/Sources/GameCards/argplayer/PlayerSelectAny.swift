@@ -11,8 +11,8 @@ public struct PlayerSelectAny: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
-        let others = ctx.playOrder.filter { $0 != playCtx.actor }
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error> {
+        let others = ctx.playOrder.filter { $0 != eventCtx.actor }
         return .success(.selectable(others.toOptions()))
     }
 }

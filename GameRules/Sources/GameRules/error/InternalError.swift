@@ -11,4 +11,5 @@ enum InternalError: Error {
     case missingActor
     case missingPlayer(String)
     case missingPlayerCard(String)
+    case missingPlayedCard
 }

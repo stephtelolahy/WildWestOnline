@@ -9,20 +9,20 @@ import GameRules
 /// Playing action card that will be discarded immediately
 struct PlayAction: PlayMode {
     
-    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<Game, Error> {
+    func resolve(_ eventCtx: EventContext, ctx: Game) -> Result<Game, Error> {
         /// discard  action card immediately
         var ctx = ctx
-        let actor = playCtx.actor
-        var playerObj = ctx.player(playCtx.actor)
-        let cardObj = playCtx.playedCard
+        let actor = eventCtx.actor
+        var playerObj = ctx.player(eventCtx.actor)
+        let cardObj = eventCtx.card
         playerObj.hand.removeAll(where: { $0.id == cardObj.id })
         ctx.discard.append(cardObj)
         ctx.players[actor] = playerObj
         return .success(ctx)
     }
     
-    func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
-        let cardObj = playCtx.playedCard
+    func isValid(_ eventCtx: EventContext, ctx: Game) -> Result<Void, Error> {
+        let cardObj = eventCtx.card
         
         /// verify playing effects not empty
         guard cardObj.onPlay != nil else {
@@ -30,7 +30,7 @@ struct PlayAction: PlayMode {
         }
         
         /// verify main effect succeed
-        guard let node = cardObj.onPlay?.first?.withCtx(playCtx) else {
+        guard let node = cardObj.onPlay?.first?.withCtx(eventCtx) else {
             fatalError(InternalError.unexpected)
         }
         

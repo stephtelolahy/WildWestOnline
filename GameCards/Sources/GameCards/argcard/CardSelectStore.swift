@@ -11,7 +11,7 @@ public struct CardSelectStore: ArgCard, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         let cards = ctx.store.map(\.id)
         guard !cards.isEmpty else {
             return .failure(GameError.noCardInStore)

@@ -7,8 +7,8 @@
 import GameRules
 
 /// Mark game over
-public struct EndGame: Effect, Equatable {
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+public struct EndGame: Event, Equatable {
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init() {}
 

@@ -11,9 +11,9 @@ public struct PlayerDamaged: ArgPlayer, Equatable {
 
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error> {
         let damaged = ctx.playOrder
-            .starting(with: playCtx.actor)
+            .starting(with: eventCtx.actor)
             .filter { ctx.player($0).health < ctx.player($0).maxHealth }
         
         guard !damaged.isEmpty else {

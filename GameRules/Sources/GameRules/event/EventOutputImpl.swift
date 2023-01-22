@@ -8,13 +8,11 @@
 public struct EventOutputImpl: EventOutput {
     public var state: Game?
     public var children: [Event]?
-    public var cancel: Canceller?
     
-    public init(state: Game? = nil, children: [Event]? = nil, cancel: Canceller? = nil) {
+    public init(state: Game? = nil, children: [Event]? = nil) {
         assert(children == nil || children?.isEmpty == false, " children should not be empty")
         
         self.state = state
         self.children = children
-        self.cancel = cancel
     }
 }

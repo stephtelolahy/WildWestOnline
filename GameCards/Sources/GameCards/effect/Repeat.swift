@@ -7,18 +7,18 @@
 import GameRules
 
 /// Repeat an effect
-public struct Repeat: Effect, Equatable {
+public struct Repeat: Event, Equatable {
     @EquatableCast private var times: ArgNumber
-    @EquatableCast private var effect: Effect
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableCast private var effect: Event
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
-    public init(times: ArgNumber, effect: Effect) {
+    public init(times: ArgNumber, effect: Event) {
         self.times = times
         self.effect = effect
     }
     
     public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
-        switch times.resolve(ctx, playCtx: playCtx) {
+        switch times.resolve(ctx, eventCtx: eventCtx) {
         case let .failure(error):
             return .failure(error)
             
@@ -27,7 +27,7 @@ public struct Repeat: Effect, Equatable {
                 return .success(EventOutputImpl())
             }
             
-            let children: [Effect] = (0..<number).map { _ in effect.withCtx(playCtx) }
+            let children: [Event] = (0..<number).map { _ in effect.withCtx(eventCtx) }
             
             return .success(EventOutputImpl(children: children))
         }

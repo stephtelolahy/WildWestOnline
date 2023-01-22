@@ -13,7 +13,7 @@ public struct PlayerId: ArgPlayer, Equatable {
         self.id = id
     }
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error> {
         fatalError(InternalError.unexpected)
     }
 }

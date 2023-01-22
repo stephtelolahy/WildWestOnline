@@ -9,6 +9,7 @@
 public struct Trigger: Event, Equatable {
     public let actor: String
     private let card: String
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(actor: String, card: String) {
         self.actor = actor
@@ -20,8 +21,8 @@ public struct Trigger: Event, Equatable {
         let cardObj = playerObj.card(card)
         
         /// push child effects
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
-        let children = cardObj.onTrigger?.withCtx(playCtx)
+        let eventCtx = EventContextImpl(actor: actor, card: cardObj)
+        let children = cardObj.onTrigger?.withCtx(eventCtx)
         
         return .success(EventOutputImpl(state: ctx, children: children))
     }
@@ -29,7 +30,7 @@ public struct Trigger: Event, Equatable {
     public func isValid(_ ctx: Game) -> Result<Void, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
+        let eventCtx = EventContextImpl(actor: actor, card: cardObj)
         
         /// verify triggered effects not empty
         guard cardObj.onTrigger != nil else {
@@ -39,7 +40,7 @@ public struct Trigger: Event, Equatable {
         /// verify all requirements
         if let playReqs = cardObj.triggers {
             for playReq in playReqs {
-                if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                if case let .failure(error) = playReq.match(ctx, eventCtx: eventCtx) {
                     return .failure(error)
                 }
             }

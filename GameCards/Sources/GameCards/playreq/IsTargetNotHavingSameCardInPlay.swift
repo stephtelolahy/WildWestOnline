@@ -8,13 +8,13 @@ import GameRules
 
 struct IsTargetNotHavingSameCardInPlay: PlayReq, Equatable {
     
-    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
-        guard let target = playCtx.target else {
+    func match(_ ctx: Game, eventCtx: EventContext) -> Result<Void, Error> {
+        guard let target = eventCtx.target else {
             return .failure(GameError.noTargetSelected)
         }
         
         let targetObj = ctx.player(target)
-        if targetObj.inPlay.contains(where: { $0.name == playCtx.playedCard.name }) {
+        if targetObj.inPlay.contains(where: { $0.name == eventCtx.card.name }) {
             return .failure(GameError.cannotHaveTheSameCardInPlay)
         }
         

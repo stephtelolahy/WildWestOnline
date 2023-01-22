@@ -13,7 +13,7 @@ struct OnForceDiscardHandNamed: PlayReq, Equatable {
         self.cardName = cardName
     }
     
-    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
+    func match(_ ctx: Game, eventCtx: EventContext) -> Result<Void, Error> {
         guard case let .success(event) = ctx.event,
               let forceDiscard = event as? ForceDiscard,
               let selectHandNamed = forceDiscard.card as? CardSelectHandNamed,

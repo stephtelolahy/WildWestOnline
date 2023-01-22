@@ -9,7 +9,7 @@ import GameRules
 /// When game is over
 struct IsGameOver: PlayReq {
     
-    func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
+    func match(_ ctx: Game, eventCtx: EventContext) -> Result<Void, Error> {
         guard ctx.playOrder.count == 1 else {
             return .failure(GameError.unknown)
         }

@@ -8,11 +8,11 @@
 import GameRules
 
 /// draw card from other player
-public struct Steal: Effect, Equatable {
+public struct Steal: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var target: ArgPlayer
     @EquatableCast private var card: ArgCard
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(player: ArgPlayer = PlayerActor(), target: ArgPlayer, card: ArgCard) {
         self.player = player

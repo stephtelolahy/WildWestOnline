@@ -7,9 +7,9 @@
 import GameRules
 
 /// Remove player from game
-public struct Eliminate: Effect, Equatable {
+public struct Eliminate: Event, Equatable {
     @EquatableCast var player: ArgPlayer
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(player: ArgPlayer = PlayerActor()) {
         self.player = player

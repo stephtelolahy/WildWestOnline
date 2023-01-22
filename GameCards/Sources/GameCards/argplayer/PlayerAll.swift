@@ -11,9 +11,9 @@ public struct PlayerAll: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error> {
         let players = ctx.playOrder
-            .starting(with: playCtx.actor)
+            .starting(with: eventCtx.actor)
         return .success(.identified(players))
     }
 }

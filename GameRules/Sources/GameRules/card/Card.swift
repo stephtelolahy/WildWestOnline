@@ -27,11 +27,11 @@ public protocol Card {
     var canPlay: [PlayReq]? { get }
     
     /// side effects on playing this card
-    var onPlay: [Effect]? { get }
+    var onPlay: [Event]? { get }
     
     /// requirements to trigger this card
     var triggers: [PlayReq]? { get }
     
     /// triggered effects
-    var onTrigger: [Effect]? { get }
+    var onTrigger: [Event]? { get }
 }

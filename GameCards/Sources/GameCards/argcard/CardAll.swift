@@ -11,7 +11,7 @@ public struct CardAll: ArgCard, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         guard let playerId = owner else {
             fatalError(InternalError.missingCardOwner)
         }

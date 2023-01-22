@@ -8,6 +8,7 @@
 /// Emit active moves
 public struct Activate: Event, Equatable {
     @EquatableCast public var moves: [Move]
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(_ moves: [Move]) {
         self.moves = moves

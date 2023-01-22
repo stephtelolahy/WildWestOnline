@@ -8,13 +8,13 @@
 /// Number argument
 public protocol ArgNumber {
     
-    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<Int, Error>
+    func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<Int, Error>
 }
 
 /// Player argument
 public protocol ArgPlayer {
     
-    func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error>
+    func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error>
 }
 
 /// Card argument
@@ -23,10 +23,10 @@ public protocol ArgCard {
     /// Resolving card argument
     /// - Parameters:
     ///   - ctx: game state
-    ///   - playCtx: play context
+    ///   - eventCtx: play context
     ///   - chooser: player making choice
     ///   - owner: player owning the card if any
-    func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error>
+    func resolve(_ ctx: Game, eventCtx: EventContext, chooser: String, owner: String?) -> Result<ArgOutput, Error>
 }
 
 /// Resolved argument

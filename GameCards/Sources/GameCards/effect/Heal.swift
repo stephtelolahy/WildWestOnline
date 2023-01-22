@@ -8,10 +8,10 @@
 import GameRules
 
 /// Restore player's health, limited to maxHealth
-public struct Heal: Effect, Equatable {
+public struct Heal: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     private let value: Int
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(player: ArgPlayer = PlayerActor(), value: Int) {
         assert(value > 0)

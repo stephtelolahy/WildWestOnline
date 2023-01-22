@@ -8,6 +8,7 @@
 /// Choose one of pending actions to proceed effect resolving
 public struct ChooseOne: Event, Equatable {
     @EquatableIgnore public var options: [Move]
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(_ options: [Move]) {
         assert(!options.isEmpty)

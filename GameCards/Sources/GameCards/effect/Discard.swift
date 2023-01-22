@@ -9,10 +9,10 @@ import GameRules
 
 /// Discard a player's card to discard pile
 /// Actor is the card chooser
-public struct Discard: Effect, Equatable {
+public struct Discard: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var card: ArgCard
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(player: ArgPlayer = PlayerActor(), card: ArgCard) {
         self.player = player
@@ -27,7 +27,7 @@ public struct Discard: Effect, Equatable {
         }
         
         guard let cardId = (card as? CardId)?.id else {
-            return resolve(card, ctx: ctx, chooser: playCtx.actor, owner: playerId) {
+            return resolve(card, ctx: ctx, chooser: eventCtx.actor, owner: playerId) {
                 Self(player: player, card: CardId($0))
             }
         }

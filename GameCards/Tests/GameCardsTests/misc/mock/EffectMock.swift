@@ -7,8 +7,8 @@
 
 import GameRules
 
-struct EffectMock: Effect, Equatable {
-    @EquatableIgnore var playCtx: PlayContext = PlayContextImpl()
+struct EffectMock: Event, Equatable {
+    @EquatableIgnore var eventCtx: EventContext = EventContextImpl()
     
     func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .success(EventOutputImpl(state: ctx))

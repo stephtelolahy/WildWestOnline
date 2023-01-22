@@ -8,6 +8,7 @@
 
 struct MoveMock: Move, Equatable {
     let actor: String = ""
+    @EquatableIgnore var eventCtx: EventContext = EventContextImpl()
     
     func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .success(EventOutputImpl(state: ctx))

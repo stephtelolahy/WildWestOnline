@@ -15,7 +15,7 @@ public struct CardSelectHandNamed: ArgCard, Equatable {
         self.name = name
     }
 
-    public func resolve(_ ctx: Game, playCtx: PlayContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
+    public func resolve(_ ctx: Game, eventCtx: EventContext, chooser: String, owner: String?) -> Result<ArgOutput, Error> {
         let playerObj = ctx.player(chooser)
         let matchingCards = playerObj.hand.filter { $0.name == name }.map(\.id)
         guard !matchingCards.isEmpty else {

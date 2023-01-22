@@ -8,13 +8,13 @@ import GameRules
 
 /// Player must choose to discard one of his card.
 /// If cannot, then apply some effects
-public struct ForceDiscard: Effect, Equatable {
+public struct ForceDiscard: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast var card: ArgCard
-    @EquatableIgnore private var otherwise: [Effect]
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore private var otherwise: [Event]
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
-    public init(player: ArgPlayer, card: ArgCard, otherwise: [Effect] = []) {
+    public init(player: ArgPlayer, card: ArgCard, otherwise: [Event] = []) {
         self.player = player
         self.card = card
         self.otherwise = otherwise
@@ -28,11 +28,11 @@ public struct ForceDiscard: Effect, Equatable {
         }
         
         // set current target
-        var childCtx: PlayContext = playCtx
+        var childCtx: EventContext = eventCtx
         childCtx.target = playerId
         
         // resolving card
-        switch card.resolve(ctx, playCtx: playCtx, chooser: playerId, owner: playerId) {
+        switch card.resolve(ctx, eventCtx: eventCtx, chooser: playerId, owner: playerId) {
         case let .failure(error):
             if let gameError = error as? GameError,
                 case .playerHasNoMatchingCard = gameError {

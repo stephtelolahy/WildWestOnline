@@ -11,8 +11,8 @@ public struct PlayerTarget: ArgPlayer, Equatable {
     
     public init() {}
     
-    public func resolve(_ ctx: Game, playCtx: PlayContext) -> Result<ArgOutput, Error> {
-        guard let current = playCtx.target else {
+    public func resolve(_ ctx: Game, eventCtx: EventContext) -> Result<ArgOutput, Error> {
+        guard let current = eventCtx.target else {
             fatalError(InternalError.missingTarget)
         }
         return .success(.identified([current]))

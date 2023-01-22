@@ -9,14 +9,14 @@ import GameRules
 /// Player must choose to discard one of his card.
 /// If cannot, then apply some effects
 /// If the do, then apply the same effect to challenger
-public struct ChallengeDiscard: Effect, Equatable {
+public struct ChallengeDiscard: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
     @EquatableCast private var challenger: ArgPlayer
     @EquatableCast private var card: ArgCard
-    @EquatableIgnore private var otherwise: [Effect]
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore private var otherwise: [Event]
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
-    public init(player: ArgPlayer, challenger: ArgPlayer, card: ArgCard, otherwise: [Effect] = []) {
+    public init(player: ArgPlayer, challenger: ArgPlayer, card: ArgCard, otherwise: [Event] = []) {
         self.player = player
         self.challenger = challenger
         self.card = card
@@ -37,17 +37,17 @@ public struct ChallengeDiscard: Effect, Equatable {
         }
         
         // set current target
-        var playCtx = playCtx
-        playCtx.target = playerId
+        var eventCtx = eventCtx
+        eventCtx.target = playerId
         
         // resolving card
-        switch card.resolve(ctx, playCtx: playCtx, chooser: playerId, owner: playerId) {
+        switch card.resolve(ctx, eventCtx: eventCtx, chooser: playerId, owner: playerId) {
         case let .failure(error):
             if let gameError = error as? GameError,
                 case .playerHasNoMatchingCard = gameError {
                 // do not own required card
                 // apply otherwise effects immediately
-                return .success(EventOutputImpl(state: ctx, children: otherwise.withCtx(playCtx)))
+                return .success(EventOutputImpl(state: ctx, children: otherwise.withCtx(eventCtx)))
                 
             } else {
                 return .failure(error)
@@ -64,10 +64,10 @@ public struct ChallengeDiscard: Effect, Equatable {
             var choices: [Choose] = options.map {
                 Choose(actor: playerId,
                        label: $0.label,
-                       children: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(playCtx),
-                                  Self(player: challenger, challenger: player, card: card, otherwise: otherwise).withCtx(playCtx)])
+                       children: [Discard(player: PlayerId(playerId), card: CardId($0.value)).withCtx(eventCtx),
+                                  Self(player: challenger, challenger: player, card: card, otherwise: otherwise).withCtx(eventCtx)])
             }
-            choices.append(Choose(actor: playerId, label: Label.pass, children: otherwise.withCtx(playCtx)))
+            choices.append(Choose(actor: playerId, label: Label.pass, children: otherwise.withCtx(eventCtx)))
             return .success(EventOutputImpl(state: ctx, children: [ChooseOne(choices)]))
         }
     }

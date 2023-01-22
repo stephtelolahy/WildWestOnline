@@ -7,9 +7,9 @@
 import GameRules
 
 /// Draw top deck card
-public struct DrawDeck: Effect, Equatable {
+public struct DrawDeck: Event, Equatable {
     @EquatableCast private var player: ArgPlayer
-    @EquatableIgnore public var playCtx: PlayContext = PlayContextImpl()
+    @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()
     
     public init(player: ArgPlayer = PlayerActor()) {
         self.player = player

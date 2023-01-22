@@ -1,5 +1,5 @@
 //
-//  Effect+Equatable.swift
+//  Event+Equatable.swift
 //  
 //
 //  Created by Hugues Telolahy on 13/01/2023.
