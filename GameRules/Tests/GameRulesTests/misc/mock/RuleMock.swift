@@ -8,10 +8,6 @@
 
 struct RuleMock: EngineRule {
     
-    func starting(_ ctx: Game) -> [Event]? {
-        nil
-    }
-    
     func triggered(_ ctx: Game) -> [Event]? {
         nil
     }

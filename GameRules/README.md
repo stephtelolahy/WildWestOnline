@@ -9,7 +9,7 @@ This package is considered as hard architecture
 	- handling input 
 	- resolving
 	- updating
-	- triggering
+	- triggering effects
 3. Game state
 4. Card model
 5. Input handling

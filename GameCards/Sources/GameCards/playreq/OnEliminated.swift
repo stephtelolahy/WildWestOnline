@@ -9,8 +9,6 @@ import GameRules
 /// When just eliminated
 struct OnEliminated: PlayReq, Equatable {
     
-    init() {}
-    
     func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard case let .success(event) = ctx.event,
               let eliminate = event as? Eliminate,

@@ -35,9 +35,24 @@ public struct Play: Move, Equatable {
         }
         
         return playMode.resolve(playCtx, ctx: ctx)
+            .flatMap {
+                /// verify can play
+                if case let .failure(error) = isValid(ctx) {
+                    return .failure(error)
+                }
+                
+                /// save played
+                var newCtx = $0
+                newCtx.played.append(cardObj.name)
+                
+                /// push child effects
+                let children = cardObj.onPlay?.withCtx(playCtx)
+                
+                return .success(EventOutputImpl(state: newCtx, children: children))
+            }
     }
     
-    public func isValid(_ ctx: Game) -> Result<Void, Error> {
+    func isValid(_ ctx: Game) -> Result<Void, Error> {
         let playerObj = ctx.player(actor)
         let cardObj = playerObj.card(card)
         let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj, target: target)
@@ -72,10 +87,23 @@ public struct Play: Move, Equatable {
         }
         
         return playMode.isValid(playCtx, ctx: ctx)
+            .flatMap { _ in
+                
+                /// verify all requirements
+                if let playReqs = cardObj.canPlay {
+                    for playReq in playReqs {
+                        if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
+                            return .failure(error)
+                        }
+                    }
+                }
+                
+                return .success
+            }
     }
 }
 
-private extension Move {
+private extension Play {
     func resolve(
         _ player: ArgPlayer,
         ctx: Game,

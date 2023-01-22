@@ -8,7 +8,7 @@
 /// Defining how a card is played
 public protocol PlayMode {
     
-    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error>
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<Game, Error>
     
     func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error>
 }

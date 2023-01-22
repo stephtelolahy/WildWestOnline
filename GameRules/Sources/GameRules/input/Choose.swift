@@ -22,10 +22,6 @@ public struct Choose: Move, Equatable {
         /// to mark that effect was successfully resolved
         .success(EventOutputImpl(state: ctx, children: children))
     }
-    
-    public func isValid(_ ctx: Game) -> Result<Void, Error> {
-        fatalError(InternalError.unexpected)
-    }
 }
 
 extension Choose: CustomStringConvertible {

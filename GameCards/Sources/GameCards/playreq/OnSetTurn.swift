@@ -9,8 +9,6 @@ import GameRules
 /// When setting turn
 struct OnSetTurn: PlayReq, Equatable {
     
-    init() {}
-    
     func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard case let .success(event) = ctx.event,
               let seTurn = event as? SetTurn,

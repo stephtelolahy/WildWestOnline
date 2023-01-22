@@ -47,7 +47,7 @@ public enum CardRegex {
 private extension Card {
     func matches(regex pattern: String) -> Bool {
         guard let value = self.value else {
-            fatalError(InternalError.unexpected)
+            fatalError(InternalError.missingCardValue)
         }
         
         return value.matches(regex: pattern)

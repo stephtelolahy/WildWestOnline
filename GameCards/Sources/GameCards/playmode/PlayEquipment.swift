@@ -9,51 +9,19 @@ import GameRules
 /// Playing equipement card
 struct PlayEquipment: PlayMode {
     
-    init() {}
-    
-    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error> {
-        let actor = playCtx.actor
-        var playerObj = ctx.player(playCtx.actor)
-        let cardObj = playCtx.playedCard
-        
-        /// verify can play
-        if case let .failure(error) = isValid(playCtx, ctx: ctx) {
-            return .failure(error)
-        }
-        
-        var ctx = ctx
-        
-        /// set playing data
-        ctx.played.append(cardObj.name)
-        
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<Game, Error> {
         /// put equipement in self's inPlay
-        guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == cardObj.id }) else {
-            fatalError(InternalError.unexpected)
-        }
-        
-        playerObj.hand.remove(at: handIndex)
+        var ctx = ctx
+        let actor = playCtx.actor
+        var playerObj = ctx.player(actor)
+        let cardObj = playCtx.playedCard
+        playerObj.hand.removeAll(where: { $0.id == cardObj.id })
         playerObj.inPlay.append(cardObj)
         ctx.players[actor] = playerObj
-        
-        /// push child effects
-        let playCtx = PlayContextImpl(actor: actor, playedCard: cardObj)
-        let children = cardObj.onPlay?.withCtx(playCtx)
-        
-        return .success(EventOutputImpl(state: ctx, children: children))
+        return .success(ctx)
     }
     
     func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
-        let cardObj = playCtx.playedCard
-        
-        /// verify all requirements
-        if let playReqs = cardObj.canPlay {
-            for playReq in playReqs {
-                if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
-                    return .failure(error)
-                }
-            }
-        }
-        
-        return .success
+        .success
     }
 }

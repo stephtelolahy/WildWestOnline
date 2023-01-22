@@ -104,7 +104,7 @@ public class EngineImpl: Engine {
                 queue.insert(contentsOf: children, at: 0)
             }
             
-            // push triggered moves if any
+            // push triggered effects if any
             if let triggered = rule.triggered(ctx) {
                 queue.insert(contentsOf: triggered, at: 0)
             }
@@ -112,15 +112,6 @@ public class EngineImpl: Engine {
         case let .failure(error):
             ctx.event = .failure(error)
         }
-        
-//        #if DEBUG
-//        var eventDesc = ""
-//        if case let .success(event) = ctx.event {
-//            eventDesc = String(describing: event)
-//        }
-//        let queueDesc = queue.map { String(describing: $0) }.joined(separator: "\n")
-//        print("\nevent=\(eventDesc)\nqueue=\n\(queueDesc)")
-//        #endif
         
         // emit state only when event occurred
         let emitState = ctx.event != nil

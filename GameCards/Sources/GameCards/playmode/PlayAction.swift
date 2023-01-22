@@ -9,35 +9,16 @@ import GameRules
 /// Playing action card that will be discarded immediately
 struct PlayAction: PlayMode {
     
-    init() {}
-    
-    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<EventOutput, Error> {
+    func resolve(_ playCtx: PlayContext, ctx: Game) -> Result<Game, Error> {
+        /// discard  action card immediately
+        var ctx = ctx
         let actor = playCtx.actor
         var playerObj = ctx.player(playCtx.actor)
         let cardObj = playCtx.playedCard
-        
-        /// verify can play
-        if case let .failure(error) = isValid(playCtx, ctx: ctx) {
-            return .failure(error)
-        }
-        
-        /// set playing data
-        var ctx = ctx
-        ctx.played.append(cardObj.name)
-        
-        /// discard  action card immediately
-        guard let handIndex = playerObj.hand.firstIndex(where: { $0.id == cardObj.id }) else {
-            fatalError(InternalError.unexpected)
-        }
-        
-        playerObj.hand.remove(at: handIndex)
+        playerObj.hand.removeAll(where: { $0.id == cardObj.id })
         ctx.discard.append(cardObj)
         ctx.players[actor] = playerObj
-        
-        /// push child effects
-        let children = cardObj.onPlay?.withCtx(playCtx)
-        
-        return .success(EventOutputImpl(state: ctx, children: children))
+        return .success(ctx)
     }
     
     func isValid(_ playCtx: PlayContext, ctx: Game) -> Result<Void, Error> {
@@ -46,15 +27,6 @@ struct PlayAction: PlayMode {
         /// verify playing effects not empty
         guard cardObj.onPlay != nil else {
             return .failure(GameError.cardHasNoPlayingEffect)
-        }
-        
-        /// verify all requirements
-        if let playReqs = cardObj.canPlay {
-            for playReq in playReqs {
-                if case let .failure(error) = playReq.match(ctx, playCtx: playCtx) {
-                    return .failure(error)
-                }
-            }
         }
         
         /// verify main effect succeed

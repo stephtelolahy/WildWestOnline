@@ -12,8 +12,4 @@ struct MoveMock: Move, Equatable {
     func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
         .success(EventOutputImpl(state: ctx))
     }
-    
-    func isValid(_ ctx: Game) -> Result<Void, Error> {
-        .success(())
-    }
 }

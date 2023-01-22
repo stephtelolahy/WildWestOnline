@@ -9,8 +9,6 @@ import GameRules
 /// When loosing last life point
 struct OnLooseLastHealth: PlayReq, Equatable {
     
-    init() {}
-    
     func match(_ ctx: Game, playCtx: PlayContext) -> Result<Void, Error> {
         guard case let .success(event) = ctx.event,
               let damage = event as? Damage,
