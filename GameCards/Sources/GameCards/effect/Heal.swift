@@ -5,7 +5,8 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 // swiftlint:disable function_default_parameter_at_end
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Restore player's health, limited to maxHealth
 public struct Heal: Event, Equatable {

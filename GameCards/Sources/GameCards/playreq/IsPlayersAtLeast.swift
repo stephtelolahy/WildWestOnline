@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
-import GameRules
+import GameCore
 
 /// The minimum number of active players is X
 struct IsPlayersAtLeast: PlayReq, Equatable {

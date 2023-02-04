@@ -7,7 +7,7 @@
 
 import XCTest
 @testable import GameCards
-import GameRules
+import GameCore
 
 final class EndTurnTests: XCTestCase {
     

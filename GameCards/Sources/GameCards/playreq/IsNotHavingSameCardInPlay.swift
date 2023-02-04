@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 19/01/2023.
 //
-import GameRules
+import GameCore
 
 /// There is not the same card in play
 struct IsNotHavingSameCardInPlay: PlayReq, Equatable {

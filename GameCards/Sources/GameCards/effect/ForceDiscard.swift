@@ -4,7 +4,8 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Player must choose to discard one of his card.
 /// If cannot, then apply some effects

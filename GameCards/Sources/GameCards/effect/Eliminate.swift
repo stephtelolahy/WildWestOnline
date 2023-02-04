@@ -4,7 +4,8 @@
 //
 //  Created by Hugues Telolahy on 14/01/2023.
 //
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Remove player from game
 public struct Eliminate: Event, Equatable {

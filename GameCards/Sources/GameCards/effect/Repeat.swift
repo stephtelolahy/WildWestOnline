@@ -4,7 +4,8 @@
 //
 //  Created by Hugues Telolahy on 10/01/2023.
 //
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Repeat an effect
 public struct Repeat: Event, Equatable {

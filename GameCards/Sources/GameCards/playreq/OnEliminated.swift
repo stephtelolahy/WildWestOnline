@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 14/01/2023.
 //
-import GameRules
+import GameCore
 
 /// When just eliminated
 struct OnEliminated: PlayReq, Equatable {

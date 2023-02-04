@@ -8,7 +8,8 @@
 
 import XCTest
 @testable import GameCards
-import GameRules
+import GameCore
+import GameTesting
 
 final class PlayActionTests: XCTestCase {
     

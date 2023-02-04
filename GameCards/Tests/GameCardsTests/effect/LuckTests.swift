@@ -9,7 +9,7 @@
 
 import XCTest
 @testable import GameCards
-import GameRules
+import GameCore
 
 final class LuckTests: XCTestCase {
     

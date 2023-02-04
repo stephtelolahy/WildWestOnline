@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import GameCards
-import GameRules
+import GameCore
 
 final class GatlingTests: XCTestCase {
     

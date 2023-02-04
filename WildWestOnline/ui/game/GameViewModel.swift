@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 18/01/2023.
 //
 import Combine
-import GameRules
+import GameCore
 
 extension GameView {
     class ViewModel: ObservableObject {

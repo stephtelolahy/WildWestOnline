@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-import GameRules
+import GameCore
 
 /// select any reachable player
 public struct PlayerSelectReachable: ArgPlayer, Equatable {

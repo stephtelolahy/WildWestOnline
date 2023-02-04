@@ -8,7 +8,7 @@
 
 import XCTest
 @testable import GameCards
-import GameRules
+import GameCore
 import Combine
 
 final class StartTurnTests: XCTestCase {

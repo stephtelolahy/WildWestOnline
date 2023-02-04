@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 import Combine
-import GameRules
+import GameCore
 
 class EngineMock: Engine {
     

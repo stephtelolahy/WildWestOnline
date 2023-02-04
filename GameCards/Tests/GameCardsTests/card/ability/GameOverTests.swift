@@ -8,11 +8,9 @@
 
 import XCTest
 @testable import GameCards
-import GameRules
+import GameCore
 
 final class GameOverTests: XCTestCase {
-    
-    // TODO: real game over rules
     
     private let inventory: Inventory = InventoryImpl()
     private let rule: EngineRule = EngineRuleImpl()

@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-import GameRules
+import GameCore
 
 /// who is playing the card
 public struct PlayerActor: ArgPlayer, Equatable {

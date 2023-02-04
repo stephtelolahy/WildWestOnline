@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 20/01/2023.
 //
-import GameRules
+import GameCore
 
 /// Getting distance between players
 protocol RuleDistance {

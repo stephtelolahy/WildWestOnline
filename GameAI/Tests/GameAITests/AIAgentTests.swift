@@ -9,7 +9,7 @@
 import XCTest
 @testable import GameAI
 import Combine
-import GameRules
+import GameCore
 
 final class AIAgentTests: XCTestCase {
     

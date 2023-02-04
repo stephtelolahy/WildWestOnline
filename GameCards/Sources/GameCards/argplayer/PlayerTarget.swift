@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 16/01/2023.
 //
-import GameRules
+import GameCore
 
 /// target player
 public struct PlayerTarget: ArgPlayer, Equatable {

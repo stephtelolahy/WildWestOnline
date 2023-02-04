@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 18/01/2023.
 //
-import GameRules
+import GameCore
 
 /// Playing equipement card
 struct PlayEquipment: PlayMode {

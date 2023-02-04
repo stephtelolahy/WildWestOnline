@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 13/01/2023.
 //
-import GameRules
+import GameCore
 
 /// When setting turn
 struct OnSetTurn: PlayReq, Equatable {

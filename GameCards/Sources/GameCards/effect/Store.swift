@@ -4,7 +4,8 @@
 //
 //  Created by Hugues Telolahy on 11/01/2023.
 //
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Draw card from deck to store zone
 public struct Store: Event, Equatable {

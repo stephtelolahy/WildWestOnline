@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 09/01/2023.
 //
-import GameRules
+import GameCore
 
 public struct InventoryImpl: Inventory {
     

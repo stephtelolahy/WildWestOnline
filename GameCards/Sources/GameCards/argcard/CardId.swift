@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-import GameRules
+import GameCore
 
 /// card identified by X
 public struct CardId: ArgCard, Equatable {

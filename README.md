@@ -4,10 +4,9 @@ Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(
 
 ### Features
 
-- [x] Engine is open source
 - [ ] Powerful scripting language using JSON 
 - [ ] Support classic Bang! and extensions
-- [ ] Any can play online
+- [ ] Play online
 
 ## Terminology
 - Engine: game interface

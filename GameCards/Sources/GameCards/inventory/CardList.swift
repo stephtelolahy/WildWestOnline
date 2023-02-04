@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 // swiftlint:disable line_length type_body_length
-import GameRules
+import GameCore
 
 /// Bang cards list
 enum CardList {

@@ -5,7 +5,8 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 // swiftlint:disable function_default_parameter_at_end
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// draw card from other player
 public struct Steal: Event, Equatable {

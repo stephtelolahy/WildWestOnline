@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-import GameRules
+import GameCore
 
 /// any other player at distance of X
 public struct PlayerSelectAt: ArgPlayer, Equatable {

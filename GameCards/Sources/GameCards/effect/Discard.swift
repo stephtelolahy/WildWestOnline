@@ -5,7 +5,8 @@
 //  Created by Hugues Telolahy on 11/01/2023.
 //
 // swiftlint:disable function_default_parameter_at_end
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Discard a player's card to discard pile
 /// Actor is the card chooser

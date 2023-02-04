@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 18/01/2023.
 //
-import GameRules
+import GameCore
 import GameCards
 
 enum AppState {

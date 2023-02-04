@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/01/2023.
 //
-import GameRules
+import GameCore
 
 /// select any player's hand or inPlay card
 public struct CardSelectAny: ArgCard, Equatable {

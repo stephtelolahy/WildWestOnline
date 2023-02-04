@@ -5,7 +5,8 @@
 //  Created by Hugues Telolahy on 19/01/2023.
 //
 import Foundation
-import GameRules
+import GameCore
+import ExtensionsKit
 
 /// Flip over the top card of the deck, then apply effects according to suits and values
 public struct Luck: Event, Equatable {
