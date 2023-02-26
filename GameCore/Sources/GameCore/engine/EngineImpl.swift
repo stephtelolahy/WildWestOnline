@@ -58,26 +58,7 @@ public class EngineImpl: Engine {
         if ctx.isOver {
             return
         }
-        
-        // if waiting choice
-        // emit options
-        // then complete
-        if let chooseOne = queue.first as? ChooseOne {
-            ctx.event = .success(chooseOne)
-            state.send(ctx)
-            return
-        }
-        
-        // apply cancel if any
-        if let cancel = queue.first as? Cancel {
-            queue.remove(at: 0)
-            queue.remove(at: 0)
-            ctx.event = .success(cancel)
-            state.send(ctx)
-            update()
-            return
-        }
-        
+
         // if idle,
         // emit active moves if any
         // then complete
@@ -89,11 +70,31 @@ public class EngineImpl: Engine {
             return
         }
         
-        // remove previous event
-        ctx.event = nil
-        
+        // if waiting choice
+        // emit options
+        // then complete
+        if let chooseOne = queue.first as? ChooseOne {
+            ctx.event = .success(chooseOne)
+            state.send(ctx)
+            return
+        }
+
         // process queue
         let event = queue.remove(at: 0)
+
+        // remove previous event
+        ctx.event = nil
+
+        // apply cancel if any
+        if let cancel = event as? Cancel {
+            // TODO: find event matching cancel attributes
+            queue.remove(at: 0)
+            ctx.event = .success(cancel)
+            state.send(ctx)
+            _update(ctx)
+            return
+        }
+
         let result = event.resolve(ctx)
         switch result {
         case let .success(output):
@@ -123,12 +124,9 @@ public class EngineImpl: Engine {
         }
         
         // loop update
-        if emitState {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
-                self?._update(ctx)
-            }
-        } else {
-            _update(ctx)
+        let waitDelay: DispatchTimeInterval = emitState ? delay : .seconds(0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + waitDelay) { [weak self] in
+            self?._update(ctx)
         }
     }
 }
