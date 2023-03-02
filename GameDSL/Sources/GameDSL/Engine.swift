@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/03/2023.
 //
+import Combine
 
 /// Game engine
 public protocol Engine {
