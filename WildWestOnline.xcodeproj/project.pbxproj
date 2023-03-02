@@ -32,6 +32,7 @@
 		2656996F297AF9C6003ADED3 /* GameAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameAI; sourceTree = "<group>"; };
 		26569970297AF9D2003ADED3 /* GameCards */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCards; sourceTree = "<group>"; };
 		265F6AE5298E9E610030A4B1 /* ExtensionsKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ExtensionsKit; sourceTree = "<group>"; };
+		26656BA729B14DB2006C5FE9 /* GameDSL */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameDSL; sourceTree = "<group>"; };
 		26699F1728455FB8008040E5 /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26699F1A28455FB8008040E5 /* WWOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWOApp.swift; sourceTree = "<group>"; };
 		26699F2328455FB9008040E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 		26699F3928456B62008040E5 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				26656BA729B14DB2006C5FE9 /* GameDSL */,
 				265F6AE5298E9E610030A4B1 /* ExtensionsKit */,
 				2656996F297AF9C6003ADED3 /* GameAI */,
 				26569970297AF9D2003ADED3 /* GameCards */,
