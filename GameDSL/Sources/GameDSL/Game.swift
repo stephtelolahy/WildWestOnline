@@ -90,4 +90,9 @@ public struct EventOutput {
     
     /// Children to be queued for resolving
     public let children: [Event]?
+    
+    public init(state: Game? = nil, children: [Event]? = nil) {
+        self.state = state
+        self.children = children
+    }
 }
