@@ -18,7 +18,8 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(path: "../GameDSL"),
-        .package(url: "https://github.com/birdrides/mockingbird.git", from: "0.20.0")
+        .package(url: "https://github.com/Brightify/Cuckoo", from: "1.9.1")
+
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -28,7 +29,9 @@ let package = Package(
             dependencies: ["GameDSL"]),
         .testTarget(
             name: "CardGameTests",
-            dependencies: ["CardGame",
-                           .product(name: "Mockingbird", package: "mockingbird")]),
+            dependencies: [
+                "CardGame",
+                "Cuckoo"
+            ]),
     ]
 )

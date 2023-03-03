@@ -4,7 +4,7 @@ import GameDSL
 public struct ChooseOne: Event {
     let options: [Event]
 
-    public init(@EffectsBuilder options: () -> [Event]) {
+    public init(@EventBuilder options: () -> [Event]) {
         self.options = options()
     }
 
