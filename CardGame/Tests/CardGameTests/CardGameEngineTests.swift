@@ -14,7 +14,7 @@ class CardGameEngineTests: XCTestCase {
 
     private let mockRule = MockCardGameEngineRule()
     private var cancellables = Set<AnyCancellable>()
-/*
+
     func test_StopUpdates_IfGameIsOver() {
         // Given
         let ctx = Game {
@@ -38,7 +38,7 @@ class CardGameEngineTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
-
+    /*
     func test_QueueAnyInputMove_IfIdle() {
         // Given
         let ctx = GameImpl()
