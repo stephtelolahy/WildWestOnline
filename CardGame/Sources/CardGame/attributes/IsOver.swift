@@ -7,8 +7,8 @@
 import GameDSL
 
 public struct IsOver: Attribute {
-    public var name: String = "isOver"
-    let value: Bool
+    public let name: String = "isOver"
+    public let value: Bool
 
     public init(_ value: Bool) {
         self.value = value

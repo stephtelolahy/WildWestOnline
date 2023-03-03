@@ -9,12 +9,12 @@ import GameDSL
 extension Game: CardGame {
 
     var isOver: Bool {
-        attr.getValue(for: IsOver.self)?.value ?? false
+        attr.getValue(for: IsOver.self) ?? false
     }
 
     var event: Result<Event, Error>? {
         get {
-            attr.getValue(for: LastEvent.self)?.event
+            attr.getValue(for: LastEvent.self)
         }
         set {
             fatalError()

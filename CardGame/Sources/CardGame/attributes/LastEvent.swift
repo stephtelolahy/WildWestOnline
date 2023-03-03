@@ -8,9 +8,9 @@ import GameDSL
 
 public struct LastEvent: Attribute {
     public let name: String = "event"
-    let event: Result<Event, Error>?
+    public let value: Result<Event, Error>
 
-    public init(event: Result<Event, Error>?) {
-        self.event = event
+    public init(_ value: Result<Event, Error>) {
+        self.value = value
     }
 }

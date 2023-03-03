@@ -17,7 +17,7 @@ public struct Card {
     public let actions: [CardAction]
 
     /// All attributes
-    let attr: [Attribute]
+    let attr: [any Attribute]
 }
 
 /// Function defining card side effects
@@ -52,5 +52,5 @@ public protocol Requirement {
 public protocol Effect: Event {
 
     /// Resolving context
-    var ctx: [Attribute] { get set }
+    var ctx: [any Attribute] { get set }
 }

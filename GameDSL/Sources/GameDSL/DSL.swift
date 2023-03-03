@@ -1,13 +1,13 @@
 import Foundation
 
 public extension Game {
-    init(@AttributeBuilder attr: () -> [Attribute]) {
+    init(@AttributeBuilder attr: () -> [any Attribute]) {
         self.attr = attr()
     }
 }
 
 public extension Player {
-    init(_ id: String, @AttributeBuilder _ attr: () -> [Attribute] = { [] }) {
+    init(_ id: String, @AttributeBuilder _ attr: () -> [any Attribute] = { [] }) {
         self.id = id
         self.attr = attr()
     }
@@ -20,7 +20,7 @@ public extension Card {
         self.attr = []
     }
 
-    func attr(@AttributeBuilder attr: () -> [Attribute]) -> Self {
+    func attr(@AttributeBuilder attr: () -> [any Attribute]) -> Self {
         .init(id: id, actions: actions, attr: attr())
     }
 }

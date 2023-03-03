@@ -5,15 +5,13 @@
 //  Created by Hugues Telolahy on 03/03/2023.
 //
 
-import GameDSL
+public extension Array where Element == any Attribute {
 
-extension Array where Element == Attribute {
-
-    func getValue<T: Attribute>(for type: T.Type) -> T? {
+    func getValue<T: Attribute>(for type: T.Type) -> T.Value? {
         guard let attribute = first(where: { $0 is T }) else {
             return nil
         }
 
-        return attribute as? T
+        return (attribute as? T)?.value
     }
 }
