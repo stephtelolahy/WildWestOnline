@@ -9,6 +9,7 @@ import XCTest
 import Combine
 import GameDSL
 @testable import CardGame
+import Mockingbird
 
 class CardGameEngineTests: XCTestCase {
 
@@ -60,6 +61,17 @@ class CardGameEngineTests: XCTestCase {
 
         // Assert
         waitForExpectations(timeout: 0.1)
+    }
+
+    func testMocks() {
+
+        let mockRule = mock(CardGameEngineRule.self)
+        let ctx = Game {}
+        let sut = CardGameEngine(ctx, rule: mockRule)
+
+        given(mockRule.active(ctx)).willReturn(nil)
+
+        verify(mockRule.active(ctx))
     }
     /*
     func test_QueueMove_IfWaitingAndValid() {

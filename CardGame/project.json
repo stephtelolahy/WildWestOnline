@@ -1,0 +1,92 @@
+{
+  "dependencies" : [
+    {
+      "identity" : "gamedsl",
+      "path" : "/Users/htelolahy/Documents/Perso/wwo/GameDSL",
+      "type" : "fileSystem"
+    },
+    {
+      "identity" : "mockingbird",
+      "requirement" : {
+        "range" : [
+          {
+            "lower_bound" : "0.20.0",
+            "upper_bound" : "1.0.0"
+          }
+        ]
+      },
+      "type" : "sourceControl",
+      "url" : "https://github.com/birdrides/mockingbird.git"
+    }
+  ],
+  "manifest_display_name" : "CardGame",
+  "name" : "CardGame",
+  "path" : "/Users/htelolahy/Documents/Perso/wwo/CardGame",
+  "platforms" : [
+    {
+      "name" : "ios",
+      "version" : "13.0"
+    }
+  ],
+  "products" : [
+    {
+      "name" : "CardGame",
+      "targets" : [
+        "CardGame"
+      ],
+      "type" : {
+        "library" : [
+          "automatic"
+        ]
+      }
+    }
+  ],
+  "targets" : [
+    {
+      "c99name" : "CardGameTests",
+      "module_type" : "SwiftTarget",
+      "name" : "CardGameTests",
+      "path" : "Tests/CardGameTests",
+      "product_dependencies" : [
+        "Mockingbird"
+      ],
+      "sources" : [
+        "CardGameEngineTests.swift",
+        "MockingbirdMocks/CardGameMocks.generated.swift",
+        "mocks/MockCardGameEngineRule.swift",
+        "mocks/MockEvent.swift"
+      ],
+      "target_dependencies" : [
+        "CardGame"
+      ],
+      "type" : "test"
+    },
+    {
+      "c99name" : "CardGame",
+      "module_type" : "SwiftTarget",
+      "name" : "CardGame",
+      "path" : "Sources/CardGame",
+      "product_dependencies" : [
+        "GameDSL"
+      ],
+      "product_memberships" : [
+        "CardGame"
+      ],
+      "sources" : [
+        "CardGame.swift",
+        "CardGameEngine.swift",
+        "attributes/IsOver.swift",
+        "attributes/LastEvent.swift",
+        "events/Activate.swift",
+        "events/Cancel.swift",
+        "events/Choose.swift",
+        "events/ChooseOne.swift",
+        "misc/Event+Equatable.swift",
+        "misc/Game+CardGame.swift",
+        "misc/Result+Extensions.swift"
+      ],
+      "type" : "library"
+    }
+  ],
+  "tools_version" : "5.7"
+}
