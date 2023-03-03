@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CardGame"
-               BuildableName = "CardGame"
-               BlueprintName = "CardGame"
-               ReferencedContainer = "container:CardGame">
+               BlueprintIdentifier = "GameDSL"
+               BuildableName = "GameDSL"
+               BlueprintName = "GameDSL"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CardGameTests"
-               BuildableName = "CardGameTests"
-               BlueprintName = "CardGameTests"
-               ReferencedContainer = "container:CardGame">
+               BlueprintIdentifier = "GameDSLTests"
+               BuildableName = "GameDSLTests"
+               BlueprintName = "GameDSLTests"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -60,10 +60,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CardGame"
-            BuildableName = "CardGame"
-            BlueprintName = "CardGame"
-            ReferencedContainer = "container:CardGame">
+            BlueprintIdentifier = "GameDSL"
+            BuildableName = "GameDSL"
+            BlueprintName = "GameDSL"
+            ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
