@@ -17,7 +17,11 @@ extension Game: CardGame {
             attr.getValue(for: LastEvent.self)
         }
         set {
-            fatalError()
+            if let newValue {
+                attr.setValue(LastEvent(newValue))
+            } else {
+                attr.removeValue(for: LastEvent.self)
+            }
         }
     }
 }

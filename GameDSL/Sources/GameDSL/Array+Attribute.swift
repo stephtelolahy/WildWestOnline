@@ -14,4 +14,13 @@ public extension Array where Element == any Attribute {
 
         return (attribute as? T)?.value
     }
+
+    mutating func setValue<T: Attribute>(_ attr: T) {
+        removeAll(where: { $0 is T })
+        append(attr)
+    }
+
+    mutating func removeValue<T: Attribute>(for type: T.Type) {
+        removeAll(where: { $0 is T })
+    }
 }

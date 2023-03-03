@@ -20,9 +20,9 @@ class CardGameEngineTests: XCTestCase {
         let ctx = Game {
             IsOver(true)
         }
-        let queue: [Event] = [MockEvent()]
-        let sut = CardGameEngine(ctx, queue: queue, rule: mockRule)
-        let expectation = expectation(description: "move is queued")
+        let event = MockEvent()
+        let sut = CardGameEngine(ctx, queue: [event], rule: mockRule)
+        let expectation = expectation(description: "event is processed")
         expectation.isInverted = true
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
@@ -38,16 +38,18 @@ class CardGameEngineTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
-/*
+
     func test_QueueAnyInputMove_IfIdle() {
         // Given
-        let ctx = GameImpl()
-        let sut = EngineImpl(ctx, rule: ruleMock)
-        let move = MoveMock()
+        let ctx = Game {
+            IsOver(false)
+        }
+        let move = MockEvent()
+        let sut = CardGameEngine(ctx, rule: mockRule)
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
-               event is MoveMock {
+               event is MockEvent {
                 expectation.fulfill()
             }
         }
@@ -59,7 +61,7 @@ class CardGameEngineTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
-    
+    /*
     func test_QueueMove_IfWaitingAndValid() {
         // Given
         let ctx = GameImpl()
@@ -113,21 +115,4 @@ class CardGameEngineTests: XCTestCase {
     // TODO: test push triggered effects
 
     // TODO: test cancel queued effect
-}
-
-private struct MockCardGameEngineRule: CardGameEngineRule {
-
-    func triggered(_ ctx: Game) -> [Event]? {
-        nil
-    }
-
-    func active(_ ctx: Game) -> [Event]? {
-        nil
-    }
-}
-
-private struct MockEvent: Event {
-    func resolve(_ ctx: GameDSL.Game) -> Result<GameDSL.EventOutput, Error> {
-        .success(EventOutput())
-    }
 }
