@@ -17,7 +17,7 @@
                BlueprintIdentifier = "CardGame"
                BuildableName = "CardGame"
                BlueprintName = "CardGame"
-               ReferencedContainer = "container:">
+               ReferencedContainer = "container:CardGame">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "CardGameTests"
                BuildableName = "CardGameTests"
                BlueprintName = "CardGameTests"
-               ReferencedContainer = "container:">
+               ReferencedContainer = "container:CardGame">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -63,7 +63,7 @@
             BlueprintIdentifier = "CardGame"
             BuildableName = "CardGame"
             BlueprintName = "CardGame"
-            ReferencedContainer = "container:">
+            ReferencedContainer = "container:CardGame">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
