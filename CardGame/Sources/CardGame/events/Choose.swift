@@ -13,6 +13,8 @@ public struct Choose: Event {
     }
 
     public func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
-        fatalError()
+        /// emit state changes even if no changes occurred
+        /// to mark that effect was successfully resolved
+        .success(EventOutput(state: ctx, children: children))
     }
 }
