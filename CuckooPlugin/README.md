@@ -38,7 +38,7 @@ After adding the dependency to your `Package.swift`, include the `CuckooPlugin` 
 
 ### Add a Cuckoo config
 
-Add a `cuckoo.json` file to your package following the [configuration file format]().
+Add a `cuckoo.json` file to your package.
 Take a look at the json configuration below as an example.
 
 ```json
