@@ -1,4 +1,4 @@
-// MARK: - Mocks generated from file: Users/htelolahy/Documents/Perso/wwo/CardGame/Sources/CardGame/CardGame.swift at 2023-03-05 00:14:07 +0000
+// MARK: - Mocks generated from file: Users/htelolahy/Documents/Perso/wwo/CardGame/Sources/CardGame/CardGame.swift at 2023-03-05 08:06:02 +0000
 
 
 import Cuckoo
@@ -169,7 +169,7 @@ import GameDSL
 
 
 
-// MARK: - Mocks generated from file: Users/htelolahy/Documents/Perso/wwo/CardGame/Sources/CardGame/CardGameEngine.swift at 2023-03-05 00:14:07 +0000
+// MARK: - Mocks generated from file: Users/htelolahy/Documents/Perso/wwo/CardGame/Sources/CardGame/CardGameEngine.swift at 2023-03-05 08:06:02 +0000
 
 
 import Cuckoo
