@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
+        .package(path: "../ExtensionsKit"),
         .package(path: "../GameDSL"),
         .package(url: "https://github.com/Brightify/Cuckoo", from: "1.9.1"),
         .package(url: "https://github.com/stephtelolahy/CuckooPlugin", from: "1.0.0"),
@@ -25,13 +26,19 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "CardGame",
-            dependencies: ["GameDSL"],
+            dependencies: [
+                "GameDSL",
+                "ExtensionsKit"
+            ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .testTarget(
             name: "CardGameTests",
-            dependencies: ["CardGame", "Cuckoo"],
+            dependencies: [
+                "CardGame",
+                "Cuckoo"
+            ],
             plugins: [
                 .plugin(name: "CuckooPlugin", package: "CuckooPlugin")
             ]

@@ -93,20 +93,23 @@ class CardGameEngineTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
-/*
+
     func test_DoNotQueueMove_IfWaitingAndInvalid() {
         // Given
-        let ctx = GameImpl()
-        let move1 = Choose(actor: "p1", label: "c1")
-        let sut = EngineImpl(ctx, queue: [ChooseOne([move1])], rule: ruleMock)
-        let move = MoveMock()
+        let ctx = Game {}
+        let blockingEvent = ChooseOne {
+            Choose(actor: "p1", label: "c1")
+            Choose(actor: "p1", label: "c2")
+        }
+        let sut = CardGameEngine(ctx, queue: [blockingEvent], rule: mockRule)
+        let move = MockEvent()
 
         let expectation = expectation(description: "move is not queued")
         expectation.isInverted = true
 
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
-               event is MoveMock {
+               event is MockEvent {
                 expectation.fulfill()
             }
         }
@@ -120,7 +123,7 @@ class CardGameEngineTests: XCTestCase {
         XCTAssertEqual(sut.queue.count, 1)
         XCTAssertTrue(sut.queue[0] is ChooseOne)
     }
-*/
+
     // TODO: test emit active moves
 
     // TODO: test push triggered effects
