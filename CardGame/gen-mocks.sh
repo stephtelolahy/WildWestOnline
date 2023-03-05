@@ -7,6 +7,3 @@ OUTPUT_FILE="Tests/CardGameTests/GeneratedMocks.swift"
 --output "${OUTPUT_FILE}" \
 "${INPUT_DIR}/CardGame.swift" \
 "${INPUT_DIR}/CardGameEngine.swift"
-
-# TODO: run on every build with swift package plugins
-# TODO: use mock classes from other packages
