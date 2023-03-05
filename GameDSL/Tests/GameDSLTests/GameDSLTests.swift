@@ -1,6 +1,6 @@
 import XCTest
-@testable import GameDSL
 import Cuckoo
+@testable import GameDSL
 
 final class GameDSLTests: XCTestCase {
 
