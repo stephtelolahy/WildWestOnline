@@ -8,12 +8,17 @@
 import XCTest
 import Combine
 import GameDSL
+import Cuckoo
 @testable import CardGame
 
 class CardGameEngineTests: XCTestCase {
 
-    private let mockRule = MockCardGameEngineRule()
+    private var mockRule: MockCardGameEngineRule!
     private var cancellables = Set<AnyCancellable>()
+
+    override func setUp() {
+        mockRule = MockCardGameEngineRule().withEnabledDefaultImplementation(CardGameEngineRuleStub())
+    }
 
     func test_StopUpdates_IfGameIsOver() {
         // Given
@@ -61,12 +66,17 @@ class CardGameEngineTests: XCTestCase {
         // Assert
         waitForExpectations(timeout: 0.1)
     }
-    /*
+
     func test_QueueMove_IfWaitingAndValid() {
         // Given
-        let ctx = GameImpl()
-        let move = Choose(actor: "p1", label: "c1", children: [EffectMock()])
-        let sut = EngineImpl(ctx, queue: [ChooseOne([move])], rule: ruleMock)
+        let ctx = Game {}
+        let move1 = Choose(actor: "p1", label: "c1")
+        let move2 = Choose(actor: "p1", label: "c2")
+        let blockingEvent = ChooseOne {
+            move1
+            move2
+        }
+        let sut = CardGameEngine(ctx, queue: [blockingEvent], rule: mockRule)
         let expectation = expectation(description: "move is queued")
         sut.state.sink { ctx in
             if case let .success(event) = ctx.event,
@@ -77,12 +87,12 @@ class CardGameEngineTests: XCTestCase {
         .store(in: &cancellables)
 
         // When
-        sut.input(move)
+        sut.input(move1)
 
         // Assert
         waitForExpectations(timeout: 0.1)
     }
-
+/*
     func test_DoNotQueueMove_IfWaitingAndInvalid() {
         // Given
         let ctx = GameImpl()
@@ -115,4 +125,11 @@ class CardGameEngineTests: XCTestCase {
     // TODO: test push triggered effects
 
     // TODO: test cancel queued effect
+}
+
+
+private struct MockEvent: Event {
+    func resolve(_ ctx: Game) -> Result<EventOutput, Error> {
+        .success(EventOutput(state: ctx))
+    }
 }
