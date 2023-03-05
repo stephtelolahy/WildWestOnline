@@ -16,6 +16,7 @@ class CardGameEngineTests: XCTestCase {
     private var mockRule: MockCardGameEngineRule!
     private var cancellables = Set<AnyCancellable>()
 
+    // swiftlint:disable:next overridden_super_call
     override func setUp() {
         mockRule = MockCardGameEngineRule().withEnabledDefaultImplementation(CardGameEngineRuleStub())
     }
@@ -126,7 +127,6 @@ class CardGameEngineTests: XCTestCase {
 
     // TODO: test cancel queued effect
 }
-
 
 private struct MockEvent: Event {
     func resolve(_ ctx: Game) -> Result<EventOutput, Error> {

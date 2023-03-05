@@ -16,7 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Brightify/Cuckoo", from: "1.9.1"),
         .package(url: "https://github.com/stephtelolahy/CuckooPlugin", from: "1.0.0"),
-        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
+        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
