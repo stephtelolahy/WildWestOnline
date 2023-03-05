@@ -8,15 +8,6 @@
         "revision" : "64b1681e37444d998e9cff2df6537a75695ab638",
         "version" : "1.9.1"
       }
-    },
-    {
-      "identity" : "yams",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jpsim/Yams.git",
-      "state" : {
-        "revision" : "f47ba4838c30dbd59998a4e4c87ab620ff959e8a",
-        "version" : "5.0.5"
-      }
     }
   ],
   "version" : 2
