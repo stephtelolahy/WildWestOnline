@@ -28,15 +28,13 @@ let package = Package(
             dependencies: ["GameDSL"]),
         .testTarget(
             name: "CardGameTests",
-            dependencies: [
-                "CardGame",
-                "Cuckoo"
-            ],
+            dependencies: ["CardGame"],
             plugins: ["CuckooPlugin"]
         ),
         .plugin(
             name: "CuckooPlugin",
-            capability: .buildTool()
+            capability: .buildTool(),
+            dependencies: ["Cuckoo"]
         )
     ]
 )

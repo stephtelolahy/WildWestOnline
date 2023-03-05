@@ -8,6 +8,7 @@
 import XCTest
 import Combine
 import GameDSL
+import Cuckoo
 @testable import CardGame
 
 class CardGameEngineTests: XCTestCase {
