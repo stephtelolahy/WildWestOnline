@@ -38,7 +38,6 @@
 		26699F2328455FB9008040E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26699F2628455FB9008040E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26699F2828455FB9008040E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2674DFAA29B48EDC009397D6 /* CuckooPlugin */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CuckooPlugin; sourceTree = "<group>"; };
 		269660122978479B00402C42 /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		2696601429784C0C00402C42 /* PlayerRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRowData.swift; sourceTree = "<group>"; };
 		26A494C6298E9767009BBB37 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCore; sourceTree = "<group>"; };
@@ -137,7 +136,6 @@
 		26699F3928456B62008040E5 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				2674DFAA29B48EDC009397D6 /* CuckooPlugin */,
 				26AA8E1929B1595800F624DA /* CardGame */,
 				26656BA729B14DB2006C5FE9 /* GameDSL */,
 				265F6AE5298E9E610030A4B1 /* ExtensionsKit */,
