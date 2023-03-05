@@ -9,6 +9,13 @@
     ],
 ```
 
+
+Once you’ve declared any new dependencies, simply ask SPM to resolve your dependencies and install them, and then re-generate the Xcode project:
+
+```shell
+$ swift package update
+```
+
 ## Using it as a (pre-)build tool
 
 Adding CuckooPlugin as a prebuild tool will execute it and generate your mock classes **before each build**.

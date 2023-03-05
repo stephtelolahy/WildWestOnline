@@ -1,0 +1,9 @@
+{
+    "targetName": "GameDSL",
+    "inputDir": "/Sources/GameDSL",
+    "inputFiles": [
+        "/Event.swift",
+        "/Engine.swift"
+    ],
+    "outputFile": "/Tests/GameDSLTests/GeneratedMocks.swift"
+}
