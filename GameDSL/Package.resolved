@@ -1,6 +1,24 @@
 {
   "pins" : [
     {
+      "identity" : "cuckoo",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Brightify/Cuckoo",
+      "state" : {
+        "revision" : "64b1681e37444d998e9cff2df6537a75695ab638",
+        "version" : "1.9.1"
+      }
+    },
+    {
+      "identity" : "cuckooplugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stephtelolahy/CuckooPlugin",
+      "state" : {
+        "revision" : "108898c08e17249ff0cf9905e21cfd730e9a829e",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "swiftlintplugin",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/lukepistrol/SwiftLintPlugin",

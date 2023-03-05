@@ -14,8 +14,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-//        .package(url: "https://github.com/Brightify/Cuckoo", from: "1.9.1"),
-//        .package(url: "https://github.com/stephtelolahy/CuckooPlugin", from: "1.0.0"),
+        .package(url: "https://github.com/Brightify/Cuckoo", from: "1.9.1"),
+        .package(url: "https://github.com/stephtelolahy/CuckooPlugin", from: "1.0.0"),
         .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
     ],
     targets: [
@@ -27,12 +27,12 @@ let package = Package(
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
-//        .testTarget(
-//            name: "GameDSLTests",
-//            dependencies: ["GameDSL", "Cuckoo"],
-//            plugins: [
-//                .plugin(name: "CuckooPlugin", package: "CuckooPlugin")
-//            ]
-//        ),
+        .testTarget(
+            name: "GameDSLTests",
+            dependencies: ["GameDSL", "Cuckoo"],
+            plugins: [
+                .plugin(name: "CuckooPlugin", package: "CuckooPlugin")
+            ]
+        ),
     ]
 )
