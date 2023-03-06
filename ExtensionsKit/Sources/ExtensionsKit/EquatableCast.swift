@@ -29,13 +29,3 @@ private extension EquatableCast {
         return equatableSelf.isEqualToEquatable(equatableOther)
     }
 }
-
-public extension Equatable {
-    func isEqualToEquatable(_ other: any Equatable) -> Bool {
-        guard let castedOther = other as? Self else {
-            return false
-        }
-        
-        return castedOther == self
-    }
-}
