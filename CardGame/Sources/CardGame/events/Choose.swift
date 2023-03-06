@@ -1,10 +1,11 @@
 import GameDSL
+import GameUtils
 
 /// Select an option during effect resolution
-public struct Choose: Event {
+public struct Choose: Event, Equatable {
     let actor: String
     let label: String
-    let children: [Event]?
+    @EquatableIgnore var children: [Event]?
 
     public init(actor: String, label: String, children: [Event]? = nil) {
         self.actor = actor

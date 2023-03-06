@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 18/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 public struct EffectMock: Event, Equatable {
     @EquatableIgnore public var eventCtx: EventContext = EventContextImpl()

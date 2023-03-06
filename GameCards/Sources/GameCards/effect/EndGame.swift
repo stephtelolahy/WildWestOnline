@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Mark game over
 public struct EndGame: Event, Equatable {

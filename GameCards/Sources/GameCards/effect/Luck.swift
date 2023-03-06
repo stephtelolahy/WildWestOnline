@@ -6,7 +6,7 @@
 //
 import Foundation
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Flip over the top card of the deck, then apply effects according to suits and values
 public struct Luck: Event, Equatable {

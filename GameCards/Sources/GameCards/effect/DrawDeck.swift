@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Draw top deck card
 public struct DrawDeck: Event, Equatable {

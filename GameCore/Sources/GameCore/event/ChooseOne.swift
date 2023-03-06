@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 17/01/2023.
 //
-import ExtensionsKit
+import GameUtils
 
 /// Choose one of pending actions to proceed effect resolving
 public struct ChooseOne: Event, Equatable {

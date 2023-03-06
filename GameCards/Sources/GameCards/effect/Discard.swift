@@ -6,7 +6,7 @@
 //
 // swiftlint:disable function_default_parameter_at_end
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Discard a player's card to discard pile
 /// Actor is the card chooser

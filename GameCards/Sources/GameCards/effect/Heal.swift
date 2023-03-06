@@ -6,7 +6,7 @@
 //
 // swiftlint:disable function_default_parameter_at_end
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Restore player's health, limited to maxHealth
 public struct Heal: Event, Equatable {

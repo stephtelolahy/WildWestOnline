@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Player must choose to discard one of his card.
 /// If cannot, then apply some effects

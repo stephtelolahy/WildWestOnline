@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 19/01/2023.
 //
-import ExtensionsKit
+import GameUtils
 
 /// Cancel some queued events
 public struct Cancel: Event, Equatable {

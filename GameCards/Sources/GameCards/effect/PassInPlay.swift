@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 19/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 struct PassInPlay: Event, Equatable {
     @EquatableCast private var player: ArgPlayer

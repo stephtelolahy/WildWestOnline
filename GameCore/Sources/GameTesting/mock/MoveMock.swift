@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 public struct MoveMock: Move, Equatable {
     public let actor: String = ""

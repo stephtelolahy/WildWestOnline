@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Deals damage to a player, attempting to reduce its Health by the stated amount
 public struct Damage: Event, Equatable {

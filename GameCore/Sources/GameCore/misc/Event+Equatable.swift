@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 13/01/2023.
 //
-import ExtensionsKit
+import GameUtils
 
 public extension Event {
     func isEqualTo(_ other: Event) -> Bool {

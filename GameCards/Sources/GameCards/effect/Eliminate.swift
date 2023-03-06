@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 14/01/2023.
 //
 import GameCore
-import ExtensionsKit
+import GameUtils
 
 /// Remove player from game
 public struct Eliminate: Event, Equatable {

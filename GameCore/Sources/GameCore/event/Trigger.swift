@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 13/01/2023.
 //
-import ExtensionsKit
+import GameUtils
 
 /// Trigger a card after an event occured
 public struct Trigger: Event, Equatable {

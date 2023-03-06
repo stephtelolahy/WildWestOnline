@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 11/01/2023.
 //
-import ExtensionsKit
+import GameUtils
 
 /// Set turn
 public struct SetTurn: Event, Equatable {

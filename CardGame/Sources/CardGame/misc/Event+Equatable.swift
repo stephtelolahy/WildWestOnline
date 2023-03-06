@@ -1,5 +1,5 @@
 import GameDSL
-import ExtensionKit
+import GameUtils
 
 public extension Event {
     func isEqualTo(_ other: Event) -> Bool {
