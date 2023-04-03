@@ -31,7 +31,6 @@
 		26505A772853692800E6A422 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2656996F297AF9C6003ADED3 /* GameAI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameAI; sourceTree = "<group>"; };
 		26569970297AF9D2003ADED3 /* GameCards */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCards; sourceTree = "<group>"; };
-		26656BA729B14DB2006C5FE9 /* GameDSL */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameDSL; sourceTree = "<group>"; };
 		26699F1728455FB8008040E5 /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26699F1A28455FB8008040E5 /* WWOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWOApp.swift; sourceTree = "<group>"; };
 		26699F2328455FB9008040E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -40,7 +39,6 @@
 		269660122978479B00402C42 /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		2696601429784C0C00402C42 /* PlayerRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRowData.swift; sourceTree = "<group>"; };
 		26A494C6298E9767009BBB37 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCore; sourceTree = "<group>"; };
-		26AA8E1929B1595800F624DA /* CardGame */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CardGame; sourceTree = "<group>"; };
 		26FB294D29B5B7A50028CF7A /* GameUtils */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameUtils; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,8 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				26FB294D29B5B7A50028CF7A /* GameUtils */,
-				26AA8E1929B1595800F624DA /* CardGame */,
-				26656BA729B14DB2006C5FE9 /* GameDSL */,
 				2656996F297AF9C6003ADED3 /* GameAI */,
 				26569970297AF9D2003ADED3 /* GameCards */,
 				26A494C6298E9767009BBB37 /* GameCore */,
