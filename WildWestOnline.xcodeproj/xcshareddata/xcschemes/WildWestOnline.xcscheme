@@ -68,6 +68,16 @@
                ReferencedContainer = "container:GameCore">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GameUtilsTests"
+               BuildableName = "GameUtilsTests"
+               BlueprintName = "GameUtilsTests"
+               ReferencedContainer = "container:GameUtils">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
