@@ -7,7 +7,33 @@
 import Game
 
 public enum CardList {
-    
+    public static let all: [String: Card] = createCards {
+        beer
+        saloon
+        stagecoach
+        wellsFargo
+        catBalou
+        panic
+        generalStore
+        bang
+        missed
+        gatling
+        indians
+        duel
+        barrel
+        dynamite
+        jail
+        endTurn
+        drawOnSetTurn
+        eliminateOnLooseLastHealth
+        nextTurnOnEliminated
+        discardCardsOnEliminated
+        gameOverOnEliminated
+    }
+}
+
+private extension CardList {
+
     // MARK: - Collectibles
     
     static let beer = Card(.beer) {
@@ -167,31 +193,7 @@ public enum CardList {
             .triggered(.onEliminated)
     }
     
-    public static let all: [String: Card] = createCards {
-        beer
-        saloon
-        stagecoach
-        wellsFargo
-        catBalou
-        panic
-        generalStore
-        bang
-        missed
-        gatling
-        indians
-        duel
-        barrel
-        dynamite
-        jail
-        endTurn
-        drawOnSetTurn
-        eliminateOnLooseLastHealth
-        nextTurnOnEliminated
-        discardCardsOnEliminated
-        gameOverOnEliminated
-    }
-    
-    private static func createCards(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
+    static func createCards(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
         content().toDictionary()
     }
 }
