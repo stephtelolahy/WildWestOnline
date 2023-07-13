@@ -1,9 +1,0 @@
-{
-    "targetName": "CardGame",
-    "inputDir": "/Sources/CardGame",
-    "inputFiles": [
-        "/CardGame.swift",
-        "/CardGameEngine.swift"
-    ],
-    "outputFile": "/Tests/CardGameTests/GeneratedMocks.swift"
-}

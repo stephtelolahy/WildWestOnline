@@ -1,21 +1,48 @@
 {
   "pins" : [
     {
-      "identity" : "cuckoo",
+      "identity" : "cwlcatchexception",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Brightify/Cuckoo",
+      "location" : "https://github.com/mattgallagher/CwlCatchException.git",
       "state" : {
-        "revision" : "64b1681e37444d998e9cff2df6537a75695ab638",
-        "version" : "1.9.1"
+        "revision" : "3b123999de19bf04905bc1dfdb76f817b0f2cc00",
+        "version" : "2.1.2"
       }
     },
     {
-      "identity" : "cuckooplugin",
+      "identity" : "cwlpreconditiontesting",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/stephtelolahy/CuckooPlugin",
+      "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
       "state" : {
-        "revision" : "108898c08e17249ff0cf9905e21cfd730e9a829e",
-        "version" : "1.0.0"
+        "revision" : "a23ded2c91df9156628a6996ab4f347526f17b6b",
+        "version" : "2.1.2"
+      }
+    },
+    {
+      "identity" : "nimble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Nimble.git",
+      "state" : {
+        "revision" : "eb5e3d717224fa0d1f6aff3fc2c5e8e81fa1f728",
+        "version" : "11.2.2"
+      }
+    },
+    {
+      "identity" : "quick",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Quick.git",
+      "state" : {
+        "revision" : "16910e406be96e08923918315388c3e989deac9e",
+        "version" : "6.1.0"
+      }
+    },
+    {
+      "identity" : "swiftlintplugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lukepistrol/SwiftLintPlugin",
+      "state" : {
+        "revision" : "f3586ed424d7bf5d94628332fbd0edebf1f5147f",
+        "version" : "0.2.3"
       }
     }
   ],
