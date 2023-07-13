@@ -1,5 +1,7 @@
 # WildWestOnline
 
+[![iOS starter workflow](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml/badge.svg?branch=main)](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml)
+
 **Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game**
 
 **Trading card games**: a form of competitive activity played according to rules. it is turn based, cards have actions, cards have properties and cards have rules.
