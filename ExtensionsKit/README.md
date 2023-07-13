@@ -1,3 +1,0 @@
-# ExtensionsKit
-
-Foundation helper functions

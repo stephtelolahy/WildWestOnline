@@ -1,0 +1,45 @@
+{
+  "configurations" : [
+    {
+      "id" : "35F5756E-8377-4B98-9948-A07E27BA8ADB",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
+        "identifier" : "GameTests",
+        "name" : "GameTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
+        "identifier" : "InventoryTests",
+        "name" : "InventoryTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
+        "identifier" : "ReduxTests",
+        "name" : "ReduxTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
+        "identifier" : "UITests",
+        "name" : "UITests"
+      }
+    }
+  ],
+  "version" : 1
+}
