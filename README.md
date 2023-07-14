@@ -33,7 +33,7 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Sequence**: what begins when a Player Action is taken
 - **Option**: a choice that have to be taken by player when resolving sequence
 
-![](Docs/architecture.png)
+![](docs/architecture.png)
 
 ### Event solving
 
@@ -53,7 +53,7 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - Store notifies subscribers by broadcasting a new state.
 - It is best to separate each responsibility into different middleware. You can then easily enable or disable some features.
 
-![](Docs/redux.png)
+![](docs/redux.png)
 
 ### Sequence diagram
 
@@ -68,7 +68,8 @@ Detect code duplication with [Periphery](https://github.com/kucherenko/jscpd/tre
 Run the following command on terminal from the project root
 
 ```
-npx jscpd --reporters html ./Game/Sources/Game/
+npx jscpd --reporters html ./Modules/Sources
+
 
 open ./report/html/index.html
 ```

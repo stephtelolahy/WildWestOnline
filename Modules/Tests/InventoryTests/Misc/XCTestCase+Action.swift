@@ -37,13 +37,13 @@ extension XCTestCase {
                 }
                 
                 let choice = choices.removeFirst()
-                guard let chooseOne = chooseOne.options[choice] else {
+                guard let option = chooseOne.options[choice] else {
                     XCTFail("Expect chooseOne with option \(choice)", file: file, line: line)
                     return
                 }
                 
                 DispatchQueue.main.async {
-                    store.dispatch(chooseOne)
+                    store.dispatch(option)
                 }
                 return
             }

@@ -33,12 +33,11 @@ struct EffectLuck: EffectResolverProtocol {
 
 private  extension String {
     func matches(regex pattern: String) -> Bool {
-        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+        guard let regex = try? Regex(pattern) else {
             return false
         }
 
-        let string = self
-        let range = NSRange(location: 0, length: string.utf16.count)
-        return regex.firstMatch(in: string, options: [], range: range) != nil
+        let ranges = self.ranges(of: regex)
+        return ranges.isNotEmpty
     }
 }
