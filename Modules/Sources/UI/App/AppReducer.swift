@@ -59,7 +59,6 @@ public struct AppReducer: ReducerProtocol {
         }
 
         // Reduce each screen state
-//        print("screens: \(screens)")
         screens = screens.map { reduceScreen($0, action) }
 
         return .init(screens: screens)
@@ -68,13 +67,13 @@ public struct AppReducer: ReducerProtocol {
     private func reduceScreen(_ state: ScreenState, _ action: AppAction) -> ScreenState {
         switch (state, action) {
         case let (.home(homeState), .home(homeAction)):
-            return .home(Home().reduce(state: homeState, action: homeAction))
+            .home(Home().reduce(state: homeState, action: homeAction))
 
         case let (.game(gameState), .game(gameAction)):
-            return .game(GamePlay().reduce(state: gameState, action: gameAction))
+            .game(GamePlay().reduce(state: gameState, action: gameAction))
 
         default:
-            return state
+            state
         }
     }
 }

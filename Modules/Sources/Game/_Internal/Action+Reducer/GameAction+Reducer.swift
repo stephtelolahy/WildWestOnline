@@ -22,49 +22,49 @@ private extension GameAction {
     func reducer() -> GameReducerProtocol {
         switch self {
         case let .play(card, actor):
-            return ActionPlay(actor: actor, card: card)
+            ActionPlay(actor: actor, card: card)
         case let .playImmediate(card, target, actor):
-            return ActionPlayImmediate(actor: actor, card: card, target: target)
+            ActionPlayImmediate(actor: actor, card: card, target: target)
         case let .playAbility(card, actor):
-            return ActionPlayAbility(actor: actor, card: card)
+            ActionPlayAbility(actor: actor, card: card)
         case let .playEquipment(card, actor):
-            return ActionPlayEquipment(actor: actor, card: card)
+            ActionPlayEquipment(actor: actor, card: card)
         case let .playHandicap(card, target, actor):
-            return ActionPlayHandicap(actor: actor, card: card, target: target)
+            ActionPlayHandicap(actor: actor, card: card, target: target)
         case let .heal(value, player):
-            return ActionHeal(player: player, value: value)
+            ActionHeal(player: player, value: value)
         case let .damage(value, player):
-            return ActionDamage(player: player, value: value)
+            ActionDamage(player: player, value: value)
         case let .discard(card, player):
-            return ActionDiscard(player: player, card: card)
+            ActionDiscard(player: player, card: card)
         case let .draw(player):
-            return ActionDraw(player: player)
+            ActionDraw(player: player)
         case let .steal(card, target, player):
-            return ActionSteal(player: player, target: target, card: card)
+            ActionSteal(player: player, target: target, card: card)
         case let .passInplay(card, target, player):
-            return ActionPassInPlay(card: card, target: target, player: player)
+            ActionPassInPlay(card: card, target: target, player: player)
         case .discover:
-            return ActionDiscover()
+            ActionDiscover()
         case .luck:
-            return ActionLuck()
+            ActionLuck()
         case let .chooseCard(card, player):
-            return ActionChooseCard(player: player, card: card)
+            ActionChooseCard(player: player, card: card)
         case let .group(actions):
-            return ActionGroup(children: actions)
+            ActionGroup(children: actions)
         case let .setTurn(player):
-            return ActionSetTurn(player: player)
+            ActionSetTurn(player: player)
         case let .eliminate(player):
-            return ActionEliminate(player: player)
+            ActionEliminate(player: player)
         case let .resolve(effect, ctx):
-            return ActionResolve(effect: effect, ctx: ctx)
+            ActionResolve(effect: effect, ctx: ctx)
         case let .chooseOne(player, options):
-            return ActionChooseOne(chooser: player, options: options)
+            ActionChooseOne(chooser: player, options: options)
         case let .activateCard(player, cards):
-            return ActionActivateCard(player: player, cards: cards)
+            ActionActivateCard(player: player, cards: cards)
         case let .cancel(arg):
-            return ActionCancel(arg: arg)
+            ActionCancel(arg: arg)
         case let .setGameOver(winner):
-            return ActionSetGameOver(winner: winner)
+            ActionSetGameOver(winner: winner)
         default:
             fatalError("unimplemented action \(self)")
         }

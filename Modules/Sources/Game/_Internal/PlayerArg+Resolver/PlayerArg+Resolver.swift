@@ -80,23 +80,23 @@ private extension PlayerArg {
     func resolver() -> PlayerArgResolverProtocol {
         switch self {
         case .actor:
-            return PlayerActor()
+            PlayerActor()
         case .target:
-            return PlayerTarget()
+            PlayerTarget()
         case .selectReachable:
-            return PlayerSelectReachable()
+            PlayerSelectReachable()
         case .selectAt(let distance):
-            return PlayerSelectAt(distance: distance)
+            PlayerSelectAt(distance: distance)
         case .selectAny:
-            return PlayerSelectAny()
+            PlayerSelectAny()
         case .next:
-            return PlayerNext()
+            PlayerNext()
         case .damaged:
-            return PlayerDamaged()
+            PlayerDamaged()
         case .all:
-            return PlayerAll()
+            PlayerAll()
         case .others:
-            return PlayerOthers()
+            PlayerOthers()
         default:
             fatalError("No resolver found for \(self)")
         }

@@ -1,6 +1,6 @@
 //
 //  ActionPlay.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 20/05/2023.
 //
@@ -32,12 +32,12 @@ struct ActionPlay: GameReducerProtocol {
             if case let .selectable(pIds) = resolvedTarget {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
-                    let action: GameAction
+                    let action: GameAction =
                     switch cardObj.type {
                     case .immediate:
-                        action = .playImmediate(card, target: $1, actor: actor)
+                        .playImmediate(card, target: $1, actor: actor)
                     case .handicap:
-                        action = .playHandicap(card, target: $1, actor: actor)
+                        .playHandicap(card, target: $1, actor: actor)
                     default:
                         fatalError("unexpected")
                     }
@@ -50,18 +50,17 @@ struct ActionPlay: GameReducerProtocol {
             }
         }
 
-        let action: GameAction
+        let action: GameAction =
         switch cardObj.type {
         case .equipment:
-            action = .playEquipment(card, actor: actor)
+            .playEquipment(card, actor: actor)
         case .handicap:
             fatalError("unexpected")
         case .immediate:
-            let actorObj = state.player(actor)
-            if actorObj.hand.contains(card) {
-                action = .playImmediate(card, actor: actor)
+            if state.player(actor).hand.contains(card) {
+                .playImmediate(card, actor: actor)
             } else {
-                action = .playAbility(card, actor: actor)
+                .playAbility(card, actor: actor)
             }
         }
         

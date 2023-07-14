@@ -22,11 +22,11 @@ private extension PlayReq {
     func matcher() -> PlayReqMatcherProtocol {
         switch self {
         case let .isPlayersAtLeast(minCount):
-            return IsPlayersAtLeast(minCount: minCount)
+            IsPlayersAtLeast(minCount: minCount)
         case let .isTimesPerTurn(maxTimes):
-            return IsTimesPerTurn(maxTimes: maxTimes)
+            IsTimesPerTurn(maxTimes: maxTimes)
         case .isYourTurn:
-            return IsCurrentTurn()
+            IsCurrentTurn()
         default:
             fatalError("No matcher found for \(self)")
         }

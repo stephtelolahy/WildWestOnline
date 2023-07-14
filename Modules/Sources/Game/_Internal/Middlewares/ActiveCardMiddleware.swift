@@ -65,9 +65,9 @@ private extension GameState {
     var lastEventIsActiveCard: Bool {
         switch event {
         case .activateCard:
-            return true
+            true
         default:
-            return false
+            false
         }
     }
 }

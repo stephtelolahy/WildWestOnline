@@ -15,10 +15,10 @@ public extension GameAction {
         case .play,
              .resolve,
              .group:
-            return false
+            false
 
         default:
-            return true
+            true
         }
     }
 }

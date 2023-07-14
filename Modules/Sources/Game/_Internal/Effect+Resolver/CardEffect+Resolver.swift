@@ -21,62 +21,62 @@ private extension CardEffect {
     func resolver() -> EffectResolverProtocol {
         switch self {
         case let .heal(value):
-            return EffectBuild { .heal(value, player: $0.get(.target)) }
+            EffectBuild { .heal(value, player: $0.get(.target)) }
 
         case let .damage(value):
-            return EffectBuild { .damage(value, player: $0.get(.target)) }
+            EffectBuild { .damage(value, player: $0.get(.target)) }
 
         case .draw:
-            return EffectBuild { .draw(player: $0.get(.target)) }
+            EffectBuild { .draw(player: $0.get(.target)) }
 
         case .discover:
-            return EffectBuild { _ in .discover }
+            EffectBuild { _ in .discover }
 
         case .setTurn:
-            return EffectBuild { .setTurn($0.get(.target)) }
+            EffectBuild { .setTurn($0.get(.target)) }
 
         case .eliminate:
-            return EffectBuild { .eliminate(player: $0.get(.target)) }
+            EffectBuild { .eliminate(player: $0.get(.target)) }
 
         case .chooseCard:
-            return EffectChooseCard()
+            EffectChooseCard()
 
         case let .discard(card, chooser):
-            return EffectDiscard(card: card, chooser: chooser)
+            EffectDiscard(card: card, chooser: chooser)
 
         case let .steal(card, chooser):
-            return EffectSteal(card: card, chooser: chooser)
+            EffectSteal(card: card, chooser: chooser)
             
         case let .passInplay(card, owner):
-            return EffectPassInPlay(card: card, owner: owner)
+            EffectPassInPlay(card: card, owner: owner)
 
             // operation on effect
         case let .target(target, effect):
-            return EffectTarget(target: target, effect: effect)
+            EffectTarget(target: target, effect: effect)
 
         case let .group(effects):
-            return EffectGroup(effects: effects)
+            EffectGroup(effects: effects)
 
         case let .repeat(times, effect):
-            return EffectRepeat(effect: effect, times: times)
+            EffectRepeat(effect: effect, times: times)
 
         case let .force(effect, otherwise):
-            return EffectForce(effect: effect, otherwise: otherwise)
+            EffectForce(effect: effect, otherwise: otherwise)
 
         case let .challenge(challenger, effect, otherwise):
-            return EffectChallenge(challenger: challenger, effect: effect, otherwise: otherwise)
+            EffectChallenge(challenger: challenger, effect: effect, otherwise: otherwise)
             
         case .nothing:
-            return EffectNone()
+            EffectNone()
             
         case let .luck(regex, onSuccess, onFailure):
-            return EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
+            EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
             
         case let .cancel(arg):
-            return EffectBuild { _ in .cancel(arg) }
+            EffectBuild { _ in .cancel(arg) }
 
         case .evaluateGameOver:
-            return EffectEvaluateGameOver()
+            EffectEvaluateGameOver()
             
         default:
             fatalError("unimplemented effect \(self)")

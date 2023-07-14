@@ -19,13 +19,13 @@ private extension NumArg {
     func resolver() -> NumArgResolverProtocol {
         switch self {
         case .exact(let number):
-            return NumExact(number: number)
+            NumExact(number: number)
         case .numPlayers:
-            return NumPlayers()
+            NumPlayers()
         case .excessHand:
-            return NumExcessHand()
+            NumExcessHand()
         case .playerAttr(let key):
-            return NumPlayerAttr(key: key)
+            NumPlayerAttr(key: key)
         default:
             fatalError("No resolver found for \(self)")
         }

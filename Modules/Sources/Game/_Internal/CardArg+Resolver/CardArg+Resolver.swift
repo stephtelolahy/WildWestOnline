@@ -89,17 +89,17 @@ private extension CardArg {
     func resolver() -> CardArgResolverProtocol {
         switch self {
         case .selectAny:
-            return CardSelectAny()
+            CardSelectAny()
         case .selectArena:
-            return CardSelectArena()
+            CardSelectArena()
         case .selectHandNamed(let name):
-            return CardSelectHandNamed(name: name)
+            CardSelectHandNamed(name: name)
         case .selectHand:
-            return CardSelectHand()
+            CardSelectHand()
         case .all:
-            return CardAll()
+            CardAll()
         case .played:
-            return CardPlayed()
+            CardPlayed()
         default:
             fatalError("No resolver found for \(self)")
         }

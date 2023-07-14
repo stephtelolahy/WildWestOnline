@@ -19,15 +19,15 @@ private extension EventReq {
     func matcher() -> EventReqMatcherProtocol {
         switch self {
         case .onSetTurn:
-            return OnSetTurn()
+            OnSetTurn()
         case .onLooseLastHealth:
-            return OnLooseLastHealth()
+            OnLooseLastHealth()
         case .onEliminated:
-            return OnEliminated()
+            OnEliminated()
         case .onPlay:
-            return EventReqNeverMatch()
+            EventReqNeverMatch()
         case .onForceDiscardHandNamed(let cardName):
-            return OnForceDiscardHandNamed(cardName: cardName)
+            OnForceDiscardHandNamed(cardName: cardName)
         default:
             fatalError("No matcher found for \(self)")
         }
