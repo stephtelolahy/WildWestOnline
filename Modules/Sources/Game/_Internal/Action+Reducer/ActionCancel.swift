@@ -27,11 +27,11 @@ struct ActionCancel: GameReducerProtocol {
 
 private extension GameAction {
     func isEffectOfCardNamed(_ cardName: String) -> Bool {
-        guard case let .resolve(_, ctx) = self,
-              ctx.get(.card) == cardName else {
-            return false
+        if case let .resolve(_, ctx) = self,
+              ctx.get(.card) == cardName {
+            true
+        } else {
+            false
         }
-        
-        return true
     }
 }

@@ -82,7 +82,6 @@ private extension GameReducer {
     func triggeredAction(by card: String, actor: String, state: GameState) -> GameAction? {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName] else {
-            #warning("No cardRef matching")
             return nil
         }
         

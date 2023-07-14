@@ -33,11 +33,11 @@ struct EffectLuck: EffectResolverProtocol {
 
 private  extension String {
     func matches(regex pattern: String) -> Bool {
-        guard let regex = try? Regex(pattern) else {
-            return false
+        if let regex = try? Regex(pattern),
+            self.ranges(of: regex).isNotEmpty {
+            true
+        } else {
+            false
         }
-
-        let ranges = self.ranges(of: regex)
-        return ranges.isNotEmpty
     }
 }

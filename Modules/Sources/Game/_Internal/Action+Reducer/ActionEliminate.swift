@@ -18,10 +18,11 @@ struct ActionEliminate: GameReducerProtocol {
 
 private extension GameAction {
     func isAnEffectTriggeredBy(_ player: String) -> Bool {
-        guard case let .resolve(_, ctx) = self,
-                ctx.get(.actor) == player else {
-            return false
+        if case let .resolve(_, ctx) = self,
+                ctx.get(.actor) == player {
+            true
+        } else {
+            false
         }
-        return true
     }
 }
