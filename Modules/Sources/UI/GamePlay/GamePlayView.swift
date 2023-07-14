@@ -13,11 +13,12 @@ struct GamePlayView: View {
     @EnvironmentObject private var store: Store<AppState, AppAction>
 
     private var state: GamePlay.State? {
-        guard let lastScreen = store.state.screens.last,
-                case let .game(state) = lastScreen else {
-            return nil
+        if let lastScreen = store.state.screens.last,
+           case let .game(gameState) = lastScreen {
+            gameState
+        } else {
+            nil
         }
-        return state
     }
 
     var body: some View {

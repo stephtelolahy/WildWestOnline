@@ -10,11 +10,11 @@ import Combine
 
 /// Dispatching active cards
 let activeCardMiddleware: Middleware<GameState, GameAction> = { state, _ in
-    guard let action = state.evaluateActive() else {
-        return Empty().eraseToAnyPublisher()
+    if let action = state.evaluateActive() {
+        Just(action).eraseToAnyPublisher()
+    } else {
+        Empty().eraseToAnyPublisher()
     }
-
-    return Just(action).eraseToAnyPublisher()
 }
 
 extension GameState {
@@ -26,30 +26,30 @@ extension GameState {
               let actor = turn else {
             return nil
         }
-
+        
         var activeCards: [String] = []
         let actorObj = player(actor)
         for card in (actorObj.hand.cards + actorObj.abilities + abilities)
         where isCardPlayable(card, actor: actor) {
             activeCards.append(card)
         }
-
+        
         if activeCards.isNotEmpty {
             return GameAction.activateCard(player: actor, cards: activeCards)
         }
         return nil
     }
-
+    
     private func isCardPlayable(_ card: String, actor: String) -> Bool {
         let cardName = card.extractName()
         guard let cardObj = cardRef[cardName] else {
             return false
         }
-
+        
         guard cardObj.actions.contains(where: { $0.eventReq == .onPlay }) else {
             return false
         }
-
+        
         let action = GameAction.play(card, actor: actor)
         do {
             try action.validate(state: self)

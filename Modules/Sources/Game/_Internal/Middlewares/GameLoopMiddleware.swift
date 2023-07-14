@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //  GameLoopMiddleware.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 26/04/2023.
 //
@@ -9,22 +9,22 @@ import Combine
 
 /// Dispatching queued side effects
 let gameLoopMiddleware: Middleware<GameState, GameAction> = { state, _ in
-    guard let action = state.evaluateNextAction() else {
-        return Empty().eraseToAnyPublisher()
+    if let action = state.evaluateNextAction() {
+        Just(action).eraseToAnyPublisher()
+    } else {
+        Empty().eraseToAnyPublisher()
     }
-    
-    return Just(action).eraseToAnyPublisher()
 }
 
 private extension GameState {
     func evaluateNextAction() -> GameAction? {
-        guard queue.isNotEmpty,
-              isOver == nil,
-              chooseOne == nil,
-              active == nil else {
-            return nil
+        if queue.isNotEmpty,
+           isOver == nil,
+           chooseOne == nil,
+           active == nil {
+            queue[0]
+        } else {
+            nil
         }
-
-        return queue[0]
     }
 }
