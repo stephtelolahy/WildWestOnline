@@ -11,7 +11,7 @@ public final class Store<State, Action>: ObservableObject {
 
     private let queue = DispatchQueue(label: "store.queue", qos: .userInitiated)
     private let reducer: Reducer<State, Action>
-    private let middlewares: [Middleware<State, Action>]
+    private var middlewares: [Middleware<State, Action>]
     private var subscriptions = Set<AnyCancellable>()
 
     public init(
@@ -41,5 +41,9 @@ public final class Store<State, Action>: ObservableObject {
         }
 
         state = newState
+    }
+
+    public func addMiddleware(_ middleware: @escaping Middleware<State, Action>) {
+        middlewares.append(middleware)
     }
 }

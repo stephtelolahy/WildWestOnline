@@ -52,8 +52,8 @@
 		2699EEF429D93AD00030ACCD = {
 			isa = PBXGroup;
 			children = (
-				26A398D22A5F4DA800A4E48C /* WildWestOnline.xctestplan */,
 				F37D85E02A0438EE00C3A754 /* README.md */,
+				26A398D22A5F4DA800A4E48C /* WildWestOnline.xctestplan */,
 				26DD32B829F3D646002E0F93 /* Modules */,
 				2699EEFF29D93AD00030ACCD /* App */,
 				2699EEFE29D93AD00030ACCD /* Products */,
