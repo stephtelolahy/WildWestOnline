@@ -1,7 +1,7 @@
 # SwiftLint configuration file
 # See all rules at https://realm.github.io/SwiftLint/rule-directory.html
 included:
-  - Modules
+  - GameKit
 analyzer_rules:
   - unused_declaration
   - unused_import

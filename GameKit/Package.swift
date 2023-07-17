@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Modules",
+    name: "GameKit",
     platforms: [
         .iOS(.v15),
         .macOS(.v13)
