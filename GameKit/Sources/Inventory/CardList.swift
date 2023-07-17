@@ -23,6 +23,8 @@ public enum CardList {
         barrel
         dynamite
         jail
+        schofield
+        remington
         endTurn
         drawOnSetTurn
         eliminateOnLooseLastHealth
@@ -148,7 +150,17 @@ private extension CardList {
                         ]))
         .triggered(.onSetTurn)
     }
-    
+
+    static let schofield = Card(.schofield, type: .equipment) {
+        CardEffect.nothing
+            .triggered(.onPlay)
+    }
+
+    static let remington = Card(.remington, type: .equipment) {
+        CardEffect.nothing
+            .triggered(.onPlay)
+    }
+
     // MARK: - Abilities
     
     static let endTurn = Card(.endTurn) {

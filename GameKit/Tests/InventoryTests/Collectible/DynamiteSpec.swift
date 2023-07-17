@@ -13,7 +13,7 @@ final class DynamiteSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing dynamite") {
-            it("should target") {
+            it("should equip") {
                 // Given
                 let state = createGameWithCardRef {
                     Player("p1") {
