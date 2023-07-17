@@ -14,28 +14,28 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:Modules",
+        "containerPath" : "container:GameKit",
         "identifier" : "GameTests",
         "name" : "GameTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Modules",
+        "containerPath" : "container:GameKit",
         "identifier" : "InventoryTests",
         "name" : "InventoryTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Modules",
+        "containerPath" : "container:GameKit",
         "identifier" : "ReduxTests",
         "name" : "ReduxTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Modules",
+        "containerPath" : "container:GameKit",
         "identifier" : "UITests",
         "name" : "UITests"
       }
