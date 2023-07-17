@@ -21,22 +21,22 @@ private extension CardEffect {
     func resolver() -> EffectResolverProtocol {
         switch self {
         case let .heal(value):
-            EffectBuild { .heal(value, player: $0.get(.target)) }
+            EffectJust { .heal(value, player: $0.get(.target)) }
 
         case let .damage(value):
-            EffectBuild { .damage(value, player: $0.get(.target)) }
+            EffectJust { .damage(value, player: $0.get(.target)) }
 
         case .draw:
-            EffectBuild { .draw(player: $0.get(.target)) }
+            EffectJust { .draw(player: $0.get(.target)) }
 
         case .discover:
-            EffectBuild { _ in .discover }
+            EffectJust { _ in .discover }
 
         case .setTurn:
-            EffectBuild { .setTurn($0.get(.target)) }
+            EffectJust { .setTurn($0.get(.target)) }
 
         case .eliminate:
-            EffectBuild { .eliminate(player: $0.get(.target)) }
+            EffectJust { .eliminate(player: $0.get(.target)) }
 
         case .chooseCard:
             EffectChooseCard()
@@ -73,7 +73,7 @@ private extension CardEffect {
             EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
             
         case let .cancel(arg):
-            EffectBuild { _ in .cancel(arg) }
+            EffectJust { _ in .cancel(arg) }
 
         case .evaluateGameOver:
             EffectEvaluateGameOver()
