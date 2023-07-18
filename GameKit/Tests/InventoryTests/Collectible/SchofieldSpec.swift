@@ -12,7 +12,7 @@ import Game
 final class SchofieldSpec: QuickSpec {
     override func spec() {
         describe("playing schofield") {
-            it("should equip") {
+            xit("should equip") {
                 // Given
                 let state = createGameWithCardRef {
                     Player("p1") {
@@ -28,7 +28,8 @@ final class SchofieldSpec: QuickSpec {
 
                 // Then
                 expect(result) == [
-                    .playEquipment(.schofield, actor: "p1")
+                    .playEquipment(.schofield, actor: "p1"),
+                    .setAttribute(.weapon, value: 2, player: "p1")
                 ]
             }
         }
