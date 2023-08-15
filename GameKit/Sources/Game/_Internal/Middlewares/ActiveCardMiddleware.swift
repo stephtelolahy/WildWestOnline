@@ -46,7 +46,7 @@ extension GameState {
             return false
         }
         
-        guard cardObj.actions.contains(where: { $0.eventReq == .onPlay }) else {
+        guard cardObj.actions[.onPlay] != nil else {
             return false
         }
         

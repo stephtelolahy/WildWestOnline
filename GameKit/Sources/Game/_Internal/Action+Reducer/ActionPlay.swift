@@ -14,7 +14,7 @@ struct ActionPlay: GameReducerProtocol {
         // verify action
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              let playAction = cardObj.actions.first(where: { $0.eventReq == .onPlay }) else {
+              let playAction = cardObj.actions[.onPlay] else {
             throw GameError.cardNotPlayable(card)
         }
 
@@ -35,13 +35,13 @@ struct ActionPlay: GameReducerProtocol {
                     let action: GameAction =
                     switch cardObj.type {
                     case .immediate:
-                        .playImmediate(card, target: $1, actor: actor)
+                            .playImmediate(card, target: $1, actor: actor)
                     case .handicap:
-                        .playHandicap(card, target: $1, actor: actor)
+                            .playHandicap(card, target: $1, actor: actor)
                     default:
                         fatalError("unexpected")
                     }
-                    
+
                     $0[$1] = action
                 }
                 let chooseOne = try GameAction.validChooseOne(chooser: actor, options: options, state: state)
@@ -52,18 +52,16 @@ struct ActionPlay: GameReducerProtocol {
 
         let action: GameAction =
         switch cardObj.type {
-        case .equipment:
-            .playEquipment(card, actor: actor)
-        case .handicap:
-            fatalError("unexpected")
         case .immediate:
-            if state.player(actor).hand.contains(card) {
                 .playImmediate(card, actor: actor)
-            } else {
+        case .ability:
                 .playAbility(card, actor: actor)
-            }
+        case .equipment:
+                .playEquipment(card, actor: actor)
+        default:
+            fatalError("unexpected")
         }
-        
+
         // queue play action
         var state = state
         state.queue.insert(action, at: 0)

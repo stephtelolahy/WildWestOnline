@@ -6,7 +6,7 @@
 //
 
 /// Function defining occurred event to play a card
-public enum EventReq: Codable, Equatable {
+public enum EventReq: Codable, Equatable, Hashable {
 
     /// After playing a card
     case onPlay

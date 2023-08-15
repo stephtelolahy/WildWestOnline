@@ -26,7 +26,7 @@ public extension CardEffect {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
     
-    func triggered(_ eventReq: EventReq) -> CardAction {
+    func triggered(_ eventReq: EventReq) -> CardRule {
         .init(eventReq: eventReq, effect: self, playReqs: [])
     }
     
@@ -35,7 +35,7 @@ public extension CardEffect {
     }
 }
 
-public extension CardAction {
+public extension CardRule {
     func require(_ playReqs: PlayReq...) -> Self {
         .init(eventReq: eventReq, effect: effect, playReqs: playReqs)
     }

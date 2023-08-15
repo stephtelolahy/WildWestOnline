@@ -38,7 +38,7 @@ final class PlaySpec: QuickSpec {
             context("immediate card") {
                 it("should discard immediately") {
                     // Given
-                    let card1 = Card("c1") {
+                    let card1 = Card("c1", type: .immediate) {
                         CardEffect.nothing
                             .triggered(.onPlay)
                     }

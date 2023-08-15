@@ -13,7 +13,7 @@ struct ActionPlayImmediate: GameReducerProtocol {
     func reduce(state: GameState) throws -> GameState {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              let playAction = cardObj.actions.first(where: { $0.eventReq == .onPlay }) else {
+              let playAction = cardObj.actions[.onPlay] else {
             throw GameError.cardNotPlayable(card)
         }
 

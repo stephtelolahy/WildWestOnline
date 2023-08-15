@@ -38,46 +38,46 @@ private extension CardList {
 
     // MARK: - Collectibles
     
-    static let beer = Card(.beer) {
+    static let beer = Card(.beer, type: .immediate) {
         CardEffect.heal(1)
             .target(.actor)
             .triggered(.onPlay)
             .require(.isPlayersAtLeast(3))
     }
     
-    static let saloon = Card(.saloon) {
+    static let saloon = Card(.saloon, type: .immediate) {
         CardEffect.heal(1)
             .target(.damaged)
             .triggered(.onPlay)
     }
     
-    static let stagecoach = Card(.stagecoach) {
+    static let stagecoach = Card(.stagecoach, type: .immediate) {
         CardEffect.draw
             .target(.actor)
             .repeat(2)
             .triggered(.onPlay)
     }
     
-    static let wellsFargo = Card(.wellsFargo) {
+    static let wellsFargo = Card(.wellsFargo, type: .immediate) {
         CardEffect.draw
             .target(.actor)
             .repeat(3)
             .triggered(.onPlay)
     }
     
-    static let catBalou = Card(.catBalou) {
+    static let catBalou = Card(.catBalou, type: .immediate) {
         CardEffect.discard(.selectAny, chooser: .actor)
             .target(.selectAny)
             .triggered(.onPlay)
     }
     
-    static let panic = Card(.panic) {
+    static let panic = Card(.panic, type: .immediate) {
         CardEffect.steal(.selectAny, chooser: .actor)
             .target(.selectAt(1))
             .triggered(.onPlay)
     }
     
-    static let generalStore = Card(.generalStore) {
+    static let generalStore = Card(.generalStore, type: .immediate) {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.numPlayers)
@@ -87,7 +87,7 @@ private extension CardList {
         .triggered(.onPlay)
     }
     
-    static let bang = Card(.bang) {
+    static let bang = Card(.bang, type: .immediate) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
             .target(.selectReachable)
@@ -97,21 +97,21 @@ private extension CardList {
     
     static let missed = Card(.missed)
     
-    static let gatling = Card(.gatling) {
+    static let gatling = Card(.gatling, type: .immediate) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
             .target(.others)
             .triggered(.onPlay)
     }
     
-    static let indians = Card(.indians) {
+    static let indians = Card(.indians, type: .immediate) {
         CardEffect.discard(.selectHandNamed(.bang))
             .otherwise(.damage(1))
             .target(.others)
             .triggered(.onPlay)
     }
     
-    static let duel = Card(.duel) {
+    static let duel = Card(.duel, type: .immediate) {
         CardEffect.discard(.selectHandNamed(.bang))
             .challenge(.actor, otherwise: .damage(1))
             .target(.selectAny)
