@@ -7,13 +7,11 @@
 import Redux
 import Game
 import Inventory
+import InitMacro
 
+@Init
 public struct AppState: Codable, Equatable {
     let screens: [ScreenState]
-
-    public init(screens: [ScreenState]) {
-        self.screens = screens
-    }
 }
 
 public enum ScreenState: Codable, Equatable {
@@ -35,9 +33,8 @@ public enum Screen: Codable, Equatable {
     case game
 }
 
+@Init
 public struct AppReducer: ReducerProtocol {
-
-    public init() {}
 
     public func reduce(state: AppState, action: AppAction) -> AppState {
         var screens = state.screens

@@ -5,10 +5,10 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 import Redux
+import InitMacro
 
+@Init
 public struct GameReducer: ReducerProtocol {
-
-    public init() {}
 
     public func reduce(state: GameState, action: GameAction) -> GameState {
         guard state.isOver == nil else {
