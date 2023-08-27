@@ -11,11 +11,9 @@ public extension Card {
     
     init(
         _ name: String,
-        type: CardType,
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
-        self.type = type
         self.actions = content().toActions()
     }
 }

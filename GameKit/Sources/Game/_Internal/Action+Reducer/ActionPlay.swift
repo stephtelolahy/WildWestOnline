@@ -13,8 +13,25 @@ struct ActionPlay: GameReducerProtocol {
     func reduce(state: GameState) throws -> GameState {
         // verify action
         let cardName = card.extractName()
-        guard let cardObj = state.cardRef[cardName],
-              let playAction = cardObj.actions[.onPlay] else {
+        guard let cardObj = state.cardRef[cardName] else {
+            throw GameError.cardNotPlayable(card)
+        }
+
+        let playAction: CardAction
+        let playMode: PlayMode
+        if let immediateAction = cardObj.actions[.onPlay(.immediate)] {
+            playAction = immediateAction
+            playMode = .immediate
+        } else if let abilityAction = cardObj.actions[.onPlay(.ability)] {
+            playAction = abilityAction
+            playMode = .ability
+        } else if let equipmentAction = cardObj.actions[.onPlay(.equipment)] {
+            playAction = equipmentAction
+            playMode = .equipment
+        } else if let handicapAction = cardObj.actions[.onPlay(.handicap)] {
+            playAction = handicapAction
+            playMode = .handicap
+        } else {
             throw GameError.cardNotPlayable(card)
         }
 
@@ -33,7 +50,7 @@ struct ActionPlay: GameReducerProtocol {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    switch cardObj.type {
+                    switch playMode {
                     case .immediate:
                             .playImmediate(card, target: $1, actor: actor)
                     case .handicap:
@@ -51,7 +68,7 @@ struct ActionPlay: GameReducerProtocol {
         }
 
         let action: GameAction =
-        switch cardObj.type {
+        switch playMode {
         case .immediate:
                 .playImmediate(card, actor: actor)
         case .ability:

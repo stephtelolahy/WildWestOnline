@@ -13,9 +13,9 @@ final class PlayImmediateSpec: QuickSpec {
     override func spec() {
         let sut = GameReducer()
         var result: GameState!
-        let card1 = Card("c1", type: .immediate) {
+        let card1 = Card("c1") {
             CardEffect.nothing
-                .triggered(.onPlay)
+                .triggered(.onPlay(.immediate))
         }
 
         describe("playing immediate card") {

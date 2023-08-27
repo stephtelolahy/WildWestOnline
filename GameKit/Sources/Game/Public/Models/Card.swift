@@ -8,30 +8,8 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// The manner a card is played
-    public let type: CardType
-
     /// Actions that can be performed with the card
     public let actions: [EventReq: CardAction]
-}
-
-/// Decsribing the manner a card is played
-public enum CardType: String, Codable, CodingKeyRepresentable {
-
-    /// The card has effects that are resolved immediately, and then the card is discarded
-    case immediate
-
-    /// The card has effects that are resolved immediately
-    case ability
-
-    /// Equipment card, put in self's play
-    case equipment
-
-    /// Handicap card, put in target's play
-    case handicap
-
-    /// No effect card
-    case none
 }
 
 /// Describing card action

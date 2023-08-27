@@ -46,7 +46,10 @@ extension GameState {
             return false
         }
         
-        guard cardObj.actions[.onPlay] != nil else {
+        guard cardObj.actions[.onPlay(.immediate)] != nil
+                || cardObj.actions[.onPlay(.ability)] != nil
+                || cardObj.actions[.onPlay(.equipment)] != nil
+                || cardObj.actions[.onPlay(.handicap)] != nil else {
             return false
         }
         

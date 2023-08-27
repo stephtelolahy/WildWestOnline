@@ -1,6 +1,6 @@
 //
 //  EventReq.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 03/06/2023.
 //
@@ -9,7 +9,7 @@
 public enum EventReq: Codable, Equatable, Hashable {
 
     /// After playing a card
-    case onPlay
+    case onPlay(PlayMode)
 
     /// After setting turn
     case onSetTurn
@@ -19,7 +19,23 @@ public enum EventReq: Codable, Equatable, Hashable {
 
     /// After being eliminated
     case onEliminated
-    
+
     /// After being forced to discard hand card named X
     case onForceDiscardHandNamed(String)
+}
+
+/// Decsribing the manner a card is played
+public enum PlayMode: String, Codable, CodingKeyRepresentable {
+
+    /// The card has effects that are resolved immediately, and then the card is discarded
+    case immediate
+
+    /// The card has effects that are resolved immediately
+    case ability
+
+    /// Equipment card, put in self's play
+    case equipment
+
+    /// Handicap card, put in target's play
+    case handicap
 }

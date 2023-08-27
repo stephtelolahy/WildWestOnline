@@ -38,9 +38,9 @@ final class PlaySpec: QuickSpec {
             context("immediate card") {
                 it("should discard immediately") {
                     // Given
-                    let card1 = Card("c1", type: .immediate) {
+                    let card1 = Card("c1") {
                         CardEffect.nothing
-                            .triggered(.onPlay)
+                            .triggered(.onPlay(.immediate))
                     }
                     let state = GameState {
                         Player("p1") {
@@ -66,9 +66,9 @@ final class PlaySpec: QuickSpec {
             context("equipment card") {
                 it("should put in self's play") {
                     // Given
-                    let card1 = Card("c1", type: .equipment) {
+                    let card1 = Card("c1") {
                         CardEffect.nothing
-                            .triggered(.onPlay)
+                            .triggered(.onPlay(.equipment))
                     }
                     let state = GameState {
                         Player("p1") {
@@ -94,10 +94,10 @@ final class PlaySpec: QuickSpec {
             context("handicap card") {
                 it("should put in target's play") {
                     // Given
-                    let card1 = Card("c1", type: .handicap) {
+                    let card1 = Card("c1") {
                         CardEffect.nothing
                             .target(.selectAny)
-                            .triggered(.onPlay)
+                            .triggered(.onPlay(.handicap))
                     }
                     let state = GameState {
                         Player("p1") {
