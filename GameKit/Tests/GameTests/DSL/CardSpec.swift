@@ -16,7 +16,7 @@ final class CardSpec: QuickSpec {
             var sut: Card!
             context("initialized") {
                 beforeEach {
-                    sut = Card("c1")
+                    sut = Card("c1", type: .ability)
                 }
                 
                 it("should have a name") {

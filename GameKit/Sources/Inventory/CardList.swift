@@ -95,8 +95,8 @@ private extension CardList {
             .require(.isTimesPerTurn(1))
     }
     
-    static let missed = Card(.missed)
-    
+    static let missed = Card(.missed, type: .none)
+
     static let gatling = Card(.gatling, type: .immediate) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
@@ -163,7 +163,7 @@ private extension CardList {
 
     // MARK: - Abilities
     
-    static let endTurn = Card(.endTurn) {
+    static let endTurn = Card(.endTurn, type: .ability) {
         CardEffect.group {
             CardEffect.discard(.selectHand)
                 .target(.actor)
@@ -174,33 +174,33 @@ private extension CardList {
         .triggered(.onPlay)
     }
     
-    static let drawOnSetTurn = Card(.drawOnSetTurn) {
+    static let drawOnSetTurn = Card(.drawOnSetTurn, type: .ability) {
         CardEffect.draw
             .target(.actor)
             .repeat(.playerAttr(.starTurnCards))
             .triggered(.onSetTurn)
     }
     
-    static let eliminateOnLooseLastHealth = Card(.eliminateOnLooseLastHealth) {
+    static let eliminateOnLooseLastHealth = Card(.eliminateOnLooseLastHealth, type: .ability) {
         CardEffect.eliminate
             .target(.actor)
             .triggered(.onLooseLastHealth)
     }
     
-    static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
+    static let nextTurnOnEliminated = Card(.nextTurnOnEliminated, type: .ability) {
         CardEffect.setTurn
             .target(.next)
             .triggered(.onEliminated)
             .require(.isYourTurn)
     }
     
-    static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
+    static let discardCardsOnEliminated = Card(.discardCardsOnEliminated, type: .ability) {
         CardEffect.discard(.all)
             .target(.actor)
             .triggered(.onEliminated)
     }
 
-    static let gameOverOnEliminated = Card(.gameOverOnEliminated) {
+    static let gameOverOnEliminated = Card(.gameOverOnEliminated, type: .ability) {
         CardEffect.evaluateGameOver
             .triggered(.onEliminated)
     }

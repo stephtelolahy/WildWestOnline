@@ -11,13 +11,19 @@ public extension Card {
     
     init(
         _ name: String,
-        type: CardType = .ability,
+        type: CardType,
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.type = type
         self.actions = content().toActions()
     }
+}
+
+public struct CardRule {
+    let eventReq: EventReq
+    let effect: CardEffect
+    let playReqs: [PlayReq]
 }
 
 extension Array where Element == CardRule {

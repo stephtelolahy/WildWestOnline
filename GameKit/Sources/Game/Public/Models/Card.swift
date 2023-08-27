@@ -29,6 +29,9 @@ public enum CardType: String, Codable, CodingKeyRepresentable {
 
     /// Handicap card, put in target's play
     case handicap
+
+    /// No effect card
+    case none
 }
 
 /// Describing card action
@@ -38,11 +41,5 @@ public struct CardAction: Codable, Equatable {
     let effect: CardEffect
 
     /// Play requirements
-    let playReqs: [PlayReq]
-}
-
-public struct CardRule {
-    let eventReq: EventReq
-    let effect: CardEffect
     let playReqs: [PlayReq]
 }
