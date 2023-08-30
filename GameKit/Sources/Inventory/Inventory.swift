@@ -9,8 +9,8 @@ import Game
 public enum Inventory {
     public static func createGame(playersCount: Int) -> GameState {
         let figures = Array(FigureList.all.shuffled().prefix(playersCount))
-        let deck = Setup.createDeck(cardSets: CardSets.bang)
-        let game = Setup.createGame(figures: figures, abilities: AbilityList.default, deck: deck)
+        let deck = Setup.buildDeck(cardSets: CardSets.bang)
+        let game = Setup.buildGame(figures: figures, abilities: AbilityList.default, deck: deck)
             .cardRef(CardList.all)
         return game
     }

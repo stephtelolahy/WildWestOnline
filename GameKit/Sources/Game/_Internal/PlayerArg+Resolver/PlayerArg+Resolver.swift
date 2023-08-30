@@ -1,6 +1,6 @@
 //
 //  PlayerArg+Resolver.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 09/04/2023.
 //
@@ -20,7 +20,7 @@ extension PlayerArg {
             let options = pIds.reduce(into: [String: GameAction]()) {
                 $0[$1] = copy($1)
             }
-            let chooseOne = try GameAction.validChooseOne(chooser: ctx.get(.actor),
+            let chooseOne = try GameAction.buildChooseOne(chooser: ctx.get(.actor),
                                                           options: options,
                                                           state: state)
             return [chooseOne]

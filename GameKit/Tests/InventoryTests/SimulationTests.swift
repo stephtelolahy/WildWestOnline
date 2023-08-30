@@ -13,7 +13,7 @@ import Inventory
 final class SimulationTests: XCTestCase {
 
     func testSimulations() {
-        for index in 1...1 {
+        for index in 1...2 {
             let playersCount = Int.random(in: 4...5)
             print("🏁 Simulation #\(index) playersCount: \(playersCount)")
             simulateGame(playersCount: playersCount)

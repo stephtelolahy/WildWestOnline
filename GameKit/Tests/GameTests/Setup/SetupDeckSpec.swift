@@ -20,7 +20,7 @@ final class SetupDeckSpec: QuickSpec {
                 ]
 
                 // When
-                let deck = Setup.createDeck(cardSets: cardSets)
+                let deck = Setup.buildDeck(cardSets: cardSets)
 
                 // Then
                 expect(deck).to(contain([

@@ -7,7 +7,7 @@
 import Game
 
 public enum CardList {
-    public static let all: [String: Card] = createCards {
+    public static let all: [String: Card] = createCardRef {
         beer
         saloon
         stagecoach
@@ -207,7 +207,7 @@ private extension CardList {
             .triggered(.onEliminated)
     }
 
-    static func createCards(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
+    static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
         content().toDictionary()
     }
 }

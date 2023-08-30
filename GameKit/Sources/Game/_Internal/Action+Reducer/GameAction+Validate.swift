@@ -24,7 +24,7 @@ extension GameAction {
 }
 
 extension GameAction {
-    static func validChooseOne(
+    static func buildChooseOne(
         chooser: String,
         options: [String: GameAction],
         state: GameState
@@ -34,7 +34,7 @@ extension GameAction {
             do {
                 try action.validate(state: state)
             } catch {
-                print("!!! invalidate \(action) reason: \(error)")
+                print("!!! invalidate \(action)\treason: \(error)")
                 continue
             }
 

@@ -49,14 +49,14 @@ struct EffectChallenge: EffectResolverProtocol {
                     }
                 }
                 options[.pass] = .resolve(otherwise, ctx: ctx)
-                let chooseOne = try GameAction.validChooseOne(chooser: chooser, options: options, state: state)
+                let chooseOne = try GameAction.buildChooseOne(chooser: chooser, options: options, state: state)
                 return [chooseOne]
                 
             default:
                 fatalError("unexpected")
             }
         } catch {
-            let chooseOne = try GameAction.validChooseOne(chooser: ctx.get(.target),
+            let chooseOne = try GameAction.buildChooseOne(chooser: ctx.get(.target),
                                                           options: [.pass: .resolve(otherwise, ctx: ctx)],
                                                           state: state)
             return [chooseOne]

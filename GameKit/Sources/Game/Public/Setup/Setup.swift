@@ -6,7 +6,7 @@
 //
 
 public enum Setup {
-    public static func createGame(
+    public static func buildGame(
         figures: [Figure],
         abilities: [String],
         deck: [String]
@@ -37,7 +37,7 @@ public enum Setup {
         return state
     }
 
-    public static func createDeck(cardSets: [String: [String]]) -> [String] {
+    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
         var result: [String] = []
         for (key, values) in cardSets {
             for value in values {

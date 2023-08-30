@@ -58,7 +58,7 @@ extension GameState {
             try action.validate(state: self)
             return true
         } catch {
-            print("!!! invalidate \(action) reason: \(error)")
+            print("!!! invalidate \(action)\treason: \(error)")
             return false
         }
     }
