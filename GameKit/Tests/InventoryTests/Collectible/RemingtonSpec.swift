@@ -12,7 +12,7 @@ import Game
 final class RemingtonSpec: QuickSpec {
     override func spec() {
         describe("playing remington") {
-            xit("should equip") {
+            it("should equip") {
                 // Given
                 let state = createGameWithCardRef {
                     Player("p1") {

@@ -29,10 +29,10 @@ public struct GameState: GameElement, Codable, Equatable {
     /// Cards shop
     public var arena: CardLocation?
 
-    /// Shared attributes for all players
+    /// Common attributes for all players
     public var attributes: Attributes = [:]
 
-    /// Shared abilities for all players
+    /// Common abilities for all players
     public var abilities: [String] = []
 
     /// Is Game over
@@ -50,7 +50,7 @@ public struct GameState: GameElement, Codable, Equatable {
     /// Queued effects
     public var queue: [GameAction] = []
 
-    /// All cards reference
+    /// All cards reference by cardName
     public var cardRef: [String: Card] = [:]
 }
 

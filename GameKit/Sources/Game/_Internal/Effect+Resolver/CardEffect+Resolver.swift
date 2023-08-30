@@ -77,7 +77,10 @@ private extension CardEffect {
 
         case .evaluateGameOver:
             EffectEvaluateGameOver()
-            
+
+        case let .setAttribute(key, value):
+            EffectJust { .setAttribute(key, value: value, player: $0.get(.target)) }
+
         default:
             fatalError("unimplemented effect \(self)")
         }

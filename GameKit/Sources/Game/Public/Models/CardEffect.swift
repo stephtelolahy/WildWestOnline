@@ -61,7 +61,7 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Dispatch effects sequentially
     case group([Self])
     
-    /// Apply an effect to some players
+    /// Apply an effect to targeted player(s)
     case target(PlayerArg, effect: Self)
     
     /// Try an effect. If cannot, then apply some effect

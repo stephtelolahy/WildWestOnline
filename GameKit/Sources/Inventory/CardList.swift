@@ -153,11 +153,13 @@ private extension CardList {
 
     static let schofield = Card(.schofield) {
         CardEffect.setAttribute(.weapon, value: 2)
+            .target(.actor)
             .triggered(.onPlay(.equipment))
     }
 
     static let remington = Card(.remington) {
         CardEffect.setAttribute(.weapon, value: 3)
+            .target(.actor)
             .triggered(.onPlay(.equipment))
     }
 

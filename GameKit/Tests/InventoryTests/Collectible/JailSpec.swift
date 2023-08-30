@@ -39,7 +39,7 @@ final class JailSpec: QuickSpec {
                 }
             }
 
-            xcontext("agains sheriff") {
+            xcontext("against sheriff") {
                 it("should throw error") {
                 }
             }

@@ -10,21 +10,29 @@ struct ActionPlayEquipment: GameReducerProtocol {
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
-        var state = state
         let actorObj = state.player(actor)
-        guard actorObj.hand.contains(card) else {
-            throw GameError.cardNotFound(card)
+        let cardName = card.extractName()
+        guard let cardObj = state.cardRef[cardName],
+              let playAction = cardObj.actions[.onPlay(.equipment)] else {
+            throw GameError.cardNotPlayable(card)
         }
 
-        let cardName = card.extractName()
+        let sideEffect = playAction.effect
+
         guard actorObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
             throw GameError.cardAlreadyInPlay(cardName)
         }
+
+        var state = state
 
         try state[keyPath: \GameState.players[actor]]?.hand.remove(card)
         state[keyPath: \GameState.players[actor]]?.inPlay.add(card)
 
         state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
+
+        let ctx: EffectContext = [.actor: actor, .card: card]
+        state.queue.insert(.resolve(sideEffect, ctx: ctx), at: 0)
+
         return state
     }
 }

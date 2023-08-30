@@ -22,7 +22,11 @@ extension Player {
     mutating func looseHealth(_ value: Int) {
         attributes[.health] = health - value
     }
-    
+
+    mutating func setValue(_ value: Int, forAttribute key: AttributeKey) {
+        attributes[key] = value
+    }
+
     mutating func removeCard(_ card: String) throws {
         if hand.contains(card) {
             try hand.remove(card)

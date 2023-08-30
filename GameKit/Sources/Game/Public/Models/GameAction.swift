@@ -11,19 +11,19 @@ public indirect enum GameAction: Codable, Equatable {
     
     // MARK: - Play
     
-    /// Resolve a play
+    /// Play a card
     case play(String, actor: String)
     
-    /// Play a brown card, discard immediately
+    /// Did play a brown card, discard immediately
     case playImmediate(String, target: String? = nil, actor: String)
 
-    /// Invoke an ability
+    /// Did invoke an ability
     case playAbility(String, actor: String)
 
-    /// Play an equipment card
+    /// Did put in play an equipment card
     case playEquipment(String, actor: String)
 
-    /// Play an handicap card
+    /// Did play an handicap card
     case playHandicap(String, target: String, actor: String)
 
     // MARK: - Renderable actions
@@ -37,7 +37,7 @@ public indirect enum GameAction: Codable, Equatable {
     /// Draw top deck card
     case draw(player: String)
 
-    /// Discard a player's card
+    /// Discard a player's hand or inPlay card
     case discard(String, player: String)
 
     /// Draw card from other player

@@ -36,10 +36,12 @@ struct ActionPlayImmediate: GameReducerProtocol {
 
         // discard played hand card
         let actorObj = state.player(actor)
-        if actorObj.hand.contains(card) {
-            try state[keyPath: \GameState.players[actor]]?.hand.remove(card)
-            state.discard.push(card)
+        guard actorObj.hand.contains(card) else {
+            throw GameError.cardNotFound(card)
         }
+        
+        try state[keyPath: \GameState.players[actor]]?.hand.remove(card)
+        state.discard.push(card)
 
         state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
         

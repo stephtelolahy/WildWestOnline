@@ -9,7 +9,7 @@ struct ActionPlay: GameReducerProtocol {
     let actor: String
     let card: String
 
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func reduce(state: GameState) throws -> GameState {
         // verify action
         let cardName = card.extractName()
