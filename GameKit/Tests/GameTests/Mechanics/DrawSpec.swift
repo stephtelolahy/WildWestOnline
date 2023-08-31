@@ -71,7 +71,7 @@ final class DrawSpec: QuickSpec {
                         let result = sut.reduce(state: state, action: action)
 
                         // Then
-                        expect(result.event) == .error(.deckIsEmpty)
+                        expect(result.error) == .deckIsEmpty
                     }
                 }
             }

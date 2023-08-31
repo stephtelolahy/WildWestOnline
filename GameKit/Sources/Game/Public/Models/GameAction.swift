@@ -86,9 +86,4 @@ public indirect enum GameAction: Codable, Equatable {
 
     /// Dispatch actions sequentially
     case group([Self])
-
-    // MARK: - Not action
-
-    /// Occured error
-    case error(GameError)
 }

@@ -60,7 +60,7 @@ final class PlayHandicapSpec: QuickSpec {
                     let result = sut.reduce(state: state, action: action)
 
                     // Then
-                    expect(result.event) == .error(.cardAlreadyInPlay("c"))
+                    expect(result.error) == .cardAlreadyInPlay("c")
                 }
             }
         }

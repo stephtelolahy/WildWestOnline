@@ -27,10 +27,10 @@ final class PanicSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.panic, actor: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let error = self.awaitError(action, state: state)
 
                     // Then
-                    expect(result) == [.error(.noPlayer(.selectAt(1)))]
+                    expect(error) == .noPlayer(.selectAt(1))
                 }
             }
             

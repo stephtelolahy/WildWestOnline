@@ -17,16 +17,16 @@ public struct GameReducer: ReducerProtocol {
 
         var state = state
 
+        state.event = nil
+        state.error = nil
+
         do {
             state = try prepare(action: action, state: state)
             state = try action.reduce(state: state)
             state.event = action
             state = queueTriggered(action: action, state: state)
         } catch {
-            guard let gameError = error as? GameError else {
-                fatalError("Invalid error type")
-            }
-            state.event = .error(gameError)
+            state.error = error as? GameError
         }
 
         return state

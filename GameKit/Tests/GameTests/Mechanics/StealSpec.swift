@@ -74,7 +74,7 @@ final class StealSpec: QuickSpec {
                     let result = sut.reduce(state: state, action: action)
 
                     // Then
-                    expect(result.event) == .error(.cardNotFound("c2"))
+                    expect(result.error) == .cardNotFound("c2")
                 }
             }
         }

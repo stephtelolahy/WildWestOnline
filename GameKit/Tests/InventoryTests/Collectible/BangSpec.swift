@@ -28,10 +28,10 @@ final class BangSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.bang, actor: "p1")
-                    let result = self.awaitAction(action, state: state)
-                    
+                    let error = self.awaitError(action, state: state)
+
                     // Assert
-                    expect(result) == [.error(.noReq(.isTimesPerTurn(1)))]
+                    expect(error) == .noReq(.isTimesPerTurn(1))
                 }
             }
 
@@ -51,10 +51,10 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, actor: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let error = self.awaitError(action, state: state)
 
                     // Then
-                    expect(result) == [.error(.noPlayer(.selectReachable))]
+                    expect(error) == .noPlayer(.selectReachable)
                 }
             }
 
