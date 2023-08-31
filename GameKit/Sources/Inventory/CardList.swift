@@ -41,8 +41,8 @@ private extension CardList {
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
-            .triggered(.onPlay(.immediate))
             .require(.isPlayersAtLeast(3))
+            .triggered(.onPlay(.immediate))
     }
 
     static let saloon = Card(.saloon) {

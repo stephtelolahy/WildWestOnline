@@ -50,9 +50,11 @@ private extension CardEffect {
         case let .passInplay(card, owner):
             EffectPassInPlay(card: card, owner: owner)
 
-            // operation on effect
         case let .target(target, effect):
             EffectTarget(target: target, effect: effect)
+
+        case let .require(playReq, effect):
+            EffectRequire(playReq: playReq, effect: effect)
 
         case let .group(effects):
             EffectGroup(effects: effects)

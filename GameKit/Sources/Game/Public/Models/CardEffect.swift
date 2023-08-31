@@ -53,6 +53,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Evaluate gameOver
     case evaluateGameOver
 
+    /// Do nothing
+    case nothing
+
     // MARK: - Operators
 
     /// Repeat an effect
@@ -63,7 +66,10 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Apply an effect to targeted player(s)
     case target(PlayerArg, effect: Self)
-    
+
+    /// Require conditions before resolving an effect
+    case require(PlayReq, effect: Self)
+
     /// Try an effect. If cannot, then apply some effect
     case force(Self, otherwise: Self)
 
@@ -75,7 +81,4 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Cancel some queued effect
     case cancel(CancelArg)
-
-    /// Do nothing
-    case nothing
 }

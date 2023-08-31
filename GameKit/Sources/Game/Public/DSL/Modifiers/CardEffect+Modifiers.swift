@@ -17,7 +17,11 @@ public extension CardEffect {
     func target(_ target: PlayerArg) -> Self {
         .target(target, effect: self)
     }
-    
+
+    func require(_ playReq: PlayReq) -> Self {
+        .require(playReq, effect: self)
+    }
+
     func otherwise(_ effect: Self) -> Self {
         .force(self, otherwise: effect)
     }
