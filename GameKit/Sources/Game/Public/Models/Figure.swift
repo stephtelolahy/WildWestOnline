@@ -7,9 +7,10 @@
 import InitMacro
 
 /// Describing figure
-@Init(defaults: ["abilities": []])
+@Init(defaults: ["abilities": [], "attributes": [:]])
 public struct Figure {
     public let name: String
     public let bullets: Int
+    public let attributes: Attributes
     public let abilities: [String]
 }

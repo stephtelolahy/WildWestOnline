@@ -69,7 +69,12 @@ private extension GameReducer {
         var triggered: [GameAction] = []
         for actor in players {
             let actorObj = state.player(actor)
-            for card in (actorObj.inPlay.cards + actorObj.abilities + state.abilities) {
+            var cards = actorObj.inPlay.cards + actorObj.abilities + state.abilities
+            if case let .discard(justDiscarded, _) = state.event {
+                cards.append(justDiscarded)
+            }
+
+            for card in cards {
                 if let triggeredAction = triggeredAction(by: card, actor: actor, state: state) {
                     triggered.append(triggeredAction)
                 }

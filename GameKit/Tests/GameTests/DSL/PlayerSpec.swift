@@ -163,7 +163,7 @@ final class PlayerSpec: QuickSpec {
                         "scope": 1,
                         "weapon": 3,
                         "handLimit": 2,
-                        "starTurnCards": 2,
+                        "startTurnCards": 2,
                     },
                     "hand": {
                         "visibility": "p1",
