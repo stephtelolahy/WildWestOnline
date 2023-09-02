@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-@testable import UI
+@testable import Screen
 import Redux
 import XCTest
 import Game

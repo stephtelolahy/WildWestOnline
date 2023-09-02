@@ -1,5 +1,5 @@
 //
-//  WWOApp.swift
+//  GameApp.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 02/04/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Redux
-import UI
+import Screen
 
 private let store = Store<AppState, AppAction>(
     initial: AppState(screens: [.splash]),
@@ -16,7 +16,7 @@ private let store = Store<AppState, AppAction>(
 )
 
 @main
-struct WWOApp: App {
+struct GameApp: App {
     var body: some Scene {
         WindowGroup {
             AppView()

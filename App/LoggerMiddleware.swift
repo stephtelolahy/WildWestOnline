@@ -7,7 +7,7 @@
 
 import Combine
 import Redux
-import UI
+import Screen
 
 public let loggerMiddleware: Middleware<AppState, AppAction> = { state, action in
     print("➡️ \(action)\n✅ \(state)\n")

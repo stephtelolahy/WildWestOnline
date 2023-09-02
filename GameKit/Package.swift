@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "UI", targets: ["UI"])
+        .library(name: "Screen", targets: ["Screen"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -66,7 +66,7 @@ let package = Package(
                 "Nimble"
             ]),
         .target(
-            name: "UI",
+            name: "Screen",
             dependencies: [
                 "Redux",
                 "Game",
@@ -76,7 +76,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .testTarget(
-            name: "UITests",
-            dependencies: ["UI"])
+            name: "ScreenTests",
+            dependencies: ["Screen"])
     ]
 )
