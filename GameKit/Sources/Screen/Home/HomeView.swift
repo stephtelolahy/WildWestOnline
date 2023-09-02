@@ -10,7 +10,7 @@ import Redux
 
 struct HomeView: View {
     
-    @EnvironmentObject private var store: Store<AppState, AppAction>
+    @EnvironmentObject private var store: Store<AppState>
     
     var body: some View {
         VStack(alignment: .center, spacing: 32) {
@@ -20,7 +20,7 @@ struct HomeView: View {
                 .font(.system(size: 64))
             Button("New Game") {
                 withAnimation {
-                    store.dispatch(.showScreen(.game))
+                    store.dispatch(AppAction.showScreen(.game))
                 }
             }
             .font(.headline)

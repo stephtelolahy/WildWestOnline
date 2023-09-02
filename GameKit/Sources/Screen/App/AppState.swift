@@ -1,6 +1,6 @@
 //
-//  AppReducer.swift
-//  
+//  AppState.swift
+//
 //
 //  Created by Hugues Telolahy on 12/07/2023.
 //
@@ -12,19 +12,21 @@ import InitMacro
 @Init
 public struct AppState: Codable, Equatable {
     let screens: [ScreenState]
+
+    public init() {
+        screens = [.splash]
+    }
 }
 
 public enum ScreenState: Codable, Equatable {
     case splash
-    case home(Home.State)
-    case game(GamePlay.State)
+    case home(HomeState)
+    case game(GamePlayState)
 }
 
-public enum AppAction: Codable, Equatable {
+public enum AppAction: Action, Codable, Equatable {
     case showScreen(Screen)
     case dismissScreen(Screen)
-    case home(Home.Action)
-    case game(GamePlay.Action)
 }
 
 public enum Screen: Codable, Equatable {
@@ -33,21 +35,19 @@ public enum Screen: Codable, Equatable {
     case game
 }
 
-@Init
-public struct AppReducer: ReducerProtocol {
-
-    public func reduce(state: AppState, action: AppAction) -> AppState {
+public extension AppState {
+    static let reducer: Reducer<Self> = { state, action in
         var screens = state.screens
 
         // Update visible screens
         switch action {
-        case .showScreen(.home):
+        case AppAction.showScreen(.home):
             screens = [.home(.init())]
 
-        case .dismissScreen(.game):
+        case AppAction.dismissScreen(.game):
             screens.removeLast()
 
-        case .showScreen(.game):
+        case AppAction.showScreen(.game):
             let game = Inventory.createGame(playersCount: 5)
             screens.append(.game(game.toGamePlayState()))
 
@@ -56,18 +56,20 @@ public struct AppReducer: ReducerProtocol {
         }
 
         // Reduce each screen state
-        screens = screens.map { reduceScreen($0, action) }
+        screens = screens.map { ScreenState.reducer($0, action) }
 
         return .init(screens: screens)
     }
+}
 
-    private func reduceScreen(_ state: ScreenState, _ action: AppAction) -> ScreenState {
-        switch (state, action) {
-        case let (.home(homeState), .home(homeAction)):
-            .home(Home().reduce(state: homeState, action: homeAction))
+private extension ScreenState {
+    static let reducer: Reducer<Self> = { state, action in
+        switch state {
+        case let .home(homeState):
+            .home(HomeState.reducer(homeState, action))
 
-        case let (.game(gameState), .game(gameAction)):
-            .game(GamePlay().reduce(state: gameState, action: gameAction))
+        case let .game(gameState):
+            .game(GamePlayState.reducer(gameState, action))
 
         default:
             state
@@ -76,7 +78,7 @@ public struct AppReducer: ReducerProtocol {
 }
 
 private extension GameState {
-    func toGamePlayState() -> GamePlay.State {
+    func toGamePlayState() -> GamePlayState {
         .init(players: playOrder.map { player($0) })
     }
 }

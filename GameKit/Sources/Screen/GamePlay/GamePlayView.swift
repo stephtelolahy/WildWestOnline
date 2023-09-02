@@ -10,9 +10,9 @@ import Redux
 import Game
 
 struct GamePlayView: View {
-    @EnvironmentObject private var store: Store<AppState, AppAction>
+    @EnvironmentObject private var store: Store<AppState>
 
-    private var state: GamePlay.State? {
+    private var state: GamePlayState? {
         if let lastScreen = store.state.screens.last,
            case let .game(gameState) = lastScreen {
             gameState
@@ -25,7 +25,7 @@ struct GamePlayView: View {
         VStack(alignment: .leading) {
             Button {
                 withAnimation {
-                    store.dispatch(.dismissScreen(.game))
+                    store.dispatch(AppAction.dismissScreen(.game))
                 }
             } label: {
                 HStack {
@@ -60,8 +60,8 @@ struct GamePlayView: View {
 
 #if DEBUG
 struct GameView_Previews: PreviewProvider {
-    private static var previewStore: Store<AppState, AppAction> = {
-        let state = GamePlay.State(
+    private static var previewStore: Store<AppState> = {
+        let state = GamePlayState(
             players: [
                 Player("p1").name("willyTheKid"),
                 Player("p2").name("bartCassidy")
@@ -69,7 +69,7 @@ struct GameView_Previews: PreviewProvider {
             message: "Your turn"
         )
 
-        return Store<AppState, AppAction>(
+        return Store<AppState>(
             initial: AppState(screens: [.game(state)]),
             reducer: { state, _ in state },
             middlewares: []

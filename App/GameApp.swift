@@ -9,9 +9,9 @@ import SwiftUI
 import Redux
 import Screen
 
-private let store = Store<AppState, AppAction>(
-    initial: AppState(screens: [.splash]),
-    reducer: AppReducer().reduce,
+private let store = Store<AppState>(
+    initial: AppState(),
+    reducer: AppState.reducer,
     middlewares: [loggerMiddleware]
 )
 

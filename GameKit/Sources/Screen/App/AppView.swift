@@ -10,7 +10,7 @@ import Redux
 
 public struct AppView: View {
 
-    @EnvironmentObject private var store: Store<AppState, AppAction>
+    @EnvironmentObject private var store: Store<AppState>
 
     public init() {}
 
@@ -39,7 +39,7 @@ struct MainView_Previews: PreviewProvider {
     }
 }
 
-let previewStore = Store<AppState, AppAction>(
+let previewStore = Store<AppState>(
     initial: AppState(screens: [.splash]),
     reducer: { state, _ in state },
     middlewares: []

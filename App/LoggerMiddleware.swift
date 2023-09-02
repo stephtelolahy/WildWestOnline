@@ -9,8 +9,8 @@ import Combine
 import Redux
 import Screen
 
-public let loggerMiddleware: Middleware<AppState, AppAction> = { state, action in
+public let loggerMiddleware: Middleware<AppState> = { state, action in
     print("➡️ \(action)\n✅ \(state)\n")
-
+    
     return Empty().eraseToAnyPublisher()
 }

@@ -10,7 +10,7 @@ import Redux
 
 struct SplashView: View {
     
-    @EnvironmentObject private var store: Store<AppState, AppAction>
+    @EnvironmentObject private var store: Store<AppState>
     
     var body: some View {
         ZStack {
@@ -19,7 +19,7 @@ struct SplashView: View {
                 .foregroundColor(.accentColor)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        store.dispatch(.showScreen(.home))
+                        store.dispatch(AppAction.showScreen(.home))
                     }
                 }
             VStack(spacing: 8) {
