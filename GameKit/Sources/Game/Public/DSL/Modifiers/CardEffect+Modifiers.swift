@@ -31,16 +31,10 @@ public extension CardEffect {
     }
     
     func triggered(_ eventReq: EventReq) -> CardRule {
-        .init(eventReq: eventReq, effect: self, playReqs: [])
+        .init(eventReq: eventReq, effect: self)
     }
     
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
         .group(content())
-    }
-}
-
-public extension CardRule {
-    func require(_ playReqs: PlayReq...) -> Self {
-        .init(eventReq: eventReq, effect: effect, playReqs: playReqs)
     }
 }

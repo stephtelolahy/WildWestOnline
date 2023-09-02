@@ -39,10 +39,6 @@ struct ActionPlay: GameReducerProtocol {
 
         // verify requirements
         var sideEffect = playAction.effect
-        for playReq in playAction.playReqs {
-            try playReq.match(state: state, ctx: ctx)
-        }
-
         if case let .require(playReq, childEffect) = sideEffect {
             try playReq.match(state: state, ctx: ctx)
             sideEffect = childEffect

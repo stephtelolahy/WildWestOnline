@@ -17,7 +17,4 @@ public struct CardAction: Codable, Equatable {
 
     /// The side effect
     let effect: CardEffect
-
-    /// Play requirements
-    let playReqs: [PlayReq]
 }
