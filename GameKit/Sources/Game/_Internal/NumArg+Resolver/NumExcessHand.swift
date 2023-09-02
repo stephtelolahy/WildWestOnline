@@ -7,8 +7,8 @@
 
 struct NumExcessHand: NumArgResolverProtocol {
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
-        let actorObj = state.player(ctx.get(.actor))
-        return max(actorObj.hand.count - actorObj.handLimitAtEndOfTurn(), 0)
+        let playerObj = state.player(ctx.get(.actor))
+        return max(playerObj.hand.count - playerObj.handLimitAtEndOfTurn(), 0)
     }
 }
 

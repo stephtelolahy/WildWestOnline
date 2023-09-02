@@ -12,8 +12,8 @@ struct ActionPlayHandicap: GameReducerProtocol {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        let actorObj = state.player(player)
-        guard actorObj.hand.contains(card) else {
+        let playerObj = state.player(player)
+        guard playerObj.hand.contains(card) else {
             throw GameError.cardNotFound(card)
         }
 

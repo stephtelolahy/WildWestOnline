@@ -43,8 +43,8 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
         }
         state.chooseOne = nil
     } else if let active = state.active {
-        guard case let .play(card, actor) = action,
-              active.player == actor,
+        guard case let .play(card, player) = action,
+              active.player == player,
               active.cards.contains(card) else {
             throw GameError.unwaitedAction
         }
@@ -67,14 +67,14 @@ private func queueTriggered(action: GameAction, state: GameState) -> GameState {
 
     var triggered: [GameAction] = []
     for player in players {
-        let actorObj = state.player(player)
-        var cards = actorObj.inPlay.cards + actorObj.abilities + state.abilities
+        let playerObj = state.player(player)
+        var cards = playerObj.inPlay.cards + playerObj.abilities + state.abilities
         if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
             cards.append(justDiscardedInPlay)
         }
 
         for card in cards {
-            if let triggeredAction = triggeredAction(by: card, actor: player, state: state) {
+            if let triggeredAction = triggeredAction(by: card, player: player, state: state) {
                 triggered.append(triggeredAction)
             }
         }
@@ -83,7 +83,7 @@ private func queueTriggered(action: GameAction, state: GameState) -> GameState {
     return state
 }
 
-private func triggeredAction(by card: String, actor: String, state: GameState) -> GameAction? {
+private func triggeredAction(by card: String, player: String, state: GameState) -> GameAction? {
     let cardName = card.extractName()
     guard let cardObj = state.cardRef[cardName] else {
         return nil
@@ -91,7 +91,7 @@ private func triggeredAction(by card: String, actor: String, state: GameState) -
 
     for (eventReq, effect) in cardObj.actions {
         do {
-            let ctx: EffectContext = [.actor: actor, .card: card]
+            let ctx: EffectContext = [.actor: player, .card: card]
             let eventMatched = try eventReq.match(state: state, ctx: ctx)
             if eventMatched {
                 let gameAction = GameAction.resolve(effect, ctx: ctx)

@@ -23,24 +23,24 @@ extension GameState {
               isOver == nil,
               chooseOne == nil,
               !lastEventIsActiveCard,
-              let actor = turn else {
+              let player = turn else {
             return nil
         }
         
         var activeCards: [String] = []
-        let actorObj = player(actor)
-        for card in (actorObj.hand.cards + actorObj.abilities + abilities)
-        where isCardPlayable(card, actor: actor) {
+        let playerObj = self.player(player)
+        for card in (playerObj.hand.cards + playerObj.abilities + abilities)
+        where isCardPlayable(card, player: player) {
             activeCards.append(card)
         }
         
         if activeCards.isNotEmpty {
-            return GameAction.activateCards(player: actor, cards: activeCards)
+            return GameAction.activateCards(player: player, cards: activeCards)
         }
         return nil
     }
     
-    private func isCardPlayable(_ card: String, actor: String) -> Bool {
+    private func isCardPlayable(_ card: String, player: String) -> Bool {
         let cardName = card.extractName()
         guard let cardObj = cardRef[cardName] else {
             return false
@@ -53,7 +53,7 @@ extension GameState {
             return false
         }
         
-        let action = GameAction.play(card, player: actor)
+        let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: self)
             return true

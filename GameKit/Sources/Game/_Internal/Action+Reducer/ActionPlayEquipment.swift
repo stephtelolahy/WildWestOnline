@@ -10,14 +10,14 @@ struct ActionPlayEquipment: GameReducerProtocol {
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
-        let actorObj = state.player(player)
+        let playerObj = state.player(player)
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
               let sideEffect = cardObj.actions[.onPlay(.equipment)] else {
             throw GameError.cardNotPlayable(card)
         }
 
-        guard actorObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
+        guard playerObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
             throw GameError.cardAlreadyInPlay(cardName)
         }
 
