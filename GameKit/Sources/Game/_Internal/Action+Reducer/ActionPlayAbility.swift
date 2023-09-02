@@ -6,7 +6,7 @@
 //
 
 struct ActionPlayAbility: GameReducerProtocol {
-    let actor: String
+    let player: String
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
@@ -16,7 +16,7 @@ struct ActionPlayAbility: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
 
-        let ctx: EffectContext = [.actor: actor, .card: card]
+        let ctx: EffectContext = [.actor: player, .card: card]
 
         var state = state
 

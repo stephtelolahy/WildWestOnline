@@ -25,7 +25,7 @@ final class PlaySpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.play("c1", actor: "p1")
+                    let action = GameAction.play("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -50,12 +50,12 @@ final class PlaySpec: QuickSpec {
                     .cardRef(["c1": card1])
 
                     // When
-                    let action = GameAction.play("c1", actor: "p1")
+                    let action = GameAction.play("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.queue) == [
-                        .playImmediate("c1", actor: "p1")
+                        .playImmediate("c1", player: "p1")
                     ]
                     expect(result.event) == action
                 }
@@ -78,12 +78,12 @@ final class PlaySpec: QuickSpec {
                     .cardRef(["c1": card1])
 
                     // When
-                    let action = GameAction.play("c1", actor: "p1")
+                    let action = GameAction.play("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.queue) == [
-                        .playEquipment("c1", actor: "p1")
+                        .playEquipment("c1", player: "p1")
                     ]
                     expect(result.event) == action
                 }
@@ -109,14 +109,14 @@ final class PlaySpec: QuickSpec {
                     .cardRef(["c1": card1])
 
                     // When
-                    let action = GameAction.play("c1", actor: "p1")
+                    let action = GameAction.play("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.queue) == [
                         .chooseOne(player: "p1", options: [
-                            "p3": .playHandicap("c1", target: "p3", actor: "p1"),
-                            "p2": .playHandicap("c1", target: "p2", actor: "p1")])
+                            "p3": .playHandicap("c1", target: "p3", player: "p1"),
+                            "p2": .playHandicap("c1", target: "p2", player: "p1")])
                     ]
                     expect(result.event) == action
                 }

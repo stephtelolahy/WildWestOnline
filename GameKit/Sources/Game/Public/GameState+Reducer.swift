@@ -66,15 +66,15 @@ private func queueTriggered(action: GameAction, state: GameState) -> GameState {
     }
 
     var triggered: [GameAction] = []
-    for actor in players {
-        let actorObj = state.player(actor)
+    for player in players {
+        let actorObj = state.player(player)
         var cards = actorObj.inPlay.cards + actorObj.abilities + state.abilities
         if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
             cards.append(justDiscardedInPlay)
         }
 
         for card in cards {
-            if let triggeredAction = triggeredAction(by: card, actor: actor, state: state) {
+            if let triggeredAction = triggeredAction(by: card, actor: player, state: state) {
                 triggered.append(triggeredAction)
             }
         }

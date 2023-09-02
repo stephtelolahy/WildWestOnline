@@ -26,7 +26,7 @@ final class PanicSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.play(.panic, actor: "p1")
+                    let action = GameAction.play(.panic, player: "p1")
                     let error = self.awaitError(action, state: state)
 
                     // Then
@@ -52,15 +52,15 @@ final class PanicSpec: QuickSpec {
                         }
                         
                         // When
-                        let action = GameAction.play(.panic, actor: "p1")
+                        let action = GameAction.play(.panic, player: "p1")
                         let result = self.awaitAction(action, choices: ["p2", .randomHand], state: state)
                         
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
-                                "p2": .playImmediate(.panic, target: "p2", actor: "p1")
+                                "p2": .playImmediate(.panic, target: "p2", player: "p1")
                             ]),
-                            .playImmediate(.panic, target: "p2", actor: "p1"),
+                            .playImmediate(.panic, target: "p2", player: "p1"),
                             .chooseOne(player: "p1", options: [
                                 .randomHand: .stealHand("c21", target: "p2", player: "p1")
                             ]),
@@ -87,15 +87,15 @@ final class PanicSpec: QuickSpec {
                         }
                         
                         // When
-                        let action = GameAction.play(.panic, actor: "p1")
+                        let action = GameAction.play(.panic, player: "p1")
                         let result = self.awaitAction(action, choices: ["p2", "c22"], state: state)
                         
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
-                                "p2": .playImmediate(.panic, target: "p2", actor: "p1")
+                                "p2": .playImmediate(.panic, target: "p2", player: "p1")
                             ]),
-                            .playImmediate(.panic, target: "p2", actor: "p1"),
+                            .playImmediate(.panic, target: "p2", player: "p1"),
                             .chooseOne(player: "p1", options: [
                                 "c21": .stealInPlay("c21", target: "p2", player: "p1"),
                                 "c22": .stealInPlay("c22", target: "p2", player: "p1")
@@ -126,15 +126,15 @@ final class PanicSpec: QuickSpec {
                         }
                         
                         // When
-                        let action = GameAction.play(.panic, actor: "p1")
+                        let action = GameAction.play(.panic, player: "p1")
                         let result = self.awaitAction(action, choices: ["p2", "c23"], state: state)
                         
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
-                                "p2": .playImmediate(.panic, target: "p2", actor: "p1")
+                                "p2": .playImmediate(.panic, target: "p2", player: "p1")
                             ]),
-                            .playImmediate(.panic, target: "p2", actor: "p1"),
+                            .playImmediate(.panic, target: "p2", player: "p1"),
                             .chooseOne(player: "p1", options: [
                                 .randomHand: .stealHand("c21", target: "p2", player: "p1"),
                                 "c22": .stealInPlay("c22", target: "p2", player: "p1"),

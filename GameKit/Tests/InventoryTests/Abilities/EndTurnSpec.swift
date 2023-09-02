@@ -23,12 +23,12 @@ final class EndTurnSpec: QuickSpec {
                     .turn("p1")
 
                     // When
-                    let action = GameAction.play(.endTurn, actor: "p1")
+                    let action = GameAction.play(.endTurn, player: "p1")
                     let result = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, actor: "p1"),
+                        .playAbility(.endTurn, player: "p1"),
                         .setTurn("p2")
                     ]
                 }
@@ -51,12 +51,12 @@ final class EndTurnSpec: QuickSpec {
                     .turn("p1")
 
                     // When
-                    let action = GameAction.play(.endTurn, actor: "p1")
+                    let action = GameAction.play(.endTurn, player: "p1")
                     let result = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, actor: "p1"),
+                        .playAbility(.endTurn, player: "p1"),
                         .setTurn("p2")
                     ]
                 }
@@ -79,12 +79,12 @@ final class EndTurnSpec: QuickSpec {
                     .turn("p1")
 
                     // When
-                    let action = GameAction.play(.endTurn, actor: "p1")
+                    let action = GameAction.play(.endTurn, player: "p1")
                     let result = self.awaitAction(action, choices: ["c1"], state: state)
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, actor: "p1"),
+                        .playAbility(.endTurn, player: "p1"),
                         .chooseOne(player: "p1", options: [
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),
@@ -113,12 +113,12 @@ final class EndTurnSpec: QuickSpec {
                     .turn("p1")
 
                     // When
-                    let action = GameAction.play(.endTurn, actor: "p1")
+                    let action = GameAction.play(.endTurn, player: "p1")
                     let result = self.awaitAction(action, choices: ["c1", "c3"], state: state)
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, actor: "p1"),
+                        .playAbility(.endTurn, player: "p1"),
                         .chooseOne(player: "p1", options: [
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),

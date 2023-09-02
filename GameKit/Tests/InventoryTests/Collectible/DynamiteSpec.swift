@@ -24,12 +24,12 @@ final class DynamiteSpec: QuickSpec {
                 }
                 
                 // When
-                let action = GameAction.play(.dynamite, actor: "p1")
+                let action = GameAction.play(.dynamite, player: "p1")
                 let result = self.awaitAction(action, state: state)
                 
                 // Then
                 expect(result) == [
-                    .playEquipment(.dynamite, actor: "p1")
+                    .playEquipment(.dynamite, player: "p1")
                 ]
             }
         }

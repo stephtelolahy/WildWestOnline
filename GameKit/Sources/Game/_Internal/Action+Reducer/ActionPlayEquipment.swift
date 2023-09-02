@@ -6,11 +6,11 @@
 //
 
 struct ActionPlayEquipment: GameReducerProtocol {
-    let actor: String
+    let player: String
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
-        let actorObj = state.player(actor)
+        let actorObj = state.player(player)
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
               let sideEffect = cardObj.actions[.onPlay(.equipment)] else {
@@ -23,12 +23,12 @@ struct ActionPlayEquipment: GameReducerProtocol {
 
         var state = state
 
-        try state[keyPath: \GameState.players[actor]]?.hand.remove(card)
-        state[keyPath: \GameState.players[actor]]?.inPlay.add(card)
+        try state[keyPath: \GameState.players[player]]?.hand.remove(card)
+        state[keyPath: \GameState.players[player]]?.inPlay.add(card)
 
         state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
 
-        let ctx: EffectContext = [.actor: actor, .card: card]
+        let ctx: EffectContext = [.actor: player, .card: card]
         state.queue.insert(.resolve(sideEffect, ctx: ctx), at: 0)
 
         return state

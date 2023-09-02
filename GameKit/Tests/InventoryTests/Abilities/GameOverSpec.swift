@@ -61,7 +61,7 @@ final class GameOverSpec: QuickSpec {
                     .isOver("p1")
 
                 // When
-                let action = GameAction.play("c1", actor: "p1")
+                let action = GameAction.play("c1", player: "p1")
                 let result = self.awaitAction(action, state: state)
 
                 // Then

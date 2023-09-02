@@ -32,12 +32,12 @@ final class IndiansSpec: QuickSpec {
                     }
                     
                     // When
-                    let action = GameAction.play(.indians, actor: "p1")
+                    let action = GameAction.play(.indians, player: "p1")
                     let result = self.awaitAction(action, choices: [.bang, .pass], state: state)
                     
                     // Then
                     expect(result) == [
-                        .playImmediate(.indians, actor: "p1"),
+                        .playImmediate(.indians, player: "p1"),
                         .chooseOne(player: "p2", options: [
                             .bang: .discardHand(.bang, player: "p2"),
                             .pass: .damage(1, player: "p2")
@@ -68,12 +68,12 @@ final class IndiansSpec: QuickSpec {
                     }
                     
                     // When
-                    let action = GameAction.play(.indians, actor: "p1")
+                    let action = GameAction.play(.indians, player: "p1")
                     let result = self.awaitAction(action, choices: [.bang], state: state)
                     
                     // Then
                     expect(result) == [
-                        .playImmediate(.indians, actor: "p1"),
+                        .playImmediate(.indians, player: "p1"),
                         .chooseOne(player: "p2", options: [
                             .bang: .discardHand(.bang, player: "p2"),
                             .pass: .damage(1, player: "p2")

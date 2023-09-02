@@ -6,7 +6,7 @@
 //
 
 struct ActionPlay: GameReducerProtocol {
-    let actor: String
+    let player: String
     let card: String
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
@@ -35,7 +35,7 @@ struct ActionPlay: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
 
-        let ctx: EffectContext = [.actor: actor, .card: card]
+        let ctx: EffectContext = [.actor: player, .card: card]
 
         // verify requirements
         if case let .require(playReq, childEffect) = sideEffect {
@@ -52,16 +52,16 @@ struct ActionPlay: GameReducerProtocol {
                     let action: GameAction =
                     switch playMode {
                     case .immediate:
-                            .playImmediate(card, target: $1, actor: actor)
+                            .playImmediate(card, target: $1, player: player)
                     case .handicap:
-                            .playHandicap(card, target: $1, actor: actor)
+                            .playHandicap(card, target: $1, player: player)
                     default:
                         fatalError("unexpected")
                     }
 
                     $0[$1] = action
                 }
-                let chooseOne = try GameAction.buildChooseOne(chooser: actor, options: options, state: state)
+                let chooseOne = try GameAction.buildChooseOne(chooser: player, options: options, state: state)
                 state.queue.insert(chooseOne, at: 0)
                 return state
             }
@@ -70,11 +70,11 @@ struct ActionPlay: GameReducerProtocol {
         let action: GameAction =
         switch playMode {
         case .immediate:
-                .playImmediate(card, actor: actor)
+                .playImmediate(card, player: player)
         case .ability:
-                .playAbility(card, actor: actor)
+                .playAbility(card, player: player)
         case .equipment:
-                .playEquipment(card, actor: actor)
+                .playEquipment(card, player: player)
         default:
             fatalError("unexpected")
         }

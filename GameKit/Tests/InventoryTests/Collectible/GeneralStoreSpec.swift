@@ -32,12 +32,12 @@ final class GeneralStoreSpec: QuickSpec {
                     }
                     
                     // When
-                    let action = GameAction.play(.generalStore, actor: "p1")
+                    let action = GameAction.play(.generalStore, player: "p1")
                     let result = self.awaitAction(action, choices: ["c1", "c2"], state: state)
                     
                     // Then
                     expect(result) == [
-                        .playImmediate(.generalStore, actor: "p1"),
+                        .playImmediate(.generalStore, player: "p1"),
                         .discover,
                         .discover,
                         .discover,
@@ -74,12 +74,12 @@ final class GeneralStoreSpec: QuickSpec {
                     }
                     
                     // When
-                    let action = GameAction.play(.generalStore, actor: "p1")
+                    let action = GameAction.play(.generalStore, player: "p1")
                     let result = self.awaitAction(action, choices: ["c1"], state: state)
                     
                     // Then
                     expect(result) == [
-                        .playImmediate(.generalStore, actor: "p1"),
+                        .playImmediate(.generalStore, player: "p1"),
                         .discover,
                         .discover,
                         .chooseOne(player: "p1", options: [

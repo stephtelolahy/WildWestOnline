@@ -6,7 +6,7 @@
 //
 
 struct ActionPlayImmediate: GameReducerProtocol {
-    let actor: String
+    let player: String
     let card: String
     let target: String?
 
@@ -17,7 +17,7 @@ struct ActionPlayImmediate: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
 
-        var ctx: EffectContext = [.actor: actor, .card: card]
+        var ctx: EffectContext = [.actor: player, .card: card]
         ctx[.target] = target
 
         if case let .require(_, childEffect) = sideEffect {
@@ -37,12 +37,12 @@ struct ActionPlayImmediate: GameReducerProtocol {
         var state = state
 
         // discard played hand card
-        let actorObj = state.player(actor)
+        let actorObj = state.player(player)
         guard actorObj.hand.contains(card) else {
             throw GameError.cardNotFound(card)
         }
         
-        try state[keyPath: \GameState.players[actor]]?.hand.remove(card)
+        try state[keyPath: \GameState.players[player]]?.hand.remove(card)
         state.discard.push(card)
 
         state.playCounter[card] = (state.playCounter[card] ?? 0) + 1

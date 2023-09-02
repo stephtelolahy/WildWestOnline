@@ -27,7 +27,7 @@ final class BangSpec: QuickSpec {
                         .counters([.bang: 1])
                     
                     // When
-                    let action = GameAction.play(.bang, actor: "p1")
+                    let action = GameAction.play(.bang, player: "p1")
                     let error = self.awaitError(action, state: state)
 
                     // Assert
@@ -50,7 +50,7 @@ final class BangSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.play(.bang, actor: "p1")
+                    let action = GameAction.play(.bang, player: "p1")
                     let error = self.awaitError(action, state: state)
 
                     // Then
@@ -75,15 +75,15 @@ final class BangSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.play(.bang, actor: "p1")
+                    let action = GameAction.play(.bang, player: "p1")
                     let result = self.awaitAction(action, choices: ["p2", .missed], state: state)
 
                     // Then
                     expect(result) == [
                         .chooseOne(player: "p1", options: [
-                            "p2": .playImmediate(.bang, target: "p2", actor: "p1")
+                            "p2": .playImmediate(.bang, target: "p2", player: "p1")
                         ]),
-                        .playImmediate(.bang, target: "p2", actor: "p1"),
+                        .playImmediate(.bang, target: "p2", player: "p1"),
                         .chooseOne(player: "p2", options: [
                             .missed: .discardHand(.missed, player: "p2"),
                             .pass: .damage(1, player: "p2")
@@ -106,15 +106,15 @@ final class BangSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.play(.bang, actor: "p1")
+                    let action = GameAction.play(.bang, player: "p1")
                     let result = self.awaitAction(action, choices: ["p2", .pass], state: state)
 
                     // Then
                     expect(result) == [
                         .chooseOne(player: "p1", options: [
-                            "p2": .playImmediate(.bang, target: "p2", actor: "p1")
+                            "p2": .playImmediate(.bang, target: "p2", player: "p1")
                         ]),
-                        .playImmediate(.bang, target: "p2", actor: "p1"),
+                        .playImmediate(.bang, target: "p2", player: "p1"),
                         .chooseOne(player: "p2", options: [
                             .pass: .damage(1, player: "p2")
                         ]),

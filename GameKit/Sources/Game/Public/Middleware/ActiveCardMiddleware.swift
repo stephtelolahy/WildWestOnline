@@ -53,7 +53,7 @@ extension GameState {
             return false
         }
         
-        let action = GameAction.play(card, actor: actor)
+        let action = GameAction.play(card, player: actor)
         do {
             try action.validate(state: self)
             return true

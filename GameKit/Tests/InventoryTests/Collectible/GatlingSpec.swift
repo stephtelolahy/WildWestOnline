@@ -31,12 +31,12 @@ final class GatlingSpec: QuickSpec {
                     }
                     
                     // When
-                    let action = GameAction.play(.gatling, actor: "p1")
+                    let action = GameAction.play(.gatling, player: "p1")
                     let result = self.awaitAction(action, choices: [.missed, .pass], state: state)
                     
                     // Then
                     expect(result) == [
-                        .playImmediate(.gatling, actor: "p1"),
+                        .playImmediate(.gatling, player: "p1"),
                         .chooseOne(player: "p2", options: [
                             .missed: .discardHand(.missed, player: "p2"),
                             .pass: .damage(1, player: "p2")
@@ -67,12 +67,12 @@ final class GatlingSpec: QuickSpec {
                     }
                     
                     // When
-                    let action = GameAction.play(.gatling, actor: "p1")
+                    let action = GameAction.play(.gatling, player: "p1")
                     let result = self.awaitAction(action, choices: [.missed], state: state)
                     
                     // Then
                     expect(result) == [
-                        .playImmediate(.gatling, actor: "p1"),
+                        .playImmediate(.gatling, player: "p1"),
                         .chooseOne(player: "p2", options: [
                             .missed: .discardHand(.missed, player: "p2"),
                             .pass: .damage(1, player: "p2")

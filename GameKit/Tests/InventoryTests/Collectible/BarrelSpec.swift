@@ -24,11 +24,11 @@ final class BarrelSpec: QuickSpec {
                 }
                 
                 // When
-                let action = GameAction.play(.barrel, actor: "p1")
+                let action = GameAction.play(.barrel, player: "p1")
                 let result = self.awaitAction(action, state: state)
                 
                 // Then
-                expect(result) == [.playEquipment(.barrel, actor: "p1")]
+                expect(result) == [.playEquipment(.barrel, player: "p1")]
             }
         }
         
@@ -54,12 +54,12 @@ final class BarrelSpec: QuickSpec {
                         }
                         
                         // When
-                        let action = GameAction.playImmediate(.bang, target: "p2", actor: "p1")
+                        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
                         let result = self.awaitAction(action, state: state)
                         
                         // Then
                         expect(result) == [
-                            .playImmediate(.bang, target: "p2", actor: "p1"),
+                            .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
                             .cancel(.next)
                         ]
@@ -86,12 +86,12 @@ final class BarrelSpec: QuickSpec {
                         }
                         
                         // When
-                        let action = GameAction.playImmediate(.bang, target: "p2", actor: "p1")
+                        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
                         let result = self.awaitAction(action, choices: [.pass], state: state)
                         
                         // Then
                         expect(result) == [
-                            .playImmediate(.bang, target: "p2", actor: "p1"),
+                            .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
                             .chooseOne(player: "p2", options: [
                                 .pass: .damage(1, player: "p2")

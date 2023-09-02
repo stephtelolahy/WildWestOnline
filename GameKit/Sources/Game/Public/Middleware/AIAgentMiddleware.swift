@@ -25,7 +25,7 @@ extension GameState {
         if let active {
             // swiftlint:disable:next force_unwrapping
             let randomCard = active.cards.randomElement()!
-            let randomAction = GameAction.play(randomCard, actor: active.player)
+            let randomAction = GameAction.play(randomCard, player: active.player)
             return randomAction
         }
 
