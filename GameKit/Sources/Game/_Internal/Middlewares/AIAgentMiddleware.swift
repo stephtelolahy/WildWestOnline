@@ -8,7 +8,7 @@
 import Redux
 import Combine
 
-public let aiAgentMiddleware: Middleware<GameState, GameAction> = { state, _ in
+public let aiAgentMiddleware: Middleware<GameState> = { state, _ in
     if let action = state.evaluateAIMove() {
         Just(action).eraseToAnyPublisher()
     } else {

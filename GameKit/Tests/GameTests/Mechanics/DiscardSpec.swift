@@ -11,8 +11,6 @@ import Game
 
 final class DiscardSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("discard") {
             context("hand card") {
                 it("should remove card from hand") {
@@ -28,7 +26,7 @@ final class DiscardSpec: QuickSpec {
 
                     // When
                     let action = GameAction.discard("c1", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").hand.cards) == ["c2"]
@@ -50,7 +48,7 @@ final class DiscardSpec: QuickSpec {
 
                     // When
                     let action = GameAction.discard("c1", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").inPlay.cards) == ["c2"]
@@ -66,7 +64,7 @@ final class DiscardSpec: QuickSpec {
 
                     // When
                     let action = GameAction.discard("c1", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.error) == .cardNotFound("c1")

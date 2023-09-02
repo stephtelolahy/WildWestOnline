@@ -11,8 +11,6 @@ import Game
 
 final class EliminateSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("eliminating a player") {
             it("should remove from PlayOrder and emit event") {
                 // Given
@@ -23,7 +21,7 @@ final class EliminateSpec: QuickSpec {
 
                 // When
                 let action = GameAction.eliminate(player: "p1")
-                let result = sut.reduce(state: state, action: action)
+                let result = GameState.reducer(state, action)
 
                 // Then
                 expect(result.event) == action
@@ -42,7 +40,7 @@ final class EliminateSpec: QuickSpec {
 
                 // When
                 let action = GameAction.eliminate(player: "p1")
-                let result = sut.reduce(state: state, action: action)
+                let result = GameState.reducer(state, action)
 
                 // Then
                 expect(result.event) == action

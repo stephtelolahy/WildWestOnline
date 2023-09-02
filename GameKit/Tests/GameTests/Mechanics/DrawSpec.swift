@@ -11,8 +11,6 @@ import Game
 
 final class DrawSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("draw") {
             context("deck containing cards") {
                 it("should remove top card") {
@@ -27,7 +25,7 @@ final class DrawSpec: QuickSpec {
 
                     // When
                     let action = GameAction.draw(player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").hand.cards) == ["c1"]
@@ -49,7 +47,7 @@ final class DrawSpec: QuickSpec {
 
                         // When
                         let action = GameAction.draw(player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.event) == action
@@ -68,7 +66,7 @@ final class DrawSpec: QuickSpec {
 
                         // When
                         let action = GameAction.draw(player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.error) == .deckIsEmpty

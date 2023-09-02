@@ -8,7 +8,7 @@ import Redux
 import Combine
 
 /// Dispatching queued side effects
-let gameLoopMiddleware: Middleware<GameState, GameAction> = { state, _ in
+let gameLoopMiddleware: Middleware<GameState> = { state, _ in
     if let action = state.evaluateNextAction() {
         Just(action).eraseToAnyPublisher()
     } else {

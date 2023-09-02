@@ -8,9 +8,10 @@
 import Redux
 import Combine
 
-public func createGameStore(initial: GameState) -> Store<GameState, GameAction> {
+@available(*, deprecated)
+public func createGameStore(initial: GameState) -> Store<GameState> {
     Store(initial: initial,
-          reducer: GameReducer().reduce,
+          reducer: GameState.reducer,
           middlewares: [
             gameLoopMiddleware,
             activeCardMiddleware,

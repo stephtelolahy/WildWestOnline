@@ -12,7 +12,6 @@ import Redux
 
 final class ChooseOneSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
         var state: GameState!
         
         describe("chooseOne") {
@@ -36,7 +35,7 @@ final class ChooseOneSpec: QuickSpec {
                 it("should remove waiting state") {
                     // When
                     let action = GameAction.discard("c1", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.chooseOne) == nil
@@ -48,7 +47,7 @@ final class ChooseOneSpec: QuickSpec {
                 it("should throw error") {
                     // When
                     let action = GameAction.discard("c3", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.chooseOne) != nil

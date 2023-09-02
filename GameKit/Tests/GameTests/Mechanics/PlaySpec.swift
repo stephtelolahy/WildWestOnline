@@ -12,8 +12,6 @@ import Game
 final class PlaySpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
-        let sut = GameReducer()
-
         describe("playing") {
             context("not playable card") {
                 it("should throw error") {
@@ -28,7 +26,7 @@ final class PlaySpec: QuickSpec {
 
                     // When
                     let action = GameAction.play("c1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.error) == .cardNotPlayable("c1")
@@ -53,7 +51,7 @@ final class PlaySpec: QuickSpec {
 
                     // When
                     let action = GameAction.play("c1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.queue) == [
@@ -81,7 +79,7 @@ final class PlaySpec: QuickSpec {
 
                     // When
                     let action = GameAction.play("c1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.queue) == [
@@ -112,7 +110,7 @@ final class PlaySpec: QuickSpec {
 
                     // When
                     let action = GameAction.play("c1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.queue) == [

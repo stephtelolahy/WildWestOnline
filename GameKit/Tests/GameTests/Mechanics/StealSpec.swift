@@ -11,8 +11,6 @@ import Game
 
 final class StealSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("steal") {
             context("hand card") {
                 it("should remove card from hand") {
@@ -29,7 +27,7 @@ final class StealSpec: QuickSpec {
 
                     // When
                     let action = GameAction.steal("c21", target: "p2", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.event) == action
@@ -53,7 +51,7 @@ final class StealSpec: QuickSpec {
 
                     // When
                     let action = GameAction.steal("c21", target: "p2", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.event) == action
@@ -71,7 +69,7 @@ final class StealSpec: QuickSpec {
 
                     // When
                     let action = GameAction.steal("c2", target: "p1", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.error) == .cardNotFound("c2")

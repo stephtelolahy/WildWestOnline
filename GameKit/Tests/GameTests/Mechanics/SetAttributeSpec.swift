@@ -11,8 +11,6 @@ import Game
 
 final class SetAttributeSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("setting attribute") {
             it("should set attribute") {
                 // Given
@@ -22,7 +20,7 @@ final class SetAttributeSpec: QuickSpec {
 
                 // When
                 let action = GameAction.setAttribute(.scope, value: 1, player: "p1")
-                let result = sut.reduce(state: state, action: action)
+                let result = GameState.reducer(state, action)
 
                 // Then
                 expect(result.event) == action

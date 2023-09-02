@@ -11,7 +11,6 @@ import Nimble
 
 final class ChooseCardSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
         describe("choose a card") {
             context("specified") {
                 context("multiple cards remaining") {
@@ -27,7 +26,7 @@ final class ChooseCardSpec: QuickSpec {
 
                         // When
                         let action = GameAction.chooseCard("c1", player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.event) == action
@@ -48,7 +47,7 @@ final class ChooseCardSpec: QuickSpec {
 
                         // When
                         let action = GameAction.chooseCard("c1", player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.event) == action

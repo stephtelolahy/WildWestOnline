@@ -11,7 +11,6 @@ import Game
 
 final class PlayEquipmentSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
         let card1 = Card("c1") {
             CardEffect.nothing
                 .triggered(.onPlay(.equipment))
@@ -33,7 +32,7 @@ final class PlayEquipmentSpec: QuickSpec {
 
                     // When
                     let action = GameAction.playEquipment("c1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").hand.cards) == ["c2"]
@@ -59,7 +58,7 @@ final class PlayEquipmentSpec: QuickSpec {
 
                     // When
                     let action = GameAction.playEquipment("c-1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.error) == .cardAlreadyInPlay("c")

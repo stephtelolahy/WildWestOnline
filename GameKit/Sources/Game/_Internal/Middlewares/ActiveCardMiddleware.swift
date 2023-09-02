@@ -9,7 +9,7 @@ import Redux
 import Combine
 
 /// Dispatching active cards
-let activeCardMiddleware: Middleware<GameState, GameAction> = { state, _ in
+let activeCardMiddleware: Middleware<GameState> = { state, _ in
     if let action = state.evaluateActive() {
         Just(action).eraseToAnyPublisher()
     } else {

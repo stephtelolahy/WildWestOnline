@@ -11,7 +11,6 @@ import Game
 
 final class DamageSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
         var state: GameState!
         
         describe("damage") {
@@ -27,7 +26,7 @@ final class DamageSpec: QuickSpec {
                 it("should reduce life point by 1") {
                     // When
                     let action = GameAction.damage(1, player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.event) == action
@@ -39,7 +38,7 @@ final class DamageSpec: QuickSpec {
                 it("should reduce life point by 2") {
                     // When
                     let action = GameAction.damage(2, player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").attributes[.health]) == 0

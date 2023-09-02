@@ -11,7 +11,6 @@ import Game
 
 final class HealSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
         var state: GameState!
 
         describe("heal") {
@@ -30,7 +29,7 @@ final class HealSpec: QuickSpec {
                     it("should gain life points") {
                         // When
                         let action = GameAction.heal(1, player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.event) == action
@@ -42,7 +41,7 @@ final class HealSpec: QuickSpec {
                     it("should gain life points") {
                         // When
                         let action = GameAction.heal(2, player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.event) == action
@@ -54,7 +53,7 @@ final class HealSpec: QuickSpec {
                     it("should gain life points limited to max health") {
                         // When
                         let action = GameAction.heal(3, player: "p1")
-                        let result = sut.reduce(state: state, action: action)
+                        let result = GameState.reducer(state, action)
 
                         // Then
                         expect(result.event) == action
@@ -74,7 +73,7 @@ final class HealSpec: QuickSpec {
 
                     // When
                     let action = GameAction.heal(1, player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.error) == .playerAlreadyMaxHealth("p1")

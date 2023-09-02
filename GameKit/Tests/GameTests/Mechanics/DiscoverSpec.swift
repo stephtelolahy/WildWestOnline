@@ -11,8 +11,6 @@ import Game
 
 final class DiscoverSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("DrawToArena") {
             context("chosable nil") {
                 it("should draw top deck and create arena") {
@@ -27,7 +25,7 @@ final class DiscoverSpec: QuickSpec {
 
                     // When
                     let action = GameAction.discover
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.event) == action
@@ -51,7 +49,7 @@ final class DiscoverSpec: QuickSpec {
 
                     // When
                     let action = GameAction.discover
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.event) == action

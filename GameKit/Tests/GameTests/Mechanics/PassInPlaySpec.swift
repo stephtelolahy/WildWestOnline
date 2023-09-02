@@ -11,8 +11,6 @@ import Game
 
 final class PassInPlaySpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("pass in play") {
             it("should remove card from inPlay") {
                 // Given
@@ -28,7 +26,7 @@ final class PassInPlaySpec: QuickSpec {
 
                 // When
                 let action = GameAction.passInplay("c1", target: "p2", player: "p1")
-                let result = sut.reduce(state: state, action: action)
+                let result = GameState.reducer(state, action)
 
                 // Then
                 expect(result.event) == action
@@ -45,7 +43,7 @@ final class PassInPlaySpec: QuickSpec {
 
                     // When
                     let action = GameAction.passInplay("c1", target: "p2", player: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.error) == .cardNotFound("c1")

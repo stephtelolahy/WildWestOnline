@@ -11,8 +11,6 @@ import Game
 
 final class LuckSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-        
         describe("DrawToDiscard") {
             it("should draw top deck and put to discard") {
                 // Given
@@ -28,7 +26,7 @@ final class LuckSpec: QuickSpec {
                 
                 // When
                 let action = GameAction.luck
-                let result = sut.reduce(state: state, action: action)
+                let result = GameState.reducer(state, action)
                 
                 // Then
                 expect(result.event) == action
