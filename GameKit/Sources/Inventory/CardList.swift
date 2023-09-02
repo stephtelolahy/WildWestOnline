@@ -179,7 +179,7 @@ private extension CardList {
     static let drawOnSetTurn = Card(.drawOnSetTurn) {
         CardEffect.draw
             .target(.actor)
-            .repeat(.playerAttr(.starTurnCards))
+            .repeat(.playerAttr(.startTurnCards))
             .triggered(.onSetTurn)
     }
 

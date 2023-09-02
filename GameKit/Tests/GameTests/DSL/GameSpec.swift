@@ -164,7 +164,7 @@ final class GameSpec: QuickSpec {
                       "mustang": 0,
                       "scope": 1,
                       "abilities": [],
-                      "starTurnCards": 2,
+                      "startTurnCards": 2,
                       "attributes": {},
                       "hand": {
                         "visibility": "p1",

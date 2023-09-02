@@ -64,7 +64,7 @@ final class PlayerSpec: QuickSpec {
                 }
 
                 it("should have 2 start turn cards") {
-                    expect(sut.attributes[.starTurnCards]) == 2
+                    expect(sut.attributes[.startTurnCards]) == 2
                 }
             }
 
@@ -190,7 +190,7 @@ final class PlayerSpec: QuickSpec {
                 expect(sut.attributes[.weapon]) == 3
                 expect(sut.attributes[.mustang]) == 0
                 expect(sut.attributes[.scope]) == 1
-                expect(sut.attributes[.starTurnCards]) == 2
+                expect(sut.attributes[.startTurnCards]) == 2
             }
         }
     }

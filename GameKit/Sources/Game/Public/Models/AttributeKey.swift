@@ -23,14 +23,14 @@ public enum AttributeKey: String, Codable, CodingKeyRepresentable {
     /// Gun range, default: 1
     case weapon
 
-    /// Increment distance from others
+    /// Increment distance from others, default: 0
     case mustang
 
-    /// Decrement distance to others
+    /// Decrement distance to others, default: 0
     case scope
 
-    /// Cards to draw at beginning of turn
-    case starTurnCards
+    /// Cards to draw at beginning of turn, default: 2
+    case startTurnCards
 
     /// Number of flipped cards on a draw, default: 1
     case flippedCards
