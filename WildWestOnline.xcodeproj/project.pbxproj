@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		263B0AB82AA36E5300AC6008 /* Screen in Frameworks */ = {isa = PBXBuildFile; productRef = 263B0AB72AA36E5300AC6008 /* Screen */; };
+		263B0ABA2AA36E5C00AC6008 /* Inventory in Frameworks */ = {isa = PBXBuildFile; productRef = 263B0AB92AA36E5C00AC6008 /* Inventory */; };
 		26646BA72A5ADECC000C2DCA /* LoggerMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */; };
-		2699EF0129D93AD00030ACCD /* WWOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WWOApp.swift */; };
+		2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* GameApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
 		2699EF0929D93AD10030ACCD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0829D93AD10030ACCD /* Preview Assets.xcassets */; };
 		269D0F0A29F3D67A0096EB49 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = 269D0F0929F3D67A0096EB49 /* Game */; };
 		269D0F0C29F3D67A0096EB49 /* Redux in Frameworks */ = {isa = PBXBuildFile; productRef = 269D0F0B29F3D67A0096EB49 /* Redux */; };
-		269D0F0E29F3D67A0096EB49 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = 269D0F0D29F3D67A0096EB49 /* UI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		263B0ABC2AA382C100AC6008 /* Screen.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Screen.xctestplan; sourceTree = "<group>"; };
 		26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerMiddleware.swift; sourceTree = "<group>"; };
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2699EF0029D93AD00030ACCD /* WWOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WWOApp.swift; sourceTree = "<group>"; };
+		2699EF0029D93AD00030ACCD /* GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildWestOnline.entitlements; sourceTree = "<group>"; };
 		2699EF0829D93AD10030ACCD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -33,9 +35,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				263B0AB82AA36E5300AC6008 /* Screen in Frameworks */,
 				269D0F0A29F3D67A0096EB49 /* Game in Frameworks */,
-				269D0F0E29F3D67A0096EB49 /* UI in Frameworks */,
 				269D0F0C29F3D67A0096EB49 /* Redux in Frameworks */,
+				263B0ABA2AA36E5C00AC6008 /* Inventory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +55,7 @@
 		2699EEF429D93AD00030ACCD = {
 			isa = PBXGroup;
 			children = (
+				263B0ABC2AA382C100AC6008 /* Screen.xctestplan */,
 				F37D85E02A0438EE00C3A754 /* README.md */,
 				26A398D22A5F4DA800A4E48C /* WildWestOnline.xctestplan */,
 				26DD32B829F3D646002E0F93 /* GameKit */,
@@ -72,7 +76,7 @@
 		2699EEFF29D93AD00030ACCD /* App */ = {
 			isa = PBXGroup;
 			children = (
-				2699EF0029D93AD00030ACCD /* WWOApp.swift */,
+				2699EF0029D93AD00030ACCD /* GameApp.swift */,
 				26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */,
 				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
 				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
@@ -109,7 +113,8 @@
 			packageProductDependencies = (
 				269D0F0929F3D67A0096EB49 /* Game */,
 				269D0F0B29F3D67A0096EB49 /* Redux */,
-				269D0F0D29F3D67A0096EB49 /* UI */,
+				263B0AB72AA36E5300AC6008 /* Screen */,
+				263B0AB92AA36E5C00AC6008 /* Inventory */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -123,7 +128,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					2699EEFC29D93AD00030ACCD = {
 						CreatedOnToolsVersion = 14.2;
@@ -187,7 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2699EF0129D93AD00030ACCD /* WWOApp.swift in Sources */,
+				2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */,
 				26646BA72A5ADECC000C2DCA /* LoggerMiddleware.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +237,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -291,6 +297,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -318,6 +325,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "WildWest Online";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -357,6 +365,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "WildWest Online";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -408,6 +417,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		263B0AB72AA36E5300AC6008 /* Screen */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Screen;
+		};
+		263B0AB92AA36E5C00AC6008 /* Inventory */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Inventory;
+		};
 		269D0F0929F3D67A0096EB49 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Game;
@@ -415,10 +432,6 @@
 		269D0F0B29F3D67A0096EB49 /* Redux */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Redux;
-		};
-		269D0F0D29F3D67A0096EB49 /* UI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = UI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

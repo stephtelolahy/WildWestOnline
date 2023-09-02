@@ -11,7 +11,10 @@ import Game
 
 final class PlayEquipmentSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
+        let card1 = Card("c1") {
+            CardEffect.nothing
+                .triggered(.onPlay(.equipment))
+        }
 
         describe("playing equipment a card") {
             context("not in play") {
@@ -25,10 +28,11 @@ final class PlayEquipmentSpec: QuickSpec {
                             }
                         }
                     }
+                    .cardRef(["c1": card1])
 
                     // When
                     let action = GameAction.playEquipment("c1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").hand.cards) == ["c2"]
@@ -50,13 +54,14 @@ final class PlayEquipmentSpec: QuickSpec {
                             }
                         }
                     }
+                    .cardRef(["c": card1])
 
                     // When
                     let action = GameAction.playEquipment("c-1", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.event) == .error(.cardAlreadyInPlay("c"))
+                    expect(result.error) == .cardAlreadyInPlay("c")
                 }
             }
         }

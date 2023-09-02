@@ -9,21 +9,38 @@ struct ActionPlay: GameReducerProtocol {
     let actor: String
     let card: String
 
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func reduce(state: GameState) throws -> GameState {
         // verify action
         let cardName = card.extractName()
-        guard let cardObj = state.cardRef[cardName],
-              let playAction = cardObj.actions.first(where: { $0.eventReq == .onPlay }) else {
+        guard let cardObj = state.cardRef[cardName] else {
+            throw GameError.cardNotPlayable(card)
+        }
+
+        var sideEffect: CardEffect
+        let playMode: PlayMode
+        if let immediateEffect = cardObj.actions[.onPlay(.immediate)] {
+            sideEffect = immediateEffect
+            playMode = .immediate
+        } else if let abilityEffect = cardObj.actions[.onPlay(.ability)] {
+            sideEffect = abilityEffect
+            playMode = .ability
+        } else if let equipmentEffect = cardObj.actions[.onPlay(.equipment)] {
+            sideEffect = equipmentEffect
+            playMode = .equipment
+        } else if let handicapEffect = cardObj.actions[.onPlay(.handicap)] {
+            sideEffect = handicapEffect
+            playMode = .handicap
+        } else {
             throw GameError.cardNotPlayable(card)
         }
 
         let ctx: EffectContext = [.actor: actor, .card: card]
 
         // verify requirements
-        let sideEffect = playAction.effect
-        for playReq in playAction.playReqs {
+        if case let .require(playReq, childEffect) = sideEffect {
             try playReq.match(state: state, ctx: ctx)
+            sideEffect = childEffect
         }
 
         // resolve target
@@ -33,37 +50,35 @@ struct ActionPlay: GameReducerProtocol {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    switch cardObj.type {
+                    switch playMode {
                     case .immediate:
-                        .playImmediate(card, target: $1, actor: actor)
+                            .playImmediate(card, target: $1, actor: actor)
                     case .handicap:
-                        .playHandicap(card, target: $1, actor: actor)
+                            .playHandicap(card, target: $1, actor: actor)
                     default:
                         fatalError("unexpected")
                     }
-                    
+
                     $0[$1] = action
                 }
-                let chooseOne = try GameAction.validChooseOne(chooser: actor, options: options, state: state)
+                let chooseOne = try GameAction.buildChooseOne(chooser: actor, options: options, state: state)
                 state.queue.insert(chooseOne, at: 0)
                 return state
             }
         }
 
         let action: GameAction =
-        switch cardObj.type {
-        case .equipment:
-            .playEquipment(card, actor: actor)
-        case .handicap:
-            fatalError("unexpected")
+        switch playMode {
         case .immediate:
-            if state.player(actor).hand.contains(card) {
                 .playImmediate(card, actor: actor)
-            } else {
+        case .ability:
                 .playAbility(card, actor: actor)
-            }
+        case .equipment:
+                .playEquipment(card, actor: actor)
+        default:
+            fatalError("unexpected")
         }
-        
+
         // queue play action
         var state = state
         state.queue.insert(action, at: 0)

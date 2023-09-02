@@ -27,10 +27,10 @@ final class PanicSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.panic, actor: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let error = self.awaitError(action, state: state)
 
                     // Then
-                    expect(result) == [.error(.noPlayer(.selectAt(1)))]
+                    expect(error) == .noPlayer(.selectAt(1))
                 }
             }
             
@@ -62,9 +62,9 @@ final class PanicSpec: QuickSpec {
                             ]),
                             .playImmediate(.panic, target: "p2", actor: "p1"),
                             .chooseOne(player: "p1", options: [
-                                .randomHand: .steal("c21", target: "p2", player: "p1")
+                                .randomHand: .stealHand("c21", target: "p2", player: "p1")
                             ]),
-                            .steal("c21", target: "p2", player: "p1")
+                            .stealHand("c21", target: "p2", player: "p1")
                         ]
                     }
                 }
@@ -97,10 +97,10 @@ final class PanicSpec: QuickSpec {
                             ]),
                             .playImmediate(.panic, target: "p2", actor: "p1"),
                             .chooseOne(player: "p1", options: [
-                                "c21": .steal("c21", target: "p2", player: "p1"),
-                                "c22": .steal("c22", target: "p2", player: "p1")
+                                "c21": .stealInPlay("c21", target: "p2", player: "p1"),
+                                "c22": .stealInPlay("c22", target: "p2", player: "p1")
                             ]),
-                            .steal("c22", target: "p2", player: "p1")
+                            .stealInPlay("c22", target: "p2", player: "p1")
                         ]
                     }
                 }
@@ -136,11 +136,11 @@ final class PanicSpec: QuickSpec {
                             ]),
                             .playImmediate(.panic, target: "p2", actor: "p1"),
                             .chooseOne(player: "p1", options: [
-                                .randomHand: .steal("c21", target: "p2", player: "p1"),
-                                "c22": .steal("c22", target: "p2", player: "p1"),
-                                "c23": .steal("c23", target: "p2", player: "p1")
+                                .randomHand: .stealHand("c21", target: "p2", player: "p1"),
+                                "c22": .stealInPlay("c22", target: "p2", player: "p1"),
+                                "c23": .stealInPlay("c23", target: "p2", player: "p1")
                             ]),
-                            .steal("c23", target: "p2", player: "p1")
+                            .stealInPlay("c23", target: "p2", player: "p1")
                         ]
                     }
                 }

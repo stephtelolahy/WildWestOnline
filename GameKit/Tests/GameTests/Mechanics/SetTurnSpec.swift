@@ -11,8 +11,6 @@ import Game
 
 final class SetTurnSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-        
         describe("setting turn") {
             it("should set attribute and reset counters") {
                 // Given
@@ -22,7 +20,7 @@ final class SetTurnSpec: QuickSpec {
                 
                 // When
                 let action = GameAction.setTurn("p1")
-                let result = sut.reduce(state: state, action: action)
+                let result = GameState.reducer(state, action)
 
                 // Then
                 expect(result.event) == action

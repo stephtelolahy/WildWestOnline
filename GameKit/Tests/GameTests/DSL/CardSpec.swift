@@ -29,7 +29,6 @@ final class CardSpec: QuickSpec {
                 let JSON = """
                 {
                     "name": "c1",
-                    "type": "immediate",
                     "actions": []
                 }
                 """
@@ -41,7 +40,6 @@ final class CardSpec: QuickSpec {
 
                 // Then
                 expect(sut.name) == "c1"
-                expect(sut.type) == .immediate
             }
         }
     }

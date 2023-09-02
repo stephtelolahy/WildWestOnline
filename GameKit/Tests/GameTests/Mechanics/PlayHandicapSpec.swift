@@ -11,8 +11,6 @@ import Game
 
 final class PlayHandicapSpec: QuickSpec {
     override func spec() {
-        let sut = GameReducer()
-
         describe("playing handicap card") {
             context("not in play") {
                 it("should put card in target's inplay") {
@@ -29,7 +27,7 @@ final class PlayHandicapSpec: QuickSpec {
 
                     // When
                     let action = GameAction.playHandicap("c1", target: "p2", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
                     expect(result.player("p1").hand.cards) == ["c2"]
@@ -57,10 +55,10 @@ final class PlayHandicapSpec: QuickSpec {
 
                     // When
                     let action = GameAction.playHandicap("c-1", target: "p2", actor: "p1")
-                    let result = sut.reduce(state: state, action: action)
+                    let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.event) == .error(.cardAlreadyInPlay("c"))
+                    expect(result.error) == .cardAlreadyInPlay("c")
                 }
             }
         }

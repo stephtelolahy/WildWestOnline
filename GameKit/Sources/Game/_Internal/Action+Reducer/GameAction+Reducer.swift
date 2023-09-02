@@ -35,12 +35,16 @@ private extension GameAction {
             ActionHeal(player: player, value: value)
         case let .damage(value, player):
             ActionDamage(player: player, value: value)
-        case let .discard(card, player):
-            ActionDiscard(player: player, card: card)
+        case let .discardHand(card, player):
+            ActionDiscardHand(player: player, card: card)
+        case let .discardInPlay(card, player):
+            ActionDiscardInPlay(player: player, card: card)
         case let .draw(player):
             ActionDraw(player: player)
-        case let .steal(card, target, player):
-            ActionSteal(player: player, target: target, card: card)
+        case let .stealHand(card, target, player):
+            ActionStealHand(player: player, target: target, card: card)
+        case let .stealInPlay(card, target, player):
+            ActionStealInPlay(player: player, target: target, card: card)
         case let .passInplay(card, target, player):
             ActionPassInPlay(card: card, target: target, player: player)
         case .discover:
@@ -59,12 +63,14 @@ private extension GameAction {
             ActionResolve(effect: effect, ctx: ctx)
         case let .chooseOne(player, options):
             ActionChooseOne(chooser: player, options: options)
-        case let .activateCard(player, cards):
-            ActionActivateCard(player: player, cards: cards)
+        case let .activateCards(player, cards):
+            ActionActivateCards(player: player, cards: cards)
         case let .cancel(arg):
             ActionCancel(arg: arg)
         case let .setGameOver(winner):
             ActionSetGameOver(winner: winner)
+        case let .setAttribute(key, value, player):
+            ActionSetAttribute(player: player, key: key, value: value)
         default:
             fatalError("unimplemented action \(self)")
         }

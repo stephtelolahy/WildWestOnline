@@ -15,7 +15,7 @@ public extension Player {
             .health: 0,
             .maxHealth: 0,
             .weapon: 1,
-            .starTurnCards: 2
+            .startTurnCards: 2
         ]
         components().forEach { $0.update(player: &self) }
     }

@@ -26,10 +26,10 @@ final class CatBalouSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.catBalou, actor: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let error = self.awaitError(action, state: state)
 
                     // Then
-                    expect(result) == [.error(.noPlayer(.selectAny))]
+                    expect(error) == .noPlayer(.selectAny)
                 }
             }
             
@@ -61,9 +61,9 @@ final class CatBalouSpec: QuickSpec {
                             ]),
                             .playImmediate(.catBalou, target: "p2", actor: "p1"),
                             .chooseOne(player: "p1", options: [
-                                .randomHand: .discard("c21", player: "p2")
+                                .randomHand: .discardHand("c21", player: "p2")
                             ]),
-                            .discard("c21", player: "p2")
+                            .discardHand("c21", player: "p2")
                         ]
                     }
                 }
@@ -96,10 +96,10 @@ final class CatBalouSpec: QuickSpec {
                             ]),
                             .playImmediate(.catBalou, target: "p2", actor: "p1"),
                             .chooseOne(player: "p1", options: [
-                                "c21": .discard("c21", player: "p2"),
-                                "c22": .discard("c22", player: "p2")
+                                "c21": .discardInPlay("c21", player: "p2"),
+                                "c22": .discardInPlay("c22", player: "p2")
                             ]),
-                            .discard("c22", player: "p2")
+                            .discardInPlay("c22", player: "p2")
                         ]
                     }
                 }
@@ -135,11 +135,11 @@ final class CatBalouSpec: QuickSpec {
                             ]),
                             .playImmediate(.catBalou, target: "p2", actor: "p1"),
                             .chooseOne(player: "p1", options: [
-                                .randomHand: .discard("c21", player: "p2"),
-                                "c22": .discard("c22", player: "p2"),
-                                "c23": .discard("c23", player: "p2")
+                                .randomHand: .discardHand("c21", player: "p2"),
+                                "c22": .discardInPlay("c22", player: "p2"),
+                                "c23": .discardInPlay("c23", player: "p2")
                             ]),
-                            .discard("c23", player: "p2")
+                            .discardInPlay("c23", player: "p2")
                         ]
                     }
                 }

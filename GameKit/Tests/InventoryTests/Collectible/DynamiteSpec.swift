@@ -13,7 +13,7 @@ final class DynamiteSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing dynamite") {
-            it("should target") {
+            it("should equip") {
                 // Given
                 let state = createGameWithCardRef {
                     Player("p1") {
@@ -93,7 +93,7 @@ final class DynamiteSpec: QuickSpec {
                         expect(result) == [.setTurn("p1"),
                                            .luck,
                                            .damage(3, player: "p1"),
-                                           .discard("dynamite", player: "p1"),
+                                           .discardInPlay("dynamite", player: "p1"),
                                            .draw(player: "p1"),
                                            .draw(player: "p1")]
                     }
@@ -131,7 +131,7 @@ final class DynamiteSpec: QuickSpec {
                                            .luck,
                                            .damage(3, player: "p1"),
                                            .eliminate(player: "p1"),
-                                           .discard("dynamite", player: "p1"),
+                                           .discardInPlay("dynamite", player: "p1"),
                                            .setTurn("p2"),
                                            .draw(player: "p2"),
                                            .draw(player: "p2")]

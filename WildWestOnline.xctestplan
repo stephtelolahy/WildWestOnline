@@ -36,8 +36,8 @@
     {
       "target" : {
         "containerPath" : "container:GameKit",
-        "identifier" : "UITests",
-        "name" : "UITests"
+        "identifier" : "ScreenTests",
+        "name" : "ScreenTests"
       }
     }
   ],

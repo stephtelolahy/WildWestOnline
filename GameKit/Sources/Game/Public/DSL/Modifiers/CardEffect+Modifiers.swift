@@ -17,7 +17,11 @@ public extension CardEffect {
     func target(_ target: PlayerArg) -> Self {
         .target(target, effect: self)
     }
-    
+
+    func require(_ playReq: PlayReq) -> Self {
+        .require(playReq, effect: self)
+    }
+
     func otherwise(_ effect: Self) -> Self {
         .force(self, otherwise: effect)
     }
@@ -27,16 +31,10 @@ public extension CardEffect {
     }
     
     func triggered(_ eventReq: EventReq) -> CardAction {
-        .init(eventReq: eventReq, effect: self, playReqs: [])
+        .init(eventReq: eventReq, effect: self)
     }
     
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
         .group(content())
-    }
-}
-
-public extension CardAction {
-    func require(_ playReqs: PlayReq...) -> Self {
-        .init(eventReq: eventReq, effect: effect, playReqs: playReqs)
     }
 }

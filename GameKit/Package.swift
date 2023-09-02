@@ -14,13 +14,14 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "UI", targets: ["UI"])
+        .library(name: "Screen", targets: ["Screen"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
         .package(url: "https://github.com/Quick/Quick", from: "6.1.0"),
-        .package(url: "https://github.com/Quick/Nimble", from: "11.2.2")
+        .package(url: "https://github.com/Quick/Nimble", from: "11.2.2"),
+        .package(url: "https://github.com/LeonardoCardoso/InitMacro.git", branch: "main")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -36,7 +37,8 @@ let package = Package(
         .target(
             name: "Game",
             dependencies: [
-                "Redux"
+                "Redux",
+                "InitMacro"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -64,7 +66,7 @@ let package = Package(
                 "Nimble"
             ]),
         .target(
-            name: "UI",
+            name: "Screen",
             dependencies: [
                 "Redux",
                 "Game",
@@ -74,7 +76,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .testTarget(
-            name: "UITests",
-            dependencies: ["UI"])
+            name: "ScreenTests",
+            dependencies: ["Screen"])
     ]
 )
