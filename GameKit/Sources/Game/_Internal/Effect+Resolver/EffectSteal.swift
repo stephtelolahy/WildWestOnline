@@ -14,7 +14,13 @@ struct EffectSteal: EffectResolverProtocol {
         let chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
         
         return try card.resolve(state: state, ctx: ctx, chooser: chooserId, owner: owner) {
-            .steal($0, target: owner, player: chooserId)
+            if state.player(owner).hand.contains($0) {
+                return .stealHand($0, target: owner, player: chooserId)
+            }
+            if state.player(owner).inPlay.contains($0) {
+                return .stealInPlay($0, target: owner, player: chooserId)
+            }
+            fatalError("card not found \($0)")
         }
     }
 }

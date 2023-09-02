@@ -43,10 +43,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
-
-    /// Draw card from other player
-    @available(*, deprecated)
-    case steal(String, target: String, player: String)
     
     /// Draw card from other player's hand
     case stealHand(String, target: String, player: String)

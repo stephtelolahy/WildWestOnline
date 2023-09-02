@@ -26,7 +26,7 @@ final class StealSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.steal("c21", target: "p2", player: "p1")
+                    let action = GameAction.stealHand("c21", target: "p2", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -50,7 +50,7 @@ final class StealSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.steal("c21", target: "p2", player: "p1")
+                    let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -68,7 +68,7 @@ final class StealSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.steal("c2", target: "p1", player: "p1")
+                    let action = GameAction.stealHand("c2", target: "p1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
