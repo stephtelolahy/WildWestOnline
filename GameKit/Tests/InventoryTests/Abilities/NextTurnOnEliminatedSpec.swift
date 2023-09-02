@@ -66,8 +66,8 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .eliminate(player: "p1"),
-                        .discard("c12", player: "p1"),
-                        .discard("c11", player: "p1"),
+                        .discardInPlay("c12", player: "p1"),
+                        .discardHand("c11", player: "p1"),
                         .setTurn("p2"),
                         .draw(player: "p2"),
                         .draw(player: "p2")

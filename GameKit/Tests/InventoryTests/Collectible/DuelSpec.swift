@@ -49,7 +49,7 @@ final class DuelSpec: QuickSpec {
                         .playImmediate(.duel, target: "p2", actor: "p1"),
                         .chooseOne(player: "p2", options: [
                             "bang-2": .group([
-                                .discard("bang-2", player: "p2"),
+                                .discardHand("bang-2", player: "p2"),
                                 // swiftlint:disable:next line_length
                                 .resolve(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: [.actor: "p1", .card: .duel, .target: "p1"])
                             ]),
@@ -76,16 +76,16 @@ final class DuelSpec: QuickSpec {
                         .playImmediate(.duel, target: "p2", actor: "p1"),
                         .chooseOne(player: "p2", options: [
                             "bang-2": .group([
-                                .discard("bang-2", player: "p2"),
+                                .discardHand("bang-2", player: "p2"),
                                 // swiftlint:disable:next line_length
                                 .resolve(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: [.actor: "p1", .card: .duel, .target: "p1"])
                             ]),
                             .pass: .damage(1, player: "p2")
                         ]),
-                        .discard("bang-2", player: "p2"),
+                        .discardHand("bang-2", player: "p2"),
                         .chooseOne(player: "p1", options: [
                             "bang-1": .group([
-                                .discard("bang-1", player: "p1"),
+                                .discardHand("bang-1", player: "p1"),
                                 // swiftlint:disable:next line_length
                                 .resolve(.challenge(.id("p1"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: [.actor: "p1", .card: .duel, .target: "p2"])
                             ]),

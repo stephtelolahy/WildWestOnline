@@ -38,10 +38,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw top deck card
     case draw(player: String)
 
-    /// Discard a player's hand or inPlay card
-    @available(*, deprecated)
-    case discard(String, player: String)
-
     /// Discard a player's hand card
     case discardHand(String, player: String)
 

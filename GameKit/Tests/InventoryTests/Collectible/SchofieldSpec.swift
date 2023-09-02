@@ -47,12 +47,12 @@ final class SchofieldSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.discard(.schofield, player: "p1")
+                    let action = GameAction.discardInPlay(.schofield, player: "p1")
                     let result = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .discard(.schofield, player: "p1"),
+                        .discardInPlay(.schofield, player: "p1"),
                         .setAttribute(.weapon, value: 1, player: "p1")
                     ]
                 }
@@ -70,12 +70,12 @@ final class SchofieldSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.discard(.schofield, player: "p1")
+                    let action = GameAction.discardHand(.schofield, player: "p1")
                     let result = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .discard(.schofield, player: "p1")
+                        .discardHand(.schofield, player: "p1")
                     ]
                 }
             }

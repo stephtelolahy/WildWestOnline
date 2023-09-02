@@ -38,10 +38,10 @@ final class GatlingSpec: QuickSpec {
                     expect(result) == [
                         .playImmediate(.gatling, actor: "p1"),
                         .chooseOne(player: "p2", options: [
-                            .missed: .discard(.missed, player: "p2"),
+                            .missed: .discardHand(.missed, player: "p2"),
                             .pass: .damage(1, player: "p2")
                         ]),
-                        .discard(.missed, player: "p2"),
+                        .discardHand(.missed, player: "p2"),
                         .chooseOne(player: "p3", options: [
                             .pass: .damage(1, player: "p3")
                         ]),
@@ -74,10 +74,10 @@ final class GatlingSpec: QuickSpec {
                     expect(result) == [
                         .playImmediate(.gatling, actor: "p1"),
                         .chooseOne(player: "p2", options: [
-                            .missed: .discard(.missed, player: "p2"),
+                            .missed: .discardHand(.missed, player: "p2"),
                             .pass: .damage(1, player: "p2")
                         ]),
-                        .discard(.missed, player: "p2")
+                        .discardHand(.missed, player: "p2")
                     ]
                 }
             }

@@ -25,7 +25,7 @@ final class DiscardSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.discard("c1", player: "p1")
+                    let action = GameAction.discardHand("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -47,7 +47,7 @@ final class DiscardSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.discard("c1", player: "p1")
+                    let action = GameAction.discardInPlay("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -63,7 +63,7 @@ final class DiscardSpec: QuickSpec {
                     }
 
                     // When
-                    let action = GameAction.discard("c1", player: "p1")
+                    let action = GameAction.discardInPlay("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then

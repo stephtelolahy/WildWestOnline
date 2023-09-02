@@ -35,8 +35,10 @@ private extension GameAction {
             ActionHeal(player: player, value: value)
         case let .damage(value, player):
             ActionDamage(player: player, value: value)
-        case let .discard(card, player):
-            ActionDiscard(player: player, card: card)
+        case let .discardHand(card, player):
+            ActionDiscardHand(player: player, card: card)
+        case let .discardInPlay(card, player):
+            ActionDiscardInPlay(player: player, card: card)
         case let .draw(player):
             ActionDraw(player: player)
         case let .steal(card, target, player):

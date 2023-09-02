@@ -86,11 +86,11 @@ final class EndTurnSpec: QuickSpec {
                     expect(result) == [
                         .playAbility(.endTurn, actor: "p1"),
                         .chooseOne(player: "p1", options: [
-                            "c1": .discard("c1", player: "p1"),
-                            "c2": .discard("c2", player: "p1"),
-                            "c3": .discard("c3", player: "p1")
+                            "c1": .discardHand("c1", player: "p1"),
+                            "c2": .discardHand("c2", player: "p1"),
+                            "c3": .discardHand("c3", player: "p1")
                         ]),
-                        .discard("c1", player: "p1"),
+                        .discardHand("c1", player: "p1"),
                         .setTurn("p2")
                     ]
                 }
@@ -120,16 +120,16 @@ final class EndTurnSpec: QuickSpec {
                     expect(result) == [
                         .playAbility(.endTurn, actor: "p1"),
                         .chooseOne(player: "p1", options: [
-                            "c1": .discard("c1", player: "p1"),
-                            "c2": .discard("c2", player: "p1"),
-                            "c3": .discard("c3", player: "p1")
+                            "c1": .discardHand("c1", player: "p1"),
+                            "c2": .discardHand("c2", player: "p1"),
+                            "c3": .discardHand("c3", player: "p1")
                         ]),
-                        .discard("c1", player: "p1"),
+                        .discardHand("c1", player: "p1"),
                         .chooseOne(player: "p1", options: [
-                            "c2": .discard("c2", player: "p1"),
-                            "c3": .discard("c3", player: "p1")
+                            "c2": .discardHand("c2", player: "p1"),
+                            "c3": .discardHand("c3", player: "p1")
                         ]),
-                        .discard("c3", player: "p1"),
+                        .discardHand("c3", player: "p1"),
                         .setTurn("p2")
                     ]
                 }

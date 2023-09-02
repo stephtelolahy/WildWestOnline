@@ -11,7 +11,7 @@ struct EffectSteal: EffectResolverProtocol {
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let owner = ctx.get(.target)
-        let chooserId = try chooser.resolveAsUniqueId(state: state, ctx: ctx)
+        let chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
         
         return try card.resolve(state: state, ctx: ctx, chooser: chooserId, owner: owner) {
             .steal($0, target: owner, player: chooserId)

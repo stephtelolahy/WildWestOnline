@@ -45,7 +45,7 @@ extension PlayerArg {
         return output
     }
     
-    func resolveAsUniqueId(state: GameState, ctx: EffectContext) throws -> String {
+    func resolveUnique(state: GameState, ctx: EffectContext) throws -> String {
         if case let .id(pId) = self {
             return pId
         } else {

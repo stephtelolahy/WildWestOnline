@@ -24,7 +24,7 @@ public enum EventReq: Codable, Equatable, Hashable {
     case onForceDiscardHandNamed(String)
 
     /// After inPlay card get discarded
-    case onDiscarded
+    case onDiscardedInPlay
 }
 
 /// Decsribing the manner a card is played

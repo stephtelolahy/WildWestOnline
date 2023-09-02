@@ -26,15 +26,15 @@ final class ChooseOneSpec: QuickSpec {
                     }
                 }
                 .waiting("p1", options: [
-                    "c1": .discard("c1", player: "p1"),
-                    "c2": .discard("c2", player: "p1")
+                    "c1": .discardHand("c1", player: "p1"),
+                    "c2": .discardHand("c2", player: "p1")
                 ])
             }
 
             context("when dispatching waited action") {
                 it("should remove waiting state") {
                     // When
-                    let action = GameAction.discard("c1", player: "p1")
+                    let action = GameAction.discardHand("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -46,7 +46,7 @@ final class ChooseOneSpec: QuickSpec {
             context("when dispatching non waited action") {
                 it("should throw error") {
                     // When
-                    let action = GameAction.discard("c3", player: "p1")
+                    let action = GameAction.discardHand("c3", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then

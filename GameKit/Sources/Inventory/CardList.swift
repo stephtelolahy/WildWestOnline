@@ -157,7 +157,7 @@ private extension CardList {
             .triggered(.onPlay(.equipment))
         CardEffect.setAttribute(.weapon, value: 1)
             .target(.actor)
-            .triggered(.onDiscarded)
+            .triggered(.onDiscardedInPlay)
     }
 
     static let remington = Card(.remington) {
@@ -166,7 +166,7 @@ private extension CardList {
             .triggered(.onPlay(.equipment))
         CardEffect.setAttribute(.weapon, value: 1)
             .target(.actor)
-            .triggered(.onDiscarded)
+            .triggered(.onDiscardedInPlay)
     }
 
     // MARK: - Abilities
