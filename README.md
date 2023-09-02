@@ -33,7 +33,7 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Sequence**: what begins when a Player Action is taken
 - **Option**: a choice that have to be taken by player when resolving sequence
 
-![](docs/architecture.png)
+![](Docs/architecture.png)
 
 ### Event solving
 
@@ -53,13 +53,13 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - Store notifies subscribers by broadcasting a new state.
 - It is best to separate each responsibility into different middleware. You can then easily enable or disable some features.
 
-![](docs/redux.png)
+![](Docs/redux.png)
 
 ### Sequence diagram
 
 Online gameplay uses shared database
 
-![](docs/sequence.png)
+![](Docs/sequence.png)
 
 
 ### Code duplication
