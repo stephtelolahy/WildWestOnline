@@ -44,4 +44,8 @@ public final class Store<State>: ObservableObject {
 
         state = newState
     }
+
+    public func addMiddleware(_ middleware: @escaping Middleware<State>) {
+        middlewares.append(middleware)
+    }
 }

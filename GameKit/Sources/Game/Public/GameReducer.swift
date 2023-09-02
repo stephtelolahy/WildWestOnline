@@ -9,7 +9,7 @@ import Redux
 public extension GameState {
     static let reducer: Reducer<GameState> = { state, action in
         guard let action = action as? GameAction else {
-            fatalError("unsupported action")
+            return state
         }
 
         guard state.isOver == nil else {

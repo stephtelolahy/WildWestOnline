@@ -7,7 +7,7 @@
 import Redux
 import Combine
 
-let eventLoggerMiddleware: Middleware<GameState> = { state, _ in
+public let eventLoggerMiddleware: Middleware<GameState> = { state, _ in
     if let event = state.event {
         if event.isRenderable {
             print("✅ \(event.loggerDescription)")
