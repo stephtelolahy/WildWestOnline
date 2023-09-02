@@ -46,7 +46,10 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Set player attribute
     case setAttribute(AttributeKey, value: Int)
-    
+
+    /// Set player attribute
+    case resetAttribute(AttributeKey)
+
     /// Increment player attribute
     case incAttribute(AttributeKey, value: Int)
 

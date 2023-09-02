@@ -10,27 +10,57 @@ import Nimble
 import Game
 
 final class SchofieldSpec: QuickSpec {
+    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing schofield") {
-            it("should equip") {
-                // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .schofield
+            context("no weapon inPlay") {
+                it("should equip") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .schofield
+                            }
                         }
                     }
+
+                    // When
+                    let action = GameAction.play(.schofield, actor: "p1")
+                    let result = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(result) == [
+                        .playEquipment(.schofield, actor: "p1"),
+                        .setAttribute(.weapon, value: 2, player: "p1")
+                    ]
                 }
+            }
 
-                // When
-                let action = GameAction.play(.schofield, actor: "p1")
-                let result = self.awaitAction(action, state: state)
+            xcontext("already playing another weapon") {
+                it("should discard previous weapon") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .schofield
+                            }
+                            InPlay {
+                                .remington
+                            }
+                        }
+                    }
 
-                // Then
-                expect(result) == [
-                    .playEquipment(.schofield, actor: "p1"),
-                    .setAttribute(.weapon, value: 2, player: "p1")
-                ]
+                    // When
+                    let action = GameAction.play(.schofield, actor: "p1")
+                    let result = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(result) == [
+                        .playEquipment(.schofield, actor: "p1"),
+                        .discardInPlay(.remington, player: "p1"),
+                        .setAttribute(.weapon, value: 2, player: "p1")
+                    ]
+                }
             }
         }
 

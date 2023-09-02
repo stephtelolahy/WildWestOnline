@@ -10,6 +10,7 @@ import Quick
 import Nimble
 
 final class PlayImmediateSpec: QuickSpec {
+    // swiftlint:disable:next function_body_length
     override func spec() {
         let card1 = Card("c1") {
             CardEffect.nothing

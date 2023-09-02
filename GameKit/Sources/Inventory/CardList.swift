@@ -155,7 +155,7 @@ private extension CardList {
         CardEffect.setAttribute(.weapon, value: 2)
             .target(.actor)
             .triggered(.onPlay(.equipment))
-        CardEffect.setAttribute(.weapon, value: 1)
+        CardEffect.resetAttribute(.weapon)
             .target(.actor)
             .triggered(.onDiscardedInPlay)
     }
@@ -164,7 +164,7 @@ private extension CardList {
         CardEffect.setAttribute(.weapon, value: 3)
             .target(.actor)
             .triggered(.onPlay(.equipment))
-        CardEffect.setAttribute(.weapon, value: 1)
+        CardEffect.resetAttribute(.weapon)
             .target(.actor)
             .triggered(.onDiscardedInPlay)
     }

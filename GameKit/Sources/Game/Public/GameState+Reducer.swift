@@ -1,5 +1,5 @@
 //
-//  GameReducer.swift
+//  GameState+Reducer.swift
 //
 //
 //  Created by Hugues Telolahy on 09/04/2023.
