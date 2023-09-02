@@ -35,7 +35,7 @@ extension GameState {
         }
         
         if activeCards.isNotEmpty {
-            return GameAction.activateCard(player: actor, cards: activeCards)
+            return GameAction.activateCards(player: actor, cards: activeCards)
         }
         return nil
     }
@@ -67,7 +67,7 @@ extension GameState {
 private extension GameState {
     var lastEventIsActiveCard: Bool {
         switch event {
-        case .activateCard:
+        case .activateCards:
             true
         default:
             false

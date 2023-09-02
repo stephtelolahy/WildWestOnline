@@ -59,8 +59,8 @@ private extension GameAction {
             ActionResolve(effect: effect, ctx: ctx)
         case let .chooseOne(player, options):
             ActionChooseOne(chooser: player, options: options)
-        case let .activateCard(player, cards):
-            ActionActivateCard(player: player, cards: cards)
+        case let .activateCards(player, cards):
+            ActionActivateCards(player: player, cards: cards)
         case let .cancel(arg):
             ActionCancel(arg: arg)
         case let .setGameOver(winner):

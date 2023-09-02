@@ -36,7 +36,7 @@ final class ActiveCardsSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .activateCard(player: "p1", cards: [.saloon, .gatling])
+                        .activateCards(player: "p1", cards: [.saloon, .gatling])
                     ]
                 }
             }

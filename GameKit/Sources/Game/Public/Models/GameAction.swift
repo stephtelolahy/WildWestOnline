@@ -38,14 +38,24 @@ public indirect enum GameAction: Codable, Equatable {
     case draw(player: String)
 
     /// Discard a player's hand or inPlay card
+    @available(*, deprecated)
     case discard(String, player: String)
-//    case discardHand(String, player: String)
-//    case discardInPlay(String, player: String)
+
+    /// Discard a player's hand card
+    case discardHand(String, player: String)
+
+    /// Discard a player's inPlay card
+    case discardInPlay(String, player: String)
 
     /// Draw card from other player
+    @available(*, deprecated)
     case steal(String, target: String, player: String)
-//    case stealHand(String, target: String, player: String)
-//    case stealInPlay(String, target: String, player: String)
+    
+    /// Draw card from other player's hand
+    case stealHand(String, target: String, player: String)
+    
+    /// Draw card from other player's inPlay
+    case stealInPlay(String, target: String, player: String)
 
     /// Pass inPlay card to another player
     case passInplay(String, target: String, player: String)
@@ -78,8 +88,7 @@ public indirect enum GameAction: Codable, Equatable {
     case chooseOne(player: String, options: [String: Self])
 
     /// Expose active cards
-    case activateCard(player: String, cards: [String])
-//    case activateCards(player: String, cards: [String])
+    case activateCards(player: String, cards: [String])
 
     /// End game
     case setGameOver(winner: String)

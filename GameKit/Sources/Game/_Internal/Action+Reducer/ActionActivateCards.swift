@@ -1,11 +1,11 @@
 //
-//  ActionActivateCard.swift
+//  ActionActivateCards.swift
 //  
 //
 //  Created by Hugues Telolahy on 01/07/2023.
 //
 
-struct ActionActivateCard: GameReducerProtocol {
+struct ActionActivateCards: GameReducerProtocol {
     let player: String
     let cards: [String]
 
