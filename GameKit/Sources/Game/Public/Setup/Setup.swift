@@ -15,7 +15,7 @@ public enum Setup {
         var deck = deck.shuffled()
         let players: [Player] = figures.map { figure in
             let identifier = figure.name
-            let health = figure.bullets
+            let health = figure.attributes[.maxHealth] ?? 0
             let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
             var player = Player(identifier)
             player.name = figure.name
