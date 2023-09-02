@@ -24,9 +24,9 @@ public struct CardRule {
 }
 
 private extension Array where Element == CardRule {
-    func toActions() -> [EventReq: CardAction] {
-        reduce(into: [EventReq: CardAction]()) {
-            $0[$1.eventReq] = CardAction(effect: $1.effect)
+    func toActions() -> [EventReq: CardEffect] {
+        reduce(into: [EventReq: CardEffect]()) {
+            $0[$1.eventReq] = $1.effect
         }
     }
 }

@@ -85,13 +85,12 @@ private extension GameReducer {
             return nil
         }
         
-        for (eventReq, action) in cardObj.actions {
+        for (eventReq, effect) in cardObj.actions {
             do {
                 let ctx: EffectContext = [.actor: actor, .card: card]
                 let eventMatched = try eventReq.match(state: state, ctx: ctx)
                 if eventMatched {
-                    let sideEffect = action.effect
-                    let gameAction = GameAction.resolve(sideEffect, ctx: ctx)
+                    let gameAction = GameAction.resolve(effect, ctx: ctx)
                     try gameAction.validate(state: state)
                     
                     return gameAction

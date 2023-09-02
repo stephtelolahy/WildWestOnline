@@ -17,19 +17,19 @@ struct ActionPlay: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
 
-        let playAction: CardAction
+        var sideEffect: CardEffect
         let playMode: PlayMode
-        if let immediateAction = cardObj.actions[.onPlay(.immediate)] {
-            playAction = immediateAction
+        if let immediateEffect = cardObj.actions[.onPlay(.immediate)] {
+            sideEffect = immediateEffect
             playMode = .immediate
-        } else if let abilityAction = cardObj.actions[.onPlay(.ability)] {
-            playAction = abilityAction
+        } else if let abilityEffect = cardObj.actions[.onPlay(.ability)] {
+            sideEffect = abilityEffect
             playMode = .ability
-        } else if let equipmentAction = cardObj.actions[.onPlay(.equipment)] {
-            playAction = equipmentAction
+        } else if let equipmentEffect = cardObj.actions[.onPlay(.equipment)] {
+            sideEffect = equipmentEffect
             playMode = .equipment
-        } else if let handicapAction = cardObj.actions[.onPlay(.handicap)] {
-            playAction = handicapAction
+        } else if let handicapEffect = cardObj.actions[.onPlay(.handicap)] {
+            sideEffect = handicapEffect
             playMode = .handicap
         } else {
             throw GameError.cardNotPlayable(card)
@@ -38,7 +38,6 @@ struct ActionPlay: GameReducerProtocol {
         let ctx: EffectContext = [.actor: actor, .card: card]
 
         // verify requirements
-        var sideEffect = playAction.effect
         if case let .require(playReq, childEffect) = sideEffect {
             try playReq.match(state: state, ctx: ctx)
             sideEffect = childEffect
