@@ -20,8 +20,8 @@ final class SetupGameSpec: QuickSpec {
                     // Given
                     let deck = Array(1...80).map { "c\($0)" }
                     let figures = [
-                        Figure(name: "p1", bullets: 4, abilities: ["a11"]),
-                        Figure(name: "p2", bullets: 3, abilities: ["a21"])
+                        Figure(name: "p1", attributes: [.maxHealth: 4], abilities: ["a11"]),
+                        Figure(name: "p2", attributes: [.maxHealth: 3], abilities: ["a21"])
                     ]
                     let abilities = ["a1", "a2"]
 

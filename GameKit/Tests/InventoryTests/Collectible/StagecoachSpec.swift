@@ -28,11 +28,11 @@ final class StagecoachSpec: QuickSpec {
                 }
                 
                 // When
-                let action = GameAction.play(.stagecoach, actor: "p1")
+                let action = GameAction.play(.stagecoach, player: "p1")
                 let result = self.awaitAction(action, state: state)
                 
                 // Then
-                expect(result) == [.playImmediate(.stagecoach, actor: "p1"),
+                expect(result) == [.playImmediate(.stagecoach, player: "p1"),
                                    .draw(player: "p1"),
                                    .draw(player: "p1")]
             }

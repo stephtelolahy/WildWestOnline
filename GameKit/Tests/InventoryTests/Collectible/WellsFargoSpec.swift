@@ -29,11 +29,11 @@ final class WellsFargoSpec: QuickSpec {
                 }
                 
                 // When
-                let action = GameAction.play(.wellsFargo, actor: "p1")
+                let action = GameAction.play(.wellsFargo, player: "p1")
                 let result = self.awaitAction(action, state: state)
                 
                 // Then
-                expect(result) == [.playImmediate(.wellsFargo, actor: "p1"),
+                expect(result) == [.playImmediate(.wellsFargo, player: "p1"),
                                    .draw(player: "p1"),
                                    .draw(player: "p1"),
                                    .draw(player: "p1")]

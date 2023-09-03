@@ -13,7 +13,7 @@ final class PlayEquipmentSpec: QuickSpec {
     override func spec() {
         let card1 = Card("c1") {
             CardEffect.nothing
-                .triggered(.onPlay(.equipment))
+                .when(.onPlayEquipment)
         }
 
         describe("playing equipment a card") {
@@ -31,7 +31,7 @@ final class PlayEquipmentSpec: QuickSpec {
                     .cardRef(["c1": card1])
 
                     // When
-                    let action = GameAction.playEquipment("c1", actor: "p1")
+                    let action = GameAction.playEquipment("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -57,7 +57,7 @@ final class PlayEquipmentSpec: QuickSpec {
                     .cardRef(["c": card1])
 
                     // When
-                    let action = GameAction.playEquipment("c-1", actor: "p1")
+                    let action = GameAction.playEquipment("c-1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then

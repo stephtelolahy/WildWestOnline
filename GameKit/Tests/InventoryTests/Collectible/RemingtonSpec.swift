@@ -23,12 +23,12 @@ final class RemingtonSpec: QuickSpec {
                 }
 
                 // When
-                let action = GameAction.play(.remington, actor: "p1")
+                let action = GameAction.play(.remington, player: "p1")
                 let result = self.awaitAction(action, state: state)
 
                 // Then
                 expect(result) == [
-                    .playEquipment(.remington, actor: "p1"),
+                    .playEquipment(.remington, player: "p1"),
                     .setAttribute(.weapon, value: 3, player: "p1")
                 ]
             }
