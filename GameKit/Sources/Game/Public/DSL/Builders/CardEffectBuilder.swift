@@ -12,11 +12,3 @@ public struct CardEffectsBuilder {
         components
     }
 }
-
-@resultBuilder
-public struct CardEffectBuilder {
-
-    public static func buildBlock(_ component: CardEffect) -> CardEffect {
-        component
-    }
-}

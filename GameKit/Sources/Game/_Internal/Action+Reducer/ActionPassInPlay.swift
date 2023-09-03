@@ -12,7 +12,7 @@ struct ActionPassInPlay: GameReducerProtocol {
  
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        try state[keyPath: \GameState.players[player]]?.removeCard(card)
+        try state[keyPath: \GameState.players[player]]?.inPlay.remove(card)
         state[keyPath: \GameState.players[target]]?.inPlay.add(card)
         return state
     }

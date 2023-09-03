@@ -94,3 +94,21 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Dispatch actions sequentially
     case group([Self])
 }
+
+// MARK: - Convenience
+
+public extension GameAction {
+
+    /// Checking if action is renderable
+    var isRenderable: Bool {
+        switch self {
+        case .play,
+             .resolve,
+             .group:
+            false
+
+        default:
+            true
+        }
+    }
+}

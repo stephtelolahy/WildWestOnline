@@ -17,7 +17,7 @@ public let activeCardMiddleware: Middleware<GameState> = { state, _ in
     }
 }
 
-extension GameState {
+private extension GameState {
     func evaluateActive() -> GameAction? {
         guard queue.isEmpty,
               isOver == nil,
@@ -40,7 +40,7 @@ extension GameState {
         return nil
     }
     
-    private func isCardPlayable(_ card: String, player: String) -> Bool {
+    func isCardPlayable(_ card: String, player: String) -> Bool {
         let cardName = card.extractName()
         guard let cardObj = cardRef[cardName] else {
             return false
@@ -62,9 +62,7 @@ extension GameState {
             return false
         }
     }
-}
-
-private extension GameState {
+    
     var lastEventIsActiveCard: Bool {
         switch event {
         case .activateCards:

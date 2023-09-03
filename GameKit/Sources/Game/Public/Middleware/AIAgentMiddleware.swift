@@ -16,7 +16,7 @@ public let aiAgentMiddleware: Middleware<GameState> = { state, _ in
     }
 }
 
-extension GameState {
+private extension GameState {
     func evaluateAIMove() -> GameAction? {
         guard isOver == nil else {
             return nil

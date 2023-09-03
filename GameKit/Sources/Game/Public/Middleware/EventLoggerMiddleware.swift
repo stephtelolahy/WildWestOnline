@@ -23,13 +23,13 @@ public let eventLoggerMiddleware: Middleware<GameState> = { state, _ in
     return Empty().eraseToAnyPublisher()
 }
 
-public extension GameAction {
+private extension GameAction {
     var loggerDescription: String {
         String(describing: self).removingPackageName()
     }
 }
 
-public extension GameError {
+private extension GameError {
     var loggerDescription: String {
         String(describing: self).removingPackageName()
     }

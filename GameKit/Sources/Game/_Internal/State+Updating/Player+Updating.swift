@@ -27,16 +27,6 @@ extension Player {
         attributes[key] = value
     }
 
-    mutating func removeCard(_ card: String) throws {
-        if hand.contains(card) {
-            try hand.remove(card)
-        } else if inPlay.contains(card) {
-            try inPlay.remove(card)
-        } else {
-            throw GameError.cardNotFound(card)
-        }
-    }
-
     private var health: Int {
         attributes[.health] ?? 0
     }
