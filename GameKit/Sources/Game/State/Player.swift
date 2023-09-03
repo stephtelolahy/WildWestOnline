@@ -15,11 +15,14 @@ public struct Player: Identifiable, Codable, Equatable {
 
     /// Display name
     public var name: String = String()
-    
-    /// Player specific attributes
+
+    /// Initial attributes
+    public var setupAttributes: Attributes = [:]
+
+    /// Active attributes
     public var attributes: Attributes = [:]
 
-    /// Player specific abilities
+    /// Active abilities
     public var abilities: [String] = []
 
     /// Life points

@@ -63,6 +63,11 @@ final class SetupGameSpec: QuickSpec {
                     expect(game.player("p1").attributes[.startTurnCards]) == 2
                     expect(game.player("p2").attributes[.startTurnCards]) == 3
                 }
+
+                it("should set setupAttributes") {
+                    expect(game.player("p1").setupAttributes[.startTurnCards]) == 2
+                    expect(game.player("p2").setupAttributes[.startTurnCards]) == 3
+                }
             }
         }
     }

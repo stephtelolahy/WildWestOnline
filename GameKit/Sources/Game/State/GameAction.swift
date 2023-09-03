@@ -68,9 +68,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Set player attribute
     case setAttribute(AttributeKey, value: Int, player: String)
     
-    /// Increment player attribute
-    case incAttribute(AttributeKey, value: Int, player: String)
-
     /// Draw a card from deck and put to discard
     case luck
 

@@ -44,14 +44,8 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Eliminate a player from the game
     case eliminate
     
-    /// Set player attribute
-    case setAttribute(AttributeKey, value: Int)
-
-    /// Set player attribute
-    case resetAttribute(AttributeKey)
-
-    /// Increment player attribute
-    case incAttribute(AttributeKey, value: Int)
+    /// Evaluate player attribute
+    case evaluateAttribute(AttributeKey)
 
     /// Evaluate gameOver
     case evaluateGameOver

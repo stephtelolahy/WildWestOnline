@@ -22,6 +22,8 @@ final class SchofieldSpec: QuickSpec {
                                 .schofield
                             }
                         }
+                        .attribute(.weapon, 1)
+                        .setupAttribute(.weapon, 1)
                     }
 
                     // When
@@ -48,6 +50,8 @@ final class SchofieldSpec: QuickSpec {
                                 .remington
                             }
                         }
+                        .attribute(.weapon, 3)
+                        .setupAttribute(.weapon, 1)
                     }
 
                     // When
@@ -74,6 +78,8 @@ final class SchofieldSpec: QuickSpec {
                                 .schofield
                             }
                         }
+                        .attribute(.weapon, 2)
+                        .setupAttribute(.weapon, 1)
                     }
 
                     // When

@@ -157,15 +157,10 @@ final class GameSpec: QuickSpec {
                     "p1": {
                       "id": "p1",
                       "name": "p1",
-                      "maxHealth": 4,
                       "health": 3,
-                      "handLimit": 3,
-                      "weapon": 1,
-                      "mustang": 0,
-                      "scope": 1,
                       "abilities": [],
-                      "startTurnCards": 2,
                       "attributes": {},
+                      "setupAttributes": {},
                       "hand": {
                         "visibility": "p1",
                         "cards": []

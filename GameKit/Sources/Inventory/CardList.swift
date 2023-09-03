@@ -149,20 +149,20 @@ private extension CardList {
         .when(.onSetTurn)
     }
 
-    static let schofield = Card(.schofield) {
-        CardEffect.setAttribute(.weapon, value: 2)
+    static let schofield = Card(.schofield, attributes: [.weapon: 2]) {
+        CardEffect.evaluateAttribute(.weapon)
             .target(.actor)
             .when(.onPlayEquipment)
-        CardEffect.resetAttribute(.weapon)
+        CardEffect.evaluateAttribute(.weapon)
             .target(.actor)
             .when(.onDiscardedInPlay)
     }
 
-    static let remington = Card(.remington) {
-        CardEffect.setAttribute(.weapon, value: 3)
+    static let remington = Card(.remington, attributes: [.weapon: 3]) {
+        CardEffect.evaluateAttribute(.weapon)
             .target(.actor)
             .when(.onPlayEquipment)
-        CardEffect.resetAttribute(.weapon)
+        CardEffect.evaluateAttribute(.weapon)
             .target(.actor)
             .when(.onDiscardedInPlay)
     }

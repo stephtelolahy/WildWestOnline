@@ -21,6 +21,7 @@ public enum Setup {
 
             player.attributes.merge(attributes) { _, new in new }
             player.attributes.merge(figure.attributes) { _, new in new }
+            player.setupAttributes = player.attributes
             player.abilities = abilities + figure.abilities
 
             guard let health = player.attributes[.maxHealth] else {
