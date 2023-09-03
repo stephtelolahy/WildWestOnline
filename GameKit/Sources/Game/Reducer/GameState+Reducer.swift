@@ -59,52 +59,69 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
 }
 
 private func queueTriggered(state: GameState) -> GameState {
-    var state = state
-    var players = state.playOrder
-    if case let .eliminate(justEliminated) = state.event {
-        players.append(justEliminated)
+    guard let triggered = state.evaluateCardEffects() else {
+        return state
     }
 
-    var triggered: [GameAction] = []
-    for player in players {
-        let playerObj = state.player(player)
-        var cards = playerObj.inPlay.cards + playerObj.abilities + state.abilities
-        if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
-            cards.append(justDiscardedInPlay)
-        }
-        if case let .stealInPlay(justDiscardedInPlay, _, _) = state.event {
-            cards.append(justDiscardedInPlay)
-        }
-        for card in cards {
-            if let triggeredAction = triggeredAction(by: card, player: player, state: state) {
-                triggered.append(triggeredAction)
-            }
-        }
-    }
+    var state = state
     state.queue.insert(contentsOf: triggered, at: 0)
     return state
 }
 
-private func triggeredAction(by card: String, player: String, state: GameState) -> GameAction? {
-    let cardName = card.extractName()
-    guard let cardObj = state.cardRef[cardName] else {
+private extension GameState {
+    /// Evaluate inPlay cards triggered effects given current state
+    func evaluateCardEffects() -> [GameAction]? {
+        let state = self
+        var players = state.playOrder
+        if case let .eliminate(justEliminated) = state.event {
+            players.append(justEliminated)
+        }
+
+        var triggered: [GameAction] = []
+        for player in players {
+            let playerObj = state.player(player)
+            var cards = playerObj.inPlay.cards + playerObj.abilities + state.abilities
+            if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
+                cards.append(justDiscardedInPlay)
+            }
+            if case let .stealInPlay(justDiscardedInPlay, _, _) = state.event {
+                cards.append(justDiscardedInPlay)
+            }
+            for card in cards {
+                if let triggeredAction = triggeredAction(by: card, player: player, state: state) {
+                    triggered.append(triggeredAction)
+                }
+            }
+        }
+
+        guard triggered.isNotEmpty else {
+            return nil
+        }
+
+        return triggered
+    }
+
+    func triggeredAction(by card: String, player: String, state: GameState) -> GameAction? {
+        let cardName = card.extractName()
+        guard let cardObj = state.cardRef[cardName] else {
+            return nil
+        }
+
+        let ctx: EffectContext = [.actor: player, .card: card]
+
+        for rule in cardObj.rules {
+            do {
+                for playReq in rule.playReqs {
+                    try playReq.match(state: state, ctx: ctx)
+                }
+                let action = GameAction.resolve(rule.effect, ctx: ctx)
+                try action.validate(state: state)
+                return action
+            } catch {
+                continue
+            }
+        }
+
         return nil
     }
-
-    let ctx: EffectContext = [.actor: player, .card: card]
-
-    for rule in cardObj.rules {
-        do {
-            for playReq in rule.playReqs {
-                try playReq.match(state: state, ctx: ctx)
-            }
-            let action = GameAction.resolve(rule.effect, ctx: ctx)
-            try action.validate(state: state)
-            return action
-        } catch {
-            continue
-        }
-    }
-
-    return nil
 }
