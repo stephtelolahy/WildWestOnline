@@ -38,7 +38,7 @@ final class PlaySpec: QuickSpec {
                     // Given
                     let card1 = Card("c1") {
                         CardEffect.nothing
-                            .triggered(.onPlay(.immediate))
+                            .triggered(.onPlayImmediate)
                     }
                     let state = GameState {
                         Player("p1") {
@@ -66,7 +66,7 @@ final class PlaySpec: QuickSpec {
                     // Given
                     let card1 = Card("c1") {
                         CardEffect.nothing
-                            .triggered(.onPlay(.equipment))
+                            .triggered(.onPlayEquipment)
                     }
                     let state = GameState {
                         Player("p1") {
@@ -95,7 +95,7 @@ final class PlaySpec: QuickSpec {
                     let card1 = Card("c1") {
                         CardEffect.nothing
                             .target(.selectAny)
-                            .triggered(.onPlay(.handicap))
+                            .triggered(.onPlayHandicap)
                     }
                     let state = GameState {
                         Player("p1") {

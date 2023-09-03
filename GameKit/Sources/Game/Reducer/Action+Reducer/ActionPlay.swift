@@ -19,16 +19,16 @@ struct ActionPlay: GameReducerProtocol {
 
         var sideEffect: CardEffect
         let playMode: PlayMode
-        if let immediateEffect = cardObj.actions[.onPlay(.immediate)] {
+        if let immediateEffect = cardObj.actions[.onPlayImmediate] {
             sideEffect = immediateEffect
             playMode = .immediate
-        } else if let abilityEffect = cardObj.actions[.onPlay(.ability)] {
+        } else if let abilityEffect = cardObj.actions[.onPlayAbility] {
             sideEffect = abilityEffect
             playMode = .ability
-        } else if let equipmentEffect = cardObj.actions[.onPlay(.equipment)] {
+        } else if let equipmentEffect = cardObj.actions[.onPlayEquipment] {
             sideEffect = equipmentEffect
             playMode = .equipment
-        } else if let handicapEffect = cardObj.actions[.onPlay(.handicap)] {
+        } else if let handicapEffect = cardObj.actions[.onPlayHandicap] {
             sideEffect = handicapEffect
             playMode = .handicap
         } else {
@@ -84,4 +84,11 @@ struct ActionPlay: GameReducerProtocol {
         state.queue.insert(action, at: 0)
         return state
     }
+}
+
+private enum PlayMode: String {
+    case immediate
+    case ability
+    case equipment
+    case handicap
 }

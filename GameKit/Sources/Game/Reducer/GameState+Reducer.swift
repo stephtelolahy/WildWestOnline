@@ -25,7 +25,7 @@ public extension GameState {
             state = try prepare(action: action, state: state)
             state = try action.reduce(state: state)
             state.event = action
-            state = queueTriggered(action: action, state: state)
+            state = queueTriggered(state: state)
         } catch {
             state.error = error as? GameError
         }
@@ -58,7 +58,7 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
     return state
 }
 
-private func queueTriggered(action: GameAction, state: GameState) -> GameState {
+private func queueTriggered(state: GameState) -> GameState {
     var state = state
     var players = state.playOrder
     if case let .eliminate(justEliminated) = state.event {

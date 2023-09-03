@@ -24,7 +24,10 @@ private extension EventReq {
             OnLooseLastHealth()
         case .onEliminated:
             OnEliminated()
-        case .onPlay:
+        case .onPlayImmediate,
+                .onPlayAbility,
+                .onPlayHandicap,
+                .onPlayEquipment:
             EventReqNeverMatch()
         case .onForceDiscardHandNamed(let cardName):
             OnForceDiscardHandNamed(cardName: cardName)
