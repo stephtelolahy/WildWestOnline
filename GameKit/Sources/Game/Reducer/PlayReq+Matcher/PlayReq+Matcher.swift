@@ -21,6 +21,21 @@ protocol PlayReqMatcherProtocol {
 private extension PlayReq {
     func matcher() -> PlayReqMatcherProtocol {
         switch self {
+        case .onSetTurn:
+            OnSetTurn()
+        case .onLooseLastHealth:
+            OnLooseLastHealth()
+        case .onEliminated:
+            OnEliminated()
+        case .onPlayImmediate,
+                .onPlayAbility,
+                .onPlayHandicap,
+                .onPlayEquipment:
+            PlayReqNeverMatch()
+        case .onForceDiscardHandNamed(let cardName):
+            OnForceDiscardHandNamed(cardName: cardName)
+        case .onDiscardedInPlay:
+            OnDiscardedInPlay()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isTimesPerTurn(maxTimes):
@@ -30,5 +45,11 @@ private extension PlayReq {
         default:
             fatalError("No matcher found for \(self)")
         }
+    }
+}
+
+private struct PlayReqNeverMatch: PlayReqMatcherProtocol {
+    func match(state: GameState, ctx: EffectContext) -> Bool {
+        false
     }
 }

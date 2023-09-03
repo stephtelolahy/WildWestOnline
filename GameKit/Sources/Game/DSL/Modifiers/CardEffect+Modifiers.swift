@@ -30,7 +30,7 @@ public extension CardEffect {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
     
-    func triggered(_ eventReq: EventReq) -> CardRules {
+    func triggered(_ eventReq: PlayReq) -> CardRules {
         .init(eventReq: eventReq, effect: self)
     }
     

@@ -15,7 +15,7 @@ public struct Card: Codable, Equatable {
 public struct CardRules: Codable, Equatable {
 
     /// Conditions to play a card
-    let eventReq: EventReq
+    let eventReq: PlayReq
 
     /// Card Side-effect
     let effect: CardEffect

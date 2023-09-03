@@ -95,15 +95,12 @@ private func triggeredAction(by card: String, player: String, state: GameState) 
         do {
             let eventReq = rule.eventReq
             let effect = rule.effect
-            let eventMatched = try eventReq.match(state: state, ctx: ctx)
-            if eventMatched {
-                let gameAction = GameAction.resolve(effect, ctx: ctx)
-                try gameAction.validate(state: state)
-
-                return gameAction
-            }
+            try eventReq.match(state: state, ctx: ctx)
+            let gameAction = GameAction.resolve(effect, ctx: ctx)
+            try gameAction.validate(state: state)
+            return gameAction
         } catch {
-            return nil
+            continue
         }
     }
     return nil
