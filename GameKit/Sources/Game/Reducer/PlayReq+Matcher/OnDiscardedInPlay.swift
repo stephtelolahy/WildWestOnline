@@ -10,9 +10,15 @@ struct OnDiscardedInPlay: PlayReqMatcherProtocol {
         if case let .discardInPlay(card, player) = state.event,
               player == ctx.get(.actor),
               card == ctx.get(.card) {
-            true
-        } else {
-            false
+            return true
         }
+
+        if case let .stealInPlay(card, _, player) = state.event,
+              player == ctx.get(.actor),
+              card == ctx.get(.card) {
+            return true
+        }
+        
+        return false
     }
 }

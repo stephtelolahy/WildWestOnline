@@ -72,7 +72,9 @@ private func queueTriggered(state: GameState) -> GameState {
         if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
             cards.append(justDiscardedInPlay)
         }
-
+        if case let .stealInPlay(justDiscardedInPlay, _, _) = state.event {
+            cards.append(justDiscardedInPlay)
+        }
         for card in cards {
             if let triggeredAction = triggeredAction(by: card, player: player, state: state) {
                 triggered.append(triggeredAction)
