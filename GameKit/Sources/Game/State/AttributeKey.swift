@@ -5,9 +5,7 @@
 //  Created by Hugues Telolahy on 06/05/2023.
 //
 
-/// Game element attributes
-public typealias Attributes = [AttributeKey: Int]
-
+/// Initial game element attributes
 public enum AttributeKey: String, Codable, CodingKeyRepresentable {
 
     /// Max health
@@ -35,3 +33,5 @@ public enum AttributeKey: String, Codable, CodingKeyRepresentable {
     /// Number of bangs per turn, default: 1
     case bangsPerTurn
 }
+
+public typealias Attributes = [AttributeKey: Int]
