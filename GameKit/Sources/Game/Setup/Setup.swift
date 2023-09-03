@@ -23,7 +23,10 @@ public enum Setup {
             player.attributes.merge(figure.attributes) { _, new in new }
             player.abilities = abilities + figure.abilities
 
-            let health = player.attributes[.maxHealth]!
+            guard let health = player.attributes[.maxHealth] else {
+                fatalError("undefined max health")
+            }
+
             player.attributes[.health] = health
             let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
             player.hand = CardLocation(cards: hand, visibility: identifier)
