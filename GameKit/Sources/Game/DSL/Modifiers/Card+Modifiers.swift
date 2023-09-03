@@ -18,4 +18,14 @@ public extension Card {
         self.attributes = attributes
         self.rules = content()
     }
+
+    init(
+        _ name: String,
+        attributes: Attributes = [:],
+        prototype: Card
+    ) {
+        self.name = name
+        self.attributes = attributes
+        self.rules = prototype.rules
+    }
 }

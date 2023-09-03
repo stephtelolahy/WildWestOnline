@@ -135,6 +135,8 @@ private extension CardList {
         .when(.onSetTurn)
     }
 
+    // MARK: - Handicap
+
     static let jail = Card(.jail) {
         CardEffect.nothing
             .target(.selectAny)
@@ -149,23 +151,20 @@ private extension CardList {
         .when(.onSetTurn)
     }
 
-    static let schofield = Card(.schofield, attributes: [.weapon: 2]) {
-        CardEffect.evaluateAttribute(.weapon)
+    // MARK: - Equipement
+
+    static let equipement = Card(String()) {
+        CardEffect.evaluateAttribute
             .target(.actor)
             .when(.onPlayEquipment)
-        CardEffect.evaluateAttribute(.weapon)
+        CardEffect.evaluateAttribute
             .target(.actor)
             .when(.onDiscardedInPlay)
     }
 
-    static let remington = Card(.remington, attributes: [.weapon: 3]) {
-        CardEffect.evaluateAttribute(.weapon)
-            .target(.actor)
-            .when(.onPlayEquipment)
-        CardEffect.evaluateAttribute(.weapon)
-            .target(.actor)
-            .when(.onDiscardedInPlay)
-    }
+    static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
+
+    static let remington = Card(.remington, attributes: [.weapon: 3], prototype: equipement)
 
     // MARK: - Abilities
 
