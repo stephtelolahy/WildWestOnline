@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //  ActiveCardMiddleware.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 01/07/2023.
 //
@@ -26,33 +26,33 @@ private extension GameState {
               let player = turn else {
             return nil
         }
-        
+
         var activeCards: [String] = []
         let playerObj = self.player(player)
         for card in (playerObj.hand.cards + playerObj.abilities + abilities)
         where isCardPlayable(card, player: player) {
             activeCards.append(card)
         }
-        
+
         if activeCards.isNotEmpty {
             return GameAction.activateCards(player: player, cards: activeCards)
         }
         return nil
     }
-    
+
     func isCardPlayable(_ card: String, player: String) -> Bool {
         let cardName = card.extractName()
         guard let cardObj = cardRef[cardName] else {
             return false
         }
-        
-        guard cardObj.actions[.onPlayImmediate] != nil
-                || cardObj.actions[.onPlayAbility] != nil
-                || cardObj.actions[.onPlayEquipment] != nil
-                || cardObj.actions[.onPlayHandicap] != nil else {
+
+        guard cardObj.rules.contains(where: { $0.eventReq == .onPlayImmediate })
+                || cardObj.rules.contains(where: { $0.eventReq == .onPlayAbility })
+                || cardObj.rules.contains(where: { $0.eventReq == .onPlayEquipment })
+                || cardObj.rules.contains(where: { $0.eventReq == .onPlayHandicap }) else {
             return false
         }
-        
+
         let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: self)
@@ -62,7 +62,7 @@ private extension GameState {
             return false
         }
     }
-    
+
     var lastEventIsActiveCard: Bool {
         switch event {
         case .activateCards:

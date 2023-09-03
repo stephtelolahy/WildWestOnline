@@ -19,16 +19,16 @@ struct ActionPlay: GameReducerProtocol {
 
         var sideEffect: CardEffect
         let playMode: PlayMode
-        if let immediateEffect = cardObj.actions[.onPlayImmediate] {
+        if let immediateEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayImmediate })?.effect {
             sideEffect = immediateEffect
             playMode = .immediate
-        } else if let abilityEffect = cardObj.actions[.onPlayAbility] {
+        } else if let abilityEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayAbility })?.effect {
             sideEffect = abilityEffect
             playMode = .ability
-        } else if let equipmentEffect = cardObj.actions[.onPlayEquipment] {
+        } else if let equipmentEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayEquipment })?.effect {
             sideEffect = equipmentEffect
             playMode = .equipment
-        } else if let handicapEffect = cardObj.actions[.onPlayHandicap] {
+        } else if let handicapEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayHandicap })?.effect {
             sideEffect = handicapEffect
             playMode = .handicap
         } else {

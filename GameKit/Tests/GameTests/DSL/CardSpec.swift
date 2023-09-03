@@ -29,7 +29,7 @@ final class CardSpec: QuickSpec {
                 let JSON = """
                 {
                     "name": "c1",
-                    "actions": []
+                    "rules": []
                 }
                 """
                 // swiftlint:disable:next: force_unwrapping

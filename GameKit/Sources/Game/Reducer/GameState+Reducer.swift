@@ -89,9 +89,12 @@ private func triggeredAction(by card: String, player: String, state: GameState) 
         return nil
     }
 
-    for (eventReq, effect) in cardObj.actions {
+    let ctx: EffectContext = [.actor: player, .card: card]
+
+    for rule in cardObj.rules {
         do {
-            let ctx: EffectContext = [.actor: player, .card: card]
+            let eventReq = rule.eventReq
+            let effect = rule.effect
             let eventMatched = try eventReq.match(state: state, ctx: ctx)
             if eventMatched {
                 let gameAction = GameAction.resolve(effect, ctx: ctx)

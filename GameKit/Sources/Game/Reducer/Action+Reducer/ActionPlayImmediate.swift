@@ -13,7 +13,7 @@ struct ActionPlayImmediate: GameReducerProtocol {
     func reduce(state: GameState) throws -> GameState {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              var sideEffect = cardObj.actions[.onPlayImmediate] else {
+              var sideEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayImmediate })?.effect else {
             throw GameError.cardNotPlayable(card)
         }
 

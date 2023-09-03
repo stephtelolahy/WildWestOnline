@@ -13,7 +13,7 @@ struct ActionPlayEquipment: GameReducerProtocol {
         let playerObj = state.player(player)
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              let sideEffect = cardObj.actions[.onPlayEquipment] else {
+              let sideEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayEquipment })?.effect else {
             throw GameError.cardNotPlayable(card)
         }
 

@@ -6,7 +6,7 @@
 //
 
 /// Function defining occurred event to play a card
-public enum EventReq: Codable, Equatable, Hashable {
+public enum EventReq: Codable, Equatable {
 
     /// After playing an immediate effect card, then the card is discarded
     case onPlayImmediate

@@ -8,6 +8,15 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// Actions that can be performed with the card
-    public let actions: [EventReq: CardEffect]
+    /// Rules defining actions that can be performed with the card
+    public let rules: [CardRules]
+}
+
+public struct CardRules: Codable, Equatable {
+
+    /// Conditions to play a card
+    let eventReq: EventReq
+
+    /// Card Side-effect
+    let effect: CardEffect
 }
