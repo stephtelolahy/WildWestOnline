@@ -11,7 +11,7 @@ public extension Card {
     
     init(
         _ name: String,
-        @CardRuleBuilder content: () -> [CardRules] = { [] }
+        @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.rules = content()

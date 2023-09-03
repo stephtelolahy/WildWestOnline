@@ -9,13 +9,13 @@ public struct Card: Codable, Equatable {
     public let name: String
 
     /// Rules defining actions that can be performed with the card
-    public let rules: [CardRules]
+    public let rules: [CardRule]
 }
 
-public struct CardRules: Codable, Equatable {
+public struct CardRule: Codable, Equatable {
 
     /// Conditions to play a card
-    let eventReq: PlayReq
+    let playReqs: [PlayReq]
 
     /// Card Side-effect
     let effect: CardEffect

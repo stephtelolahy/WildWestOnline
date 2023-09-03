@@ -12,7 +12,7 @@ struct ActionPlayAbility: GameReducerProtocol {
     func reduce(state: GameState) throws -> GameState {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              let sideEffect = cardObj.rules.first(where: { $0.eventReq == .onPlayAbility })?.effect else {
+              let sideEffect = cardObj.rules.first(where: { $0.playReqs.contains(.onPlayAbility) })?.effect else {
             throw GameError.cardNotPlayable(card)
         }
 

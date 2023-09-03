@@ -46,10 +46,10 @@ private extension GameState {
             return false
         }
 
-        guard cardObj.rules.contains(where: { $0.eventReq == .onPlayImmediate })
-                || cardObj.rules.contains(where: { $0.eventReq == .onPlayAbility })
-                || cardObj.rules.contains(where: { $0.eventReq == .onPlayEquipment })
-                || cardObj.rules.contains(where: { $0.eventReq == .onPlayHandicap }) else {
+        guard cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayImmediate) })
+                || cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayAbility) })
+                || cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayEquipment) })
+                || cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayHandicap) }) else {
             return false
         }
 
