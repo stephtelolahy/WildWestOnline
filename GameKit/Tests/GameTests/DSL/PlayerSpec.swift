@@ -39,8 +39,8 @@ final class PlayerSpec: QuickSpec {
                     expect(sut.hand.cards).to(beEmpty())
                 }
 
-                xit("should have health == 0") {
-                    expect(sut.attributes[.health]) == 0
+                it("should have health == 0") {
+                    expect(sut.health) == 0
                 }
 
                 it("should not have max health") {
@@ -155,10 +155,10 @@ final class PlayerSpec: QuickSpec {
                 {
                     "id": "p1",
                     "name": "n1",
+                    "health": 2,
                     "abilities": ["endTurn"],
                     "attributes": {
                         "maxHealth": 4,
-                        "health": 2,
                         "mustang": 0,
                         "scope": 1,
                         "weapon": 3,
@@ -185,7 +185,7 @@ final class PlayerSpec: QuickSpec {
                 expect(sut.name) == "n1"
                 expect(sut.abilities).to(contain(["endTurn"]))
                 expect(sut.attributes[.maxHealth]) == 4
-                expect(sut.attributes[.health]) == 2
+                expect(sut.health) == 2
                 expect(sut.attributes[.handLimit]) == 2
                 expect(sut.attributes[.weapon]) == 3
                 expect(sut.attributes[.mustang]) == 0

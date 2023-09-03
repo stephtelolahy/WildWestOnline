@@ -13,9 +13,6 @@ public enum AttributeKey: String, Codable, CodingKeyRepresentable {
     /// Max health
     case maxHealth
 
-    /// Life points
-    case health
-
     /// Override maximum allowed hand cards at the end of his turn
     /// by default health is maximum allowed hand cards
     case handLimit

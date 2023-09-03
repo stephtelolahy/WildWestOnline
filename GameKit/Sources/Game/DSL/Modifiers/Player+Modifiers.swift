@@ -21,7 +21,11 @@ public extension Player {
     func attribute(_ key: AttributeKey, _ value: Int) -> Self {
         copy { $0.attributes[key] = value }
     }
-    
+
+    func health(_ value: Int) -> Self {
+        copy { $0.health = value }
+    }
+
     func ability(_ value: String) -> Self {
         copy { $0.abilities.append(value) }
     }

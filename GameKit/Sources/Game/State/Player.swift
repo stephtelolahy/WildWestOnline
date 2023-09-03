@@ -22,6 +22,9 @@ public struct Player: Identifiable, Codable, Equatable {
     /// Player specific abilities
     public var abilities: [String] = []
 
+    /// Life points
+    public var health: Int = 0
+
     /// Hand cards
     public var hand: CardLocation = .init()
 

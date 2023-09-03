@@ -27,7 +27,7 @@ public enum Setup {
                 fatalError("undefined max health")
             }
 
-            player.attributes[.health] = health
+            player.health = health
             let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
             player.hand = CardLocation(cards: hand, visibility: identifier)
 

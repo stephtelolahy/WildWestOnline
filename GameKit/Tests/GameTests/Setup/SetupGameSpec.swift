@@ -40,9 +40,9 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set players to max health") {
-                    expect(game.player("p1").attributes[.health]) == 4
+                    expect(game.player("p1").health) == 4
                     expect(game.player("p1").attributes[.maxHealth]) == 4
-                    expect(game.player("p2").attributes[.health]) == 3
+                    expect(game.player("p2").health) == 3
                     expect(game.player("p2").attributes[.maxHealth]) == 3
                 }
 

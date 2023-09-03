@@ -79,7 +79,7 @@ final class DynamiteSpec: QuickSpec {
                             }
                             .ability(.drawOnSetTurn)
                             .attribute(.startTurnCards, 2)
-                            .attribute(.health, 4)
+                            .health(4)
                             Deck {
                                 "c1-8♠️"
                                 "c2"
@@ -113,7 +113,7 @@ final class DynamiteSpec: QuickSpec {
                             .ability(.eliminateOnLooseLastHealth)
                             .ability(.discardCardsOnEliminated)
                             .ability(.nextTurnOnEliminated)
-                            .attribute(.health, 3)
+                            .health(3)
                             Player("p2")
                                 .ability(.drawOnSetTurn)
                                 .attribute(.startTurnCards, 2)

@@ -18,7 +18,7 @@ final class DamageSpec: QuickSpec {
             beforeEach {
                 state = GameState {
                     Player("p1")
-                        .attribute(.health, 2)
+                        .health(2)
                 }
             }
 
@@ -30,7 +30,7 @@ final class DamageSpec: QuickSpec {
 
                     // Then
                     expect(result.event) == action
-                    expect(result.player("p1").attributes[.health]) == 1
+                    expect(result.player("p1").health) == 1
                 }
             }
 
@@ -41,7 +41,7 @@ final class DamageSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.player("p1").attributes[.health]) == 0
+                    expect(result.player("p1").health) == 0
                 }
             }
         }

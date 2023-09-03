@@ -24,7 +24,7 @@ final class ActiveCardsSpec: QuickSpec {
                                 String.gatling
                             }
                         }
-                        .attribute(.health, 2)
+                        .health(2)
                         .attribute(.maxHealth, 4)
                         Player("p2")
                     }
