@@ -44,6 +44,8 @@ final class DynamiteSpec: QuickSpec {
                                 .dynamite
                             }
                         }
+                        .ability(.drawOnSetTurn)
+                        .attribute(.startTurnCards, 2)
                         Player("p2")
                         Deck {
                             "c1-9♦️"
@@ -51,7 +53,6 @@ final class DynamiteSpec: QuickSpec {
                             "c3"
                         }
                     }
-                    .ability(.drawOnSetTurn)
                     
                     // When
                     let action = GameAction.setTurn("p1")
@@ -76,6 +77,8 @@ final class DynamiteSpec: QuickSpec {
                                     .dynamite
                                 }
                             }
+                            .ability(.drawOnSetTurn)
+                            .attribute(.startTurnCards, 2)
                             .attribute(.health, 4)
                             Deck {
                                 "c1-8♠️"
@@ -83,7 +86,6 @@ final class DynamiteSpec: QuickSpec {
                                 "c2"
                             }
                         }
-                        .ability(.drawOnSetTurn)
                         
                         // When
                         let action = GameAction.setTurn("p1")
@@ -108,8 +110,13 @@ final class DynamiteSpec: QuickSpec {
                                     .dynamite
                                 }
                             }
+                            .ability(.eliminateOnLooseLastHealth)
+                            .ability(.discardCardsOnEliminated)
+                            .ability(.nextTurnOnEliminated)
                             .attribute(.health, 3)
                             Player("p2")
+                                .ability(.drawOnSetTurn)
+                                .attribute(.startTurnCards, 2)
                             Player("p3")
                             Deck {
                                 "c1-8♠️"
@@ -117,10 +124,6 @@ final class DynamiteSpec: QuickSpec {
                                 "c2"
                             }
                         }
-                        .ability(.drawOnSetTurn)
-                        .ability(.eliminateOnLooseLastHealth)
-                        .ability(.discardCardsOnEliminated)
-                        .ability(.nextTurnOnEliminated)
                         
                         // When
                         let action = GameAction.setTurn("p1")

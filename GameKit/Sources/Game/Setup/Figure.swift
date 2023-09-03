@@ -8,7 +8,7 @@ import InitMacro
 
 /// Describing figure
 @Init(defaults: ["abilities": [], "attributes": [:]])
-public struct Figure {
+public struct Figure: GameElement {
     public let name: String
     public let attributes: Attributes
     public let abilities: [String]

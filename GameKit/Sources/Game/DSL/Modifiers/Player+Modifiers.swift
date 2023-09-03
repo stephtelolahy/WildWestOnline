@@ -11,12 +11,6 @@ public extension Player {
 
     init(_ id: String = UUID().uuidString, @PlayerAttributeBuilder components: () -> [PlayerAttribute] = { [] }) {
         self.id = id
-        attributes = [
-            .health: 0,
-            .maxHealth: 0,
-            .weapon: 1,
-            .startTurnCards: 2
-        ]
         components().forEach { $0.update(player: &self) }
     }
 

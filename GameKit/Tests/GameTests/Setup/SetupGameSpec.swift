@@ -23,10 +23,12 @@ final class SetupGameSpec: QuickSpec {
                         Figure(name: "p1", attributes: [.maxHealth: 4], abilities: ["a11"]),
                         Figure(name: "p2", attributes: [.maxHealth: 3], abilities: ["a21"])
                     ]
+                    let attributes: Attributes = [.startTurnCards: 2]
                     let abilities = ["a1", "a2"]
 
                     // When
                     game = Setup.buildGame(figures: figures,
+                                           attributes: attributes,
                                            abilities: abilities,
                                            deck: deck)
                 }
@@ -55,10 +57,11 @@ final class SetupGameSpec: QuickSpec {
                     expect(game.turn) == nil
                 }
 
-                it("should set default abilities") {
-                    expect(game.abilities) == ["a1", "a2"]
-                    expect(game.player("p1").abilities) == ["a11"]
-                    expect(game.player("p2").abilities) == ["a21"]
+                it("should set default attributes and abilities") {
+                    expect(game.player("p1").abilities) == ["a1", "a2", "a11"]
+                    expect(game.player("p2").abilities) == ["a1", "a2", "a21"]
+                    expect(game.player("p1").attributes[.startTurnCards]) == 2
+                    expect(game.player("p2").attributes[.startTurnCards]) == 2
                 }
             }
         }

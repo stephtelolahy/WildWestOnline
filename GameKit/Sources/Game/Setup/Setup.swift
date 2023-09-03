@@ -8,6 +8,7 @@
 public enum Setup {
     public static func buildGame(
         figures: [Figure],
+        attributes: Attributes,
         abilities: [String],
         deck: [String]
     ) -> GameState {
@@ -15,14 +16,18 @@ public enum Setup {
         var deck = deck.shuffled()
         let players: [Player] = figures.map { figure in
             let identifier = figure.name
-            let health = figure.attributes[.maxHealth] ?? 0
-            let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
             var player = Player(identifier)
             player.name = figure.name
-            player.hand = CardLocation(cards: hand, visibility: identifier)
-            player.attributes[.maxHealth] = health
+
+            player.attributes.merge(attributes) { _, new in new }
+            player.attributes.merge(figure.attributes) { _, new in new }
+            player.abilities = abilities + figure.abilities
+
+            let health = player.attributes[.maxHealth]!
             player.attributes[.health] = health
-            player.abilities = figure.abilities
+            let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
+            player.hand = CardLocation(cards: hand, visibility: identifier)
+
             return player
         }
 
@@ -32,8 +37,8 @@ public enum Setup {
             state.setupOrder.append(player.id)
             state.playOrder.append(player.id)
         }
-        state.abilities = abilities
         state.deck = CardStack(cards: deck)
+
         return state
     }
 

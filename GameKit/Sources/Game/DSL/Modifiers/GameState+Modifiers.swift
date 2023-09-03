@@ -19,7 +19,7 @@ public extension GameState {
         copy { $0.turn = value }
     }
 
-    func counters(_ value: [String: Int]) -> Self {
+    func playCounters(_ value: [String: Int]) -> Self {
         copy { $0.playCounter = value }
     }
 
@@ -29,14 +29,6 @@ public extension GameState {
 
     func waiting(_ chooser: String, options: [String: GameAction]) -> Self {
         copy { $0.chooseOne = ChooseOne(chooser: chooser, options: options) }
-    }
-
-    func attribute(_ key: AttributeKey, _ value: Int) -> Self {
-        copy { $0.attributes[key] = value }
-    }
-
-    func ability(_ value: String) -> Self {
-        copy { $0.abilities.append(value) }
     }
 
     func queue(_ value: [GameAction]) -> Self {

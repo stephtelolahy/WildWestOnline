@@ -29,7 +29,7 @@ private extension GameState {
 
         var activeCards: [String] = []
         let playerObj = self.player(player)
-        for card in (playerObj.hand.cards + playerObj.abilities + abilities)
+        for card in (playerObj.hand.cards + playerObj.abilities)
         where isCardPlayable(card, player: player) {
             activeCards.append(card)
         }

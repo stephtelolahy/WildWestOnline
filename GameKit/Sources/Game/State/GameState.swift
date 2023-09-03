@@ -3,7 +3,7 @@ import Foundation
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
-public struct GameState: GameElement, Codable, Equatable {
+public struct GameState: Codable, Equatable {
 
     /// All players
     public var players: [String: Player] = [:]
@@ -28,12 +28,6 @@ public struct GameState: GameElement, Codable, Equatable {
 
     /// Cards shop
     public var arena: CardLocation?
-
-    /// Common attributes for all players
-    public var attributes: Attributes = [:]
-
-    /// Common abilities for all players
-    public var abilities: [String] = []
 
     /// Is Game over
     public var isOver: GameOver?

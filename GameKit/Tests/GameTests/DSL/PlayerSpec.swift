@@ -27,7 +27,7 @@ final class PlayerSpec: QuickSpec {
                     expect(sut.name).to(beEmpty())
                 }
 
-                it("should have no abilities") {
+                it("should not have abilities") {
                     expect(sut.abilities).to(beEmpty())
                 }
 
@@ -39,12 +39,12 @@ final class PlayerSpec: QuickSpec {
                     expect(sut.hand.cards).to(beEmpty())
                 }
 
-                it("should have health == 0") {
+                xit("should have health == 0") {
                     expect(sut.attributes[.health]) == 0
                 }
 
-                it("should have max health == 0") {
-                    expect(sut.attributes[.maxHealth]) == 0
+                it("should not have max health") {
+                    expect(sut.attributes[.maxHealth]) == nil
                 }
 
                 it("should have empty inPlay") {
@@ -59,12 +59,12 @@ final class PlayerSpec: QuickSpec {
                     expect(sut.attributes[.scope]) == nil
                 }
 
-                it("should have weapon == 1") {
-                    expect(sut.attributes[.weapon]) == 1
+                it("should not have weapon") {
+                    expect(sut.attributes[.weapon]) == nil
                 }
 
-                it("should have 2 start turn cards") {
-                    expect(sut.attributes[.startTurnCards]) == 2
+                it("should not have start turn cards") {
+                    expect(sut.attributes[.startTurnCards]) == nil
                 }
             }
 

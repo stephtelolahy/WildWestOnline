@@ -22,9 +22,10 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.weapon, 1)
                         Player("p2")
                     }
-                        .counters([.bang: 1])
+                        .playCounters([.bang: 1])
                     
                     // When
                     let action = GameAction.play(.bang, player: "p1")
@@ -44,6 +45,7 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.weapon, 1)
                         Player("p2").attribute(.mustang, 1)
                         Player("p3")
                         Player("p4").attribute(.mustang, 1)
@@ -67,6 +69,7 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.weapon, 1)
                         Player("p2") {
                             Hand {
                                 .missed
@@ -102,6 +105,7 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.weapon, 1)
                         Player("p2")
                     }
 

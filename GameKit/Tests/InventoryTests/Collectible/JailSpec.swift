@@ -55,6 +55,8 @@ final class JailSpec: QuickSpec {
                                 .jail
                             }
                         }
+                        .ability(.drawOnSetTurn)
+                        .attribute(.startTurnCards, 2)
                         Player("p2")
                         Deck {
                             "c1-2♥️"
@@ -62,7 +64,6 @@ final class JailSpec: QuickSpec {
                             "c3"
                         }
                     }
-                        .ability(.drawOnSetTurn)
 
                     // When
                     let action = GameAction.setTurn("p1")
@@ -87,6 +88,8 @@ final class JailSpec: QuickSpec {
                             }
                         }
                         Player("p2")
+                            .ability(.drawOnSetTurn)
+                            .attribute(.startTurnCards, 2)
                         Deck {
                             "c1-A♠️"
                             "c2"
@@ -95,7 +98,6 @@ final class JailSpec: QuickSpec {
                             "c5"
                         }
                     }
-                        .ability(.drawOnSetTurn)
 
                     // When
                     let action = GameAction.setTurn("p1")

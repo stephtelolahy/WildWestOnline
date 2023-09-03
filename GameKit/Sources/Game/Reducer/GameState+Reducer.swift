@@ -80,7 +80,7 @@ private extension GameState {
         var triggered: [GameAction] = []
         for player in players {
             let playerObj = state.player(player)
-            var cards = playerObj.inPlay.cards + playerObj.abilities + state.abilities
+            var cards = playerObj.inPlay.cards + playerObj.abilities
             if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
                 cards.append(justDiscardedInPlay)
             }

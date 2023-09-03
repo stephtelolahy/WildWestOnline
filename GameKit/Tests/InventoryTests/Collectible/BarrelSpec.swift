@@ -43,6 +43,7 @@ final class BarrelSpec: QuickSpec {
                                     .bang
                                 }
                             }
+                            .attribute(.weapon, 1)
                             Player("p2") {
                                 InPlay {
                                     .barrel
@@ -75,6 +76,7 @@ final class BarrelSpec: QuickSpec {
                                     .bang
                                 }
                             }
+                            .attribute(.weapon, 1)
                             Player("p2") {
                                 InPlay {
                                     .barrel
@@ -88,7 +90,7 @@ final class BarrelSpec: QuickSpec {
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
                         let result = self.awaitAction(action, choices: [.pass], state: state)
-                        
+
                         // Then
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),

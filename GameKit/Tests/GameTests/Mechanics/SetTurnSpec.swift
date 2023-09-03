@@ -16,8 +16,8 @@ final class SetTurnSpec: QuickSpec {
                 // Given
                 let state = GameState()
                     .turn("px")
-                    .counters(["counter1": 1, "counter2": 2])
-                
+                    .playCounters(["card1": 1, "card2": 2])
+
                 // When
                 let action = GameAction.setTurn("p1")
                 let result = GameState.reducer(state, action)

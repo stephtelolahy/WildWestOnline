@@ -24,8 +24,8 @@ final class DiscardCardsOnEliminatedSpec: QuickSpec {
                                 "c2"
                             }
                         }
+                        .ability(.discardCardsOnEliminated)
                     }
-                    .ability(.discardCardsOnEliminated)
                     
                     // When
                     let action = GameAction.eliminate(player: "p1")
