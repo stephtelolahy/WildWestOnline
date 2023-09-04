@@ -59,8 +59,8 @@ extension XCTestCase {
         cancellable.cancel()
         
         XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
-        XCTAssertTrue(store.state.chooseOne == nil, "Game must be idle", file: file, line: line)
-        
+        XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
+
         return events
     }
 
@@ -111,7 +111,7 @@ extension XCTestCase {
         cancellable.cancel()
 
         XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
-        XCTAssertTrue(store.state.chooseOne == nil, "Game must be idle", file: file, line: line)
+        XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
 
         return ocurredError
     }

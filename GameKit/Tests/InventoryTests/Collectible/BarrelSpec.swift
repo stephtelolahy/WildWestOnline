@@ -49,6 +49,7 @@ final class BarrelSpec: QuickSpec {
                                     .barrel
                                 }
                             }
+                            .attribute(.flippedCards, 1)
                             Deck {
                                 "c1-2♥️"
                             }
@@ -82,6 +83,7 @@ final class BarrelSpec: QuickSpec {
                                     .barrel
                                 }
                             }
+                            .attribute(.flippedCards, 1)
                             Deck {
                                 "c1-A♠️"
                             }

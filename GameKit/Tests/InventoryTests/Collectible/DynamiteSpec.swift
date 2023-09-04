@@ -44,6 +44,7 @@ final class DynamiteSpec: QuickSpec {
                                 .dynamite
                             }
                         }
+                        .attribute(.flippedCards, 1)
                         .ability(.drawOnSetTurn)
                         .attribute(.startTurnCards, 2)
                         Player("p2")
@@ -77,8 +78,9 @@ final class DynamiteSpec: QuickSpec {
                                     .dynamite
                                 }
                             }
-                            .ability(.drawOnSetTurn)
+                            .attribute(.flippedCards, 1)
                             .attribute(.startTurnCards, 2)
+                            .ability(.drawOnSetTurn)
                             .health(4)
                             Deck {
                                 "c1-8♠️"
@@ -110,6 +112,7 @@ final class DynamiteSpec: QuickSpec {
                                     .dynamite
                                 }
                             }
+                            .attribute(.flippedCards, 1)
                             .ability(.eliminateOnLooseLastHealth)
                             .ability(.discardCardsOnEliminated)
                             .ability(.nextTurnOnEliminated)
