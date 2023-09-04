@@ -16,6 +16,7 @@ struct EffectLuck: EffectResolverProtocol {
             throw GameError.deckIsEmpty
         }
         
+        // TODO: repeat luck according to actor's `flippedCards` attribute
         var result: [GameAction] = [.luck]
         
         let matched = card.matches(regex: regex)
