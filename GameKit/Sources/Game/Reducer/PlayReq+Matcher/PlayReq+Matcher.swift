@@ -34,8 +34,8 @@ private extension PlayReq {
             PlayReqNeverMatch()
         case .onForceDiscardHandNamed(let cardName):
             OnForceDiscardHandNamed(cardName: cardName)
-        case .onDiscardedInPlay:
-            OnDiscardedInPlay()
+        case .onDiscardedFromPlay:
+            OnDiscardedFromPlay()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isTimesPerTurn(maxTimes):

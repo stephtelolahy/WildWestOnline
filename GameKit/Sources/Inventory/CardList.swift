@@ -159,7 +159,7 @@ private extension CardList {
             .when(.onPlayEquipment)
         CardEffect.evaluateAttribute
             .target(.actor)
-            .when(.onDiscardedInPlay)
+            .when(.onDiscardedFromPlay)
     }
 
     static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)

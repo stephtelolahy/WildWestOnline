@@ -33,7 +33,7 @@ public enum PlayReq: Codable, Equatable {
     case onForceDiscardHandNamed(String)
 
     /// After inPlay card get discarded
-    case onDiscardedInPlay
+    case onDiscardedFromPlay
 
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)
