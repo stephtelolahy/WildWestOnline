@@ -106,10 +106,42 @@ final class BarrelSpec: QuickSpec {
                 }
             }
             
-            xcontext("two flipped cards") {
-                // Given
-                // When
-                // Then
+            context("two flipped cards") {
+                context("one of flipped card is hearts") {
+                    it("should cancel shot") {
+                        // Given
+                        let state = createGameWithCardRef {
+                            Player("p1") {
+                                Hand {
+                                    .bang
+                                }
+                            }
+                            .attribute(.weapon, 1)
+                            Player("p2") {
+                                InPlay {
+                                    .barrel
+                                }
+                            }
+                            .attribute(.flippedCards, 2)
+                            Deck {
+                                "c1-A♠️"
+                                "c1-2♥️"
+                            }
+                        }
+
+                        // When
+                        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+                        let result = self.awaitAction(action, state: state)
+
+                        // Then
+                        expect(result) == [
+                            .playImmediate(.bang, target: "p2", player: "p1"),
+                            .luck,
+                            .luck,
+                            .cancel(.next)
+                        ]
+                    }
+                }
             }
         }
     }

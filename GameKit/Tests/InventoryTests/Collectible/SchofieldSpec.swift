@@ -61,8 +61,8 @@ final class SchofieldSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playEquipment(.schofield, player: "p1"),
-                        .discardInPlay(.remington, player: "p1"),
-                        .setAttribute(.weapon, value: 2, player: "p1")
+                        .setAttribute(.weapon, value: 2, player: "p1"),
+                        .discardInPlay(.remington, player: "p1")
                     ]
                 }
             }
