@@ -23,6 +23,7 @@ final class BangSpec: QuickSpec {
                             }
                         }
                         .attribute(.weapon, 1)
+                        .attribute(.bangsPerTurn, 1)
                         Player("p2")
                     }
                         .playCounters([.bang: 1])
@@ -32,7 +33,7 @@ final class BangSpec: QuickSpec {
                     let error = self.awaitError(action, state: state)
 
                     // Assert
-                    expect(error) == .noReq(.isTimesPerTurn(1))
+                    expect(error) == .noReq(.isTimesPerTurn(.playerAttr(.bangsPerTurn)))
                 }
             }
 
@@ -45,6 +46,7 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.bangsPerTurn, 1)
                         .attribute(.weapon, 1)
                         Player("p2").attribute(.mustang, 1)
                         Player("p3")
@@ -69,6 +71,7 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.bangsPerTurn, 1)
                         .attribute(.weapon, 1)
                         Player("p2") {
                             Hand {
@@ -105,6 +108,7 @@ final class BangSpec: QuickSpec {
                                 .bang
                             }
                         }
+                        .attribute(.bangsPerTurn, 1)
                         .attribute(.weapon, 1)
                         Player("p2")
                     }
