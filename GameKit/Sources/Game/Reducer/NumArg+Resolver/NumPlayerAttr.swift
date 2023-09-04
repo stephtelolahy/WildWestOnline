@@ -10,6 +10,9 @@ struct NumPlayerAttr: NumArgResolverProtocol {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
         let playerObj = state.player(ctx.get(.actor))
-        return playerObj.attributes[key] ?? 0
+        guard let value = playerObj.attributes[key] else {
+            fatalError("undefined attribute \(key)")
+        }
+        return value
     }
 }

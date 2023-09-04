@@ -28,6 +28,6 @@ extension Player {
     }
 
     private var maxHealth: Int {
-        attributes[.maxHealth] ?? 0
+        attributes.get(.maxHealth)
     }
 }

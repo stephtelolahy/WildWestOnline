@@ -8,7 +8,7 @@
 extension EffectContext {
     func get(_ key: ContextKey) -> String {
         guard let value = self[key] else {
-            fatalError("missing value for key \(key)")
+            fatalError("missing context for key \(key)")
         }
 
         return value
