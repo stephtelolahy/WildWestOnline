@@ -59,7 +59,7 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
 }
 
 private func queueTriggered(state: GameState) -> GameState {
-    guard let triggered = state.evaluateCardEffects() else {
+    guard let triggered = state.evaluateTriggeredEffects() else {
         return state
     }
 
@@ -69,8 +69,8 @@ private func queueTriggered(state: GameState) -> GameState {
 }
 
 private extension GameState {
-    /// Evaluate inPlay cards triggered effects given current state
-    func evaluateCardEffects() -> [GameAction]? {
+    /// Evaluate triggered effects given current state
+    func evaluateTriggeredEffects() -> [GameAction]? {
         let state = self
         var players = state.playOrder
         if case let .eliminate(justEliminated) = state.event {
@@ -81,15 +81,15 @@ private extension GameState {
         for player in players {
             let playerObj = state.player(player)
             var cards = playerObj.inPlay.cards + playerObj.abilities
-            if case let .discardInPlay(justDiscardedInPlay, _) = state.event {
-                cards.append(justDiscardedInPlay)
+            if case let .discardInPlay(justDiscardedFromPlay, _) = state.event {
+                cards.append(justDiscardedFromPlay)
             }
-            if case let .stealInPlay(justDiscardedInPlay, _, _) = state.event {
-                cards.append(justDiscardedInPlay)
+            if case let .stealInPlay(justDiscardedFromPlay, _, _) = state.event {
+                cards.append(justDiscardedFromPlay)
             }
             for card in cards {
-                if let triggeredAction = triggeredAction(by: card, player: player, state: state) {
-                    triggered.append(triggeredAction)
+                if let action = triggeredAction(by: card, player: player, state: state) {
+                    triggered.append(action)
                 }
             }
         }

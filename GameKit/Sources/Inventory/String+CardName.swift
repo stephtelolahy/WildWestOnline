@@ -58,7 +58,7 @@ public extension String {
     static let eliminateOnLooseLastHealth = "eliminateOnLooseLastHealth"
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardCardsOnEliminated = "discardCardsOnEliminated"
-    static let gameOverOnEliminated = "gameOverOnEliminated"
+    static let evaluateGameOverOnEliminated = "evaluateGameOverOnEliminated"
 }
 
 public extension String {

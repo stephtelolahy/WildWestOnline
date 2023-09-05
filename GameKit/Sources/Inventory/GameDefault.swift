@@ -11,7 +11,7 @@ public enum GameDefault {
         .endTurn,
         .drawOnSetTurn,
         .eliminateOnLooseLastHealth,
-        .gameOverOnEliminated,
+        .evaluateGameOverOnEliminated,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated
     ]
