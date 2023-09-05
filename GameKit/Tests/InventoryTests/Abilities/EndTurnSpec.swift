@@ -18,6 +18,7 @@ final class EndTurnSpec: QuickSpec {
                     // Given
                     let state = createGameWithCardRef {
                         Player("p1")
+                            .ability(.endTurn)
                         Player("p2")
                     }
                     .turn("p1")
@@ -46,6 +47,7 @@ final class EndTurnSpec: QuickSpec {
                         }
                         .health(1)
                         .attribute(.handLimit, 10)
+                        .ability(.endTurn)
                         Player("p2")
                     }
                     .turn("p1")
@@ -73,6 +75,7 @@ final class EndTurnSpec: QuickSpec {
                                 "c3"
                             }
                         }
+                        .ability(.endTurn)
                         .health(2)
                         Player("p2")
                     }
@@ -107,6 +110,7 @@ final class EndTurnSpec: QuickSpec {
                                 "c3"
                             }
                         }
+                        .ability(.endTurn)
                         .health(1)
                         Player("p2")
                     }

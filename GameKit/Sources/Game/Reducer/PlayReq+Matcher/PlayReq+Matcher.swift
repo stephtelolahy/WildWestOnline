@@ -28,9 +28,10 @@ private extension PlayReq {
         case .onEliminated:
             OnEliminated()
         case .onPlayImmediate,
-                .onPlayAbility,
                 .onPlayHandicap:
             PlayReqNeverMatch()
+        case .onPlayAbility:
+            OnPlayAbility()
         case .onPlayEquipment:
             OnPlayEquipment()
         case .onForceDiscardHandNamed(let cardName):
