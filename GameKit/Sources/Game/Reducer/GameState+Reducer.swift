@@ -74,7 +74,7 @@ private extension GameState {
         let state = self
         var players = state.playOrder
         if case let .eliminate(justEliminated) = state.event {
-            players.append(justEliminated)
+            players.insert(justEliminated, at: 0)
         }
 
         var triggered: [GameAction] = []
@@ -114,7 +114,17 @@ private extension GameState {
                 for playReq in rule.playReqs {
                     try playReq.match(state: state, ctx: ctx)
                 }
-                let action = GameAction.resolve(rule.effect, ctx: ctx)
+
+                // extract child effect if targeting selectable player
+                var sideEffect = rule.effect
+                if case let .target(requiredTarget, childEffect) = sideEffect {
+                    let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
+                    if case .selectable = resolvedTarget {
+                        sideEffect = childEffect
+                    }
+                }
+                
+                let action = GameAction.resolve(sideEffect, ctx: ctx)
                 try action.validate(state: state)
                 return action
             } catch {

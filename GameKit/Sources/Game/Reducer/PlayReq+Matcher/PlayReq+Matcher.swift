@@ -19,6 +19,7 @@ protocol PlayReqMatcherProtocol {
 }
 
 private extension PlayReq {
+    // swiftlint:disable cyclomatic_complexity
     func matcher() -> PlayReqMatcherProtocol {
         switch self {
         case .onSetTurn:
@@ -27,9 +28,10 @@ private extension PlayReq {
             OnLooseLastHealth()
         case .onEliminated:
             OnEliminated()
-        case .onPlayImmediate,
-                .onPlayHandicap:
+        case .onPlayImmediate:
             PlayReqNeverMatch()
+        case .onPlayHandicap:
+            OnPlayHandicap()
         case .onPlayAbility:
             OnPlayAbility()
         case .onPlayEquipment:

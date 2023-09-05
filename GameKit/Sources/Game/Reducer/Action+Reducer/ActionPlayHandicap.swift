@@ -18,11 +18,7 @@ struct ActionPlayHandicap: GameReducerProtocol {
             throw GameError.cardAlreadyInPlay(cardName)
         }
         
-        // put card in other's play
-        let playerObj = state.player(player)
-        guard playerObj.hand.contains(card) else {
-            throw GameError.cardNotFound(card)
-        }
+        // put card on other's play
         var state = state
         try state[keyPath: \GameState.players[player]]?.hand.remove(card)
         state[keyPath: \GameState.players[target]]?.inPlay.add(card)
