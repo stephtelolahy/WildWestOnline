@@ -46,10 +46,12 @@ private extension GameState {
             return false
         }
 
-        guard cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayImmediate) })
-                || cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayAbility) })
-                || cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayEquipment) })
-                || cardObj.rules.contains(where: { $0.playReqs.contains(.onPlayHandicap) }) else {
+        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
+        guard onPlayReqs.contains(where: { onPlayReq in
+            cardObj.rules.contains(where: { rule in
+                rule.playReqs.contains(onPlayReq)
+            })
+        }) else {
             return false
         }
 

@@ -61,6 +61,31 @@ final class PlaySpec: QuickSpec {
                 }
             }
 
+            context("ability card") {
+                it("should invoke ability") {
+                    // Given
+                    let card1 = Card("c1") {
+                        CardEffect.nothing
+                            .when(.onPlayAbility)
+                    }
+                    let state = GameState {
+                        Player("p1")
+                            .ability("c1")
+                    }
+                    .cardRef(["c1": card1])
+
+                    // When
+                    let action = GameAction.play("c1", player: "p1")
+                    let result = GameState.reducer(state, action)
+
+                    // Then
+                    expect(result.queue) == [
+                        .playAbility("c1", player: "p1")
+                    ]
+                    expect(result.event) == action
+                }
+            }
+
             context("equipment card") {
                 it("should put in self's play") {
                     // Given
