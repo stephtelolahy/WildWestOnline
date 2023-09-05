@@ -10,7 +10,7 @@ struct ActionPlayEquipment: GameReducerProtocol {
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
-        // verify inPlay no duplication rule
+        // verify rule: not already inPlay
         let cardName = card.extractName()
         let playerObj = state.player(player)
         guard playerObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {

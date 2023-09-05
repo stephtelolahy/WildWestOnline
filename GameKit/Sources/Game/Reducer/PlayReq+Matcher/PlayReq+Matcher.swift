@@ -29,7 +29,7 @@ private extension PlayReq {
         case .onEliminated:
             OnEliminated()
         case .onPlayImmediate:
-            PlayReqNeverMatch()
+            OnPlayImmediate()
         case .onPlayHandicap:
             OnPlayHandicap()
         case .onPlayAbility:
@@ -49,11 +49,5 @@ private extension PlayReq {
         default:
             fatalError("No matcher found for \(self)")
         }
-    }
-}
-
-private struct PlayReqNeverMatch: PlayReqMatcherProtocol {
-    func match(state: GameState, ctx: EffectContext) -> Bool {
-        false
     }
 }

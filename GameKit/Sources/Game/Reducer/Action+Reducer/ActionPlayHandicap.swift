@@ -11,7 +11,7 @@ struct ActionPlayHandicap: GameReducerProtocol {
     let target: String
 
     func reduce(state: GameState) throws -> GameState {
-        // verify inPlay no duplication rule
+        // verify rule: not already inPlay
         let cardName = card.extractName()
         let targetObj = state.player(target)
         guard targetObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
