@@ -65,6 +65,11 @@ let package = Package(
                 "Quick",
                 "Nimble"
             ]),
+        .testTarget(
+            name: "SimulationTests",
+            dependencies: [
+                "Inventory"
+            ]),
         .target(
             name: "Screen",
             dependencies: [
