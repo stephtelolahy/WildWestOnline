@@ -51,8 +51,6 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
         state.active = nil
     } else if state.queue.first == action {
         state.queue.removeFirst()
-    } else if case .play = action {
-        _ = try action.validate(state: state)
     }
 
     return state
@@ -116,19 +114,7 @@ private extension GameState {
             return nil
         }
 
-        // add target to context
         var ctx: EffectContext = [.actor: player, .card: card]
-        if case let .playHandicap(card, target, player) = state.event,
-           card == ctx.get(.card),
-           player == ctx.get(.actor) {
-            ctx[.target] = target
-        }
-
-        if case let .playImmediate(card, target, player) = state.event,
-           card == ctx.get(.card),
-           player == ctx.get(.actor) {
-            ctx[.target] = target
-        }
 
         for rule in cardObj.rules {
             do {
@@ -142,6 +128,21 @@ private extension GameState {
                     let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
                     if case .selectable = resolvedTarget {
                         sideEffect = childEffect
+
+                        // add target to context
+                        if case let .playHandicap(card, target, player) = state.event,
+                           card == ctx.get(.card),
+                           player == ctx.get(.actor) {
+                            ctx[.target] = target
+                        }
+
+                        if case let .playImmediate(card, target, player) = state.event,
+                           card == ctx.get(.card),
+                           player == ctx.get(.actor) {
+                            ctx[.target] = target
+                        }
+
+                        assert(ctx[.target] != nil)
                     }
                 }
 
@@ -163,7 +164,7 @@ private extension GameState {
 
     /// Verify if we should forward the triggered effect eventual failure into the game queue
     /// Because since we trigger card’s main effect separately from resolving Play action,
-    ///  the failure of the effect could not be linked to the card playability
+    /// the failure of the effect could not be linked to the card playability
     private func shouldValidateTriggeredEffectBeforeQueueing() -> Bool {
         switch event {
         case .playImmediate, 
