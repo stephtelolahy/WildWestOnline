@@ -13,7 +13,8 @@ public enum GameDefault {
         .eliminateOnLooseLastHealth,
         .evaluateGameOverOnEliminated,
         .discardCardsOnEliminated,
-        .nextTurnOnEliminated
+        .nextTurnOnEliminated,
+        .discardPreviousWeaponOnPlayWeapon
     ]
 
     public static let attributes: Attributes = [

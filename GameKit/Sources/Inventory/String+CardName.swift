@@ -59,6 +59,7 @@ public extension String {
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardCardsOnEliminated = "discardCardsOnEliminated"
     static let evaluateGameOverOnEliminated = "evaluateGameOverOnEliminated"
+    static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"
 }
 
 public extension String {

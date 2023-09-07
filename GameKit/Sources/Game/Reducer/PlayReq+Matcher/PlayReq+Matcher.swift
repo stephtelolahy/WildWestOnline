@@ -19,7 +19,7 @@ protocol PlayReqMatcherProtocol {
 }
 
 private extension PlayReq {
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     func matcher() -> PlayReqMatcherProtocol {
         switch self {
         case .onSetTurn:
@@ -40,6 +40,8 @@ private extension PlayReq {
             OnForceDiscardHandNamed(cardName: cardName)
         case .onDiscardedFromPlay:
             OnDiscardedFromPlay()
+        case let .onPlayEquipmentWithAttribute(key):
+            OnPlayEquipmentWithAttribute(key: key)
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isTimesPerTurn(maxTimes):

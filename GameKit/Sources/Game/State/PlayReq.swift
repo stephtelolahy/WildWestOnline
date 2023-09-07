@@ -35,6 +35,9 @@ public enum PlayReq: Codable, Equatable {
     /// After inPlay card get discarded
     case onDiscardedFromPlay
 
+    /// After playing an equipement with given attribute
+    case onPlayEquipmentWithAttribute(AttributeKey)
+
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)
 

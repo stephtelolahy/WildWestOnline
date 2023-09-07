@@ -38,7 +38,7 @@ final class SchofieldSpec: QuickSpec {
                 }
             }
 
-            xcontext("already playing another weapon") {
+            context("already playing another weapon") {
                 it("should discard previous weapon") {
                     // Given
                     let state = createGameWithCardRef {
@@ -52,6 +52,7 @@ final class SchofieldSpec: QuickSpec {
                         }
                         .attribute(.weapon, 3)
                         .setupAttribute(.weapon, 1)
+                        .ability(.discardPreviousWeaponOnPlayWeapon)
                     }
 
                     // When

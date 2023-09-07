@@ -31,6 +31,7 @@ public enum CardList {
         nextTurnOnEliminated
         discardCardsOnEliminated
         evaluateGameOverOnEliminated
+        discardPreviousWeaponOnPlayWeapon
     }
 }
 
@@ -208,15 +209,15 @@ private extension CardList {
         CardEffect.evaluateGameOver
             .when(.onEliminated)
     }
-    
-    static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
-        content().toDictionary()
-    }
-}
 
-private extension Array where Element == Card {
-    func toDictionary() -> [String: Card] {
-        reduce(into: [String: Card]()) {
+    static let discardPreviousWeaponOnPlayWeapon = Card(.discardPreviousWeaponOnPlayWeapon) {
+        CardEffect.discard(.previousInPlayWithAttribute(.weapon))
+            .target(.actor)
+            .when(.onPlayEquipmentWithAttribute(.weapon))
+    }
+
+    static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
+        content().reduce(into: [String: Card]()) {
             $0[$1.name] = $1
         }
     }
