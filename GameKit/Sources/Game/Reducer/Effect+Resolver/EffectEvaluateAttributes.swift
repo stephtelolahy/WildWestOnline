@@ -1,11 +1,11 @@
 //
-//  EffectEvaluateAttribute.swift
+//  EffectEvaluateAttributes.swift
 //
 //
 //  Created by Hugues Telolahy on 03/09/2023.
 //
 
-struct EffectEvaluateAttribute: EffectResolverProtocol {
+struct EffectEvaluateAttributes: EffectResolverProtocol {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.get(.target)

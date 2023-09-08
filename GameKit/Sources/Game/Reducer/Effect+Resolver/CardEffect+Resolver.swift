@@ -77,8 +77,8 @@ private extension CardEffect {
         case .evaluateGameOver:
             EffectEvaluateGameOver()
 
-        case .evaluateAttribute:
-            EffectEvaluateAttribute()
+        case .evaluateAttributes:
+            EffectEvaluateAttributes()
 
         default:
             fatalError("unimplemented effect \(self)")

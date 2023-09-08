@@ -160,10 +160,10 @@ private extension CardList {
     // MARK: - Equipement
     
     static let equipement = Card(String()) {
-        CardEffect.evaluateAttribute
+        CardEffect.evaluateAttributes
             .target(.actor)
             .when(.onPlayEquipment)
-        CardEffect.evaluateAttribute
+        CardEffect.evaluateAttributes
             .target(.actor)
             .when(.onDiscardedFromPlay)
     }

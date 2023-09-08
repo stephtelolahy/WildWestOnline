@@ -45,7 +45,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case eliminate
     
     /// Evaluate player attribute related to played card
-    case evaluateAttribute
+    case evaluateAttributes
 
     /// Evaluate gameOver
     case evaluateGameOver
