@@ -21,6 +21,8 @@ public enum GameDefault {
         .startTurnCards: 2,
         .weapon: 1,
         .flippedCards: 1,
-        .bangsPerTurn: 1
+        .bangsPerTurn: 1,
+        .scope: 0,
+        .mustang: 0
     ]
 }

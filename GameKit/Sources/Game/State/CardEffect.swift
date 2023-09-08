@@ -38,7 +38,7 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw a card from deck and put to arena
     case discover
     
-    /// Set attribute turn
+    /// Set turn
     case setTurn
 
     /// Eliminate a player from the game
