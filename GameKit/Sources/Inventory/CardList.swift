@@ -25,6 +25,7 @@ public enum CardList {
         jail
         schofield
         remington
+        revCarabine
         endTurn
         drawOnSetTurn
         eliminateOnLooseLastHealth
@@ -166,7 +167,9 @@ private extension CardList {
     static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
     
     static let remington = Card(.remington, attributes: [.weapon: 3], prototype: equipement)
-    
+
+    static let revCarabine = Card(.revCarabine, attributes: [.weapon: 4], prototype: equipement)
+
     // MARK: - Abilities
     
     static let endTurn = Card(.endTurn) {
