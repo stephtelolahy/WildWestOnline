@@ -28,6 +28,7 @@ public enum CardList {
         revCarabine
         winchester
         volcanic
+        scope
         endTurn
         drawOnSetTurn
         eliminateOnLooseLastHealth
@@ -175,6 +176,8 @@ private extension CardList {
     static let winchester = Card(.winchester, attributes: [.weapon: 5], prototype: equipement)
 
     static let volcanic = Card(.volcanic, attributes: [.weapon: 1, .bangsPerTurn: 0], prototype: equipement)
+
+    static let scope = Card(.scope, attributes: [.scope: 1], prototype: equipement)
 
     // MARK: - Abilities
     
