@@ -39,6 +39,13 @@
         "identifier" : "ScreenTests",
         "name" : "ScreenTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "SimulationTests",
+        "name" : "SimulationTests"
+      }
     }
   ],
   "version" : 1

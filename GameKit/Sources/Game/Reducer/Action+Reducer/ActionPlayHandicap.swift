@@ -11,21 +11,19 @@ struct ActionPlayHandicap: GameReducerProtocol {
     let target: String
 
     func reduce(state: GameState) throws -> GameState {
-        var state = state
-        let playerObj = state.player(player)
-        guard playerObj.hand.contains(card) else {
-            throw GameError.cardNotFound(card)
-        }
-
+        // verify rule: not already inPlay
         let cardName = card.extractName()
         let targetObj = state.player(target)
         guard targetObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
             throw GameError.cardAlreadyInPlay(cardName)
         }
         
+        // put card on other's play
+        var state = state
         try state[keyPath: \GameState.players[player]]?.hand.remove(card)
         state[keyPath: \GameState.players[target]]?.inPlay.add(card)
 
+        // save played card
         state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
         return state
     }

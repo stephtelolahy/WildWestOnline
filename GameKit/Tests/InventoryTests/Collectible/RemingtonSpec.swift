@@ -1,6 +1,6 @@
 //
 //  RemingtonSpec.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 18/07/2023.
 //
@@ -20,6 +20,8 @@ final class RemingtonSpec: QuickSpec {
                             .remington
                         }
                     }
+                    .setupAttribute(.weapon, 1)
+                    .attribute(.weapon, 1)
                 }
 
                 // When

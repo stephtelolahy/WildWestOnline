@@ -29,6 +29,7 @@ final class CardSpec: QuickSpec {
                 let JSON = """
                 {
                     "name": "c1",
+                    "attributes": {},
                     "rules": []
                 }
                 """

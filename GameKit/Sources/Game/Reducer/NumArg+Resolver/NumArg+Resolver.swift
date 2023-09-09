@@ -26,8 +26,6 @@ private extension NumArg {
             NumExcessHand()
         case .playerAttr(let key):
             NumPlayerAttr(key: key)
-        default:
-            fatalError("No resolver found for \(self)")
         }
     }
 }

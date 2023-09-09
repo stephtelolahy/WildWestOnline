@@ -21,12 +21,14 @@ final class SetupGameSpec: QuickSpec {
                     let deck = Array(1...80).map { "c\($0)" }
                     let figures = [
                         Figure(name: "p1", attributes: [.maxHealth: 4], abilities: ["a11"]),
-                        Figure(name: "p2", attributes: [.maxHealth: 3], abilities: ["a21"])
+                        Figure(name: "p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
                     ]
+                    let attributes: Attributes = [.startTurnCards: 2]
                     let abilities = ["a1", "a2"]
 
                     // When
                     game = Setup.buildGame(figures: figures,
+                                           attributes: attributes,
                                            abilities: abilities,
                                            deck: deck)
                 }
@@ -38,9 +40,9 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set players to max health") {
-                    expect(game.player("p1").attributes[.health]) == 4
+                    expect(game.player("p1").health) == 4
                     expect(game.player("p1").attributes[.maxHealth]) == 4
-                    expect(game.player("p2").attributes[.health]) == 3
+                    expect(game.player("p2").health) == 3
                     expect(game.player("p2").attributes[.maxHealth]) == 3
                 }
 
@@ -55,10 +57,16 @@ final class SetupGameSpec: QuickSpec {
                     expect(game.turn) == nil
                 }
 
-                it("should set default abilities") {
-                    expect(game.abilities) == ["a1", "a2"]
-                    expect(game.player("p1").abilities) == ["a11"]
-                    expect(game.player("p2").abilities) == ["a21"]
+                it("should set default attributes and abilities") {
+                    expect(game.player("p1").abilities) == ["a1", "a2", "a11"]
+                    expect(game.player("p2").abilities) == ["a1", "a2"]
+                    expect(game.player("p1").attributes[.startTurnCards]) == 2
+                    expect(game.player("p2").attributes[.startTurnCards]) == 3
+                }
+
+                it("should set setupAttributes") {
+                    expect(game.player("p1").setupAttributes[.startTurnCards]) == 2
+                    expect(game.player("p2").setupAttributes[.startTurnCards]) == 3
                 }
             }
         }

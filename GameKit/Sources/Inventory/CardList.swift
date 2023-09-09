@@ -25,57 +25,63 @@ public enum CardList {
         jail
         schofield
         remington
+        revCarabine
+        winchester
+        volcanic
+        scope
+        mustang
         endTurn
         drawOnSetTurn
         eliminateOnLooseLastHealth
         nextTurnOnEliminated
         discardCardsOnEliminated
-        gameOverOnEliminated
+        evaluateGameOverOnEliminated
+        discardPreviousWeaponOnPlayWeapon
     }
 }
 
 private extension CardList {
-
+    
     // MARK: - Collectibles
-
+    
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
             .when(.onPlayImmediate, .isPlayersAtLeast(3))
     }
-
+    
     static let saloon = Card(.saloon) {
         CardEffect.heal(1)
             .target(.damaged)
             .when(.onPlayImmediate)
     }
-
+    
     static let stagecoach = Card(.stagecoach) {
         CardEffect.draw
             .target(.actor)
             .repeat(2)
             .when(.onPlayImmediate)
     }
-
+    
     static let wellsFargo = Card(.wellsFargo) {
         CardEffect.draw
             .target(.actor)
             .repeat(3)
             .when(.onPlayImmediate)
     }
-
+    
     static let catBalou = Card(.catBalou) {
         CardEffect.discard(.selectAny, chooser: .actor)
             .target(.selectAny)
             .when(.onPlayImmediate)
     }
-
+    
     static let panic = Card(.panic) {
         CardEffect.steal(.selectAny, chooser: .actor)
             .target(.selectAt(1))
             .when(.onPlayImmediate)
     }
-
+    
     static let generalStore = Card(.generalStore) {
         CardEffect.group {
             CardEffect.discover
@@ -85,44 +91,44 @@ private extension CardList {
         }
         .when(.onPlayImmediate)
     }
-
+    
     static let bang = Card(.bang) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
             .target(.selectReachable)
-            .when(.onPlayImmediate, .isTimesPerTurn(1))
+            .when(.onPlayImmediate, .isTimesPerTurn(.playerAttr(.bangsPerTurn)))
     }
-
+    
     static let missed = Card(.missed)
-
+    
     static let gatling = Card(.gatling) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
             .target(.others)
             .when(.onPlayImmediate)
     }
-
+    
     static let indians = Card(.indians) {
         CardEffect.discard(.selectHandNamed(.bang))
             .otherwise(.damage(1))
             .target(.others)
             .when(.onPlayImmediate)
     }
-
+    
     static let duel = Card(.duel) {
         CardEffect.discard(.selectHandNamed(.bang))
             .challenge(.actor, otherwise: .damage(1))
             .target(.selectAny)
             .when(.onPlayImmediate)
     }
-
+    
     static let barrel = Card(.barrel) {
         CardEffect.nothing
             .when(.onPlayEquipment)
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.next))
             .when(.onForceDiscardHandNamed(.missed))
     }
-
+    
     static let dynamite = Card(.dynamite) {
         CardEffect.nothing
             .when(.onPlayEquipment)
@@ -134,7 +140,9 @@ private extension CardList {
                         ]))
         .when(.onSetTurn)
     }
-
+    
+    // MARK: - Handicap
+    
     static let jail = Card(.jail) {
         CardEffect.nothing
             .target(.selectAny)
@@ -148,27 +156,34 @@ private extension CardList {
                         ]))
         .when(.onSetTurn)
     }
-
-    static let schofield = Card(.schofield) {
-        CardEffect.setAttribute(.weapon, value: 2)
+    
+    // MARK: - Equipement
+    
+    static let equipement = Card(String()) {
+        CardEffect.evaluateAttributes
             .target(.actor)
             .when(.onPlayEquipment)
-        CardEffect.resetAttribute(.weapon)
+        CardEffect.evaluateAttributes
             .target(.actor)
-            .when(.onDiscardedInPlay)
+            .when(.onDiscardedFromPlay)
     }
+    
+    static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
+    
+    static let remington = Card(.remington, attributes: [.weapon: 3], prototype: equipement)
 
-    static let remington = Card(.remington) {
-        CardEffect.setAttribute(.weapon, value: 3)
-            .target(.actor)
-            .when(.onPlayEquipment)
-        CardEffect.resetAttribute(.weapon)
-            .target(.actor)
-            .when(.onDiscardedInPlay)
-    }
+    static let revCarabine = Card(.revCarabine, attributes: [.weapon: 4], prototype: equipement)
+
+    static let winchester = Card(.winchester, attributes: [.weapon: 5], prototype: equipement)
+
+    static let volcanic = Card(.volcanic, attributes: [.weapon: 1, .bangsPerTurn: 0], prototype: equipement)
+
+    static let scope = Card(.scope, attributes: [.scope: 1], prototype: equipement)
+
+    static let mustang = Card(.mustang, attributes: [.mustang: 1], prototype: equipement)
 
     // MARK: - Abilities
-
+    
     static let endTurn = Card(.endTurn) {
         CardEffect.group {
             CardEffect.discard(.selectHand)
@@ -179,45 +194,45 @@ private extension CardList {
         }
         .when(.onPlayAbility)
     }
-
+    
     static let drawOnSetTurn = Card(.drawOnSetTurn) {
         CardEffect.draw
             .target(.actor)
             .repeat(.playerAttr(.startTurnCards))
             .when(.onSetTurn)
     }
-
+    
     static let eliminateOnLooseLastHealth = Card(.eliminateOnLooseLastHealth) {
         CardEffect.eliminate
             .target(.actor)
             .when(.onLooseLastHealth)
     }
-
+    
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
         CardEffect.setTurn
             .target(.next)
             .when(.onEliminated, .isYourTurn)
     }
-
+    
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
         CardEffect.discard(.all)
             .target(.actor)
             .when(.onEliminated)
     }
-
-    static let gameOverOnEliminated = Card(.gameOverOnEliminated) {
+    
+    static let evaluateGameOverOnEliminated = Card(.evaluateGameOverOnEliminated) {
         CardEffect.evaluateGameOver
             .when(.onEliminated)
     }
 
-    static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
-        content().toDictionary()
+    static let discardPreviousWeaponOnPlayWeapon = Card(.discardPreviousWeaponOnPlayWeapon) {
+        CardEffect.discard(.previousInPlayWithAttribute(.weapon))
+            .target(.actor)
+            .when(.onPlayEquipmentWithAttribute(.weapon))
     }
-}
 
-private extension Array where Element == Card {
-    func toDictionary() -> [String: Card] {
-        reduce(into: [String: Card]()) {
+    static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
+        content().reduce(into: [String: Card]()) {
             $0[$1.name] = $1
         }
     }

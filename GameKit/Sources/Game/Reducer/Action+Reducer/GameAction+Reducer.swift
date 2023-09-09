@@ -71,8 +71,6 @@ private extension GameAction {
             ActionSetGameOver(winner: winner)
         case let .setAttribute(key, value, player):
             ActionSetAttribute(player: player, key: key, value: value)
-        default:
-            fatalError("unimplemented action \(self)")
         }
     }
 }

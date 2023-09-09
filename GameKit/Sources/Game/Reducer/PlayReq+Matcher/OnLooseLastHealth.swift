@@ -9,7 +9,7 @@ struct OnLooseLastHealth: PlayReqMatcherProtocol {
     func match(state: GameState, ctx: EffectContext) -> Bool {
         if case let .damage(_, player) = state.event,
               player == ctx.get(.actor),
-              (state.player(player).attributes[.health] ?? 0) <= 0 {
+              state.player(player).health <= 0 {
             true
         } else {
             false

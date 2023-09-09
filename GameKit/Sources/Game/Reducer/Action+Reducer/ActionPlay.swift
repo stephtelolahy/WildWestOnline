@@ -9,7 +9,7 @@ struct ActionPlay: GameReducerProtocol {
     let player: String
     let card: String
     
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    // swiftlint:disable:next cyclomatic_complexity
     func reduce(state: GameState) throws -> GameState {
         // verify action
         let cardName = card.extractName()
@@ -17,44 +17,39 @@ struct ActionPlay: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
         
-        let playRule: CardRule
-        let playMode: PlayMode
-        if let immediateRule = cardObj.rules.first(where: { $0.playReqs.contains(.onPlayImmediate) }) {
-            playRule = immediateRule
-            playMode = .immediate
-        } else if let abilityRule = cardObj.rules.first(where: { $0.playReqs.contains(.onPlayAbility) }) {
-            playRule = abilityRule
-            playMode = .ability
-        } else if let equipmentRule = cardObj.rules.first(where: { $0.playReqs.contains(.onPlayEquipment) }) {
-            playRule = equipmentRule
-            playMode = .equipment
-        } else if let handicapRule = cardObj.rules.first(where: { $0.playReqs.contains(.onPlayHandicap) }) {
-            playRule = handicapRule
-            playMode = .handicap
-        } else {
+        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
+        var playRule: CardRule?
+        var onPlayReq: PlayReq?
+        for playReq in onPlayReqs {
+            if let rule = cardObj.rules.first(where: { $0.playReqs.contains(playReq) }) {
+                playRule = rule
+                onPlayReq = playReq
+                break
+            }
+        }
+
+        guard let playRule else {
             throw GameError.cardNotPlayable(card)
         }
         
-        let sideEffect = playRule.effect
-        let ctx: EffectContext = [.actor: player, .card: card]
-        
         // verify requirements
-        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
+        let ctx: EffectContext = [.actor: player, .card: card]
         for playReq in playRule.playReqs where !onPlayReqs.contains(playReq) {
             try playReq.match(state: state, ctx: ctx)
         }
         
         // resolve target
+        let sideEffect = playRule.effect
         if case let .target(requiredTarget, _) = sideEffect {
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
             if case let .selectable(pIds) = resolvedTarget {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    switch playMode {
-                    case .immediate:
+                    switch onPlayReq {
+                    case .onPlayImmediate:
                             .playImmediate(card, target: $1, player: player)
-                    case .handicap:
+                    case .onPlayHandicap:
                             .playHandicap(card, target: $1, player: player)
                     default:
                         fatalError("unexpected")
@@ -69,12 +64,12 @@ struct ActionPlay: GameReducerProtocol {
         }
         
         let action: GameAction =
-        switch playMode {
-        case .immediate:
+        switch onPlayReq {
+        case .onPlayImmediate:
                 .playImmediate(card, player: player)
-        case .ability:
+        case .onPlayAbility:
                 .playAbility(card, player: player)
-        case .equipment:
+        case .onPlayEquipment:
                 .playEquipment(card, player: player)
         default:
             fatalError("unexpected")
@@ -85,11 +80,4 @@ struct ActionPlay: GameReducerProtocol {
         state.queue.insert(action, at: 0)
         return state
     }
-}
-
-private enum PlayMode: String {
-    case immediate
-    case ability
-    case equipment
-    case handicap
 }

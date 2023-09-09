@@ -22,6 +22,8 @@ final class SchofieldSpec: QuickSpec {
                                 .schofield
                             }
                         }
+                        .attribute(.weapon, 1)
+                        .setupAttribute(.weapon, 1)
                     }
 
                     // When
@@ -36,7 +38,7 @@ final class SchofieldSpec: QuickSpec {
                 }
             }
 
-            xcontext("already playing another weapon") {
+            context("already playing another weapon") {
                 it("should discard previous weapon") {
                     // Given
                     let state = createGameWithCardRef {
@@ -48,6 +50,9 @@ final class SchofieldSpec: QuickSpec {
                                 .remington
                             }
                         }
+                        .attribute(.weapon, 3)
+                        .setupAttribute(.weapon, 1)
+                        .ability(.discardPreviousWeaponOnPlayWeapon)
                     }
 
                     // When
@@ -57,8 +62,8 @@ final class SchofieldSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playEquipment(.schofield, player: "p1"),
-                        .discardInPlay(.remington, player: "p1"),
-                        .setAttribute(.weapon, value: 2, player: "p1")
+                        .setAttribute(.weapon, value: 2, player: "p1"),
+                        .discardInPlay(.remington, player: "p1")
                     ]
                 }
             }
@@ -74,6 +79,8 @@ final class SchofieldSpec: QuickSpec {
                                 .schofield
                             }
                         }
+                        .attribute(.weapon, 2)
+                        .setupAttribute(.weapon, 1)
                     }
 
                     // When

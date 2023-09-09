@@ -19,6 +19,7 @@ protocol PlayReqMatcherProtocol {
 }
 
 private extension PlayReq {
+    // swiftlint:disable:next cyclomatic_complexity
     func matcher() -> PlayReqMatcherProtocol {
         switch self {
         case .onSetTurn:
@@ -27,29 +28,26 @@ private extension PlayReq {
             OnLooseLastHealth()
         case .onEliminated:
             OnEliminated()
-        case .onPlayImmediate,
-                .onPlayAbility,
-                .onPlayHandicap,
-                .onPlayEquipment:
-            PlayReqNeverMatch()
+        case .onPlayImmediate:
+            OnPlayImmediate()
+        case .onPlayHandicap:
+            OnPlayHandicap()
+        case .onPlayAbility:
+            OnPlayAbility()
+        case .onPlayEquipment:
+            OnPlayEquipment()
         case .onForceDiscardHandNamed(let cardName):
             OnForceDiscardHandNamed(cardName: cardName)
-        case .onDiscardedInPlay:
-            OnDiscardedInPlay()
+        case .onDiscardedFromPlay:
+            OnDiscardedFromPlay()
+        case let .onPlayEquipmentWithAttribute(key):
+            OnPlayEquipmentWithAttribute(key: key)
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isTimesPerTurn(maxTimes):
             IsTimesPerTurn(maxTimes: maxTimes)
         case .isYourTurn:
             IsCurrentTurn()
-        default:
-            fatalError("No matcher found for \(self)")
         }
-    }
-}
-
-private struct PlayReqNeverMatch: PlayReqMatcherProtocol {
-    func match(state: GameState, ctx: EffectContext) -> Bool {
-        false
     }
 }

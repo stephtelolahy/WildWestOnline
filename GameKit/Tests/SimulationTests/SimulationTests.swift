@@ -14,7 +14,7 @@ final class SimulationTests: XCTestCase {
 
     func testSimulations() {
         for index in 1...2 {
-            let playersCount = Int.random(in: 4...5)
+            let playersCount = Int.random(in: 4...7)
             print("🏁 Simulation #\(index) playersCount: \(playersCount)")
             simulateGame(playersCount: playersCount)
         }
@@ -39,7 +39,7 @@ final class SimulationTests: XCTestCase {
         sut.dispatch(GameAction.setTurn(sheriff))
 
         // Then
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 5.0)
         cancellable.cancel()
     }
 }

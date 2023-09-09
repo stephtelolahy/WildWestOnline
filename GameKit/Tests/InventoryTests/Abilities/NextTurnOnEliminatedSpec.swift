@@ -19,8 +19,8 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                         Player("p1")
                         Player("p2")
                         Player("p3")
+                            .ability(.nextTurnOnEliminated)
                     }
-                    .ability(.nextTurnOnEliminated)
                     .turn("p3")
 
                     // When
@@ -47,16 +47,17 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                                 "c12"
                             }
                         }
+                        .ability(.discardCardsOnEliminated)
+                        .ability(.nextTurnOnEliminated)
                         Player("p2")
+                            .ability(.drawOnSetTurn)
+                            .attribute(.startTurnCards, 2)
                         Player("p3")
                         Deck {
                             "c1"
                             "c2"
                         }
                     }
-                    .ability(.discardCardsOnEliminated)
-                    .ability(.nextTurnOnEliminated)
-                    .ability(.drawOnSetTurn)
                     .turn("p1")
 
                     // When

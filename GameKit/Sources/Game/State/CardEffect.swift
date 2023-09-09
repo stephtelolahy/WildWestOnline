@@ -38,20 +38,14 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw a card from deck and put to arena
     case discover
     
-    /// Set attribute turn
+    /// Set turn
     case setTurn
 
     /// Eliminate a player from the game
     case eliminate
     
-    /// Set player attribute
-    case setAttribute(AttributeKey, value: Int)
-
-    /// Set player attribute
-    case resetAttribute(AttributeKey)
-
-    /// Increment player attribute
-    case incAttribute(AttributeKey, value: Int)
+    /// Evaluate player attribute related to played card
+    case evaluateAttributes
 
     /// Evaluate gameOver
     case evaluateGameOver

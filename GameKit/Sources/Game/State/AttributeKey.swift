@@ -5,20 +5,11 @@
 //  Created by Hugues Telolahy on 06/05/2023.
 //
 
-/// Game element attributes
-public typealias Attributes = [AttributeKey: Int]
-
-public enum AttributeKey: String, Codable, CodingKeyRepresentable {
+/// Initial game element attributes
+public enum AttributeKey: String, Codable, CodingKeyRepresentable, CaseIterable {
 
     /// Max health
     case maxHealth
-
-    /// Life points
-    case health
-
-    /// Override maximum allowed hand cards at the end of his turn
-    /// by default health is maximum allowed hand cards
-    case handLimit
 
     /// Gun range, default: 1
     case weapon
@@ -37,4 +28,10 @@ public enum AttributeKey: String, Codable, CodingKeyRepresentable {
 
     /// Number of bangs per turn, default: 1
     case bangsPerTurn
+
+    /// If defined, this attribute overrides the maximum allowed hand cards at the end of his turn
+    /// by default the maximum allowed hand cards is equal to health
+    case handLimit
 }
+
+public typealias Attributes = [AttributeKey: Int]

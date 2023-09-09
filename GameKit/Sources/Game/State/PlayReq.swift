@@ -33,13 +33,16 @@ public enum PlayReq: Codable, Equatable {
     case onForceDiscardHandNamed(String)
 
     /// After inPlay card get discarded
-    case onDiscardedInPlay
+    case onDiscardedFromPlay
+
+    /// After playing an equipement with given attribute
+    case onPlayEquipmentWithAttribute(AttributeKey)
 
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)
 
     /// The maximum times per turn a card may be played is X
-    case isTimesPerTurn(Int)
+    case isTimesPerTurn(NumArg)
 
     /// Is actor the current turn
     case isYourTurn
