@@ -7,7 +7,7 @@
 import Redux
 import Combine
 
-/// Dispatching async game features
+/// Asynchronous game rules
 /// - trigger side effects
 /// - activate playable cards
 /// - dispatch next action
