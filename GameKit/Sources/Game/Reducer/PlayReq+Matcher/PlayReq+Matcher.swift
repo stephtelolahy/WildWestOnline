@@ -48,8 +48,6 @@ private extension PlayReq {
             IsTimesPerTurn(maxTimes: maxTimes)
         case .isYourTurn:
             IsCurrentTurn()
-        default:
-            fatalError("No matcher found for \(self)")
         }
     }
 }

@@ -79,9 +79,6 @@ private extension CardEffect {
 
         case .evaluateAttributes:
             EffectEvaluateAttributes()
-
-        default:
-            fatalError("unimplemented effect \(self)")
         }
     }
 }

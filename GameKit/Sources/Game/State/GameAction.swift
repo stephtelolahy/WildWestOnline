@@ -88,7 +88,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Resolve an effect
     case resolve(CardEffect, ctx: EffectContext)
 
-    /// Dispatch actions sequentially
+    /// Push actions in queue
     case group([Self])
 }
 

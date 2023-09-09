@@ -11,8 +11,8 @@ import Game
 
 final class VolcanicSpec: QuickSpec {
     override func spec() {
-        describe("playing volcanic") {
-            xcontext("no weapon") {
+        xdescribe("playing volcanic") {
+            context("no weapon") {
                 it("should equip") {
                     // Given
                     let state = createGameWithCardRef {
@@ -39,7 +39,7 @@ final class VolcanicSpec: QuickSpec {
                 }
             }
 
-            xcontext("already playing another weapon") {
+            context("already playing another weapon") {
                 it("should equip") {
                     // Given
                     let state = createGameWithCardRef {
