@@ -67,7 +67,7 @@ private func queueTriggered(state: GameState) -> GameState {
 }
 
 private extension GameState {
-    /// Evaluate triggered effects given current state
+    /// Evaluate triggered efofects given current state
     func evaluateTriggeredEffects() -> [GameAction]? {
         let state = self
         // determine active players

@@ -11,7 +11,6 @@ public func createGameStore(initial: GameState) -> Store<GameState> {
           reducer: GameState.reducer,
           middlewares: [
             gameLoopMiddleware,
-            activeCardMiddleware,
             eventLoggerMiddleware
           ])
 }
