@@ -21,6 +21,7 @@ final class ActiveCardsTests: XCTestCase {
                 }
             }
             .attribute(.maxHealth, 4)
+            .ability(.evaluateActiveCardsOnIdle)
             .health(2)
             Player("p2")
                 .attribute(.maxHealth, 4)
