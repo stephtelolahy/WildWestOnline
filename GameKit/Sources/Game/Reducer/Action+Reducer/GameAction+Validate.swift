@@ -34,7 +34,7 @@ extension GameAction {
             do {
                 try action.validate(state: state)
             } catch {
-                print("‼️ invalidate \(action)\treason: \(error)")
+                print("‼️ buildChooseOne: invalidate \(action)\treason: \(error)")
                 continue
             }
 

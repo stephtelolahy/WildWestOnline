@@ -142,7 +142,7 @@ private extension GameState {
                             ctx[.target] = target
                         }
 
-                        assert(ctx[.target] != nil)
+                        precondition(ctx[.target] != nil)
                     }
                 }
 

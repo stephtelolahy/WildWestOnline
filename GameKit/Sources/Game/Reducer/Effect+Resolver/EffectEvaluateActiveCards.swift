@@ -1,6 +1,6 @@
 //
 //  EffectEvaluateActiveCards.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 11/09/2023.
 //
@@ -14,6 +14,15 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
     }
 
     func evaluateActiveCards(player: String, state: GameState) -> GameAction? {
+        precondition(state.queue.isEmpty)
+        precondition(state.chooseOne == nil)
+        precondition(state.playOrder.contains(player))
+
+        guard state.isOver == nil,
+              player == state.turn else {
+            return nil
+        }
+
         var activeCards: [String] = []
         let playerObj = state.player(player)
         for card in (playerObj.hand.cards + playerObj.abilities)
@@ -47,7 +56,7 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
             try action.validate(state: state)
             return true
         } catch {
-            print("‼️ invalidate \(action)\treason: \(error)")
+            print("‼️ isCardPlayable: invalidate \(action)\treason: \(error)")
             return false
         }
     }

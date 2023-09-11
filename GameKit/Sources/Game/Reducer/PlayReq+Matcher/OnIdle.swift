@@ -11,6 +11,7 @@ struct OnIdle: PlayReqMatcherProtocol {
            state.isOver == nil,
            state.chooseOne == nil,
            ctx.get(.actor) == state.turn,
+           state.playOrder.contains(ctx.get(.actor)),
            state.event?.isActivateCards != true {
             return true
         } else {
