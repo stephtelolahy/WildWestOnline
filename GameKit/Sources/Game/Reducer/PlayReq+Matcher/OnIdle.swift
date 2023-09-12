@@ -10,23 +10,12 @@ struct OnIdle: PlayReqMatcherProtocol {
         if state.queue.isEmpty,
            state.isOver == nil,
            state.chooseOne == nil,
+           state.active == nil,
            ctx.get(.actor) == state.turn,
-           state.playOrder.contains(ctx.get(.actor)),
-           state.event?.isActivateCards != true {
+           state.playOrder.contains(ctx.get(.actor)) {
             return true
         } else {
             return false
-        }
-    }
-}
-
-private extension GameAction {
-    var isActivateCards: Bool {
-        switch self {
-        case .activateCards:
-            true
-        default:
-            false
         }
     }
 }

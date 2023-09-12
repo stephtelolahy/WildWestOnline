@@ -8,23 +8,12 @@ import Redux
 import Combine
 
 public let gameLoopMiddleware: Middleware<GameState> = { state, _ in
-    if let action = NextActionEvaluator().evaluateNextAction(state) {
-        Just(action).eraseToAnyPublisher()
+    if state.queue.isNotEmpty,
+       state.isOver == nil,
+       state.chooseOne == nil,
+       state.active == nil {
+        Just(state.queue[0]).eraseToAnyPublisher()
     } else {
         Empty().eraseToAnyPublisher()
-    }
-}
-
-private struct NextActionEvaluator {
-
-    func evaluateNextAction(_ state: GameState) -> GameAction? {
-        if state.queue.isNotEmpty,
-           state.isOver == nil,
-           state.chooseOne == nil,
-           state.active == nil {
-            state.queue[0]
-        } else {
-            nil
-        }
     }
 }
