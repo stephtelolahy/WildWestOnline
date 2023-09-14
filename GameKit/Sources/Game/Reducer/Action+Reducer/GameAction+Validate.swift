@@ -16,6 +16,9 @@ extension GameAction {
                     try option.validate(state: state)
                 }
 
+            case .activateCards:
+                return
+
             default:
                 try nextAction.validate(state: state)
             }

@@ -7,13 +7,25 @@
 import Redux
 import Combine
 
-public let gameLoopMiddleware: Middleware<GameState> = { state, _ in
-    if state.queue.isNotEmpty,
-       state.isOver == nil,
-       state.chooseOne == nil,
-       state.active == nil {
-        Just(state.queue[0]).eraseToAnyPublisher()
-    } else {
-        Empty().eraseToAnyPublisher()
+public let gameLoopMiddleware: Middleware<GameState> = { state, action in
+    guard let action = action as? GameAction else {
+        return Empty().eraseToAnyPublisher()
+    }
+
+    switch action {
+    case .setGameOver,
+            .chooseOne,
+            .activateCards:
+        return Empty().eraseToAnyPublisher()
+
+    default:
+        guard let nextAction = state.queue.first else {
+            return Empty().eraseToAnyPublisher()
+        }
+
+        precondition(state.isOver == nil)
+        precondition(state.active == nil)
+        precondition(state.chooseOne == nil)
+        return Just(nextAction).eraseToAnyPublisher()
     }
 }
