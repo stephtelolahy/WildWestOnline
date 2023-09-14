@@ -22,7 +22,7 @@ public extension GameState {
             state = try action.reduce(state: state)
             state.event = action
             state.error = nil
-            state = postexecute(action: action, state: state)
+            state = postExecute(action: action, state: state)
         } catch {
             state.error = error as? GameError
             state.event = nil
@@ -54,7 +54,7 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
     return state
 }
 
-private func postexecute(action: GameAction, state: GameState) -> GameState {
+private func postExecute(action: GameAction, state: GameState) -> GameState {
     guard let triggered = evaluateTriggeredEffects(state) else {
         return state
     }

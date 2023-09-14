@@ -9,15 +9,9 @@ extension GameAction {
     func validate(state: GameState) throws {
         switch self {
         case .activateCards,
+                .chooseOne,
                 .setGameOver:
             return
-
-        case let .chooseOne(_, options):
-            var state = state
-            state.chooseOne = nil
-            for (_, option) in options {
-                try option.validate(state: state)
-            }
 
         default:
             var state = try reduce(state: state)
