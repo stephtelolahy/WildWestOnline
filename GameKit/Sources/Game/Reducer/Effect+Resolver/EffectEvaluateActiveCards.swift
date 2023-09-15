@@ -18,11 +18,9 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
         precondition(state.chooseOne == nil)
         precondition(state.active == nil)
         precondition(state.playOrder.contains(player))
+        precondition(state.isOver == nil)
 
-        guard
-            player == state.turn,
-            state.isOver == nil
-        else {
+        guard player == state.turn else {
             return nil
         }
 

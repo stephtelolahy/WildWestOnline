@@ -26,8 +26,8 @@ final class VolcanicTests: XCTestCase {
         
         // When
         let action = GameAction.play(.volcanic, player: "p1")
-        let result = awaitAction(action, state: state)
-        
+        let result = awaitAction(action, state: state, continueOnQueueEmpty: true)
+
         // Then
         XCTAssertEqual(result, [
             .playEquipment(.volcanic, player: "p1"),
@@ -55,8 +55,8 @@ final class VolcanicTests: XCTestCase {
         
         // When
         let action = GameAction.play(.volcanic, player: "p1")
-        let result = awaitAction(action, state: state)
-        
+        let result = awaitAction(action, state: state, continueOnQueueEmpty: true)
+
         // Then
         XCTAssertEqual(result, [
             .playEquipment(.volcanic, player: "p1"),
