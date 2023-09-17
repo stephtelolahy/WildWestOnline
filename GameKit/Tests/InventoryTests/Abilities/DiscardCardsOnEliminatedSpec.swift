@@ -29,7 +29,7 @@ final class DiscardCardsOnEliminatedSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.eliminate(player: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let result = self.awaitAction(action, state: state, continueOnQueueEmpty: true)
                     
                     // Then
                     expect(result) == [

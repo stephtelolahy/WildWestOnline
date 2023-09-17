@@ -25,7 +25,7 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
 
                     // When
                     let action = GameAction.damage(1, player: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let result = self.awaitAction(action, state: state, continueOnQueueEmpty: true)
 
                     // Then
                     expect(result) == [
