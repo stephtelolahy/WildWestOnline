@@ -7,14 +7,12 @@
 import Redux
 import Game
 import Inventory
-import InitMacro
 
-@Init
 public struct AppState: Codable, Equatable {
     let screens: [ScreenState]
     
-    public init() {
-        screens = [.splash]
+    public init(screens: [ScreenState] = [.splash]) {
+        self.screens = screens
     }
 }
 

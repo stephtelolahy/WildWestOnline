@@ -4,13 +4,15 @@
 //
 //  Created by Hugues Telolahy on 30/04/2023.
 //
-import InitMacro
-
 /// Ask a player to choose an action
-@Init
 public struct ChooseOne: Codable, Equatable {
     public let chooser: String
     public let options: [String: GameAction]
+
+    public init(chooser: String, options: [String: GameAction]) {
+        self.chooser = chooser
+        self.options = options
+    }
 }
 
 /// ChooseOne labels
