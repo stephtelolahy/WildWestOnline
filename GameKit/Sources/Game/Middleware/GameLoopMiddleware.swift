@@ -8,7 +8,7 @@ import Combine
 
 public let gameLoopMiddleware: Middleware<GameState> = { state, action in
     guard let action = action as? GameAction else {
-        return Empty().eraseToAnyPublisher()
+        return Empty<Action, Never>().eraseToAnyPublisher()
     }
 
     if let effects = evaluateTriggeredEffects(action: action, state: state) {
@@ -16,7 +16,7 @@ public let gameLoopMiddleware: Middleware<GameState> = { state, action in
     } else if let nextAction = evaluateNextAction(action: action, state: state) {
         return Just(nextAction).eraseToAnyPublisher()
     } else {
-        return Empty().eraseToAnyPublisher()
+        return Empty<Action, Never>().eraseToAnyPublisher()
     }
 }
 

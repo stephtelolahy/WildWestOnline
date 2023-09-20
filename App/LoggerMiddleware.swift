@@ -12,5 +12,5 @@ import Screen
 let loggerMiddleware: Middleware<AppState> = { state, action in
     print("➡️ \(action)\n✅ \(state)\n")
     
-    return Empty().eraseToAnyPublisher()
+    return Empty<Action, Never>().eraseToAnyPublisher()
 }

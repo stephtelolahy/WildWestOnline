@@ -20,7 +20,7 @@ public let eventLoggerMiddleware: Middleware<GameState> = { state, _ in
         print("❌ \(error.loggerDescription)")
     }
 
-    return Empty().eraseToAnyPublisher()
+    return Empty<Action, Never>().eraseToAnyPublisher()
 }
 
 private extension GameAction {
