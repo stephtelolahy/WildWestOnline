@@ -42,6 +42,8 @@ private extension PlayReq {
             OnDiscardedFromPlay()
         case let .onPlayEquipmentWithAttribute(key):
             OnPlayEquipmentWithAttribute(key: key)
+        case .onIdle:
+            OnIdle()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isTimesPerTurn(maxTimes):

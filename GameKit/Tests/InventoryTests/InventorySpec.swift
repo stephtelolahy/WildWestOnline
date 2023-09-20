@@ -33,13 +33,13 @@ final class InventorySpec: QuickSpec {
                 expect(cards[.barrel]) != nil
                 expect(cards[.dynamite]) != nil
                 expect(cards[.jail]) != nil
-//                expect(cards[.mustang]) != nil
-//                expect(cards[.remington]) != nil
-//                expect(cards[.revCarabine]) != nil
-//                expect(cards[.schofield]) != nil
-//                expect(cards[.scope]) != nil
-//                expect(cards[.volcanic]) != nil
-//                expect(cards[.winchester]) != nil
+                expect(cards[.mustang]) != nil
+                expect(cards[.remington]) != nil
+                expect(cards[.revCarabine]) != nil
+                expect(cards[.schofield]) != nil
+                expect(cards[.scope]) != nil
+                expect(cards[.volcanic]) != nil
+                expect(cards[.winchester]) != nil
             }
 
             it("should contain all abilities") {
@@ -51,6 +51,11 @@ final class InventorySpec: QuickSpec {
                 expect(cards[.endTurn]) != nil
                 expect(cards[.drawOnSetTurn]) != nil
                 expect(cards[.eliminateOnLooseLastHealth]) != nil
+                expect(cards[.evaluateGameOverOnEliminated]) != nil
+                expect(cards[.discardCardsOnEliminated]) != nil
+                expect(cards[.nextTurnOnEliminated]) != nil
+                expect(cards[.discardPreviousWeaponOnPlayWeapon]) != nil
+                expect(cards[.evaluateActiveCardsOnIdle]) != nil
             }
         }
     }

@@ -15,7 +15,7 @@ extension XCTestCase {
         _ action: GameAction,
         choices: [String] = [],
         state: GameState,
-        continueOnQueueEmpty: Bool = false,
+        continueOnQueueEmpty: Bool = true,
         timeout: TimeInterval = 0.1,
         file: StaticString = #file,
         line: UInt = #line

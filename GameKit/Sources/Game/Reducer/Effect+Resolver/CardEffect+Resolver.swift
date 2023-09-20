@@ -79,6 +79,9 @@ private extension CardEffect {
 
         case .evaluateAttributes:
             EffectEvaluateAttributes()
+
+        case .evaluateActiveCards:
+            EffectEvaluateActiveCards()
         }
     }
 }

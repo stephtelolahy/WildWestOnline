@@ -92,7 +92,7 @@ final class DynamiteSpec: QuickSpec {
                         // When
                         let action = GameAction.setTurn("p1")
                         let result = self.awaitAction(action, state: state)
-                        
+
                         // Then
                         expect(result) == [.setTurn("p1"),
                                            .luck,
@@ -131,7 +131,7 @@ final class DynamiteSpec: QuickSpec {
                         // When
                         let action = GameAction.setTurn("p1")
                         let result = self.awaitAction(action, state: state)
-                        
+
                         // Then
                         expect(result) == [.setTurn("p1"),
                                            .luck,

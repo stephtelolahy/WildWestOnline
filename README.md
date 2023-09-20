@@ -59,16 +59,3 @@ Redux architecture is meant to protect changes in an application’s state. It f
 Online gameplay uses shared database
 
 ![](Docs/sequence.png)
-
-
-### Code duplication
-Detect code duplication with [Periphery](https://github.com/kucherenko/jscpd/tree/master/packages/jscpd#html)
-
-Run the following command on terminal from the project root
-
-```
-npx jscpd --reporters html ./Modules/Sources
-
-
-open ./report/html/index.html
-```
