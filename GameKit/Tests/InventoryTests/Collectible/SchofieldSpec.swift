@@ -2,7 +2,7 @@
 //  SchofieldSpec.swift
 //
 //
-//  Created by Hugues Stephano TELOLAHY on 15/09/2023.
+//  Created by Hugues Telolahy on 17/07/2023.
 //
 
 import Quick
@@ -10,11 +10,10 @@ import Nimble
 import Game
 
 final class SchofieldSpec: QuickSpec {
-
     // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing schofield") {
-            context("no weapon in play") {
+            context("no weapon inPlay") {
                 it("should equip") {
                     // Given
                     let state = createGameWithCardRef {
