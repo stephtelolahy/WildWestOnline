@@ -23,7 +23,7 @@ final class GameOverSpec: QuickSpec {
 
                     // When
                     let action = GameAction.eliminate(player: "p2")
-                    let result = self.awaitAction(action, state: state, continueOnQueueEmpty: true)
+                    let result = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [

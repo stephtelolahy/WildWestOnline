@@ -30,7 +30,7 @@ final class ActiveCardsTests: XCTestCase {
 
         // When
         let action = GameAction.group([])
-        let result = awaitAction(action, state: state, continueOnQueueEmpty: true)
+        let result = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

@@ -24,7 +24,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.play(.schofield, player: "p1")
-        let result = self.awaitAction(action, state: state, continueOnQueueEmpty: true)
+        let result = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -51,7 +51,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.play(.schofield, player: "p1")
-        let result = self.awaitAction(action, state: state, continueOnQueueEmpty: true)
+        let result = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -75,7 +75,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.discardInPlay(.schofield, player: "p1")
-        let result = self.awaitAction(action, state: state, continueOnQueueEmpty: true)
+        let result = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
