@@ -46,8 +46,8 @@ private extension PlayReq {
             OnIdle()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
-        case let .isTimesPerTurn(maxTimes):
-            IsTimesPerTurn(maxTimes: maxTimes)
+        case let .isTimesPerTurnLessThan(maxTimes):
+            IsTimesPerTurnLessThan(maxTimes: maxTimes)
         case .isYourTurn:
             IsCurrentTurn()
         }

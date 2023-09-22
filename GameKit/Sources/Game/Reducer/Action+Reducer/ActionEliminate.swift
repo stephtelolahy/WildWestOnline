@@ -11,13 +11,13 @@ struct ActionEliminate: GameReducerProtocol {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         state.playOrder.removeAll(where: { $0 == player })
-        state.queue.removeAll(where: { $0.isEffectTriggeredBy(player) })
+        state.queue.removeAll(where: { $0.isEffectTriggeredByPlayer(player) })
         return state
     }
 }
 
 private extension GameAction {
-    func isEffectTriggeredBy(_ player: String) -> Bool {
+    func isEffectTriggeredByPlayer(_ player: String) -> Bool {
         if case let .resolve(_, ctx) = self,
                 ctx.get(.actor) == player {
             true

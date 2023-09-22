@@ -17,7 +17,7 @@ struct ActionPlayImmediate: GameReducerProtocol {
         state.discard.push(card)
 
         // save played card
-        state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
+        state.incrementPlayCounter(for: card.extractName())
         return state
     }
 }

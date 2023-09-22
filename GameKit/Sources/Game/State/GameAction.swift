@@ -12,19 +12,19 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     // MARK: - Play
     
-    /// Play a card
+    /// Resolve playing a card
     case play(String, player: String)
 
-    /// Did play a brown card, discard immediately
+    /// Play a brown card, discard immediately
     case playImmediate(String, target: String? = nil, player: String)
 
-    /// Did invoke an ability
+    /// Invoke an ability
     case playAbility(String, player: String)
 
-    /// Did put in play an equipment card
+    /// Put in play an equipment card
     case playEquipment(String, player: String)
 
-    /// Did play an handicap card
+    /// Play an handicap card
     case playHandicap(String, target: String, player: String)
 
     // MARK: - Renderable actions

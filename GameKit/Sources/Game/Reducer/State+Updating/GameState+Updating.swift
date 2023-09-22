@@ -53,4 +53,8 @@ extension GameState {
 
         return distance
     }
+
+    mutating func incrementPlayCounter(for cardName: String) {
+        playCounter[cardName] = (playCounter[cardName] ?? 0) + 1
+    }
 }

@@ -15,12 +15,10 @@ extension GameAction {
 
         default:
             var state = try reduce(state: state)
-            guard state.queue.isNotEmpty else {
-                return
+            if state.queue.isNotEmpty {
+                let next = state.queue.removeFirst()
+                try next.validate(state: state)
             }
-
-            let next = state.queue.removeFirst()
-            try next.validate(state: state)
         }
     }
 }

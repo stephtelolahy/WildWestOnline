@@ -33,7 +33,31 @@ final class BangSpec: QuickSpec {
                     let error = self.awaitError(action, state: state)
 
                     // Assert
-                    expect(error) == .noReq(.isTimesPerTurn(.playerAttr(.bangsPerTurn)))
+                    expect(error) == .noReq(.isTimesPerTurnLessThan(.playerAttr(.bangsPerTurn)))
+                }
+            }
+
+            context("no limit per turn") {
+                it("should allow multiple bang") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .bang
+                            }
+                        }
+                        .attribute(.weapon, 1)
+                        .attribute(.bangsPerTurn, 0)
+                        Player("p2")
+                    }
+                    .playCounters([.bang: 1])
+
+                    // When
+                    let action = GameAction.play(.bang, player: "p1")
+                    let result = self.awaitAction(action, choices: ["p2", .pass], state: state)
+
+                    // Assert
+                    expect(result).toNot(beEmpty())
                 }
             }
 

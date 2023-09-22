@@ -149,10 +149,10 @@ private func shouldValidateEffectsTriggeredBy(_ action: GameAction?) -> Bool {
 }
 
 /// Becase we are marking card played after resolving play action,
-/// the condition `isTimesPerTurn` will fail next time verifying onPlay requirements
+/// the condition `isTimesPerTurnLessThan` will fail next time verifying onPlay requirements
 private func shouldMatchPlayReq(_ playReq: PlayReq) -> Bool {
     switch playReq {
-    case .isTimesPerTurn:
+    case .isTimesPerTurnLessThan:
         false
     default:
         true

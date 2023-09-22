@@ -16,7 +16,7 @@ struct ActionCancel: GameReducerProtocol {
             state.queue.remove(at: 0)
 
         case let .effectOfCardNamed(cardName):
-            if let index = state.queue.firstIndex(where: { $0.isEffectOfCardNamed(cardName) }) {
+            if let index = state.queue.firstIndex(where: { $0.isEffectTriggeredByCardNamed(cardName) }) {
                 state.queue.remove(at: index)
             }
         }
@@ -26,7 +26,7 @@ struct ActionCancel: GameReducerProtocol {
 }
 
 private extension GameAction {
-    func isEffectOfCardNamed(_ cardName: String) -> Bool {
+    func isEffectTriggeredByCardNamed(_ cardName: String) -> Bool {
         if case let .resolve(_, ctx) = self,
               ctx.get(.card) == cardName {
             true

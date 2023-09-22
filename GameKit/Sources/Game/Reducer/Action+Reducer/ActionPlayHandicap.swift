@@ -24,7 +24,7 @@ struct ActionPlayHandicap: GameReducerProtocol {
         state[keyPath: \GameState.players[target]]?.inPlay.add(card)
 
         // save played card
-        state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
+        state.incrementPlayCounter(for: cardName)
         return state
     }
 }
