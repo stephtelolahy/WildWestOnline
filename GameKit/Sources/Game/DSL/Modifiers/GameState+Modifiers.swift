@@ -8,7 +8,7 @@
 public extension GameState {
 
     init(@GameAttributeBuilder components: () -> [GameAttribute] = { [] }) {
-        components().forEach { $0.update(game: &self) }
+        components().forEach { $0.apply(to: &self) }
     }
 
     func isOver(_ value: String) -> Self {

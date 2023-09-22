@@ -12,7 +12,7 @@ public struct Arena: GameAttribute {
         self.value = CardLocation(cards: content())
     }
     
-    public func update(game: inout GameState) {
+    public func apply(to game: inout GameState) {
         game.arena = value
     }
 }

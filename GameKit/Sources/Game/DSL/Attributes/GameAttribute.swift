@@ -7,5 +7,5 @@
 
 /// Temporary structure allowing game initizalization using DSL
 public protocol GameAttribute {
-    func update(game: inout GameState)
+    func apply(to game: inout GameState)
 }
