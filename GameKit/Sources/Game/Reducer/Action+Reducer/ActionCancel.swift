@@ -24,14 +24,3 @@ struct ActionCancel: GameReducerProtocol {
         return state
     }
 }
-
-private extension GameAction {
-    func isEffectTriggeredByCardNamed(_ cardName: String) -> Bool {
-        if case let .resolve(_, ctx) = self,
-              ctx.get(.card) == cardName {
-            true
-        } else {
-            false
-        }
-    }
-}

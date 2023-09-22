@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //  AIAgentMiddleware.swift
 //  
 //
@@ -9,32 +8,30 @@ import Redux
 import Combine
 
 public let aiAgentMiddleware: Middleware<GameState> = { state, _ in
-    if let action = state.evaluateAIMove() {
+    if let action = evaluateAIMove(state: state) {
         Just(action).eraseToAnyPublisher()
     } else {
         Empty().eraseToAnyPublisher()
     }
 }
 
-private extension GameState {
-    func evaluateAIMove() -> GameAction? {
-        guard isOver == nil else {
-            return nil
-        }
-
-        if let active {
-            // swiftlint:disable:next force_unwrapping
-            let randomCard = active.cards.randomElement()!
-            let randomAction = GameAction.play(randomCard, player: active.player)
-            return randomAction
-        }
-
-        if let chooseOne {
-            // swiftlint:disable:next force_unwrapping
-            let randomAction = chooseOne.options.values.randomElement()!
-            return randomAction
-        }
-
+private func evaluateAIMove(state: GameState) -> GameAction? {
+    guard state.isOver == nil else {
         return nil
     }
+
+    if let active = state.active {
+        // swiftlint:disable:next force_unwrapping
+        let randomCard = active.cards.randomElement()!
+        let randomAction = GameAction.play(randomCard, player: active.player)
+        return randomAction
+    }
+
+    if let chooseOne = state.chooseOne {
+        // swiftlint:disable:next force_unwrapping
+        let randomAction = chooseOne.options.values.randomElement()!
+        return randomAction
+    }
+
+    return nil
 }

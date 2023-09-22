@@ -1,11 +1,11 @@
 //
-//  IsTimesPerTurnLessThan.swift
+//  IsMaxTimesPerTurn.swift
 //  
 //
 //  Created by Hugues Telolahy on 17/04/2023.
 //
 
-struct IsTimesPerTurnLessThan: PlayReqMatcherProtocol {
+struct IsMaxTimesPerTurn: PlayReqMatcherProtocol {
     let maxTimes: NumArg
 
     func match(state: GameState, ctx: EffectContext) -> Bool {

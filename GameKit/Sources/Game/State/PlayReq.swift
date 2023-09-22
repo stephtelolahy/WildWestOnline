@@ -45,7 +45,7 @@ public enum PlayReq: Codable, Equatable {
     case isPlayersAtLeast(Int)
 
     /// The maximum times per turn a card may be played is X
-    case isTimesPerTurnLessThan(NumArg)
+    case isMaxTimesPerTurn(NumArg)
 
     /// Is actor the current turn
     case isYourTurn

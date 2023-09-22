@@ -15,14 +15,3 @@ struct ActionEliminate: GameReducerProtocol {
         return state
     }
 }
-
-private extension GameAction {
-    func isEffectTriggeredByPlayer(_ player: String) -> Bool {
-        if case let .resolve(_, ctx) = self,
-                ctx.get(.actor) == player {
-            true
-        } else {
-            false
-        }
-    }
-}

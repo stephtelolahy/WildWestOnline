@@ -152,7 +152,7 @@ private func shouldValidateEffectsTriggeredBy(_ action: GameAction?) -> Bool {
 /// the condition `isTimesPerTurnLessThan` will fail next time verifying onPlay requirements
 private func shouldMatchPlayReq(_ playReq: PlayReq) -> Bool {
     switch playReq {
-    case .isTimesPerTurnLessThan:
+    case .isMaxTimesPerTurn:
         false
     default:
         true

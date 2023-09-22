@@ -10,6 +10,10 @@ extension Player {
         health < maxHealth
     }
 
+    func handLimitAtEndOfTurn() -> Int {
+        attributes[.handLimit] ?? health
+    }
+
     mutating func gainHealth(_ value: Int) throws {
         guard health < maxHealth else {
             throw GameError.playerAlreadyMaxHealth(id)
