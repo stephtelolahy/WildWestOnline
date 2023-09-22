@@ -1,5 +1,5 @@
 //
-//  EffectContext+Extensions.swift
+//  EffectContext+Extension.swift
 //  
 //
 //  Created by Hugues Telolahy on 20/05/2023.

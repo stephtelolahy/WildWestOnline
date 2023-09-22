@@ -1,5 +1,5 @@
 //
-//  GameAction+Extensions.swift
+//  GameAction+Extension.swift
 //  
 //
 //  Created by Hugues Telolahy on 22/09/2023.
