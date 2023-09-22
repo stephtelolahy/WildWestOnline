@@ -32,34 +32,13 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
     }
 }
 
-/// Evaluate triggered efofects given current state
 private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [GameAction]? {
-    // determine active players
-    var players = state.playOrder
-    if case let .eliminate(justEliminated) = state.event {
-        players.insert(justEliminated, at: 0)
-    }
-
+    let players = playersThatCouldTriggerEffects(action: action, state: state)
     var triggered: [GameAction] = []
     for player in players {
-        let playerObj = state.player(player)
-
-        // determine cards that could trigger effects
-        var cards = playerObj.inPlay.cards + playerObj.abilities
-        if case let .discardInPlay(justDiscardedFromPlay, aPlayer) = state.event,
-           aPlayer == player {
-            cards.insert(justDiscardedFromPlay, at: 0)
-        }
-        if case let .stealInPlay(justDiscardedFromPlay, aTarget, _) = state.event,
-           aTarget == player {
-            cards.insert(justDiscardedFromPlay, at: 0)
-        }
-        if case let .playImmediate(justDiscardedFromHand, _, aPlayer) = state.event,
-           aPlayer == player {
-            cards.insert(justDiscardedFromHand, at: 0)
-        }
+        let cards = cardsThatCouldTriggerEffects(action: action, player: player, state: state)
         for card in cards {
-            if let action = triggeredAction(by: card, player: player, state: state) {
+            if let action = triggeredEffect(by: card, player: player, state: state) {
                 triggered.append(action)
             }
         }
@@ -72,7 +51,33 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [
     return triggered
 }
 
-private func triggeredAction(by card: String, player: String, state: GameState) -> GameAction? {
+private func playersThatCouldTriggerEffects(action: GameAction, state: GameState) -> [String] {
+    var players = state.playOrder
+    if case let .eliminate(eliminatedPlayer) = action {
+        players.insert(eliminatedPlayer, at: 0)
+    }
+    return players
+}
+
+private func cardsThatCouldTriggerEffects(action: GameAction, player: String, state: GameState) -> [String] {
+    let playerObj = state.player(player)
+    var cards = playerObj.inPlay.cards + playerObj.abilities
+    if case let .discardInPlay(discardedCard, discardingPlayer) = state.event,
+       discardingPlayer == player {
+        cards.insert(discardedCard, at: 0)
+    }
+    if case let .stealInPlay(stolenCard, stolenPlayer, _) = state.event,
+       stolenPlayer == player {
+        cards.insert(stolenCard, at: 0)
+    }
+    if case let .playImmediate(playedCard, _, playingPlayer) = state.event,
+       playingPlayer == player {
+        cards.insert(playedCard, at: 0)
+    }
+    return cards
+}
+
+private func triggeredEffect(by card: String, player: String, state: GameState) -> GameAction? {
     let cardName = card.extractName()
     guard let cardObj = state.cardRef[cardName] else {
         return nil
@@ -82,8 +87,16 @@ private func triggeredAction(by card: String, player: String, state: GameState) 
 
     for rule in cardObj.rules {
         do {
-            for playReq in rule.playReqs where shouldMatchPlayReq(playReq) {
-                try playReq.match(state: state, ctx: ctx)
+            // Validate playRequirements
+            var isOnPlayRule = false
+            if let onPlayReq = rule.playReqs.first(where: { PlayReq.onPlays.contains($0) }) {
+                // onPlayRule's other requirements are already matched before dispatching action
+                try onPlayReq.match(state: state, ctx: ctx)
+                isOnPlayRule = true
+            } else {
+                for playReq in rule.playReqs {
+                    try playReq.match(state: state, ctx: ctx)
+                }
             }
 
             // extract child effect if targeting selectable player
@@ -113,7 +126,7 @@ private func triggeredAction(by card: String, player: String, state: GameState) 
             let action = GameAction.resolve(sideEffect, ctx: ctx)
 
             // validate effect
-            if shouldValidateEffectsTriggeredBy(state.event) {
+            if !isOnPlayRule {
                 try action.validate(state: state)
             }
 
@@ -124,30 +137,4 @@ private func triggeredAction(by card: String, player: String, state: GameState) 
     }
 
     return nil
-}
-
-/// Verify if we should forward the triggered effect eventual failure into the game queue
-/// Because since we trigger card’s main effect separately from resolving Play action,
-/// the failure of the effect could not be linked to the card playability
-private func shouldValidateEffectsTriggeredBy(_ action: GameAction?) -> Bool {
-    switch action {
-    case .playImmediate,
-            .playAbility,
-            .playHandicap,
-            .playEquipment:
-        false
-    default:
-        true
-    }
-}
-
-/// Becase we are marking card played after resolving play action,
-/// the condition `isTimesPerTurnLessThan` will fail next time verifying onPlay requirements
-private func shouldMatchPlayReq(_ playReq: PlayReq) -> Bool {
-    switch playReq {
-    case .isMaxTimesPerTurn:
-        false
-    default:
-        true
-    }
 }

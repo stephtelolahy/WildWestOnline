@@ -43,8 +43,7 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
             return false
         }
 
-        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
-        guard onPlayReqs.contains(where: { onPlayReq in
+        guard PlayReq.onPlays.contains(where: { onPlayReq in
             cardObj.rules.contains(where: { rule in
                 rule.playReqs.contains(onPlayReq)
             })
