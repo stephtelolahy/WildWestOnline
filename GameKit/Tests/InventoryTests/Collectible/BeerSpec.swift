@@ -29,7 +29,7 @@ final class BeerSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.beer, player: "p1")
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [.playImmediate(.beer, player: "p1"),
@@ -54,7 +54,7 @@ final class BeerSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.beer, player: "p1")
-                    let error = self.awaitError(action, state: state)
+                    let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(error) == .playerAlreadyMaxHealth("p1")
@@ -77,7 +77,7 @@ final class BeerSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.beer, player: "p1")
-                    let error = self.awaitError(action, state: state)
+                    let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(error) == .noReq(.isPlayersAtLeast(3))

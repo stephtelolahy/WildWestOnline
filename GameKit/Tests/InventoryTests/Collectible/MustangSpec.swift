@@ -26,7 +26,7 @@ final class MustangSpec: QuickSpec {
 
                 // When
                 let action = GameAction.play(.mustang, player: "p1")
-                let result = self.awaitAction(action, state: state)
+                let (result, _) = self.awaitAction(action, state: state)
 
                 // Then
                 expect(result) == [

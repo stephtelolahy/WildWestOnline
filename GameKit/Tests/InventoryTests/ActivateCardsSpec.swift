@@ -34,7 +34,7 @@ final class ActivateCardsSpec: QuickSpec {
 
                     // When
                     let action = GameAction.group([])
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [

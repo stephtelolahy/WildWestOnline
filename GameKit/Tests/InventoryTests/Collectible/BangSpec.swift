@@ -30,7 +30,7 @@ final class BangSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let error = self.awaitError(action, state: state)
+                    let (_, error) = self.awaitAction(action, state: state)
 
                     // Assert
                     expect(error) == .noReq(.isMaxTimesPerTurn(.playerAttr(.bangsPerTurn)))
@@ -54,7 +54,7 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let result = self.awaitAction(action, choices: ["p2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, choices: ["p2", .pass], state: state)
 
                     // Assert
                     expect(result).toNot(beEmpty())
@@ -79,7 +79,7 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let error = self.awaitError(action, state: state)
+                    let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(error) == .noPlayer(.selectReachable)
@@ -106,7 +106,7 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let result = self.awaitAction(action, choices: ["p2", .missed], state: state)
+                    let (result, _) = self.awaitAction(action, choices: ["p2", .missed], state: state)
 
                     // Then
                     expect(result) == [
@@ -139,7 +139,7 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let result = self.awaitAction(action, choices: ["p2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, choices: ["p2", .pass], state: state)
 
                     // Then
                     expect(result) == [

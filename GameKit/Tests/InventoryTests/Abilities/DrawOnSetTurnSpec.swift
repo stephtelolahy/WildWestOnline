@@ -28,7 +28,7 @@ final class DrawOnSetTurnSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.setTurn("p1")
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
                     
                     // Then
                     expect(result) == [
@@ -56,7 +56,7 @@ final class DrawOnSetTurnSpec: QuickSpec {
 
                     // When
                     let action = GameAction.setTurn("p1")
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [

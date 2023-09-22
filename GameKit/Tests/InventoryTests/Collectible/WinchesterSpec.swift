@@ -25,7 +25,7 @@ final class WinchesterSpec: QuickSpec {
 
                 // When
                 let action = GameAction.play(.winchester, player: "p1")
-                let result = self.awaitAction(action, state: state)
+                let (result, _) = self.awaitAction(action, state: state)
 
                 // Then
                 expect(result) == [

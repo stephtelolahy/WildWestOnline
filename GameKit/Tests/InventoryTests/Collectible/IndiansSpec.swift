@@ -33,7 +33,7 @@ final class IndiansSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.indians, player: "p1")
-                    let result = self.awaitAction(action, choices: [.bang, .pass], state: state)
+                    let (result, _) = self.awaitAction(action, choices: [.bang, .pass], state: state)
                     
                     // Then
                     expect(result) == [
@@ -69,7 +69,7 @@ final class IndiansSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.indians, player: "p1")
-                    let result = self.awaitAction(action, choices: [.bang], state: state)
+                    let (result, _) = self.awaitAction(action, choices: [.bang], state: state)
                     
                     // Then
                     expect(result) == [
