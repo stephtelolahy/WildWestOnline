@@ -25,17 +25,10 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
     case .setGameOver,
             .chooseOne,
             .activateCards:
-        return nil
+        nil
 
     default:
-        guard let nextAction = state.queue.first else {
-            return nil
-        }
-
-        precondition(state.isOver == nil)
-        precondition(state.active == nil)
-        precondition(state.chooseOne == nil)
-        return nextAction
+        state.queue.first
     }
 }
 
