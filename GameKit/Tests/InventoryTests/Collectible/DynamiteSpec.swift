@@ -25,7 +25,7 @@ final class DynamiteSpec: QuickSpec {
                 
                 // When
                 let action = GameAction.play(.dynamite, player: "p1")
-                let result = self.awaitAction(action, state: state)
+                let (result, _) = self.awaitAction(action, state: state)
                 
                 // Then
                 expect(result) == [
@@ -57,7 +57,7 @@ final class DynamiteSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.setTurn("p1")
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
                     
                     // Then
                     expect(result) == [.setTurn("p1"),
@@ -91,7 +91,7 @@ final class DynamiteSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.setTurn("p1")
-                        let result = self.awaitAction(action, state: state)
+                        let (result, _) = self.awaitAction(action, state: state)
 
                         // Then
                         expect(result) == [.setTurn("p1"),
@@ -130,7 +130,7 @@ final class DynamiteSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.setTurn("p1")
-                        let result = self.awaitAction(action, state: state)
+                        let (result, _) = self.awaitAction(action, state: state)
 
                         // Then
                         expect(result) == [.setTurn("p1"),

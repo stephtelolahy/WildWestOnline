@@ -25,7 +25,7 @@ final class BarrelSpec: QuickSpec {
                 
                 // When
                 let action = GameAction.play(.barrel, player: "p1")
-                let result = self.awaitAction(action, state: state)
+                let (result, _) = self.awaitAction(action, state: state)
                 
                 // Then
                 expect(result) == [.playEquipment(.barrel, player: "p1")]
@@ -57,7 +57,7 @@ final class BarrelSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-                        let result = self.awaitAction(action, state: state)
+                        let (result, _) = self.awaitAction(action, state: state)
                         
                         // Then
                         expect(result) == [
@@ -91,7 +91,7 @@ final class BarrelSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-                        let result = self.awaitAction(action, choices: [.pass], state: state)
+                        let (result, _) = self.awaitAction(action, choices: [.pass], state: state)
 
                         // Then
                         expect(result) == [
@@ -131,7 +131,7 @@ final class BarrelSpec: QuickSpec {
 
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-                        let result = self.awaitAction(action, state: state)
+                        let (result, _) = self.awaitAction(action, state: state)
 
                         // Then
                         expect(result) == [

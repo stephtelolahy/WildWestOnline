@@ -12,7 +12,7 @@ public struct Deck: GameAttribute {
         self.value = CardStack(content: content)
     }
     
-    public func update(game: inout GameState) {
+    public func apply(to game: inout GameState) {
         game.deck = value
     }
 }

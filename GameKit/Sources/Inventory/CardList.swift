@@ -37,7 +37,6 @@ public enum CardList {
         discardCardsOnEliminated
         evaluateGameOverOnEliminated
         discardPreviousWeaponOnPlayWeapon
-        evaluateActiveCardsOnIdle
     }
 }
 
@@ -97,7 +96,7 @@ private extension CardList {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
             .target(.selectReachable)
-            .when(.onPlayImmediate, .isTimesPerTurn(.playerAttr(.bangsPerTurn)))
+            .when(.onPlayImmediate, .isMaxTimesPerTurn(.playerAttr(.bangsPerTurn)))
     }
     
     static let missed = Card(.missed)
@@ -230,12 +229,6 @@ private extension CardList {
         CardEffect.discard(.previousInPlayWithAttribute(.weapon))
             .target(.actor)
             .when(.onPlayEquipmentWithAttribute(.weapon))
-    }
-
-    static let evaluateActiveCardsOnIdle = Card(.evaluateActiveCardsOnIdle) {
-        CardEffect.evaluateActiveCards
-            .target(.actor)
-            .when(.onIdle)
     }
 
     static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {

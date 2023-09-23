@@ -11,7 +11,7 @@ public extension Player {
 
     init(_ id: String = UUID().uuidString, @PlayerAttributeBuilder components: () -> [PlayerAttribute] = { [] }) {
         self.id = id
-        components().forEach { $0.update(player: &self) }
+        components().forEach { $0.apply(to: &self) }
     }
 
     func name(_ value: String) -> Self {

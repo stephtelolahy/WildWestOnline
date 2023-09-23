@@ -1,5 +1,5 @@
 //
-//  GameState+Updating.swift
+//  GameState+Extension.swift
 //  
 //
 //  Created by Hugues Telolahy on 15/04/2023.
@@ -52,5 +52,9 @@ extension GameState {
         distance += mustang
 
         return distance
+    }
+
+    mutating func incrementPlayCounter(for cardName: String) {
+        playCounter[cardName] = (playCounter[cardName] ?? 0) + 1
     }
 }

@@ -26,7 +26,7 @@ final class CatBalouSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.catBalou, player: "p1")
-                    let error = self.awaitError(action, state: state)
+                    let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(error) == .noPlayer(.selectAny)
@@ -52,7 +52,7 @@ final class CatBalouSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let result = self.awaitAction(action, choices: ["p2", .randomHand], state: state)
+                        let (result, _) = self.awaitAction(action, choices: ["p2", .randomHand], state: state)
                         
                         // Then
                         expect(result) == [
@@ -87,7 +87,7 @@ final class CatBalouSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let result = self.awaitAction(action, choices: ["p2", "c22"], state: state)
+                        let (result, _) = self.awaitAction(action, choices: ["p2", "c22"], state: state)
                         
                         // Then
                         expect(result) == [
@@ -126,7 +126,7 @@ final class CatBalouSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let result = self.awaitAction(action, choices: ["p2", "c23"], state: state)
+                        let (result, _) = self.awaitAction(action, choices: ["p2", "c23"], state: state)
                         
                         // Then
                         expect(result) == [

@@ -1,5 +1,5 @@
 //
-//  CardLocation+Updating.swift
+//  CardLocation+Extension.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 02/04/2023.

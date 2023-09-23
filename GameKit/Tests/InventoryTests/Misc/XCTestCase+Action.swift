@@ -19,10 +19,11 @@ extension XCTestCase {
         timeout: TimeInterval = 0.1,
         file: StaticString = #file,
         line: UInt = #line
-    ) -> [GameAction] {
+    ) -> ([GameAction], GameError?) {
         let store = createGameStore(initial: state)
         var choices = choices
         var events: [GameAction] = []
+        var ocurredError: GameError?
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         if continueOnQueueEmpty {
             expectation.isInverted = true
@@ -32,6 +33,11 @@ extension XCTestCase {
             if let event = state.event,
                event.isRenderable {
                 events.append(event)
+            }
+
+            if let error = state.error {
+                ocurredError = error
+                expectation.fulfill()
             }
 
             if let chooseOne = state.chooseOne {
@@ -66,57 +72,6 @@ extension XCTestCase {
         XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
 
-        return events
-    }
-
-    func awaitError(
-        _ action: GameAction,
-        choices: [String] = [],
-        state: GameState,
-        timeout: TimeInterval = 0.1,
-        file: StaticString = #file,
-        line: UInt = #line
-    ) -> GameError? {
-        let store = createGameStore(initial: state)
-        var choices = choices
-        var ocurredError: GameError?
-        let expectation = XCTestExpectation(description: "Awaiting game idle")
-        let cancellable = store.$state.dropFirst(1).sink { state in
-            if let error = state.error {
-                ocurredError = error
-            }
-
-            if let chooseOne = state.chooseOne {
-                guard !choices.isEmpty else {
-                    XCTFail("Expected a choice between \(chooseOne.options.keys)", file: file, line: line)
-                    return
-                }
-
-                let choice = choices.removeFirst()
-                guard let option = chooseOne.options[choice] else {
-                    XCTFail("Expect chooseOne with option \(choice)", file: file, line: line)
-                    return
-                }
-
-                DispatchQueue.main.async {
-                    store.dispatch(option)
-                }
-                return
-            }
-
-            if state.queue.isEmpty {
-                expectation.fulfill()
-            }
-        }
-
-        store.dispatch(action)
-
-        wait(for: [expectation], timeout: timeout)
-        cancellable.cancel()
-
-        XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
-        XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
-
-        return ocurredError
+        return (events, ocurredError)
     }
 }

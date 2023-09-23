@@ -38,15 +38,16 @@ public enum PlayReq: Codable, Equatable {
     /// After playing an equipement with given attribute
     case onPlayEquipmentWithAttribute(AttributeKey)
 
-    /// When queue is empty and your turn
-    case onIdle
-
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)
 
     /// The maximum times per turn a card may be played is X
-    case isTimesPerTurn(NumArg)
+    case isMaxTimesPerTurn(NumArg)
 
     /// Is actor the current turn
     case isYourTurn
+}
+
+extension PlayReq {
+    static let onPlays: [Self] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
 }

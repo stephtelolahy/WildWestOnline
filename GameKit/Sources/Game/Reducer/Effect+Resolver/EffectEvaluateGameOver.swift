@@ -7,7 +7,7 @@
 
 struct EffectEvaluateGameOver: EffectResolverProtocol {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        if let winner = state.evaluateWinner() {
+        if let winner = evaluateWinner(state: state) {
             [.setGameOver(winner: winner)]
         } else {
             []
@@ -15,12 +15,10 @@ struct EffectEvaluateGameOver: EffectResolverProtocol {
     }
 }
 
-private extension GameState {
-    func evaluateWinner() -> String? {
-        if playOrder.count == 1 {
-            return playOrder[0]
-        }
-
-        return nil
+private func evaluateWinner(state: GameState) -> String? {
+    if state.playOrder.count == 1 {
+        return state.playOrder[0]
     }
+
+    return nil
 }

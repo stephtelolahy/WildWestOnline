@@ -1,5 +1,5 @@
 //
-//  Player+Updating.swift
+//  Player+Extension.swift
 //
 //
 //  Created by Hugues Telolahy on 15/04/2023.
@@ -8,6 +8,10 @@
 extension Player {
     var isDamaged: Bool {
         health < maxHealth
+    }
+
+    func handLimitAtEndOfTurn() -> Int {
+        attributes[.handLimit] ?? health
     }
 
     mutating func gainHealth(_ value: Int) throws {

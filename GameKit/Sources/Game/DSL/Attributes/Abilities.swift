@@ -12,7 +12,7 @@ public struct Abilities: PlayerAttribute {
         self.value = content()
     }
     
-    public func update(player: inout Player) {
+    public func apply(to player: inout Player) {
         player.abilities = value
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Array+Extensions.swift
+//  Array+Extension.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/04/2023.

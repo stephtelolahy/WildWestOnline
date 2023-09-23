@@ -12,7 +12,7 @@ struct ActionPlayAbility: GameReducerProtocol {
     func reduce(state: GameState) throws -> GameState {
         // save played card
         var state = state
-        state.playCounter[card] = (state.playCounter[card] ?? 0) + 1
+        state.incrementPlayCounter(for: card)
         return state
     }
 }

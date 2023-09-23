@@ -17,18 +17,12 @@ struct ActionPlay: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
         
-        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
-        var playRule: CardRule?
-        var onPlayReq: PlayReq?
-        for playReq in onPlayReqs {
-            if let rule = cardObj.rules.first(where: { $0.playReqs.contains(playReq) }) {
-                playRule = rule
-                onPlayReq = playReq
-                break
-            }
-        }
-
-        guard let playRule else {
+        let onPlayReqs = PlayReq.onPlays
+        guard let playRule: CardRule = cardObj.rules.first(where: { rule in
+            rule.playReqs.contains(where: {
+                onPlayReqs.contains($0)
+            })
+        }) else {
             throw GameError.cardNotPlayable(card)
         }
         
@@ -46,7 +40,7 @@ struct ActionPlay: GameReducerProtocol {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    switch onPlayReq {
+                    switch playRule.playReqs.first {
                     case .onPlayImmediate:
                             .playImmediate(card, target: $1, player: player)
                     case .onPlayHandicap:
@@ -57,14 +51,14 @@ struct ActionPlay: GameReducerProtocol {
                     
                     $0[$1] = action
                 }
-                let chooseOne = try GameAction.buildChooseOne(chooser: player, options: options, state: state)
+                let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
                 state.queue.insert(chooseOne, at: 0)
                 return state
             }
         }
         
         let action: GameAction =
-        switch onPlayReq {
+        switch playRule.playReqs.first {
         case .onPlayImmediate:
                 .playImmediate(card, player: player)
         case .onPlayAbility:

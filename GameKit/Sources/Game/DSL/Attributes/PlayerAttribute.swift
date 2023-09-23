@@ -7,5 +7,5 @@
 
 /// Temporary structure allowing Player initizalization using DSL
 public protocol PlayerAttribute {
-    func update(player: inout Player)
+    func apply(to player: inout Player)
 }

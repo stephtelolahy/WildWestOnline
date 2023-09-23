@@ -60,7 +60,6 @@ public extension String {
     static let discardCardsOnEliminated = "discardCardsOnEliminated"
     static let evaluateGameOverOnEliminated = "evaluateGameOverOnEliminated"
     static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"
-    static let evaluateActiveCardsOnIdle = "evaluateActiveCardsOnIdle"
 }
 
 public extension String {

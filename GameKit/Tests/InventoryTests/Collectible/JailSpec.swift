@@ -28,7 +28,7 @@ final class JailSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.jail, player: "p1")
-                    let result = self.awaitAction(action, choices: ["p2"], state: state)
+                    let (result, _) = self.awaitAction(action, choices: ["p2"], state: state)
 
                     // Then
                     expect(result) == [
@@ -69,7 +69,7 @@ final class JailSpec: QuickSpec {
 
                     // When
                     let action = GameAction.setTurn("p1")
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [.setTurn("p1"),
@@ -104,7 +104,7 @@ final class JailSpec: QuickSpec {
 
                     // When
                     let action = GameAction.setTurn("p1")
-                    let result = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [.setTurn("p1"),

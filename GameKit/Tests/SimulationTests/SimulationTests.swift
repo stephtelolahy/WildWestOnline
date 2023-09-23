@@ -32,6 +32,10 @@ final class SimulationTests: XCTestCase {
             if state.isOver != nil {
                 expectation.fulfill()
             }
+
+            if let error = state.error {
+                XCTFail("Unexpected error \(error)")
+            }
         }
         
         // When

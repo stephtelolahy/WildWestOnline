@@ -12,7 +12,7 @@ public struct InPlay: PlayerAttribute {
         self.value = CardLocation(cards: content())
     }
     
-    public func update(player: inout Player) {
+    public func apply(to player: inout Player) {
         player.inPlay = value
     }
 }

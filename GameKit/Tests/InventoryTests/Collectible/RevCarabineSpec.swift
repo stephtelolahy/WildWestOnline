@@ -25,7 +25,7 @@ final class RevCarabineSpec: QuickSpec {
 
                 // When
                 let action = GameAction.play(.revCarabine, player: "p1")
-                let result = self.awaitAction(action, state: state)
+                let (result, _) = self.awaitAction(action, state: state)
 
                 // Then
                 expect(result) == [
