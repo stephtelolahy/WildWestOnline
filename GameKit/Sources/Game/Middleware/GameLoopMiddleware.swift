@@ -11,8 +11,10 @@ public let gameLoopMiddleware: Middleware<GameState> = { state, action in
         return Empty().eraseToAnyPublisher()
     }
 
-    if let effects = evaluateTriggeredEffects(action: action, state: state) {
-        return Just(GameAction.group(effects)).eraseToAnyPublisher()
+    if let gameOver = evaluateGameOver(action: action, state: state) {
+        return Just(gameOver).eraseToAnyPublisher()
+    } else if let effects = evaluateTriggeredEffects(action: action, state: state) {
+        return Just(effects).eraseToAnyPublisher()
     } else if let nextAction = evaluateNextAction(action: action, state: state) {
         return Just(nextAction).eraseToAnyPublisher()
     } else if let activateCards = evaluateActiveCards(state: state) {
@@ -34,7 +36,7 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
     }
 }
 
-private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [GameAction]? {
+private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> GameAction? {
     let players = playersThatCouldTriggerEffects(action: action, state: state)
     var triggered: [GameAction] = []
     for player in players {
@@ -51,7 +53,7 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [
         return nil
     }
 
-    return triggered
+    return .group(triggered)
 }
 
 private func playersThatCouldTriggerEffects(action: GameAction, state: GameState) -> [String] {
@@ -119,5 +121,22 @@ private func evaluateActiveCards(state: GameState) -> GameAction? {
     if activeCards.isNotEmpty {
         return GameAction.activateCards(player: player, cards: activeCards)
     }
+    return nil
+}
+
+private func evaluateGameOver(action: GameAction, state: GameState) -> GameAction? {
+    guard case .eliminate = action,
+          let winner = evaluateWinner(state: state)else {
+        return nil
+    }
+
+    return .setGameOver(winner: winner)
+}
+
+private func evaluateWinner(state: GameState) -> String? {
+    if state.playOrder.count == 1 {
+        return state.playOrder[0]
+    }
+
     return nil
 }

@@ -18,7 +18,6 @@ final class GameOverSpec: QuickSpec {
                     let state = createGameWithCardRef {
                         Player("p1")
                         Player("p2")
-                            .ability(.evaluateGameOverOnEliminated)
                     }
 
                     // When

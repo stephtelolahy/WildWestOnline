@@ -35,7 +35,6 @@ public enum CardList {
         eliminateOnLooseLastHealth
         nextTurnOnEliminated
         discardCardsOnEliminated
-        evaluateGameOverOnEliminated
         discardPreviousWeaponOnPlayWeapon
     }
 }
@@ -217,11 +216,6 @@ private extension CardList {
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
         CardEffect.discard(.all)
             .target(.actor)
-            .when(.onEliminated)
-    }
-    
-    static let evaluateGameOverOnEliminated = Card(.evaluateGameOverOnEliminated) {
-        CardEffect.evaluateGameOver
             .when(.onEliminated)
     }
 
