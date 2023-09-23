@@ -14,15 +14,12 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
     }
 
     func evaluateActiveCards(player: String, state: GameState) -> GameAction? {
+        precondition(state.isOver == nil)
         precondition(state.queue.isEmpty)
         precondition(state.chooseOne == nil)
         precondition(state.active == nil)
         precondition(state.playOrder.contains(player))
-        precondition(state.isOver == nil)
-
-        guard player == state.turn else {
-            return nil
-        }
+        precondition(player == state.turn)
 
         var activeCards: [String] = []
         let playerObj = state.player(player)

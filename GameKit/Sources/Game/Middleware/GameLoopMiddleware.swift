@@ -44,6 +44,13 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [
         }
     }
 
+    // Remove exclusive effect
+    if triggered.count >= 2,
+       let exclusiveIndex = triggered.firstIndex(where: { isExclusiveEffect($0) }) {
+        triggered.remove(at: exclusiveIndex)
+    }
+
+    // Ignore empty
     guard triggered.isNotEmpty else {
         return nil
     }
@@ -88,11 +95,9 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
     for rule in cardObj.rules {
         do {
             // Validate playRequirements
-            var isOnPlayRule = false
             if let onPlayReq = rule.playReqs.first(where: { PlayReq.onPlays.contains($0) }) {
                 // onPlayRule's other requirements are already matched before dispatching action
                 try onPlayReq.match(state: state, ctx: ctx)
-                isOnPlayRule = true
             } else {
                 for playReq in rule.playReqs {
                     try playReq.match(state: state, ctx: ctx)
@@ -123,18 +128,21 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
                 }
             }
 
-            let action = GameAction.resolve(sideEffect, ctx: ctx)
-
-            // validate effect
-            if !isOnPlayRule {
-                try action.validate(state: state)
-            }
-
-            return action
+            return .resolve(sideEffect, ctx: ctx)
         } catch {
             continue
         }
     }
 
     return nil
+}
+
+private func isExclusiveEffect(_ action: GameAction) -> Bool {
+    if case .resolve(let cardEffect, _) = action,
+       case .target(_, let childEffect) = cardEffect,
+       case .evaluateActiveCards = childEffect {
+        return true
+    } else {
+        return false
+    }
 }
