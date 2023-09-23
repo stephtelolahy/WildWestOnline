@@ -6,25 +6,7 @@
 //
 
 extension GameAction {
-    func validate(state: GameState) throws {
-        switch self {
-        case .activateCards,
-                .chooseOne,
-                .setGameOver:
-            return
-
-        default:
-            var state = try reduce(state: state)
-            if state.queue.isNotEmpty {
-                let next = state.queue.removeFirst()
-                try next.validate(state: state)
-            }
-        }
-    }
-}
-
-extension GameAction {
-    static func buildChooseOne(
+    static func validateChooseOne(
         chooser: String,
         options: [String: GameAction],
         state: GameState
@@ -34,7 +16,7 @@ extension GameAction {
             do {
                 try action.validate(state: state)
             } catch {
-                print("‼️ buildChooseOne: invalidate \(action)\treason: \(error)")
+                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
                 continue
             }
 
@@ -53,5 +35,36 @@ extension GameAction {
         }
 
         return .chooseOne(player: chooser, options: validOptions)
+    }
+
+    static func validatePlay(
+        card: String,
+        player: String,
+        state: GameState
+    ) -> Bool {
+        let action = GameAction.play(card, player: player)
+        do {
+            try action.validate(state: state)
+            return true
+        } catch {
+            print("‼️ validatePlay: \(action)\tthrows: \(error)")
+            return false
+        }
+    }
+
+    private func validate(state: GameState) throws {
+        switch self {
+        case .activateCards,
+                .chooseOne,
+                .setGameOver:
+            return
+
+        default:
+            var state = try reduce(state: state)
+            if state.queue.isNotEmpty {
+                let next = state.queue.removeFirst()
+                try next.validate(state: state)
+            }
+        }
     }
 }

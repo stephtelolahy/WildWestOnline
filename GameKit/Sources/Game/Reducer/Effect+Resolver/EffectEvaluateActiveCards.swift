@@ -14,17 +14,17 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
     }
 
     func evaluateActiveCards(player: String, state: GameState) -> GameAction? {
-        precondition(state.isOver == nil)
         precondition(state.queue.isEmpty)
+        precondition(state.isOver == nil)
         precondition(state.chooseOne == nil)
         precondition(state.active == nil)
-        precondition(state.playOrder.contains(player))
         precondition(player == state.turn)
+        precondition(state.playOrder.contains(player))
 
         var activeCards: [String] = []
         let playerObj = state.player(player)
         for card in (playerObj.hand.cards + playerObj.abilities)
-        where isCardPlayable(card, player: player, state: state) {
+        where GameAction.validatePlay(card: card, player: player, state: state) {
             activeCards.append(card)
         }
 
@@ -32,16 +32,5 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
             return GameAction.activateCards(player: player, cards: activeCards)
         }
         return nil
-    }
-
-    func isCardPlayable(_ card: String, player: String, state: GameState) -> Bool {
-        let action = GameAction.play(card, player: player)
-        do {
-            try action.validate(state: state)
-            return true
-        } catch {
-            print("‼️ isCardPlayable: invalidate \(action)\treason: \(error)")
-            return false
-        }
     }
 }

@@ -25,16 +25,16 @@ struct EffectForce: EffectResolverProtocol {
             case let .chooseOne(chooser, options):
                 var options = options
                 options[.pass] = .resolve(otherwise, ctx: ctx)
-                let chooseOne = try GameAction.buildChooseOne(chooser: chooser, options: options, state: state)
+                let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
                 return [chooseOne]
                 
             default:
                 fatalError("unexpected")
             }
         } catch {
-            let chooseOne = try GameAction.buildChooseOne(chooser: ctx.get(.target),
-                                                          options: [.pass: .resolve(otherwise, ctx: ctx)],
-                                                          state: state)
+            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.get(.target),
+                                                             options: [.pass: .resolve(otherwise, ctx: ctx)],
+                                                             state: state)
             return [chooseOne]
         }
     }
