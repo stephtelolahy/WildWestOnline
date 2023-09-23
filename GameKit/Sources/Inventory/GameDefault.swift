@@ -14,8 +14,7 @@ public enum GameDefault {
         .evaluateGameOverOnEliminated,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated,
-        .discardPreviousWeaponOnPlayWeapon,
-        .evaluateActiveCardsOnIdle
+        .discardPreviousWeaponOnPlayWeapon
     ]
 
     public static let attributes: Attributes = [

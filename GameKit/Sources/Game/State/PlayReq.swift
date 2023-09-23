@@ -38,9 +38,6 @@ public enum PlayReq: Codable, Equatable {
     /// After playing an equipement with given attribute
     case onPlayEquipmentWithAttribute(AttributeKey)
 
-    /// When queue is empty and your turn
-    case onIdle
-
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)
 

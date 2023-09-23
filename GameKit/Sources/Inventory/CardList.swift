@@ -37,7 +37,6 @@ public enum CardList {
         discardCardsOnEliminated
         evaluateGameOverOnEliminated
         discardPreviousWeaponOnPlayWeapon
-        evaluateActiveCardsOnIdle
     }
 }
 
@@ -230,12 +229,6 @@ private extension CardList {
         CardEffect.discard(.previousInPlayWithAttribute(.weapon))
             .target(.actor)
             .when(.onPlayEquipmentWithAttribute(.weapon))
-    }
-
-    static let evaluateActiveCardsOnIdle = Card(.evaluateActiveCardsOnIdle) {
-        CardEffect.evaluateActiveCards
-            .target(.actor)
-            .when(.onIdle)
     }
 
     static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {

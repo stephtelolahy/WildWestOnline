@@ -55,7 +55,6 @@ final class InventorySpec: QuickSpec {
                 expect(cards[.discardCardsOnEliminated]) != nil
                 expect(cards[.nextTurnOnEliminated]) != nil
                 expect(cards[.discardPreviousWeaponOnPlayWeapon]) != nil
-                expect(cards[.evaluateActiveCardsOnIdle]) != nil
             }
         }
     }

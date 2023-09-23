@@ -60,7 +60,24 @@ extension GameAction {
             return
 
         default:
-            var state = try reduce(state: state)
+
+            var state = state
+            state = try reduce(state: state)
+            state.event = self
+
+            switch self {
+            case .playImmediate, 
+                    .playAbility,
+                    .playHandicap,
+                    .playEquipment:
+                if let triggered = evaluateTriggeredEffects(action: self, state: state) {
+                    state.queue.insert(contentsOf: triggered, at: 0)
+                }
+
+            default:
+                break
+            }
+
             if state.queue.isNotEmpty {
                 let next = state.queue.removeFirst()
                 try next.validate(state: state)

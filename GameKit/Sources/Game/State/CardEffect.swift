@@ -50,9 +50,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Evaluate gameOver
     case evaluateGameOver
 
-    /// Evaluate active cards
-    case evaluateActiveCards
-
     /// Do nothing
     case nothing
 

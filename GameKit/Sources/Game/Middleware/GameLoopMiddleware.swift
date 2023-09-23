@@ -15,6 +15,8 @@ public let gameLoopMiddleware: Middleware<GameState> = { state, action in
         return Just(GameAction.group(effects)).eraseToAnyPublisher()
     } else if let nextAction = evaluateNextAction(action: action, state: state) {
         return Just(nextAction).eraseToAnyPublisher()
+    } else if let activateCards = evaluateActiveCards(state: state) {
+        return Just(activateCards).eraseToAnyPublisher()
     } else {
         return Empty().eraseToAnyPublisher()
     }
@@ -32,7 +34,7 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
     }
 }
 
-private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [GameAction]? {
+func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [GameAction]? {
     let players = playersThatCouldTriggerEffects(action: action, state: state)
     var triggered: [GameAction] = []
     for player in players {
@@ -42,12 +44,6 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [
                 triggered.append(action)
             }
         }
-    }
-
-    // Remove exclusive effect
-    if triggered.count >= 2,
-       let exclusiveIndex = triggered.firstIndex(where: { isExclusiveEffect($0) }) {
-        triggered.remove(at: exclusiveIndex)
     }
 
     // Ignore empty
@@ -69,15 +65,15 @@ private func playersThatCouldTriggerEffects(action: GameAction, state: GameState
 private func cardsThatCouldTriggerEffects(action: GameAction, player: String, state: GameState) -> [String] {
     let playerObj = state.player(player)
     var cards = playerObj.inPlay.cards + playerObj.abilities
-    if case let .discardInPlay(discardedCard, discardingPlayer) = state.event,
+    if case let .discardInPlay(discardedCard, discardingPlayer) = action,
        discardingPlayer == player {
         cards.insert(discardedCard, at: 0)
     }
-    if case let .stealInPlay(stolenCard, stolenPlayer, _) = state.event,
+    if case let .stealInPlay(stolenCard, stolenPlayer, _) = action,
        stolenPlayer == player {
         cards.insert(stolenCard, at: 0)
     }
-    if case let .playImmediate(playedCard, _, playingPlayer) = state.event,
+    if case let .playImmediate(playedCard, _, playingPlayer) = action,
        playingPlayer == player {
         cards.insert(playedCard, at: 0)
     }
@@ -137,12 +133,24 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
     return nil
 }
 
-private func isExclusiveEffect(_ action: GameAction) -> Bool {
-    if case .resolve(let cardEffect, _) = action,
-       case .target(_, let childEffect) = cardEffect,
-       case .evaluateActiveCards = childEffect {
-        return true
-    } else {
-        return false
+private func evaluateActiveCards(state: GameState) -> GameAction? {
+    guard state.queue.isEmpty,
+          state.isOver == nil,
+          state.chooseOne == nil,
+          state.active == nil,
+          let player = state.turn else {
+        return nil
     }
+
+    var activeCards: [String] = []
+    let playerObj = state.player(player)
+    for card in (playerObj.hand.cards + playerObj.abilities)
+    where GameAction.validatePlay(card: card, player: player, state: state) {
+        activeCards.append(card)
+    }
+
+    if activeCards.isNotEmpty {
+        return GameAction.activateCards(player: player, cards: activeCards)
+    }
+    return nil
 }
