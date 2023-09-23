@@ -8,7 +8,7 @@
 struct ActionPlay: GameReducerProtocol {
     let player: String
     let card: String
-    
+
     // swiftlint:disable:next cyclomatic_complexity
     func reduce(state: GameState) throws -> GameState {
         // verify action
@@ -16,7 +16,7 @@ struct ActionPlay: GameReducerProtocol {
         guard let cardObj = state.cardRef[cardName] else {
             throw GameError.cardNotPlayable(card)
         }
-        
+
         let onPlayReqs = PlayReq.onPlays
         guard let playRule: CardRule = cardObj.rules.first(where: { rule in
             rule.playReqs.contains(where: {
@@ -25,13 +25,13 @@ struct ActionPlay: GameReducerProtocol {
         }) else {
             throw GameError.cardNotPlayable(card)
         }
-        
+
         // verify requirements
         let ctx: EffectContext = [.actor: player, .card: card]
         for playReq in playRule.playReqs where !onPlayReqs.contains(playReq) {
             try playReq.match(state: state, ctx: ctx)
         }
-        
+
         // resolve target
         let sideEffect = playRule.effect
         if case let .target(requiredTarget, _) = sideEffect {
@@ -48,7 +48,7 @@ struct ActionPlay: GameReducerProtocol {
                     default:
                         fatalError("unexpected")
                     }
-                    
+
                     $0[$1] = action
                 }
                 let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
@@ -56,7 +56,7 @@ struct ActionPlay: GameReducerProtocol {
                 return state
             }
         }
-        
+
         let action: GameAction =
         switch playRule.playReqs.first {
         case .onPlayImmediate:
@@ -68,10 +68,42 @@ struct ActionPlay: GameReducerProtocol {
         default:
             fatalError("unexpected")
         }
-        
+
         // queue play action
         var state = state
         state.queue.insert(action, at: 0)
         return state
+    }
+}
+
+extension GameState {
+    mutating func queueOnPlayEffect(
+        playReq: PlayReq,
+        card: String,
+        player: String,
+        target: String? = nil,
+        state: GameState
+    ) {
+        let cardName = card.extractName()
+        guard let cardObj = state.cardRef[cardName],
+              let playRule: CardRule = cardObj.rules.first(where: { rule in
+                  rule.playReqs.contains(playReq)
+              }) else {
+            print("!! missing onPlay effects")
+            return
+        }
+
+        var ctx: EffectContext = [.actor: player, .card: card]
+
+        var sideEffect = playRule.effect
+        if case let .target(requiredTarget, childEffect) = sideEffect,
+           let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: ctx),
+           case .selectable = resolvedTarget {
+            ctx[.target] = target
+            sideEffect = childEffect
+        }
+
+        let triggered = GameAction.resolve(sideEffect, ctx: ctx)
+        queue.insert(triggered, at: 0)
     }
 }

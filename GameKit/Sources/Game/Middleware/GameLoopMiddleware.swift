@@ -34,7 +34,7 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
     }
 }
 
-func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [GameAction]? {
+private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> [GameAction]? {
     let players = playersThatCouldTriggerEffects(action: action, state: state)
     var triggered: [GameAction] = []
     for player in players {
@@ -73,10 +73,6 @@ private func cardsThatCouldTriggerEffects(action: GameAction, player: String, st
        stolenPlayer == player {
         cards.insert(stolenCard, at: 0)
     }
-    if case let .playImmediate(playedCard, _, playingPlayer) = action,
-       playingPlayer == player {
-        cards.insert(playedCard, at: 0)
-    }
     return cards
 }
 
@@ -86,45 +82,16 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
         return nil
     }
 
-    var ctx: EffectContext = [.actor: player, .card: card]
+    let ctx: EffectContext = [.actor: player, .card: card]
 
     for rule in cardObj.rules {
         do {
             // Validate playRequirements
-            if let onPlayReq = rule.playReqs.first(where: { PlayReq.onPlays.contains($0) }) {
-                // onPlayRule's other requirements are already matched before dispatching action
-                try onPlayReq.match(state: state, ctx: ctx)
-            } else {
-                for playReq in rule.playReqs {
-                    try playReq.match(state: state, ctx: ctx)
-                }
+            for playReq in rule.playReqs {
+                try playReq.match(state: state, ctx: ctx)
             }
 
-            // extract child effect if targeting selectable player
-            var sideEffect = rule.effect
-            if case let .target(requiredTarget, childEffect) = sideEffect {
-                let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
-                if case .selectable = resolvedTarget {
-                    sideEffect = childEffect
-
-                    // add target to context
-                    if case let .playHandicap(card, target, player) = state.event,
-                       card == ctx.get(.card),
-                       player == ctx.get(.actor) {
-                        ctx[.target] = target
-                    }
-
-                    if case let .playImmediate(card, target, player) = state.event,
-                       card == ctx.get(.card),
-                       player == ctx.get(.actor) {
-                        ctx[.target] = target
-                    }
-
-                    precondition(ctx[.target] != nil)
-                }
-            }
-
-            return .resolve(sideEffect, ctx: ctx)
+            return GameAction.resolve(rule.effect, ctx: ctx)
         } catch {
             continue
         }
