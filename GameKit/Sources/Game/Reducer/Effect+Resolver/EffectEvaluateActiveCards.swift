@@ -35,19 +35,6 @@ struct EffectEvaluateActiveCards: EffectResolverProtocol {
     }
 
     func isCardPlayable(_ card: String, player: String, state: GameState) -> Bool {
-        let cardName = card.extractName()
-        guard let cardObj = state.cardRef[cardName] else {
-            return false
-        }
-
-        guard PlayReq.onPlays.contains(where: { onPlayReq in
-            cardObj.rules.contains(where: { rule in
-                rule.playReqs.contains(onPlayReq)
-            })
-        }) else {
-            return false
-        }
-
         let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: state)
