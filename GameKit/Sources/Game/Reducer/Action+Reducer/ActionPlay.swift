@@ -17,7 +17,7 @@ struct ActionPlay: GameReducerProtocol {
             throw GameError.cardNotPlayable(card)
         }
 
-        let onPlayReqs = PlayReq.onPlays
+        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
         guard let playRule: CardRule = cardObj.rules.first(where: { rule in
             rule.playReqs.contains(where: {
                 onPlayReqs.contains($0)
