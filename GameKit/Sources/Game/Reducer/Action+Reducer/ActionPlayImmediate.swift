@@ -1,6 +1,6 @@
 //
 //  ActionPlayImmediate.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 09/04/2023.
 //
@@ -18,6 +18,14 @@ struct ActionPlayImmediate: GameReducerProtocol {
 
         // save played card
         state.incrementPlayCounter(for: card.extractName())
+
+        // queue triggered effect
+        state.queueOnPlayEffect(playReq: .onPlayImmediate,
+                                card: card,
+                                player: player,
+                                target: target,
+                                state: state)
+
         return state
     }
 }

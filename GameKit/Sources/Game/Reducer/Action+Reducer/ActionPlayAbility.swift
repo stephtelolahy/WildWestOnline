@@ -13,6 +13,13 @@ struct ActionPlayAbility: GameReducerProtocol {
         // save played card
         var state = state
         state.incrementPlayCounter(for: card)
+
+        // queue triggered effect
+        state.queueOnPlayEffect(playReq: .onPlayAbility,
+                                card: card,
+                                player: player,
+                                state: state)
+
         return state
     }
 }

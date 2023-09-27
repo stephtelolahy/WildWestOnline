@@ -47,7 +47,3 @@ public enum PlayReq: Codable, Equatable {
     /// Is actor the current turn
     case isYourTurn
 }
-
-extension PlayReq {
-    static let onPlays: [Self] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
-}

@@ -21,6 +21,7 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
                             .health(1)
                             .ability(.eliminateOnLooseLastHealth)
                         Player("p2")
+                        Player("p3")
                     }
 
                     // When

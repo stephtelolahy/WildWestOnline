@@ -25,6 +25,13 @@ struct ActionPlayHandicap: GameReducerProtocol {
 
         // save played card
         state.incrementPlayCounter(for: cardName)
+
+        // queue triggered effect
+        state.queueOnPlayEffect(playReq: .onPlayHandicap,
+                                card: card,
+                                player: player,
+                                target: target,
+                                state: state)
         return state
     }
 }

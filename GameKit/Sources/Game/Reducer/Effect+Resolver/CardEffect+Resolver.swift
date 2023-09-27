@@ -74,9 +74,6 @@ private extension CardEffect {
         case let .cancel(arg):
             EffectJust { _ in .cancel(arg) }
 
-        case .evaluateGameOver:
-            EffectEvaluateGameOver()
-
         case .evaluateAttributes:
             EffectEvaluateAttributes()
         }
