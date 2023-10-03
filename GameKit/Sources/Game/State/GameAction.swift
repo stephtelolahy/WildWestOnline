@@ -86,7 +86,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     // MARK: - Invisible actions
 
     /// Resolve an effect
-    case resolve(CardEffect, ctx: EffectContext)
+    case effect(CardEffect, ctx: EffectContext)
 
     /// Push actions in queue
     case group([Self])
@@ -100,7 +100,7 @@ public extension GameAction {
     var isRenderable: Bool {
         switch self {
         case .play,
-             .resolve,
+             .effect,
              .group:
             false
 

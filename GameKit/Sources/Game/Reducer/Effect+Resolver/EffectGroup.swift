@@ -9,6 +9,6 @@ struct EffectGroup: EffectResolverProtocol {
     let effects: [CardEffect]
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        effects.map { .resolve($0, ctx: ctx) }
+        effects.map { .effect($0, ctx: ctx) }
     }
 }

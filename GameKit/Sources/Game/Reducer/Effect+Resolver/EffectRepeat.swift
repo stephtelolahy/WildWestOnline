@@ -12,7 +12,7 @@ struct EffectRepeat: EffectResolverProtocol {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let number = try times.resolve(state: state, ctx: ctx)
         return (0..<number).map { _ in
-            .resolve(effect, ctx: ctx)
+            .effect(effect, ctx: ctx)
         }
     }
 }

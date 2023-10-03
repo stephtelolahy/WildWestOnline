@@ -10,7 +10,7 @@ struct OnForceDiscardHandNamed: PlayReqMatcherProtocol {
     
     func match(state: GameState, ctx: EffectContext) -> Bool {
         if let event = state.event,
-              case let .resolve(cardEffect, effectCtx) = event,
+              case let .effect(cardEffect, effectCtx) = event,
               case let .force(effect, _) = cardEffect,
               case let .discard(cardArg, chooser) = effect,
               case let .selectHandNamed(name) = cardArg,

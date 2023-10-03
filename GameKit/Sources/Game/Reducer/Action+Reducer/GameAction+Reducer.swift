@@ -59,8 +59,8 @@ private extension GameAction {
             ActionSetTurn(player: player)
         case let .eliminate(player):
             ActionEliminate(player: player)
-        case let .resolve(effect, ctx):
-            ActionResolve(effect: effect, ctx: ctx)
+        case let .effect(effect, ctx):
+            ActionEffect(effect: effect, ctx: ctx)
         case let .chooseOne(player, options):
             ActionChooseOne(chooser: player, options: options)
         case let .activateCards(player, cards):

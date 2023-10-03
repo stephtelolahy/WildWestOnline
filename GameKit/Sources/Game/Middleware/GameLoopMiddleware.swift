@@ -93,7 +93,7 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
                 try playReq.match(state: state, ctx: ctx)
             }
 
-            return GameAction.resolve(rule.effect, ctx: ctx)
+            return GameAction.effect(rule.effect, ctx: ctx)
         } catch {
             continue
         }

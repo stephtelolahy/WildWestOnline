@@ -103,7 +103,7 @@ extension GameState {
             sideEffect = childEffect
         }
 
-        let triggered = GameAction.resolve(sideEffect, ctx: ctx)
+        let triggered = GameAction.effect(sideEffect, ctx: ctx)
         queue.insert(triggered, at: 0)
     }
 }

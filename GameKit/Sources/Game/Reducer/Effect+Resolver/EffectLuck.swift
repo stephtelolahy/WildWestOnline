@@ -35,10 +35,10 @@ struct EffectLuck: EffectResolverProtocol {
         }
         
         if matched {
-            result.append(.resolve(onSuccess, ctx: ctx))
+            result.append(.effect(onSuccess, ctx: ctx))
         } else {
             if let onFailure {
-                result.append(.resolve(onFailure, ctx: ctx))
+                result.append(.effect(onFailure, ctx: ctx))
             }
         }
         
