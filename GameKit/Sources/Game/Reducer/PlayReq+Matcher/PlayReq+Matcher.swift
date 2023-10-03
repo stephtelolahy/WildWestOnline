@@ -5,6 +5,10 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
+protocol PlayReqMatcherProtocol {
+    func match(state: GameState, ctx: EffectContext) -> Bool
+}
+
 extension PlayReq {
     func match(state: GameState, ctx: EffectContext) throws {
         let matched = matcher().match(state: state, ctx: ctx)
@@ -12,10 +16,6 @@ extension PlayReq {
             throw GameError.noReq(self)
         }
     }
-}
-
-protocol PlayReqMatcherProtocol {
-    func match(state: GameState, ctx: EffectContext) -> Bool
 }
 
 private extension PlayReq {

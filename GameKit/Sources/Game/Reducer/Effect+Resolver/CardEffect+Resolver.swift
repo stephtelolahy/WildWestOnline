@@ -5,15 +5,15 @@
 //  Created by Hugues Stephano TELOLAHY on 11/05/2023.
 //
 
+protocol EffectResolverProtocol {
+    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction]
+}
+
 extension CardEffect {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         try resolver()
             .resolve(state: state, ctx: ctx)
     }
-}
-
-protocol EffectResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction]
 }
 
 private extension CardEffect {
