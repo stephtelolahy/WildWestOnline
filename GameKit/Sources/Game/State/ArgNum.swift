@@ -1,12 +1,12 @@
 //
-//  NumArg.swift
+//  ArgNum.swift
 //  
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 
 /// Number argument
-public enum NumArg: Codable, Equatable {
+public enum ArgNum: Codable, Equatable {
 
     /// Exact number
     case exact(Int)

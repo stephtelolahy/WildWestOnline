@@ -6,7 +6,7 @@
 //
 
 struct IsMaxTimesPerTurn: PlayReqMatcherProtocol {
-    let maxTimes: NumArg
+    let maxTimes: ArgNum
 
     func match(state: GameState, ctx: EffectContext) -> Bool {
         guard let maxNumber = try? maxTimes.resolve(state: state, ctx: ctx) else {

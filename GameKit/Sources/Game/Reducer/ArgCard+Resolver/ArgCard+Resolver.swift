@@ -5,7 +5,30 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
+protocol ArgCardResolverProtocol {
+    func resolve(
+        state: GameState,
+        ctx: EffectContext,
+        chooser: String,
+        owner: String?
+    ) -> CardArgOutput
+}
+
 extension ArgCard {
+    func resolve(
+        state: GameState,
+        ctx: EffectContext,
+        chooser: String,
+        owner: String?
+    ) -> CardArgOutput {
+        resolver().resolve(
+            state: state,
+            ctx: ctx,
+            chooser: chooser,
+            owner: owner
+        )
+    }
+
     func resolve(
         state: GameState,
         ctx: EffectContext,
@@ -35,29 +58,6 @@ extension ArgCard {
             return [chooseOne]
         }
     }
-
-    private func resolve(
-        state: GameState,
-        ctx: EffectContext,
-        chooser: String,
-        owner: String?
-    ) -> CardArgOutput {
-        resolver().resolve(
-            state: state,
-            ctx: ctx,
-            chooser: chooser,
-            owner: owner
-        )
-    }
-}
-
-protocol CardArgResolverProtocol {
-    func resolve(
-        state: GameState,
-        ctx: EffectContext,
-        chooser: String,
-        owner: String?
-    ) -> CardArgOutput
 }
 
 /// Resolved card argument
@@ -86,7 +86,7 @@ extension Array where Element == String {
 }
 
 private extension ArgCard {
-    func resolver() -> CardArgResolverProtocol {
+    func resolver() -> ArgCardResolverProtocol {
         switch self {
         case .selectAny:
             CardSelectAny()

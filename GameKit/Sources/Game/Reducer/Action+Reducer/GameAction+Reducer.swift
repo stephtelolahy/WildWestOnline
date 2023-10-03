@@ -5,16 +5,16 @@
 //  Created by Hugues Telolahy on 03/06/2023.
 //
 
+protocol GameReducerProtocol {
+    func reduce(state: GameState) throws -> GameState
+}
+
 extension GameAction {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         state = try reducer().reduce(state: state)
         return state
     }
-}
-
-protocol GameReducerProtocol {
-    func reduce(state: GameState) throws -> GameState
 }
 
 private extension GameAction {

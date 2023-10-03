@@ -6,7 +6,7 @@
 //
 
 public extension CardEffect {
-    func `repeat`(_ times: NumArg) -> Self {
+    func `repeat`(_ times: ArgNum) -> Self {
         .repeat(times, effect: self)
     }
     

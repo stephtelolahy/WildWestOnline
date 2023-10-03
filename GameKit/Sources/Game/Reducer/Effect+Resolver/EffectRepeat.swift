@@ -7,7 +7,7 @@
 
 struct EffectRepeat: EffectResolverProtocol {
     let effect: CardEffect
-    let times: NumArg
+    let times: ArgNum
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let number = try times.resolve(state: state, ctx: ctx)

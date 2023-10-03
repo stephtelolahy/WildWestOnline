@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 02/05/2023.
 //
 
-struct CardSelectHand: CardArgResolverProtocol {
+struct CardSelectHand: ArgCardResolverProtocol {
     func resolve(
         state: GameState,
         ctx: EffectContext,

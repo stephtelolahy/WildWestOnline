@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 16/04/2023.
 //
 
-struct CardSelectHandNamed: CardArgResolverProtocol {
+struct CardSelectHandNamed: ArgCardResolverProtocol {
     let name: String
 
     func resolve(
