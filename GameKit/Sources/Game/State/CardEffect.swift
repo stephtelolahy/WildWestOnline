@@ -22,14 +22,14 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Discard a player's card to discard pile
     /// When chooser is the player that chooses card
     /// By default `ctx.target`
-    case discard(CardArg, chooser: PlayerArg? = nil)
+    case discard(ArgCard, chooser: PlayerArg? = nil)
     
     /// Draw card from other player
     /// When chooser is the player that chooses and steals cards
-    case steal(CardArg, chooser: PlayerArg)
+    case steal(ArgCard, chooser: PlayerArg)
     
     /// Pass inPlay card to another player
-    case passInplay(CardArg, owner: PlayerArg)
+    case passInplay(ArgCard, owner: PlayerArg)
     
     /// Choose some cards from arena
     /// When chooser is `ctx.target`

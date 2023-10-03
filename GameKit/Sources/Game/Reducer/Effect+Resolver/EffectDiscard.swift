@@ -6,7 +6,7 @@
 //
 
 struct EffectDiscard: EffectResolverProtocol {
-    let card: CardArg
+    let card: ArgCard
     let chooser: PlayerArg?
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {

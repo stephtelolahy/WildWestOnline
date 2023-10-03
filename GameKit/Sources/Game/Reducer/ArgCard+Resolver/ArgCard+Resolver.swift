@@ -1,11 +1,11 @@
 //
-//  CardArg+Resolver.swift
+//  ArgCard+Resolver.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-extension CardArg {
+extension ArgCard {
     func resolve(
         state: GameState,
         ctx: EffectContext,
@@ -85,7 +85,7 @@ extension Array where Element == String {
     }
 }
 
-private extension CardArg {
+private extension ArgCard {
     func resolver() -> CardArgResolverProtocol {
         switch self {
         case .selectAny:

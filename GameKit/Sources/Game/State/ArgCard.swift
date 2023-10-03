@@ -1,12 +1,12 @@
 //
-//  CardArg.swift
+//  ArgCard.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
 /// Card argument
-public enum CardArg: Codable, Equatable {
+public enum ArgCard: Codable, Equatable {
 
     /// Card identified by
     case id(String)
