@@ -14,7 +14,7 @@ public extension CardEffect {
         .repeat(.exact(times), effect: self)
     }
     
-    func target(_ target: PlayerArg) -> Self {
+    func target(_ target: ArgPlayer) -> Self {
         .target(target, effect: self)
     }
 
@@ -22,7 +22,7 @@ public extension CardEffect {
         .force(self, otherwise: effect)
     }
 
-    func challenge(_ challenger: PlayerArg, otherwise: Self) -> Self {
+    func challenge(_ challenger: ArgPlayer, otherwise: Self) -> Self {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
     

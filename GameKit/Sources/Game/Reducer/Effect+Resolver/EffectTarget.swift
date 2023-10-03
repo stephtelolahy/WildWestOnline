@@ -6,7 +6,7 @@
 //
 
 struct EffectTarget: EffectResolverProtocol {
-    let target: PlayerArg
+    let target: ArgPlayer
     let effect: CardEffect
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {

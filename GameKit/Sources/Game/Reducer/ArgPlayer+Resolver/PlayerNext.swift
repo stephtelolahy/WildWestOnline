@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 01/05/2023.
 //
 
-struct PlayerNext: PlayerArgResolverProtocol {
+struct PlayerNext: ArgPlayerResolverProtocol {
     func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
         guard let turn = state.turn,
               let next = state.setupOrder

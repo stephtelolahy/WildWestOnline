@@ -1,12 +1,12 @@
 //
-//  PlayerArg.swift
+//  ArgPlayer.swift
 //  
 //
 //  Created by Hugues Telolahy on 03/04/2023.
 //
 
 /// Player argument
-public enum PlayerArg: Codable, Equatable {
+public enum ArgPlayer: Codable, Equatable {
 
     /// The player identified by
     case id(String)

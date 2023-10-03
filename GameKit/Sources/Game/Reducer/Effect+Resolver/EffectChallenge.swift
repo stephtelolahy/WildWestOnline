@@ -6,7 +6,7 @@
 //
 
 struct EffectChallenge: EffectResolverProtocol {
-    let challenger: PlayerArg
+    let challenger: ArgPlayer
     let effect: CardEffect
     let otherwise: CardEffect
     

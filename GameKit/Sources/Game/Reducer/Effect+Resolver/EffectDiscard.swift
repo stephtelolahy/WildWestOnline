@@ -7,7 +7,7 @@
 
 struct EffectDiscard: EffectResolverProtocol {
     let card: ArgCard
-    let chooser: PlayerArg?
+    let chooser: ArgPlayer?
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let owner = ctx.get(.target)

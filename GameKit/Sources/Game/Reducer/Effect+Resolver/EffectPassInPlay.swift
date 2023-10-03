@@ -7,7 +7,7 @@
 
 struct EffectPassInPlay: EffectResolverProtocol {
     let card: ArgCard
-    let owner: PlayerArg
+    let owner: ArgPlayer
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let targetId = ctx.get(.target)

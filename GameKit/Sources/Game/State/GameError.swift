@@ -34,7 +34,7 @@ public enum GameError: Error, Codable, Equatable {
     case noCard(ArgCard)
 
     /// Not matching player
-    case noPlayer(PlayerArg)
+    case noPlayer(ArgPlayer)
 
     /// Not matching requirement
     case noReq(PlayReq)
