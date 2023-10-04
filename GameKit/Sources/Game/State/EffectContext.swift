@@ -5,17 +5,15 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-public typealias EffectContext = [ContextKey: String]
-
 /// Context data associated to an effect
-public enum ContextKey: String, Codable, CodingKeyRepresentable {
-    
-    /// the actor playing card
-    case actor
-    
-    /// played card
-    case card
-    
-    /// selected target
-    case target
+public struct EffectContext: Codable, Equatable {
+    /// Player triggering effect
+    let actor: String
+
+    /// Card triggering effect
+    let card: String
+
+    /// Targeted player from action triggering this effect
+    /// Or Targeted player while resolving effect
+    var target: String?
 }

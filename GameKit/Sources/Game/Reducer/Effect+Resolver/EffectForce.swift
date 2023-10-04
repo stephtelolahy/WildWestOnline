@@ -32,7 +32,7 @@ struct EffectForce: EffectResolver {
                 fatalError("unexpected")
             }
         } catch {
-            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.get(.target),
+            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.target!,
                                                              options: [.pass: .effect(otherwise, ctx: ctx)],
                                                              state: state)
             return [chooseOne]

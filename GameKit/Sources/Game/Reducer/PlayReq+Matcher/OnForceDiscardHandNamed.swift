@@ -16,7 +16,7 @@ struct OnForceDiscardHandNamed: PlayReqMatcher {
               case let .selectHandNamed(name) = cardArg,
               chooser == nil,
               cardName == name,
-              ctx.actor == effectCtx.get(.target) {
+              ctx.actor == effectCtx.target {
             true
         } else {
             false

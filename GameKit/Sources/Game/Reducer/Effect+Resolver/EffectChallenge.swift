@@ -11,10 +11,11 @@ struct EffectChallenge: EffectResolver {
     let otherwise: CardEffect
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let target = ctx.get(.target)
-        
+        var ctx = ctx
+        let target = ctx.target!
+
         guard case let .id(challengerId) = challenger else {
-            let playerContext = ArgPlayerContext(actor: ctx.get(.actor))
+            let playerContext = ArgPlayerContext(actor: ctx.actor)
             return try challenger.resolve(state: state, ctx: playerContext) {
                 .effect(.challenge(.id($0),
                                    effect: effect,
@@ -39,10 +40,11 @@ struct EffectChallenge: EffectResolver {
                                 ctx: childCtx)]
                 
             case let .chooseOne(chooser, options):
+                ctx.target = challengerId
                 let reversedAction = GameAction.effect(.challenge(.id(target),
                                                                   effect: effect,
                                                                   otherwise: otherwise),
-                                                       ctx: ctx.copy([.target: challengerId]))
+                                                       ctx: ctx)
                 var options = options.mapValues { childAction in
                     GameAction.group {
                         childAction
@@ -57,7 +59,7 @@ struct EffectChallenge: EffectResolver {
                 fatalError("unexpected")
             }
         } catch {
-            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.get(.target),
+            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.target!,
                                                              options: [.pass: .effect(otherwise, ctx: ctx)],
                                                              state: state)
             return [chooseOne]

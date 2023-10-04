@@ -13,7 +13,7 @@ struct EffectLuck: EffectResolver {
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         // repeat luck according to actor's `flippedCards` attribute
-        let player = ctx.get(.actor)
+        let player = ctx.actor
         let playerObj = state.player(player)
         guard let flippedCards = playerObj.attributes[.flippedCards] else {
             fatalError("missing attribute flippedCards")

@@ -94,14 +94,16 @@ extension GameState {
             return
         }
 
-        var ctx: EffectContext = [.actor: player, .card: card]
+        var ctx = EffectContext(actor: player, card: card)
         let playerContext = ArgPlayerContext(actor: player)
 
         var sideEffect = playRule.effect
         if case let .target(requiredTarget, childEffect) = sideEffect,
            let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
            case .selectable = resolvedTarget {
-            ctx[.target] = target
+            if let target {
+                ctx.target! = target
+            }
             sideEffect = childEffect
         }
 

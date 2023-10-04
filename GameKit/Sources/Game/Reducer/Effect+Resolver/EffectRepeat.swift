@@ -10,7 +10,7 @@ struct EffectRepeat: EffectResolver {
     let times: ArgNum
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let numContext = ArgNumContext(actor: ctx.get(.actor))
+        let numContext = ArgNumContext(actor: ctx.actor)
         let number = try times.resolve(state: state, ctx: numContext)
         return (0..<number).map { _ in
             .effect(effect, ctx: ctx)

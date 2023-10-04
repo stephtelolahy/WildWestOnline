@@ -84,7 +84,7 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
         return nil
     }
 
-    let ctx: EffectContext = [.actor: player, .card: card]
+    let ctx = EffectContext(actor: player, card: card)
     let playReqContext = PlayReqContext(actor: player, card: card)
 
     for rule in cardObj.rules {

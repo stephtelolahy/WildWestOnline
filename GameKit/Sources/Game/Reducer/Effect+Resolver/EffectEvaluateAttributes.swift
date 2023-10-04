@@ -8,9 +8,9 @@
 struct EffectEvaluateAttributes: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let player = ctx.get(.target)
+        let player = ctx.target!
         let playerObj = state.player(player)
-        let playedCard = ctx.get(.card)
+        let playedCard = ctx.card
         let playedCardName = playedCard.extractName()
         guard let playedCardObj = state.cardRef[playedCardName] else {
             fatalError("cardRef not found \(playedCardName)")

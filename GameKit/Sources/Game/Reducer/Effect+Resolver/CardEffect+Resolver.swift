@@ -21,22 +21,22 @@ private extension CardEffect {
     func resolver() -> EffectResolver {
         switch self {
         case let .heal(value):
-            EffectJust { .heal(value, player: $0.get(.target)) }
+            EffectJust { .heal(value, player: $0.target!) }
 
         case let .damage(value):
-            EffectJust { .damage(value, player: $0.get(.target)) }
+            EffectJust { .damage(value, player: $0.target!) }
 
         case .draw:
-            EffectJust { .draw(player: $0.get(.target)) }
+            EffectJust { .draw(player: $0.target!) }
 
         case .discover:
             EffectJust { _ in .discover }
 
         case .setTurn:
-            EffectJust { .setTurn($0.get(.target)) }
+            EffectJust { .setTurn($0.target!) }
 
         case .eliminate:
-            EffectJust { .eliminate(player: $0.get(.target)) }
+            EffectJust { .eliminate(player: $0.target!) }
 
         case .chooseCard:
             EffectChooseCard()
