@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 13/05/2023.
 //
 
-struct EffectForce: EffectResolverProtocol {
+struct EffectForce: EffectResolver {
     let effect: CardEffect
     let otherwise: CardEffect
     

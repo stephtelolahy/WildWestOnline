@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 02/07/2023.
 //
 
-struct ActionSetGameOver: GameReducerProtocol {
+struct ActionSetGameOver: GameActionReducer {
     let winner: String
 
     func reduce(state: GameState) throws -> GameState {

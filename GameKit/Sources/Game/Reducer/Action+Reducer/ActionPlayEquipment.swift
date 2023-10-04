@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/06/2023.
 //
 
-struct ActionPlayEquipment: GameReducerProtocol {
+struct ActionPlayEquipment: GameActionReducer {
     let player: String
     let card: String
 

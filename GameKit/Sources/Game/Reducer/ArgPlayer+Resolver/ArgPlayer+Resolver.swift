@@ -5,18 +5,21 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-protocol ArgPlayerResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput
+protocol ArgPlayerResolver {
+    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput
 }
 
 struct ArgPlayerContext {
-    /// Actor resolving player
+    /// Actor player
     let actor: String
+
+    /// Targeted player
+    var target: String?
 }
 
 extension ArgPlayer {
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: ArgPlayerContext) throws -> PlayerArgOutput {
         let output = resolver().resolve(state: state, ctx: ctx)
         let pIds: [String]
         switch output {
@@ -34,11 +37,11 @@ extension ArgPlayer {
         return output
     }
     
-    func resolveUnique(state: GameState, ctx: EffectContext) throws -> String {
+    func resolveUnique(state: GameState, ctx: ArgPlayerContext) throws -> String {
         if case let .id(pId) = self {
             return pId
         } else {
-            let output = try self.resolve(state: state, ctx: ctx)
+            let output = try resolve(state: state, ctx: ctx)
             guard case let .identified(pIds) = output else {
                 throw GameError.noPlayer(self)
             }
@@ -53,7 +56,7 @@ extension ArgPlayer {
 
     func resolve(
         state: GameState,
-        ctx: EffectContext,
+        ctx: ArgPlayerContext,
         copy: @escaping (String) -> GameAction
     ) throws -> [GameAction] {
         let resolved = try resolve(state: state, ctx: ctx)
@@ -65,7 +68,7 @@ extension ArgPlayer {
             let options = pIds.reduce(into: [String: GameAction]()) {
                 $0[$1] = copy($1)
             }
-            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.get(.actor),
+            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.actor,
                                                              options: options,
                                                              state: state)
             return [chooseOne]
@@ -83,7 +86,7 @@ enum PlayerArgOutput {
 }
 
 private extension ArgPlayer {
-    func resolver() -> ArgPlayerResolverProtocol {
+    func resolver() -> ArgPlayerResolver {
         switch self {
         case .actor:
             PlayerActor()

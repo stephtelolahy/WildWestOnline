@@ -5,10 +5,10 @@
 //  Created by Hugues Telolahy on 26/04/2023.
 //
 
-struct PlayerSelectAny: ArgPlayerResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
+struct PlayerSelectAny: ArgPlayerResolver {
+    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
         let others = state.playOrder
-            .starting(with: ctx.get(.actor))
+            .starting(with: ctx.actor)
             .dropFirst()
         return .selectable(Array(others))
     }

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 03/06/2023.
 //
 
-protocol GameReducerProtocol {
+protocol GameActionReducer {
     func reduce(state: GameState) throws -> GameState
 }
 
@@ -19,7 +19,7 @@ extension GameAction {
 
 private extension GameAction {
     // swiftlint:disable:next cyclomatic_complexity
-    func reducer() -> GameReducerProtocol {
+    func reducer() -> GameActionReducer {
         switch self {
         case let .play(card, player):
             ActionPlay(player: player, card: card)

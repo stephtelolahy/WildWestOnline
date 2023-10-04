@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-struct ActionHeal: GameReducerProtocol {
+struct ActionHeal: GameActionReducer {
     let player: String
     let value: Int
 

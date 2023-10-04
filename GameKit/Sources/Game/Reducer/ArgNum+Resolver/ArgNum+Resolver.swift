@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 
-protocol ArgNumResolverProtocol {
+protocol ArgNumResolver {
     func resolve(state: GameState, ctx: ArgNumContext) throws -> Int
 }
 
@@ -21,7 +21,7 @@ extension ArgNum {
 }
 
 private extension ArgNum {
-    func resolver() -> ArgNumResolverProtocol {
+    func resolver() -> ArgNumResolver {
         switch self {
         case .exact(let number):
             NumExact(number: number)

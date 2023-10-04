@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 02/09/2023.
 //
 
-struct ActionStealInPlay: GameReducerProtocol {
+struct ActionStealInPlay: GameActionReducer {
     let player: String
     let target: String
     let card: String

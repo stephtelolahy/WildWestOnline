@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 20/05/2023.
 //
 
-struct ActionPlay: GameReducerProtocol {
+struct ActionPlay: GameActionReducer {
     let player: String
     let card: String
 
@@ -27,7 +27,7 @@ struct ActionPlay: GameReducerProtocol {
         }
 
         // verify requirements
-        let ctx: EffectContext = [.actor: player, .card: card]
+        let playerContext = ArgPlayerContext(actor: player)
         let playReqContext = PlayReqContext(actor: player, card: card)
         for playReq in playRule.playReqs where !onPlayReqs.contains(playReq) {
             try playReq.match(state: state, ctx: playReqContext)
@@ -36,7 +36,7 @@ struct ActionPlay: GameReducerProtocol {
         // resolve target
         let sideEffect = playRule.effect
         if case let .target(requiredTarget, _) = sideEffect {
-            let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
+            let resolvedTarget = try requiredTarget.resolve(state: state, ctx: playerContext)
             if case let .selectable(pIds) = resolvedTarget {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
@@ -95,10 +95,11 @@ extension GameState {
         }
 
         var ctx: EffectContext = [.actor: player, .card: card]
+        let playerContext = ArgPlayerContext(actor: player)
 
         var sideEffect = playRule.effect
         if case let .target(requiredTarget, childEffect) = sideEffect,
-           let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: ctx),
+           let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
            case .selectable = resolvedTarget {
             ctx[.target] = target
             sideEffect = childEffect

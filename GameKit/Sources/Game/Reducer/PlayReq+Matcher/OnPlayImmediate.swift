@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 05/09/2023.
 //
 
-struct OnPlayImmediate: PlayReqMatcherProtocol {
+struct OnPlayImmediate: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         false
     }

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-protocol ArgCardResolverProtocol {
+protocol ArgCardResolver {
     func resolve(
         state: GameState,
         ctx: EffectContext,
@@ -86,7 +86,7 @@ extension Array where Element == String {
 }
 
 private extension ArgCard {
-    func resolver() -> ArgCardResolverProtocol {
+    func resolver() -> ArgCardResolver {
         switch self {
         case .selectAny:
             CardSelectAny()

@@ -6,7 +6,7 @@
 //
 
 /// Build an action with context
-struct EffectJust: EffectResolverProtocol {
+struct EffectJust: EffectResolver {
     let action: (EffectContext) -> GameAction
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {

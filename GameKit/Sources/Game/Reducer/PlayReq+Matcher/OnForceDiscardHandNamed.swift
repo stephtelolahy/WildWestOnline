@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 21/06/2023.
 //
 
-struct OnForceDiscardHandNamed: PlayReqMatcherProtocol {
+struct OnForceDiscardHandNamed: PlayReqMatcher {
     let cardName: String
     
     func match(state: GameState, ctx: PlayReqContext) -> Bool {

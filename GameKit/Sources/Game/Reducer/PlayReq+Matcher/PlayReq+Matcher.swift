@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-protocol PlayReqMatcherProtocol {
+protocol PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool
 }
 
@@ -28,7 +28,7 @@ extension PlayReq {
 
 private extension PlayReq {
     // swiftlint:disable:next cyclomatic_complexity
-    func matcher() -> PlayReqMatcherProtocol {
+    func matcher() -> PlayReqMatcher {
         switch self {
         case .onSetTurn:
             OnSetTurn()

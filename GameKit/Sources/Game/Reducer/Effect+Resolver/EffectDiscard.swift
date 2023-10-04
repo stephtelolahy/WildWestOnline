@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 20/06/2023.
 //
 
-struct EffectDiscard: EffectResolverProtocol {
+struct EffectDiscard: EffectResolver {
     let card: ArgCard
     let chooser: ArgPlayer?
     
@@ -13,7 +13,8 @@ struct EffectDiscard: EffectResolverProtocol {
         let owner = ctx.get(.target)
         var chooserId = owner
         if let chooser {
-            chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
+            let playerContext = ArgPlayerContext(actor: ctx.get(.actor))
+            chooserId = try chooser.resolveUnique(state: state, ctx: playerContext)
         }
 
         return try card.resolve(state: state, ctx: ctx, chooser: chooserId, owner: owner) {

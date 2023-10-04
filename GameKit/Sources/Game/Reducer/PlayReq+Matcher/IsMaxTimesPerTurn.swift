@@ -5,12 +5,12 @@
 //  Created by Hugues Telolahy on 17/04/2023.
 //
 
-struct IsMaxTimesPerTurn: PlayReqMatcherProtocol {
+struct IsMaxTimesPerTurn: PlayReqMatcher {
     let maxTimes: ArgNum
 
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        let argNumContext = ArgNumContext(actor: ctx.actor)
-        guard let maxNumber = try? maxTimes.resolve(state: state, ctx: argNumContext) else {
+        let numContext = ArgNumContext(actor: ctx.actor)
+        guard let maxNumber = try? maxTimes.resolve(state: state, ctx: numContext) else {
             fatalError("unresolved numArg \(maxTimes)")
         }
 

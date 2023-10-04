@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-struct IsPlayersAtLeast: PlayReqMatcherProtocol {
+struct IsPlayersAtLeast: PlayReqMatcher {
     let minCount: Int
 
     func match(state: GameState, ctx: PlayReqContext) -> Bool {

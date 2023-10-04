@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 11/05/2023.
 //
 
-protocol EffectResolverProtocol {
+protocol EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction]
 }
 
@@ -18,7 +18,7 @@ extension CardEffect {
 
 private extension CardEffect {
     // swiftlint:disable:next cyclomatic_complexity
-    func resolver() -> EffectResolverProtocol {
+    func resolver() -> EffectResolver {
         switch self {
         case let .heal(value):
             EffectJust { .heal(value, player: $0.get(.target)) }

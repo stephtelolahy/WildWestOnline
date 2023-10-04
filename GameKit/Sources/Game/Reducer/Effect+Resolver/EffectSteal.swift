@@ -5,13 +5,14 @@
 //  Created by Hugues Stephano TELOLAHY on 20/06/2023.
 //
 
-struct EffectSteal: EffectResolverProtocol {
+struct EffectSteal: EffectResolver {
     let card: ArgCard
     let chooser: ArgPlayer
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let owner = ctx.get(.target)
-        let chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
+        let playerContext = ArgPlayerContext(actor: ctx.get(.actor))
+        let chooserId = try chooser.resolveUnique(state: state, ctx: playerContext)
         
         return try card.resolve(state: state, ctx: ctx, chooser: chooserId, owner: owner) {
             if state.player(owner).hand.contains($0) {

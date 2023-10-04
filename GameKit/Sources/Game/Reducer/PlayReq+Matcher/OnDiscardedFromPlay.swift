@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 02/09/2023.
 //
 
-struct OnDiscardedFromPlay: PlayReqMatcherProtocol {
+struct OnDiscardedFromPlay: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         if case let .discardInPlay(card, player) = state.event,
               player == ctx.actor,

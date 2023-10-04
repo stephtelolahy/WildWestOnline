@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct EffectLuck: EffectResolverProtocol {
+struct EffectLuck: EffectResolver {
     let regex: String
     let onSuccess: CardEffect
     let onFailure: CardEffect?

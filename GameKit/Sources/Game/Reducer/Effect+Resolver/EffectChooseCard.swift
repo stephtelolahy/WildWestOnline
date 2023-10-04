@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 20/06/2023.
 //
 
-struct EffectChooseCard: EffectResolverProtocol {
+struct EffectChooseCard: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let chooserId = ctx.get(.target)
         let card = ArgCard.selectArena

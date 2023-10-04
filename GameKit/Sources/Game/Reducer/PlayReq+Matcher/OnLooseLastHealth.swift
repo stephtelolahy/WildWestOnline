@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 05/05/2023.
 //
 
-struct OnLooseLastHealth: PlayReqMatcherProtocol {
+struct OnLooseLastHealth: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         if case let .damage(_, player) = state.event,
               player == ctx.actor,

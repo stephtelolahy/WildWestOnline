@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 03/09/2023.
 //
 
-struct EffectEvaluateAttributes: EffectResolverProtocol {
+struct EffectEvaluateAttributes: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.get(.target)

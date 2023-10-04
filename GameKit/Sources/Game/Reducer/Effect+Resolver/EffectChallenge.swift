@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 13/05/2023.
 //
 
-struct EffectChallenge: EffectResolverProtocol {
+struct EffectChallenge: EffectResolver {
     let challenger: ArgPlayer
     let effect: CardEffect
     let otherwise: CardEffect
@@ -14,7 +14,8 @@ struct EffectChallenge: EffectResolverProtocol {
         let target = ctx.get(.target)
         
         guard case let .id(challengerId) = challenger else {
-            return try challenger.resolve(state: state, ctx: ctx) {
+            let playerContext = ArgPlayerContext(actor: ctx.get(.actor))
+            return try challenger.resolve(state: state, ctx: playerContext) {
                 .effect(.challenge(.id($0),
                                    effect: effect,
                                    otherwise: otherwise),

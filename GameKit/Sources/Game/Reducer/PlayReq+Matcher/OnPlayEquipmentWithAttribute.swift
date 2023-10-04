@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 07/09/2023.
 //
 
-struct OnPlayEquipmentWithAttribute: PlayReqMatcherProtocol {
+struct OnPlayEquipmentWithAttribute: PlayReqMatcher {
     let key: AttributeKey
 
     func match(state: GameState, ctx: PlayReqContext) -> Bool {

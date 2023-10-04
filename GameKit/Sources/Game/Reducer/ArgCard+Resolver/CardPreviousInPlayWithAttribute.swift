@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 07/09/2023.
 //
 
-struct CardPreviousInPlayWithAttribute: ArgCardResolverProtocol {
+struct CardPreviousInPlayWithAttribute: ArgCardResolver {
     let key: AttributeKey
 
     func resolve(state: GameState, ctx: EffectContext, chooser: String, owner: String?) -> CardArgOutput {

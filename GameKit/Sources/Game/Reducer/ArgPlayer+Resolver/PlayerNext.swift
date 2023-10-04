@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 01/05/2023.
 //
 
-struct PlayerNext: ArgPlayerResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
+struct PlayerNext: ArgPlayerResolver {
+    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
         guard let turn = state.turn,
               let next = state.setupOrder
             .filter({ state.playOrder.contains($0) || $0 == turn })

@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-struct PlayerActor: ArgPlayerResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
-        .identified([ctx.get(.actor)])
+struct PlayerActor: ArgPlayerResolver {
+    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
+        .identified([ctx.actor])
     }
 }
