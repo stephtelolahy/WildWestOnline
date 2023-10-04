@@ -71,5 +71,5 @@ public indirect enum CardEffect: Codable, Equatable {
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
     
     /// Cancel some queued effect
-    case cancel(CancelArg)
+    case cancel(ArgCancel)
 }

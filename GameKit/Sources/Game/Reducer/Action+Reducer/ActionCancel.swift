@@ -6,7 +6,7 @@
 //
 
 struct ActionCancel: GameReducerProtocol {
-    let arg: CancelArg
+    let arg: ArgCancel
 
     func reduce(state: GameState) throws -> GameState {
         var state = state

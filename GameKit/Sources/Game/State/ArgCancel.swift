@@ -1,12 +1,12 @@
 //
-//  CancelArg.swift
+//  ArgCancel.swift
 //  
 //
 //  Created by Hugues Telolahy on 02/07/2023.
 //
 
 /// Cancel action argument
-public enum CancelArg: Codable, Equatable {
+public enum ArgCancel: Codable, Equatable {
 
     /// Next queued action
     case next
