@@ -10,7 +10,6 @@ protocol ArgNumResolver {
 }
 
 struct ArgNumContext {
-    /// Player resolving number
     let actor: String
 }
 

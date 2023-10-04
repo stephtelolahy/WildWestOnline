@@ -10,7 +10,6 @@ protocol ArgPlayerResolver {
 }
 
 struct ArgPlayerContext {
-    /// Actor player
     let actor: String
 }
 

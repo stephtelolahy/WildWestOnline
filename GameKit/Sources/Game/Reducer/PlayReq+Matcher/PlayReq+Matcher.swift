@@ -10,10 +10,7 @@ protocol PlayReqMatcher {
 }
 
 struct PlayReqContext {
-    /// Player verifying requirement
     let actor: String
-
-    /// Card matching requirement
     let card: String
 }
 
