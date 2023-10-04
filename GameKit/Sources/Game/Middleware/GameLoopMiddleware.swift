@@ -85,12 +85,13 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
     }
 
     let ctx: EffectContext = [.actor: player, .card: card]
+    let playReqContext = PlayReqContext(player: player, card: card)
 
     for rule in cardObj.rules {
         do {
             // Validate playRequirements
             for playReq in rule.playReqs {
-                try playReq.match(state: state, ctx: ctx)
+                try playReq.match(state: state, ctx: playReqContext)
             }
 
             return GameAction.effect(rule.effect, ctx: ctx)

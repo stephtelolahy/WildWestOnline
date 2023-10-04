@@ -8,8 +8,8 @@
 struct NumPlayerAttr: ArgNumResolverProtocol {
     let key: AttributeKey
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> Int {
-        let playerObj = state.player(ctx.get(.actor))
+    func resolve(state: GameState, ctx: ArgNumContext) throws -> Int {
+        let playerObj = state.player(ctx.player)
         guard let value = playerObj.attributes[key] else {
             fatalError("undefined attribute \(key)")
         }

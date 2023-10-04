@@ -6,11 +6,15 @@
 //
 
 protocol ArgNumResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) throws -> Int
+    func resolve(state: GameState, ctx: ArgNumContext) throws -> Int
+}
+
+struct ArgNumContext {
+    let player: String
 }
 
 extension ArgNum {
-    func resolve(state: GameState, ctx: EffectContext) throws -> Int {
+    func resolve(state: GameState, ctx: ArgNumContext) throws -> Int {
         try resolver().resolve(state: state, ctx: ctx)
     }
 }

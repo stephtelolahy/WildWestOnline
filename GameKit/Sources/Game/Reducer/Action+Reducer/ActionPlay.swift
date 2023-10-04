@@ -28,8 +28,9 @@ struct ActionPlay: GameReducerProtocol {
 
         // verify requirements
         let ctx: EffectContext = [.actor: player, .card: card]
+        let playReqContext = PlayReqContext(player: player, card: card)
         for playReq in playRule.playReqs where !onPlayReqs.contains(playReq) {
-            try playReq.match(state: state, ctx: ctx)
+            try playReq.match(state: state, ctx: playReqContext)
         }
 
         // resolve target

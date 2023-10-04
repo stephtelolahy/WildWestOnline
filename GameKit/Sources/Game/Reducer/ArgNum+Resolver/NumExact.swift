@@ -8,7 +8,7 @@
 struct NumExact: ArgNumResolverProtocol {
     let number: Int
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> Int {
+    func resolve(state: GameState, ctx: ArgNumContext) throws -> Int {
         number
     }
 }
