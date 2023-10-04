@@ -6,17 +6,8 @@
 //
 
 struct CardSelectHand: ArgCardResolver {
-    func resolve(
-        state: GameState,
-        ctx: EffectContext,
-        chooser: String,
-        owner: String?
-    ) -> CardArgOutput {
-        guard let owner else {
-            fatalError("unexpected")
-        }
-
-        let playerObj = state.player(owner)
+    func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput {
+        let playerObj = state.player(ctx.owner)
         let options = playerObj.hand.cards.toCardOptions()
 
         return .selectable(options)

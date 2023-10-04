@@ -10,7 +10,8 @@ struct EffectChooseCard: EffectResolver {
         let chooserId = ctx.get(.target)
         let card = ArgCard.selectArena
 
-        return try card.resolve(state: state, ctx: ctx, chooser: chooserId, owner: nil) {
+        let cardContext = ArgCardContext(owner: String(), chooser: chooserId, playedCard: ctx.get(.card))
+        return try card.resolve(state: state, ctx: cardContext) {
             .chooseCard($0, player: chooserId)
         }
     }

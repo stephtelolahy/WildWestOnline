@@ -14,7 +14,8 @@ struct EffectPassInPlay: EffectResolver {
         let playerContext = ArgPlayerContext(actor: ctx.get(.actor))
         let ownerId = try owner.resolveUnique(state: state, ctx: playerContext)
         
-        return try card.resolve(state: state, ctx: ctx, chooser: ownerId, owner: ownerId) {
+        let cardContext = ArgCardContext(owner: ownerId, chooser: ownerId, playedCard: ctx.get(.card))
+        return try card.resolve(state: state, ctx: cardContext) {
             .passInplay($0, target: targetId, player: ownerId)
         }
     }

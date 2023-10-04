@@ -14,7 +14,8 @@ struct EffectSteal: EffectResolver {
         let playerContext = ArgPlayerContext(actor: ctx.get(.actor))
         let chooserId = try chooser.resolveUnique(state: state, ctx: playerContext)
         
-        return try card.resolve(state: state, ctx: ctx, chooser: chooserId, owner: owner) {
+        let cardContext = ArgCardContext(owner: owner, chooser: chooserId, playedCard: ctx.get(.card))
+        return try card.resolve(state: state, ctx: cardContext) {
             if state.player(owner).hand.contains($0) {
                 return .stealHand($0, target: owner, player: chooserId)
             }
