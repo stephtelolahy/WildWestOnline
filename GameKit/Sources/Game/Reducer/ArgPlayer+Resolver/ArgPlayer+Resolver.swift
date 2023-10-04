@@ -12,9 +12,6 @@ protocol ArgPlayerResolver {
 struct ArgPlayerContext {
     /// Actor player
     let actor: String
-
-    /// Targeted player
-    var target: String?
 }
 
 extension ArgPlayer {
@@ -90,8 +87,6 @@ private extension ArgPlayer {
         switch self {
         case .actor:
             PlayerActor()
-        case .target:
-            PlayerTarget()
         case .selectReachable:
             PlayerSelectReachable()
         case .selectAt(let distance):

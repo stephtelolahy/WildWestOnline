@@ -14,9 +14,6 @@ public enum ArgPlayer: Codable, Equatable {
     /// Who is playing the card
     case actor
 
-    /// Target player that was previously selected
-    case target
-
     /// The next player's turn, in clockwise order.
     case next
 
