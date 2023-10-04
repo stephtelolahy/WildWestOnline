@@ -9,6 +9,11 @@ protocol ArgPlayerResolverProtocol {
     func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput
 }
 
+struct ArgPlayerContext {
+    /// Actor resolving player
+    let actor: String
+}
+
 extension ArgPlayer {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {

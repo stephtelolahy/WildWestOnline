@@ -6,16 +6,16 @@
 //
 
 struct OnDiscardedFromPlay: PlayReqMatcherProtocol {
-    func match(state: GameState, ctx: EffectContext) -> Bool {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
         if case let .discardInPlay(card, player) = state.event,
-              player == ctx.get(.actor),
-              card == ctx.get(.card) {
+              player == ctx.actor,
+              card == ctx.card {
             return true
         }
 
         if case let .stealInPlay(card, _, player) = state.event,
-              player == ctx.get(.actor),
-              card == ctx.get(.card) {
+              player == ctx.actor,
+              card == ctx.card {
             return true
         }
         

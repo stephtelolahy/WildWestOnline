@@ -8,9 +8,9 @@
 struct OnPlayEquipmentWithAttribute: PlayReqMatcherProtocol {
     let key: AttributeKey
 
-    func match(state: GameState, ctx: EffectContext) -> Bool {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
         guard case let .playEquipment(playedCard, player) = state.event,
-              player == ctx.get(.actor) else {
+              player == ctx.actor else {
             return false
         }
 

@@ -8,8 +8,9 @@
 struct IsMaxTimesPerTurn: PlayReqMatcherProtocol {
     let maxTimes: ArgNum
 
-    func match(state: GameState, ctx: EffectContext) -> Bool {
-        guard let maxNumber = try? maxTimes.resolve(state: state, ctx: ctx) else {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
+        let argNumContext = ArgNumContext(actor: ctx.actor)
+        guard let maxNumber = try? maxTimes.resolve(state: state, ctx: argNumContext) else {
             fatalError("unresolved numArg \(maxTimes)")
         }
 
@@ -17,7 +18,7 @@ struct IsMaxTimesPerTurn: PlayReqMatcherProtocol {
             return true
         }
 
-        let cardName = ctx.get(.card).extractName()
+        let cardName = ctx.card.extractName()
         let playedTimes = state.playCounter[cardName] ?? 0
         return playedTimes < maxNumber
     }

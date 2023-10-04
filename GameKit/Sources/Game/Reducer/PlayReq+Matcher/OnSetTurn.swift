@@ -6,9 +6,9 @@
 //
 
 struct OnSetTurn: PlayReqMatcherProtocol {
-    func match(state: GameState, ctx: EffectContext) -> Bool {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
         if case let .setTurn(turn) = state.event,
-              turn == ctx.get(.actor) {
+              turn == ctx.actor {
             true
         } else {
             false

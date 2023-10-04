@@ -10,7 +10,8 @@ protocol ArgNumResolverProtocol {
 }
 
 struct ArgNumContext {
-    let player: String
+    /// Player resolving number
+    let actor: String
 }
 
 extension ArgNum {

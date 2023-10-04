@@ -6,7 +6,7 @@
 //
 
 struct OnPlayAbility: PlayReqMatcherProtocol {
-    func match(state: GameState, ctx: EffectContext) -> Bool {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
         false
     }
 }

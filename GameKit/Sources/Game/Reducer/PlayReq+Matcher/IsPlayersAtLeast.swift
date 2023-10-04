@@ -8,7 +8,7 @@
 struct IsPlayersAtLeast: PlayReqMatcherProtocol {
     let minCount: Int
 
-    func match(state: GameState, ctx: EffectContext) -> Bool {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
         state.playOrder.count >= minCount
     }
 }
