@@ -5,7 +5,10 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
+import InitMacro
+
 /// Context data associated to an effect
+@Init(defaults: ["target": nil])
 public struct EffectContext: Codable, Equatable {
     /// Player triggering effect
     let actor: String

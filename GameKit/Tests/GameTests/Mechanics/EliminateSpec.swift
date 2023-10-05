@@ -35,7 +35,7 @@ final class EliminateSpec: QuickSpec {
                     Player("p2")
                 }
                 .queue([
-                    .effect(.nothing, ctx: EffectContext(from: .))
+                    .effect(.draw, ctx: EffectContext(actor: "p1", card: "c1"))
                 ])
 
                 // When

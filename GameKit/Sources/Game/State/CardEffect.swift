@@ -21,7 +21,7 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Discard a player's card to discard pile
     /// When chooser is the player that chooses card
-    /// By default `ctx.target!`
+    /// By default `ctx.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
     
     /// Draw card from other player
@@ -32,7 +32,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case passInplay(ArgCard, owner: ArgPlayer)
     
     /// Choose some cards from arena
-    /// When chooser is `ctx.target!`
+    /// When chooser is `ctx.target`
     case chooseCard
     
     /// Draw a card from deck and put to arena

@@ -11,7 +11,6 @@ struct EffectChallenge: EffectResolver {
     let otherwise: CardEffect
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        var ctx = ctx
         let target = ctx.target!
 
         guard case let .id(challengerId) = challenger else {
@@ -40,11 +39,11 @@ struct EffectChallenge: EffectResolver {
                                 ctx: childCtx)]
                 
             case let .chooseOne(chooser, options):
-                ctx.target = challengerId
+                let reversedCtx = EffectContext(actor: ctx.actor, card: ctx.card, target: challengerId)
                 let reversedAction = GameAction.effect(.challenge(.id(target),
                                                                   effect: effect,
                                                                   otherwise: otherwise),
-                                                       ctx: ctx)
+                                                       ctx: reversedCtx)
                 var options = options.mapValues { childAction in
                     GameAction.group {
                         childAction

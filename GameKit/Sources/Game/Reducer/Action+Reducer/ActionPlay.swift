@@ -102,7 +102,7 @@ extension GameState {
            let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
            case .selectable = resolvedTarget {
             if let target {
-                ctx.target! = target
+                ctx.target = target
             }
             sideEffect = childEffect
         }
