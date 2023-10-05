@@ -37,10 +37,18 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
 }
 
 private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> GameAction? {
-    let players = playersThatCouldTriggerEffects(action: action, state: state)
     var triggered: [GameAction] = []
+
+    var players = state.playOrder
+    if case let .eliminate(eliminatedPlayer) = action {
+        players.insert(eliminatedPlayer, at: 0)
+    }
+
     for player in players {
-        let cards = cardsThatCouldTriggerEffects(action: action, player: player, state: state)
+
+        let playerObj = state.player(player)
+        var cards = playerObj.inPlay.cards + playerObj.abilities
+
         for card in cards {
             if let action = triggeredEffect(by: card, player: player, state: state) {
                 triggered.append(action)
@@ -54,28 +62,6 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> G
     }
 
     return .group(triggered)
-}
-
-private func playersThatCouldTriggerEffects(action: GameAction, state: GameState) -> [String] {
-    var players = state.playOrder
-    if case let .eliminate(eliminatedPlayer) = action {
-        players.insert(eliminatedPlayer, at: 0)
-    }
-    return players
-}
-
-private func cardsThatCouldTriggerEffects(action: GameAction, player: String, state: GameState) -> [String] {
-    let playerObj = state.player(player)
-    var cards = playerObj.inPlay.cards + playerObj.abilities
-    if case let .discardInPlay(discardedCard, discardingPlayer) = action,
-       discardingPlayer == player {
-        cards.insert(discardedCard, at: 0)
-    }
-    if case let .stealInPlay(stolenCard, stolenPlayer, _) = action,
-       stolenPlayer == player {
-        cards.insert(stolenCard, at: 0)
-    }
-    return cards
 }
 
 private func triggeredEffect(by card: String, player: String, state: GameState) -> GameAction? {

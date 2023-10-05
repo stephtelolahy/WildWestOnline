@@ -43,10 +43,10 @@ private extension PlayReq {
             OnPlayEquipment()
         case let .onForceDiscardHandNamed(cardName):
             OnForceDiscardHandNamed(cardName: cardName)
-        case .onDiscardedFromPlay:
-            OnDiscardedFromPlay()
         case let .onPlayEquipmentWithAttribute(key):
             OnPlayEquipmentWithAttribute(key: key)
+        case .onUpdateInPlay:
+            OnUpdateInPlay()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isMaxTimesPerTurn(maxTimes):

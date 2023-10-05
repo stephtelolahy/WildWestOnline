@@ -22,6 +22,7 @@ final class RemingtonSpec: QuickSpec {
                     }
                     .setupAttribute(.weapon, 1)
                     .attribute(.weapon, 1)
+                    .ability(.evaluateAttributeOnUpdateInPlay)
                 }
 
                 // When

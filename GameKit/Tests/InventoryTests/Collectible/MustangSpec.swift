@@ -22,6 +22,7 @@ final class MustangSpec: QuickSpec {
                     }
                     .setupAttribute(.mustang, 0)
                     .attribute(.mustang, 0)
+                    .ability(.evaluateAttributeOnUpdateInPlay)
                 }
 
                 // When

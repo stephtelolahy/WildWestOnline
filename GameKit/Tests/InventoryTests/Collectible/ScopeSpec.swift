@@ -21,6 +21,7 @@ final class ScopeSpec: QuickSpec {
                     }
                     .setupAttribute(.scope, 0)
                     .attribute(.scope, 0)
+                    .ability(.evaluateAttributeOnUpdateInPlay)
                 }
 
                 // When
