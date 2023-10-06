@@ -16,7 +16,7 @@ public struct EffectContext: Codable, Equatable {
     /// Card triggering effect
     let card: String
 
-    /// Targeted player from action triggering this effect
+    /// Action target triggering this effect
     /// Or Targeted player while resolving effect
     var target: String?
 }

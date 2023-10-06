@@ -11,6 +11,7 @@ protocol PlayReqMatcher {
 
 struct PlayReqContext {
     let actor: String
+    @available(*, deprecated, message: "unavailable")
     let card: String
 }
 

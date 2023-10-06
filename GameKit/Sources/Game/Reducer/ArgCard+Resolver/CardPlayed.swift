@@ -7,6 +7,6 @@
 
 struct CardPlayed: ArgCardResolver {
     func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput {
-        .identified([ctx.playedCard])
+        .identified([ctx.played])
     }
 }
