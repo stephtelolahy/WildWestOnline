@@ -36,6 +36,7 @@ public enum CardList {
         nextTurnOnEliminated
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
+        evaluateAttributeOnUpdateInPlay
     }
 }
 
@@ -159,12 +160,9 @@ private extension CardList {
     // MARK: - Equipement
     
     static let equipement = Card(String()) {
-        CardEffect.evaluateAttributes
+        CardEffect.nothing
             .target(.actor)
             .when(.onPlayEquipment)
-        CardEffect.evaluateAttributes
-            .target(.actor)
-            .when(.onDiscardedFromPlay)
     }
     
     static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
@@ -223,6 +221,12 @@ private extension CardList {
         CardEffect.discard(.previousInPlayWithAttribute(.weapon))
             .target(.actor)
             .when(.onPlayEquipmentWithAttribute(.weapon))
+    }
+
+    static let evaluateAttributeOnUpdateInPlay = Card(.evaluateAttributeOnUpdateInPlay) {
+        CardEffect.evaluateAttributes
+            .target(.actor)
+            .when(.onUpdateInPlay)
     }
 
     static func createCardRef(@CardBuilder _ content: () -> [Card]) -> [String: Card] {

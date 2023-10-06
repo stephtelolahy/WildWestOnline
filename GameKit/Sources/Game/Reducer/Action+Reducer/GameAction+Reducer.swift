@@ -5,6 +5,10 @@
 //  Created by Hugues Telolahy on 03/06/2023.
 //
 
+protocol GameActionReducer {
+    func reduce(state: GameState) throws -> GameState
+}
+
 extension GameAction {
     func reduce(state: GameState) throws -> GameState {
         var state = state
@@ -13,13 +17,9 @@ extension GameAction {
     }
 }
 
-protocol GameReducerProtocol {
-    func reduce(state: GameState) throws -> GameState
-}
-
 private extension GameAction {
     // swiftlint:disable:next cyclomatic_complexity
-    func reducer() -> GameReducerProtocol {
+    func reducer() -> GameActionReducer {
         switch self {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
@@ -59,8 +59,8 @@ private extension GameAction {
             ActionSetTurn(player: player)
         case let .eliminate(player):
             ActionEliminate(player: player)
-        case let .resolve(effect, ctx):
-            ActionResolve(effect: effect, ctx: ctx)
+        case let .effect(effect, ctx):
+            ActionEffect(effect: effect, ctx: ctx)
         case let .chooseOne(player, options):
             ActionChooseOne(chooser: player, options: options)
         case let .activateCards(player, cards):

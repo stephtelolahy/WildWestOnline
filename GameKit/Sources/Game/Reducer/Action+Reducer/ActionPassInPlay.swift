@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 27/06/2023.
 //
 
-struct ActionPassInPlay: GameReducerProtocol {
+struct ActionPassInPlay: GameActionReducer {
     let card: String
     let target: String
     let player: String

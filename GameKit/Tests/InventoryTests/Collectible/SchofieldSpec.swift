@@ -24,6 +24,7 @@ final class SchofieldSpec: QuickSpec {
                         }
                         .attribute(.weapon, 1)
                         .setupAttribute(.weapon, 1)
+                        .ability(.evaluateAttributeOnUpdateInPlay)
                     }
 
                     // When
@@ -53,6 +54,7 @@ final class SchofieldSpec: QuickSpec {
                         .attribute(.weapon, 3)
                         .setupAttribute(.weapon, 1)
                         .ability(.discardPreviousWeaponOnPlayWeapon)
+                        .ability(.evaluateAttributeOnUpdateInPlay)
                     }
 
                     // When
@@ -81,6 +83,7 @@ final class SchofieldSpec: QuickSpec {
                         }
                         .attribute(.weapon, 2)
                         .setupAttribute(.weapon, 1)
+                        .ability(.evaluateAttributeOnUpdateInPlay)
                     }
 
                     // When

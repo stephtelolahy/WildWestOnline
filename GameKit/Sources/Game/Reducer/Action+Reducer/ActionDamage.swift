@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 16/04/2023.
 //
 
-struct ActionDamage: GameReducerProtocol {
+struct ActionDamage: GameActionReducer {
     let player: String
     let value: Int
 

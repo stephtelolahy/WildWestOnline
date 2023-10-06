@@ -22,14 +22,14 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Discard a player's card to discard pile
     /// When chooser is the player that chooses card
     /// By default `ctx.target`
-    case discard(CardArg, chooser: PlayerArg? = nil)
+    case discard(ArgCard, chooser: ArgPlayer? = nil)
     
     /// Draw card from other player
     /// When chooser is the player that chooses and steals cards
-    case steal(CardArg, chooser: PlayerArg)
+    case steal(ArgCard, chooser: ArgPlayer)
     
     /// Pass inPlay card to another player
-    case passInplay(CardArg, owner: PlayerArg)
+    case passInplay(ArgCard, owner: ArgPlayer)
     
     /// Choose some cards from arena
     /// When chooser is `ctx.target`
@@ -53,23 +53,23 @@ public indirect enum CardEffect: Codable, Equatable {
     // MARK: - Operators
 
     /// Repeat an effect
-    case `repeat`(NumArg, effect: Self)
+    case `repeat`(ArgNum, effect: Self)
     
     /// Dispatch effects sequentially
     case group([Self])
     
     /// Apply an effect to targeted player(s)
-    case target(PlayerArg, effect: Self)
+    case target(ArgPlayer, effect: Self)
 
     /// Try an effect. If cannot, then apply some effect
     case force(Self, otherwise: Self)
 
     /// Force two players to perform an effect repeatedly. If cannot, then apply some effect
-    case challenge(PlayerArg, effect: Self, otherwise: Self)
+    case challenge(ArgPlayer, effect: Self, otherwise: Self)
     
     /// Flip over the top card of the deck, then apply effects according to suits and values
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
     
     /// Cancel some queued effect
-    case cancel(CancelArg)
+    case cancel(ArgCancel)
 }

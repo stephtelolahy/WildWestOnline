@@ -1,0 +1,15 @@
+//
+//  PlayerSelectAny.swift
+//  
+//
+//  Created by Hugues Telolahy on 26/04/2023.
+//
+
+struct PlayerSelectAny: ArgPlayerResolver {
+    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
+        let others = state.playOrder
+            .starting(with: ctx.actor)
+            .dropFirst()
+        return .selectable(Array(others))
+    }
+}

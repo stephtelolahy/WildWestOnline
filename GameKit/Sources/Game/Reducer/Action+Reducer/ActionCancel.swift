@@ -5,8 +5,8 @@
 //  Created by Hugues Stephano TELOLAHY on 22/06/2023.
 //
 
-struct ActionCancel: GameReducerProtocol {
-    let arg: CancelArg
+struct ActionCancel: GameActionReducer {
+    let arg: ArgCancel
 
     func reduce(state: GameState) throws -> GameState {
         var state = state

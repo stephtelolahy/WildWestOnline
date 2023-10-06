@@ -25,6 +25,7 @@ final class VolcanicSpec: QuickSpec {
                         .setupAttribute(.bangsPerTurn, 1)
                         .attribute(.weapon, 1)
                         .attribute(.bangsPerTurn, 1)
+                        .ability(.evaluateAttributeOnUpdateInPlay)
                     }
 
                     // When
@@ -56,6 +57,7 @@ final class VolcanicSpec: QuickSpec {
                         .attribute(.weapon, 2)
                         .attribute(.bangsPerTurn, 1)
                         .ability(.discardPreviousWeaponOnPlayWeapon)
+                        .ability(.evaluateAttributeOnUpdateInPlay)
                     }
 
                     // When

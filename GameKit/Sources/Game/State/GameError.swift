@@ -31,10 +31,10 @@ public enum GameError: Error, Codable, Equatable {
     // MARK: - Matching error
 
     /// Not matching card
-    case noCard(CardArg)
+    case noCard(ArgCard)
 
     /// Not matching player
-    case noPlayer(PlayerArg)
+    case noPlayer(ArgPlayer)
 
     /// Not matching requirement
     case noReq(PlayReq)

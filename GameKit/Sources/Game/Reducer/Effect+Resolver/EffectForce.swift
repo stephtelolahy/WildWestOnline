@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 13/05/2023.
 //
 
-struct EffectForce: EffectResolverProtocol {
+struct EffectForce: EffectResolver {
     let effect: CardEffect
     let otherwise: CardEffect
     
@@ -19,12 +19,12 @@ struct EffectForce: EffectResolverProtocol {
             
             let action = children[0]
             switch action {
-            case let .resolve(childEffect, childCtx):
-                return [.resolve(.force(childEffect, otherwise: otherwise), ctx: childCtx)]
+            case let .effect(childEffect, childCtx):
+                return [.effect(.force(childEffect, otherwise: otherwise), ctx: childCtx)]
                 
             case let .chooseOne(chooser, options):
                 var options = options
-                options[.pass] = .resolve(otherwise, ctx: ctx)
+                options[.pass] = .effect(otherwise, ctx: ctx)
                 let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
                 return [chooseOne]
                 
@@ -32,8 +32,8 @@ struct EffectForce: EffectResolverProtocol {
                 fatalError("unexpected")
             }
         } catch {
-            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.get(.target),
-                                                             options: [.pass: .resolve(otherwise, ctx: ctx)],
+            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.target!,
+                                                             options: [.pass: .effect(otherwise, ctx: ctx)],
                                                              state: state)
             return [chooseOne]
         }

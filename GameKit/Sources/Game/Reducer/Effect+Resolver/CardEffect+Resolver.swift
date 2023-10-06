@@ -5,6 +5,10 @@
 //  Created by Hugues Stephano TELOLAHY on 11/05/2023.
 //
 
+protocol EffectResolver {
+    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction]
+}
+
 extension CardEffect {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         try resolver()
@@ -12,31 +16,27 @@ extension CardEffect {
     }
 }
 
-protocol EffectResolverProtocol {
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction]
-}
-
 private extension CardEffect {
     // swiftlint:disable:next cyclomatic_complexity
-    func resolver() -> EffectResolverProtocol {
+    func resolver() -> EffectResolver {
         switch self {
         case let .heal(value):
-            EffectJust { .heal(value, player: $0.get(.target)) }
+            EffectJust { .heal(value, player: $0.target!) }
 
         case let .damage(value):
-            EffectJust { .damage(value, player: $0.get(.target)) }
+            EffectJust { .damage(value, player: $0.target!) }
 
         case .draw:
-            EffectJust { .draw(player: $0.get(.target)) }
+            EffectJust { .draw(player: $0.target!) }
 
         case .discover:
             EffectJust { _ in .discover }
 
         case .setTurn:
-            EffectJust { .setTurn($0.get(.target)) }
+            EffectJust { .setTurn($0.target!) }
 
         case .eliminate:
-            EffectJust { .eliminate(player: $0.get(.target)) }
+            EffectJust { .eliminate(player: $0.target!) }
 
         case .chooseCard:
             EffectChooseCard()

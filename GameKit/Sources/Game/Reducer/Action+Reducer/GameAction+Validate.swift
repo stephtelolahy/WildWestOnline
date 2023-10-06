@@ -21,7 +21,7 @@ extension GameAction {
             }
 
             validOptions[key] = action
-            if case let .resolve(effect, ctx) = action {
+            if case let .effect(effect, ctx) = action {
                 let childActions = try effect
                     .resolve(state: state, ctx: ctx)
                 if childActions.count == 1 {

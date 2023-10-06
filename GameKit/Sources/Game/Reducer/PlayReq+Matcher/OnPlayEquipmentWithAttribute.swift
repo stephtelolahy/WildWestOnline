@@ -5,12 +5,12 @@
 //  Created by Hugues Stephano TELOLAHY on 07/09/2023.
 //
 
-struct OnPlayEquipmentWithAttribute: PlayReqMatcherProtocol {
+struct OnPlayEquipmentWithAttribute: PlayReqMatcher {
     let key: AttributeKey
 
-    func match(state: GameState, ctx: EffectContext) -> Bool {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
         guard case let .playEquipment(playedCard, player) = state.event,
-              player == ctx.get(.actor) else {
+              player == ctx.actor else {
             return false
         }
 

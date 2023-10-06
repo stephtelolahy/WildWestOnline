@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-struct ActionDraw: GameReducerProtocol {
+struct ActionDraw: GameActionReducer {
     let player: String
 
     func reduce(state: GameState) throws -> GameState {

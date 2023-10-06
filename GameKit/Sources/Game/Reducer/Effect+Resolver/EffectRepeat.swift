@@ -5,14 +5,15 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-struct EffectRepeat: EffectResolverProtocol {
+struct EffectRepeat: EffectResolver {
     let effect: CardEffect
-    let times: NumArg
+    let times: ArgNum
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let number = try times.resolve(state: state, ctx: ctx)
+        let numContext = ArgNumContext(actor: ctx.actor)
+        let number = try times.resolve(state: state, ctx: numContext)
         return (0..<number).map { _ in
-            .resolve(effect, ctx: ctx)
+            .effect(effect, ctx: ctx)
         }
     }
 }

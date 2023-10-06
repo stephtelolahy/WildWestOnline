@@ -5,24 +5,17 @@
 //  Created by Hugues Telolahy on 03/09/2023.
 //
 
-struct EffectEvaluateAttributes: EffectResolverProtocol {
+struct EffectEvaluateAttributes: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let player = ctx.get(.target)
+        let player = ctx.target!
         let playerObj = state.player(player)
-        let playedCard = ctx.get(.card)
-        let playedCardName = playedCard.extractName()
-        guard let playedCardObj = state.cardRef[playedCardName] else {
-            fatalError("cardRef not found \(playedCardName)")
-        }
-
         var result: [GameAction] = []
 
-        let keys = AttributeKey.allCases.filter { playedCardObj.attributes.keys.contains($0) }
+        let keys = AttributeKey.allCases
         for key in keys {
-
             guard var expectedValue = playerObj.setupAttributes[key] else {
-                fatalError("undefined initial value for attribute \(key)")
+                continue
             }
 
             for card in playerObj.inPlay.cards {
