@@ -47,7 +47,7 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> G
     for player in players {
 
         let playerObj = state.player(player)
-        var cards = playerObj.inPlay.cards + playerObj.abilities
+        let cards = playerObj.inPlay.cards + playerObj.abilities
 
         for card in cards {
             if let action = triggeredEffect(by: card, player: player, state: state) {
@@ -70,7 +70,6 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
         return nil
     }
 
-    let ctx = EffectContext(actor: player, card: card)
     let playReqContext = PlayReqContext(actor: player, card: card)
 
     for rule in cardObj.rules {
@@ -80,6 +79,7 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
                 try playReq.match(state: state, ctx: playReqContext)
             }
 
+            let ctx = EffectContext(actor: player, card: card)
             return GameAction.effect(rule.effect, ctx: ctx)
         } catch {
             continue
