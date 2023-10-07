@@ -11,8 +11,6 @@ protocol PlayReqMatcher {
 
 struct PlayReqContext {
     let actor: String
-    @available(*, deprecated, message: "unavailable")
-    let card: String
 }
 
 extension PlayReq {
@@ -50,8 +48,8 @@ private extension PlayReq {
             OnUpdateInPlay()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
-        case let .isMaxTimesPerTurn(maxTimes):
-            IsMaxTimesPerTurn(maxTimes: maxTimes)
+        case let .isCard(cardName, playedMaxTimes):
+            IsCardPlayedMaxTimes(cardName: cardName, playedMaxTimes: playedMaxTimes)
         case .isYourTurn:
             IsCurrentTurn()
         }

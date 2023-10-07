@@ -22,6 +22,11 @@ struct OnUpdateInPlay: PlayReqMatcher {
             return true
         }
 
+        if case let .passInplay(_, target, player) = state.event,
+           target == ctx.actor || player == ctx.actor {
+            return true
+        }
+
         return false
     }
 }

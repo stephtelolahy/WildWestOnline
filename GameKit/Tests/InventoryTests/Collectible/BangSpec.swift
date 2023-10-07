@@ -33,7 +33,7 @@ final class BangSpec: QuickSpec {
                     let (_, error) = self.awaitAction(action, state: state)
 
                     // Assert
-                    expect(error) == .noReq(.isMaxTimesPerTurn(.playerAttr(.bangsPerTurn)))
+                    expect(error) == .noReq(.isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
                 }
             }
 

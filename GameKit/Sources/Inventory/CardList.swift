@@ -96,7 +96,7 @@ private extension CardList {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
             .target(.selectReachable)
-            .when(.onPlayImmediate, .isMaxTimesPerTurn(.playerAttr(.bangsPerTurn)))
+            .when(.onPlayImmediate, .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
     }
     
     static let missed = Card(.missed)
