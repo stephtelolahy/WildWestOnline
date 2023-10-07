@@ -6,21 +6,13 @@
 //
 
 struct ActionCancel: GameActionReducer {
-    let arg: ArgCancel
+    let action: GameAction
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-
-        switch arg {
-        case .next:
-            state.queue.remove(at: 0)
-
-        case let .effectOfCardNamed(cardName):
-            if let index = state.queue.firstIndex(where: { $0.isEffectTriggeredByCardNamed(cardName) }) {
-                state.queue.remove(at: index)
-            }
+        if let index = state.queue.firstIndex(of: action) {
+            state.queue.remove(at: index)
         }
-
         return state
     }
 }

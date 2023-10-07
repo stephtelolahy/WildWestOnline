@@ -63,7 +63,7 @@ final class BarrelSpec: QuickSpec {
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
-                            .cancel(.next)
+                            .cancel(.chooseOne(player: "p2", options: ["pass": .damage(1, player: "p2")]))
                         ]
                     }
                 }
@@ -138,7 +138,7 @@ final class BarrelSpec: QuickSpec {
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
                             .luck,
-                            .cancel(.next)
+                            .cancel(.chooseOne(player: "p2", options: ["pass": .damage(1, player: "p2")]))
                         ]
                     }
                 }

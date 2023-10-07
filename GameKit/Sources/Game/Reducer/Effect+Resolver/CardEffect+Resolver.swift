@@ -72,7 +72,7 @@ private extension CardEffect {
             EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
             
         case let .cancel(arg):
-            EffectJust { _ in .cancel(arg) }
+            EffectCancel(arg: arg)
 
         case .evaluateAttributes:
             EffectEvaluateAttributes()
