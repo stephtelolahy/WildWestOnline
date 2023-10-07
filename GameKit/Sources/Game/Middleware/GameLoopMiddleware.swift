@@ -39,17 +39,21 @@ private func evaluateNextAction(action: GameAction, state: GameState) -> GameAct
 private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> GameAction? {
     var triggered: [GameAction] = []
 
-    var players = state.playOrder
-    if case let .eliminate(eliminatedPlayer) = action {
-        players.insert(eliminatedPlayer, at: 0)
-    }
-
-    for player in players {
-
+    // active players
+    for player in state.playOrder {
         let playerObj = state.player(player)
         let cards = playerObj.inPlay.cards + playerObj.abilities
-
         for card in cards {
+            if let action = triggeredEffect(by: card, player: player, state: state) {
+                triggered.append(action)
+            }
+        }
+    }
+
+    // just eliminated player
+    if case let .eliminate(player) = action {
+        let playerObj = state.player(player)
+        for card in playerObj.abilities {
             if let action = triggeredEffect(by: card, player: player, state: state) {
                 triggered.append(action)
             }
