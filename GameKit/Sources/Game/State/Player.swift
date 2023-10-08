@@ -17,7 +17,7 @@ public struct Player: Identifiable, Codable, Equatable {
     public var name: String = String()
 
     /// Initial attributes
-    public var setupAttributes: Attributes = [:]
+    public var startAttributes: Attributes = [:]
 
     /// Active attributes
     public var attributes: Attributes = [:]

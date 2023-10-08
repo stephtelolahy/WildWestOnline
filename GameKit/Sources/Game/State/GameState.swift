@@ -12,7 +12,7 @@ public struct GameState: Codable, Equatable {
     public var playOrder: [String] = []
 
     /// Initial order
-    public var setupOrder: [String] = []
+    public var startOrder: [String] = []
 
     /// Current turn's player
     public var turn: String?

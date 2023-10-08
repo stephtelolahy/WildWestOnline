@@ -23,7 +23,7 @@ public extension Player {
     }
 
     func setupAttribute(_ key: AttributeKey, _ value: Int) -> Self {
-        copy { $0.setupAttributes[key] = value }
+        copy { $0.startAttributes[key] = value }
     }
 
     func health(_ value: Int) -> Self {

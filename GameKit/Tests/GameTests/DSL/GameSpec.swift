@@ -139,7 +139,7 @@ final class GameSpec: QuickSpec {
                     }
                     
                     // Then
-                    expect(sut.setupOrder) == ["p1", "p2"]
+                    expect(sut.startOrder) == ["p1", "p2"]
                     expect(sut.playOrder) == ["p1", "p2"]
                     expect(sut.players["p1"]) != nil
                     expect(sut.players["p2"]) != nil
@@ -160,7 +160,7 @@ final class GameSpec: QuickSpec {
                       "health": 3,
                       "abilities": [],
                       "attributes": {},
-                      "setupAttributes": {},
+                      "startAttributes": {},
                       "hand": {
                         "visibility": "p1",
                         "cards": []
@@ -175,7 +175,7 @@ final class GameSpec: QuickSpec {
                   "playOrder": [
                     "p1"
                   ],
-                  "setupOrder": [
+                  "startOrder": [
                     "p1"
                   ],
                   "turn": "p1",

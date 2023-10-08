@@ -21,7 +21,7 @@ public enum Setup {
 
             player.attributes.merge(attributes) { _, new in new }
             player.attributes.merge(figure.attributes) { _, new in new }
-            player.setupAttributes = player.attributes
+            player.startAttributes = player.attributes
             player.abilities = abilities + figure.abilities
 
             guard let health = player.attributes[.maxHealth] else {
@@ -38,7 +38,7 @@ public enum Setup {
         var state = GameState()
         for player in players {
             state.players[player.id] = player
-            state.setupOrder.append(player.id)
+            state.startOrder.append(player.id)
             state.playOrder.append(player.id)
         }
         state.deck = CardStack(cards: deck)
