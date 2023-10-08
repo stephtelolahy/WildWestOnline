@@ -126,7 +126,7 @@ private extension CardList {
         CardEffect.nothing
             .when(.onPlayEquipment)
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.next))
-            .when(.onForceDiscardHandNamed(.missed))
+            .when(.onForceDiscardHand(.missed))
     }
     
     static let dynamite = Card(.dynamite) {

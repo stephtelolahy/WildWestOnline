@@ -30,7 +30,7 @@ public enum PlayReq: Codable, Equatable {
     case onEliminated
 
     /// After being forced to discard hand card named X
-    case onForceDiscardHandNamed(String)
+    case onForceDiscardHand(String)
 
     /// After playing an equipement with given attribute
     case onPlayEquipmentWithAttribute(AttributeKey)

@@ -1,11 +1,11 @@
 //
-//  OnForceDiscardHandNamed.swift
+//  OnForceDiscardHand.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 21/06/2023.
 //
 
-struct OnForceDiscardHandNamed: PlayReqMatcher {
+struct OnForceDiscardHand: PlayReqMatcher {
     let cardName: String
     
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
