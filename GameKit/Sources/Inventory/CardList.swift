@@ -42,8 +42,8 @@ public enum CardList {
 
 private extension CardList {
     
-    // MARK: - Collectibles
-    
+    // MARK: - Collectibles - Brown
+
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
@@ -141,8 +141,8 @@ private extension CardList {
         .when(.onSetTurn)
     }
     
-    // MARK: - Handicap
-    
+    // MARK: - Collectibles - Handicap
+
     static let jail = Card(.jail) {
         CardEffect.nothing
             .target(.selectAny)
@@ -157,8 +157,8 @@ private extension CardList {
         .when(.onSetTurn)
     }
     
-    // MARK: - Equipement
-    
+    // MARK: - Collectibles - Equipment
+
     static let equipement = Card(String()) {
         CardEffect.nothing
             .target(.actor)
