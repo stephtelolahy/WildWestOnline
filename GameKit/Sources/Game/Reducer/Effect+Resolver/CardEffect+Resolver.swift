@@ -26,6 +26,9 @@ private extension CardEffect {
         case let .damage(value):
             EffectJust { .damage(value, player: $0.target!) }
 
+        case .shoot:
+            EffectJust { .damage(1, player: $0.target!) }
+
         case .draw:
             EffectJust { .draw(player: $0.target!) }
 

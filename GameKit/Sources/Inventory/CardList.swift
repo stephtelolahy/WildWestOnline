@@ -93,10 +93,10 @@ private extension CardList {
     }
     
     static let bang = Card(.bang) {
-        CardEffect.discard(.selectHandNamed(.missed))
-            .otherwise(.damage(1))
+        CardEffect.shoot
             .target(.selectReachable)
-            .when(.onPlayImmediate, .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
+            .when(.onPlayImmediate,
+                  .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
     }
     
     static let missed = Card(.missed)
@@ -126,7 +126,7 @@ private extension CardList {
         CardEffect.nothing
             .when(.onPlayEquipment)
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.next))
-            .when(.onForceDiscardHand(.missed))
+            .when(.onShot)
     }
     
     static let dynamite = Card(.dynamite) {

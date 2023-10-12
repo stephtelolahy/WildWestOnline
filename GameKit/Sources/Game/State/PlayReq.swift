@@ -29,6 +29,9 @@ public enum PlayReq: Codable, Equatable {
     /// After being eliminated
     case onEliminated
 
+    /// After being targeted by a shot
+    case onShot
+
     /// After being forced to discard hand card named X
     case onForceDiscardHand(String)
 

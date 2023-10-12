@@ -40,6 +40,8 @@ private extension PlayReq {
             OnPlayAbility()
         case .onPlayEquipment:
             OnPlayEquipment()
+        case .onShot:
+            OnShot()
         case let .onForceDiscardHand(cardName):
             OnForceDiscardHand(cardName: cardName)
         case let .onPlayEquipmentWithAttribute(key):
