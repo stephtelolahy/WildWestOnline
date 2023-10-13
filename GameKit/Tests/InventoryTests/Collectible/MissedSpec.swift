@@ -41,10 +41,11 @@ final class MissedSpec: QuickSpec {
                         ]),
                         .playImmediate(.bang, target: "p2", player: "p1"),
                         .chooseOne(player: "p2", options: [
-                            .missed: .discardHand(.missed, player: "p2"),
-                            .pass: .damage(1, player: "p2")
+                            .missed: .playImmediate(.missed, player: "p2"),
+                            .pass: .group([])
                         ]),
-                        .discardHand(.missed, player: "p2")
+                        .playImmediate(.missed, player: "p2"),
+                        .cancel(.damage(1, player: "p2"))
                     ]
                 }
             }

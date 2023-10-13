@@ -75,4 +75,7 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Cancel some queued effect
     case cancel(ArgCancel)
+
+    /// Expose a choice of play a card or pass
+    case chooseOnePlayOrPass
 }

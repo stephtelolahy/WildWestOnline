@@ -19,7 +19,7 @@ final class WinchesterSpec: QuickSpec {
                             .winchester
                         }
                     }
-                    .setupAttribute(.weapon, 1)
+                    .startAttribute(.weapon, 1)
                     .attribute(.weapon, 1)
                     .ability(.evaluateAttributeOnUpdateInPlay)
                 }

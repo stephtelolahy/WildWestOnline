@@ -19,7 +19,7 @@ final class ScopeSpec: QuickSpec {
                             .scope
                         }
                     }
-                    .setupAttribute(.scope, 0)
+                    .startAttribute(.scope, 0)
                     .attribute(.scope, 0)
                     .ability(.evaluateAttributeOnUpdateInPlay)
                 }

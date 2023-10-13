@@ -77,6 +77,9 @@ private extension CardEffect {
         case let .cancel(arg):
             EffectCancel(arg: arg)
 
+        case .chooseOnePlayOrPass:
+            EffectChooseOnePlayOrPass()
+
         case .evaluateAttributes:
             EffectEvaluateAttributes()
         }

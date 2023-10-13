@@ -11,7 +11,9 @@ struct EffectCancel: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         switch arg {
         case .next:
-            return [.cancel(state.queue[0])]
+            if state.queue.isNotEmpty {
+                return [.cancel(state.queue[0])]
+            }
 
         case let .effectOfCardNamed(cardName):
             if let index = state.queue.firstIndex(where: { $0.isEffectTriggeredByCardNamed(cardName) }) {

@@ -99,8 +99,13 @@ private extension CardList {
                   .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
     }
     
-    static let missed = Card(.missed)
-    
+    static let missed = Card(.missed) {
+        CardEffect.chooseOnePlayOrPass
+            .when(.onShot)
+        CardEffect.cancel(.next)
+            .when(.onPlayImmediate)
+    }
+
     static let gatling = Card(.gatling) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
