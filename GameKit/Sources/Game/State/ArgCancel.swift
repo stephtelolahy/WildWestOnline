@@ -8,9 +8,9 @@
 /// Cancel action argument
 public enum ArgCancel: Codable, Equatable {
 
-    /// Next queued action
-    case next
+    /// effect of shoot action
+    case effectOfShoot
 
-    /// Effect of given card
-    case effectOfCardNamed(String)
+    /// Effect triggered by actor
+    case effectTriggered
 }

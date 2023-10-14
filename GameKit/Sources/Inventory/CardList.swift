@@ -102,7 +102,7 @@ private extension CardList {
     static let missed = Card(.missed) {
         CardEffect.chooseOnePlayOrPass
             .when(.onShot)
-        CardEffect.cancel(.next)
+        CardEffect.cancel(.effectOfShoot)
             .when(.onPlayImmediate, .isOutOfTurn)
     }
 
@@ -130,7 +130,7 @@ private extension CardList {
     static let barrel = Card(.barrel) {
         CardEffect.nothing
             .when(.onPlayEquipment)
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.next))
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
             .when(.onShot)
     }
     
@@ -155,7 +155,7 @@ private extension CardList {
         CardEffect.luck(.regexEscapeFromJail,
                         onSuccess: .discard(.played).target(.actor),
                         onFailure: .group([
-                            .cancel(.effectOfCardNamed(.drawOnSetTurn)),
+                            .cancel(.effectTriggered),
                             .discard(.played).target(.actor),
                             .setTurn.target(.next)
                         ]))
