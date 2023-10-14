@@ -90,7 +90,7 @@ final class MissedSpec: QuickSpec {
                         ]),
                         .playImmediate(.bang, target: "p2", player: "p1"),
                         .chooseOne(player: "p2", options: [
-                            .missed: .playImmediate(.missed, player: "p2"),
+                            .missed: .play(.missed, player: "p2"),
                             .pass: .group([])
                         ]),
                         .playImmediate(.missed, player: "p2"),

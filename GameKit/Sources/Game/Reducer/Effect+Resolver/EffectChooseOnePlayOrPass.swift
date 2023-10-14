@@ -9,7 +9,7 @@ struct EffectChooseOnePlayOrPass: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         [.chooseOne(player: ctx.actor,
                     options: [
-                        ctx.card: .playImmediate(ctx.card, player: ctx.actor),
+                        ctx.card: .play(ctx.card, player: ctx.actor),
                         .pass: .group([])
                     ])
         ]
