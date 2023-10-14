@@ -13,7 +13,7 @@ final class MissedSpec: QuickSpec {
     override func spec() {
         describe("playing missed") {
             context("out of turn") {
-                it("should cancel damage") {
+                it("should cancel shot") {
                     // Given
                     let state = createGameWithCardRef {
                         Player("p1") {
@@ -99,13 +99,6 @@ final class MissedSpec: QuickSpec {
 
                 }
             }
-
-            xcontext("multiple missed") {
-                it("should ask multiple choice") {
-
-                }
-            }
         }
-
     }
 }

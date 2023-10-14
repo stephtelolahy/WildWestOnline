@@ -18,6 +18,8 @@ struct EffectCancel: EffectResolver {
         case .effectTriggered:
             if let index = state.queue.firstIndex(where: { $0.isEffectTriggeredBy(ctx.actor) }) {
                 return [.cancel(state.queue[index])]
+            } else {
+                fatalError("nothing to cancel")
             }
         }
 
