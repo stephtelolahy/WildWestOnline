@@ -54,6 +54,8 @@ private extension PlayReq {
             IsCardPlayedMaxTimes(cardName: cardName, playedMaxTimes: playedMaxTimes)
         case .isYourTurn:
             IsCurrentTurn()
+        case .isOutOfTurn:
+            IsOutOfTurn()
         }
     }
 }

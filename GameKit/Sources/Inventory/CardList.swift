@@ -103,7 +103,7 @@ private extension CardList {
         CardEffect.chooseOnePlayOrPass
             .when(.onShot)
         CardEffect.cancel(.next)
-            .when(.onPlayImmediate)
+            .when(.onPlayImmediate, .isOutOfTurn)
     }
 
     static let gatling = Card(.gatling) {

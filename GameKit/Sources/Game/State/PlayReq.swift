@@ -49,4 +49,7 @@ public enum PlayReq: Codable, Equatable {
 
     /// Is actor the current turn
     case isYourTurn
+
+    /// Is not the current actor's turn
+    case isOutOfTurn
 }

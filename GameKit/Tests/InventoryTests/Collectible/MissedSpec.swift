@@ -1,6 +1,6 @@
 //
 //  MissedSpec.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 12/10/2023.
 //
@@ -11,9 +11,58 @@ import Game
 
 final class MissedSpec: QuickSpec {
     override func spec() {
-        describe("playing bang") {
-            context("having missed") {
-                it("should ask to counter or pass") {
+        describe("playing missed") {
+            context("out of turn") {
+                it("should cancel damage") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .missed
+                            }
+                        }
+                    }
+                        .queue([.damage(1, player: "p1")])
+
+                    // When
+                    let action = GameAction.play(.missed, player: "p1")
+                    let (result, _) = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(result) == [
+                        .playImmediate(.missed, player: "p1"),
+                        .cancel(.damage(1, player: "p1"))
+                    ]
+                }
+            }
+
+            context("your turn") {
+                it("should throw error") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .missed
+                            }
+                        }
+                    }
+                        .turn("p1")
+                        .queue([.damage(1, player: "p1")])
+
+                    // When
+                    let action = GameAction.play(.missed, player: "p1")
+                    let (_, error) = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(error) == .noReq(.isOutOfTurn)
+
+                }
+            }
+        }
+
+        describe("triggering missed") {
+            context("single missed") {
+                it("should ask choice") {
                     // Given
                     let state = createGameWithCardRef {
                         Player("p1") {
@@ -47,8 +96,16 @@ final class MissedSpec: QuickSpec {
                         .playImmediate(.missed, player: "p2"),
                         .cancel(.damage(1, player: "p2"))
                     ]
+
+                }
+            }
+
+            xcontext("multiple missed") {
+                it("should ask multiple choice") {
+
                 }
             }
         }
+
     }
 }
