@@ -32,7 +32,7 @@ final class GatlingSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.gatling, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: [.missed, .pass], state: state)
+                    let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
                     
                     // Then
                     expect(result) == [
@@ -42,9 +42,6 @@ final class GatlingSpec: QuickSpec {
                             .pass: .damage(1, player: "p2")
                         ]),
                         .discardHand(.missed, player: "p2"),
-                        .chooseOne(player: "p3", options: [
-                            .pass: .damage(1, player: "p3")
-                        ]),
                         .damage(1, player: "p3")
                     ]
                 }
