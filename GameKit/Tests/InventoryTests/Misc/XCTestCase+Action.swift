@@ -15,7 +15,6 @@ extension XCTestCase {
         _ action: GameAction,
         choices: [String] = [],
         state: GameState,
-        continueOnQueueEmpty: Bool = true,
         timeout: TimeInterval = 0.1,
         file: StaticString = #file,
         line: UInt = #line
@@ -25,9 +24,7 @@ extension XCTestCase {
         var events: [GameAction] = []
         var ocurredError: GameError?
         let expectation = XCTestExpectation(description: "Awaiting game idle")
-        if continueOnQueueEmpty {
-            expectation.isInverted = true
-        }
+        expectation.isInverted = true
 
         let cancellable = store.$state.dropFirst(1).sink { state in
             if let event = state.event,
@@ -57,11 +54,6 @@ extension XCTestCase {
                 }
                 return
             }
-
-            if !continueOnQueueEmpty,
-               state.queue.isEmpty {
-                expectation.fulfill()
-            }
         }
 
         store.dispatch(action)
@@ -71,6 +63,7 @@ extension XCTestCase {
 
         XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
+        XCTAssertTrue(choices.isEmpty, "Choices must be empty", file: file, line: line)
 
         return (events, ocurredError)
     }
