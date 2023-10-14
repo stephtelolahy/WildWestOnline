@@ -11,6 +11,6 @@ public enum ArgCancel: Codable, Equatable {
     /// effect of shoot action
     case effectOfShoot
 
-    /// Effect triggered by actor
-    case effectTriggered
+    /// Effect of a card
+    case effectOfCard(String)
 }

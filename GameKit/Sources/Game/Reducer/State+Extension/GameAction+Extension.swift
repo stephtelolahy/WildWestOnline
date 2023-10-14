@@ -15,6 +15,15 @@ extension GameAction {
         }
     }
 
+    func isEffectOfCard(_ cardName: String) -> Bool {
+        if case let .effect(_, ctx) = self,
+           ctx.card.extractName() == cardName {
+            true
+        } else {
+            false
+        }
+    }
+
     func isEffectOfShootOn(_ player: String) -> Bool {
         if case let .damage(_, target) = self,
            target == player {

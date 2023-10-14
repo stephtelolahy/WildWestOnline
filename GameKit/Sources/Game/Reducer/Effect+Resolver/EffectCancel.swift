@@ -15,11 +15,9 @@ struct EffectCancel: EffectResolver {
                 return [.cancel(state.queue[index])]
             }
 
-        case .effectTriggered:
-            if let index = state.queue.firstIndex(where: { $0.isEffectTriggeredBy(ctx.actor) }) {
+        case let .effectOfCard(cardName):
+            if let index = state.queue.firstIndex(where: { $0.isEffectOfCard(cardName) }) {
                 return [.cancel(state.queue[index])]
-            } else {
-                fatalError("nothing to cancel")
             }
         }
 

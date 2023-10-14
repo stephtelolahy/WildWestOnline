@@ -155,7 +155,7 @@ private extension CardList {
         CardEffect.luck(.regexEscapeFromJail,
                         onSuccess: .discard(.played).target(.actor),
                         onFailure: .group([
-                            .cancel(.effectTriggered),
+                            .cancel(.effectOfCard(.drawOnSetTurn)),
                             .discard(.played).target(.actor),
                             .setTurn.target(.next)
                         ]))
