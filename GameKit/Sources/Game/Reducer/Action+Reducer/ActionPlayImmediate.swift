@@ -20,8 +20,7 @@ struct ActionPlayImmediate: GameActionReducer {
         state.incrementPlayCounter(for: card.extractName())
 
         // queue triggered effect
-        state.queueOnPlayEffect(playReq: .onPlayImmediate,
-                                card: card,
+        state.queueOnPlayEffect(card: card,
                                 player: player,
                                 target: target,
                                 state: state)

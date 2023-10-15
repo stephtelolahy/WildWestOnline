@@ -1,6 +1,6 @@
 //
 //  CardEffect+Modifiers.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 23/04/2023.
 //
@@ -9,27 +9,31 @@ public extension CardEffect {
     func `repeat`(_ times: ArgNum) -> Self {
         .repeat(times, effect: self)
     }
-    
+
     func `repeat`(_ times: Int) -> Self {
         .repeat(.exact(times), effect: self)
     }
-    
+
+    func require(_ condition: StateCondition) -> Self {
+        .require(condition, effect: self)
+    }
+
     func target(_ target: ArgPlayer) -> Self {
         .target(target, effect: self)
     }
 
-    func otherwise(_ effect: Self) -> Self {
-        .force(self, otherwise: effect)
+    func force(_ otherwise: Self) -> Self {
+        .force(self, otherwise: otherwise)
     }
 
     func challenge(_ challenger: ArgPlayer, otherwise: Self) -> Self {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
-    
-    func when(_ playReqs: PlayReq...) -> CardRule {
-        .init(playReqs: playReqs, effect: self)
+
+    func when(_ playReq: PlayReq) -> CardRule {
+        .init(playReq: playReq, effect: self)
     }
-    
+
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
         .group(content())
     }

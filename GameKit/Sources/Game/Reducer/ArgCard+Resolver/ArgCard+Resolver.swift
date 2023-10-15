@@ -86,8 +86,8 @@ private extension ArgCard {
             CardPlayed()
         case .previousInPlayWithAttribute(let key):
             CardPreviousInPlayWithAttribute(key: key)
-        default:
-            fatalError("No resolver found for \(self)")
+        case .id:
+            fatalError("unexpected")
         }
     }
 }

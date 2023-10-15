@@ -32,7 +32,7 @@ public enum CardList {
         mustang
         endTurn
         drawOnSetTurn
-        eliminateOnLooseLastHealth
+        eliminateOnDamageLethal
         nextTurnOnEliminated
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
@@ -47,7 +47,8 @@ private extension CardList {
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
-            .when(.onPlayImmediate, .isPlayersAtLeast(3))
+            .require(.isPlayersAtLeast(3))
+            .when(.onPlayImmediate)
     }
     
     static let saloon = Card(.saloon) {
@@ -95,27 +96,27 @@ private extension CardList {
     static let bang = Card(.bang) {
         CardEffect.shoot
             .target(.selectReachable)
-            .when(.onPlayImmediate,
-                  .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
+            .require(.isCardPlayedLessThan(.bang, .playerAttr(.bangsPerTurn)))
+            .when(.onPlayImmediate)
     }
     
     static let missed = Card(.missed) {
         CardEffect.chooseOnePlayOrPass
             .when(.onShot)
         CardEffect.cancel(.effectOfShoot)
-            .when(.onPlayImmediate, .isOutOfTurn)
+            .require(.isOutOfTurn)
+            .when(.onPlayImmediate)
     }
 
     static let gatling = Card(.gatling) {
-        CardEffect.discard(.selectHandNamed(.missed))
-            .otherwise(.damage(1))
+        CardEffect.shoot
             .target(.others)
             .when(.onPlayImmediate)
     }
     
     static let indians = Card(.indians) {
         CardEffect.discard(.selectHandNamed(.bang))
-            .otherwise(.damage(1))
+            .force(.damage(1))
             .target(.others)
             .when(.onPlayImmediate)
     }
@@ -166,7 +167,6 @@ private extension CardList {
 
     static let equipement = Card(String()) {
         CardEffect.nothing
-            .target(.actor)
             .when(.onPlayEquipment)
     }
     
@@ -204,16 +204,16 @@ private extension CardList {
             .when(.onSetTurn)
     }
     
-    static let eliminateOnLooseLastHealth = Card(.eliminateOnLooseLastHealth) {
+    static let eliminateOnDamageLethal = Card(.eliminateOnDamageLethal) {
         CardEffect.eliminate
             .target(.actor)
-            .when(.onLooseLastHealth)
+            .when(.onDamageLethal)
     }
     
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
         CardEffect.setTurn
             .target(.next)
-            .when(.onEliminated, .isYourTurn)
+            .when(.onEliminatedYourTurn)
     }
     
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
@@ -225,7 +225,7 @@ private extension CardList {
     static let discardPreviousWeaponOnPlayWeapon = Card(.discardPreviousWeaponOnPlayWeapon) {
         CardEffect.discard(.previousInPlayWithAttribute(.weapon))
             .target(.actor)
-            .when(.onPlayEquipmentWithAttribute(.weapon))
+            .when(.onPlayWeapon)
     }
 
     static let evaluateAttributeOnUpdateInPlay = Card(.evaluateAttributeOnUpdateInPlay) {

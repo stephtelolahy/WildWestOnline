@@ -15,8 +15,7 @@ struct ActionPlayAbility: GameActionReducer {
         state.incrementPlayCounter(for: card)
 
         // queue triggered effect
-        state.queueOnPlayEffect(playReq: .onPlayAbility,
-                                card: card,
+        state.queueOnPlayEffect(card: card,
                                 player: player,
                                 state: state)
 

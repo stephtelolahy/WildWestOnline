@@ -100,8 +100,8 @@ private extension ArgPlayer {
             PlayerAll()
         case .others:
             PlayerOthers()
-        default:
-            fatalError("No resolver found for \(self)")
+        case .id:
+            fatalError("unexpected")
         }
     }
 }
