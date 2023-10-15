@@ -8,9 +8,9 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// Permanent attributes
+    /// Card attributes
     public let attributes: Attributes
 
-    /// Rules defining actions that can be performed with the card
+    /// Actions that can be performed with the card
     public let rules: [PlayReq: CardEffect]
 }
