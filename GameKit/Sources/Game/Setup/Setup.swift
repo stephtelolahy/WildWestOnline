@@ -25,7 +25,7 @@ public enum Setup {
             player.abilities = abilities + figure.abilities
 
             guard let health = player.attributes[.maxHealth] else {
-                fatalError("undefined max health")
+                fatalError("missing attribute maxHealth")
             }
 
             player.health = health
