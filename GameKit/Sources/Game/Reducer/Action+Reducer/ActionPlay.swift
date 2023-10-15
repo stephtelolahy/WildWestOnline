@@ -23,17 +23,18 @@ struct ActionPlay: GameActionReducer {
             throw GameError.cardNotPlayable(card)
         }
 
-        // verify requirements
-        // TODO: verify requirement
-        let playerContext = ArgPlayerContext(actor: player)
-//        let playReqContext = PlayReqContext(actor: player)
-//        for playReq in playRule.playReqs where !PlayReq.onPlayReqs.contains(playReq) {
-//            try playReq.match(state: state, ctx: playReqContext)
-//        }
+        var sideEffect = playRule.value
+
+        // resolve condition
+        if case let .require(condition, childEffect) = sideEffect {
+            let playerContext = PlayReqContext(actor: player)
+            try condition.match(state: state, ctx: playerContext)
+            sideEffect = childEffect
+        }
 
         // resolve target
-        let sideEffect = playRule.value
         if case let .target(requiredTarget, _) = sideEffect {
+            let playerContext = ArgPlayerContext(actor: player)
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: playerContext)
             if case let .selectable(pIds) = resolvedTarget {
                 var state = state
@@ -91,17 +92,22 @@ extension GameState {
             return
         }
 
-        var ctx = EffectContext(actor: player, card: card)
-        let playerContext = ArgPlayerContext(actor: player)
-
         var sideEffect = playRule.value
-        if case let .target(requiredTarget, childEffect) = sideEffect,
-           let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
-           case .selectable = resolvedTarget {
-            if let target {
-                ctx.target = target
-            }
+        var ctx = EffectContext(actor: player, card: card)
+
+        if case let .require(_, childEffect) = sideEffect {
             sideEffect = childEffect
+        }
+
+        if case let .target(requiredTarget, childEffect) = sideEffect {
+            let playerContext = ArgPlayerContext(actor: player)
+            if let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
+               case .selectable = resolvedTarget {
+                if let target {
+                    ctx.target = target
+                }
+                sideEffect = childEffect
+            }
         }
 
         let triggered = GameAction.effect(sideEffect, ctx: ctx)

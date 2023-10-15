@@ -1,12 +1,12 @@
 //
-//  SateCondition.swift
+//  StateCondition.swift
 //  
 //
 //  Created by Hugues Telolahy on 03/04/2023.
 //
 
 /// Function defining state constraints to play a card
-public enum SateCondition: Codable, Equatable {
+public enum StateCondition: Codable, Equatable {
 
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)

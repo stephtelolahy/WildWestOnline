@@ -30,7 +30,7 @@ final class CardSpec: QuickSpec {
                 {
                     "name": "c1",
                     "attributes": {},
-                    "rules": []
+                    "rules": {}
                 }
                 """
                 // swiftlint:disable:next: force_unwrapping

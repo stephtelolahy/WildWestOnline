@@ -1,11 +1,11 @@
 //
-//  SateCondition+Matcher.swift
+//  StateCondition+Matcher.swift
 //
 //
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-extension SateCondition {
+extension StateCondition {
     func match(state: GameState, ctx: PlayReqContext) throws {
         let matched = matcher().match(state: state, ctx: ctx)
         guard matched else {
@@ -14,7 +14,7 @@ extension SateCondition {
     }
 }
 
-private extension SateCondition {
+private extension StateCondition {
     func matcher() -> PlayReqMatcher {
         switch self {
         case let .isPlayersAtLeast(minCount):

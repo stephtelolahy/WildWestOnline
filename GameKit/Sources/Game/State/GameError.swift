@@ -37,7 +37,7 @@ public enum GameError: Error, Codable, Equatable {
     case noPlayer(ArgPlayer)
 
     /// Not matching requirement
-    case noReq(SateCondition)
+    case noReq(StateCondition)
 
     /// No valid chooseOne option
     case noValidOption
