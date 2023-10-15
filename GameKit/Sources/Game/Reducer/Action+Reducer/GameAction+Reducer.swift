@@ -65,8 +65,8 @@ private extension GameAction {
             ActionChooseOne(chooser: player, options: options)
         case let .activateCards(player, cards):
             ActionActivateCards(player: player, cards: cards)
-        case let .cancel(arg):
-            ActionCancel(arg: arg)
+        case let .cancel(action):
+            ActionCancel(action: action)
         case let .setGameOver(winner):
             ActionSetGameOver(winner: winner)
         case let .setAttribute(key, value, player):

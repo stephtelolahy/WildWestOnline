@@ -36,7 +36,7 @@ final class SetupGameSpec: QuickSpec {
                 it("should create a game with given player number") {
                     expect(game.players.count) == 2
                     expect(game.playOrder).to(contain(["p1", "p2"]))
-                    expect(game.setupOrder).to(contain(["p1", "p2"]))
+                    expect(game.startOrder).to(contain(["p1", "p2"]))
                 }
 
                 it("should set players to max health") {
@@ -65,8 +65,8 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set setupAttributes") {
-                    expect(game.player("p1").setupAttributes[.startTurnCards]) == 2
-                    expect(game.player("p2").setupAttributes[.startTurnCards]) == 3
+                    expect(game.player("p1").startAttributes[.startTurnCards]) == 2
+                    expect(game.player("p2").startAttributes[.startTurnCards]) == 3
                 }
             }
         }

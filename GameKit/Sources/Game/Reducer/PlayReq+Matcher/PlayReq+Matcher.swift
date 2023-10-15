@@ -11,7 +11,6 @@ protocol PlayReqMatcher {
 
 struct PlayReqContext {
     let actor: String
-    let card: String
 }
 
 extension PlayReq {
@@ -41,18 +40,22 @@ private extension PlayReq {
             OnPlayAbility()
         case .onPlayEquipment:
             OnPlayEquipment()
-        case let .onForceDiscardHandNamed(cardName):
-            OnForceDiscardHandNamed(cardName: cardName)
+        case .onShot:
+            OnShot()
+        case let .onForceDiscardHand(cardName):
+            OnForceDiscardHand(cardName: cardName)
         case let .onPlayEquipmentWithAttribute(key):
             OnPlayEquipmentWithAttribute(key: key)
         case .onUpdateInPlay:
             OnUpdateInPlay()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
-        case let .isMaxTimesPerTurn(maxTimes):
-            IsMaxTimesPerTurn(maxTimes: maxTimes)
+        case let .isCard(cardName, playedMaxTimes):
+            IsCardPlayedMaxTimes(cardName: cardName, playedMaxTimes: playedMaxTimes)
         case .isYourTurn:
             IsCurrentTurn()
+        case .isOutOfTurn:
+            IsOutOfTurn()
         }
     }
 }

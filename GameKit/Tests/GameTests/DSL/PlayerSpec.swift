@@ -157,7 +157,7 @@ final class PlayerSpec: QuickSpec {
                     "name": "n1",
                     "health": 2,
                     "abilities": ["endTurn"],
-                    "setupAttributes": {},
+                    "startAttributes": {},
                     "attributes": {
                         "maxHealth": 4,
                         "mustang": 0,

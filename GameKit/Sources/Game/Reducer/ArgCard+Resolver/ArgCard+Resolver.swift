@@ -12,7 +12,7 @@ protocol ArgCardResolver {
 struct ArgCardContext {
     let owner: String
     let chooser: String
-    let playedCard: String
+    let played: String
 }
 
 extension ArgCard {

@@ -63,7 +63,7 @@ final class BarrelSpec: QuickSpec {
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
-                            .cancel(.next)
+                            .cancel(.damage(1, player: "p2"))
                         ]
                     }
                 }
@@ -91,15 +91,12 @@ final class BarrelSpec: QuickSpec {
                         
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-                        let (result, _) = self.awaitAction(action, choices: [.pass], state: state)
+                        let (result, _) = self.awaitAction(action, state: state)
 
                         // Then
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
-                            .chooseOne(player: "p2", options: [
-                                .pass: .damage(1, player: "p2")
-                            ]),
                             .damage(1, player: "p2")
                         ]
                     }
@@ -138,7 +135,7 @@ final class BarrelSpec: QuickSpec {
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .luck,
                             .luck,
-                            .cancel(.next)
+                            .cancel(.damage(1, player: "p2"))
                         ]
                     }
                 }

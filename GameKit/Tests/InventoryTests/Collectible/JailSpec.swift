@@ -109,7 +109,6 @@ final class JailSpec: QuickSpec {
                     // Then
                     expect(result) == [.setTurn("p1"),
                                        .luck,
-                                       .cancel(.effectOfCardNamed(.drawOnSetTurn)),
                                        .discardInPlay(.jail, player: "p1"),
                                        .setTurn("p2"),
                                        .draw(player: "p2"),

@@ -26,6 +26,9 @@ private extension CardEffect {
         case let .damage(value):
             EffectJust { .damage(value, player: $0.target!) }
 
+        case .shoot:
+            EffectJust { .damage(1, player: $0.target!) }
+
         case .draw:
             EffectJust { .draw(player: $0.target!) }
 
@@ -72,7 +75,10 @@ private extension CardEffect {
             EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
             
         case let .cancel(arg):
-            EffectJust { _ in .cancel(arg) }
+            EffectCancel(arg: arg)
+
+        case .chooseOnePlayOrPass:
+            EffectChooseOnePlayOrPass()
 
         case .evaluateAttributes:
             EffectEvaluateAttributes()

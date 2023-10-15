@@ -7,7 +7,7 @@
 
 extension Player: GameAttribute {
     public func apply(to game: inout GameState) {
-        game.setupOrder.append(id)
+        game.startOrder.append(id)
         game.playOrder.append(id)
         game.players[id] = self
     }

@@ -42,8 +42,8 @@ public enum CardList {
 
 private extension CardList {
     
-    // MARK: - Collectibles
-    
+    // MARK: - Collectibles - Brown
+
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
@@ -93,14 +93,19 @@ private extension CardList {
     }
     
     static let bang = Card(.bang) {
-        CardEffect.discard(.selectHandNamed(.missed))
-            .otherwise(.damage(1))
+        CardEffect.shoot
             .target(.selectReachable)
-            .when(.onPlayImmediate, .isMaxTimesPerTurn(.playerAttr(.bangsPerTurn)))
+            .when(.onPlayImmediate,
+                  .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
     }
     
-    static let missed = Card(.missed)
-    
+    static let missed = Card(.missed) {
+        CardEffect.chooseOnePlayOrPass
+            .when(.onShot)
+        CardEffect.cancel(.effectOfShoot)
+            .when(.onPlayImmediate, .isOutOfTurn)
+    }
+
     static let gatling = Card(.gatling) {
         CardEffect.discard(.selectHandNamed(.missed))
             .otherwise(.damage(1))
@@ -125,8 +130,8 @@ private extension CardList {
     static let barrel = Card(.barrel) {
         CardEffect.nothing
             .when(.onPlayEquipment)
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.next))
-            .when(.onForceDiscardHandNamed(.missed))
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
+            .when(.onShot)
     }
     
     static let dynamite = Card(.dynamite) {
@@ -141,8 +146,8 @@ private extension CardList {
         .when(.onSetTurn)
     }
     
-    // MARK: - Handicap
-    
+    // MARK: - Collectibles - Handicap
+
     static let jail = Card(.jail) {
         CardEffect.nothing
             .target(.selectAny)
@@ -150,15 +155,15 @@ private extension CardList {
         CardEffect.luck(.regexEscapeFromJail,
                         onSuccess: .discard(.played).target(.actor),
                         onFailure: .group([
-                            .cancel(.effectOfCardNamed(.drawOnSetTurn)),
+                            .cancel(.effectOfCard(.drawOnSetTurn)),
                             .discard(.played).target(.actor),
                             .setTurn.target(.next)
                         ]))
         .when(.onSetTurn)
     }
     
-    // MARK: - Equipement
-    
+    // MARK: - Collectibles - Equipment
+
     static let equipement = Card(String()) {
         CardEffect.nothing
             .target(.actor)

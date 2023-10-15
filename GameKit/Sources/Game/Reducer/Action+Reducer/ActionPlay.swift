@@ -28,7 +28,7 @@ struct ActionPlay: GameActionReducer {
 
         // verify requirements
         let playerContext = ArgPlayerContext(actor: player)
-        let playReqContext = PlayReqContext(actor: player, card: card)
+        let playReqContext = PlayReqContext(actor: player)
         for playReq in playRule.playReqs where !onPlayReqs.contains(playReq) {
             try playReq.match(state: state, ctx: playReqContext)
         }

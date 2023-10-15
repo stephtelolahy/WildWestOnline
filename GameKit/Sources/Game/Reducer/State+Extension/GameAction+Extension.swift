@@ -6,18 +6,27 @@
 //
 
 extension GameAction {
-    func isEffectTriggeredByCardNamed(_ cardName: String) -> Bool {
+    func isEffectTriggeredBy(_ player: String) -> Bool {
         if case let .effect(_, ctx) = self,
-           ctx.card == cardName {
+           ctx.actor == player {
             true
         } else {
             false
         }
     }
 
-    func isEffectTriggeredByPlayer(_ player: String) -> Bool {
+    func isEffectOfCard(_ cardName: String) -> Bool {
         if case let .effect(_, ctx) = self,
-           ctx.actor == player {
+           ctx.card.extractName() == cardName {
+            true
+        } else {
+            false
+        }
+    }
+
+    func isEffectOfShootOn(_ player: String) -> Bool {
+        if case let .damage(_, target) = self,
+           target == player {
             true
         } else {
             false

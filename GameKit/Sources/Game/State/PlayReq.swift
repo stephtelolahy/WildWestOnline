@@ -29,8 +29,11 @@ public enum PlayReq: Codable, Equatable {
     /// After being eliminated
     case onEliminated
 
+    /// After being targeted by a shot
+    case onShot
+
     /// After being forced to discard hand card named X
-    case onForceDiscardHandNamed(String)
+    case onForceDiscardHand(String)
 
     /// After playing an equipement with given attribute
     case onPlayEquipmentWithAttribute(AttributeKey)
@@ -42,8 +45,11 @@ public enum PlayReq: Codable, Equatable {
     case isPlayersAtLeast(Int)
 
     /// The maximum times per turn a card may be played is X
-    case isMaxTimesPerTurn(ArgNum)
+    case isCard(String, playedLessThan: ArgNum)
 
     /// Is actor the current turn
     case isYourTurn
+
+    /// Is not the current actor's turn
+    case isOutOfTurn
 }

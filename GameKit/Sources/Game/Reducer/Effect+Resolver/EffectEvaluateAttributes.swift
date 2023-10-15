@@ -14,7 +14,7 @@ struct EffectEvaluateAttributes: EffectResolver {
 
         let keys = AttributeKey.allCases
         for key in keys {
-            guard var expectedValue = playerObj.setupAttributes[key] else {
+            guard var expectedValue = playerObj.startAttributes[key] else {
                 continue
             }
 

@@ -16,6 +16,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Deals damage to a player, attempting to reduce its Health by the stated amount
     case damage(Int)
     
+    /// Shoot a player
+    case shoot
+
     /// Draw top deck card
     case draw
     
@@ -72,4 +75,7 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Cancel some queued effect
     case cancel(ArgCancel)
+
+    /// Expose a choice of play a card or pass
+    case chooseOnePlayOrPass
 }
