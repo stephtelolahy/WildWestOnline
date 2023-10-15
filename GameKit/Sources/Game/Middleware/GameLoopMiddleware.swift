@@ -42,7 +42,7 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> G
     // active players
     for player in state.playOrder {
         let playerObj = state.player(player)
-        let cards = playerObj.inPlay.cards + playerObj.abilities + playerObj.hand.cards
+        let cards = playerObj.inPlay.cards + playerObj.abilities
         for card in cards {
             if let action = triggeredEffect(by: card, player: player, state: state) {
                 triggered.append(action)
