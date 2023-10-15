@@ -25,8 +25,8 @@ private extension PlayReq {
         switch self {
         case .onSetTurn:
             OnSetTurn()
-        case .onLooseLastHealth:
-            OnLooseLastHealth()
+        case .onDamageLethal:
+            OnDamageLethal()
         case .onEliminated:
             OnEliminated()
         case .onEliminatedYourTurn:

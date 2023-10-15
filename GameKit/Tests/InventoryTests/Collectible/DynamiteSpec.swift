@@ -113,7 +113,7 @@ final class DynamiteSpec: QuickSpec {
                                 }
                             }
                             .attribute(.flippedCards, 1)
-                            .ability(.eliminateOnLooseLastHealth)
+                            .ability(.eliminateOnDamageLethal)
                             .ability(.discardCardsOnEliminated)
                             .ability(.nextTurnOnEliminated)
                             .health(3)

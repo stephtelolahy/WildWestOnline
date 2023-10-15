@@ -10,7 +10,7 @@ public enum GameDefault {
     public static let abilities: [String] = [
         .endTurn,
         .drawOnSetTurn,
-        .eliminateOnLooseLastHealth,
+        .eliminateOnDamageLethal,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated,
         .evaluateAttributeOnUpdateInPlay,

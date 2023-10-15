@@ -32,7 +32,7 @@ public enum CardList {
         mustang
         endTurn
         drawOnSetTurn
-        eliminateOnLooseLastHealth
+        eliminateOnDamageLethal
         nextTurnOnEliminated
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
@@ -109,15 +109,14 @@ private extension CardList {
     }
 
     static let gatling = Card(.gatling) {
-        CardEffect.discard(.selectHandNamed(.missed))
-            .otherwise(.damage(1))
+        CardEffect.shoot
             .target(.others)
             .when(.onPlayImmediate)
     }
     
     static let indians = Card(.indians) {
         CardEffect.discard(.selectHandNamed(.bang))
-            .otherwise(.damage(1))
+            .force(.damage(1))
             .target(.others)
             .when(.onPlayImmediate)
     }
@@ -205,10 +204,10 @@ private extension CardList {
             .when(.onSetTurn)
     }
     
-    static let eliminateOnLooseLastHealth = Card(.eliminateOnLooseLastHealth) {
+    static let eliminateOnDamageLethal = Card(.eliminateOnDamageLethal) {
         CardEffect.eliminate
             .target(.actor)
-            .when(.onLooseLastHealth)
+            .when(.onDamageLethal)
     }
     
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {

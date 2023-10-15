@@ -55,7 +55,7 @@ public extension String {
     
     static let endTurn = "endTurn"
     static let drawOnSetTurn = "drawOnSetTurn"
-    static let eliminateOnLooseLastHealth = "eliminateOnLooseLastHealth"
+    static let eliminateOnDamageLethal = "eliminateOnDamageLethal"
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardCardsOnEliminated = "discardCardsOnEliminated"
     static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"

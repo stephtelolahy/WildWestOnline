@@ -22,8 +22,8 @@ public extension CardEffect {
         .target(target, effect: self)
     }
 
-    func otherwise(_ effect: Self) -> Self {
-        .force(self, otherwise: effect)
+    func force(_ otherwise: Self) -> Self {
+        .force(self, otherwise: otherwise)
     }
 
     func challenge(_ challenger: ArgPlayer, otherwise: Self) -> Self {

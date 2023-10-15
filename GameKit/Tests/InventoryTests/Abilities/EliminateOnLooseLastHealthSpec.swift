@@ -19,7 +19,7 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
                     let state = createGameWithCardRef {
                         Player("p1")
                             .health(1)
-                            .ability(.eliminateOnLooseLastHealth)
+                            .ability(.eliminateOnDamageLethal)
                         Player("p2")
                         Player("p3")
                     }
@@ -42,7 +42,7 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
                     let state = createGameWithCardRef {
                         Player("p1")
                             .health(2)
-                            .ability(.eliminateOnLooseLastHealth)
+                            .ability(.eliminateOnDamageLethal)
                     }
 
                     // When
