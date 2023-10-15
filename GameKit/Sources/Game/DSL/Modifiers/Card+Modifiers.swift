@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Card {
-    
+
     init(
         _ name: String,
         attributes: Attributes = [:],
@@ -17,6 +17,9 @@ public extension Card {
         self.name = name
         self.attributes = attributes
         self.rules = content()
+            .reduce(into: [PlayReq: CardEffect]()) { result, rule in
+                result[rule.playReq] = rule.effect
+            }
     }
 
     init(

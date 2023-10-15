@@ -2,11 +2,11 @@
 //  PlayReq.swift
 //  
 //
-//  Created by Hugues Telolahy on 03/04/2023.
+//  Created by Hugues Telolahy on 15/10/2023.
 //
 
-/// Function defining state constraints to play a card
-public enum PlayReq: Codable, Equatable {
+/// Occurred event  triggering card effect
+public enum PlayReq: String, CodingKeyRepresentable, Codable, Equatable {
 
     /// After playing an immediate effect card, then the card is discarded
     case onPlayImmediate
@@ -32,24 +32,9 @@ public enum PlayReq: Codable, Equatable {
     /// After being targeted by a shot
     case onShot
 
-    /// After being forced to discard hand card named X
-    case onForceDiscardHand(String)
-
-    /// After playing an equipement with given attribute
-    case onPlayEquipmentWithAttribute(AttributeKey)
-
     /// After adding or removing card inPlay
     case onUpdateInPlay
 
-    /// The minimum number of active players is X
-    case isPlayersAtLeast(Int)
-
-    /// The maximum times per turn a card may be played is X
-    case isCard(String, playedLessThan: ArgNum)
-
-    /// Is actor the current turn
-    case isYourTurn
-
-    /// Is not the current actor's turn
-    case isOutOfTurn
+    /// After playing a weapon
+    case onPlayWeapon
 }

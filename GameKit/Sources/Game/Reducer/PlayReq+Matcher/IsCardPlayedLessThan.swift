@@ -1,11 +1,11 @@
 //
-//  IsCardPlayedMaxTimes.swift
+//  IsCardPlayedLessThan.swift
 //  
 //
 //  Created by Hugues Telolahy on 17/04/2023.
 //
 
-struct IsCardPlayedMaxTimes: PlayReqMatcher {
+struct IsCardPlayedLessThan: PlayReqMatcher {
     let cardName: String
     let playedMaxTimes: ArgNum
 

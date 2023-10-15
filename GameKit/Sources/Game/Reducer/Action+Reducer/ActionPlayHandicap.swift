@@ -27,8 +27,7 @@ struct ActionPlayHandicap: GameActionReducer {
         state.incrementPlayCounter(for: cardName)
 
         // queue triggered effect
-        state.queueOnPlayEffect(playReq: .onPlayHandicap,
-                                card: card,
+        state.queueOnPlayEffect(card: card,
                                 player: player,
                                 target: target,
                                 state: state)

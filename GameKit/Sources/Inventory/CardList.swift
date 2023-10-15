@@ -47,7 +47,7 @@ private extension CardList {
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
-            .when(.onPlayImmediate, .isPlayersAtLeast(3))
+            .when(.onPlayImmediate)// TODO: , .isPlayersAtLeast(3))
     }
     
     static let saloon = Card(.saloon) {
@@ -95,15 +95,15 @@ private extension CardList {
     static let bang = Card(.bang) {
         CardEffect.shoot
             .target(.selectReachable)
-            .when(.onPlayImmediate,
-                  .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
+            .when(.onPlayImmediate)
+                  // TODO: .isCard(.bang, playedLessThan: .playerAttr(.bangsPerTurn)))
     }
     
     static let missed = Card(.missed) {
         CardEffect.chooseOnePlayOrPass
             .when(.onShot)
         CardEffect.cancel(.effectOfShoot)
-            .when(.onPlayImmediate, .isOutOfTurn)
+            .when(.onPlayImmediate) // TODO: , .isOutOfTurn)
     }
 
     static let gatling = Card(.gatling) {
@@ -166,7 +166,6 @@ private extension CardList {
 
     static let equipement = Card(String()) {
         CardEffect.nothing
-            .target(.actor)
             .when(.onPlayEquipment)
     }
     
@@ -213,7 +212,7 @@ private extension CardList {
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
         CardEffect.setTurn
             .target(.next)
-            .when(.onEliminated, .isYourTurn)
+            .when(.onEliminated) // TODO: , .isYourTurn)
     }
     
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
@@ -225,7 +224,7 @@ private extension CardList {
     static let discardPreviousWeaponOnPlayWeapon = Card(.discardPreviousWeaponOnPlayWeapon) {
         CardEffect.discard(.previousInPlayWithAttribute(.weapon))
             .target(.actor)
-            .when(.onPlayEquipmentWithAttribute(.weapon))
+            .when(.onPlayWeapon)
     }
 
     static let evaluateAttributeOnUpdateInPlay = Card(.evaluateAttributeOnUpdateInPlay) {

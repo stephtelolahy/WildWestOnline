@@ -1,8 +1,8 @@
 //
 //  PlayReq+Matcher.swift
+//  
 //
-//
-//  Created by Hugues Telolahy on 09/04/2023.
+//  Created by Hugues Telolahy on 15/10/2023.
 //
 
 protocol PlayReqMatcher {
@@ -14,16 +14,12 @@ struct PlayReqContext {
 }
 
 extension PlayReq {
-    func match(state: GameState, ctx: PlayReqContext) throws {
-        let matched = matcher().match(state: state, ctx: ctx)
-        guard matched else {
-            throw GameError.noReq(self)
-        }
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
+        matcher().match(state: state, ctx: ctx)
     }
 }
 
 private extension PlayReq {
-    // swiftlint:disable:next cyclomatic_complexity
     func matcher() -> PlayReqMatcher {
         switch self {
         case .onSetTurn:
@@ -42,20 +38,10 @@ private extension PlayReq {
             OnPlayEquipment()
         case .onShot:
             OnShot()
-        case let .onForceDiscardHand(cardName):
-            OnForceDiscardHand(cardName: cardName)
-        case let .onPlayEquipmentWithAttribute(key):
-            OnPlayEquipmentWithAttribute(key: key)
         case .onUpdateInPlay:
             OnUpdateInPlay()
-        case let .isPlayersAtLeast(minCount):
-            IsPlayersAtLeast(minCount: minCount)
-        case let .isCard(cardName, playedMaxTimes):
-            IsCardPlayedMaxTimes(cardName: cardName, playedMaxTimes: playedMaxTimes)
-        case .isYourTurn:
-            IsCurrentTurn()
-        case .isOutOfTurn:
-            IsOutOfTurn()
+        case .onPlayWeapon:
+            OnPlayWeapon()
         }
     }
 }

@@ -8,18 +8,9 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// Card attributes
+    /// Permanent attributes
     public let attributes: Attributes
 
     /// Rules defining actions that can be performed with the card
-    public let rules: [CardRule]
-}
-
-public struct CardRule: Codable, Equatable {
-
-    /// Conditions to play a card
-    let playReqs: [PlayReq]
-
-    /// Card Side-effect
-    let effect: CardEffect
+    public let rules: [PlayReq: CardEffect]
 }

@@ -17,31 +17,29 @@ struct ActionPlay: GameActionReducer {
             throw GameError.cardNotPlayable(card)
         }
 
-        let onPlayReqs: [PlayReq] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
-        guard let playRule: CardRule = cardObj.rules.first(where: { rule in
-            rule.playReqs.contains(where: {
-                onPlayReqs.contains($0)
-            })
+        guard let playRule = cardObj.rules.first(where: { rule in
+            PlayReq.onPlays.contains(rule.key)
         }) else {
             throw GameError.cardNotPlayable(card)
         }
 
         // verify requirements
+        // TODO: verify requirement
         let playerContext = ArgPlayerContext(actor: player)
-        let playReqContext = PlayReqContext(actor: player)
-        for playReq in playRule.playReqs where !onPlayReqs.contains(playReq) {
-            try playReq.match(state: state, ctx: playReqContext)
-        }
+//        let playReqContext = PlayReqContext(actor: player)
+//        for playReq in playRule.playReqs where !PlayReq.onPlayReqs.contains(playReq) {
+//            try playReq.match(state: state, ctx: playReqContext)
+//        }
 
         // resolve target
-        let sideEffect = playRule.effect
+        let sideEffect = playRule.value
         if case let .target(requiredTarget, _) = sideEffect {
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: playerContext)
             if case let .selectable(pIds) = resolvedTarget {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    switch playRule.playReqs.first {
+                    switch playRule.key {
                     case .onPlayImmediate:
                             .playImmediate(card, target: $1, player: player)
                     case .onPlayHandicap:
@@ -59,7 +57,7 @@ struct ActionPlay: GameActionReducer {
         }
 
         let action: GameAction =
-        switch playRule.playReqs.first {
+        switch playRule.key {
         case .onPlayImmediate:
                 .playImmediate(card, player: player)
         case .onPlayAbility:
@@ -79,7 +77,6 @@ struct ActionPlay: GameActionReducer {
 
 extension GameState {
     mutating func queueOnPlayEffect(
-        playReq: PlayReq,
         card: String,
         player: String,
         target: String? = nil,
@@ -87,8 +84,8 @@ extension GameState {
     ) {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              let playRule: CardRule = cardObj.rules.first(where: { rule in
-                  rule.playReqs.contains(playReq)
+              let playRule = cardObj.rules.first(where: { rule in
+                  PlayReq.onPlays.contains(rule.key)
               }) else {
             print("!! missing onPlay effects")
             return
@@ -97,7 +94,7 @@ extension GameState {
         var ctx = EffectContext(actor: player, card: card)
         let playerContext = ArgPlayerContext(actor: player)
 
-        var sideEffect = playRule.effect
+        var sideEffect = playRule.value
         if case let .target(requiredTarget, childEffect) = sideEffect,
            let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
            case .selectable = resolvedTarget {
@@ -110,4 +107,8 @@ extension GameState {
         let triggered = GameAction.effect(sideEffect, ctx: ctx)
         queue.insert(triggered, at: 0)
     }
+}
+
+extension PlayReq {
+    static let onPlays: [Self] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
 }
