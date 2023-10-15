@@ -20,6 +20,7 @@ extension PlayReq {
 }
 
 private extension PlayReq {
+    // swiftlint:disable:next cyclomatic_complexity
     func matcher() -> PlayReqMatcher {
         switch self {
         case .onSetTurn:
@@ -28,6 +29,8 @@ private extension PlayReq {
             OnLooseLastHealth()
         case .onEliminated:
             OnEliminated()
+        case .onEliminatedYourTurn:
+            OnEliminatedYourTurn()
         case .onPlayImmediate:
             OnPlayImmediate()
         case .onPlayHandicap:

@@ -214,8 +214,7 @@ private extension CardList {
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
         CardEffect.setTurn
             .target(.next)
-            .require(.isYourTurn)
-            .when(.onEliminated)
+            .when(.onEliminatedYourTurn)
     }
     
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
