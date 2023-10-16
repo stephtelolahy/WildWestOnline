@@ -20,16 +20,16 @@ final class SetupGameSpec: QuickSpec {
                     // Given
                     let deck = Array(1...80).map { "c\($0)" }
                     let figures = [
-                        Figure(name: "p1", attributes: [.maxHealth: 4], abilities: ["a11"]),
-                        Figure(name: "p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
+                        Card("p1", attributes: [.maxHealth: 4]),
+                        Card("p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
                     ]
                     let attributes: Attributes = [.startTurnCards: 2]
                     let abilities = ["a1", "a2"]
 
                     // When
                     game = Setup.buildGame(figures: figures,
-                                           attributes: attributes,
-                                           abilities: abilities,
+                                           defaultAttributes: attributes,
+                                           defaultAbilities: abilities,
                                            deck: deck)
                 }
 
@@ -58,8 +58,8 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set default attributes and abilities") {
-                    expect(game.player("p1").abilities) == ["a1", "a2", "a11"]
-                    expect(game.player("p2").abilities) == ["a1", "a2"]
+                    expect(game.player("p1").abilities) == ["a1", "a2", "p1"]
+                    expect(game.player("p2").abilities) == ["a1", "a2", "p2"]
                     expect(game.player("p1").attributes[.startTurnCards]) == 2
                     expect(game.player("p2").attributes[.startTurnCards]) == 3
                 }

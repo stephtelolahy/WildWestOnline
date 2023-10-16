@@ -7,9 +7,9 @@
 
 public enum Setup {
     public static func buildGame(
-        figures: [Figure],
-        attributes: Attributes,
-        abilities: [String],
+        figures: [Card],
+        defaultAttributes: Attributes,
+        defaultAbilities: [String],
         deck: [String]
     ) -> GameState {
         let figures = figures
@@ -19,10 +19,10 @@ public enum Setup {
             var player = Player(identifier)
             player.name = figure.name
 
-            player.attributes.merge(attributes) { _, new in new }
+            player.attributes.merge(defaultAttributes) { _, new in new }
             player.attributes.merge(figure.attributes) { _, new in new }
             player.startAttributes = player.attributes
-            player.abilities = abilities + figure.abilities
+            player.abilities = defaultAbilities + [figure.name]
 
             guard let health = player.attributes[.maxHealth] else {
                 fatalError("missing attribute maxHealth")
