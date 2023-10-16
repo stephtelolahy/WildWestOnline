@@ -11,9 +11,6 @@ import Redux
 public indirect enum GameAction: Action, Codable, Equatable {
 
     // MARK: - Play
-    
-    /// Resolve playing a card
-    case play(String, player: String)
 
     /// Play a brown card, discard immediately
     case playImmediate(String, target: String? = nil, player: String)
@@ -84,6 +81,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case setGameOver(winner: String)
 
     // MARK: - Invisible actions
+
+    /// Resolve playing a card
+    case play(String, player: String)
 
     /// Resolve an effect
     case effect(CardEffect, ctx: EffectContext)
