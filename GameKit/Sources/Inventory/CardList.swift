@@ -128,16 +128,12 @@ private extension CardList {
             .when(.onPlayImmediate)
     }
     
-    static let barrel = Card(.barrel) {
-        CardEffect.nothing
-            .when(.onPlayEquipment)
+    static let barrel = Card(.barrel, prototype: equipement) {
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
             .when(.onShot)
     }
     
-    static let dynamite = Card(.dynamite) {
-        CardEffect.nothing
-            .when(.onPlayEquipment)
+    static let dynamite = Card(.dynamite, prototype: equipement) {
         CardEffect.luck(.regexPassDynamite,
                         onSuccess: .passInplay(.played, owner: .actor).target(.next),
                         onFailure: .group([
