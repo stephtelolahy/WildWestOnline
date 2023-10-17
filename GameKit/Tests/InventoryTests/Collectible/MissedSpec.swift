@@ -114,11 +114,16 @@ final class MissedSpec: QuickSpec {
                                 .missed
                             }
                         }
+                        Player("p3") {
+                            Hand {
+                                .missed
+                            }
+                        }
                     }
 
                     // When
                     let action = GameAction.play(.gatling, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
+                    let (result, _) = self.awaitAction(action, choices: [.missed, .missed], state: state)
 
                     // Then
                     expect(result) == [
@@ -127,7 +132,14 @@ final class MissedSpec: QuickSpec {
                             .missed: .discardHand(.missed, player: "p2"),
                             .pass: .damage(1, player: "p2")
                         ]),
-                        .discardHand(.missed, player: "p2")
+                        .discardHand(.missed, player: "p2"),
+                        .cancel(.damage(1, player: "p2")),
+                        .chooseOne(player: "p3", options: [
+                            .missed: .discardHand(.missed, player: "p3"),
+                            .pass: .damage(1, player: "p3")
+                        ]),
+                        .discardHand(.missed, player: "p3"),
+                        .cancel(.damage(1, player: "p3"))
                     ]
                 }
             }
