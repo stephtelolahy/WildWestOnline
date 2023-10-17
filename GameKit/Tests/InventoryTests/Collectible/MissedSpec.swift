@@ -129,16 +129,16 @@ final class MissedSpec: QuickSpec {
                     expect(result) == [
                         .playImmediate(.gatling, player: "p1"),
                         .chooseOne(player: "p2", options: [
-                            .missed: .discardHand(.missed, player: "p2"),
-                            .pass: .damage(1, player: "p2")
+                            .missed: .play(.missed, player: "p2"),
+                            .pass: .group([])
                         ]),
-                        .discardHand(.missed, player: "p2"),
+                        .playImmediate(.missed, player: "p2"),
                         .cancel(.damage(1, player: "p2")),
                         .chooseOne(player: "p3", options: [
-                            .missed: .discardHand(.missed, player: "p3"),
-                            .pass: .damage(1, player: "p3")
+                            .missed: .play(.missed, player: "p3"),
+                            .pass: .group([])
                         ]),
-                        .discardHand(.missed, player: "p3"),
+                        .playImmediate(.missed, player: "p3"),
                         .cancel(.damage(1, player: "p3"))
                     ]
                 }
