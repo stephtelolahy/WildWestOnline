@@ -61,7 +61,7 @@ final class MissedSpec: QuickSpec {
         }
 
         describe("triggering missed") {
-            context("single missed") {
+            context("bang") {
                 it("should ask choice") {
                     // Given
                     let state = createGameWithCardRef {
@@ -97,6 +97,38 @@ final class MissedSpec: QuickSpec {
                         .cancel(.damage(1, player: "p2"))
                     ]
 
+                }
+            }
+
+            context("gatling") {
+                it("should allow each player to counter") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .gatling
+                            }
+                        }
+                        Player("p2") {
+                            Hand {
+                                .missed
+                            }
+                        }
+                    }
+
+                    // When
+                    let action = GameAction.play(.gatling, player: "p1")
+                    let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
+
+                    // Then
+                    expect(result) == [
+                        .playImmediate(.gatling, player: "p1"),
+                        .chooseOne(player: "p2", options: [
+                            .missed: .discardHand(.missed, player: "p2"),
+                            .pass: .damage(1, player: "p2")
+                        ]),
+                        .discardHand(.missed, player: "p2")
+                    ]
                 }
             }
         }
