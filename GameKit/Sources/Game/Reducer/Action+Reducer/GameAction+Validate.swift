@@ -15,28 +15,20 @@ extension GameAction {
         for (key, action) in options {
             do {
                 try action.validate(state: state)
+                validOptions[key] = try action.simplifyOption(state: state)
             } catch {
                 print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
                 continue
             }
-
-            validOptions[key] = action
-            if case let .effect(effect, ctx) = action {
-                let childActions = try effect
-                    .resolve(state: state, ctx: ctx)
-                if childActions.count == 1 {
-                    validOptions[key] = childActions[0]
-                }
-            }
         }
-
+        
         guard !validOptions.isEmpty else {
             throw GameError.noValidOption
         }
-
+        
         return .chooseOne(player: chooser, options: validOptions)
     }
-
+    
     static func validatePlay(
         card: String,
         player: String,
@@ -51,23 +43,39 @@ extension GameAction {
             return false
         }
     }
+}
 
-    private func validate(state: GameState) throws {
+private extension GameAction {
+    
+    func validate(state: GameState) throws {
         switch self {
         case .activateCards,
                 .chooseOne,
                 .setGameOver:
             return
-
+            
         default:
             var state = state
             state = try reduce(state: state)
             state.event = self
-
+            
             if state.queue.isNotEmpty {
                 let next = state.queue.removeFirst()
                 try next.validate(state: state)
             }
         }
+    }
+    
+    func simplifyOption(state: GameState) throws -> GameAction {
+        guard case let .effect(effect, ctx) = self else {
+            return self
+        }
+        
+        let children = try effect.resolve(state: state, ctx: ctx)
+        guard children.count == 1 else {
+            return self
+        }
+        
+        return try children[0].simplifyOption(state: state)
     }
 }

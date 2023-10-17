@@ -11,8 +11,7 @@ protocol EffectResolver {
 
 extension CardEffect {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        try resolver()
-            .resolve(state: state, ctx: ctx)
+        try resolver().resolve(state: state, ctx: ctx)
     }
 }
 
