@@ -39,7 +39,8 @@ struct EffectChallenge: EffectResolver {
                                 ctx: childCtx)]
                 
             case let .chooseOne(chooser, options):
-                let reversedCtx = EffectContext(actor: ctx.actor, card: ctx.card, target: challengerId)
+                var reversedCtx = ctx
+                reversedCtx.target = challengerId
                 let reversedAction = GameAction.effect(.challenge(.id(target),
                                                                   effect: effect,
                                                                   otherwise: otherwise),
