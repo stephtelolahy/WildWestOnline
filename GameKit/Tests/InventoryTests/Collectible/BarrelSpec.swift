@@ -140,6 +140,47 @@ final class BarrelSpec: QuickSpec {
                     }
                 }
             }
+
+            context("holding missed cards") {
+                it("should not choose play missed") {
+                    // Given
+                    let state = createGameWithCardRef {
+                        Player("p1") {
+                            Hand {
+                                .bang
+                            }
+                        }
+                        .attribute(.bangsPerTurn, 1)
+                        .attribute(.weapon, 1)
+                        Player("p2") {
+                            Hand {
+                                .missed
+                                "missed-2"
+                            }
+                            InPlay {
+                                .barrel
+                                "barrel-2"
+                            }
+                        }
+                        .attribute(.flippedCards, 1)
+                        Deck {
+                            "c1-2♥️"
+                        }
+                    }
+
+                    // When
+                    let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+                    let (result, _) = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(result) == [
+                        .playImmediate(.bang, target: "p2", player: "p1"),
+                        .luck,
+                        .cancel(.damage(1, player: "p2"))
+                    ]
+
+                }
+            }
         }
     }
 }

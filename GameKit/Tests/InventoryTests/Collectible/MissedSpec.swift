@@ -116,7 +116,6 @@ final class MissedSpec: QuickSpec {
 
                     }
                 }
-
             }
 
             context("gatling") {
