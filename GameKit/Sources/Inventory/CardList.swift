@@ -137,7 +137,7 @@ private extension CardList {
     }
 
     static let missed = Card(.missed) {
-        CardEffect.chooseOnePlayOrPass
+        CardEffect.activate
             .when(.onShot)
         CardEffect.cancel(.effectOfShoot)
             .require(.isOutOfTurn)
