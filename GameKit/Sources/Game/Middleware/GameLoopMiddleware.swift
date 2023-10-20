@@ -42,9 +42,12 @@ private func evaluateTriggeredEffects(action: GameAction, state: GameState) -> G
     // active players
     for player in state.playOrder {
         let playerObj = state.player(player)
-        let cards = playerObj.inPlay.cards 
-        + playerObj.abilities
-        + playerObj.hand.cards.filter { $0.starts(with: "missed") }
+        var cards = playerObj.inPlay.cards + playerObj.abilities
+
+        // <Shoot triggered effect>
+        cards += playerObj.hand.cards.filter { $0.starts(with: "missed") }
+        // </Shoot triggered effect>
+
         for card in cards {
             if let action = triggeredEffect(by: card, player: player, state: state) {
                 triggered.append(action)
@@ -78,7 +81,19 @@ private func triggeredEffect(by card: String, player: String, state: GameState) 
 
     let playReqContext = PlayReqContext(actor: player)
     for (playReq, effect) in cardObj.rules where  playReq.match(state: state, ctx: playReqContext) {
-        let ctx = EffectContext(actor: player, card: card)
+
+        // <Shoot triggered effect>
+        var linkedAction: GameAction?
+        if let event = state.event,
+           case let .effect(cardEffect, _) = event,
+           case .shoot = cardEffect,
+           let nextAction = state.queue.first,
+           case .damage = nextAction {
+            linkedAction = nextAction
+        }
+        // </Shoot triggered effect>
+
+        let ctx = EffectContext(actor: player, card: card, linkedAction: linkedAction)
         return GameAction.effect(effect, ctx: ctx)
     }
 

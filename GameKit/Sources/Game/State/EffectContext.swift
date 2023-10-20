@@ -16,10 +16,9 @@ public struct EffectContext: Codable, Equatable {
     /// Card triggering effect
     let card: String
 
-    /// Action target triggering this effect
-    /// Or Targeted player while resolving effect
+    /// Targeted player while resolving effect
     var target: String?
 
-    /// Cancel  effect when this action is cancelled
+    /// Related action which causes the effect to be cancelled when action get cancelled
     var linkedAction: GameAction?
 }
