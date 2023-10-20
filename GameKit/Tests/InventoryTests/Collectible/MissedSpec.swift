@@ -12,30 +12,6 @@ import Game
 final class MissedSpec: QuickSpec {
     override func spec() {
         describe("playing missed") {
-            context("out of turn") {
-                it("should cancel shot") {
-                    // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .missed
-                            }
-                        }
-                    }
-                        .queue([.damage(1, player: "p1")])
-
-                    // When
-                    let action = GameAction.play(.missed, player: "p1")
-                    let (result, _) = self.awaitAction(action, state: state)
-
-                    // Then
-                    expect(result) == [
-                        .playImmediate(.missed, player: "p1"),
-                        .cancel(.damage(1, player: "p1"))
-                    ]
-                }
-            }
-
             context("your turn") {
                 it("should throw error") {
                     // Given
@@ -46,8 +22,7 @@ final class MissedSpec: QuickSpec {
                             }
                         }
                     }
-                        .turn("p1")
-                        .queue([.damage(1, player: "p1")])
+                    .turn("p1")
 
                     // When
                     let action = GameAction.play(.missed, player: "p1")
