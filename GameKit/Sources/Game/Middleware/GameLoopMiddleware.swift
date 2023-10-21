@@ -129,10 +129,12 @@ private func evaluateActiveCards(state: GameState) -> GameAction? {
         activeCards.append(card)
     }
 
-    if activeCards.isNotEmpty {
-        return GameAction.activateCards(player: player, cards: activeCards)
+    // Ignore empty
+    guard activeCards.isNotEmpty else {
+        return nil
     }
-    return nil
+
+    return GameAction.activateCards(player: player, cards: activeCards)
 }
 
 // MARK: - Game over
