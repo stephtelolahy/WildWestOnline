@@ -52,7 +52,7 @@ struct TriggeredEffectsMiddleware: GameActionMiddleware {
         // active players
         for player in state.playOrder {
             let playerObj = state.player(player)
-            let cards = triggerableCardsOfActivePlayer(playerObj)
+            let cards = triggerableCardsOfActivePlayer(playerObj, state: state)
             for card in cards {
                 if let action = triggeredEffect(by: card, player: player, state: state) {
                     triggered.append(action)
@@ -95,10 +95,10 @@ struct TriggeredEffectsMiddleware: GameActionMiddleware {
         return nil
     }
 
-    private func triggerableCardsOfActivePlayer(_ playerObj: Player) -> [String] {
+    private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
         playerObj.inPlay.cards
         + playerObj.abilities
-        + playerObj.hand.cards.filter { $0.starts(with: "missed") } // TODO: cards where effect is cancel
+        + playerObj.hand.cards.filter { state.isCardCancellingEffect($0) }
     }
 
     private func triggerableCardsOfEliminatedPlayer(_ playerObj: Player) -> [String] {
@@ -115,6 +115,24 @@ struct TriggeredEffectsMiddleware: GameActionMiddleware {
         }
 
         return nil
+    }
+}
+
+private extension GameState {
+    func isCardCancellingEffect(_ card: String) -> Bool {
+        let cardName = card.extractName()
+        guard let cardObj = cardRef[cardName] else {
+            return false
+        }
+
+        return cardObj.rules.contains(where: {
+            if $0.key == .onPlayImmediate, 
+                case .cancel = $0.value {
+                return true
+            } else {
+                return false
+            }
+        })
     }
 }
 

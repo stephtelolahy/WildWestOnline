@@ -12,7 +12,7 @@ import Game
 final class MissedSpec: QuickSpec {
     override func spec() {
         describe("playing missed") {
-            context("your turn") {
+            context("not being targeted by shoot") {
                 it("should throw error") {
                     // Given
                     let state = createGameWithCardRef {
@@ -29,7 +29,7 @@ final class MissedSpec: QuickSpec {
                     let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(error) == .noReq(.isOutOfTurn)
+                    expect(error) == .noEffectToCancel(.effectOfShoot)
 
                 }
             }
