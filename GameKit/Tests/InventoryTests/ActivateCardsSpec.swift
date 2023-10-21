@@ -48,6 +48,7 @@ final class ActivateCardsSpec: QuickSpec {
                         Player("p1") {
                             Hand {
                                 String.beer
+                                String.missed
                             }
                         }
                         .attribute(.maxHealth, 4)
