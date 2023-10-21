@@ -14,6 +14,7 @@ struct EffectCancel: EffectResolver {
             if let index = state.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.actor) }) {
                 return [.cancel(state.queue[index])]
             }
+            // TODO: fatal nothing to cancel, then remove require isOutOfturn
 
         case let .effectOfCard(cardName):
             if let index = state.queue.firstIndex(where: { $0.isEffectOfCard(cardName) }) {
