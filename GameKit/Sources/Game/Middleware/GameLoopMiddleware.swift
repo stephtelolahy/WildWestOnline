@@ -98,7 +98,7 @@ struct TriggeredEffectsMiddleware: GameActionMiddleware {
     private func triggerableCardsOfActivePlayer(_ playerObj: Player) -> [String] {
         playerObj.inPlay.cards
         + playerObj.abilities
-        + playerObj.hand.cards.filter { $0.starts(with: "missed") }
+        + playerObj.hand.cards.filter { $0.starts(with: "missed") } // TODO: cards where effect is cancel
     }
 
     private func triggerableCardsOfEliminatedPlayer(_ playerObj: Player) -> [String] {
