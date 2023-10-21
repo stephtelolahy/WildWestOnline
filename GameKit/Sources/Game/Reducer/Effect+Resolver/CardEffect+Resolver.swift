@@ -11,8 +11,7 @@ protocol EffectResolver {
 
 extension CardEffect {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        try resolver()
-            .resolve(state: state, ctx: ctx)
+        try resolver().resolve(state: state, ctx: ctx)
     }
 }
 
@@ -80,8 +79,8 @@ private extension CardEffect {
         case let .cancel(arg):
             EffectCancel(arg: arg)
 
-        case .chooseOnePlayOrPass:
-            EffectChooseOnePlayOrPass()
+        case .activate:
+            EffectActivate()
 
         case .evaluateAttributes:
             EffectEvaluateAttributes()

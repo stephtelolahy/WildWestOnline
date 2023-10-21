@@ -11,7 +11,7 @@ struct EffectCancel: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         switch arg {
         case .effectOfShoot:
-            if let index = state.queue.firstIndex(where: { $0.isEffectOfShootOn(ctx.actor) }) {
+            if let index = state.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.actor) }) {
                 return [.cancel(state.queue[index])]
             }
 

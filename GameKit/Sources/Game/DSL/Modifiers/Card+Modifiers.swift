@@ -25,10 +25,15 @@ public extension Card {
     init(
         _ name: String,
         attributes: Attributes = [:],
-        prototype: Card
+        prototype: Card,
+        @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.attributes = attributes
-        self.rules = prototype.rules
+        let contentDict = content()
+            .reduce(into: [PlayReq: CardEffect]()) { result, rule in
+                result[rule.playReq] = rule.effect
+            }
+        self.rules = prototype.rules.merging(contentDict) { _, new in new }
     }
 }
