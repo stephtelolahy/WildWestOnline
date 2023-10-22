@@ -17,7 +17,7 @@ public let eventLoggerMiddleware: Middleware<GameState> = { state, _ in
     }
 
     if let error = state.error {
-        print("❌ \(error.loggerDescription) on \(state.failedAction!.loggerDescription)")
+        print("❌ \(error.loggerDescription) on \(state.failed!.loggerDescription)")
     }
 
     return Empty().eraseToAnyPublisher()
