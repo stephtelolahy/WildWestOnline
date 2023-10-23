@@ -23,6 +23,9 @@ final class GameStateMakerTests: XCTestCase {
             .withCardRef(["name": Card("name")])
             .withChooseOne("p1", options: [:])
             .withQueue(GameAction.discover)
+            .withPlayer("p1", builderFunc: { builder in
+                builder.withHealth(3)
+            })
             .build()
 
         // Then

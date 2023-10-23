@@ -22,6 +22,11 @@ public extension Player {
 
             return Player(id: id)
         }
+
+        public func withHealth(_ value: Int) -> Self {
+            health = value
+            return self
+        }
     }
 
     static func makeBuilder() -> Builder {

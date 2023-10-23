@@ -7,8 +7,8 @@
 
 public extension GameState {
     class Builder {
-            private var players: [String: Player]?
-            private var playOrder: [String]?
+        private var players: [String: Player] = [:]
+        private var playOrder: [String] = []
         private var turn: String?
         private var playCounter: [String: Int] = [:]
         private var deck: CardStack?
@@ -24,8 +24,6 @@ public extension GameState {
         private var cardRef: [String: Card]?
 
         public func build() -> GameState {
-            let players = players ?? [:]
-            let playOrder = playOrder ?? []
             let deck = deck ?? .init()
             let discard = discard ?? .init()
             let queue = queue ?? []
@@ -93,6 +91,14 @@ public extension GameState {
 
         public func withQueue(_ value: GameAction...) -> Self {
             queue = value
+            return self
+        }
+
+        public func withPlayer(_ name: String, builderFunc: (Player.Builder) -> Player.Builder) -> Self {
+            let builder = Player.makeBuilder()
+            let player = builderFunc(builder).build()
+            players[player.id] = player
+            playOrder.append(player.id)
             return self
         }
     }
