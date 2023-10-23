@@ -10,7 +10,7 @@ public extension GameState {
         private var players: [String: Player] = [:]
         private var playOrder: [String] = []
         private var turn: String?
-        private var playCounter: [String: Int] = [:]
+        private var playCounter: [String: Int]?
         private var deck: CardStack?
         private var discard: CardStack?
         private var arena: CardLocation?
@@ -26,8 +26,9 @@ public extension GameState {
         public func build() -> GameState {
             let deck = deck ?? .init()
             let discard = discard ?? .init()
-            let queue = queue ?? []
-            let cardRef = cardRef ?? [:]
+            let queue = queue ?? .init()
+            let cardRef = cardRef ?? .init()
+            let playCounter = playCounter ?? .init()
 
             return GameState(
                 players: players,
@@ -54,23 +55,23 @@ public extension GameState {
             return self
         }
 
-        public func withDeck(_ value: String...) -> Self {
+        public func withDeck(_ value: [String]) -> Self {
             deck = CardStack(cards: value)
             return self
         }
 
-        public func withDiscard(_ value: String...) -> Self {
+        public func withDiscard(_ value: [String]) -> Self {
             discard = CardStack(cards: value)
             return self
         }
 
-        public func withArena(_ value: String...) -> Self {
+        public func withArena(_ value: [String]) -> Self {
             arena = CardLocation(cards: value)
             return self
         }
 
-        public func withPlayCounter(_ key: String, value: Int) -> Self {
-            playCounter[key] = value
+        public func withPlayCounter(_ value: [String: Int]) -> Self {
+            playCounter = value
             return self
         }
 
