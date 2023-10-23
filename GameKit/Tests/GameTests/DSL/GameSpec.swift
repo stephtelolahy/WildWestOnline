@@ -108,8 +108,10 @@ final class GameSpec: QuickSpec {
                 it("should have turn") {
                     // Given
                     // When
-                    let sut = GameState().turn("p1")
-                    
+                    let sut = GameState.makeBuilder()
+                        .withTurn("p1")
+                        .build()
+
                     // Then
                     expect(sut.turn) == "p1"
                 }
@@ -120,7 +122,7 @@ final class GameSpec: QuickSpec {
                     // Given
                     // When
                     let sut = GameState.makeBuilder()
-                        .withQueue(.draw(player: "p1"))
+                        .withQueue([.draw(player: "p1")])
                         .build()
 
                     // Then

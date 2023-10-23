@@ -22,7 +22,7 @@ final class GameStateBuilderTests: XCTestCase {
             .withWinner("p1")
             .withCardRef(["name": Card("name")])
             .withChooseOne("p1", options: [:])
-            .withQueue(GameAction.discover)
+            .withQueue([.discover])
             .withPlayer("p1") {
                 $0.withHealth(3)
             }

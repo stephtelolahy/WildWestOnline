@@ -18,7 +18,6 @@ final class SetTurnSpec: QuickSpec {
                     .withTurn("px")
                     .withPlayCounter(["card1": 1, "card2": 2])
                     .build()
-                    .turn("px")
 
                 // When
                 let action = GameAction.setTurn("p1")

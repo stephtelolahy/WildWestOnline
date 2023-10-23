@@ -14,10 +14,6 @@ public extension GameState {
     func isOver(_ value: String) -> Self {
         copy { $0.isOver = GameOver(winner: value) }
     }
-
-    func turn(_ value: String) -> Self {
-        copy { $0.turn = value }
-    }
 }
 
 private extension GameState {

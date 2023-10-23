@@ -15,14 +15,12 @@ final class MissedSpec: QuickSpec {
             context("not being targeted by shoot") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .missed
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.missed])
                         }
-                    }
-                    .turn("p1")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.play(.missed, player: "p1")

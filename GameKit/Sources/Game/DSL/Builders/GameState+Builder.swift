@@ -90,7 +90,7 @@ public extension GameState {
             return self
         }
 
-        public func withQueue(_ value: GameAction...) -> Self {
+        public func withQueue(_ value: [GameAction]) -> Self {
             queue = value
             return self
         }
