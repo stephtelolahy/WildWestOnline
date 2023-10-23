@@ -56,8 +56,9 @@ final class GameOverSpec: QuickSpec {
         context("when over") {
             it("should not handle any action") {
                 // Given
-                let state = GameState()
-                    .isOver("p1")
+                let state = GameState.makeBuilder()
+                    .withWinner("p1")
+                    .build()
 
                 // When
                 let action = GameAction.play("c1", player: "p1")

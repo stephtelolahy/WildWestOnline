@@ -6,20 +6,8 @@
 //
 
 public extension GameState {
-
+    @available(*, deprecated, message: "Use builder instead")
     init(@GameAttributeBuilder components: () -> [GameAttribute] = { [] }) {
         components().forEach { $0.apply(to: &self) }
-    }
-
-    func isOver(_ value: String) -> Self {
-        copy { $0.isOver = GameOver(winner: value) }
-    }
-}
-
-private extension GameState {
-    func copy(closure: (inout Self) -> Void) -> Self {
-        var copy = self
-        closure(&copy)
-        return copy
     }
 }

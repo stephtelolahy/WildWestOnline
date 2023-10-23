@@ -17,7 +17,8 @@ final class GameSpec: QuickSpec {
             var sut: GameState!
             context("by default") {
                 beforeEach {
-                    sut = GameState()
+                    sut = GameState.makeBuilder()
+                        .build()
                 }
                 
                 it("should have empty deck") {
@@ -93,18 +94,20 @@ final class GameSpec: QuickSpec {
                 }
             }
             
-            context("modified game over") {
+            context("initialized with game over") {
                 it("should be over") {
                     // Given
                     // When
-                    let sut = GameState().isOver("p1")
-                    
+                    let sut = GameState.makeBuilder()
+                        .withWinner("p1")
+                        .build()
+
                     // Then
                     expect(sut.isOver) == GameOver(winner: "p1")
                 }
             }
             
-            context("modified turn") {
+            context("initialized with turn") {
                 it("should have turn") {
                     // Given
                     // When
@@ -117,7 +120,7 @@ final class GameSpec: QuickSpec {
                 }
             }
 
-            context("modified queue") {
+            context("initialized with queue") {
                 it("should have queued actions") {
                     // Given
                     // When
