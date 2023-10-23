@@ -26,10 +26,6 @@ public extension GameState {
     func cardRef(_ value: [String: Card]) -> Self {
         copy { $0.cardRef = value }
     }
-
-    func waiting(_ chooser: String, options: [String: GameAction]) -> Self {
-        copy { $0.chooseOne = ChooseOne(chooser: chooser, options: options) }
-    }
 }
 
 private extension GameState {
