@@ -22,10 +22,6 @@ public extension GameState {
     func playCounters(_ value: [String: Int]) -> Self {
         copy { $0.playCounter = value }
     }
-
-    func cardRef(_ value: [String: Card]) -> Self {
-        copy { $0.cardRef = value }
-    }
 }
 
 private extension GameState {

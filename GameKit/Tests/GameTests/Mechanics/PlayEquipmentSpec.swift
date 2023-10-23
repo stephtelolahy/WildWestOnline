@@ -1,6 +1,6 @@
 //
 //  PlayEquipmentSpec.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 10/06/2023.
 //
@@ -20,15 +20,12 @@ final class PlayEquipmentSpec: QuickSpec {
             context("not in play") {
                 it("should put card in play") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                                "c2"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand("c1", "c2")
                         }
-                    }
-                    .cardRef(["c1": card1])
+                        .withCardRef(["c1": card1])
+                        .build()
 
                     // When
                     let action = GameAction.playEquipment("c1", player: "p1")
@@ -44,17 +41,13 @@ final class PlayEquipmentSpec: QuickSpec {
             context("having same card in play") {
                 it("should throw error") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c-1"
-                            }
-                            InPlay {
-                                "c-2"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand("c-1")
+                                .withInPlay("c-2")
                         }
-                    }
-                    .cardRef(["c": card1])
+                        .withCardRef(["c": card1])
+                        .build()
 
                     // When
                     let action = GameAction.playEquipment("c-1", player: "p1")
