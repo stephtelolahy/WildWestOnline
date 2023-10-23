@@ -22,7 +22,7 @@ final class PlayEquipmentSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilder()
                         .withPlayer("p1") {
-                            $0.withHand("c1", "c2")
+                            $0.withHand(["c1", "c2"])
                         }
                         .withCardRef(["c1": card1])
                         .build()
@@ -43,8 +43,8 @@ final class PlayEquipmentSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilder()
                         .withPlayer("p1") {
-                            $0.withHand("c-1")
-                                .withInPlay("c-2")
+                            $0.withHand(["c-1"])
+                                .withInPlay(["c-2"])
                         }
                         .withCardRef(["c": card1])
                         .build()

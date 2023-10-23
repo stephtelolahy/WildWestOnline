@@ -28,10 +28,10 @@ final class GameStateBuilderTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHealth(4)
-                    .withAttribute(.bangsPerTurn, value: 2)
-                    .withAbility("a1")
-                    .withHand("c21", "c22")
-                    .withInPlay("c23", "c24")
+                    .withAttributes([.bangsPerTurn: 2])
+                    .withAbilities(["a1"])
+                    .withHand(["c21", "c22"])
+                    .withInPlay(["c23", "c24"])
             }
             .build()
 

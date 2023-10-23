@@ -25,7 +25,7 @@ final class PlayImmediateSpec: QuickSpec {
                 // Given
                 let state = GameState.makeBuilder()
                     .withPlayer("p1") {
-                        $0.withHand("c1")
+                        $0.withHand(["c1"])
                     }
                     .withCardRef(["c1": card1])
                     .build()

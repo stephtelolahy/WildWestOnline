@@ -9,15 +9,17 @@ import Foundation
 
 public extension Player {
     class Builder {
-        var id: String?
-        var attributes: Attributes = .init()
-        var abilities: [String] = .init()
-        var health: Int?
-        var hand: CardLocation?
-        var inPlay: CardLocation?
+        private var id: String?
+        private var attributes: Attributes?
+        private var abilities: [String]?
+        private var health: Int?
+        private var hand: CardLocation?
+        private var inPlay: CardLocation?
 
         public func build() -> Player {
             let id = id ?? UUID().uuidString
+            let abilities = abilities ?? .init()
+            let attributes = attributes ?? .init()
             let hand = hand ?? .init()
             let inPlay = inPlay ?? .init()
             let health = health ?? 0
@@ -42,22 +44,22 @@ public extension Player {
             return self
         }
 
-        public func withAttribute(_ key: AttributeKey, value: Int) -> Self {
-            attributes[key] = value
+        public func withAttributes(_ value: Attributes) -> Self {
+            attributes = value
             return self
         }
 
-        public func withAbility(_ value: String) -> Self {
-            abilities.append(value)
+        public func withAbilities(_ value: [String]) -> Self {
+            abilities = value
             return self
         }
 
-        public func withHand(_ value: String...) -> Self {
+        public func withHand(_ value: [String]) -> Self {
             hand = CardLocation(cards: value)
             return self
         }
 
-        public func withInPlay(_ value: String...) -> Self {
+        public func withInPlay(_ value: [String]) -> Self {
             inPlay = CardLocation(cards: value)
             return self
         }

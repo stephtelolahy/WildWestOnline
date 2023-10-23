@@ -18,7 +18,7 @@ final class ChooseOneSpec: QuickSpec {
             beforeEach {
                 state = GameState.makeBuilder()
                     .withPlayer("p1") {
-                        $0.withHand("c1", "c2", "c3")
+                        $0.withHand(["c1", "c2", "c3"])
                     }
                     .withChooseOne("p1", options: [
                         "c1": .discardHand("c1", player: "p1"),
