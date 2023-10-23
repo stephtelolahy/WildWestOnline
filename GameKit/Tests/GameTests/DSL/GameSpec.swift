@@ -119,8 +119,9 @@ final class GameSpec: QuickSpec {
                 it("should have queued actions") {
                     // Given
                     // When
-                    let sut = GameState()
-                        .queue([.draw(player: "p1")])
+                    let sut = GameState.makeBuilder()
+                        .withQueue(.draw(player: "p1"))
+                        .build()
 
                     // Then
                     expect(sut.queue) == [

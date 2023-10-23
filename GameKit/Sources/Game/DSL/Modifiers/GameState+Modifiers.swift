@@ -30,10 +30,6 @@ public extension GameState {
     func waiting(_ chooser: String, options: [String: GameAction]) -> Self {
         copy { $0.chooseOne = ChooseOne(chooser: chooser, options: options) }
     }
-
-    func queue(_ value: [GameAction]) -> Self {
-        copy { $0.queue = value }
-    }
 }
 
 private extension GameState {

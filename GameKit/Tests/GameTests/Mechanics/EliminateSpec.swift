@@ -30,13 +30,11 @@ final class EliminateSpec: QuickSpec {
 
             it("should remove queued effects") {
                 // Given
-                let state = GameState {
-                    Player("p1")
-                    Player("p2")
-                }
-                .queue([
-                    .effect(.draw, ctx: EffectContext(actor: "p1", card: "c1"))
-                ])
+                let state = GameState.makeBuilder()
+                    .withPlayer("p1")
+                    .withPlayer("p2")
+                    .withQueue(.effect(.draw, ctx: EffectContext(actor: "p1", card: "c1")))
+                    .build()
 
                 // When
                 let action = GameAction.eliminate(player: "p1")
