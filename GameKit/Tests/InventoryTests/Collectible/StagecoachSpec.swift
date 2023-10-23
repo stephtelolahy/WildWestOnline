@@ -18,7 +18,6 @@ final class StagecoachSpec: QuickSpec {
                     .withPlayer("p1") {
                         $0.withHand([.stagecoach])
                     }
-                    .withPlayer("p2")
                     .withDeck(["c1", "c2"])
                     .build()
 

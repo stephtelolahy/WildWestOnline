@@ -29,10 +29,6 @@ public extension Player {
     func health(_ value: Int) -> Self {
         copy { $0.health = value }
     }
-
-    func ability(_ value: String) -> Self {
-        copy { $0.abilities.append(value) }
-    }
 }
 
 private extension Player {

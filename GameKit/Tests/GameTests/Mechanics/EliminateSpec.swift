@@ -32,7 +32,6 @@ final class EliminateSpec: QuickSpec {
                 // Given
                 let state = GameState.makeBuilder()
                     .withPlayer("p1")
-                    .withPlayer("p2")
                     .withQueue([.effect(.draw, ctx: EffectContext(actor: "p1", card: "c1"))])
                     .build()
 

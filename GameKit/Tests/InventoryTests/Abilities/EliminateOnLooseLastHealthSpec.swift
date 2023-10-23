@@ -16,13 +16,12 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
             context("loosing last health") {
                 it("should be eliminated") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                            .health(1)
-                            .ability(.eliminateOnDamageLethal)
-                        Player("p2")
-                        Player("p3")
-                    }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHealth(1)
+                                .withAbilities([.eliminateOnDamageLethal])
+                        }
+                        .build()
 
                     // When
                     let action = GameAction.damage(1, player: "p1")
@@ -39,11 +38,12 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
             context("loosing non last health") {
                 it("should remain active") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                            .health(2)
-                            .ability(.eliminateOnDamageLethal)
-                    }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHealth(2)
+                                .withAbilities([.eliminateOnDamageLethal])
+                        }
+                        .build()
 
                     // When
                     let action = GameAction.damage(1, player: "p1")

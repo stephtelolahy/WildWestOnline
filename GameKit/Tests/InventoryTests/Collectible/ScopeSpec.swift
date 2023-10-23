@@ -13,16 +13,14 @@ final class ScopeSpec: QuickSpec {
         describe("playing scope") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .scope
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.scope])
+                            .withStartAttributes([.scope: 0])
+                            .withAttributes([.scope: 0])
+                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
                     }
-                    .startAttribute(.scope, 0)
-                    .attribute(.scope, 0)
-                    .ability(.evaluateAttributeOnUpdateInPlay)
-                }
+                    .build()
 
                 // When
                 let action = GameAction.play(.scope, player: "p1")

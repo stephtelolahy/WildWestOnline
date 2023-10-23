@@ -1,6 +1,6 @@
 //
 //  DynamiteSpec.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 26/06/2023.
 //
@@ -22,43 +22,36 @@ final class DynamiteSpec: QuickSpec {
                         }
                     }
                 }
-                
+
                 // When
                 let action = GameAction.play(.dynamite, player: "p1")
                 let (result, _) = self.awaitAction(action, state: state)
-                
+
                 // Then
                 expect(result) == [
                     .playEquipment(.dynamite, player: "p1")
                 ]
             }
         }
-        
+
         describe("triggering dynamite") {
             context("flipped card is hearts") {
                 it("should pass inPlay") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            InPlay {
-                                .dynamite
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withInPlay([.dynamite])
+                                .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                                .withAbilities([.drawOnSetTurn])
                         }
-                        .attribute(.flippedCards, 1)
-                        .ability(.drawOnSetTurn)
-                        .attribute(.startTurnCards, 2)
-                        Player("p2")
-                        Deck {
-                            "c1-9♦️"
-                            "c2"
-                            "c3"
-                        }
-                    }
-                    
+                        .withPlayer("p2")
+                        .withDeck(["c1-9♦️", "c2", "c3"])
+                        .build()
+
                     // When
                     let action = GameAction.setTurn("p1")
                     let (result, _) = self.awaitAction(action, state: state)
-                    
+
                     // Then
                     expect(result) == [.setTurn("p1"),
                                        .luck,
@@ -67,28 +60,21 @@ final class DynamiteSpec: QuickSpec {
                                        .draw(player: "p1")]
                 }
             }
-            
+
             context("flipped card is spades") {
                 context("not lethal") {
                     it("should apply damage and discard card") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                InPlay {
-                                    .dynamite
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withInPlay([.dynamite])
+                                    .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                                    .withAbilities([.drawOnSetTurn])
+                                    .withHealth(4)
                             }
-                            .attribute(.flippedCards, 1)
-                            .attribute(.startTurnCards, 2)
-                            .ability(.drawOnSetTurn)
-                            .health(4)
-                            Deck {
-                                "c1-8♠️"
-                                "c2"
-                                "c2"
-                            }
-                        }
-                        
+                            .withDeck(["c1-8♠️", "c2", "c3"])
+                            .build()
+
                         // When
                         let action = GameAction.setTurn("p1")
                         let (result, _) = self.awaitAction(action, state: state)
@@ -102,32 +88,25 @@ final class DynamiteSpec: QuickSpec {
                                            .draw(player: "p1")]
                     }
                 }
-                
+
                 context("lethal") {
                     it("should eliminate") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                InPlay {
-                                    .dynamite
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withInPlay([.dynamite])
+                                    .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                                    .withAbilities([.eliminateOnDamageLethal, .discardCardsOnEliminated, .nextTurnOnEliminated])
+                                    .withHealth(3)
                             }
-                            .attribute(.flippedCards, 1)
-                            .ability(.eliminateOnDamageLethal)
-                            .ability(.discardCardsOnEliminated)
-                            .ability(.nextTurnOnEliminated)
-                            .health(3)
-                            Player("p2")
-                                .ability(.drawOnSetTurn)
-                                .attribute(.startTurnCards, 2)
-                            Player("p3")
-                            Deck {
-                                "c1-8♠️"
-                                "c2"
-                                "c2"
+                            .withPlayer("p2") {
+                                $0.withAbilities([.drawOnSetTurn])
+                                    .withAttributes([.startTurnCards: 2])
                             }
-                        }
-                        
+                            .withPlayer("p3")
+                            .withDeck(["c1-8♠️", "c2", "c3"])
+                            .build()
+
                         // When
                         let action = GameAction.setTurn("p1")
                         let (result, _) = self.awaitAction(action, state: state)

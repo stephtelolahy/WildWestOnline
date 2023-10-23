@@ -15,17 +15,13 @@ final class DiscardCardsOnEliminatedSpec: QuickSpec {
             context("having cards") {
                 it("should discard cards") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                            }
-                            InPlay {
-                                "c2"
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1"])
+                                .withInPlay(["c2"])
+                                .withAbilities([.discardCardsOnEliminated])
                         }
-                        .ability(.discardCardsOnEliminated)
-                    }
+                        .build()
                     
                     // When
                     let action = GameAction.eliminate(player: "p1")

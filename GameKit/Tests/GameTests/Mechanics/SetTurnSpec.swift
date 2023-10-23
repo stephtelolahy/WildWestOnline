@@ -15,7 +15,6 @@ final class SetTurnSpec: QuickSpec {
             it("should set attribute and reset counters") {
                 // Given
                 let state = GameState.makeBuilder()
-                    .withTurn("px")
                     .withPlayCounter(["card1": 1, "card2": 2])
                     .build()
 

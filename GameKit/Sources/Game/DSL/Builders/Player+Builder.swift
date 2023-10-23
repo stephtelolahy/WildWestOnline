@@ -11,6 +11,7 @@ public extension Player {
     class Builder {
         private var id: String?
         private var attributes: Attributes?
+        private var startAttributes: Attributes?
         private var abilities: [String]?
         private var health: Int?
         private var hand: CardLocation?
@@ -20,13 +21,14 @@ public extension Player {
             let id = id ?? UUID().uuidString
             let abilities = abilities ?? .init()
             let attributes = attributes ?? .init()
+            let startAttributes = startAttributes ?? attributes
             let hand = hand ?? .init()
             let inPlay = inPlay ?? .init()
             let health = health ?? 0
 
             return Player(id: id,
                           name: id,
-                          startAttributes: attributes,
+                          startAttributes: startAttributes,
                           attributes: attributes,
                           abilities: abilities,
                           health: health,
@@ -41,6 +43,11 @@ public extension Player {
 
         public func withHealth(_ value: Int) -> Self {
             health = value
+            return self
+        }
+
+        public func withStartAttributes(_ value: Attributes) -> Self {
+            startAttributes = value
             return self
         }
 
