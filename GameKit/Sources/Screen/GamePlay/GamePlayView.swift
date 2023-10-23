@@ -63,8 +63,8 @@ struct GameView_Previews: PreviewProvider {
     private static var previewStore: Store<AppState> = {
         let state = GamePlayState(
             players: [
-                Player("p1").name("willyTheKid"),
-                Player("p2").name("bartCassidy")
+                Player("willyTheKid"),
+                Player("bartCassidy")
             ],
             message: "Your turn"
         )

@@ -37,23 +37,17 @@ final class BarrelSpec: QuickSpec {
                 context("flipped card is hearts") {
                     it("should cancel shot") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.weapon: 1])
                             }
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                InPlay {
-                                    .barrel
-                                }
+                            .withPlayer("p2") {
+                                $0.withInPlay([.barrel])
+                                    .withAttributes([.flippedCards: 1])
                             }
-                            .attribute(.flippedCards, 1)
-                            Deck {
-                                "c1-2♥️"
-                            }
-                        }
+                            .withDeck(["c1-2♥️"])
+                            .build()
                         
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
@@ -71,23 +65,17 @@ final class BarrelSpec: QuickSpec {
                 context("flipped card is spades") {
                     it("should apply damage") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.weapon: 1])
                             }
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                InPlay {
-                                    .barrel
-                                }
+                            .withPlayer("p2") {
+                                $0.withInPlay([.barrel])
+                                    .withAttributes([.flippedCards: 1])
                             }
-                            .attribute(.flippedCards, 1)
-                            Deck {
-                                "c1-A♠️"
-                            }
-                        }
+                            .withDeck(["c1-A♠️"])
+                            .build()
                         
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
@@ -107,24 +95,17 @@ final class BarrelSpec: QuickSpec {
                 context("one of flipped card is hearts") {
                     it("should cancel shot") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.weapon: 1])
                             }
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                InPlay {
-                                    .barrel
-                                }
+                            .withPlayer("p2") {
+                                $0.withInPlay([.barrel])
+                                    .withAttributes([.flippedCards: 2])
                             }
-                            .attribute(.flippedCards, 2)
-                            Deck {
-                                "c1-A♠️"
-                                "c1-2♥️"
-                            }
-                        }
+                            .withDeck(["c1-A♠️", "c1-2♥️"])
+                            .build()
 
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
@@ -144,29 +125,18 @@ final class BarrelSpec: QuickSpec {
             context("holding missed cards") {
                 it("should not choose play missed") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .bang
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.bang])
+                                .withAttributes([.weapon: 1])
                         }
-                        .attribute(.bangsPerTurn, 1)
-                        .attribute(.weapon, 1)
-                        Player("p2") {
-                            Hand {
-                                .missed
-                                "missed-2"
-                            }
-                            InPlay {
-                                .barrel
-                                "barrel-2"
-                            }
+                        .withPlayer("p2") {
+                            $0.withHand([.missed, "missed-2"])
+                                .withInPlay([.barrel, "barrel-2"])
+                                .withAttributes([.flippedCards: 1])
                         }
-                        .attribute(.flippedCards, 1)
-                        Deck {
-                            "c1-2♥️"
-                        }
-                    }
+                        .withDeck(["c1-2♥️"])
+                        .build()
 
                     // When
                     let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")

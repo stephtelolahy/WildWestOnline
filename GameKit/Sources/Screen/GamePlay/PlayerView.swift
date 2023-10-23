@@ -25,8 +25,7 @@ struct PlayerView: View {
 
 struct PlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        let player = Player("p1")
-            .name("bartCassidy")
+        let player = Player("bartCassidy")
         Group {
             PlayerView(player: player)
         }

@@ -16,13 +16,14 @@ final class DistanceSpec: QuickSpec {
             context("no equipement") {
                 it("should be the lowest distance") {
                     // Given
-                    let state = GameState {
-                        Player("p1")
-                        Player("p2")
-                        Player("p3")
-                        Player("p4")
-                        Player("p5")
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .withPlayer("p4")
+                        .withPlayer("p5")
+                        .build()
+
 
                     // When
                     // Then
@@ -46,13 +47,15 @@ final class DistanceSpec: QuickSpec {
             context("having scope") {
                 it("should decrement distance to others") {
                     // Given
-                    let state = GameState {
-                        Player("p1").attribute(.scope, 1)
-                        Player("p2")
-                        Player("p3")
-                        Player("p4")
-                        Player("p5")
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withAttributes([.scope: 1])
+                        }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .withPlayer("p4")
+                        .withPlayer("p5")
+                        .build()
 
                     // When
                     // Then
@@ -75,13 +78,15 @@ final class DistanceSpec: QuickSpec {
             context("having mustang") {
                 it("should increment distance from others") {
                     // Given
-                    let state = GameState {
-                        Player("p1").attribute(.mustang, 1)
-                        Player("p2")
-                        Player("p3")
-                        Player("p4")
-                        Player("p5")
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withAttributes([.mustang: 1])
+                        }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .withPlayer("p4")
+                        .withPlayer("p5")
+                        .build()
 
                     // When
                     // Then

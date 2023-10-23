@@ -10,6 +10,7 @@ import Foundation
 public extension Player {
     class Builder {
         private var id: String?
+        private var name: String?
         private var attributes: Attributes?
         private var startAttributes: Attributes?
         private var abilities: [String]?
@@ -19,6 +20,7 @@ public extension Player {
 
         public func build() -> Player {
             let id = id ?? UUID().uuidString
+            let name = name ?? .init()
             let abilities = abilities ?? .init()
             let attributes = attributes ?? .init()
             let startAttributes = startAttributes ?? attributes
@@ -27,7 +29,7 @@ public extension Player {
             let health = health ?? 0
 
             return Player(id: id,
-                          name: id,
+                          name: name,
                           startAttributes: startAttributes,
                           attributes: attributes,
                           abilities: abilities,

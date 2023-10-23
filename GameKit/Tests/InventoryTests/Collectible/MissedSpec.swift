@@ -38,20 +38,15 @@ final class MissedSpec: QuickSpec {
                 context("holding a missed card") {
                     it("should ask choice") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
                             }
-                            .attribute(.bangsPerTurn, 1)
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                Hand {
-                                    .missed
-                                }
+                            .withPlayer("p2") {
+                                $0.withHand([.missed])
                             }
-                        }
+                            .build()
 
                         // When
                         let action = GameAction.play(.bang, player: "p1")
@@ -77,22 +72,15 @@ final class MissedSpec: QuickSpec {
                 context("holding multiple missed cards") {
                     it("should ask choice once") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
                             }
-                            .attribute(.bangsPerTurn, 1)
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                Hand {
-                                    .missed
-                                    "missed-2"
-                                    "missed-3"
-                                }
+                            .withPlayer("p2") {
+                                $0.withHand([.missed, "missed-2", "missed-3"])
                             }
-                        }
+                            .build()
 
                         // When
                         let action = GameAction.play(.bang, player: "p1")

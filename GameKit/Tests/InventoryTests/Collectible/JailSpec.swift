@@ -16,15 +16,12 @@ final class JailSpec: QuickSpec {
             context("against any player") {
                 it("should handicap") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .jail
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.jail])
                         }
-                        .attribute(.flippedCards, 1)
-                        Player("p2")
-                    }
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.play(.jail, player: "p1")

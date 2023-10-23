@@ -8,29 +8,9 @@
 import Foundation
 
 public extension Player {
-
+    @available(*, deprecated, message: "Use builder instead")
     init(_ id: String = UUID().uuidString, @PlayerAttributeBuilder components: () -> [PlayerAttribute] = { [] }) {
         self.id = id
         components().forEach { $0.apply(to: &self) }
-    }
-
-    func name(_ value: String) -> Self {
-        copy { $0.name = value }
-    }
-
-    func attribute(_ key: AttributeKey, _ value: Int) -> Self {
-        copy { $0.attributes[key] = value }
-    }
-
-    func startAttribute(_ key: AttributeKey, _ value: Int) -> Self {
-        copy { $0.startAttributes[key] = value }
-    }
-}
-
-private extension Player {
-    func copy(closure: (inout Self) -> Void) -> Self {
-        var copy = self
-        closure(&copy)
-        return copy
     }
 }
