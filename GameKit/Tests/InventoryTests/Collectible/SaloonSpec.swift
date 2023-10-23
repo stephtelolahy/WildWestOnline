@@ -15,22 +15,22 @@ final class SaloonSpec: QuickSpec {
             context("any players damaged") {
                 it("should heal one life point") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .saloon
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand([.saloon])
+                                .withHealth(4)
+                                .withAttributes([.maxHealth: 4])
                         }
-                        .health(4)
-                        .attribute(.maxHealth, 4)
-                        Player("p2")
-                            .health(2)
-                            .attribute(.maxHealth, 4)
-                        Player("p3")
-                            .health(3)
-                            .attribute(.maxHealth, 4)
-                    }
-                    
+                        .withPlayer("p2") {
+                            $0.withHealth(2)
+                                .withAttributes([.maxHealth: 4])
+                        }
+                        .withPlayer("p3") {
+                            $0.withHealth(3)
+                                .withAttributes([.maxHealth: 4])
+                        }
+                        .build()
+
                     // When
                     let action = GameAction.play(.saloon, player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
@@ -45,18 +45,17 @@ final class SaloonSpec: QuickSpec {
             context("no player damaged") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .saloon
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand([.saloon])
+                                .withHealth(4)
+                                .withAttributes([.maxHealth: 4])
                         }
-                        .health(4)
-                        .attribute(.maxHealth, 4)
-                        Player("p2")
-                            .health(3)
-                            .attribute(.maxHealth, 3)
-                    }
+                        .withPlayer("p2") {
+                            $0.withHealth(3)
+                                .withAttributes([.maxHealth: 3])
+                        }
+                        .build()
                     
                     // When
                     let action = GameAction.play(.saloon, player: "p1")

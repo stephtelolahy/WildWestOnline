@@ -25,10 +25,6 @@ public extension Player {
     func startAttribute(_ key: AttributeKey, _ value: Int) -> Self {
         copy { $0.startAttributes[key] = value }
     }
-
-    func health(_ value: Int) -> Self {
-        copy { $0.health = value }
-    }
 }
 
 private extension Player {
