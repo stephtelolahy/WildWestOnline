@@ -18,10 +18,6 @@ public extension GameState {
     func turn(_ value: String) -> Self {
         copy { $0.turn = value }
     }
-
-    func playCounters(_ value: [String: Int]) -> Self {
-        copy { $0.playCounter = value }
-    }
 }
 
 private extension GameState {
