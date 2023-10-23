@@ -12,3 +12,9 @@ func createGameWithCardRef(@GameAttributeBuilder components: () -> [GameAttribut
     .init(components: components)
     .cardRef(CardList.all)
 }
+
+extension GameState {
+    static func makeBuilderWithCardRef() -> Builder {
+        makeBuilder().withCardRef(CardList.all)
+    }
+}

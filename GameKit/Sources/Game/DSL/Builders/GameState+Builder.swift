@@ -94,7 +94,7 @@ public extension GameState {
             return self
         }
 
-        public func withPlayer(_ id: String, builderFunc: (Player.Builder) -> Player.Builder) -> Self {
+        public func withPlayer(_ id: String, builderFunc: (Player.Builder) -> Player.Builder = { $0 }) -> Self {
             let builder = Player.makeBuilder().withId(id)
             let player = builderFunc(builder).build()
             players[player.id] = player
