@@ -18,7 +18,6 @@ public struct GameState: Codable, Equatable {
     public var turn: String?
 
     /// Current turn's number of times a card was played
-    // TODO: move to player
     public var playCounter: [String: Int]
 
     /// Deck
