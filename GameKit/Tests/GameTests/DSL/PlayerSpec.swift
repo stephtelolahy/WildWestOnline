@@ -73,7 +73,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have identifier") {
                     // Given
                     // When
-                    let sut = Player("p1")
+                    let sut = Player.makeBuilder()
+                        .withId("p1")
+                        .build()
 
                     // Then
                     expect(sut.id) == "p1"
@@ -84,12 +86,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have abilities") {
                     // Given
                     // When
-                    let sut = Player {
-                        Abilities {
-                            "a1"
-                            "a2"
-                        }
-                    }
+                    let sut = Player.makeBuilder()
+                        .withAbilities(["a1", "a2"])
+                        .build()
 
                     // Then
                     expect(sut.abilities) == ["a1", "a2"]
@@ -113,12 +112,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have hand cards") {
                     // Given
                     // When
-                    let sut = Player {
-                        Hand {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = Player.makeBuilder()
+                        .withHand(["c1", "c2"])
+                        .build()
 
                     // Then
                     expect(sut.hand.cards) == ["c1", "c2"]
@@ -129,12 +125,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have inPlay cards") {
                     // Given
                     // When
-                    let sut = Player {
-                        InPlay {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = Player.makeBuilder()
+                        .withInPlay(["c1", "c2"])
+                        .build()
 
                     // Then
                     expect(sut.inPlay.cards) == ["c1", "c2"]

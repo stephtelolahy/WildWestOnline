@@ -16,13 +16,11 @@ final class PlaySpec: QuickSpec {
             context("not playable card") {
                 it("should throw error") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play("c1", player: "p1")

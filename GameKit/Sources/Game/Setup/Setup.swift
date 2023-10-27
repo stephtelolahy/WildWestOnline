@@ -1,6 +1,6 @@
 //
 //  Setup.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 19/05/2023.
 //
@@ -16,23 +16,30 @@ public enum Setup {
         var deck = deck.shuffled()
         let players: [Player] = figures.map { figure in
             let identifier = figure.name
-            var player = Player(identifier)
-            player.name = figure.name
+            
+            var attributes: Attributes = .init()
+            attributes.merge(defaultAttributes) { _, new in new }
+            attributes.merge(figure.attributes) { _, new in new }
 
-            player.attributes.merge(defaultAttributes) { _, new in new }
-            player.attributes.merge(figure.attributes) { _, new in new }
-            player.startAttributes = player.attributes
-            player.abilities = defaultAbilities + [figure.name]
+            let abilities = defaultAbilities + [figure.name]
 
-            guard let health = player.attributes[.maxHealth] else {
+            guard let health = attributes[.maxHealth] else {
                 fatalError("missing attribute maxHealth")
             }
 
-            player.health = health
-            let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
-            player.hand = CardLocation(cards: hand, visibility: identifier)
+            let handCards: [String] = Array(1...health).map { _ in deck.removeFirst() }
+            let hand = CardLocation(cards: handCards, visibility: identifier)
 
-            return player
+            return Player(
+                id: identifier,
+                name: identifier,
+                startAttributes: attributes,
+                attributes: attributes,
+                abilities: abilities,
+                health: health,
+                hand: hand,
+                inPlay: .init()
+            )
         }
 
         var state = GameState()

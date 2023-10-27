@@ -14,9 +14,9 @@ final class SetAttributeSpec: QuickSpec {
         describe("setting attribute") {
             it("should set attribute") {
                 // Given
-                let state = GameState {
-                    Player("p1")
-                }
+                let state = GameState.makeBuilder()
+                    .withPlayer("p1")
+                    .build()
 
                 // When
                 let action = GameAction.setAttribute(.scope, value: 1, player: "p1")

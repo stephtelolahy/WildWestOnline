@@ -14,15 +14,10 @@ final class LuckSpec: QuickSpec {
         describe("DrawToDiscard") {
             it("should draw top deck and put to discard") {
                 // Given
-                let state = GameState {
-                    Deck {
-                        "c2"
-                        "c3"
-                    }
-                    DiscardPile {
-                        "c1"
-                    }
-                }
+                let state = GameState.makeBuilder()
+                    .withDeck(["c2", "c3"])
+                    .withDiscard(["c1"])
+                    .build()
                 
                 // When
                 let action = GameAction.luck

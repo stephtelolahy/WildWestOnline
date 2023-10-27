@@ -15,15 +15,12 @@ final class PlayHandicapSpec: QuickSpec {
             context("not in play") {
                 it("should put card in target's inplay") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                                "c2"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1", "c2"])
                         }
-                        Player("p2")
-                    }
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.playHandicap("c1", target: "p2", player: "p1")
@@ -40,18 +37,14 @@ final class PlayHandicapSpec: QuickSpec {
             context("having same card in play") {
                 it("should throw error") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c-1"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c-1"])
                         }
-                        Player("p2") {
-                            InPlay {
-                                "c-2"
-                            }
+                        .withPlayer("p2") {
+                            $0.withInPlay(["c-2"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.playHandicap("c-1", target: "p2", player: "p1")

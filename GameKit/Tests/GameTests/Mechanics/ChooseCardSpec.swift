@@ -16,13 +16,10 @@ final class ChooseCardSpec: QuickSpec {
                 context("multiple cards remaining") {
                     it("should draw that card") {
                         // Given
-                        let state = GameState {
-                            Player("p1")
-                            Arena {
-                                "c1"
-                                "c2"
-                            }
-                        }
+                        let state = GameState.makeBuilder()
+                            .withPlayer("p1")
+                            .withArena(["c1", "c2"])
+                            .build()
 
                         // When
                         let action = GameAction.chooseCard("c1", player: "p1")
@@ -38,12 +35,10 @@ final class ChooseCardSpec: QuickSpec {
                 context("last card") {
                     it("should draw that card and delete card location") {
                         // Given
-                        let state = GameState {
-                            Player("p1")
-                            Arena {
-                                "c1"
-                            }
-                        }
+                        let state = GameState.makeBuilder()
+                            .withPlayer("p1")
+                            .withArena(["c1"])
+                            .build()
 
                         // When
                         let action = GameAction.chooseCard("c1", player: "p1")
