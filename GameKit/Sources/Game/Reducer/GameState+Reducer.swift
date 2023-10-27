@@ -22,10 +22,10 @@ public extension GameState {
             state = try action.reduce(state: state)
             state.event = action
             state.error = nil
-            state.failedAction = nil
+            state.failed = nil
         } catch {
             state.error = error as? GameError
-            state.failedAction = action
+            state.failed = action
             state.event = nil
         }
 

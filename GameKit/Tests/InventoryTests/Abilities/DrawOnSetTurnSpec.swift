@@ -15,16 +15,13 @@ final class DrawOnSetTurnSpec: QuickSpec {
             context("a player with 2 initial cards") {
                 it("should draw 2 cards") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                            .ability(.drawOnSetTurn)
-                            .attribute(.startTurnCards, 2)
-                        Player("p2")
-                        Deck {
-                            "c1"
-                            "c2"
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withAbilities([.drawOnSetTurn])
+                                .withAttributes([.startTurnCards: 2])
                         }
-                    }
+                        .withDeck(["c1", "c2"])
+                        .build()
                     
                     // When
                     let action = GameAction.setTurn("p1")
@@ -42,17 +39,13 @@ final class DrawOnSetTurnSpec: QuickSpec {
             context("a player with 3 initial cards") {
                 it("should draw 3 cards") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                            .ability(.drawOnSetTurn)
-                            .attribute(.startTurnCards, 3)
-                        Player("p2")
-                        Deck {
-                            "c1"
-                            "c2"
-                            "c3"
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withAbilities([.drawOnSetTurn])
+                                .withAttributes([.startTurnCards: 3])
                         }
-                    }
+                        .withDeck(["c1", "c2", "c3"])
+                        .build()
 
                     // When
                     let action = GameAction.setTurn("p1")

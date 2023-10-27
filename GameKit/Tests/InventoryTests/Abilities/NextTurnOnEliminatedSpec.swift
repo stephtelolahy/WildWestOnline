@@ -15,13 +15,14 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
             context("current turn") {
                 it("should next turn") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                        Player("p2")
-                        Player("p3")
-                            .ability(.nextTurnOnEliminated)
-                    }
-                    .turn("p3")
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .withPlayer("p3") {
+                            $0.withAbilities([.nextTurnOnEliminated])
+                        }
+                        .withTurn("p3")
+                        .build()
 
                     // When
                     let action = GameAction.eliminate(player: "p3")
@@ -38,27 +39,20 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
             context("current turn and having cards") {
                 it("should successively discard cards, set next turn, next player draw cards") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                "c11"
-                            }
-                            InPlay {
-                                "c12"
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand(["c11"])
+                                .withInPlay(["c12"])
+                                .withAbilities([.discardCardsOnEliminated, .nextTurnOnEliminated])
                         }
-                        .ability(.discardCardsOnEliminated)
-                        .ability(.nextTurnOnEliminated)
-                        Player("p2")
-                            .ability(.drawOnSetTurn)
-                            .attribute(.startTurnCards, 2)
-                        Player("p3")
-                        Deck {
-                            "c1"
-                            "c2"
+                        .withPlayer("p2") {
+                            $0.withAbilities([.drawOnSetTurn])
+                                .withAttributes([.startTurnCards: 2])
                         }
-                    }
-                    .turn("p1")
+                        .withPlayer("p3")
+                        .withDeck(["c1", "c2"])
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.eliminate(player: "p1")

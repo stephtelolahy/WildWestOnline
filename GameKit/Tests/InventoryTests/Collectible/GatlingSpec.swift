@@ -15,15 +15,13 @@ final class GatlingSpec: QuickSpec {
             context("three players") {
                 it("should damage each player") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .gatling
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.gatling])
                         }
-                        Player("p2")
-                        Player("p3")
-                    }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .build()
 
                     // When
                     let action = GameAction.play(.gatling, player: "p1")
@@ -41,14 +39,12 @@ final class GatlingSpec: QuickSpec {
             context("two players") {
                 it("should damage each player") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .gatling
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.gatling])
                         }
-                        Player("p2")
-                    }
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.play(.gatling, player: "p1")

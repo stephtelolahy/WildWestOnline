@@ -16,15 +16,12 @@ final class JailSpec: QuickSpec {
             context("against any player") {
                 it("should handicap") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .jail
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.jail])
                         }
-                        .attribute(.flippedCards, 1)
-                        Player("p2")
-                    }
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.play(.jail, player: "p1")
@@ -50,22 +47,15 @@ final class JailSpec: QuickSpec {
             context("flipped card is hearts") {
                 it("should scape from jail") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            InPlay {
-                                .jail
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withInPlay([.jail])
+                                .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                                .withAbilities([.drawOnSetTurn])
                         }
-                        .attribute(.flippedCards, 1)
-                        .attribute(.startTurnCards, 2)
-                        .ability(.drawOnSetTurn)
-                        Player("p2")
-                        Deck {
-                            "c1-2♥️"
-                            "c2"
-                            "c3"
-                        }
-                    }
+                        .withPlayer("p2")
+                        .withDeck(["c1-2♥️", "c2", "c3"])
+                        .build()
 
                     // When
                     let action = GameAction.setTurn("p1")
@@ -83,24 +73,17 @@ final class JailSpec: QuickSpec {
             context("flipped card is spades") {
                 it("should skip turn") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            InPlay {
-                                .jail
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withInPlay([.jail])
+                                .withAttributes([.flippedCards: 1])
                         }
-                        .attribute(.flippedCards, 1)
-                        Player("p2")
-                            .attribute(.startTurnCards, 2)
-                            .ability(.drawOnSetTurn)
-                        Deck {
-                            "c1-A♠️"
-                            "c2"
-                            "c3"
-                            "c4"
-                            "c5"
+                        .withPlayer("p2") {
+                            $0.withAttributes([.startTurnCards: 2])
+                                .withAbilities([.drawOnSetTurn])
                         }
-                    }
+                        .withDeck(["c1-A♠️", "c2", "c3", "c4", "c5"])
+                        .build()
 
                     // When
                     let action = GameAction.setTurn("p1")

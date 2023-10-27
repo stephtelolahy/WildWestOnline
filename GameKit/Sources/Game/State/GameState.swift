@@ -6,25 +6,25 @@ import Foundation
 public struct GameState: Codable, Equatable {
 
     /// All players
-    public var players: [String: Player] = [:]
+    public var players: [String: Player]
 
     /// Playing order
-    public var playOrder: [String] = []
+    public var playOrder: [String]
 
     /// Initial order
-    public var startOrder: [String] = []
+    public let startOrder: [String]
 
     /// Current turn's player
     public var turn: String?
 
     /// Current turn's number of times a card was played
-    public var playCounter: [String: Int] = [:]
+    public var playCounter: [String: Int]
 
     /// Deck
-    public var deck: CardStack = .init()
+    public var deck: CardStack
 
     /// Discard pile
-    public var discard: CardStack = .init()
+    public var discard: CardStack
 
     /// Cards shop
     public var arena: CardLocation?
@@ -39,7 +39,7 @@ public struct GameState: Codable, Equatable {
     public var error: GameError?
 
     /// Action failing with error
-    public var failedAction: GameAction?
+    public var failed: GameAction?
 
     /// Pending action
     public var chooseOne: ChooseOne?
@@ -48,10 +48,10 @@ public struct GameState: Codable, Equatable {
     public var active: ActiveCards?
 
     /// Queued effects
-    public var queue: [GameAction] = []
+    public var queue: [GameAction]
 
     /// All cards reference by cardName
-    public var cardRef: [String: Card] = [:]
+    public let cardRef: [String: Card]
 }
 
 // MARK: - Convenience

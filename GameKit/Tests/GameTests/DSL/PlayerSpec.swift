@@ -16,7 +16,8 @@ final class PlayerSpec: QuickSpec {
             var sut: Player!
             context("by default") {
                 beforeEach {
-                    sut = Player()
+                    sut = Player.makeBuilder()
+                        .build()
                 }
 
                 it("should have default identifier") {
@@ -72,7 +73,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have identifier") {
                     // Given
                     // When
-                    let sut = Player("p1")
+                    let sut = Player.makeBuilder()
+                        .withId("p1")
+                        .build()
 
                     // Then
                     expect(sut.id) == "p1"
@@ -83,26 +86,25 @@ final class PlayerSpec: QuickSpec {
                 it("should have abilities") {
                     // Given
                     // When
-                    let sut = Player {
-                        Abilities {
-                            "a1"
-                            "a2"
-                        }
-                    }
+                    let sut = Player.makeBuilder()
+                        .withAbilities(["a1", "a2"])
+                        .build()
 
                     // Then
                     expect(sut.abilities) == ["a1", "a2"]
                 }
             }
 
-            context("modified name") {
-                it("should have name") {
+            context("initialized with identifier") {
+                it("should have an identifier") {
                     // Given
                     // When
-                    let sut = Player().name("p1")
+                    let sut = Player.makeBuilder()
+                        .withId("p1")
+                        .build()
 
                     // Then
-                    expect(sut.name) == "p1"
+                    expect(sut.id) == "p1"
                 }
             }
 
@@ -110,12 +112,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have hand cards") {
                     // Given
                     // When
-                    let sut = Player {
-                        Hand {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = Player.makeBuilder()
+                        .withHand(["c1", "c2"])
+                        .build()
 
                     // Then
                     expect(sut.hand.cards) == ["c1", "c2"]
@@ -126,12 +125,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have inPlay cards") {
                     // Given
                     // When
-                    let sut = Player {
-                        InPlay {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = Player.makeBuilder()
+                        .withInPlay(["c1", "c2"])
+                        .build()
 
                     // Then
                     expect(sut.inPlay.cards) == ["c1", "c2"]
@@ -142,7 +138,9 @@ final class PlayerSpec: QuickSpec {
                 it("should have that attribute") {
                     // Given
                     // When
-                    let sut = Player().attribute(.mustang, 1)
+                    let sut = Player.makeBuilder()
+                        .withAttributes([.mustang: 1])
+                        .build()
 
                     // Then
                     expect(sut.attributes[.mustang]) == 1

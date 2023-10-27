@@ -16,16 +16,13 @@ final class BangSpec: QuickSpec {
             context("by default") {
                 it("should damage by 1") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .bang
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.bang])
+                                .withAttributes([.bangsPerTurn: 1, .weapon: 1])
                         }
-                        .attribute(.bangsPerTurn, 1)
-                        .attribute(.weapon, 1)
-                        Player("p2")
-                    }
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
@@ -45,17 +42,14 @@ final class BangSpec: QuickSpec {
             context("reached limit per turn") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .bang
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.bang])
+                                .withAttributes([.weapon: 1, .bangsPerTurn: 1])
                         }
-                        .attribute(.weapon, 1)
-                        .attribute(.bangsPerTurn, 1)
-                        Player("p2")
-                    }
-                        .playCounters([.bang: 1])
+                        .withPlayer("p2")
+                        .withPlayCounter([.bang: 1])
+                        .build()
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
@@ -69,17 +63,14 @@ final class BangSpec: QuickSpec {
             context("no limit per turn") {
                 it("should allow multiple bang") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .bang
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.bang])
+                                .withAttributes([.weapon: 1, .bangsPerTurn: 0])
                         }
-                        .attribute(.weapon, 1)
-                        .attribute(.bangsPerTurn, 0)
-                        Player("p2")
-                    }
-                        .playCounters([.bang: 1])
+                        .withPlayer("p2")
+                        .withPlayCounter([.bang: 1])
+                        .build()
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
@@ -99,18 +90,15 @@ final class BangSpec: QuickSpec {
             context("no player reachable") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .bang
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.bang])
+                                .withAttributes([.bangsPerTurn: 1, .weapon: 1])
                         }
-                        .attribute(.bangsPerTurn, 1)
-                        .attribute(.weapon, 1)
-                        Player("p2").attribute(.mustang, 1)
-                        Player("p3")
-                        Player("p4").attribute(.mustang, 1)
-                    }
+                        .withPlayer("p2") {
+                            $0.withAttributes([.mustang: 1])
+                        }
+                        .build()
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")

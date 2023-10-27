@@ -16,19 +16,17 @@ final class ActivateCardsSpec: QuickSpec {
             context("card playable") {
                 it("should activate") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                String.saloon
-                                String.gatling
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.saloon, .gatling])
+                                .withAttributes([.maxHealth: 4])
+                                .withHealth(2)
                         }
-                        .attribute(.maxHealth, 4)
-                        .health(2)
-                        Player("p2")
-                            .attribute(.maxHealth, 4)
-                    }
-                        .turn("p1")
+                        .withPlayer("p2") {
+                            $0.withAttributes([.maxHealth: 4])
+                        }
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.group([])
@@ -44,18 +42,16 @@ final class ActivateCardsSpec: QuickSpec {
             context("card not playable") {
                 it("should not activate") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                String.beer
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.beer, .missed])
+                                .withAttributes([.maxHealth: 4])
+                                .withHealth(4)
                         }
-                        .attribute(.maxHealth, 4)
-                        .health(4)
-                        Player("p2")
-                        Player("p3")
-                    }
-                        .turn("p1")
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.group([])

@@ -17,7 +17,8 @@ final class GameSpec: QuickSpec {
             var sut: GameState!
             context("by default") {
                 beforeEach {
-                    sut = GameState()
+                    sut = GameState.makeBuilder()
+                        .build()
                 }
                 
                 it("should have empty deck") {
@@ -49,12 +50,9 @@ final class GameSpec: QuickSpec {
                 it("should have deck cards") {
                     // Given
                     // When
-                    let sut = GameState {
-                        Deck {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = GameState.makeBuilder()
+                        .withDeck(["c1", "c2"])
+                        .build()
                     
                     // Then
                     expect(sut.deck.count) == 2
@@ -65,12 +63,9 @@ final class GameSpec: QuickSpec {
                 it("should have discarded cards") {
                     // Given
                     // When
-                    let sut = GameState {
-                        DiscardPile {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = GameState.makeBuilder()
+                        .withDiscard(["c1", "c2"])
+                        .build()
                     
                     // Then
                     expect(sut.discard.count) == 2
@@ -81,46 +76,48 @@ final class GameSpec: QuickSpec {
                 it("should have arena cards") {
                     // Given
                     // When
-                    let sut = GameState {
-                        Arena {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let sut = GameState.makeBuilder()
+                        .withArena(["c1", "c2"])
+                        .build()
                     
                     // Then
                     expect(sut.arena?.cards) == ["c1", "c2"]
                 }
             }
             
-            context("modified game over") {
+            context("initialized with game over") {
                 it("should be over") {
                     // Given
                     // When
-                    let sut = GameState().isOver("p1")
-                    
+                    let sut = GameState.makeBuilder()
+                        .withWinner("p1")
+                        .build()
+
                     // Then
                     expect(sut.isOver) == GameOver(winner: "p1")
                 }
             }
             
-            context("modified turn") {
+            context("initialized with turn") {
                 it("should have turn") {
                     // Given
                     // When
-                    let sut = GameState().turn("p1")
-                    
+                    let sut = GameState.makeBuilder()
+                        .withTurn("p1")
+                        .build()
+
                     // Then
                     expect(sut.turn) == "p1"
                 }
             }
 
-            context("modified queue") {
+            context("initialized with queue") {
                 it("should have queued actions") {
                     // Given
                     // When
-                    let sut = GameState()
-                        .queue([.draw(player: "p1")])
+                    let sut = GameState.makeBuilder()
+                        .withQueue([.draw(player: "p1")])
+                        .build()
 
                     // Then
                     expect(sut.queue) == [
@@ -133,10 +130,10 @@ final class GameSpec: QuickSpec {
                 it("should have players") {
                     // Given
                     // When
-                    let sut = GameState {
-                        Player("p1")
-                        Player("p2")
-                    }
+                    let sut = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .build()
                     
                     // Then
                     expect(sut.startOrder) == ["p1", "p2"]

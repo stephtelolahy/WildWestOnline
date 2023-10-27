@@ -1,6 +1,6 @@
 //
 //  DiscardSpec.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 10/04/2023.
 //
@@ -15,14 +15,11 @@ final class DiscardSpec: QuickSpec {
             context("hand card") {
                 it("should remove card from hand") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                                "c2"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1", "c2"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.discardHand("c1", player: "p1")
@@ -37,14 +34,11 @@ final class DiscardSpec: QuickSpec {
             context("inPlay card") {
                 it("should remove card from inPlay") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            InPlay {
-                                "c1"
-                                "c2"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withInPlay(["c1", "c2"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.discardInPlay("c1", player: "p1")
@@ -58,9 +52,9 @@ final class DiscardSpec: QuickSpec {
 
             context("missing card") {
                 it("should throw error") {
-                    let state = GameState {
-                        Player("p1")
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .build()
 
                     // When
                     let action = GameAction.discardInPlay("c1", player: "p1")

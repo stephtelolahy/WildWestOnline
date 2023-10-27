@@ -140,7 +140,6 @@ private extension CardList {
         CardEffect.activate
             .when(.onShot)
         CardEffect.cancel(.effectOfShoot)
-            .require(.isOutOfTurn)
             .when(.onPlayImmediate)
     }
 

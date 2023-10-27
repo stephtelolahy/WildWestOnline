@@ -41,4 +41,7 @@ public enum GameError: Error, Codable, Equatable {
 
     /// No valid chooseOne option
     case noValidOption
+
+    /// No effect to cancel
+    case noEffectToCancel(ArgCancel)
 }

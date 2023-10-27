@@ -54,6 +54,31 @@ final class InventorySpec: QuickSpec {
                 expect(cards[.discardCardsOnEliminated]) != nil
                 expect(cards[.nextTurnOnEliminated]) != nil
                 expect(cards[.discardPreviousWeaponOnPlayWeapon]) != nil
+                expect(cards[.evaluateAttributeOnUpdateInPlay]) != nil
+            }
+
+            it("should contain all figures") {
+                // Given
+                // When
+                let cards = CardList.all
+
+                // Then
+                expect(cards[.willyTheKid]) != nil
+                expect(cards[.roseDoolan]) != nil
+                expect(cards[.paulRegret]) != nil
+                expect(cards[.jourdonnais]) != nil
+                expect(cards[.slabTheKiller]) != nil
+                expect(cards[.luckyDuke]) != nil
+                expect(cards[.calamityJanet]) != nil
+                expect(cards[.bartCassidy]) != nil
+                expect(cards[.elGringo]) != nil
+                expect(cards[.suzyLafayette]) != nil
+                expect(cards[.vultureSam]) != nil
+                expect(cards[.sidKetchum]) != nil
+                expect(cards[.blackJack]) != nil
+                expect(cards[.kitCarlson]) != nil
+                expect(cards[.jesseJones]) != nil
+                expect(cards[.pedroRamirez]) != nil
             }
         }
     }

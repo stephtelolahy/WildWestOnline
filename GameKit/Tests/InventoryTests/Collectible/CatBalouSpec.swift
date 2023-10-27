@@ -16,13 +16,11 @@ final class CatBalouSpec: QuickSpec {
             context("no player allowed") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .catBalou
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.catBalou])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play(.catBalou, player: "p1")
@@ -37,18 +35,14 @@ final class CatBalouSpec: QuickSpec {
                 context("having hand cards") {
                     it("should choose one random hand card") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .catBalou
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.catBalou])
                             }
-                            Player("p2") {
-                                Hand {
-                                    "c21"
-                                }
+                            .withPlayer("p2") {
+                                $0.withHand(["c21"])
                             }
-                        }
+                            .build()
                         
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
@@ -71,19 +65,14 @@ final class CatBalouSpec: QuickSpec {
                 context("having inPlay cards") {
                     it("should choose one inPlay card") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .catBalou
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.catBalou])
                             }
-                            Player("p2") {
-                                InPlay {
-                                    "c21"
-                                    "c22"
-                                }
+                            .withPlayer("p2") {
+                                $0.withInPlay(["c21", "c22"])
                             }
-                        }
+                            .build()
                         
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
@@ -107,22 +96,15 @@ final class CatBalouSpec: QuickSpec {
                 context("having hand and inPlay cards") {
                     it("should choose one inPlay or random hand card") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .catBalou
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.catBalou])
                             }
-                            Player("p2") {
-                                Hand {
-                                    "c21"
-                                }
-                                InPlay {
-                                    "c22"
-                                    "c23"
-                                }
+                            .withPlayer("p2") {
+                                $0.withHand(["c21"])
+                                    .withInPlay(["c22", "c23"])
                             }
-                        }
+                            .build()
                         
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")

@@ -12,24 +12,22 @@ import Game
 final class MissedSpec: QuickSpec {
     override func spec() {
         describe("playing missed") {
-            context("your turn") {
+            context("not being targeted by shoot") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .missed
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.missed])
                         }
-                    }
-                    .turn("p1")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.play(.missed, player: "p1")
                     let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(error) == .noReq(.isOutOfTurn)
+                    expect(error) == .noEffectToCancel(.effectOfShoot)
 
                 }
             }
@@ -40,20 +38,15 @@ final class MissedSpec: QuickSpec {
                 context("holding a missed card") {
                     it("should ask choice") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
                             }
-                            .attribute(.bangsPerTurn, 1)
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                Hand {
-                                    .missed
-                                }
+                            .withPlayer("p2") {
+                                $0.withHand([.missed])
                             }
-                        }
+                            .build()
 
                         // When
                         let action = GameAction.play(.bang, player: "p1")
@@ -79,22 +72,15 @@ final class MissedSpec: QuickSpec {
                 context("holding multiple missed cards") {
                     it("should ask choice once") {
                         // Given
-                        let state = createGameWithCardRef {
-                            Player("p1") {
-                                Hand {
-                                    .bang
-                                }
+                        let state = GameState.makeBuilderWithCardRef()
+                            .withPlayer("p1") {
+                                $0.withHand([.bang])
+                                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
                             }
-                            .attribute(.bangsPerTurn, 1)
-                            .attribute(.weapon, 1)
-                            Player("p2") {
-                                Hand {
-                                    .missed
-                                    "missed-2"
-                                    "missed-3"
-                                }
+                            .withPlayer("p2") {
+                                $0.withHand([.missed, "missed-2", "missed-3"])
                             }
-                        }
+                            .build()
 
                         // When
                         let action = GameAction.play(.bang, player: "p1")
@@ -121,23 +107,18 @@ final class MissedSpec: QuickSpec {
             context("gatling") {
                 it("should allow each player to counter") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .gatling
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.gatling])
                         }
-                        Player("p2") {
-                            Hand {
-                                .missed
-                            }
+                        .withPlayer("p2") {
+                            $0.withHand([.missed])
                         }
-                        Player("p3") {
-                            Hand {
-                                .missed
-                            }
+                        .withPlayer("p3") {
+                            $0.withHand([.missed])
                         }
-                    }
+                        .withDeck(["c1", "c2", "c3"])
+                        .build()
 
                     // When
                     let action = GameAction.play(.gatling, player: "p1")

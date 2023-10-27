@@ -14,16 +14,14 @@ final class MustangSpec: QuickSpec {
         describe("playing mustang") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .mustang
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.mustang])
+                            .withStartAttributes([.mustang: 0])
+                            .withAttributes([.mustang: 0])
+                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
                     }
-                    .startAttribute(.mustang, 0)
-                    .attribute(.mustang, 0)
-                    .ability(.evaluateAttributeOnUpdateInPlay)
-                }
+                    .build()
 
                 // When
                 let action = GameAction.play(.mustang, player: "p1")

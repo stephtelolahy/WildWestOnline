@@ -16,12 +16,13 @@ final class EndTurnSpec: QuickSpec {
             context("no excess cards") {
                 it("should discard nothing") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                            .ability(.endTurn)
-                        Player("p2")
-                    }
-                    .turn("p1")
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withAbilities([.endTurn])
+                        }
+                        .withPlayer("p2")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")
@@ -38,19 +39,16 @@ final class EndTurnSpec: QuickSpec {
             context("custom hand limit") {
                 it("should discard nothing") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                                "c2"
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1", "c2"])
+                                .withHealth(1)
+                                .withAttributes([.handLimit: 10])
+                                .withAbilities([.endTurn])
                         }
-                        .health(1)
-                        .attribute(.handLimit, 10)
-                        .ability(.endTurn)
-                        Player("p2")
-                    }
-                    .turn("p1")
+                        .withPlayer("p2")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")
@@ -67,19 +65,15 @@ final class EndTurnSpec: QuickSpec {
             context("having one excess card") {
                 it("should discard a hand card") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                                "c2"
-                                "c3"
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1", "c2", "c3"])
+                                .withHealth(2)
+                                .withAbilities([.endTurn])
                         }
-                        .ability(.endTurn)
-                        .health(2)
-                        Player("p2")
-                    }
-                    .turn("p1")
+                        .withPlayer("p2")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")
@@ -102,19 +96,15 @@ final class EndTurnSpec: QuickSpec {
             context("having 2 excess cards") {
                 it("should discard 2 hand cards") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                                "c2"
-                                "c3"
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1", "c2", "c3"])
+                                .withHealth(1)
+                                .withAbilities([.endTurn])
                         }
-                        .ability(.endTurn)
-                        .health(1)
-                        Player("p2")
-                    }
-                    .turn("p1")
+                        .withPlayer("p2")
+                        .withTurn("p1")
+                        .build()
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")

@@ -15,17 +15,15 @@ final class BeerSpec: QuickSpec {
             context("being damaged") {
                 it("should heal one life point") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .beer
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.beer])
+                                .withHealth(2)
+                                .withAttributes([.maxHealth: 3])
                         }
-                        .health(2)
-                        .attribute(.maxHealth, 3)
-                        Player()
-                        Player()
-                    }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .build()
 
                     // When
                     let action = GameAction.play(.beer, player: "p1")
@@ -40,17 +38,15 @@ final class BeerSpec: QuickSpec {
             context("already max health") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .beer
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.beer])
+                                .withHealth(3)
+                                .withAttributes([.maxHealth: 3])
                         }
-                        .health(3)
-                        .attribute(.maxHealth, 3)
-                        Player()
-                        Player()
-                    }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .build()
 
                     // When
                     let action = GameAction.play(.beer, player: "p1")
@@ -64,16 +60,14 @@ final class BeerSpec: QuickSpec {
             context("two players left") {
                 it("should throw error") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .beer
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.beer])
+                                .withHealth(2)
+                                .withAttributes([.maxHealth: 3])
                         }
-                        .health(2)
-                        .attribute(.maxHealth, 3)
-                        Player()
-                    }
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.play(.beer, player: "p1")

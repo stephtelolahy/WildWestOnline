@@ -16,16 +16,14 @@ final class SchofieldSpec: QuickSpec {
             context("no weapon inPlay") {
                 it("should equip") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .schofield
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.schofield])
+                                .withAttributes([.weapon: 1])
+                                .withStartAttributes([.weapon: 1])
+                                .withAbilities([.evaluateAttributeOnUpdateInPlay])
                         }
-                        .attribute(.weapon, 1)
-                        .startAttribute(.weapon, 1)
-                        .ability(.evaluateAttributeOnUpdateInPlay)
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play(.schofield, player: "p1")
@@ -42,20 +40,15 @@ final class SchofieldSpec: QuickSpec {
             context("already playing another weapon") {
                 it("should discard previous weapon") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .schofield
-                            }
-                            InPlay {
-                                .remington
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.schofield])
+                                .withInPlay([.remington])
+                                .withAttributes([.weapon: 3])
+                                .withStartAttributes([.weapon: 1])
+                                .withAbilities([.discardPreviousWeaponOnPlayWeapon, .evaluateAttributeOnUpdateInPlay])
                         }
-                        .attribute(.weapon, 3)
-                        .startAttribute(.weapon, 1)
-                        .ability(.discardPreviousWeaponOnPlayWeapon)
-                        .ability(.evaluateAttributeOnUpdateInPlay)
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play(.schofield, player: "p1")
@@ -75,16 +68,14 @@ final class SchofieldSpec: QuickSpec {
             context("from inPlay") {
                 it("should reset to default weapon") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            InPlay {
-                                .schofield
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withInPlay([.schofield])
+                                .withAttributes([.weapon: 2])
+                                .withStartAttributes([.weapon: 1])
+                                .withAbilities([.evaluateAttributeOnUpdateInPlay])
                         }
-                        .attribute(.weapon, 2)
-                        .startAttribute(.weapon, 1)
-                        .ability(.evaluateAttributeOnUpdateInPlay)
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.discardInPlay(.schofield, player: "p1")
@@ -101,13 +92,11 @@ final class SchofieldSpec: QuickSpec {
             context("from hand") {
                 it("should do nothing") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .schofield
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.schofield])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.discardHand(.schofield, player: "p1")

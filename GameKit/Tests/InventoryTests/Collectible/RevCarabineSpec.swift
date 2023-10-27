@@ -13,16 +13,14 @@ final class RevCarabineSpec: QuickSpec {
         describe("playing revCarabine") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .revCarabine
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.revCarabine])
+                            .withStartAttributes([.weapon: 1])
+                            .withAttributes([.weapon: 1])
+                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
                     }
-                    .startAttribute(.weapon, 1)
-                    .attribute(.weapon, 1)
-                    .ability(.evaluateAttributeOnUpdateInPlay)
-                }
+                    .build()
 
                 // When
                 let action = GameAction.play(.revCarabine, player: "p1")

@@ -13,16 +13,14 @@ final class WinchesterSpec: QuickSpec {
         describe("playing winchester") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .winchester
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.winchester])
+                            .withStartAttributes([.weapon: 1])
+                            .withAttributes([.weapon: 1])
+                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
                     }
-                    .startAttribute(.weapon, 1)
-                    .attribute(.weapon, 1)
-                    .ability(.evaluateAttributeOnUpdateInPlay)
-                }
+                    .build()
 
                 // When
                 let action = GameAction.play(.winchester, player: "p1")

@@ -15,10 +15,10 @@ final class GameOverSpec: QuickSpec {
             context("one player last") {
                 it("should be over") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                        Player("p2")
-                    }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.eliminate(player: "p2")
@@ -35,11 +35,11 @@ final class GameOverSpec: QuickSpec {
             context("two player") {
                 it("should not be over") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1")
-                        Player("p2")
-                        Player("p3")
-                    }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .build()
 
                     // When
                     let action = GameAction.eliminate(player: "p3")
@@ -56,8 +56,9 @@ final class GameOverSpec: QuickSpec {
         context("when over") {
             it("should not handle any action") {
                 // Given
-                let state = GameState()
-                    .isOver("p1")
+                let state = GameState.makeBuilder()
+                    .withWinner("p1")
+                    .build()
 
                 // When
                 let action = GameAction.play("c1", player: "p1")

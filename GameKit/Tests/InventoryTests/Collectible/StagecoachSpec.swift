@@ -14,27 +14,23 @@ final class StagecoachSpec: QuickSpec {
         describe("playing stagecoach") {
             it("should draw 2 cards") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .stagecoach
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.stagecoach])
                     }
-                    Player("p2")
-                    Deck {
-                        "c1"
-                        "c2"
-                    }
-                }
-                
+                    .withDeck(["c1", "c2"])
+                    .build()
+
                 // When
                 let action = GameAction.play(.stagecoach, player: "p1")
                 let (result, _) = self.awaitAction(action, state: state)
                 
                 // Then
-                expect(result) == [.playImmediate(.stagecoach, player: "p1"),
-                                   .draw(player: "p1"),
-                                   .draw(player: "p1")]
+                expect(result) == [
+                    .playImmediate(.stagecoach, player: "p1"),
+                    .draw(player: "p1"),
+                    .draw(player: "p1")
+                ]
             }
         }
     }

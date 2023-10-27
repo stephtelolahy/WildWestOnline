@@ -16,19 +16,15 @@ final class ChooseOneSpec: QuickSpec {
         
         describe("chooseOne") {
             beforeEach {
-                state = GameState {
-                    Player("p1") {
-                        Hand {
-                            "c1"
-                            "c2"
-                            "c3"
-                        }
+                state = GameState.makeBuilder()
+                    .withPlayer("p1") {
+                        $0.withHand(["c1", "c2", "c3"])
                     }
-                }
-                .waiting("p1", options: [
-                    "c1": .discardHand("c1", player: "p1"),
-                    "c2": .discardHand("c2", player: "p1")
-                ])
+                    .withChooseOne("p1", options: [
+                        "c1": .discardHand("c1", player: "p1"),
+                        "c2": .discardHand("c2", player: "p1")
+                    ])
+                    .build()
             }
 
             context("when dispatching waited action") {

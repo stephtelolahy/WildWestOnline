@@ -14,15 +14,12 @@ final class PassInPlaySpec: QuickSpec {
         describe("pass in play") {
             it("should remove card from inPlay") {
                 // Given
-                let state = GameState {
-                    Player("p1") {
-                        InPlay {
-                            "c1"
-                            "c2"
-                        }
+                let state = GameState.makeBuilder()
+                    .withPlayer("p1") {
+                        $0.withInPlay(["c1", "c2"])
                     }
-                    Player("p2")
-                }
+                    .withPlayer("p2")
+                    .build()
 
                 // When
                 let action = GameAction.passInplay("c1", target: "p2", player: "p1")
@@ -36,10 +33,10 @@ final class PassInPlaySpec: QuickSpec {
 
             context("missing card") {
                 it("should throw error") {
-                    let state = GameState {
-                        Player("p1")
-                        Player("p2")
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.passInplay("c1", target: "p2", player: "p1")

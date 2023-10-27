@@ -15,15 +15,12 @@ final class StealSpec: QuickSpec {
             context("hand card") {
                 it("should remove card from hand") {
                     // Given
-                    let state = GameState {
-                        Player("p1")
-                        Player("p2") {
-                            Hand {
-                                "c21"
-                                "c22"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withPlayer("p2") {
+                            $0.withHand(["c21", "c22"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.stealHand("c21", target: "p2", player: "p1")
@@ -39,15 +36,12 @@ final class StealSpec: QuickSpec {
             context("inPlay card") {
                 it("should remove card from inPlay") {
                     // Given
-                    let state = GameState {
-                        Player("p1")
-                        Player("p2") {
-                            InPlay {
-                                "c21"
-                                "c22"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withPlayer("p2") {
+                            $0.withInPlay(["c21", "c22"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
@@ -62,10 +56,10 @@ final class StealSpec: QuickSpec {
 
             context("missing card") {
                 it("should throw error") {
-                    let state = GameState {
-                        Player("p1")
-                        Player("p2")
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withPlayer("p2")
+                        .build()
 
                     // When
                     let action = GameAction.stealHand("c2", target: "p1", player: "p1")

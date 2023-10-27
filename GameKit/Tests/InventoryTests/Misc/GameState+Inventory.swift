@@ -8,7 +8,8 @@
 import Game
 import Inventory
 
-func createGameWithCardRef(@GameAttributeBuilder components: () -> [GameAttribute]) -> GameState {
-    .init(components: components)
-    .cardRef(CardList.all)
+extension GameState {
+    static func makeBuilderWithCardRef() -> Builder {
+        makeBuilder().withCardRef(CardList.all)
+    }
 }

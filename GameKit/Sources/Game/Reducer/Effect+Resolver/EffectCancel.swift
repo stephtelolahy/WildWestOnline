@@ -13,8 +13,10 @@ struct EffectCancel: EffectResolver {
         case .effectOfShoot:
             if let index = state.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.actor) }) {
                 return [.cancel(state.queue[index])]
+            } else {
+                throw GameError.noEffectToCancel(arg)
             }
-
+            
         case let .effectOfCard(cardName):
             if let index = state.queue.firstIndex(where: { $0.isEffectOfCard(cardName) }) {
                 return [.cancel(state.queue[index])]

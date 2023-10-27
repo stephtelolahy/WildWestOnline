@@ -15,18 +15,14 @@ final class VolcanicSpec: QuickSpec {
             context("no weapon inPlay") {
                 it("should set bangsPerTurn") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .volcanic
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.volcanic])
+                                .withStartAttributes([.weapon: 1, .bangsPerTurn: 1])
+                                .withAttributes([.weapon: 1, .bangsPerTurn: 1])
+                                .withAbilities([.evaluateAttributeOnUpdateInPlay])
                         }
-                        .startAttribute(.weapon, 1)
-                        .startAttribute(.bangsPerTurn, 1)
-                        .attribute(.weapon, 1)
-                        .attribute(.bangsPerTurn, 1)
-                        .ability(.evaluateAttributeOnUpdateInPlay)
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play(.volcanic, player: "p1")
@@ -43,22 +39,15 @@ final class VolcanicSpec: QuickSpec {
             context("already playing a weapon") {
                 it("should discard previous weapon") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .volcanic
-                            }
-                            InPlay {
-                                .schofield
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.volcanic])
+                                .withInPlay([.schofield])
+                                .withStartAttributes([.weapon: 1, .bangsPerTurn: 1])
+                                .withAttributes([.weapon: 2, .bangsPerTurn: 1])
+                                .withAbilities([.discardPreviousWeaponOnPlayWeapon, .evaluateAttributeOnUpdateInPlay])
                         }
-                        .startAttribute(.weapon, 1)
-                        .startAttribute(.bangsPerTurn, 1)
-                        .attribute(.weapon, 2)
-                        .attribute(.bangsPerTurn, 1)
-                        .ability(.discardPreviousWeaponOnPlayWeapon)
-                        .ability(.evaluateAttributeOnUpdateInPlay)
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play(.volcanic, player: "p1")

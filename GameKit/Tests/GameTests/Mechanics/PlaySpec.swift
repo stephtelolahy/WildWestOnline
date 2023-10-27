@@ -16,13 +16,11 @@ final class PlaySpec: QuickSpec {
             context("not playable card") {
                 it("should throw error") {
                     // Given
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1"])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.play("c1", player: "p1")
@@ -40,14 +38,12 @@ final class PlaySpec: QuickSpec {
                         CardEffect.nothing
                             .when(.onPlayImmediate)
                     }
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1"])
                         }
-                    }
-                    .cardRef(["c1": card1])
+                        .withCardRef(["c1": card1])
+                        .build()
 
                     // When
                     let action = GameAction.play("c1", player: "p1")
@@ -68,11 +64,12 @@ final class PlaySpec: QuickSpec {
                         CardEffect.nothing
                             .when(.onPlayAbility)
                     }
-                    let state = GameState {
-                        Player("p1")
-                            .ability("c1")
-                    }
-                    .cardRef(["c1": card1])
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withAbilities(["c1"])
+                        }
+                        .withCardRef(["c1": card1])
+                        .build()
 
                     // When
                     let action = GameAction.play("c1", player: "p1")
@@ -93,14 +90,12 @@ final class PlaySpec: QuickSpec {
                         CardEffect.nothing
                             .when(.onPlayEquipment)
                     }
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1"])
                         }
-                    }
-                    .cardRef(["c1": card1])
+                        .withCardRef(["c1": card1])
+                        .build()
 
                     // When
                     let action = GameAction.play("c1", player: "p1")
@@ -122,16 +117,14 @@ final class PlaySpec: QuickSpec {
                             .target(.selectAny)
                             .when(.onPlayHandicap)
                     }
-                    let state = GameState {
-                        Player("p1") {
-                            Hand {
-                                "c1"
-                            }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHand(["c1"])
                         }
-                        Player("p2")
-                        Player("p3")
-                    }
-                    .cardRef(["c1": card1])
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .withCardRef(["c1": card1])
+                        .build()
 
                     // When
                     let action = GameAction.play("c1", player: "p1")

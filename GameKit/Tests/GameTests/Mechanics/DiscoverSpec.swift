@@ -15,13 +15,9 @@ final class DiscoverSpec: QuickSpec {
             context("chosable nil") {
                 it("should draw top deck and create arena") {
                     // Given
-                    let state = GameState {
-                        Deck {
-                            "c1"
-                            "c2"
-                            "c3"
-                        }
-                    }
+                    let state = GameState.makeBuilder()
+                        .withDeck(["c1", "c2", "c3"])
+                        .build()
 
                     // When
                     let action = GameAction.discover
@@ -37,15 +33,10 @@ final class DiscoverSpec: QuickSpec {
             context("chosable containing card") {
                 it("should draw top deck and add to arena") {
                     // Given
-                    let state = GameState {
-                        Deck {
-                            "c2"
-                            "c3"
-                        }
-                        Arena {
-                            "c1"
-                        }
-                    }
+                    let state = GameState.makeBuilder()
+                        .withDeck(["c2", "c3"])
+                        .withArena(["c1"])
+                        .build()
 
                     // When
                     let action = GameAction.discover

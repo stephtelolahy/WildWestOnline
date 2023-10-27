@@ -14,16 +14,14 @@ final class RemingtonSpec: QuickSpec {
         describe("playing remington") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .remington
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.remington])
+                            .withStartAttributes([.weapon: 1])
+                            .withAttributes([.weapon: 1])
+                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
                     }
-                    .startAttribute(.weapon, 1)
-                    .attribute(.weapon, 1)
-                    .ability(.evaluateAttributeOnUpdateInPlay)
-                }
+                    .build()
 
                 // When
                 let action = GameAction.play(.remington, player: "p1")

@@ -14,23 +14,23 @@ public struct Player: Identifiable, Codable, Equatable {
     public let id: String
 
     /// Display name
-    public var name: String = String()
-
-    /// Initial attributes
-    public var startAttributes: Attributes = [:]
-
-    /// Active attributes
-    public var attributes: Attributes = [:]
+    public let name: String
 
     /// Active abilities
-    public var abilities: [String] = []
+    public let abilities: [String]
+
+    /// Initial attributes
+    public let startAttributes: Attributes
+
+    /// Active attributes
+    public var attributes: Attributes
 
     /// Life points
-    public var health: Int = 0
+    public var health: Int
 
     /// Hand cards
-    public var hand: CardLocation = .init()
+    public var hand: CardLocation
 
     /// In play cards
-    public var inPlay: CardLocation = .init()
+    public var inPlay: CardLocation
 }

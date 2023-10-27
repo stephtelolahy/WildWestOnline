@@ -14,10 +14,10 @@ final class EliminateSpec: QuickSpec {
         describe("eliminating a player") {
             it("should remove from PlayOrder and emit event") {
                 // Given
-                let state = GameState {
-                    Player("p1")
-                    Player("p2")
-                }
+                let state = GameState.makeBuilder()
+                    .withPlayer("p1")
+                    .withPlayer("p2")
+                    .build()
 
                 // When
                 let action = GameAction.eliminate(player: "p1")
@@ -30,13 +30,10 @@ final class EliminateSpec: QuickSpec {
 
             it("should remove queued effects") {
                 // Given
-                let state = GameState {
-                    Player("p1")
-                    Player("p2")
-                }
-                .queue([
-                    .effect(.draw, ctx: EffectContext(actor: "p1", card: "c1"))
-                ])
+                let state = GameState.makeBuilder()
+                    .withPlayer("p1")
+                    .withQueue([.effect(.draw, ctx: EffectContext(actor: "p1", card: "c1"))])
+                    .build()
 
                 // When
                 let action = GameAction.eliminate(player: "p1")

@@ -16,10 +16,11 @@ final class DamageSpec: QuickSpec {
         describe("damage") {
             // Given
             beforeEach {
-                state = GameState {
-                    Player("p1")
-                        .health(2)
-                }
+                state = GameState.makeBuilder()
+                    .withPlayer("p1") {
+                        $0.withHealth(2)
+                    }
+                    .build()
             }
 
             context("1 life point") {

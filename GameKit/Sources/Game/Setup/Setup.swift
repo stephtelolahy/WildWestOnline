@@ -1,6 +1,6 @@
 //
 //  Setup.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 19/05/2023.
 //
@@ -10,40 +10,53 @@ public enum Setup {
         figures: [Card],
         defaultAttributes: Attributes,
         defaultAbilities: [String],
-        deck: [String]
+        deck: [String],
+        cardRef: [String: Card]
     ) -> GameState {
         let figures = figures
         var deck = deck.shuffled()
         let players: [Player] = figures.map { figure in
             let identifier = figure.name
-            var player = Player(identifier)
-            player.name = figure.name
+            
+            let attributes = defaultAttributes.merging(figure.attributes) { _, new in new }
+            let abilities = defaultAbilities + [figure.name]
 
-            player.attributes.merge(defaultAttributes) { _, new in new }
-            player.attributes.merge(figure.attributes) { _, new in new }
-            player.startAttributes = player.attributes
-            player.abilities = defaultAbilities + [figure.name]
-
-            guard let health = player.attributes[.maxHealth] else {
+            guard let health = attributes[.maxHealth] else {
                 fatalError("missing attribute maxHealth")
             }
 
-            player.health = health
-            let hand: [String] = Array(1...health).map { _ in deck.removeFirst() }
-            player.hand = CardLocation(cards: hand, visibility: identifier)
+            let handCards: [String] = Array(1...health).map { _ in deck.removeFirst() }
+            let hand = CardLocation(cards: handCards, visibility: identifier)
 
-            return player
+            return Player(
+                id: identifier,
+                name: identifier,
+                abilities: abilities,
+                startAttributes: attributes,
+                attributes: attributes,
+                health: health,
+                hand: hand,
+                inPlay: .init(cards: [])
+            )
         }
 
-        var state = GameState()
+        var playerDictionary: [String: Player] = [:]
+        var playOrder: [String] = []
         for player in players {
-            state.players[player.id] = player
-            state.startOrder.append(player.id)
-            state.playOrder.append(player.id)
+            playerDictionary[player.id] = player
+            playOrder.append(player.id)
         }
-        state.deck = CardStack(cards: deck)
 
-        return state
+        return GameState(
+            players: playerDictionary,
+            playOrder: playOrder,
+            startOrder: playOrder,
+            playCounter: [:],
+            deck: CardStack(cards: deck),
+            discard: .init(cards: []),
+            queue: [],
+            cardRef: cardRef
+        )
     }
 
     public static func buildDeck(cardSets: [String: [String]]) -> [String] {

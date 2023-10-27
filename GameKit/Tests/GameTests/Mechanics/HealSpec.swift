@@ -18,11 +18,12 @@ final class HealSpec: QuickSpec {
 
                 beforeEach {
                     // Given
-                    state = GameState {
-                        Player("p1")
-                            .health(2)
-                            .attribute(.maxHealth, 4)
-                    }
+                    state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHealth(2)
+                                .withAttributes([.maxHealth: 4])
+                        }
+                        .build()
                 }
 
                 context("value less than damage") {
@@ -65,11 +66,12 @@ final class HealSpec: QuickSpec {
             context("already max health") {
                 it("should throw error") {
                     // Given
-                    let state = GameState {
-                        Player("p1")
-                            .health(4)
-                            .attribute(.maxHealth, 3)
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1") {
+                            $0.withHealth(4)
+                                .withAttributes([.maxHealth: 4])
+                        }
+                        .build()
 
                     // When
                     let action = GameAction.heal(1, player: "p1")

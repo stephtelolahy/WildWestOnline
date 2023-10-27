@@ -23,14 +23,12 @@ final class PlayImmediateSpec: QuickSpec {
                AND increment counter
                """) {
                 // Given
-                let state = GameState {
-                    Player("p1") {
-                        Hand {
-                            "c1"
-                        }
+                let state = GameState.makeBuilder()
+                    .withPlayer("p1") {
+                        $0.withHand(["c1"])
                     }
-                }
-                .cardRef(["c1": card1])
+                    .withCardRef(["c1": card1])
+                    .build()
 
                 // When
                 let action = GameAction.playImmediate("c1", player: "p1")

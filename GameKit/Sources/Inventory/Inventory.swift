@@ -13,8 +13,8 @@ public enum Inventory {
         let game = Setup.buildGame(figures: figures,
                                    defaultAttributes: GameDefault.attributes,
                                    defaultAbilities: GameDefault.abilities,
-                                   deck: deck)
-            .cardRef(CardList.all)
+                                   deck: deck,
+                                   cardRef: CardList.all)
         return game
     }
 }

@@ -15,13 +15,10 @@ final class DrawSpec: QuickSpec {
             context("deck containing cards") {
                 it("should remove top card") {
                     // Given
-                    let state = GameState {
-                        Player("p1")
-                        Deck {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                    let state = GameState.makeBuilder()
+                        .withPlayer("p1")
+                        .withDeck(["c1", "c2"])
+                        .build()
 
                     // When
                     let action = GameAction.draw(player: "p1")
@@ -37,13 +34,10 @@ final class DrawSpec: QuickSpec {
                 context("enough discard pile") {
                     it("should reset deck") {
                         // Given
-                        let state = GameState {
-                            Player("p1")
-                            DiscardPile {
-                                "c1"
-                                "c2"
-                            }
-                        }
+                        let state = GameState.makeBuilder()
+                            .withPlayer("p1")
+                            .withDiscard(["c1", "c2"])
+                            .build()
 
                         // When
                         let action = GameAction.draw(player: "p1")
@@ -60,9 +54,9 @@ final class DrawSpec: QuickSpec {
                 context("not enough discard pile") {
                     it("should throw error") {
                         // Given
-                        let state = GameState {
-                            Player("p1")
-                        }
+                        let state = GameState.makeBuilder()
+                            .withPlayer("p1")
+                            .build()
 
                         // When
                         let action = GameAction.draw(player: "p1")
