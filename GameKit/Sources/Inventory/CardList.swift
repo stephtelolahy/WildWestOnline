@@ -267,7 +267,7 @@ private extension CardList {
 
     // MARK: - Figures
 
-    static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4])
+    static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
 
     static let roseDoolan = Card(.roseDoolan, attributes: [.maxHealth: 4])
 
