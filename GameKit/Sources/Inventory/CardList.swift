@@ -269,7 +269,7 @@ private extension CardList {
 
     static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
 
-    static let roseDoolan = Card(.roseDoolan, attributes: [.maxHealth: 4])
+    static let roseDoolan = Card(.roseDoolan, attributes: [.maxHealth: 4, .scope: 1])
 
     static let paulRegret = Card(.paulRegret, attributes: [.maxHealth: 3])
 
