@@ -15,13 +15,11 @@ final class BarrelSpec: QuickSpec {
         describe("playing barrel") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .barrel
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.barrel])
                     }
-                }
+                    .build()
                 
                 // When
                 let action = GameAction.play(.barrel, player: "p1")

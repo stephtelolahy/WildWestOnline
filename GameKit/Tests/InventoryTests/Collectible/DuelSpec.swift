@@ -16,21 +16,16 @@ final class DuelSpec: QuickSpec {
 
         describe("playing Duel") {
             beforeEach {
-                state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .duel
-                            "bang-1"
-                        }
+                state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.duel, "bang-1"])
                     }
-                    Player("p2") {
-                        Hand {
-                            "bang-2"
-                        }
+                    .withPlayer("p2") {
+                        $0.withHand(["bang-2"])
                     }
-                    Player("p3")
-                    Player("p4")
-                }
+                    .withPlayer("p3")
+                    .withPlayer("p4")
+                    .build()
             }
 
             context("passing") {

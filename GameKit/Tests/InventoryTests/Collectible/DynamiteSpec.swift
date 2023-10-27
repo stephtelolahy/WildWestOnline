@@ -15,13 +15,11 @@ final class DynamiteSpec: QuickSpec {
         describe("playing dynamite") {
             it("should equip") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .dynamite
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.dynamite])
                     }
-                }
+                    .build()
 
                 // When
                 let action = GameAction.play(.dynamite, player: "p1")

@@ -15,21 +15,15 @@ final class IndiansSpec: QuickSpec {
             context("three players") {
                 it("should allow each player to counter or pass") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .indians
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.indians])
                         }
-                        Player("p2") {
-                            Hand {
-                                String.bang
-                                String.missed
-                            }
+                        .withPlayer("p2") {
+                            $0.withHand([.bang, .missed])
                         }
-                        
-                        Player("p3")
-                    }
+                        .withPlayer("p3")
+                        .build()
                     
                     // When
                     let action = GameAction.play(.indians, player: "p1")
@@ -51,19 +45,15 @@ final class IndiansSpec: QuickSpec {
             context("two players") {
                 it("should allow each player to counter") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .indians
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.indians])
                         }
-                        Player("p2") {
-                            Hand {
-                                .bang
-                            }
+                        .withPlayer("p2") {
+                            $0.withHand([.bang])
                         }
-                    }
-                    
+                        .build()
+
                     // When
                     let action = GameAction.play(.indians, player: "p1")
                     let (result, _) = self.awaitAction(action, choices: [.bang], state: state)

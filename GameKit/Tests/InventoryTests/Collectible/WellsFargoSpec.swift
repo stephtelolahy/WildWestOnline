@@ -14,20 +14,14 @@ final class WellsFargoSpec: QuickSpec {
         describe("playing wellsFargo") {
             it("should draw 3 cards") {
                 // Given
-                let state = createGameWithCardRef {
-                    Player("p1") {
-                        Hand {
-                            .wellsFargo
-                        }
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withHand([.wellsFargo])
                     }
-                    Player("p2")
-                    Deck {
-                        "c1"
-                        "c2"
-                        "c3"
-                    }
-                }
-                
+                    .withPlayer("p2")
+                    .withDeck(["c1", "c2", "c3"])
+                    .build()
+
                 // When
                 let action = GameAction.play(.wellsFargo, player: "p1")
                 let (result, _) = self.awaitAction(action, state: state)

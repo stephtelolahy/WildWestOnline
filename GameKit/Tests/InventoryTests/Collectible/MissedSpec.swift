@@ -107,23 +107,18 @@ final class MissedSpec: QuickSpec {
             context("gatling") {
                 it("should allow each player to counter") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .gatling
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.gatling])
                         }
-                        Player("p2") {
-                            Hand {
-                                .missed
-                            }
+                        .withPlayer("p2") {
+                            $0.withHand([.missed])
                         }
-                        Player("p3") {
-                            Hand {
-                                .missed
-                            }
+                        .withPlayer("p3") {
+                            $0.withHand([.missed])
                         }
-                    }
+                        .withDeck(["c1", "c2", "c3"])
+                        .build()
 
                     // When
                     let action = GameAction.play(.gatling, player: "p1")

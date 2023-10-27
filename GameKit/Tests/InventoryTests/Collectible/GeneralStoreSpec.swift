@@ -16,20 +16,14 @@ final class GeneralStoreSpec: QuickSpec {
             context("three players") {
                 it("should allow each player to choose a card") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .generalStore
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.generalStore])
                         }
-                        Player("p2")
-                        Player("p3")
-                        Deck {
-                            "c1"
-                            "c2"
-                            "c3"
-                        }
-                    }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
+                        .withDeck(["c1", "c2", "c3"])
+                        .build()
                     
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")
@@ -60,18 +54,13 @@ final class GeneralStoreSpec: QuickSpec {
             context("two players") {
                 it("should allow each player to choose a card") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .generalStore
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.generalStore])
                         }
-                        Player("p2")
-                        Deck {
-                            "c1"
-                            "c2"
-                        }
-                    }
+                        .withPlayer("p2")
+                        .withDeck(["c1", "c2"])
+                        .build()
                     
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")

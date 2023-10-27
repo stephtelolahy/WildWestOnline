@@ -92,13 +92,11 @@ final class SchofieldSpec: QuickSpec {
             context("from hand") {
                 it("should do nothing") {
                     // Given
-                    let state = createGameWithCardRef {
-                        Player("p1") {
-                            Hand {
-                                .schofield
-                            }
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withHand([.schofield])
                         }
-                    }
+                        .build()
 
                     // When
                     let action = GameAction.discardHand(.schofield, player: "p1")
