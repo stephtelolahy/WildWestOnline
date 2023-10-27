@@ -56,24 +56,24 @@ public enum CardList {
         pedroRamirez
     }
 
-    public static let figures: [Card] = createCardArray {
-        willyTheKid
-        roseDoolan
-        paulRegret
-        jourdonnais
-        slabTheKiller
-        luckyDuke
-        calamityJanet
-        bartCassidy
-        elGringo
-        suzyLafayette
-        vultureSam
-        sidKetchum
-        blackJack
-        kitCarlson
-        jesseJones
-        pedroRamirez
-    }
+    public static let figures: [String] = [
+        .willyTheKid,
+        .roseDoolan,
+        .paulRegret,
+        .jourdonnais,
+        .slabTheKiller,
+        .luckyDuke,
+        .calamityJanet,
+        .bartCassidy,
+        .elGringo,
+        .suzyLafayette,
+        .vultureSam,
+        .sidKetchum,
+        .blackJack,
+        .kitCarlson,
+        .jesseJones,
+        .pedroRamirez
+    ]
 }
 
 private extension CardList {

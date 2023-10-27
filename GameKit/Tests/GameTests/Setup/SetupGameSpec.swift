@@ -19,19 +19,20 @@ final class SetupGameSpec: QuickSpec {
                 beforeEach {
                     // Given
                     let deck = Array(1...80).map { "c\($0)" }
-                    let figures = [
-                        Card("p1", attributes: [.maxHealth: 4]),
-                        Card("p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
-                    ]
+                    let figures = ["p1", "p2"]
                     let attributes: Attributes = [.startTurnCards: 2]
                     let abilities = ["a1", "a2"]
+                    let cardRef: [String: Card] = [
+                        "p1": Card("p1", attributes: [.maxHealth: 4]),
+                        "p2": Card("p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
+                    ]
 
                     // When
                     game = Setup.buildGame(figures: figures,
                                            defaultAttributes: attributes,
                                            defaultAbilities: abilities,
                                            deck: deck,
-                                           cardRef: [:])
+                                           cardRef: cardRef)
                 }
 
                 it("should create a game with given player number") {
