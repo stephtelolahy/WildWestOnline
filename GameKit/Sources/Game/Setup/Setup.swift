@@ -10,17 +10,15 @@ public enum Setup {
         figures: [Card],
         defaultAttributes: Attributes,
         defaultAbilities: [String],
-        deck: [String]
+        deck: [String],
+        cardRef: [String: Card]
     ) -> GameState {
         let figures = figures
         var deck = deck.shuffled()
         let players: [Player] = figures.map { figure in
             let identifier = figure.name
             
-            var attributes: Attributes = .init()
-            attributes.merge(defaultAttributes) { _, new in new }
-            attributes.merge(figure.attributes) { _, new in new }
-
+            let attributes = defaultAttributes.merging(figure.attributes) { _, new in new }
             let abilities = defaultAbilities + [figure.name]
 
             guard let health = attributes[.maxHealth] else {
@@ -33,24 +31,32 @@ public enum Setup {
             return Player(
                 id: identifier,
                 name: identifier,
+                abilities: abilities,
                 startAttributes: attributes,
                 attributes: attributes,
-                abilities: abilities,
                 health: health,
                 hand: hand,
-                inPlay: .init()
+                inPlay: .init(cards: [])
             )
         }
 
-        var state = GameState()
+        var playerDictionary: [String: Player] = [:]
+        var playOrder: [String] = []
         for player in players {
-            state.players[player.id] = player
-            state.startOrder.append(player.id)
-            state.playOrder.append(player.id)
+            playerDictionary[player.id] = player
+            playOrder.append(player.id)
         }
-        state.deck = CardStack(cards: deck)
 
-        return state
+        return GameState(
+            players: playerDictionary,
+            playOrder: playOrder,
+            startOrder: playOrder,
+            playCounter: [:],
+            deck: CardStack(cards: deck),
+            discard: .init(cards: []),
+            queue: [],
+            cardRef: cardRef
+        )
     }
 
     public static func buildDeck(cardSets: [String: [String]]) -> [String] {

@@ -20,5 +20,5 @@ public struct EffectContext: Codable, Equatable {
     var target: String?
 
     /// Related action which causes the effect to be cancelled when action get cancelled
-    var linkedAction: GameAction?
+    let linkedAction: GameAction?
 }

@@ -11,9 +11,9 @@ public extension Player {
     class Builder {
         private var id: String?
         private var name: String?
+        private var abilities: [String]?
         private var attributes: Attributes?
         private var startAttributes: Attributes?
-        private var abilities: [String]?
         private var health: Int?
         private var hand: CardLocation?
         private var inPlay: CardLocation?
@@ -24,15 +24,15 @@ public extension Player {
             let abilities = abilities ?? .init()
             let attributes = attributes ?? .init()
             let startAttributes = startAttributes ?? attributes
-            let hand = hand ?? .init()
-            let inPlay = inPlay ?? .init()
+            let hand = hand ?? .init(cards: [], visibility: id)
+            let inPlay = inPlay ?? .init(cards: [])
             let health = health ?? 0
 
             return Player(id: id,
                           name: name,
+                          abilities: abilities, 
                           startAttributes: startAttributes,
                           attributes: attributes,
-                          abilities: abilities,
                           health: health,
                           hand: hand,
                           inPlay: inPlay)

@@ -10,4 +10,3 @@ public extension GameAction {
         .group(content())
     }
 }
-

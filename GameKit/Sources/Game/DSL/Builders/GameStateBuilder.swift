@@ -24,8 +24,8 @@ public extension GameState {
         private var cardRef: [String: Card]?
 
         public func build() -> GameState {
-            let deck = deck ?? .init()
-            let discard = discard ?? .init()
+            let deck = deck ?? .init(cards: [])
+            let discard = discard ?? .init(cards: [])
             let queue = queue ?? .init()
             let cardRef = cardRef ?? .init()
             let playCounter = playCounter ?? .init()

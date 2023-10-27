@@ -16,7 +16,7 @@ final class CardLocationSpec: QuickSpec {
             var sut: CardLocation!
             context("by default") {
                 beforeEach {
-                    sut = CardLocation()
+                    sut = CardLocation(cards: [])
                 }
                 
                 it("should be empty") {
@@ -32,8 +32,8 @@ final class CardLocationSpec: QuickSpec {
                 it("should have limited visibility") {
                     // Given
                     // When
-                    let sut = CardLocation(visibility: "p1")
-                    
+                    let sut = CardLocation(cards: [], visibility: "p1")
+
                     // Then
                     expect(sut.visibility) == "p1"
                 }
@@ -43,9 +43,7 @@ final class CardLocationSpec: QuickSpec {
                 it("should have correct count") {
                     // Given
                     // When
-                    let sut = CardLocation {
-                        "c1"
-                    }
+                    let sut = CardLocation(cards: ["c1"])
                     
                     // Then
                     expect(sut.count) == 1
@@ -54,10 +52,7 @@ final class CardLocationSpec: QuickSpec {
                 it("should have cards") {
                     // Given
                     // When
-                    let sut = CardLocation {
-                        "c1"
-                        "c2"
-                    }
+                    let sut = CardLocation(cards: ["c1", "c2"])
                     
                     // Then
                     expect(sut.cards) == ["c1", "c2"]

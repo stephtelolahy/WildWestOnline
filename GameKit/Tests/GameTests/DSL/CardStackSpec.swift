@@ -16,7 +16,7 @@ final class CardStackSpec: QuickSpec {
             var sut: CardStack!
             context("by default") {
                 beforeEach {
-                    sut = CardStack()
+                    sut = CardStack(cards: [])
                 }
                 
                 it("should be empty") {
@@ -32,10 +32,7 @@ final class CardStackSpec: QuickSpec {
                 it("should have correct count") {
                     // Given
                     // When
-                    let sut = CardStack {
-                        "c1"
-                        "c2"
-                    }
+                    let sut = CardStack(cards: ["c1", "c2"])
                     
                     // Then
                     expect(sut.count) == 2
@@ -44,11 +41,8 @@ final class CardStackSpec: QuickSpec {
                 it("should expose first card as top") {
                     // Given
                     // When
-                    let sut = CardStack {
-                        "c1"
-                        "c2"
-                    }
-                    
+                    let sut = CardStack(cards: ["c1", "c2"])
+
                     // Then
                     expect(sut.top) == "c1"
                 }

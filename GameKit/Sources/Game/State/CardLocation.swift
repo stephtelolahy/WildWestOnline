@@ -4,15 +4,17 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+import InitMacro
 
 /// Card zone
+@Init(defaults: ["visibility": nil])
 public struct CardLocation: Codable, Equatable {
 
     /// Content
-    public var cards: [String] = []
+    public var cards: [String]
 
     /// If defined, specifies player who has access to content
-    public var visibility: String?
+    public let visibility: String?
 }
 
 public extension CardLocation {
