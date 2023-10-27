@@ -1,5 +1,5 @@
 //
-//  GameState+Builder.swift
+//  GameStateBuilder.swift
 //
 //
 //  Created by Hugues Telolahy on 22/10/2023.
