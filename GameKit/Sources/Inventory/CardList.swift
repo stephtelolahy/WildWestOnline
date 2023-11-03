@@ -296,7 +296,7 @@ private extension CardList {
 
     static let slabTheKiller = Card(.slabTheKiller, attributes: [.maxHealth: 4])
 
-    static let luckyDuke = Card(.luckyDuke, attributes: [.maxHealth: 4])
+    static let luckyDuke = Card(.luckyDuke, attributes: [.maxHealth: 4, .flippedCards: 2])
 
     static let calamityJanet = Card(.calamityJanet, attributes: [.maxHealth: 4])
 
