@@ -148,7 +148,7 @@ struct ActivateCardsMiddleware: GameActionMiddleware {
 
         var activeCards: [String] = []
         let playerObj = state.player(player)
-        for card in (playerObj.hand.cards + playerObj.abilities)
+        for card in activableCardsOfPlayer(playerObj)
         where GameAction.validatePlay(card: card, player: player, state: state) {
             activeCards.append(card)
         }
@@ -159,6 +159,10 @@ struct ActivateCardsMiddleware: GameActionMiddleware {
         }
 
         return .activateCards(player: player, cards: activeCards)
+    }
+
+    private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
+        playerObj.abilities + playerObj.hand.cards
     }
 }
 
