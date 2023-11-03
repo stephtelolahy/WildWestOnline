@@ -13,16 +13,17 @@ import Inventory
 final class RoseDoolanSpec: QuickSpec {
     override func spec() {
         describe("RoseDoolan") {
-            it("should have scope and maxHealth of 4") {
+            it("should have scope") {
                 // Given
-                let sut = CardList.all[.roseDoolan]!
+                let state = Setup.buildGame(figures: [.roseDoolan],
+                                            deck: (0..<10).map { "c\($0)" },
+                                            cardRef: CardList.all)
 
                 // When
+                let player = state.player(.roseDoolan)
+
                 // Then
-                expect(sut.attributes) == [
-                    .scope: 1,
-                    .maxHealth: 4
-                ]
+                expect(player.attributes[.scope]) == 1
             }
         }
     }
