@@ -10,7 +10,7 @@ struct IsCardPlayedLessThan: PlayReqMatcher {
     let playedMaxTimes: ArgNum
 
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        let numContext = ArgNumContext(actor: ctx.actor)
+        let numContext = EffectContext(actor: ctx.actor, card: "")
         guard let maxNumber = try? playedMaxTimes.resolve(state: state, ctx: numContext) else {
             fatalError("unresolved ArgNum \(playedMaxTimes)")
         }

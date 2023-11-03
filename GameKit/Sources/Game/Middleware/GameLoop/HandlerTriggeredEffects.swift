@@ -1,6 +1,6 @@
 //
 //  HandlerTriggeredEffects.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 03/11/2023.
 //
@@ -47,8 +47,12 @@ struct HandlerTriggeredEffects: GameActionHandler {
 
         let playReqContext = PlayReqContext(actor: player)
         for (playReq, effect) in cardObj.rules where  playReq.match(state: state, ctx: playReqContext) {
-            let cancellingAction = cancellingActionForTriggeredEffect(state: state)
-            let ctx = EffectContext(actor: player, card: card, cancellingAction: cancellingAction)
+            let ctx = EffectContext(
+                actor: player,
+                card: card,
+                cancellingAction: cancellingActionForTriggeredEffect(state: state),
+                triggeringAction: state.event
+            )
             return GameAction.effect(effect, ctx: ctx)
         }
 
@@ -87,7 +91,7 @@ private extension GameState {
 
         return cardObj.rules.contains(where: {
             if $0.key == .onPlayImmediate,
-                case .cancel = $0.value {
+               case .cancel = $0.value {
                 return true
             } else {
                 return false
