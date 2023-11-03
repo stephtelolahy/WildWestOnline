@@ -47,8 +47,8 @@ struct HandlerTriggeredEffects: GameActionHandler {
 
         let playReqContext = PlayReqContext(actor: player)
         for (playReq, effect) in cardObj.rules where  playReq.match(state: state, ctx: playReqContext) {
-            let rootAction = rootActionForTriggeredEffect(state: state)
-            let ctx = EffectContext(actor: player, card: card, rootAction: rootAction)
+            let cancellingAction = cancellingActionForTriggeredEffect(state: state)
+            let ctx = EffectContext(actor: player, card: card, cancellingAction: cancellingAction)
             return GameAction.effect(effect, ctx: ctx)
         }
 
@@ -65,7 +65,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
         playerObj.abilities
     }
 
-    private func rootActionForTriggeredEffect(state: GameState) -> GameAction? {
+    private func cancellingActionForTriggeredEffect(state: GameState) -> GameAction? {
         if let event = state.event,
            case let .effect(cardEffect, _) = event,
            case .shoot = cardEffect,

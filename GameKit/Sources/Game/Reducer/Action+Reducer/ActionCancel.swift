@@ -23,7 +23,7 @@ private extension GameState {
     mutating func removeEffectsLinkedTo(_ action: GameAction) {
         queue.removeAll { item in
             if case let .effect(_, ctx) = item,
-               ctx.rootAction == action {
+               ctx.cancellingAction == action {
                 return true
             } else {
                 return false

@@ -12,11 +12,14 @@ public enum ArgNum: Codable, Equatable {
     case exact(Int)
 
     /// Number of active players
-    case numPlayers
+    case activePlayers
 
     /// Number of excess cards at the end of turn
     case excessHand
     
     /// Number of start turn cards
     case playerAttr(AttributeKey)
+
+    /// Number of lost life points in triggering damage action
+    case damage
 }

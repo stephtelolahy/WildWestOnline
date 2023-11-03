@@ -141,7 +141,7 @@ private extension CardList {
     static let generalStore = Card(.generalStore) {
         CardEffect.group {
             CardEffect.discover
-                .repeat(.numPlayers)
+                .repeat(.activePlayers)
             CardEffect.chooseArena
                 .target(.all)
         }
@@ -306,6 +306,7 @@ private extension CardList {
     static let bartCassidy = Card(.bartCassidy, attributes: [.maxHealth: 4]) {
         CardEffect.draw
             .target(.actor)
+            .repeat(.damage)
             .when(.onDamage)
     }
 

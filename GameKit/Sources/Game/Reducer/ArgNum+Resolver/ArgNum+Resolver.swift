@@ -24,12 +24,14 @@ private extension ArgNum {
         switch self {
         case .exact(let number):
             NumExact(number: number)
-        case .numPlayers:
-            NumPlayers()
+        case .activePlayers:
+            NumActivePlayers()
         case .excessHand:
             NumExcessHand()
         case .playerAttr(let key):
             NumPlayerAttr(key: key)
+        case .damage:
+            NumDamage()
         }
     }
 }
