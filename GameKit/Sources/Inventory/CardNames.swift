@@ -1,6 +1,6 @@
 //
-//  String+CardName.swift
-//  
+//  CardNames.swift
+//
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
