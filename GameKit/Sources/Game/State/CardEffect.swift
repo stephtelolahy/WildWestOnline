@@ -36,7 +36,7 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Choose some cards from arena
     /// When chooser is `ctx.target`
-    case chooseCard
+    case chooseArena
     
     /// Draw a card from deck and put to arena
     case discover
@@ -47,7 +47,7 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Eliminate a player from the game
     case eliminate
     
-    /// Evaluate player attribute related to played card
+    /// Evaluate all player attributes
     case evaluateAttributes
 
     /// Do nothing

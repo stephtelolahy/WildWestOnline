@@ -40,8 +40,8 @@ private extension CardEffect {
         case .eliminate:
             EffectJust { .eliminate(player: $0.target!) }
 
-        case .chooseCard:
-            EffectChooseCard()
+        case .chooseArena:
+            EffectChooseArena()
 
         case let .discard(card, chooser):
             EffectDiscard(card: card, chooser: chooser)

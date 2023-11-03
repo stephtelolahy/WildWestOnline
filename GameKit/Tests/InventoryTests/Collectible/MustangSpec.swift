@@ -19,7 +19,7 @@ final class MustangSpec: QuickSpec {
                         $0.withHand([.mustang])
                             .withStartAttributes([.mustang: 0])
                             .withAttributes([.mustang: 0])
-                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
+                            .withAbilities([.evaluateAttributesOnUpdateInPlay])
                     }
                     .build()
 

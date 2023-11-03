@@ -15,7 +15,7 @@ extension GameAction {
         for (key, action) in options {
             do {
                 try action.validate(state: state)
-                validOptions[key] = try action.simplifyOption(state: state)
+                validOptions[key] = try action.simplified(state: state)
             } catch {
                 print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
                 continue
@@ -66,7 +66,9 @@ private extension GameAction {
         }
     }
     
-    func simplifyOption(state: GameState) throws -> GameAction {
+    /// Reducing effect to a more meaningful action
+    /// If not possible, then return `self`
+    func simplified(state: GameState) throws -> GameAction {
         guard case let .effect(effect, ctx) = self else {
             return self
         }
@@ -76,6 +78,6 @@ private extension GameAction {
             return self
         }
         
-        return try children[0].simplifyOption(state: state)
+        return try children[0].simplified(state: state)
     }
 }

@@ -18,7 +18,7 @@ final class ScopeSpec: QuickSpec {
                         $0.withHand([.scope])
                             .withStartAttributes([.scope: 0])
                             .withAttributes([.scope: 0])
-                            .withAbilities([.evaluateAttributeOnUpdateInPlay])
+                            .withAbilities([.evaluateAttributesOnUpdateInPlay])
                     }
                     .build()
 

@@ -37,7 +37,7 @@ public enum CardList {
         nextTurnOnEliminated
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
-        evaluateAttributeOnUpdateInPlay
+        evaluateAttributesOnUpdateInPlay
         willyTheKid
         roseDoolan
         paulRegret
@@ -56,24 +56,43 @@ public enum CardList {
         pedroRamirez
     }
 
-    public static let figures: [Card] = createCardArray {
-        willyTheKid
-        roseDoolan
-        paulRegret
-        jourdonnais
-        slabTheKiller
-        luckyDuke
-        calamityJanet
-        bartCassidy
-        elGringo
-        suzyLafayette
-        vultureSam
-        sidKetchum
-        blackJack
-        kitCarlson
-        jesseJones
-        pedroRamirez
-    }
+    public static let figures: [String] = [
+        .willyTheKid,
+        .roseDoolan,
+        .paulRegret,
+        .jourdonnais,
+        .slabTheKiller,
+        .luckyDuke,
+        .calamityJanet,
+        .bartCassidy,
+        .elGringo,
+        .suzyLafayette,
+        .vultureSam,
+        .sidKetchum,
+        .blackJack,
+        .kitCarlson,
+        .jesseJones,
+        .pedroRamirez
+    ]
+
+    public static let commonPlayer = Card("", attributes: [
+        .startTurnCards: 2,
+        .weapon: 1,
+        .flippedCards: 1,
+        .bangsPerTurn: 1,
+        .scope: 0,
+        .mustang: 0
+    ])
+
+    public static let commonAbilities: [String] = [
+        .endTurn,
+        .drawOnSetTurn,
+        .eliminateOnDamageLethal,
+        .discardCardsOnEliminated,
+        .nextTurnOnEliminated,
+        .evaluateAttributesOnUpdateInPlay,
+        .discardPreviousWeaponOnPlayWeapon
+    ]
 }
 
 private extension CardList {
@@ -123,7 +142,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.numPlayers)
-            CardEffect.chooseCard
+            CardEffect.chooseArena
                 .target(.all)
         }
         .when(.onPlayImmediate)
@@ -151,7 +170,7 @@ private extension CardList {
 
     static let indians = Card(.indians) {
         CardEffect.discard(.selectHandNamed(.bang))
-            .force(.damage(1))
+            .force(otherwise: .damage(1))
             .target(.others)
             .when(.onPlayImmediate)
     }
@@ -259,7 +278,7 @@ private extension CardList {
             .when(.onPlayWeapon)
     }
 
-    static let evaluateAttributeOnUpdateInPlay = Card(.evaluateAttributeOnUpdateInPlay) {
+    static let evaluateAttributesOnUpdateInPlay = Card(.evaluateAttributesOnUpdateInPlay) {
         CardEffect.evaluateAttributes
             .target(.actor)
             .when(.onUpdateInPlay)
@@ -267,17 +286,20 @@ private extension CardList {
 
     // MARK: - Figures
 
-    static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4])
+    static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
 
-    static let roseDoolan = Card(.roseDoolan, attributes: [.maxHealth: 4])
+    static let roseDoolan = Card(.roseDoolan, attributes: [.maxHealth: 4, .scope: 1])
 
-    static let paulRegret = Card(.paulRegret, attributes: [.maxHealth: 3])
+    static let paulRegret = Card(.paulRegret, attributes: [.maxHealth: 3, .mustang: 1])
 
-    static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4])
+    static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4]) {
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
+            .when(.onShot)
+    }
 
     static let slabTheKiller = Card(.slabTheKiller, attributes: [.maxHealth: 4])
 
-    static let luckyDuke = Card(.luckyDuke, attributes: [.maxHealth: 4])
+    static let luckyDuke = Card(.luckyDuke, attributes: [.maxHealth: 4, .flippedCards: 2])
 
     static let calamityJanet = Card(.calamityJanet, attributes: [.maxHealth: 4])
 

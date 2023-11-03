@@ -54,7 +54,7 @@ final class InventorySpec: QuickSpec {
                 expect(cards[.discardCardsOnEliminated]) != nil
                 expect(cards[.nextTurnOnEliminated]) != nil
                 expect(cards[.discardPreviousWeaponOnPlayWeapon]) != nil
-                expect(cards[.evaluateAttributeOnUpdateInPlay]) != nil
+                expect(cards[.evaluateAttributesOnUpdateInPlay]) != nil
             }
 
             it("should contain all figures") {

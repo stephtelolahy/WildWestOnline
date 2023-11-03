@@ -51,8 +51,8 @@ private extension GameAction {
             ActionDiscover()
         case .luck:
             ActionLuck()
-        case let .chooseCard(card, player):
-            ActionChooseCard(player: player, card: card)
+        case let .chooseArena(card, player):
+            ActionChooseArena(player: player, card: card)
         case let .group(actions):
             ActionGroup(children: actions)
         case let .setTurn(player):

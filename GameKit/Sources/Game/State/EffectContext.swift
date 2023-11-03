@@ -8,7 +8,7 @@
 import InitMacro
 
 /// Context data associated to an effect
-@Init(defaults: ["target": nil, "linkedAction": nil])
+@Init(defaults: ["target": nil, "rootAction": nil])
 public struct EffectContext: Codable, Equatable {
     /// Player triggering effect
     let actor: String
@@ -19,6 +19,7 @@ public struct EffectContext: Codable, Equatable {
     /// Targeted player while resolving effect
     var target: String?
 
-    /// Related action which causes the effect to be cancelled when action get cancelled
-    let linkedAction: GameAction?
+    /// Root action which causes the effect to be cancelled automatically
+    /// when the root action got cancelled
+    let rootAction: GameAction?
 }

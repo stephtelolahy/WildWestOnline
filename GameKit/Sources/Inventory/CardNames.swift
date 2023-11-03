@@ -1,6 +1,6 @@
 //
-//  String+CardName.swift
-//  
+//  CardNames.swift
+//
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
@@ -59,7 +59,7 @@ public extension String {
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardCardsOnEliminated = "discardCardsOnEliminated"
     static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"
-    static let evaluateAttributeOnUpdateInPlay = "evaluateAttributeOnUpdateInPlay"
+    static let evaluateAttributesOnUpdateInPlay = "evaluateAttributeOnUpdateInPlay"
 }
 
 public extension String {

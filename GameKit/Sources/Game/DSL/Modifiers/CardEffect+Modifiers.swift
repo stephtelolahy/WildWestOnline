@@ -22,7 +22,7 @@ public extension CardEffect {
         .target(target, effect: self)
     }
 
-    func force(_ otherwise: Self) -> Self {
+    func force(otherwise: Self) -> Self {
         .force(self, otherwise: otherwise)
     }
 

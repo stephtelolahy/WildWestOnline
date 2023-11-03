@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 06/05/2023.
 //
 
-/// Initial game element attributes
+/// Player attributes
 public enum AttributeKey: String, Codable, CodingKeyRepresentable, CaseIterable {
 
     /// Max health

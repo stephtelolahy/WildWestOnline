@@ -22,7 +22,7 @@ final class ChooseCardSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.chooseCard("c1", player: "p1")
+                        let action = GameAction.chooseArena("c1", player: "p1")
                         let result = GameState.reducer(state, action)
 
                         // Then
@@ -41,7 +41,7 @@ final class ChooseCardSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.chooseCard("c1", player: "p1")
+                        let action = GameAction.chooseArena("c1", player: "p1")
                         let result = GameState.reducer(state, action)
 
                         // Then

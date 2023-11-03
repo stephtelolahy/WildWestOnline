@@ -7,30 +7,31 @@
 
 public enum Setup {
     public static func buildGame(
-        figures: [Card],
-        defaultAttributes: Attributes,
-        defaultAbilities: [String],
+        figures: [String],
         deck: [String],
-        cardRef: [String: Card]
+        cardRef: [String: Card],
+        defaultAttributes: Attributes = [:],
+        defaultAbilities: [String] = []
     ) -> GameState {
-        let figures = figures
         var deck = deck.shuffled()
-        let players: [Player] = figures.map { figure in
-            let identifier = figure.name
-            
+        let players: [Player] = figures.map { figureName in
+            guard let figure = cardRef[figureName] else {
+                fatalError("Missing figure named \(figureName)")
+            }
+
             let attributes = defaultAttributes.merging(figure.attributes) { _, new in new }
-            let abilities = defaultAbilities + [figure.name]
+            let abilities = defaultAbilities + [figureName]
 
             guard let health = attributes[.maxHealth] else {
                 fatalError("missing attribute maxHealth")
             }
 
             let handCards: [String] = Array(1...health).map { _ in deck.removeFirst() }
-            let hand = CardLocation(cards: handCards, visibility: identifier)
+            let hand = CardLocation(cards: handCards, visibility: figureName)
 
             return Player(
-                id: identifier,
-                name: identifier,
+                id: figureName,
+                name: figureName,
                 abilities: abilities,
                 startAttributes: attributes,
                 attributes: attributes,
