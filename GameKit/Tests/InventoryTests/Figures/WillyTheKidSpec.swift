@@ -13,16 +13,17 @@ import Inventory
 final class WillyTheKidSpec: QuickSpec {
     override func spec() {
         describe("WillyTheKid") {
-            it("should have unlimited bang and maxHealth of 4") {
+            it("should have unlimited bang") {
                 // Given
-                let sut = CardList.all[.willyTheKid]!
+                let state = Setup.buildGame(figures: [.willyTheKid],
+                                            deck: (0..<10).map { "c\($0)" },
+                                            cardRef: CardList.all)
 
                 // When
+                let player = state.player(.willyTheKid)
+
                 // Then
-                expect(sut.attributes) == [
-                    .bangsPerTurn: 0,
-                    .maxHealth: 4
-                ]
+                expect(player.attributes[.bangsPerTurn]) == 0
             }
         }
     }

@@ -29,10 +29,10 @@ final class SetupGameSpec: QuickSpec {
 
                     // When
                     game = Setup.buildGame(figures: figures,
-                                           defaultAttributes: attributes,
-                                           defaultAbilities: abilities,
                                            deck: deck,
-                                           cardRef: cardRef)
+                                           cardRef: cardRef,
+                                           defaultAttributes: attributes,
+                                           defaultAbilities: abilities)
                 }
 
                 it("should create a game with given player number") {

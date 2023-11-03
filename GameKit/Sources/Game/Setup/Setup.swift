@@ -8,10 +8,10 @@
 public enum Setup {
     public static func buildGame(
         figures: [String],
-        defaultAttributes: Attributes,
-        defaultAbilities: [String],
         deck: [String],
-        cardRef: [String: Card]
+        cardRef: [String: Card],
+        defaultAttributes: Attributes = [:],
+        defaultAbilities: [String] = []
     ) -> GameState {
         var deck = deck.shuffled()
         let players: [Player] = figures.map { figureName in
