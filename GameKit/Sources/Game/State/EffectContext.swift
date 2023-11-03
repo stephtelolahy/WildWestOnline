@@ -19,6 +19,7 @@ public struct EffectContext: Codable, Equatable {
     /// Targeted player while resolving effect
     var target: String?
 
-    /// Related action which causes the effect to be cancelled when action get cancelled
-    let linkedAction: GameAction?
+    /// Root action which causes the effect to be cancelled automatically
+    /// when the root action got cancelled
+    let rootAction: GameAction?
 }
