@@ -151,7 +151,7 @@ private extension CardList {
 
     static let indians = Card(.indians) {
         CardEffect.discard(.selectHandNamed(.bang))
-            .force(.damage(1))
+            .force(otherwise: .damage(1))
             .target(.others)
             .when(.onPlayImmediate)
     }
