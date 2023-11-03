@@ -29,7 +29,7 @@ struct ActionPlayEquipment: GameActionReducer {
         state.queueOnPlayEffect(card: card,
                                 player: player,
                                 state: state,
-                                action: .playEquipment(card, player: player))
+                                triggeringAction: .playEquipment(card, player: player))
 
         return state
     }

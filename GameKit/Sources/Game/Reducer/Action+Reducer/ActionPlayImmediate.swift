@@ -24,7 +24,7 @@ struct ActionPlayImmediate: GameActionReducer {
                                 player: player,
                                 target: target,
                                 state: state,
-                                action: .playImmediate(card, target: target, player: player))
+                                triggeringAction: .playImmediate(card, target: target, player: player))
 
         return state
     }
