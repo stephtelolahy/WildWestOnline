@@ -23,6 +23,9 @@ public enum PlayReq: String, CodingKeyRepresentable, Codable, Equatable {
     /// After setting turn
     case onSetTurn
 
+    /// After being damaged
+    case onDamage
+
     /// After loosing last life point
     case onDamageLethal
 

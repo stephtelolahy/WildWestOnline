@@ -303,7 +303,11 @@ private extension CardList {
 
     static let calamityJanet = Card(.calamityJanet, attributes: [.maxHealth: 4])
 
-    static let bartCassidy = Card(.bartCassidy, attributes: [.maxHealth: 4])
+    static let bartCassidy = Card(.bartCassidy, attributes: [.maxHealth: 4]) {
+        CardEffect.draw
+            .target(.actor)
+            .when(.onDamage)
+    }
 
     static let elGringo = Card(.elGringo, attributes: [.maxHealth: 3])
 
