@@ -292,7 +292,10 @@ private extension CardList {
 
     static let paulRegret = Card(.paulRegret, attributes: [.maxHealth: 3, .mustang: 1])
 
-    static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4])
+    static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4]) {
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
+            .when(.onShot)
+    }
 
     static let slabTheKiller = Card(.slabTheKiller, attributes: [.maxHealth: 4])
 
