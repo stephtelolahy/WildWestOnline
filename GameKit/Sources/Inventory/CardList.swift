@@ -37,7 +37,7 @@ public enum CardList {
         nextTurnOnEliminated
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
-        evaluateAttributeOnUpdateInPlay
+        evaluateAttributesOnUpdateInPlay
         willyTheKid
         roseDoolan
         paulRegret
@@ -259,7 +259,7 @@ private extension CardList {
             .when(.onPlayWeapon)
     }
 
-    static let evaluateAttributeOnUpdateInPlay = Card(.evaluateAttributeOnUpdateInPlay) {
+    static let evaluateAttributesOnUpdateInPlay = Card(.evaluateAttributesOnUpdateInPlay) {
         CardEffect.evaluateAttributes
             .target(.actor)
             .when(.onUpdateInPlay)

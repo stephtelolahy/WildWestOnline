@@ -59,7 +59,7 @@ public extension String {
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
     static let discardCardsOnEliminated = "discardCardsOnEliminated"
     static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"
-    static let evaluateAttributeOnUpdateInPlay = "evaluateAttributeOnUpdateInPlay"
+    static let evaluateAttributesOnUpdateInPlay = "evaluateAttributeOnUpdateInPlay"
 }
 
 public extension String {

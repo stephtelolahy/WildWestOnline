@@ -21,7 +21,7 @@ final class SchofieldSpec: QuickSpec {
                             $0.withHand([.schofield])
                                 .withAttributes([.weapon: 1])
                                 .withStartAttributes([.weapon: 1])
-                                .withAbilities([.evaluateAttributeOnUpdateInPlay])
+                                .withAbilities([.evaluateAttributesOnUpdateInPlay])
                         }
                         .build()
 
@@ -46,7 +46,7 @@ final class SchofieldSpec: QuickSpec {
                                 .withInPlay([.remington])
                                 .withAttributes([.weapon: 3])
                                 .withStartAttributes([.weapon: 1])
-                                .withAbilities([.discardPreviousWeaponOnPlayWeapon, .evaluateAttributeOnUpdateInPlay])
+                                .withAbilities([.discardPreviousWeaponOnPlayWeapon, .evaluateAttributesOnUpdateInPlay])
                         }
                         .build()
 
@@ -73,7 +73,7 @@ final class SchofieldSpec: QuickSpec {
                             $0.withInPlay([.schofield])
                                 .withAttributes([.weapon: 2])
                                 .withStartAttributes([.weapon: 1])
-                                .withAbilities([.evaluateAttributeOnUpdateInPlay])
+                                .withAbilities([.evaluateAttributesOnUpdateInPlay])
                         }
                         .build()
 

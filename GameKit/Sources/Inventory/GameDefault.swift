@@ -13,7 +13,7 @@ public enum GameDefault {
         .eliminateOnDamageLethal,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated,
-        .evaluateAttributeOnUpdateInPlay,
+        .evaluateAttributesOnUpdateInPlay,
         .discardPreviousWeaponOnPlayWeapon
     ]
 
