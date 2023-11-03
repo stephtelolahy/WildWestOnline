@@ -36,7 +36,7 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Choose some cards from arena
     /// When chooser is `ctx.target`
-    case chooseCard
+    case chooseArena
     
     /// Draw a card from deck and put to arena
     case discover

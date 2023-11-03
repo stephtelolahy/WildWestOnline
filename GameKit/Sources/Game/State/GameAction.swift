@@ -51,7 +51,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case passInplay(String, target: String, player: String)
 
     /// Draw some cards from arena
-    case chooseCard(String, player: String)
+    case chooseArena(String, player: String)
 
     /// Draw a card from deck and put to arena
     case discover

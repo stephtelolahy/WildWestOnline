@@ -123,7 +123,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.numPlayers)
-            CardEffect.chooseCard
+            CardEffect.chooseArena
                 .target(.all)
         }
         .when(.onPlayImmediate)

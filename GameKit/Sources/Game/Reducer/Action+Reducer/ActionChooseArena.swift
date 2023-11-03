@@ -1,11 +1,11 @@
 //
-//  ActionChooseCard.swift
+//  ActionChooseArena.swift
 //  
 //
 //  Created by Hugues Telolahy on 11/04/2023.
 //
 
-struct ActionChooseCard: GameActionReducer {
+struct ActionChooseArena: GameActionReducer {
     let player: String
     let card: String
 
