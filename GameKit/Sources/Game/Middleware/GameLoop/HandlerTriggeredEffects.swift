@@ -1,51 +1,11 @@
-//  GameLoopMiddleware.swift
 //
+//  HandlerTriggeredEffects.swift
+//  
 //
-//  Created by Hugues Stephano TELOLAHY on 26/04/2023.
+//  Created by Hugues Telolahy on 03/11/2023.
 //
-import Redux
-import Combine
 
-public let gameLoopMiddleware: Middleware<GameState> = { state, action in
-    guard let action = action as? GameAction else {
-        return Empty().eraseToAnyPublisher()
-    }
-
-    let middleWares: [GameActionMiddleware] = [
-        GameOverMiddleware(),
-        TriggeredEffectsMiddleware(),
-        NextActionMiddleware(),
-        ActivateCardsMiddleware()
-    ]
-
-    for middleware in middleWares {
-        if let output = middleware.handle(action: action, state: state) {
-            return Just(output).eraseToAnyPublisher()
-        }
-    }
-
-    return Empty().eraseToAnyPublisher()
-}
-
-protocol GameActionMiddleware {
-    func handle(action: GameAction, state: GameState) -> GameAction?
-}
-
-struct NextActionMiddleware: GameActionMiddleware {
-    func handle(action: GameAction, state: GameState) -> GameAction? {
-        switch action {
-        case .setGameOver,
-                .chooseOne,
-                .activateCards:
-            nil
-
-        default:
-            state.queue.first
-        }
-    }
-}
-
-struct TriggeredEffectsMiddleware: GameActionMiddleware {
+struct HandlerTriggeredEffects: GameActionHandler {
     func handle(action: GameAction, state: GameState) -> GameAction? {
         var triggered: [GameAction] = []
 
@@ -126,61 +86,12 @@ private extension GameState {
         }
 
         return cardObj.rules.contains(where: {
-            if $0.key == .onPlayImmediate, 
+            if $0.key == .onPlayImmediate,
                 case .cancel = $0.value {
                 return true
             } else {
                 return false
             }
         })
-    }
-}
-
-struct ActivateCardsMiddleware: GameActionMiddleware {
-    func handle(action: GameAction, state: GameState) -> GameAction? {
-        guard state.queue.isEmpty,
-              state.isOver == nil,
-              state.chooseOne == nil,
-              state.active == nil,
-              let player = state.turn else {
-            return nil
-        }
-
-        var activeCards: [String] = []
-        let playerObj = state.player(player)
-        for card in activableCardsOfPlayer(playerObj)
-        where GameAction.validatePlay(card: card, player: player, state: state) {
-            activeCards.append(card)
-        }
-
-        // Ignore empty
-        guard activeCards.isNotEmpty else {
-            return nil
-        }
-
-        return .activateCards(player: player, cards: activeCards)
-    }
-
-    private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
-        playerObj.abilities + playerObj.hand.cards
-    }
-}
-
-struct GameOverMiddleware: GameActionMiddleware {
-    func handle(action: GameAction, state: GameState) -> GameAction? {
-        guard case .eliminate = action,
-              let winner = evaluateWinner(state: state)else {
-            return nil
-        }
-
-        return .setGameOver(winner: winner)
-    }
-
-    private func evaluateWinner(state: GameState) -> String? {
-        if state.playOrder.count == 1 {
-            return state.playOrder[0]
-        }
-
-        return nil
     }
 }
