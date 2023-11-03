@@ -74,6 +74,25 @@ public enum CardList {
         .jesseJones,
         .pedroRamirez
     ]
+
+    public static let commonPlayer = Card("", attributes: [
+        .startTurnCards: 2,
+        .weapon: 1,
+        .flippedCards: 1,
+        .bangsPerTurn: 1,
+        .scope: 0,
+        .mustang: 0
+    ])
+
+    public static let commonAbilities: [String] = [
+        .endTurn,
+        .drawOnSetTurn,
+        .eliminateOnDamageLethal,
+        .discardCardsOnEliminated,
+        .nextTurnOnEliminated,
+        .evaluateAttributesOnUpdateInPlay,
+        .discardPreviousWeaponOnPlayWeapon
+    ]
 }
 
 private extension CardList {

@@ -11,8 +11,8 @@ public enum Inventory {
         let figures = Array(CardList.figures.shuffled().prefix(playersCount))
         let deck = Setup.buildDeck(cardSets: CardSets.bang)
         let game = Setup.buildGame(figures: figures,
-                                   defaultAttributes: GameDefault.attributes,
-                                   defaultAbilities: GameDefault.abilities,
+                                   defaultAttributes: CardList.commonPlayer.attributes,
+                                   defaultAbilities: CardList.commonAbilities,
                                    deck: deck,
                                    cardRef: CardList.all)
         return game
