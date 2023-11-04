@@ -46,7 +46,7 @@ final class DuelSpec: QuickSpec {
                             "bang-2": .group([
                                 .discardHand("bang-2", player: "p2"),
                                 // swiftlint:disable:next line_length
-                                .effect(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, triggeringAction: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1"))
+                                .effect(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1"))
                             ]),
                             .pass: .damage(1, player: "p2")
                         ]),
@@ -73,7 +73,7 @@ final class DuelSpec: QuickSpec {
                             "bang-2": .group([
                                 .discardHand("bang-2", player: "p2"),
                                 // swiftlint:disable:next line_length
-                                .effect(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, triggeringAction: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1"))
+                                .effect(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1"))
                             ]),
                             .pass: .damage(1, player: "p2")
                         ]),
@@ -82,7 +82,7 @@ final class DuelSpec: QuickSpec {
                             "bang-1": .group([
                                 .discardHand("bang-1", player: "p1"),
                                 // swiftlint:disable:next line_length
-                                .effect(.challenge(.id("p1"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, triggeringAction: .playImmediate(.duel, target: "p2", player: "p1"), target: "p2"))
+                                .effect(.challenge(.id("p1"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p2"))
                             ]),
                             .pass: .damage(1, player: "p1")
                         ]),

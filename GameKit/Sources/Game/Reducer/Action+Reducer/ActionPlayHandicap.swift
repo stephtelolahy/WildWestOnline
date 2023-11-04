@@ -31,7 +31,7 @@ struct ActionPlayHandicap: GameActionReducer {
                                 player: player,
                                 target: target,
                                 state: state,
-                                triggeringAction: .playHandicap(card, target: target, player: player))
+                                event: .playHandicap(card, target: target, player: player))
         return state
     }
 }

@@ -82,7 +82,7 @@ extension GameState {
         player: String,
         target: String? = nil,
         state: GameState,
-        triggeringAction: GameAction
+        event: GameAction
     ) {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
@@ -114,7 +114,7 @@ extension GameState {
         let ctx = EffectContext(
             actor: player,
             card: card,
-            triggeringAction: triggeringAction,
+            event: event,
             target: targetedPlayer
         )
         let triggered = GameAction.effect(sideEffect, ctx: ctx)

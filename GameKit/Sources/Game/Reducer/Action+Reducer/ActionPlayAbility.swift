@@ -18,7 +18,7 @@ struct ActionPlayAbility: GameActionReducer {
         state.queueOnPlayEffect(card: card,
                                 player: player,
                                 state: state,
-                                triggeringAction: .playAbility(card, player: player))
+                                event: .playAbility(card, player: player))
 
         return state
     }

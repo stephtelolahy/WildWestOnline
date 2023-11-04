@@ -10,16 +10,16 @@ import InitMacro
 /// Context data associated to an effect
 @Init(defaults: ["target": nil, "cancellingAction": nil])
 public struct EffectContext: Codable, Equatable {
-    /// Player triggering effect
+    /// Owner of the card triggering the effect
     let actor: String
 
-    /// Card triggering effect
+    /// Card triggering the effect
     let card: String
 
-    /// Action triggering effect
-    let triggeringAction: GameAction
+    /// Occurred event triggering the effect
+    let event: GameAction
 
-    /// Targeted player while resolving effect
+    /// Targeted player while resolving the effect
     var target: String?
 
     /// Root action which causes the effect to be cancelled automatically

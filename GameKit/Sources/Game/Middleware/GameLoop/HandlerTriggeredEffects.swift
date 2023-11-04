@@ -50,7 +50,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
             let ctx = EffectContext(
                 actor: player,
                 card: card,
-                triggeringAction: triggeringActionForTriggeredEffect(state: state),
+                event: eventForTriggeredEffect(state: state),
                 cancellingAction: cancellingActionForTriggeredEffect(state: state)
             )
             return GameAction.effect(effect, ctx: ctx)
@@ -81,7 +81,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
         return nil
     }
 
-    private func triggeringActionForTriggeredEffect(state: GameState) -> GameAction {
+    private func eventForTriggeredEffect(state: GameState) -> GameAction {
         state.event!
     }
 }
