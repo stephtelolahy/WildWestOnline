@@ -6,7 +6,7 @@
 //
 
 struct PlayerActor: ArgPlayerResolver {
-    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
         .identified([ctx.actor])
     }
 }

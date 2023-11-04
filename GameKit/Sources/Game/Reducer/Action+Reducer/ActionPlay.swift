@@ -27,15 +27,19 @@ struct ActionPlay: GameActionReducer {
 
         // resolve condition
         if case let .require(condition, childEffect) = sideEffect {
-            let playerContext = PlayReqContext(actor: player)
-            try condition.match(state: state, ctx: playerContext)
+            let playReqContext = PlayReqContext(actor: player)
+            try condition.match(state: state, ctx: playReqContext)
             sideEffect = childEffect
         }
 
         // resolve target
         if case let .target(requiredTarget, _) = sideEffect {
-            let playerContext = ArgPlayerContext(actor: player)
-            let resolvedTarget = try requiredTarget.resolve(state: state, ctx: playerContext)
+            let ctx = EffectContext(
+                actor: player,
+                card: card,
+                event: .group([])
+            )
+            let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
             if case let .selectable(pIds) = resolvedTarget {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
@@ -118,6 +122,6 @@ extension GameState {
     }
 }
 
-extension PlayReq {
+private extension PlayReq {
     static let onPlays: [Self] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
 }

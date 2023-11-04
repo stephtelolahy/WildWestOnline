@@ -8,7 +8,7 @@
 struct PlayerSelectAt: ArgPlayerResolver {
     let distance: Int
 
-    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
         let others = state.playersAt(distance, from: ctx.actor)
         return .selectable(others)
     }
