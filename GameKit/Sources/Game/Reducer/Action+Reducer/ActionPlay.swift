@@ -93,29 +93,25 @@ extension GameState {
             return
         }
 
+        // set main effect
         var sideEffect = playRule.value
-        var targetedPlayer: String?
 
+        // unwrap require effect
         if case let .require(_, childEffect) = sideEffect {
             sideEffect = childEffect
         }
 
-        if case let .target(requiredTarget, childEffect) = sideEffect {
-            let playerContext = ArgPlayerContext(actor: player)
-            if let resolvedTarget = try? requiredTarget.resolve(state: state, ctx: playerContext),
-               case .selectable = resolvedTarget {
-                if let target {
-                    targetedPlayer = target
-                }
-                sideEffect = childEffect
-            }
+        // unwrap target effect, only if provided specific player as target
+        if case let .target(_, childEffect) = sideEffect,
+           target != nil {
+            sideEffect = childEffect
         }
 
         let ctx = EffectContext(
             actor: player,
             card: card,
             event: event,
-            target: targetedPlayer
+            target: target
         )
         let triggered = GameAction.effect(sideEffect, ctx: ctx)
         queue.insert(triggered, at: 0)
