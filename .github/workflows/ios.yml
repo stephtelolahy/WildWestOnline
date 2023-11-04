@@ -21,9 +21,6 @@ jobs:
           echo $default | cat >default
           echo Using default scheme: $default
       - name: Build
-        uses: SwiftyLab/setup-swift@latest
-          with:
-            swift-version: '5.9'
         env:
           scheme: ${{ 'default' }}
           platform: ${{ 'iOS Simulator' }}
