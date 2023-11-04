@@ -10,9 +10,9 @@ import Game
 
 final class JourdonnaisSpec: QuickSpec {
     override func spec() {
-        describe("triggering jourdonnais") {
-            context("flipped card is hearts") {
-                it("should cancel shot") {
+        describe("Jourdonnais") {
+            context("being shot") {
+                it("should draw to cancel shot") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {

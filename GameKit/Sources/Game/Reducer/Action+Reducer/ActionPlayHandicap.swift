@@ -30,7 +30,8 @@ struct ActionPlayHandicap: GameActionReducer {
         state.queueOnPlayEffect(card: card,
                                 player: player,
                                 target: target,
-                                state: state)
+                                state: state,
+                                event: .playHandicap(card, target: target, player: player))
         return state
     }
 }

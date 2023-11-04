@@ -6,15 +6,11 @@
 //
 
 protocol ArgNumResolver {
-    func resolve(state: GameState, ctx: ArgNumContext) throws -> Int
-}
-
-struct ArgNumContext {
-    let actor: String
+    func resolve(state: GameState, ctx: EffectContext) throws -> Int
 }
 
 extension ArgNum {
-    func resolve(state: GameState, ctx: ArgNumContext) throws -> Int {
+    func resolve(state: GameState, ctx: EffectContext) throws -> Int {
         try resolver().resolve(state: state, ctx: ctx)
     }
 }
@@ -24,12 +20,14 @@ private extension ArgNum {
         switch self {
         case .exact(let number):
             NumExact(number: number)
-        case .numPlayers:
-            NumPlayers()
+        case .activePlayers:
+            NumActivePlayers()
         case .excessHand:
             NumExcessHand()
         case .playerAttr(let key):
             NumPlayerAttr(key: key)
+        case .damage:
+            NumDamage()
         }
     }
 }

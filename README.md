@@ -23,11 +23,10 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Game**: Global metaclass which contains all elements in a game.
 - **Player**: Players who are participating in a game.
 - **Rule**: Rules define the constraints of a game. Rules are either game-wide, or specific to one card.
-- **Card**: Cards that are used in a game. Cards can have a cost, can have multiple properties, define additional rules, have actions that can be played and have side effects that happen when they are being played.
-- **Effect**: any change in the game state, applied when playing a card
-- **Move**: any action taken by the player
+- **Card**: Cards that are used in a game. Cards can have multiple properties, define additional rules, have actions that can be played and have side effects that happen when they are being played.
+- **Action**: Any action changing the game state. It can be performed by a player or by the system.
+- **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
 - **Queue**: Commands queue
-- **Sequence**: what begins when a Player Action is taken
 - **Option**: a choice that have to be taken by player when resolving sequence
 
 ![](Docs/architecture.png)
@@ -38,6 +37,7 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - The process of resolving an event is similar to a depth-first search using a graph 
 - Some effects may be blocked waiting user input. Then options are displayed through state
 
+![](Docs/eventresolving.png)
 
 ### Architecture
 

@@ -23,7 +23,8 @@ struct ActionPlayImmediate: GameActionReducer {
         state.queueOnPlayEffect(card: card,
                                 player: player,
                                 target: target,
-                                state: state)
+                                state: state,
+                                event: .playImmediate(card, target: target, player: player))
 
         return state
     }
