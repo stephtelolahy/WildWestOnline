@@ -6,23 +6,17 @@
 //
 
 protocol ArgCardResolver {
-    func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput
-}
-
-struct ArgCardContext {
-    let owner: String
-    let chooser: String
-    let played: String
+    func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput
 }
 
 extension ArgCard {
-    func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         resolver().resolve(state: state, ctx: ctx)
     }
 
     func resolve(
         state: GameState,
-        ctx: ArgCardContext,
+        ctx: EffectContext,
         copy: @escaping (String) -> GameAction
     ) throws -> [GameAction] {
         let resolved = resolve(state: state, ctx: ctx)
@@ -38,7 +32,8 @@ extension ArgCard {
             let options = cIdOptions.reduce(into: [String: GameAction]()) {
                 $0[$1.label] = copy($1.id)
             }
-            let chooseOne = try GameAction.validateChooseOne(chooser: ctx.chooser, options: options, state: state)
+            let chooser = ctx.chooser ?? ctx.target!
+            let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
             return [chooseOne]
         }
     }

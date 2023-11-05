@@ -6,6 +6,7 @@
 //
 
 /// Effect that can be applied to a player or a group of players
+/// By defautl effect applies to `EffectContext.target`
 public indirect enum CardEffect: Codable, Equatable {
 
     // MARK: - Actions
@@ -23,21 +24,20 @@ public indirect enum CardEffect: Codable, Equatable {
     case draw
     
     /// Discard a player's card to discard pile
-    /// When chooser is the player that chooses card
-    /// By default `ctx.target`
+    /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
     
-    /// Draw card from other player
-    /// When chooser is the player that chooses and steals cards
-    case steal(ArgCard, chooser: ArgPlayer)
-    
+    /// Draw card from a player
+    /// - `toPlayer` is the player that chooses and steals cards
+    case steal(ArgCard, toPlayer: ArgPlayer)
+
     /// Pass inPlay card to another player
-    case passInplay(ArgCard, owner: ArgPlayer)
-    
-    /// Choose some cards from arena
-    /// When chooser is `ctx.target`
-    case chooseArena
-    
+    /// - `toPlayer` is the player that receives the card
+    case passInplay(ArgCard, toPlayer: ArgPlayer)
+
+    /// Choose card from a location
+    case chooseCard(ArgCard)
+
     /// Draw a card from deck and put to arena
     case discover
     

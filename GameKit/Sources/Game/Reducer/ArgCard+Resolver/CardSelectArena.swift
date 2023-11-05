@@ -6,7 +6,7 @@
 //
 
 struct CardSelectArena: ArgCardResolver {
-    func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let cards = state.arena?.cards ?? []
         if cards.count == 1 {
             return .identified(cards)

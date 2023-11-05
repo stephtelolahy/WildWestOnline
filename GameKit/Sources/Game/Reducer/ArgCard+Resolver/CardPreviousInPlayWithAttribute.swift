@@ -8,9 +8,9 @@
 struct CardPreviousInPlayWithAttribute: ArgCardResolver {
     let key: AttributeKey
 
-    func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput {
-        let player = ctx.owner
-        let playerObj = state.player(player)
+    func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
+        let owner = ctx.target!
+        let playerObj = state.player(owner)
         var matchedCards: [String] = []
         for card in playerObj.inPlay.cards {
             let cardName = card.extractName()

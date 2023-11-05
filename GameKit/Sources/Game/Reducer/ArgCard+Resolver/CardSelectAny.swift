@@ -6,8 +6,10 @@
 //
 
 struct CardSelectAny: ArgCardResolver {
-    func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput {
-        let playerObj = state.player(ctx.owner)
+    func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
+        let owner = ctx.target!
+        let chooser = ctx.chooser ?? owner
+        let playerObj = state.player(owner)
         var options: [CardArgOption] = []
 
         if playerObj.inPlay.cards.isNotEmpty {
@@ -16,7 +18,7 @@ struct CardSelectAny: ArgCardResolver {
         }
 
         if playerObj.hand.cards.isNotEmpty {
-            if ctx.chooser != ctx.owner {
+            if chooser != owner {
                 let randomId = playerObj.hand.cards.randomElement().unsafelyUnwrapped
                 let randomOption = CardArgOption(id: randomId, label: .randomHand)
                 options.append(randomOption)
