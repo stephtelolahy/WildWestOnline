@@ -9,9 +9,12 @@ struct PlayerOffender: ArgPlayerResolver {
     func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
         guard case let .damage(_, player) = ctx.event,
               player == ctx.actor,
-              let turnPlayer = state.turn,
-              player != turnPlayer else {
+              let turnPlayer = state.turn else {
             fatalError("invalid triggering action")
+        }
+
+        guard player != turnPlayer else {
+            return .identified([])
         }
 
         return .identified([turnPlayer])

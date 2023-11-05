@@ -63,6 +63,28 @@ final class ElGringoSpec: QuickSpec {
                     ]
                 }
             }
+
+            context("offender is himself") {
+                it("should do nothing") {
+                    // Given
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withAbilities([.elGringo])
+                                .withHealth(3)
+                        }
+                        .withTurn("p1")
+                        .build()
+
+                    // When
+                    let action = GameAction.damage(1, player: "p1")
+                    let (result, _) = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(result) == [
+                        .damage(1, player: "p1")
+                    ]
+                }
+            }
         }
     }
 }

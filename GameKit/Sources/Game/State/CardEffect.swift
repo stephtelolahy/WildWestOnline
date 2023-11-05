@@ -6,6 +6,7 @@
 //
 
 /// Effect that can be applied to a player or a group of players
+/// By defautl effect applies to `EffectContext.target`
 public indirect enum CardEffect: Codable, Equatable {
 
     // MARK: - Actions
@@ -23,7 +24,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case draw
     
     /// Discard a player's card to discard pile
-    /// - `chooser` is the player that chooses card, by default `ctx.target`
+    /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
     
     /// Draw card from a player
