@@ -1,11 +1,11 @@
 //
-//  EffectEvaluateAttributes.swift
+//  EffectUpdateAttributes.swift
 //
 //
 //  Created by Hugues Telolahy on 03/09/2023.
 //
 
-struct EffectEvaluateAttributes: EffectResolver {
+struct EffectUpdateAttributes: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.target!
