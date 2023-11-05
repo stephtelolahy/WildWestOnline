@@ -43,19 +43,7 @@ public enum Setup {
         )
     }
 
-    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
-        var result: [String] = []
-        for (key, values) in cardSets {
-            for value in values {
-                result.append("\(key)-\(value)")
-            }
-        }
-        return result
-    }
-}
-
-private extension Setup {
-    static func buildPlayer(
+    private static func buildPlayer(
         figureName: String,
         deck: inout [String],
         cardRef: [String: Card],
@@ -86,5 +74,15 @@ private extension Setup {
             hand: hand,
             inPlay: .init(cards: [])
         )
+    }
+
+    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
+        var result: [String] = []
+        for (key, values) in cardSets {
+            for value in values {
+                result.append("\(key)-\(value)")
+            }
+        }
+        return result
     }
 }

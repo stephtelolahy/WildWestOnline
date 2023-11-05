@@ -11,7 +11,12 @@ struct EffectChooseCard: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.target!
         return try card.resolve(state: state, ctx: ctx) {
-            .chooseArena($0, player: player)
+            switch card {
+            case .selectArena:
+                .chooseArena($0, player: player)
+            default:
+                fatalError("unexpected")
+            }
         }
     }
 }

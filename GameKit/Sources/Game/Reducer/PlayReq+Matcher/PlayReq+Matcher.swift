@@ -38,14 +38,11 @@ private extension PlayReq {
             OnDamageLethal()
         case .eliminated:
             OnEliminated()
-        case .playImmediate:
-            OnPlayImmediate()
-        case .playHandicap:
-            OnPlayHandicap()
-        case .playAbility:
-            OnPlayAbility()
-        case .playEquipment:
-            OnPlayEquipment()
+        case .playImmediate,
+                .playHandicap,
+                .playAbility,
+                .playEquipment:
+            PlayReqNeverMatch()
         case .shot:
             OnShot()
         case .updateInPlay:
@@ -59,5 +56,11 @@ private extension PlayReq {
         case .isYourTurn:
             IsYourTurn()
         }
+    }
+}
+
+private struct PlayReqNeverMatch: PlayReqMatcher {
+    func match(state: GameState, ctx: PlayReqContext) -> Bool {
+        false
     }
 }

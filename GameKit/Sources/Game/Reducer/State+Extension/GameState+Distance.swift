@@ -37,5 +37,4 @@ extension GameState {
 
         return distance
     }
-
 }
