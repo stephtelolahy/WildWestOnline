@@ -10,19 +10,17 @@ struct EffectDiscard: EffectResolver {
     let chooser: ArgPlayer?
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let owner = ctx.target!
-        var chooserId: String?
+        let player = ctx.target!
+        var ctx = ctx
         if let chooser {
-            chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
+            ctx.chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
         }
-
-        let cardContext = ArgCardContext(ctx: ctx, chooser: chooserId)
-        return try card.resolve(state: state, ctx: cardContext) {
-            if state.player(owner).hand.contains($0) {
-                return .discardHand($0, player: owner)
+        return try card.resolve(state: state, ctx: ctx) {
+            if state.player(player).hand.contains($0) {
+                return .discardHand($0, player: player)
             }
-            if state.player(owner).inPlay.contains($0) {
-                return .discardInPlay($0, player: owner)
+            if state.player(player).inPlay.contains($0) {
+                return .discardInPlay($0, player: player)
             }
             fatalError("card not found \($0)")
         }

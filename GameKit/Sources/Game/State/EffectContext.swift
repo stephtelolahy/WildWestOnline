@@ -8,7 +8,7 @@
 import InitMacro
 
 /// Context data associated to an effect
-@Init(defaults: ["target": nil, "cancellingAction": nil])
+@Init(defaults: ["target": nil, "cancellingAction": nil, "chooserId": nil])
 public struct EffectContext: Codable, Equatable {
     /// Owner of the card triggering the effect
     let actor: String
@@ -25,4 +25,7 @@ public struct EffectContext: Codable, Equatable {
     /// Root action which causes the effect to be cancelled automatically
     /// when this action got cancelled
     let cancellingAction: GameAction?
+
+    /// Chooser while resolving selectable  card
+    var chooserId: String?
 }

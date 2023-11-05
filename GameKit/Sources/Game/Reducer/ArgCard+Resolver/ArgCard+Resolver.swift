@@ -9,15 +9,23 @@ protocol ArgCardResolver {
     func resolve(state: GameState, ctx: ArgCardContext) -> CardArgOutput
 }
 
-struct ArgCardContext {
-    let owner: String
-    let chooser: String
-    let played: String
+protocol ArgCardContext {
+    var owner: String { get }
+    var chooser: String { get }
+    var played: String { get }
+}
 
-    init(ctx: EffectContext, chooser: String? = nil) {
-        self.owner = ctx.target!
-        self.chooser = chooser ?? ctx.target!
-        self.played = ctx.card
+extension EffectContext: ArgCardContext {
+    var owner: String {
+        target!
+    }
+
+    var chooser: String {
+        chooserId ?? target!
+    }
+
+    var played: String {
+        card
     }
 }
 
