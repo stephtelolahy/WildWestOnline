@@ -19,7 +19,7 @@ struct IsCardPlayedLessThan: PlayReqMatcher {
             return true
         }
 
-        let playedTimes = state.playCounter[cardName] ?? 0
+        let playedTimes = state.playedThisTurn[cardName] ?? 0
         return playedTimes < maxNumber
     }
 }

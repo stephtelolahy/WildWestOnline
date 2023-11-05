@@ -35,7 +35,7 @@ public enum Setup {
             players: playerDictionary,
             playOrder: playOrder,
             startOrder: playOrder,
-            playCounter: [:],
+            playedThisTurn: [:],
             deck: CardStack(cards: deck),
             discard: .init(cards: []),
             queue: [],

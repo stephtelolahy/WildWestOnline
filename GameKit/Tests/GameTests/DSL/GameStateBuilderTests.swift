@@ -38,7 +38,7 @@ final class GameStateBuilderTests: XCTestCase {
         // Then
         XCTAssertEqual(state.turn, "p1")
         XCTAssertEqual(state.deck.cards, ["c1", "c2"])
-        XCTAssertEqual(state.playCounter["bang"], 1)
+        XCTAssertEqual(state.playedThisTurn["bang"], 1)
         XCTAssertEqual(state.discard.cards, ["c3", "c4"])
         XCTAssertEqual(state.arena?.cards, ["c5", "c6"])
         XCTAssertEqual(state.isOver?.winner, "p1")

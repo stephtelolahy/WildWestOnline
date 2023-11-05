@@ -25,7 +25,7 @@ final class SetTurnSpec: QuickSpec {
                 // Then
                 expect(result.event) == action
                 expect(result.turn) == "p1"
-                expect(result.playCounter).to(beEmpty())
+                expect(result.playedThisTurn).to(beEmpty())
             }
         }
     }

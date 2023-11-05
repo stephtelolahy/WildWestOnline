@@ -23,6 +23,6 @@ extension GameState {
     }
 
     mutating func incrementPlayCounter(for cardName: String) {
-        playCounter[cardName] = (playCounter[cardName] ?? 0) + 1
+        playedThisTurn[cardName] = (playedThisTurn[cardName] ?? 0) + 1
     }
 }

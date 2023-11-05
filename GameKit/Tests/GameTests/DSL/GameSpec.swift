@@ -188,7 +188,7 @@ final class GameSpec: QuickSpec {
                     ]
                   },
                   "queue": [],
-                  "playCounter": {},
+                  "playedThisTurn": {},
                   "cardRef": {},
                 }
                 """
