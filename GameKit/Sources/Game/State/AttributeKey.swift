@@ -33,5 +33,3 @@ public enum AttributeKey: String, Codable, CodingKeyRepresentable, CaseIterable 
     /// by default the maximum allowed hand cards is equal to health
     case handLimit
 }
-
-public typealias Attributes = [AttributeKey: Int]

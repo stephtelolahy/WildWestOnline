@@ -10,7 +10,7 @@ public enum Setup {
         figures: [String],
         deck: [String],
         cardRef: [String: Card],
-        defaultAttributes: Attributes = [:],
+        defaultAttributes: [AttributeKey: Int] = [:],
         defaultAbilities: [String] = []
     ) -> GameState {
         var deck = deck.shuffled()

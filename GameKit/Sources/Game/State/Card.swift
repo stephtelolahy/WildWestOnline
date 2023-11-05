@@ -9,7 +9,7 @@ public struct Card: Codable, Equatable {
     public let name: String
 
     /// Card attributes
-    public let attributes: Attributes
+    public let attributes: [AttributeKey: Int]
 
     /// Actions that can be performed with the card
     public let rules: [CardRule]

@@ -20,7 +20,7 @@ final class SetupGameSpec: QuickSpec {
                     // Given
                     let deck = Array(1...80).map { "c\($0)" }
                     let figures = ["p1", "p2"]
-                    let attributes: Attributes = [.startTurnCards: 2]
+                    let attributes: [AttributeKey: Int] = [.startTurnCards: 2]
                     let abilities = ["a1", "a2"]
                     let cardRef: [String: Card] = [
                         "p1": Card("p1", attributes: [.maxHealth: 4]),

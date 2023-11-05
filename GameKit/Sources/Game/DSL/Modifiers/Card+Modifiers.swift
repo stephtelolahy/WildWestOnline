@@ -11,7 +11,7 @@ public extension Card {
 
     init(
         _ name: String,
-        attributes: Attributes = [:],
+        attributes: [AttributeKey: Int] = [:],
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
@@ -21,7 +21,7 @@ public extension Card {
 
     init(
         _ name: String,
-        attributes: Attributes = [:],
+        attributes: [AttributeKey: Int] = [:],
         prototype: Card,
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
