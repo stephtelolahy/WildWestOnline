@@ -165,7 +165,7 @@ final class PlayerSpec: QuickSpec {
                         "startTurnCards": 2,
                     },
                     "hand": {
-                        "visibility": "p1",
+                        "hidden": true,
                         "cards": []
                     },
                     "inPlay": {

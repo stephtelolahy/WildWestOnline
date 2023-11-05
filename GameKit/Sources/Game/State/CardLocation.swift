@@ -7,14 +7,14 @@
 import InitMacro
 
 /// Card zone
-@Init(defaults: ["visibility": nil])
+@Init(defaults: ["hidden": false])
 public struct CardLocation: Codable, Equatable {
 
     /// Content
     public var cards: [String]
 
-    /// If defined, specifies player who has access to content
-    public let visibility: String?
+    /// Cards are hidden for other players except the owner
+    public let hidden: Bool
 }
 
 public extension CardLocation {

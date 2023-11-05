@@ -159,7 +159,7 @@ final class GameSpec: QuickSpec {
                       "attributes": {},
                       "startAttributes": {},
                       "hand": {
-                        "visibility": "p1",
+                        "hidden": true,
                         "cards": []
                       },
                       "inPlay": {
