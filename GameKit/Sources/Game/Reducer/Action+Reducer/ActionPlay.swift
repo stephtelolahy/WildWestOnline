@@ -83,7 +83,6 @@ extension GameState {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
               let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
-            print("!! missing onPlay effects")
             return
         }
 

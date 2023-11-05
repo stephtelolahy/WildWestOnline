@@ -11,7 +11,7 @@ struct ActionSetTurn: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         state.turn = player
-        state.playCounter = [:]
+        state.playedThisTurn = [:]
         return state
     }
 }

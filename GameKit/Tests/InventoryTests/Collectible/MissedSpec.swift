@@ -50,7 +50,7 @@ final class MissedSpec: QuickSpec {
 
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-                        let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
+                        let (result, _) = self.awaitAction(action, choose: [.missed], state: state)
 
                         // Then
                         expect(result) == [
@@ -81,7 +81,7 @@ final class MissedSpec: QuickSpec {
 
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-                        let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
+                        let (result, _) = self.awaitAction(action, choose: [.missed], state: state)
 
                         // Then
                         expect(result) == [
@@ -116,7 +116,7 @@ final class MissedSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.gatling, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: [.missed, .missed], state: state)
+                    let (result, _) = self.awaitAction(action, choose: [.missed, .missed], state: state)
 
                     // Then
                     expect(result) == [

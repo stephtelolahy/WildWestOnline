@@ -18,7 +18,7 @@ public struct GameState: Codable, Equatable {
     public var turn: String?
 
     /// Current turn's number of times a card was played
-    public var playCounter: [String: Int]
+    public var playedThisTurn: [String: Int]
 
     /// Deck
     public var deck: CardStack

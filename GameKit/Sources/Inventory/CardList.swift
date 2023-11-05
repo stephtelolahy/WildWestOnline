@@ -277,7 +277,7 @@ private extension CardList {
     }
 
     static let evaluateAttributesOnUpdateInPlay = Card(.evaluateAttributesOnUpdateInPlay) {
-        CardEffect.evaluateAttributes
+        CardEffect.updateAttributes
             .target(.actor)
             .on([.updateInPlay])
     }

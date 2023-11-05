@@ -32,7 +32,7 @@ final class DuelSpec: QuickSpec {
                 it("should damage") {
                     // When
                     let action = GameAction.play(.duel, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: ["p2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, choose: ["p2", .pass], state: state)
 
                     // Then
                     expect(result) == [
@@ -59,7 +59,7 @@ final class DuelSpec: QuickSpec {
                 it("should damage actor") {
                     // When
                     let action = GameAction.play(.duel, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: ["p2", "bang-2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, choose: ["p2", "bang-2", .pass], state: state)
 
                     // Then
                     expect(result) == [

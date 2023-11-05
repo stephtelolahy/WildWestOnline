@@ -19,11 +19,11 @@ private extension CardEffect {
     // swiftlint:disable:next cyclomatic_complexity
     func resolver() -> EffectResolver {
         switch self {
-        case let .heal(value):
-            EffectJust { .heal(value, player: $0.target!) }
+        case let .heal(amount):
+            EffectJust { .heal(amount, player: $0.target!) }
 
-        case let .damage(value):
-            EffectJust { .damage(value, player: $0.target!) }
+        case let .damage(amount):
+            EffectJust { .damage(amount, player: $0.target!) }
 
         case .shoot:
             EffectJust { .damage(1, player: $0.target!) }
@@ -79,8 +79,8 @@ private extension CardEffect {
         case .activate:
             EffectActivate()
 
-        case .evaluateAttributes:
-            EffectEvaluateAttributes()
+        case .updateAttributes:
+            EffectUpdateAttributes()
         }
     }
 }
