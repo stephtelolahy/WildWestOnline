@@ -10,8 +10,8 @@ import Game
 
 final class BartCassidySpec: QuickSpec {
     override func spec() {
-        describe("BartCassidy") {
-            context("being damaged with 1 life point") {
+        describe("BartCassidy being damaged") {
+            context("1 life point") {
                 it("should draw a card") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
@@ -34,7 +34,7 @@ final class BartCassidySpec: QuickSpec {
                 }
             }
 
-            context("being damaged with several life points") {
+            context("several life points") {
                 it("should draw as many cards as damage") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
@@ -58,8 +58,7 @@ final class BartCassidySpec: QuickSpec {
                 }
             }
 
-
-            context("being lethal damaged") {
+            context("lethal") {
                 it("should do nothing") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()

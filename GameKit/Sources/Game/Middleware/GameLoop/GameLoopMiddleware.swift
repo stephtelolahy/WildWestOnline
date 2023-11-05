@@ -1,3 +1,5 @@
+// swiftlint:disable:this file_name
+//
 //  GameLoopMiddleware.swift
 //
 //

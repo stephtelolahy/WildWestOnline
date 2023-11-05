@@ -49,14 +49,11 @@ final class MissedSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.play(.bang, player: "p1")
-                        let (result, _) = self.awaitAction(action, choices: ["p2", .missed], state: state)
+                        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+                        let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
-                                "p2": .playImmediate(.bang, target: "p2", player: "p1")
-                            ]),
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .chooseOne(player: "p2", options: [
                                 .missed: .play(.missed, player: "p2"),
@@ -83,14 +80,11 @@ final class MissedSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.play(.bang, player: "p1")
-                        let (result, _) = self.awaitAction(action, choices: ["p2", .missed], state: state)
+                        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+                        let (result, _) = self.awaitAction(action, choices: [.missed], state: state)
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
-                                "p2": .playImmediate(.bang, target: "p2", player: "p1")
-                            ]),
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .chooseOne(player: "p2", options: [
                                 .missed: .play(.missed, player: "p2"),

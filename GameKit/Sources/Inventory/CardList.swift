@@ -310,7 +310,12 @@ private extension CardList {
             .when(.onDamage)
     }
 
-    static let elGringo = Card(.elGringo, attributes: [.maxHealth: 3])
+    static let elGringo = Card(.elGringo, attributes: [.maxHealth: 3]) {
+        CardEffect.steal(.randomHand, chooser: .actor)
+            .target(.offender)
+            .repeat(.damage)
+            .when(.onDamage)
+    }
 
     static let suzyLafayette = Card(.suzyLafayette, attributes: [.maxHealth: 4])
 

@@ -6,7 +6,7 @@
 //
 
 struct PlayerNext: ArgPlayerResolver {
-    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
         guard let turn = state.turn,
               let next = state.startOrder
             .filter({ state.playOrder.contains($0) || $0 == turn })

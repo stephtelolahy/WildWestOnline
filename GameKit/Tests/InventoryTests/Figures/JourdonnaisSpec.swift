@@ -1,6 +1,6 @@
 //
 //  JourdonnaisSpec.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 03/11/2023.
 //
@@ -10,14 +10,14 @@ import Game
 
 final class JourdonnaisSpec: QuickSpec {
     override func spec() {
-        describe("Jourdonnais") {
-            context("being shot") {
-                it("should draw to cancel shot") {
+        describe("Jourdonnais being shot") {
+            context("flipped card is hearts") {
+                it("should cancel shot") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withHand([.bang])
-                               .withAttributes([.weapon: 1])
+                                .withAttributes([.weapon: 1])
                         }
                         .withPlayer("p2") {
                             $0.withAbilities([.jourdonnais])

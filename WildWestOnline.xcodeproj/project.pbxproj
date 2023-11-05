@@ -18,14 +18,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		263B0ABC2AA382C100AC6008 /* Screen.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Screen.xctestplan; sourceTree = "<group>"; };
 		26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerMiddleware.swift; sourceTree = "<group>"; };
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2699EF0029D93AD00030ACCD /* GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildWestOnline.entitlements; sourceTree = "<group>"; };
 		2699EF0829D93AD10030ACCD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		26A398D22A5F4DA800A4E48C /* WildWestOnline.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WildWestOnline.xctestplan; sourceTree = "<group>"; };
 		26DD32B829F3D646002E0F93 /* GameKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameKit; sourceTree = "<group>"; };
 		F37D85E02A0438EE00C3A754 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -56,8 +54,6 @@
 			isa = PBXGroup;
 			children = (
 				F37D85E02A0438EE00C3A754 /* README.md */,
-				26A398D22A5F4DA800A4E48C /* WildWestOnline.xctestplan */,
-				263B0ABC2AA382C100AC6008 /* Screen.xctestplan */,
 				26DD32B829F3D646002E0F93 /* GameKit */,
 				2699EEFF29D93AD00030ACCD /* App */,
 				2699EEFE29D93AD00030ACCD /* Products */,

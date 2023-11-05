@@ -6,16 +6,12 @@
 //
 
 protocol ArgPlayerResolver {
-    func resolve(state: GameState, ctx: ArgPlayerContext) -> PlayerArgOutput
-}
-
-struct ArgPlayerContext {
-    let actor: String
+    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput
 }
 
 extension ArgPlayer {
 
-    func resolve(state: GameState, ctx: ArgPlayerContext) throws -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
         let output = resolver().resolve(state: state, ctx: ctx)
         let pIds: [String]
         switch output {
@@ -33,7 +29,7 @@ extension ArgPlayer {
         return output
     }
     
-    func resolveUnique(state: GameState, ctx: ArgPlayerContext) throws -> String {
+    func resolveUnique(state: GameState, ctx: EffectContext) throws -> String {
         if case let .id(pId) = self {
             return pId
         } else {
@@ -52,7 +48,7 @@ extension ArgPlayer {
 
     func resolve(
         state: GameState,
-        ctx: ArgPlayerContext,
+        ctx: EffectContext,
         copy: @escaping (String) -> GameAction
     ) throws -> [GameAction] {
         let resolved = try resolve(state: state, ctx: ctx)
@@ -100,6 +96,8 @@ private extension ArgPlayer {
             PlayerAll()
         case .others:
             PlayerOthers()
+        case .offender:
+            PlayerOffender()
         case .id:
             fatalError("unexpected")
         }

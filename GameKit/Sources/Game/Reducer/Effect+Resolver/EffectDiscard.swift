@@ -13,8 +13,7 @@ struct EffectDiscard: EffectResolver {
         let owner = ctx.target!
         var chooserId = owner
         if let chooser {
-            let playerContext = ArgPlayerContext(actor: ctx.actor)
-            chooserId = try chooser.resolveUnique(state: state, ctx: playerContext)
+            chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
         }
 
         let cardContext = ArgCardContext(owner: owner, chooser: chooserId, played: ctx.card)

@@ -14,8 +14,7 @@ struct EffectChallenge: EffectResolver {
         let target = ctx.target!
 
         guard case let .id(challengerId) = challenger else {
-            let playerContext = ArgPlayerContext(actor: ctx.actor)
-            return try challenger.resolve(state: state, ctx: playerContext) {
+            return try challenger.resolve(state: state, ctx: ctx) {
                 .effect(.challenge(.id($0),
                                    effect: effect,
                                    otherwise: otherwise),

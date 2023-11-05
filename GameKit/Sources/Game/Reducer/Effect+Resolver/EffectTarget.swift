@@ -10,8 +10,7 @@ struct EffectTarget: EffectResolver {
     let effect: CardEffect
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let playerContext = ArgPlayerContext(actor: ctx.actor)
-        return try target.resolve(state: state, ctx: playerContext) {
+        return try target.resolve(state: state, ctx: ctx) {
             var targetedContext = ctx
             targetedContext.target = $0
             return GameAction.effect(effect, ctx: targetedContext)
