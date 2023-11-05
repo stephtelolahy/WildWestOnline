@@ -17,9 +17,9 @@ public struct CardRuleBuilder {
 
 public struct CardRule: Codable, Equatable {
 
-    /// Conditions to play a card
+    /// Conditions to trigger the card effect
     let playReq: PlayReq
 
-    /// Card Side-effect
+    /// Card effect
     let effect: CardEffect
 }

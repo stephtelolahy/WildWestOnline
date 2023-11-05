@@ -21,6 +21,8 @@ private extension StateCondition {
             IsPlayersAtLeast(minCount: minCount)
         case let .isCardPlayedLessThan(cardName, playedMaxTimes):
             IsCardPlayedLessThan(cardName: cardName, playedMaxTimes: playedMaxTimes)
+        case .isYourTurn:
+            IsYourTurn()
         }
     }
 }

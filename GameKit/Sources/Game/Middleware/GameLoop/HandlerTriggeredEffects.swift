@@ -46,14 +46,27 @@ struct HandlerTriggeredEffects: GameActionHandler {
         }
 
         let playReqContext = PlayReqContext(actor: player)
-        for (playReq, effect) in cardObj.rules where  playReq.match(state: state, ctx: playReqContext) {
+        for (playReq, effect) in cardObj.rules where playReq.match(state: state, ctx: playReqContext) {
             let ctx = EffectContext(
                 actor: player,
                 card: card,
                 event: eventForTriggeredEffect(state: state),
                 cancellingAction: cancellingActionForTriggeredEffect(state: state)
             )
-            return GameAction.effect(effect, ctx: ctx)
+
+            var sideEffect = effect
+
+            // resolve condition
+            if case let .require(condition, childEffect) = sideEffect {
+                do {
+                    try condition.match(state: state, ctx: playReqContext)
+                    sideEffect = childEffect
+                } catch {
+                    return nil
+                }
+            }
+
+            return GameAction.effect(sideEffect, ctx: ctx)
         }
 
         return nil

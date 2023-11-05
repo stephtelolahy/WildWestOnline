@@ -31,8 +31,6 @@ private extension PlayReq {
             OnDamageLethal()
         case .onEliminated:
             OnEliminated()
-        case .onEliminatedYourTurn:
-            OnEliminatedYourTurn()
         case .onPlayImmediate:
             OnPlayImmediate()
         case .onPlayHandicap:

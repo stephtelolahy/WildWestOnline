@@ -32,9 +32,6 @@ public enum PlayReq: String, CodingKeyRepresentable, Codable, Equatable {
     /// After being eliminated
     case onEliminated
 
-    /// After being eliminated and current turn
-    case onEliminatedYourTurn
-
     /// After being targeted by a shot
     case onShot
 
