@@ -29,8 +29,6 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Queue**: Commands queue
 - **Option**: a choice that have to be taken by player when resolving sequence
 
-![](Docs/architecture.png)
-
 ### Event solving
 
 - The engine is event driven
