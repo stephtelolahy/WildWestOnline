@@ -47,20 +47,10 @@ struct HandlerTriggeredEffects: GameActionHandler {
 
         let playReqContext = PlayReqContext(actor: player)
         for rule in cardObj.rules {
-            var matched = true
-            for playReq in rule.playReqs {
-                do {
-                    try playReq.throwingMatch(state: state, ctx: playReqContext)
-                } catch {
-                    matched = false
-                    break
-                }
-            }
-
-            guard matched else {
+            guard rule.playReqs.allSatisfy({ $0.match(state: state, ctx: playReqContext) }) else {
                 continue
             }
-
+            
             let ctx = EffectContext(
                 actor: player,
                 card: card,
