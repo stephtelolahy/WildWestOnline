@@ -1,6 +1,6 @@
 //
 //  PlayReq.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 15/10/2023.
 //
@@ -8,38 +8,38 @@
 /// Condition triggering card effect
 public enum PlayReq: Codable, Equatable {
 
-    /// After playing an immediate effect card, then the card is discarded
-    case onPlayImmediate
+    /// playing an immediate effect card, then the card is discarded
+    case playImmediate
 
-    /// After playing an ability
-    case onPlayAbility
+    /// playing an ability
+    case playAbility
 
-    /// After playing an equipment card, put in self's play
-    case onPlayEquipment
+    /// playing an equipment card, put in self's play
+    case playEquipment
 
-    /// After playing a handicap card, put in target's play
-    case onPlayHandicap
+    /// playing a handicap card, put in target's play
+    case playHandicap
 
-    /// After setting turn
-    case onSetTurn
+    /// setting turn
+    case setTurn
 
-    /// After being damaged
-    case onDamage
+    /// being damaged
+    case damage
 
-    /// After loosing last life point
-    case onDamageLethal
+    /// loosing last life point
+    case damageLethal
 
-    /// After being eliminated
-    case onEliminated
+    /// being eliminated
+    case eliminated
 
-    /// After being targeted by a shot
-    case onShot
+    /// being targeted by a shot
+    case shot
 
-    /// After adding or removing card inPlay
-    case onUpdateInPlay
+    /// adding or removing card inPlay
+    case updateInPlay
 
-    /// After playing a weapon
-    case onPlayWeapon
+    /// playing a weapon
+    case playWeapon
 
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)

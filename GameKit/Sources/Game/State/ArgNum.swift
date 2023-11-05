@@ -18,7 +18,7 @@ public enum ArgNum: Codable, Equatable {
     case excessHand
     
     /// Player attribute value
-    case playerAttr(AttributeKey)
+    case attr(AttributeKey)
 
     /// Number of lost life points in triggering damage action
     case damage

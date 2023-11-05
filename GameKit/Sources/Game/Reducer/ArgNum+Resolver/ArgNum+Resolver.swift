@@ -24,7 +24,7 @@ private extension ArgNum {
             NumActivePlayers()
         case .excessHand:
             NumExcessHand()
-        case .playerAttr(let key):
+        case .attr(let key):
             NumPlayerAttr(key: key)
         case .damage:
             NumDamage()

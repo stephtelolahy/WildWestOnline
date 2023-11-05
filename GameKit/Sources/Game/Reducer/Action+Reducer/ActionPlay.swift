@@ -38,9 +38,9 @@ struct ActionPlay: GameActionReducer {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    if playRule.isMatching(.onPlayImmediate) {
+                    if playRule.isMatching(.playImmediate) {
                         .playImmediate(card, target: $1, player: player)
-                    } else if playRule.isMatching(.onPlayHandicap) {
+                    } else if playRule.isMatching(.playHandicap) {
                         .playHandicap(card, target: $1, player: player)
                     } else {
                         fatalError("unexpected")
@@ -55,11 +55,11 @@ struct ActionPlay: GameActionReducer {
         }
 
         let action: GameAction =
-        if playRule.isMatching(.onPlayImmediate) {
+        if playRule.isMatching(.playImmediate) {
             .playImmediate(card, player: player)
-        } else if playRule.isMatching(.onPlayAbility) {
+        } else if playRule.isMatching(.playAbility) {
             .playAbility(card, player: player)
-        } else if playRule.isMatching(.onPlayEquipment) {
+        } else if playRule.isMatching(.playEquipment) {
             .playEquipment(card, player: player)
         } else {
             fatalError("unexpected")
@@ -108,7 +108,7 @@ extension GameState {
 }
 
 private extension PlayReq {
-    static let onPlays: [Self] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
+    static let onPlays: [Self] = [.playImmediate, .playAbility, .playHandicap, .playEquipment]
 }
 
 private extension CardRule {

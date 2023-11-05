@@ -109,7 +109,7 @@ private extension GameState {
         }
 
         return cardObj.rules.contains(where: {
-            if $0.playReqs.contains(.onPlayImmediate),
+            if $0.playReqs.contains(.playImmediate),
                case .cancel = $0.effect {
                 return true
             } else {

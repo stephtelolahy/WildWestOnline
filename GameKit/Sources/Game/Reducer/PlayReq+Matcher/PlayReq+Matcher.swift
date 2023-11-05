@@ -30,27 +30,27 @@ private extension PlayReq {
     // swiftlint:disable:next cyclomatic_complexity
     func matcher() -> PlayReqMatcher {
         switch self {
-        case .onSetTurn:
+        case .setTurn:
             OnSetTurn()
-        case .onDamage:
+        case .damage:
             OnDamage()
-        case .onDamageLethal:
+        case .damageLethal:
             OnDamageLethal()
-        case .onEliminated:
+        case .eliminated:
             OnEliminated()
-        case .onPlayImmediate:
+        case .playImmediate:
             OnPlayImmediate()
-        case .onPlayHandicap:
+        case .playHandicap:
             OnPlayHandicap()
-        case .onPlayAbility:
+        case .playAbility:
             OnPlayAbility()
-        case .onPlayEquipment:
+        case .playEquipment:
             OnPlayEquipment()
-        case .onShot:
+        case .shot:
             OnShot()
-        case .onUpdateInPlay:
+        case .updateInPlay:
             OnUpdateInPlay()
-        case .onPlayWeapon:
+        case .playWeapon:
             OnPlayWeapon()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
