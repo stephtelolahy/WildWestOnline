@@ -14,10 +14,6 @@ public extension CardEffect {
         .repeat(.exact(times), effect: self)
     }
 
-    func require(_ condition: StateCondition) -> Self {
-        .require(condition, effect: self)
-    }
-
     func target(_ target: ArgPlayer) -> Self {
         .target(target, effect: self)
     }
@@ -30,8 +26,8 @@ public extension CardEffect {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
 
-    func when(_ playReq: PlayReq) -> CardRule {
-        .init(playReq: playReq, effect: self)
+    func on(_ playReqs: [PlayReq]) -> CardRule {
+        .init(playReqs: playReqs, effect: self)
     }
 
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {

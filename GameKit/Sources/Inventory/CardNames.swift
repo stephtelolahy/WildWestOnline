@@ -53,7 +53,7 @@ public extension String {
     static let pedroRamirez = "pedroRamirez"
 
     // MARK: - Abilities
-    
+
     static let endTurn = "endTurn"
     static let drawOnSetTurn = "drawOnSetTurn"
     static let eliminateOnDamageLethal = "eliminateOnDamageLethal"

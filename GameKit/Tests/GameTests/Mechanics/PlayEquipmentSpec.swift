@@ -13,7 +13,7 @@ final class PlayEquipmentSpec: QuickSpec {
     override func spec() {
         let card1 = Card("c1") {
             CardEffect.nothing
-                .when(.onPlayEquipment)
+                .on([.playEquipment])
         }
 
         describe("playing equipment a card") {

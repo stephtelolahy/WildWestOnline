@@ -1,46 +1,52 @@
 //
 //  PlayReq.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 15/10/2023.
 //
 
-/// Occurred event  triggering card effect
-public enum PlayReq: String, CodingKeyRepresentable, Codable, Equatable {
+/// Condition triggering card effect
+public enum PlayReq: Codable, Equatable {
 
-    /// After playing an immediate effect card, then the card is discarded
-    case onPlayImmediate
+    /// playing an immediate effect card, then the card is discarded
+    case playImmediate
 
-    /// After playing an ability
-    case onPlayAbility
+    /// playing an ability
+    case playAbility
 
-    /// After playing an equipment card, put in self's play
-    case onPlayEquipment
+    /// playing an equipment card, put in self's play
+    case playEquipment
 
-    /// After playing a handicap card, put in target's play
-    case onPlayHandicap
+    /// playing a handicap card, put in target's play
+    case playHandicap
 
-    /// After setting turn
-    case onSetTurn
+    /// setting turn
+    case setTurn
 
-    /// After being damaged
-    case onDamage
+    /// being damaged
+    case damage
 
-    /// After loosing last life point
-    case onDamageLethal
+    /// loosing last life point
+    case damageLethal
 
-    /// After being eliminated
-    case onEliminated
+    /// being eliminated
+    case eliminated
 
-    /// After being eliminated and current turn
-    case onEliminatedYourTurn
+    /// being targeted by a shot
+    case shot
 
-    /// After being targeted by a shot
-    case onShot
+    /// adding or removing card inPlay
+    case updateInPlay
 
-    /// After adding or removing card inPlay
-    case onUpdateInPlay
+    /// playing a weapon
+    case playWeapon
 
-    /// After playing a weapon
-    case onPlayWeapon
+    /// The minimum number of active players is X
+    case isPlayersAtLeast(Int)
+
+    /// The maximum times per turn a card may be played is X
+    case isCardPlayedLessThan(String, ArgNum)
+
+    /// The current turn is actor
+    case isYourTurn
 }

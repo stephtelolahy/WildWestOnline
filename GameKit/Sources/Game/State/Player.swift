@@ -20,10 +20,10 @@ public struct Player: Identifiable, Codable, Equatable {
     public let abilities: [String]
 
     /// Initial attributes
-    public let startAttributes: Attributes
+    public let startAttributes: [AttributeKey: Int]
 
     /// Active attributes
-    public var attributes: Attributes
+    public var attributes: [AttributeKey: Int]
 
     /// Life points
     public var health: Int

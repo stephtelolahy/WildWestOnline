@@ -10,7 +10,7 @@ public enum Setup {
         figures: [String],
         deck: [String],
         cardRef: [String: Card],
-        defaultAttributes: Attributes = [:],
+        defaultAttributes: [AttributeKey: Int] = [:],
         defaultAbilities: [String] = []
     ) -> GameState {
         var deck = deck.shuffled()
@@ -27,7 +27,7 @@ public enum Setup {
             }
 
             let handCards: [String] = Array(1...health).map { _ in deck.removeFirst() }
-            let hand = CardLocation(cards: handCards, visibility: figureName)
+            let hand = CardLocation(cards: handCards, hidden: true)
 
             return Player(
                 id: figureName,

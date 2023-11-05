@@ -11,29 +11,22 @@ public extension Card {
 
     init(
         _ name: String,
-        attributes: Attributes = [:],
+        attributes: [AttributeKey: Int] = [:],
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.attributes = attributes
         self.rules = content()
-            .reduce(into: [PlayReq: CardEffect]()) { result, rule in
-                result[rule.playReq] = rule.effect
-            }
     }
 
     init(
         _ name: String,
-        attributes: Attributes = [:],
+        attributes: [AttributeKey: Int] = [:],
         prototype: Card,
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.attributes = attributes
-        let contentDict = content()
-            .reduce(into: [PlayReq: CardEffect]()) { result, rule in
-                result[rule.playReq] = rule.effect
-            }
-        self.rules = prototype.rules.merging(contentDict) { _, new in new }
+        self.rules = prototype.rules + content()
     }
 }

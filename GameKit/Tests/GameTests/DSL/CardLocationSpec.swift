@@ -24,7 +24,7 @@ final class CardLocationSpec: QuickSpec {
                 }
                 
                 it("should be visible to everyone") {
-                    expect(sut.visibility) == nil
+                    expect(sut.hidden) == false
                 }
             }
             
@@ -32,10 +32,10 @@ final class CardLocationSpec: QuickSpec {
                 it("should have limited visibility") {
                     // Given
                     // When
-                    let sut = CardLocation(cards: [], visibility: "p1")
+                    let sut = CardLocation(cards: [], hidden: true)
 
                     // Then
-                    expect(sut.visibility) == "p1"
+                    expect(sut.hidden) == true
                 }
             }
             
@@ -63,7 +63,7 @@ final class CardLocationSpec: QuickSpec {
                 // Given
                 let JSON = """
                 {
-                    "visibility": "p1",
+                    "hidden": true,
                     "cards": [
                         "c1",
                         "c2"
@@ -77,7 +77,7 @@ final class CardLocationSpec: QuickSpec {
                 let sut = try JSONDecoder().decode(CardLocation.self, from: jsonData)
 
                 // Then
-                expect(sut.visibility) == "p1"
+                expect(sut.hidden) == true
                 expect(sut.cards) == ["c1", "c2"]
             }
         }

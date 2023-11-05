@@ -46,14 +46,19 @@ struct HandlerTriggeredEffects: GameActionHandler {
         }
 
         let playReqContext = PlayReqContext(actor: player)
-        for (playReq, effect) in cardObj.rules where  playReq.match(state: state, ctx: playReqContext) {
+        for rule in cardObj.rules {
+            guard rule.playReqs.allSatisfy({ $0.match(state: state, ctx: playReqContext) }) else {
+                continue
+            }
+            
             let ctx = EffectContext(
                 actor: player,
                 card: card,
                 event: eventForTriggeredEffect(state: state),
                 cancellingAction: cancellingActionForTriggeredEffect(state: state)
             )
-            return GameAction.effect(effect, ctx: ctx)
+
+            return GameAction.effect(rule.effect, ctx: ctx)
         }
 
         return nil
@@ -94,8 +99,8 @@ private extension GameState {
         }
 
         return cardObj.rules.contains(where: {
-            if $0.key == .onPlayImmediate,
-               case .cancel = $0.value {
+            if $0.playReqs.contains(.playImmediate),
+               case .cancel = $0.effect {
                 return true
             } else {
                 return false

@@ -58,9 +58,6 @@ private extension CardEffect {
         case let .group(effects):
             EffectGroup(effects: effects)
 
-        case let .require(condition, effect):
-            EffectRequire(condition: condition, effect: effect)
-
         case let .repeat(times, effect):
             EffectRepeat(effect: effect, times: times)
 

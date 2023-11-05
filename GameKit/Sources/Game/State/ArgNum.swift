@@ -17,8 +17,8 @@ public enum ArgNum: Codable, Equatable {
     /// Number of excess cards at the end of turn
     case excessHand
     
-    /// Number of start turn cards
-    case playerAttr(AttributeKey)
+    /// Player attribute value
+    case attr(AttributeKey)
 
     /// Number of lost life points in triggering damage action
     case damage
