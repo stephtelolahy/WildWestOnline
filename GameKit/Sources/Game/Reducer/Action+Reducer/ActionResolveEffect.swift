@@ -1,11 +1,11 @@
 //
-//  ActionEffect.swift
+//  ActionResolveEffect.swift
 //
 //
 //  Created by Hugues Telolahy on 07/05/2023.
 //
 
-struct ActionEffect: GameActionReducer {
+struct ActionResolveEffect: GameActionReducer {
     let effect: CardEffect
     let ctx: EffectContext
     
