@@ -108,33 +108,33 @@ private extension CardList {
     static let saloon = Card(.saloon) {
         CardEffect.heal(1)
             .target(.damaged)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let stagecoach = Card(.stagecoach) {
         CardEffect.draw
             .target(.actor)
             .repeat(2)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let wellsFargo = Card(.wellsFargo) {
         CardEffect.draw
             .target(.actor)
             .repeat(3)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let catBalou = Card(.catBalou) {
         CardEffect.discard(.selectAny, chooser: .actor)
             .target(.selectAny)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let panic = Card(.panic) {
         CardEffect.steal(.selectAny, toPlayer: .actor)
             .target(.selectAt(1))
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let generalStore = Card(.generalStore) {
@@ -144,7 +144,7 @@ private extension CardList {
             CardEffect.chooseCard(.selectArena)
                 .target(.all)
         }
-        .when(.onPlayImmediate)
+        .on([.onPlayImmediate])
     }
 
     static let bang = Card(.bang) {
@@ -155,34 +155,34 @@ private extension CardList {
 
     static let missed = Card(.missed) {
         CardEffect.activate
-            .when(.onShot)
+            .on([.onShot])
         CardEffect.cancel(.effectOfShoot)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let gatling = Card(.gatling) {
         CardEffect.shoot
             .target(.others)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let indians = Card(.indians) {
         CardEffect.discard(.selectHandNamed(.bang))
             .force(otherwise: .damage(1))
             .target(.others)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let duel = Card(.duel) {
         CardEffect.discard(.selectHandNamed(.bang))
             .challenge(.actor, otherwise: .damage(1))
             .target(.selectAny)
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate])
     }
 
     static let barrel = Card(.barrel, prototype: equipement) {
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
-            .when(.onShot)
+            .on([.onShot])
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
@@ -192,7 +192,7 @@ private extension CardList {
                             .damage(3).target(.actor),
                             .discard(.played).target(.actor)
                         ]))
-        .when(.onSetTurn)
+        .on([.onSetTurn])
     }
 
     // MARK: - Collectibles - Handicap
@@ -200,7 +200,7 @@ private extension CardList {
     static let jail = Card(.jail) {
         CardEffect.nothing
             .target(.selectAny)
-            .when(.onPlayHandicap)
+            .on([.onPlayHandicap])
         CardEffect.luck(.regexEscapeFromJail,
                         onSuccess: .discard(.played).target(.actor),
                         onFailure: .group([
@@ -208,14 +208,14 @@ private extension CardList {
                             .discard(.played).target(.actor),
                             .setTurn.target(.next)
                         ]))
-        .when(.onSetTurn)
+        .on([.onSetTurn])
     }
 
     // MARK: - Collectibles - Equipment
 
     static let equipement = Card(String()) {
         CardEffect.nothing
-            .when(.onPlayEquipment)
+            .on([.onPlayEquipment])
     }
 
     static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
@@ -242,20 +242,20 @@ private extension CardList {
             CardEffect.setTurn
                 .target(.next)
         }
-        .when(.onPlayAbility)
+        .on([.onPlayAbility])
     }
 
     static let drawOnSetTurn = Card(.drawOnSetTurn) {
         CardEffect.draw
             .target(.actor)
             .repeat(.playerAttr(.startTurnCards))
-            .when(.onSetTurn)
+            .on([.onSetTurn])
     }
 
     static let eliminateOnDamageLethal = Card(.eliminateOnDamageLethal) {
         CardEffect.eliminate
             .target(.actor)
-            .when(.onDamageLethal)
+            .on([.onDamageLethal])
     }
 
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
@@ -267,19 +267,19 @@ private extension CardList {
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {
         CardEffect.discard(.all)
             .target(.actor)
-            .when(.onEliminated)
+            .on([.onEliminated])
     }
 
     static let discardPreviousWeaponOnPlayWeapon = Card(.discardPreviousWeaponOnPlayWeapon) {
         CardEffect.discard(.previousInPlayWithAttribute(.weapon))
             .target(.actor)
-            .when(.onPlayWeapon)
+            .on([.onPlayWeapon])
     }
 
     static let evaluateAttributesOnUpdateInPlay = Card(.evaluateAttributesOnUpdateInPlay) {
         CardEffect.evaluateAttributes
             .target(.actor)
-            .when(.onUpdateInPlay)
+            .on([.onUpdateInPlay])
     }
 
     // MARK: - Figures
@@ -292,7 +292,7 @@ private extension CardList {
 
     static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4]) {
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
-            .when(.onShot)
+            .on([.onShot])
     }
 
     static let slabTheKiller = Card(.slabTheKiller, attributes: [.maxHealth: 4])
@@ -305,14 +305,14 @@ private extension CardList {
         CardEffect.draw
             .target(.actor)
             .repeat(.damage)
-            .when(.onDamage)
+            .on([.onDamage])
     }
 
     static let elGringo = Card(.elGringo, attributes: [.maxHealth: 3]) {
         CardEffect.steal(.randomHand, toPlayer: .actor)
             .target(.offender)
             .repeat(.damage)
-            .when(.onDamage)
+            .on([.onDamage])
     }
 
     static let suzyLafayette = Card(.suzyLafayette, attributes: [.maxHealth: 4])

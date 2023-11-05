@@ -20,8 +20,6 @@ struct ActionPlay: GameActionReducer {
             throw GameError.cardNotPlayable(card)
         }
 
-        var sideEffect = playRule.effect
-
         // verify requirements
         let playReqContext = PlayReqContext(actor: player)
         for playReq in playRule.playReqs where !PlayReq.onPlays.contains(playReq) {
@@ -29,7 +27,7 @@ struct ActionPlay: GameActionReducer {
         }
 
         // resolve target
-        if case let .target(requiredTarget, _) = sideEffect {
+        if case let .target(requiredTarget, _) = playRule.effect {
             let ctx = EffectContext(
                 actor: player,
                 card: card,

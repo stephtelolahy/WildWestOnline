@@ -13,7 +13,7 @@ final class PlayImmediateSpec: QuickSpec {
     override func spec() {
         let card1 = Card("c1") {
             CardEffect.nothing
-                .when(.onPlayImmediate)
+                .on([.onPlayImmediate])
         }
 
         describe("playing immediate card") {

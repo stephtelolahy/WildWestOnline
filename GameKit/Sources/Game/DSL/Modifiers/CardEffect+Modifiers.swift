@@ -26,11 +26,6 @@ public extension CardEffect {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
 
-    @available(*, deprecated, message: "Use on(actions) instead")
-    func when(_ playReq: PlayReq) -> CardRule {
-        .init(playReqs: [playReq], effect: self)
-    }
-
     func on(_ playReqs: [PlayReq]) -> CardRule {
         .init(playReqs: playReqs, effect: self)
     }
