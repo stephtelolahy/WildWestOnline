@@ -12,5 +12,14 @@ public struct Card: Codable, Equatable {
     public let attributes: Attributes
 
     /// Actions that can be performed with the card
-    public let rules: [PlayReq: CardEffect]
+    public let rules: [CardRule]
+}
+
+public struct CardRule: Codable, Equatable {
+
+    /// Conditions to trigger the card effect
+    let playReqs: [PlayReq]
+
+    /// Card effect
+    let effect: CardEffect
 }

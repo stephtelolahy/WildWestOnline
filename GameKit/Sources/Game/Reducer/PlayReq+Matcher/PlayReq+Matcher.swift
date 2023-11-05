@@ -17,6 +17,13 @@ extension PlayReq {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         matcher().match(state: state, ctx: ctx)
     }
+
+    func throwingMatch(state: GameState, ctx: PlayReqContext) throws {
+        let matched = matcher().match(state: state, ctx: ctx)
+        guard matched else {
+            throw GameError.noPlayReq(self)
+        }
+    }
 }
 
 private extension PlayReq {

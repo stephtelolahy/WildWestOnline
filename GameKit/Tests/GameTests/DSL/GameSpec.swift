@@ -163,6 +163,7 @@ final class GameSpec: QuickSpec {
                         "cards": []
                       },
                       "inPlay": {
+                        "hidden": false,
                         "cards": []
                       }
                     }

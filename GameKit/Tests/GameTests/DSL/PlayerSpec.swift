@@ -169,6 +169,7 @@ final class PlayerSpec: QuickSpec {
                         "cards": []
                     },
                     "inPlay": {
+                        "hidden": false,
                         "cards": []
                     }
                 }

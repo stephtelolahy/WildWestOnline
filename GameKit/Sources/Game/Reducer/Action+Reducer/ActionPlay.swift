@@ -9,7 +9,6 @@ struct ActionPlay: GameActionReducer {
     let player: String
     let card: String
 
-    // swiftlint:disable:next cyclomatic_complexity
     func reduce(state: GameState) throws -> GameState {
         // verify action
         let cardName = card.extractName()
@@ -17,13 +16,11 @@ struct ActionPlay: GameActionReducer {
             throw GameError.cardNotPlayable(card)
         }
 
-        guard let playRule = cardObj.rules.first(where: { rule in
-            PlayReq.onPlays.contains(rule.key)
-        }) else {
+        guard let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
             throw GameError.cardNotPlayable(card)
         }
 
-        var sideEffect = playRule.value
+        var sideEffect = playRule.effect
 
         // resolve condition
         if case let .require(condition, childEffect) = sideEffect {
@@ -44,12 +41,11 @@ struct ActionPlay: GameActionReducer {
                 var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
-                    switch playRule.key {
-                    case .onPlayImmediate:
-                            .playImmediate(card, target: $1, player: player)
-                    case .onPlayHandicap:
-                            .playHandicap(card, target: $1, player: player)
-                    default:
+                    if playRule.isMatching(.onPlayImmediate) {
+                        .playImmediate(card, target: $1, player: player)
+                    } else if playRule.isMatching(.onPlayHandicap) {
+                        .playHandicap(card, target: $1, player: player)
+                    } else {
                         fatalError("unexpected")
                     }
 
@@ -62,14 +58,13 @@ struct ActionPlay: GameActionReducer {
         }
 
         let action: GameAction =
-        switch playRule.key {
-        case .onPlayImmediate:
-                .playImmediate(card, player: player)
-        case .onPlayAbility:
-                .playAbility(card, player: player)
-        case .onPlayEquipment:
-                .playEquipment(card, player: player)
-        default:
+        if playRule.isMatching(.onPlayImmediate) {
+            .playImmediate(card, player: player)
+        } else if playRule.isMatching(.onPlayAbility) {
+            .playAbility(card, player: player)
+        } else if playRule.isMatching(.onPlayEquipment) {
+            .playEquipment(card, player: player)
+        } else {
             fatalError("unexpected")
         }
 
@@ -90,15 +85,13 @@ extension GameState {
     ) {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName],
-              let playRule = cardObj.rules.first(where: { rule in
-                  PlayReq.onPlays.contains(rule.key)
-              }) else {
+              let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
             print("!! missing onPlay effects")
             return
         }
 
         // set main effect
-        var sideEffect = playRule.value
+        var sideEffect = playRule.effect
 
         // unwrap require effect
         if case let .require(_, childEffect) = sideEffect {
@@ -124,4 +117,14 @@ extension GameState {
 
 private extension PlayReq {
     static let onPlays: [Self] = [.onPlayImmediate, .onPlayAbility, .onPlayHandicap, .onPlayEquipment]
+}
+
+private extension CardRule {
+    func isPlayRule() -> Bool {
+        playReqs.contains(where: { PlayReq.onPlays.contains($0) })
+    }
+
+    func isMatching(_ playReq: PlayReq) -> Bool {
+        playReqs.contains(where: { $0 == playReq })
+    }
 }

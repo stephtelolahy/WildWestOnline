@@ -14,12 +14,3 @@ public struct CardRuleBuilder {
         components
     }
 }
-
-public struct CardRule: Codable, Equatable {
-
-    /// Conditions to trigger the card effect
-    let playReq: PlayReq
-
-    /// Card effect
-    let effect: CardEffect
-}
