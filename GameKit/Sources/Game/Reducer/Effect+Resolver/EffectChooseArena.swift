@@ -9,7 +9,7 @@ struct EffectChooseArena: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let chooserId = ctx.target!
         let card = ArgCard.selectArena
-        let cardContext = ArgCardContext(owner: String(), chooser: chooserId, played: ctx.card)
+        let cardContext = ArgCardContext(ctx: ctx)
         return try card.resolve(state: state, ctx: cardContext) {
             .chooseArena($0, player: chooserId)
         }

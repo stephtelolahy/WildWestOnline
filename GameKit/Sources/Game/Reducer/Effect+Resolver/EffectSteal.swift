@@ -7,12 +7,12 @@
 
 struct EffectSteal: EffectResolver {
     let card: ArgCard
-    let chooser: ArgPlayer
+    let toPlayer: ArgPlayer
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let owner = ctx.target!
-        let chooserId = try chooser.resolveUnique(state: state, ctx: ctx)
-        let cardContext = ArgCardContext(owner: owner, chooser: chooserId, played: ctx.card)
+        let chooserId = try toPlayer.resolveUnique(state: state, ctx: ctx)
+        let cardContext = ArgCardContext(ctx: ctx, chooser: chooserId)
         return try card.resolve(state: state, ctx: cardContext) {
             if state.player(owner).hand.contains($0) {
                 return .stealHand($0, target: owner, player: chooserId)

@@ -13,6 +13,12 @@ struct ArgCardContext {
     let owner: String
     let chooser: String
     let played: String
+
+    init(ctx: EffectContext, chooser: String? = nil) {
+        self.owner = ctx.target!
+        self.chooser = chooser ?? ctx.target!
+        self.played = ctx.card
+    }
 }
 
 extension ArgCard {

@@ -133,7 +133,7 @@ private extension CardList {
     }
 
     static let panic = Card(.panic) {
-        CardEffect.steal(.selectAny, chooser: .actor)
+        CardEffect.steal(.selectAny, toPlayer: .actor)
             .target(.selectAt(1))
             .when(.onPlayImmediate)
     }
@@ -189,7 +189,7 @@ private extension CardList {
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
         CardEffect.luck(.regexPassDynamite,
-                        onSuccess: .passInplay(.played, owner: .actor).target(.next),
+                        onSuccess: .passInplay(.played, toPlayer: .next).target(.actor),
                         onFailure: .group([
                             .damage(3).target(.actor),
                             .discard(.played).target(.actor)
@@ -311,7 +311,7 @@ private extension CardList {
     }
 
     static let elGringo = Card(.elGringo, attributes: [.maxHealth: 3]) {
-        CardEffect.steal(.randomHand, chooser: .actor)
+        CardEffect.steal(.randomHand, toPlayer: .actor)
             .target(.offender)
             .repeat(.damage)
             .when(.onDamage)
