@@ -26,7 +26,7 @@ final class HealSpec: QuickSpec {
                         .build()
                 }
 
-                context("value less than damage") {
+                context("amount less than damage") {
                     it("should gain life points") {
                         // When
                         let action = GameAction.heal(1, player: "p1")
@@ -38,7 +38,7 @@ final class HealSpec: QuickSpec {
                     }
                 }
 
-                context("value equal to damage") {
+                context("amount equal to damage") {
                     it("should gain life points") {
                         // When
                         let action = GameAction.heal(2, player: "p1")
@@ -50,7 +50,7 @@ final class HealSpec: QuickSpec {
                     }
                 }
 
-                context("value more than damage") {
+                context("amount more than damage") {
                     it("should gain life points limited to max health") {
                         // When
                         let action = GameAction.heal(3, player: "p1")

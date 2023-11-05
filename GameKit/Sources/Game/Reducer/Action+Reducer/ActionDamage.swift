@@ -7,11 +7,11 @@
 
 struct ActionDamage: GameActionReducer {
     let player: String
-    let value: Int
+    let amount: Int
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state[keyPath: \GameState.players[player]]?.looseHealth(value)
+        state[keyPath: \GameState.players[player]]?.looseHealth(amount)
         return state
     }
 }
