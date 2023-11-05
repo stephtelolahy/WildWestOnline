@@ -27,7 +27,7 @@ final class GeneralStoreSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: ["c1", "c2"], state: state)
+                    let (result, _) = self.awaitAction(action, choose: ["c1", "c2"], state: state)
                     
                     // Then
                     expect(result) == [
@@ -64,7 +64,7 @@ final class GeneralStoreSpec: QuickSpec {
                     
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: ["c1"], state: state)
+                    let (result, _) = self.awaitAction(action, choose: ["c1"], state: state)
                     
                     // Then
                     expect(result) == [

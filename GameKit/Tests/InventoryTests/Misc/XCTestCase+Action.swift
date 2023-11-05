@@ -13,14 +13,14 @@ extension XCTestCase {
 
     func awaitAction(
         _ action: GameAction,
-        choices: [String] = [],
+        choose: [String] = [],
         state: GameState,
         timeout: TimeInterval = 0.1,
         file: StaticString = #file,
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
         let store = createGameStore(initial: state)
-        var choices = choices
+        var choices = choose
         var events: [GameAction] = []
         var ocurredError: GameError?
         let expectation = XCTestExpectation(description: "Awaiting game idle")

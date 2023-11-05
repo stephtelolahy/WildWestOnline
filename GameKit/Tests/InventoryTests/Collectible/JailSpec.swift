@@ -25,7 +25,7 @@ final class JailSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.jail, player: "p1")
-                    let (result, _) = self.awaitAction(action, choices: ["p2"], state: state)
+                    let (result, _) = self.awaitAction(action, choose: ["p2"], state: state)
 
                     // Then
                     expect(result) == [
