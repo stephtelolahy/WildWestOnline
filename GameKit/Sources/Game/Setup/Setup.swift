@@ -14,30 +14,13 @@ public enum Setup {
         defaultAbilities: [String] = []
     ) -> GameState {
         var deck = deck.shuffled()
-        let players: [Player] = figures.map { figureName in
-            guard let figure = cardRef[figureName] else {
-                fatalError("Missing figure named \(figureName)")
-            }
-
-            let attributes = defaultAttributes.merging(figure.attributes) { _, new in new }
-            let abilities = defaultAbilities + [figureName]
-
-            guard let health = attributes[.maxHealth] else {
-                fatalError("missing attribute maxHealth")
-            }
-
-            let handCards: [String] = Array(1...health).map { _ in deck.removeFirst() }
-            let hand = CardLocation(cards: handCards, hidden: true)
-
-            return Player(
-                id: figureName,
-                name: figureName,
-                abilities: abilities,
-                startAttributes: attributes,
-                attributes: attributes,
-                health: health,
-                hand: hand,
-                inPlay: .init(cards: [])
+        let players: [Player] = figures.map {
+            Self.buildPlayer(
+                figureName: $0,
+                deck: &deck,
+                cardRef: cardRef,
+                defaultAttributes: defaultAttributes,
+                defaultAbilities: defaultAbilities
             )
         }
 
@@ -68,5 +51,40 @@ public enum Setup {
             }
         }
         return result
+    }
+}
+
+private extension Setup {
+    static func buildPlayer(
+        figureName: String,
+        deck: inout [String],
+        cardRef: [String: Card],
+        defaultAttributes: [AttributeKey: Int],
+        defaultAbilities: [String]
+    ) -> Player {
+        guard let figure = cardRef[figureName] else {
+            fatalError("Missing figure named \(figureName)")
+        }
+
+        let attributes = defaultAttributes.merging(figure.attributes) { _, new in new }
+        let abilities = defaultAbilities + [figureName]
+
+        guard let health = attributes[.maxHealth] else {
+            fatalError("missing attribute maxHealth")
+        }
+
+        let handCards: [String] = Array(1...health).map { _ in deck.removeFirst() }
+        let hand = CardLocation(cards: handCards, hidden: true)
+
+        return Player(
+            id: figureName,
+            name: figureName,
+            abilities: abilities,
+            startAttributes: attributes,
+            attributes: attributes,
+            health: health,
+            hand: hand,
+            inPlay: .init(cards: [])
+        )
     }
 }
