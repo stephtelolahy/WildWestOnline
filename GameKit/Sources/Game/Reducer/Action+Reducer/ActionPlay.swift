@@ -22,11 +22,10 @@ struct ActionPlay: GameActionReducer {
 
         var sideEffect = playRule.effect
 
-        // resolve condition
-        if case let .require(condition, childEffect) = sideEffect {
-            let playReqContext = PlayReqContext(actor: player)
-            try condition.match(state: state, ctx: playReqContext)
-            sideEffect = childEffect
+        // verify requirements
+        let playReqContext = PlayReqContext(actor: player)
+        for playReq in playRule.playReqs where !PlayReq.onPlays.contains(playReq) {
+            try playReq.throwingMatch(state: state, ctx: playReqContext)
         }
 
         // resolve target
@@ -92,11 +91,6 @@ extension GameState {
 
         // set main effect
         var sideEffect = playRule.effect
-
-        // unwrap require effect
-        if case let .require(_, childEffect) = sideEffect {
-            sideEffect = childEffect
-        }
 
         // unwrap target effect, only if provided specific player as target
         if case let .target(_, childEffect) = sideEffect,

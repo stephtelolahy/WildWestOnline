@@ -102,8 +102,7 @@ private extension CardList {
     static let beer = Card(.beer) {
         CardEffect.heal(1)
             .target(.actor)
-            .require(.isPlayersAtLeast(3))
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate, .isPlayersAtLeast(3)])
     }
 
     static let saloon = Card(.saloon) {
@@ -151,8 +150,7 @@ private extension CardList {
     static let bang = Card(.bang) {
         CardEffect.shoot
             .target(.selectReachable)
-            .require(.isCardPlayedLessThan(.bang, .playerAttr(.bangsPerTurn)))
-            .when(.onPlayImmediate)
+            .on([.onPlayImmediate, .isCardPlayedLessThan(.bang, .playerAttr(.bangsPerTurn))])
     }
 
     static let missed = Card(.missed) {
@@ -263,8 +261,7 @@ private extension CardList {
     static let nextTurnOnEliminated = Card(.nextTurnOnEliminated) {
         CardEffect.setTurn
             .target(.next)
-            .require(.isYourTurn)
-            .when(.onEliminated)
+            .on([.onEliminated, .isYourTurn])
     }
 
     static let discardCardsOnEliminated = Card(.discardCardsOnEliminated) {

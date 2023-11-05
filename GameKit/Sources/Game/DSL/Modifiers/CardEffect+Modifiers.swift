@@ -14,10 +14,6 @@ public extension CardEffect {
         .repeat(.exact(times), effect: self)
     }
 
-    func require(_ condition: StateCondition) -> Self {
-        .require(condition, effect: self)
-    }
-
     func target(_ target: ArgPlayer) -> Self {
         .target(target, effect: self)
     }

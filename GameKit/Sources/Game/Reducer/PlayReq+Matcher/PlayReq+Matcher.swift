@@ -21,7 +21,7 @@ extension PlayReq {
     func throwingMatch(state: GameState, ctx: PlayReqContext) throws {
         let matched = matcher().match(state: state, ctx: ctx)
         guard matched else {
-            throw GameError.noPlayReq(self)
+            throw GameError.noReq(self)
         }
     }
 }
@@ -52,6 +52,12 @@ private extension PlayReq {
             OnUpdateInPlay()
         case .onPlayWeapon:
             OnPlayWeapon()
+        case let .isPlayersAtLeast(minCount):
+            IsPlayersAtLeast(minCount: minCount)
+        case let .isCardPlayedLessThan(cardName, playedMaxTimes):
+            IsCardPlayedLessThan(cardName: cardName, playedMaxTimes: playedMaxTimes)
+        case .isYourTurn:
+            IsYourTurn()
         }
     }
 }

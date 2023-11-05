@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 15/10/2023.
 //
 
-/// Occurred event  triggering card effect
-public enum PlayReq: String, CodingKeyRepresentable, Codable, Equatable {
+/// Condition triggering card effect
+public enum PlayReq: Codable, Equatable {
 
     /// After playing an immediate effect card, then the card is discarded
     case onPlayImmediate
@@ -40,4 +40,13 @@ public enum PlayReq: String, CodingKeyRepresentable, Codable, Equatable {
 
     /// After playing a weapon
     case onPlayWeapon
+
+    /// The minimum number of active players is X
+    case isPlayersAtLeast(Int)
+
+    /// The maximum times per turn a card may be played is X
+    case isCardPlayedLessThan(String, ArgNum)
+
+    /// The current turn is actor
+    case isYourTurn
 }

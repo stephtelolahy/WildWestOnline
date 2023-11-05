@@ -61,10 +61,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Dispatch effects sequentially
     case group([Self])
 
-    /// Require state condition
-    @available(*, deprecated, message: "Removed")
-    case require(StateCondition, effect: Self)
-
     /// Apply an effect to targeted player(s)
     case target(ArgPlayer, effect: Self)
 
