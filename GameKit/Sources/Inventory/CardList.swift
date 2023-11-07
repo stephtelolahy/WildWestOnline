@@ -156,7 +156,7 @@ private extension CardList {
     static let missed = Card(.missed) {
         CardEffect.activate
             .on([.shot])
-        CardEffect.cancel(.effectOfShoot)
+        CardEffect.counterShoot
             .on([.playImmediate])
     }
 
@@ -181,7 +181,7 @@ private extension CardList {
     }
 
     static let barrel = Card(.barrel, prototype: equipement) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
             .on([.shot])
     }
 
@@ -204,7 +204,7 @@ private extension CardList {
         CardEffect.luck(.regexEscapeFromJail,
                         onSuccess: .discard(.played).target(.actor),
                         onFailure: .group([
-                            .cancel(.effectOfCard(.drawOnSetTurn)),
+                            .cancelEffectOfCard(.drawOnSetTurn),
                             .discard(.played).target(.actor),
                             .setTurn.target(.next)
                         ]))
@@ -291,7 +291,7 @@ private extension CardList {
     static let paulRegret = Card(.paulRegret, attributes: [.maxHealth: 3, .mustang: 1])
 
     static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4]) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .cancel(.effectOfShoot))
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
             .on([.shot])
     }
 

@@ -72,9 +72,12 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Flip over the top card of the deck, then apply effects according to suits and values
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
-    
-    /// Cancel some queued effect
-    case cancel(ArgCancel)
+
+    /// Counter shoot effect
+    case counterShoot
+
+    /// Cancel effect of a card
+    case cancelEffectOfCard(String)
 
     /// Expose a choice to play a card
     case activate

@@ -27,7 +27,7 @@ final class MissedSpec: QuickSpec {
                     let (_, error) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(error) == .noEffectToCancel(.effectOfShoot)
+                    expect(error) == .noShootToCounter
 
                 }
             }
