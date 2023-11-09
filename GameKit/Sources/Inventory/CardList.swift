@@ -327,7 +327,11 @@ private extension CardList {
             .on([.anotherEliminated])
     }
 
-    static let sidKetchum = Card(.sidKetchum, attributes: [.maxHealth: 4], prototype: figure)
+    static let sidKetchum = Card(.sidKetchum, attributes: [.maxHealth: 4], prototype: figure) {
+        CardEffect.heal(1)
+            .target(.actor)
+            .on([.playAbility])
+    }
 
     static let blackJack = Card(.blackJack, attributes: [.maxHealth: 4], prototype: figure)
 
