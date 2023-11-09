@@ -315,7 +315,11 @@ private extension CardList {
             .on([.damage])
     }
 
-    static let suzyLafayette = Card(.suzyLafayette, attributes: [.maxHealth: 4])
+    static let suzyLafayette = Card(.suzyLafayette, attributes: [.maxHealth: 4]) {
+        CardEffect.draw
+            .target(.actor)
+            .on([.handEmpty])
+    }
 
     static let vultureSam = Card(.vultureSam, attributes: [.maxHealth: 4])
 

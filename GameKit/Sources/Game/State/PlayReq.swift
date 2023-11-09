@@ -41,6 +41,9 @@ public enum PlayReq: Codable, Equatable {
     /// playing a weapon
     case playWeapon
 
+    /// having no cards in hand
+    case handEmpty
+
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)
 
