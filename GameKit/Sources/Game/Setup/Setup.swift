@@ -10,7 +10,6 @@ public enum Setup {
         figures: [String],
         deck: [String],
         cardRef: [String: Card],
-        defaultAttributes: [AttributeKey: Int] = [:],
         defaultAbilities: [String] = []
     ) -> GameState {
         var deck = deck.shuffled()
@@ -19,7 +18,6 @@ public enum Setup {
                 figureName: $0,
                 deck: &deck,
                 cardRef: cardRef,
-                defaultAttributes: defaultAttributes,
                 defaultAbilities: defaultAbilities
             )
         }
@@ -47,14 +45,13 @@ public enum Setup {
         figureName: String,
         deck: inout [String],
         cardRef: [String: Card],
-        defaultAttributes: [AttributeKey: Int],
         defaultAbilities: [String]
     ) -> Player {
         guard let figure = cardRef[figureName] else {
             fatalError("Missing figure named \(figureName)")
         }
 
-        let attributes = defaultAttributes.merging(figure.attributes) { _, new in new }
+        let attributes = figure.attributes
         let abilities = defaultAbilities + [figureName]
 
         guard let health = attributes[.maxHealth] else {
