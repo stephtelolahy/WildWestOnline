@@ -21,6 +21,8 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
                             $0.withHealth(1)
                                 .withAbilities([.eliminateOnDamageLethal])
                         }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
                         .build()
 
                     // When

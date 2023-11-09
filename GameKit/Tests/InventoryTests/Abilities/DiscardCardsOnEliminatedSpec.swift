@@ -21,6 +21,8 @@ final class DiscardCardsOnEliminatedSpec: QuickSpec {
                                 .withInPlay(["c2"])
                                 .withAbilities([.discardCardsOnEliminated])
                         }
+                        .withPlayer("p2")
+                        .withPlayer("p3")
                         .build()
                     
                     // When
