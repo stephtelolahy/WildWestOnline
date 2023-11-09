@@ -38,4 +38,7 @@ public enum ArgPlayer: Codable, Equatable {
     /// The player that deals damage to actor
     /// While actor is not playing, this should be the current turn's player 
     case offender
+
+    /// Just eliminated player, different from `actor`
+    case eliminated
 }

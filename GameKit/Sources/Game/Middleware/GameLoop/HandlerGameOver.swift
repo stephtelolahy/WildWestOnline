@@ -16,8 +16,8 @@ struct HandlerGameOver: GameActionHandler {
     }
 
     private func evaluateWinner(state: GameState) -> String? {
-        if state.playOrder.count == 1 {
-            return state.playOrder[0]
+        if state.playOrder.count <= 1 {
+            return state.playOrder.first
         }
 
         return nil

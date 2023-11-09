@@ -38,6 +38,8 @@ private extension PlayReq {
             OnDamageLethal()
         case .eliminated:
             OnEliminated()
+        case .anotherEliminated:
+            OnAnotherEliminated()
         case .playImmediate,
                 .playHandicap,
                 .playAbility,

@@ -321,7 +321,11 @@ private extension CardList {
             .on([.handEmpty])
     }
 
-    static let vultureSam = Card(.vultureSam, attributes: [.maxHealth: 4], prototype: figure)
+    static let vultureSam = Card(.vultureSam, attributes: [.maxHealth: 4], prototype: figure) {
+        CardEffect.steal(.all, toPlayer: .actor)
+            .target(.eliminated)
+            .on([.anotherEliminated])
+    }
 
     static let sidKetchum = Card(.sidKetchum, attributes: [.maxHealth: 4], prototype: figure)
 

@@ -32,6 +32,9 @@ public enum PlayReq: Codable, Equatable {
     /// being eliminated
     case eliminated
 
+    /// another player eliminated
+    case anotherEliminated
+
     /// being targeted by a shot
     case shot
 

@@ -78,6 +78,7 @@ enum PlayerArgOutput {
 }
 
 private extension ArgPlayer {
+    // swiftlint:disable:next cyclomatic_complexity
     func resolver() -> ArgPlayerResolver {
         switch self {
         case .actor:
@@ -98,6 +99,8 @@ private extension ArgPlayer {
             PlayerOthers()
         case .offender:
             PlayerOffender()
+        case .eliminated:
+            PlayerEliminated()
         case .id:
             fatalError("unexpected")
         }
