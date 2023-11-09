@@ -52,7 +52,7 @@ public enum Setup {
         }
 
         let attributes = figure.attributes
-        let abilities = defaultAbilities + [figureName]
+        let abilities = [figureName] + defaultAbilities
 
         guard let health = attributes[.maxHealth] else {
             fatalError("missing attribute maxHealth")

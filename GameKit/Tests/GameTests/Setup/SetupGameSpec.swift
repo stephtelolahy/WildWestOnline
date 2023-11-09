@@ -58,8 +58,8 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set default abilities") {
-                    expect(game.player("p1").abilities) == ["a1", "a2", "p1"]
-                    expect(game.player("p2").abilities) == ["a1", "a2", "p2"]
+                    expect(game.player("p1").abilities) == ["p1", "a1", "a2"]
+                    expect(game.player("p2").abilities) == ["p2", "a1", "a2"]
                 }
 
                 it("should set setupAttributes") {
