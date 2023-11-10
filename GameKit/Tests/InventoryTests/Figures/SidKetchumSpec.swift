@@ -26,7 +26,7 @@ final class SidKetchumSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.sidKetchum, player: "p1")
-                    let (result, _) = self.awaitAction(action, state: state)
+                    let (result, _) = self.awaitAction(action, choose: ["c1", "c2"], state: state)
 
                     // Then
                     expect(result) == [

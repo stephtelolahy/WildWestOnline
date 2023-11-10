@@ -328,9 +328,14 @@ private extension CardList {
     }
 
     static let sidKetchum = Card(.sidKetchum, attributes: [.maxHealth: 4], prototype: figure) {
-        CardEffect.heal(1)
-            .target(.actor)
-            .on([.playAbility])
+        CardEffect.group {
+            CardEffect.discard(.selectHand)
+                .target(.actor)
+                .repeat(.exact(2))
+            CardEffect.heal(1)
+                .target(.actor)
+        }
+        .on([.playAbility])
     }
 
     static let blackJack = Card(.blackJack, attributes: [.maxHealth: 4], prototype: figure)
