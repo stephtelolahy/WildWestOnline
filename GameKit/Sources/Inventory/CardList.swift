@@ -338,7 +338,8 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    static let blackJack = Card(.blackJack, attributes: [.maxHealth: 4], prototype: figure)
+    static let blackJack = Card(.blackJack, attributes: [.maxHealth: 4], prototype: figure) {
+    }
 
     static let kitCarlson = Card(.kitCarlson, attributes: [.maxHealth: 4], prototype: figure)
 

@@ -68,6 +68,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw a card from deck and put to discard
     case luck
 
+    /// Reveal a drawn card
+    case reveal(String, player: String)
+
     /// Cancel a queued effect
     case cancel(Self)
 
