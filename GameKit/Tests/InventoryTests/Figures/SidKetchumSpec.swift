@@ -47,7 +47,36 @@ final class SidKetchumSpec: QuickSpec {
 
             context("having three cards") {
                 it("should discard two cards and gain health") {
+                    // Given
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withAbilities([.sidKetchum])
+                                .withHand(["c1", "c2", "c3"])
+                                .withHealth(1)
+                                .withAttributes([.maxHealth: 4])
+                        }
+                        .build()
 
+                    // When
+                    let action = GameAction.play(.sidKetchum, player: "p1")
+                    let (result, _) = self.awaitAction(action, choose: ["c1", "c2"], state: state)
+
+                    // Then
+                    expect(result) == [
+                        .playAbility(.sidKetchum, player: "p1"),
+                        .chooseOne(player: "p1", options: [
+                            "c1": .discardHand("c1", player: "p1"),
+                            "c2": .discardHand("c2", player: "p1"),
+                            "c3": .discardHand("c3", player: "p1")
+                        ]),
+                        .discardHand("c1", player: "p1"),
+                        .chooseOne(player: "p1", options: [
+                            "c2": .discardHand("c2", player: "p1"),
+                            "c3": .discardHand("c3", player: "p1"),
+                        ]),
+                        .discardHand("c2", player: "p1"),
+                        .heal(1, player: "p1")
+                    ]
                 }
             }
 
