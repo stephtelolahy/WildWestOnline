@@ -82,7 +82,21 @@ final class SidKetchumSpec: QuickSpec {
 
             context("having one card") {
                 it("should throw error") {
+                    // Given
+                    let state = GameState.makeBuilderWithCardRef()
+                        .withPlayer("p1") {
+                            $0.withAbilities([.sidKetchum])
+                                .withHealth(1)
+                                .withAttributes([.maxHealth: 4])
+                        }
+                        .build()
 
+                    // When
+                    let action = GameAction.play(.sidKetchum, player: "p1")
+                    let (_, error) = self.awaitAction(action, state: state)
+
+                    // Then
+                    expect(error) == .noCard(.selectHand)
                 }
             }
         }
