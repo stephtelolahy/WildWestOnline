@@ -9,5 +9,5 @@ import InitMacro
 @Init
 public struct GameOver: Codable, Equatable {
 
-    public let winner: String
+    public let winner: String?
 }

@@ -67,7 +67,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
     private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
         playerObj.inPlay.cards
         + playerObj.abilities
-        + playerObj.hand.cards.filter { state.isCardCancellingEffectOnPlay($0) }
+        + playerObj.hand.cards.filter { state.isCardCounteringEffectOnPlay($0) }
     }
 
     private func triggerableCardsOfEliminatedPlayer(_ playerObj: Player) -> [String] {
@@ -92,7 +92,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
 }
 
 private extension GameState {
-    func isCardCancellingEffectOnPlay(_ card: String) -> Bool {
+    func isCardCounteringEffectOnPlay(_ card: String) -> Bool {
         let cardName = card.extractName()
         guard let cardObj = cardRef[cardName] else {
             return false
@@ -100,7 +100,7 @@ private extension GameState {
 
         return cardObj.rules.contains(where: {
             if $0.playReqs.contains(.playImmediate),
-               case .cancel = $0.effect {
+               case .counterShoot = $0.effect {
                 return true
             } else {
                 return false

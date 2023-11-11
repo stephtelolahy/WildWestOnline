@@ -32,6 +32,9 @@ public enum PlayReq: Codable, Equatable {
     /// being eliminated
     case eliminated
 
+    /// another player eliminated
+    case anotherEliminated
+
     /// being targeted by a shot
     case shot
 
@@ -40,6 +43,9 @@ public enum PlayReq: Codable, Equatable {
 
     /// playing a weapon
     case playWeapon
+
+    /// having no cards in hand
+    case handEmpty
 
     /// The minimum number of active players is X
     case isPlayersAtLeast(Int)

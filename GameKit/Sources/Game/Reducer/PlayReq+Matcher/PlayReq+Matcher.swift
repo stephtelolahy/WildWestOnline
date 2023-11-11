@@ -38,6 +38,8 @@ private extension PlayReq {
             OnDamageLethal()
         case .eliminated:
             OnEliminated()
+        case .anotherEliminated:
+            OnAnotherEliminated()
         case .playImmediate,
                 .playHandicap,
                 .playAbility,
@@ -49,6 +51,8 @@ private extension PlayReq {
             OnUpdateInPlay()
         case .playWeapon:
             OnPlayWeapon()
+        case .handEmpty:
+            OnHandEmpty()
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
         case let .isCardPlayedLessThan(cardName, playedMaxTimes):

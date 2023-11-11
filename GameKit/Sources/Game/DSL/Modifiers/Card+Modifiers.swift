@@ -16,7 +16,7 @@ public extension Card {
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
-        self.attributes = attributes
+        self.attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
         self.rules = (prototype?.rules ?? []) + content()
     }
 }

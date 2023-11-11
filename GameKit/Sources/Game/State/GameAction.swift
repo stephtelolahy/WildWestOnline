@@ -68,6 +68,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw a card from deck and put to discard
     case luck
 
+    /// Reveal a drawn card
+    case reveal(String, player: String)
+
     /// Cancel a queued effect
     case cancel(Self)
 
@@ -78,7 +81,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case activateCards(player: String, cards: [String])
 
     /// End game
-    case setGameOver(winner: String)
+    case setGameOver(winner: String?)
 
     // MARK: - Invisible actions
 

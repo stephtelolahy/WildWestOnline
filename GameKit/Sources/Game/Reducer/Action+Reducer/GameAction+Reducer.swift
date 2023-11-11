@@ -49,6 +49,8 @@ private extension GameAction {
             ActionPassInPlay(card: card, target: target, player: player)
         case .discover:
             ActionDiscover()
+        case let .reveal(card, player):
+            ActionReveal(card: card, player: player)
         case .luck:
             ActionLuck()
         case let .chooseArena(card, player):

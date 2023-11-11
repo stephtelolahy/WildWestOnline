@@ -70,11 +70,17 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Force two players to perform an effect repeatedly. If cannot, then apply some effect
     case challenge(ArgPlayer, effect: Self, otherwise: Self)
     
-    /// Flip over the top card of the deck, then apply effects according to suits and values
+    /// Flip over the top card of the deck, then apply effects according to card value
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
-    
-    /// Cancel some queued effect
-    case cancel(ArgCancel)
+
+    /// Reveal last drawn hand card, then apply effects according to card value
+    case revealLastDrawn(String, onSuccess: Self)
+
+    /// Counter shoot effect
+    case counterShoot
+
+    /// Cancel effect of a card
+    case cancelEffectOfCard(String)
 
     /// Expose a choice to play a card
     case activate

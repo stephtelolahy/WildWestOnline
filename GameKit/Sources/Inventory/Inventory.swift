@@ -1,6 +1,6 @@
 //
 //  Inventory.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 11/07/2023.
 //
@@ -13,8 +13,7 @@ public enum Inventory {
         let game = Setup.buildGame(figures: figures,
                                    deck: deck,
                                    cardRef: CardList.all,
-                                   defaultAttributes: CardList.commonPlayer.attributes,
-                                   defaultAbilities: CardList.commonAbilities)
+                                   defaultAbilities: CardList.defaultAbilities)
         return game
     }
 }
