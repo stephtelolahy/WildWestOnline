@@ -333,8 +333,7 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    static let blackJack = Card(.blackJack, prototype: figure, attributes: [.maxHealth: 4]) {
-        // TODO: silent drawOnSetTurn
+    static let blackJack = Card(.blackJack, prototype: figure, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.draw
                 .target(.actor)
@@ -355,10 +354,10 @@ private extension CardList {
     /// Order in which triggered effects are queued
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
-        .vultureSam,
         .discardPreviousWeaponOnPlayWeapon,
         .updateAttributesOnChangeInPlay,
         .eliminateOnDamageLethal,
+        .vultureSam,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated
     ]

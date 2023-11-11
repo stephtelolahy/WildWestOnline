@@ -13,12 +13,17 @@ public extension Card {
         _ name: String,
         priority: Int = 0,
         prototype: Card? = nil,
+        silent: [String] = [],
         attributes: [String: Int] = [:],
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.priority = priority
-        self.attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
+        var attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
+        for attr in silent {
+            attributes.removeValue(forKey: attr)
+        }
+        self.attributes = attributes
         self.rules = (prototype?.rules ?? []) + content()
     }
 

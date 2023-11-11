@@ -8,9 +8,25 @@
 import Quick
 import Nimble
 import Game
+import Inventory
 
 final class BlackJackSpec: QuickSpec {
     override func spec() {
+        describe("BlackJack") {
+            it("should silent drawOnSetTurn") {
+                // Given
+                let state = Setup.buildGame(figures: [.blackJack],
+                                            deck: (0..<10).map { "c\($0)" },
+                                            cardRef: CardList.all)
+
+                // When
+                let player = state.player(.blackJack)
+
+                // Then
+                expect(player.attributes[.drawOnSetTurn]) == nil
+            }
+        }
+
         describe("BlackJack starting turn") {
             context("drawn card is Red") {
                 it("should draw an extra card") {
