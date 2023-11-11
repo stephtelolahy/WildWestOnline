@@ -17,7 +17,7 @@ final class WinchesterSpec: QuickSpec {
                     .withPlayer("p1") {
                         $0.withHand([.winchester])
                             .withStartAttributes([.weapon: 1])
-                            .withAttributes([.weapon: 1, .evaluateAttributesOnUpdateInPlay: 0])
+                            .withAttributes([.weapon: 1, .updateAttributesOnChangeInPlay: 0])
                     }
                     .build()
 

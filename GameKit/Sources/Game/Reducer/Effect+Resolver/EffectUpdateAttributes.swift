@@ -12,7 +12,7 @@ struct EffectUpdateAttributes: EffectResolver {
         let playerObj = state.player(player)
         var result: [GameAction] = []
 
-        // TODO: loop over all player and inPlay attributes
+        // TODO: loop over both player and inPlay attributes
         let keys = playerObj.attributes.keys
         for key in keys {
             guard var expectedValue = playerObj.startAttributes[key] else {

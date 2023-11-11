@@ -1,11 +1,11 @@
 //
-//  OnUpdateInPlay.swift
+//  OnChangeInPlay.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 05/10/2023.
 //
 
-struct OnUpdateInPlay: PlayReqMatcher {
+struct OnChangeInPlay: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         if case let .playEquipment(_, player) = state.event,
            player == ctx.actor {

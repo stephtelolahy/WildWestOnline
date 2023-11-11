@@ -17,7 +17,7 @@ final class RemingtonSpec: QuickSpec {
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
                         $0.withHand([.remington])
-                            .withAttributes([.evaluateAttributesOnUpdateInPlay: 0, .weapon: 1])
+                            .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 1])
                             .withStartAttributes([.weapon: 1])
                     }
                     .build()

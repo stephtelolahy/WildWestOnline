@@ -18,7 +18,7 @@ final class VolcanicSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withHand([.volcanic])
-                                .withAttributes([.evaluateAttributesOnUpdateInPlay: 0, .weapon: 1, .bangsPerTurn: 1])
+                                .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 1, .bangsPerTurn: 1])
                                 .withStartAttributes([.weapon: 1, .bangsPerTurn: 1])
                         }
                         .build()
@@ -42,7 +42,12 @@ final class VolcanicSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand([.volcanic])
                                 .withInPlay([.schofield])
-                                .withAttributes([.discardPreviousWeaponOnPlayWeapon: 0, .evaluateAttributesOnUpdateInPlay: 0, .weapon: 2, .bangsPerTurn: 1])
+                                .withAttributes([
+                                        .discardPreviousWeaponOnPlayWeapon: 0,
+                                        .updateAttributesOnChangeInPlay: 0,
+                                        .weapon: 2,
+                                        .bangsPerTurn: 1
+                                    ])
                                 .withStartAttributes([.weapon: 1, .bangsPerTurn: 1])
                         }
                         .build()

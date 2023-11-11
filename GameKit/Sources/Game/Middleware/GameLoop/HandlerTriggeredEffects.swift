@@ -66,6 +66,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
 
     private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
         playerObj.inPlay.cards
+        // TODO: sort abilities by priority
         + playerObj.attributes.map(\.key)
         + playerObj.hand.cards.filter { state.isCardCounteringEffectOnPlay($0) }
     }
