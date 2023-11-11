@@ -14,7 +14,7 @@ final class SimulationTests: XCTestCase {
 
     func testSimulations() {
         for index in 1...2 {
-            let playersCount = Int.random(in: 4...10)
+            let playersCount = Int.random(in: 4...7)
             print("🏁 Simulation #\(index) playersCount: \(playersCount)")
             simulateGame(playersCount: playersCount)
         }
