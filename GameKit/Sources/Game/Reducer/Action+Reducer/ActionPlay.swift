@@ -22,7 +22,7 @@ struct ActionPlay: GameActionReducer {
 
         // verify requirements
         let playReqContext = PlayReqContext(actor: player)
-        for playReq in playRule.playReqs where !PlayReq.onPlays.contains(playReq) {
+        for playReq in playRule.playReqs where !PlayReq.playEvents.contains(playReq) {
             try playReq.throwingMatch(state: state, ctx: playReqContext)
         }
 
@@ -107,12 +107,17 @@ extension GameState {
 }
 
 private extension PlayReq {
-    static let onPlays: [Self] = [.playImmediate, .playAbility, .playHandicap, .playEquipment]
+    static let playEvents: [Self] = [
+        .playImmediate,
+        .playAbility,
+        .playHandicap,
+        .playEquipment
+    ]
 }
 
 private extension CardRule {
     func isPlayRule() -> Bool {
-        playReqs.contains(where: { PlayReq.onPlays.contains($0) })
+        playReqs.contains(where: { PlayReq.playEvents.contains($0) })
     }
 
     func isMatching(_ playReq: PlayReq) -> Bool {

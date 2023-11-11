@@ -7,7 +7,6 @@
 //
 
 /// Player attributes
-
 public extension String {
 
     /// Max health
