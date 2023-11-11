@@ -8,7 +8,7 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// Card attributes
+    /// Included attributes or another card features
     public let attributes: [String: Int]
 
     /// Actions that can be performed with the card
@@ -20,9 +20,9 @@ public struct Card: Codable, Equatable {
 
 public struct CardRule: Codable, Equatable {
 
-    /// Conditions to trigger the card effect
-    let playReqs: [PlayReq]
-
     /// Card effect
     let effect: CardEffect
+
+    /// Conditions to trigger the card effect
+    let playReqs: [PlayReq]
 }
