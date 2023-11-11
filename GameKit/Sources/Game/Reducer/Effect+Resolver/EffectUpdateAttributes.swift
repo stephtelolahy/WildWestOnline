@@ -12,12 +12,8 @@ struct EffectUpdateAttributes: EffectResolver {
         let playerObj = state.player(player)
         var result: [GameAction] = []
 
-        // TODO: loop over both player and inPlay attributes
-        let keys = playerObj.attributes.keys
-        for key in keys {
-            guard var expectedValue = playerObj.startAttributes[key] else {
-                continue
-            }
+        for (key, value) in playerObj.startAttributes {
+            var expectedValue = value
 
             for card in playerObj.inPlay.cards {
                 let cardName = card.extractName()
