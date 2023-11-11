@@ -45,7 +45,7 @@ final class JailSpec: QuickSpec {
         
         describe("triggering jail") {
             context("flipped card is hearts") {
-                it("should scape from jail") {
+                it("should escape from jail") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
@@ -70,17 +70,15 @@ final class JailSpec: QuickSpec {
             }
 
             context("flipped card is spades") {
-                it("should skip turn") {
+                it("should staty in jail by skipping turn") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withInPlay([.jail])
-                                .withAttributes([.flippedCards: 1])
+                                .withAttributes([.drawOnSetTurn: 0, .flippedCards: 1, .startTurnCards: 2])
                         }
-                        .withPlayer("p2") {
-                            $0.withAttributes([.drawOnSetTurn: 0, .startTurnCards: 2])
-                        }
-                        .withDeck(["c1-A♠️", "c2", "c3", "c4", "c5"])
+                        .withPlayer("p2")
+                        .withDeck(["c1-A♠️", "c2", "c3"])
                         .build()
 
                     // When
@@ -90,10 +88,9 @@ final class JailSpec: QuickSpec {
                     // Then
                     expect(result) == [.setTurn("p1"),
                                        .luck,
+                                       .cancel(.effect(.repeat(.attr(.startTurnCards), effect: .target(.actor, effect: .draw)), ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn("p1")))),
                                        .discardInPlay(.jail, player: "p1"),
-                                       .setTurn("p2"),
-                                       .draw(player: "p2"),
-                                       .draw(player: "p2")]
+                                       .setTurn("p2")]
                 }
             }
         }
