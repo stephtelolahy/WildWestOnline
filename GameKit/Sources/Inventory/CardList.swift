@@ -270,8 +270,6 @@ private extension CardList {
         .weapon: 1,
         .flippedCards: 1,
         .bangsPerTurn: 1,
-        .scope: 0,
-        .mustang: 0,
         .endTurn: 0,
         .drawOnSetTurn: 0,
         .eliminateOnDamageLethal: 0,
