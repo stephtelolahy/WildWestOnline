@@ -38,6 +38,7 @@ public enum CardList {
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
         updateAttributesOnChangeInPlay
+        pDefault
         willyTheKid
         roseDoolan
         paulRegret
@@ -265,7 +266,7 @@ private extension CardList {
 
     // MARK: - Figures
 
-    static let figure = Card(String(), attributes: [
+    static let pDefault = Card(.pDefault, attributes: [
         .startTurnCards: 2,
         .weapon: 1,
         .flippedCards: 1,
@@ -279,50 +280,50 @@ private extension CardList {
         .discardPreviousWeaponOnPlayWeapon: 0
     ])
 
-    static let willyTheKid = Card(.willyTheKid, prototype: figure, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
+    static let willyTheKid = Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
 
-    static let roseDoolan = Card(.roseDoolan, prototype: figure, attributes: [.maxHealth: 4, .scope: 1])
+    static let roseDoolan = Card(.roseDoolan, prototype: pDefault, attributes: [.maxHealth: 4, .scope: 1])
 
-    static let paulRegret = Card(.paulRegret, prototype: figure, attributes: [.maxHealth: 3, .mustang: 1])
+    static let paulRegret = Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .mustang: 1])
 
-    static let jourdonnais = Card(.jourdonnais, prototype: figure, attributes: [.maxHealth: 4]) {
+    static let jourdonnais = Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
             .on([.shot])
     }
 
-    static let slabTheKiller = Card(.slabTheKiller, prototype: figure, attributes: [.maxHealth: 4])
+    static let slabTheKiller = Card(.slabTheKiller, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let luckyDuke = Card(.luckyDuke, prototype: figure, attributes: [.maxHealth: 4, .flippedCards: 2])
+    static let luckyDuke = Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
 
-    static let calamityJanet = Card(.calamityJanet, prototype: figure, attributes: [.maxHealth: 4])
+    static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let bartCassidy = Card(.bartCassidy, prototype: figure, attributes: [.maxHealth: 4]) {
+    static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.draw
             .target(.actor)
             .repeat(.damage)
             .on([.damage])
     }
 
-    static let elGringo = Card(.elGringo, prototype: figure, attributes: [.maxHealth: 3]) {
+    static let elGringo = Card(.elGringo, prototype: pDefault, attributes: [.maxHealth: 3]) {
         CardEffect.steal(.randomHand, toPlayer: .actor)
             .target(.offender)
             .repeat(.damage)
             .on([.damage])
     }
 
-    static let suzyLafayette = Card(.suzyLafayette, prototype: figure, attributes: [.maxHealth: 4]) {
+    static let suzyLafayette = Card(.suzyLafayette, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.draw
             .target(.actor)
             .on([.handEmpty])
     }
 
-    static let vultureSam = Card(.vultureSam, prototype: figure, attributes: [.maxHealth: 4]) {
+    static let vultureSam = Card(.vultureSam, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.steal(.all, toPlayer: .actor)
             .target(.eliminated)
             .on([.anotherEliminated])
     }
 
-    static let sidKetchum = Card(.sidKetchum, prototype: figure, attributes: [.maxHealth: 4]) {
+    static let sidKetchum = Card(.sidKetchum, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.discard(.selectHand)
                 .target(.actor)
@@ -333,7 +334,7 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    static let blackJack = Card(.blackJack, prototype: figure, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.draw
                 .target(.actor)
@@ -343,11 +344,11 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let kitCarlson = Card(.kitCarlson, prototype: figure, attributes: [.maxHealth: 4])
+    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let jesseJones = Card(.jesseJones, prototype: figure, attributes: [.maxHealth: 4])
+    static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let pedroRamirez = Card(.pedroRamirez, prototype: figure, attributes: [.maxHealth: 4])
+    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4])
 }
 
 private extension CardList {

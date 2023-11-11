@@ -61,7 +61,6 @@ public enum Setup {
         return Player(
             id: figure,
             name: figure,
-            startAttributes: attributes,
             attributes: attributes,
             health: health,
             hand: hand,

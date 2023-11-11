@@ -13,13 +13,11 @@ public struct Player: Identifiable, Codable, Equatable {
     /// Unique identifier
     public let id: String
 
-    /// Display name
+    /// Figure name
+    /// Defines initial attributes
     public let name: String
 
-    /// Initial attributes
-    public let startAttributes: [String: Int]
-
-    /// Active attributes
+    /// Current attributes
     public var attributes: [String: Int]
 
     /// Life points

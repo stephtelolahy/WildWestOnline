@@ -157,7 +157,6 @@ final class GameSpec: QuickSpec {
                       "health": 3,
                       "abilities": [],
                       "attributes": {},
-                      "startAttributes": {},
                       "hand": {
                         "hidden": true,
                         "cards": []

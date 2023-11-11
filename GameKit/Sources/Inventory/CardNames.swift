@@ -35,6 +35,7 @@ public extension String {
 
     // MARK: - Figures
 
+    static let pDefault = "pDefault"
     static let willyTheKid = "willyTheKid"
     static let roseDoolan = "roseDoolan"
     static let paulRegret = "paulRegret"
