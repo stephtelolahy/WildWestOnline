@@ -17,8 +17,7 @@ final class BlackJackSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.blackJack: 0])
-                                .withAttributes([.startTurnCards: 2])
+                            $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
                         }
                         .withDeck(["c1", "c2-A♥️", "c3"])
                         .build()
