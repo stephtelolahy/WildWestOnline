@@ -90,7 +90,7 @@ final class DynamiteSpec: QuickSpec {
                         // Given
                         let state = GameState.makeBuilderWithCardRef()
                             .withPlayer("p1") {
-                                $0.withInPlay([.dynamite])
+                                $0.withInPlay([.jail, .dynamite])
                                     .withAttributes([
                                             .eliminateOnDamageLethal: 0,
                                             .discardCardsOnEliminated: 0,
@@ -116,7 +116,8 @@ final class DynamiteSpec: QuickSpec {
                                            .luck,
                                            .damage(3, player: "p1"),
                                            .eliminate(player: "p1"),
-                                           .discardInPlay("dynamite", player: "p1"),
+                                           .discardInPlay(.jail, player: "p1"),
+                                           .discardInPlay(.dynamite, player: "p1"),
                                            .setTurn("p2"),
                                            .draw(player: "p2"),
                                            .draw(player: "p2")]

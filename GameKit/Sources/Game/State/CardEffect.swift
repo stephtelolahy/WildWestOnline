@@ -79,8 +79,8 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Counter shoot effect
     case counterShoot
 
-    /// Cancel effect of a card
-    case cancelEffectOfCard(String)
+    /// Cancel turn
+    case cancelTurn
 
     /// Expose a choice to play a card
     case activate
