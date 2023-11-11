@@ -36,6 +36,19 @@ struct HandlerTriggeredEffects: GameActionHandler {
             return nil
         }
 
+        // Sort triggered effects by priority
+        // <sort triggered by priority>
+        triggered.sort { action1, action2 in
+            guard case let .effect(_, ctx1) = action1,
+                  case let .effect(_, ctx2) = action2,
+                  let cardObj1 = state.cardRef[ctx1.card.extractName()],
+                  let cardObj2 = state.cardRef[ctx2.card.extractName()] else {
+                fatalError("invalid triggered effect")
+            }
+            return cardObj1.priority < cardObj2.priority
+        }
+        // </sort triggered by priority>
+
         return .group(triggered)
     }
 
@@ -66,7 +79,6 @@ struct HandlerTriggeredEffects: GameActionHandler {
 
     private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
         playerObj.inPlay.cards
-        // TODO: sort abilities by priority
         + playerObj.attributes.map(\.key)
         + playerObj.hand.cards.filter { state.isCardCounteringEffectOnPlay($0) }
     }

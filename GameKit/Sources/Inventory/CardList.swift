@@ -8,7 +8,7 @@ import Game
 
 public enum CardList {
 
-    public static let all: [String: Card] = createCardDict {
+    public static let all: [String: Card] = createCardDict(priorities) {
         beer
         saloon
         stagecoach
@@ -353,8 +353,22 @@ private extension CardList {
     static let pedroRamirez = Card(.pedroRamirez, prototype: figure, attributes: [.maxHealth: 4])
 }
 
-private func createCardDict(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
-    content().reduce(into: [String: Card]()) {
-        $0[$1.name] = $1
+private extension CardList {
+    /// Order in which triggered effects are queued
+    /// sorted from highest to lowest priority
+    static let priorities: [String] = [
+        .vultureSam,
+        .discardPreviousWeaponOnPlayWeapon,
+        .updateAttributesOnChangeInPlay,
+        .eliminateOnDamageLethal,
+        .discardCardsOnEliminated,
+        .nextTurnOnEliminated
+    ]
+}
+
+private func createCardDict(_ priorities: [String], @CardBuilder content: () -> [Card]) -> [String: Card] {
+    content().reduce(into: [String: Card]()) { result, card in
+        let priority = priorities.firstIndex(of: card.name) ?? Int.max
+        return result[card.name] = card.withPriority(priority)
     }
 }

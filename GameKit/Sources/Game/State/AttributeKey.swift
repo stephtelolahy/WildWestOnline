@@ -34,3 +34,17 @@ public extension String {
     /// by default the maximum allowed hand cards is equal to health
     static let handLimit = "handLimit"
 }
+
+/// Order in which attributes are settled
+/// sorted from highest to lowest priority
+enum AttributeKey {
+    static let priorities: [String] = [
+        .maxHealth,
+        .weapon,
+        .mustang,
+        .scope,
+        .startTurnCards,
+        .flippedCards,
+        .bangsPerTurn
+    ]
+}
