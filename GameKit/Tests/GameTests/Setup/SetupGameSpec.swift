@@ -20,7 +20,7 @@ final class SetupGameSpec: QuickSpec {
                     // Given
                     let deck = Array(1...80).map { "c\($0)" }
                     let figures = ["p1", "p2"]
-                    let abilities = ["a1", "a2"]
+                    let defaultAttr = ["a": 0]
                     let cardRef: [String: Card] = [
                         "p1": Card("p1", attributes: [.maxHealth: 4, .startTurnCards: 2]),
                         "p2": Card("p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
@@ -30,7 +30,7 @@ final class SetupGameSpec: QuickSpec {
                     game = Setup.buildGame(figures: figures,
                                            deck: deck,
                                            cardRef: cardRef,
-                                           defaultAbilities: abilities)
+                                           defaultAttr: defaultAttr)
                 }
 
                 it("should create a game with given player number") {
@@ -58,13 +58,18 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set default abilities") {
-                    expect(game.player("p1").abilities) == ["p1", "a1", "a2"]
-                    expect(game.player("p2").abilities) == ["p2", "a1", "a2"]
+                    expect(game.player("p1").attributes["p1"]) == 0
+                    expect(game.player("p1").attributes["a"]) == 0
+                    expect(game.player("p1").attributes[.startTurnCards]) == 2
+
+                    expect(game.player("p2").attributes["p2"]) == 0
+                    expect(game.player("p2").attributes["a"]) == 0
+                    expect(game.player("p2").attributes[.startTurnCards]) == 3
                 }
 
-                it("should set setupAttributes") {
-                    expect(game.player("p1").startAttributes[.startTurnCards]) == 2
-                    expect(game.player("p2").startAttributes[.startTurnCards]) == 3
+                it("should set setupAttributes equal to attributes") {
+                    expect(game.player("p1").startAttributes) == game.player("p1").attributes
+                    expect(game.player("p2").startAttributes) == game.player("p2").attributes
                 }
             }
         }

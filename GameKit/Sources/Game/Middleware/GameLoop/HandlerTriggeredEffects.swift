@@ -66,12 +66,12 @@ struct HandlerTriggeredEffects: GameActionHandler {
 
     private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
         playerObj.inPlay.cards
-        + playerObj.abilities
+        + playerObj.attributes.map(\.key)
         + playerObj.hand.cards.filter { state.isCardCounteringEffectOnPlay($0) }
     }
 
     private func triggerableCardsOfEliminatedPlayer(_ playerObj: Player) -> [String] {
-        playerObj.abilities
+        playerObj.attributes.map(\.key)
     }
 
     private func cancellingActionForTriggeredEffect(state: GameState) -> GameAction? {

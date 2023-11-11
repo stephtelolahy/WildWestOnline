@@ -12,7 +12,6 @@ public extension Player {
     class Builder {
         private var id: String = UUID().uuidString
         private var name: String = ""
-        private var abilities: [String] = []
         private var attributes: [String: Int] = [:]
         private var startAttributes: [String: Int] = [:]
         private var health: Int = 0
@@ -23,7 +22,6 @@ public extension Player {
             Player(
                 id: id,
                 name: name,
-                abilities: abilities,
                 startAttributes: startAttributes,
                 attributes: attributes,
                 health: health,
@@ -49,11 +47,6 @@ public extension Player {
 
         public func withAttributes(_ value: [String: Int]) -> Self {
             attributes = value
-            return self
-        }
-
-        public func withAbilities(_ value: [String]) -> Self {
-            abilities = value
             return self
         }
 
