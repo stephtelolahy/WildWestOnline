@@ -68,4 +68,5 @@ public extension String {
     static let regexSaveByBarrel = "♥️"
     static let regexEscapeFromJail = "♥️"
     static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
+    static let regexDrawAnotherCard = "(♥️)|(♦️)"
 }

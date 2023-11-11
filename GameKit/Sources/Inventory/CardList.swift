@@ -339,6 +339,14 @@ private extension CardList {
     }
 
     static let blackJack = Card(.blackJack, attributes: [.maxHealth: 4], prototype: figure) {
+        // TODO: silent drawOnSetTurn
+        CardEffect.group {
+            CardEffect.draw
+                .target(.actor)
+                .repeat(.attr(.startTurnCards))
+            CardEffect.revealLastDrawn(.regexDrawAnotherCard, onSuccess: .draw.target(.actor))
+        }
+        .on([.setTurn])
     }
 
     static let kitCarlson = Card(.kitCarlson, attributes: [.maxHealth: 4], prototype: figure)
