@@ -8,14 +8,14 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// Effect priority
-    public let priority: Int
-
     /// Card attributes
     public let attributes: [String: Int]
 
     /// Actions that can be performed with the card
     public let rules: [CardRule]
+
+    /// Effect priority
+    public let priority: Int
 }
 
 public struct CardRule: Codable, Equatable {

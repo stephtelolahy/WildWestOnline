@@ -11,14 +11,13 @@ public extension Card {
 
     init(
         _ name: String,
-        priority: Int = 0,
         prototype: Card? = nil,
         silent: [String] = [],
         attributes: [String: Int] = [:],
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {
         self.name = name
-        self.priority = priority
+        self.priority = 0
         var attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
         for attr in silent {
             attributes.removeValue(forKey: attr)
@@ -30,9 +29,9 @@ public extension Card {
     func withPriority(_ value: Int) -> Self {
         .init(
             name: name,
-            priority: value,
             attributes: attributes,
-            rules: rules
+            rules: rules,
+            priority: value
         )
     }
 }
