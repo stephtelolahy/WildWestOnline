@@ -18,7 +18,7 @@ public enum ArgCard: Codable, Equatable {
     case played
 
     /// InPlay card with given attribute
-    case previousInPlayWithAttribute(AttributeKey)
+    case previousInPlayWithAttribute(String)
 
     /// Random hand card
     case randomHand

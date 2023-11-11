@@ -11,7 +11,7 @@ public extension Card {
 
     init(
         _ name: String,
-        attributes: [AttributeKey: Int] = [:],
+        attributes: [String: Int] = [:],
         prototype: Card? = nil,
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {

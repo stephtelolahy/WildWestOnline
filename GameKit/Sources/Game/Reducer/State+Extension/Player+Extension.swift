@@ -27,7 +27,7 @@ extension Player {
         health -= value
     }
 
-    mutating func setValue(_ value: Int, forAttribute key: AttributeKey) {
+    mutating func setValue(_ value: Int, forAttribute key: String) {
         attributes[key] = value
     }
 

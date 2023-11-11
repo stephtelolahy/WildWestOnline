@@ -13,8 +13,8 @@ public extension Player {
         private var id: String = UUID().uuidString
         private var name: String = ""
         private var abilities: [String] = []
-        private var attributes: [AttributeKey: Int] = [:]
-        private var startAttributes: [AttributeKey: Int] = [:]
+        private var attributes: [String: Int] = [:]
+        private var startAttributes: [String: Int] = [:]
         private var health: Int = 0
         private var hand: CardLocation = .init(cards: [])
         private var inPlay: CardLocation = .init(cards: [])
@@ -42,12 +42,12 @@ public extension Player {
             return self
         }
 
-        public func withStartAttributes(_ value: [AttributeKey: Int]) -> Self {
+        public func withStartAttributes(_ value: [String: Int]) -> Self {
             startAttributes = value
             return self
         }
 
-        public func withAttributes(_ value: [AttributeKey: Int]) -> Self {
+        public func withAttributes(_ value: [String: Int]) -> Self {
             attributes = value
             return self
         }

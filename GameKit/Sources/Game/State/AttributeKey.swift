@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  AttributeKey.swift
 //  
@@ -6,30 +7,31 @@
 //
 
 /// Player attributes
-public enum AttributeKey: String, Codable, CodingKeyRepresentable, CaseIterable {
+
+public extension String {
 
     /// Max health
-    case maxHealth
+    static let maxHealth = "maxHealth"
 
     /// Gun range, default: 1
-    case weapon
+    static let weapon = "weapon"
 
     /// Increment distance from others, default: 0
-    case mustang
+    static let mustang = "mustang"
 
     /// Decrement distance to others, default: 0
-    case scope
+    static let scope = "scope"
 
     /// Cards to draw at beginning of turn, default: 2
-    case startTurnCards
+    static let startTurnCards = "startTurnCards"
 
     /// Number of flipped cards on a draw, default: 1
-    case flippedCards
+    static let flippedCards = "flippedCards"
 
     /// Number of bangs per turn, default: 1
-    case bangsPerTurn
+    static let bangsPerTurn = "bangsPerTurn"
 
     /// If defined, this attribute overrides the maximum allowed hand cards at the end of his turn
     /// by default the maximum allowed hand cards is equal to health
-    case handLimit
+    static let handLimit = "handLimit"
 }
