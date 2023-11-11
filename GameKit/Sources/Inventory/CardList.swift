@@ -354,6 +354,9 @@ private extension CardList {
     /// Order in which triggered effects are queued
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
+        .dynamite,
+        .jail,
+        .drawOnSetTurn,
         .discardPreviousWeaponOnPlayWeapon,
         .updateAttributesOnChangeInPlay,
         .eliminateOnDamageLethal,

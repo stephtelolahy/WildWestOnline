@@ -16,8 +16,8 @@ final class WinchesterSpec: QuickSpec {
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
                         $0.withHand([.winchester])
+                            .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 1])
                             .withStartAttributes([.weapon: 1])
-                            .withAttributes([.weapon: 1, .updateAttributesOnChangeInPlay: 0])
                     }
                     .build()
 
