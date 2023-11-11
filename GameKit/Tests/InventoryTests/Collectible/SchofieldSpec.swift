@@ -19,9 +19,8 @@ final class SchofieldSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withHand([.schofield])
-                                .withAttributes([.weapon: 1])
+                                .withAttributes([.evaluateAttributesOnUpdateInPlay: 0, .weapon: 1])
                                 .withStartAttributes([.weapon: 1])
-                                .withAbilities([.evaluateAttributesOnUpdateInPlay])
                         }
                         .build()
 
@@ -44,9 +43,8 @@ final class SchofieldSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand([.schofield])
                                 .withInPlay([.remington])
-                                .withAttributes([.weapon: 3])
+                                .withAttributes([.discardPreviousWeaponOnPlayWeapon: 0, .evaluateAttributesOnUpdateInPlay: 0, .weapon: 3])
                                 .withStartAttributes([.weapon: 1])
-                                .withAbilities([.discardPreviousWeaponOnPlayWeapon, .evaluateAttributesOnUpdateInPlay])
                         }
                         .build()
 
@@ -71,9 +69,8 @@ final class SchofieldSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withInPlay([.schofield])
-                                .withAttributes([.weapon: 2])
+                                .withAttributes([.evaluateAttributesOnUpdateInPlay: 0, .weapon: 2])
                                 .withStartAttributes([.weapon: 1])
-                                .withAbilities([.evaluateAttributesOnUpdateInPlay])
                         }
                         .build()
 

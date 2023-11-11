@@ -20,8 +20,7 @@ final class JourdonnaisSpec: QuickSpec {
                                 .withAttributes([.weapon: 1])
                         }
                         .withPlayer("p2") {
-                            $0.withAbilities([.jourdonnais])
-                                .withAttributes([.flippedCards: 1])
+                            $0.withAttributes([.jourdonnais: 0, .flippedCards: 1])
                         }
                         .withDeck(["c1-2♥️"])
                         .build()

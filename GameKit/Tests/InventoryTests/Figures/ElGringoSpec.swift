@@ -16,7 +16,7 @@ final class ElGringoSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.elGringo])
+                            $0.withAttributes([.elGringo: 0])
                                 .withHealth(3)
                         }
                         .withPlayer("p2") {
@@ -43,7 +43,7 @@ final class ElGringoSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.elGringo])
+                            $0.withAttributes([.elGringo: 0])
                                 .withHealth(3)
                         }
                         .withPlayer("p2") {
@@ -69,7 +69,7 @@ final class ElGringoSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.elGringo])
+                            $0.withAttributes([.elGringo: 0])
                                 .withHealth(3)
                         }
                         .withTurn("p1")

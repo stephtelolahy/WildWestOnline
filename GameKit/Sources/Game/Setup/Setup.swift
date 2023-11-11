@@ -9,16 +9,14 @@ public enum Setup {
     public static func buildGame(
         figures: [String],
         deck: [String],
-        cardRef: [String: Card],
-        defaultAttr: [String: Int] = [:]
+        cardRef: [String: Card]
     ) -> GameState {
         var deck = deck.shuffled()
         let players: [Player] = figures.map {
             Self.buildPlayer(
                 figure: $0,
                 deck: &deck,
-                cardRef: cardRef,
-                defaultAttr: defaultAttr
+                cardRef: cardRef
             )
         }
 
@@ -44,16 +42,14 @@ public enum Setup {
     private static func buildPlayer(
         figure: String,
         deck: inout [String],
-        cardRef: [String: Card],
-        defaultAttr: [String: Int]
+        cardRef: [String: Card]
     ) -> Player {
         guard let figureObj = cardRef[figure] else {
             fatalError("Missing figure named \(figure)")
         }
 
-        var attributes = defaultAttr
+        var attributes = figureObj.attributes
         attributes[figure] = 0
-        attributes.merge(figureObj.attributes) { _, new in new }
 
         guard let health = attributes[.maxHealth] else {
             fatalError("missing attribute maxHealth")

@@ -50,8 +50,7 @@ final class JailSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withInPlay([.jail])
-                                .withAttributes([.flippedCards: 1, .startTurnCards: 2])
-                                .withAbilities([.drawOnSetTurn])
+                                .withAttributes([.drawOnSetTurn: 0, .flippedCards: 1, .startTurnCards: 2])
                         }
                         .withPlayer("p2")
                         .withDeck(["c1-2♥️", "c2", "c3"])
@@ -79,8 +78,7 @@ final class JailSpec: QuickSpec {
                                 .withAttributes([.flippedCards: 1])
                         }
                         .withPlayer("p2") {
-                            $0.withAttributes([.startTurnCards: 2])
-                                .withAbilities([.drawOnSetTurn])
+                            $0.withAttributes([.drawOnSetTurn: 0, .startTurnCards: 2])
                         }
                         .withDeck(["c1-A♠️", "c2", "c3", "c4", "c5"])
                         .build()

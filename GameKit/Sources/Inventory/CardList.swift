@@ -74,16 +74,6 @@ public enum CardList {
         .jesseJones,
         .pedroRamirez
     ]
-
-    public static let defaultAbilities: [String] = [
-        .endTurn,
-        .drawOnSetTurn,
-        .eliminateOnDamageLethal,
-        .discardCardsOnEliminated,
-        .nextTurnOnEliminated,
-        .evaluateAttributesOnUpdateInPlay,
-        .discardPreviousWeaponOnPlayWeapon
-    ]
 }
 
 private extension CardList {
@@ -171,21 +161,6 @@ private extension CardList {
             .on([.playImmediate])
     }
 
-    static let barrel = Card(.barrel, prototype: equipement) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
-            .on([.shot])
-    }
-
-    static let dynamite = Card(.dynamite, prototype: equipement) {
-        CardEffect.luck(.regexPassDynamite,
-                        onSuccess: .passInplay(.played, toPlayer: .next).target(.actor),
-                        onFailure: .group([
-                            .damage(3).target(.actor),
-                            .discard(.played).target(.actor)
-                        ]))
-        .on([.setTurn])
-    }
-
     // MARK: - Collectibles - Handicap
 
     static let jail = Card(.jail) {
@@ -207,6 +182,21 @@ private extension CardList {
     static let equipement = Card(String()) {
         CardEffect.nothing
             .on([.playEquipment])
+    }
+
+    static let barrel = Card(.barrel, prototype: equipement) {
+        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
+            .on([.shot])
+    }
+
+    static let dynamite = Card(.dynamite, prototype: equipement) {
+        CardEffect.luck(.regexPassDynamite,
+                        onSuccess: .passInplay(.played, toPlayer: .next).target(.actor),
+                        onFailure: .group([
+                            .damage(3).target(.actor),
+                            .discard(.played).target(.actor)
+                        ]))
+        .on([.setTurn])
     }
 
     static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
@@ -281,7 +271,14 @@ private extension CardList {
         .flippedCards: 1,
         .bangsPerTurn: 1,
         .scope: 0,
-        .mustang: 0
+        .mustang: 0,
+        .endTurn: 0,
+        .drawOnSetTurn: 0,
+        .eliminateOnDamageLethal: 0,
+        .discardCardsOnEliminated: 0,
+        .nextTurnOnEliminated: 0,
+        .evaluateAttributesOnUpdateInPlay: 0,
+        .discardPreviousWeaponOnPlayWeapon: 0
     ])
 
     static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4, .bangsPerTurn: 0], prototype: figure)

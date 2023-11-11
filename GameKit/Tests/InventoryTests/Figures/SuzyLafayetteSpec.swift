@@ -16,7 +16,7 @@ final class SuzyLafayetteSpec: QuickSpec {
                 // Given
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
-                        $0.withAbilities([.suzyLafayette])
+                        $0.withAttributes([.suzyLafayette: 0])
                             .withHand(["c1"])
                     }
                     .withDeck(["c2"])
