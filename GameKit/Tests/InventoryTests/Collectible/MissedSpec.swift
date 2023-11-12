@@ -45,6 +45,7 @@ final class MissedSpec: QuickSpec {
                             }
                             .withPlayer("p2") {
                                 $0.withHand([.missed])
+                                    .withAttributes([.activateCounterCardsOnShot: 0])
                             }
                             .build()
 
@@ -67,7 +68,7 @@ final class MissedSpec: QuickSpec {
                 }
 
                 context("holding multiple missed cards") {
-                    it("should ask choice once") {
+                    it("should ask choice") {
                         // Given
                         let state = GameState.makeBuilderWithCardRef()
                             .withPlayer("p1") {
@@ -76,6 +77,7 @@ final class MissedSpec: QuickSpec {
                             }
                             .withPlayer("p2") {
                                 $0.withHand([.missed, "missed-2", "missed-3"])
+                                    .withAttributes([.activateCounterCardsOnShot: 0])
                             }
                             .build()
 
@@ -88,6 +90,8 @@ final class MissedSpec: QuickSpec {
                             .playImmediate(.bang, target: "p2", player: "p1"),
                             .chooseOne(player: "p2", options: [
                                 .missed: .play(.missed, player: "p2"),
+                                "missed-2": .play("missed-2", player: "p2"),
+                                "missed-3": .play("missed-3", player: "p2"),
                                 .pass: .group([])
                             ]),
                             .playImmediate(.missed, player: "p2"),
@@ -107,9 +111,11 @@ final class MissedSpec: QuickSpec {
                         }
                         .withPlayer("p2") {
                             $0.withHand([.missed])
+                                .withAttributes([.activateCounterCardsOnShot: 0])
                         }
                         .withPlayer("p3") {
                             $0.withHand([.missed])
+                                .withAttributes([.activateCounterCardsOnShot: 0])
                         }
                         .withDeck(["c1", "c2", "c3"])
                         .build()

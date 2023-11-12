@@ -20,7 +20,7 @@ final class IndiansSpec: QuickSpec {
                             $0.withHand([.indians])
                         }
                         .withPlayer("p2") {
-                            $0.withHand([.bang, .missed])
+                            $0.withHand([.bang])
                         }
                         .withPlayer("p3")
                         .build()

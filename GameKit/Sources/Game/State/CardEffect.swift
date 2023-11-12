@@ -85,6 +85,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Cancel turn
     case cancelTurn
 
-    /// Expose a choice to play a card
-    case activate
+    /// Expose a choice to play counter cards
+    case activateCounterCards
 }

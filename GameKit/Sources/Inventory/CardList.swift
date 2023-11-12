@@ -38,6 +38,7 @@ public enum CardList {
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
         updateAttributesOnChangeInPlay
+        activateCounterCardsOnShot
         pDefault
         willyTheKid
         roseDoolan
@@ -136,8 +137,6 @@ private extension CardList {
     }
 
     static let missed = Card(.missed) {
-        CardEffect.activate
-            .on([.shot])
         CardEffect.counterShoot
             .on([.playImmediate])
     }
@@ -264,6 +263,11 @@ private extension CardList {
             .on([.changeInPlay])
     }
 
+    static let activateCounterCardsOnShot = Card(.activateCounterCardsOnShot) {
+        CardEffect.activateCounterCards
+            .on([.shot])
+    }
+
     // MARK: - Figures
 
     static let pDefault = Card(.pDefault, attributes: [
@@ -277,7 +281,8 @@ private extension CardList {
         .discardCardsOnEliminated: 0,
         .nextTurnOnEliminated: 0,
         .updateAttributesOnChangeInPlay: 0,
-        .discardPreviousWeaponOnPlayWeapon: 0
+        .discardPreviousWeaponOnPlayWeapon: 0,
+        .activateCounterCardsOnShot: 0
     ])
 
     static let willyTheKid = Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
