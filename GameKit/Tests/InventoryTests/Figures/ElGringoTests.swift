@@ -24,7 +24,7 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.playImmediate(.bang, target: "p1", player: "p2")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -49,7 +49,7 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.playImmediate(.bang, target: "p1", player: "p2")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -70,7 +70,7 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

@@ -21,7 +21,7 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.play(.missed, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .noShootToCounter)
@@ -42,7 +42,7 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = self.awaitAction(action, choose: [.missed], state: state)
+        let (result, _) = awaitAction(action, choose: [.missed], state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -71,7 +71,7 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = self.awaitAction(action, choose: [.missed], state: state)
+        let (result, _) = awaitAction(action, choose: [.missed], state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -106,7 +106,7 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.play(.gatling, player: "p1")
-        let (result, _) = self.awaitAction(action, choose: [.missed, .missed], state: state)
+        let (result, _) = awaitAction(action, choose: [.missed, .missed], state: state)
 
         // Then
         XCTAssertEqual(result, [
