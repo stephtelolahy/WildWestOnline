@@ -307,6 +307,7 @@ private extension CardList {
     static let elGringo = Card(.elGringo, prototype: pDefault, attributes: [.maxHealth: 3]) {
         CardEffect.steal(.randomHand, toPlayer: .actor)
             .target(.offender)
+            .ignoreError()
             .repeat(.damage)
             .on([.damage])
     }

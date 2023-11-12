@@ -66,7 +66,10 @@ private extension CardEffect {
 
         case let .challenge(challenger, effect, otherwise):
             EffectChallenge(challenger: challenger, effect: effect, otherwise: otherwise)
-            
+
+        case let .ignoreError(effect):
+            EffectIgnoreError(effect: effect)
+
         case .nothing:
             EffectNone()
             

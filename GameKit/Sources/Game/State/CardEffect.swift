@@ -69,7 +69,10 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Force two players to perform an effect repeatedly. If cannot, then apply some effect
     case challenge(ArgPlayer, effect: Self, otherwise: Self)
-    
+
+    /// Try an effect. If cannot, then do nothing
+    case ignoreError(Self)
+
     /// Flip over the top card of the deck, then apply effects according to card value
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
 
