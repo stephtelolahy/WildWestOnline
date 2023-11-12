@@ -8,7 +8,7 @@
 struct EffectUpdateAttributes: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let player = ctx.target!
+        let player = ctx.player()
         let playerObj = state.player(player)
         let figure = playerObj.name
         let defaultAttributes = state.cardRef[figure]?.attributes ?? [:]

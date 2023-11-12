@@ -6,7 +6,8 @@
 //
 
 /// Effect that can be applied to a player or a group of players
-/// By defautl effect applies to `EffectContext.target`
+/// It applies to `EffectContext.target` if defined
+/// By default it applies to `EffectContext.actor`
 public indirect enum CardEffect: Codable, Equatable {
 
     // MARK: - Actions
