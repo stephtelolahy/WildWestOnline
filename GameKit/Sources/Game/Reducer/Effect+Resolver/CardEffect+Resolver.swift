@@ -79,8 +79,8 @@ private extension CardEffect {
         case .updateAttributes:
             EffectUpdateAttributes()
 
-        case let .cancelEffectOfCard(cardName):
-            EffectCancelEffectOfCard(cardName: cardName)
+        case .cancelTurn:
+            EffectCancelTurn()
 
         case .counterShoot:
             EffectCounterShoot()

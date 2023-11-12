@@ -31,6 +31,6 @@ struct HandlerActivateCards: GameActionHandler {
     }
 
     private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
-        playerObj.abilities + playerObj.hand.cards
+        playerObj.attributes.map(\.key) + playerObj.hand.cards
     }
 }

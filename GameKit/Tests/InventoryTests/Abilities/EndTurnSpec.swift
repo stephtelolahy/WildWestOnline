@@ -18,7 +18,7 @@ final class EndTurnSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.endTurn])
+                            $0.withAttributes([.endTurn: 0])
                         }
                         .withPlayer("p2")
                         .withTurn("p1")
@@ -43,8 +43,7 @@ final class EndTurnSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand(["c1", "c2"])
                                 .withHealth(1)
-                                .withAttributes([.handLimit: 10])
-                                .withAbilities([.endTurn])
+                                .withAttributes([.endTurn: 0, .handLimit: 10])
                         }
                         .withPlayer("p2")
                         .withTurn("p1")
@@ -69,7 +68,7 @@ final class EndTurnSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand(["c1", "c2", "c3"])
                                 .withHealth(2)
-                                .withAbilities([.endTurn])
+                                .withAttributes([.endTurn: 0])
                         }
                         .withPlayer("p2")
                         .withTurn("p1")
@@ -100,7 +99,7 @@ final class EndTurnSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand(["c1", "c2", "c3"])
                                 .withHealth(1)
-                                .withAbilities([.endTurn])
+                                .withAttributes([.endTurn: 0])
                         }
                         .withPlayer("p2")
                         .withTurn("p1")

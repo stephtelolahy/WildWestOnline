@@ -8,7 +8,7 @@ import Game
 
 public enum CardList {
 
-    public static let all: [String: Card] = createCardDict {
+    public static let all: [String: Card] = createCardDict(priorities) {
         beer
         saloon
         stagecoach
@@ -37,7 +37,8 @@ public enum CardList {
         nextTurnOnEliminated
         discardCardsOnEliminated
         discardPreviousWeaponOnPlayWeapon
-        evaluateAttributesOnUpdateInPlay
+        updateAttributesOnChangeInPlay
+        pDefault
         willyTheKid
         roseDoolan
         paulRegret
@@ -73,16 +74,6 @@ public enum CardList {
         .kitCarlson,
         .jesseJones,
         .pedroRamirez
-    ]
-
-    public static let defaultAbilities: [String] = [
-        .endTurn,
-        .drawOnSetTurn,
-        .eliminateOnDamageLethal,
-        .discardCardsOnEliminated,
-        .nextTurnOnEliminated,
-        .evaluateAttributesOnUpdateInPlay,
-        .discardPreviousWeaponOnPlayWeapon
     ]
 }
 
@@ -171,6 +162,29 @@ private extension CardList {
             .on([.playImmediate])
     }
 
+    // MARK: - Collectibles - Handicap
+
+    static let jail = Card(.jail) {
+        CardEffect.nothing
+            .target(.selectAny)
+            .on([.playHandicap])
+        CardEffect.luck(.regexEscapeFromJail,
+                        onSuccess: .discard(.played).target(.actor),
+                        onFailure: .group([
+                            .cancelTurn,
+                            .discard(.played).target(.actor),
+                            .setTurn.target(.next)
+                        ]))
+        .on([.setTurn])
+    }
+
+    // MARK: - Collectibles - Equipment
+
+    static let equipement = Card(String()) {
+        CardEffect.nothing
+            .on([.playEquipment])
+    }
+
     static let barrel = Card(.barrel, prototype: equipement) {
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
             .on([.shot])
@@ -186,42 +200,19 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    // MARK: - Collectibles - Handicap
+    static let schofield = Card(.schofield, prototype: equipement, attributes: [.weapon: 2])
 
-    static let jail = Card(.jail) {
-        CardEffect.nothing
-            .target(.selectAny)
-            .on([.playHandicap])
-        CardEffect.luck(.regexEscapeFromJail,
-                        onSuccess: .discard(.played).target(.actor),
-                        onFailure: .group([
-                            .cancelEffectOfCard(.drawOnSetTurn),
-                            .discard(.played).target(.actor),
-                            .setTurn.target(.next)
-                        ]))
-        .on([.setTurn])
-    }
+    static let remington = Card(.remington, prototype: equipement, attributes: [.weapon: 3])
 
-    // MARK: - Collectibles - Equipment
+    static let revCarabine = Card(.revCarabine, prototype: equipement, attributes: [.weapon: 4])
 
-    static let equipement = Card(String()) {
-        CardEffect.nothing
-            .on([.playEquipment])
-    }
+    static let winchester = Card(.winchester, prototype: equipement, attributes: [.weapon: 5])
 
-    static let schofield = Card(.schofield, attributes: [.weapon: 2], prototype: equipement)
+    static let volcanic = Card(.volcanic, prototype: equipement, attributes: [.weapon: 1, .bangsPerTurn: 0])
 
-    static let remington = Card(.remington, attributes: [.weapon: 3], prototype: equipement)
+    static let scope = Card(.scope, prototype: equipement, attributes: [.scope: 1])
 
-    static let revCarabine = Card(.revCarabine, attributes: [.weapon: 4], prototype: equipement)
-
-    static let winchester = Card(.winchester, attributes: [.weapon: 5], prototype: equipement)
-
-    static let volcanic = Card(.volcanic, attributes: [.weapon: 1, .bangsPerTurn: 0], prototype: equipement)
-
-    static let scope = Card(.scope, attributes: [.scope: 1], prototype: equipement)
-
-    static let mustang = Card(.mustang, attributes: [.mustang: 1], prototype: equipement)
+    static let mustang = Card(.mustang, prototype: equipement, attributes: [.mustang: 1])
 
     // MARK: - Abilities
 
@@ -267,67 +258,72 @@ private extension CardList {
             .on([.playWeapon])
     }
 
-    static let evaluateAttributesOnUpdateInPlay = Card(.evaluateAttributesOnUpdateInPlay) {
+    static let updateAttributesOnChangeInPlay = Card(.updateAttributesOnChangeInPlay) {
         CardEffect.updateAttributes
             .target(.actor)
-            .on([.updateInPlay])
+            .on([.changeInPlay])
     }
 
     // MARK: - Figures
 
-    static let figure = Card(String(), attributes: [
+    static let pDefault = Card(.pDefault, attributes: [
         .startTurnCards: 2,
         .weapon: 1,
         .flippedCards: 1,
         .bangsPerTurn: 1,
-        .scope: 0,
-        .mustang: 0
+        .endTurn: 0,
+        .drawOnSetTurn: 0,
+        .eliminateOnDamageLethal: 0,
+        .discardCardsOnEliminated: 0,
+        .nextTurnOnEliminated: 0,
+        .updateAttributesOnChangeInPlay: 0,
+        .discardPreviousWeaponOnPlayWeapon: 0
     ])
 
-    static let willyTheKid = Card(.willyTheKid, attributes: [.maxHealth: 4, .bangsPerTurn: 0], prototype: figure)
+    static let willyTheKid = Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
 
-    static let roseDoolan = Card(.roseDoolan, attributes: [.maxHealth: 4, .scope: 1], prototype: figure)
+    static let roseDoolan = Card(.roseDoolan, prototype: pDefault, attributes: [.maxHealth: 4, .scope: 1])
 
-    static let paulRegret = Card(.paulRegret, attributes: [.maxHealth: 3, .mustang: 1], prototype: figure)
+    static let paulRegret = Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .mustang: 1])
 
-    static let jourdonnais = Card(.jourdonnais, attributes: [.maxHealth: 4], prototype: figure) {
+    static let jourdonnais = Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
             .on([.shot])
     }
 
-    static let slabTheKiller = Card(.slabTheKiller, attributes: [.maxHealth: 4], prototype: figure)
+    static let slabTheKiller = Card(.slabTheKiller, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let luckyDuke = Card(.luckyDuke, attributes: [.maxHealth: 4, .flippedCards: 2], prototype: figure)
+    static let luckyDuke = Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
 
-    static let calamityJanet = Card(.calamityJanet, attributes: [.maxHealth: 4], prototype: figure)
+    static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let bartCassidy = Card(.bartCassidy, attributes: [.maxHealth: 4], prototype: figure) {
+    static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.draw
             .target(.actor)
             .repeat(.damage)
             .on([.damage])
     }
 
-    static let elGringo = Card(.elGringo, attributes: [.maxHealth: 3], prototype: figure) {
+    static let elGringo = Card(.elGringo, prototype: pDefault, attributes: [.maxHealth: 3]) {
         CardEffect.steal(.randomHand, toPlayer: .actor)
             .target(.offender)
             .repeat(.damage)
             .on([.damage])
     }
 
-    static let suzyLafayette = Card(.suzyLafayette, attributes: [.maxHealth: 4], prototype: figure) {
+    static let suzyLafayette = Card(.suzyLafayette, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.draw
             .target(.actor)
             .on([.handEmpty])
     }
 
-    static let vultureSam = Card(.vultureSam, attributes: [.maxHealth: 4], prototype: figure) {
+    static let vultureSam = Card(.vultureSam, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.steal(.all, toPlayer: .actor)
             .target(.eliminated)
             .on([.anotherEliminated])
     }
 
-    static let sidKetchum = Card(.sidKetchum, attributes: [.maxHealth: 4], prototype: figure) {
+    static let sidKetchum = Card(.sidKetchum, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.discard(.selectHand)
                 .target(.actor)
@@ -338,8 +334,8 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    static let blackJack = Card(.blackJack, attributes: [.maxHealth: 4], prototype: figure) {
-        // TODO: silent drawOnSetTurn
+    // swiftlint:disable:next line_length
+    static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.draw
                 .target(.actor)
@@ -349,15 +345,32 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let kitCarlson = Card(.kitCarlson, attributes: [.maxHealth: 4], prototype: figure)
+    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let jesseJones = Card(.jesseJones, attributes: [.maxHealth: 4], prototype: figure)
+    static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let pedroRamirez = Card(.pedroRamirez, attributes: [.maxHealth: 4], prototype: figure)
+    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4])
 }
 
-private func createCardDict(@CardBuilder _ content: () -> [Card]) -> [String: Card] {
-    content().reduce(into: [String: Card]()) {
-        $0[$1.name] = $1
+private extension CardList {
+    /// Order in which triggered effects are queued
+    /// sorted from highest to lowest priority
+    static let priorities: [String] = [
+        .dynamite,
+        .jail,
+        .drawOnSetTurn,
+        .discardPreviousWeaponOnPlayWeapon,
+        .updateAttributesOnChangeInPlay,
+        .eliminateOnDamageLethal,
+        .vultureSam,
+        .discardCardsOnEliminated,
+        .nextTurnOnEliminated
+    ]
+}
+
+private func createCardDict(_ priorities: [String], @CardBuilder content: () -> [Card]) -> [String: Card] {
+    content().reduce(into: [String: Card]()) { result, card in
+        let priority = priorities.firstIndex(of: card.name) ?? Int.max
+        return result[card.name] = card.withPriority(priority)
     }
 }

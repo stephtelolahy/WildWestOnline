@@ -47,7 +47,6 @@ private extension String {
                 .replacing("ArgCancel.", with: "")
                 .replacing("ContextKey.", with: "")
                 .replacing("GameAction.", with: "")
-                .replacing("AttributeKey.", with: "")
         }
         return self
     }

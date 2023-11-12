@@ -17,9 +17,7 @@ final class MustangSpec: QuickSpec {
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
                         $0.withHand([.mustang])
-                            .withStartAttributes([.mustang: 0])
-                            .withAttributes([.mustang: 0])
-                            .withAbilities([.evaluateAttributesOnUpdateInPlay])
+                            .withAttributes([.updateAttributesOnChangeInPlay: 0])
                     }
                     .build()
 

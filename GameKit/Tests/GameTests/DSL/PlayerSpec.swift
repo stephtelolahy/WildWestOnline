@@ -28,10 +28,6 @@ final class PlayerSpec: QuickSpec {
                     expect(sut.name).to(beEmpty())
                 }
 
-                it("should not have abilities") {
-                    expect(sut.abilities).to(beEmpty())
-                }
-
                 it("should not have hand limit") {
                     expect(sut.attributes[.handLimit]) == nil
                 }
@@ -79,19 +75,6 @@ final class PlayerSpec: QuickSpec {
 
                     // Then
                     expect(sut.id) == "p1"
-                }
-            }
-
-            context("initialized with abilities") {
-                it("should have abilities") {
-                    // Given
-                    // When
-                    let sut = Player.makeBuilder()
-                        .withAbilities(["a1", "a2"])
-                        .build()
-
-                    // Then
-                    expect(sut.abilities) == ["a1", "a2"]
                 }
             }
 
@@ -154,8 +137,6 @@ final class PlayerSpec: QuickSpec {
                     "id": "p1",
                     "name": "n1",
                     "health": 2,
-                    "abilities": ["endTurn"],
-                    "startAttributes": {},
                     "attributes": {
                         "maxHealth": 4,
                         "mustang": 0,
@@ -163,6 +144,7 @@ final class PlayerSpec: QuickSpec {
                         "weapon": 3,
                         "handLimit": 2,
                         "startTurnCards": 2,
+                        "endTurn": 0
                     },
                     "hand": {
                         "hidden": true,
@@ -183,7 +165,6 @@ final class PlayerSpec: QuickSpec {
                 // Then
                 expect(sut.id) == "p1"
                 expect(sut.name) == "n1"
-                expect(sut.abilities).to(contain(["endTurn"]))
                 expect(sut.attributes[.maxHealth]) == 4
                 expect(sut.health) == 2
                 expect(sut.attributes[.handLimit]) == 2

@@ -47,8 +47,8 @@ private extension PlayReq {
             PlayReqNeverMatch()
         case .shot:
             OnShot()
-        case .updateInPlay:
-            OnUpdateInPlay()
+        case .changeInPlay:
+            OnChangeInPlay()
         case .playWeapon:
             OnPlayWeapon()
         case .handEmpty:

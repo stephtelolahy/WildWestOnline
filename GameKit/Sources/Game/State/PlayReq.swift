@@ -39,7 +39,7 @@ public enum PlayReq: Codable, Equatable {
     case shot
 
     /// adding or removing card inPlay
-    case updateInPlay
+    case changeInPlay
 
     /// playing a weapon
     case playWeapon

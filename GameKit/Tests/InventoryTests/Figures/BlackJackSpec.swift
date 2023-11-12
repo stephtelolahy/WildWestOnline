@@ -8,17 +8,32 @@
 import Quick
 import Nimble
 import Game
+import Inventory
 
 final class BlackJackSpec: QuickSpec {
     override func spec() {
+        describe("BlackJack") {
+            it("should silent drawOnSetTurn") {
+                // Given
+                let state = Setup.buildGame(figures: [.blackJack],
+                                            deck: (0..<10).map { "c\($0)" },
+                                            cardRef: CardList.all)
+
+                // When
+                let player = state.player(.blackJack)
+
+                // Then
+                expect(player.attributes[.drawOnSetTurn]) == nil
+            }
+        }
+
         describe("BlackJack starting turn") {
             context("drawn card is Red") {
                 it("should draw an extra card") {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.blackJack])
-                                .withAttributes([.startTurnCards: 2])
+                            $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
                         }
                         .withDeck(["c1", "c2-A♥️", "c3"])
                         .build()
@@ -43,8 +58,7 @@ final class BlackJackSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.blackJack])
-                                .withAttributes([.startTurnCards: 2])
+                            $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
                         }
                         .withDeck(["c1", "c2-A♠️", "c3"])
                         .build()

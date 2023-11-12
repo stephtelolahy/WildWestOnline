@@ -12,9 +12,7 @@ public extension Player {
     class Builder {
         private var id: String = UUID().uuidString
         private var name: String = ""
-        private var abilities: [String] = []
-        private var attributes: [AttributeKey: Int] = [:]
-        private var startAttributes: [AttributeKey: Int] = [:]
+        private var attributes: [String: Int] = [:]
         private var health: Int = 0
         private var hand: CardLocation = .init(cards: [])
         private var inPlay: CardLocation = .init(cards: [])
@@ -23,8 +21,6 @@ public extension Player {
             Player(
                 id: id,
                 name: name,
-                abilities: abilities,
-                startAttributes: startAttributes,
                 attributes: attributes,
                 health: health,
                 hand: hand,
@@ -37,23 +33,18 @@ public extension Player {
             return self
         }
 
+        public func withName(_ value: String) -> Self {
+            name = value
+            return self
+        }
+
         public func withHealth(_ value: Int) -> Self {
             health = value
             return self
         }
 
-        public func withStartAttributes(_ value: [AttributeKey: Int]) -> Self {
-            startAttributes = value
-            return self
-        }
-
-        public func withAttributes(_ value: [AttributeKey: Int]) -> Self {
+        public func withAttributes(_ value: [String: Int]) -> Self {
             attributes = value
-            return self
-        }
-
-        public func withAbilities(_ value: [String]) -> Self {
-            abilities = value
             return self
         }
 

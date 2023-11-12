@@ -17,10 +17,9 @@ final class SidKetchumSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.sidKetchum])
+                            $0.withAttributes([.sidKetchum: 0, .maxHealth: 4])
                                 .withHand(["c1", "c2"])
                                 .withHealth(1)
-                                .withAttributes([.maxHealth: 4])
                         }
                         .build()
 
@@ -50,10 +49,9 @@ final class SidKetchumSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.sidKetchum])
+                            $0.withAttributes([.sidKetchum: 0, .maxHealth: 4])
                                 .withHand(["c1", "c2", "c3"])
                                 .withHealth(1)
-                                .withAttributes([.maxHealth: 4])
                         }
                         .build()
 
@@ -85,9 +83,8 @@ final class SidKetchumSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAbilities([.sidKetchum])
+                            $0.withAttributes([.sidKetchum: 0, .maxHealth: 4])
                                 .withHealth(1)
-                                .withAttributes([.maxHealth: 4])
                         }
                         .build()
 

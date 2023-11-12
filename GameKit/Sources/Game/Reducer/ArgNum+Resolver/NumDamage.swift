@@ -7,11 +7,11 @@
 
 struct NumDamage: ArgNumResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
-        guard case let .damage(value, player) = ctx.event,
+        guard case let .damage(amount, player) = ctx.event,
               player == ctx.actor else {
             fatalError("invalid triggering action")
         }
 
-        return value
+        return amount
     }
 }

@@ -27,7 +27,7 @@ public extension CardEffect {
     }
 
     func on(_ playReqs: [PlayReq]) -> CardRule {
-        .init(playReqs: playReqs, effect: self)
+        .init(effect: self, playReqs: playReqs)
     }
 
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {

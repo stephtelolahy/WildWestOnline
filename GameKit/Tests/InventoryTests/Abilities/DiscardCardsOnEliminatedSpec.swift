@@ -19,7 +19,7 @@ final class DiscardCardsOnEliminatedSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand(["c1"])
                                 .withInPlay(["c2"])
-                                .withAbilities([.discardCardsOnEliminated])
+                                .withAttributes([.discardCardsOnEliminated: 0])
                         }
                         .withPlayer("p2")
                         .withPlayer("p3")

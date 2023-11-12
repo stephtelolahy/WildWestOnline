@@ -28,8 +28,7 @@ final class GameStateBuilderTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHealth(4)
-                    .withAttributes([.bangsPerTurn: 2])
-                    .withAbilities(["a1"])
+                    .withAttributes([.bangsPerTurn: 2, "a1": 0])
                     .withHand(["c21", "c22"])
                     .withInPlay(["c23", "c24"])
             }
@@ -49,7 +48,6 @@ final class GameStateBuilderTests: XCTestCase {
 
         XCTAssertNotNil(state.players["p1"])
         XCTAssertEqual(state.player("p1").health, 3)
-        XCTAssertEqual(state.player("p1").abilities, [])
         XCTAssertEqual(state.player("p1").attributes, [:])
         XCTAssertEqual(state.player("p1").hand.cards, [])
         XCTAssertEqual(state.player("p1").inPlay.cards, [])
@@ -57,7 +55,7 @@ final class GameStateBuilderTests: XCTestCase {
         XCTAssertNotNil(state.players["p2"])
         XCTAssertEqual(state.player("p2").health, 4)
         XCTAssertEqual(state.player("p2").attributes[.bangsPerTurn], 2)
-        XCTAssertEqual(state.player("p2").abilities, ["a1"])
+        XCTAssertEqual(state.player("p2").attributes["a1"], 0)
         XCTAssertEqual(state.player("p2").hand.cards, ["c21", "c22"])
         XCTAssertEqual(state.player("p2").inPlay.cards, ["c23", "c24"])
 
