@@ -334,6 +334,7 @@ private extension CardList {
         .on([.playAbility])
     }
 
+    // swiftlint:disable:next line_length
     static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.draw
