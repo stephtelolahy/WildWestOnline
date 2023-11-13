@@ -321,7 +321,7 @@ private extension CardList {
     static let sidKetchum = Card(.sidKetchum, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.discard(.selectHand)
-                .repeat(.exact(2))
+                .repeat(2)
             CardEffect.heal(1)
         }
         .on([.playAbility])
