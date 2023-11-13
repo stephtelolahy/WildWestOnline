@@ -13,14 +13,14 @@ import Inventory
 final class SimulationTests: XCTestCase {
 
     func testSimulations() {
-        for index in 1...2 {
+        for index in 1...10 {
             let playersCount = Int.random(in: 4...7)
             print("🏁 Simulation #\(index) playersCount: \(playersCount)")
-            simulateGame(playersCount: playersCount)
+            simulateGame(playersCount: playersCount, index: index)
         }
     }
 
-    private func simulateGame(playersCount: Int) {
+    private func simulateGame(playersCount: Int, index: Int) {
         // Given
         let game = Inventory.createGame(playersCount: playersCount)
 
@@ -29,7 +29,13 @@ final class SimulationTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
         let cancellable = sut.$state.sink { state in
+
+            if case .eliminate = state.event {
+                print("🏁 Simulation #\(index) playersCount: \(state.playOrder.count)/\(state.startOrder.count)")
+            }
+
             if state.isOver != nil {
+                print("🏁 Simulation #\(index) Completed!")
                 expectation.fulfill()
             }
 

@@ -26,6 +26,10 @@ public extension CardEffect {
         .challenge(challenger, effect: self, otherwise: otherwise)
     }
 
+    func ignoreError() -> Self {
+        .ignoreError(self)
+    }
+
     func on(_ playReqs: [PlayReq]) -> CardRule {
         .init(effect: self, playReqs: playReqs)
     }

@@ -34,7 +34,6 @@ extension XCTestCase {
 
             if let error = state.error {
                 ocurredError = error
-                expectation.fulfill()
             }
 
             if let chooseOne = state.chooseOne {
@@ -64,6 +63,10 @@ extension XCTestCase {
         XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
         XCTAssertTrue(choices.isEmpty, "Choices must be empty", file: file, line: line)
+
+        if ocurredError != nil {
+            events.removeAll()
+        }
 
         return (events, ocurredError)
     }

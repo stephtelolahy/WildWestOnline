@@ -6,7 +6,8 @@
 //
 
 /// Effect that can be applied to a player or a group of players
-/// By defautl effect applies to `EffectContext.target`
+/// It applies to `EffectContext.target` if defined
+/// By default it applies to `EffectContext.actor`
 public indirect enum CardEffect: Codable, Equatable {
 
     // MARK: - Actions
@@ -69,7 +70,10 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Force two players to perform an effect repeatedly. If cannot, then apply some effect
     case challenge(ArgPlayer, effect: Self, otherwise: Self)
-    
+
+    /// Try an effect. If cannot, then do nothing
+    case ignoreError(Self)
+
     /// Flip over the top card of the deck, then apply effects according to card value
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
 
@@ -82,6 +86,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Cancel turn
     case cancelTurn
 
-    /// Expose a choice to play a card
-    case activate
+    /// Expose a choice to play counter cards
+    case activateCounterCards
 }

@@ -10,7 +10,7 @@ struct EffectDiscard: EffectResolver {
     let chooser: ArgPlayer?
     
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let player = ctx.target!
+        let player = ctx.player()
         var chooserContext = ctx
         if let chooser {
             chooserContext.chooser = try chooser.resolveUnique(state: state, ctx: chooserContext)

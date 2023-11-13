@@ -9,7 +9,7 @@ struct CardSelectHandNamed: ArgCardResolver {
     let name: String
 
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
-        let owner = ctx.target!
+        let owner = ctx.player()
         let playerObj = state.player(owner)
         let options = playerObj.hand.cards
             .filter { $0.extractName() == name }
