@@ -346,6 +346,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.steal(.randomHand)
                 .target(.selectAny)
+                .force(otherwise: .draw)
             CardEffect.draw
         }
         .on([.setTurn])
