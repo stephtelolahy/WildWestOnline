@@ -17,7 +17,7 @@ final class AppFlowTests: XCTestCase {
               middlewares: [])
     }
     
-    func test_App_WhenInitialized_ShouldShowSplashScreen() {
+    func test_app_initially_shouldShowSplashScreen() {
         // Given
         // When
         let sut = createAppStore(initial: AppState())
@@ -26,7 +26,7 @@ final class AppFlowTests: XCTestCase {
         XCTAssertEqual(sut.state.screens, [.splash])
     }
     
-    func test_App_WhenCompletedSplash_ShowHomeScreen() {
+    func test_app_whenCompletedSplash_shouldShowHomeScreen() {
         // Given
         let sut = createAppStore(initial: AppState())
         
@@ -37,7 +37,7 @@ final class AppFlowTests: XCTestCase {
         XCTAssertEqual(sut.state.screens, [.home(.init())])
     }
     
-    func test_App_WhenStartedGame_ShouldShowGameScreen() throws {
+    func test_app_whenStartedGame_shouldShowGameScreen() throws {
         // Given
         let sut = createAppStore(initial: AppState(screens: [.home(.init())]))
         
@@ -51,7 +51,7 @@ final class AppFlowTests: XCTestCase {
         }
     }
     
-    func test_App_WhenFinishedGame_ShouldBackToHomeScreen() throws {
+    func test_app_whenFinishedGame_shouldBackToHomeScreen() throws {
         // Given
         let sut = createAppStore(initial: AppState(screens: [.home(.init()),
                                                              .game(.init(players: []))]))

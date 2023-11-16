@@ -10,7 +10,7 @@ import Game
 
 final class SchofieldTests: XCTestCase {
     // swiftlint:disable:next function_body_length
-    func test_playing_schofield_withNoWeaponInPlay_shouldEquip() throws {
+    func test_playSchofield_withoutWeaponInPlay_shouldSetWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -31,7 +31,7 @@ final class SchofieldTests: XCTestCase {
         ])
     }
 
-    func test_playing_schofield_withAnotherWeaponInPlay_shouldDiscardPreviewWeapon() throws {
+    func test_playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -54,7 +54,7 @@ final class SchofieldTests: XCTestCase {
         ])
     }
 
-    func test_discardingFromInPlay_schofield_shouldResetToDefaultWeapon() throws {
+    func test_discardingWeaponFromInPlay_shouldResetToDefaultWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -75,7 +75,7 @@ final class SchofieldTests: XCTestCase {
         ])
     }
 
-    func test_discardingFromHand_schofield_shouldResetToDefaultWeapon() throws {
+    func test_discardingWeaponFromHand_shouldResetToDefaultWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

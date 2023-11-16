@@ -11,7 +11,7 @@ import Inventory
 
 final class BlackJackTests: XCTestCase {
 
-    func test_BlackJack_shouldHaveSpecialStartTurn() throws {
+    func test_blackJack_shouldHaveSpecialStartTurn() throws {
         // Given
         let state = Setup.buildGame(figures: [.blackJack],
                                     deck: (0..<10).map { "c\($0)" },
@@ -24,7 +24,7 @@ final class BlackJackTests: XCTestCase {
         XCTAssertNil(player.attributes[.drawOnSetTurn])
     }
 
-    func test_blackJack_startingTurn_withSecondDrawnCardRed_ShouldDrawAnotherCard() throws {
+    func test_blackJackStartTurn_withSecondDrawnCardRed_ShouldDrawAnotherCard() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -47,7 +47,7 @@ final class BlackJackTests: XCTestCase {
         ])
     }
 
-    func test_blackJack_startingTurn_withSecondDrawnCardBlack_ShouldDoNothing() throws {
+    func test_blackJackStartTurn_withSecondDrawnCardBlack_ShouldDoNothing() throws {
 
     }
 }
