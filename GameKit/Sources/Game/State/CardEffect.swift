@@ -30,7 +30,7 @@ public indirect enum CardEffect: Codable, Equatable {
     
     /// Draw card from a player
     /// - `toPlayer` is the player that chooses and steals cards
-    case steal(ArgCard, toPlayer: ArgPlayer)
+    case steal(ArgCard, toPlayer: ArgPlayer = .actor)
 
     /// Pass inPlay card to another player
     /// - `toPlayer` is the player that receives the card

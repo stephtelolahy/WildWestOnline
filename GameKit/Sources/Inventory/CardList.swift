@@ -112,7 +112,7 @@ private extension CardList {
     }
 
     static let panic = Card(.panic) {
-        CardEffect.steal(.selectAny, toPlayer: .actor)
+        CardEffect.steal(.selectAny)
             .target(.selectAt(1))
             .on([.playImmediate])
     }
@@ -300,7 +300,7 @@ private extension CardList {
     }
 
     static let elGringo = Card(.elGringo, prototype: pDefault, attributes: [.maxHealth: 3]) {
-        CardEffect.steal(.randomHand, toPlayer: .actor)
+        CardEffect.steal(.randomHand)
             .target(.offender)
             .ignoreError()
             .repeat(.damage)
@@ -313,7 +313,7 @@ private extension CardList {
     }
 
     static let vultureSam = Card(.vultureSam, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.steal(.all, toPlayer: .actor)
+        CardEffect.steal(.all)
             .target(.eliminated)
             .on([.anotherEliminated])
     }
@@ -341,7 +341,15 @@ private extension CardList {
 
     static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4])
+    // swiftlint:disable:next line_length
+    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+        CardEffect.group {
+            CardEffect.steal(.randomHand)
+                .target(.selectAny)
+            CardEffect.draw
+        }
+        .on([.setTurn])
+    }
 }
 
 private extension CardList {
