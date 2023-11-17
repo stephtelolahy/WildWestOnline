@@ -1,0 +1,58 @@
+{
+  "configurations" : [
+    {
+      "id" : "90394C49-A569-48CB-AF80-F9C85E9C9AEB",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WildWestOnline.xcodeproj",
+      "identifier" : "2699EEFC29D93AD00030ACCD",
+      "name" : "WildWestOnline"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "GameTests",
+        "name" : "GameTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "InventoryTests",
+        "name" : "InventoryTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "ReduxTests",
+        "name" : "ReduxTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "ScreenTests",
+        "name" : "ScreenTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "SimulationTests",
+        "name" : "SimulationTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -48,8 +48,8 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
             throw GameError.unwaitedAction
         }
         state.active = nil
-    } else if state.queue.first == action {
-        state.queue.removeFirst()
+    } else if state.sequence.first == action {
+        state.sequence.removeFirst()
     }
 
     return state

@@ -21,7 +21,7 @@ public extension GameState {
         private var failed: GameAction?
         private var chooseOne: ChooseOne?
         private var active: ActiveCards?
-        private var queue: [GameAction] = []
+        private var sequence: [GameAction] = []
         private var cardRef: [String: Card] = [:]
 
         public func build() -> GameState {
@@ -40,7 +40,7 @@ public extension GameState {
                 failed: failed,
                 chooseOne: chooseOne,
                 active: active,
-                queue: queue,
+                sequence: sequence,
                 cardRef: cardRef
             )
         }
@@ -85,8 +85,8 @@ public extension GameState {
             return self
         }
 
-        public func withQueue(_ value: [GameAction]) -> Self {
-            queue = value
+        public func withSequence(_ value: [GameAction]) -> Self {
+            sequence = value
             return self
         }
 

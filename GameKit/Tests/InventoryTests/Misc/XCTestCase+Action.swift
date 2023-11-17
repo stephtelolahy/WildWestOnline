@@ -60,7 +60,7 @@ extension XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
 
-        XCTAssertTrue(store.state.queue.isEmpty, "Game must be idle", file: file, line: line)
+        XCTAssertTrue(store.state.sequence.isEmpty, "Game must be idle", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
         XCTAssertTrue(choices.isEmpty, "Choices must be empty", file: file, line: line)
 

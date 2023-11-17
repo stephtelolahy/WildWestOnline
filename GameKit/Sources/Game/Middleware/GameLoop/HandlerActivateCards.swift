@@ -7,7 +7,7 @@
 
 struct HandlerActivateCards: GameActionHandler {
     func handle(action: GameAction, state: GameState) -> GameAction? {
-        guard state.queue.isEmpty,
+        guard state.sequence.isEmpty,
               state.isOver == nil,
               state.chooseOne == nil,
               state.active == nil,

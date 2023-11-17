@@ -59,8 +59,8 @@ private extension GameAction {
             state = try reduce(state: state)
             state.event = self
             
-            if state.queue.isNotEmpty {
-                let next = state.queue.removeFirst()
+            if state.sequence.isNotEmpty {
+                let next = state.sequence.removeFirst()
                 try next.validate(state: state)
             }
         }

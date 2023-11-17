@@ -48,7 +48,7 @@ public struct GameState: Codable, Equatable {
     public var active: ActiveCards?
 
     /// Queued effects
-    public var queue: [GameAction]
+    public var sequence: [GameAction]
 
     /// All cards reference by cardName
     public let cardRef: [String: Card]

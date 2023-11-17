@@ -24,6 +24,7 @@
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildWestOnline.entitlements; sourceTree = "<group>"; };
 		2699EF0829D93AD10030ACCD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WildWestOnline.xctestplan; sourceTree = "<group>"; };
 		26DD32B829F3D646002E0F93 /* GameKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameKit; sourceTree = "<group>"; };
 		F37D85E02A0438EE00C3A754 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -53,6 +54,7 @@
 		2699EEF429D93AD00030ACCD = {
 			isa = PBXGroup;
 			children = (
+				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
 				F37D85E02A0438EE00C3A754 /* README.md */,
 				26DD32B829F3D646002E0F93 /* GameKit */,
 				2699EEFF29D93AD00030ACCD /* App */,

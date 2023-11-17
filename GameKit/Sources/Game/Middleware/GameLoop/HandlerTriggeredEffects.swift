@@ -89,7 +89,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
         if let event = state.event,
            case let .effect(cardEffect, _) = event,
            case .shoot = cardEffect,
-           let nextAction = state.queue.first,
+           let nextAction = state.sequence.first,
            case .damage = nextAction {
             return nextAction
         }

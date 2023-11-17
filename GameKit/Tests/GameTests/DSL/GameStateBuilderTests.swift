@@ -22,7 +22,7 @@ final class GameStateBuilderTests: XCTestCase {
             .withWinner("p1")
             .withCardRef(["name": Card("name")])
             .withChooseOne("p1", options: [:])
-            .withQueue([.discover])
+            .withSequence([.discover])
             .withPlayer("p1") {
                 $0.withHealth(3)
             }
@@ -43,7 +43,7 @@ final class GameStateBuilderTests: XCTestCase {
         XCTAssertEqual(state.isOver?.winner, "p1")
         XCTAssertEqual(state.cardRef["name"], Card("name"))
         XCTAssertEqual(state.chooseOne?.chooser, "p1")
-        XCTAssertEqual(state.queue, [.discover])
+        XCTAssertEqual(state.sequence, [.discover])
         XCTAssertEqual(state.playOrder, ["p1", "p2"])
 
         XCTAssertNotNil(state.players["p1"])
