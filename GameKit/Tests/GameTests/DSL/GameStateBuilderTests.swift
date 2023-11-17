@@ -10,7 +10,7 @@ import Game
 
 final class GameStateBuilderTests: XCTestCase {
 
-    func test_BuildGame() {
+    func test_buildGame() {
         // Given
         // When
         let state = GameState.makeBuilder()

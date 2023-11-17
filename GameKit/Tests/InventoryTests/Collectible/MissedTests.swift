@@ -10,7 +10,7 @@ import Game
 
 final class MissedTests: XCTestCase {
 
-    func test_playingMissed_withoutBeingShoot_shouldThrowError() throws {
+    func test_playMissed_withoutBeingShoot_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -27,7 +27,7 @@ final class MissedTests: XCTestCase {
         XCTAssertEqual(error, .noShootToCounter)
     }
 
-    func test_beingShot_withHoldingMissedCard_shouldAskToPlay() throws {
+    func test_beingShot_holdingMissedCard_shouldAskToPlay() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -56,7 +56,7 @@ final class MissedTests: XCTestCase {
         ])
     }
 
-    func test_beingShot_withHoldingMissedCards_shouldAskToPlay() throws {
+    func test_beingShot_holdingMissedCards_shouldAskToPlay() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -87,7 +87,7 @@ final class MissedTests: XCTestCase {
         ])
     }
 
-    func test_multiplePlayersBeingShot_withHoldingMissedCard_shouldAskToPlay() throws {
+    func test_multiplePlayersBeingShot_holdingMissedCard_shouldAskToPlay() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
