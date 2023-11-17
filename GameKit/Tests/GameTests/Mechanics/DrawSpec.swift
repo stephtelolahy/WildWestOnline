@@ -44,7 +44,6 @@ final class DrawSpec: QuickSpec {
                         let result = GameState.reducer(state, action)
 
                         // Then
-                        expect(result.event) == action
                         expect(result.deck.top) == nil
                         expect(result.discard.top) == "c1"
                         expect(result.player("p1").hand.cards) == ["c2"]

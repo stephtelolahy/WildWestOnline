@@ -48,7 +48,7 @@ final class BangSpec: QuickSpec {
                                 .withAttributes([.weapon: 1, .bangsPerTurn: 1])
                         }
                         .withPlayer("p2")
-                        .withPlayCounter([.bang: 1])
+                        .withPlayedThisTurn([.bang: 1])
                         .build()
 
                     // When
@@ -69,7 +69,7 @@ final class BangSpec: QuickSpec {
                                 .withAttributes([.weapon: 1, .bangsPerTurn: 0])
                         }
                         .withPlayer("p2")
-                        .withPlayCounter([.bang: 1])
+                        .withPlayedThisTurn([.bang: 1])
                         .build()
 
                     // When

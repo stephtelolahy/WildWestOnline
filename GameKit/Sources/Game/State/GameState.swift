@@ -32,9 +32,6 @@ public struct GameState: Codable, Equatable {
     /// Is Game over
     public var isOver: GameOver?
 
-    /// Occurred event
-    public var event: GameAction?
-
     /// Occurred error
     public var error: GameError?
 

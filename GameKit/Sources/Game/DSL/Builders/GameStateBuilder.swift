@@ -16,7 +16,6 @@ public extension GameState {
         private var discard: CardStack = .init(cards: [])
         private var arena: CardLocation?
         private var isOver: GameOver?
-        private var event: GameAction?
         private var error: GameError?
         private var chooseOne: ChooseOne?
         private var active: ActiveCards?
@@ -34,7 +33,6 @@ public extension GameState {
                 discard: discard,
                 arena: arena,
                 isOver: isOver,
-                event: event,
                 error: error,
                 chooseOne: chooseOne,
                 active: active,
@@ -63,7 +61,7 @@ public extension GameState {
             return self
         }
 
-        public func withPlayCounter(_ value: [String: Int]) -> Self {
+        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
             playedThisTurn = value
             return self
         }

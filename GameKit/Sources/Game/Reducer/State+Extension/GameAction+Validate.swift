@@ -55,13 +55,10 @@ private extension GameAction {
             return
             
         default:
-            var state = state
-            state = try reduce(state: state)
-            state.event = self
-            
-            if state.sequence.isNotEmpty {
-                let next = state.sequence.removeFirst()
-                try next.validate(state: state)
+            var newState = try reduce(state: state)
+            if newState.sequence.isNotEmpty {
+                let next = newState.sequence.removeFirst()
+                try next.validate(state: newState)
             }
         }
     }

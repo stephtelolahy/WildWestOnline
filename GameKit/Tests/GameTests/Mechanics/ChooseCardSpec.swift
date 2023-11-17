@@ -26,7 +26,6 @@ final class ChooseCardSpec: QuickSpec {
                         let result = GameState.reducer(state, action)
 
                         // Then
-                        expect(result.event) == action
                         expect(result.player("p1").hand.cards) == ["c1"]
                         expect(result.arena?.cards) == ["c2"]
                     }
@@ -45,7 +44,6 @@ final class ChooseCardSpec: QuickSpec {
                         let result = GameState.reducer(state, action)
 
                         // Then
-                        expect(result.event) == action
                         expect(result.player("p1").hand.cards) == ["c1"]
                         expect(result.arena) == nil
                     }

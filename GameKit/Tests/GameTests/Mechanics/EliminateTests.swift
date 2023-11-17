@@ -22,7 +22,6 @@ final class EliminateTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.event, action)
         XCTAssertEqual(result.playOrder, ["p2"])
     }
 
@@ -38,7 +37,6 @@ final class EliminateTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.event, action)
         XCTAssertEqual(result.sequence, [])
     }
 }

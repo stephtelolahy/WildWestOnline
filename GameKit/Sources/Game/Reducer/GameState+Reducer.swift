@@ -17,14 +17,13 @@ public extension GameState {
         }
 
         var state = state
+        state.error = nil
+
         do {
             state = try prepare(action: action, state: state)
             state = try action.reduce(state: state)
-            state.event = action
-            state.error = nil
         } catch {
             state.error = error as? GameError
-            state.event = nil
         }
 
         return state

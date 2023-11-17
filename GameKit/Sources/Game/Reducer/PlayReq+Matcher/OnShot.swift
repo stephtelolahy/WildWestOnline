@@ -7,8 +7,7 @@
 
 struct OnShot: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        if let event = state.event,
-           case let .effect(cardEffect, effectCtx) = event,
+        if case let .effect(cardEffect, effectCtx) = ctx.event,
            case .shoot = cardEffect,
            ctx.actor == effectCtx.target {
             true

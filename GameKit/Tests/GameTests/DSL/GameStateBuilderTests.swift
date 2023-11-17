@@ -16,7 +16,7 @@ final class GameStateBuilderTests: XCTestCase {
         let state = GameState.makeBuilder()
             .withTurn("p1")
             .withDeck(["c1", "c2"])
-            .withPlayCounter(["bang": 1])
+            .withPlayedThisTurn(["bang": 1])
             .withDiscard(["c3", "c4"])
             .withArena(["c5", "c6"])
             .withWinner("p1")

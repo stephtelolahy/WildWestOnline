@@ -26,7 +26,6 @@ final class PassInPlaySpec: QuickSpec {
                 let result = GameState.reducer(state, action)
 
                 // Then
-                expect(result.event) == action
                 expect(result.player("p1").inPlay.cards) == ["c2"]
                 expect(result.player("p2").inPlay.cards) == ["c1"]
             }

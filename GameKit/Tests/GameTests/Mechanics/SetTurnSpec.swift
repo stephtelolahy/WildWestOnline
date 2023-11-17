@@ -15,7 +15,7 @@ final class SetTurnSpec: QuickSpec {
             it("should set attribute and reset counters") {
                 // Given
                 let state = GameState.makeBuilder()
-                    .withPlayCounter(["card1": 1, "card2": 2])
+                    .withPlayedThisTurn(["card1": 1, "card2": 2])
                     .build()
 
                 // When
@@ -23,7 +23,6 @@ final class SetTurnSpec: QuickSpec {
                 let result = GameState.reducer(state, action)
 
                 // Then
-                expect(result.event) == action
                 expect(result.turn) == "p1"
                 expect(result.playedThisTurn).to(beEmpty())
             }

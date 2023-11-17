@@ -7,7 +7,7 @@
 
 struct OnEliminated: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        if case let .eliminate(player) = state.event,
+        if case let .eliminate(player) = ctx.event,
            player == ctx.actor {
             true
         } else {

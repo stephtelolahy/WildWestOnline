@@ -7,7 +7,7 @@
 
 struct OnSetTurn: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        if case let .setTurn(turn) = state.event,
+        if case let .setTurn(turn) = ctx.event,
               turn == ctx.actor {
             true
         } else {

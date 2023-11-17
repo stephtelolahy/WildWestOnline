@@ -8,7 +8,7 @@ import Redux
 import Combine
 
 public let eventLoggerMiddleware: Middleware<GameState> = { state, action in
-    if let event = state.event {
+    if let event = action as? GameAction {
         if event.isRenderable {
             print("✅ \(event)".removingNamespace())
         } else {
