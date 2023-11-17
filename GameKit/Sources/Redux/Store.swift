@@ -15,6 +15,7 @@ public final class Store<State>: ObservableObject {
     private let reducer: Reducer<State>
     private var middlewares: [Middleware<State>]
     private var subscriptions = Set<AnyCancellable>()
+    private (set) var log: [Action] = []
 
     public init(
         initial state: State,
@@ -33,7 +34,10 @@ public final class Store<State>: ObservableObject {
     }
 
     private func dispatch(_ currentState: State, _ action: Action) {
+        log.append(action)
+
         let newState = reducer(currentState, action)
+        state = newState
 
         middlewares.forEach { middleware in
             middleware(newState, action)
@@ -41,8 +45,6 @@ public final class Store<State>: ObservableObject {
                 .sink(receiveValue: dispatch)
                 .store(in: &subscriptions)
         }
-
-        state = newState
     }
 
     public func addMiddleware(_ middleware: @escaping Middleware<State>) {
