@@ -18,7 +18,6 @@ public extension GameState {
         private var isOver: GameOver?
         private var event: GameAction?
         private var error: GameError?
-        private var failed: GameAction?
         private var chooseOne: ChooseOne?
         private var active: ActiveCards?
         private var sequence: [GameAction] = []
@@ -37,7 +36,6 @@ public extension GameState {
                 isOver: isOver,
                 event: event,
                 error: error,
-                failed: failed,
                 chooseOne: chooseOne,
                 active: active,
                 sequence: sequence,

@@ -22,10 +22,8 @@ public extension GameState {
             state = try action.reduce(state: state)
             state.event = action
             state.error = nil
-            state.failed = nil
         } catch {
             state.error = error as? GameError
-            state.failed = action
             state.event = nil
         }
 

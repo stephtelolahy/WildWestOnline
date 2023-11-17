@@ -38,9 +38,6 @@ public struct GameState: Codable, Equatable {
     /// Occurred error
     public var error: GameError?
 
-    /// Action failing with error
-    public var failed: GameAction?
-
     /// Pending action
     public var chooseOne: ChooseOne?
 

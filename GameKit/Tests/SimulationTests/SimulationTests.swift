@@ -40,7 +40,7 @@ final class SimulationTests: XCTestCase {
             }
 
             if let error = state.error {
-                XCTFail("Unexpected error \(error) on \(state.failed!)")
+                XCTFail("Unexpected error \(error)")
             }
         }
         
