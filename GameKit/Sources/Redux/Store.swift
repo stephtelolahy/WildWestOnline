@@ -15,7 +15,7 @@ public final class Store<State>: ObservableObject {
     private let reducer: Reducer<State>
     private var middlewares: [Middleware<State>]
     private var subscriptions = Set<AnyCancellable>()
-    private (set) var log: [Action] = []
+    public private (set) var log: [Action] = []
 
     public init(
         initial state: State,

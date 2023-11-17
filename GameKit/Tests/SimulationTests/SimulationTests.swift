@@ -30,10 +30,6 @@ final class SimulationTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Awaiting game over")
         let cancellable = sut.$state.sink { state in
 
-            if case .eliminate = state.event {
-                print("🏁 Simulation #\(index) playersCount: \(state.playOrder.count)/\(state.startOrder.count)")
-            }
-
             if state.isOver != nil {
                 print("🏁 Simulation #\(index) Completed!")
                 expectation.fulfill()

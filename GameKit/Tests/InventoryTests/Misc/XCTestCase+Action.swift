@@ -21,17 +21,11 @@ extension XCTestCase {
     ) -> ([GameAction], GameError?) {
         let store = createGameStore(initial: state)
         var choices = choose
-        var events: [GameAction] = []
         var ocurredError: GameError?
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
 
         let cancellable = store.$state.dropFirst(1).sink { state in
-            if let event = state.event,
-               event.isRenderable {
-                events.append(event)
-            }
-
             if let error = state.error {
                 ocurredError = error
             }
@@ -64,8 +58,13 @@ extension XCTestCase {
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
         XCTAssertTrue(choices.isEmpty, "Choices must be empty", file: file, line: line)
 
-        if ocurredError != nil {
-            events.removeAll()
+        let events: [GameAction] = store.log.compactMap { action in
+            if let event = action as? GameAction,
+               event.isRenderable {
+                return event
+            } else {
+                return nil
+            }
         }
 
         return (events, ocurredError)
