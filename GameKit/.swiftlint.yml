@@ -147,24 +147,12 @@ opt_in_rules:
   - xct_specific_matcher
   - yoda_condition
 
-attributes:
-  always_on_line_above:
-    - "@OptionGroup"
 identifier_name:
   excluded:
     - id
 large_tuple: 3
 number_separator:
   minimum_length: 5
-file_name:
-  excluded:
-    - SwiftSyntax+SwiftLint.swift
-    - GeneratedTests.swift
-    - TestHelpers.swift
-no_magic_numbers:
-  excluded:
-    - Tests/*
-
 function_body_length: 60
 type_body_length: 400
 
