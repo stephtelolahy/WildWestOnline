@@ -14,8 +14,8 @@ import XCTest
 extension XCTestCase {
     func awaitAction(
         _ action: GameAction,
-        choose: [String] = [],
         state: GameState,
+        choose: [String] = [],
         timeout: TimeInterval = 0.1,
         file: StaticString = #file,
         line: UInt = #line

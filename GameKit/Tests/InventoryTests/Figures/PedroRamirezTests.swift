@@ -39,7 +39,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn("p1")
-        let (result, _) = self.awaitAction(action, choose: ["p2"], state: state)
+        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [

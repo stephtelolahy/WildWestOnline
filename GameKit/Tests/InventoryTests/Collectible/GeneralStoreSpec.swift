@@ -26,7 +26,7 @@ final class GeneralStoreSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["c1", "c2"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c2"])
 
                     // Then
                     expect(result) == [

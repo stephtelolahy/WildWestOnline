@@ -25,7 +25,7 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["p2"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                     // Then
                     expect(result) == [
@@ -73,7 +73,7 @@ final class BangSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.bang, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["p2"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                     // Assert
                     expect(result) == [
