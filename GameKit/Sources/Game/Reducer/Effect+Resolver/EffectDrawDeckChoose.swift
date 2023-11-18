@@ -9,6 +9,7 @@ struct EffectDrawDeckChoose: EffectResolver {
     let amount: ArgNum
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+        let player = ctx.player()
         let count = try amount.resolve(state: state, ctx: ctx)
 
         guard count >= 1 else {
@@ -16,10 +17,11 @@ struct EffectDrawDeckChoose: EffectResolver {
         }
 
         guard state.deck.count > count else {
-            fatalError("Not enough deck cards")
+            return (0..<count).map { _ in
+                    .draw(player: player)
+            }
         }
 
-        let player = ctx.player()
         let topCards = Array(state.deck.cards.prefix(count + 1))
         let options = topCards.reduce(into: [String: GameAction]()) {
             $0[$1] = .drawDeckChoose($1, player: player)
@@ -33,7 +35,7 @@ struct EffectDrawDeckChoose: EffectResolver {
 
         var result: [GameAction] = []
         result.append(chooseOne)
-        
+
         let remainingCards = count - 1
         if remainingCards >= 1 {
             result.append(.effect(.drawDeckChoose(.exact(remainingCards)), ctx: ctx))
