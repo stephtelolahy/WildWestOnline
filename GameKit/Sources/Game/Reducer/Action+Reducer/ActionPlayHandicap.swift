@@ -27,11 +27,13 @@ struct ActionPlayHandicap: GameActionReducer {
         state.incrementPlayedThisTurn(for: cardName)
 
         // queue triggered effect
-        state.queueOnPlayEffect(card: card,
-                                player: player,
-                                target: target,
-                                state: state,
-                                event: .playHandicap(card, target: target, player: player))
+        state.queueOnPlayEffect(
+            card: card,
+            player: player,
+            target: target,
+            state: state,
+            event: .playHandicap(card, target: target, player: player)
+        )
         return state
     }
 }

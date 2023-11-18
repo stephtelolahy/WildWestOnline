@@ -15,10 +15,14 @@ struct EffectChallenge: EffectResolver {
 
         guard case let .id(challengerId) = challenger else {
             return try challenger.resolve(state: state, ctx: ctx) {
-                .effect(.challenge(.id($0),
-                                   effect: effect,
-                                   otherwise: otherwise),
-                        ctx: ctx)
+                .effect(
+                    .challenge(
+                        .id($0),
+                        effect: effect,
+                        otherwise: otherwise
+                    ),
+                    ctx: ctx
+                )
             }
         }
 
@@ -32,18 +36,28 @@ struct EffectChallenge: EffectResolver {
             let action = children[0]
             switch action {
             case let .effect(childEffect, childCtx):
-                return [.effect(.challenge(challenger,
-                                           effect: childEffect,
-                                           otherwise: otherwise),
-                                ctx: childCtx)]
+                return [
+                    .effect(
+                        .challenge(
+                            challenger,
+                            effect: childEffect,
+                            otherwise: otherwise
+                        ),
+                        ctx: childCtx
+                    )
+                ]
 
             case let .chooseOne(chooser, options):
                 var reversedCtx = ctx
                 reversedCtx.target = challengerId
-                let reversedAction = GameAction.effect(.challenge(.id(target),
-                                                                  effect: effect,
-                                                                  otherwise: otherwise),
-                                                       ctx: reversedCtx)
+                let reversedAction = GameAction.effect(
+                    .challenge(
+                        .id(target),
+                        effect: effect,
+                        otherwise: otherwise
+                    ),
+                    ctx: reversedCtx
+                )
                 var options = options.mapValues { childAction in
                     GameAction.group {
                         childAction

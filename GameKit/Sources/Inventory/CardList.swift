@@ -163,13 +163,15 @@ private extension CardList {
         CardEffect.nothing
             .target(.selectAny)
             .on([.playHandicap])
-        CardEffect.luck(.regexEscapeFromJail,
-                        onSuccess: .discard(.played),
-                        onFailure: .group([
-                            .cancelTurn,
-                            .discard(.played),
-                            .setTurn.target(.next)
-                        ]))
+        CardEffect.luck(
+            .regexEscapeFromJail,
+            onSuccess: .discard(.played),
+            onFailure: .group([
+                .cancelTurn,
+                .discard(.played),
+                .setTurn.target(.next)
+            ])
+        )
         .on([.setTurn])
     }
 
@@ -374,5 +376,3 @@ private func createCardDict(_ priorities: [String], @CardBuilder content: () -> 
         return result[card.name] = card.withPriority(priority)
     }
 }
-
-// swiftlint:enable line_length no_magic_numbers

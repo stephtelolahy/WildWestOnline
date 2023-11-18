@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 09/07/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Game
 import SwiftUI

@@ -10,6 +10,10 @@ extension Player {
         health < maxHealth
     }
 
+    private var maxHealth: Int {
+        attributes.get(.maxHealth)
+    }
+
     func handLimitAtEndOfTurn() -> Int {
         attributes[.handLimit] ?? health
     }
@@ -29,9 +33,5 @@ extension Player {
 
     mutating func setValue(_ value: Int?, forAttribute key: String) {
         attributes[key] = value
-    }
-
-    private var maxHealth: Int {
-        attributes.get(.maxHealth)
     }
 }

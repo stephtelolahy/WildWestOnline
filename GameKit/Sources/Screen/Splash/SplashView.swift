@@ -4,12 +4,14 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Redux
 import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject private var store: Store<AppState>
+    private let splashDelaySeconds = 2.0
 
     var body: some View {
         ZStack {
@@ -17,7 +19,8 @@ struct SplashView: View {
                 .font(.headline)
                 .foregroundColor(.accentColor)
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
                         store.dispatch(AppAction.showScreen(.home))
                     }
                 }

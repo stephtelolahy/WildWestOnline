@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+// swiftlint:disable prefixed_toplevel_constant
 
 import Redux
 import SwiftUI
@@ -11,6 +12,7 @@ import SwiftUI
 public struct AppView: View {
     @EnvironmentObject private var store: Store<AppState>
 
+    // swiftlint:disable:next type_contents_order
     public init() {}
 
     public var body: some View {

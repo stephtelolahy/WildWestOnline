@@ -15,10 +15,13 @@ struct ActionPlayAbility: GameActionReducer {
         state.incrementPlayedThisTurn(for: card)
 
         // queue triggered effect
-        state.queueOnPlayEffect(card: card,
-                                player: player,
-                                state: state,
-                                event: .playAbility(card, player: player))
+        state.queueOnPlayEffect(
+            card: card,
+            player: player,
+            target: nil,
+            state: state,
+            event: .playAbility(card, player: player)
+        )
 
         return state
     }

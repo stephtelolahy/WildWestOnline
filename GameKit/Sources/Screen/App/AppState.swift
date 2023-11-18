@@ -42,7 +42,8 @@ public extension AppState {
             screens.removeLast()
 
         case AppAction.showScreen(.game):
-            let game = Inventory.createGame(playersCount: 5)
+            let playersCount = 5
+            let game = Inventory.createGame(playersCount: playersCount)
             let gamePlayState = GamePlayState(players: game.playOrder.map { game.player($0) })
             screens.append(.game(gamePlayState))
 

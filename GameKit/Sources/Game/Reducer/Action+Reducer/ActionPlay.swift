@@ -76,7 +76,7 @@ extension GameState {
     mutating func queueOnPlayEffect(
         card: String,
         player: String,
-        target: String? = nil,
+        target: String?,
         state: GameState,
         event: GameAction
     ) {

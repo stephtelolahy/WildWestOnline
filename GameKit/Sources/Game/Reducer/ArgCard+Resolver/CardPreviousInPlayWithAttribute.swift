@@ -20,7 +20,8 @@ struct CardPreviousInPlayWithAttribute: ArgCardResolver {
             }
         }
 
-        guard matchedCards.count >= 2 else {
+        let minExpectedMatchedCards = 2
+        guard matchedCards.count >= minExpectedMatchedCards else {
             return .identified([])
         }
 

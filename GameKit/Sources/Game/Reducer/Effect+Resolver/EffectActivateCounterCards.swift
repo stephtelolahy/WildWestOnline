@@ -18,9 +18,11 @@ struct EffectActivateCounterCards: EffectResolver {
         }
         options[.pass] = .group([])
 
-        let chooseOne = try GameAction.validateChooseOne(chooser: ctx.actor,
-                                                         options: options,
-                                                         state: state)
+        let chooseOne = try GameAction.validateChooseOne(
+            chooser: ctx.actor,
+            options: options,
+            state: state
+        )
         return [chooseOne]
     }
 }
@@ -32,13 +34,13 @@ private extension GameState {
             return false
         }
 
-        return cardObj.rules.contains(where: {
+        return cardObj.rules.contains {
             if $0.playReqs.contains(.playImmediate),
                case .counterShoot = $0.effect {
                 return true
             } else {
                 return false
             }
-        })
+        }
     }
 }

@@ -3,6 +3,7 @@
 //
 //  Created by Hugues Telolahy on 14/07/2023.
 //
+// swiftlint:disable prefixed_toplevel_constant
 
 import Combine
 import Redux

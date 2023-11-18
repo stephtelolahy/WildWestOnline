@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Redux
 import SwiftUI
