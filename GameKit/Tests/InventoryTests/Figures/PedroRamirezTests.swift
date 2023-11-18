@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 13/11/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Game
 import Inventory

@@ -11,9 +11,11 @@ import XCTest
 
 final class AppFlowTests: XCTestCase {
     private func createAppStore(initial: AppState) -> Store<AppState> {
-        Store(initial: initial,
-              reducer: AppState.reducer,
-              middlewares: [])
+        Store(
+            initial: initial,
+            reducer: AppState.reducer,
+            middlewares: []
+        )
     }
 
     func test_app_initially_shouldShowSplashScreen() {
@@ -52,8 +54,14 @@ final class AppFlowTests: XCTestCase {
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen() throws {
         // Given
-        let sut = createAppStore(initial: AppState(screens: [.home(.init()),
-                                                             .game(.init(players: []))]))
+        let sut = createAppStore(
+            initial: AppState(
+                screens: [
+                    .home(.init()),
+                    .game(.init(players: []))
+                ]
+            )
+        )
 
         // When
         sut.dispatch(AppAction.dismissScreen(.game))

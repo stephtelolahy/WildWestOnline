@@ -17,12 +17,12 @@ final class CardLocationTests: XCTestCase {
 
     func test_cardLocation_byDefault_shouldBeVisibleToEveryone() throws {
         let sut = CardLocation()
-        XCTAssertEqual(sut.hidden, false)
+        XCTAssertFalse(sut.hidden)
     }
 
     func test_cardLocationVisibility_withHidden_shouldBeHidden() throws {
         let sut = CardLocation(hidden: true)
-        XCTAssertEqual(sut.hidden, true)
+        XCTAssertTrue(sut.hidden)
     }
 
     func test_cardLocationCount_withOneCard_shouldBeOne() throws {

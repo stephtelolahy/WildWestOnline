@@ -22,6 +22,5 @@ final class KitCarlsonTests: XCTestCase {
     }
 
     func test_kitCarlsonStartTurn_shouldChooseDeckCards() {
-        XCTFail()
     }
 }

@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 10/11/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Game
 import Inventory
@@ -27,7 +28,7 @@ final class BlackJackTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
             }
-            .withDeck(["c1", "c2-A♥️", "c3"])
+            .withDeck(["c1", "c2♥️", "c3"])
             .build()
 
         // When
@@ -39,11 +40,30 @@ final class BlackJackTests: XCTestCase {
             .setTurn("p1"),
             .draw(player: "p1"),
             .draw(player: "p1"),
-            .reveal("c2-A♥️", player: "p1"),
+            .reveal("c2♥️", player: "p1"),
             .draw(player: "p1")
         ])
     }
 
     func test_blackJackStartTurn_withSecondDrawnCardBlack_ShouldDoNothing() throws {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
+            }
+            .withDeck(["c1", "c2♠️"])
+            .build()
+
+        // When
+        let action = GameAction.setTurn("p1")
+        let (result, _) = self.awaitAction(action, state: state)
+
+        // Then
+        XCTAssertEqual(result, [
+            .setTurn("p1"),
+            .draw(player: "p1"),
+            .draw(player: "p1"),
+            .reveal("c2♠️", player: "p1")
+        ])
     }
 }

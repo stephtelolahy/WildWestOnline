@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 17/07/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Game
 import XCTest
@@ -36,7 +37,11 @@ final class SchofieldTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withInPlay([.remington])
-                    .withAttributes([.discardPreviousWeaponOnPlayWeapon: 0, .updateAttributesOnChangeInPlay: 0, .weapon: 3])
+                    .withAttributes([
+                        .discardPreviousWeaponOnPlayWeapon: 0,
+                        .updateAttributesOnChangeInPlay: 0,
+                        .weapon: 3
+                    ])
                     .withName(.pDefault)
             }
             .build()

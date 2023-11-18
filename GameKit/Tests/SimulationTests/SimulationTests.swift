@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Combine
 import Game
