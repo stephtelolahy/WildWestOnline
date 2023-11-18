@@ -14,7 +14,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
             let playerObj = state.player(player)
             let cards = triggerableCardsOfActivePlayer(playerObj, state: state)
             for card in cards {
-                if let action = triggeredEffect(by: card, player: player, state: state) {
+                if let action = triggeredEffect(by: card, player: player, state: state, event: action) {
                     triggered.append(action)
                 }
             }
@@ -25,7 +25,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
             let playerObj = state.player(player)
             let cards = triggerableCardsOfEliminatedPlayer(playerObj)
             for card in cards {
-                if let action = triggeredEffect(by: card, player: player, state: state) {
+                if let action = triggeredEffect(by: card, player: player, state: state, event: action) {
                     triggered.append(action)
                 }
             }
@@ -52,23 +52,28 @@ struct HandlerTriggeredEffects: GameActionHandler {
         return .group(triggered)
     }
 
-    private func triggeredEffect(by card: String, player: String, state: GameState) -> GameAction? {
+    private func triggeredEffect(
+        by card: String,
+        player: String,
+        state: GameState,
+        event: GameAction
+    ) -> GameAction? {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName] else {
             return nil
         }
 
-        let playReqContext = PlayReqContext(actor: player)
+        let playReqContext = PlayReqContext(actor: player, event: event)
         for rule in cardObj.rules {
             guard rule.playReqs.allSatisfy({ $0.match(state: state, ctx: playReqContext) }) else {
                 continue
             }
-            
+
             let ctx = EffectContext(
                 actor: player,
                 card: card,
-                event: eventForTriggeredEffect(state: state),
-                cancellingAction: cancellingActionForTriggeredEffect(state: state)
+                event: event,
+                cancellingAction: cancellingActionForTriggeredEffect(event: event, state: state)
             )
 
             return GameAction.effect(rule.effect, ctx: ctx)
@@ -85,19 +90,14 @@ struct HandlerTriggeredEffects: GameActionHandler {
         playerObj.attributes.map(\.key)
     }
 
-    private func cancellingActionForTriggeredEffect(state: GameState) -> GameAction? {
-        if let event = state.event,
-           case let .effect(cardEffect, _) = event,
+    private func cancellingActionForTriggeredEffect(event: GameAction, state: GameState) -> GameAction? {
+        if case let .effect(cardEffect, _) = event,
            case .shoot = cardEffect,
-           let nextAction = state.queue.first,
+           let nextAction = state.sequence.first,
            case .damage = nextAction {
             return nextAction
         }
 
         return nil
-    }
-
-    private func eventForTriggeredEffect(state: GameState) -> GameAction {
-        state.event!
     }
 }

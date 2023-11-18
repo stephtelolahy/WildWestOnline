@@ -33,7 +33,6 @@ final class HealSpec: QuickSpec {
                         let result = GameState.reducer(state, action)
 
                         // Then
-                        expect(result.event) == action
                         expect(result.player("p1").health) == 3
                     }
                 }
@@ -45,7 +44,6 @@ final class HealSpec: QuickSpec {
                         let result = GameState.reducer(state, action)
 
                         // Then
-                        expect(result.event) == action
                         expect(result.player("p1").health) == 4
                     }
                 }
@@ -57,7 +55,6 @@ final class HealSpec: QuickSpec {
                         let result = GameState.reducer(state, action)
 
                         // Then
-                        expect(result.event) == action
                         expect(result.player("p1").health) == 4
                     }
                 }

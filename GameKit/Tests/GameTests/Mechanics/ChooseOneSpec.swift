@@ -35,7 +35,6 @@ final class ChooseOneSpec: QuickSpec {
 
                     // Then
                     expect(result.chooseOne) == nil
-                    expect(result.event) == action
                 }
             }
 

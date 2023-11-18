@@ -27,7 +27,6 @@ final class StealSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.event) == action
                     expect(result.player("p1").hand.cards) == ["c21"]
                     expect(result.player("p2").hand.cards) == ["c22"]
                 }
@@ -48,7 +47,6 @@ final class StealSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.event) == action
                     expect(result.player("p1").hand.cards) == ["c21"]
                     expect(result.player("p2").inPlay.cards) == ["c22"]
                 }

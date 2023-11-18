@@ -17,16 +17,13 @@ public extension GameState {
         }
 
         var state = state
+        state.error = nil
+
         do {
             state = try prepare(action: action, state: state)
             state = try action.reduce(state: state)
-            state.event = action
-            state.error = nil
-            state.failed = nil
         } catch {
             state.error = error as? GameError
-            state.failed = action
-            state.event = nil
         }
 
         return state
@@ -48,8 +45,8 @@ private func prepare(action: GameAction, state: GameState) throws -> GameState {
             throw GameError.unwaitedAction
         }
         state.active = nil
-    } else if state.queue.first == action {
-        state.queue.removeFirst()
+    } else if state.sequence.first == action {
+        state.sequence.removeFirst()
     }
 
     return state

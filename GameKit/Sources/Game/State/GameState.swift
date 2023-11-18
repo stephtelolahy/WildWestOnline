@@ -32,14 +32,8 @@ public struct GameState: Codable, Equatable {
     /// Is Game over
     public var isOver: GameOver?
 
-    /// Occurred event
-    public var event: GameAction?
-
     /// Occurred error
     public var error: GameError?
-
-    /// Action failing with error
-    public var failed: GameAction?
 
     /// Pending action
     public var chooseOne: ChooseOne?
@@ -48,7 +42,7 @@ public struct GameState: Codable, Equatable {
     public var active: ActiveCards?
 
     /// Queued effects
-    public var queue: [GameAction]
+    public var sequence: [GameAction]
 
     /// All cards reference by cardName
     public let cardRef: [String: Card]

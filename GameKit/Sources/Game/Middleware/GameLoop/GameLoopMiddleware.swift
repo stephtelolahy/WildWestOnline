@@ -10,7 +10,7 @@ import Combine
 
 public let gameLoopMiddleware: Middleware<GameState> = { state, action in
     guard let action = action as? GameAction else {
-        return Empty().eraseToAnyPublisher()
+        return nil
     }
 
     for handler in actionHandlers {
@@ -19,7 +19,7 @@ public let gameLoopMiddleware: Middleware<GameState> = { state, action in
         }
     }
 
-    return Empty().eraseToAnyPublisher()
+    return nil
 }
 
 protocol GameActionHandler {

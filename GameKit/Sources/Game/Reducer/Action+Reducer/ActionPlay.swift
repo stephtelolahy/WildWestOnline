@@ -21,7 +21,7 @@ struct ActionPlay: GameActionReducer {
         }
 
         // verify requirements
-        let playReqContext = PlayReqContext(actor: player)
+        let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
         for playReq in playRule.playReqs where !PlayReq.playEvents.contains(playReq) {
             try playReq.throwingMatch(state: state, ctx: playReqContext)
         }
@@ -49,7 +49,7 @@ struct ActionPlay: GameActionReducer {
                     $0[$1] = action
                 }
                 let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
-                state.queue.insert(chooseOne, at: 0)
+                state.sequence.insert(chooseOne, at: 0)
                 return state
             }
         }
@@ -67,7 +67,7 @@ struct ActionPlay: GameActionReducer {
 
         // queue play action
         var state = state
-        state.queue.insert(action, at: 0)
+        state.sequence.insert(action, at: 0)
         return state
     }
 }
@@ -102,7 +102,7 @@ extension GameState {
             target: target
         )
         let triggered = GameAction.effect(sideEffect, ctx: ctx)
-        queue.insert(triggered, at: 0)
+        sequence.insert(triggered, at: 0)
     }
 }
 

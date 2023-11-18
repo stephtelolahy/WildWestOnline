@@ -111,16 +111,16 @@ final class GameSpec: QuickSpec {
                 }
             }
 
-            context("initialized with queue") {
+            context("initialized with sequence") {
                 it("should have queued actions") {
                     // Given
                     // When
                     let sut = GameState.makeBuilder()
-                        .withQueue([.draw(player: "p1")])
+                        .withSequence([.draw(player: "p1")])
                         .build()
 
                     // Then
-                    expect(sut.queue) == [
+                    expect(sut.sequence) == [
                         .draw(player: "p1")
                     ]
                 }
@@ -186,7 +186,7 @@ final class GameSpec: QuickSpec {
                       "c2"
                     ]
                   },
-                  "queue": [],
+                  "sequence": [],
                   "playedThisTurn": {},
                   "cardRef": {},
                 }

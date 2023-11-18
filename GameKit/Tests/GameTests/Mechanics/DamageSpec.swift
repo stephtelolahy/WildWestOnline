@@ -30,7 +30,6 @@ final class DamageSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.event) == action
                     expect(result.player("p1").health) == 1
                 }
             }

@@ -71,7 +71,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Reveal a drawn card
     case reveal(String, player: String)
 
-    /// Cancel a queued effect
+    /// Cancel an effect
     case cancel(Self)
 
     /// Expose a choice
@@ -91,7 +91,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Resolve an effect
     case effect(CardEffect, ctx: EffectContext)
 
-    /// Push actions in queue
+    /// Push actions
     case group([Self])
 }
 

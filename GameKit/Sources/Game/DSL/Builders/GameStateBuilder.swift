@@ -16,12 +16,10 @@ public extension GameState {
         private var discard: CardStack = .init(cards: [])
         private var arena: CardLocation?
         private var isOver: GameOver?
-        private var event: GameAction?
         private var error: GameError?
-        private var failed: GameAction?
         private var chooseOne: ChooseOne?
         private var active: ActiveCards?
-        private var queue: [GameAction] = []
+        private var sequence: [GameAction] = []
         private var cardRef: [String: Card] = [:]
 
         public func build() -> GameState {
@@ -35,12 +33,10 @@ public extension GameState {
                 discard: discard,
                 arena: arena,
                 isOver: isOver,
-                event: event,
                 error: error,
-                failed: failed,
                 chooseOne: chooseOne,
                 active: active,
-                queue: queue,
+                sequence: sequence,
                 cardRef: cardRef
             )
         }
@@ -65,7 +61,7 @@ public extension GameState {
             return self
         }
 
-        public func withPlayCounter(_ value: [String: Int]) -> Self {
+        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
             playedThisTurn = value
             return self
         }
@@ -85,8 +81,8 @@ public extension GameState {
             return self
         }
 
-        public func withQueue(_ value: [GameAction]) -> Self {
-            queue = value
+        public func withSequence(_ value: [GameAction]) -> Self {
+            sequence = value
             return self
         }
 

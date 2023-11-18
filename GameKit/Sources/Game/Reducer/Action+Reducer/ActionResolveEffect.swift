@@ -12,7 +12,7 @@ struct ActionResolveEffect: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         let children = try effect.resolve(state: state, ctx: ctx)
-        state.queue.insert(contentsOf: children, at: 0)
+        state.sequence.insert(contentsOf: children, at: 0)
         return state
     }
 }

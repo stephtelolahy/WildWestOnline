@@ -14,7 +14,7 @@ struct HandlerNextAction: GameActionHandler {
             nil
 
         default:
-            state.queue.first
+            state.sequence.first
         }
     }
 }

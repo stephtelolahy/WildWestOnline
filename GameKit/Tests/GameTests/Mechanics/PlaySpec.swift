@@ -50,10 +50,9 @@ final class PlaySpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.queue) == [
+                    expect(result.sequence) == [
                         .playImmediate("c1", player: "p1")
                     ]
-                    expect(result.event) == action
                 }
             }
 
@@ -76,10 +75,9 @@ final class PlaySpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.queue) == [
+                    expect(result.sequence) == [
                         .playAbility("c1", player: "p1")
                     ]
-                    expect(result.event) == action
                 }
             }
 
@@ -102,10 +100,9 @@ final class PlaySpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.queue) == [
+                    expect(result.sequence) == [
                         .playEquipment("c1", player: "p1")
                     ]
-                    expect(result.event) == action
                 }
             }
 
@@ -131,12 +128,11 @@ final class PlaySpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.queue) == [
+                    expect(result.sequence) == [
                         .chooseOne(player: "p1", options: [
                             "p3": .playHandicap("c1", target: "p3", player: "p1"),
                             "p2": .playHandicap("c1", target: "p2", player: "p1")])
                     ]
-                    expect(result.event) == action
                 }
             }
         }

@@ -354,7 +354,7 @@ private extension CardList {
 }
 
 private extension CardList {
-    /// Order in which triggered effects are queued
+    /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
         .dynamite,
