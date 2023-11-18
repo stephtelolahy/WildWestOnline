@@ -17,12 +17,12 @@ struct OnChangeInPlay: PlayReqMatcher {
             return true
         }
 
-        if case let .stealInPlay(_, target, _) = ctx.event,
+        if case let .drawInPlay(_, target, _) = ctx.event,
            target == ctx.actor {
             return true
         }
 
-        if case let .passInplay(_, target, player) = ctx.event,
+        if case let .passInPlay(_, target, player) = ctx.event,
            target == ctx.actor || player == ctx.actor {
             return true
         }

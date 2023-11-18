@@ -37,6 +37,12 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw a specific card from deck
     case drawDeckChoose(String, player: String)
 
+    /// Draw card from other player's hand
+    case drawHand(String, target: String, player: String)
+
+    /// Draw card from other player's inPlay
+    case drawInPlay(String, target: String, player: String)
+
     /// Draw  cards from arena
     case drawArena(String, player: String)
 
@@ -46,14 +52,8 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
 
-    /// Draw card from other player's hand
-    case stealHand(String, target: String, player: String)
-
-    /// Draw card from other player's inPlay
-    case stealInPlay(String, target: String, player: String)
-
     /// Pass inPlay card to another player
-    case passInplay(String, target: String, player: String)
+    case passInPlay(String, target: String, player: String)
 
     /// Draw a card from deck and put to arena
     case discover

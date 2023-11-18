@@ -190,7 +190,7 @@ private extension CardList {
     static let dynamite = Card(.dynamite, prototype: equipement) {
         CardEffect.luck(
             .regexPassDynamite,
-            onSuccess: .passInplay(.played, toPlayer: .next),
+            onSuccess: .passInPlay(.played, toPlayer: .next),
             onFailure: .group([
                 .damage(3),
                 .discard(.played)

@@ -54,9 +54,9 @@ final class PanicSpec: QuickSpec {
                             ]),
                             .playImmediate(.panic, target: "p2", player: "p1"),
                             .chooseOne(player: "p1", options: [
-                                .randomHand: .stealHand("c21", target: "p2", player: "p1")
+                                .randomHand: .drawHand("c21", target: "p2", player: "p1")
                             ]),
-                            .stealHand("c21", target: "p2", player: "p1")
+                            .drawHand("c21", target: "p2", player: "p1")
                         ]
                     }
                 }
@@ -84,10 +84,10 @@ final class PanicSpec: QuickSpec {
                             ]),
                             .playImmediate(.panic, target: "p2", player: "p1"),
                             .chooseOne(player: "p1", options: [
-                                "c21": .stealInPlay("c21", target: "p2", player: "p1"),
-                                "c22": .stealInPlay("c22", target: "p2", player: "p1")
+                                "c21": .drawInPlay("c21", target: "p2", player: "p1"),
+                                "c22": .drawInPlay("c22", target: "p2", player: "p1")
                             ]),
-                            .stealInPlay("c22", target: "p2", player: "p1")
+                            .drawInPlay("c22", target: "p2", player: "p1")
                         ]
                     }
                 }
@@ -116,11 +116,11 @@ final class PanicSpec: QuickSpec {
                             ]),
                             .playImmediate(.panic, target: "p2", player: "p1"),
                             .chooseOne(player: "p1", options: [
-                                .randomHand: .stealHand("c21", target: "p2", player: "p1"),
-                                "c22": .stealInPlay("c22", target: "p2", player: "p1"),
-                                "c23": .stealInPlay("c23", target: "p2", player: "p1")
+                                .randomHand: .drawHand("c21", target: "p2", player: "p1"),
+                                "c22": .drawInPlay("c22", target: "p2", player: "p1"),
+                                "c23": .drawInPlay("c23", target: "p2", player: "p1")
                             ]),
-                            .stealInPlay("c23", target: "p2", player: "p1")
+                            .drawInPlay("c23", target: "p2", player: "p1")
                         ]
                     }
                 }

@@ -13,7 +13,7 @@ struct EffectPassInPlay: EffectResolver {
         let fromPlayerId = ctx.player()
         let toPlayerId = try toPlayer.resolveUnique(state: state, ctx: ctx)
         return try card.resolve(state: state, ctx: ctx) {
-            .passInplay($0, target: toPlayerId, player: fromPlayerId)
+            .passInPlay($0, target: toPlayerId, player: fromPlayerId)
         }
     }
 }

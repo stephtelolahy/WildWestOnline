@@ -36,7 +36,7 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Pass inPlay card to another player
     /// - `toPlayer` is the player that receives the card
-    case passInplay(ArgCard, toPlayer: ArgPlayer)
+    case passInPlay(ArgCard, toPlayer: ArgPlayer)
 
     /// Choose card from a location
     case chooseCard(ArgCard)

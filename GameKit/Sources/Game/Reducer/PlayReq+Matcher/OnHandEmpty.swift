@@ -25,7 +25,7 @@ struct OnHandEmpty: PlayReqMatcher {
             return true
         }
 
-        if case let .stealHand(_, target, _) = ctx.event,
+        if case let .drawHand(_, target, _) = ctx.event,
            target == ctx.actor,
            state.player(ctx.actor).hand.cards.isEmpty {
             return true

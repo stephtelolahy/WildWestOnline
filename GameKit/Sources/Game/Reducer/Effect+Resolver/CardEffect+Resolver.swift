@@ -52,7 +52,7 @@ private extension CardEffect {
         case let .steal(card, toPlayer):
             EffectSteal(card: card, toPlayer: toPlayer)
 
-        case let .passInplay(card, toPlayer):
+        case let .passInPlay(card, toPlayer):
             EffectPassInPlay(card: card, toPlayer: toPlayer)
 
         case let .target(target, effect):

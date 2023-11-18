@@ -57,13 +57,13 @@ private extension GameAction {
         case let .drawArena(card, player):
             ActionDrawArena(player: player, card: card)
 
-        case let .stealHand(card, target, player):
-            ActionStealHand(player: player, target: target, card: card)
+        case let .drawHand(card, target, player):
+            ActionDrawHand(player: player, target: target, card: card)
 
-        case let .stealInPlay(card, target, player):
-            ActionStealInPlay(player: player, target: target, card: card)
+        case let .drawInPlay(card, target, player):
+            ActionDrawInPlay(player: player, target: target, card: card)
 
-        case let .passInplay(card, target, player):
+        case let .passInPlay(card, target, player):
             ActionPassInPlay(card: card, target: target, player: player)
 
         case .discover:

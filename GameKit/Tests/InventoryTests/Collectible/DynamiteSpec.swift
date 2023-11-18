@@ -51,7 +51,7 @@ final class DynamiteSpec: QuickSpec {
                     // Then
                     expect(result) == [.setTurn("p1"),
                                        .luck,
-                                       .passInplay(.dynamite, target: "p2", player: "p1"),
+                                       .passInPlay(.dynamite, target: "p2", player: "p1"),
                                        .drawDeck(player: "p1"),
                                        .drawDeck(player: "p1")]
                 }
