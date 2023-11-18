@@ -65,7 +65,7 @@ final class DuelSpec: QuickSpec {
                 it("should damage actor") {
                     // When
                     let action = GameAction.play(.duel, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["p2", "bang-2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "bang-2", .pass])
 
                     // Then
                     expect(result) == [
