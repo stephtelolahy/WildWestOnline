@@ -3,6 +3,9 @@
 included:
   - Sources
   - Tests
+excluded:
+  -  Tests/*/*Spec.swift
+  -  Tests/*/*/*Spec.swift
 analyzer_rules:
   - capture_variable
   - explicit_self
