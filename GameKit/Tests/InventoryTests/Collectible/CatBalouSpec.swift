@@ -107,7 +107,7 @@ final class CatBalouSpec: QuickSpec {
 
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let (result, _) = self.awaitAction(action, choose: ["p2", "c23"], state: state)
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "c23"])
 
                         // Then
                         expect(result) == [

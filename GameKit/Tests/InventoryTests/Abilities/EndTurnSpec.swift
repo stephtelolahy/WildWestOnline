@@ -106,7 +106,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["c1", "c3"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c3"])
 
                     // Then
                     expect(result) == [
