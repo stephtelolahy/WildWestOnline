@@ -19,7 +19,6 @@ struct SplashView: View {
                 .font(.headline)
                 .foregroundColor(.accentColor)
                 .onAppear {
-
                     DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
                         store.dispatch(AppAction.showScreen(.home))
                     }

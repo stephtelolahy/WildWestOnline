@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 08/04/2023.
 //
+// swiftlint:disable prefixed_toplevel_constant
 
 import Combine
 import Game

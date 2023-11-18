@@ -6,7 +6,6 @@
 //
 
 public extension CardEffect {
-
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
         .group(content())
     }

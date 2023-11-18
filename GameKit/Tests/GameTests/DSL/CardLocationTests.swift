@@ -52,7 +52,7 @@ final class CardLocationTests: XCTestCase {
         let sut = try JSONDecoder().decode(CardLocation.self, from: jsonData)
 
         // Then
-        XCTAssertEqual(sut.hidden, true)
+        XCTAssertTrue(sut.hidden)
         XCTAssertEqual(sut.cards, ["c1", "c2"])
     }
 }
