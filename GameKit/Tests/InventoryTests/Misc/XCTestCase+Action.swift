@@ -8,6 +8,7 @@
 import Game
 import XCTest
 import Redux
+import Combine
 
 extension XCTestCase {
 
@@ -20,37 +21,22 @@ extension XCTestCase {
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
         let store = createGameStore(initial: state)
-        var choices = choose
+
+        choosingAgentChoices = choose
+        store.addMiddleware(choosingAgentMiddleware)
+
         var ocurredError: GameError?
         let expectation = XCTestExpectation(description: "Awaiting game idle")
-
-        store.completed = {
-            expectation.fulfill()
-        }
 
         let cancellable = store.$state.dropFirst(1).sink { state in
             if let error = state.error {
                 ocurredError = error
                 expectation.fulfill()
             }
+        }
 
-            if let chooseOne = state.chooseOne {
-                guard !choices.isEmpty else {
-                    XCTFail("Expected a choice between \(chooseOne.options.keys)", file: file, line: line)
-                    return
-                }
-
-                let choice = choices.removeFirst()
-                guard let option = chooseOne.options[choice] else {
-                    XCTFail("Expect chooseOne with option \(choice)", file: file, line: line)
-                    return
-                }
-
-                DispatchQueue.main.async {
-                    store.dispatch(option)
-                }
-                return
-            }
+        store.completed = {
+            expectation.fulfill()
         }
 
         store.dispatch(action)
@@ -60,7 +46,7 @@ extension XCTestCase {
 
         XCTAssertTrue(store.state.sequence.isEmpty, "Game must be idle. sequence: \(store.state.sequence)", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle. chooseOne: \(String(describing: store.state.chooseOne))", file: file, line: line)
-        XCTAssertTrue(choices.isEmpty, "Choices must be empty. choices: \(choices)", file: file, line: line)
+        XCTAssertTrue(choosingAgentChoices.isEmpty, "Choices must be empty. choices: \(choosingAgentChoices)", file: file, line: line)
 
         let events: [GameAction] = store.log.compactMap { action in
             if let event = action as? GameAction,
@@ -73,4 +59,24 @@ extension XCTestCase {
 
         return (events, ocurredError)
     }
+}
+
+private var choosingAgentChoices: [String] = []
+
+private let choosingAgentMiddleware: Middleware<GameState> = { state, action in
+    guard let chooseOne = state.chooseOne else {
+        return nil
+    }
+
+    guard !choosingAgentChoices.isEmpty else {
+        fatalError("Expected a choice between \(chooseOne.options.keys)")
+    }
+
+    let choice = choosingAgentChoices.removeFirst()
+    guard let option = chooseOne.options[choice] else {
+        fatalError("Expect chooseOne with option \(choice)")
+    }
+
+    return Just(option).eraseToAnyPublisher()
+
 }
