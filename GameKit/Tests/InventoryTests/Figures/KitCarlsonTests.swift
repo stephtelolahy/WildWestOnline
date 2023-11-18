@@ -13,9 +13,7 @@ final class KitCarlsonTests: XCTestCase {
 
     func test_kitCarlson_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.kitCarlson],
-                                    deck: (0..<10).map { "c\($0)" },
-                                    cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.kitCarlson], deck: [], cardRef: CardList.all)
 
         // When
         let player = state.player(.kitCarlson)

@@ -13,9 +13,7 @@ final class PedroRamirezTests: XCTestCase {
     
     func test_pedroRamirez_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.pedroRamirez],
-                                    deck: (0..<10).map { "c\($0)" },
-                                    cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.pedroRamirez], deck: [], cardRef: CardList.all)
         
         // When
         let player = state.player(.pedroRamirez)

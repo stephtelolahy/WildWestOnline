@@ -15,9 +15,7 @@ final class WillyTheKidSpec: QuickSpec {
         describe("WillyTheKid") {
             it("should have unlimited bang") {
                 // Given
-                let state = Setup.buildGame(figures: [.willyTheKid],
-                                            deck: (0..<10).map { "c\($0)" },
-                                            cardRef: CardList.all)
+                let state = Setup.buildGame(figures: [.willyTheKid], deck: [], cardRef: CardList.all)
 
                 // When
                 let player = state.player(.willyTheKid)

@@ -13,9 +13,7 @@ final class BlackJackTests: XCTestCase {
 
     func test_blackJack_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.blackJack],
-                                    deck: (0..<10).map { "c\($0)" },
-                                    cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.blackJack], deck: [], cardRef: CardList.all)
 
         // When
         let player = state.player(.blackJack)

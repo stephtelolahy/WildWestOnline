@@ -15,9 +15,7 @@ final class LuckyDukeSpec: QuickSpec {
         describe("LuckyDuke") {
             it("should have two flipped cards") {
                 // Given
-                let state = Setup.buildGame(figures: [.luckyDuke],
-                                            deck: (0..<10).map { "c\($0)" },
-                                            cardRef: CardList.all)
+                let state = Setup.buildGame(figures: [.luckyDuke], deck: [], cardRef: CardList.all)
 
                 // When
                 let player = state.player(.luckyDuke)

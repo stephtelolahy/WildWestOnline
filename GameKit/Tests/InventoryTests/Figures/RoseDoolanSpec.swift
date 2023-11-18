@@ -15,9 +15,7 @@ final class RoseDoolanSpec: QuickSpec {
         describe("RoseDoolan") {
             it("should have scope") {
                 // Given
-                let state = Setup.buildGame(figures: [.roseDoolan],
-                                            deck: (0..<10).map { "c\($0)" },
-                                            cardRef: CardList.all)
+                let state = Setup.buildGame(figures: [.roseDoolan], deck: [], cardRef: CardList.all)
 
                 // When
                 let player = state.player(.roseDoolan)
