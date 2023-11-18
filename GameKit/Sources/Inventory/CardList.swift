@@ -164,7 +164,8 @@ private extension CardList {
             .target(.selectAny)
             .on([.playHandicap])
         CardEffect.luck(
-            .regexEscapeFromJail,
+            .topDiscard,
+            regex: .regexEscapeFromJail,
             onSuccess: .discard(.played),
             onFailure: .group([
                 .cancelTurn,
@@ -183,13 +184,18 @@ private extension CardList {
     }
 
     static let barrel = Card(.barrel, prototype: equipement) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
+        CardEffect.luck(
+            .topDiscard,
+            regex: .regexSaveByBarrel,
+            onSuccess: .counterShoot
+        )
             .on([.shot])
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
         CardEffect.luck(
-            .regexPassDynamite,
+            .topDiscard,
+            regex: .regexPassDynamite,
             onSuccess: .passInPlay(.played, toPlayer: .next),
             onFailure: .group([
                 .damage(3),
@@ -286,7 +292,11 @@ private extension CardList {
     static let paulRegret = Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .mustang: 1])
 
     static let jourdonnais = Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
+        CardEffect.luck(
+            .topDiscard,
+            regex: .regexSaveByBarrel,
+            onSuccess: .counterShoot
+        )
             .on([.shot])
     }
 
