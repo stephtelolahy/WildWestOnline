@@ -13,7 +13,7 @@ concurrency:
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - name: Checkout
@@ -22,7 +22,7 @@ jobs:
       - name: Select Xcode
         run: |
           sudo ls -1 /Applications | grep "Xcode"
-          sudo xcode-select -s '/Applications/Xcode.app'
+          sudo xcode-select -s '/Applications/Xcode_15.0.app'
 
       - name: Set Default Scheme
         run: |
