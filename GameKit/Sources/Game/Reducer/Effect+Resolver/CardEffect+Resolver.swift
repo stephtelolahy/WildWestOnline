@@ -37,6 +37,9 @@ private extension CardEffect {
         case .putArenaToDeck:
             EffectJust { _ in .putArenaToDeck }
 
+        case .putTopDeckToDiscard:
+            EffectJust { _ in .putTopDeckToDiscard }
+
         case .setTurn:
             EffectJust { .setTurn($0.player()) }
 

@@ -70,6 +70,9 @@ private extension GameAction {
         case .putArenaToDeck:
             ActionPutArenaToDeck()
 
+        case .putTopDeckToDiscard:
+            ActionPutTopDeckToDiscard()
+
         case .luck:
             ActionLuck()
 

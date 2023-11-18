@@ -61,6 +61,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Put back arena card to deck
     case putArenaToDeck
 
+    /// Put top deck card to discard
+    case putTopDeckToDiscard
+
     /// Set turn
     case setTurn(String)
 
