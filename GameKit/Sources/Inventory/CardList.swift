@@ -4,10 +4,10 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
+// swiftlint:disable line_length no_magic_numbers closure_body_length
 import Game
 
 public enum CardList {
-
     public static let all: [String: Card] = createCardDict(priorities) {
         beer
         saloon
@@ -79,7 +79,6 @@ public enum CardList {
 }
 
 private extension CardList {
-
     // MARK: - Collectibles - Brown
 
     static let beer = Card(.beer) {
@@ -164,13 +163,15 @@ private extension CardList {
         CardEffect.nothing
             .target(.selectAny)
             .on([.playHandicap])
-        CardEffect.luck(.regexEscapeFromJail,
-                        onSuccess: .discard(.played),
-                        onFailure: .group([
-                            .cancelTurn,
-                            .discard(.played),
-                            .setTurn.target(.next)
-                        ]))
+        CardEffect.luck(
+            .regexEscapeFromJail,
+            onSuccess: .discard(.played),
+            onFailure: .group([
+                .cancelTurn,
+                .discard(.played),
+                .setTurn.target(.next)
+            ])
+        )
         .on([.setTurn])
     }
 
@@ -187,12 +188,14 @@ private extension CardList {
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
-        CardEffect.luck(.regexPassDynamite,
-                        onSuccess: .passInplay(.played, toPlayer: .next),
-                        onFailure: .group([
-                            .damage(3),
-                            .discard(.played)
-                        ]))
+        CardEffect.luck(
+            .regexPassDynamite,
+            onSuccess: .passInplay(.played, toPlayer: .next),
+            onFailure: .group([
+                .damage(3),
+                .discard(.played)
+            ])
+        )
         .on([.setTurn])
     }
 
@@ -327,7 +330,6 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    // swiftlint:disable:next line_length
     static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.draw
@@ -337,11 +339,10 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4])
+    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4])
 
     static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    // swiftlint:disable:next line_length
     static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.steal(.randomHand)

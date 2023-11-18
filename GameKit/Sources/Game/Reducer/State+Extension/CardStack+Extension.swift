@@ -6,7 +6,6 @@
 //
 
 extension CardStack {
-
     mutating func push(_ card: String) {
         cards.insert(card, at: 0)
     }

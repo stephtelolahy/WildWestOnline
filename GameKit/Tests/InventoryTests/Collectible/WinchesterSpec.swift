@@ -4,9 +4,9 @@
 //
 //  Created by Hugues Telolahy on 08/09/2023.
 //
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class WinchesterSpec: QuickSpec {
     override func spec() {

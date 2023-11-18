@@ -4,18 +4,18 @@
 //
 //  Created by Hugues Telolahy on 08/04/2023.
 //
+// swiftlint:disable prefixed_toplevel_constant
 
-import Game
-import XCTest
-import Redux
 import Combine
+import Game
+import Redux
+import XCTest
 
 extension XCTestCase {
-
     func awaitAction(
         _ action: GameAction,
-        choose: [String] = [],
         state: GameState,
+        choose: [String] = [],
         timeout: TimeInterval = 0.1,
         file: StaticString = #file,
         line: UInt = #line
@@ -44,9 +44,9 @@ extension XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
 
-        XCTAssertTrue(store.state.sequence.isEmpty, "Game must be idle. sequence: \(store.state.sequence)", file: file, line: line)
-        XCTAssertNil(store.state.chooseOne, "Game must be idle. chooseOne: \(String(describing: store.state.chooseOne))", file: file, line: line)
-        XCTAssertTrue(choosingAgentChoices.isEmpty, "Choices must be empty. choices: \(choosingAgentChoices)", file: file, line: line)
+        XCTAssertTrue(store.state.sequence.isEmpty, "Game must be idle", file: file, line: line)
+        XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
+        XCTAssertTrue(choosingAgentChoices.isEmpty, "Choices must be empty", file: file, line: line)
 
         let events: [GameAction] = store.log.compactMap { action in
             if let event = action as? GameAction,
@@ -63,7 +63,7 @@ extension XCTestCase {
 
 private var choosingAgentChoices: [String] = []
 
-private let choosingAgentMiddleware: Middleware<GameState> = { state, action in
+private let choosingAgentMiddleware: Middleware<GameState> = { state, _ in
     guard let chooseOne = state.chooseOne else {
         return nil
     }
@@ -78,5 +78,4 @@ private let choosingAgentMiddleware: Middleware<GameState> = { state, action in
     }
 
     return Just(option).eraseToAnyPublisher()
-
 }

@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 10/06/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class PlayEquipmentSpec: QuickSpec {
     override func spec() {

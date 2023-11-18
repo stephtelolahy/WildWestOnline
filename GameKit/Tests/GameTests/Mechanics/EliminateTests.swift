@@ -5,11 +5,10 @@
 //  Created by Hugues Telolahy on 05/05/2023.
 //
 
-import XCTest
 import Game
+import XCTest
 
 final class EliminateTests: XCTestCase {
-
     func test_eliminatePlayer_shouldRemoveFromPlayOrder() throws {
         // Given
         let state = GameState.makeBuilder()

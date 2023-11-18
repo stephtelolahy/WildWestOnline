@@ -5,12 +5,11 @@
 //  Created by Hugues Stephano TELOLAHY on 29/06/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class JailSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing jail") {
             context("against any player") {
@@ -25,7 +24,7 @@ final class JailSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.jail, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["p2"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                     // Then
                     expect(result) == [
@@ -42,7 +41,7 @@ final class JailSpec: QuickSpec {
                 }
             }
         }
-        
+
         describe("triggering jail") {
             context("flipped card is hearts") {
                 it("should escape from jail") {

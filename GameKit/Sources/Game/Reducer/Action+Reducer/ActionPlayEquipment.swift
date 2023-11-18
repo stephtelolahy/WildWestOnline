@@ -26,10 +26,13 @@ struct ActionPlayEquipment: GameActionReducer {
         state.incrementPlayedThisTurn(for: cardName)
 
         // queue triggered effect
-        state.queueOnPlayEffect(card: card,
-                                player: player,
-                                state: state,
-                                event: .playEquipment(card, player: player))
+        state.queueOnPlayEffect(
+            card: card,
+            player: player,
+            target: nil,
+            state: state,
+            event: .playEquipment(card, player: player)
+        )
 
         return state
     }

@@ -3,9 +3,10 @@
 //
 //  Created by Hugues Telolahy on 14/07/2023.
 //
+// swiftlint:disable prefixed_toplevel_constant
 
-import Redux
 import Combine
+import Redux
 
 public let aiAgentMiddleware: Middleware<GameState> = { state, _ in
     if let action = evaluateAIMove(state: state) {
@@ -22,8 +23,7 @@ private func evaluateAIMove(state: GameState) -> GameAction? {
 
     if let active = state.active,
        let randomCard = active.cards.randomElement() {
-        let randomAction = GameAction.play(randomCard, player: active.player)
-        return randomAction
+        return GameAction.play(randomCard, player: active.player)
     }
 
     if let chooseOne = state.chooseOne,

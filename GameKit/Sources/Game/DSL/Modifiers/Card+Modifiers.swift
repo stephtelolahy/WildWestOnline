@@ -8,7 +8,6 @@
 import Foundation
 
 public extension Card {
-
     init(
         _ name: String,
         prototype: Card? = nil,

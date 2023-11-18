@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 11/06/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class PlaySpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing") {
             context("not playable card") {

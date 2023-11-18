@@ -6,8 +6,7 @@
 //
 
 @resultBuilder
-public struct GameActionBuilder {
-
+public enum GameActionBuilder {
     public static func buildBlock(_ components: GameAction...) -> [GameAction] {
         components
     }

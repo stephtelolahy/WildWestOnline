@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 19/05/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class SetupGameSpec: QuickSpec {
     override func spec() {
@@ -15,7 +15,6 @@ final class SetupGameSpec: QuickSpec {
 
         describe("setup a game") {
             context("two players") {
-
                 beforeEach {
                     // Given
                     let deck = Array(1...80).map { "c\($0)" }
@@ -40,7 +39,6 @@ final class SetupGameSpec: QuickSpec {
                 it("should set players to max health") {
                     expect(game.player("p1").health) == 4
                     expect(game.player("p2").health) == 3
-
                 }
 
                 it("should set players hand cards to health") {

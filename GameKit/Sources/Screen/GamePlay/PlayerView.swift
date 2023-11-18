@@ -4,9 +4,10 @@
 //
 //  Created by Hugues Telolahy on 09/07/2023.
 //
+// swiftlint:disable no_magic_numbers
 
-import SwiftUI
 import Game
+import SwiftUI
 
 struct PlayerView: View {
     let player: Player

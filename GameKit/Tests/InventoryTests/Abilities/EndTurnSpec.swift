@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 01/05/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class EndTurnSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("ending turn") {
             context("no excess cards") {
@@ -76,7 +75,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["c1"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["c1"])
 
                     // Then
                     expect(result) == [
@@ -107,7 +106,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // When
                     let action = GameAction.play(.endTurn, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["c1", "c3"], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c3"])
 
                     // Then
                     expect(result) == [

@@ -7,7 +7,7 @@
 import InitMacro
 
 /// Stack of cards
-@Init
+@Init(defaults: ["cards": []])
 public struct CardStack: Codable, Equatable {
     /// Content
     public var cards: [String]

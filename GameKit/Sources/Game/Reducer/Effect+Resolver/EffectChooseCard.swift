@@ -14,6 +14,7 @@ struct EffectChooseCard: EffectResolver {
             switch card {
             case .selectArena:
                 .chooseArena($0, player: player)
+
             default:
                 fatalError("unexpected")
             }

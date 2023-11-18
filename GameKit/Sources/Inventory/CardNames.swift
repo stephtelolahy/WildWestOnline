@@ -7,7 +7,6 @@
 //
 
 public extension String {
-
     // MARK: - Collectible
 
     static let bang = "bang"

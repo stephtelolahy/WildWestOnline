@@ -9,25 +9,24 @@
 /// It applies to `EffectContext.target` if defined
 /// By default it applies to `EffectContext.actor`
 public indirect enum CardEffect: Codable, Equatable {
-
     // MARK: - Actions
 
     /// Restore player's health, limited to maxHealth
     case heal(Int)
-    
+
     /// Deals damage to a player, attempting to reduce its Health by the stated amount
     case damage(Int)
-    
+
     /// Shoot a player
     case shoot
 
     /// Draw top deck card
     case draw
-    
+
     /// Discard a player's card to discard pile
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
-    
+
     /// Draw card from a player
     /// - `toPlayer` is the player that chooses and steals cards
     case steal(ArgCard, toPlayer: ArgPlayer = .actor)
@@ -41,13 +40,13 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Draw a card from deck and put to arena
     case discover
-    
+
     /// Set turn
     case setTurn
 
     /// Eliminate a player from the game
     case eliminate
-    
+
     /// Evaluate all player attributes
     case updateAttributes
 
@@ -58,7 +57,7 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Repeat an effect
     case `repeat`(ArgNum, effect: Self)
-    
+
     /// Dispatch effects sequentially
     case group([Self])
 

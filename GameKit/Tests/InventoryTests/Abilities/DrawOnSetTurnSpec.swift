@@ -5,9 +5,9 @@
 //  Created by Hugues Stephano TELOLAHY on 02/05/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class DrawOnSetTurnSpec: QuickSpec {
     override func spec() {
@@ -21,11 +21,11 @@ final class DrawOnSetTurnSpec: QuickSpec {
                         }
                         .withDeck(["c1", "c2"])
                         .build()
-                    
+
                     // When
                     let action = GameAction.setTurn("p1")
                     let (result, _) = self.awaitAction(action, state: state)
-                    
+
                     // Then
                     expect(result) == [
                         .setTurn("p1"),
@@ -34,7 +34,7 @@ final class DrawOnSetTurnSpec: QuickSpec {
                     ]
                 }
             }
-            
+
             context("a player with 3 initial cards") {
                 it("should draw 3 cards") {
                     // Given

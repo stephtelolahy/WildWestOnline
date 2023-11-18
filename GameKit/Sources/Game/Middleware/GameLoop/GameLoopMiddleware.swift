@@ -5,8 +5,10 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 26/04/2023.
 //
-import Redux
+// swiftlint:disable prefixed_toplevel_constant
+
 import Combine
+import Redux
 
 public let gameLoopMiddleware: Middleware<GameState> = { state, action in
     guard let action = action as? GameAction else {

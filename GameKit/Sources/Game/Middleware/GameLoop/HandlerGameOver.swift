@@ -11,15 +11,15 @@ struct HandlerGameOver: GameActionHandler {
               let gameOver = evaluateGameOver(state: state) else {
             return nil
         }
-        
+
         return .setGameOver(winner: gameOver.winner)
     }
-    
+
     private func evaluateGameOver(state: GameState) -> GameOver? {
         if state.playOrder.count <= 1 {
             return GameOver(winner: state.playOrder.first)
         }
-        
+
         return nil
     }
 }

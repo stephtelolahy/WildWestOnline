@@ -8,7 +8,7 @@
 struct EffectDiscard: EffectResolver {
     let card: ArgCard
     let chooser: ArgPlayer?
-    
+
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.player()
         var chooserContext = ctx

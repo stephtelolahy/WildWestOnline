@@ -7,7 +7,6 @@
 
 /// Player argument
 public enum ArgPlayer: Codable, Equatable {
-
     /// The player identified by
     case id(String)
 

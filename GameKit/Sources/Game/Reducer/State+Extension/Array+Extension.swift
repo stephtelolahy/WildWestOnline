@@ -6,7 +6,6 @@
 //
 
 extension Array where Element: Equatable {
-
     /// Start array with given element, keeping initial order
     func starting(with element: Element) -> [Element] {
         guard let elementIndex = firstIndex(of: element) else {

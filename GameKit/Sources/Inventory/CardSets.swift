@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
+// swiftlint:disable line_length
 
 public enum CardSets {
     public static let bang: [String: [String]] = [
@@ -17,7 +18,6 @@ public enum CardSets {
         .scope: ["A♠️"],
         .volcanic: ["10♠️", "10♣️"],
         .winchester: ["8♠️"],
-        // swiftlint:disable:next line_length
         .bang: ["A♠️", "2♦️", "3♦️", "4♦️", "5♦️", "6♦️", "7♦️", "8♦️", "9♦️", "10♦️", "J♦️", "Q♦️", "K♦️", "A♦️", "2♣️", "3♣️", "4♣️", "5♣️", "6♣️", "7♣️", "8♣️", "9♣️", "Q♥️", "K♥️", "A♥️"],
         .missed: ["10♣️", "J♣️", "Q♣️", "K♣️", "A♣️", "2♠️", "3♠️", "4♠️", "5♠️", "6♠️", "7♠️", "8♠️"],
         .beer: ["6♥️", "7♥️", "8♥️", "9♥️", "10♥️", "J♥️"],
@@ -32,3 +32,5 @@ public enum CardSets {
         .wellsFargo: ["3♥️"]
     ]
 }
+
+// swiftlint:enable line_length

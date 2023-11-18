@@ -8,7 +8,7 @@
 struct EffectSteal: EffectResolver {
     let card: ArgCard
     let toPlayer: ArgPlayer
-    
+
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let fromPlayerId = ctx.player()
         let toPlayerId = try toPlayer.resolveUnique(state: state, ctx: ctx)

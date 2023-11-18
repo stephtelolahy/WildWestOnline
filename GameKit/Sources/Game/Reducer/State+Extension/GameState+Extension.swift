@@ -10,7 +10,8 @@ extension GameState {
     /// As soon as the draw pile is empty, shuffle the discard pile to create a new playing deck.
     mutating func popDeck() throws -> String {
         if deck.cards.isEmpty {
-            guard discard.count >= 2 else {
+            let minDiscardedCards = 2
+            guard discard.count >= minDiscardedCards else {
                 throw GameError.deckIsEmpty
             }
 

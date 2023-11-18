@@ -6,8 +6,8 @@
 //
 
 import Game
-import Quick
 import Nimble
+import Quick
 
 final class PlayImmediateSpec: QuickSpec {
     override func spec() {

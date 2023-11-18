@@ -76,7 +76,7 @@ extension GameState {
     mutating func queueOnPlayEffect(
         card: String,
         player: String,
-        target: String? = nil,
+        target: String?,
         state: GameState,
         event: GameAction
     ) {
@@ -117,10 +117,10 @@ private extension PlayReq {
 
 private extension CardRule {
     func isPlayRule() -> Bool {
-        playReqs.contains(where: { PlayReq.playEvents.contains($0) })
+        playReqs.contains { PlayReq.playEvents.contains($0) }
     }
 
     func isMatching(_ playReq: PlayReq) -> Bool {
-        playReqs.contains(where: { $0 == playReq })
+        playReqs.contains { $0 == playReq }
     }
 }

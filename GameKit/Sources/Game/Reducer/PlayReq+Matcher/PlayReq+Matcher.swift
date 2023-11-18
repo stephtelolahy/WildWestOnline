@@ -33,12 +33,16 @@ private extension PlayReq {
         switch self {
         case .setTurn:
             OnSetTurn()
+
         case .damage:
             OnDamage()
+
         case .damageLethal:
             OnDamageLethal()
+
         case .eliminated:
             OnEliminated()
+
         case .anotherEliminated:
             OnAnotherEliminated()
         case .playImmediate,
@@ -46,18 +50,25 @@ private extension PlayReq {
                 .playAbility,
                 .playEquipment:
             PlayReqNeverMatch()
+
         case .shot:
             OnShot()
+
         case .changeInPlay:
             OnChangeInPlay()
+
         case .playWeapon:
             OnPlayWeapon()
+
         case .handEmpty:
             OnHandEmpty()
+
         case let .isPlayersAtLeast(minCount):
             IsPlayersAtLeast(minCount: minCount)
+
         case let .isCardPlayedLessThan(cardName, playedMaxTimes):
             IsCardPlayedLessThan(cardName: cardName, playedMaxTimes: playedMaxTimes)
+
         case .isYourTurn:
             IsYourTurn()
         }

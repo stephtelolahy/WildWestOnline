@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 18/06/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class BarrelSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing barrel") {
             it("should equip") {
@@ -20,16 +19,16 @@ final class BarrelSpec: QuickSpec {
                         $0.withHand([.barrel])
                     }
                     .build()
-                
+
                 // When
                 let action = GameAction.play(.barrel, player: "p1")
                 let (result, _) = self.awaitAction(action, state: state)
-                
+
                 // Then
                 expect(result) == [.playEquipment(.barrel, player: "p1")]
             }
         }
-        
+
         describe("triggering barrel") {
             context("one flipped card") {
                 context("flipped card is hearts") {
@@ -46,11 +45,11 @@ final class BarrelSpec: QuickSpec {
                             }
                             .withDeck(["c1-2♥️"])
                             .build()
-                        
+
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
                         let (result, _) = self.awaitAction(action, state: state)
-                        
+
                         // Then
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
@@ -59,7 +58,7 @@ final class BarrelSpec: QuickSpec {
                         ]
                     }
                 }
-                
+
                 context("flipped card is spades") {
                     it("should apply damage") {
                         // Given
@@ -74,7 +73,7 @@ final class BarrelSpec: QuickSpec {
                             }
                             .withDeck(["c1-A♠️"])
                             .build()
-                        
+
                         // When
                         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
                         let (result, _) = self.awaitAction(action, state: state)
@@ -88,7 +87,7 @@ final class BarrelSpec: QuickSpec {
                     }
                 }
             }
-            
+
             context("two flipped cards") {
                 context("one of flipped card is hearts") {
                     it("should cancel shot") {
@@ -146,7 +145,6 @@ final class BarrelSpec: QuickSpec {
                         .luck,
                         .cancel(.damage(1, player: "p2"))
                     ]
-
                 }
             }
         }

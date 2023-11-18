@@ -50,7 +50,6 @@ enum CardArgOutput {
 
 /// Selectable argument option
 struct CardArgOption {
-
     /// Identifier
     let id: String
 
@@ -69,20 +68,28 @@ private extension ArgCard {
         switch self {
         case .selectAny:
             CardSelectAny()
+
         case .selectArena:
             CardSelectArena()
+
         case .selectHandNamed(let name):
             CardSelectHandNamed(name: name)
+
         case .selectHand:
             CardSelectHand()
+
         case .all:
             CardAll()
+
         case .played:
             CardPlayed()
+
         case .previousInPlayWithAttribute(let key):
             CardPreviousInPlayWithAttribute(key: key)
+
         case .randomHand:
             CardRandomHand()
+
         case .id:
             fatalError("unexpected")
         }

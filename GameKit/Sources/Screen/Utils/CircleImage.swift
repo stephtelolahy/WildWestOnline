@@ -10,7 +10,7 @@ import SwiftUI
 struct CircleImage: View {
     var size: CGFloat = 50.0
     var image: Image
-    
+
     var body: some View {
         image
             .resizable()

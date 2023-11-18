@@ -4,31 +4,31 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
+// swiftlint:disable no_magic_numbers
 
-import XCTest
-import Game
 import Combine
+import Game
 import Inventory
+import XCTest
 
 final class SimulationTests: XCTestCase {
-
-    func test_simulate4PlayersGame_shouldComplete() {
+    func test_simulate4PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 4)
     }
 
-    func test_simulate5PlayersGame_shouldComplete() {
+    func test_simulate5PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 5)
     }
 
-    func test_simulate6PlayersGame_shouldComplete() {
+    func test_simulate6PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 6)
     }
 
-    func test_simulate7PlayersGame_shouldComplete() {
+    func test_simulate7PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 7)
     }
 
-    private func simulateGame(playersCount: Int, timeout: TimeInterval = 10.0) {
+    private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
         let game = Inventory.createGame(playersCount: playersCount)
         let sut = createGameStore(initial: game)

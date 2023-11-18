@@ -7,7 +7,6 @@
 
 /// Renderable game errors
 public enum GameError: Error, Codable, Equatable {
-
     // MARK: - Specific error
 
     /// Expected player to be damaged

@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 26/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class DuelSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         var state: GameState!
 
@@ -32,7 +31,7 @@ final class DuelSpec: QuickSpec {
                 it("should damage") {
                     // When
                     let action = GameAction.play(.duel, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["p2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2", .pass])
 
                     // Then
                     expect(result) == [
@@ -45,8 +44,15 @@ final class DuelSpec: QuickSpec {
                         .chooseOne(player: "p2", options: [
                             "bang-2": .group([
                                 .discardHand("bang-2", player: "p2"),
-                                // swiftlint:disable:next line_length
-                                .effect(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1"))
+                                .effect(.challenge(.id("p2"),
+                                                   effect: .discard(.selectHandNamed(.bang)),
+                                                   otherwise: .damage(1)
+                                                  ),
+                                        ctx: EffectContext(
+                                            actor: "p1",
+                                            card: .duel,
+                                            event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1")
+                                )
                             ]),
                             .pass: .damage(1, player: "p2")
                         ]),
@@ -59,7 +65,7 @@ final class DuelSpec: QuickSpec {
                 it("should damage actor") {
                     // When
                     let action = GameAction.play(.duel, player: "p1")
-                    let (result, _) = self.awaitAction(action, choose: ["p2", "bang-2", .pass], state: state)
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "bang-2", .pass])
 
                     // Then
                     expect(result) == [
@@ -72,8 +78,15 @@ final class DuelSpec: QuickSpec {
                         .chooseOne(player: "p2", options: [
                             "bang-2": .group([
                                 .discardHand("bang-2", player: "p2"),
-                                // swiftlint:disable:next line_length
-                                .effect(.challenge(.id("p2"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1"))
+                                .effect(.challenge(.id("p2"),
+                                                   effect: .discard(.selectHandNamed(.bang)),
+                                                   otherwise: .damage(1)
+                                                  ),
+                                        ctx: EffectContext(
+                                            actor: "p1",
+                                            card: .duel,
+                                            event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1")
+                                )
                             ]),
                             .pass: .damage(1, player: "p2")
                         ]),
@@ -81,8 +94,15 @@ final class DuelSpec: QuickSpec {
                         .chooseOne(player: "p1", options: [
                             "bang-1": .group([
                                 .discardHand("bang-1", player: "p1"),
-                                // swiftlint:disable:next line_length
-                                .effect(.challenge(.id("p1"), effect: .discard(.selectHandNamed(.bang)), otherwise: .damage(1)), ctx: EffectContext(actor: "p1", card: .duel, event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p2"))
+                                .effect(.challenge(.id("p1"),
+                                                   effect: .discard(.selectHandNamed(.bang)),
+                                                   otherwise: .damage(1)
+                                                  ),
+                                        ctx: EffectContext(
+                                            actor: "p1",
+                                            card: .duel,
+                                            event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p2")
+                                )
                             ]),
                             .pass: .damage(1, player: "p1")
                         ]),

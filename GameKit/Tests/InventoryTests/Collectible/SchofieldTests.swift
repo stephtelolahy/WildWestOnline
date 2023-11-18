@@ -4,12 +4,12 @@
 //
 //  Created by Hugues Telolahy on 17/07/2023.
 //
+// swiftlint:disable no_magic_numbers
 
-import XCTest
 import Game
+import XCTest
 
 final class SchofieldTests: XCTestCase {
-    // swiftlint:disable:next function_body_length
     func test_playSchofield_withoutWeaponInPlay_shouldSetWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
@@ -37,7 +37,11 @@ final class SchofieldTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withInPlay([.remington])
-                    .withAttributes([.discardPreviousWeaponOnPlayWeapon: 0, .updateAttributesOnChangeInPlay: 0, .weapon: 3])
+                    .withAttributes([
+                        .discardPreviousWeaponOnPlayWeapon: 0,
+                        .updateAttributesOnChangeInPlay: 0,
+                        .weapon: 3
+                    ])
                     .withName(.pDefault)
             }
             .build()

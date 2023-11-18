@@ -6,6 +6,10 @@
 //
 
 public extension CardEffect {
+    static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
+        .group(content())
+    }
+
     func `repeat`(_ times: ArgNum) -> Self {
         .repeat(times, effect: self)
     }
@@ -32,9 +36,5 @@ public extension CardEffect {
 
     func on(_ playReqs: [PlayReq]) -> CardRule {
         .init(effect: self, playReqs: playReqs)
-    }
-
-    static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
-        .group(content())
     }
 }

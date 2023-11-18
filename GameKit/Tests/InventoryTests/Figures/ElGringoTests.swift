@@ -4,11 +4,12 @@
 //
 //  Created by Hugues Telolahy on 04/11/2023.
 //
+// swiftlint:disable no_magic_numbers
+
 import Game
 import XCTest
 
 final class ElGringoTests: XCTestCase {
-
     func test_elGringoDamaged_withOffenderHavingHandCards_ShouldStealRandomCard() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()

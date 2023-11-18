@@ -6,7 +6,6 @@
 //
 
 struct EffectUpdateAttributes: EffectResolver {
-
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.player()
         let playerObj = state.player(player)
@@ -36,7 +35,6 @@ struct EffectUpdateAttributes: EffectResolver {
 }
 
 private extension GameState {
-
     func updatableAttributes(player: Player) -> [String] {
         AttributeKey.priorities
             .filter { isAttributeUpdatable($0, player: player) }

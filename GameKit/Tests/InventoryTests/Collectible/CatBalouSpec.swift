@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class CatBalouSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing catBalou") {
             context("no player allowed") {
@@ -30,7 +29,7 @@ final class CatBalouSpec: QuickSpec {
                     expect(error) == .noPlayer(.selectAny)
                 }
             }
-            
+
             context("target is other") {
                 context("having hand cards") {
                     it("should choose one random hand card") {
@@ -43,11 +42,11 @@ final class CatBalouSpec: QuickSpec {
                                 $0.withHand(["c21"])
                             }
                             .build()
-                        
+
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let (result, _) = self.awaitAction(action, choose: ["p2", .randomHand], state: state)
-                        
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", .randomHand])
+
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
@@ -61,7 +60,7 @@ final class CatBalouSpec: QuickSpec {
                         ]
                     }
                 }
-                
+
                 context("having inPlay cards") {
                     it("should choose one inPlay card") {
                         // Given
@@ -73,11 +72,11 @@ final class CatBalouSpec: QuickSpec {
                                 $0.withInPlay(["c21", "c22"])
                             }
                             .build()
-                        
+
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let (result, _) = self.awaitAction(action, choose: ["p2", "c22"], state: state)
-                        
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "c22"])
+
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
@@ -92,7 +91,7 @@ final class CatBalouSpec: QuickSpec {
                         ]
                     }
                 }
-                
+
                 context("having hand and inPlay cards") {
                     it("should choose one inPlay or random hand card") {
                         // Given
@@ -105,11 +104,11 @@ final class CatBalouSpec: QuickSpec {
                                     .withInPlay(["c22", "c23"])
                             }
                             .build()
-                        
+
                         // When
                         let action = GameAction.play(.catBalou, player: "p1")
-                        let (result, _) = self.awaitAction(action, choose: ["p2", "c23"], state: state)
-                        
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "c23"])
+
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
@@ -126,14 +125,14 @@ final class CatBalouSpec: QuickSpec {
                     }
                 }
             }
-            
+
             xcontext("target is self") {
                 it("should choose one inPlay card") {
                     // Given
                     // When
                     // Then
                 }
-                
+
                 it("should not choose hand cards") {
                     // Given
                     // When

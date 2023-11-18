@@ -1,6 +1,5 @@
-// swiftlint:disable:this file_name
 //
-//  PlayerBuilder.swift
+//  Player+Builder.swift
 //
 //
 //  Created by Hugues Telolahy on 22/10/2023.

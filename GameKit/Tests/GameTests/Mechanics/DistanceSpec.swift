@@ -6,11 +6,10 @@
 //
 
 @testable import Game
-import Quick
 import Nimble
+import Quick
 
 final class DistanceSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("distance") {
             context("no equipement") {
@@ -23,7 +22,6 @@ final class DistanceSpec: QuickSpec {
                         .withPlayer("p4")
                         .withPlayer("p5")
                         .build()
-
 
                     // When
                     // Then
