@@ -54,6 +54,9 @@ private extension GameAction {
         case let .drawDeckChoose(card, player):
             ActionDrawDeckChoose(card: card, player: player)
 
+        case let .drawArena(card, player):
+            ActionDrawArena(player: player, card: card)
+
         case let .stealHand(card, target, player):
             ActionStealHand(player: player, target: target, card: card)
 
@@ -71,9 +74,6 @@ private extension GameAction {
 
         case .luck:
             ActionLuck()
-
-        case let .chooseArena(card, player):
-            ActionChooseArena(player: player, card: card)
 
         case let .group(actions):
             ActionGroup(children: actions)

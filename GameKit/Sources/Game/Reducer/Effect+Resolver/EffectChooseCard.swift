@@ -13,7 +13,7 @@ struct EffectChooseCard: EffectResolver {
         return try card.resolve(state: state, ctx: ctx) {
             switch card {
             case .selectArena:
-                .chooseArena($0, player: player)
+                .drawArena($0, player: player)
 
             default:
                 fatalError("unexpected")
