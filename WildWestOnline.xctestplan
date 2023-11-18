@@ -45,7 +45,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SimulationTests",
