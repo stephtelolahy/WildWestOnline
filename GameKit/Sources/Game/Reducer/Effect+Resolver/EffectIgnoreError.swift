@@ -10,8 +10,7 @@ struct EffectIgnoreError: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         do {
-            let children = try effect.resolve(state: state, ctx: ctx)
-            return children
+            return try effect.resolve(state: state, ctx: ctx)
         } catch {
             return []
         }

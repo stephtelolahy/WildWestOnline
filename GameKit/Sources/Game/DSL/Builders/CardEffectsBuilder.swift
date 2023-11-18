@@ -6,7 +6,7 @@
 //
 
 @resultBuilder
-public struct CardEffectsBuilder {
+public enum CardEffectsBuilder {
     public static func buildBlock(_ components: CardEffect...) -> [CardEffect] {
         components
     }

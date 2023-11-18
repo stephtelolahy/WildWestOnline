@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable line_length
+// swiftlint:disable line_length no_magic_numbers closure_body_length
 import Game
 
 public enum CardList {
@@ -186,12 +186,14 @@ private extension CardList {
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
-        CardEffect.luck(.regexPassDynamite,
-                        onSuccess: .passInplay(.played, toPlayer: .next),
-                        onFailure: .group([
-                            .damage(3),
-                            .discard(.played)
-                        ]))
+        CardEffect.luck(
+            .regexPassDynamite,
+            onSuccess: .passInplay(.played, toPlayer: .next),
+            onFailure: .group([
+                .damage(3),
+                .discard(.played)
+            ])
+        )
         .on([.setTurn])
     }
 
@@ -373,4 +375,4 @@ private func createCardDict(_ priorities: [String], @CardBuilder content: () -> 
     }
 }
 
-// swiftlint:enable line_length
+// swiftlint:enable line_length no_magic_numbers

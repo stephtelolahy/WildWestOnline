@@ -10,8 +10,8 @@ struct ActionEliminate: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state.playOrder.removeAll(where: { $0 == player })
-        state.sequence.removeAll(where: { $0.isEffectTriggeredBy(player) })
+        state.playOrder.removeAll { $0 == player }
+        state.sequence.removeAll { $0.isEffectTriggeredBy(player) }
         return state
     }
 }

@@ -7,10 +7,12 @@
 import Redux
 
 public func createGameStore(initial: GameState) -> Store<GameState> {
-    Store(initial: initial,
-          reducer: GameState.reducer,
-          middlewares: [
+    Store(
+        initial: initial,
+        reducer: GameState.reducer,
+        middlewares: [
             gameLoopMiddleware,
             eventLoggerMiddleware
-          ])
+        ]
+    )
 }

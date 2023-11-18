@@ -22,8 +22,7 @@ private func evaluateAIMove(state: GameState) -> GameAction? {
 
     if let active = state.active,
        let randomCard = active.cards.randomElement() {
-        let randomAction = GameAction.play(randomCard, player: active.player)
-        return randomAction
+        return GameAction.play(randomCard, player: active.player)
     }
 
     if let chooseOne = state.chooseOne,
