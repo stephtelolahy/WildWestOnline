@@ -5,9 +5,9 @@
 //  Created by Hugues Stephano TELOLAHY on 09/11/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class SuzyLafayetteSpec: QuickSpec {
     override func spec() {
@@ -58,4 +58,3 @@ final class SuzyLafayetteSpec: QuickSpec {
         }
     }
 }
-

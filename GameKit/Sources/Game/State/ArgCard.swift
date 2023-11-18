@@ -7,13 +7,12 @@
 
 /// Card argument
 public enum ArgCard: Codable, Equatable {
-
     /// Card identified by
     case id(String)
 
     /// All cards
     case all
-    
+
     /// Played card
     case played
 

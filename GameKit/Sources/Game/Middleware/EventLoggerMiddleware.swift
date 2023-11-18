@@ -1,11 +1,10 @@
-// swiftlint:disable:this file_name
 //  EventLoggerMiddleware.swift
 //
 //
 //  Created by Hugues Telolahy on 03/06/2023.
 //
-import Redux
 import Combine
+import Redux
 
 public let eventLoggerMiddleware: Middleware<GameState> = { state, action in
     if let event = action as? GameAction {

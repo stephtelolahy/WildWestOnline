@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  Attributes+Extension.swift
 //  

@@ -8,7 +8,6 @@ import Game
 import XCTest
 
 final class ElGringoTests: XCTestCase {
-
     func test_elGringoDamaged_withOffenderHavingHandCards_ShouldStealRandomCard() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()

@@ -7,7 +7,6 @@
 
 @resultBuilder
 public struct CardEffectsBuilder {
-
     public static func buildBlock(_ components: CardEffect...) -> [CardEffect] {
         components
     }

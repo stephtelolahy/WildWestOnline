@@ -4,13 +4,13 @@
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
-import Redux
 import Game
+import Redux
 
 public struct GamePlayState: Codable, Equatable {
     var players: [Player]
     var controlled: String?
-    var message: String = String()
+    var message = String()
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {

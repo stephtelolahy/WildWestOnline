@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 08/04/2023.
 //
 
-import XCTest
-import Game
 import Foundation
+import Game
+import XCTest
 
 final class CardLocationTests: XCTestCase {
-
     func test_cardLocation_byDefault_shouldBeEmpty() throws {
         let sut = CardLocation()
         XCTAssertEqual(sut.cards, [])

@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 22/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class IndiansSpec: QuickSpec {
     override func spec() {
@@ -24,11 +24,11 @@ final class IndiansSpec: QuickSpec {
                         }
                         .withPlayer("p3")
                         .build()
-                    
+
                     // When
                     let action = GameAction.play(.indians, player: "p1")
                     let (result, _) = self.awaitAction(action, choose: [.bang], state: state)
-                    
+
                     // Then
                     expect(result) == [
                         .playImmediate(.indians, player: "p1"),
@@ -41,7 +41,7 @@ final class IndiansSpec: QuickSpec {
                     ]
                 }
             }
-            
+
             context("two players") {
                 it("should allow each player to counter") {
                     // Given
@@ -57,7 +57,7 @@ final class IndiansSpec: QuickSpec {
                     // When
                     let action = GameAction.play(.indians, player: "p1")
                     let (result, _) = self.awaitAction(action, choose: [.bang], state: state)
-                    
+
                     // Then
                     expect(result) == [
                         .playImmediate(.indians, player: "p1"),

@@ -5,23 +5,22 @@
 //  Created by Hugues Stephano TELOLAHY on 13/11/2023.
 //
 
-import XCTest
 import Game
 import Inventory
+import XCTest
 
 final class PedroRamirezTests: XCTestCase {
-    
     func test_pedroRamirez_shouldHaveSpecialStartTurn() throws {
         // Given
         let state = Setup.buildGame(figures: [.pedroRamirez], deck: [], cardRef: CardList.all)
-        
+
         // When
         let player = state.player(.pedroRamirez)
-        
+
         // Then
         XCTAssertNil(player.attributes[.drawOnSetTurn])
     }
-    
+
     func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_ShouldAskDrawFirstCardFromPlayer() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
@@ -52,7 +51,7 @@ final class PedroRamirezTests: XCTestCase {
             .draw(player: "p1")
         ])
     }
-    
+
     func test_pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_ShouldDrawCardsFromDeck() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()

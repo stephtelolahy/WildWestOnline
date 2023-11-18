@@ -5,9 +5,9 @@
 //  Created by Hugues Stephano TELOLAHY on 09/11/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class SidKetchumSpec: QuickSpec {
     override func spec() {
@@ -32,11 +32,11 @@ final class SidKetchumSpec: QuickSpec {
                         .playAbility(.sidKetchum, player: "p1"),
                         .chooseOne(player: "p1", options: [
                             "c1": .discardHand("c1", player: "p1"),
-                            "c2": .discardHand("c2", player: "p1"),
+                            "c2": .discardHand("c2", player: "p1")
                         ]),
                         .discardHand("c1", player: "p1"),
                         .chooseOne(player: "p1", options: [
-                            "c2": .discardHand("c2", player: "p1"),
+                            "c2": .discardHand("c2", player: "p1")
                         ]),
                         .discardHand("c2", player: "p1"),
                         .heal(1, player: "p1")
@@ -70,7 +70,7 @@ final class SidKetchumSpec: QuickSpec {
                         .discardHand("c1", player: "p1"),
                         .chooseOne(player: "p1", options: [
                             "c2": .discardHand("c2", player: "p1"),
-                            "c3": .discardHand("c3", player: "p1"),
+                            "c3": .discardHand("c3", player: "p1")
                         ]),
                         .discardHand("c2", player: "p1"),
                         .heal(1, player: "p1")
@@ -99,4 +99,3 @@ final class SidKetchumSpec: QuickSpec {
         }
     }
 }
-

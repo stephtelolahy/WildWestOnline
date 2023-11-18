@@ -6,11 +6,10 @@
 //
 
 import Game
-import Quick
 import Nimble
+import Quick
 
 final class BangSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing bang") {
             context("by default") {

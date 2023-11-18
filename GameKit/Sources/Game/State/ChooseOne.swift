@@ -15,7 +15,6 @@ public struct ChooseOne: Codable, Equatable {
 
 /// ChooseOne labels
 public extension String {
-
     /// Random hand card label
     static let randomHand = "randomHand"
 

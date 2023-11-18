@@ -6,14 +6,14 @@
 //
 
 import Game
-import Quick
 import Nimble
+import Quick
 import Redux
 
 final class ChooseOneSpec: QuickSpec {
     override func spec() {
         var state: GameState!
-        
+
         describe("chooseOne") {
             beforeEach {
                 state = GameState.makeBuilder()

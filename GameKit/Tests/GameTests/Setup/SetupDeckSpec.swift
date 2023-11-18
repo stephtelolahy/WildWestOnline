@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 19/05/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class SetupDeckSpec: QuickSpec {
     override func spec() {

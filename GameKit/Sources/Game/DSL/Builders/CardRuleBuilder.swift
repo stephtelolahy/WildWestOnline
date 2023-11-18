@@ -9,7 +9,6 @@ import Foundation
 
 @resultBuilder
 public struct CardRuleBuilder {
-
     public static func buildBlock(_ components: CardRule...) -> [CardRule] {
         components
     }

@@ -8,7 +8,6 @@
 import Game
 
 public enum CardList {
-
     public static let all: [String: Card] = createCardDict(priorities) {
         beer
         saloon
@@ -80,7 +79,6 @@ public enum CardList {
 }
 
 private extension CardList {
-
     // MARK: - Collectibles - Brown
 
     static let beer = Card(.beer) {

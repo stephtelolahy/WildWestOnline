@@ -5,11 +5,10 @@
 //  Created by Hugues Stephano TELOLAHY on 12/10/2023.
 //
 
-import XCTest
 import Game
+import XCTest
 
 final class MissedTests: XCTestCase {
-
     func test_playMissed_withoutBeingShoot_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()

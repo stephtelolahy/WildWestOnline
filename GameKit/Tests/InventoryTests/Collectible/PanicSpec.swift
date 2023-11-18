@@ -5,15 +5,13 @@
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class PanicSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing Panic") {
-
             context("no player allowed") {
                 it("should throw error") {
                     // Given
@@ -31,7 +29,7 @@ final class PanicSpec: QuickSpec {
                     expect(error) == .noPlayer(.selectAt(1))
                 }
             }
-            
+
             context("target is other") {
                 context("having hand cards") {
                     it("should choose one random hand card") {
@@ -44,11 +42,11 @@ final class PanicSpec: QuickSpec {
                                 $0.withHand(["c21"])
                             }
                             .build()
-                        
+
                         // When
                         let action = GameAction.play(.panic, player: "p1")
                         let (result, _) = self.awaitAction(action, choose: ["p2", .randomHand], state: state)
-                        
+
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
@@ -62,7 +60,7 @@ final class PanicSpec: QuickSpec {
                         ]
                     }
                 }
-                
+
                 context("having inPlay cards") {
                     it("should choose one inPlay card") {
                         // Given
@@ -74,11 +72,11 @@ final class PanicSpec: QuickSpec {
                                 $0.withInPlay(["c21", "c22"])
                             }
                             .build()
-                        
+
                         // When
                         let action = GameAction.play(.panic, player: "p1")
                         let (result, _) = self.awaitAction(action, choose: ["p2", "c22"], state: state)
-                        
+
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
@@ -93,7 +91,7 @@ final class PanicSpec: QuickSpec {
                         ]
                     }
                 }
-                
+
                 context("having hand and inPlay cards") {
                     it("should choose one inPlay or random hand card") {
                         // Given
@@ -106,11 +104,11 @@ final class PanicSpec: QuickSpec {
                                     .withInPlay(["c22", "c23"])
                             }
                             .build()
-                        
+
                         // When
                         let action = GameAction.play(.panic, player: "p1")
                         let (result, _) = self.awaitAction(action, choose: ["p2", "c23"], state: state)
-                        
+
                         // Then
                         expect(result) == [
                             .chooseOne(player: "p1", options: [
@@ -127,14 +125,14 @@ final class PanicSpec: QuickSpec {
                     }
                 }
             }
-            
+
             xcontext("target is self") {
                 it("should choose one inPlay card") {
                     // Given
                     // When
                     // Then
                 }
-                
+
                 it("should not choose hand cards") {
                     // Given
                     // When

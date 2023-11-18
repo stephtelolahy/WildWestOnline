@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 08/04/2023.
 //
 
-import XCTest
-import Game
 import Foundation
+import Game
+import XCTest
 
 final class CardTests: XCTestCase {
-
     func test_Card_initially_shouldHaveName() throws {
         let sut = Card("c1")
         XCTAssertEqual(sut.name, "c1")

@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 09/09/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class VolcanicSpec: QuickSpec {
     override func spec() {
@@ -47,7 +47,7 @@ final class VolcanicSpec: QuickSpec {
                                         .updateAttributesOnChangeInPlay: 0,
                                         .weapon: 2,
                                         .bangsPerTurn: 1
-                                    ])
+                                ])
                                 .withName(.pDefault)
                         }
                         .build()

@@ -4,7 +4,6 @@ import Foundation
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
-
     /// All players
     public var players: [String: Player]
 
@@ -51,7 +50,6 @@ public struct GameState: Codable, Equatable {
 // MARK: - Convenience
 
 public extension GameState {
-
     /// Getting player with given identifier
     func player(_ id: String) -> Player {
         guard let player = players[id] else {

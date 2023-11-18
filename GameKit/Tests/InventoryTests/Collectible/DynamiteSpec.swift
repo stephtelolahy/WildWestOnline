@@ -5,12 +5,11 @@
 //  Created by Hugues Stephano TELOLAHY on 26/06/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class DynamiteSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing dynamite") {
             it("should equip") {
@@ -97,7 +96,7 @@ final class DynamiteSpec: QuickSpec {
                                             .nextTurnOnEliminated: 0,
                                             .flippedCards: 1,
                                             .startTurnCards: 2
-                                        ])
+                                    ])
                                     .withHealth(3)
                             }
                             .withPlayer("p2") {

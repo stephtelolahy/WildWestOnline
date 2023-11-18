@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class GeneralStoreSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("playing generalStore") {
             context("three players") {
@@ -24,11 +23,11 @@ final class GeneralStoreSpec: QuickSpec {
                         .withPlayer("p3")
                         .withDeck(["c1", "c2", "c3"])
                         .build()
-                    
+
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")
                     let (result, _) = self.awaitAction(action, choose: ["c1", "c2"], state: state)
-                    
+
                     // Then
                     expect(result) == [
                         .playImmediate(.generalStore, player: "p1"),
@@ -50,7 +49,7 @@ final class GeneralStoreSpec: QuickSpec {
                     ]
                 }
             }
-            
+
             context("two players") {
                 it("should allow each player to choose a card") {
                     // Given
@@ -61,11 +60,11 @@ final class GeneralStoreSpec: QuickSpec {
                         .withPlayer("p2")
                         .withDeck(["c1", "c2"])
                         .build()
-                    
+
                     // When
                     let action = GameAction.play(.generalStore, player: "p1")
                     let (result, _) = self.awaitAction(action, choose: ["c1"], state: state)
-                    
+
                     // Then
                     expect(result) == [
                         .playImmediate(.generalStore, player: "p1"),

@@ -4,12 +4,11 @@
 //
 //  Created by Hugues Telolahy on 08/04/2023.
 //
+import Foundation
 import Game
 import XCTest
-import Foundation
 
 final class PlayerTests: XCTestCase {
-
     func test_buildPlayer_byDefault_shouldHaveDefaultIdentifier() throws {
         let sut = Player.makeBuilder()
             .build()
@@ -131,6 +130,5 @@ final class PlayerTests: XCTestCase {
         XCTAssertEqual(sut.attributes[.mustang], 0)
         XCTAssertEqual(sut.attributes[.scope], 1)
         XCTAssertEqual(sut.attributes[.startTurnCards], 2)
-
     }
 }

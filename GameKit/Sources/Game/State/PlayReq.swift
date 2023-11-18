@@ -7,7 +7,6 @@
 
 /// Condition triggering card effect
 public enum PlayReq: Codable, Equatable {
-
     /// playing an immediate effect card, then the card is discarded
     case playImmediate
 

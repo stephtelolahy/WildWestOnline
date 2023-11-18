@@ -5,12 +5,11 @@
 //  Created by Hugues Telolahy on 01/05/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class EndTurnSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("ending turn") {
             context("no excess cards") {

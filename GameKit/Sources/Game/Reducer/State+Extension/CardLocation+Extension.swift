@@ -6,7 +6,6 @@
 //
 
 extension CardLocation {
-
     func contains(_ card: String) -> Bool {
         cards.contains(where: { $0 == card })
     }
@@ -14,7 +13,7 @@ extension CardLocation {
     mutating func add(_ card: String) {
         cards.append(card)
     }
-    
+
     mutating func remove(_ card: String) throws {
         guard let index = cards.firstIndex(where: { $0 == card }) else {
             throw GameError.cardNotFound(card)

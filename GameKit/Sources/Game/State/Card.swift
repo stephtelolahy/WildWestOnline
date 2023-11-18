@@ -4,7 +4,6 @@ import Foundation
 /// Cards can have multiple attributes,
 /// have actions that can be played and have side effects that happen when they are being played.
 public struct Card: Codable, Equatable {
-    
     /// Unique Name
     public let name: String
 
@@ -19,7 +18,6 @@ public struct Card: Codable, Equatable {
 }
 
 public struct CardRule: Codable, Equatable {
-
     /// Card effect
     let effect: CardEffect
 

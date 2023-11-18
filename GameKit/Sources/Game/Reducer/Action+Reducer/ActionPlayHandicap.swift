@@ -17,7 +17,7 @@ struct ActionPlayHandicap: GameActionReducer {
         guard targetObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
             throw GameError.cardAlreadyInPlay(cardName)
         }
-        
+
         // put card on other's play
         var state = state
         try state[keyPath: \GameState.players[player]]?.hand.remove(card)

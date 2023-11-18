@@ -8,7 +8,7 @@
 struct ActionResolveEffect: GameActionReducer {
     let effect: CardEffect
     let ctx: EffectContext
-    
+
     func reduce(state: GameState) throws -> GameState {
         var state = state
         let children = try effect.resolve(state: state, ctx: ctx)

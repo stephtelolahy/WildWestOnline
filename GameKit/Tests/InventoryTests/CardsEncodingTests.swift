@@ -5,14 +5,12 @@
 //  Created by Hugues Telolahy on 04/11/2023.
 //
 
-import XCTest
 import Foundation
 import Inventory
+import XCTest
 import Yams
 
-
 final class CardsEncodingTests: XCTestCase {
-
     func test_CardList_shouldBeEncodableToJson() throws {
         let model = CardList.all
         let jsonData = try JSONEncoder().encode(model)
@@ -26,5 +24,4 @@ final class CardsEncodingTests: XCTestCase {
         let yamlString = try encoder.encode(model)
         print(yamlString)
     }
-
 }

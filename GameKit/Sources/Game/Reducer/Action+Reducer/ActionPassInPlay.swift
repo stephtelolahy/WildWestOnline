@@ -9,7 +9,7 @@ struct ActionPassInPlay: GameActionReducer {
     let card: String
     let target: String
     let player: String
- 
+
     func reduce(state: GameState) throws -> GameState {
         var state = state
         try state[keyPath: \GameState.players[player]]?.inPlay.remove(card)

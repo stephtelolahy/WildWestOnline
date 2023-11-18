@@ -13,7 +13,7 @@ struct PlayerNext: ArgPlayerResolver {
             .element(after: turn) else {
             return .identified([])
         }
-        
+
         return .identified([next])
     }
 }

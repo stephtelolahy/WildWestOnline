@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 16/05/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class NextTurnOnEliminatedSpec: QuickSpec {
     override func spec() {
@@ -35,7 +35,7 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                     ]
                 }
             }
-            
+
             context("current turn and having cards") {
                 it("should successively discard cards, set next turn, next player draw cards") {
                     // Given

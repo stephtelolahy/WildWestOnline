@@ -9,7 +9,6 @@ import Redux
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
 public indirect enum GameAction: Action, Codable, Equatable {
-
     // MARK: - Play
 
     /// Play a brown card, discard immediately
@@ -25,7 +24,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case playHandicap(String, target: String, player: String)
 
     // MARK: - Renderable actions
-    
+
     /// Restore player's health, limited to maxHealth
     case heal(Int, player: String)
 
@@ -40,10 +39,10 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
-    
+
     /// Draw card from other player's hand
     case stealHand(String, target: String, player: String)
-    
+
     /// Draw card from other player's inPlay
     case stealInPlay(String, target: String, player: String)
 
@@ -64,7 +63,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Set player attribute
     case setAttribute(String, value: Int?, player: String)
-    
+
     /// Draw a card from deck and put to discard
     case luck
 
@@ -98,7 +97,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 // MARK: - Convenience
 
 public extension GameAction {
-
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {

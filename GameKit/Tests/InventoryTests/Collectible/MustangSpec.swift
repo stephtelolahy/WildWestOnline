@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 09/09/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class MustangSpec: QuickSpec {
     override func spec() {

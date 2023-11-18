@@ -5,17 +5,15 @@
 //  Created by Hugues Telolahy on 08/04/2023.
 //
 
-import XCTest
-import Game
 import Foundation
+import Game
+import XCTest
 
 final class GameTests: XCTestCase {
-
     func test_buildGame_byDefault_shouldHaveEmptyDeck() throws {
         let sut = GameState.makeBuilder()
             .build()
         XCTAssertEqual(sut.deck.count, 0)
-
     }
 
     func test_buildGame_byDefault_shouldHaveEmptyDiscard() throws {
@@ -164,7 +162,6 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.player("p2").attributes["a1"], 0)
         XCTAssertEqual(state.player("p2").hand.cards, ["c21", "c22"])
         XCTAssertEqual(state.player("p2").inPlay.cards, ["c23", "c24"])
-
     }
 
     func test_game_shouldBeSerializable() throws {

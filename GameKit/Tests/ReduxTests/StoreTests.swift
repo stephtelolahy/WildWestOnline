@@ -5,11 +5,10 @@
 //  Created by Hugues Telolahy on 07/04/2023.
 //
 
-import XCTest
 import Redux
+import XCTest
 
 final class StoreTests: XCTestCase {
-
     func test_createStore() {
         // Given
         // When

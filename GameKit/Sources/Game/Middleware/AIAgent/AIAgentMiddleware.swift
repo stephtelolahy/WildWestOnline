@@ -4,8 +4,8 @@
 //  Created by Hugues Telolahy on 14/07/2023.
 //
 
-import Redux
 import Combine
+import Redux
 
 public let aiAgentMiddleware: Middleware<GameState> = { state, _ in
     if let action = evaluateAIMove(state: state) {

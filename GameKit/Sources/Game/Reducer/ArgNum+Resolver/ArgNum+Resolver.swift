@@ -20,12 +20,16 @@ private extension ArgNum {
         switch self {
         case .exact(let number):
             NumExact(number: number)
+
         case .activePlayers:
             NumActivePlayers()
+
         case .excessHand:
             NumExcessHand()
+
         case .attr(let key):
             NumPlayerAttr(key: key)
+
         case .damage:
             NumDamage()
         }

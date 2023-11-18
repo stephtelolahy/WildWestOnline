@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class WellsFargoSpec: QuickSpec {
     override func spec() {
@@ -25,7 +25,7 @@ final class WellsFargoSpec: QuickSpec {
                 // When
                 let action = GameAction.play(.wellsFargo, player: "p1")
                 let (result, _) = self.awaitAction(action, state: state)
-                
+
                 // Then
                 expect(result) == [.playImmediate(.wellsFargo, player: "p1"),
                                    .draw(player: "p1"),

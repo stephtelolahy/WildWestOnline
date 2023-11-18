@@ -5,14 +5,14 @@
 //  Created by Hugues Telolahy on 16/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class DamageSpec: QuickSpec {
     override func spec() {
         var state: GameState!
-        
+
         describe("damage") {
             // Given
             beforeEach {

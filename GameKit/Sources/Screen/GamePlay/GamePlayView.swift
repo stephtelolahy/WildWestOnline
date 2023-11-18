@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 02/04/2023.
 //
 
-import SwiftUI
-import Redux
 import Game
+import Redux
+import SwiftUI
 
 struct GamePlayView: View {
     @EnvironmentObject private var store: Store<AppState>

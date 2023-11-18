@@ -10,25 +10,24 @@ protocol ArgPlayerResolver {
 }
 
 extension ArgPlayer {
-
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
         let output = resolver().resolve(state: state, ctx: ctx)
         let pIds: [String]
         switch output {
         case let .identified(identifiers):
             pIds = identifiers
-            
+
         case let .selectable(options):
             pIds = options
         }
-        
+
         guard pIds.isNotEmpty else {
             throw GameError.noPlayer(self)
         }
-        
+
         return output
     }
-    
+
     func resolveUnique(state: GameState, ctx: EffectContext) throws -> String {
         if case let .id(pId) = self {
             return pId
@@ -37,11 +36,11 @@ extension ArgPlayer {
             guard case let .identified(pIds) = output else {
                 throw GameError.noPlayer(self)
             }
-            
+
             guard pIds.count == 1 else {
                 fatalError("unexpected")
             }
-            
+
             return pIds[0]
         }
     }
@@ -72,7 +71,7 @@ extension ArgPlayer {
 enum PlayerArgOutput {
     /// Appply effect to well known object identifiers
     case identified([String])
-    
+
     /// Must choose one of given object identifiers
     case selectable([String])
 }
@@ -83,24 +82,34 @@ private extension ArgPlayer {
         switch self {
         case .actor:
             PlayerActor()
+
         case .selectReachable:
             PlayerSelectReachable()
+
         case .selectAt(let distance):
             PlayerSelectAt(distance: distance)
+
         case .selectAny:
             PlayerSelectAny()
+
         case .next:
             PlayerNext()
+
         case .damaged:
             PlayerDamaged()
+
         case .all:
             PlayerAll()
+
         case .others:
             PlayerOthers()
+
         case .offender:
             PlayerOffender()
+
         case .eliminated:
             PlayerEliminated()
+
         case .id:
             fatalError("unexpected")
         }

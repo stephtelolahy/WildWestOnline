@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class StagecoachSpec: QuickSpec {
     override func spec() {
@@ -24,7 +24,7 @@ final class StagecoachSpec: QuickSpec {
                 // When
                 let action = GameAction.play(.stagecoach, player: "p1")
                 let (result, _) = self.awaitAction(action, state: state)
-                
+
                 // Then
                 expect(result) == [
                     .playImmediate(.stagecoach, player: "p1"),

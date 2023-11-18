@@ -21,14 +21,14 @@ extension GameAction {
                 continue
             }
         }
-        
+
         guard !validOptions.isEmpty else {
             throw GameError.noValidOption
         }
-        
+
         return .chooseOne(player: chooser, options: validOptions)
     }
-    
+
     static func validatePlay(
         card: String,
         player: String,
@@ -46,14 +46,13 @@ extension GameAction {
 }
 
 private extension GameAction {
-    
     func validate(state: GameState) throws {
         switch self {
         case .activateCards,
                 .chooseOne,
                 .setGameOver:
             return
-            
+
         default:
             var newState = try reduce(state: state)
             if newState.sequence.isNotEmpty {
@@ -62,19 +61,19 @@ private extension GameAction {
             }
         }
     }
-    
+
     /// Reducing effect to a more meaningful action
     /// If not possible, then return `self`
     func simplified(state: GameState) throws -> GameAction {
         guard case let .effect(effect, ctx) = self else {
             return self
         }
-        
+
         let children = try effect.resolve(state: state, ctx: ctx)
         guard children.count == 1 else {
             return self
         }
-        
+
         return try children[0].simplified(state: state)
     }
 }

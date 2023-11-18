@@ -5,11 +5,10 @@
 //  Created by Hugues Telolahy on 02/04/2023.
 //
 
-import SwiftUI
 import Redux
+import SwiftUI
 
 public struct AppView: View {
-
     @EnvironmentObject private var store: Store<AppState>
 
     public init() {}

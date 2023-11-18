@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  CardNames.swift
 //
@@ -7,7 +6,6 @@
 //
 
 public extension String {
-
     // MARK: - Collectible
 
     static let bang = "bang"

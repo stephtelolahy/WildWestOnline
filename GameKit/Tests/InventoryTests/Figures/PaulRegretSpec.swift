@@ -5,10 +5,10 @@
 //  Created by Hugues Telolahy on 03/11/2023.
 //
 
-import Quick
-import Nimble
 import Game
 import Inventory
+import Nimble
+import Quick
 
 final class PaulRegretSpec: QuickSpec {
     override func spec() {

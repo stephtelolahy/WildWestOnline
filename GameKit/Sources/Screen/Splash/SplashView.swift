@@ -5,13 +5,12 @@
 //  Created by Hugues Telolahy on 02/04/2023.
 //
 
-import SwiftUI
 import Redux
+import SwiftUI
 
 struct SplashView: View {
-    
     @EnvironmentObject private var store: Store<AppState>
-    
+
     var body: some View {
         ZStack {
             Text("CREATIVE GAMES")

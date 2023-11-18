@@ -5,13 +5,12 @@
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
 
-import XCTest
-import Game
 import Combine
+import Game
 import Inventory
+import XCTest
 
 final class SimulationTests: XCTestCase {
-
     func test_simulate4PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 4)
     }

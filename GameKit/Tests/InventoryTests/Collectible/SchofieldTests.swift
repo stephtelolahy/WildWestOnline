@@ -5,11 +5,10 @@
 //  Created by Hugues Telolahy on 17/07/2023.
 //
 
-import XCTest
 import Game
+import XCTest
 
 final class SchofieldTests: XCTestCase {
-    // swiftlint:disable:next function_body_length
     func test_playSchofield_withoutWeaponInPlay_shouldSetWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()

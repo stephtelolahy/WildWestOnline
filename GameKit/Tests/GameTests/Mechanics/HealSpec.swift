@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class HealSpec: QuickSpec {
     override func spec() {
@@ -15,7 +15,6 @@ final class HealSpec: QuickSpec {
 
         describe("heal") {
             context("being damaged") {
-
                 beforeEach {
                     // Given
                     state = GameState.makeBuilder()

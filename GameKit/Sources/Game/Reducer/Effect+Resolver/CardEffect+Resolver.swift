@@ -72,7 +72,7 @@ private extension CardEffect {
 
         case .nothing:
             EffectNone()
-            
+
         case let .luck(regex, onSuccess, onFailure):
             EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
 

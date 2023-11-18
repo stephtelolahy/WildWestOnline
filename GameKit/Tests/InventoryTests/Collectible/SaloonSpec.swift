@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class SaloonSpec: QuickSpec {
     override func spec() {
@@ -34,14 +34,14 @@ final class SaloonSpec: QuickSpec {
                     // When
                     let action = GameAction.play(.saloon, player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
-                    
+
                     // Then
                     expect(result) == [.playImmediate(.saloon, player: "p1"),
                                        .heal(1, player: "p2"),
                                        .heal(1, player: "p3")]
                 }
             }
-            
+
             context("no player damaged") {
                 it("should throw error") {
                     // Given
@@ -56,7 +56,7 @@ final class SaloonSpec: QuickSpec {
                                 .withAttributes([.maxHealth: 3])
                         }
                         .build()
-                    
+
                     // When
                     let action = GameAction.play(.saloon, player: "p1")
                     let (_, error) = self.awaitAction(action, state: state)

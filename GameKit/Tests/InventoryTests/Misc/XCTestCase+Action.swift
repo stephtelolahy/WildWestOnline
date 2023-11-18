@@ -5,13 +5,12 @@
 //  Created by Hugues Telolahy on 08/04/2023.
 //
 
-import Game
-import XCTest
-import Redux
 import Combine
+import Game
+import Redux
+import XCTest
 
 extension XCTestCase {
-
     func awaitAction(
         _ action: GameAction,
         choose: [String] = [],
@@ -63,7 +62,7 @@ extension XCTestCase {
 
 private var choosingAgentChoices: [String] = []
 
-private let choosingAgentMiddleware: Middleware<GameState> = { state, action in
+private let choosingAgentMiddleware: Middleware<GameState> = { state, _ in
     guard let chooseOne = state.chooseOne else {
         return nil
     }
@@ -78,5 +77,4 @@ private let choosingAgentMiddleware: Middleware<GameState> = { state, action in
     }
 
     return Just(option).eraseToAnyPublisher()
-
 }

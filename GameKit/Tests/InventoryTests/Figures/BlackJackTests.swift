@@ -5,12 +5,11 @@
 //  Created by Hugues Stephano TELOLAHY on 10/11/2023.
 //
 
-import XCTest
 import Game
 import Inventory
+import XCTest
 
 final class BlackJackTests: XCTestCase {
-
     func test_blackJack_shouldHaveSpecialStartTurn() throws {
         // Given
         let state = Setup.buildGame(figures: [.blackJack], deck: [], cardRef: CardList.all)
@@ -46,6 +45,5 @@ final class BlackJackTests: XCTestCase {
     }
 
     func test_blackJackStartTurn_withSecondDrawnCardBlack_ShouldDoNothing() throws {
-
     }
 }

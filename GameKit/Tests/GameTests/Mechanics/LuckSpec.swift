@@ -5,9 +5,9 @@
 //  Created by Hugues Stephano TELOLAHY on 20/06/2023.
 //
 
-import Quick
-import Nimble
 import Game
+import Nimble
+import Quick
 
 final class LuckSpec: QuickSpec {
     override func spec() {
@@ -18,11 +18,11 @@ final class LuckSpec: QuickSpec {
                     .withDeck(["c2", "c3"])
                     .withDiscard(["c1"])
                     .build()
-                
+
                 // When
                 let action = GameAction.luck
                 let result = GameState.reducer(state, action)
-                
+
                 // Then
                 expect(result.discard.top) == "c2"
                 expect(result.deck.top) == "c3"

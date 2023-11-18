@@ -6,12 +6,11 @@
 //
 
 import Game
-import Quick
 import Nimble
+import Quick
 
 final class EliminateOnLooseLastHealthSpec: QuickSpec {
     override func spec() {
-
         describe("a player") {
             context("loosing last health") {
                 it("should be eliminated") {

@@ -7,7 +7,6 @@
 
 /// Number argument
 public enum ArgNum: Codable, Equatable {
-
     /// Exact number
     case exact(Int)
 
@@ -16,7 +15,7 @@ public enum ArgNum: Codable, Equatable {
 
     /// Number of excess cards at the end of turn
     case excessHand
-    
+
     /// Player attribute value
     case attr(String)
 
