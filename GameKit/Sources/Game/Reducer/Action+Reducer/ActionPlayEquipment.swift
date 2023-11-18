@@ -23,7 +23,7 @@ struct ActionPlayEquipment: GameActionReducer {
         state[keyPath: \GameState.players[player]]?.inPlay.add(card)
 
         // save played card
-        state.incrementPlayCounter(for: cardName)
+        state.incrementPlayedThisTurn(for: cardName)
 
         // queue triggered effect
         state.queueOnPlayEffect(card: card,

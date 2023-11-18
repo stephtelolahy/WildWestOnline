@@ -12,7 +12,7 @@ struct ActionPlayAbility: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         // save played card
         var state = state
-        state.incrementPlayCounter(for: card)
+        state.incrementPlayedThisTurn(for: card)
 
         // queue triggered effect
         state.queueOnPlayEffect(card: card,
