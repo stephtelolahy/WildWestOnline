@@ -9,7 +9,6 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false,
     "targetForVariableExpansion" : {
       "containerPath" : "container:WildWestOnline.xcodeproj",
       "identifier" : "2699EEFC29D93AD00030ACCD",
