@@ -7,7 +7,7 @@
 
 struct ActionLuck: GameActionReducer {
     let card: String
-    
+
     func reduce(state: GameState) throws -> GameState {
         state
     }

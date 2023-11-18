@@ -17,7 +17,7 @@ final class PutTopDeckToDiscardTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.luck
+        let action = GameAction.putTopDeckToDiscard
         let result = GameState.reducer(state, action)
 
         // Then
