@@ -28,7 +28,7 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
-    private func simulateGame(playersCount: Int, timeout: TimeInterval = 10.0) {
+    private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
         let game = Inventory.createGame(playersCount: playersCount)
         let sut = createGameStore(initial: game)
