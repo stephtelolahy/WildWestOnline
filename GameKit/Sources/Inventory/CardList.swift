@@ -93,13 +93,13 @@ private extension CardList {
     }
 
     static let stagecoach = Card(.stagecoach) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(2)
             .on([.playImmediate])
     }
 
     static let wellsFargo = Card(.wellsFargo) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(3)
             .on([.playImmediate])
     }
@@ -226,7 +226,7 @@ private extension CardList {
     }
 
     static let drawOnSetTurn = Card(.drawOnSetTurn) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(.attr(.startTurnCards))
             .on([.setTurn])
     }
@@ -297,7 +297,7 @@ private extension CardList {
     static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4])
 
     static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(.damage)
             .on([.damage])
     }
@@ -311,7 +311,7 @@ private extension CardList {
     }
 
     static let suzyLafayette = Card(.suzyLafayette, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .on([.handEmpty])
     }
 
@@ -332,9 +332,9 @@ private extension CardList {
 
     static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
-            CardEffect.draw
+            CardEffect.drawDeck
                 .repeat(.attr(.startTurnCards))
-            CardEffect.revealLastDrawn(.regexDrawAnotherCard, onSuccess: .draw)
+            CardEffect.revealLastDrawn(.regexDrawAnotherCard, onSuccess: .drawDeck)
         }
         .on([.setTurn])
     }
@@ -350,8 +350,8 @@ private extension CardList {
         CardEffect.group {
             CardEffect.steal(.randomHand)
                 .target(.selectAny)
-                .force(otherwise: .draw)
-            CardEffect.draw
+                .force(otherwise: .drawDeck)
+            CardEffect.drawDeck
         }
         .on([.setTurn])
     }

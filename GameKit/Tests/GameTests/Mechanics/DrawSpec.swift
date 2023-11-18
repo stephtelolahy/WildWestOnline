@@ -21,7 +21,7 @@ final class DrawSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.draw(player: "p1")
+                    let action = GameAction.drawDeck(player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -40,7 +40,7 @@ final class DrawSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.draw(player: "p1")
+                        let action = GameAction.drawDeck(player: "p1")
                         let result = GameState.reducer(state, action)
 
                         // Then
@@ -58,7 +58,7 @@ final class DrawSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.draw(player: "p1")
+                        let action = GameAction.drawDeck(player: "p1")
                         let result = GameState.reducer(state, action)
 
                         // Then

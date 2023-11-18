@@ -32,7 +32,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case damage(Int, player: String)
 
     /// Draw top deck card
-    case draw(player: String)
+    case drawDeck(player: String)
 
     /// Draw a specific card from deck
     case drawDeckChoose(String, player: String)

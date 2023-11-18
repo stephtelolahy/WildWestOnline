@@ -49,7 +49,7 @@ final class PedroRamirezTests: XCTestCase {
                 "p3": .stealHand("c3", target: "p3", player: "p1")
             ]),
             .stealHand("c2", target: "p2", player: "p1"),
-            .draw(player: "p1")
+            .drawDeck(player: "p1")
         ])
     }
 
@@ -69,8 +69,8 @@ final class PedroRamirezTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn("p1"),
-            .draw(player: "p1"),
-            .draw(player: "p1")
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1")
         ])
     }
 }

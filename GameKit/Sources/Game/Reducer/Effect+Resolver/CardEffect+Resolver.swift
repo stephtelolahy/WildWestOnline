@@ -28,8 +28,8 @@ private extension CardEffect {
         case .shoot:
             EffectJust { .damage(1, player: $0.player()) }
 
-        case .draw:
-            EffectJust { .draw(player: $0.player()) }
+        case .drawDeck:
+            EffectJust { .drawDeck(player: $0.player()) }
 
         case let .drawDeckChoose(amount):
             EffectDrawDeckChoose(amount: amount)

@@ -21,9 +21,9 @@ public indirect enum CardEffect: Codable, Equatable {
     case shoot
 
     /// Draw top deck card
-    case draw
+    case drawDeck
 
-    /// Draw N specific cards from deck
+    /// Draw specific cards from deck
     case drawDeckChoose(ArgNum)
 
     /// Discard a player's card to discard pile

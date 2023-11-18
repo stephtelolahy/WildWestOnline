@@ -68,8 +68,8 @@ final class KitCarlsonTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn("p1"),
-            .draw(player: "p1"),
-            .draw(player: "p1")
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1")
         ])
     }
 }

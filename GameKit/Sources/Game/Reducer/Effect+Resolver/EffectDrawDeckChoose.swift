@@ -18,7 +18,7 @@ struct EffectDrawDeckChoose: EffectResolver {
 
         guard state.deck.count > count else {
             return (0..<count).map { _ in
-                    .draw(player: player)
+                    .drawDeck(player: player)
             }
         }
 

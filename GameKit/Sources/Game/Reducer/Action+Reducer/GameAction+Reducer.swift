@@ -48,8 +48,8 @@ private extension GameAction {
         case let .discardInPlay(card, player):
             ActionDiscardInPlay(player: player, card: card)
 
-        case let .draw(player):
-            ActionDraw(player: player)
+        case let .drawDeck(player):
+            ActionDrawDeck(player: player)
 
         case let .drawDeckChoose(card, player):
             ActionDrawDeckChoose(card: card, player: player)

@@ -38,10 +38,10 @@ final class BlackJackTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn("p1"),
-            .draw(player: "p1"),
-            .draw(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
             .reveal("c2♥️", player: "p1"),
-            .draw(player: "p1")
+            .drawDeck(player: "p1")
         ])
     }
 
@@ -61,8 +61,8 @@ final class BlackJackTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn("p1"),
-            .draw(player: "p1"),
-            .draw(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
             .reveal("c2♠️", player: "p1")
         ])
     }

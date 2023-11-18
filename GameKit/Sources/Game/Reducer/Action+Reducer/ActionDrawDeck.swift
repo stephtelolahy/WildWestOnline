@@ -1,11 +1,11 @@
 //
-//  ActionDraw.swift
+//  ActionDrawDeck.swift
 //  
 //
 //  Created by Hugues Telolahy on 10/04/2023.
 //
 
-struct ActionDraw: GameActionReducer {
+struct ActionDrawDeck: GameActionReducer {
     let player: String
 
     func reduce(state: GameState) throws -> GameState {
