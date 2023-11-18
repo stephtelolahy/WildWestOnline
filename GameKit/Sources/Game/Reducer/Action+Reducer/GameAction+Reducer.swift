@@ -73,8 +73,8 @@ private extension GameAction {
         case .putTopDeckToDiscard:
             ActionPutTopDeckToDiscard()
 
-        case .luck:
-            ActionLuck()
+        case let .luck(card):
+            ActionLuck(card: card)
 
         case let .group(actions):
             ActionGroup(children: actions)

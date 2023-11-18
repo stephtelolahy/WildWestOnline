@@ -73,8 +73,8 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Set player attribute
     case setAttribute(String, value: Int?, player: String)
 
-    /// Draw a card from deck and put to discard
-    case luck
+    /// Show card used for luck effect
+    case luck(String)
 
     /// Cancel an effect
     case cancel(Self)

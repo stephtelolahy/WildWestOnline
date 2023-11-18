@@ -6,10 +6,9 @@
 //
 
 struct ActionLuck: GameActionReducer {
+    let card: String
+    
     func reduce(state: GameState) throws -> GameState {
-        var state = state
-        let card = try state.popDeck()
-        state.discard.push(card)
-        return state
+        state
     }
 }

@@ -7,11 +7,13 @@
 import Foundation
 
 struct EffectLuck: EffectResolver {
+    let card: ArgCardLuck
     let regex: String
     let onSuccess: CardEffect
     let onFailure: CardEffect?
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+        /*
         // repeat luck according to actor's `flippedCards` attribute
         let player = ctx.actor
         let playerObj = state.player(player)
@@ -44,5 +46,7 @@ struct EffectLuck: EffectResolver {
         }
 
         return result
+         */
+        []
     }
 }
