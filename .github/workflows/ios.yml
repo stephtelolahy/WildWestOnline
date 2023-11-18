@@ -22,7 +22,7 @@ jobs:
       - name: Select Xcode
         run: |
           sudo ls -1 /Applications | grep "Xcode"
-          sudo xcode-select -s '/Applications/Xcode_15.0.app'
+          sudo xcode-select -s '/Applications/Xcode.app'
 
       - name: Set Default Scheme
         run: |
