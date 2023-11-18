@@ -6,7 +6,6 @@
 //
 import Game
 import XCTest
-import Nimble
 import Foundation
 
 final class PlayerTests: XCTestCase {
@@ -14,42 +13,37 @@ final class PlayerTests: XCTestCase {
     func test_buildPlayer_byDefault_shouldHaveDefaultIdentifier() throws {
         let sut = Player.makeBuilder()
             .build()
-        expect(sut.id).toNot(beEmpty())
+        XCTAssertNotEqual(sut.id, "")
     }
 
     func test_buildPlayer_byDefault_shouldHaveEmptyName() throws {
         let sut = Player.makeBuilder()
             .build()
-        expect(sut.name).to(beEmpty())
+        XCTAssertEqual(sut.name, "")
     }
 
     func test_buildPlayer_byDefault_shouldNotHaveAttributes() throws {
         let sut = Player.makeBuilder()
             .build()
-        expect(sut.attributes) == [:]
+        XCTAssertEqual(sut.attributes, [:])
     }
 
     func test_buildPlayer_byDefault_shouldHaveEmptyHand() throws {
         let sut = Player.makeBuilder()
             .build()
-        expect(sut.hand.cards).to(beEmpty())
+        XCTAssertEqual(sut.hand.cards, [])
     }
 
     func test_buildPlayer_byDefault_shouldHaveHealthZero() throws {
         let sut = Player.makeBuilder()
             .build()
-        expect(sut.health) == 0
+        XCTAssertEqual(sut.health, 0)
     }
 
     func test_buildPlayer_byDefault_shouldHaveEmptyInPlay() throws {
         let sut = Player.makeBuilder()
             .build()
-        expect(sut.inPlay.cards).to(beEmpty())
-    }
-
-    func test_buildPlayer_byDefault_should() throws {
-        let sut = Player.makeBuilder()
-            .build()
+        XCTAssertEqual(sut.inPlay.cards, [])
     }
 
     func test_buildPlayer_withIdentifier_shouldHaveIdentifier() throws {
@@ -60,7 +54,7 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        expect(sut.id) == "p1"
+        XCTAssertEqual(sut.id, "p1")
     }
 
     func test_buildPlayer_withHand_shouldHaveHandCards() throws {
@@ -71,7 +65,7 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        expect(sut.hand.cards) == ["c1", "c2"]
+        XCTAssertEqual(sut.hand.cards, ["c1", "c2"])
     }
 
     func test_buildPlayer_withInPlay_shouldHaveInPlayCards() throws {
@@ -82,7 +76,7 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        expect(sut.inPlay.cards) == ["c1", "c2"]
+        XCTAssertEqual(sut.inPlay.cards, ["c1", "c2"])
     }
 
     func test_buildPlayer_withAttributes_shouldHaveAttributes() throws {
@@ -93,7 +87,7 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        expect(sut.attributes[.mustang]) == 1
+        XCTAssertEqual(sut.attributes[.mustang], 1)
     }
 
     func test_player_shouldBeSerializable() throws {
@@ -128,15 +122,15 @@ final class PlayerTests: XCTestCase {
         let sut = try JSONDecoder().decode(Player.self, from: jsonData)
 
         // Then
-        expect(sut.id) == "p1"
-        expect(sut.name) == "n1"
-        expect(sut.attributes[.maxHealth]) == 4
-        expect(sut.health) == 2
-        expect(sut.attributes[.handLimit]) == 2
-        expect(sut.attributes[.weapon]) == 3
-        expect(sut.attributes[.mustang]) == 0
-        expect(sut.attributes[.scope]) == 1
-        expect(sut.attributes[.startTurnCards]) == 2
+        XCTAssertEqual(sut.id, "p1")
+        XCTAssertEqual(sut.name, "n1")
+        XCTAssertEqual(sut.attributes[.maxHealth], 4)
+        XCTAssertEqual(sut.health, 2)
+        XCTAssertEqual(sut.attributes[.handLimit], 2)
+        XCTAssertEqual(sut.attributes[.weapon], 3)
+        XCTAssertEqual(sut.attributes[.mustang], 0)
+        XCTAssertEqual(sut.attributes[.scope], 1)
+        XCTAssertEqual(sut.attributes[.startTurnCards], 2)
 
     }
 }
