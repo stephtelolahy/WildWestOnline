@@ -31,6 +31,9 @@ private extension CardEffect {
         case .draw:
             EffectJust { .draw(player: $0.player()) }
 
+        case let .drawDeckChoose(amount):
+            EffectDrawDeckChoose(amount: amount)
+
         case .discover:
             EffectJust { _ in .discover }
 

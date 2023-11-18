@@ -23,6 +23,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw top deck card
     case draw
 
+    /// Draw N specific cards from deck
+    case drawDeckChoose(ArgNum)
+
     /// Discard a player's card to discard pile
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
