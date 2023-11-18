@@ -5,12 +5,13 @@ import SwiftUI
 public protocol Action {}
 
 public typealias Reducer<State> = (State, Action) -> State
-public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>
+public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>?
 
 public final class Store<State>: ObservableObject {
 
     @Published public private(set) var state: State
     public private (set) var log: [Action] = []
+    public var completed: (() -> Void)?
 
     private let queue = DispatchQueue(label: "store.queue", qos: .userInitiated)
     private let reducer: Reducer<State>
@@ -39,11 +40,19 @@ public final class Store<State>: ObservableObject {
         let newState = reducer(currentState, action)
         state = newState
 
-        middlewares.forEach { middleware in
-            middleware(newState, action)
-                .receive(on: RunLoop.main)
-                .sink(receiveValue: dispatch)
-                .store(in: &subscriptions)
+        var hasEffect = false
+        for middleware in middlewares {
+            if let effect = middleware(newState, action) {
+                effect
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: dispatch)
+                    .store(in: &subscriptions)
+                hasEffect = true
+            }
+        }
+
+        if !hasEffect {
+            completed?()
         }
     }
 

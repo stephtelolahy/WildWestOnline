@@ -20,7 +20,7 @@ public let eventLoggerMiddleware: Middleware<GameState> = { state, action in
         print("❌ \(error) on \(action)".removingNamespace())
     }
 
-    return Empty().eraseToAnyPublisher()
+    return nil
 }
 
 private extension String {

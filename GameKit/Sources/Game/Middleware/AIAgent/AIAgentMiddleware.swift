@@ -11,7 +11,7 @@ public let aiAgentMiddleware: Middleware<GameState> = { state, _ in
     if let action = evaluateAIMove(state: state) {
         Just(action).eraseToAnyPublisher()
     } else {
-        Empty().eraseToAnyPublisher()
+        nil
     }
 }
 
