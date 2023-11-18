@@ -12,19 +12,19 @@ import Inventory
 
 final class SimulationTests: XCTestCase {
 
-    func test_simulate4PlayersGame_shouldComplete() {
+    func test_simulate4PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 4)
     }
 
-    func test_simulate5PlayersGame_shouldComplete() {
+    func test_simulate5PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 5)
     }
 
-    func test_simulate6PlayersGame_shouldComplete() {
+    func test_simulate6PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 6)
     }
 
-    func test_simulate7PlayersGame_shouldComplete() {
+    func test_simulate7PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 7)
     }
 

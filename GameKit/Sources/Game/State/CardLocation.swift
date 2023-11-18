@@ -7,7 +7,7 @@
 import InitMacro
 
 /// Card zone
-@Init(defaults: ["hidden": false])
+@Init(defaults: ["cards": [], "hidden": false])
 public struct CardLocation: Codable, Equatable {
 
     /// Content

@@ -61,7 +61,6 @@ public enum Setup {
             } else {
                 nil
             }
-
         }
         let hand = CardLocation(cards: handCards, hidden: true)
 

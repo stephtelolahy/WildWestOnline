@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
+// swiftlint:disable line_length
 import Game
 
 public enum CardList {
@@ -327,7 +328,6 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    // swiftlint:disable:next line_length
     static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.draw
@@ -341,7 +341,6 @@ private extension CardList {
 
     static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])
 
-    // swiftlint:disable:next line_length
     static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.steal(.randomHand)
@@ -375,3 +374,5 @@ private func createCardDict(_ priorities: [String], @CardBuilder content: () -> 
         return result[card.name] = card.withPriority(priority)
     }
 }
+
+// swiftlint:enable line_length
