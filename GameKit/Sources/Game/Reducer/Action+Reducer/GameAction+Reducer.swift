@@ -11,9 +11,7 @@ protocol GameActionReducer {
 
 extension GameAction {
     func reduce(state: GameState) throws -> GameState {
-        var state = state
-        state = try reducer().reduce(state: state)
-        return state
+        try reducer().reduce(state: state)
     }
 }
 
@@ -54,6 +52,9 @@ private extension GameAction {
         case let .drawDeckChoose(card, player):
             ActionDrawDeckChoose(card: card, player: player)
 
+        case let .drawDeckReveal(card, player):
+            ActionDrawDeckReveal(card: card, player: player)
+
         case let .drawArena(card, player):
             ActionDrawArena(player: player, card: card)
 
@@ -68,9 +69,6 @@ private extension GameAction {
 
         case .discover:
             ActionDiscover()
-
-        case let .reveal(card, player):
-            ActionReveal(card: card, player: player)
 
         case .luck:
             ActionLuck()

@@ -26,6 +26,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw specific cards from deck
     case drawDeckChoose(ArgNum)
 
+    /// Draw and top deck card, then apply effects according to card value
+    case dackDeckReveal(String, onSuccess: Self)
+
     /// Discard a player's card to discard pile
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
@@ -78,9 +81,6 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Flip over the top card of the deck, then apply effects according to card value
     case luck(String, onSuccess: Self, onFailure: Self? = nil)
-
-    /// Reveal last drawn hand card, then apply effects according to card value
-    case revealLastDrawn(String, onSuccess: Self)
 
     /// Counter shoot effect
     case counterShoot

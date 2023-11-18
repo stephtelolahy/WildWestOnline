@@ -91,8 +91,8 @@ private extension CardEffect {
         case .counterShoot:
             EffectCounterShoot()
 
-        case let .revealLastDrawn(regex, onSuccess):
-            EffectRevealLastDrawn(regex: regex, onSuccess: onSuccess)
+        case let .dackDeckReveal(regex, onSuccess):
+            EffectDrawDeckReveal(regex: regex, onSuccess: onSuccess)
         }
     }
 }

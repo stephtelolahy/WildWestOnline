@@ -11,26 +11,25 @@ struct EffectDrawDeckChoose: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.player()
         let count = try amount.resolve(state: state, ctx: ctx)
-
         guard count >= 1 else {
-            fatalError("unexpected")
+            return []
         }
 
-        guard state.deck.count > count else {
-            return (0..<count).map { _ in
-                    .drawDeck(player: player)
-            }
+        var state = state
+        var topCards: [String] = []
+        for _ in (0...count) {
+            #warning("incoherent deck")
+            let card = try state.popDeck()
+            topCards.append(card)
         }
 
-        let topCards = Array(state.deck.cards.prefix(count + 1))
         let options = topCards.reduce(into: [String: GameAction]()) {
             $0[$1] = .drawDeckChoose($1, player: player)
         }
 
-        let chooseOne = try GameAction.validateChooseOne(
-            chooser: player,
-            options: options,
-            state: state
+        let chooseOne = GameAction.chooseOne(
+            player: player,
+            options: options
         )
 
         var result: [GameAction] = []

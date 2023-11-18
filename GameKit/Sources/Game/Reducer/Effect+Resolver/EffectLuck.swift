@@ -28,6 +28,7 @@ struct EffectLuck: EffectResolver {
         var matched = false
         for _ in (0..<flippedCards) {
             result.append(.luck)
+            #warning("incoherent deck")
             let card = try state.popDeck()
             if card.matches(regex: regex) {
                 matched = true

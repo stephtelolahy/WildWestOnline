@@ -28,7 +28,7 @@ final class BlackJackTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
             }
-            .withDeck(["c1", "c2♥️", "c3"])
+            .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
 
         // When
@@ -39,8 +39,7 @@ final class BlackJackTests: XCTestCase {
         XCTAssertEqual(result, [
             .setTurn("p1"),
             .drawDeck(player: "p1"),
-            .drawDeck(player: "p1"),
-            .reveal("c2♥️", player: "p1"),
+            .drawDeckReveal("c2-8♥️", player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
@@ -51,7 +50,7 @@ final class BlackJackTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
             }
-            .withDeck(["c1", "c2♠️"])
+            .withDeck(["c1", "c2-A♠️"])
             .build()
 
         // When
@@ -62,8 +61,7 @@ final class BlackJackTests: XCTestCase {
         XCTAssertEqual(result, [
             .setTurn("p1"),
             .drawDeck(player: "p1"),
-            .drawDeck(player: "p1"),
-            .reveal("c2♠️", player: "p1")
+            .drawDeckReveal("c2-A♠️", player: "p1")
         ])
     }
 }

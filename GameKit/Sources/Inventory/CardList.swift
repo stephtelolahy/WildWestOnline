@@ -333,8 +333,7 @@ private extension CardList {
     static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.drawDeck
-                .repeat(.attr(.startTurnCards))
-            CardEffect.revealLastDrawn(.regexDrawAnotherCard, onSuccess: .drawDeck)
+            CardEffect.dackDeckReveal(.regexDrawAnotherCard, onSuccess: .drawDeck)
         }
         .on([.setTurn])
     }

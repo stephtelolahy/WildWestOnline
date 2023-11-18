@@ -37,7 +37,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw a specific card from deck
     case drawDeckChoose(String, player: String)
 
-    /// Draw top deck card and reveal
+    /// Draw and reveal top deck card
     case drawDeckReveal(String, player: String)
 
     /// Draw card from other player's hand
