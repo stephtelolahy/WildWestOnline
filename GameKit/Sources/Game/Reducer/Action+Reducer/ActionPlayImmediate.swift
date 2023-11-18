@@ -17,7 +17,7 @@ struct ActionPlayImmediate: GameActionReducer {
         state.discard.push(card)
 
         // save played card
-        state.incrementPlayCounter(for: card.extractName())
+        state.incrementPlayedThisTurn(for: card.extractName())
 
         // queue triggered effect
         state.queueOnPlayEffect(card: card,

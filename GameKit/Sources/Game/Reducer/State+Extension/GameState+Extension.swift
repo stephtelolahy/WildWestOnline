@@ -22,7 +22,7 @@ extension GameState {
         return deck.pop()
     }
 
-    mutating func incrementPlayCounter(for cardName: String) {
+    mutating func incrementPlayedThisTurn(for cardName: String) {
         playedThisTurn[cardName] = (playedThisTurn[cardName] ?? 0) + 1
     }
 }

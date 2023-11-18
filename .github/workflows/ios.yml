@@ -1,4 +1,4 @@
-name: iOS starter workflow
+name: iOS Build
 
 on:
   push:
@@ -6,21 +6,31 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set Default Scheme
+      
+      - name: Select Xcode
         run: |
           sudo ls -1 /Applications | grep "Xcode"
+          sudo xcode-select -s '/Applications/Xcode_15.0.app'
+
+      - name: Set Default Scheme
+        run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
+      
       - name: Build
         env:
           scheme: ${{ 'default' }}
@@ -32,6 +42,7 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -skipPackagePluginValidation
+      
       - name: Test
         env:
           scheme: ${{ 'default' }}
