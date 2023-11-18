@@ -23,9 +23,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw top deck card
     case drawDeck
 
-    /// Draw specific cards from deck
-    case drawDeckChoose(ArgNum)
-
     /// Draw and top deck card, then apply effects according to card value
     case dackDeckReveal(String, onSuccess: Self)
 
@@ -46,6 +43,9 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Draw a card from deck and put to arena
     case discover
+
+    /// Put back arena card to deck
+    case putArenaToDeck
 
     /// Set turn
     case setTurn

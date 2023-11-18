@@ -49,9 +49,6 @@ private extension GameAction {
         case let .drawDeck(player):
             ActionDrawDeck(player: player)
 
-        case let .drawDeckChoose(card, player):
-            ActionDrawDeckChoose(card: card, player: player)
-
         case let .drawDeckReveal(card, player):
             ActionDrawDeckReveal(card: card, player: player)
 
@@ -69,6 +66,9 @@ private extension GameAction {
 
         case .discover:
             ActionDiscover()
+
+        case .putArenaToDeck:
+            ActionPutArenaToDeck()
 
         case .luck:
             ActionLuck()

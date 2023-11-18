@@ -339,8 +339,15 @@ private extension CardList {
     }
 
     static let kitCarlson = Card(.kitCarlson, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
-        CardEffect.drawDeckChoose(.attr(.startTurnCards))
-            .on([.setTurn])
+        CardEffect.group {
+            CardEffect.discover
+                .repeat(.attr(.startTurnCards))
+            CardEffect.discover
+            CardEffect.chooseCard(.selectArena)
+                .repeat(.attr(.startTurnCards))
+            CardEffect.putArenaToDeck
+        }
+        .on([.setTurn])
     }
 
     static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])

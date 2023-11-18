@@ -31,11 +31,11 @@ private extension CardEffect {
         case .drawDeck:
             EffectJust { .drawDeck(player: $0.player()) }
 
-        case let .drawDeckChoose(amount):
-            EffectDrawDeckChoose(amount: amount)
-
         case .discover:
             EffectJust { _ in .discover }
+
+        case .putArenaToDeck:
+            EffectJust { _ in .putArenaToDeck }
 
         case .setTurn:
             EffectJust { .setTurn($0.player()) }
