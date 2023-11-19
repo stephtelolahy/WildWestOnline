@@ -344,7 +344,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.drawDeck
                 .repeat(.attr(.startTurnCards))
-            CardEffect.luck(.lastDrawn, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
+            CardEffect.luck(.lastHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
         }
         .on([.setTurn])
     }
