@@ -43,6 +43,9 @@ private extension GameAction {
         case let .discardHand(card, player):
             ActionDiscardHand(player: player, card: card)
 
+        case let .revealHand(card, player):
+            ActionRevealHand(card: card, player: player)
+
         case let .discardInPlay(card, player):
             ActionDiscardInPlay(player: player, card: card)
 

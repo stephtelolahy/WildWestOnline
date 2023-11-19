@@ -49,6 +49,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
 
+    /// Reveal hand card
+    case revealHand(String, player: String)
+
     /// Pass inPlay card to another player
     case passInPlay(String, target: String, player: String)
 
