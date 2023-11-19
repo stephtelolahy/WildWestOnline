@@ -61,7 +61,7 @@ final class JailSpec: QuickSpec {
 
                     // Then
                     expect(result) == [.setTurn("p1"),
-                                       .luck,
+                                       .putTopDeckToDiscard,
                                        .discardInPlay(.jail, player: "p1"),
                                        .drawDeck(player: "p1"),
                                        .drawDeck(player: "p1")]
@@ -86,7 +86,7 @@ final class JailSpec: QuickSpec {
 
                     // Then
                     expect(result) == [.setTurn("p1"),
-                                       .luck,
+                                       .putTopDeckToDiscard,
                                        .cancel(.effect(.repeat(.attr(.startTurnCards), effect: .drawDeck), ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn("p1")))),
                                        .discardInPlay(.jail, player: "p1"),
                                        .setTurn("p2")]
