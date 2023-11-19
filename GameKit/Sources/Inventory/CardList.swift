@@ -189,7 +189,7 @@ private extension CardList {
             regex: .regexSaveByBarrel,
             onSuccess: .counterShoot
         )
-            .on([.shot])
+        .on([.shot])
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
@@ -297,7 +297,7 @@ private extension CardList {
             regex: .regexSaveByBarrel,
             onSuccess: .counterShoot
         )
-            .on([.shot])
+        .on([.shot])
     }
 
     static let slabTheKiller = Card(.slabTheKiller, prototype: pDefault, attributes: [.maxHealth: 4])
