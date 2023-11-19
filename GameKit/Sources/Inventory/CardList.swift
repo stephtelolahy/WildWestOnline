@@ -120,7 +120,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.activePlayers)
-            CardEffect.chooseCard(.selectArena)
+            CardEffect.drawArena
                 .target(.all)
         }
         .on([.playImmediate])
@@ -370,7 +370,7 @@ private extension CardList {
             CardEffect.discover
                 .repeat(.attr(.startTurnCards))
             CardEffect.discover
-            CardEffect.chooseCard(.selectArena)
+            CardEffect.drawArena
                 .repeat(.attr(.startTurnCards))
             CardEffect.putBack
         }

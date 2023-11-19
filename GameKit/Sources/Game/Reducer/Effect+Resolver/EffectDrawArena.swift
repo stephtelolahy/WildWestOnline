@@ -1,14 +1,13 @@
 //
-//  EffectChooseCard.swift
+//  EffectDrawArena.swift
 //  
 //
 //  Created by Hugues Stephano TELOLAHY on 20/06/2023.
 //
 
-struct EffectChooseCard: EffectResolver {
-    let card: ArgCard
-
+struct EffectDrawArena: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+        let card = ArgCard.selectArena
         let player = ctx.player()
         return try card.resolve(state: state, ctx: ctx) {
             switch card {
