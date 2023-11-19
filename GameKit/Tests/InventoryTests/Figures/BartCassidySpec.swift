@@ -29,7 +29,7 @@ final class BartCassidySpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .damage(1, player: "p1"),
-                        .draw(player: "p1")
+                        .drawDeck(player: "p1")
                     ]
                 }
             }
@@ -52,8 +52,8 @@ final class BartCassidySpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .damage(2, player: "p1"),
-                        .draw(player: "p1"),
-                        .draw(player: "p1")
+                        .drawDeck(player: "p1"),
+                        .drawDeck(player: "p1")
                     ]
                 }
             }

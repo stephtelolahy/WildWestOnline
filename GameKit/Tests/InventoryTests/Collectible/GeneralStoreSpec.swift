@@ -35,17 +35,17 @@ final class GeneralStoreSpec: QuickSpec {
                         .discover,
                         .discover,
                         .chooseOne(player: "p1", options: [
-                            "c1": .chooseArena("c1", player: "p1"),
-                            "c2": .chooseArena("c2", player: "p1"),
-                            "c3": .chooseArena("c3", player: "p1")
+                            "c1": .drawArena("c1", player: "p1"),
+                            "c2": .drawArena("c2", player: "p1"),
+                            "c3": .drawArena("c3", player: "p1")
                         ]),
-                        .chooseArena("c1", player: "p1"),
+                        .drawArena("c1", player: "p1"),
                         .chooseOne(player: "p2", options: [
-                            "c2": .chooseArena("c2", player: "p2"),
-                            "c3": .chooseArena("c3", player: "p2")
+                            "c2": .drawArena("c2", player: "p2"),
+                            "c3": .drawArena("c3", player: "p2")
                         ]),
-                        .chooseArena("c2", player: "p2"),
-                        .chooseArena("c3", player: "p3")
+                        .drawArena("c2", player: "p2"),
+                        .drawArena("c3", player: "p3")
                     ]
                 }
             }
@@ -71,11 +71,11 @@ final class GeneralStoreSpec: QuickSpec {
                         .discover,
                         .discover,
                         .chooseOne(player: "p1", options: [
-                            "c1": .chooseArena("c1", player: "p1"),
-                            "c2": .chooseArena("c2", player: "p1")
+                            "c1": .drawArena("c1", player: "p1"),
+                            "c2": .drawArena("c2", player: "p1")
                         ]),
-                        .chooseArena("c1", player: "p1"),
-                        .chooseArena("c2", player: "p2")
+                        .drawArena("c1", player: "p1"),
+                        .drawArena("c2", player: "p2")
                     ]
                 }
             }

@@ -32,7 +32,7 @@ final class JourdonnaisSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playImmediate(.bang, target: "p2", player: "p1"),
-                        .luck,
+                        .draw,
                         .cancel(.damage(1, player: "p2"))
                     ]
                 }

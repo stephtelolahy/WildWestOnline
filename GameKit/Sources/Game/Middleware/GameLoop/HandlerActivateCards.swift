@@ -27,7 +27,7 @@ struct HandlerActivateCards: GameActionHandler {
             return nil
         }
 
-        return .activateCards(player: player, cards: activeCards)
+        return .activate(activeCards, player: player)
     }
 
     private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {

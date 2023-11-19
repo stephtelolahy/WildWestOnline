@@ -1,11 +1,11 @@
 //
-//  ActionReveal.swift
+//  ActionRevealHand.swift
 //  
 //
-//  Created by Hugues Stephano TELOLAHY on 10/11/2023.
+//  Created by Hugues Telolahy on 19/11/2023.
 //
 
-struct ActionReveal: GameActionReducer {
+struct ActionRevealHand: GameActionReducer {
     let card: String
     let player: String
 

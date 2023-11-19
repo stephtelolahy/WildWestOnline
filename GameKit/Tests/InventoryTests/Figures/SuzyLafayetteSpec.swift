@@ -30,7 +30,7 @@ final class SuzyLafayetteSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .discardHand("c1", player: "p1"),
-                        .draw(player: "p1")
+                        .drawDeck(player: "p1")
                     ]
                 }
             }

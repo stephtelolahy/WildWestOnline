@@ -45,11 +45,11 @@ final class PedroRamirezTests: XCTestCase {
         XCTAssertEqual(result, [
             .setTurn("p1"),
             .chooseOne(player: "p1", options: [
-                "p2": .stealHand("c2", target: "p2", player: "p1"),
-                "p3": .stealHand("c3", target: "p3", player: "p1")
+                "p2": .drawHand("c2", target: "p2", player: "p1"),
+                "p3": .drawHand("c3", target: "p3", player: "p1")
             ]),
-            .stealHand("c2", target: "p2", player: "p1"),
-            .draw(player: "p1")
+            .drawHand("c2", target: "p2", player: "p1"),
+            .drawDeck(player: "p1")
         ])
     }
 
@@ -69,8 +69,8 @@ final class PedroRamirezTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn("p1"),
-            .draw(player: "p1"),
-            .draw(player: "p1")
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1")
         ])
     }
 }

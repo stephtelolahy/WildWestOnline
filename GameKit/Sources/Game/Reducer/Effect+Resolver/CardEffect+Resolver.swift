@@ -28,11 +28,17 @@ private extension CardEffect {
         case .shoot:
             EffectJust { .damage(1, player: $0.player()) }
 
-        case .draw:
-            EffectJust { .draw(player: $0.player()) }
+        case .drawDeck:
+            EffectJust { .drawDeck(player: $0.player()) }
 
         case .discover:
             EffectJust { _ in .discover }
+
+        case .putBack:
+            EffectJust { _ in .putBack }
+
+        case .draw:
+            EffectJust { _ in .draw }
 
         case .setTurn:
             EffectJust { .setTurn($0.player()) }
@@ -40,8 +46,8 @@ private extension CardEffect {
         case .eliminate:
             EffectJust { .eliminate(player: $0.player()) }
 
-        case let .chooseCard(card):
-            EffectChooseCard(card: card)
+        case .drawArena:
+            EffectDrawArena()
 
         case let .discard(card, chooser):
             EffectDiscard(card: card, chooser: chooser)
@@ -49,7 +55,7 @@ private extension CardEffect {
         case let .steal(card, toPlayer):
             EffectSteal(card: card, toPlayer: toPlayer)
 
-        case let .passInplay(card, toPlayer):
+        case let .passInPlay(card, toPlayer):
             EffectPassInPlay(card: card, toPlayer: toPlayer)
 
         case let .target(target, effect):
@@ -73,8 +79,8 @@ private extension CardEffect {
         case .nothing:
             EffectNone()
 
-        case let .luck(regex, onSuccess, onFailure):
-            EffectLuck(regex: regex, onSuccess: onSuccess, onFailure: onFailure)
+        case let .luck(card, regex, onSuccess, onFailure):
+            EffectLuck(card: card, regex: regex, onSuccess: onSuccess, onFailure: onFailure)
 
         case .activateCounterCards:
             EffectActivateCounterCards()
@@ -87,9 +93,6 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
-
-        case let .revealLastDrawn(regex, onSuccess):
-            EffectRevealLastDrawn(regex: regex, onSuccess: onSuccess)
         }
     }
 }

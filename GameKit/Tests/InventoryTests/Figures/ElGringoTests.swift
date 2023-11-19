@@ -31,7 +31,7 @@ final class ElGringoTests: XCTestCase {
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p1", player: "p2"),
             .damage(1, player: "p1"),
-            .stealHand("c2", target: "p2", player: "p1")
+            .drawHand("c2", target: "p2", player: "p1")
         ])
     }
 

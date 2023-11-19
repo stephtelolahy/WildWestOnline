@@ -63,8 +63,8 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                         .discardInPlay("c12", player: "p1"),
                         .discardHand("c11", player: "p1"),
                         .setTurn("p2"),
-                        .draw(player: "p2"),
-                        .draw(player: "p2")
+                        .drawDeck(player: "p2"),
+                        .drawDeck(player: "p2")
                     ]
                 }
             }

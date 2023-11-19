@@ -50,10 +50,10 @@ final class DynamiteSpec: QuickSpec {
 
                     // Then
                     expect(result) == [.setTurn("p1"),
-                                       .luck,
-                                       .passInplay(.dynamite, target: "p2", player: "p1"),
-                                       .draw(player: "p1"),
-                                       .draw(player: "p1")]
+                                       .draw,
+                                       .passInPlay(.dynamite, target: "p2", player: "p1"),
+                                       .drawDeck(player: "p1"),
+                                       .drawDeck(player: "p1")]
                 }
             }
 
@@ -76,11 +76,11 @@ final class DynamiteSpec: QuickSpec {
 
                         // Then
                         expect(result) == [.setTurn("p1"),
-                                           .luck,
+                                           .draw,
                                            .damage(3, player: "p1"),
                                            .discardInPlay("dynamite", player: "p1"),
-                                           .draw(player: "p1"),
-                                           .draw(player: "p1")]
+                                           .drawDeck(player: "p1"),
+                                           .drawDeck(player: "p1")]
                     }
                 }
 
@@ -112,14 +112,14 @@ final class DynamiteSpec: QuickSpec {
 
                         // Then
                         expect(result) == [.setTurn("p1"),
-                                           .luck,
+                                           .draw,
                                            .damage(3, player: "p1"),
                                            .eliminate(player: "p1"),
                                            .discardInPlay(.jail, player: "p1"),
                                            .discardInPlay(.dynamite, player: "p1"),
                                            .setTurn("p2"),
-                                           .draw(player: "p2"),
-                                           .draw(player: "p2")]
+                                           .drawDeck(player: "p2"),
+                                           .drawDeck(player: "p2")]
                     }
                 }
             }

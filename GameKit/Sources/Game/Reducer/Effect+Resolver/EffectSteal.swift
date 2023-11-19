@@ -16,10 +16,10 @@ struct EffectSteal: EffectResolver {
         chooserContext.chooser = toPlayerId
         return try card.resolve(state: state, ctx: chooserContext) {
             if state.player(fromPlayerId).hand.contains($0) {
-                return .stealHand($0, target: fromPlayerId, player: toPlayerId)
+                return .drawHand($0, target: fromPlayerId, player: toPlayerId)
             }
             if state.player(fromPlayerId).inPlay.contains($0) {
-                return .stealInPlay($0, target: fromPlayerId, player: toPlayerId)
+                return .drawInPlay($0, target: fromPlayerId, player: toPlayerId)
             }
             fatalError("card not found \($0)")
         }

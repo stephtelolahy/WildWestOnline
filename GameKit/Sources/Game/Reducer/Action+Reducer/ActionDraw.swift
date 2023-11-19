@@ -2,16 +2,14 @@
 //  ActionDraw.swift
 //  
 //
-//  Created by Hugues Telolahy on 10/04/2023.
+//  Created by Hugues Telolahy on 18/11/2023.
 //
 
 struct ActionDraw: GameActionReducer {
-    let player: String
-
     func reduce(state: GameState) throws -> GameState {
         var state = state
         let card = try state.popDeck()
-        state[keyPath: \GameState.players[player]]?.hand.add(card)
+        state.discard.push(card)
         return state
     }
 }

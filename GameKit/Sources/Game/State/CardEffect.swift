@@ -21,7 +21,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case shoot
 
     /// Draw top deck card
-    case draw
+    case drawDeck
 
     /// Discard a player's card to discard pile
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
@@ -33,13 +33,19 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Pass inPlay card to another player
     /// - `toPlayer` is the player that receives the card
-    case passInplay(ArgCard, toPlayer: ArgPlayer)
+    case passInPlay(ArgCard, toPlayer: ArgPlayer)
 
-    /// Choose card from a location
-    case chooseCard(ArgCard)
+    /// Draw  cards from arena
+    case drawArena
 
     /// Draw a card from deck and put to arena
     case discover
+
+    /// Put back arena card to deck
+    case putBack
+
+    /// Put top deck card to discard
+    case draw
 
     /// Set turn
     case setTurn
@@ -74,10 +80,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case ignoreError(Self)
 
     /// Flip over the top card of the deck, then apply effects according to card value
-    case luck(String, onSuccess: Self, onFailure: Self? = nil)
-
-    /// Reveal last drawn hand card, then apply effects according to card value
-    case revealLastDrawn(String, onSuccess: Self)
+    case luck(ArgCardLuck, regex: String, onSuccess: Self, onFailure: Self? = nil)
 
     /// Counter shoot effect
     case counterShoot

@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable line_length no_magic_numbers closure_body_length
+// swiftlint:disable line_length no_magic_numbers closure_body_length file_length
 import Game
 
 public enum CardList {
@@ -93,13 +93,13 @@ private extension CardList {
     }
 
     static let stagecoach = Card(.stagecoach) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(2)
             .on([.playImmediate])
     }
 
     static let wellsFargo = Card(.wellsFargo) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(3)
             .on([.playImmediate])
     }
@@ -120,7 +120,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.activePlayers)
-            CardEffect.chooseCard(.selectArena)
+            CardEffect.drawArena
                 .target(.all)
         }
         .on([.playImmediate])
@@ -163,15 +163,20 @@ private extension CardList {
         CardEffect.nothing
             .target(.selectAny)
             .on([.playHandicap])
-        CardEffect.luck(
-            .regexEscapeFromJail,
-            onSuccess: .discard(.played),
-            onFailure: .group([
-                .cancelTurn,
-                .discard(.played),
-                .setTurn.target(.next)
-            ])
-        )
+        CardEffect.group {
+            CardEffect.draw
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexEscapeFromJail,
+                onSuccess: .discard(.played),
+                onFailure: .group([
+                    .cancelTurn,
+                    .discard(.played),
+                    .setTurn.target(.next)
+                ])
+            )
+        }
         .on([.setTurn])
     }
 
@@ -183,19 +188,32 @@ private extension CardList {
     }
 
     static let barrel = Card(.barrel, prototype: equipement) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
-            .on([.shot])
+        CardEffect.group {
+            CardEffect.draw
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexSaveByBarrel,
+                onSuccess: .counterShoot
+            )
+        }
+        .on([.shot])
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
-        CardEffect.luck(
-            .regexPassDynamite,
-            onSuccess: .passInplay(.played, toPlayer: .next),
-            onFailure: .group([
-                .damage(3),
-                .discard(.played)
-            ])
-        )
+        CardEffect.group {
+            CardEffect.draw
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexPassDynamite,
+                onSuccess: .passInPlay(.played, toPlayer: .next),
+                onFailure: .group([
+                    .damage(3),
+                    .discard(.played)
+                ])
+            )
+        }
         .on([.setTurn])
     }
 
@@ -226,7 +244,7 @@ private extension CardList {
     }
 
     static let drawOnSetTurn = Card(.drawOnSetTurn) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(.attr(.startTurnCards))
             .on([.setTurn])
     }
@@ -286,8 +304,16 @@ private extension CardList {
     static let paulRegret = Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .mustang: 1])
 
     static let jourdonnais = Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.luck(.regexSaveByBarrel, onSuccess: .counterShoot)
-            .on([.shot])
+        CardEffect.group {
+            CardEffect.draw
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexSaveByBarrel,
+                onSuccess: .counterShoot
+            )
+        }
+        .on([.shot])
     }
 
     static let slabTheKiller = Card(.slabTheKiller, prototype: pDefault, attributes: [.maxHealth: 4])
@@ -297,7 +323,7 @@ private extension CardList {
     static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4])
 
     static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .repeat(.damage)
             .on([.damage])
     }
@@ -311,7 +337,7 @@ private extension CardList {
     }
 
     static let suzyLafayette = Card(.suzyLafayette, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.draw
+        CardEffect.drawDeck
             .on([.handEmpty])
     }
 
@@ -332,14 +358,24 @@ private extension CardList {
 
     static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
-            CardEffect.draw
+            CardEffect.drawDeck
                 .repeat(.attr(.startTurnCards))
-            CardEffect.revealLastDrawn(.regexDrawAnotherCard, onSuccess: .draw)
+            CardEffect.luck(.lastHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
         }
         .on([.setTurn])
     }
 
-    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4])
+    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+        CardEffect.group {
+            CardEffect.discover
+                .repeat(.attr(.startTurnCards))
+            CardEffect.discover
+            CardEffect.drawArena
+                .repeat(.attr(.startTurnCards))
+            CardEffect.putBack
+        }
+        .on([.setTurn])
+    }
 
     static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4])
 
@@ -347,8 +383,8 @@ private extension CardList {
         CardEffect.group {
             CardEffect.steal(.randomHand)
                 .target(.selectAny)
-                .force(otherwise: .draw)
-            CardEffect.draw
+                .force(otherwise: .drawDeck)
+            CardEffect.drawDeck
         }
         .on([.setTurn])
     }

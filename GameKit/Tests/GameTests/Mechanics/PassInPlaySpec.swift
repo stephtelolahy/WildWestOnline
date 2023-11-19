@@ -22,7 +22,7 @@ final class PassInPlaySpec: QuickSpec {
                     .build()
 
                 // When
-                let action = GameAction.passInplay("c1", target: "p2", player: "p1")
+                let action = GameAction.passInPlay("c1", target: "p2", player: "p1")
                 let result = GameState.reducer(state, action)
 
                 // Then
@@ -38,7 +38,7 @@ final class PassInPlaySpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.passInplay("c1", target: "p2", player: "p1")
+                    let action = GameAction.passInPlay("c1", target: "p2", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then

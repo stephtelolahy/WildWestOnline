@@ -26,6 +26,8 @@ struct ActionPlay: GameActionReducer {
             try playReq.throwingMatch(state: state, ctx: playReqContext)
         }
 
+        var state = state
+
         // resolve target
         if case let .target(requiredTarget, _) = playRule.effect {
             let ctx = EffectContext(
@@ -35,7 +37,6 @@ struct ActionPlay: GameActionReducer {
             )
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
             if case let .selectable(pIds) = resolvedTarget {
-                var state = state
                 let options = pIds.reduce(into: [String: GameAction]()) {
                     let action: GameAction =
                     if playRule.isMatching(.playImmediate) {
@@ -66,7 +67,6 @@ struct ActionPlay: GameActionReducer {
         }
 
         // queue play action
-        var state = state
         state.sequence.insert(action, at: 0)
         return state
     }

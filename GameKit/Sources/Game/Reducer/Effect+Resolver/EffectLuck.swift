@@ -7,33 +7,43 @@
 import Foundation
 
 struct EffectLuck: EffectResolver {
+    let card: ArgCardLuck
     let regex: String
     let onSuccess: CardEffect
     let onFailure: CardEffect?
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        // repeat luck according to actor's `flippedCards` attribute
+        var result: [GameAction] = []
         let player = ctx.actor
         let playerObj = state.player(player)
-        guard let flippedCards = playerObj.attributes[.flippedCards] else {
-            fatalError("missing attribute flippedCards")
-        }
 
-        guard flippedCards > 0 else {
-            fatalError("invalid flippedCards \(flippedCards)")
-        }
-
-        var result: [GameAction] = []
-        var state = state
-        var matched = false
-        for _ in (0..<flippedCards) {
-            result.append(.luck)
-            let card = try state.popDeck()
-            if card.matches(regex: regex) {
-                matched = true
+        let drawnCards: [String]
+        switch card {
+        case .lastHand:
+            guard let lastHandCard = playerObj.hand.cards.last else {
+                fatalError("missing drawn card")
             }
+
+            drawnCards = [lastHandCard]
+            result.append(.revealHand(lastHandCard, player: player))
+
+        case .topDiscard:
+            guard let flippedCards = playerObj.attributes[.flippedCards] else {
+                fatalError("missing attribute flippedCards")
+            }
+
+            guard flippedCards > 0 else {
+                fatalError("invalid flippedCards \(flippedCards)")
+            }
+
+            guard state.discard.count >= flippedCards else {
+                fatalError("missing drawn card")
+            }
+
+            drawnCards = Array(state.discard.cards.prefix(flippedCards))
         }
 
+        let matched = drawnCards.contains { $0.matches(regex: regex) }
         if matched {
             result.append(.effect(onSuccess, ctx: ctx))
         } else {

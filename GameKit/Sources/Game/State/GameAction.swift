@@ -32,7 +32,16 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case damage(Int, player: String)
 
     /// Draw top deck card
-    case draw(player: String)
+    case drawDeck(player: String)
+
+    /// Draw card from other player's hand
+    case drawHand(String, target: String, player: String)
+
+    /// Draw card from other player's inPlay
+    case drawInPlay(String, target: String, player: String)
+
+    /// Draw  cards from arena
+    case drawArena(String, player: String)
 
     /// Discard a player's hand card
     case discardHand(String, player: String)
@@ -40,20 +49,20 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
 
-    /// Draw card from other player's hand
-    case stealHand(String, target: String, player: String)
-
-    /// Draw card from other player's inPlay
-    case stealInPlay(String, target: String, player: String)
+    /// Reveal hand card
+    case revealHand(String, player: String)
 
     /// Pass inPlay card to another player
-    case passInplay(String, target: String, player: String)
-
-    /// Draw some cards from arena
-    case chooseArena(String, player: String)
+    case passInPlay(String, target: String, player: String)
 
     /// Draw a card from deck and put to arena
     case discover
+
+    /// Put back arena card to deck
+    case putBack
+
+    /// Reveal top deck card and put to discard
+    case draw
 
     /// Set turn
     case setTurn(String)
@@ -64,12 +73,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Set player attribute
     case setAttribute(String, value: Int?, player: String)
 
-    /// Draw a card from deck and put to discard
-    case luck
-
-    /// Reveal a drawn card
-    case reveal(String, player: String)
-
     /// Cancel an effect
     case cancel(Self)
 
@@ -77,7 +80,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case chooseOne(player: String, options: [String: Self])
 
     /// Expose active cards
-    case activateCards(player: String, cards: [String])
+    case activate([String], player: String)
 
     /// End game
     case setGameOver(winner: String?)

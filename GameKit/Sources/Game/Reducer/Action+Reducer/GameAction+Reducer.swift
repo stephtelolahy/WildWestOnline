@@ -11,9 +11,7 @@ protocol GameActionReducer {
 
 extension GameAction {
     func reduce(state: GameState) throws -> GameState {
-        var state = state
-        state = try reducer().reduce(state: state)
-        return state
+        try reducer().reduce(state: state)
     }
 }
 
@@ -45,32 +43,35 @@ private extension GameAction {
         case let .discardHand(card, player):
             ActionDiscardHand(player: player, card: card)
 
+        case let .revealHand(card, player):
+            ActionRevealHand(card: card, player: player)
+
         case let .discardInPlay(card, player):
             ActionDiscardInPlay(player: player, card: card)
 
-        case let .draw(player):
-            ActionDraw(player: player)
+        case let .drawDeck(player):
+            ActionDrawDeck(player: player)
 
-        case let .stealHand(card, target, player):
-            ActionStealHand(player: player, target: target, card: card)
+        case let .drawArena(card, player):
+            ActionDrawArena(player: player, card: card)
 
-        case let .stealInPlay(card, target, player):
-            ActionStealInPlay(player: player, target: target, card: card)
+        case let .drawHand(card, target, player):
+            ActionDrawHand(player: player, target: target, card: card)
 
-        case let .passInplay(card, target, player):
+        case let .drawInPlay(card, target, player):
+            ActionDrawInPlay(player: player, target: target, card: card)
+
+        case let .passInPlay(card, target, player):
             ActionPassInPlay(card: card, target: target, player: player)
 
         case .discover:
             ActionDiscover()
 
-        case let .reveal(card, player):
-            ActionReveal(card: card, player: player)
+        case .putBack:
+            ActionPutBack()
 
-        case .luck:
-            ActionLuck()
-
-        case let .chooseArena(card, player):
-            ActionChooseArena(player: player, card: card)
+        case .draw:
+            ActionDraw()
 
         case let .group(actions):
             ActionGroup(children: actions)
@@ -87,8 +88,8 @@ private extension GameAction {
         case let .chooseOne(player, options):
             ActionChooseOne(chooser: player, options: options)
 
-        case let .activateCards(player, cards):
-            ActionActivateCards(player: player, cards: cards)
+        case let .activate(cards, player):
+            ActionActivate(player: player, cards: cards)
 
         case let .cancel(action):
             ActionCancel(action: action)

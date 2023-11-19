@@ -106,12 +106,12 @@ final class GameTests: XCTestCase {
         // Given
         // When
         let sut = GameState.makeBuilder()
-            .withSequence([.draw(player: "p1")])
+            .withSequence([.drawDeck(player: "p1")])
             .build()
 
         // Then
         XCTAssertEqual(sut.sequence, [
-            .draw(player: "p1")
+            .drawDeck(player: "p1")
         ])
     }
 

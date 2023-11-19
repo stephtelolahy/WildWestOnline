@@ -28,9 +28,9 @@ final class WellsFargoSpec: QuickSpec {
 
                 // Then
                 expect(result) == [.playImmediate(.wellsFargo, player: "p1"),
-                                   .draw(player: "p1"),
-                                   .draw(player: "p1"),
-                                   .draw(player: "p1")]
+                                   .drawDeck(player: "p1"),
+                                   .drawDeck(player: "p1"),
+                                   .drawDeck(player: "p1")]
             }
         }
     }
