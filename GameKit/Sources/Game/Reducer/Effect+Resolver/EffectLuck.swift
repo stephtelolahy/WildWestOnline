@@ -23,7 +23,7 @@ struct EffectLuck: EffectResolver {
             guard let lastHandCard = playerObj.hand.cards.last else {
                 fatalError("missing drawn card")
             }
-            
+
             drawnCards = [lastHandCard]
             result.append(.revealHand(lastHandCard, player: player))
 

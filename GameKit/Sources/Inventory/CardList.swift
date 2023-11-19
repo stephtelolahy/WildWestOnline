@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable line_length no_magic_numbers closure_body_length
+// swiftlint:disable line_length no_magic_numbers closure_body_length file_length
 import Game
 
 public enum CardList {
