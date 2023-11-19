@@ -80,7 +80,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case chooseOne(player: String, options: [String: Self])
 
     /// Expose active cards
-    case activate(player: String, cards: [String])
+    case activate([String], player: String)
 
     /// End game
     case setGameOver(winner: String?)
