@@ -34,9 +34,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw top deck card
     case drawDeck(player: String)
 
-    /// Draw and reveal top deck card
-    case drawDeckReveal(String, player: String)
-
     /// Draw card from other player's hand
     case drawHand(String, target: String, player: String)
 
@@ -61,7 +58,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Put back arena card to deck
     case putArenaToDeck
 
-    /// Put top deck card to discard
+    /// Reveal top deck card and put to discard
     case putTopDeckToDiscard
 
     /// Set turn
@@ -72,9 +69,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Set player attribute
     case setAttribute(String, value: Int?, player: String)
-
-    /// Show card used for luck effect
-    case luck(String)
 
     /// Cancel an effect
     case cancel(Self)

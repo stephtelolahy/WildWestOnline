@@ -93,9 +93,6 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
-
-        case let .dackDeckReveal(regex, onSuccess):
-            EffectDrawDeckReveal(regex: regex, onSuccess: onSuccess)
         }
     }
 }

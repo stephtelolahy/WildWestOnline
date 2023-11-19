@@ -23,9 +23,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw top deck card
     case drawDeck
 
-    /// Draw and top deck card, then apply effects according to card value
-    case dackDeckReveal(String, onSuccess: Self)
-
     /// Discard a player's card to discard pile
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
