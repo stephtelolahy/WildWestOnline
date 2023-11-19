@@ -59,7 +59,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case discover
 
     /// Put back arena card to deck
-    case putArenaToDeck
+    case putBack
 
     /// Reveal top deck card and put to discard
     case putTopDeckToDiscard

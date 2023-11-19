@@ -52,7 +52,7 @@ final class KitCarlsonTests: XCTestCase {
                 "c3": .drawArena("c3", player: "p1")
             ]),
             .drawArena("c3", player: "p1"),
-            .putArenaToDeck
+            .putBack
         ])
     }
 
@@ -87,7 +87,7 @@ final class KitCarlsonTests: XCTestCase {
                 "c3": .drawArena("c3", player: "p1")
             ]),
             .drawArena("c3", player: "p1"),
-            .putArenaToDeck
+            .putBack
         ])
     }
 }

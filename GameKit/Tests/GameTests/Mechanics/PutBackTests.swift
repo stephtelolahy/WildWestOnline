@@ -1,5 +1,5 @@
 //
-//  PutArenaToDeckTests.swift
+//  PutBackTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 18/11/2023.
@@ -8,8 +8,8 @@
 import Game
 import XCTest
 
-final class PutArenaToDeckTests: XCTestCase {
-    func test_putArenaToDeck_withArenaSingleCard_shouldMoveCardFromArenaToTopDeck() throws {
+final class PutBackTests: XCTestCase {
+    func test_putBack_withArenaSingleCard_shouldMoveCardFromArenaToTopDeck() throws {
         // Given
         let state = GameState.makeBuilder()
             .withArena(["c1"])
@@ -17,7 +17,7 @@ final class PutArenaToDeckTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.putArenaToDeck
+        let action = GameAction.putBack
         let result = GameState.reducer(state, action)
 
         // Then
@@ -25,7 +25,7 @@ final class PutArenaToDeckTests: XCTestCase {
         XCTAssertNil(result.arena)
     }
 
-    func test_putArenaToDeck_withArenaMultipleCards_shouldMoveCardsFromArenaToTopDeck() throws {
+    func test_putBack_withArenaMultipleCards_shouldMoveCardsFromArenaToTopDeck() throws {
         // Given
         let state = GameState.makeBuilder()
             .withArena(["c1", "c2"])
@@ -33,7 +33,7 @@ final class PutArenaToDeckTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.putArenaToDeck
+        let action = GameAction.putBack
         let result = GameState.reducer(state, action)
 
         // Then

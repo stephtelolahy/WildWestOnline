@@ -67,8 +67,8 @@ private extension GameAction {
         case .discover:
             ActionDiscover()
 
-        case .putArenaToDeck:
-            ActionPutArenaToDeck()
+        case .putBack:
+            ActionPutBack()
 
         case .putTopDeckToDiscard:
             ActionPutTopDeckToDiscard()

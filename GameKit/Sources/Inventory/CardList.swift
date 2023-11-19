@@ -372,7 +372,7 @@ private extension CardList {
             CardEffect.discover
             CardEffect.chooseCard(.selectArena)
                 .repeat(.attr(.startTurnCards))
-            CardEffect.putArenaToDeck
+            CardEffect.putBack
         }
         .on([.setTurn])
     }

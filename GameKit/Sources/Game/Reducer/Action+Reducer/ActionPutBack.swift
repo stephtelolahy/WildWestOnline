@@ -1,11 +1,11 @@
 //
-//  ActionPutArenaToDeck.swift
+//  ActionPutBack.swift
 //  
 //
 //  Created by Hugues Telolahy on 18/11/2023.
 //
 
-struct ActionPutArenaToDeck: GameActionReducer {
+struct ActionPutBack: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         if let arena = state.arena {

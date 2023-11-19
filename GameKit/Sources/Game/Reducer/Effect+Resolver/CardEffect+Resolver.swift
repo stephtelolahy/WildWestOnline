@@ -34,8 +34,8 @@ private extension CardEffect {
         case .discover:
             EffectJust { _ in .discover }
 
-        case .putArenaToDeck:
-            EffectJust { _ in .putArenaToDeck }
+        case .putBack:
+            EffectJust { _ in .putBack }
 
         case .putTopDeckToDiscard:
             EffectJust { _ in .putTopDeckToDiscard }
