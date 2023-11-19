@@ -20,11 +20,12 @@ struct EffectLuck: EffectResolver {
         let drawnCards: [String]
         switch card {
         case .lastHand:
-            guard let handCard = playerObj.hand.cards.last else {
+            guard let lastHandCard = playerObj.hand.cards.last else {
                 fatalError("missing drawn card")
             }
-            drawnCards = [handCard]
-            result.append(.revealHand(handCard, player: player))
+            
+            drawnCards = [lastHandCard]
+            result.append(.revealHand(lastHandCard, player: player))
 
         case .topDiscard:
             guard let flippedCards = playerObj.attributes[.flippedCards] else {

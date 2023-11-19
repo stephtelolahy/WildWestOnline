@@ -163,16 +163,20 @@ private extension CardList {
         CardEffect.nothing
             .target(.selectAny)
             .on([.playHandicap])
-        CardEffect.luck(
-            .topDiscard,
-            regex: .regexEscapeFromJail,
-            onSuccess: .discard(.played),
-            onFailure: .group([
-                .cancelTurn,
-                .discard(.played),
-                .setTurn.target(.next)
-            ])
-        )
+        CardEffect.group {
+            CardEffect.putTopDeckToDiscard
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexEscapeFromJail,
+                onSuccess: .discard(.played),
+                onFailure: .group([
+                    .cancelTurn,
+                    .discard(.played),
+                    .setTurn.target(.next)
+                ])
+            )
+        }
         .on([.setTurn])
     }
 
@@ -184,24 +188,32 @@ private extension CardList {
     }
 
     static let barrel = Card(.barrel, prototype: equipement) {
-        CardEffect.luck(
-            .topDiscard,
-            regex: .regexSaveByBarrel,
-            onSuccess: .counterShoot
-        )
+        CardEffect.group {
+            CardEffect.putTopDeckToDiscard
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexSaveByBarrel,
+                onSuccess: .counterShoot
+            )
+        }
         .on([.shot])
     }
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
-        CardEffect.luck(
-            .topDiscard,
-            regex: .regexPassDynamite,
-            onSuccess: .passInPlay(.played, toPlayer: .next),
-            onFailure: .group([
-                .damage(3),
-                .discard(.played)
-            ])
-        )
+        CardEffect.group {
+            CardEffect.putTopDeckToDiscard
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexPassDynamite,
+                onSuccess: .passInPlay(.played, toPlayer: .next),
+                onFailure: .group([
+                    .damage(3),
+                    .discard(.played)
+                ])
+            )
+        }
         .on([.setTurn])
     }
 
@@ -292,11 +304,15 @@ private extension CardList {
     static let paulRegret = Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .mustang: 1])
 
     static let jourdonnais = Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
-        CardEffect.luck(
-            .topDiscard,
-            regex: .regexSaveByBarrel,
-            onSuccess: .counterShoot
-        )
+        CardEffect.group {
+            CardEffect.putTopDeckToDiscard
+                .repeat(.attr(.flippedCards))
+            CardEffect.luck(
+                .topDiscard,
+                regex: .regexSaveByBarrel,
+                onSuccess: .counterShoot
+            )
+        }
         .on([.shot])
     }
 
