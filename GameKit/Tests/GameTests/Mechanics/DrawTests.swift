@@ -1,5 +1,5 @@
 //
-//  PutTopDeckToDiscardTests.swift
+//  DrawTests.swift
 //  
 //
 //  Created by Hugues Telolahy on 18/11/2023.
@@ -8,8 +8,8 @@
 import Game
 import XCTest
 
-final class PutTopDeckToDiscardTests: XCTestCase {
-    func test_putTopDeckToDiscard_shouldMoveCardFromDeckToDiscard() throws {
+final class DrawTests: XCTestCase {
+    func test_draw_shouldMoveCardFromDeckToDiscard() throws {
         // Given
         let state = GameState.makeBuilder()
             .withDeck(["c2", "c3"])
@@ -17,7 +17,7 @@ final class PutTopDeckToDiscardTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.putTopDeckToDiscard
+        let action = GameAction.draw
         let result = GameState.reducer(state, action)
 
         // Then

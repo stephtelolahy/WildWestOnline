@@ -45,7 +45,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case putBack
 
     /// Put top deck card to discard
-    case putTopDeckToDiscard
+    case draw
 
     /// Set turn
     case setTurn

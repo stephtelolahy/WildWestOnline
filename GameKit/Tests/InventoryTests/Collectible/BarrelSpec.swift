@@ -53,7 +53,7 @@ final class BarrelSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
-                            .putTopDeckToDiscard,
+                            .draw,
                             .cancel(.damage(1, player: "p2"))
                         ]
                     }
@@ -81,7 +81,7 @@ final class BarrelSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
-                            .putTopDeckToDiscard,
+                            .draw,
                             .damage(1, player: "p2")
                         ]
                     }
@@ -111,8 +111,8 @@ final class BarrelSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .playImmediate(.bang, target: "p2", player: "p1"),
-                            .putTopDeckToDiscard,
-                            .putTopDeckToDiscard,
+                            .draw,
+                            .draw,
                             .cancel(.damage(1, player: "p2"))
                         ]
                     }
@@ -142,7 +142,7 @@ final class BarrelSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playImmediate(.bang, target: "p2", player: "p1"),
-                        .putTopDeckToDiscard,
+                        .draw,
                         .cancel(.damage(1, player: "p2"))
                     ]
                 }

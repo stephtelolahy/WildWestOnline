@@ -70,8 +70,8 @@ private extension GameAction {
         case .putBack:
             ActionPutBack()
 
-        case .putTopDeckToDiscard:
-            ActionPutTopDeckToDiscard()
+        case .draw:
+            ActionDraw()
 
         case let .group(actions):
             ActionGroup(children: actions)

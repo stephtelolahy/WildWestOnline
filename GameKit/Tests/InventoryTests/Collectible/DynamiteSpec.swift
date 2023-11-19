@@ -50,7 +50,7 @@ final class DynamiteSpec: QuickSpec {
 
                     // Then
                     expect(result) == [.setTurn("p1"),
-                                       .putTopDeckToDiscard,
+                                       .draw,
                                        .passInPlay(.dynamite, target: "p2", player: "p1"),
                                        .drawDeck(player: "p1"),
                                        .drawDeck(player: "p1")]
@@ -76,7 +76,7 @@ final class DynamiteSpec: QuickSpec {
 
                         // Then
                         expect(result) == [.setTurn("p1"),
-                                           .putTopDeckToDiscard,
+                                           .draw,
                                            .damage(3, player: "p1"),
                                            .discardInPlay("dynamite", player: "p1"),
                                            .drawDeck(player: "p1"),
@@ -112,7 +112,7 @@ final class DynamiteSpec: QuickSpec {
 
                         // Then
                         expect(result) == [.setTurn("p1"),
-                                           .putTopDeckToDiscard,
+                                           .draw,
                                            .damage(3, player: "p1"),
                                            .eliminate(player: "p1"),
                                            .discardInPlay(.jail, player: "p1"),

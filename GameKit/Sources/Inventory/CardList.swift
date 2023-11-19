@@ -164,7 +164,7 @@ private extension CardList {
             .target(.selectAny)
             .on([.playHandicap])
         CardEffect.group {
-            CardEffect.putTopDeckToDiscard
+            CardEffect.draw
                 .repeat(.attr(.flippedCards))
             CardEffect.luck(
                 .topDiscard,
@@ -189,7 +189,7 @@ private extension CardList {
 
     static let barrel = Card(.barrel, prototype: equipement) {
         CardEffect.group {
-            CardEffect.putTopDeckToDiscard
+            CardEffect.draw
                 .repeat(.attr(.flippedCards))
             CardEffect.luck(
                 .topDiscard,
@@ -202,7 +202,7 @@ private extension CardList {
 
     static let dynamite = Card(.dynamite, prototype: equipement) {
         CardEffect.group {
-            CardEffect.putTopDeckToDiscard
+            CardEffect.draw
                 .repeat(.attr(.flippedCards))
             CardEffect.luck(
                 .topDiscard,
@@ -305,7 +305,7 @@ private extension CardList {
 
     static let jourdonnais = Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.group {
-            CardEffect.putTopDeckToDiscard
+            CardEffect.draw
                 .repeat(.attr(.flippedCards))
             CardEffect.luck(
                 .topDiscard,
