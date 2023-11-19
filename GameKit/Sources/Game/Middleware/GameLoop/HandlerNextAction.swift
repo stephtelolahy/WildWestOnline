@@ -10,7 +10,7 @@ struct HandlerNextAction: GameActionHandler {
         switch action {
         case .setGameOver,
                 .chooseOne,
-                .activateCards:
+                .activate:
             nil
 
         default:

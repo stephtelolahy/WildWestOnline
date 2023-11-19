@@ -1,5 +1,5 @@
 //
-//  ActivateCardsSpec.swift
+//  ActivateSpec.swift
 //
 //
 //  Created by Hugues Telolahy on 05/06/2023.
@@ -10,7 +10,7 @@ import Inventory
 import Nimble
 import Quick
 
-final class ActivateCardsSpec: QuickSpec {
+final class ActivateSpec: QuickSpec {
     override func spec() {
         describe("activating cards") {
             context("card playable") {
@@ -34,7 +34,7 @@ final class ActivateCardsSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .activateCards(player: "p1", cards: [.saloon, .gatling])
+                        .activate(player: "p1", cards: [.saloon, .gatling])
                     ]
                 }
             }

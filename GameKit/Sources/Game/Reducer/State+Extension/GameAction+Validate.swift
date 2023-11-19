@@ -48,7 +48,7 @@ extension GameAction {
 private extension GameAction {
     func validate(state: GameState) throws {
         switch self {
-        case .activateCards,
+        case .activate,
                 .chooseOne,
                 .setGameOver:
             return

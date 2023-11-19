@@ -88,8 +88,8 @@ private extension GameAction {
         case let .chooseOne(player, options):
             ActionChooseOne(chooser: player, options: options)
 
-        case let .activateCards(player, cards):
-            ActionActivateCards(player: player, cards: cards)
+        case let .activate(player, cards):
+            ActionActivate(player: player, cards: cards)
 
         case let .cancel(action):
             ActionCancel(action: action)
