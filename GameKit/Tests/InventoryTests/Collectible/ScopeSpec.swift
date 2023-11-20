@@ -31,5 +31,27 @@ final class ScopeSpec: QuickSpec {
                 ]
             }
         }
+
+        describe("discarding scope") {
+            it("should remove attribute scope") {
+                // Given
+                let state = GameState.makeBuilderWithCardRef()
+                    .withPlayer("p1") {
+                        $0.withInPlay([.scope])
+                            .withAttributes([.updateAttributesOnChangeInPlay: 0, .scope: 1])
+                    }
+                    .build()
+
+                // When
+                let action = GameAction.discardInPlay(.scope, player: "p1")
+                let (result, _) = self.awaitAction(action, state: state)
+
+                // Then
+                expect(result) == [
+                    .discardInPlay(.scope, player: "p1"),
+                    .removeAttribute(.scope, player: "p1")
+                ]
+            }
+        }
     }
 }

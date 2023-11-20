@@ -1,8 +1,8 @@
 //
-//  BlackJackTests.swift
+//  JesseJonesTests.swift
 //
 //
-//  Created by Hugues Stephano TELOLAHY on 10/11/2023.
+//  Created by Hugues Stephano TELOLAHY on 20/11/2023.
 //
 // swiftlint:disable no_magic_numbers
 
@@ -10,25 +10,26 @@ import Game
 import Inventory
 import XCTest
 
-final class BlackJackTests: XCTestCase {
-    func test_blackJack_shouldHaveSpecialStartTurn() throws {
+final class JesseJonesTests: XCTestCase {
+    func test_jesseJones_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.blackJack], deck: [], cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.jesseJones], deck: [], cardRef: CardList.all)
 
         // When
-        let player = state.player(.blackJack)
+        let player = state.player(.jesseJones)
 
         // Then
         XCTAssertNil(player.attributes[.drawOnSetTurn])
     }
 
-    func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
+    func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
+                $0.withAttributes([.jesseJones: 0, .startTurnCards: 2])
             }
-            .withDeck(["c1", "c2-8♥️", "c3"])
+            .withDiscard(["c1"])
+            .withDeck(["c2"])
             .build()
 
         // When
@@ -38,20 +39,18 @@ final class BlackJackTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn("p1"),
-            .drawDeck(player: "p1"),
-            .drawDeck(player: "p1"),
-            .revealHand("c2-8♥️", player: "p1"),
+            .drawDiscard(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() throws {
+    func test_jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
+                $0.withAttributes([.jesseJones: 0, .startTurnCards: 2])
             }
-            .withDeck(["c1", "c2-A♠️"])
+            .withDeck(["c1", "c2"])
             .build()
 
         // When
@@ -62,8 +61,7 @@ final class BlackJackTests: XCTestCase {
         XCTAssertEqual(result, [
             .setTurn("p1"),
             .drawDeck(player: "p1"),
-            .drawDeck(player: "p1"),
-            .revealHand("c2-A♠️", player: "p1")
+            .drawDeck(player: "p1")
         ])
     }
 }

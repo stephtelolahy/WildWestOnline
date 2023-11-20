@@ -5,16 +5,14 @@
 //  Created by Hugues Telolahy on 12/07/2023.
 //
 import Game
-import InitMacro
 import Inventory
 import Redux
 
-@Init
 public struct AppState: Codable, Equatable {
     let screens: [ScreenState]
 
-    public init() {
-        screens = [.splash]
+    public init(screens: [ScreenState] = [.splash]) {
+        self.screens = screens
     }
 }
 

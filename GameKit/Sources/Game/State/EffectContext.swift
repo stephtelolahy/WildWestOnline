@@ -5,10 +5,7 @@
 //  Created by Hugues Telolahy on 09/04/2023.
 //
 
-import InitMacro
-
 /// Context data associated to an effect
-@Init(defaults: ["cancellingAction": nil, "target": nil, "chooser": nil])
 public struct EffectContext: Codable, Equatable {
     /// Owner of the card triggering the effect
     let actor: String
@@ -26,6 +23,22 @@ public struct EffectContext: Codable, Equatable {
     /// Targeted player while resolving the effect
     var target: String?
 
-    /// Chooser while resolving selectable  card
+    /// Chooser while resolving selectable card
     var chooser: String?
+
+    public init(
+        actor: String,
+        card: String,
+        event: GameAction,
+        cancellingAction: GameAction? = nil,
+        target: String? = nil,
+        chooser: String? = nil
+    ) {
+        self.actor = actor
+        self.card = card
+        self.event = event
+        self.cancellingAction = cancellingAction
+        self.target = target
+        self.chooser = chooser
+    }
 }
