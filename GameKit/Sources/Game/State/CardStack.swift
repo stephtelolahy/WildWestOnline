@@ -4,13 +4,15 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-import InitMacro
 
 /// Stack of cards
-@Init(defaults: ["cards": []])
 public struct CardStack: Codable, Equatable {
     /// Content
     public var cards: [String]
+
+    public init(cards: [String] = []) {
+        self.cards = cards
+    }
 }
 
 public extension CardStack {

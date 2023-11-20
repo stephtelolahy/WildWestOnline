@@ -9,7 +9,6 @@ import Game
 import XCTest
 
 final class SetAttributeTests: XCTestCase {
-
     func test_setAttribute_shouldSetValue() throws {
         // Given
         let state = GameState.makeBuilder()

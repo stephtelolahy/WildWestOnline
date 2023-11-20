@@ -4,16 +4,19 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-import InitMacro
 
 /// Card zone
-@Init(defaults: ["cards": [], "hidden": false])
 public struct CardLocation: Codable, Equatable {
     /// Content
     public var cards: [String]
 
     /// Cards are hidden for other players except the owner
     public let hidden: Bool
+
+    public init(cards: [String] = [], hidden: Bool = false) {
+        self.cards = cards
+        self.hidden = hidden
+    }
 }
 
 public extension CardLocation {

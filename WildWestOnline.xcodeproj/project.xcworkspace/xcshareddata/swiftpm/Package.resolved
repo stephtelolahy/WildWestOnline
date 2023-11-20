@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "initmacro",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/LeonardoCardoso/InitMacro.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "984d26df10a80af9d7db4d66a0ca64f2c7933b32"
-      }
-    },
-    {
       "identity" : "nimble",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Quick/Nimble.git",
@@ -43,15 +34,6 @@
       "state" : {
         "revision" : "16910e406be96e08923918315388c3e989deac9e",
         "version" : "6.1.0"
-      }
-    },
-    {
-      "identity" : "swift-syntax",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-syntax",
-      "state" : {
-        "revision" : "59ed009d2c4a5a6b78f75a25679b6417ac040dcf",
-        "version" : "509.0.0-swift-DEVELOPMENT-SNAPSHOT-2023-07-04-a"
       }
     },
     {

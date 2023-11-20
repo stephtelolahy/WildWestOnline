@@ -21,7 +21,6 @@ let package = Package(
         .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
         .package(url: "https://github.com/Quick/Quick", from: "6.1.0"),
         .package(url: "https://github.com/Quick/Nimble", from: "11.2.2"),
-        .package(url: "https://github.com/LeonardoCardoso/InitMacro.git", branch: "main"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.6")
     ],
     targets: [
@@ -38,8 +37,7 @@ let package = Package(
         .target(
             name: "Game",
             dependencies: [
-                "Redux",
-                "InitMacro"
+                "Redux"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
