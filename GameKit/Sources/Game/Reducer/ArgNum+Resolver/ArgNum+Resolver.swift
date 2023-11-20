@@ -18,7 +18,7 @@ extension ArgNum {
 private extension ArgNum {
     func resolver() -> ArgNumResolver {
         switch self {
-        case .exact(let number):
+        case let .exact(number):
             NumExact(number: number)
 
         case .activePlayers:
@@ -27,8 +27,11 @@ private extension ArgNum {
         case .excessHand:
             NumExcessHand()
 
-        case .attr(let key):
+        case let .attr(key):
             NumPlayerAttr(key: key)
+
+        case let .add(amount, key):
+            NumPlayerAddAttr(amount: amount, key: key)
 
         case .damage:
             NumDamage()

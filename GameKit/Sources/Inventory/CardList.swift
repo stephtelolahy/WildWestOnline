@@ -382,6 +382,7 @@ private extension CardList {
             CardEffect.drawDiscard
                 .force(otherwise: .drawDeck)
             CardEffect.drawDeck
+                .repeat(.add(-1, attr: .startTurnCards))
         }
         .on([.setTurn])
     }
@@ -392,6 +393,7 @@ private extension CardList {
                 .target(.selectAny)
                 .force(otherwise: .drawDeck)
             CardEffect.drawDeck
+                .repeat(.add(-1, attr: .startTurnCards))
         }
         .on([.setTurn])
     }

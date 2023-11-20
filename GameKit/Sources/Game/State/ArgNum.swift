@@ -21,4 +21,7 @@ public enum ArgNum: Codable, Equatable {
 
     /// Number of lost life points in triggering damage action
     case damage
+
+    /// Player attributed by adding some value
+    case add(Int, attr: String)
 }
