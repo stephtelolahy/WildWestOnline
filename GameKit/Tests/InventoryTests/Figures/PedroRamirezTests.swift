@@ -22,7 +22,7 @@ final class PedroRamirezTests: XCTestCase {
         XCTAssertNil(player.attributes[.drawOnSetTurn])
     }
 
-    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_ShouldAskDrawFirstCardFromPlayer() throws {
+    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayer() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -53,7 +53,7 @@ final class PedroRamirezTests: XCTestCase {
         ])
     }
 
-    func test_pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_ShouldDrawCardsFromDeck() throws {
+    func test_pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

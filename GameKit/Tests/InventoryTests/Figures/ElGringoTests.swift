@@ -10,7 +10,7 @@ import Game
 import XCTest
 
 final class ElGringoTests: XCTestCase {
-    func test_elGringoDamaged_withOffenderHavingHandCards_ShouldStealRandomCard() throws {
+    func test_elGringoDamaged_withOffenderHavingHandCards_shouldStealRandomCard() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -35,7 +35,7 @@ final class ElGringoTests: XCTestCase {
         ])
     }
 
-    func test_elGringoDamaged_withOffenderHavingNoCard_ShouldDoNothing() throws {
+    func test_elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -59,7 +59,7 @@ final class ElGringoTests: XCTestCase {
         ])
     }
 
-    func test_elGringoDamaged_withOffenderIsHimself_ShouldDoNothing() throws {
+    func test_elGringoDamaged_withOffenderIsHimself_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

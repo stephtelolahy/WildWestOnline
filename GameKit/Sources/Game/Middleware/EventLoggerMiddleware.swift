@@ -11,19 +11,23 @@ import Combine
 import Redux
 
 public let eventLoggerMiddleware: Middleware<GameState> = { state, action in
-    if let event = action as? GameAction {
-        if event.isRenderable {
-            print("✅ \(event)".removingNamespace())
-        } else {
-            print("➡️ \(event)".removingNamespace())
-        }
-    }
-
     if let error = state.error {
         print("❌ \(error) on \(action)".removingNamespace())
+    } else if let event = action as? GameAction {
+        print("\(event.image) \(event)".removingNamespace())
     }
 
     return nil
+}
+
+private extension GameAction {
+    var image: String {
+        if isRenderable {
+            "✅"
+        } else {
+            "➡️"
+        }
+    }
 }
 
 private extension String {

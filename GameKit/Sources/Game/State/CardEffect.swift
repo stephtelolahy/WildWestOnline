@@ -38,6 +38,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Draw  cards from arena
     case drawArena
 
+    /// Draw top discard
+    case drawDiscard
+
     /// Draw a card from deck and put to arena
     case discover
 

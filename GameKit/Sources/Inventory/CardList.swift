@@ -377,7 +377,14 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let jesseJones = Card(.jesseJones, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4])
+    static let jesseJones = Card(.jesseJones, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+        CardEffect.group {
+            CardEffect.drawDiscard
+//                .force(otherwise: .drawDeck)
+            CardEffect.drawDeck
+        }
+        .on([.setTurn])
+    }
 
     static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
