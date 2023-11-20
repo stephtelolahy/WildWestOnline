@@ -36,7 +36,6 @@ struct HandlerTriggeredEffects: GameActionHandler {
             return nil
         }
 
-        // Sort triggered effects by priority
         // <sort triggered by priority>
         triggered.sort { action1, action2 in
             guard case let .effect(_, ctx1) = action1,
