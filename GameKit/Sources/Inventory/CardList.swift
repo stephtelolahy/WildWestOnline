@@ -380,7 +380,7 @@ private extension CardList {
     static let jesseJones = Card(.jesseJones, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
         CardEffect.group {
             CardEffect.drawDiscard
-//                .force(otherwise: .drawDeck)
+                .force(otherwise: .drawDeck)
             CardEffect.drawDeck
         }
         .on([.setTurn])

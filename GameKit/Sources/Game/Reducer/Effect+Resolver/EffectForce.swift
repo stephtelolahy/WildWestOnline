@@ -29,7 +29,10 @@ struct EffectForce: EffectResolver {
                 return [chooseOne]
 
             default:
-                fatalError("unexpected")
+
+                // verify action, if succeed then return it
+                _ = try action.reduce(state: state)
+                return [action]
             }
         } catch {
             return [.effect(otherwise, ctx: ctx)]
