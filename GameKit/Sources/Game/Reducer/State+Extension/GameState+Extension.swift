@@ -23,6 +23,14 @@ extension GameState {
         return deck.pop()
     }
 
+    mutating func popDiscard() throws -> String {
+        if discard.cards.isEmpty {
+            throw GameError.discardIsEmpty
+        }
+
+        return discard.pop()
+    }
+
     mutating func incrementPlayedThisTurn(for cardName: String) {
         playedThisTurn[cardName] = (playedThisTurn[cardName] ?? 0) + 1
     }

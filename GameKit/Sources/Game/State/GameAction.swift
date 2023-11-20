@@ -44,7 +44,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case drawArena(String, player: String)
 
     /// Draw top discard
-    case drawDiscard(String)
+    case drawDiscard(player: String)
 
     /// Discard a player's hand card
     case discardHand(String, player: String)

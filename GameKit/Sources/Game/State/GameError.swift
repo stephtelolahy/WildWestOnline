@@ -21,6 +21,9 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected non empty deck
     case deckIsEmpty
 
+    /// Expected non empty discard pile
+    case discardIsEmpty
+
     /// Expected to choose one of waited action
     case unwaitedAction
 
