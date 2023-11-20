@@ -40,8 +40,11 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw card from other player's inPlay
     case drawInPlay(String, target: String, player: String)
 
-    /// Draw  cards from arena
+    /// Draw cards from arena
     case drawArena(String, player: String)
+
+    /// Draw top discard
+    case drawDiscard(String)
 
     /// Discard a player's hand card
     case discardHand(String, player: String)

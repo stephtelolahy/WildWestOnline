@@ -61,6 +61,9 @@ private extension GameAction {
         case let .drawInPlay(card, target, player):
             ActionDrawInPlay(player: player, target: target, card: card)
 
+        case let .drawDiscard(player):
+            ActionDrawDiscard(player: player)
+
         case let .passInPlay(card, target, player):
             ActionPassInPlay(card: card, target: target, player: player)
 
