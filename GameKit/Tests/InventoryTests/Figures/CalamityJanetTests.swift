@@ -1,6 +1,6 @@
 //
 //  CalamityJanetTests.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 20/11/2023.
 //
@@ -34,16 +34,16 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func test_calamityJanetBeingShot_holdingBang_shouldAskToPlayAsMissed() throws {
+    func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withAttributes([.calamityJanet: 0, .bangsPerTurn: 1, .weapon: 1])
+                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
                 $0.withHand(["bang-1", "bang-2"])
-                    .withAttributes([.activateCounterCardsOnShot: 0])
+                    .withAttributes([.calamityJanet: 0, .activateCounterCardsOnShot: 0])
             }
             .build()
 
