@@ -39,6 +39,7 @@ public enum CardList {
         discardPreviousWeaponOnPlayWeapon
         updateAttributesOnChangeInPlay
         activateCounterCardsOnShot
+        updateGameOverOnEliminated
         pDefault
         willyTheKid
         roseDoolan
@@ -280,6 +281,11 @@ private extension CardList {
             .on([.shot])
     }
 
+    static let updateGameOverOnEliminated = Card(.updateGameOverOnEliminated) {
+        CardEffect.updateGameOver
+            .on([.eliminated])
+    }
+
     // MARK: - Figures
 
     static let pDefault = Card(.pDefault, attributes: [
@@ -294,7 +300,8 @@ private extension CardList {
         .nextTurnOnEliminated: 0,
         .updateAttributesOnChangeInPlay: 0,
         .discardPreviousWeaponOnPlayWeapon: 0,
-        .activateCounterCardsOnShot: 0
+        .activateCounterCardsOnShot: 0,
+        .updateGameOverOnEliminated: 0
     ])
 
     static let willyTheKid = Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
@@ -403,6 +410,7 @@ private extension CardList {
     /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
+        .updateGameOverOnEliminated,
         .dynamite,
         .jail,
         .drawOnSetTurn,
