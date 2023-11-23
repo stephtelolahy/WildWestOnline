@@ -14,8 +14,9 @@ final class CalamityJanetTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.calamityJanet: 0, .bangsPerTurn: 1, .weapon: 1])
+                $0.withAttributes([.bangsPerTurn: 1, .weapon: 1])
                     .withHand([.missed])
+                    .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
             .build()
@@ -43,7 +44,8 @@ final class CalamityJanetTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand(["bang-1", "bang-2"])
-                    .withAttributes([.calamityJanet: 0, .activateCounterCardsOnShot: 0])
+                    .withAttributes([.activateCounterCardsOnShot: 0])
+                    .withFigure(.calamityJanet)
             }
             .build()
 
