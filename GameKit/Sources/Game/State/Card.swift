@@ -10,9 +10,9 @@ public struct Card: Codable, Equatable {
     /// Included attributes or another card features
     public let attributes: [String: Int]
 
-    /// Played card alias
-    /// key: card effect
-    /// value: regext of played card
+    /// Playable card alias
+    /// - key: card effect
+    /// - value: regex of played card
     public let alias: [String: String]
 
     /// Effect priority

@@ -327,7 +327,7 @@ private extension CardList {
 
     static let luckyDuke = Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
 
-    static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4])
+    static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4], alias: [.bang: .missed, .missed: .bang])
 
     static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.drawDeck
