@@ -83,13 +83,17 @@ struct PlayEffectResolver {
 
         // <resolve card alias>
         if state.player(player).attributes["calamityJanet"] != nil {
-            if cardName == "missed" {
+            switch cardName {
+            case "missed":
                 cardName = "bang"
-            }
 
-            if state.turn != player,
-               cardName == "bang" {
-                cardName = "missed"
+            case "bang":
+                if state.turn != player {
+                    cardName = "missed"
+                }
+
+            default:
+                break
             }
         }
         // </resolve card alias>
