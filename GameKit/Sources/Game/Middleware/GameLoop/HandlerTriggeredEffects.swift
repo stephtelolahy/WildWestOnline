@@ -72,7 +72,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
                 actor: player,
                 card: card,
                 event: event,
-                cancellingAction: cancellingActionForTriggeredEffect(event: event, state: state)
+                cancellingAction: cancellingAction(event: event, state: state)
             )
 
             return GameAction.effect(rule.effect, ctx: ctx)
@@ -89,7 +89,7 @@ struct HandlerTriggeredEffects: GameActionHandler {
         playerObj.attributes.map(\.key)
     }
 
-    private func cancellingActionForTriggeredEffect(event: GameAction, state: GameState) -> GameAction? {
+    private func cancellingAction(event: GameAction, state: GameState) -> GameAction? {
         if case let .effect(cardEffect, _) = event,
            case .shoot = cardEffect,
            let nextAction = state.sequence.first,

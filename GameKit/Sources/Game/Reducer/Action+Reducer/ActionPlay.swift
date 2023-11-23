@@ -79,7 +79,21 @@ struct PlayEffectResolver {
     }
 
     func playRule(state: GameState) -> CardRule? {
-        let cardName = card.extractName()
+        var cardName = card.extractName()
+
+        // <resolve card alias>
+        if state.player(player).attributes["calamityJanet"] != nil {
+            if cardName == "missed" {
+                cardName = "bang"
+            }
+
+            if state.turn != player,
+               cardName == "bang" {
+                cardName = "missed"
+            }
+        }
+        // </resolve card alias>
+
         guard let cardObj = state.cardRef[cardName],
               let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
             return nil
