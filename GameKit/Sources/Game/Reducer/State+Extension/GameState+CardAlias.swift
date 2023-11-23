@@ -6,21 +6,14 @@
 //
 
 extension GameState {
-//    func alias(for card: String, player: String) -> String {
-//        let playerObj = self.player(player)
-//        if playerObj.attributes["calamityJanet"] != nil {
-//            switch cardName {
-//            case "missed":
-//                cardName = "bang"
-//
-//            case "bang":
-//                if state.turn != player {
-//                    cardName = "missed"
-//                }
-//
-//            default:
-//                break
-//            }
-//        }
-//    }
+    func alias(for card: String, player: String) -> String? {
+        let playerObj = self.player(player)
+        let figure = playerObj.figure
+        let cardAlias = self.cardRef[figure]?.alias ?? [:]
+        guard let matched = cardAlias.first(where: { card.matches(regex: $0.value ) }) else {
+            return nil
+        }
+
+        return matched.key
+    }
 }
