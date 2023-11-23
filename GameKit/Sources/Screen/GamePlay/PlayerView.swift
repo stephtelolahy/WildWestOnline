@@ -15,7 +15,7 @@ struct PlayerView: View {
     var body: some View {
         HStack {
             CircleImage(image: player.image)
-            Text(player.name)
+            Text(player.figure)
             Spacer()
             Image(systemName: "star.fill")
                 .foregroundColor(.yellow)
@@ -36,6 +36,6 @@ struct PlayerView_Previews: PreviewProvider {
 
 private extension Player {
     var image: Image {
-        Image(name, bundle: Bundle.module)
+        Image(figure, bundle: Bundle.module)
     }
 }

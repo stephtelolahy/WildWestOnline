@@ -16,7 +16,7 @@ final class SchofieldTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 1])
-                    .withName(.pDefault)
+                    .withFigure(.pDefault)
             }
             .build()
 
@@ -42,7 +42,7 @@ final class SchofieldTests: XCTestCase {
                         .updateAttributesOnChangeInPlay: 0,
                         .weapon: 3
                     ])
-                    .withName(.pDefault)
+                    .withFigure(.pDefault)
             }
             .build()
 
@@ -64,7 +64,7 @@ final class SchofieldTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
                     .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 2])
-                    .withName(.pDefault)
+                    .withFigure(.pDefault)
             }
             .build()
 
