@@ -10,7 +10,7 @@ import Inventory
 import XCTest
 
 final class CalamityJanetTests: XCTestCase {
-    func test_calamityJanetPlayingBang_duringHerTurn_shouldPlayAsBang() throws {
+    func test_calamityJanetPlayingBang_shouldPlayAsBang() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -19,7 +19,6 @@ final class CalamityJanetTests: XCTestCase {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
-            .withTurn("p1")
             .build()
 
         // When
@@ -36,7 +35,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func test_calamityJanetPlayingMissed_duringHerTurn_shouldPlayAsBang() throws {
+    func test_calamityJanetPlayingMissed_shouldPlayAsBang() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -45,7 +44,6 @@ final class CalamityJanetTests: XCTestCase {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
-            .withTurn("p1")
             .build()
 
         // When

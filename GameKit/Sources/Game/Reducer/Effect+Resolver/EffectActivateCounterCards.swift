@@ -30,7 +30,7 @@ struct EffectActivateCounterCards: EffectResolver {
 private extension GameState {
     func isCounterCard(_ card: String, player: String) -> Bool {
         var cardName = card.extractName()
-        
+
         // resolve card alias>
         if let alias = alias(for: card, player: player) {
             cardName = alias
