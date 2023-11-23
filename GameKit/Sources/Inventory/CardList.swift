@@ -429,3 +429,11 @@ private func createCardDict(_ priorities: [String], @CardBuilder content: () -> 
         return result[card.name] = card.withPriority(priority)
     }
 }
+
+private extension String {
+    // https://regex101.com/
+    static let regexSaveByBarrel = "♥️"
+    static let regexEscapeFromJail = "♥️"
+    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
+    static let regexDrawAnotherCard = "(♥️)|(♦️)"
+}

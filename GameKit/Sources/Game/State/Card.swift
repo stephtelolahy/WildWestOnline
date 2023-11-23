@@ -10,11 +10,16 @@ public struct Card: Codable, Equatable {
     /// Included attributes or another card features
     public let attributes: [String: Int]
 
-    /// Actions that can be performed with the card
-    public let rules: [CardRule]
+    /// Played card alias
+    /// key: card effect
+    /// value: regext of played card
+    public let alias: [String: String]
 
     /// Effect priority
     public let priority: Int
+
+    /// Actions that can be performed with the card
+    public let rules: [CardRule]
 }
 
 public struct CardRule: Codable, Equatable {
