@@ -13,7 +13,7 @@ public extension Card {
         prototype: Card? = nil,
         silent: [String] = [],
         attributes: [String: Int] = [:],
-        alias: [String: String] = [:],
+        alias: [CardAlias] = [],
         priority: Int = 0,
         @CardRuleBuilder content: () -> [CardRule] = { [] }
     ) {

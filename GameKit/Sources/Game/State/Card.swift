@@ -11,9 +11,7 @@ public struct Card: Codable, Equatable {
     public let attributes: [String: Int]
 
     /// Playable card alias
-    /// - key: card effect
-    /// - value: regex of played card
-    public let alias: [String: String]
+    public let alias: [CardAlias]
 
     /// Effect priority
     public let priority: Int
@@ -28,4 +26,21 @@ public struct CardRule: Codable, Equatable {
 
     /// Conditions to trigger the card effect
     let playReqs: [PlayReq]
+}
+
+public struct CardAlias: Codable, Equatable {
+    /// Name of card having the play effect
+    let card: String
+
+    /// Regex of alias card
+    let regex: String
+
+    /// Conditions to trigger the card alias
+    let playReqs: [PlayReq]
+
+    public init(card: String, regex: String, playReqs: [PlayReq] = []) {
+        self.card = card
+        self.regex = regex
+        self.playReqs = playReqs
+    }
 }
