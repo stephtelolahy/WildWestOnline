@@ -99,16 +99,16 @@ enum PlayEffectResolver {
     ) -> CardRule? {
         var cardName = card.extractName()
 
+        // <resolve card alias>
         if let aliasCardName {
             cardName = aliasCardName
         } else {
-            // <resolve card alias>
             let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
             if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
                 cardName = alias
             }
-            // </resolve card alias>
         }
+        // </resolve card alias>
 
         guard let cardObj = state.cardRef[cardName],
               let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
