@@ -11,8 +11,7 @@ struct ActionPlay: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         // verify action
-        let effectResolver = PlayEffectResolver(player: player, card: card)
-        guard let playRule = effectResolver.playRule(state: state) else {
+        guard let playRule = PlayEffectResolver.playRule(card: card, player: player, state: state) else {
             throw GameError.cardNotPlayable(card)
         }
 
@@ -32,7 +31,7 @@ struct ActionPlay: GameActionReducer {
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
             if case let .selectable(pIds) = resolvedTarget {
                 let options = pIds.reduce(into: [String: GameAction]()) {
-                    $0[$1] = effectResolver.playEvent(playRule: playRule, state: state, target: $1)
+                    $0[$1] = PlayEffectResolver.playEvent(card: card, player: player, playRule: playRule, target: $1)
                 }
                 let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
                 var state = state
@@ -42,19 +41,22 @@ struct ActionPlay: GameActionReducer {
         }
 
         // queue play action
-        let action = effectResolver.playEvent(playRule: playRule, state: state)
+        let action = PlayEffectResolver.playEvent(card: card, player: player, playRule: playRule)
         var state = state
         state.sequence.insert(action, at: 0)
         return state
     }
 }
 
-struct PlayEffectResolver {
-    let player: String
-    let card: String
-
-    func resolve(state: GameState, target: String? = nil) -> [GameAction] {
-        guard let playRule = playRule(state: state) else {
+enum PlayEffectResolver {
+    static func triggeredEffect(
+        card: String,
+        player: String,
+        state: GameState,
+        target: String? = nil,
+        aliasCardName: String? = nil
+    ) -> [GameAction] {
+        guard let playRule = playRule(card: card, player: player, state: state) else {
             return []
         }
 
@@ -67,7 +69,12 @@ struct PlayEffectResolver {
             sideEffect = childEffect
         }
 
-        let event = playEvent(playRule: playRule, state: state, target: target)
+        let event = playEvent(
+            card: card,
+            player: player,
+            playRule: playRule,
+            target: target
+        )
         let ctx = EffectContext(
             actor: player,
             card: card,
@@ -78,7 +85,11 @@ struct PlayEffectResolver {
         return [.effect(sideEffect, ctx: ctx)]
     }
 
-    func playRule(state: GameState) -> CardRule? {
+    static func playRule(
+        card: String,
+        player: String,
+        state: GameState
+    ) -> CardRule? {
         var cardName = card.extractName()
 
         // <resolve card alias>
@@ -96,7 +107,12 @@ struct PlayEffectResolver {
         return playRule
     }
 
-    func playEvent(playRule: CardRule, state: GameState, target: String? = nil) -> GameAction {
+    static func playEvent(
+        card: String,
+        player: String,
+        playRule: CardRule,
+        target: String? = nil
+    ) -> GameAction {
         if playRule.isMatching(.playImmediate) {
             .playImmediate(card, target: target, player: player)
         } else if playRule.isMatching(.playAbility) {

@@ -60,7 +60,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
+    func calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -90,7 +90,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func test_calamityJanetBeingShot_holdingMissed_shouldAskToCounter() throws {
+    func calamityJanetBeingShot_holdingMissed_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

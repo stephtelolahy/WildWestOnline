@@ -14,6 +14,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Play a brown card, discard immediately
     case playImmediate(String, target: String? = nil, player: String)
 
+    /// Play a brown card as another card's effect, discard immediately
+    case playAs(String, card: String, target: String? = nil, player: String)
+
     /// Invoke an ability
     case playAbility(String, player: String)
 
