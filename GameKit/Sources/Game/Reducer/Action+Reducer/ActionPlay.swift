@@ -82,7 +82,8 @@ struct PlayEffectResolver {
         var cardName = card.extractName()
 
         // <resolve card alias>
-        if let alias = state.alias(for: card, player: player) {
+        let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
+        if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
             cardName = alias
         }
         // </resolve card alias>

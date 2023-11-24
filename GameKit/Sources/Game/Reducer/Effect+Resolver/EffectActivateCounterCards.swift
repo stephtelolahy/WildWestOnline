@@ -8,7 +8,10 @@
 struct EffectActivateCounterCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let playerObj = state.player(ctx.actor)
-        let counterCards = playerObj.hand.cards.filter { state.isCounterCard($0, player: ctx.actor) }
+        let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
+        let counterCards = playerObj.hand.cards.filter {
+            state.isCounterCard($0, player: ctx.actor, ctx: playReqContext)
+        }
         guard counterCards.isNotEmpty else {
             return []
         }
@@ -28,11 +31,11 @@ struct EffectActivateCounterCards: EffectResolver {
 }
 
 private extension GameState {
-    func isCounterCard(_ card: String, player: String) -> Bool {
+    func isCounterCard(_ card: String, player: String, ctx: PlayReqContext) -> Bool {
         var cardName = card.extractName()
 
         // resolve card alias>
-        if let alias = alias(for: card, player: player) {
+        if let alias = alias(for: card, player: player, ctx: ctx) {
             cardName = alias
         }
         // </resolve card alias>
