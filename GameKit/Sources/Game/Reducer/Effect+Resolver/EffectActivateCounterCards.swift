@@ -17,7 +17,7 @@ struct EffectActivateCounterCards: EffectResolver {
         }
 
         var options = counterCards.reduce(into: [String: GameAction]()) {
-            $0[$1] = GameAction.play($1, player: ctx.actor)
+            $0[$1] = GameAction.playImmediate($1, player: ctx.actor)
         }
         options[.pass] = .group([])
 
