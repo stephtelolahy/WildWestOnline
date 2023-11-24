@@ -56,7 +56,12 @@ enum PlayEffectResolver {
         target: String? = nil,
         aliasCardName: String? = nil
     ) -> [GameAction] {
-        guard let playRule = playRule(card: card, player: player, state: state) else {
+        guard let playRule = playRule(
+            card: card,
+            player: player,
+            state: state,
+            aliasCardName: aliasCardName
+        ) else {
             return []
         }
 
@@ -73,7 +78,8 @@ enum PlayEffectResolver {
             card: card,
             player: player,
             playRule: playRule,
-            target: target
+            target: target,
+            aliasCardName: aliasCardName
         )
         let ctx = EffectContext(
             actor: player,
@@ -88,16 +94,21 @@ enum PlayEffectResolver {
     static func playRule(
         card: String,
         player: String,
-        state: GameState
+        state: GameState,
+        aliasCardName: String? = nil
     ) -> CardRule? {
         var cardName = card.extractName()
 
-        // <resolve card alias>
-        let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
-        if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
-            cardName = alias
+        if let aliasCardName {
+            cardName = aliasCardName
+        } else {
+            // <resolve card alias>
+            let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
+            if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
+                cardName = alias
+            }
+            // </resolve card alias>
         }
-        // </resolve card alias>
 
         guard let cardObj = state.cardRef[cardName],
               let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
@@ -111,10 +122,15 @@ enum PlayEffectResolver {
         card: String,
         player: String,
         playRule: CardRule,
-        target: String? = nil
+        target: String? = nil,
+        aliasCardName: String? = nil
     ) -> GameAction {
         if playRule.isMatching(.playImmediate) {
-            .playImmediate(card, target: target, player: player)
+            if let aliasCardName {
+                .playAs(aliasCardName, card: card, target: target, player: player)
+            } else {
+                .playImmediate(card, target: target, player: player)
+            }
         } else if playRule.isMatching(.playAbility) {
             .playAbility(card, player: player)
         } else if playRule.isMatching(.playEquipment) {
