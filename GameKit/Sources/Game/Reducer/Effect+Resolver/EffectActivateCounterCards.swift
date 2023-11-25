@@ -9,18 +9,20 @@ struct EffectActivateCounterCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let playerObj = state.player(ctx.actor)
         let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
-        let counterCards = playerObj.hand.cards.filter {
-            state.isCounterCard($0, player: ctx.actor, ctx: playReqContext)
+        
+        let counterOptions = playerObj.hand.cards.compactMap {
+            CounterActionResolver.counterAction(card: $0, player: ctx.actor, state: state, ctx: playReqContext)
         }
-        guard counterCards.isNotEmpty else {
+        
+        guard counterOptions.isNotEmpty else {
             return []
         }
-
-        var options = counterCards.reduce(into: [String: GameAction]()) {
-            $0[$1] = GameAction.playImmediate($1, player: ctx.actor)
+        
+        var options = counterOptions.reduce(into: [String: GameAction]()) {
+            $0[$1.card] = $1.action
         }
         options[.pass] = .group([])
-
+        
         let chooseOne = try GameAction.validateChooseOne(
             chooser: ctx.actor,
             options: options,
@@ -30,27 +32,36 @@ struct EffectActivateCounterCards: EffectResolver {
     }
 }
 
-private extension GameState {
-    func isCounterCard(_ card: String, player: String, ctx: PlayReqContext) -> Bool {
+private struct CounterOption {
+    let card: String
+    let action: GameAction
+}
+
+private enum CounterActionResolver {
+    static func counterAction(card: String, player: String, state: GameState, ctx: PlayReqContext) -> CounterOption? {
         var cardName = card.extractName()
 
         // resolve card alias>
-        if let alias = alias(for: card, player: player, ctx: ctx) {
+        if let alias = state.alias(for: card, player: player, ctx: ctx) {
             cardName = alias
         }
         // </resolve card alias>
 
-        guard let cardObj = cardRef[cardName] else {
-            return false
+        guard let cardObj = state.cardRef[cardName] else {
+            return nil
         }
 
-        return cardObj.rules.contains {
+        guard cardObj.rules.contains(where: {
             if $0.playReqs.contains(.playImmediate),
                case .counterShoot = $0.effect {
                 return true
             } else {
                 return false
             }
+        }) else {
+            return nil
         }
+
+        return CounterOption(card: card, action: .playImmediate(card, player: player))
     }
 }

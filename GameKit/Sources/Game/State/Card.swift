@@ -38,7 +38,7 @@ public struct CardAlias: Codable, Equatable {
     /// Conditions to trigger the card alias
     let playReqs: [PlayReq]
 
-    public init(card: String, regex: String, playReqs: [PlayReq] = []) {
+    public init(card: String, regex: String, playReqs: [PlayReq]) {
         self.card = card
         self.regex = regex
         self.playReqs = playReqs

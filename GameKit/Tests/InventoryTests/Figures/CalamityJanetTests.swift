@@ -53,9 +53,9 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .chooseOne(player: "p1", options: [
-                "p2": .playImmediate(.missed, target: "p2", player: "p1")
+                "p2": .playAs(.bang, card: .missed, target: "p2", player: "p1")
             ]),
-            .playImmediate(.missed, target: "p2", player: "p1"),
+            .playAs(.bang, card: .missed, target: "p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -90,7 +90,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func calamityJanetBeingShot_holdingMissed_shouldAskToCounter() throws {
+    func test_calamityJanetBeingShot_holdingMissed_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -112,7 +112,7 @@ final class CalamityJanetTests: XCTestCase {
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
-                .missed: .play(.missed, player: "p2"),
+                .missed: .playImmediate(.missed, player: "p2"),
                 .pass: .group([])
             ]),
             .playImmediate(.missed, player: "p2"),

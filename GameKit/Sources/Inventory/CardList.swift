@@ -328,7 +328,7 @@ private extension CardList {
     static let luckyDuke = Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
 
     private static let playBangAsMissedAndViceVersa: [CardAlias] = [
-        CardAlias(card: .bang, regex: .missed),
+        CardAlias(card: .bang, regex: .missed, playReqs: [.play]),
         CardAlias(card: .missed, regex: .bang, playReqs: [.shot])
     ]
     static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4], alias: playBangAsMissedAndViceVersa)

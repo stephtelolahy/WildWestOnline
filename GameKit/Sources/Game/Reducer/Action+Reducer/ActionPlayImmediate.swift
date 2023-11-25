@@ -20,7 +20,8 @@ struct ActionPlayImmediate: GameActionReducer {
         state.incrementPlayedThisTurn(for: card.extractName())
 
         // queue triggered effect
-        let children = PlayEffectResolver.triggeredEffect(card: card, player: player, state: state, target: target)
+        let event = GameAction.playImmediate(card, target: target, player: player)
+        let children = PlayEffectResolver.triggeredEffect(event: event, state: state)
         state.sequence.insert(contentsOf: children, at: 0)
 
         return state

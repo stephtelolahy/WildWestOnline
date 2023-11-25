@@ -27,7 +27,8 @@ struct ActionPlayHandicap: GameActionReducer {
         state.incrementPlayedThisTurn(for: cardName)
 
         // queue triggered effect
-        let children = PlayEffectResolver.triggeredEffect(card: card, player: player, state: state, target: target)
+        let event = GameAction.playHandicap(card, target: target, player: player)
+        let children = PlayEffectResolver.triggeredEffect(event: event, state: state)
         state.sequence.insert(contentsOf: children, at: 0)
 
         return state

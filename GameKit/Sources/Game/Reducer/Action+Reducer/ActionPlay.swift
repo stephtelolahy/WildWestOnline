@@ -10,13 +10,24 @@ struct ActionPlay: GameActionReducer {
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
-        // verify action
-        guard let playRule = PlayEffectResolver.playRule(card: card, player: player, state: state) else {
+        // verify play rule
+        var cardName = card.extractName()
+        var aliasCardName: String?
+
+        // <resolve card alias>
+        let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
+        if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
+            cardName = alias
+            aliasCardName = alias
+        }
+        // </resolve card alias>
+
+        guard let cardObj = state.cardRef[cardName],
+              let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
             throw GameError.cardNotPlayable(card)
         }
 
         // verify requirements
-        let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
         for playReq in playRule.playReqs where !PlayReq.playEvents.contains(playReq) {
             try playReq.throwingMatch(state: state, ctx: playReqContext)
         }
@@ -31,7 +42,13 @@ struct ActionPlay: GameActionReducer {
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
             if case let .selectable(pIds) = resolvedTarget {
                 let options = pIds.reduce(into: [String: GameAction]()) {
-                    $0[$1] = PlayEffectResolver.playEvent(card: card, player: player, playRule: playRule, target: $1)
+                    $0[$1] = PlayEffectResolver.playAction(
+                        card: card,
+                        player: player,
+                        playRule: playRule,
+                        target: $1,
+                        aliasCardName: aliasCardName
+                    )
                 }
                 let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
                 var state = state
@@ -41,7 +58,12 @@ struct ActionPlay: GameActionReducer {
         }
 
         // queue play action
-        let action = PlayEffectResolver.playEvent(card: card, player: player, playRule: playRule)
+        let action = PlayEffectResolver.playAction(
+            card: card,
+            player: player,
+            playRule: playRule,
+            aliasCardName: aliasCardName
+        )
         var state = state
         state.sequence.insert(action, at: 0)
         return state
@@ -49,76 +71,7 @@ struct ActionPlay: GameActionReducer {
 }
 
 enum PlayEffectResolver {
-    static func triggeredEffect(
-        card: String,
-        player: String,
-        state: GameState,
-        target: String? = nil,
-        aliasCardName: String? = nil
-    ) -> [GameAction] {
-        guard let playRule = playRule(
-            card: card,
-            player: player,
-            state: state,
-            aliasCardName: aliasCardName
-        ) else {
-            return []
-        }
-
-        // set main effect
-        var sideEffect = playRule.effect
-
-        // unwrap target effect, only if provided specific player as target
-        if case let .target(_, childEffect) = sideEffect,
-           target != nil {
-            sideEffect = childEffect
-        }
-
-        let event = playEvent(
-            card: card,
-            player: player,
-            playRule: playRule,
-            target: target,
-            aliasCardName: aliasCardName
-        )
-        let ctx = EffectContext(
-            actor: player,
-            card: card,
-            event: event,
-            target: target
-        )
-
-        return [.effect(sideEffect, ctx: ctx)]
-    }
-
-    static func playRule(
-        card: String,
-        player: String,
-        state: GameState,
-        aliasCardName: String? = nil
-    ) -> CardRule? {
-        var cardName = card.extractName()
-
-        // <resolve card alias>
-        if let aliasCardName {
-            cardName = aliasCardName
-        } else {
-            let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
-            if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
-                cardName = alias
-            }
-        }
-        // </resolve card alias>
-
-        guard let cardObj = state.cardRef[cardName],
-              let playRule = cardObj.rules.first(where: { $0.isPlayRule() }) else {
-            return nil
-        }
-
-        return playRule
-    }
-
-    static func playEvent(
+    static func playAction(
         card: String,
         player: String,
         playRule: CardRule,
@@ -127,20 +80,114 @@ enum PlayEffectResolver {
     ) -> GameAction {
         if playRule.isMatching(.playImmediate) {
             if let aliasCardName {
-                .playAs(aliasCardName, card: card, target: target, player: player)
+                return .playAs(aliasCardName, card: card, target: target, player: player)
             } else {
-                .playImmediate(card, target: target, player: player)
+                return .playImmediate(card, target: target, player: player)
             }
         } else if playRule.isMatching(.playAbility) {
-            .playAbility(card, player: player)
+            return .playAbility(card, player: player)
         } else if playRule.isMatching(.playEquipment) {
-            .playEquipment(card, player: player)
+            return .playEquipment(card, player: player)
         } else if playRule.isMatching(.playHandicap) {
-            // swiftlint:disable:next force_unwrapping
-            .playHandicap(card, target: target!, player: player)
+            guard let target else {
+                fatalError("missing handicap target")
+            }
+            return .playHandicap(card, target: target, player: player)
         } else {
             fatalError("unexpected")
         }
+    }
+
+    static func triggeredEffect(
+        event: GameAction,
+        state: GameState
+    ) -> [GameAction] {
+        // get play rule
+        let playRule: CardRule
+        let player: String
+        let card: String
+        var target: String?
+        switch event {
+        case let .playImmediate(aCard, aTarget, aPlayer):
+            player = aPlayer
+            card = aCard
+            target = aTarget
+            let cardName = aCard.extractName()
+
+            guard let cardObj = state.cardRef[cardName],
+                  let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playImmediate) }) else {
+                return []
+            }
+
+            playRule = aRule
+
+        case let .playAs(aliasCardName, aCard, aTarget, aPlayer):
+            player = aPlayer
+            card = aCard
+            target = aTarget
+
+            guard let cardObj = state.cardRef[aliasCardName],
+                  let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playImmediate) }) else {
+                return []
+            }
+
+            playRule = aRule
+
+        case let .playAbility(aCard, aPlayer):
+            player = aPlayer
+            card = aCard
+            let cardName = aCard.extractName()
+            guard let cardObj = state.cardRef[cardName],
+                  let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playAbility) }) else {
+                return []
+            }
+
+            playRule = aRule
+
+        case let .playEquipment(aCard, aPlayer):
+            player = aPlayer
+            card = aCard
+            let cardName = aCard.extractName()
+            guard let cardObj = state.cardRef[cardName],
+                  let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playEquipment) }) else {
+                return []
+            }
+
+            playRule = aRule
+
+        case let .playHandicap(aCard, aTarget, aPlayer):
+            player = aPlayer
+            card = aCard
+            target = aTarget
+            let cardName = aCard.extractName()
+            guard let cardObj = state.cardRef[cardName],
+                  let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playHandicap) }) else {
+                return []
+            }
+
+            playRule = aRule
+
+        default:
+            fatalError("unexpected")
+        }
+
+        // get main effect
+        var sideEffect = playRule.effect
+
+        // unwrap target effect
+        if case let .target(_, childEffect) = sideEffect,
+           target != nil {
+            sideEffect = childEffect
+        }
+
+        let ctx = EffectContext(
+            actor: player,
+            card: card,
+            event: event,
+            target: target
+        )
+
+        return [.effect(sideEffect, ctx: ctx)]
     }
 }
 
@@ -159,6 +206,6 @@ private extension CardRule {
     }
 
     func isMatching(_ playReq: PlayReq) -> Bool {
-        playReqs.contains { $0 == playReq }
+        playReqs.contains(playReq)
     }
 }
