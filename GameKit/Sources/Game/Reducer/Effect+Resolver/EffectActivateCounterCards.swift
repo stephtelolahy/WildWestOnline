@@ -21,7 +21,7 @@ struct EffectActivateCounterCards: EffectResolver {
         var options = counterOptions.reduce(into: [String: GameAction]()) {
             $0[$1.card] = $1.action
         }
-        options[.pass] = .group([])
+        options[.pass] = .nothing
 
         let chooseOne = try GameAction.validateChooseOne(
             chooser: ctx.actor,

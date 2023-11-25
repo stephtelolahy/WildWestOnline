@@ -37,7 +37,7 @@ struct ActionPlay: GameActionReducer {
             let ctx = EffectContext(
                 actor: player,
                 card: card,
-                event: .group([])
+                event: .nothing
             )
             let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
             if case let .selectable(pIds) = resolvedTarget {

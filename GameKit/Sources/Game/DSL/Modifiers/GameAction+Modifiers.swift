@@ -6,6 +6,8 @@
 //
 
 public extension GameAction {
+    static let nothing: Self = .group([])
+
     static func group(@GameActionBuilder content: () -> [Self]) -> Self {
         .group(content())
     }
