@@ -9,20 +9,20 @@ struct EffectActivateCounterCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let playerObj = state.player(ctx.actor)
         let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
-        
+
         let counterOptions = playerObj.hand.cards.compactMap {
             CounterActionResolver.counterAction(card: $0, player: ctx.actor, state: state, ctx: playReqContext)
         }
-        
+
         guard counterOptions.isNotEmpty else {
             return []
         }
-        
+
         var options = counterOptions.reduce(into: [String: GameAction]()) {
             $0[$1.card] = $1.action
         }
         options[.pass] = .group([])
-        
+
         let chooseOne = try GameAction.validateChooseOne(
             chooser: ctx.actor,
             options: options,
