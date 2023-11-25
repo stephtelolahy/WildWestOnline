@@ -16,7 +16,7 @@ extension GameAction {
 }
 
 private extension GameAction {
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func reducer() -> GameActionReducer {
         switch self {
         case let .play(card, player):
@@ -24,6 +24,9 @@ private extension GameAction {
 
         case let .playImmediate(card, target, player):
             ActionPlayImmediate(player: player, card: card, target: target)
+
+        case let .playAs(aliasCardName, card, target, player):
+            ActionPlayAs(player: player, aliasCardName: aliasCardName, card: card, target: target)
 
         case let .playAbility(card, player):
             ActionPlayAbility(player: player, card: card)

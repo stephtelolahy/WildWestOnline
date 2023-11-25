@@ -10,7 +10,7 @@ import Foundation
 public extension Player {
     class Builder {
         private var id: String = UUID().uuidString
-        private var name: String = ""
+        private var figure: String = ""
         private var attributes: [String: Int] = [:]
         private var health: Int = 0
         private var hand: CardLocation = .init(cards: [])
@@ -19,7 +19,7 @@ public extension Player {
         public func build() -> Player {
             Player(
                 id: id,
-                name: name,
+                figure: figure,
                 attributes: attributes,
                 health: health,
                 hand: hand,
@@ -32,8 +32,8 @@ public extension Player {
             return self
         }
 
-        public func withName(_ value: String) -> Self {
-            name = value
+        public func withFigure(_ value: String) -> Self {
+            figure = value
             return self
         }
 

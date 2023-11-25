@@ -17,10 +17,10 @@ final class PlayerTests: XCTestCase {
         XCTAssertNotEqual(sut.id, "")
     }
 
-    func test_buildPlayer_byDefault_shouldHaveEmptyName() throws {
+    func test_buildPlayer_byDefault_shouldHaveEmptyFigure() throws {
         let sut = Player.makeBuilder()
             .build()
-        XCTAssertEqual(sut.name, "")
+        XCTAssertEqual(sut.figure, "")
     }
 
     func test_buildPlayer_byDefault_shouldNotHaveAttributes() throws {
@@ -96,7 +96,7 @@ final class PlayerTests: XCTestCase {
         let JSON = """
         {
             "id": "p1",
-            "name": "n1",
+            "figure": "n1",
             "health": 2,
             "attributes": {
                 "maxHealth": 4,
@@ -124,7 +124,7 @@ final class PlayerTests: XCTestCase {
 
         // Then
         XCTAssertEqual(sut.id, "p1")
-        XCTAssertEqual(sut.name, "n1")
+        XCTAssertEqual(sut.figure, "n1")
         XCTAssertEqual(sut.attributes[.maxHealth], 4)
         XCTAssertEqual(sut.health, 2)
         XCTAssertEqual(sut.attributes[.handLimit], 2)

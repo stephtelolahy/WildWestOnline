@@ -62,12 +62,5 @@ public extension String {
     static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"
     static let updateAttributesOnChangeInPlay = "updateAttributesOnChangeInPlay"
     static let activateCounterCardsOnShot = "activateCounterCardsOnShot"
-}
-
-public extension String {
-    // https://regex101.com/
-    static let regexSaveByBarrel = "♥️"
-    static let regexEscapeFromJail = "♥️"
-    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
-    static let regexDrawAnotherCard = "(♥️)|(♦️)"
+    static let updateGameOverOnEliminated = "updateGameOverOnEliminated"
 }

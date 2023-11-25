@@ -17,7 +17,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GameTests",
@@ -25,7 +24,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "InventoryTests",
@@ -33,7 +31,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "ReduxTests",
@@ -41,7 +38,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "ScreenTests",
@@ -49,7 +45,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SimulationTests",

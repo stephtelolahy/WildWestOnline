@@ -15,13 +15,9 @@ struct ActionPlayAbility: GameActionReducer {
         state.incrementPlayedThisTurn(for: card)
 
         // queue triggered effect
-        state.queueOnPlayEffect(
-            card: card,
-            player: player,
-            target: nil,
-            state: state,
-            event: .playAbility(card, player: player)
-        )
+        let event = GameAction.playAbility(card, player: player)
+        let children = PlayEffectResolver.triggeredEffect(event: event, state: state)
+        state.sequence.insert(contentsOf: children, at: 0)
 
         return state
     }

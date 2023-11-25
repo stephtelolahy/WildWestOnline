@@ -39,6 +39,7 @@ public enum CardList {
         discardPreviousWeaponOnPlayWeapon
         updateAttributesOnChangeInPlay
         activateCounterCardsOnShot
+        updateGameOverOnEliminated
         pDefault
         willyTheKid
         roseDoolan
@@ -280,6 +281,11 @@ private extension CardList {
             .on([.shot])
     }
 
+    static let updateGameOverOnEliminated = Card(.updateGameOverOnEliminated) {
+        CardEffect.updateGameOver
+            .on([.eliminated])
+    }
+
     // MARK: - Figures
 
     static let pDefault = Card(.pDefault, attributes: [
@@ -294,7 +300,8 @@ private extension CardList {
         .nextTurnOnEliminated: 0,
         .updateAttributesOnChangeInPlay: 0,
         .discardPreviousWeaponOnPlayWeapon: 0,
-        .activateCounterCardsOnShot: 0
+        .activateCounterCardsOnShot: 0,
+        .updateGameOverOnEliminated: 0
     ])
 
     static let willyTheKid = Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
@@ -320,7 +327,11 @@ private extension CardList {
 
     static let luckyDuke = Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
 
-    static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4])
+    private static let playBangAsMissedAndViceVersa: [CardAlias] = [
+        CardAlias(card: .bang, regex: .missed, playReqs: [.play]),
+        CardAlias(card: .missed, regex: .bang, playReqs: [.shot])
+    ]
+    static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4], alias: playBangAsMissedAndViceVersa)
 
     static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
         CardEffect.drawDeck
@@ -356,7 +367,7 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let blackJack = Card(.blackJack, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.drawDeck
                 .repeat(.attr(.startTurnCards))
@@ -365,7 +376,7 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.attr(.startTurnCards))
@@ -377,7 +388,7 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let jesseJones = Card(.jesseJones, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.drawDiscard
                 .force(otherwise: .drawDeck)
@@ -387,7 +398,7 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.steal(.randomHand)
                 .target(.selectAny)
@@ -403,6 +414,7 @@ private extension CardList {
     /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
+        .updateGameOverOnEliminated,
         .dynamite,
         .jail,
         .drawOnSetTurn,
@@ -420,4 +432,12 @@ private func createCardDict(_ priorities: [String], @CardBuilder content: () -> 
         let priority = priorities.firstIndex(of: card.name) ?? Int.max
         return result[card.name] = card.withPriority(priority)
     }
+}
+
+private extension String {
+    // https://regex101.com/
+    static let regexSaveByBarrel = "♥️"
+    static let regexEscapeFromJail = "♥️"
+    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
+    static let regexDrawAnotherCard = "(♥️)|(♦️)"
 }

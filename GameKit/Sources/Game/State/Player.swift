@@ -13,8 +13,8 @@ public struct Player: Identifiable, Codable, Equatable {
     public let id: String
 
     /// Figure name
-    /// Defines initial attributes
-    public let name: String
+    /// Determine initial attributes
+    public let figure: String
 
     /// Current attributes
     public var attributes: [String: Int]

@@ -96,6 +96,9 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
+
+        case .updateGameOver:
+            EffectUpdateGameOver()
         }
     }
 }

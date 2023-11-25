@@ -27,6 +27,9 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected to choose one of waited action
     case unwaitedAction
 
+    /// Expected game to be active
+    case gameIsOver
+
     /// Already having same card in play
     case cardAlreadyInPlay(String)
 

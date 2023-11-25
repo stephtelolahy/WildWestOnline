@@ -29,7 +29,6 @@ protocol GameActionHandler {
 }
 
 private let actionHandlers: [GameActionHandler] = [
-    HandlerGameOver(),
     HandlerTriggeredEffects(),
     HandlerNextAction(),
     HandlerActivateCards()

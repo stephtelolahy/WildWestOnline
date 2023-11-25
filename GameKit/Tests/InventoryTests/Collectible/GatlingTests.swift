@@ -9,7 +9,7 @@ import Game
 import XCTest
 
 final class GatlingTests: XCTestCase {
-    func test_playGatling_withThreePlayers_shouldDamageEachPlayer() {
+    func test_playGatling_withThreePlayers_shouldDamageEachPlayer() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -31,7 +31,7 @@ final class GatlingTests: XCTestCase {
         ])
     }
 
-    func test_playGatling_withTwoPlayers_shouldDamageEachPlayer() {
+    func test_playGatling_withTwoPlayers_shouldDamageEachPlayer() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

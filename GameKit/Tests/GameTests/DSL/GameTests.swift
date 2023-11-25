@@ -175,7 +175,7 @@ final class GameTests: XCTestCase {
           "players": {
             "p1": {
               "id": "p1",
-              "name": "p1",
+              "figure": "p1",
               "health": 3,
               "abilities": [],
               "attributes": {},

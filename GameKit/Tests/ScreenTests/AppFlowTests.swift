@@ -18,7 +18,7 @@ final class AppFlowTests: XCTestCase {
         )
     }
 
-    func test_app_initially_shouldShowSplashScreen() {
+    func test_app_initially_shouldShowSplashScreen() throws {
         // Given
         // When
         let sut = createAppStore(initial: AppState())
@@ -27,7 +27,7 @@ final class AppFlowTests: XCTestCase {
         XCTAssertEqual(sut.state.screens, [.splash])
     }
 
-    func test_app_whenCompletedSplash_shouldShowHomeScreen() {
+    func test_app_whenCompletedSplash_shouldShowHomeScreen() throws {
         // Given
         let sut = createAppStore(initial: AppState())
 

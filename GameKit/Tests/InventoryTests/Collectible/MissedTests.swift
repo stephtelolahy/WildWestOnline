@@ -26,7 +26,7 @@ final class MissedTests: XCTestCase {
         XCTAssertEqual(error, .noShootToCounter)
     }
 
-    func test_beingShot_holdingMissedCard_shouldAskToPlay() throws {
+    func test_beingShot_holdingMissedCard_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -47,7 +47,7 @@ final class MissedTests: XCTestCase {
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
-                .missed: .play(.missed, player: "p2"),
+                .missed: .playImmediate(.missed, player: "p2"),
                 .pass: .group([])
             ]),
             .playImmediate(.missed, player: "p2"),
@@ -55,7 +55,7 @@ final class MissedTests: XCTestCase {
         ])
     }
 
-    func test_beingShot_holdingMissedCards_shouldAskToPlay() throws {
+    func test_beingShot_holdingMissedCards_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -76,9 +76,9 @@ final class MissedTests: XCTestCase {
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
-                .missed: .play(.missed, player: "p2"),
-                "missed-2": .play("missed-2", player: "p2"),
-                "missed-3": .play("missed-3", player: "p2"),
+                .missed: .playImmediate(.missed, player: "p2"),
+                "missed-2": .playImmediate("missed-2", player: "p2"),
+                "missed-3": .playImmediate("missed-3", player: "p2"),
                 .pass: .group([])
             ]),
             .playImmediate(.missed, player: "p2"),
@@ -86,7 +86,7 @@ final class MissedTests: XCTestCase {
         ])
     }
 
-    func test_multiplePlayersBeingShot_holdingMissedCard_shouldAskToPlay() throws {
+    func test_multiplePlayersBeingShot_holdingMissedCard_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -111,13 +111,13 @@ final class MissedTests: XCTestCase {
         XCTAssertEqual(result, [
             .playImmediate(.gatling, player: "p1"),
             .chooseOne(player: "p2", options: [
-                .missed: .play(.missed, player: "p2"),
+                .missed: .playImmediate(.missed, player: "p2"),
                 .pass: .group([])
             ]),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2")),
             .chooseOne(player: "p3", options: [
-                .missed: .play(.missed, player: "p3"),
+                .missed: .playImmediate(.missed, player: "p3"),
                 .pass: .group([])
             ]),
             .playImmediate(.missed, player: "p3"),

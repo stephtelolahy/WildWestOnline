@@ -19,6 +19,9 @@ public enum PlayReq: Codable, Equatable {
     /// playing a handicap card, put in target's play
     case playHandicap
 
+    /// playing a card
+    case play
+
     /// setting turn
     case setTurn
 

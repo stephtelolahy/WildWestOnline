@@ -17,7 +17,9 @@ final class GameOverSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1")
-                        .withPlayer("p2")
+                        .withPlayer("p2") {
+                            $0.withAttributes([.updateGameOverOnEliminated: 0])
+                        }
                         .build()
 
                     // When
@@ -54,7 +56,7 @@ final class GameOverSpec: QuickSpec {
         }
 
         context("when over") {
-            it("should not handle any action") {
+            it("should throw error") {
                 // Given
                 let state = GameState.makeBuilder()
                     .withWinner("p1")
@@ -62,10 +64,10 @@ final class GameOverSpec: QuickSpec {
 
                 // When
                 let action = GameAction.play("c1", player: "p1")
-                let (result, _) = self.awaitAction(action, state: state)
+                let (_, error) = self.awaitAction(action, state: state)
 
                 // Then
-                expect(result).to(beEmpty())
+                expect(error) == .gameIsOver
             }
         }
     }
