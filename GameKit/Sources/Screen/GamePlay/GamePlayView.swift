@@ -58,27 +58,23 @@ struct GamePlayView: View {
     }
 }
 
-#if DEBUG
-struct GameView_Previews: PreviewProvider {
-    private static var previewStore: Store<AppState> = {
-        let state = GamePlayState(
-            players: [
-                Player.makeBuilder().withId("willyTheKid").build(),
-                Player.makeBuilder().withId("bartCassidy").build()
-            ],
-            message: "Your turn"
-        )
-
-        return Store<AppState>(
-            initial: AppState(screens: [.game(state)]),
-            reducer: { state, _ in state },
-            middlewares: []
-        )
-    }()
-
-    static var previews: some View {
-        GamePlayView()
-            .environmentObject(previewStore)
-    }
+#Preview {
+    GamePlayView()
+        .environmentObject(gamePreviewStore)
 }
-#endif
+
+private var gamePreviewStore: Store<AppState> = {
+    let state = GamePlayState(
+        players: [
+            Player.makeBuilder().withFigure(.willyTheKid).build(),
+            Player.makeBuilder().withFigure(.bartCassidy).build()
+        ],
+        message: "Your turn"
+    )
+
+    return Store<AppState>(
+        initial: AppState(screens: [.game(state)]),
+        reducer: { state, _ in state },
+        middlewares: []
+    )
+}()

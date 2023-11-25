@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers
 
 import Game
+import Inventory
 import SwiftUI
 
 struct PlayerView: View {
@@ -24,14 +25,11 @@ struct PlayerView: View {
     }
 }
 
-struct PlayerView_Previews: PreviewProvider {
-    static var previews: some View {
-        let player = Player.makeBuilder().withId("bartCassidy").build()
-        Group {
-            PlayerView(player: player)
-        }
-        .previewLayout(.fixed(width: 300, height: 70))
+#Preview {
+    Group {
+        PlayerView(player: Player.makeBuilder().withFigure(.bartCassidy).build())
     }
+    .previewLayout(.fixed(width: 300, height: 70))
 }
 
 private extension Player {
