@@ -11,8 +11,8 @@ public extension Card {
     init(
         _ name: String,
         prototype: Card? = nil,
-        silent: [String] = [],
         attributes: [String: Int] = [:],
+        silent: [String] = [],
         alias: [CardAlias] = [],
         priority: Int = 0,
         @CardRuleBuilder content: () -> [CardRule] = { [] }

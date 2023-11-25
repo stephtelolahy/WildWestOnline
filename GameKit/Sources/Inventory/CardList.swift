@@ -367,7 +367,7 @@ private extension CardList {
         .on([.playAbility])
     }
 
-    static let blackJack = Card(.blackJack, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let blackJack = Card(.blackJack, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.drawDeck
                 .repeat(.attr(.startTurnCards))
@@ -376,7 +376,7 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let kitCarlson = Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.discover
                 .repeat(.attr(.startTurnCards))
@@ -388,7 +388,7 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let jesseJones = Card(.jesseJones, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let jesseJones = Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.drawDiscard
                 .force(otherwise: .drawDeck)
@@ -398,7 +398,7 @@ private extension CardList {
         .on([.setTurn])
     }
 
-    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, silent: [.drawOnSetTurn], attributes: [.maxHealth: 4]) {
+    static let pedroRamirez = Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.steal(.randomHand)
                 .target(.selectAny)
