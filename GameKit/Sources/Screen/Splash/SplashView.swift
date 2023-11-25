@@ -17,7 +17,7 @@ struct SplashView: View {
         ZStack {
             Text("CREATIVE GAMES")
                 .font(.headline)
-                .foregroundColor(.accentColor)
+                .foregroundStyle(.primary)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
                         store.dispatch(AppAction.showScreen(.home))
@@ -25,8 +25,12 @@ struct SplashView: View {
                 }
             VStack(spacing: 8) {
                 Spacer()
-                Text("Stéphano Telolahy").font(.subheadline).foregroundColor(.primary)
-                Text("stephano.telolahy@gmail.com").font(.subheadline).foregroundColor(.secondary)
+                Text("Stéphano Telolahy")
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                Text("stephano.telolahy@gmail.com")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
             .padding()
         }

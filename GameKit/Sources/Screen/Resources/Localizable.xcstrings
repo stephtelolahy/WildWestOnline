@@ -1,0 +1,28 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CREATIVE GAMES" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CREATIVE GAMES"
+          }
+        }
+      }
+    },
+    "WildWestOnline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WildWestOnline"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
