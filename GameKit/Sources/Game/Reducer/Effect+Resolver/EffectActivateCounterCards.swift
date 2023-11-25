@@ -40,10 +40,12 @@ private struct CounterOption {
 private enum CounterActionResolver {
     static func counterAction(card: String, player: String, state: GameState, ctx: PlayReqContext) -> CounterOption? {
         var cardName = card.extractName()
+        var aliasCardName: String?
 
         // resolve card alias>
         if let alias = state.alias(for: card, player: player, ctx: ctx) {
             cardName = alias
+            aliasCardName = alias
         }
         // </resolve card alias>
 
@@ -62,6 +64,12 @@ private enum CounterActionResolver {
             return nil
         }
 
-        return CounterOption(card: card, action: .playImmediate(card, player: player))
+        let action: GameAction = if let aliasCardName {
+            .playAs(aliasCardName, card: card, player: player)
+        } else {
+            .playImmediate(card, player: player)
+        }
+
+        return CounterOption(card: card, action: action)
     }
 }

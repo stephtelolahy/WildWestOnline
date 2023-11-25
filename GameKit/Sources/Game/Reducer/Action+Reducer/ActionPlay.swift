@@ -98,6 +98,7 @@ enum PlayEffectResolver {
         }
     }
 
+    // swiftlint:disable:next function_body_length cyclomatic_complexity
     static func triggeredEffect(
         event: GameAction,
         state: GameState
