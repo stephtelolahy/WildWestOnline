@@ -63,7 +63,7 @@ final class MissedTests: XCTestCase {
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
-                $0.withHand([.missed, "missed-2", "missed-3"])
+                $0.withHand([.missed])
                     .withAttributes([.activateCounterCardsOnShot: 0])
             }
             .build()
@@ -77,8 +77,6 @@ final class MissedTests: XCTestCase {
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
                 .missed: .playImmediate(.missed, player: "p2"),
-                "missed-2": .playImmediate("missed-2", player: "p2"),
-                "missed-3": .playImmediate("missed-3", player: "p2"),
                 .pass: .nothing
             ]),
             .playImmediate(.missed, player: "p2"),
