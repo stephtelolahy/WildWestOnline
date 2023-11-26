@@ -14,22 +14,18 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 32) {
-            Spacer()
-
             Image(systemName: "gamecontroller")
-                .font(.system(size: 64))
-            Button("New Game") {
+                .font(.system(size: 100))
+            Button(String(localized: "menu.start.button", bundle: .module)) {
                 withAnimation {
                     store.dispatch(AppAction.showScreen(.game))
                 }
             }
             .font(.headline)
-            .foregroundColor(.white)
             .padding()
+            .foregroundStyle(.white)
             .background(Color.accentColor)
-            .cornerRadius(40)
-
-            Spacer()
+            .clipShape(.rect(cornerRadius: 40))
         }
     }
 }

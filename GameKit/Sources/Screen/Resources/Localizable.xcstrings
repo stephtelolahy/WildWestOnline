@@ -28,7 +28,7 @@
         }
       }
     },
-    "menu.start" : {
+    "menu.start.button" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -40,7 +40,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nouveau jeu"
+            "value" : "Nouvelle partie"
           }
         }
       }
@@ -55,20 +55,16 @@
         }
       }
     },
-    "New Game" : {
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nouveau jeu"
-          }
-        }
-      }
-    },
     "splash.developer.email" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stephano.telolahy@gmail.com"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "stephano.telolahy@gmail.com"
@@ -80,6 +76,12 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stéphano Telolahy"
+          }
+        },
+        "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stéphano Telolahy"
