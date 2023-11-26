@@ -8,11 +8,7 @@ import Game
 import Redux
 
 public struct GamePlayState: Codable, Equatable {
-    private var gameState: GameState?
-
-    init(gameState: GameState? = nil) {
-        self.gameState = gameState
-    }
+    var gameState: GameState?
 
     static func from(globalState: AppState) -> GamePlayState {
         if let lastScreen = globalState.screens.last,
