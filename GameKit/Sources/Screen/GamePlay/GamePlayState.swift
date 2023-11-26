@@ -10,18 +10,6 @@ import Redux
 public struct GamePlayState: Codable, Equatable {
     private var gameState: GameState?
 
-    var players: [Player] {
-        guard let game = gameState else {
-            return []
-        }
-
-        return game.playOrder.map { game.player($0) }
-    }
-
-    var message: String? {
-        "Your turn"
-    }
-
     init(gameState: GameState? = nil) {
         self.gameState = gameState
     }
@@ -33,6 +21,20 @@ public struct GamePlayState: Codable, Equatable {
         } else {
             .init()
         }
+    }
+}
+
+extension GamePlayState {
+    var players: [Player] {
+        guard let game = gameState else {
+            return []
+        }
+
+        return game.playOrder.map { game.player($0) }
+    }
+
+    var message: String? {
+        "Your turn"
     }
 }
 
