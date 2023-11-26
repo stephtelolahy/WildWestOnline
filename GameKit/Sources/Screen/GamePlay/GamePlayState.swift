@@ -9,15 +9,14 @@ import Redux
 
 public struct GamePlayState: Codable, Equatable {
     var players: [Player]
-    var controlled: String?
-    var message = String()
+    var message: String?
 
     static func from(globalState: AppState) -> GamePlayState {
         if let lastScreen = globalState.screens.last,
            case let .game(gameState) = lastScreen {
             gameState
         } else {
-            fatalError("unexpected")
+            .init(players: [])
         }
     }
 }

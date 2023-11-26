@@ -37,7 +37,7 @@ struct GamePlayView: View {
                     }
                 }
             }
-            Text(String(format: String(localized: "game.message", bundle: .module), state.message))
+            Text(String(format: String(localized: "game.message", bundle: .module), state.message ?? ""))
                 .font(.subheadline)
                 .foregroundColor(.accentColor)
                 .padding()
