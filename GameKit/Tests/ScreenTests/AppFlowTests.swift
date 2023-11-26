@@ -10,9 +10,9 @@ import Redux
 import XCTest
 
 final class AppFlowTests: XCTestCase {
-    private func createAppStore(initialState: AppState) -> Store<AppState> {
+    private func createAppStore(initial: AppState) -> Store<AppState> {
         Store(
-            initial: initialState,
+            initial: initial,
             reducer: AppState.reducer,
             middlewares: []
         )
@@ -21,7 +21,7 @@ final class AppFlowTests: XCTestCase {
     func test_app_initially_shouldShowSplashScreen() throws {
         // Given
         // When
-        let sut = createAppStore(initialState: AppState())
+        let sut = createAppStore(initial: AppState())
 
         // Then
         XCTAssertEqual(sut.state.screens, [.splash])
@@ -29,7 +29,7 @@ final class AppFlowTests: XCTestCase {
 
     func test_app_whenCompletedSplash_shouldShowHomeScreen() throws {
         // Given
-        let sut = createAppStore(initialState: AppState())
+        let sut = createAppStore(initial: AppState())
 
         // When
         sut.dispatch(AppAction.showScreen(.home))
@@ -40,7 +40,7 @@ final class AppFlowTests: XCTestCase {
 
     func test_app_whenStartedGame_shouldShowGameScreen() throws {
         // Given
-        let sut = createAppStore(initialState: AppState(screens: [.home(.init())]))
+        let sut = createAppStore(initial: AppState(screens: [.home(.init())]))
 
         // When
         sut.dispatch(AppAction.showScreen(.game))
@@ -55,7 +55,7 @@ final class AppFlowTests: XCTestCase {
     func test_app_whenFinishedGame_shouldBackToHomeScreen() throws {
         // Given
         let sut = createAppStore(
-            initialState: AppState(
+            initial: AppState(
                 screens: [
                     .home(.init()),
                     .game(.init())
