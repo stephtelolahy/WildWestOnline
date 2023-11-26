@@ -1,6 +1,6 @@
 //
 //  PlayerView.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 09/07/2023.
 //
@@ -18,16 +18,23 @@ struct PlayerView: View {
             CircleImage(image: player.image)
             Text(player.figure)
             Spacer()
-            Image(systemName: "star.fill")
-                .foregroundColor(.yellow)
-                .padding()
+            ForEach((0..<player.health), id: \.self) { _ in
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow)
+            }
         }
+        .padding()
     }
 }
 
 #Preview {
     Group {
-        PlayerView(player: Player.makeBuilder().withFigure(.bartCassidy).build())
+        PlayerView(
+            player: Player.makeBuilder()
+                .withFigure(.bartCassidy)
+                .withHealth(2)
+                .build()
+        )
     }
     .previewLayout(.fixed(width: 300, height: 70))
 }

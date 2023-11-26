@@ -18,8 +18,32 @@
         }
       }
     },
-    "Give Up" : {
+    "game.message" : {
+      "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message: %@"
+          }
+        }
+      }
+    },
+    "game.quit.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give up"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41,16 +65,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouvelle partie"
-          }
-        }
-      }
-    },
-    "Message: %@" : {
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Message: %@"
           }
         }
       }

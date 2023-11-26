@@ -12,13 +12,8 @@ import SwiftUI
 struct GamePlayView: View {
     @EnvironmentObject private var store: Store<AppState>
 
-    private var state: GamePlayState? {
-        if let lastScreen = store.state.screens.last,
-           case let .game(gameState) = lastScreen {
-            gameState
-        } else {
-            nil
-        }
+    private var state: GamePlayState {
+        GamePlayState.from(globalState: store.state)
     }
 
     var body: some View {
@@ -30,31 +25,24 @@ struct GamePlayView: View {
             } label: {
                 HStack {
                     Image(systemName: "hand.point.left.fill")
-                    Text("Give Up")
+                    Text("game.quit.button", bundle: .module)
                 }
                 .foregroundColor(.accentColor)
             }
             .padding()
             List {
                 Section {
-                    let players = state?.players ?? []
-                    ForEach(players) {
+                    ForEach(state.players) {
                         PlayerView(player: $0)
                     }
                 }
             }
-            Text("Message: \(state?.message ?? "")")
+            Text(String(format: String(localized: "game.message", bundle: .module), state.message))
                 .font(.subheadline)
                 .foregroundColor(.accentColor)
                 .padding()
         }
-        .frame(
-            minWidth: 0,
-            maxWidth: .infinity,
-            minHeight: 0,
-            maxHeight: .infinity,
-            alignment: .topLeading
-        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

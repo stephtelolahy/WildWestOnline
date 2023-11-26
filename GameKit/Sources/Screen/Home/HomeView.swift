@@ -11,7 +11,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var store: Store<AppState>
-    
+
     var body: some View {
         VStack(alignment: .center, spacing: 32) {
             Image(systemName: "gamecontroller")
