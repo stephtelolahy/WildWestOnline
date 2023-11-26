@@ -1,24 +1,105 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "CREATIVE GAMES" : {
+    "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
-        "fr" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CREATIVE GAMES"
+            "value" : "WildWestOnline"
           }
-        }
-      }
-    },
-    "WildWestOnline" : {
-      "extractionState" : "manual",
-      "localizations" : {
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "WildWestOnline"
+          }
+        }
+      }
+    },
+    "Give Up" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter"
+          }
+        }
+      }
+    },
+    "menu.start" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Game"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau jeu"
+          }
+        }
+      }
+    },
+    "Message: %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message: %@"
+          }
+        }
+      }
+    },
+    "New Game" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau jeu"
+          }
+        }
+      }
+    },
+    "splash.developer.email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stephano.telolahy@gmail.com"
+          }
+        }
+      }
+    },
+    "splash.developer.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stéphano Telolahy"
+          }
+        }
+      }
+    },
+    "splash.editor.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CREATIVE GAMES"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CREATIVE GAMES"
           }
         }
       }

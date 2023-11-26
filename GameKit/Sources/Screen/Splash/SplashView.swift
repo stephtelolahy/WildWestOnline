@@ -15,7 +15,7 @@ struct SplashView: View {
 
     var body: some View {
         ZStack {
-            Text("CREATIVE GAMES")
+            Text("splash.editor.name", bundle: .module)
                 .font(.headline)
                 .foregroundStyle(.primary)
                 .onAppear {
@@ -25,10 +25,10 @@ struct SplashView: View {
                 }
             VStack(spacing: 8) {
                 Spacer()
-                Text("Stéphano Telolahy")
+                Text("splash.developer.name", bundle: .module)
                     .font(.subheadline)
                     .foregroundStyle(.primary)
-                Text("stephano.telolahy@gmail.com")
+                Text("splash.developer.email", bundle: .module)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

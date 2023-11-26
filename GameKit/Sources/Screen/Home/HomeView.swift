@@ -37,4 +37,5 @@ struct HomeView: View {
 #Preview {
     HomeView()
         .environmentObject(previewStore)
+        .environment(\.locale, .init(identifier: "fr"))
 }
