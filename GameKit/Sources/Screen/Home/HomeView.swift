@@ -11,11 +11,12 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var store: Store<AppState>
-
+    
     var body: some View {
         VStack(alignment: .center, spacing: 32) {
             Image(systemName: "gamecontroller")
                 .font(.system(size: 100))
+                .foregroundStyle(.white)
             Button(String(localized: "menu.start.button", bundle: .module)) {
                 withAnimation {
                     store.dispatch(AppAction.showScreen(.game))
@@ -27,6 +28,8 @@ struct HomeView: View {
             .background(Color.accentColor)
             .clipShape(.rect(cornerRadius: 40))
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.green.gradient)
     }
 }
 
