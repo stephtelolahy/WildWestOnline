@@ -20,7 +20,7 @@ struct PlayerView: View {
             Spacer()
             ForEach((0..<player.health), id: \.self) { _ in
                 Image(systemName: "star.fill")
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.accentColor)
             }
         }
         .padding()

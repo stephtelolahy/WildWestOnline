@@ -18,11 +18,12 @@ public struct GamePlayState: Codable, Equatable {
         return game.playOrder.map { game.player($0) }
     }
 
-    var message: String?
+    var message: String? {
+        "Your turn"
+    }
 
-    init(gameState: GameState? = nil, message: String? = nil) {
+    init(gameState: GameState? = nil) {
         self.gameState = gameState
-        self.message = message
     }
 
     static func from(globalState: AppState) -> GamePlayState {

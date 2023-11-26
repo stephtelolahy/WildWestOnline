@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Game
 import Redux
@@ -28,6 +29,7 @@ struct GamePlayView: View {
                         Image(systemName: "hand.point.left.fill")
                         Text("game.quit.button", bundle: .module)
                     }
+                    .foregroundColor(.accentColor)
                 }
                 .padding()
                 List {
@@ -39,7 +41,6 @@ struct GamePlayView: View {
                 }
                 Text(String(format: String(localized: "game.message", bundle: .module), state.message ?? ""))
                     .font(.subheadline)
-                    .foregroundColor(.accentColor)
                     .padding()
             }
         }
@@ -75,16 +76,14 @@ private var gamePreviewStore: Store<AppState> = {
     let game = GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
+                .withHealth(1)
         }
         .withPlayer("p2") {
             $0.withFigure(.bartCassidy)
+                .withHealth(3)
         }
         .build()
-    let state = GamePlayState(
-        gameState: game,
-        message: "Your turn"
-    )
-
+    let state = GamePlayState(gameState: game)
     return Store<AppState>(
         initial: AppState(screens: [.game(state)]),
         reducer: { state, _ in state },

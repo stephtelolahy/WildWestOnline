@@ -8,11 +8,16 @@
 import SwiftUI
 import Redux
 import Screen
+import Game
 
 private let store = Store<AppState>(
     initial: AppState(),
     reducer: AppState.reducer,
-    middlewares: [loggerMiddleware]
+    middlewares: [
+        loggerMiddleware,
+//        gameLoopMiddleware,
+//        eventLoggerMiddleware
+    ]
 )
 
 @main
