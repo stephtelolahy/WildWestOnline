@@ -51,9 +51,10 @@ struct GamePlayView: View {
 
     private var floatingButton: some View {
         Button {
-            // Action
+            let sheriff = state.players[0].id
+            let action = GameAction.setTurn(sheriff)
+            store.dispatch(action)
         } label: {
-            // 1
             Image(systemName: "plus")
                 .font(.title.weight(.semibold))
                 .padding()
@@ -71,11 +72,16 @@ struct GamePlayView: View {
 }
 
 private var gamePreviewStore: Store<AppState> = {
+    let game = GameState.makeBuilder()
+        .withPlayer("p1") {
+            $0.withFigure(.willyTheKid)
+        }
+        .withPlayer("p2") {
+            $0.withFigure(.bartCassidy)
+        }
+        .build()
     let state = GamePlayState(
-        players: [
-            Player.makeBuilder().withFigure(.willyTheKid).build(),
-            Player.makeBuilder().withFigure(.bartCassidy).build()
-        ],
+        gameState: game,
         message: "Your turn"
     )
 

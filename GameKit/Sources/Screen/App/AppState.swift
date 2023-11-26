@@ -42,7 +42,7 @@ public extension AppState {
         case AppAction.showScreen(.game):
             let playersCount = 5
             let game = Inventory.createGame(playersCount: playersCount)
-            let gamePlayState = GamePlayState(players: game.playOrder.map { game.player($0) })
+            let gamePlayState = GamePlayState(gameState: game)
             screens.append(.game(gamePlayState))
 
         default:

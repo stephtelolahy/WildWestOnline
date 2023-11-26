@@ -8,15 +8,29 @@ import Game
 import Redux
 
 public struct GamePlayState: Codable, Equatable {
-    var players: [Player]
+    private var gameState: GameState?
+
+    var players: [Player] {
+        guard let game = gameState else {
+            return []
+        }
+
+        return game.playOrder.map { game.player($0) }
+    }
+
     var message: String?
+
+    init(gameState: GameState? = nil, message: String? = nil) {
+        self.gameState = gameState
+        self.message = message
+    }
 
     static func from(globalState: AppState) -> GamePlayState {
         if let lastScreen = globalState.screens.last,
            case let .game(gameState) = lastScreen {
             gameState
         } else {
-            .init(players: [])
+            .init()
         }
     }
 }
@@ -26,7 +40,14 @@ public enum GamePlayAction: Action, Codable, Equatable {
 }
 
 extension GamePlayState {
-    static let reducer: Reducer<Self> = { state, _ in
-        state
+    static let reducer: Reducer<Self> = { state, action in
+        guard let action = action as? GameAction,
+              let game = state.gameState else {
+            return state
+        }
+
+        var state = state
+        state.gameState = GameState.reducer(game, action)
+        return state
     }
 }
