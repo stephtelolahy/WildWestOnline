@@ -5,6 +5,7 @@ import SwiftUI
 public protocol Action {}
 
 public typealias Reducer<State> = (State, Action) -> State
+
 public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>?
 
 public final class Store<State>: ObservableObject {

@@ -7,6 +7,7 @@
 import Game
 import Redux
 
+// MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     var gameState: GameState?
 
@@ -20,6 +21,7 @@ public struct GamePlayState: Codable, Equatable {
     }
 }
 
+// MARK: - Derived state
 extension GamePlayState {
     var players: [Player] {
         guard let game = gameState else {

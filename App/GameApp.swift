@@ -11,7 +11,7 @@ import Screen
 import Game
 
 private let store = Store<AppState>(
-    initial: AppState(),
+    initial: .init(),
     reducer: AppState.reducer,
     middlewares: [
         loggerMiddleware,
