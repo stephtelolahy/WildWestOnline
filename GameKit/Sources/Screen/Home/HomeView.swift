@@ -16,7 +16,6 @@ struct HomeView: View {
         VStack(alignment: .center, spacing: 32) {
             Image(systemName: "gamecontroller")
                 .font(.system(size: 100))
-                .foregroundStyle(.white)
             Button(String(localized: "menu.start.button", bundle: .module)) {
                 withAnimation {
                     store.dispatch(AppAction.showScreen(.game))
@@ -24,12 +23,11 @@ struct HomeView: View {
             }
             .font(.headline)
             .padding()
-            .foregroundStyle(.white)
+            .foregroundStyle(.primary)
             .background(Color.accentColor)
             .clipShape(.rect(cornerRadius: 40))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.green.gradient)
     }
 }
 
