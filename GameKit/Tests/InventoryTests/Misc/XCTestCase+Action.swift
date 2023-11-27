@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 08/04/2023.
 //
-// swiftlint:disable prefixed_toplevel_constant
 
 import Combine
 import Game
@@ -22,8 +21,8 @@ extension XCTestCase {
     ) -> ([GameAction], GameError?) {
         let store = createGameStore(initial: state)
 
-        choosingAgentChoices = choose
-        store.addMiddleware(choosingAgentMiddleware)
+        let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
+        store.addMiddleware(choosingMiddleware)
 
         var ocurredError: GameError?
         let expectation = XCTestExpectation(description: "Awaiting game idle")
@@ -46,7 +45,7 @@ extension XCTestCase {
 
         XCTAssertTrue(store.state.sequence.isEmpty, "Game must be idle", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
-        XCTAssertTrue(choosingAgentChoices.isEmpty, "Choices must be empty", file: file, line: line)
+        XCTAssertTrue(choosingMiddleware.choices.isEmpty, "Choices must be empty", file: file, line: line)
 
         let events: [GameAction] = store.log.compactMap { action in
             if let event = action as? GameAction,
@@ -61,21 +60,28 @@ extension XCTestCase {
     }
 }
 
-private var choosingAgentChoices: [String] = []
+private class ChoosingAgentMiddleware: Middleware<GameState> {
+    private(set) var choices: [String]
 
-private let choosingAgentMiddleware: Middleware<GameState> = { state, _ in
-    guard let chooseOne = state.chooseOne else {
-        return nil
+    init(choices: [String]) {
+        self.choices = choices
+        super.init()
     }
 
-    guard !choosingAgentChoices.isEmpty else {
-        fatalError("Expected a choice between \(chooseOne.options.keys)")
-    }
+    func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+        guard let chooseOne = state.chooseOne else {
+            return nil
+        }
 
-    let choice = choosingAgentChoices.removeFirst()
-    guard let option = chooseOne.options[choice] else {
-        fatalError("Expect chooseOne with option \(choice)")
-    }
+        guard !choices.isEmpty else {
+            fatalError("Expected a choice between \(chooseOne.options.keys)")
+        }
 
-    return Just(option).eraseToAnyPublisher()
+        let choice = choices.removeFirst()
+        guard let option = chooseOne.options[choice] else {
+            fatalError("Expect chooseOne with option \(choice)")
+        }
+
+        return Just(option).eraseToAnyPublisher()
+    }
 }
