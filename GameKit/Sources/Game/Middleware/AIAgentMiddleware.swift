@@ -8,7 +8,7 @@ import Combine
 import Redux
 
 public final class AIAgentMiddleware: Middleware<GameState> {
-    func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard let move = evaluateAIMove(state: state) else {
             return nil
         }

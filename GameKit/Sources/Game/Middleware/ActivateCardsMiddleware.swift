@@ -8,7 +8,7 @@ import Combine
 import Redux
 
 public final class ActivateCardsMiddleware: Middleware<GameState> {
-    func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard state.sequence.isEmpty,
               state.isOver == nil,
               state.chooseOne == nil,

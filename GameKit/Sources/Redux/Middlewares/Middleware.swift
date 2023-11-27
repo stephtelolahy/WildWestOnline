@@ -12,7 +12,7 @@ import Combine
 open class Middleware<State> {
     public init() {}
 
-    func handle(action: Action, state: State) -> AnyPublisher<Action, Never>? {
+    open func handle(action: Action, state: State) -> AnyPublisher<Action, Never>? {
         nil
     }
 }

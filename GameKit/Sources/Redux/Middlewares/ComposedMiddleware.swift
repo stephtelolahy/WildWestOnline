@@ -18,7 +18,7 @@ public final class ComposedMiddleware<State>: Middleware<State> {
         self.middlewares = middlewares
     }
 
-    override func handle(action: Action, state: State) -> AnyPublisher<Action, Never>? {
+    override public func handle(action: Action, state: State) -> AnyPublisher<Action, Never>? {
         for middleware in middlewares {
             if let response = middleware.handle(action: action, state: state) {
                 return response

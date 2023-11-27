@@ -68,7 +68,7 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
         super.init()
     }
 
-    func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard let chooseOne = state.chooseOne else {
             return nil
         }
