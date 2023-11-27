@@ -2,9 +2,10 @@ import Combine
 import Foundation
 import SwiftUI
 
-/// A protocol that defines the two expected roles of a "Store":
-/// - receive/distribute actions;
-/// - and publish changes of the the current app state to possible subscribers.
+/// `Store` is a base class that can be used to create the main store of an app, using the redux pattern.
+/// It defines two roles of a "Store":
+/// - receive/distribute `Action`;
+/// - and publish changes of the the current app `State` to possible subscribers.
 public final class Store<State>: ObservableObject {
     @Published public private(set) var state: State
     public private (set) var log: [Action] = []
