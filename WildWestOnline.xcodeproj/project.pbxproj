@@ -53,9 +53,12 @@
 			isa = PBXGroup;
 			children = (
 				F37D85E02A0438EE00C3A754 /* README.md */,
-				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
+				2699EF0029D93AD00030ACCD /* GameApp.swift */,
 				26DD32B829F3D646002E0F93 /* GameKit */,
-				2699EEFF29D93AD00030ACCD /* App */,
+				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
+				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
+				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
+				2699EF0729D93AD10030ACCD /* Preview Content */,
 				2699EEFE29D93AD00030ACCD /* Products */,
 				2653DAE829DA2ADD007EAE71 /* Frameworks */,
 			);
@@ -67,17 +70,6 @@
 				2699EEFD29D93AD00030ACCD /* WildWestOnline.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		2699EEFF29D93AD00030ACCD /* App */ = {
-			isa = PBXGroup;
-			children = (
-				2699EF0029D93AD00030ACCD /* GameApp.swift */,
-				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
-				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
-				2699EF0729D93AD10030ACCD /* Preview Content */,
-			);
-			path = App;
 			sourceTree = "<group>";
 		};
 		2699EF0729D93AD10030ACCD /* Preview Content */ = {
@@ -294,10 +286,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/WildWestOnline.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WildWestOnline.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -330,10 +322,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/WildWestOnline.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WildWestOnline.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
