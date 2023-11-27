@@ -16,7 +16,7 @@ struct PlayerView: View {
     var body: some View {
         HStack {
             CircleImage(image: player.image)
-            Text(player.figure)
+            Text("\(player.figure)\n[]\(player.hand.count)")
             Spacer()
             ForEach((0..<player.health), id: \.self) { _ in
                 Image(systemName: "star.fill")
@@ -32,6 +32,7 @@ struct PlayerView: View {
         PlayerView(
             player: Player.makeBuilder()
                 .withFigure(.bartCassidy)
+                .withHand(["c1", "c2"])
                 .withHealth(2)
                 .build()
         )
