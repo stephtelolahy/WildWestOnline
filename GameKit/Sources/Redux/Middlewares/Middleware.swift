@@ -13,6 +13,6 @@ open class Middleware<State> {
     public init() {}
 
     open func handle(action: Action, state: State) -> AnyPublisher<Action, Never>? {
-        fatalError("should be implemented")
+        nil
     }
 }
