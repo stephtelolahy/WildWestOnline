@@ -59,8 +59,6 @@ extension GamePlayState {
             return state
         }
 
-        var state = state
-        state.gameState = GameState.reducer(game, action)
-        return state
+        return .init(gameState: GameState.reducer(game, action))
     }
 }

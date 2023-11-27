@@ -20,7 +20,7 @@ private let store = Store<AppState>(
             NextActionMiddleware(),
             ActivateCardsMiddleware()
         ])
-        .lift(stateMap: extractGameState),
+        .lift(stateMap: appStateToGameState),
     ]
 )
 
@@ -34,7 +34,7 @@ struct GameApp: App {
     }
 }
 
-private var extractGameState: (AppState) -> GameState? = { state in
+private var appStateToGameState: (AppState) -> GameState? = { state in
     guard let lastScreen = state.screens.last,
           case let .game(gamePlayState) = lastScreen,
           let gameState = gamePlayState.gameState else {
