@@ -2,12 +2,6 @@ import Combine
 import Foundation
 import SwiftUI
 
-public protocol Action {}
-
-public typealias Reducer<State> = (State, Action) -> State
-
-public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>?
-
 public final class Store<State>: ObservableObject {
     @Published public private(set) var state: State
     public private (set) var log: [Action] = []
