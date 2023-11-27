@@ -1,32 +1,35 @@
-// swiftlint:disable:this file_name
 //
 //  EventLoggerMiddleware.swift
 //
 //
 //  Created by Hugues Telolahy on 03/06/2023.
 //
-// swiftlint:disable prefixed_toplevel_constant
 
 import Combine
 import Redux
 
-public let eventLoggerMiddleware: Middleware<GameState> = { state, action in
-    if let error = state.error {
-        print("❌ \(error) on \(action)".removingNamespace())
-    } else if let event = action as? GameAction {
-        print("\(event.image) \(event)".removingNamespace())
+public final class EventLoggerMiddleware: Middleware<GameState> {
+    override public init() {
+        super.init()
     }
 
-    return nil
-}
-
-private extension GameAction {
-    var image: String {
-        if isRenderable {
-            "✅"
-        } else {
-            "➡️"
+    func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+        guard let action = action as? GameAction else {
+            return nil
         }
+
+        if let error = state.error {
+            print("❌ \(error) on \(action)".removingNamespace())
+        } else {
+            let image: String = if action.isRenderable {
+                "✅"
+            } else {
+                "➡️"
+            }
+            print("\(image) \(action)".removingNamespace())
+        }
+
+        return nil
     }
 }
 

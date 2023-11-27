@@ -6,8 +6,10 @@
 //
 import Combine
 
-/// The `ComposedMiddleware` is a container of inner middlewares that are chained together in the order as they were composed.
-/// Whenever an action arrives to be handled by this `ComposedMiddleware`, it will delegate to its internal chain of middlewares.
+/// The `ComposedMiddleware` is a container of inner middlewares 
+/// that are chained together in the order as they were composed.
+/// Whenever an action arrives to be handled by this `ComposedMiddleware`, 
+/// it will delegate to its internal chain of middlewares.
 /// Only the first non-nil middleware response will be returned
 public final class ComposedMiddleware<State>: Middleware<State> {
     private let middlewares: [Middleware<State>]
@@ -22,7 +24,7 @@ public final class ComposedMiddleware<State>: Middleware<State> {
                 return response
             }
         }
-        
+
         return nil
     }
 }

@@ -11,8 +11,12 @@ public func createGameStore(initial: GameState) -> Store<GameState> {
         initial: initial,
         reducer: GameState.reducer,
         middlewares: [
-            gameLoopMiddleware,
-            eventLoggerMiddleware
+            ComposedMiddleware(middlewares: [
+                CardEffectsMiddleware(),
+                NextActionMiddleware(),
+                ActivateCardsMiddleware()
+            ]),
+            EventLoggerMiddleware()
         ]
     )
 }

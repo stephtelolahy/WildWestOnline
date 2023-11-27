@@ -1,12 +1,14 @@
 //
-//  HandlerActivateCards.swift
+//  ActivateCardsMiddleware.swift
 //  
 //
-//  Created by Hugues Telolahy on 03/11/2023.
+//  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
+import Combine
+import Redux
 
-struct HandlerActivateCards: GameActionHandler {
-    func handle(action: GameAction, state: GameState) -> GameAction? {
+public final class ActivateCardsMiddleware: Middleware<GameState> {
+    func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard state.sequence.isEmpty,
               state.isOver == nil,
               state.chooseOne == nil,
@@ -27,7 +29,8 @@ struct HandlerActivateCards: GameActionHandler {
             return nil
         }
 
-        return .activate(activeCards, player: player)
+        let activateAction = GameAction.activate(activeCards, player: player)
+        return Just(activateAction).eraseToAnyPublisher()
     }
 
     private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
