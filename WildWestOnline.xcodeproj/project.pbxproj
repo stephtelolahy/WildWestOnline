@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		263B0AB82AA36E5300AC6008 /* Screen in Frameworks */ = {isa = PBXBuildFile; productRef = 263B0AB72AA36E5300AC6008 /* Screen */; };
 		263B0ABA2AA36E5C00AC6008 /* Inventory in Frameworks */ = {isa = PBXBuildFile; productRef = 263B0AB92AA36E5C00AC6008 /* Inventory */; };
-		26646BA72A5ADECC000C2DCA /* LoggerMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */; };
 		2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* GameApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
 		2699EF0929D93AD10030ACCD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0829D93AD10030ACCD /* Preview Assets.xcassets */; };
@@ -18,7 +17,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerMiddleware.swift; sourceTree = "<group>"; };
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2699EF0029D93AD00030ACCD /* GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 			isa = PBXGroup;
 			children = (
 				2699EF0029D93AD00030ACCD /* GameApp.swift */,
-				26646BA62A5ADECB000C2DCA /* LoggerMiddleware.swift */,
 				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
 				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
 				2699EF0729D93AD10030ACCD /* Preview Content */,
@@ -169,7 +166,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */,
-				26646BA72A5ADECC000C2DCA /* LoggerMiddleware.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
