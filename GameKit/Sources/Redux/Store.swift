@@ -39,7 +39,7 @@ public final class Store<State>: ObservableObject {
 
         var hasEffect = false
         for middleware in middlewares {
-            if let effect = middleware(newState, action) {
+            if let effect = middleware.handle(action: action, state: newState) {
                 effect
                     .receive(on: RunLoop.main)
                     .sink(receiveValue: dispatch)
@@ -53,7 +53,7 @@ public final class Store<State>: ObservableObject {
         }
     }
 
-    public func addMiddleware(_ middleware: @escaping Middleware<State>) {
+    public func addMiddleware(_ middleware: Middleware<State>) {
         middlewares.append(middleware)
     }
 }
