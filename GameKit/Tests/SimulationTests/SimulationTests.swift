@@ -32,7 +32,7 @@ final class SimulationTests: XCTestCase {
         // Given
         let game = Inventory.createGame(playersCount: playersCount)
         let sut = createGameStore(initial: game)
-        sut.addMiddleware(aiAgentMiddleware)
+        sut.addMiddleware(AIAgentMiddleware())
         let expectation = XCTestExpectation(description: "Awaiting game over")
 
         let cancellable = sut.$state.sink { state in

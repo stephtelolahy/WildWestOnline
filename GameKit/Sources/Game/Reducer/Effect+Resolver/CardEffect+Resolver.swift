@@ -79,9 +79,6 @@ private extension CardEffect {
         case let .ignoreError(effect):
             EffectIgnoreError(effect: effect)
 
-        case .nothing:
-            EffectNone()
-
         case let .luck(card, regex, onSuccess, onFailure):
             EffectLuck(card: card, regex: regex, onSuccess: onSuccess, onFailure: onFailure)
 

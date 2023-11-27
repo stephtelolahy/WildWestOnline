@@ -17,7 +17,7 @@ extension GameAction {
                 try action.validate(state: state)
                 validOptions[key] = try action.simplified(state: state)
             } catch {
-                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
+//                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
                 continue
             }
         }
@@ -39,7 +39,7 @@ extension GameAction {
             try action.validate(state: state)
             return true
         } catch {
-            print("‼️ validatePlay: \(action)\tthrows: \(error)")
+//            print("‼️ validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }

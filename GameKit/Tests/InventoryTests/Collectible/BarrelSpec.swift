@@ -128,8 +128,8 @@ final class BarrelSpec: QuickSpec {
                                 .withAttributes([.weapon: 1])
                         }
                         .withPlayer("p2") {
-                            $0.withHand([.missed, "missed-2"])
-                                .withInPlay([.barrel, "barrel-2"])
+                            $0.withHand([.missed])
+                                .withInPlay([.barrel])
                                 .withAttributes([.flippedCards: 1, .activateCounterCardsOnShot: 0])
                         }
                         .withDeck(["c1-2♥️"])

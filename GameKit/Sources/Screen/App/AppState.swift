@@ -9,7 +9,7 @@ import Inventory
 import Redux
 
 public struct AppState: Codable, Equatable {
-    let screens: [ScreenState]
+    public let screens: [ScreenState]
 
     public init(screens: [ScreenState] = [.splash]) {
         self.screens = screens
@@ -42,7 +42,7 @@ public extension AppState {
         case AppAction.showScreen(.game):
             let playersCount = 5
             let game = Inventory.createGame(playersCount: playersCount)
-            let gamePlayState = GamePlayState(players: game.playOrder.map { game.player($0) })
+            let gamePlayState = GamePlayState(gameState: game)
             screens.append(.game(gamePlayState))
 
         default:

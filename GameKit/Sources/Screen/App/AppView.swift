@@ -32,12 +32,9 @@ public struct AppView: View {
     }
 }
 
-#if DEBUG
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        AppView()
-            .environmentObject(previewStore)
-    }
+#Preview {
+    AppView()
+        .environmentObject(previewStore)
 }
 
 let previewStore = Store<AppState>(
@@ -45,4 +42,3 @@ let previewStore = Store<AppState>(
     reducer: { state, _ in state },
     middlewares: []
 )
-#endif

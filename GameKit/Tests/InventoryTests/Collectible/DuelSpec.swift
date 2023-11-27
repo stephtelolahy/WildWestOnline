@@ -8,6 +8,7 @@
 import Game
 import Nimble
 import Quick
+import Inventory
 
 final class DuelSpec: QuickSpec {
     override func spec() {
@@ -17,10 +18,10 @@ final class DuelSpec: QuickSpec {
             beforeEach {
                 state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
-                        $0.withHand([.duel, "bang-1"])
+                        $0.withHand([.duel, .bang1])
                     }
                     .withPlayer("p2") {
-                        $0.withHand(["bang-2"])
+                        $0.withHand([.bang2])
                     }
                     .withPlayer("p3")
                     .withPlayer("p4")
@@ -42,8 +43,8 @@ final class DuelSpec: QuickSpec {
                         ]),
                         .playImmediate(.duel, target: "p2", player: "p1"),
                         .chooseOne(player: "p2", options: [
-                            "bang-2": .group([
-                                .discardHand("bang-2", player: "p2"),
+                            .bang2: .group([
+                                .discardHand(.bang2, player: "p2"),
                                 .effect(.challenge(.id("p2"),
                                                    effect: .discard(.selectHandNamed(.bang)),
                                                    otherwise: .damage(1)
@@ -65,7 +66,7 @@ final class DuelSpec: QuickSpec {
                 it("should damage actor") {
                     // When
                     let action = GameAction.play(.duel, player: "p1")
-                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "bang-2", .pass])
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2", .bang2, .pass])
 
                     // Then
                     expect(result) == [
@@ -76,8 +77,8 @@ final class DuelSpec: QuickSpec {
                         ]),
                         .playImmediate(.duel, target: "p2", player: "p1"),
                         .chooseOne(player: "p2", options: [
-                            "bang-2": .group([
-                                .discardHand("bang-2", player: "p2"),
+                            .bang2: .group([
+                                .discardHand(.bang2, player: "p2"),
                                 .effect(.challenge(.id("p2"),
                                                    effect: .discard(.selectHandNamed(.bang)),
                                                    otherwise: .damage(1)
@@ -90,10 +91,10 @@ final class DuelSpec: QuickSpec {
                             ]),
                             .pass: .damage(1, player: "p2")
                         ]),
-                        .discardHand("bang-2", player: "p2"),
+                        .discardHand(.bang2, player: "p2"),
                         .chooseOne(player: "p1", options: [
-                            "bang-1": .group([
-                                .discardHand("bang-1", player: "p1"),
+                            .bang1: .group([
+                                .discardHand(.bang1, player: "p1"),
                                 .effect(.challenge(.id("p1"),
                                                    effect: .discard(.selectHandNamed(.bang)),
                                                    otherwise: .damage(1)
@@ -112,4 +113,9 @@ final class DuelSpec: QuickSpec {
             }
         }
     }
+}
+
+private extension String {
+    static let bang1 = "\(String.bang)-1"
+    static let bang2 = "\(String.bang)-2"
 }

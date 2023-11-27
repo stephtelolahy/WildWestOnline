@@ -2,11 +2,10 @@ import Combine
 import Foundation
 import SwiftUI
 
-public protocol Action {}
-
-public typealias Reducer<State> = (State, Action) -> State
-public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>?
-
+/// `Store` is a base class that can be used to create the main store of an app, using the redux pattern.
+/// It defines two roles of a "Store":
+/// - receive/distribute `Action`;
+/// - and publish changes of the the current app `State` to possible subscribers.
 public final class Store<State>: ObservableObject {
     @Published public private(set) var state: State
     public private (set) var log: [Action] = []
@@ -39,23 +38,23 @@ public final class Store<State>: ObservableObject {
         let newState = reducer(currentState, action)
         state = newState
 
-        var hasEffect = false
+        var middlewaresHaveEffect = false
         for middleware in middlewares {
-            if let effect = middleware(newState, action) {
+            if let effect = middleware.handle(action: action, state: newState) {
                 effect
                     .receive(on: RunLoop.main)
                     .sink(receiveValue: dispatch)
                     .store(in: &subscriptions)
-                hasEffect = true
+                middlewaresHaveEffect = true
             }
         }
 
-        if !hasEffect {
+        if !middlewaresHaveEffect {
             completed?()
         }
     }
 
-    public func addMiddleware(_ middleware: @escaping Middleware<State>) {
+    public func addMiddleware(_ middleware: Middleware<State>) {
         middlewares.append(middleware)
     }
 }

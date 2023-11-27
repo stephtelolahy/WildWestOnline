@@ -59,9 +59,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Evaluate all player attributes
     case updateAttributes
 
-    /// Do nothing
-    case nothing
-
     // MARK: - Operators
 
     /// Repeat an effect

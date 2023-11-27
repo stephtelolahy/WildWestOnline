@@ -14,31 +14,25 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 32) {
-            Spacer()
-
             Image(systemName: "gamecontroller")
-                .font(.system(size: 64))
-            Button("New Game") {
+                .font(.system(size: 100))
+            Button(String(localized: "menu.start.button", bundle: .module)) {
                 withAnimation {
                     store.dispatch(AppAction.showScreen(.game))
                 }
             }
             .font(.headline)
-            .foregroundColor(.white)
             .padding()
+            .foregroundStyle(.primary)
             .background(Color.accentColor)
-            .cornerRadius(40)
-
-            Spacer()
+            .clipShape(.rect(cornerRadius: 40))
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
-#if DEBUG
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(previewStore)
-    }
+#Preview {
+    HomeView()
+        .environmentObject(previewStore)
+        .environment(\.locale, .init(identifier: "fr"))
 }
-#endif

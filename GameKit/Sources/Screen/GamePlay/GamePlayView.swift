@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import Game
 import Redux
@@ -12,73 +13,80 @@ import SwiftUI
 struct GamePlayView: View {
     @EnvironmentObject private var store: Store<AppState>
 
-    private var state: GamePlayState? {
-        if let lastScreen = store.state.screens.last,
-           case let .game(gameState) = lastScreen {
-            gameState
-        } else {
-            nil
-        }
+    private var state: GamePlayState {
+        GamePlayState.from(globalState: store.state)
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Button {
-                withAnimation {
-                    store.dispatch(AppAction.dismissScreen(.game))
+        ZStack {
+            VStack(alignment: .leading) {
+                Button {
+                    withAnimation {
+                        store.dispatch(AppAction.dismissScreen(.game))
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "hand.point.left.fill")
+                        Text("game.quit.button", bundle: .module)
+                    }
+                    .foregroundColor(.accentColor)
                 }
-            } label: {
-                HStack {
-                    Image(systemName: "hand.point.left.fill")
-                    Text("Give Up")
-                }
-                .foregroundColor(.accentColor)
-            }
-            .padding()
-            List {
-                Section {
-                    let players = state?.players ?? []
-                    ForEach(players) {
-                        PlayerView(player: $0)
+                .padding()
+                List {
+                    Section {
+                        ForEach(state.players) {
+                            PlayerView(player: $0)
+                        }
                     }
                 }
+                Text(String(format: String(localized: "game.message", bundle: .module), state.message ?? ""))
+                    .font(.subheadline)
+                    .padding()
             }
-            Text("Message: \(state?.message ?? "")")
-                .font(.subheadline)
-                .foregroundColor(.accentColor)
-                .padding()
         }
-        .frame(
-            minWidth: 0,
-            maxWidth: .infinity,
-            minHeight: 0,
-            maxHeight: .infinity,
-            alignment: .topLeading
-        )
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(alignment: .bottomTrailing) {
+            floatingButton
+        }
+    }
+
+    private var floatingButton: some View {
+        Button {
+            let sheriff = state.players[0].id
+            let action = GameAction.setTurn(sheriff)
+            store.dispatch(action)
+        } label: {
+            Image(systemName: "gamecontroller")
+                .font(.title.weight(.semibold))
+                .padding()
+                .background(Color.accentColor)
+                .foregroundStyle(.white)
+                .clipShape(Circle())
+        }
+        .padding(.bottom, 60)
     }
 }
 
-#if DEBUG
-struct GameView_Previews: PreviewProvider {
-    private static var previewStore: Store<AppState> = {
-        let state = GamePlayState(
-            players: [
-                Player.makeBuilder().withId("willyTheKid").build(),
-                Player.makeBuilder().withId("bartCassidy").build()
-            ],
-            message: "Your turn"
-        )
-
-        return Store<AppState>(
-            initial: AppState(screens: [.game(state)]),
-            reducer: { state, _ in state },
-            middlewares: []
-        )
-    }()
-
-    static var previews: some View {
-        GamePlayView()
-            .environmentObject(previewStore)
-    }
+#Preview {
+    GamePlayView()
+        .environmentObject(gamePreviewStore)
 }
-#endif
+
+private var gamePreviewStore: Store<AppState> = {
+    let game = GameState.makeBuilder()
+        .withPlayer("p1") {
+            $0.withFigure(.willyTheKid)
+                .withHealth(1)
+        }
+        .withPlayer("p2") {
+            $0.withFigure(.bartCassidy)
+                .withHealth(3)
+        }
+        .build()
+    let state = GamePlayState(gameState: game)
+    return Store<AppState>(
+        initial: AppState(screens: [.game(state)]),
+        reducer: { state, _ in state },
+        middlewares: []
+    )
+}()

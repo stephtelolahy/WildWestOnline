@@ -58,7 +58,7 @@ final class AppFlowTests: XCTestCase {
             initial: AppState(
                 screens: [
                     .home(.init()),
-                    .game(.init(players: []))
+                    .game(.init())
                 ]
             )
         )

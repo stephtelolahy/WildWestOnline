@@ -1,12 +1,18 @@
 //
-//  HandlerTriggeredEffects.swift
+//  CardEffectsMiddleware.swift
 //
 //
-//  Created by Hugues Telolahy on 03/11/2023.
+//  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
+import Combine
+import Redux
 
-struct HandlerTriggeredEffects: GameActionHandler {
-    func handle(action: GameAction, state: GameState) -> GameAction? {
+public final class CardEffectsMiddleware: Middleware<GameState> {
+    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+        guard let action = action as? GameAction else {
+            return nil
+        }
+
         var triggered: [GameAction] = []
 
         // active players
@@ -48,7 +54,8 @@ struct HandlerTriggeredEffects: GameActionHandler {
         }
         // </sort triggered by priority>
 
-        return .group(triggered)
+        let cardEffects = GameAction.group(triggered)
+        return Just(cardEffects).eraseToAnyPublisher()
     }
 
     private func triggeredEffect(

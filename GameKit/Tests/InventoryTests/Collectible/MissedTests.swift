@@ -48,7 +48,7 @@ final class MissedTests: XCTestCase {
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
                 .missed: .playImmediate(.missed, player: "p2"),
-                .pass: .group([])
+                .pass: .nothing
             ]),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))
@@ -63,25 +63,24 @@ final class MissedTests: XCTestCase {
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
-                $0.withHand([.missed, "missed-2", "missed-3"])
+                $0.withHand([.missed1, .missed2])
                     .withAttributes([.activateCounterCardsOnShot: 0])
             }
             .build()
 
         // When
         let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed])
+        let (result, _) = awaitAction(action, state: state, choose: [.missed2])
 
         // Then
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
-                .missed: .playImmediate(.missed, player: "p2"),
-                "missed-2": .playImmediate("missed-2", player: "p2"),
-                "missed-3": .playImmediate("missed-3", player: "p2"),
-                .pass: .group([])
+                .missed1: .playImmediate(.missed1, player: "p2"),
+                .missed2: .playImmediate(.missed2, player: "p2"),
+                .pass: .nothing
             ]),
-            .playImmediate(.missed, player: "p2"),
+            .playImmediate(.missed2, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -112,16 +111,21 @@ final class MissedTests: XCTestCase {
             .playImmediate(.gatling, player: "p1"),
             .chooseOne(player: "p2", options: [
                 .missed: .playImmediate(.missed, player: "p2"),
-                .pass: .group([])
+                .pass: .nothing
             ]),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2")),
             .chooseOne(player: "p3", options: [
                 .missed: .playImmediate(.missed, player: "p3"),
-                .pass: .group([])
+                .pass: .nothing
             ]),
             .playImmediate(.missed, player: "p3"),
             .cancel(.damage(1, player: "p3"))
         ])
     }
+}
+
+private extension String {
+    static let missed1 = "\(String.missed)-1"
+    static let missed2 = "\(String.missed)-2"
 }

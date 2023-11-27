@@ -83,7 +83,7 @@ final class CalamityJanetTests: XCTestCase {
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
                 .bang: .playAs(.missed, card: .bang, player: "p2"),
-                .pass: .group([])
+                .pass: .nothing
             ]),
             .playAs(.missed, card: .bang, player: "p2"),
             .cancel(.damage(1, player: "p2"))
@@ -113,7 +113,7 @@ final class CalamityJanetTests: XCTestCase {
             .playImmediate(.bang, target: "p2", player: "p1"),
             .chooseOne(player: "p2", options: [
                 .missed: .playImmediate(.missed, player: "p2"),
-                .pass: .group([])
+                .pass: .nothing
             ]),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))

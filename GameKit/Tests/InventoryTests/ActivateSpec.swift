@@ -29,7 +29,7 @@ final class ActivateSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.group([])
+                    let action = GameAction.nothing
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
@@ -54,7 +54,7 @@ final class ActivateSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.group([])
+                    let action = GameAction.nothing
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then

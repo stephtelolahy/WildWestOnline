@@ -7,10 +7,45 @@
 import Game
 import Redux
 
+// MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
-    var players: [Player]
-    var controlled: String?
-    var message = String()
+    public var gameState: GameState?
+
+    static func from(globalState: AppState) -> GamePlayState {
+        if let lastScreen = globalState.screens.last,
+           case let .game(gameState) = lastScreen {
+            gameState
+        } else {
+            .init()
+        }
+    }
+}
+
+// MARK: - Derived state
+extension GamePlayState {
+    var players: [Player] {
+        guard let game = gameState else {
+            return []
+        }
+
+        return game.playOrder.map { game.player($0) }
+    }
+
+    var message: String? {
+        guard let gameState else {
+            return "no game"
+        }
+
+        if let active = gameState.active {
+            return "active: \(active.cards)"
+        }
+
+        if let chooseOne = gameState.chooseOne {
+            return "active: \(chooseOne.options.keys)"
+        }
+
+        return "your turn"
+    }
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {
@@ -18,7 +53,14 @@ public enum GamePlayAction: Action, Codable, Equatable {
 }
 
 extension GamePlayState {
-    static let reducer: Reducer<Self> = { state, _ in
-        state
+    static let reducer: Reducer<Self> = { state, action in
+        guard let action = action as? GameAction,
+              let game = state.gameState else {
+            return state
+        }
+
+        var state = state
+        state.gameState = GameState.reducer(game, action)
+        return state
     }
 }

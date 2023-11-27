@@ -15,9 +15,9 @@ struct SplashView: View {
 
     var body: some View {
         ZStack {
-            Text("CREATIVE GAMES")
+            Text("splash.editor.name", bundle: .module)
                 .font(.headline)
-                .foregroundColor(.accentColor)
+                .foregroundStyle(.primary)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
                         store.dispatch(AppAction.showScreen(.home))
@@ -25,19 +25,19 @@ struct SplashView: View {
                 }
             VStack(spacing: 8) {
                 Spacer()
-                Text("Stéphano Telolahy").font(.subheadline).foregroundColor(.primary)
-                Text("stephano.telolahy@gmail.com").font(.subheadline).foregroundColor(.secondary)
+                Text("splash.developer.name", bundle: .module)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                Text("splash.developer.email", bundle: .module)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
             .padding()
         }
     }
 }
 
-#if DEBUG
-struct SplashView_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashView()
-            .environmentObject(previewStore)
-    }
+#Preview {
+    SplashView()
+        .environmentObject(previewStore)
 }
-#endif
