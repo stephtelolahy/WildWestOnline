@@ -32,7 +32,19 @@ extension GamePlayState {
     }
 
     var message: String? {
-        "Your turn"
+        guard let gameState else {
+            return "no game"
+        }
+
+        if let active = gameState.active {
+            return "active: \(active.cards)"
+        }
+
+        if let chooseOne = gameState.chooseOne {
+            return "active: \(chooseOne.options.keys)"
+        }
+
+        return "your turn"
     }
 }
 

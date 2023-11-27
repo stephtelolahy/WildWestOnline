@@ -56,14 +56,14 @@ struct GamePlayView: View {
             let action = GameAction.setTurn(sheriff)
             store.dispatch(action)
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: "gamecontroller")
                 .font(.title.weight(.semibold))
                 .padding()
                 .background(Color.accentColor)
                 .foregroundStyle(.white)
                 .clipShape(Circle())
         }
-        .padding()
+        .padding(.bottom, 60)
     }
 }
 
