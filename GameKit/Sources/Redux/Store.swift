@@ -38,18 +38,18 @@ public final class Store<State>: ObservableObject {
         let newState = reducer(currentState, action)
         state = newState
 
-        var hasEffect = false
+        var middlewaresHaveEffect = false
         for middleware in middlewares {
             if let effect = middleware.handle(action: action, state: newState) {
                 effect
                     .receive(on: RunLoop.main)
                     .sink(receiveValue: dispatch)
                     .store(in: &subscriptions)
-                hasEffect = true
+                middlewaresHaveEffect = true
             }
         }
 
-        if !hasEffect {
+        if !middlewaresHaveEffect {
             completed?()
         }
     }
