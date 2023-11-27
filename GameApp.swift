@@ -15,16 +15,14 @@ private let store = Store<AppState>(
     reducer: AppState.reducer,
     middlewares: [
         LoggerMiddleware(),
-        EventLoggerMiddleware().lift(
-            stateMap: { globalState in
-                guard let lastScreen = globalState.screens.last,
-                      case let .game(gamePlayState) = lastScreen,
-                      let gameState = gamePlayState.gameState else {
-                    return nil
-                }
-                return gameState
-            }
-        )
+        EventLoggerMiddleware()
+            .lift(stateMap: extractGameState),
+        ComposedMiddleware(middlewares: [
+            CardEffectsMiddleware(),
+            NextActionMiddleware(),
+            ActivateCardsMiddleware()
+        ])
+        .lift(stateMap: extractGameState),
     ]
 )
 
@@ -36,4 +34,13 @@ struct GameApp: App {
                 .environmentObject(store)
         }
     }
+}
+
+private var extractGameState: (AppState) -> GameState? = { state in
+    guard let lastScreen = state.screens.last,
+          case let .game(gamePlayState) = lastScreen,
+          let gameState = gamePlayState.gameState else {
+        return nil
+    }
+    return gameState
 }
