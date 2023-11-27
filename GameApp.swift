@@ -8,12 +8,23 @@
 import SwiftUI
 import Redux
 import Screen
+import Game
 
 private let store = Store<AppState>(
     initial: .init(),
     reducer: AppState.reducer,
     middlewares: [
-        LoggerMiddleware()
+        LoggerMiddleware(),
+        EventLoggerMiddleware().lift(
+            stateMap: { globalState in
+                guard let lastScreen = globalState.screens.last,
+                      case let .game(gamePlayState) = lastScreen,
+                      let gameState = gamePlayState.gameState else {
+                    return nil
+                }
+                return gameState
+            }
+        )
     ]
 )
 

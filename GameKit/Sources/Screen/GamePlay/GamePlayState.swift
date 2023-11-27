@@ -9,7 +9,7 @@ import Redux
 
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
-    var gameState: GameState?
+    public var gameState: GameState?
 
     static func from(globalState: AppState) -> GamePlayState {
         if let lastScreen = globalState.screens.last,
