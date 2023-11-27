@@ -9,8 +9,10 @@ import Combine
 import Redux
 import Screen
 
-let loggerMiddleware: Middleware<AppState> = { state, action in
-    print("➡️ \(action)\n✅ \(state)\n")
+class LoggerMiddleware: Middleware<AppState> {
+    override func handle(action: Action, state: AppState) -> AnyPublisher<Action, Never>? {
+        print("➡️ \(action)\n✅ \(state)\n")
 
-    return nil
+        return nil
+    }
 }
