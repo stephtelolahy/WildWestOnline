@@ -2,6 +2,9 @@ import Combine
 import Foundation
 import SwiftUI
 
+/// A protocol that defines the two expected roles of a "Store":
+/// - receive/distribute actions;
+/// - and publish changes of the the current app state to possible subscribers.
 public final class Store<State>: ObservableObject {
     @Published public private(set) var state: State
     public private (set) var log: [Action] = []
