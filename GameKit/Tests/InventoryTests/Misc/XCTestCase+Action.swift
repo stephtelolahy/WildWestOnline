@@ -43,9 +43,9 @@ extension XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
 
-        XCTAssertTrue(store.state.sequence.isEmpty, "Game must be idle", file: file, line: line)
+        XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
         XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
-        XCTAssertTrue(choosingMiddleware.choices.isEmpty, "Choices must be empty", file: file, line: line)
+        XCTAssertEqual(choosingMiddleware.choices, [], "Choices must be empty", file: file, line: line)
 
         let events: [GameAction] = store.log.compactMap { action in
             if let event = action as? GameAction,
