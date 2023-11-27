@@ -15,8 +15,6 @@ private let store = Store<AppState>(
     reducer: AppState.reducer,
     middlewares: [
         LoggerMiddleware(),
-        EventLoggerMiddleware()
-            .lift(stateMap: extractGameState),
         ComposedMiddleware(middlewares: [
             CardEffectsMiddleware(),
             NextActionMiddleware(),
@@ -42,5 +40,6 @@ private var extractGameState: (AppState) -> GameState? = { state in
           let gameState = gamePlayState.gameState else {
         return nil
     }
+
     return gameState
 }
