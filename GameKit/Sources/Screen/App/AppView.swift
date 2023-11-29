@@ -37,7 +37,7 @@ public struct AppView: View {
         .environmentObject(previewStore)
 }
 
-let previewStore = Store<AppState>(
+private let previewStore = Store<AppState>(
     initial: AppState(screens: [.splash]),
     reducer: { state, _ in state },
     middlewares: []

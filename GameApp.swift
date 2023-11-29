@@ -15,7 +15,7 @@ private let store = Store<AppState>(
     reducer: AppState.reducer,
     middlewares: [
         LoggerMiddleware(),
-        ComposedMiddleware(middlewares: [
+        ComposedMiddleware([
             CardEffectsMiddleware(),
             NextActionMiddleware(),
             ActivateCardsMiddleware()

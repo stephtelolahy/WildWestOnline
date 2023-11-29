@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers
+// swiftlint:disable no_magic_numbers prefixed_toplevel_constant
 
 import Game
 import Redux
@@ -69,10 +69,10 @@ struct GamePlayView: View {
 
 #Preview {
     GamePlayView()
-        .environmentObject(gamePreviewStore)
+        .environmentObject(previewStore)
 }
 
-private var gamePreviewStore: Store<AppState> = {
+private let previewStore: Store<AppState> = {
     let game = GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)

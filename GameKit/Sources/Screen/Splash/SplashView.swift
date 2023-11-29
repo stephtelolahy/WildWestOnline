@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers
+// swiftlint:disable no_magic_numbers prefixed_toplevel_constant
 
 import Redux
 import SwiftUI
@@ -41,3 +41,9 @@ struct SplashView: View {
     SplashView()
         .environmentObject(previewStore)
 }
+
+private let previewStore = Store<AppState>(
+    initial: AppState(screens: [.splash]),
+    reducer: { state, _ in state },
+    middlewares: []
+)

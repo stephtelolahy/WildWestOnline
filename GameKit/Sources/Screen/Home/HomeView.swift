@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers
+// swiftlint:disable no_magic_numbers prefixed_toplevel_constant
 
 import Redux
 import SwiftUI
@@ -36,3 +36,9 @@ struct HomeView: View {
         .environmentObject(previewStore)
         .environment(\.locale, .init(identifier: "fr"))
 }
+
+private let previewStore = Store<AppState>(
+    initial: AppState(screens: [.home(.init())]),
+    reducer: { state, _ in state },
+    middlewares: []
+)
