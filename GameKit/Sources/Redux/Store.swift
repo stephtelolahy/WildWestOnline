@@ -6,8 +6,8 @@ import SwiftUI
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-public final class Store<State>: ObservableObject {
-    @Published public private(set) var state: State
+public class Store<State>: ObservableObject {
+    @Published public internal(set) var state: State
     public private (set) var log: [Action] = []
     public var completed: (() -> Void)?
 
