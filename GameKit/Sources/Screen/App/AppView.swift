@@ -7,6 +7,7 @@
 // swiftlint:disable prefixed_toplevel_constant type_contents_order
 
 import Redux
+import ScreenGame
 import SwiftUI
 
 public struct AppView: View {

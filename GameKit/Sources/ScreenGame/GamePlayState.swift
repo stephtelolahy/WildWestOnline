@@ -10,6 +10,10 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
+
+    public init(gameState: GameState) {
+        self.gameState = gameState
+    }
 }
 
 // MARK: - Derived state
@@ -33,7 +37,7 @@ public enum GamePlayAction: Action, Codable, Equatable {
     case load
 }
 
-extension GamePlayState {
+public extension GamePlayState {
     static let reducer: Reducer<Self> = { state, action in
         guard let action = action as? GameAction else {
             return state

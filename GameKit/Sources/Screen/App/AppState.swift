@@ -8,6 +8,7 @@ import Game
 import Inventory
 import Redux
 import Routing
+import ScreenGame
 
 public struct AppState: Codable, Equatable {
     public let screens: [ScreenState]

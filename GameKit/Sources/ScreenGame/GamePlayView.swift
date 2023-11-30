@@ -11,17 +11,17 @@ import Redux
 import Routing
 import SwiftUI
 
-struct GamePlayView: View {
+public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
 
-    init(store: @escaping () -> Store<GamePlayState>) {
+    public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view, so
         // later changes to the view's name input have no effect.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             VStack(alignment: .leading) {
                 Button {

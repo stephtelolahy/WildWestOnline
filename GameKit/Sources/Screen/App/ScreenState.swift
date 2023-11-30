@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 02/09/2023.
 //
 import Redux
+import ScreenGame
 
 public enum ScreenState: Codable, Equatable {
     case splash
