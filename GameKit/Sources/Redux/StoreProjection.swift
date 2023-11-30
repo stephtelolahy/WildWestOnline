@@ -17,14 +17,14 @@ final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
     private var globalStateObservation: AnyCancellable?
 
     init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
-        self.globalStore = globalStore
-        self.stateMap = stateMap
-
         guard let initialState = stateMap(globalStore.state) else {
             fatalError("failed to resolve local state")
         }
 
+        self.globalStore = globalStore
+        self.stateMap = stateMap
         super.init(initial: initialState)
+
         globalStateObservation = globalStore.$state.sink { [weak self] globalState in
             guard let self else {
                 return
