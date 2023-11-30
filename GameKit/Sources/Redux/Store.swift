@@ -18,8 +18,8 @@ public class Store<State>: ObservableObject {
 
     public init(
         initial state: State,
-        reducer: @escaping Reducer<State>,
-        middlewares: [Middleware<State>]
+        reducer: @escaping Reducer<State> = { state, _ in state },
+        middlewares: [Middleware<State>] = []
     ) {
         self.state = state
         self.reducer = reducer

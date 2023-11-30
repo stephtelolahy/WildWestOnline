@@ -19,19 +19,7 @@ final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
     init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState) {
         self.globalStore = globalStore
         self.stateMap = stateMap
-        super.init(
-            initial: stateMap(globalStore.state),
-            reducer: { state, _ in state },
-            middlewares: []
-        )
-        observeGlobalState()
-    }
-
-    override func dispatch(_ action: Action) {
-        globalStore.dispatch(action)
-    }
-
-    private func observeGlobalState() {
+        super.init(initial: stateMap(globalStore.state))
         globalStateObservation = globalStore.$state.sink { [weak self] globalState in
             guard let self else {
                 return
@@ -40,6 +28,10 @@ final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
             let newState = self.stateMap(globalState)
             self.state = newState
         }
+    }
+
+    override func dispatch(_ action: Action) {
+        globalStore.dispatch(action)
     }
 }
 

@@ -13,8 +13,7 @@ final class AppFlowTests: XCTestCase {
     private func createAppStore(initial: AppState) -> Store<AppState> {
         Store(
             initial: initial,
-            reducer: AppState.reducer,
-            middlewares: []
+            reducer: AppState.reducer
         )
     }
 
@@ -64,7 +63,7 @@ final class AppFlowTests: XCTestCase {
         )
 
         // When
-        sut.dispatch(AppAction.dismissScreen(.game))
+        sut.dispatch(AppAction.dismiss)
 
         // Then
         guard case .home = sut.state.screens.last else {

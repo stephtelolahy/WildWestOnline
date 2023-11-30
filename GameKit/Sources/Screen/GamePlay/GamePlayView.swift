@@ -25,7 +25,7 @@ struct GamePlayView: View {
             VStack(alignment: .leading) {
                 Button {
                     withAnimation {
-                        store.dispatch(AppAction.dismissScreen(.game))
+                        store.dispatch(AppAction.dismiss)
                     }
                 } label: {
                     HStack {
@@ -85,9 +85,5 @@ private let previewStore: Store<GamePlayState> = {
         }
         .build()
     let state = GamePlayState(gameState: game)
-    return Store<GamePlayState>(
-        initial: state,
-        reducer: { state, _ in state },
-        middlewares: []
-    )
+    return Store<GamePlayState>(initial: state)
 }()

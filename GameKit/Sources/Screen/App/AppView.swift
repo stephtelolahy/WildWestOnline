@@ -40,11 +40,7 @@ public struct AppView: View {
         .environmentObject(previewStore)
 }
 
-private let previewStore = Store<AppState>(
-    initial: AppState(screens: [.splash]),
-    reducer: { state, _ in state },
-    middlewares: []
-)
+private let previewStore = Store<AppState>(initial: .init(screens: [.splash]))
 
 extension GamePlayState {
     static func from(globalState: AppState) -> GamePlayState {

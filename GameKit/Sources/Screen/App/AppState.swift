@@ -16,17 +16,6 @@ public struct AppState: Codable, Equatable {
     }
 }
 
-public enum AppAction: Action, Codable, Equatable {
-    case showScreen(Screen)
-    case dismissScreen(Screen)
-}
-
-public enum Screen: Codable, Equatable {
-    case splash
-    case home
-    case game
-}
-
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var screens = state.screens
@@ -36,7 +25,7 @@ public extension AppState {
         case AppAction.showScreen(.home):
             screens = [.home(.init())]
 
-        case AppAction.dismissScreen(.game):
+        case AppAction.dismiss:
             screens.removeLast()
 
         case AppAction.showScreen(.game):

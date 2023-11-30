@@ -37,8 +37,4 @@ struct HomeView: View {
         .environment(\.locale, .init(identifier: "fr"))
 }
 
-private let previewStore = Store<AppState>(
-    initial: AppState(screens: [.home(.init())]),
-    reducer: { state, _ in state },
-    middlewares: []
-)
+private let previewStore = Store<AppState>(initial: AppState(screens: [.home(.init())]))
