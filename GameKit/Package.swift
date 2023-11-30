@@ -70,9 +70,16 @@ let package = Package(
                 "Inventory"
             ]),
         .target(
+            name: "Routing",
+            dependencies: [
+                "Redux"
+            ]
+        ),
+        .target(
             name: "Screen",
             dependencies: [
                 "Redux",
+                "Routing",
                 "Game",
                 "Inventory"
             ],

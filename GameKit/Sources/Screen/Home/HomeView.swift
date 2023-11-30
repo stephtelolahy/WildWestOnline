@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers prefixed_toplevel_constant
 
 import Redux
+import Routing
 import SwiftUI
 
 struct HomeView: View {

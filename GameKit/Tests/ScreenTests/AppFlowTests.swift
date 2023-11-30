@@ -6,6 +6,7 @@
 //
 import Game
 import Redux
+import Routing
 @testable import Screen
 import XCTest
 
