@@ -6,6 +6,7 @@
 //
 import Redux
 import ScreenGame
+import ScreenHome
 
 public enum ScreenState: Codable, Equatable {
     case splash

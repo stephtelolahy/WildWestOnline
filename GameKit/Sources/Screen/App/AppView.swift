@@ -8,6 +8,7 @@
 
 import Redux
 import ScreenGame
+import ScreenHome
 import SwiftUI
 
 public struct AppView: View {
@@ -19,7 +20,11 @@ public struct AppView: View {
         Group {
             switch store.state.screens.last {
             case .home:
-                HomeView()
+                HomeView {
+                    store.projection {
+                        HomeState.from(globalState: $0)
+                    }
+                }
 
             case .game:
                 GamePlayView {
@@ -43,13 +48,24 @@ public struct AppView: View {
 
 private let previewStore = Store<AppState>(initial: .init(screens: [.splash]))
 
-extension GamePlayState {
-    static func from(globalState: AppState) -> GamePlayState? {
+private extension GamePlayState {
+    static func from(globalState: AppState) -> Self? {
         guard let lastScreen = globalState.screens.last,
            case let .game(gameState) = lastScreen else {
             return nil
         }
 
         return gameState
+    }
+}
+
+private extension HomeState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+           case let .home(homeState) = lastScreen else {
+            return nil
+        }
+
+        return homeState
     }
 }

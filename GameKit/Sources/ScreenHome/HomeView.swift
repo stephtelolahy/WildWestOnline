@@ -4,16 +4,23 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers prefixed_toplevel_constant
+// swiftlint:disable no_magic_numbers prefixed_toplevel_constant type_contents_order
 
 import Redux
 import Routing
 import SwiftUI
 
-struct HomeView: View {
-    @EnvironmentObject private var store: Store<AppState>
+public struct HomeView: View {
+    @StateObject private var store: Store<HomeState>
 
-    var body: some View {
+    public init(store: @escaping () -> Store<HomeState>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view, so
+        // later changes to the view's name input have no effect.
+        _store = StateObject(wrappedValue: store())
+    }
+
+    public var body: some View {
         VStack(alignment: .center, spacing: 32) {
             Image(systemName: "gamecontroller")
                 .font(.system(size: 100))
@@ -33,9 +40,8 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
-        .environmentObject(previewStore)
+    HomeView { previewStore }
         .environment(\.locale, .init(identifier: "fr"))
 }
 
-private let previewStore = Store<AppState>(initial: AppState(screens: [.home(.init())]))
+private let previewStore = Store<HomeState>(initial: .init())
