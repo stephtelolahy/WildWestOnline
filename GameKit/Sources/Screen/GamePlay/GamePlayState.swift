@@ -10,15 +10,6 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState?
-
-    static func from(globalState: AppState) -> GamePlayState {
-        if let lastScreen = globalState.screens.last,
-           case let .game(gameState) = lastScreen {
-            gameState
-        } else {
-            .init()
-        }
-    }
 }
 
 // MARK: - Derived state

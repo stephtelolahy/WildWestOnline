@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable prefixed_toplevel_constant
+// swiftlint:disable prefixed_toplevel_constant type_contents_order
 
 import Redux
 import SwiftUI
@@ -12,7 +12,6 @@ import SwiftUI
 public struct AppView: View {
     @EnvironmentObject private var store: Store<AppState>
 
-    // swiftlint:disable:next type_contents_order
     public init() {}
 
     public var body: some View {
@@ -22,7 +21,11 @@ public struct AppView: View {
                 HomeView()
 
             case .game:
-                GamePlayView()
+                GamePlayView {
+                    store.projection {
+                        GamePlayState.from(globalState: $0)
+                    }
+                }
 
             default:
                 SplashView()
@@ -42,3 +45,14 @@ private let previewStore = Store<AppState>(
     reducer: { state, _ in state },
     middlewares: []
 )
+
+extension GamePlayState {
+    static func from(globalState: AppState) -> GamePlayState {
+        if let lastScreen = globalState.screens.last,
+           case let .game(gameState) = lastScreen {
+            gameState
+        } else {
+            .init()
+        }
+    }
+}

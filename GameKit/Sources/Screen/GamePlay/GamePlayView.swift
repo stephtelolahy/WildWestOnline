@@ -4,17 +4,20 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers prefixed_toplevel_constant
+// swiftlint:disable no_magic_numbers prefixed_toplevel_constant type_contents_order
 
 import Game
 import Redux
 import SwiftUI
 
 struct GamePlayView: View {
-    @EnvironmentObject private var store: Store<AppState>
+    @StateObject private var store: Store<GamePlayState>
 
-    private var state: GamePlayState {
-        GamePlayState.from(globalState: store.state)
+    init(store: @escaping () -> Store<GamePlayState>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view, so
+        // later changes to the view's name input have no effect.
+        _store = StateObject(wrappedValue: store())
     }
 
     var body: some View {
@@ -34,12 +37,12 @@ struct GamePlayView: View {
                 .padding()
                 List {
                     Section {
-                        ForEach(state.players) {
+                        ForEach(store.state.players) {
                             PlayerView(player: $0)
                         }
                     }
                 }
-                Text(String(format: String(localized: "game.message", bundle: .module), state.message ?? ""))
+                Text(String(format: String(localized: "game.message", bundle: .module), store.state.message ?? ""))
                     .font(.subheadline)
                     .padding()
             }
@@ -52,9 +55,8 @@ struct GamePlayView: View {
 
     private var floatingButton: some View {
         Button {
-            let sheriff = state.players[0].id
-            let action = GameAction.setTurn(sheriff)
-            store.dispatch(action)
+            let sheriff = store.state.players[0].id
+            store.dispatch(GameAction.setTurn(sheriff))
         } label: {
             Image(systemName: "gamecontroller")
                 .font(.title.weight(.semibold))
@@ -68,11 +70,10 @@ struct GamePlayView: View {
 }
 
 #Preview {
-    GamePlayView()
-        .environmentObject(previewStore)
+    GamePlayView { previewStore }
 }
 
-private let previewStore: Store<AppState> = {
+private let previewStore: Store<GamePlayState> = {
     let game = GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
@@ -84,8 +85,8 @@ private let previewStore: Store<AppState> = {
         }
         .build()
     let state = GamePlayState(gameState: game)
-    return Store<AppState>(
-        initial: AppState(screens: [.game(state)]),
+    return Store<GamePlayState>(
+        initial: state,
         reducer: { state, _ in state },
         middlewares: []
     )
