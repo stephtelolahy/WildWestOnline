@@ -43,12 +43,12 @@ public struct AppView: View {
 private let previewStore = Store<AppState>(initial: .init(screens: [.splash]))
 
 extension GamePlayState {
-    static func from(globalState: AppState) -> GamePlayState {
-        if let lastScreen = globalState.screens.last,
-           case let .game(gameState) = lastScreen {
-            gameState
-        } else {
-            .init()
+    static func from(globalState: AppState) -> GamePlayState? {
+        guard let lastScreen = globalState.screens.last,
+           case let .game(gameState) = lastScreen else {
+            return nil
         }
+
+        return gameState
     }
 }

@@ -9,33 +9,23 @@ import Redux
 
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
-    public var gameState: GameState?
+    public var gameState: GameState
 }
 
 // MARK: - Derived state
 extension GamePlayState {
     var players: [Player] {
-        guard let game = gameState else {
-            return []
-        }
-
-        return game.playOrder.map { game.player($0) }
+        gameState.playOrder.map { gameState.player($0) }
     }
 
     var message: String? {
-        guard let gameState else {
-            return "no game"
-        }
-
         if let active = gameState.active {
-            return "active: \(active.cards)"
+            "active: \(active.cards)"
+        } else if let chooseOne = gameState.chooseOne {
+            "active: \(chooseOne.options.keys)"
+        } else {
+            "your turn"
         }
-
-        if let chooseOne = gameState.chooseOne {
-            return "active: \(chooseOne.options.keys)"
-        }
-
-        return "your turn"
     }
 }
 
@@ -45,11 +35,10 @@ public enum GamePlayAction: Action, Codable, Equatable {
 
 extension GamePlayState {
     static let reducer: Reducer<Self> = { state, action in
-        guard let action = action as? GameAction,
-              let game = state.gameState else {
+        guard let action = action as? GameAction else {
             return state
         }
 
-        return .init(gameState: GameState.reducer(game, action))
+        return .init(gameState: GameState.reducer(state.gameState, action))
     }
 }

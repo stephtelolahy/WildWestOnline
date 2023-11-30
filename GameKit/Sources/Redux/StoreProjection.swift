@@ -13,19 +13,27 @@ import Combine
 /// It won't store anything, only project the original store.
 final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
     private let globalStore: Store<GlobalState>
-    private let stateMap: (GlobalState) -> LocalState
+    private let stateMap: (GlobalState) -> LocalState?
     private var globalStateObservation: AnyCancellable?
 
-    init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState) {
+    init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
         self.globalStore = globalStore
         self.stateMap = stateMap
-        super.init(initial: stateMap(globalStore.state))
+
+        guard let initialState = stateMap(globalStore.state) else {
+            fatalError("failed to resolve local state")
+        }
+
+        super.init(initial: initialState)
         globalStateObservation = globalStore.$state.sink { [weak self] globalState in
             guard let self else {
                 return
             }
 
-            let newState = self.stateMap(globalState)
+            guard let newState = self.stateMap(globalState) else {
+                return
+            }
+
             self.state = newState
         }
     }
@@ -37,7 +45,7 @@ final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState>(stateMap: @escaping (State) -> LocalState) -> Store<LocalState> {
+    func projection<LocalState>(stateMap: @escaping (State) -> LocalState?) -> Store<LocalState> {
         StoreProjection(globalStore: self, stateMap: stateMap)
     }
 }

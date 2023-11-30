@@ -36,10 +36,9 @@ struct GameApp: App {
 
 private var appStateToGameState: (AppState) -> GameState? = { state in
     guard let lastScreen = state.screens.last,
-          case let .game(gamePlayState) = lastScreen,
-          let gameState = gamePlayState.gameState else {
+          case let .game(gamePlayState) = lastScreen else {
         return nil
     }
 
-    return gameState
+    return gamePlayState.gameState
 }
