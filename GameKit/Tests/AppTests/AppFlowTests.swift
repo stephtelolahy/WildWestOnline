@@ -6,6 +6,7 @@
 //
 import Game
 import Redux
+import Routing
 @testable import Screen
 import XCTest
 
@@ -13,8 +14,7 @@ final class AppFlowTests: XCTestCase {
     private func createAppStore(initial: AppState) -> Store<AppState> {
         Store(
             initial: initial,
-            reducer: AppState.reducer,
-            middlewares: []
+            reducer: AppState.reducer
         )
     }
 
@@ -24,7 +24,7 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState())
 
         // Then
-        XCTAssertEqual(sut.state.screens, [.splash])
+        XCTAssertEqual(sut.state.screens, [.splash(.init())])
     }
 
     func test_app_whenCompletedSplash_shouldShowHomeScreen() throws {
@@ -32,7 +32,7 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState())
 
         // When
-        sut.dispatch(AppAction.showScreen(.home))
+        sut.dispatch(NavAction.showScreen(.home))
 
         // Then
         XCTAssertEqual(sut.state.screens, [.home(.init())])
@@ -43,7 +43,7 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState(screens: [.home(.init())]))
 
         // When
-        sut.dispatch(AppAction.showScreen(.game))
+        sut.dispatch(NavAction.showScreen(.game))
 
         // Then
         guard case .game = sut.state.screens.last else {
@@ -58,13 +58,13 @@ final class AppFlowTests: XCTestCase {
             initial: AppState(
                 screens: [
                     .home(.init()),
-                    .game(.init())
+                    .game(.init(gameState: GameState.makeBuilder().build()))
                 ]
             )
         )
 
         // When
-        sut.dispatch(AppAction.dismissScreen(.game))
+        sut.dispatch(NavAction.dismiss)
 
         // Then
         guard case .home = sut.state.screens.last else {

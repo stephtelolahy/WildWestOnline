@@ -6,40 +6,44 @@
 //
 
 import SwiftUI
-import Redux
-import Screen
+import App
 import Game
-
-private let store = Store<AppState>(
-    initial: .init(),
-    reducer: AppState.reducer,
-    middlewares: [
-        LoggerMiddleware(),
-        ComposedMiddleware(middlewares: [
-            CardEffectsMiddleware(),
-            NextActionMiddleware(),
-            ActivateCardsMiddleware()
-        ])
-        .lift(stateMap: extractGameState),
-    ]
-)
+import Redux
 
 @main
 struct GameApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView()
-                .environmentObject(store)
+            AppView {
+                store
+            }
         }
     }
 }
 
-private var extractGameState: (AppState) -> GameState? = { state in
-    guard let lastScreen = state.screens.last,
-          case let .game(gamePlayState) = lastScreen,
-          let gameState = gamePlayState.gameState else {
-        return nil
-    }
+private var store: Store<AppState> {
+    Store<AppState>(
+        initial: .init(),
+        reducer: AppState.reducer,
+        middlewares: [
+            LoggerMiddleware(),
+            ComposedMiddleware([
+                CardEffectsMiddleware(),
+                NextActionMiddleware(),
+                ActivateCardsMiddleware()
+            ])
+            .lift(stateMap: { GameState.from(globalState: $0) }),
+        ]
+    )
+}
 
-    return gameState
+private extension GameState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+              case let .game(gamePlayState) = lastScreen else {
+            return nil
+        }
+
+        return gamePlayState.gameState
+    }
 }

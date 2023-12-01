@@ -15,7 +15,10 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "Screen", targets: ["Screen"])
+        .library(name: "ScreenGame", targets: ["ScreenGame"]),
+        .library(name: "ScreenHome", targets: ["ScreenHome"]),
+        .library(name: "ScreenSplash", targets: ["ScreenSplash"]),
+        .library(name: "App", targets: ["App"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -70,17 +73,56 @@ let package = Package(
                 "Inventory"
             ]),
         .target(
-            name: "Screen",
+            name: "Routing",
+            dependencies: [
+                "Redux"
+            ]
+        ),
+        .target(
+            name: "ScreenGame",
             dependencies: [
                 "Redux",
+                "Routing",
                 "Game",
                 "Inventory"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
+        .target(
+            name: "ScreenHome",
+            dependencies: [
+                "Redux",
+                "Routing"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
+        .target(
+            name: "ScreenSplash",
+            dependencies: [
+                "Redux",
+                "Routing"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
+        .target(
+            name: "App",
+            dependencies: [
+                "Redux",
+                "Routing",
+                "Game",
+                "Inventory",
+                "ScreenGame",
+                "ScreenHome",
+                "ScreenSplash"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
         .testTarget(
-            name: "ScreenTests",
-            dependencies: ["Screen"])
+            name: "AppTests",
+            dependencies: ["App"])
     ]
 )

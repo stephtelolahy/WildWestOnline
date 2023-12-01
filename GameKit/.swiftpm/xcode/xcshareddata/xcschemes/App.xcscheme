@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Screen"
-               BuildableName = "Screen"
-               BlueprintName = "Screen"
+               BlueprintIdentifier = "App"
+               BuildableName = "App"
+               BlueprintName = "App"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -49,9 +49,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Screen"
-            BuildableName = "Screen"
-            BlueprintName = "Screen"
+            BlueprintIdentifier = "App"
+            BuildableName = "App"
+            BlueprintName = "App"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

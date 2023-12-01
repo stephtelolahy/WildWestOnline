@@ -14,7 +14,7 @@ import Combine
 public final class ComposedMiddleware<State>: Middleware<State> {
     private let middlewares: [Middleware<State>]
 
-    public init(middlewares: [Middleware<State>]) {
+    public init(_ middlewares: [Middleware<State>]) {
         self.middlewares = middlewares
     }
 
