@@ -4,17 +4,25 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers prefixed_toplevel_constant
+// swiftlint:disable no_magic_numbers prefixed_toplevel_constant type_contents_order
 
 import Redux
 import Routing
 import SwiftUI
 
-struct SplashView: View {
-    @EnvironmentObject private var store: Store<AppState>
+public struct SplashView: View {
     private let splashDelaySeconds = 2.0
 
-    var body: some View {
+    @StateObject private var store: Store<SplashState>
+
+    public init(store: @escaping () -> Store<SplashState>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view, so
+        // later changes to the view's name input have no effect.
+        _store = StateObject(wrappedValue: store())
+    }
+
+    public var body: some View {
         ZStack {
             Text("splash.editor.name", bundle: .module)
                 .font(.headline)
@@ -39,8 +47,9 @@ struct SplashView: View {
 }
 
 #Preview {
-    SplashView()
-        .environmentObject(previewStore)
+    SplashView {
+        previewStore
+    }
 }
 
-private let previewStore = Store<AppState>(initial: AppState(screens: [.splash]))
+private let previewStore = Store<SplashState>(initial: .init())

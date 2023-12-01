@@ -9,11 +9,12 @@ import Inventory
 import Redux
 import Routing
 import ScreenGame
+import ScreenSplash
 
 public struct AppState: Codable, Equatable {
     public let screens: [ScreenState]
 
-    public init(screens: [ScreenState] = [.splash]) {
+    public init(screens: [ScreenState] = [.splash(.init())]) {
         self.screens = screens
     }
 }

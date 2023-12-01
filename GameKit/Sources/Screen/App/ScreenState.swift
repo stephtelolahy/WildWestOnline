@@ -7,9 +7,10 @@
 import Redux
 import ScreenGame
 import ScreenHome
+import ScreenSplash
 
 public enum ScreenState: Codable, Equatable {
-    case splash
+    case splash(SplashState)
     case home(HomeState)
     case game(GamePlayState)
 }

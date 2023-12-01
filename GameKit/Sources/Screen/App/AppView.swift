@@ -9,6 +9,7 @@
 import Redux
 import ScreenGame
 import ScreenHome
+import ScreenSplash
 import SwiftUI
 
 public struct AppView: View {
@@ -34,7 +35,11 @@ public struct AppView: View {
                 }
 
             default:
-                SplashView()
+                SplashView {
+                    store.projection {
+                        SplashState.from(globalState: $0)
+                    }
+                }
             }
         }
         .foregroundColor(.primary)
@@ -46,7 +51,7 @@ public struct AppView: View {
         .environmentObject(previewStore)
 }
 
-private let previewStore = Store<AppState>(initial: .init(screens: [.splash]))
+private let previewStore = Store<AppState>(initial: .init(screens: [.splash(.init())]))
 
 private extension GamePlayState {
     static func from(globalState: AppState) -> Self? {
@@ -67,5 +72,16 @@ private extension HomeState {
         }
 
         return homeState
+    }
+}
+
+private extension SplashState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+           case let .splash(splashState) = lastScreen else {
+            return nil
+        }
+
+        return splashState
     }
 }
