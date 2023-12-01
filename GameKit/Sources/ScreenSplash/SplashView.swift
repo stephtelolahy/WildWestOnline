@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers prefixed_toplevel_constant type_contents_order
+// swiftlint:disable no_magic_numbers type_contents_order
 
 import Redux
 import Routing
@@ -48,8 +48,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        previewStore
+        Store<SplashState>(initial: .init())
     }
 }
-
-private let previewStore = Store<SplashState>(initial: .init())

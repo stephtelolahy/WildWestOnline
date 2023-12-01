@@ -10,20 +10,6 @@ import App
 import Game
 import Redux
 
-private let store = Store<AppState>(
-    initial: .init(),
-    reducer: AppState.reducer,
-    middlewares: [
-        LoggerMiddleware(),
-        ComposedMiddleware([
-            CardEffectsMiddleware(),
-            NextActionMiddleware(),
-            ActivateCardsMiddleware()
-        ])
-        .lift(stateMap: appStateToGameState),
-    ]
-)
-
 @main
 struct GameApp: App {
     var body: some Scene {
@@ -33,6 +19,22 @@ struct GameApp: App {
             }
         }
     }
+}
+
+private var store: Store<AppState> {
+    Store<AppState>(
+        initial: .init(),
+        reducer: AppState.reducer,
+        middlewares: [
+            LoggerMiddleware(),
+            ComposedMiddleware([
+                CardEffectsMiddleware(),
+                NextActionMiddleware(),
+                ActivateCardsMiddleware()
+            ])
+            .lift(stateMap: appStateToGameState),
+        ]
+    )
 }
 
 private var appStateToGameState: (AppState) -> GameState? = { state in

@@ -35,14 +35,14 @@ public extension AppState {
         case AppAction.showScreen(.home):
             screens = [.home(.init())]
 
-        case AppAction.dismiss:
-            screens.removeLast()
-
         case AppAction.showScreen(.game):
             let playersCount = 5
             let game = Inventory.createGame(playersCount: playersCount)
             let gamePlayState = GamePlayState(gameState: game)
             screens.append(.game(gamePlayState))
+
+        case AppAction.dismiss:
+            screens.removeLast()
 
         default:
             break
@@ -55,7 +55,7 @@ public extension AppState {
     }
 }
 
-extension ScreenState {
+private extension ScreenState {
     static let reducer: Reducer<Self> = { state, action in
         switch state {
         case let .home(homeState):

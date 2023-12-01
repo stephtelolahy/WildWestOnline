@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers prefixed_toplevel_constant type_contents_order
+// swiftlint:disable no_magic_numbers type_contents_order
 
 import Game
 import Redux
@@ -71,10 +71,12 @@ public struct GamePlayView: View {
 }
 
 #Preview {
-    GamePlayView { previewStore }
+    GamePlayView {
+        Store<GamePlayState>(initial: previewState)
+    }
 }
 
-private let previewStore: Store<GamePlayState> = {
+private var previewState: GamePlayState {
     let game = GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
@@ -85,6 +87,5 @@ private let previewStore: Store<GamePlayState> = {
                 .withHealth(3)
         }
         .build()
-    let state = GamePlayState(gameState: game)
-    return Store<GamePlayState>(initial: state)
-}()
+    return GamePlayState(gameState: game)
+}

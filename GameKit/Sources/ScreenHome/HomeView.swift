@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers prefixed_toplevel_constant type_contents_order
+// swiftlint:disable no_magic_numbers type_contents_order
 
 import Redux
 import Routing
@@ -40,8 +40,8 @@ public struct HomeView: View {
 }
 
 #Preview {
-    HomeView { previewStore }
-        .environment(\.locale, .init(identifier: "fr"))
+    HomeView {
+        Store<HomeState>(initial: .init())
+    }
+    .environment(\.locale, .init(identifier: "fr"))
 }
-
-private let previewStore = Store<HomeState>(initial: .init())

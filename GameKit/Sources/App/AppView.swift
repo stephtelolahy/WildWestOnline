@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable prefixed_toplevel_constant type_contents_order
+// swiftlint:disable type_contents_order
 
 import Redux
 import ScreenGame
@@ -53,8 +53,6 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        previewStore
+        Store<AppState>(initial: .init(screens: [.splash(.init())]))
     }
 }
-
-private let previewStore = Store<AppState>(initial: .init(screens: [.splash(.init())]))
