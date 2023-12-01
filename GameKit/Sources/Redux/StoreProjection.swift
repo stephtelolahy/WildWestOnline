@@ -11,7 +11,7 @@ import Combine
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
+final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Store<LocalState> {
     private let globalStore: Store<GlobalState>
     private let stateMap: (GlobalState) -> LocalState?
     private var globalStateObservation: AnyCancellable?
@@ -34,6 +34,10 @@ final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
                 return
             }
 
+            guard newState != self.state else {
+                return
+            }
+
             self.state = newState
         }
     }
@@ -45,7 +49,7 @@ final class StoreProjection<GlobalState, LocalState>: Store<LocalState> {
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState>(stateMap: @escaping (State) -> LocalState?) -> Store<LocalState> {
+    func projection<LocalState: Equatable>(stateMap: @escaping (State) -> LocalState?) -> Store<LocalState> {
         StoreProjection(globalStore: self, stateMap: stateMap)
     }
 }
