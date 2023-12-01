@@ -13,9 +13,14 @@ import ScreenSplash
 import SwiftUI
 
 public struct AppView: View {
-    @EnvironmentObject private var store: Store<AppState>
+    @StateObject private var store: Store<AppState>
 
-    public init() {}
+    public init(store: @escaping () -> Store<AppState>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view, so
+        // later changes to the view's name input have no effect.
+        _store = StateObject(wrappedValue: store())
+    }
 
     public var body: some View {
         Group {
@@ -47,41 +52,9 @@ public struct AppView: View {
 }
 
 #Preview {
-    AppView()
-        .environmentObject(previewStore)
+    AppView {
+        previewStore
+    }
 }
 
 private let previewStore = Store<AppState>(initial: .init(screens: [.splash(.init())]))
-
-private extension GamePlayState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-           case let .game(gameState) = lastScreen else {
-            return nil
-        }
-
-        return gameState
-    }
-}
-
-private extension HomeState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-           case let .home(homeState) = lastScreen else {
-            return nil
-        }
-
-        return homeState
-    }
-}
-
-private extension SplashState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-           case let .splash(splashState) = lastScreen else {
-            return nil
-        }
-
-        return splashState
-    }
-}

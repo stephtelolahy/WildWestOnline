@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import Redux
-import Screen
+import App
 import Game
+import Redux
 
 private let store = Store<AppState>(
     initial: .init(),
@@ -28,8 +28,9 @@ private let store = Store<AppState>(
 struct GameApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView()
-                .environmentObject(store)
+            AppView {
+                store
+            }
         }
     }
 }

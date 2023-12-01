@@ -7,13 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		263B0AB82AA36E5300AC6008 /* Screen in Frameworks */ = {isa = PBXBuildFile; productRef = 263B0AB72AA36E5300AC6008 /* Screen */; };
-		263B0ABA2AA36E5C00AC6008 /* Inventory in Frameworks */ = {isa = PBXBuildFile; productRef = 263B0AB92AA36E5C00AC6008 /* Inventory */; };
 		2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* GameApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
 		2699EF0929D93AD10030ACCD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0829D93AD10030ACCD /* Preview Assets.xcassets */; };
-		269D0F0A29F3D67A0096EB49 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = 269D0F0929F3D67A0096EB49 /* Game */; };
-		269D0F0C29F3D67A0096EB49 /* Redux in Frameworks */ = {isa = PBXBuildFile; productRef = 269D0F0B29F3D67A0096EB49 /* Redux */; };
+		26A4F5A62B19602E00BD9B11 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 26A4F5A52B19602E00BD9B11 /* App */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				263B0AB82AA36E5300AC6008 /* Screen in Frameworks */,
-				269D0F0A29F3D67A0096EB49 /* Game in Frameworks */,
-				269D0F0C29F3D67A0096EB49 /* Redux in Frameworks */,
-				263B0ABA2AA36E5C00AC6008 /* Inventory in Frameworks */,
+				26A4F5A62B19602E00BD9B11 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,10 +91,7 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				269D0F0929F3D67A0096EB49 /* Game */,
-				269D0F0B29F3D67A0096EB49 /* Redux */,
-				263B0AB72AA36E5300AC6008 /* Screen */,
-				263B0AB92AA36E5C00AC6008 /* Inventory */,
+				26A4F5A52B19602E00BD9B11 /* App */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -377,21 +368,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		263B0AB72AA36E5300AC6008 /* Screen */ = {
+		26A4F5A52B19602E00BD9B11 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Screen;
-		};
-		263B0AB92AA36E5C00AC6008 /* Inventory */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Inventory;
-		};
-		269D0F0929F3D67A0096EB49 /* Game */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Game;
-		};
-		269D0F0B29F3D67A0096EB49 /* Redux */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Redux;
+			productName = App;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
