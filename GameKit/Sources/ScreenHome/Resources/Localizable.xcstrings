@@ -18,40 +18,6 @@
         }
       }
     },
-    "game.message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Message: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Message: %@"
-          }
-        }
-      }
-    },
-    "game.quit.button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Give up"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quitter"
-          }
-        }
-      }
-    },
     "menu.start.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -65,57 +31,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouvelle partie"
-          }
-        }
-      }
-    },
-    "splash.developer.email" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stephano.telolahy@gmail.com"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stephano.telolahy@gmail.com"
-          }
-        }
-      }
-    },
-    "splash.developer.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stéphano Telolahy"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stéphano Telolahy"
-          }
-        }
-      }
-    },
-    "splash.editor.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CREATIVE GAMES"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CREATIVE GAMES"
           }
         }
       }
