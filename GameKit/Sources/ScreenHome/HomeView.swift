@@ -26,7 +26,7 @@ public struct HomeView: View {
                 .font(.system(size: 100))
             Button(String(localized: "menu.start.button", bundle: .module)) {
                 withAnimation {
-                    store.dispatch(AppAction.showScreen(.game))
+                    store.dispatch(NavAction.showScreen(.game))
                 }
             }
             .font(.headline)

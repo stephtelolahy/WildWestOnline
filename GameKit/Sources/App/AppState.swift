@@ -32,16 +32,16 @@ public extension AppState {
 
         // Update visible screens
         switch action {
-        case AppAction.showScreen(.home):
+        case NavAction.showScreen(.home):
             screens = [.home(.init())]
 
-        case AppAction.showScreen(.game):
+        case NavAction.showScreen(.game):
             let playersCount = 5
             let game = Inventory.createGame(playersCount: playersCount)
             let gamePlayState = GamePlayState(gameState: game)
             screens.append(.game(gamePlayState))
 
-        case AppAction.dismiss:
+        case NavAction.dismiss:
             screens.removeLast()
 
         default:

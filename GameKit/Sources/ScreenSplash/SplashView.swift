@@ -29,7 +29,7 @@ public struct SplashView: View {
                 .foregroundStyle(.primary)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
-                        store.dispatch(AppAction.showScreen(.home))
+                        store.dispatch(NavAction.showScreen(.home))
                     }
                 }
             VStack(spacing: 8) {

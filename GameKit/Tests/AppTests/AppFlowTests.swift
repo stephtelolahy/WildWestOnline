@@ -32,7 +32,7 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState())
 
         // When
-        sut.dispatch(AppAction.showScreen(.home))
+        sut.dispatch(NavAction.showScreen(.home))
 
         // Then
         XCTAssertEqual(sut.state.screens, [.home(.init())])
@@ -43,7 +43,7 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState(screens: [.home(.init())]))
 
         // When
-        sut.dispatch(AppAction.showScreen(.game))
+        sut.dispatch(NavAction.showScreen(.game))
 
         // Then
         guard case .game = sut.state.screens.last else {
@@ -64,7 +64,7 @@ final class AppFlowTests: XCTestCase {
         )
 
         // When
-        sut.dispatch(AppAction.dismiss)
+        sut.dispatch(NavAction.dismiss)
 
         // Then
         guard case .home = sut.state.screens.last else {

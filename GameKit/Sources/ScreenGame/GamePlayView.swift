@@ -26,7 +26,7 @@ public struct GamePlayView: View {
             VStack(alignment: .leading) {
                 Button {
                     withAnimation {
-                        store.dispatch(AppAction.dismiss)
+                        store.dispatch(NavAction.dismiss)
                     }
                 } label: {
                     HStack {
