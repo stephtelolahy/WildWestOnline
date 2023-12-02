@@ -13,6 +13,8 @@ import SwiftUI
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
+    @State private var selectedPlayer: String?
+    private let columnLayout = Array(repeating: GridItem(.flexible()), count: 3)
 
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -20,10 +22,6 @@ public struct GamePlayView: View {
         // later changes to the view's name input have no effect.
         _store = StateObject(wrappedValue: store())
     }
-
-    let columnLayout = Array(repeating: GridItem(), count: 3)
-
-    @State private var selectedPlayer: String?
 
     public var body: some View {
         ZStack {
@@ -68,7 +66,10 @@ public struct GamePlayView: View {
                     }
                     print("select \(selectedPlayer ?? "none")")
                 } label: {
-                    Group {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 4.0)
+                            .aspectRatio(0.8, contentMode: ContentMode.fit)
+                            .foregroundColor(.gray.opacity(0.4))
                         switch item {
                         case let .player(playerId):
                             let player = store.state.gameState.player(playerId)
@@ -78,11 +79,9 @@ public struct GamePlayView: View {
                             Text(card ?? "discard")
 
                         case .empty:
-                            Text("empty")
+                            EmptyView()
                         }
                     }
-                    .background(.yellow)
-                    .clipShape(RoundedRectangle(cornerRadius: 4.0))
                 }
                 .buttonStyle(.plain)
             }
