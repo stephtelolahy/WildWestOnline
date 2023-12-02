@@ -40,7 +40,7 @@ struct PlayerView: View {
     .previewLayout(.fixed(width: 300, height: 70))
 }
 
-private extension Player {
+extension Player {
     var image: Image {
         Image(figure, bundle: Bundle.module)
     }

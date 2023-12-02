@@ -21,36 +21,73 @@ public struct GamePlayView: View {
         _store = StateObject(wrappedValue: store())
     }
 
+    let columnLayout = Array(repeating: GridItem(), count: 3)
+
+    @State private var selectedColor = Color.gray
+
+    let allColors: [Color] = [
+        .orange,
+        .yellow,
+        .green,
+        .mint,
+        .teal,
+        .cyan,
+        .blue,
+        .indigo,
+        .brown
+    ]
+
     public var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Button {
-                    withAnimation {
-                        store.dispatch(NavAction.dismiss)
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "hand.point.left.fill")
-                        Text("game.quit.button", bundle: .module)
-                    }
-                    .foregroundColor(.accentColor)
-                }
-                .padding()
-                List {
-                    Section {
-                        ForEach(store.state.players) {
-                            PlayerView(player: $0)
-                        }
-                    }
-                }
-                Text(String(format: String(localized: "game.message", bundle: .module), store.state.message ?? ""))
-                    .font(.subheadline)
+                headerView
                     .padding()
+                ScrollView {
+                    boardView
+                    detailsView
+                }
+                messageView
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(alignment: .bottomTrailing) {
-            floatingButton
+    }
+
+    private var headerView: some View {
+        Button {
+            withAnimation {
+                store.dispatch(NavAction.dismiss)
+            }
+        } label: {
+            HStack {
+                Image(systemName: "hand.point.left.fill")
+                Text("game.quit.button", bundle: .module)
+            }
+            .foregroundColor(.accentColor)
+        }
+        .padding()
+    }
+
+    private var boardView: some View {
+        LazyVGrid(columns: columnLayout) {
+            ForEach(allColors, id: \.description) { color in
+                Button {
+                    selectedColor = color
+                } label: {
+                    let playerId = store.state.gameState.startOrder[0]
+                    let player = store.state.gameState.player(playerId)
+                    gridItemPlayerView(player)
+                        .background(color)
+                        .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(10)
+    }
+
+    private var detailsView: some View {
+        ForEach(store.state.players) {
+            PlayerView(player: $0)
         }
     }
 
@@ -67,6 +104,23 @@ public struct GamePlayView: View {
                 .clipShape(Circle())
         }
         .padding(.bottom, 60)
+    }
+
+    private var messageView: some View {
+        Text(String(format: String(localized: "game.message", bundle: .module), store.state.message ?? ""))
+            .font(.subheadline)
+            .padding()
+    }
+
+    private func gridItemPlayerView(_ player: Player) -> some View {
+        VStack {
+            CircleImage(image: player.image)
+            Text(player.figure)
+                .lineLimit(1)
+            Text("❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)")
+            Text("[]\(player.hand.count)")
+        }
+        .padding()
     }
 }
 
