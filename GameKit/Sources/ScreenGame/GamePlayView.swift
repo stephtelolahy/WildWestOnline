@@ -33,6 +33,7 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .background(.green.gradient)
     }
 
     private var headerView: some View {
@@ -72,7 +73,7 @@ public struct GamePlayView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 4.0)
                             .aspectRatio(0.8, contentMode: ContentMode.fit)
-                            .foregroundColor(.gray.opacity(0.4))
+                            .foregroundColor(.white.opacity(0.2))
                         switch item {
                         case let .player(playerId):
                             let player = store.state.gameState.player(playerId)
