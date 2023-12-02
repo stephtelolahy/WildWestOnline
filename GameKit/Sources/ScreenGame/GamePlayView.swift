@@ -23,19 +23,7 @@ public struct GamePlayView: View {
 
     let columnLayout = Array(repeating: GridItem(), count: 3)
 
-    @State private var selectedColor = Color.gray
-
-    let allColors: [Color] = [
-        .orange,
-        .yellow,
-        .green,
-        .mint,
-        .teal,
-        .cyan,
-        .blue,
-        .indigo,
-        .brown
-    ]
+    @State private var selectedPlayer: String?
 
     public var body: some View {
         ZStack {
@@ -69,15 +57,32 @@ public struct GamePlayView: View {
 
     private var boardView: some View {
         LazyVGrid(columns: columnLayout) {
-            ForEach(allColors, id: \.description) { color in
+            ForEach(store.state.boardItem) { item in
                 Button {
-                    selectedColor = color
+                    switch item {
+                    case let .player(playerId):
+                        selectedPlayer = playerId
+
+                    default:
+                        selectedPlayer = nil
+                    }
+                    print("select \(selectedPlayer ?? "none")")
                 } label: {
-                    let playerId = store.state.gameState.startOrder[0]
-                    let player = store.state.gameState.player(playerId)
-                    gridItemPlayerView(player)
-                        .background(color)
-                        .clipShape(RoundedRectangle(cornerRadius: 4.0))
+                    Group {
+                        switch item {
+                        case let .player(playerId):
+                            let player = store.state.gameState.player(playerId)
+                            gridItemPlayerView(player)
+
+                        case let .discard(card):
+                            Text(card ?? "discard")
+
+                        case .empty:
+                            Text("empty")
+                        }
+                    }
+                    .background(.yellow)
+                    .clipShape(RoundedRectangle(cornerRadius: 4.0))
                 }
                 .buttonStyle(.plain)
             }

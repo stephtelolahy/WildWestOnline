@@ -10,6 +10,7 @@ import Redux
 
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
+    private static let gridSize = 9
     public var gameState: GameState
 
     public init(gameState: GameState) {
@@ -42,7 +43,13 @@ extension BoardItem: Identifiable {
 extension GamePlayState {
     /// Array of size 3x3
     var boardItem: [BoardItem] {
-        []
+        (0..<Self.gridSize).map { index in
+            if index < gameState.startOrder.count {
+                .player(gameState.startOrder[index])
+            } else {
+                .empty
+            }
+        }
     }
 
     var players: [Player] {

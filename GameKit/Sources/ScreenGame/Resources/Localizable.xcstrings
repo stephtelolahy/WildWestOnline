@@ -41,6 +41,9 @@
         }
       }
     },
+    "empty" : {
+
+    },
     "game.message" : {
       "extractionState" : "manual",
       "localizations" : {
