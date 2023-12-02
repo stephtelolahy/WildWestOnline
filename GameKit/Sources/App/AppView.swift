@@ -39,12 +39,15 @@ public struct AppView: View {
                     }
                 }
 
-            default:
+            case .splash:
                 SplashView {
                     store.projection {
                         SplashState.from(globalState: $0)
                     }
                 }
+
+            case nil:
+                EmptyView()
             }
         }
         .foregroundColor(.primary)

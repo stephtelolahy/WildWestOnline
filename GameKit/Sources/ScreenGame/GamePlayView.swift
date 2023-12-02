@@ -24,31 +24,34 @@ public struct GamePlayView: View {
     }
 
     public var body: some View {
-        ZStack {
-            VStack(alignment: .leading) {
-                headerView
-                    .padding()
-                ScrollView {
-                    boardView
-                    detailsView
-                }
-                messageView
+        VStack(alignment: .leading) {
+            headerView
+                .padding()
+            ScrollView {
+                boardView
+                detailsView
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var headerView: some View {
-        Button {
-            withAnimation {
-                store.dispatch(NavAction.dismiss)
+        HStack {
+            Button {
+                withAnimation {
+                    store.dispatch(NavAction.dismiss)
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "arrow.backward")
+                }
+                .foregroundColor(.accentColor)
             }
-        } label: {
-            HStack {
-                Image(systemName: "hand.point.left.fill")
-                Text("game.quit.button", bundle: .module)
-            }
-            .foregroundColor(.accentColor)
+            Spacer()
+            Text(store.state.message ?? "")
+                .font(.subheadline)
+                .padding()
+            Spacer()
         }
         .padding()
     }
@@ -108,12 +111,6 @@ public struct GamePlayView: View {
                 .clipShape(Circle())
         }
         .padding(.bottom, 60)
-    }
-
-    private var messageView: some View {
-        Text(String(format: String(localized: "game.message", bundle: .module), store.state.message ?? ""))
-            .font(.subheadline)
-            .padding()
     }
 
     private func gridItemPlayerView(_ player: Player) -> some View {
