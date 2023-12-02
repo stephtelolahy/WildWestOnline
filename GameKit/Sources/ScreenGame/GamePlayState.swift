@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
+import Foundation
 import Game
 import Redux
 
@@ -16,8 +17,34 @@ public struct GamePlayState: Codable, Equatable {
     }
 }
 
+enum BoardItem {
+    case player(String)
+    case empty
+    case discard(String?)
+}
+
+extension BoardItem: Identifiable {
+    var id: String {
+        switch self {
+        case let .player(id):
+            id
+
+        case .empty:
+            UUID().uuidString
+
+        case .discard:
+            "discard"
+        }
+    }
+}
+
 // MARK: - Derived state
 extension GamePlayState {
+    /// Array of size 3x3
+    var boardItem: [BoardItem] {
+        []
+    }
+
     var players: [Player] {
         gameState.playOrder.map { gameState.player($0) }
     }
@@ -26,9 +53,9 @@ extension GamePlayState {
         if let active = gameState.active {
             "active: \(active.cards)"
         } else if let chooseOne = gameState.chooseOne {
-            "active: \(chooseOne.options.keys)"
+            "chooseOne: \(chooseOne.options.keys)"
         } else {
-            "your turn"
+            "turn: \(gameState.turn ?? "")"
         }
     }
 }
