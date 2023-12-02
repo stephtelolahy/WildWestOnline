@@ -56,7 +56,7 @@ public struct GamePlayView: View {
 
     private var floatingButton: some View {
         Button {
-            let sheriff = store.state.players[0].id
+            let sheriff = store.state.gameState.playOrder[0]
             store.dispatch(GameAction.setTurn(sheriff))
         } label: {
             Image(systemName: "gamecontroller")
