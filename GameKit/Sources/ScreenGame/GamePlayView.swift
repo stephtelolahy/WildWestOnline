@@ -39,6 +39,10 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            let sheriff = store.state.gameState.playOrder[0]
+            store.dispatch(GameAction.setTurn(sheriff))
+        }
     }
 
     private var headerView: some View {
@@ -55,6 +59,7 @@ public struct GamePlayView: View {
             Spacer()
             Text(store.state.message)
                 .font(.subheadline)
+                .lineLimit(2)
                 .padding()
             Spacer()
             Button {
