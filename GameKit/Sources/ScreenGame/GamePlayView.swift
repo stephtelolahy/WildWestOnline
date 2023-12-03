@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers type_contents_order
 
 import Game
+import Inventory
 import Redux
 import Routing
 import SwiftUI
@@ -66,14 +67,12 @@ public struct GamePlayView: View {
     }
 
     private var detailsView: some View {
-        ForEach(store.state.players) {
-            PlayerView(player: $0)
-        }
+        Text("Details")
     }
 
     private func itemPlayerView(_ player: Player) -> some View {
         HStack {
-            CircleImage(image: player.image)
+            CircleImage(image: player.image, size: 50)
             Text("\(player.figure.uppercased())\n\(player.inPlay.cards.joined(separator: "-"))")
                 .font(.callout)
                 .lineLimit(2)
@@ -92,6 +91,12 @@ public struct GamePlayView: View {
 #Preview {
     GamePlayView {
         Store<GamePlayState>(initial: previewState)
+    }
+}
+
+extension Player {
+    var image: Image {
+        Image(figure, bundle: Bundle.module)
     }
 }
 
