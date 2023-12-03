@@ -26,14 +26,14 @@ public struct GamePlayView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             headerView
-                .padding()
             ScrollView {
-                boardView
-                detailsView
+                VStack {
+                    boardView
+                    detailsView
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        .background(.green.gradient)
     }
 
     private var headerView: some View {
@@ -43,51 +43,59 @@ public struct GamePlayView: View {
                     store.dispatch(NavAction.dismiss)
                 }
             } label: {
-                HStack {
-                    Image(systemName: "arrow.backward")
-                }
-                .foregroundColor(.accentColor)
+                Image(systemName: "arrow.backward")
+                    .foregroundColor(.accentColor)
+                    .padding()
             }
             Spacer()
             Text(store.state.message ?? "")
                 .font(.subheadline)
                 .padding()
             Spacer()
+            Button {
+            } label: {
+                Image(systemName: "info.circle")
+                    .foregroundColor(.accentColor)
+                    .padding()
+            }
         }
-        .padding()
     }
 
     private var boardView: some View {
         LazyVGrid(columns: columnLayout) {
             ForEach(store.state.boardItem) { item in
-                Button {
-                    switch item {
-                    case let .player(playerId):
-                        selectedPlayer = playerId
-
-                    default:
-                        selectedPlayer = nil
-                    }
-                    print("select \(selectedPlayer ?? "none")")
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 4.0)
-                            .aspectRatio(0.8, contentMode: ContentMode.fit)
-                            .foregroundColor(.white.opacity(0.2))
+                autoreleasepool {
+                    Button {
                         switch item {
                         case let .player(playerId):
-                            let player = store.state.gameState.player(playerId)
-                            gridItemPlayerView(player)
+                            selectedPlayer = playerId
 
-                        case let .discard(card):
-                            Text(card ?? "discard")
+                        default:
+                            selectedPlayer = nil
+                        }
+                        print("select \(selectedPlayer ?? "none")")
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 4.0)
+                                .aspectRatio(0.8, contentMode: ContentMode.fit)
+                                .foregroundColor(.white.opacity(0.2))
+                            Group {
+                                switch item {
+                                case let .player(playerId):
+                                    let player = store.state.gameState.player(playerId)
+                                    gridItemPlayerView(player)
 
-                        case .empty:
-                            EmptyView()
+                                case let .discard(card):
+                                    Text(card ?? "discard")
+
+                                case .empty:
+                                    EmptyView()
+                                }
+                            }
                         }
                     }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
         }
         .padding(10)
