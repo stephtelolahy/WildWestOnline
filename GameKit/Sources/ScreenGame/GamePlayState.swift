@@ -11,8 +11,7 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
-
-    var activeSheetData: [String: GameAction] = [:]
+    var showActiveForPlayer: String?
 
     public init(gameState: GameState) {
         self.gameState = gameState
@@ -54,6 +53,14 @@ extension GamePlayState {
             ""
         }
     }
+
+    var activeSheetData: [String: GameAction] {
+        players.first { $0.id == showActiveForPlayer }?.activeActions ?? [:]
+    }
+
+    var chooseOneAlertData: [String: GameAction] {
+        gameState.chooseOne?.options ?? [:]
+    }
 }
 
 struct PlayerItem: Identifiable {
@@ -67,8 +74,9 @@ struct PlayerItem: Identifiable {
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {
-    case selectPlayer(String)
-    case showActiveSheet
+    case didSelectPlayer(String)
+    case didShowActiveSheet
+    case didShowChooseOneAlert
 }
 
 public extension GamePlayState {
@@ -81,11 +89,14 @@ public extension GamePlayState {
 
         if let action = action as? GamePlayAction {
             switch action {
-            case let .selectPlayer(playerId):
-                state.activeSheetData = state.players.first { $0.id == playerId }?.activeActions ?? [:]
+            case let .didSelectPlayer(playerId):
+                state.showActiveForPlayer = playerId
 
-            case .showActiveSheet:
-                state.activeSheetData = [:]
+            case .didShowActiveSheet:
+                state.showActiveForPlayer = nil
+
+            case .didShowChooseOneAlert:
+                break
             }
         }
 

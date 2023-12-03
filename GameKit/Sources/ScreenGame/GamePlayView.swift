@@ -15,9 +15,6 @@ import SwiftUI
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
 
-    @State private var chooseOneAlert = false
-    @State private var chooseOneAlertOptions: [String: GameAction] = [:]
-
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view, so
@@ -41,8 +38,11 @@ public struct GamePlayView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .alert(
             "Choose one option",
-            isPresented: $chooseOneAlert,
-            presenting: chooseOneAlertOptions
+            isPresented: Binding<Bool>(
+                get: { store.state.chooseOneAlertData.isNotEmpty },
+                set: { _ in store.dispatch(GamePlayAction.didShowChooseOneAlert) }
+            ),
+            presenting: store.state.chooseOneAlertData
         ) { data in
             ForEach(Array(data.keys), id: \.self) { key in
                 Button(key) {
@@ -56,12 +56,6 @@ public struct GamePlayView: View {
         .onAppear {
             let sheriff = store.state.gameState.playOrder[0]
             store.dispatch(GameAction.setTurn(sheriff))
-        }
-        .onChange(of: store.state.gameState.chooseOne) { chooseOne in
-            if let chooseOne {
-                chooseOneAlert = true
-                chooseOneAlertOptions = chooseOne.options
-            }
         }
     }
 
@@ -93,7 +87,7 @@ public struct GamePlayView: View {
 
     private func itemPlayerButton(_ player: PlayerItem) -> some View {
         Button(action: {
-            store.dispatch(GamePlayAction.selectPlayer(player.id))
+            store.dispatch(GamePlayAction.didSelectPlayer(player.id))
         }, label: {
             itemPlayerView(player)
         })
@@ -101,7 +95,7 @@ public struct GamePlayView: View {
             "Play a card",
             isPresented: Binding<Bool>(
                 get: { store.state.activeSheetData.isNotEmpty },
-                set: { _ in store.dispatch(GamePlayAction.showActiveSheet) }
+                set: { _ in store.dispatch(GamePlayAction.didShowActiveSheet) }
             ),
             titleVisibility: .visible,
             presenting: store.state.activeSheetData
