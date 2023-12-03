@@ -14,6 +14,7 @@ import SwiftUI
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
+
     @State private var activeSheet = false
     @State private var activeSheetOptions: [String: GameAction] = [:]
     @State private var chooseOneAlert = false
@@ -31,8 +32,8 @@ public struct GamePlayView: View {
             headerView
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(store.state.players) { player in
-                        itemPlayerButton(player)
+                    ForEach(store.state.players) {
+                        itemPlayerButton($0)
                         Divider()
                     }
                 }
