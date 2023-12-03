@@ -39,11 +39,18 @@ public struct GamePlayView: View {
                         }, label: {
                             itemPlayerView(player)
                         })
-                        .confirmationDialog("Select an action", isPresented: $showingOptions) {
+                        .confirmationDialog(
+                            "Select an action",
+                            isPresented: $showingOptions,
+                            titleVisibility: .visible
+                        ) {
                             let options = Array(waitingActions.keys)
                             ForEach(options, id: \.self) { key in
                                 Button(key) {
-                                    store.dispatch(waitingActions[key]!)
+                                    guard let action = waitingActions[key] else {
+                                        fatalError("unexpected")
+                                    }
+                                    store.dispatch(action)
                                 }
                             }
                         }
