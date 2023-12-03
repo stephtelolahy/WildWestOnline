@@ -26,7 +26,7 @@ public struct GamePlayView: View {
         VStack(alignment: .leading) {
             headerView
             ScrollView {
-                VStack {
+                VStack(alignment: .leading) {
                     ForEach(store.state.players) { player in
                         Button(action: {
                             store.dispatch(GamePlayAction.onSelectPlayer(player.id))
@@ -35,7 +35,9 @@ public struct GamePlayView: View {
                         })
                         Divider()
                     }
+                    detailsView
                 }
+                .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -86,9 +88,15 @@ public struct GamePlayView: View {
                     ),
                     size: 50
                 )
-                Text("\(player.displayName)\n\(player.equipment)")
-                    .font(.callout)
-                    .lineLimit(2)
+                VStack(alignment: .leading) {
+                    Text(player.displayName)
+                        .font(.callout)
+                        .lineLimit(1)
+                    Text(player.equipment)
+                        .font(.footnote)
+                        .lineLimit(1)
+
+                }
                 Spacer()
                 Text(player.status)
                     .lineLimit(1)
@@ -103,8 +111,6 @@ public struct GamePlayView: View {
         }
         .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
-        .padding(.leading, 8)
-        .padding(.trailing, 8)
     }
 }
 
