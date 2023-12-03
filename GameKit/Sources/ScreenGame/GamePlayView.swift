@@ -59,6 +59,12 @@ public struct GamePlayView: View {
             let sheriff = store.state.gameState.playOrder[0]
             store.dispatch(GameAction.setTurn(sheriff))
         }
+        .onChange(of: store.state.gameState.chooseOne) { chooseOne in
+            if let chooseOne {
+                chooseOneAlert = true
+                chooseOneAlertOptions = chooseOne.options
+            }
+        }
     }
 
     private var headerView: some View {
@@ -166,6 +172,7 @@ private var previewState: GamePlayState {
                 .withHealth(3)
         }
         .withActive("p1", cards: [.bang, .endTurn])
+        .withChooseOne("p1", options: [.bang: GameAction.nothing])
         .build()
-    return GamePlayState(gameState: game    )
+    return GamePlayState(gameState: game)
 }
