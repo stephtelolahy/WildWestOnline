@@ -11,30 +11,56 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
-    var selectedPlayer: String?
+    private var selectedPlayer: String?
 
-    public init(gameState: GameState) {
+    public init(gameState: GameState, selectedPlayer: String? = nil) {
         self.gameState = gameState
+        self.selectedPlayer = selectedPlayer
     }
 }
 
 // MARK: - Derived state
 extension GamePlayState {
-    var players: [Player] {
-        gameState.playOrder.map { gameState.player($0) }
+    var players: [PlayerItem] {
+        gameState.playOrder.map {
+            let player = gameState.player($0)
+            var waitingActions: Int?
+            if let active = gameState.active,
+               player.id == active.player {
+                waitingActions = active.cards.count
+            }
+            if let chooseOne = gameState.chooseOne, chooseOne.chooser == player.id {
+                waitingActions = chooseOne.options.count
+            }
+            return PlayerItem(
+                id: player.id,
+                imageName: player.figure,
+                displayName: player.figure.uppercased(),
+                status: "[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)",
+                equipment: player.inPlay.cards.joined(separator: "-"),
+                waitingActions: waitingActions,
+                highlighted: player.id == selectedPlayer
+            )
+        }
     }
 
     var message: String {
-        if let active = gameState.active {
-            "active: \(active.cards)"
-        } else if let chooseOne = gameState.chooseOne {
-            "chooseOne: \(chooseOne.options.keys)"
-        } else if let turn = gameState.turn {
+        if let turn = gameState.turn {
             "turn: \(turn)"
         } else {
             ""
         }
     }
+}
+
+struct PlayerItem: Identifiable {
+    let id: String
+    let imageName: String
+    let displayName: String
+    let status: String
+    let equipment: String
+    let waitingActions: Int?
+    let highlighted: Bool
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {

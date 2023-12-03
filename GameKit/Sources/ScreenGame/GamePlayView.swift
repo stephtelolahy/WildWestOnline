@@ -27,11 +27,11 @@ public struct GamePlayView: View {
             headerView
             ScrollView {
                 VStack {
-                    ForEach(store.state.gameState.startOrder, id: \.self) { playerId in
+                    ForEach(store.state.players) { player in
                         Button(action: {
-                            store.dispatch(GamePlayAction.onSelectPlayer(playerId))
+                            store.dispatch(GamePlayAction.onSelectPlayer(player.id))
                         }, label: {
-                            itemPlayerView(store.state.gameState.player(playerId))
+                            itemPlayerView(player)
                         })
                         Divider()
                     }
@@ -59,7 +59,7 @@ public struct GamePlayView: View {
             Spacer()
             Text(store.state.message)
                 .font(.subheadline)
-                .lineLimit(2)
+                .lineLimit(1)
                 .padding()
             Spacer()
             Button {
@@ -75,18 +75,33 @@ public struct GamePlayView: View {
         Text("Details")
     }
 
-    private func itemPlayerView(_ player: Player) -> some View {
-        HStack {
-            CircleImage(image: player.image, size: 50)
-            Text("\(player.figure.uppercased())\n\(player.inPlay.cards.joined(separator: "-"))")
-                .font(.callout)
-                .lineLimit(2)
-            Spacer()
-            Text("[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)")
-                .lineLimit(1)
-                .padding(.trailing, 8)
+    private func itemPlayerView(_ player: PlayerItem) -> some View {
+        ZStack {
+            HStack {
+                CircleImage(
+                    image: Image(
+                        player.imageName,
+                        bundle: Bundle.module,
+                        label: Text(player.imageName)
+                    ),
+                    size: 50
+                )
+                Text("\(player.displayName)\n\(player.equipment)")
+                    .font(.callout)
+                    .lineLimit(2)
+                Spacer()
+                Text(player.status)
+                    .lineLimit(1)
+                    .padding(.trailing, 8)
+            }
+
+            if let waitingActions = player.waitingActions {
+                Image(systemName: "\(waitingActions).circle.fill")
+                    .foregroundColor(.accentColor)
+                    .font(.headline)
+            }
         }
-        .background(Color.accentColor.opacity(0.2))
+        .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
         .padding(.leading, 8)
         .padding(.trailing, 8)
@@ -99,22 +114,18 @@ public struct GamePlayView: View {
     }
 }
 
-extension Player {
-    var image: Image {
-        Image(figure, bundle: Bundle.module)
-    }
-}
-
 private var previewState: GamePlayState {
     let game = GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
+                .withInPlay(["scope", "barrel"])
         }
         .withPlayer("p2") {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
         }
+        .withChooseOne("p1", options: ["bang": .nothing])
         .build()
-    return GamePlayState(gameState: game)
+    return GamePlayState(gameState: game, selectedPlayer: "p1")
 }
