@@ -35,7 +35,6 @@ public struct GamePlayView: View {
                         itemPlayerButton(player)
                         Divider()
                     }
-                    detailsView
                 }
                 .padding()
             }
@@ -85,10 +84,6 @@ public struct GamePlayView: View {
                     .padding()
             }
         }
-    }
-
-    private var detailsView: some View {
-        Text("Details")
     }
 
     private func itemPlayerButton(_ player: PlayerItem) -> some View {
