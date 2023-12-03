@@ -41,11 +41,14 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .alert("Choose one option", isPresented: $chooseOneAlert) {
-            let options = Array(chooseOneAlertOptions.keys)
-            ForEach(options, id: \.self) { key in
+        .alert(
+            "Choose one option",
+            isPresented: $chooseOneAlert,
+            presenting: chooseOneAlertOptions
+        ) { data in
+            ForEach(Array(data.keys), id: \.self) { key in
                 Button(key) {
-                    guard let action = chooseOneAlertOptions[key] else {
+                    guard let action = data[key] else {
                         fatalError("unexpected")
                     }
                     store.dispatch(action)
@@ -100,12 +103,12 @@ public struct GamePlayView: View {
         .confirmationDialog(
             "Play a card",
             isPresented: $activeSheet,
-            titleVisibility: .visible
-        ) {
-            let options = Array(activeSheetOptions.keys)
-            ForEach(options, id: \.self) { key in
+            titleVisibility: .visible,
+            presenting: activeSheetOptions
+        ) { data in
+            ForEach(Array(data.keys), id: \.self) { key in
                 Button(key) {
-                    guard let action = activeSheetOptions[key] else {
+                    guard let action = data[key] else {
                         fatalError("unexpected")
                     }
                     store.dispatch(action)
