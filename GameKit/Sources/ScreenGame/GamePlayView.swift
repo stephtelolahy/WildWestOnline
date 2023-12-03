@@ -14,7 +14,6 @@ import SwiftUI
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
     @State private var selectedPlayer: String?
-    private let columnLayout = Array(repeating: GridItem(.flexible()), count: 3)
 
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -28,8 +27,14 @@ public struct GamePlayView: View {
             headerView
             ScrollView {
                 VStack {
-                    boardView
-                    detailsView
+                    ForEach(store.state.gameState.startOrder, id: \.self) { playerId in
+                        Button(action: {
+                            selectedPlayer = playerId
+                        }, label: {
+                            itemPlayerView(store.state.gameState.player(playerId))
+                        })
+                        Divider()
+                    }
                 }
             }
         }
@@ -61,76 +66,23 @@ public struct GamePlayView: View {
         }
     }
 
-    private var boardView: some View {
-        LazyVGrid(columns: columnLayout) {
-            ForEach(store.state.boardItem) { item in
-                autoreleasepool {
-                    Button {
-                        switch item {
-                        case let .player(playerId):
-                            selectedPlayer = playerId
-
-                        default:
-                            selectedPlayer = nil
-                        }
-                        print("select \(selectedPlayer ?? "none")")
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 4.0)
-                                .aspectRatio(0.8, contentMode: ContentMode.fit)
-                                .foregroundColor(.white.opacity(0.2))
-                            Group {
-                                switch item {
-                                case let .player(playerId):
-                                    let player = store.state.gameState.player(playerId)
-                                    gridItemPlayerView(player)
-
-                                case let .discard(card):
-                                    Text(card ?? "discard")
-
-                                case .empty:
-                                    EmptyView()
-                                }
-                            }
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-        .padding(10)
-    }
-
     private var detailsView: some View {
         ForEach(store.state.players) {
             PlayerView(player: $0)
         }
     }
 
-    private var floatingButton: some View {
-        Button {
-            let sheriff = store.state.gameState.playOrder[0]
-            store.dispatch(GameAction.setTurn(sheriff))
-        } label: {
-            Image(systemName: "gamecontroller")
-                .font(.title.weight(.semibold))
-                .padding()
-                .background(Color.accentColor)
-                .foregroundStyle(.white)
-                .clipShape(Circle())
-        }
-        .padding(.bottom, 60)
-    }
-
-    private func gridItemPlayerView(_ player: Player) -> some View {
-        VStack {
+    private func itemPlayerView(_ player: Player) -> some View {
+        HStack {
             CircleImage(image: player.image)
-            Text(player.figure)
-                .lineLimit(1)
+            Text("\(player.figure)\t[]\(player.hand.count)\n\(player.inPlay.cards.joined(separator: "-"))")
+            Spacer()
             Text("❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)")
-            Text("[]\(player.hand.count)")
         }
-        .padding()
+        .background(Color.accentColor.opacity(0.2))
+        .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
+        .padding(.leading, 10)
+        .padding(.trailing, 10)
     }
 }
 

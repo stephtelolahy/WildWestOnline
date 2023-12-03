@@ -23,7 +23,6 @@ struct PlayerView: View {
                     .foregroundColor(.accentColor)
             }
         }
-        .padding()
     }
 }
 

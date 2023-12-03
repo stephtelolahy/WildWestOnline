@@ -1,8 +1,15 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "[]%lld" : {
-
+    "%@\t[]%lld\n%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@\t[]%2$lld\n%3$@"
+          }
+        }
+      }
     },
     "%@\n[]%lld" : {
       "localizations" : {

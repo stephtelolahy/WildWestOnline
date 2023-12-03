@@ -18,40 +18,8 @@ public struct GamePlayState: Codable, Equatable {
     }
 }
 
-enum BoardItem {
-    case player(String)
-    case empty
-    case discard(String?)
-}
-
-extension BoardItem: Identifiable {
-    var id: String {
-        switch self {
-        case let .player(id):
-            id
-
-        case .empty:
-            UUID().uuidString
-
-        case .discard:
-            "discard"
-        }
-    }
-}
-
 // MARK: - Derived state
 extension GamePlayState {
-    /// Array of size 3x3
-    var boardItem: [BoardItem] {
-        (0..<Self.gridSize).map { index in
-            if index < gameState.startOrder.count {
-                .player(gameState.startOrder[index])
-            } else {
-                .empty
-            }
-        }
-    }
-
     var players: [Player] {
         gameState.playOrder.map { gameState.player($0) }
     }
