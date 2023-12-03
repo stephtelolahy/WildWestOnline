@@ -21,7 +21,7 @@ extension Array where Element: Equatable {
     }
 }
 
-extension Collection {
+public extension Collection {
     var isNotEmpty: Bool {
         !isEmpty
     }

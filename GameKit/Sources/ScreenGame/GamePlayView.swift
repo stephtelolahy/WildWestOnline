@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers type_contents_order
 
 import Game
+import Inventory
 import Redux
 import Routing
 import SwiftUI
@@ -22,51 +23,126 @@ public struct GamePlayView: View {
     }
 
     public var body: some View {
-        ZStack {
-            VStack(alignment: .leading) {
-                Button {
-                    withAnimation {
-                        store.dispatch(NavAction.dismiss)
+        VStack(alignment: .leading) {
+            headerView
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(store.state.players) {
+                        itemPlayerButton($0)
+                        Divider()
                     }
-                } label: {
-                    HStack {
-                        Image(systemName: "hand.point.left.fill")
-                        Text("game.quit.button", bundle: .module)
-                    }
-                    .foregroundColor(.accentColor)
                 }
                 .padding()
-                List {
-                    Section {
-                        ForEach(store.state.players) {
-                            PlayerView(player: $0)
-                        }
-                    }
-                }
-                Text(String(format: String(localized: "game.message", bundle: .module), store.state.message ?? ""))
-                    .font(.subheadline)
-                    .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(alignment: .bottomTrailing) {
-            floatingButton
+        .alert(
+            "Choose one option",
+            isPresented: Binding<Bool>(
+                get: { store.state.chooseOneAlertData.isNotEmpty },
+                set: { _ in store.dispatch(GamePlayAction.didShowChooseOneAlert) }
+            ),
+            presenting: store.state.chooseOneAlertData
+        ) { data in
+            ForEach(Array(data.keys), id: \.self) { key in
+                Button(key) {
+                    guard let action = data[key] else {
+                        fatalError("unexpected")
+                    }
+                    store.dispatch(action)
+                }
+            }
+        }
+        .onAppear {
+            let sheriff = store.state.gameState.playOrder[0]
+            store.dispatch(GameAction.setTurn(sheriff))
         }
     }
 
-    private var floatingButton: some View {
-        Button {
-            let sheriff = store.state.players[0].id
-            store.dispatch(GameAction.setTurn(sheriff))
-        } label: {
-            Image(systemName: "gamecontroller")
-                .font(.title.weight(.semibold))
+    private var headerView: some View {
+        HStack {
+            Button {
+                withAnimation {
+                    store.dispatch(NavAction.dismiss)
+                }
+            } label: {
+                Image(systemName: "arrow.backward")
+                    .foregroundColor(.accentColor)
+                    .padding()
+            }
+            Spacer()
+            Text(store.state.message)
+                .font(.subheadline)
+                .lineLimit(1)
                 .padding()
-                .background(Color.accentColor)
-                .foregroundStyle(.white)
-                .clipShape(Circle())
+            Spacer()
+            Button {
+            } label: {
+                Image(systemName: "info.circle")
+                    .foregroundColor(.accentColor)
+                    .padding()
+            }
         }
-        .padding(.bottom, 60)
+    }
+
+    private func itemPlayerButton(_ player: PlayerItem) -> some View {
+        Button(action: {
+            store.dispatch(GamePlayAction.didSelectPlayer(player.id))
+        }, label: {
+            itemPlayerView(player)
+        })
+        .confirmationDialog(
+            "Play a card",
+            isPresented: Binding<Bool>(
+                get: { store.state.activeSheetData.isNotEmpty },
+                set: { _ in store.dispatch(GamePlayAction.didShowActiveSheet) }
+            ),
+            titleVisibility: .visible,
+            presenting: store.state.activeSheetData
+        ) { data in
+            ForEach(Array(data.keys), id: \.self) { key in
+                Button(key) {
+                    guard let action = data[key] else {
+                        fatalError("unexpected")
+                    }
+                    store.dispatch(action)
+                }
+            }
+        }
+    }
+
+    private func itemPlayerView(_ player: PlayerItem) -> some View {
+        ZStack {
+            HStack {
+                CircleImage(
+                    image: Image(
+                        player.imageName,
+                        bundle: Bundle.module,
+                        label: Text(player.imageName)
+                    )
+                )
+                VStack(alignment: .leading) {
+                    Text(player.displayName)
+                        .font(.callout)
+                        .lineLimit(1)
+                    Text(player.equipment)
+                        .font(.footnote)
+                        .lineLimit(1)
+                }
+                Spacer()
+                Text(player.status)
+                    .lineLimit(1)
+                    .padding(.trailing, 8)
+            }
+
+            if player.activeActions.isNotEmpty {
+                Image(systemName: "\(player.activeActions.count).circle.fill")
+                    .foregroundColor(.accentColor)
+                    .font(.headline)
+            }
+        }
+        .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
+        .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 }
 
@@ -81,11 +157,14 @@ private var previewState: GamePlayState {
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
+                .withInPlay([.saloon, .barrel])
         }
         .withPlayer("p2") {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
         }
+        .withActive("p1", cards: [.bang, .endTurn])
+        .withChooseOne("p1", options: [.bang: GameAction.nothing])
         .build()
     return GamePlayState(gameState: game)
 }

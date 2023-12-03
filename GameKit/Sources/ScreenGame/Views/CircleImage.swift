@@ -4,12 +4,13 @@
 //
 //  Created by Hugues Telolahy on 18/01/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 import SwiftUI
 
 struct CircleImage: View {
-    var size: CGFloat = 50.0
-    var image: Image
+    let image: Image
+    var size: CGFloat = 50
 
     var body: some View {
         image
@@ -20,5 +21,8 @@ struct CircleImage: View {
 }
 
 #Preview {
-    CircleImage(image: Image("turtlerock", bundle: Bundle.module))
+    CircleImage(
+        image: Image("turtlerock", bundle: Bundle.module),
+        size: 50
+    )
 }

@@ -6,9 +6,9 @@
 //
 
 import Game
+import Inventory
 import Nimble
 import Quick
-import Inventory
 
 final class DuelSpec: QuickSpec {
     override func spec() {

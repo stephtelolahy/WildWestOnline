@@ -1,12 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@\n[]%lld" : {
+    "[]%lld\t❤️%lld/%lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@\n[]%2$lld"
+            "value" : "[]%1$lld\t❤️%2$lld/%3$lld"
           }
         }
       }
@@ -27,6 +27,9 @@
           }
         }
       }
+    },
+    "Choose one option" : {
+
     },
     "game.message" : {
       "extractionState" : "manual",
@@ -61,6 +64,9 @@
           }
         }
       }
+    },
+    "Play a card" : {
+
     }
   },
   "version" : "1.0"
