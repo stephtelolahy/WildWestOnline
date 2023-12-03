@@ -13,7 +13,6 @@ import SwiftUI
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
-    @State private var selectedPlayer: String?
 
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -29,7 +28,7 @@ public struct GamePlayView: View {
                 VStack {
                     ForEach(store.state.gameState.startOrder, id: \.self) { playerId in
                         Button(action: {
-                            selectedPlayer = playerId
+                            store.dispatch(GamePlayAction.onSelectPlayer(playerId))
                         }, label: {
                             itemPlayerView(store.state.gameState.player(playerId))
                         })
@@ -53,7 +52,7 @@ public struct GamePlayView: View {
                     .padding()
             }
             Spacer()
-            Text(store.state.message ?? "")
+            Text(store.state.message)
                 .font(.subheadline)
                 .padding()
             Spacer()
@@ -75,14 +74,18 @@ public struct GamePlayView: View {
     private func itemPlayerView(_ player: Player) -> some View {
         HStack {
             CircleImage(image: player.image)
-            Text("\(player.figure)\t[]\(player.hand.count)\n\(player.inPlay.cards.joined(separator: "-"))")
+            Text("\(player.figure.uppercased())\n\(player.inPlay.cards.joined(separator: "-"))")
+                .font(.callout)
+                .lineLimit(2)
             Spacer()
-            Text("❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)")
+            Text("[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)")
+                .lineLimit(1)
+                .padding(.trailing, 8)
         }
         .background(Color.accentColor.opacity(0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
-        .padding(.leading, 10)
-        .padding(.trailing, 10)
+        .padding(.leading, 8)
+        .padding(.trailing, 8)
     }
 }
 

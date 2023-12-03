@@ -1,12 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@\t[]%lld\n%@" : {
+    "[]%lld\t❤️%lld/%lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@\t[]%2$lld\n%3$@"
+            "value" : "[]%1$lld\t❤️%2$lld/%3$lld"
           }
         }
       }
@@ -21,12 +21,12 @@
         }
       }
     },
-    "❤️%lld/%lld" : {
+    "%@\n%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "❤️%1$lld/%2$lld"
+            "value" : "%1$@\n%2$@"
           }
         }
       }

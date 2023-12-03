@@ -10,8 +10,8 @@ import Redux
 
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
-    private static let gridSize = 9
     public var gameState: GameState
+    var selectedPlayer: String?
 
     public init(gameState: GameState) {
         self.gameState = gameState
@@ -24,27 +24,38 @@ extension GamePlayState {
         gameState.playOrder.map { gameState.player($0) }
     }
 
-    var message: String? {
+    var message: String {
         if let active = gameState.active {
             "active: \(active.cards)"
         } else if let chooseOne = gameState.chooseOne {
             "chooseOne: \(chooseOne.options.keys)"
+        } else if let turn = gameState.turn {
+            "turn: \(turn)"
         } else {
-            "turn: \(gameState.turn ?? "")"
+            ""
         }
     }
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {
-    case load
+    case onSelectPlayer(String)
 }
 
 public extension GamePlayState {
     static let reducer: Reducer<Self> = { state, action in
-        guard let action = action as? GameAction else {
-            return state
+        var state = state
+
+        if let action = action as? GamePlayAction {
+            switch action {
+            case let .onSelectPlayer(playerId):
+                state.selectedPlayer = playerId
+            }
         }
 
-        return .init(gameState: GameState.reducer(state.gameState, action))
+        if let action = action as? GameAction {
+            state.gameState = GameState.reducer(state.gameState, action)
+        }
+
+        return state
     }
 }
