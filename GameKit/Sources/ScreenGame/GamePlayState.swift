@@ -11,8 +11,8 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
-
-    public init(gameState: GameState, selectedPlayer: String? = nil) {
+    
+    public init(gameState: GameState) {
         self.gameState = gameState
     }
 }
@@ -22,30 +22,29 @@ extension GamePlayState {
     var players: [PlayerItem] {
         gameState.playOrder.map {
             let player = gameState.player($0)
-
-            var waitingActions: [String: GameAction] = [:]
-            if let chooseOne = gameState.chooseOne, chooseOne.chooser == player.id {
-                waitingActions = chooseOne.options
-            }
+            
+            var activeActions: [String: GameAction] = [:]
             if let active = gameState.active,
                player.id == active.player {
-                waitingActions = active.cards.reduce(into: [String: GameAction]()) {
+                activeActions = active.cards.reduce(into: [String: GameAction]()) {
                     $0[$1] = .play($1, player: player.id)
                 }
             }
-
+            
+            let highlighted = gameState.active?.player == player.id || gameState.chooseOne?.chooser == player.id
+            
             return PlayerItem(
                 id: player.id,
                 imageName: player.figure,
                 displayName: player.figure.uppercased(),
                 status: "[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)",
                 equipment: player.inPlay.cards.joined(separator: "-"),
-                waitingActions: waitingActions,
-                highlighted: !waitingActions.isEmpty
+                activeActions: activeActions,
+                highlighted: highlighted
             )
         }
     }
-
+    
     var message: String {
         if let turn = gameState.turn {
             "turn: \(turn)"
@@ -61,7 +60,7 @@ struct PlayerItem: Identifiable {
     let displayName: String
     let status: String
     let equipment: String
-    let waitingActions: [String: GameAction]
+    let activeActions: [String: GameAction]
     let highlighted: Bool
 }
 
@@ -72,11 +71,11 @@ public enum GamePlayAction: Action, Codable, Equatable {
 public extension GamePlayState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-
+        
         if let action = action as? GameAction {
             state.gameState = GameState.reducer(state.gameState, action)
         }
-
+        
         return state
     }
 }

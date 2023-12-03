@@ -16,7 +16,7 @@ public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
 
     @State private var showingOptions = false
-    @State private var waitingActions: [String: GameAction] = [:]
+    @State private var activeActions: [String: GameAction] = [:]
 
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -31,29 +31,7 @@ public struct GamePlayView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     ForEach(store.state.players) { player in
-                        Button(action: {
-                            if !player.waitingActions.isEmpty {
-                                showingOptions = true
-                                waitingActions = player.waitingActions
-                            }
-                        }, label: {
-                            itemPlayerView(player)
-                        })
-                        .confirmationDialog(
-                            "Select an action",
-                            isPresented: $showingOptions,
-                            titleVisibility: .visible
-                        ) {
-                            let options = Array(waitingActions.keys)
-                            ForEach(options, id: \.self) { key in
-                                Button(key) {
-                                    guard let action = waitingActions[key] else {
-                                        fatalError("unexpected")
-                                    }
-                                    store.dispatch(action)
-                                }
-                            }
-                        }
+                        itemPlayerButton(player)
                         Divider()
                     }
                     detailsView
@@ -98,6 +76,32 @@ public struct GamePlayView: View {
         Text("Details")
     }
 
+    private func itemPlayerButton(_ player: PlayerItem) -> some View {
+        Button(action: {
+            if !player.activeActions.isEmpty {
+                showingOptions = true
+                activeActions = player.activeActions
+            }
+        }, label: {
+            itemPlayerView(player)
+        })
+        .confirmationDialog(
+            "Play a card",
+            isPresented: $showingOptions,
+            titleVisibility: .visible
+        ) {
+            let options = Array(activeActions.keys)
+            ForEach(options, id: \.self) { key in
+                Button(key) {
+                    guard let action = activeActions[key] else {
+                        fatalError("unexpected")
+                    }
+                    store.dispatch(action)
+                }
+            }
+        }
+    }
+
     private func itemPlayerView(_ player: PlayerItem) -> some View {
         ZStack {
             HStack {
@@ -106,8 +110,7 @@ public struct GamePlayView: View {
                         player.imageName,
                         bundle: Bundle.module,
                         label: Text(player.imageName)
-                    ),
-                    size: 50
+                    )
                 )
                 VStack(alignment: .leading) {
                     Text(player.displayName)
@@ -123,8 +126,8 @@ public struct GamePlayView: View {
                     .padding(.trailing, 8)
             }
 
-            if !player.waitingActions.isEmpty {
-                Image(systemName: "\(player.waitingActions.count).circle.fill")
+            if !player.activeActions.isEmpty {
+                Image(systemName: "\(player.activeActions.count).circle.fill")
                     .foregroundColor(.accentColor)
                     .font(.headline)
             }
@@ -145,13 +148,13 @@ private var previewState: GamePlayState {
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
-                .withInPlay(["scope", "barrel"])
+                .withInPlay([.saloon, .barrel])
         }
         .withPlayer("p2") {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
         }
-        .withChooseOne("p1", options: ["bang": .nothing])
+        .withActive("p1", cards: [.bang, .endTurn])
         .build()
-    return GamePlayState(gameState: game, selectedPlayer: "p1")
+    return GamePlayState(gameState: game    )
 }

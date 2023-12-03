@@ -80,6 +80,11 @@ public extension GameState {
             return self
         }
 
+        public func withActive(_ player: String, cards: [String]) -> Self {
+            active = ActiveCards(player: player, cards: cards)
+            return self
+        }
+
         public func withSequence(_ value: [GameAction]) -> Self {
             sequence = value
             return self

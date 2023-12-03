@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CircleImage: View {
     let image: Image
-    let size: CGFloat
+    var size: CGFloat = 50
 
     var body: some View {
         image
