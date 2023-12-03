@@ -12,6 +12,8 @@ import Redux
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
 
+    var activeSheetData: [String: GameAction] = [:]
+
     public init(gameState: GameState) {
         self.gameState = gameState
     }
@@ -65,7 +67,8 @@ struct PlayerItem: Identifiable {
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {
-    case load
+    case selectPlayer(String)
+    case showActiveSheet
 }
 
 public extension GamePlayState {
@@ -74,6 +77,16 @@ public extension GamePlayState {
 
         if let action = action as? GameAction {
             state.gameState = GameState.reducer(state.gameState, action)
+        }
+
+        if let action = action as? GamePlayAction {
+            switch action {
+            case let .selectPlayer(playerId):
+                state.activeSheetData = state.players.first { $0.id == playerId }?.activeActions ?? [:]
+
+            case .showActiveSheet:
+                state.activeSheetData = [:]
+            }
         }
 
         return state

@@ -15,8 +15,6 @@ import SwiftUI
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
 
-    @State private var activeSheet = false
-    @State private var activeSheetOptions: [String: GameAction] = [:]
     @State private var chooseOneAlert = false
     @State private var chooseOneAlertOptions: [String: GameAction] = [:]
 
@@ -95,18 +93,18 @@ public struct GamePlayView: View {
 
     private func itemPlayerButton(_ player: PlayerItem) -> some View {
         Button(action: {
-            if !player.activeActions.isEmpty {
-                activeSheet = true
-                activeSheetOptions = player.activeActions
-            }
+            store.dispatch(GamePlayAction.selectPlayer(player.id))
         }, label: {
             itemPlayerView(player)
         })
         .confirmationDialog(
             "Play a card",
-            isPresented: $activeSheet,
+            isPresented: Binding<Bool>(
+                get: { store.state.activeSheetData.isNotEmpty },
+                set: { _ in store.dispatch(GamePlayAction.showActiveSheet) }
+            ),
             titleVisibility: .visible,
-            presenting: activeSheetOptions
+            presenting: store.state.activeSheetData
         ) { data in
             ForEach(Array(data.keys), id: \.self) { key in
                 Button(key) {
@@ -143,7 +141,7 @@ public struct GamePlayView: View {
                     .padding(.trailing, 8)
             }
 
-            if !player.activeActions.isEmpty {
+            if player.activeActions.isNotEmpty {
                 Image(systemName: "\(player.activeActions.count).circle.fill")
                     .foregroundColor(.accentColor)
                     .font(.headline)
