@@ -14,9 +14,10 @@ import SwiftUI
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
-
-    @State private var showingOptions = false
-    @State private var activeActions: [String: GameAction] = [:]
+    @State private var activeSheet = false
+    @State private var activeSheetOptions: [String: GameAction] = [:]
+    @State private var chooseOneAlert = false
+    @State private var chooseOneAlertOptions: [String: GameAction] = [:]
 
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -40,6 +41,17 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .alert("Choose one option", isPresented: $chooseOneAlert) {
+            let options = Array(chooseOneAlertOptions.keys)
+            ForEach(options, id: \.self) { key in
+                Button(key) {
+                    guard let action = chooseOneAlertOptions[key] else {
+                        fatalError("unexpected")
+                    }
+                    store.dispatch(action)
+                }
+            }
+        }
         .onAppear {
             let sheriff = store.state.gameState.playOrder[0]
             store.dispatch(GameAction.setTurn(sheriff))
@@ -79,21 +91,21 @@ public struct GamePlayView: View {
     private func itemPlayerButton(_ player: PlayerItem) -> some View {
         Button(action: {
             if !player.activeActions.isEmpty {
-                showingOptions = true
-                activeActions = player.activeActions
+                activeSheet = true
+                activeSheetOptions = player.activeActions
             }
         }, label: {
             itemPlayerView(player)
         })
         .confirmationDialog(
             "Play a card",
-            isPresented: $showingOptions,
+            isPresented: $activeSheet,
             titleVisibility: .visible
         ) {
-            let options = Array(activeActions.keys)
+            let options = Array(activeSheetOptions.keys)
             ForEach(options, id: \.self) { key in
                 Button(key) {
-                    guard let action = activeActions[key] else {
+                    guard let action = activeSheetOptions[key] else {
                         fatalError("unexpected")
                     }
                     store.dispatch(action)

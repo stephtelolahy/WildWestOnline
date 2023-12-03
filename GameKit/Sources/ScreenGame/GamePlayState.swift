@@ -11,7 +11,7 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
-    
+
     public init(gameState: GameState) {
         self.gameState = gameState
     }
@@ -22,7 +22,7 @@ extension GamePlayState {
     var players: [PlayerItem] {
         gameState.playOrder.map {
             let player = gameState.player($0)
-            
+
             var activeActions: [String: GameAction] = [:]
             if let active = gameState.active,
                player.id == active.player {
@@ -30,9 +30,9 @@ extension GamePlayState {
                     $0[$1] = .play($1, player: player.id)
                 }
             }
-            
+
             let highlighted = gameState.active?.player == player.id || gameState.chooseOne?.chooser == player.id
-            
+
             return PlayerItem(
                 id: player.id,
                 imageName: player.figure,
@@ -44,7 +44,7 @@ extension GamePlayState {
             )
         }
     }
-    
+
     var message: String {
         if let turn = gameState.turn {
             "turn: \(turn)"
@@ -71,11 +71,11 @@ public enum GamePlayAction: Action, Codable, Equatable {
 public extension GamePlayState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-        
+
         if let action = action as? GameAction {
             state.gameState = GameState.reducer(state.gameState, action)
         }
-        
+
         return state
     }
 }

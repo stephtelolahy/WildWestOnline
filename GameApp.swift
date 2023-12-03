@@ -32,7 +32,7 @@ private var store: Store<AppState> {
                 NextActionMiddleware(),
                 ActivateCardsMiddleware()
             ])
-            .lift(stateMap: { GameState.from(globalState: $0) }),
+            .lift(stateMap: { GameState.from(globalState: $0) })
         ]
     )
 }
