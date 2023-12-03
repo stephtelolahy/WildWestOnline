@@ -15,6 +15,9 @@ import SwiftUI
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
 
+    @State private var showingOptions = false
+    @State private var waitingActions: [String: GameAction] = [:]
+
     public init(store: @escaping () -> Store<GamePlayState>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view, so
@@ -29,10 +32,21 @@ public struct GamePlayView: View {
                 VStack(alignment: .leading) {
                     ForEach(store.state.players) { player in
                         Button(action: {
-                            store.dispatch(GamePlayAction.onSelectPlayer(player.id))
+                            if !player.waitingActions.isEmpty {
+                                showingOptions = true
+                                waitingActions = player.waitingActions
+                            }
                         }, label: {
                             itemPlayerView(player)
                         })
+                        .confirmationDialog("Select an action", isPresented: $showingOptions) {
+                            let options = Array(waitingActions.keys)
+                            ForEach(options, id: \.self) { key in
+                                Button(key) {
+                                    store.dispatch(waitingActions[key]!)
+                                }
+                            }
+                        }
                         Divider()
                     }
                     detailsView
@@ -95,7 +109,6 @@ public struct GamePlayView: View {
                     Text(player.equipment)
                         .font(.footnote)
                         .lineLimit(1)
-
                 }
                 Spacer()
                 Text(player.status)
@@ -103,8 +116,8 @@ public struct GamePlayView: View {
                     .padding(.trailing, 8)
             }
 
-            if let waitingActions = player.waitingActions {
-                Image(systemName: "\(waitingActions).circle.fill")
+            if !player.waitingActions.isEmpty {
+                Image(systemName: "\(player.waitingActions.count).circle.fill")
                     .foregroundColor(.accentColor)
                     .font(.headline)
             }

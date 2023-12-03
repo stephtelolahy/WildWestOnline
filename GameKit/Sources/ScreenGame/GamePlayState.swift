@@ -11,11 +11,9 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
-    private var selectedPlayer: String?
 
     public init(gameState: GameState, selectedPlayer: String? = nil) {
         self.gameState = gameState
-        self.selectedPlayer = selectedPlayer
     }
 }
 
@@ -24,14 +22,18 @@ extension GamePlayState {
     var players: [PlayerItem] {
         gameState.playOrder.map {
             let player = gameState.player($0)
-            var waitingActions: Int?
+
+            var waitingActions: [String: GameAction] = [:]
+            if let chooseOne = gameState.chooseOne, chooseOne.chooser == player.id {
+                waitingActions = chooseOne.options
+            }
             if let active = gameState.active,
                player.id == active.player {
-                waitingActions = active.cards.count
+                waitingActions = active.cards.reduce(into: [String: GameAction]()) {
+                    $0[$1] = .play($1, player: player.id)
+                }
             }
-            if let chooseOne = gameState.chooseOne, chooseOne.chooser == player.id {
-                waitingActions = chooseOne.options.count
-            }
+
             return PlayerItem(
                 id: player.id,
                 imageName: player.figure,
@@ -39,7 +41,7 @@ extension GamePlayState {
                 status: "[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)",
                 equipment: player.inPlay.cards.joined(separator: "-"),
                 waitingActions: waitingActions,
-                highlighted: player.id == selectedPlayer
+                highlighted: !waitingActions.isEmpty
             )
         }
     }
@@ -59,24 +61,17 @@ struct PlayerItem: Identifiable {
     let displayName: String
     let status: String
     let equipment: String
-    let waitingActions: Int?
+    let waitingActions: [String: GameAction]
     let highlighted: Bool
 }
 
 public enum GamePlayAction: Action, Codable, Equatable {
-    case onSelectPlayer(String)
+    case load
 }
 
 public extension GamePlayState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-
-        if let action = action as? GamePlayAction {
-            switch action {
-            case let .onSelectPlayer(playerId):
-                state.selectedPlayer = playerId
-            }
-        }
 
         if let action = action as? GameAction {
             state.gameState = GameState.reducer(state.gameState, action)
