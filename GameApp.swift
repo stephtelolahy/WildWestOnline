@@ -30,7 +30,8 @@ private var store: Store<AppState> {
             ComposedMiddleware([
                 CardEffectsMiddleware(),
                 NextActionMiddleware(),
-                ActivateCardsMiddleware()
+                ActivateCardsMiddleware(),
+                AIAgentMiddleware()
             ])
             .lift(stateMap: { GameState.from(globalState: $0) })
         ]

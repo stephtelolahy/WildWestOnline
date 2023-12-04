@@ -55,11 +55,16 @@ extension GamePlayState {
     }
 
     var activeSheetData: [String: GameAction] {
-        players.first { $0.id == showActiveForPlayer }?.activeActions ?? [:]
+        players.first { $0.id == showActiveForPlayer && gameState.playMode[$0.id] == .manual }?.activeActions ?? [:]
     }
 
     var chooseOneAlertData: [String: GameAction] {
-        gameState.chooseOne?.options ?? [:]
+        guard let chooseOne = gameState.chooseOne,
+              gameState.playMode[chooseOne.chooser] == .manual else {
+            return  [:]
+        }
+
+        return chooseOne.options
     }
 }
 
