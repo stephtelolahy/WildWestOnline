@@ -35,6 +35,7 @@ public enum Setup {
             deck: CardStack(cards: deck),
             discard: .init(cards: []),
             sequence: [],
+            playMode: [:],
             cardRef: cardRef
         )
     }

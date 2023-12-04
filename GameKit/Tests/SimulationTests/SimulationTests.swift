@@ -30,7 +30,8 @@ final class SimulationTests: XCTestCase {
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
-        let game = Inventory.createGame(playersCount: playersCount)
+        var game = Inventory.createGame(playersCount: playersCount)
+        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
         let sut = createGameStore(initial: game)
         sut.addMiddleware(AIAgentMiddleware())
         let expectation = XCTestExpectation(description: "Awaiting game over")

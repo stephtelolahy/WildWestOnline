@@ -22,11 +22,13 @@ public final class AIAgentMiddleware: Middleware<GameState> {
         }
 
         if let active = state.active,
+           state.playMode[active.player] == .auto,
            let randomCard = active.cards.randomElement() {
             return GameAction.play(randomCard, player: active.player)
         }
 
         if let chooseOne = state.chooseOne,
+           state.playMode[chooseOne.chooser] == .auto,
            let randomAction = chooseOne.options.values.randomElement() {
             return randomAction
         }
