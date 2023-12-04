@@ -29,7 +29,7 @@ private var store: Store<AppState> {
             LoggerMiddleware(),
             ComposedMiddleware([
                 CardEffectsMiddleware(),
-                NextActionMiddleware(),
+                GameLoopMiddleware(),
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])

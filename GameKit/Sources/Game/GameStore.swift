@@ -13,7 +13,7 @@ public func createGameStore(initial: GameState) -> Store<GameState> {
         middlewares: [
             ComposedMiddleware([
                 CardEffectsMiddleware(),
-                NextActionMiddleware(),
+                GameLoopMiddleware(),
                 ActivateCardsMiddleware()
             ]),
             EventLoggerMiddleware()
