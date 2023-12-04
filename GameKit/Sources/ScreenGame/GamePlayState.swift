@@ -21,7 +21,7 @@ public struct GamePlayState: Codable, Equatable {
 // MARK: - Derived state
 extension GamePlayState {
     var players: [PlayerItem] {
-        gameState.startOrder.map {
+        gameState.playOrder.map {
             let player = gameState.player($0)
 
             var activeActions: [String: GameAction] = [:]
