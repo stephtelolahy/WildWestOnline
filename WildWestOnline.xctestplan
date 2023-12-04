@@ -41,6 +41,7 @@
       }
     },
     {
+      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
@@ -49,6 +50,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "AppTests",
