@@ -48,7 +48,7 @@ extension GamePlayState {
 
     var message: String {
         if let turn = gameState.turn {
-            "turn: \(turn)"
+            "\(turn.uppercased())'s turn"
         } else {
             ""
         }

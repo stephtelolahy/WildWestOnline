@@ -73,7 +73,7 @@ public struct GamePlayView: View {
             }
             Spacer()
             Text(store.state.message)
-                .font(.subheadline)
+                .font(.headline)
                 .lineLimit(1)
                 .padding()
             Spacer()
@@ -153,6 +153,7 @@ public struct GamePlayView: View {
         return ForEach(logs, id: \.self) { message in
             Text(message)
                 .lineLimit(1)
+                .font(.footnote)
         }
     }
 }
@@ -176,6 +177,7 @@ private var previewState: GamePlayState {
         }
         .withActive("p1", cards: [.bang, .endTurn])
         .withChooseOne("p1", options: [.bang: GameAction.nothing])
+        .withTurn("p1")
         .build()
     return GamePlayState(gameState: game)
 }
