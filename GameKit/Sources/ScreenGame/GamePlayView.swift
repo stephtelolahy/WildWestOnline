@@ -31,6 +31,7 @@ public struct GamePlayView: View {
                         itemPlayerButton($0)
                         Divider()
                     }
+                    logView
                 }
                 .padding()
             }
@@ -143,6 +144,16 @@ public struct GamePlayView: View {
         }
         .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
+    }
+
+    private var logView: some View {
+        let logs = store.log
+            .reversed()
+            .map { String(describing: $0) }
+        return ForEach(logs, id: \.self) { message in
+            Text(message)
+                .lineLimit(1)
+        }
     }
 }
 
