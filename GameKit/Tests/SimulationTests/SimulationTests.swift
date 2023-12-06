@@ -30,10 +30,14 @@ final class SimulationTests: XCTestCase {
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
-        let game = Inventory.createGame(playersCount: playersCount)
-        let sut = createGameStore(initial: game)
-        sut.addMiddleware(AIAgentMiddleware())
+        var game = Inventory.createGame(playersCount: playersCount)
+        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+
         let expectation = XCTestExpectation(description: "Awaiting game over")
+        let sut = createGameStore(initial: game) {
+            expectation.fulfill()
+        }
+        sut.addMiddleware(AIAgentMiddleware())
 
         let cancellable = sut.$state.sink { state in
             if state.isOver != nil {
@@ -45,11 +49,6 @@ final class SimulationTests: XCTestCase {
             }
         }
 
-        sut.completed = {
-            XCTAssertNotNil(sut.state.isOver, "Expected game over")
-            expectation.fulfill()
-        }
-
         // When
         let sheriff = game.playOrder[0]
         sut.dispatch(GameAction.setTurn(sheriff))
@@ -57,5 +56,6 @@ final class SimulationTests: XCTestCase {
         // Then
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
+        XCTAssertNotNil(sut.state.isOver, "Expected game over")
     }
 }

@@ -210,6 +210,7 @@ final class GameTests: XCTestCase {
           },
           "sequence": [],
           "playedThisTurn": {},
+          "playMode": {},
           "cardRef": {},
         }
         """

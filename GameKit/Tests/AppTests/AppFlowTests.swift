@@ -4,10 +4,10 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+@testable import App
 import Game
 import Redux
 import Routing
-@testable import Screen
 import XCTest
 
 final class AppFlowTests: XCTestCase {

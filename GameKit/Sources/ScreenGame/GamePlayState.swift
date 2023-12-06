@@ -21,7 +21,7 @@ public struct GamePlayState: Codable, Equatable {
 // MARK: - Derived state
 extension GamePlayState {
     var players: [PlayerItem] {
-        gameState.startOrder.map {
+        gameState.playOrder.map {
             let player = gameState.player($0)
 
             var activeActions: [String: GameAction] = [:]
@@ -48,18 +48,23 @@ extension GamePlayState {
 
     var message: String {
         if let turn = gameState.turn {
-            "turn: \(turn)"
+            "\(turn.uppercased())'s turn"
         } else {
             ""
         }
     }
 
     var activeSheetData: [String: GameAction] {
-        players.first { $0.id == showActiveForPlayer }?.activeActions ?? [:]
+        players.first { $0.id == showActiveForPlayer && gameState.playMode[$0.id] == .manual }?.activeActions ?? [:]
     }
 
     var chooseOneAlertData: [String: GameAction] {
-        gameState.chooseOne?.options ?? [:]
+        guard let chooseOne = gameState.chooseOne,
+              gameState.playMode[chooseOne.chooser] == .manual else {
+            return  [:]
+        }
+
+        return chooseOne.options
     }
 }
 

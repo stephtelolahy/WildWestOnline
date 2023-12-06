@@ -6,17 +6,18 @@
 //
 import Redux
 
-public func createGameStore(initial: GameState) -> Store<GameState> {
+public func createGameStore(initial: GameState, completed: (() -> Void)? = nil) -> Store<GameState> {
     Store(
         initial: initial,
         reducer: GameState.reducer,
         middlewares: [
             ComposedMiddleware([
                 CardEffectsMiddleware(),
-                NextActionMiddleware(),
+                GameLoopMiddleware(),
                 ActivateCardsMiddleware()
             ]),
             EventLoggerMiddleware()
-        ]
+        ],
+        completed: completed
     )
 }

@@ -37,7 +37,13 @@ public extension AppState {
 
         case NavAction.showScreen(.game):
             let playersCount = 5
-            let game = Inventory.createGame(playersCount: playersCount)
+            var game = Inventory.createGame(playersCount: playersCount)
+
+            let sheriff = game.playOrder[0]
+            game.playMode = game.startOrder.reduce(into: [:]) {
+                $0[$1] = $1 == sheriff ? .manual : .auto
+            }
+
             let gamePlayState = GamePlayState(gameState: game)
             screens.append(.game(gamePlayState))
 

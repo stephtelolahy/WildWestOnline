@@ -19,6 +19,7 @@ public extension GameState {
         private var chooseOne: ChooseOne?
         private var active: ActiveCards?
         private var sequence: [GameAction] = []
+        private var playMode: [String: PlayMode] = [:]
         private var cardRef: [String: Card] = [:]
 
         public func build() -> GameState {
@@ -36,6 +37,7 @@ public extension GameState {
                 chooseOne: chooseOne,
                 active: active,
                 sequence: sequence,
+                playMode: playMode,
                 cardRef: cardRef
             )
         }
@@ -87,6 +89,11 @@ public extension GameState {
 
         public func withSequence(_ value: [GameAction]) -> Self {
             sequence = value
+            return self
+        }
+
+        public func withPlayModes(_ value: [String: PlayMode]) -> Self {
+            playMode = value
             return self
         }
 

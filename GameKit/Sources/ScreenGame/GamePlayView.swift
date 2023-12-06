@@ -31,6 +31,7 @@ public struct GamePlayView: View {
                         itemPlayerButton($0)
                         Divider()
                     }
+                    logView
                 }
                 .padding()
             }
@@ -45,7 +46,7 @@ public struct GamePlayView: View {
             presenting: store.state.chooseOneAlertData
         ) { data in
             ForEach(Array(data.keys), id: \.self) { key in
-                Button(key) {
+                Button(key, role: key == .pass ? .cancel : nil) {
                     guard let action = data[key] else {
                         fatalError("unexpected")
                     }
@@ -72,7 +73,7 @@ public struct GamePlayView: View {
             }
             Spacer()
             Text(store.state.message)
-                .font(.subheadline)
+                .font(.headline)
                 .lineLimit(1)
                 .padding()
             Spacer()
@@ -144,6 +145,17 @@ public struct GamePlayView: View {
         .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
+
+    private var logView: some View {
+        let logs = store.log
+            .reversed()
+            .map { String(describing: $0) }
+        return ForEach(logs, id: \.self) { message in
+            Text(message)
+                .lineLimit(1)
+                .font(.footnote)
+        }
+    }
 }
 
 #Preview {
@@ -165,6 +177,7 @@ private var previewState: GamePlayState {
         }
         .withActive("p1", cards: [.bang, .endTurn])
         .withChooseOne("p1", options: [.bang: GameAction.nothing])
+        .withTurn("p1")
         .build()
     return GamePlayState(gameState: game)
 }

@@ -43,6 +43,9 @@ public struct GameState: Codable, Equatable {
     /// Queued effects
     public var sequence: [GameAction]
 
+    /// Play mode by playerId
+    public var playMode: [String: PlayMode]
+
     /// All cards reference by cardName
     public let cardRef: [String: Card]
 }

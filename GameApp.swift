@@ -29,8 +29,9 @@ private var store: Store<AppState> {
             LoggerMiddleware(),
             ComposedMiddleware([
                 CardEffectsMiddleware(),
-                NextActionMiddleware(),
-                ActivateCardsMiddleware()
+                GameLoopMiddleware(),
+                ActivateCardsMiddleware(),
+                AIAgentMiddleware()
             ])
             .lift(stateMap: { GameState.from(globalState: $0) })
         ]

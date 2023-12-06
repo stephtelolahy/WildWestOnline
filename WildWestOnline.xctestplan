@@ -41,20 +41,20 @@
       }
     },
     {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:GameKit",
-        "identifier" : "ScreenTests",
-        "name" : "ScreenTests"
-      }
-    },
-    {
       "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SimulationTests",
         "name" : "SimulationTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "AppTests",
+        "name" : "AppTests"
       }
     }
   ],

@@ -19,23 +19,21 @@ extension XCTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
-        let store = createGameStore(initial: state)
+        let expectation = XCTestExpectation(description: "Awaiting game idle")
+        let store = createGameStore(initial: state) {
+            expectation.fulfill()
+        }
 
         let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
         store.addMiddleware(choosingMiddleware)
 
         var ocurredError: GameError?
-        let expectation = XCTestExpectation(description: "Awaiting game idle")
 
         let cancellable = store.$state.dropFirst(1).sink { state in
             if let error = state.error {
                 ocurredError = error
                 expectation.fulfill()
             }
-        }
-
-        store.completed = {
-            expectation.fulfill()
         }
 
         store.dispatch(action)
