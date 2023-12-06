@@ -9,21 +9,23 @@ import SwiftUI
 public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
     public private (set) var log: [Action] = []
-    public var completed: (() -> Void)?
 
     private let queue = DispatchQueue(label: "store.queue", qos: .userInitiated)
     private let reducer: Reducer<State>
     private var middlewares: [Middleware<State>]
+    private let completed: (() -> Void)?
     private var subscriptions = Set<AnyCancellable>()
 
     public init(
         initial state: State,
         reducer: @escaping Reducer<State> = { state, _ in state },
-        middlewares: [Middleware<State>] = []
+        middlewares: [Middleware<State>] = [],
+        completed: (() -> Void)? = nil
     ) {
         self.state = state
         self.reducer = reducer
         self.middlewares = middlewares
+        self.completed = completed
     }
 
     public func dispatch(_ action: Action) {
