@@ -46,7 +46,7 @@ public struct GamePlayView: View {
             presenting: store.state.chooseOneAlertData
         ) { data in
             ForEach(Array(data.keys), id: \.self) { key in
-                Button(key) {
+                Button(key, role: key == .pass ? .cancel : nil) {
                     guard let action = data[key] else {
                         fatalError("unexpected")
                     }
