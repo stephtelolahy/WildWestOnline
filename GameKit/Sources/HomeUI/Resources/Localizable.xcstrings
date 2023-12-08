@@ -26,6 +26,12 @@
             "state" : "translated",
             "value" : "The unofficial clone of the Western Card Game"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
         }
       }
     },
@@ -86,13 +92,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stephano Telolahy"
+            "value" : "CREATIVE GAMES"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stephano Telolahy"
+            "value" : "CREATIVE GAMES"
           }
         }
       }

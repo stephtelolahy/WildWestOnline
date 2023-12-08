@@ -28,8 +28,9 @@ public struct HomeView: View {
                     Text("menu.game.title", bundle: .module)
                         .font(.subheadline)
                         .foregroundStyle(.primary)
-                    Image(systemName: "gamecontroller")
-                        .font(.system(size: 100))
+                    Image("logo", bundle: .module)
+                        .resizable()
+                        .frame(width: 200, height: 200)
                 }
                 VStack(spacing: 16) {
                     roundedButton("menu.start.button") {
@@ -74,5 +75,28 @@ public struct HomeView: View {
 #Preview {
     HomeView {
         Store<HomeState>(initial: .init())
+    }
+}
+
+
+extension Image {
+    init(packageResource name: String, ofType type: String) {
+        #if canImport(UIKit)
+        guard let path = Bundle.module.path(forResource: name, ofType: type),
+              let image = UIImage(contentsOfFile: path) else {
+            self.init(name)
+            return
+        }
+        self.init(uiImage: image)
+        #elseif canImport(AppKit)
+        guard let path = Bundle.module.path(forResource: name, ofType: type),
+              let image = NSImage(contentsOfFile: path) else {
+            self.init(name)
+            return
+        }
+        self.init(nsImage: image)
+        #else
+        self.init(name)
+        #endif
     }
 }
