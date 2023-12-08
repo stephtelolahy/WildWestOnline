@@ -9,10 +9,6 @@ import Combine
 import Redux
 
 public final class EventLoggerMiddleware: Middleware<GameState> {
-    override public init() {
-        super.init()
-    }
-
     override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard let action = action as? GameAction else {
             return nil
