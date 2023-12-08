@@ -20,7 +20,7 @@ struct EffectLuck: EffectResolver {
         let drawnCards: [String]
         switch card {
         case .lastHand:
-            guard let lastHandCard = playerObj.hand.cards.last else {
+            guard let lastHandCard = playerObj.hand.last else {
                 fatalError("missing drawn card")
             }
 

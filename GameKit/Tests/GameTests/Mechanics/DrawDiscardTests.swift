@@ -21,7 +21,7 @@ final class DrawDiscardTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").hand.cards, ["c1"])
+        XCTAssertEqual(result.player("p1").hand, ["c1"])
         XCTAssertEqual(result.discard.top, "c2")
     }
 

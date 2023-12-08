@@ -14,7 +14,7 @@ struct ActionPlayAs: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         // discard card from hand
         var state = state
-        try state[keyPath: \GameState.players[player]]?.hand.remove(card)
+        state[keyPath: \GameState.players[player]]?.hand.remove(card)
         state.discard.push(card)
 
         // save played card

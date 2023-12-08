@@ -15,7 +15,7 @@ struct ActionDrawArena: GameActionReducer {
         if state.arena?.cards.isEmpty == true {
             state.arena = nil
         }
-        state[keyPath: \GameState.players[player]]?.hand.add(card)
+        state[keyPath: \GameState.players[player]]?.hand.append(card)
         return state
     }
 }

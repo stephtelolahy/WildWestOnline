@@ -19,6 +19,15 @@ extension Array where Element: Equatable {
     func element(after element: Element) -> Element? {
         starting(with: element).dropFirst().first
     }
+
+    /// remove first occurence of given element
+    mutating func remove(_ element: Element) {
+        guard let index = self.firstIndex(where: { $0 == element }) else {
+            fatalError("Element \(element) not found in array \(self)")
+        }
+
+        self.remove(at: index)
+    }
 }
 
 public extension Collection {

@@ -56,14 +56,13 @@ public enum Setup {
             fatalError("missing attribute maxHealth")
         }
 
-        let handCards: [String] = Array(1...health).compactMap { _ in
+        let hand: [String] = Array(1...health).compactMap { _ in
             if deck.isNotEmpty {
                 deck.removeFirst()
             } else {
                 nil
             }
         }
-        let hand = CardLocation(cards: handCards, hidden: true)
 
         return Player(
             id: figure,
@@ -71,7 +70,7 @@ public enum Setup {
             attributes: attributes,
             health: health,
             hand: hand,
-            inPlay: .init(cards: [])
+            inPlay: []
         )
     }
 

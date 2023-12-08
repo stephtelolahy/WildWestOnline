@@ -26,7 +26,7 @@ final class DiscardSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.player("p1").hand.cards) == ["c2"]
+                    expect(result.player("p1").hand) == ["c2"]
                     expect(result.discard.top) == "c1"
                 }
             }
@@ -45,23 +45,8 @@ final class DiscardSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.player("p1").inPlay.cards) == ["c2"]
+                    expect(result.player("p1").inPlay) == ["c2"]
                     expect(result.discard.top) == "c1"
-                }
-            }
-
-            context("missing card") {
-                it("should throw error") {
-                    let state = GameState.makeBuilder()
-                        .withPlayer("p1")
-                        .build()
-
-                    // When
-                    let action = GameAction.discardInPlay("c1", player: "p1")
-                    let result = GameState.reducer(state, action)
-
-                    // Then
-                    expect(result.error) == .cardNotFound("c1")
                 }
             }
         }

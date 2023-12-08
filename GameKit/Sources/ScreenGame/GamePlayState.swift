@@ -39,7 +39,7 @@ extension GamePlayState {
                 imageName: player.figure,
                 displayName: player.figure.uppercased(),
                 status: "[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)",
-                equipment: player.inPlay.cards.joined(separator: "-"),
+                equipment: player.inPlay.joined(separator: "-"),
                 activeActions: activeActions,
                 highlighted: highlighted
             )

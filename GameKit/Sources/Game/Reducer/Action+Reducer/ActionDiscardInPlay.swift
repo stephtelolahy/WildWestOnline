@@ -11,7 +11,7 @@ struct ActionDiscardInPlay: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        try state[keyPath: \GameState.players[player]]?.inPlay.remove(card)
+        state[keyPath: \GameState.players[player]]?.inPlay.remove(card)
         state.discard.push(card)
         return state
     }

@@ -14,14 +14,14 @@ struct ActionPlayHandicap: GameActionReducer {
         // verify rule: not already inPlay
         let cardName = card.extractName()
         let targetObj = state.player(target)
-        guard targetObj.inPlay.cards.allSatisfy({ $0.extractName() != cardName }) else {
+        guard targetObj.inPlay.allSatisfy({ $0.extractName() != cardName }) else {
             throw GameError.cardAlreadyInPlay(cardName)
         }
 
         // put card on other's play
         var state = state
-        try state[keyPath: \GameState.players[player]]?.hand.remove(card)
-        state[keyPath: \GameState.players[target]]?.inPlay.add(card)
+        state[keyPath: \GameState.players[player]]?.hand.remove(card)
+        state[keyPath: \GameState.players[target]]?.inPlay.append(card)
 
         // save played card
         state.incrementPlayedThisTurn(for: cardName)

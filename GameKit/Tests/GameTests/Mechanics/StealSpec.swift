@@ -27,8 +27,8 @@ final class StealSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.player("p1").hand.cards) == ["c21"]
-                    expect(result.player("p2").hand.cards) == ["c22"]
+                    expect(result.player("p1").hand) == ["c21"]
+                    expect(result.player("p2").hand) == ["c22"]
                 }
             }
 
@@ -47,24 +47,8 @@ final class StealSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.player("p1").hand.cards) == ["c21"]
-                    expect(result.player("p2").inPlay.cards) == ["c22"]
-                }
-            }
-
-            context("missing card") {
-                it("should throw error") {
-                    let state = GameState.makeBuilder()
-                        .withPlayer("p1")
-                        .withPlayer("p2")
-                        .build()
-
-                    // When
-                    let action = GameAction.drawHand("c2", target: "p1", player: "p1")
-                    let result = GameState.reducer(state, action)
-
-                    // Then
-                    expect(result.error) == .cardNotFound("c2")
+                    expect(result.player("p1").hand) == ["c21"]
+                    expect(result.player("p2").inPlay) == ["c22"]
                 }
             }
         }

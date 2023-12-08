@@ -34,6 +34,6 @@ public final class ActivateCardsMiddleware: Middleware<GameState> {
     }
 
     private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
-        playerObj.attributes.map(\.key) + playerObj.hand.cards
+        playerObj.attributes.map(\.key) + playerObj.hand
     }
 }

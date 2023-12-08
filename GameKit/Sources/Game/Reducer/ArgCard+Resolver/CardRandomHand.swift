@@ -9,7 +9,7 @@ struct CardRandomHand: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.player()
         let playerObj = state.player(owner)
-        guard let card = playerObj.hand.cards.randomElement() else {
+        guard let card = playerObj.hand.randomElement() else {
             return .identified([])
         }
 

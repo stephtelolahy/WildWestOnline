@@ -11,7 +11,7 @@ struct ActionDrawDiscard: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         let card = try state.popDiscard()
-        state[keyPath: \GameState.players[player]]?.hand.add(card)
+        state[keyPath: \GameState.players[player]]?.hand.append(card)
         return state
     }
 }

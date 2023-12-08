@@ -154,15 +154,15 @@ final class GameTests: XCTestCase {
         XCTAssertNotNil(state.players["p1"])
         XCTAssertEqual(state.player("p1").health, 3)
         XCTAssertEqual(state.player("p1").attributes, [:])
-        XCTAssertEqual(state.player("p1").hand.cards, [])
-        XCTAssertEqual(state.player("p1").inPlay.cards, [])
+        XCTAssertEqual(state.player("p1").hand, [])
+        XCTAssertEqual(state.player("p1").inPlay, [])
 
         XCTAssertNotNil(state.players["p2"])
         XCTAssertEqual(state.player("p2").health, 4)
         XCTAssertEqual(state.player("p2").attributes[.bangsPerTurn], 2)
         XCTAssertEqual(state.player("p2").attributes["a1"], 0)
-        XCTAssertEqual(state.player("p2").hand.cards, ["c21", "c22"])
-        XCTAssertEqual(state.player("p2").inPlay.cards, ["c23", "c24"])
+        XCTAssertEqual(state.player("p2").hand, ["c21", "c22"])
+        XCTAssertEqual(state.player("p2").inPlay, ["c23", "c24"])
     }
 
     func test_game_shouldBeSerializable() throws {
@@ -179,14 +179,8 @@ final class GameTests: XCTestCase {
               "health": 3,
               "abilities": [],
               "attributes": {},
-              "hand": {
-                "hidden": true,
-                "cards": []
-              },
-              "inPlay": {
-                "hidden": false,
-                "cards": []
-              }
+              "hand": [],
+              "inPlay": []
             }
           },
           "attributes": {},

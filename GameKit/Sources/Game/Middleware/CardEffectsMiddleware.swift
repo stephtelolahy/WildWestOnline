@@ -89,7 +89,7 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
     }
 
     private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
-        playerObj.inPlay.cards + playerObj.attributes.map(\.key)
+        playerObj.inPlay + playerObj.attributes.map(\.key)
     }
 
     private func triggerableCardsOfEliminatedPlayer(_ playerObj: Player) -> [String] {
