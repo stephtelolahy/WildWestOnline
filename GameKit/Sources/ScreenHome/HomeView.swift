@@ -24,18 +24,27 @@ public struct HomeView: View {
         VStack(alignment: .center, spacing: 32) {
             Image(systemName: "gamecontroller")
                 .font(.system(size: 100))
-            Button(String(localized: "menu.start.button", bundle: .module)) {
+            roundedButton("menu.start.button") {
                 withAnimation {
                     store.dispatch(NavAction.showScreen(.game))
                 }
             }
-            .font(.headline)
-            .padding()
-            .foregroundStyle(.primary)
-            .background(Color.accentColor)
-            .clipShape(.rect(cornerRadius: 40))
+            roundedButton("menu.settings.button") {
+                withAnimation {
+                    store.dispatch(NavAction.showScreen(.settings))
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {
+        Button(String(localized: titleKey, bundle: .module), action: action)
+        .font(.headline)
+        .padding()
+        .foregroundStyle(.primary)
+        .background(Color.accentColor)
+        .clipShape(.rect(cornerRadius: 40))
     }
 }
 

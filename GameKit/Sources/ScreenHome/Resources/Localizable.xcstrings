@@ -18,19 +18,36 @@
         }
       }
     },
+    "menu.settings.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SETTINGS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PARAMETRES"
+          }
+        }
+      }
+    },
     "menu.start.button" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Game"
+            "value" : "NEW GAME"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nouvelle partie"
+            "value" : "NOUVELLE PARTIE"
           }
         }
       }

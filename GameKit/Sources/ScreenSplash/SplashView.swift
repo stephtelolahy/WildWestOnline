@@ -27,11 +27,6 @@ public struct SplashView: View {
             Text("splash.editor.name", bundle: .module)
                 .font(.headline)
                 .foregroundStyle(.primary)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
-                        store.dispatch(NavAction.showScreen(.home))
-                    }
-                }
             VStack(spacing: 8) {
                 Spacer()
                 Text("splash.developer.name", bundle: .module)
@@ -42,6 +37,11 @@ public struct SplashView: View {
                     .foregroundStyle(.secondary)
             }
             .padding()
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
+                store.dispatch(NavAction.showScreen(.home))
+            }
         }
     }
 }
