@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 08/12/2023.
 //
-// swiftlint:disable no_magic_numbers
+// swiftlint:disable no_magic_numbers type_contents_order
 
 import Redux
 import Routing
@@ -12,8 +12,16 @@ import SwiftUI
 import Theme
 
 public struct SettingsView: View {
-    @State var isDarkModeEnabled = true
-    @State var downloadViaWifiEnabled = false
+    @State private var isDarkModeEnabled = true
+    @State private var downloadViaWifiEnabled = false
+    @StateObject private var store: Store<SettingsState>
+
+    public init(store: @escaping () -> Store<SettingsState>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view, so
+        // later changes to the view's name input have no effect.
+        _store = StateObject(wrappedValue: store())
+    }
 
     public var body: some View {
         NavigationView {
@@ -96,5 +104,7 @@ public struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView {
+        Store<SettingsState>(initial: .init())
+    }
 }
