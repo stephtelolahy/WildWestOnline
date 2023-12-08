@@ -14,7 +14,7 @@ final class ElGringoTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.elGringo: 0])
+                $0.withAbilities([.elGringo])
                     .withHealth(3)
             }
             .withPlayer("p2") {
@@ -39,7 +39,7 @@ final class ElGringoTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.elGringo: 0])
+                $0.withAbilities([.elGringo])
                     .withHealth(3)
             }
             .withPlayer("p2") {
@@ -63,7 +63,7 @@ final class ElGringoTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.elGringo: 0])
+                $0.withAbilities([.elGringo])
                     .withHealth(3)
             }
             .withTurn("p1")

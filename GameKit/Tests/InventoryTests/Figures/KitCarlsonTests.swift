@@ -19,14 +19,15 @@ final class KitCarlsonTests: XCTestCase {
         let player = state.player(.kitCarlson)
 
         // Then
-        XCTAssertNil(player.attributes[.drawOnSetTurn])
+        XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
     }
 
     func test_kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.kitCarlson: 0, .startTurnCards: 2])
+                $0.withAbilities([.kitCarlson])
+                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()
@@ -60,7 +61,8 @@ final class KitCarlsonTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.kitCarlson: 0, .startTurnCards: 2])
+                $0.withAbilities([.kitCarlson])
+                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2"])
             .withDiscard(["c3", "c3"])

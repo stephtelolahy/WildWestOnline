@@ -69,7 +69,7 @@ final class CalamityJanetTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.bang])
-                    .withAttributes([.activateCounterCardsOnShot: 0])
+                    .withAbilities([.activateCounterCardsOnShot])
                     .withFigure(.calamityJanet)
             }
             .build()
@@ -99,7 +99,7 @@ final class CalamityJanetTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.missed])
-                    .withAttributes([.activateCounterCardsOnShot: 0])
+                    .withAbilities([.activateCounterCardsOnShot])
                     .withFigure(.calamityJanet)
             }
             .build()

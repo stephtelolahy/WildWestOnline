@@ -19,7 +19,7 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                         .withPlayer("p1")
                         .withPlayer("p2")
                         .withPlayer("p3") {
-                            $0.withAttributes([.nextTurnOnEliminated: 0])
+                            $0.withAbilities([.nextTurnOnEliminated])
                         }
                         .withTurn("p3")
                         .build()
@@ -43,10 +43,11 @@ final class NextTurnOnEliminatedSpec: QuickSpec {
                         .withPlayer("p1") {
                             $0.withHand(["c11"])
                                 .withInPlay(["c12"])
-                                .withAttributes([.discardCardsOnEliminated: 0, .nextTurnOnEliminated: 0])
+                                .withAbilities([.discardCardsOnEliminated, .nextTurnOnEliminated])
                         }
                         .withPlayer("p2") {
-                            $0.withAttributes([.drawOnSetTurn: 0, .startTurnCards: 2])
+                            $0.withAbilities([.drawOnSetTurn])
+                                .withAttributes([.startTurnCards: 2])
                         }
                         .withPlayer("p3")
                         .withDeck(["c1", "c2"])

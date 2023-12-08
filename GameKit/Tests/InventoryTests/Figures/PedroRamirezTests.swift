@@ -19,14 +19,15 @@ final class PedroRamirezTests: XCTestCase {
         let player = state.player(.pedroRamirez)
 
         // Then
-        XCTAssertNil(player.attributes[.drawOnSetTurn])
+        XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
     }
 
     func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayer() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.pedroRamirez: 0, .startTurnCards: 2])
+                $0.withAbilities([.pedroRamirez])
+                    .withAttributes([.startTurnCards: 2])
             }
             .withPlayer("p2") {
                 $0.withHand(["c2"])
@@ -57,7 +58,8 @@ final class PedroRamirezTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.pedroRamirez: 0, .startTurnCards: 2])
+                $0.withAbilities([.pedroRamirez])
+                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2"])
             .build()

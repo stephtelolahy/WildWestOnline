@@ -16,7 +16,7 @@ final class BartCassidySpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.bartCassidy: 0])
+                            $0.withAbilities([.bartCassidy])
                                 .withHealth(3)
                         }
                         .withDeck(["c1"])
@@ -39,7 +39,7 @@ final class BartCassidySpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.bartCassidy: 0])
+                            $0.withAbilities([.bartCassidy])
                                 .withHealth(3)
                         }
                         .withDeck(["c1", "c2"])
@@ -63,7 +63,7 @@ final class BartCassidySpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.bartCassidy: 0])
+                            $0.withAbilities([.bartCassidy])
                                 .withHealth(1)
                         }
                         .withDeck(["c1"])

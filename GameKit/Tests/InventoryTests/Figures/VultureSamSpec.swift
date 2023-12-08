@@ -17,10 +17,10 @@ final class VultureSamSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.vultureSam: 0])
+                            $0.withAbilities([.vultureSam])
                         }
                         .withPlayer("p2") {
-                            $0.withAttributes([.discardCardsOnEliminated: 0])
+                            $0.withAbilities([.discardCardsOnEliminated])
                                 .withHand(["c1"])
                                 .withInPlay(["c2"])
                         }

@@ -288,21 +288,26 @@ private extension CardList {
 
     // MARK: - Figures
 
-    static let pDefault = Card(.pDefault, attributes: [
-        .startTurnCards: 2,
-        .weapon: 1,
-        .flippedCards: 1,
-        .bangsPerTurn: 1,
-        .endTurn: 0,
-        .drawOnSetTurn: 0,
-        .eliminateOnDamageLethal: 0,
-        .discardCardsOnEliminated: 0,
-        .nextTurnOnEliminated: 0,
-        .updateAttributesOnChangeInPlay: 0,
-        .discardPreviousWeaponOnPlayWeapon: 0,
-        .activateCounterCardsOnShot: 0,
-        .updateGameOverOnEliminated: 0
-    ])
+    static let pDefault = Card(
+        .pDefault,
+        abilities: [
+            .endTurn,
+            .drawOnSetTurn,
+            .eliminateOnDamageLethal,
+            .discardCardsOnEliminated,
+            .nextTurnOnEliminated,
+            .updateAttributesOnChangeInPlay,
+            .discardPreviousWeaponOnPlayWeapon,
+            .activateCounterCardsOnShot,
+            .updateGameOverOnEliminated
+        ],
+        attributes: [
+            .startTurnCards: 2,
+            .weapon: 1,
+            .flippedCards: 1,
+            .bangsPerTurn: 1
+        ]
+    )
 
     static let willyTheKid = Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
 

@@ -15,7 +15,8 @@ final class SchofieldTests: XCTestCase {
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
-                    .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 1])
+                    .withAbilities([.updateAttributesOnChangeInPlay])
+                    .withAttributes([.weapon: 1])
                     .withFigure(.pDefault)
             }
             .build()
@@ -37,11 +38,8 @@ final class SchofieldTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withInPlay([.remington])
-                    .withAttributes([
-                        .discardPreviousWeaponOnPlayWeapon: 0,
-                        .updateAttributesOnChangeInPlay: 0,
-                        .weapon: 3
-                    ])
+                    .withAbilities([.updateAttributesOnChangeInPlay, .discardPreviousWeaponOnPlayWeapon])
+                    .withAttributes([.weapon: 3])
                     .withFigure(.pDefault)
             }
             .build()
@@ -63,7 +61,8 @@ final class SchofieldTests: XCTestCase {
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
-                    .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 2])
+                    .withAbilities([.updateAttributesOnChangeInPlay])
+                    .withAttributes([.weapon: 2])
                     .withFigure(.pDefault)
             }
             .build()
