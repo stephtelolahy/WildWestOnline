@@ -41,7 +41,7 @@ public struct GameState: Codable, Equatable {
     public var active: [String: [String]]
 
     /// Play mode by player
-    public let playMode: [String: PlayMode]
+    public var playMode: [String: PlayMode]
 
     /// Queued effects
     public var sequence: [GameAction]
