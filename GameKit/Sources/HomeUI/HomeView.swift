@@ -57,6 +57,7 @@ public struct HomeView: View {
         Button(String(localized: titleKey, bundle: .module), action: action)
             .font(.headline)
             .padding(12)
+            .frame(minWidth: 0, maxWidth: 200)
             .foregroundStyle(.primary)
             .overlay(
                 RoundedRectangle(cornerRadius: 24)
