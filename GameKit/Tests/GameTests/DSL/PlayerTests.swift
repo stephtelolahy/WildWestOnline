@@ -98,6 +98,9 @@ final class PlayerTests: XCTestCase {
             "id": "p1",
             "figure": "n1",
             "health": 2,
+            "abilities": [
+                "endTurn"
+            ],
             "attributes": {
                 "maxHealth": 4,
                 "mustang": 0,
@@ -105,7 +108,6 @@ final class PlayerTests: XCTestCase {
                 "weapon": 3,
                 "handLimit": 2,
                 "startTurnCards": 2,
-                "endTurn": 0
             },
             "hand": [],
             "inPlay": []

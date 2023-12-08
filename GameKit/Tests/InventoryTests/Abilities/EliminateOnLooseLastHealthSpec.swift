@@ -18,7 +18,7 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withHealth(1)
-                                .withAttributes([.eliminateOnDamageLethal: 0])
+                                .withAbilities([.eliminateOnDamageLethal])
                         }
                         .withPlayer("p2")
                         .withPlayer("p3")
@@ -42,7 +42,7 @@ final class EliminateOnLooseLastHealthSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withHealth(2)
-                                .withAttributes([.eliminateOnDamageLethal: 0])
+                                .withAbilities([.eliminateOnDamageLethal])
                         }
                         .build()
 

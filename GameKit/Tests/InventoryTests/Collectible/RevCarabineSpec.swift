@@ -16,8 +16,8 @@ final class RevCarabineSpec: QuickSpec {
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
                         $0.withHand([.revCarabine])
-                            .withAttributes([.updateAttributesOnChangeInPlay: 0, .weapon: 1])
-                            .withFigure(.pDefault)
+                            .withAbilities([.updateAttributesOnChangeInPlay])
+                            .withAttributes([.weapon: 1])
                     }
                     .build()
 

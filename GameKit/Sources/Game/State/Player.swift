@@ -16,8 +16,11 @@ public struct Player: Identifiable, Codable, Equatable {
     /// Determine initial attributes
     public let figure: String
 
+    /// Current abilities
+    public var abilities: Set<String>
+
     /// Current attributes
-    public var attributes: [String: Int]
+    public var attributes: [AttributeKey: Int]
 
     /// Life points
     public var health: Int

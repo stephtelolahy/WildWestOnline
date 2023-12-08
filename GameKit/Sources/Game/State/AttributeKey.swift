@@ -1,48 +1,36 @@
 //
 //  AttributeKey.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 06/05/2023.
 //
 
 /// Player attributes
-public extension String {
+/// Sorted by order in which attributes are settled
+public enum AttributeKey: String, CaseIterable, Codable, CodingKeyRepresentable {
     /// Max health
-    static let maxHealth = "maxHealth"
+    case maxHealth
 
-    /// Gun range, default: 1
-    static let weapon = "weapon"
+    /// Gun range
+    case weapon
 
     /// Increment distance from others, default: 0
-    static let mustang = "mustang"
+    case mustang
 
     /// Decrement distance to others, default: 0
-    static let scope = "scope"
+    case scope
 
-    /// Cards to draw at beginning of turn, default: 2
-    static let startTurnCards = "startTurnCards"
+    /// Cards to draw at beginning of turn
+    case startTurnCards
 
-    /// Number of flipped cards on a draw, default: 1
-    static let flippedCards = "flippedCards"
+    /// Number of flipped cards on a draw
+    case flippedCards
 
-    /// Number of bangs per turn, default: 1
-    static let bangsPerTurn = "bangsPerTurn"
+    /// Number of bangs per turn
+    /// Unlimited when value is 0
+    case bangsPerTurn
 
     /// If defined, this attribute overrides the maximum allowed hand cards at the end of his turn
     /// by default the maximum allowed hand cards is equal to health
-    static let handLimit = "handLimit"
-}
-
-/// Order in which attributes are settled
-/// sorted from highest to lowest priority
-enum AttributeKey {
-    static let priorities: [String] = [
-        .maxHealth,
-        .weapon,
-        .mustang,
-        .scope,
-        .startTurnCards,
-        .flippedCards,
-        .bangsPerTurn
-    ]
+    case handLimit
 }

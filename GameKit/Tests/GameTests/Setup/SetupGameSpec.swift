@@ -53,10 +53,10 @@ final class SetupGameSpec: QuickSpec {
                 }
 
                 it("should set figure attributes") {
-                    expect(game.player("p1").attributes["p1"]) == 0
+                    expect(game.player("p1").abilities) == ["p1"]
                     expect(game.player("p1").attributes[.startTurnCards]) == 2
                     expect(game.player("p1").attributes[.maxHealth]) == 4
-                    expect(game.player("p2").attributes["p2"]) == 0
+                    expect(game.player("p2").abilities) == ["p2"]
                     expect(game.player("p2").attributes[.startTurnCards]) == 3
                     expect(game.player("p2").attributes[.maxHealth]) == 3
                 }

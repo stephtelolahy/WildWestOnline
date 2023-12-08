@@ -7,7 +7,7 @@
 
 struct ActionRemoveAttribute: GameActionReducer {
     let player: String
-    let key: String
+    let key: AttributeKey
 
     func reduce(state: GameState) throws -> GameState {
         var state = state

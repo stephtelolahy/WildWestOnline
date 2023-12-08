@@ -16,7 +16,7 @@ final class ScopeSpec: QuickSpec {
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
                         $0.withHand([.scope])
-                            .withAttributes([.updateAttributesOnChangeInPlay: 0])
+                            .withAbilities([.updateAttributesOnChangeInPlay])
                     }
                     .build()
 
@@ -38,7 +38,8 @@ final class ScopeSpec: QuickSpec {
                 let state = GameState.makeBuilderWithCardRef()
                     .withPlayer("p1") {
                         $0.withInPlay([.scope])
-                            .withAttributes([.updateAttributesOnChangeInPlay: 0, .scope: 1])
+                            .withAbilities([.updateAttributesOnChangeInPlay])
+                            .withAttributes([.scope: 1])
                     }
                     .build()
 

@@ -38,7 +38,8 @@ final class DynamiteSpec: QuickSpec {
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
                             $0.withInPlay([.dynamite])
-                                .withAttributes([.drawOnSetTurn: 0, .flippedCards: 1, .startTurnCards: 2])
+                                .withAbilities([.drawOnSetTurn])
+                                .withAttributes([.flippedCards: 1, .startTurnCards: 2])
                         }
                         .withPlayer("p2")
                         .withDeck(["c1-9♦️", "c2", "c3"])
@@ -64,7 +65,8 @@ final class DynamiteSpec: QuickSpec {
                         let state = GameState.makeBuilderWithCardRef()
                             .withPlayer("p1") {
                                 $0.withInPlay([.dynamite])
-                                    .withAttributes([.drawOnSetTurn: 0, .flippedCards: 1, .startTurnCards: 2])
+                                    .withAbilities([.drawOnSetTurn])
+                                    .withAttributes([.flippedCards: 1, .startTurnCards: 2])
                                     .withHealth(4)
                             }
                             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -78,7 +80,7 @@ final class DynamiteSpec: QuickSpec {
                         expect(result) == [.setTurn("p1"),
                                            .draw,
                                            .damage(3, player: "p1"),
-                                           .discardInPlay("dynamite", player: "p1"),
+                                           .discardInPlay(.dynamite, player: "p1"),
                                            .drawDeck(player: "p1"),
                                            .drawDeck(player: "p1")]
                     }
@@ -90,17 +92,20 @@ final class DynamiteSpec: QuickSpec {
                         let state = GameState.makeBuilderWithCardRef()
                             .withPlayer("p1") {
                                 $0.withInPlay([.jail, .dynamite])
+                                    .withAbilities([
+                                        .eliminateOnDamageLethal,
+                                        .discardCardsOnEliminated,
+                                        .nextTurnOnEliminated
+                                    ])
                                     .withAttributes([
-                                            .eliminateOnDamageLethal: 0,
-                                            .discardCardsOnEliminated: 0,
-                                            .nextTurnOnEliminated: 0,
                                             .flippedCards: 1,
                                             .startTurnCards: 2
                                     ])
                                     .withHealth(3)
                             }
                             .withPlayer("p2") {
-                                $0.withAttributes([.drawOnSetTurn: 0, .startTurnCards: 2])
+                                $0.withAbilities([.drawOnSetTurn])
+                                    .withAttributes([.startTurnCards: 2])
                             }
                             .withPlayer("p3")
                             .withDeck(["c1-8♠️", "c2", "c3"])

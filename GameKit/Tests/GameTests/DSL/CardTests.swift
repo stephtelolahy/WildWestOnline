@@ -21,6 +21,7 @@ final class CardTests: XCTestCase {
         {
             "name": "c1",
             "priority": 1,
+            "abilities": [],
             "attributes": {},
             "alias": [],
             "rules": []

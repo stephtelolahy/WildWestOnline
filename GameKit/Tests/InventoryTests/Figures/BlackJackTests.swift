@@ -19,14 +19,15 @@ final class BlackJackTests: XCTestCase {
         let player = state.player(.blackJack)
 
         // Then
-        XCTAssertNil(player.attributes[.drawOnSetTurn])
+        XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
     }
 
     func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
+                $0.withAbilities([.blackJack])
+                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
@@ -49,7 +50,8 @@ final class BlackJackTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withAttributes([.blackJack: 0, .startTurnCards: 2])
+                $0.withAbilities([.blackJack])
+                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()

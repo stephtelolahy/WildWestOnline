@@ -17,7 +17,8 @@ final class DrawOnSetTurnSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.drawOnSetTurn: 0, .startTurnCards: 2])
+                            $0.withAbilities([.drawOnSetTurn])
+                                .withAttributes([.startTurnCards: 2])
                         }
                         .withDeck(["c1", "c2"])
                         .build()
@@ -40,7 +41,8 @@ final class DrawOnSetTurnSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1") {
-                            $0.withAttributes([.drawOnSetTurn: 0, .startTurnCards: 3])
+                            $0.withAbilities([.drawOnSetTurn])
+                                .withAttributes([.startTurnCards: 3])
                         }
                         .withDeck(["c1", "c2", "c3"])
                         .build()

@@ -52,10 +52,7 @@ public enum Setup {
             fatalError("Missing figure named \(figure)")
         }
 
-        var attributes = figureObj.attributes
-        attributes[figure] = 0
-
-        guard let health = attributes[.maxHealth] else {
+        guard let health = figureObj.attributes[.maxHealth] else {
             fatalError("missing attribute maxHealth")
         }
 
@@ -67,10 +64,14 @@ public enum Setup {
             }
         }
 
+        var abilities: Set<String> = figureObj.abilities
+        abilities.insert(figure)
+
         return Player(
             id: figure,
             figure: figure,
-            attributes: attributes,
+            abilities: abilities,
+            attributes: figureObj.attributes,
             health: health,
             hand: hand,
             inPlay: []
