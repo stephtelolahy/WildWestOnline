@@ -80,7 +80,7 @@ final class DynamiteSpec: QuickSpec {
                         expect(result) == [.setTurn("p1"),
                                            .draw,
                                            .damage(3, player: "p1"),
-                                           .discardInPlay("dynamite", player: "p1"),
+                                           .discardInPlay(.dynamite, player: "p1"),
                                            .drawDeck(player: "p1"),
                                            .drawDeck(player: "p1")]
                     }
