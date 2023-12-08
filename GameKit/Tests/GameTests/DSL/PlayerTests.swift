@@ -98,7 +98,9 @@ final class PlayerTests: XCTestCase {
             "id": "p1",
             "figure": "n1",
             "health": 2,
-            "abilities": ["endTurn"],
+            "abilities": [
+                "endTurn"
+            ],
             "attributes": {
                 "maxHealth": 4,
                 "mustang": 0,

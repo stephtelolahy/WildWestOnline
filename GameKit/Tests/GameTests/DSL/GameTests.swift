@@ -170,36 +170,40 @@ final class GameTests: XCTestCase {
         // Given
         let JSON = """
         {
-          "winner": "p1",
-          "players": {
-            "p1": {
-              "id": "p1",
-              "figure": "p1",
-              "health": 3,
-              "abilities": [],
-              "attributes": {},
-              "hand": [],
-              "inPlay": []
-            }
-          },
-          "attributes": {},
-          "abilities": [],
-          "playOrder": [
-            "p1"
-          ],
-          "startOrder": [
-            "p1"
-          ],
-          "turn": "p1",
-          "deck": ["c1"],
-          "discard": ["c2"],
-          "arena": [],
-          "sequence": [],
-          "playedThisTurn": {},
-          "chooseOne": {},
-          "active": {},
-          "playMode": {},
-          "cardRef": {},
+            "winner": "p1",
+            "players": {
+                "p1": {
+                    "id": "p1",
+                    "figure": "p1",
+                    "health": 3,
+                    "abilities": [],
+                    "attributes": {},
+                    "hand": [],
+                    "inPlay": []
+                }
+            },
+            "attributes": {},
+            "abilities": [],
+            "playOrder": [
+                "p1"
+            ],
+            "startOrder": [
+                "p1"
+            ],
+            "turn": "p1",
+            "deck": [
+                "c1"
+            ],
+            "discard": [
+                "c2"
+            ],
+            "arena": [],
+            "sequence": [],
+            "playedThisTurn": {},
+            "chooseOne": {},
+            "active": {},
+            "playMode": {},
+            "cardRef": {},
         }
         """
         let jsonData = try XCTUnwrap(JSON.data(using: .utf8))
