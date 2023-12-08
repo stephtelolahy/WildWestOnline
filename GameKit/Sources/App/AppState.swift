@@ -8,7 +8,7 @@ import Game
 import Inventory
 import Redux
 import Routing
-import ScreenGame
+import GameUI
 import ScreenHome
 import ScreenSplash
 

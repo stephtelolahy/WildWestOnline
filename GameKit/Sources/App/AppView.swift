@@ -7,7 +7,7 @@
 // swiftlint:disable type_contents_order
 
 import Redux
-import ScreenGame
+import GameUI
 import ScreenHome
 import ScreenSplash
 import SwiftUI

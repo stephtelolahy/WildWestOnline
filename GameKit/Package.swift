@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "ScreenGame", targets: ["ScreenGame"]),
+        .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "ScreenHome", targets: ["ScreenHome"]),
         .library(name: "ScreenSplash", targets: ["ScreenSplash"]),
         .library(name: "App", targets: ["App"])
@@ -79,7 +79,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "ScreenGame",
+            name: "GameUI",
             dependencies: [
                 "Redux",
                 "Routing",
@@ -114,7 +114,7 @@ let package = Package(
                 "Routing",
                 "Game",
                 "Inventory",
-                "ScreenGame",
+                "GameUI",
                 "ScreenHome",
                 "ScreenSplash"
             ],
