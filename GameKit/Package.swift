@@ -134,7 +134,8 @@ let package = Package(
                 "Inventory",
                 "GameUI",
                 "HomeUI",
-                "SplashUI"
+                "SplashUI",
+                "SettingsUI"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")

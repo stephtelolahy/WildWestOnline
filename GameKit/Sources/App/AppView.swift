@@ -9,6 +9,7 @@
 import GameUI
 import HomeUI
 import Redux
+import SettingsUI
 import SplashUI
 import SwiftUI
 
@@ -43,6 +44,13 @@ public struct AppView: View {
                 SplashView {
                     store.projection {
                         SplashState.from(globalState: $0)
+                    }
+                }
+
+            case .settings:
+                SettingsView {
+                    store.projection {
+                        SettingsState.from(globalState: $0)
                     }
                 }
 

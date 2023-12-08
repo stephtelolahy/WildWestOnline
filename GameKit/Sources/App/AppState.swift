@@ -10,6 +10,7 @@ import HomeUI
 import Inventory
 import Redux
 import Routing
+import SettingsUI
 import SplashUI
 
 public struct AppState: Codable, Equatable {
@@ -24,6 +25,7 @@ public enum ScreenState: Codable, Equatable {
     case splash(SplashState)
     case home(HomeState)
     case game(GamePlayState)
+    case settings
 }
 
 public extension AppState {
@@ -34,6 +36,9 @@ public extension AppState {
         switch action {
         case NavAction.showScreen(.home):
             screens = [.home(.init())]
+
+        case NavAction.showScreen(.settings):
+            screens.append(.settings)
 
         case NavAction.showScreen(.game):
             let playersCount = 5
@@ -106,5 +111,11 @@ extension SplashState {
         }
 
         return splashState
+    }
+}
+
+extension SettingsState {
+    static func from(globalState: AppState) -> Self? {
+        .init()
     }
 }
