@@ -10,7 +10,7 @@ public struct Card: Codable, Equatable {
     /// Abilities
     public let abilities: Set<String>
 
-    /// Included attributes
+    /// Attributes
     public let attributes: [AttributeKey: Int]
 
     /// Playable card alias
