@@ -20,10 +20,10 @@ public struct GameState: Codable, Equatable {
     public var playedThisTurn: [String: Int]
 
     /// Deck
-    public var deck: CardStack
+    public var deck: [String]
 
     /// Discard pile
-    public var discard: CardStack
+    public var discard: [String]
 
     /// Cards shop
     public var arena: [String]

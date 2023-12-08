@@ -15,7 +15,7 @@ struct ActionPlayAs: GameActionReducer {
         // discard card from hand
         var state = state
         state[keyPath: \GameState.players[player]]?.hand.remove(card)
-        state.discard.push(card)
+        state.discard.insert(card, at: 0)
 
         // save played card
         state.incrementPlayedThisTurn(for: aliasCardName)

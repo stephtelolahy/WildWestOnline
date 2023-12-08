@@ -12,7 +12,7 @@ struct ActionDiscardHand: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         state[keyPath: \GameState.players[player]]?.hand.remove(card)
-        state.discard.push(card)
+        state.discard.insert(card, at: 0)
         return state
     }
 }

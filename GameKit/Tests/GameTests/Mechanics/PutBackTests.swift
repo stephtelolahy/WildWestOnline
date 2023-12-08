@@ -21,7 +21,7 @@ final class PutBackTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.deck.cards, ["c1", "c2"])
+        XCTAssertEqual(result.deck, ["c1", "c2"])
         XCTAssertEqual(result.arena, [])
     }
 
@@ -37,7 +37,7 @@ final class PutBackTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.deck.cards, ["c1", "c2", "c3"])
+        XCTAssertEqual(result.deck, ["c1", "c2", "c3"])
         XCTAssertEqual(result.arena, [])
     }
 }

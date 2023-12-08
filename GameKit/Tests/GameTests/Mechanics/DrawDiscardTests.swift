@@ -22,7 +22,7 @@ final class DrawDiscardTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result.player("p1").hand, ["c1"])
-        XCTAssertEqual(result.discard.top, "c2")
+        XCTAssertEqual(result.discard, ["c2"])
     }
 
     func test_drawDiscard_whitEmptyDiscard_shouldThrowError() throws {

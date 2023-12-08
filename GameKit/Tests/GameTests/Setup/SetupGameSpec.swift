@@ -45,7 +45,7 @@ final class SetupGameSpec: QuickSpec {
                     expect(game.player("p1").hand.count) == 4
                     expect(game.player("p2").hand.count) == 3
                     expect(game.deck.count) == 73
-                    expect(game.discard.top) == nil
+                    expect(game.discard) == []
                 }
 
                 it("should set undefined turn") {

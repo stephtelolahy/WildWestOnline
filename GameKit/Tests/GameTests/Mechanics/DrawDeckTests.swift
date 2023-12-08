@@ -22,7 +22,7 @@ final class DrawDeckTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result.player("p1").hand, ["c1"])
-        XCTAssertEqual(result.deck.top, "c2")
+        XCTAssertEqual(result.deck, ["c2"])
     }
 
     func test_drawDeck_whitEmptyDeckAndEnoughDiscardPile_shouldResetDeck() throws {
@@ -37,8 +37,8 @@ final class DrawDeckTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.deck.top)
-        XCTAssertEqual(result.discard.top, "c1")
+        XCTAssertEqual(result.deck, [])
+        XCTAssertEqual(result.discard, ["c1"])
         XCTAssertEqual(result.player("p1").hand, ["c2"])
     }
 

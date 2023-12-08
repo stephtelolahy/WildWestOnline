@@ -36,7 +36,7 @@ final class PlayImmediateSpec: QuickSpec {
 
                 // Then
                 expect(result.player("p1").hand).to(beEmpty())
-                expect(result.discard.top) == "c1"
+                expect(result.discard) == ["c1"]
                 expect(result.playedThisTurn["c1"]) == 1
             }
         }

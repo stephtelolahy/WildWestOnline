@@ -25,7 +25,7 @@ final class DiscoverSpec: QuickSpec {
 
                     // Then
                     expect(result.arena) == ["c1"]
-                    expect(result.deck.top) == "c2"
+                    expect(result.deck) == ["c2", "c3"]
                 }
             }
 
@@ -43,7 +43,7 @@ final class DiscoverSpec: QuickSpec {
 
                     // Then
                     expect(result.arena) == ["c1", "c2"]
-                    expect(result.deck.top) == "c3"
+                    expect(result.deck) == ["c3"]
                 }
             }
         }

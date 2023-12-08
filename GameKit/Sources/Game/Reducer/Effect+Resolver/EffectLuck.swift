@@ -40,7 +40,7 @@ struct EffectLuck: EffectResolver {
                 fatalError("missing drawn card")
             }
 
-            drawnCards = Array(state.discard.cards.prefix(flippedCards))
+            drawnCards = Array(state.discard.prefix(flippedCards))
         }
 
         let matched = drawnCards.contains { $0.matches(regex: regex) }

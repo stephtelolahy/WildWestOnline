@@ -27,7 +27,7 @@ final class DiscardSpec: QuickSpec {
 
                     // Then
                     expect(result.player("p1").hand) == ["c2"]
-                    expect(result.discard.top) == "c1"
+                    expect(result.discard) == ["c1"]
                 }
             }
 
@@ -46,7 +46,7 @@ final class DiscardSpec: QuickSpec {
 
                     // Then
                     expect(result.player("p1").inPlay) == ["c2"]
-                    expect(result.discard.top) == "c1"
+                    expect(result.discard) == ["c1"]
                 }
             }
         }

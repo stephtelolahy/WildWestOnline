@@ -11,8 +11,8 @@ public extension GameState {
         private var playOrder: [String] = []
         private var turn: String?
         private var playedThisTurn: [String: Int] = [:]
-        private var deck: CardStack = .init(cards: [])
-        private var discard: CardStack = .init(cards: [])
+        private var deck: [String] = []
+        private var discard: [String] = []
         private var arena: [String] = []
         private var isOver: GameOver?
         private var error: GameError?
@@ -48,12 +48,12 @@ public extension GameState {
         }
 
         public func withDeck(_ value: [String]) -> Self {
-            deck = CardStack(cards: value)
+            deck = value
             return self
         }
 
         public func withDiscard(_ value: [String]) -> Self {
-            discard = CardStack(cards: value)
+            discard = value
             return self
         }
 

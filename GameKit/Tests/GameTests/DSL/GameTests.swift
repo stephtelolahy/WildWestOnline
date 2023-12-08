@@ -141,9 +141,9 @@ final class GameTests: XCTestCase {
 
         // Then
         XCTAssertEqual(state.turn, "p1")
-        XCTAssertEqual(state.deck.cards, ["c1", "c2"])
+        XCTAssertEqual(state.deck, ["c1", "c2"])
         XCTAssertEqual(state.playedThisTurn["bang"], 1)
-        XCTAssertEqual(state.discard.cards, ["c3", "c4"])
+        XCTAssertEqual(state.discard, ["c3", "c4"])
         XCTAssertEqual(state.arena, ["c5", "c6"])
         XCTAssertEqual(state.isOver?.winner, "p1")
         XCTAssertEqual(state.cardRef["name"], Card("name"))
@@ -192,16 +192,8 @@ final class GameTests: XCTestCase {
             "p1"
           ],
           "turn": "p1",
-          "deck": {
-            "cards": [
-              "c1"
-            ]
-          },
-          "discard": {
-            "cards": [
-              "c2"
-            ]
-          },
+          "deck": ["c1"],
+          "discard": ["c2"],
           "arena": [],
           "sequence": [],
           "playedThisTurn": {},
@@ -219,8 +211,8 @@ final class GameTests: XCTestCase {
         XCTAssertNotNil(sut.players["p1"])
         XCTAssertEqual(sut.playOrder, ["p1"])
         XCTAssertEqual(sut.turn, "p1")
-        XCTAssertEqual(sut.deck.count, 1)
-        XCTAssertEqual(sut.discard.count, 1)
+        XCTAssertEqual(sut.deck, ["c1"])
+        XCTAssertEqual(sut.discard, ["c2"])
         XCTAssertEqual(sut.arena, [])
     }
 }
