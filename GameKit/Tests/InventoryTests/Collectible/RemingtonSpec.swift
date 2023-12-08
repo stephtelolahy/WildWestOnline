@@ -19,7 +19,6 @@ final class RemingtonSpec: QuickSpec {
                         $0.withHand([.remington])
                             .withAbilities([.updateAttributesOnChangeInPlay])
                             .withAttributes([.weapon: 1])
-                            .withFigure(.pDefault)
                     }
                     .build()
 

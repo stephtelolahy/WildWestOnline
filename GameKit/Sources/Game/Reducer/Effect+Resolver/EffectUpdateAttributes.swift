@@ -10,12 +10,11 @@ struct EffectUpdateAttributes: EffectResolver {
         let player = ctx.player()
         let playerObj = state.player(player)
         let figure = playerObj.figure
-        let defaultAttributes = state.cardRef[figure]?.attributes ?? [:]
+        let figureAttributes = state.cardRef[figure]?.attributes ?? [:]
         var result: [GameAction] = []
-        let keys = state.updatableAttributes(player: playerObj)
 
-        for key in keys {
-            var expectedValue: Int? = defaultAttributes[key]
+        for key in AttributeKey.allCases {
+            var expectedValue: Int? = figureAttributes[key]
             for card in playerObj.inPlay {
                 let cardName = card.extractName()
                 if let cardObj = state.cardRef[cardName],
@@ -35,28 +34,5 @@ struct EffectUpdateAttributes: EffectResolver {
         }
 
         return result
-    }
-}
-
-private extension GameState {
-    func updatableAttributes(player: Player) -> [AttributeKey] {
-        AttributeKey.allCases
-            .filter { isAttributeUpdatable($0, player: player) }
-    }
-
-    func isAttributeUpdatable(_ key: AttributeKey, player: Player) -> Bool {
-        if player.attributes[key] != nil {
-            return true
-        }
-
-        for card in player.inPlay {
-            let cardName = card.extractName()
-            if let cardObj = self.cardRef[cardName],
-               cardObj.attributes[key] != nil {
-                return true
-            }
-        }
-
-        return false
     }
 }

@@ -77,6 +77,11 @@ public extension GameState {
             return self
         }
 
+        public func withExtraCardRef(_ cards: [String: Card]) -> Self {
+            cardRef.merge(cards) { _, new in new }
+            return self
+        }
+
         public func withChooseOne(_ chooser: String, options: [String: GameAction]) -> Self {
             chooseOne = [chooser: options]
             return self

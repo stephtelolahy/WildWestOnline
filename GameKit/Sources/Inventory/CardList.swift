@@ -40,7 +40,6 @@ public enum CardList {
         updateAttributesOnChangeInPlay
         activateCounterCardsOnShot
         updateGameOverOnEliminated
-        pDefault
         willyTheKid
         roseDoolan
         paulRegret
@@ -289,7 +288,7 @@ private extension CardList {
     // MARK: - Figures
 
     static let pDefault = Card(
-        .pDefault,
+        String(),
         abilities: [
             .endTurn,
             .drawOnSetTurn,

@@ -17,7 +17,6 @@ final class SchofieldTests: XCTestCase {
                 $0.withHand([.schofield])
                     .withAbilities([.updateAttributesOnChangeInPlay])
                     .withAttributes([.weapon: 1])
-                    .withFigure(.pDefault)
             }
             .build()
 
@@ -40,7 +39,6 @@ final class SchofieldTests: XCTestCase {
                     .withInPlay([.remington])
                     .withAbilities([.updateAttributesOnChangeInPlay, .discardPreviousWeaponOnPlayWeapon])
                     .withAttributes([.weapon: 3])
-                    .withFigure(.pDefault)
             }
             .build()
 
@@ -63,8 +61,9 @@ final class SchofieldTests: XCTestCase {
                 $0.withInPlay([.schofield])
                     .withAbilities([.updateAttributesOnChangeInPlay])
                     .withAttributes([.weapon: 2])
-                    .withFigure(.pDefault)
+                    .withFigure("f1")
             }
+            .withExtraCardRef(["f1": Card("f1", attributes: [.weapon: 1])])
             .build()
 
         // When

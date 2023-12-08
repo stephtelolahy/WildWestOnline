@@ -20,7 +20,6 @@ final class VolcanicSpec: QuickSpec {
                             $0.withHand([.volcanic])
                                 .withAbilities([.updateAttributesOnChangeInPlay])
                                 .withAttributes([.weapon: 1, .bangsPerTurn: 1])
-                                .withFigure(.pDefault)
                         }
                         .build()
 
@@ -51,7 +50,6 @@ final class VolcanicSpec: QuickSpec {
                                         .weapon: 2,
                                         .bangsPerTurn: 1
                                 ])
-                                .withFigure(.pDefault)
                         }
                         .build()
 

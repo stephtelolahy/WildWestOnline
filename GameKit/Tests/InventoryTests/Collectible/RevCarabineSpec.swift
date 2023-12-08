@@ -18,7 +18,6 @@ final class RevCarabineSpec: QuickSpec {
                         $0.withHand([.revCarabine])
                             .withAbilities([.updateAttributesOnChangeInPlay])
                             .withAttributes([.weapon: 1])
-                            .withFigure(.pDefault)
                     }
                     .build()
 
