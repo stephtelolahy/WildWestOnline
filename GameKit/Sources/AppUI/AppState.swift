@@ -34,23 +34,8 @@ public extension AppState {
 
         // Update visible screens
         switch action {
-        case NavAction.showScreen(.home):
-            screens = [.home(.init())]
-
-        case NavAction.showScreen(.settings):
-            screens.append(.settings)
-
-        case NavAction.showScreen(.game):
-            let playersCount = 5
-            var game = Inventory.createGame(playersCount: playersCount)
-
-            let sheriff = game.playOrder[0]
-            game.playMode = game.startOrder.reduce(into: [:]) {
-                $0[$1] = $1 == sheriff ? .manual : .auto
-            }
-
-            let gamePlayState = GamePlayState(gameState: game)
-            screens.append(.game(gamePlayState))
+        case let NavAction.showScreen(screen):
+            screens.append(screen.instatiateState())
 
         case NavAction.dismiss:
             screens.removeLast()
@@ -64,6 +49,35 @@ public extension AppState {
 
         return .init(screens: screens)
     }
+}
+
+private extension Screen {
+    func instatiateState() -> ScreenState {
+        switch self {
+        case .splash:
+            .splash(.init())
+
+        case .home:
+            .home(.init())
+
+        case .game:
+            .game(.init(gameState: createGame()))
+
+        case .settings:
+            .settings
+        }
+    }
+}
+
+private func createGame() -> GameState {
+    let playersCount = 5
+    var game = Inventory.createGame(playersCount: playersCount)
+
+    let sheriff = game.playOrder[0]
+    game.playMode = game.startOrder.reduce(into: [:]) {
+        $0[$1] = $1 == sheriff ? .manual : .auto
+    }
+    return game
 }
 
 private extension ScreenState {

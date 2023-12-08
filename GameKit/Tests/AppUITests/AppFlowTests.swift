@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-@testable import App
+@testable import AppUI
 import Game
 import Redux
 import Routing
@@ -35,7 +35,7 @@ final class AppFlowTests: XCTestCase {
         sut.dispatch(NavAction.showScreen(.home))
 
         // Then
-        XCTAssertEqual(sut.state.screens, [.home(.init())])
+        XCTAssertEqual(sut.state.screens, [.splash(.init()), .home(.init())])
     }
 
     func test_app_whenStartedGame_shouldShowGameScreen() throws {
