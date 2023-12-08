@@ -9,7 +9,7 @@ struct CardSelectHand: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.player()
         let playerObj = state.player(owner)
-        let options = playerObj.hand.cards.toCardOptions()
+        let options = playerObj.hand.toCardOptions()
 
         return .selectable(options)
     }

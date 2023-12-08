@@ -8,11 +8,8 @@
 struct ActionDiscover: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        if state.arena == nil {
-            state.arena = .init(cards: [])
-        }
         let card = try state.popDeck()
-        state.arena?.add(card)
+        state.arena.append(card)
         return state
     }
 }

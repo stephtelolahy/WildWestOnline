@@ -12,8 +12,8 @@ struct ActionDrawHand: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        try state[keyPath: \GameState.players[target]]?.hand.remove(card)
-        state[keyPath: \GameState.players[player]]?.hand.add(card)
+        state[keyPath: \GameState.players[target]]?.hand.remove(card)
+        state[keyPath: \GameState.players[player]]?.hand.append(card)
         return state
     }
 }

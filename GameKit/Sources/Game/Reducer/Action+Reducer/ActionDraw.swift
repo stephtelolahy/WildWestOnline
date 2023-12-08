@@ -9,7 +9,7 @@ struct ActionDraw: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         let card = try state.popDeck()
-        state.discard.push(card)
+        state.discard.insert(card, at: 0)
         return state
     }
 }

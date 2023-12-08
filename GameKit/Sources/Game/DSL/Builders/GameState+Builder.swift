@@ -11,13 +11,13 @@ public extension GameState {
         private var playOrder: [String] = []
         private var turn: String?
         private var playedThisTurn: [String: Int] = [:]
-        private var deck: CardStack = .init(cards: [])
-        private var discard: CardStack = .init(cards: [])
-        private var arena: CardLocation?
-        private var isOver: GameOver?
+        private var deck: [String] = []
+        private var discard: [String] = []
+        private var arena: [String] = []
+        private var winner: String?
         private var error: GameError?
-        private var chooseOne: ChooseOne?
-        private var active: ActiveCards?
+        private var chooseOne: [String: [String: GameAction]] = [:]
+        private var active: [String: [String]] = [:]
         private var sequence: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
         private var cardRef: [String: Card] = [:]
@@ -32,12 +32,12 @@ public extension GameState {
                 deck: deck,
                 discard: discard,
                 arena: arena,
-                isOver: isOver,
+                winner: winner,
                 error: error,
                 chooseOne: chooseOne,
                 active: active,
-                sequence: sequence,
                 playMode: playMode,
+                sequence: sequence,
                 cardRef: cardRef
             )
         }
@@ -48,17 +48,17 @@ public extension GameState {
         }
 
         public func withDeck(_ value: [String]) -> Self {
-            deck = CardStack(cards: value)
+            deck = value
             return self
         }
 
         public func withDiscard(_ value: [String]) -> Self {
-            discard = CardStack(cards: value)
+            discard = value
             return self
         }
 
         public func withArena(_ value: [String]) -> Self {
-            arena = CardLocation(cards: value)
+            arena = value
             return self
         }
 
@@ -68,7 +68,7 @@ public extension GameState {
         }
 
         public func withWinner(_ value: String) -> Self {
-            isOver = GameOver(winner: value)
+            winner = value
             return self
         }
 
@@ -78,12 +78,12 @@ public extension GameState {
         }
 
         public func withChooseOne(_ chooser: String, options: [String: GameAction]) -> Self {
-            chooseOne = ChooseOne(chooser: chooser, options: options)
+            chooseOne = [chooser: options]
             return self
         }
 
         public func withActive(_ player: String, cards: [String]) -> Self {
-            active = ActiveCards(player: player, cards: cards)
+            active = [player: cards]
             return self
         }
 

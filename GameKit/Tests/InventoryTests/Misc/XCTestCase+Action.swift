@@ -42,7 +42,7 @@ extension XCTestCase {
         cancellable.cancel()
 
         XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
-        XCTAssertNil(store.state.chooseOne, "Game must be idle", file: file, line: line)
+        XCTAssertEqual(store.state.chooseOne, [:], "Game must be idle", file: file, line: line)
         XCTAssertEqual(choosingMiddleware.choices, [], "Choices must be empty", file: file, line: line)
 
         let events: [GameAction] = store.log.compactMap { action in
@@ -67,16 +67,16 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
     }
 
     override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
-        guard let chooseOne = state.chooseOne else {
+        guard let chooseOne = state.chooseOne.first else {
             return nil
         }
 
         guard !choices.isEmpty else {
-            fatalError("Expected a choice between \(chooseOne.options.keys)")
+            fatalError("Expected a choice between \(chooseOne.value.keys)")
         }
 
         let choice = choices.removeFirst()
-        guard let option = chooseOne.options[choice] else {
+        guard let option = chooseOne.value[choice] else {
             fatalError("Expect chooseOne with option \(choice)")
         }
 

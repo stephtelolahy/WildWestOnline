@@ -12,7 +12,7 @@ struct CardPreviousInPlayWithAttribute: ArgCardResolver {
         let owner = ctx.player()
         let playerObj = state.player(owner)
         var matchedCards: [String] = []
-        for card in playerObj.inPlay.cards {
+        for card in playerObj.inPlay {
             let cardName = card.extractName()
             if let cardObj = state.cardRef[cardName],
                cardObj.attributes.keys.contains(key) {

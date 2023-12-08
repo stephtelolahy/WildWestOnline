@@ -16,7 +16,7 @@ struct EffectUpdateAttributes: EffectResolver {
 
         for key in keys {
             var expectedValue: Int? = defaultAttributes[key]
-            for card in playerObj.inPlay.cards {
+            for card in playerObj.inPlay {
                 let cardName = card.extractName()
                 if let cardObj = state.cardRef[cardName],
                    let value = cardObj.attributes[key] {
@@ -49,7 +49,7 @@ private extension GameState {
             return true
         }
 
-        for card in player.inPlay.cards {
+        for card in player.inPlay {
             let cardName = card.extractName()
             if let cardObj = self.cardRef[cardName],
                cardObj.attributes[key] != nil {

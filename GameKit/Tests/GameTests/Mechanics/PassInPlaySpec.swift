@@ -26,24 +26,8 @@ final class PassInPlaySpec: QuickSpec {
                 let result = GameState.reducer(state, action)
 
                 // Then
-                expect(result.player("p1").inPlay.cards) == ["c2"]
-                expect(result.player("p2").inPlay.cards) == ["c1"]
-            }
-
-            context("missing card") {
-                it("should throw error") {
-                    let state = GameState.makeBuilder()
-                        .withPlayer("p1")
-                        .withPlayer("p2")
-                        .build()
-
-                    // When
-                    let action = GameAction.passInPlay("c1", target: "p2", player: "p1")
-                    let result = GameState.reducer(state, action)
-
-                    // Then
-                    expect(result.error) == .cardNotFound("c1")
-                }
+                expect(result.player("p1").inPlay) == ["c2"]
+                expect(result.player("p2").inPlay) == ["c1"]
             }
         }
     }

@@ -27,9 +27,9 @@ final class PlayHandicapSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.player("p1").hand.cards) == ["c2"]
-                    expect(result.player("p2").inPlay.cards) == ["c1"]
-                    expect(result.player("p1").inPlay.cards).to(beEmpty())
+                    expect(result.player("p1").hand) == ["c2"]
+                    expect(result.player("p2").inPlay) == ["c1"]
+                    expect(result.player("p1").inPlay).to(beEmpty())
                     expect(result.discard.count) == 0
                 }
             }

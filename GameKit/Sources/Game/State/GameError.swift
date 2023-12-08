@@ -12,9 +12,6 @@ public enum GameError: Error, Codable, Equatable {
     /// Expected player to be damaged
     case playerAlreadyMaxHealth(String)
 
-    /// Expected a card with given identifier
-    case cardNotFound(String)
-
     /// Expected card to have play rule
     case cardNotPlayable(String)
 

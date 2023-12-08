@@ -23,8 +23,8 @@ public struct Player: Identifiable, Codable, Equatable {
     public var health: Int
 
     /// Hand cards
-    public var hand: CardLocation
+    public var hand: [String]
 
     /// In play cards
-    public var inPlay: CardLocation
+    public var inPlay: [String]
 }

@@ -11,7 +11,7 @@ struct ActionDrawDeck: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         let card = try state.popDeck()
-        state[keyPath: \GameState.players[player]]?.hand.add(card)
+        state[keyPath: \GameState.players[player]]?.hand.append(card)
         return state
     }
 }

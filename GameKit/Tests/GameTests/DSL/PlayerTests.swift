@@ -32,7 +32,7 @@ final class PlayerTests: XCTestCase {
     func test_buildPlayer_byDefault_shouldHaveEmptyHand() throws {
         let sut = Player.makeBuilder()
             .build()
-        XCTAssertEqual(sut.hand.cards, [])
+        XCTAssertEqual(sut.hand, [])
     }
 
     func test_buildPlayer_byDefault_shouldHaveHealthZero() throws {
@@ -44,7 +44,7 @@ final class PlayerTests: XCTestCase {
     func test_buildPlayer_byDefault_shouldHaveEmptyInPlay() throws {
         let sut = Player.makeBuilder()
             .build()
-        XCTAssertEqual(sut.inPlay.cards, [])
+        XCTAssertEqual(sut.inPlay, [])
     }
 
     func test_buildPlayer_withIdentifier_shouldHaveIdentifier() throws {
@@ -66,7 +66,7 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.hand.cards, ["c1", "c2"])
+        XCTAssertEqual(sut.hand, ["c1", "c2"])
     }
 
     func test_buildPlayer_withInPlay_shouldHaveInPlayCards() throws {
@@ -77,7 +77,7 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.inPlay.cards, ["c1", "c2"])
+        XCTAssertEqual(sut.inPlay, ["c1", "c2"])
     }
 
     func test_buildPlayer_withAttributes_shouldHaveAttributes() throws {
@@ -107,14 +107,8 @@ final class PlayerTests: XCTestCase {
                 "startTurnCards": 2,
                 "endTurn": 0
             },
-            "hand": {
-                "hidden": true,
-                "cards": []
-            },
-            "inPlay": {
-                "hidden": false,
-                "cards": []
-            }
+            "hand": [],
+            "inPlay": []
         }
         """
         let jsonData = try XCTUnwrap(JSON.data(using: .utf8))

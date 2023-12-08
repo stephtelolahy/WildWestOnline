@@ -20,31 +20,31 @@ public struct GameState: Codable, Equatable {
     public var playedThisTurn: [String: Int]
 
     /// Deck
-    public var deck: CardStack
+    public var deck: [String]
 
     /// Discard pile
-    public var discard: CardStack
+    public var discard: [String]
 
     /// Cards shop
-    public var arena: CardLocation?
+    public var arena: [String]
 
-    /// Is Game over
-    public var isOver: GameOver?
+    /// Game over
+    public var winner: String?
 
     /// Occurred error
     public var error: GameError?
 
-    /// Pending action
-    public var chooseOne: ChooseOne?
+    /// Pending action by player
+    public var chooseOne: [String: [String: GameAction]]
 
-    /// Active cards
-    public var active: ActiveCards?
+    /// Playable cards by player
+    public var active: [String: [String]]
+
+    /// Play mode by player
+    public var playMode: [String: PlayMode]
 
     /// Queued effects
     public var sequence: [GameAction]
-
-    /// Play mode by playerId
-    public var playMode: [String: PlayMode]
 
     /// All cards reference by cardName
     public let cardRef: [String: Card]
@@ -60,4 +60,13 @@ public extension GameState {
         }
         return player
     }
+}
+
+/// ChooseOne labels
+public extension String {
+    /// Random hand card
+    static let randomHand = "randomHand"
+
+    /// Pass when asked to do an action
+    static let pass = "pass"
 }

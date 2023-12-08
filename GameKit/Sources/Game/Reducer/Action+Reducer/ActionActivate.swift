@@ -11,7 +11,7 @@ struct ActionActivate: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state.active = ActiveCards(player: player, cards: cards)
+        state.active[player] = cards
         return state
     }
 }

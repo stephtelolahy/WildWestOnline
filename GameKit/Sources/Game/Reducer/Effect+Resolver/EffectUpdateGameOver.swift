@@ -11,6 +11,7 @@ struct EffectUpdateGameOver: EffectResolver {
             return []
         }
 
-        return [.setGameOver(winner: state.playOrder.first)]
+        let winner = state.playOrder.first ?? ""
+        return [.setGameOver(winner: winner)]
     }
 }

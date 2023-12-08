@@ -17,19 +17,19 @@ public final class AIAgentMiddleware: Middleware<GameState> {
     }
 
     private func evaluateAIMove(state: GameState) -> GameAction? {
-        guard state.isOver == nil else {
+        guard state.winner == nil else {
             return nil
         }
 
-        if let active = state.active,
-           state.playMode[active.player] == .auto,
-           let randomCard = active.cards.randomElement() {
-            return GameAction.play(randomCard, player: active.player)
+        if let active = state.active.first,
+           state.playMode[active.key] == .auto,
+           let randomCard = active.value.randomElement() {
+            return GameAction.play(randomCard, player: active.key)
         }
 
-        if let chooseOne = state.chooseOne,
-           state.playMode[chooseOne.chooser] == .auto,
-           let randomAction = chooseOne.options.values.randomElement() {
+        if let chooseOne = state.chooseOne.first,
+           state.playMode[chooseOne.key] == .auto,
+           let randomAction = chooseOne.value.values.randomElement() {
             return randomAction
         }
 

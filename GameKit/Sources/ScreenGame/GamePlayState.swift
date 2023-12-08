@@ -11,7 +11,7 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
-    var showActiveForPlayer: String?
+    var selectedPlayer: String?
 
     public init(gameState: GameState) {
         self.gameState = gameState
@@ -25,21 +25,20 @@ extension GamePlayState {
             let player = gameState.player($0)
 
             var activeActions: [String: GameAction] = [:]
-            if let active = gameState.active,
-               player.id == active.player {
-                activeActions = active.cards.reduce(into: [String: GameAction]()) {
+            if let activeCards = gameState.active[player.id] {
+                activeActions = activeCards.reduce(into: [String: GameAction]()) {
                     $0[$1] = .play($1, player: player.id)
                 }
             }
 
-            let highlighted = gameState.active?.player == player.id || gameState.chooseOne?.chooser == player.id
+            let highlighted = gameState.active[player.id] != nil || gameState.chooseOne[player.id] != nil
 
             return PlayerItem(
                 id: player.id,
                 imageName: player.figure,
                 displayName: player.figure.uppercased(),
                 status: "[]\(player.hand.count)\t❤️\(player.health)/\(player.attributes[.maxHealth] ?? 0)",
-                equipment: player.inPlay.cards.joined(separator: "-"),
+                equipment: player.inPlay.joined(separator: "-"),
                 activeActions: activeActions,
                 highlighted: highlighted
             )
@@ -55,16 +54,18 @@ extension GamePlayState {
     }
 
     var activeSheetData: [String: GameAction] {
-        players.first { $0.id == showActiveForPlayer && gameState.playMode[$0.id] == .manual }?.activeActions ?? [:]
+        players.first {
+            $0.id == selectedPlayer && gameState.playMode[$0.id] == .manual
+        }?.activeActions ?? [:]
     }
 
     var chooseOneAlertData: [String: GameAction] {
-        guard let chooseOne = gameState.chooseOne,
-              gameState.playMode[chooseOne.chooser] == .manual else {
+        guard let chooseOne = gameState.chooseOne.first,
+              gameState.playMode[chooseOne.key] == .manual else {
             return  [:]
         }
 
-        return chooseOne.options
+        return chooseOne.value
     }
 }
 
@@ -95,10 +96,10 @@ public extension GamePlayState {
         if let action = action as? GamePlayAction {
             switch action {
             case let .didSelectPlayer(playerId):
-                state.showActiveForPlayer = playerId
+                state.selectedPlayer = playerId
 
             case .didShowActiveSheet:
-                state.showActiveForPlayer = nil
+                state.selectedPlayer = nil
 
             case .didShowChooseOneAlert:
                 break

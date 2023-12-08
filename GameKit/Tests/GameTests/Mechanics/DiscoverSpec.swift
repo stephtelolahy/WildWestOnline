@@ -24,8 +24,8 @@ final class DiscoverSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.arena?.cards) == ["c1"]
-                    expect(result.deck.top) == "c2"
+                    expect(result.arena) == ["c1"]
+                    expect(result.deck) == ["c2", "c3"]
                 }
             }
 
@@ -42,8 +42,8 @@ final class DiscoverSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.arena?.cards) == ["c1", "c2"]
-                    expect(result.deck.top) == "c3"
+                    expect(result.arena) == ["c1", "c2"]
+                    expect(result.deck) == ["c3"]
                 }
             }
         }

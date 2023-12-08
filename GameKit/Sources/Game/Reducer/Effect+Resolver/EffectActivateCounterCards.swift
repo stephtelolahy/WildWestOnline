@@ -10,7 +10,7 @@ struct EffectActivateCounterCards: EffectResolver {
         let playerObj = state.player(ctx.actor)
         let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
 
-        let counterOptions = playerObj.hand.cards.compactMap {
+        let counterOptions = playerObj.hand.compactMap {
             CounterActionResolver.counterAction(card: $0, player: ctx.actor, state: state, ctx: playReqContext)
         }
 

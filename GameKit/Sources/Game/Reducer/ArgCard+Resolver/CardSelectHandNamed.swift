@@ -11,7 +11,7 @@ struct CardSelectHandNamed: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.player()
         let playerObj = state.player(owner)
-        let options = playerObj.hand.cards
+        let options = playerObj.hand
             .filter { $0.extractName() == name }
             .toCardOptions()
 

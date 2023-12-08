@@ -10,9 +10,9 @@ import Redux
 public final class ActivateCardsMiddleware: Middleware<GameState> {
     override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard state.sequence.isEmpty,
-              state.isOver == nil,
-              state.chooseOne == nil,
-              state.active == nil,
+              state.winner == nil,
+              state.chooseOne.isEmpty,
+              state.active.isEmpty,
               let player = state.turn else {
             return nil
         }
@@ -34,6 +34,6 @@ public final class ActivateCardsMiddleware: Middleware<GameState> {
     }
 
     private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
-        playerObj.attributes.map(\.key) + playerObj.hand.cards
+        playerObj.attributes.map(\.key) + playerObj.hand
     }
 }

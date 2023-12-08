@@ -8,7 +8,7 @@ import SwiftUI
 /// - and publish changes of the the current app `State` to possible subscribers.
 public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
-    public private (set) var log: [Action] = []
+    public internal(set) var log: [Action] = []
 
     private let queue = DispatchQueue(label: "store.queue", qos: .userInitiated)
     private let reducer: Reducer<State>

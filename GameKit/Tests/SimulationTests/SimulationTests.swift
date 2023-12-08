@@ -40,7 +40,7 @@ final class SimulationTests: XCTestCase {
         sut.addMiddleware(AIAgentMiddleware())
 
         let cancellable = sut.$state.sink { state in
-            if state.isOver != nil {
+            if state.winner != nil {
                 expectation.fulfill()
             }
 
@@ -56,6 +56,6 @@ final class SimulationTests: XCTestCase {
         // Then
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
-        XCTAssertNotNil(sut.state.isOver, "Expected game over")
+        XCTAssertNotNil(sut.state.winner, "Expected game over")
     }
 }

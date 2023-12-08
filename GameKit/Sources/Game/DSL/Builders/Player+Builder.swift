@@ -13,8 +13,8 @@ public extension Player {
         private var figure: String = ""
         private var attributes: [String: Int] = [:]
         private var health: Int = 0
-        private var hand: CardLocation = .init(cards: [])
-        private var inPlay: CardLocation = .init(cards: [])
+        private var hand: [String] = []
+        private var inPlay: [String] = []
 
         public func build() -> Player {
             Player(
@@ -48,12 +48,12 @@ public extension Player {
         }
 
         public func withHand(_ value: [String]) -> Self {
-            hand = CardLocation(cards: value)
+            hand = value
             return self
         }
 
         public func withInPlay(_ value: [String]) -> Self {
-            inPlay = CardLocation(cards: value)
+            inPlay = value
             return self
         }
     }

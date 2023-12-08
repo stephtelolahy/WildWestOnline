@@ -12,18 +12,18 @@ struct CardSelectAny: ArgCardResolver {
         let playerObj = state.player(owner)
         var options: [CardArgOption] = []
 
-        if playerObj.inPlay.cards.isNotEmpty {
-            let inPlayOptions = playerObj.inPlay.cards.toCardOptions()
+        if playerObj.inPlay.isNotEmpty {
+            let inPlayOptions = playerObj.inPlay.toCardOptions()
             options.append(contentsOf: inPlayOptions)
         }
 
-        if playerObj.hand.cards.isNotEmpty {
+        if playerObj.hand.isNotEmpty {
             if chooser != owner {
-                let randomId = playerObj.hand.cards.randomElement().unsafelyUnwrapped
+                let randomId = playerObj.hand.randomElement().unsafelyUnwrapped
                 let randomOption = CardArgOption(id: randomId, label: .randomHand)
                 options.append(randomOption)
             } else {
-                let handOptions = playerObj.hand.cards.toCardOptions()
+                let handOptions = playerObj.hand.toCardOptions()
                 options.append(contentsOf: handOptions)
             }
         }

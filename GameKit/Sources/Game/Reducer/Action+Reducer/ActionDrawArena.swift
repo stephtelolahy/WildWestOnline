@@ -11,11 +11,8 @@ struct ActionDrawArena: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        try state.arena?.remove(card)
-        if state.arena?.cards.isEmpty == true {
-            state.arena = nil
-        }
-        state[keyPath: \GameState.players[player]]?.hand.add(card)
+        state.arena.remove(card)
+        state[keyPath: \GameState.players[player]]?.hand.append(card)
         return state
     }
 }

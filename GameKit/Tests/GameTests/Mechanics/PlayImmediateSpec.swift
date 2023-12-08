@@ -35,8 +35,8 @@ final class PlayImmediateSpec: QuickSpec {
                 let result = GameState.reducer(state, action)
 
                 // Then
-                expect(result.player("p1").hand.cards).to(beEmpty())
-                expect(result.discard.top) == "c1"
+                expect(result.player("p1").hand).to(beEmpty())
+                expect(result.discard) == ["c1"]
                 expect(result.playedThisTurn["c1"]) == 1
             }
         }
