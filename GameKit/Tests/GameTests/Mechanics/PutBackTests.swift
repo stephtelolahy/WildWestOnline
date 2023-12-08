@@ -22,7 +22,7 @@ final class PutBackTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result.deck.cards, ["c1", "c2"])
-        XCTAssertNil(result.arena)
+        XCTAssertEqual(result.arena, [])
     }
 
     func test_putBack_withArenaMultipleCards_shouldMoveCardsFromArenaToTopDeck() throws {
@@ -38,6 +38,6 @@ final class PutBackTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result.deck.cards, ["c1", "c2", "c3"])
-        XCTAssertNil(result.arena)
+        XCTAssertEqual(result.arena, [])
     }
 }

@@ -26,7 +26,7 @@ final class GameTests: XCTestCase {
     func test_buildGame_byDefault_shouldNotHaveArena() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertNil(sut.arena)
+        XCTAssertEqual(sut.arena, [])
     }
 
     func test_buildGame_byDefault_shouldNotBeOver() throws {
@@ -77,7 +77,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.arena?.cards, ["c1", "c2"])
+        XCTAssertEqual(sut.arena, ["c1", "c2"])
     }
 
     func test_buildGame_withGameOver_shouldBeOver() throws {
@@ -144,7 +144,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.deck.cards, ["c1", "c2"])
         XCTAssertEqual(state.playedThisTurn["bang"], 1)
         XCTAssertEqual(state.discard.cards, ["c3", "c4"])
-        XCTAssertEqual(state.arena?.cards, ["c5", "c6"])
+        XCTAssertEqual(state.arena, ["c5", "c6"])
         XCTAssertEqual(state.isOver?.winner, "p1")
         XCTAssertEqual(state.cardRef["name"], Card("name"))
         XCTAssertEqual(state.chooseOne?.chooser, "p1")
@@ -202,6 +202,7 @@ final class GameTests: XCTestCase {
               "c2"
             ]
           },
+          "arena": [],
           "sequence": [],
           "playedThisTurn": {},
           "playMode": {},
@@ -220,6 +221,6 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.turn, "p1")
         XCTAssertEqual(sut.deck.count, 1)
         XCTAssertEqual(sut.discard.count, 1)
-        XCTAssertNil(sut.arena)
+        XCTAssertEqual(sut.arena, [])
     }
 }

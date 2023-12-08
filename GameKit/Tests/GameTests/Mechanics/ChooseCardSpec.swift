@@ -27,7 +27,7 @@ final class ChooseCardSpec: QuickSpec {
 
                         // Then
                         expect(result.player("p1").hand) == ["c1"]
-                        expect(result.arena?.cards) == ["c2"]
+                        expect(result.arena) == ["c2"]
                     }
                 }
 
@@ -45,7 +45,7 @@ final class ChooseCardSpec: QuickSpec {
 
                         // Then
                         expect(result.player("p1").hand) == ["c1"]
-                        expect(result.arena) == nil
+                        expect(result.arena).to(beEmpty())
                     }
                 }
             }
