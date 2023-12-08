@@ -34,8 +34,8 @@ public struct GameState: Codable, Equatable {
     /// Occurred error
     public var error: GameError?
 
-    /// Pending choice by player
-    public var chooseOne: ChooseOne?
+    /// Pending action by player
+    public var chooseOne: [String: [String: GameAction]]
 
     /// Playable cards by player
     public var active: [String: [String]]
@@ -60,4 +60,13 @@ public extension GameState {
         }
         return player
     }
+}
+
+/// ChooseOne labels
+public extension String {
+    /// Random hand card
+    static let randomHand = "randomHand"
+
+    /// Pass when asked to do an action
+    static let pass = "pass"
 }

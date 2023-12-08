@@ -147,7 +147,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.arena, ["c5", "c6"])
         XCTAssertEqual(state.winner, "p1")
         XCTAssertEqual(state.cardRef["name"], Card("name"))
-        XCTAssertEqual(state.chooseOne?.chooser, "p1")
+        XCTAssertNotNil(state.chooseOne["p1"])
         XCTAssertEqual(state.sequence, [.discover])
         XCTAssertEqual(state.playOrder, ["p1", "p2"])
 
@@ -195,6 +195,7 @@ final class GameTests: XCTestCase {
           "arena": [],
           "sequence": [],
           "playedThisTurn": {},
+          "chooseOne": {},
           "active": {},
           "playMode": {},
           "cardRef": {},

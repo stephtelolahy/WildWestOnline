@@ -34,7 +34,7 @@ final class ChooseOneSpec: QuickSpec {
                     let result = GameState.reducer(state, action)
 
                     // Then
-                    expect(result.chooseOne) == nil
+                    expect(result.chooseOne).to(beEmpty())
                 }
             }
 

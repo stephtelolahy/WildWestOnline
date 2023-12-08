@@ -11,7 +11,7 @@ struct ActionChooseOne: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state.chooseOne = ChooseOne(chooser: chooser, options: options)
+        state.chooseOne[chooser] = options
         return state
     }
 }

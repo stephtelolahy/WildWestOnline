@@ -33,12 +33,12 @@ private extension GameAction {
             throw GameError.gameIsOver
         }
 
-        if let chooseOne = state.chooseOne {
-            guard chooseOne.options.values.contains(self) else {
+        if let chooseOne = state.chooseOne.first {
+            guard chooseOne.value.values.contains(self) else {
                 throw GameError.unwaitedAction
             }
 
-            state.chooseOne = nil
+            state.chooseOne.removeValue(forKey: chooseOne.key)
             return state
         }
 

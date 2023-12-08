@@ -11,7 +11,7 @@ public final class ActivateCardsMiddleware: Middleware<GameState> {
     override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         guard state.sequence.isEmpty,
               state.winner == nil,
-              state.chooseOne == nil,
+              state.chooseOne.isEmpty,
               state.active.isEmpty,
               let player = state.turn else {
             return nil

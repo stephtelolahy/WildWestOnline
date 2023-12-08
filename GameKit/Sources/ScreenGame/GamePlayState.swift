@@ -25,14 +25,13 @@ extension GamePlayState {
             let player = gameState.player($0)
 
             var activeActions: [String: GameAction] = [:]
-            if let active = gameState.active.first,
-               player.id == active.key {
-                activeActions = active.value.reduce(into: [String: GameAction]()) {
+            if let activeCards = gameState.active[player.id] {
+                activeActions = activeCards.reduce(into: [String: GameAction]()) {
                     $0[$1] = .play($1, player: player.id)
                 }
             }
 
-            let highlighted = activeActions.isNotEmpty || gameState.chooseOne?.chooser == player.id
+            let highlighted = gameState.active[player.id] != nil || gameState.chooseOne[player.id] != nil
 
             return PlayerItem(
                 id: player.id,
@@ -55,16 +54,18 @@ extension GamePlayState {
     }
 
     var activeSheetData: [String: GameAction] {
-        players.first { $0.id == showActiveForPlayer && gameState.playMode[$0.id] == .manual }?.activeActions ?? [:]
+        players.first {
+            $0.id == showActiveForPlayer && gameState.playMode[$0.id] == .manual
+        }?.activeActions ?? [:]
     }
 
     var chooseOneAlertData: [String: GameAction] {
-        guard let chooseOne = gameState.chooseOne,
-              gameState.playMode[chooseOne.chooser] == .manual else {
+        guard let chooseOne = gameState.chooseOne.first,
+              gameState.playMode[chooseOne.key] == .manual else {
             return  [:]
         }
 
-        return chooseOne.options
+        return chooseOne.value
     }
 }
 
