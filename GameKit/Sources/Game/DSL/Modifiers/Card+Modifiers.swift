@@ -20,7 +20,7 @@ public extension Card {
     ) {
         self.name = name
         self.priority = priority
-        var abilities = (prototype?.abilities ?? .init()).union(abilities)
+        var abilities = (prototype?.abilities ?? []).union(abilities)
         for element in silent {
             abilities.remove(element)
         }
