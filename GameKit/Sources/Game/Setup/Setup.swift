@@ -34,6 +34,7 @@ public enum Setup {
             playedThisTurn: [:],
             deck: CardStack(cards: deck),
             discard: .init(cards: []),
+            arena: [],
             sequence: [],
             playMode: [:],
             cardRef: cardRef

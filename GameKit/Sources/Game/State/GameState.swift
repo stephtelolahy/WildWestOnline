@@ -26,7 +26,7 @@ public struct GameState: Codable, Equatable {
     public var discard: CardStack
 
     /// Cards shop
-    public var arena: CardLocation?
+    public var arena: [String]
 
     /// Is Game over
     public var isOver: GameOver?

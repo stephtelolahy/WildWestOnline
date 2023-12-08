@@ -23,7 +23,7 @@ extension Array where Element: Equatable {
     /// remove first occurence of given element
     mutating func remove(_ element: Element) {
         guard let index = self.firstIndex(where: { $0 == element }) else {
-            #warning("enable fatalError")
+            #warning("enable fatalError by splitting player's attribute and ability")
             return
 //            fatalError("Element \(element) not found in array \(self)")
         }

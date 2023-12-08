@@ -8,10 +8,8 @@
 struct ActionPutBack: GameActionReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        if let arena = state.arena {
-            state.deck.cards.insert(contentsOf: arena.cards, at: 0)
-            state.arena = nil
-        }
+        state.deck.cards.insert(contentsOf: state.arena, at: 0)
+        state.arena = []
         return state
     }
 }
