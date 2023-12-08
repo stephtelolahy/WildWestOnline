@@ -8,7 +8,7 @@
 
 import Redux
 import GameUI
-import ScreenHome
+import HomeUI
 import ScreenSplash
 import SwiftUI
 

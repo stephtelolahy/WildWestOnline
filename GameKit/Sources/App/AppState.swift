@@ -9,7 +9,7 @@ import Inventory
 import Redux
 import Routing
 import GameUI
-import ScreenHome
+import HomeUI
 import ScreenSplash
 
 public struct AppState: Codable, Equatable {
