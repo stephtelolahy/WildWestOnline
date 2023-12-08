@@ -50,7 +50,7 @@ public struct HomeView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.green.gradient)
+        .background(Color.appBackground)
     }
 
     private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {
@@ -58,7 +58,7 @@ public struct HomeView: View {
             .font(.headline)
             .padding()
             .foregroundStyle(.primary)
-            .background(.white.opacity(0.4))
+            .background(.orange.opacity(0.6))
             .clipShape(.rect(cornerRadius: 40))
     }
 }

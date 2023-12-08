@@ -37,7 +37,7 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.green.gradient)
+        .background(Color.appBackground)
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
