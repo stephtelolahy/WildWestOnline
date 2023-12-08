@@ -11,7 +11,8 @@ public extension Card {
     init(
         _ name: String,
         prototype: Card? = nil,
-        attributes: [String: Int] = [:],
+        abilities: Set<String> = [],
+        attributes: [AttributeKey: Int] = [:],
         silent: [String] = [],
         alias: [CardAlias] = [],
         priority: Int = 0,
@@ -19,11 +20,12 @@ public extension Card {
     ) {
         self.name = name
         self.priority = priority
-        var attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
-        for attr in silent {
-            attributes.removeValue(forKey: attr)
+        var abilities = (prototype?.abilities ?? .init()).union(abilities)
+        for element in silent {
+            abilities.remove(element)
         }
-        self.attributes = attributes
+        self.abilities = abilities
+        self.attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
         self.rules = (prototype?.rules ?? []) + content()
         self.alias = alias
     }
@@ -31,6 +33,7 @@ public extension Card {
     func withPriority(_ value: Int) -> Self {
         .init(
             name: name,
+            abilities: abilities,
             attributes: attributes,
             alias: alias,
             priority: value,

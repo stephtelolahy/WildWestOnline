@@ -64,7 +64,7 @@ final class PlaySpec: QuickSpec {
                     }
                     let state = GameState.makeBuilder()
                         .withPlayer("p1") {
-                            $0.withAttributes(["c1": 0])
+                            $0.withAbilities(["c1"])
                         }
                         .withCardRef(["c1": card1])
                         .build()

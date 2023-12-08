@@ -7,8 +7,11 @@ public struct Card: Codable, Equatable {
     /// Unique Name
     public let name: String
 
-    /// Included attributes or another card features
-    public let attributes: [String: Int]
+    /// Abilities
+    public let abilities: Set<String>
+
+    /// Included attributes
+    public let attributes: [AttributeKey: Int]
 
     /// Playable card alias
     public let alias: [CardAlias]

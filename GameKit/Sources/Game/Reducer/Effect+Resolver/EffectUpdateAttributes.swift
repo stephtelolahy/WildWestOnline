@@ -39,12 +39,12 @@ struct EffectUpdateAttributes: EffectResolver {
 }
 
 private extension GameState {
-    func updatableAttributes(player: Player) -> [String] {
-        AttributeKey.priorities
+    func updatableAttributes(player: Player) -> [AttributeKey] {
+        AttributeKey.allCases
             .filter { isAttributeUpdatable($0, player: player) }
     }
 
-    func isAttributeUpdatable(_ key: String, player: Player) -> Bool {
+    func isAttributeUpdatable(_ key: AttributeKey, player: Player) -> Bool {
         if player.attributes[key] != nil {
             return true
         }
