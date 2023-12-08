@@ -17,6 +17,7 @@ struct GameApp: App {
             AppView {
                 store
             }
+            .environment(\.colorScheme, .light)
         }
     }
 }
