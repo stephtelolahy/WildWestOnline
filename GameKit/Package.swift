@@ -17,7 +17,7 @@ let package = Package(
         .library(name: "Inventory", targets: ["Inventory"]),
         .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
-        .library(name: "ScreenSplash", targets: ["ScreenSplash"]),
+        .library(name: "SplashUI", targets: ["SplashUI"]),
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -99,7 +99,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "ScreenSplash",
+            name: "SplashUI",
             dependencies: [
                 "Redux",
                 "Routing"
@@ -116,7 +116,7 @@ let package = Package(
                 "Inventory",
                 "GameUI",
                 "HomeUI",
-                "ScreenSplash"
+                "SplashUI"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")

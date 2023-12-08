@@ -6,10 +6,10 @@
 //
 // swiftlint:disable type_contents_order
 
-import Redux
 import GameUI
 import HomeUI
-import ScreenSplash
+import Redux
+import SplashUI
 import SwiftUI
 
 public struct AppView: View {
