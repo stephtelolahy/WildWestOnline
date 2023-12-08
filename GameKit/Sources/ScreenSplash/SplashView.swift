@@ -4,14 +4,14 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers type_contents_order
+// swiftlint:disable type_contents_order
 
 import Redux
 import Routing
 import SwiftUI
 
 public struct SplashView: View {
-    private let splashDelaySeconds = 2.0
+    private let splashDelaySeconds = 3.0
 
     @StateObject private var store: Store<SplashState>
 
@@ -24,19 +24,11 @@ public struct SplashView: View {
 
     public var body: some View {
         ZStack {
+            Color.black
+                .ignoresSafeArea()
             Text("splash.editor.name", bundle: .module)
                 .font(.headline)
-                .foregroundStyle(.primary)
-            VStack(spacing: 8) {
-                Spacer()
-                Text("splash.developer.name", bundle: .module)
-                    .font(.subheadline)
-                    .foregroundStyle(.primary)
-                Text("splash.developer.email", bundle: .module)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-            .padding()
+                .foregroundStyle(.red)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {

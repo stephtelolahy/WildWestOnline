@@ -18,40 +18,6 @@
         }
       }
     },
-    "splash.developer.email" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stephano.telolahy@gmail.com"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stephano.telolahy@gmail.com"
-          }
-        }
-      }
-    },
-    "splash.developer.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stéphano Telolahy"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stéphano Telolahy"
-          }
-        }
-      }
-    },
     "splash.editor.name" : {
       "extractionState" : "manual",
       "localizations" : {

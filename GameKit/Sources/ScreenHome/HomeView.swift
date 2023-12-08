@@ -22,19 +22,31 @@ public struct HomeView: View {
 
     public var body: some View {
         VStack(spacing: 48) {
-            Image(systemName: "gamecontroller")
-                .font(.system(size: 100))
-            VStack(spacing: 16) {
-                roundedButton("menu.start.button") {
-                    withAnimation {
-                        store.dispatch(NavAction.showScreen(.game))
+            Spacer()
+            VStack(spacing: 32) {
+                Image(systemName: "")
+                    .font(.system(size: 100))
+                VStack(spacing: 8) {
+                    roundedButton("menu.start.button") {
+                        withAnimation {
+                            store.dispatch(NavAction.showScreen(.game))
+                        }
+                    }
+                    roundedButton("menu.settings.button") {
+                        withAnimation {
+                            store.dispatch(NavAction.showScreen(.settings))
+                        }
                     }
                 }
-                roundedButton("menu.settings.button") {
-                    withAnimation {
-                        store.dispatch(NavAction.showScreen(.settings))
-                    }
-                }
+            }
+            Spacer()
+            VStack(spacing: 8) {
+                Text("splash.developer.name", bundle: .module)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                Text("splash.developer.email", bundle: .module)
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -55,5 +67,4 @@ public struct HomeView: View {
     HomeView {
         Store<HomeState>(initial: .init())
     }
-    .environment(\.locale, .init(identifier: "fr"))
 }
