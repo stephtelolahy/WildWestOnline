@@ -18,6 +18,17 @@
         }
       }
     },
+    "menu.game.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The unofficial clone of the Western Card Game"
+          }
+        }
+      }
+    },
     "menu.settings.button" : {
       "extractionState" : "manual",
       "localizations" : {

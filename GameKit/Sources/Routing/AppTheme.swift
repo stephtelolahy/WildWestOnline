@@ -13,4 +13,10 @@ public extension Color {
         green: 180.0/255.0,
         blue: 140.0/255.0
     ).gradient
+
+    static var buttonColor = Color(
+        red: 148.0/255.0,
+        green: 82.0/255.0,
+        blue: 0.0/255.0
+    )
 }

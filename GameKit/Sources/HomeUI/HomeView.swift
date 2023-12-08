@@ -24,9 +24,14 @@ public struct HomeView: View {
         VStack(spacing: 48) {
             Spacer()
             VStack(spacing: 32) {
-                Image(systemName: "gamecontroller")
-                    .font(.system(size: 100))
-                VStack(spacing: 8) {
+                VStack {
+                    Text("menu.game.title", bundle: .module)
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                    Image(systemName: "gamecontroller")
+                        .font(.system(size: 100))
+                }
+                VStack(spacing: 16) {
                     roundedButton("menu.start.button") {
                         withAnimation {
                             store.dispatch(NavAction.showScreen(.game))
@@ -56,10 +61,13 @@ public struct HomeView: View {
     private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {
         Button(String(localized: titleKey, bundle: .module), action: action)
             .font(.headline)
-            .padding()
+            .padding(12)
             .foregroundStyle(.primary)
-            .background(.orange.opacity(0.6))
-            .clipShape(.rect(cornerRadius: 40))
+            .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(Color.buttonColor, lineWidth: 4)
+            )
+
     }
 }
 

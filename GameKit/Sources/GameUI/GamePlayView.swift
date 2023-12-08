@@ -75,7 +75,7 @@ public struct GamePlayView: View {
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.buttonColor)
                         .padding()
                         .font(.title)
                 }
