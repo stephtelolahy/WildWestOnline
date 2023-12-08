@@ -28,8 +28,8 @@ public struct GameState: Codable, Equatable {
     /// Cards shop
     public var arena: [String]
 
-    /// Is Game over
-    public var isOver: GameOver?
+    /// Game over
+    public var winner: String?
 
     /// Occurred error
     public var error: GameError?

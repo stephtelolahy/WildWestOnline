@@ -14,7 +14,7 @@ public extension GameState {
         private var deck: [String] = []
         private var discard: [String] = []
         private var arena: [String] = []
-        private var isOver: GameOver?
+        private var winner: String?
         private var error: GameError?
         private var chooseOne: ChooseOne?
         private var active: ActiveCards?
@@ -32,7 +32,7 @@ public extension GameState {
                 deck: deck,
                 discard: discard,
                 arena: arena,
-                isOver: isOver,
+                winner: winner,
                 error: error,
                 chooseOne: chooseOne,
                 active: active,
@@ -68,7 +68,7 @@ public extension GameState {
         }
 
         public func withWinner(_ value: String) -> Self {
-            isOver = GameOver(winner: value)
+            winner = value
             return self
         }
 

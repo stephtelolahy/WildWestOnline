@@ -29,7 +29,7 @@ private extension GameAction {
     func prepare(state: GameState) throws -> GameState {
         var state = state
 
-        guard state.isOver == nil else {
+        guard state.winner == nil else {
             throw GameError.gameIsOver
         }
 

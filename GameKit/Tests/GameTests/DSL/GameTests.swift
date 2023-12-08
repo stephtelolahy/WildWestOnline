@@ -32,7 +32,7 @@ final class GameTests: XCTestCase {
     func test_buildGame_byDefault_shouldNotBeOver() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertNil(sut.isOver)
+        XCTAssertNil(sut.winner)
     }
 
     func test_buildGame_byDefault_shouldNotHaveTurn() throws {
@@ -88,7 +88,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.isOver, GameOver(winner: "p1"))
+        XCTAssertEqual(sut.winner, "p1")
     }
 
     func test_buildGame_withTurn_shouldHaveTurn() throws {
@@ -145,7 +145,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.playedThisTurn["bang"], 1)
         XCTAssertEqual(state.discard, ["c3", "c4"])
         XCTAssertEqual(state.arena, ["c5", "c6"])
-        XCTAssertEqual(state.isOver?.winner, "p1")
+        XCTAssertEqual(state.winner, "p1")
         XCTAssertEqual(state.cardRef["name"], Card("name"))
         XCTAssertEqual(state.chooseOne?.chooser, "p1")
         XCTAssertEqual(state.sequence, [.discover])
@@ -169,9 +169,7 @@ final class GameTests: XCTestCase {
         // Given
         let JSON = """
         {
-          "isOver": {
-             "winner": "p1"
-          },
+          "winner": "p1",
           "players": {
             "p1": {
               "id": "p1",
@@ -207,7 +205,7 @@ final class GameTests: XCTestCase {
         let sut = try JSONDecoder().decode(GameState.self, from: jsonData)
 
         // Then
-        XCTAssertEqual(sut.isOver, GameOver(winner: "p1"))
+        XCTAssertEqual(sut.winner, "p1")
         XCTAssertNotNil(sut.players["p1"])
         XCTAssertEqual(sut.playOrder, ["p1"])
         XCTAssertEqual(sut.turn, "p1")

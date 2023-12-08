@@ -17,7 +17,7 @@ public final class AIAgentMiddleware: Middleware<GameState> {
     }
 
     private func evaluateAIMove(state: GameState) -> GameAction? {
-        guard state.isOver == nil else {
+        guard state.winner == nil else {
             return nil
         }
 

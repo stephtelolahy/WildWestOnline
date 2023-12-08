@@ -6,11 +6,11 @@
 //
 
 struct ActionSetGameOver: GameActionReducer {
-    let winner: String?
+    let winner: String
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state.isOver = GameOver(winner: winner)
+        state.winner = winner
         return state
     }
 }
