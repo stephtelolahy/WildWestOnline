@@ -9,6 +9,7 @@
 import Redux
 import Routing
 import SwiftUI
+import Theme
 
 public struct HomeView: View {
     @StateObject private var store: Store<HomeState>
@@ -46,17 +47,10 @@ public struct HomeView: View {
                 }
             }
             Spacer()
-            VStack(spacing: 8) {
-                Text("splash.developer.name", bundle: .module)
-                    .font(.subheadline)
-                    .foregroundStyle(.primary)
-                Text("splash.developer.email", bundle: .module)
-                    .font(.subheadline)
-                    .foregroundStyle(.primary.opacity(0.4))
-            }
+            footerView
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.appBackground)
+        .background(AppColor.background)
     }
 
     private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {
@@ -66,37 +60,24 @@ public struct HomeView: View {
             .foregroundStyle(.primary)
             .overlay(
                 RoundedRectangle(cornerRadius: 24)
-                    .stroke(Color.buttonColor, lineWidth: 4)
+                    .stroke(AppColor.button, lineWidth: 4)
             )
+    }
 
+    private var footerView: some View {
+        VStack(spacing: 8) {
+            Text("splash.developer.name", bundle: .module)
+                .font(.subheadline)
+                .foregroundStyle(.primary)
+            Text("splash.developer.email", bundle: .module)
+                .font(.subheadline)
+                .foregroundStyle(.primary.opacity(0.4))
+        }
     }
 }
 
 #Preview {
     HomeView {
         Store<HomeState>(initial: .init())
-    }
-}
-
-
-extension Image {
-    init(packageResource name: String, ofType type: String) {
-        #if canImport(UIKit)
-        guard let path = Bundle.module.path(forResource: name, ofType: type),
-              let image = UIImage(contentsOfFile: path) else {
-            self.init(name)
-            return
-        }
-        self.init(uiImage: image)
-        #elseif canImport(AppKit)
-        guard let path = Bundle.module.path(forResource: name, ofType: type),
-              let image = NSImage(contentsOfFile: path) else {
-            self.init(name)
-            return
-        }
-        self.init(nsImage: image)
-        #else
-        self.init(name)
-        #endif
     }
 }
