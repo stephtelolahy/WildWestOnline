@@ -35,8 +35,9 @@ public enum Setup {
             deck: deck,
             discard: [],
             arena: [],
-            sequence: [],
+            active: [:],
             playMode: [:],
+            sequence: [],
             cardRef: cardRef
         )
     }

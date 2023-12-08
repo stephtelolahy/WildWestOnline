@@ -195,6 +195,7 @@ final class GameTests: XCTestCase {
           "arena": [],
           "sequence": [],
           "playedThisTurn": {},
+          "active": {},
           "playMode": {},
           "cardRef": {},
         }

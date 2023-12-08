@@ -34,17 +34,17 @@ public struct GameState: Codable, Equatable {
     /// Occurred error
     public var error: GameError?
 
-    /// Pending action
+    /// Pending choice by player
     public var chooseOne: ChooseOne?
 
-    /// Active cards
-    public var active: ActiveCards?
+    /// Playable cards by player
+    public var active: [String: [String]]
+
+    /// Play mode by player
+    public var playMode: [String: PlayMode]
 
     /// Queued effects
     public var sequence: [GameAction]
-
-    /// Play mode by playerId
-    public var playMode: [String: PlayMode]
 
     /// All cards reference by cardName
     public let cardRef: [String: Card]

@@ -17,7 +17,7 @@ public extension GameState {
         private var winner: String?
         private var error: GameError?
         private var chooseOne: ChooseOne?
-        private var active: ActiveCards?
+        private var active: [String: [String]] = [:]
         private var sequence: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
         private var cardRef: [String: Card] = [:]
@@ -36,8 +36,8 @@ public extension GameState {
                 error: error,
                 chooseOne: chooseOne,
                 active: active,
-                sequence: sequence,
                 playMode: playMode,
+                sequence: sequence,
                 cardRef: cardRef
             )
         }
@@ -83,7 +83,7 @@ public extension GameState {
         }
 
         public func withActive(_ player: String, cards: [String]) -> Self {
-            active = ActiveCards(player: player, cards: cards)
+            active = [player: cards]
             return self
         }
 

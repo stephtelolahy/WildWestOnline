@@ -12,7 +12,7 @@ public final class ActivateCardsMiddleware: Middleware<GameState> {
         guard state.sequence.isEmpty,
               state.winner == nil,
               state.chooseOne == nil,
-              state.active == nil,
+              state.active.isEmpty,
               let player = state.turn else {
             return nil
         }

@@ -25,14 +25,14 @@ extension GamePlayState {
             let player = gameState.player($0)
 
             var activeActions: [String: GameAction] = [:]
-            if let active = gameState.active,
-               player.id == active.player {
-                activeActions = active.cards.reduce(into: [String: GameAction]()) {
+            if let active = gameState.active.first,
+               player.id == active.key {
+                activeActions = active.value.reduce(into: [String: GameAction]()) {
                     $0[$1] = .play($1, player: player.id)
                 }
             }
 
-            let highlighted = gameState.active?.player == player.id || gameState.chooseOne?.chooser == player.id
+            let highlighted = activeActions.isNotEmpty || gameState.chooseOne?.chooser == player.id
 
             return PlayerItem(
                 id: player.id,

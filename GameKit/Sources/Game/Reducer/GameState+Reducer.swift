@@ -37,15 +37,23 @@ private extension GameAction {
             guard chooseOne.options.values.contains(self) else {
                 throw GameError.unwaitedAction
             }
+
             state.chooseOne = nil
-        } else if let active = state.active {
+            return state
+        }
+
+        if let active = state.active.first {
             guard case let .play(card, player) = self,
-                  active.player == player,
-                  active.cards.contains(card) else {
+                  active.key == player,
+                  active.value.contains(card) else {
                 throw GameError.unwaitedAction
             }
-            state.active = nil
-        } else if state.sequence.first == self {
+
+            state.active.removeValue(forKey: active.key)
+            return state
+        }
+
+        if state.sequence.first == self {
             state.sequence.removeFirst()
         }
 
