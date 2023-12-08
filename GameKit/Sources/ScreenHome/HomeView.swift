@@ -24,7 +24,7 @@ public struct HomeView: View {
         VStack(spacing: 48) {
             Spacer()
             VStack(spacing: 32) {
-                Image(systemName: "")
+                Image(systemName: "gamecontroller")
                     .font(.system(size: 100))
                 VStack(spacing: 8) {
                     roundedButton("menu.start.button") {
@@ -46,7 +46,7 @@ public struct HomeView: View {
                     .foregroundStyle(.primary)
                 Text("splash.developer.email", bundle: .module)
                     .font(.subheadline)
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(.primary.opacity(0.4))
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -58,7 +58,7 @@ public struct HomeView: View {
             .font(.headline)
             .padding()
             .foregroundStyle(.primary)
-            .background(Color.accentColor)
+            .background(.white.opacity(0.4))
             .clipShape(.rect(cornerRadius: 40))
     }
 }

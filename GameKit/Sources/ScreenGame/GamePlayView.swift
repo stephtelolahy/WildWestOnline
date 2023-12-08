@@ -37,6 +37,7 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.green.gradient)
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
@@ -61,27 +62,23 @@ public struct GamePlayView: View {
     }
 
     private var headerView: some View {
-        HStack {
-            Button {
-                withAnimation {
-                    store.dispatch(NavAction.dismiss)
-                }
-            } label: {
-                Image(systemName: "arrow.backward")
-                    .foregroundColor(.accentColor)
-                    .padding()
-            }
-            Spacer()
+        ZStack {
             Text(store.state.message)
                 .font(.headline)
                 .lineLimit(1)
                 .padding()
-            Spacer()
-            Button {
-            } label: {
-                Image(systemName: "info.circle")
-                    .foregroundColor(.accentColor)
-                    .padding()
+            HStack {
+                Spacer()
+                Button {
+                    withAnimation {
+                        store.dispatch(NavAction.dismiss)
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle")
+                        .foregroundColor(.black)
+                        .padding()
+                        .font(.title)
+                }
             }
         }
     }
@@ -142,7 +139,7 @@ public struct GamePlayView: View {
                     .font(.headline)
             }
         }
-        .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
+        .background(Color.white.opacity(player.highlighted ? 0.4 : 0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
