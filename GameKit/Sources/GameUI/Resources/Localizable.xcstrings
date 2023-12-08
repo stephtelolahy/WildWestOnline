@@ -11,6 +11,9 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
