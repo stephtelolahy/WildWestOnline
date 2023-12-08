@@ -11,6 +11,7 @@ import Inventory
 import Redux
 import Routing
 import SwiftUI
+import Theme
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GamePlayState>
@@ -37,7 +38,7 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.appBackground)
+        .background(AppColor.background)
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
@@ -75,7 +76,7 @@ public struct GamePlayView: View {
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
-                        .foregroundColor(Color.buttonColor)
+                        .foregroundColor(AppColor.button)
                         .padding()
                         .font(.title)
                 }
