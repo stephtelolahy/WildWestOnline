@@ -29,13 +29,14 @@ public struct GamePlayView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     ForEach(store.state.visiblePlayers) {
-                        itemPlayerButton($0)
-                        Divider()
+                        itemPlayerView($0)
                     }
+                    Divider()
                     logView
                 }
                 .padding()
             }
+            footerView
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AppColor.background)
@@ -84,30 +85,18 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerButton(_ player: PlayerItem) -> some View {
-        Button(action: {
-//            store.dispatch(GamePlayAction.didSelectPlayer(player.id))
-        }, label: {
-            itemPlayerView(player)
-        })
-//        .confirmationDialog(
-//            "Play a card",
-//            isPresented: Binding<Bool>(
-//                get: { store.state.activeSheetData.isNotEmpty },
-//                set: { _ in }
-//            ),
-//            titleVisibility: .visible,
-//            presenting: store.state.activeSheetData
-//        ) { data in
-//            ForEach(Array(data.keys), id: \.self) { key in
-//                Button(key) {
-//                    guard let action = data[key] else {
-//                        fatalError("unexpected")
-//                    }
-//                    store.dispatch(action)
-//                }
-//            }
-//        }
+    private var footerView: some View {
+        let data = store.state.activeActions
+        return HStack {
+            ForEach(Array(data.keys), id: \.self) { key in
+                Button("\(key)") {
+                    guard let action = data[key] else {
+                        fatalError("unexpected")
+                    }
+                    store.dispatch(action)
+                }
+            }
+        }
     }
 
     private func itemPlayerView(_ player: PlayerItem) -> some View {
@@ -173,8 +162,9 @@ private var previewState: GameState {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
         }
-        .withActive("p1", cards: [.bang, .endTurn])
-        .withChooseOne("p1", options: [.bang: GameAction.nothing])
+        .withActive("p1", cards: [.bang, .mustang, .barrel, .beer, .endTurn])
+        .withChooseOne("p2", options: [.missed: .nothing])
         .withTurn("p1")
+        .withPlayModes(["p1": .manual])
         .build()
 }
