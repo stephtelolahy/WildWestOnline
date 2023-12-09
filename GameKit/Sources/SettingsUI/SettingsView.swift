@@ -85,7 +85,7 @@ public struct SettingsView: View {
     private var preferencesSection: some View {
         Section(header: Text("PREFRENCES")) {
             HStack {
-                Image(systemName: "person.3.sequence")
+                Image(systemName: "gamecontroller")
                 Stepper(
                     "Players count: \(store.state.playersCount)",
                     value: Binding<Int>(

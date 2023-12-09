@@ -54,15 +54,17 @@ public struct HomeView: View {
     }
 
     private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {
-        Button(String(localized: titleKey, bundle: .module), action: action)
-            .font(.headline)
-            .padding(12)
-            .frame(minWidth: 0, maxWidth: 200)
-            .foregroundStyle(.primary)
-            .overlay(
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(AppColor.button, lineWidth: 4)
-            )
+        Button(action: action) {
+            Text(String(localized: titleKey, bundle: .module))
+                .font(.headline)
+                .padding(12)
+                .frame(minWidth: 0, maxWidth: 200)
+                .foregroundStyle(.primary)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(AppColor.button, lineWidth: 4)
+                )
+        }
     }
 
     private var footerView: some View {
