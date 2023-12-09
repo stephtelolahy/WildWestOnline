@@ -84,9 +84,9 @@ public extension AppState {
 
 public extension AppState {
     static func cachedSettings() -> SettingsState {
-        let cachedPlayersCount = 7
+        let defaultPlayersCount = 5
         return .init(
-            playersCount: cachedPlayersCount
+            playersCount: defaultPlayersCount
         )
     }
 }
@@ -94,7 +94,6 @@ public extension AppState {
 private extension AppState {
     func createGame() -> GameState {
         var game = Inventory.createGame(playersCount: settings.playersCount)
-
         let sheriff = game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {
             $0[$1] = $1 == sheriff ? .manual : .auto
@@ -105,45 +104,24 @@ private extension AppState {
 
 extension GameState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case .game = lastScreen,
-              let game = globalState.game else {
-            return nil
-        }
-
-        return game
+        globalState.game
     }
 }
 
 extension HomeState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case .home = lastScreen else {
-            return nil
-        }
-
-        return .init()
+        .init()
     }
 }
 
 extension SplashState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case .splash = lastScreen else {
-            return nil
-        }
-
-        return .init()
+        .init()
     }
 }
 
 extension SettingsState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case .settings = lastScreen else {
-            return nil
-        }
-
-        return globalState.settings
+        globalState.settings
     }
 }

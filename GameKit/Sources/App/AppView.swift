@@ -6,6 +6,7 @@
 //
 // swiftlint:disable type_contents_order
 
+import Game
 import GameUI
 import HomeUI
 import Redux
