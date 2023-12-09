@@ -73,7 +73,7 @@ public struct GamePlayView: View {
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
-                        .foregroundColor(AppColor.button)
+                        .foregroundColor(.accentColor)
                         .padding()
                         .font(.title)
                 }
@@ -91,6 +91,7 @@ public struct GamePlayView: View {
                     }
                     store.dispatch(action)
                 }
+                .buttonStyle(.borderedProminent)
             }
         }
     }
@@ -121,7 +122,7 @@ public struct GamePlayView: View {
 
             if player.activeActions.isNotEmpty {
                 Image(systemName: "\(player.activeActions.count).circle.fill")
-                    .foregroundColor(AppColor.button)
+                    .foregroundColor(.accentColor)
                     .font(.headline)
             }
         }

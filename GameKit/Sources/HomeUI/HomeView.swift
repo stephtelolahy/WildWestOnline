@@ -62,7 +62,7 @@ public struct HomeView: View {
                 .foregroundStyle(.primary)
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)
-                        .stroke(AppColor.button, lineWidth: 4)
+                        .stroke(Color.accentColor, lineWidth: 4)
                 )
         }
     }

@@ -9,6 +9,7 @@ import SwiftUI
 import App
 import Game
 import Redux
+import Theme
 
 @main
 struct GameApp: App {
@@ -18,6 +19,7 @@ struct GameApp: App {
                 store
             }
             .environment(\.colorScheme, .light)
+            .accentColor(AppColor.button)
         }
     }
 }
