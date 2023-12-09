@@ -57,7 +57,7 @@ private extension AppState {
                 .game(.init(gameState: createGame()))
 
         case .settings:
-                .settings(.init())
+                .settings(.init(config: createGameConfig()))
         }
     }
 
@@ -70,5 +70,12 @@ private extension AppState {
             $0[$1] = $1 == sheriff ? .manual : .auto
         }
         return game
+    }
+
+    func createGameConfig() -> GameConfig {
+        let cachedPlayersCount = 7
+        return .init(
+            playersCount: cachedPlayersCount
+        )
     }
 }

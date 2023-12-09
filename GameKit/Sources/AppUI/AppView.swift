@@ -110,6 +110,11 @@ private extension SplashState {
 
 private extension SettingsState {
     static func from(globalState: AppState) -> Self? {
-        .init()
+        guard let lastScreen = globalState.screens.last,
+              case let .settings(settingsState) = lastScreen else {
+            return nil
+        }
+
+        return settingsState
     }
 }

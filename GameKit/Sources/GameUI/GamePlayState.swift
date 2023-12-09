@@ -79,7 +79,7 @@ struct PlayerItem: Identifiable {
     let highlighted: Bool
 }
 
-public enum GamePlayAction: Action, Codable, Equatable {
+enum GamePlayAction: Action, Codable, Equatable {
     case didSelectPlayer(String)
     case didShowActiveSheet
     case didShowChooseOneAlert

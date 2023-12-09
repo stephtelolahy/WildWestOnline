@@ -11,7 +11,7 @@ public struct HomeState: Codable, Equatable {
     public init() {}
 }
 
-public enum HomeAction: Action, Codable, Equatable {
+enum HomeAction: Action, Codable, Equatable {
     case load
 }
 

@@ -26,6 +26,9 @@ extension ScreenState {
         case let .game(gameState):
                 .game(GamePlayState.reducer(gameState, action))
 
+        case let .settings(settingsState):
+                .settings(SettingsState.reducer(settingsState, action))
+
         default:
             state
         }

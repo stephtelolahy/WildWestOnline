@@ -12,7 +12,6 @@ import SwiftUI
 import Theme
 
 public struct SettingsView: View {
-    @State private var count = 7
     @State private var isDarkModeEnabled = true
     @State private var downloadViaWifiEnabled = false
     @StateObject private var store: Store<SettingsState>
@@ -51,7 +50,6 @@ public struct SettingsView: View {
             Text("WolfKnight@kingdom.tv")
                 .font(.subheadline)
                 .foregroundColor(.gray)
-            Spacer()
             Button(action: {
                 print("Edit Profile tapped")
             }, label: {
@@ -89,8 +87,11 @@ public struct SettingsView: View {
             HStack {
                 Image(systemName: "person.3.sequence")
                 Stepper(
-                    "Players count: \(count)",
-                    value: $count.animation(),
+                    "Players count: \(store.state.playersCount)",
+                    value: Binding<Int>(
+                        get: { store.state.playersCount },
+                        set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
+                    ).animation(),
                     in: 2...8
                 )
             }
@@ -116,6 +117,9 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store<SettingsState>(initial: .init())
+        Store<SettingsState>(
+            initial: .init(config: .init(playersCount: 5)),
+            reducer: SettingsState.reducer
+        )
     }
 }
