@@ -50,10 +50,18 @@ public extension AppState {
                 state.screens = [screen]
             }
 
-            // TODO: create game
+            // <create game>
+            if case .game = screen {
+                state.game = state.createGame()
+            }
+            // </create game>
 
         case NavAction.dismiss:
-            // TODO: delete game
+            // <delete game>
+            if case .game = state.screens.last {
+                state.game = nil
+            }
+            // </delete game>
 
             state.screens.removeLast()
 
