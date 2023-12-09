@@ -47,6 +47,7 @@ final class AppFlowTests: XCTestCase {
 
         // Then
         XCTAssertEqual(sut.state.screens.last, .game)
+        XCTAssertNotNil(sut.state.game)
     }
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
@@ -56,14 +57,16 @@ final class AppFlowTests: XCTestCase {
                 screens: [
                     .home,
                     .game
-                ]
+                ],
+                game: GameState.makeBuilder().build()
             )
         )
 
-        // When
+        // When'
         sut.dispatch(NavAction.dismiss)
 
         // Then
         XCTAssertEqual(sut.state.screens.last, .home)
+        XCTAssertNil(sut.state.game)
     }
 }
