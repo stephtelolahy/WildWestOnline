@@ -12,6 +12,7 @@ import SwiftUI
 import Theme
 
 public struct SettingsView: View {
+    @State private var count = 7
     @State private var isDarkModeEnabled = true
     @State private var downloadViaWifiEnabled = false
     @StateObject private var store: Store<SettingsState>
@@ -86,8 +87,12 @@ public struct SettingsView: View {
     private var preferencesSection: some View {
         Section(header: Text("PREFRENCES")) {
             HStack {
-                Image(systemName: "globe")
-                Text("Language")
+                Image(systemName: "person.3.sequence")
+                Stepper(
+                    "Players count: \(count)",
+                    value: $count.animation(),
+                    in: 2...8
+                )
             }
             HStack {
                 Image(systemName: "circle.lefthalf.striped.horizontal.inverse")
