@@ -20,7 +20,7 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SplashUI", targets: ["SplashUI"]),
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
-        .library(name: "AppUI", targets: ["AppUI"])
+        .library(name: "App", targets: ["App"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -127,7 +127,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "AppUI",
+            name: "App",
             dependencies: [
                 "Redux",
                 "Routing",
@@ -142,7 +142,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .testTarget(
-            name: "AppUITests",
-            dependencies: ["AppUI"])
+            name: "AppTests",
+            dependencies: ["App"])
     ]
 )

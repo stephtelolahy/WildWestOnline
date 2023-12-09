@@ -8,6 +8,7 @@ import Inventory
 import Redux
 
 public struct SettingsState: Codable, Equatable {
+    // TODO: bind to SettingsState directly
     public var config: GameConfig
 
     public init(config: GameConfig) {

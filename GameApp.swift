@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AppUI
+import App
 import Game
 import Redux
 

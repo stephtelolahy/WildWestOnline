@@ -11,6 +11,7 @@ import Redux
 // MARK: - Knownledge state
 public struct GamePlayState: Codable, Equatable {
     public var gameState: GameState
+    // TODO: bind to GameState directly
     var selectedPlayer: String?
 
     public init(gameState: GameState) {
