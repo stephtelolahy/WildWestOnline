@@ -25,7 +25,7 @@ public enum ScreenState: Codable, Equatable {
     case splash(SplashState)
     case home(HomeState)
     case game(GamePlayState)
-    case settings
+    case settings(SettingsState)
 }
 
 public extension AppState {
@@ -35,7 +35,7 @@ public extension AppState {
         // Update visible screens
         switch action {
         case let NavAction.showScreen(screen):
-            screens.append(screen.instatiateState())
+            screens.append(state.stateForScreen(screen))
 
         case NavAction.dismiss:
             screens.removeLast()
@@ -51,20 +51,20 @@ public extension AppState {
     }
 }
 
-private extension Screen {
-    func instatiateState() -> ScreenState {
-        switch self {
+private extension AppState {
+    func stateForScreen(_ screen: Screen) -> ScreenState {
+        switch screen {
         case .splash:
-            .splash(.init())
+                .splash(.init())
 
         case .home:
-            .home(.init())
+                .home(.init())
 
         case .game:
-            .game(.init(gameState: createGame()))
+                .game(.init(gameState: createGame()))
 
         case .settings:
-            .settings
+                .settings(.init())
         }
     }
 }
@@ -84,10 +84,10 @@ private extension ScreenState {
     static let reducer: Reducer<Self> = { state, action in
         switch state {
         case let .home(homeState):
-            .home(HomeState.reducer(homeState, action))
+                .home(HomeState.reducer(homeState, action))
 
         case let .game(gameState):
-            .game(GamePlayState.reducer(gameState, action))
+                .game(GamePlayState.reducer(gameState, action))
 
         default:
             state
@@ -98,7 +98,7 @@ private extension ScreenState {
 extension GamePlayState {
     static func from(globalState: AppState) -> Self? {
         guard let lastScreen = globalState.screens.last,
-           case let .game(gameState) = lastScreen else {
+              case let .game(gameState) = lastScreen else {
             return nil
         }
 
@@ -109,7 +109,7 @@ extension GamePlayState {
 extension HomeState {
     static func from(globalState: AppState) -> Self? {
         guard let lastScreen = globalState.screens.last,
-           case let .home(homeState) = lastScreen else {
+              case let .home(homeState) = lastScreen else {
             return nil
         }
 
@@ -120,7 +120,7 @@ extension HomeState {
 extension SplashState {
     static func from(globalState: AppState) -> Self? {
         guard let lastScreen = globalState.screens.last,
-           case let .splash(splashState) = lastScreen else {
+              case let .splash(splashState) = lastScreen else {
             return nil
         }
 

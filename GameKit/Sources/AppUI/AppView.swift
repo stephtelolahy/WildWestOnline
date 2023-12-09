@@ -25,7 +25,25 @@ public struct AppView: View {
 
     public var body: some View {
         Group {
-            switch store.state.screens.last {
+            if let state = store.state.screens.last {
+                viewForState(state)
+            } else {
+                EmptyView()
+            }
+        }
+        .foregroundColor(.primary)
+    }
+
+    private func viewForState(_ state: ScreenState) -> some View {
+        Group {
+            switch state {
+            case .splash:
+                SplashView {
+                    store.projection {
+                        SplashState.from(globalState: $0)
+                    }
+                }
+
             case .home:
                 HomeView {
                     store.projection {
@@ -40,25 +58,14 @@ public struct AppView: View {
                     }
                 }
 
-            case .splash:
-                SplashView {
-                    store.projection {
-                        SplashState.from(globalState: $0)
-                    }
-                }
-
             case .settings:
                 SettingsView {
                     store.projection {
                         SettingsState.from(globalState: $0)
                     }
                 }
-
-            case nil:
-                EmptyView()
             }
         }
-        .foregroundColor(.primary)
     }
 }
 
