@@ -30,7 +30,6 @@ public struct SettingsView: View {
                 contentSection
                 preferencesSection
             }
-            .navigationBarTitle("Settings")
             .toolbar {
                 Button("Close") {
                     withAnimation {
