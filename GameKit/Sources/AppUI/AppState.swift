@@ -21,13 +21,6 @@ public struct AppState: Codable, Equatable {
     }
 }
 
-public enum ScreenState: Codable, Equatable {
-    case splash(SplashState)
-    case home(HomeState)
-    case game(GamePlayState)
-    case settings(SettingsState)
-}
-
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var screens = state.screens
@@ -35,7 +28,7 @@ public extension AppState {
         // Update visible screens
         switch action {
         case let NavAction.showScreen(screen):
-            screens.append(state.stateForScreen(screen))
+            screens.append(state.createStateForScreen(screen))
 
         case NavAction.dismiss:
             screens.removeLast()
@@ -52,7 +45,7 @@ public extension AppState {
 }
 
 private extension AppState {
-    func stateForScreen(_ screen: Screen) -> ScreenState {
+    func createStateForScreen(_ screen: Screen) -> ScreenState {
         switch screen {
         case .splash:
                 .splash(.init())
@@ -67,69 +60,15 @@ private extension AppState {
                 .settings(.init())
         }
     }
-}
 
-private func createGame() -> GameState {
-    let playersCount = 5
-    var game = Inventory.createGame(playersCount: playersCount)
+    func createGame() -> GameState {
+        let playersCount = 5
+        var game = Inventory.createGame(playersCount: playersCount)
 
-    let sheriff = game.playOrder[0]
-    game.playMode = game.startOrder.reduce(into: [:]) {
-        $0[$1] = $1 == sheriff ? .manual : .auto
-    }
-    return game
-}
-
-private extension ScreenState {
-    static let reducer: Reducer<Self> = { state, action in
-        switch state {
-        case let .home(homeState):
-                .home(HomeState.reducer(homeState, action))
-
-        case let .game(gameState):
-                .game(GamePlayState.reducer(gameState, action))
-
-        default:
-            state
+        let sheriff = game.playOrder[0]
+        game.playMode = game.startOrder.reduce(into: [:]) {
+            $0[$1] = $1 == sheriff ? .manual : .auto
         }
-    }
-}
-
-extension GamePlayState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case let .game(gameState) = lastScreen else {
-            return nil
-        }
-
-        return gameState
-    }
-}
-
-extension HomeState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case let .home(homeState) = lastScreen else {
-            return nil
-        }
-
-        return homeState
-    }
-}
-
-extension SplashState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case let .splash(splashState) = lastScreen else {
-            return nil
-        }
-
-        return splashState
-    }
-}
-
-extension SettingsState {
-    static func from(globalState: AppState) -> Self? {
-        .init()
+        return game
     }
 }
