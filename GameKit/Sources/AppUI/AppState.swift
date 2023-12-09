@@ -41,8 +41,14 @@ public extension AppState {
 
         // Update visible screens
         switch action {
-        case let NavAction.showScreen(screen):
-            state.screens.append(screen)
+        case let NavAction.showScreen(screen, transition):
+            switch transition {
+            case .push:
+                state.screens.append(screen)
+
+            case .replace:
+                state.screens = [screen]
+            }
 
             // TODO: create game
 

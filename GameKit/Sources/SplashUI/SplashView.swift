@@ -32,7 +32,7 @@ public struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
-                store.dispatch(NavAction.showScreen(.home))
+                store.dispatch(NavAction.showScreen(.home, transition: .replace))
             }
         }
     }

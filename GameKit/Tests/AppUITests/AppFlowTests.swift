@@ -32,7 +32,7 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState())
 
         // When
-        sut.dispatch(NavAction.showScreen(.home))
+        sut.dispatch(NavAction.showScreen(.home, transition: .replace))
 
         // Then
         XCTAssertEqual(sut.state.screens, [.home])
