@@ -102,7 +102,7 @@ private extension AppState {
     }
 }
 
-extension GameState {
+public extension GameState {
     static func from(globalState: AppState) -> Self? {
         globalState.game
     }

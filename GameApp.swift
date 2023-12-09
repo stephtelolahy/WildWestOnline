@@ -34,7 +34,7 @@ private var store: Store<AppState> {
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])
-            .lift(stateMap: { $0.game })
+            .lift(stateMap: { GameState.from(globalState: $0) })
         ]
     )
 }
