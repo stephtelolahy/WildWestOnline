@@ -12,8 +12,9 @@ import SwiftUI
 import Theme
 
 public struct SettingsView: View {
-    @State private var downloadViaWifiEnabled = false
     @StateObject private var store: Store<SettingsState>
+    @State private var speedIndex = 1
+    private var speedOptions = ["Slow", "Normal", "Fast"]
 
     public init(store: @escaping () -> Store<SettingsState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -43,14 +44,13 @@ public struct SettingsView: View {
         VStack {
             Image(systemName: "person.crop.circle")
                 .resizable()
-                .frame(width: 100, height: 100, alignment: .center)
+                .frame(width: 100, height: 100)
             Text("Wolf Knight")
                 .font(.title)
             Text("WolfKnight@kingdom.tv")
                 .font(.subheadline)
-                .foregroundColor(.gray)
             Button(action: {
-                print("Edit Profile tapped")
+                print("Sign out tapped")
             }, label: {
                 Text("Sign out")
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -94,6 +94,7 @@ public struct SettingsView: View {
                     in: 2...8
                 )
             }
+
             HStack {
                 Image(systemName: "record.circle")
                 Toggle(isOn: Binding<Bool>(
@@ -101,6 +102,15 @@ public struct SettingsView: View {
                     set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
                 ).animation()) {
                     Text("Simulation")
+                }
+            }
+
+            HStack {
+                Image(systemName: "hare")
+                Picker(selection: $speedIndex, label: Text("Game speed")) {
+                    ForEach(0..<(speedOptions.count), id: \.self) {
+                        Text(speedOptions[$0])
+                    }
                 }
             }
         }
