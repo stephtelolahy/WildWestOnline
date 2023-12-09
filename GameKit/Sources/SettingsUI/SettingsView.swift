@@ -12,7 +12,6 @@ import SwiftUI
 import Theme
 
 public struct SettingsView: View {
-    @State private var isDarkModeEnabled = true
     @State private var downloadViaWifiEnabled = false
     @StateObject private var store: Store<SettingsState>
 
@@ -96,20 +95,13 @@ public struct SettingsView: View {
                 )
             }
             HStack {
-                Image(systemName: "circle.lefthalf.striped.horizontal.inverse")
-                Toggle(isOn: $isDarkModeEnabled) {
-                    Text("Dark Mode")
+                Image(systemName: "record.circle")
+                Toggle(isOn: Binding<Bool>(
+                    get: { store.state.simulation },
+                    set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
+                ).animation()) {
+                    Text("Simulation")
                 }
-            }
-            HStack {
-                Image(systemName: "wifi.circle")
-                Toggle(isOn: $downloadViaWifiEnabled) {
-                    Text("Only Download via Wi-Fi")
-                }
-            }
-            HStack {
-                Image(systemName: "play.circle")
-                Text("Play in Background")
             }
         }
     }
@@ -119,7 +111,8 @@ public struct SettingsView: View {
     SettingsView {
         Store<SettingsState>(
             initial: .init(
-                playersCount: 5
+                playersCount: 5,
+                simulation: false
             ),
             reducer: SettingsState.reducer
         )

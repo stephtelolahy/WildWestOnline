@@ -85,8 +85,10 @@ public extension AppState {
 public extension AppState {
     static func cachedSettings() -> SettingsState {
         let defaultPlayersCount = 5
+        let defaultSimulation = false
         return .init(
-            playersCount: defaultPlayersCount
+            playersCount: defaultPlayersCount,
+            simulation: defaultSimulation
         )
     }
 }
@@ -94,9 +96,14 @@ public extension AppState {
 private extension AppState {
     func createGame() -> GameState {
         var game = Inventory.createGame(playersCount: settings.playersCount)
-        let sheriff = game.playOrder[0]
+
+        var manualPlayer: String?
+        if !settings.simulation {
+            manualPlayer = game.playOrder[0]
+        }
+
         game.playMode = game.startOrder.reduce(into: [:]) {
-            $0[$1] = $1 == sheriff ? .manual : .auto
+            $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
         return game
     }
