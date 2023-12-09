@@ -49,6 +49,7 @@ public struct HomeView: View {
             Spacer()
             footerView
         }
+        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AppColor.background)
     }
