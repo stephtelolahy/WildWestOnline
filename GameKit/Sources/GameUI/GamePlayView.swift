@@ -26,18 +26,14 @@ public struct GamePlayView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             headerView
-            ScrollView {
-                VStack(alignment: .leading) {
-                    ForEach(store.state.visiblePlayers) {
-                        itemPlayerView($0)
-                    }
-                    Divider()
-                    logView
-                }
-                .padding()
+            ForEach(store.state.visiblePlayers) {
+                itemPlayerView($0)
             }
+            Divider()
+            logView
             footerView
         }
+        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AppColor.background)
         .alert(
@@ -48,7 +44,7 @@ public struct GamePlayView: View {
             ),
             presenting: store.state.chooseOneAlertData
         ) { data in
-            ForEach(Array(data.keys), id: \.self) { key in
+            ForEach(Array(data.keys.sorted()), id: \.self) { key in
                 Button(key, role: key == .pass ? .cancel : nil) {
                     guard let action = data[key] else {
                         fatalError("unexpected")
@@ -88,7 +84,7 @@ public struct GamePlayView: View {
     private var footerView: some View {
         let data = store.state.activeActions
         return HStack {
-            ForEach(Array(data.keys), id: \.self) { key in
+            ForEach(Array(data.keys.sorted()), id: \.self) { key in
                 Button("\(key)") {
                     guard let action = data[key] else {
                         fatalError("unexpected")
@@ -125,7 +121,7 @@ public struct GamePlayView: View {
 
             if player.activeActions.isNotEmpty {
                 Image(systemName: "\(player.activeActions.count).circle.fill")
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(AppColor.button)
                     .font(.headline)
             }
         }
@@ -137,10 +133,12 @@ public struct GamePlayView: View {
         let logs = store.log
             .reversed()
             .map { String(describing: $0) }
-        return ForEach(logs, id: \.self) { message in
-            Text(message)
-                .lineLimit(1)
-                .font(.footnote)
+        return ScrollView {
+            ForEach(Array(logs.enumerated()), id: \.offset) { _, event in
+                Text(event)
+                    .lineLimit(1)
+                    .font(.footnote)
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ public struct SettingsView: View {
                 preferencesSection
             }
             .toolbar {
-                Button("Close") {
+                Button("Done") {
                     withAnimation {
                         store.dispatch(NavAction.dismiss)
                     }
