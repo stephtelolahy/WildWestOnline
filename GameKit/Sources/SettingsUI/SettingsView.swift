@@ -31,6 +31,13 @@ public struct SettingsView: View {
                 preferencesSection
             }
             .navigationBarTitle("Settings")
+            .toolbar {
+                Button("Close") {
+                    withAnimation {
+                        store.dispatch(NavAction.dismiss)
+                    }
+                }
+            }
         }
     }
 

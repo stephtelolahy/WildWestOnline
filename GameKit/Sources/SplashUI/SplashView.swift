@@ -11,7 +11,7 @@ import Routing
 import SwiftUI
 
 public struct SplashView: View {
-    private let splashDelaySeconds = 3.0
+    private let splashDelaySeconds = 2.0
 
     @StateObject private var store: Store<SplashState>
 
