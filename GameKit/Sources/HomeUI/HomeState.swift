@@ -10,13 +10,3 @@ import Redux
 public struct HomeState: Codable, Equatable {
     public init() {}
 }
-
-enum HomeAction: Action, Codable, Equatable {
-    case load
-}
-
-public extension HomeState {
-    static let reducer: Reducer<Self> = { state, _ in
-        state
-    }
-}

@@ -34,18 +34,7 @@ private var store: Store<AppState> {
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])
-            .lift(stateMap: { GameState.from(globalState: $0) })
+            .lift(stateMap: { $0.game })
         ]
     )
-}
-
-private extension GameState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case let .game(gamePlayState) = lastScreen else {
-            return nil
-        }
-
-        return gamePlayState.gameState
-    }
 }
