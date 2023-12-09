@@ -16,6 +16,10 @@ final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Stor
     private let stateMap: (GlobalState) -> LocalState?
     private var globalStateObservation: AnyCancellable?
 
+    override var log: [Action] {
+        globalStore.log
+    }
+
     init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
         guard let initialState = stateMap(globalStore.state) else {
             fatalError("failed to resolve local state")
@@ -44,7 +48,6 @@ final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Stor
 
     override func dispatch(_ action: Action) {
         globalStore.dispatch(action)
-        log.append(action)
     }
 }
 
