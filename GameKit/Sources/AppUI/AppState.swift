@@ -22,16 +22,16 @@ public struct AppState: Codable, Equatable {
     }
 }
 
+public enum ScreenState: Codable, Equatable {
+    case splash(SplashState)
+    case home(HomeState)
+    case game(GamePlayState)
+    case settings
+}
+
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-
-        // Update global config
-        #warning("duplicate config")
-        if action is NavAction,
-           case let .settings(settingsState) = state.screens.last {
-            state.config = settingsState.config
-        }
 
         // Update visible screens
         switch action {
@@ -47,6 +47,11 @@ public extension AppState {
 
         // Reduce each screen state
         state.screens = state.screens.map { ScreenState.reducer($0, action) }
+
+        // Reduce config
+        if let action = action as? SettingsAction {
+            state.config = SettingsState.reducer(.init(config: state.config), action).config
+        }
 
         return state
     }
@@ -72,7 +77,7 @@ private extension AppState {
                 .game(.init(gameState: createGame()))
 
         case .settings:
-                .settings(.init(config: config))
+                .settings
         }
     }
 
@@ -84,5 +89,64 @@ private extension AppState {
             $0[$1] = $1 == sheriff ? .manual : .auto
         }
         return game
+    }
+}
+
+private extension ScreenState {
+    static let reducer: Reducer<Self> = { state, action in
+        switch state {
+        case let .home(homeState):
+                .home(HomeState.reducer(homeState, action))
+
+        case let .game(gameState):
+                .game(GamePlayState.reducer(gameState, action))
+
+        default:
+            state
+        }
+    }
+}
+
+extension GamePlayState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+              case let .game(gameState) = lastScreen else {
+            return nil
+        }
+
+        return gameState
+    }
+}
+
+extension HomeState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+              case let .home(homeState) = lastScreen else {
+            return nil
+        }
+
+        return homeState
+    }
+}
+
+extension SplashState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+              case let .splash(splashState) = lastScreen else {
+            return nil
+        }
+
+        return splashState
+    }
+}
+
+extension SettingsState {
+    static func from(globalState: AppState) -> Self? {
+        guard let lastScreen = globalState.screens.last,
+              case .settings = lastScreen else {
+            return nil
+        }
+
+        return .init(config: globalState.config)
     }
 }

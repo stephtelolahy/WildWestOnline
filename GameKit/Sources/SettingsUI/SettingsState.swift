@@ -22,7 +22,7 @@ extension SettingsState {
     }
 }
 
-enum SettingsAction: Action, Codable, Equatable {
+public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
 }
 
