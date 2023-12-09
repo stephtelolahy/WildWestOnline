@@ -1,25 +1,16 @@
 //
 //  SettingsState.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 09/12/2023.
 //
-import Inventory
 import Redux
 
 public struct SettingsState: Codable, Equatable {
-    // TODO: bind to SettingsState directly
-    public var config: GameConfig
+    public var playersCount: Int
 
-    public init(config: GameConfig) {
-        self.config = config
-    }
-}
-
-// MARK: - Derived state
-extension SettingsState {
-    var playersCount: Int {
-        config.playersCount
+    public init(playersCount: Int) {
+        self.playersCount = playersCount
     }
 }
 
@@ -37,7 +28,7 @@ public extension SettingsState {
 
         switch action {
         case let .updatePlayersCount(count):
-            state.config.playersCount = count
+            state.playersCount = count
         }
 
         return state

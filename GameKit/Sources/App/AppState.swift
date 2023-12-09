@@ -19,18 +19,18 @@ import SplashUI
 public struct AppState: Codable, Equatable {
     public var user: String?
     public var screens: [Screen]
-    public var config: GameConfig
+    public var settings: SettingsState
     public var game: GameState?
 
     public init(
         user: String? = nil,
         screens: [Screen] = [.splash],
-        config: GameConfig = Self.cachedGameConfig(),
+        settings: SettingsState = Self.cachedSettings(),
         game: GameState? = nil
     ) {
         self.user = user
         self.screens = screens
-        self.config = config
+        self.settings = settings
         self.game = game
     }
 }
@@ -74,17 +74,16 @@ public extension AppState {
             state.game = GamePlayState.reducer(gameState, action).gameState
         }
 
-        // Reduce config
-        if let settingsState = SettingsState.from(globalState: state) {
-            state.config = SettingsState.reducer(settingsState, action).config
-        }
+        // Reduce settings
+        let settingsState = state.settings
+        state.settings = SettingsState.reducer(settingsState, action)
 
         return state
     }
 }
 
 public extension AppState {
-    static func cachedGameConfig() -> GameConfig {
+    static func cachedSettings() -> SettingsState {
         let cachedPlayersCount = 7
         return .init(
             playersCount: cachedPlayersCount
@@ -94,7 +93,7 @@ public extension AppState {
 
 private extension AppState {
     func createGame() -> GameState {
-        var game = Inventory.createGame(playersCount: config.playersCount)
+        var game = Inventory.createGame(playersCount: settings.playersCount)
 
         let sheriff = game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {
@@ -145,6 +144,6 @@ extension SettingsState {
             return nil
         }
 
-        return .init(config: globalState.config)
+        return globalState.settings
     }
 }

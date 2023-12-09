@@ -118,7 +118,9 @@ public struct SettingsView: View {
 #Preview {
     SettingsView {
         Store<SettingsState>(
-            initial: .init(config: .init(playersCount: 5)),
+            initial: .init(
+                playersCount: 5
+            ),
             reducer: SettingsState.reducer
         )
     }

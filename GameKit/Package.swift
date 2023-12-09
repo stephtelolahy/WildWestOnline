@@ -120,8 +120,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Routing",
-                "Theme",
-                "Inventory"
+                "Theme"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
