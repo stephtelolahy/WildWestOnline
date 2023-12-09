@@ -10,10 +10,3 @@ public enum NavAction: Action, Codable, Equatable {
     case showScreen(Screen)
     case dismiss
 }
-
-public enum Screen: Codable, Equatable {
-    case splash
-    case home
-    case game
-    case settings
-}

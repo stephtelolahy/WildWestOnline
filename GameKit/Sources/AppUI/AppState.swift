@@ -26,18 +26,19 @@ public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
 
+        // Update global config
+        #warning("duplicate config")
+        if action is NavAction,
+           case let .settings(settingsState) = state.screens.last {
+            state.config = settingsState.config
+        }
+
         // Update visible screens
         switch action {
         case let NavAction.showScreen(screen):
             state.screens.append(state.createStateForScreen(screen))
 
         case NavAction.dismiss:
-            #warning("duplicating config")
-            // copy local config to global config
-            if case let .settings(settingsState) = state.screens.last {
-                state.config = settingsState.config
-            }
-
             state.screens.removeLast()
 
         default:
@@ -76,8 +77,7 @@ private extension AppState {
     }
 
     func createGame() -> GameState {
-        let playersCount = 5
-        var game = Inventory.createGame(playersCount: playersCount)
+        var game = Inventory.createGame(playersCount: config.playersCount)
 
         let sheriff = game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {
