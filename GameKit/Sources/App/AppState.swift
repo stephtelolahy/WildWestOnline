@@ -70,8 +70,8 @@ public extension AppState {
         }
 
         // Reduce game
-        if let gameState = GamePlayState.from(globalState: state) {
-            state.game = GamePlayState.reducer(gameState, action).gameState
+        if let gameState = state.game {
+            state.game = GameState.reducer(gameState, action)
         }
 
         // Reduce settings
@@ -103,15 +103,15 @@ private extension AppState {
     }
 }
 
-extension GamePlayState {
+extension GameState {
     static func from(globalState: AppState) -> Self? {
         guard let lastScreen = globalState.screens.last,
               case .game = lastScreen,
-                let game = globalState.game else {
+              let game = globalState.game else {
             return nil
         }
 
-        return .init(gameState: game)
+        return game
     }
 }
 

@@ -55,7 +55,7 @@ public struct AppView: View {
             case .game:
                 GamePlayView {
                     store.projection {
-                        GamePlayState.from(globalState: $0)
+                        GameState.from(globalState: $0)
                     }
                 }
 
