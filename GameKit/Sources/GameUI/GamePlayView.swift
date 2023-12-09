@@ -11,11 +11,12 @@ import Inventory
 import Redux
 import Routing
 import SwiftUI
+import Theme
 
 public struct GamePlayView: View {
-    @StateObject private var store: Store<GamePlayState>
+    @StateObject private var store: Store<GameState>
 
-    public init(store: @escaping () -> Store<GamePlayState>) {
+    public init(store: @escaping () -> Store<GameState>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view, so
         // later changes to the view's name input have no effect.
@@ -27,7 +28,7 @@ public struct GamePlayView: View {
             headerView
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(store.state.players) {
+                    ForEach(store.state.visiblePlayers) {
                         itemPlayerButton($0)
                         Divider()
                     }
@@ -37,11 +38,12 @@ public struct GamePlayView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColor.background)
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
                 get: { store.state.chooseOneAlertData.isNotEmpty },
-                set: { _ in store.dispatch(GamePlayAction.didShowChooseOneAlert) }
+                set: { _ in }
             ),
             presenting: store.state.chooseOneAlertData
         ) { data in
@@ -55,61 +57,57 @@ public struct GamePlayView: View {
             }
         }
         .onAppear {
-            let sheriff = store.state.gameState.playOrder[0]
+            let sheriff = store.state.playOrder[0]
             store.dispatch(GameAction.setTurn(sheriff))
         }
     }
 
     private var headerView: some View {
-        HStack {
-            Button {
-                withAnimation {
-                    store.dispatch(NavAction.dismiss)
-                }
-            } label: {
-                Image(systemName: "arrow.backward")
-                    .foregroundColor(.accentColor)
-                    .padding()
-            }
-            Spacer()
+        ZStack {
             Text(store.state.message)
                 .font(.headline)
                 .lineLimit(1)
                 .padding()
-            Spacer()
-            Button {
-            } label: {
-                Image(systemName: "info.circle")
-                    .foregroundColor(.accentColor)
-                    .padding()
+            HStack {
+                Spacer()
+                Button {
+                    withAnimation {
+                        store.dispatch(NavAction.dismiss)
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle")
+                        .foregroundColor(AppColor.button)
+                        .padding()
+                        .font(.title)
+                }
             }
         }
     }
 
     private func itemPlayerButton(_ player: PlayerItem) -> some View {
         Button(action: {
-            store.dispatch(GamePlayAction.didSelectPlayer(player.id))
+//            store.dispatch(GamePlayAction.didSelectPlayer(player.id))
         }, label: {
             itemPlayerView(player)
         })
-        .confirmationDialog(
-            "Play a card",
-            isPresented: Binding<Bool>(
-                get: { store.state.activeSheetData.isNotEmpty },
-                set: { _ in store.dispatch(GamePlayAction.didShowActiveSheet) }
-            ),
-            titleVisibility: .visible,
-            presenting: store.state.activeSheetData
-        ) { data in
-            ForEach(Array(data.keys), id: \.self) { key in
-                Button(key) {
-                    guard let action = data[key] else {
-                        fatalError("unexpected")
-                    }
-                    store.dispatch(action)
-                }
-            }
-        }
+//        .confirmationDialog(
+//            "Play a card",
+//            isPresented: Binding<Bool>(
+//                get: { store.state.activeSheetData.isNotEmpty },
+//                set: { _ in }
+//            ),
+//            titleVisibility: .visible,
+//            presenting: store.state.activeSheetData
+//        ) { data in
+//            ForEach(Array(data.keys), id: \.self) { key in
+//                Button(key) {
+//                    guard let action = data[key] else {
+//                        fatalError("unexpected")
+//                    }
+//                    store.dispatch(action)
+//                }
+//            }
+//        }
     }
 
     private func itemPlayerView(_ player: PlayerItem) -> some View {
@@ -142,7 +140,7 @@ public struct GamePlayView: View {
                     .font(.headline)
             }
         }
-        .background(Color.accentColor.opacity(player.highlighted ? 0.5 : 0.2))
+        .background(Color.white.opacity(player.highlighted ? 0.4 : 0.2))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
@@ -160,12 +158,12 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store<GamePlayState>(initial: previewState)
+        Store<GameState>(initial: previewState)
     }
 }
 
-private var previewState: GamePlayState {
-    let game = GameState.makeBuilder()
+private var previewState: GameState {
+    GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
@@ -179,5 +177,4 @@ private var previewState: GamePlayState {
         .withChooseOne("p1", options: [.bang: GameAction.nothing])
         .withTurn("p1")
         .build()
-    return GamePlayState(gameState: game)
 }

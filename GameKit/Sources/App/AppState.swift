@@ -5,106 +5,123 @@
 //  Created by Hugues Telolahy on 12/07/2023.
 //
 import Game
+import GameUI
+import HomeUI
 import Inventory
 import Redux
 import Routing
-import ScreenGame
-import ScreenHome
-import ScreenSplash
+import SettingsUI
+import SplashUI
 
+/// Global app state
+/// Organize State Structure Based on Data Types, Not Components
+/// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
-    public let screens: [ScreenState]
+    public var user: String?
+    public var screens: [Screen]
+    public var settings: SettingsState
+    public var game: GameState?
 
-    public init(screens: [ScreenState] = [.splash(.init())]) {
+    public init(
+        user: String? = nil,
+        screens: [Screen] = [.splash],
+        settings: SettingsState = Self.cachedSettings(),
+        game: GameState? = nil
+    ) {
+        self.user = user
         self.screens = screens
+        self.settings = settings
+        self.game = game
     }
-}
-
-public enum ScreenState: Codable, Equatable {
-    case splash(SplashState)
-    case home(HomeState)
-    case game(GamePlayState)
 }
 
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
-        var screens = state.screens
+        var state = state
 
         // Update visible screens
         switch action {
-        case NavAction.showScreen(.home):
-            screens = [.home(.init())]
+        case let NavAction.showScreen(screen, transition):
+            switch transition {
+            case .push:
+                state.screens.append(screen)
 
-        case NavAction.showScreen(.game):
-            let playersCount = 5
-            var game = Inventory.createGame(playersCount: playersCount)
-
-            let sheriff = game.playOrder[0]
-            game.playMode = game.startOrder.reduce(into: [:]) {
-                $0[$1] = $1 == sheriff ? .manual : .auto
+            case .replace:
+                state.screens = [screen]
             }
 
-            let gamePlayState = GamePlayState(gameState: game)
-            screens.append(.game(gamePlayState))
+            // <create game>
+            if case .game = screen {
+                state.game = state.createGame()
+            }
+            // </create game>
 
         case NavAction.dismiss:
-            screens.removeLast()
+            // <delete game>
+            if case .game = state.screens.last {
+                state.game = nil
+            }
+            // </delete game>
+
+            state.screens.removeLast()
 
         default:
             break
         }
 
-        // Reduce each screen state
-        screens = screens.map { ScreenState.reducer($0, action) }
-
-        return .init(screens: screens)
-    }
-}
-
-private extension ScreenState {
-    static let reducer: Reducer<Self> = { state, action in
-        switch state {
-        case let .home(homeState):
-            .home(HomeState.reducer(homeState, action))
-
-        case let .game(gameState):
-            .game(GamePlayState.reducer(gameState, action))
-
-        default:
-            state
+        // Reduce game
+        if let gameState = state.game {
+            state.game = GameState.reducer(gameState, action)
         }
+
+        // Reduce settings
+        let settingsState = state.settings
+        state.settings = SettingsState.reducer(settingsState, action)
+
+        return state
     }
 }
 
-extension GamePlayState {
+public extension AppState {
+    static func cachedSettings() -> SettingsState {
+        let defaultPlayersCount = 5
+        return .init(
+            playersCount: defaultPlayersCount
+        )
+    }
+}
+
+private extension AppState {
+    func createGame() -> GameState {
+        var game = Inventory.createGame(playersCount: settings.playersCount)
+        let sheriff = game.playOrder[0]
+        game.playMode = game.startOrder.reduce(into: [:]) {
+            $0[$1] = $1 == sheriff ? .manual : .auto
+        }
+        return game
+    }
+}
+
+public extension GameState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-           case let .game(gameState) = lastScreen else {
-            return nil
-        }
-
-        return gameState
+        globalState.game
     }
 }
 
 extension HomeState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-           case let .home(homeState) = lastScreen else {
-            return nil
-        }
-
-        return homeState
+        .init()
     }
 }
 
 extension SplashState {
     static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-           case let .splash(splashState) = lastScreen else {
-            return nil
-        }
+        .init()
+    }
+}
 
-        return splashState
+extension SettingsState {
+    static func from(globalState: AppState) -> Self? {
+        globalState.settings
     }
 }

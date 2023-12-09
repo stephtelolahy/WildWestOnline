@@ -17,6 +17,7 @@ struct GameApp: App {
             AppView {
                 store
             }
+            .environment(\.colorScheme, .light)
         }
     }
 }
@@ -36,15 +37,4 @@ private var store: Store<AppState> {
             .lift(stateMap: { GameState.from(globalState: $0) })
         ]
     )
-}
-
-private extension GameState {
-    static func from(globalState: AppState) -> Self? {
-        guard let lastScreen = globalState.screens.last,
-              case let .game(gamePlayState) = lastScreen else {
-            return nil
-        }
-
-        return gamePlayState.gameState
-    }
 }

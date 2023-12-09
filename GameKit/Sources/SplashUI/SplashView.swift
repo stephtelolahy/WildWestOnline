@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers type_contents_order
+// swiftlint:disable type_contents_order
 
 import Redux
 import Routing
@@ -24,24 +24,16 @@ public struct SplashView: View {
 
     public var body: some View {
         ZStack {
+            Color.black
+                .ignoresSafeArea()
             Text("splash.editor.name", bundle: .module)
                 .font(.headline)
-                .foregroundStyle(.primary)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
-                        store.dispatch(NavAction.showScreen(.home))
-                    }
-                }
-            VStack(spacing: 8) {
-                Spacer()
-                Text("splash.developer.name", bundle: .module)
-                    .font(.subheadline)
-                    .foregroundStyle(.primary)
-                Text("splash.developer.email", bundle: .module)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                .foregroundStyle(.red)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
+                store.dispatch(NavAction.showScreen(.home, transition: .replace))
             }
-            .padding()
         }
     }
 }

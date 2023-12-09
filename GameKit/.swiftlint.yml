@@ -15,7 +15,7 @@ analyzer_rules:
 disabled_rules:
 - blanket_disable_command
 opt_in_rules:
-  - accessibility_label_for_image
+  # - accessibility_label_for_image
   - accessibility_trait_for_button
   # - anonymous_argument_in_multiline_closure
   - anyobject_protocol

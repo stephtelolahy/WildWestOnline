@@ -11,6 +11,9 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -29,6 +32,9 @@
       }
     },
     "Choose one option" : {
+
+    },
+    "Count: %lld" : {
 
     },
     "game.message" : {
@@ -64,9 +70,6 @@
           }
         }
       }
-    },
-    "Play a card" : {
-
     }
   },
   "version" : "1.0"

@@ -18,19 +18,19 @@
         }
       }
     },
-    "menu.start.button" : {
+    "splash.editor.name" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Game"
+            "value" : "CREATIVE GAMES"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nouvelle partie"
+            "value" : "CREATIVE GAMES"
           }
         }
       }

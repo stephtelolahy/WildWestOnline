@@ -15,9 +15,11 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "ScreenGame", targets: ["ScreenGame"]),
-        .library(name: "ScreenHome", targets: ["ScreenHome"]),
-        .library(name: "ScreenSplash", targets: ["ScreenSplash"]),
+        .library(name: "Theme", targets: ["Theme"]),
+        .library(name: "GameUI", targets: ["GameUI"]),
+        .library(name: "HomeUI", targets: ["HomeUI"]),
+        .library(name: "SplashUI", targets: ["SplashUI"]),
+        .library(name: "SettingsUI", targets: ["SettingsUI"]),
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -79,10 +81,14 @@ let package = Package(
             ]
         ),
         .target(
-            name: "ScreenGame",
+            name: "Theme",
+            dependencies: []),
+        .target(
+            name: "GameUI",
             dependencies: [
                 "Redux",
                 "Routing",
+                "Theme",
                 "Game",
                 "Inventory"
             ],
@@ -90,19 +96,31 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "ScreenHome",
+            name: "HomeUI",
             dependencies: [
                 "Redux",
-                "Routing"
+                "Routing",
+                "Theme"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "ScreenSplash",
+            name: "SplashUI",
             dependencies: [
                 "Redux",
-                "Routing"
+                "Routing",
+                "Theme"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
+        .target(
+            name: "SettingsUI",
+            dependencies: [
+                "Redux",
+                "Routing",
+                "Theme"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -114,9 +132,10 @@ let package = Package(
                 "Routing",
                 "Game",
                 "Inventory",
-                "ScreenGame",
-                "ScreenHome",
-                "ScreenSplash"
+                "GameUI",
+                "HomeUI",
+                "SplashUI",
+                "SettingsUI"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")

@@ -18,6 +18,57 @@
         }
       }
     },
+    "menu.game.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The unofficial clone of the Western Card Game"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "menu.settings.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SETTINGS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PARAMETRES"
+          }
+        }
+      }
+    },
+    "menu.start.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NEW GAME"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NOUVELLE PARTIE"
+          }
+        }
+      }
+    },
     "splash.developer.email" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -36,23 +87,6 @@
       }
     },
     "splash.developer.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stéphano Telolahy"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stéphano Telolahy"
-          }
-        }
-      }
-    },
-    "splash.editor.name" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

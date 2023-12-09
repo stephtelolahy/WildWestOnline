@@ -6,10 +6,13 @@
 //
 // swiftlint:disable type_contents_order
 
+import Game
+import GameUI
+import HomeUI
 import Redux
-import ScreenGame
-import ScreenHome
-import ScreenSplash
+import Routing
+import SettingsUI
+import SplashUI
 import SwiftUI
 
 public struct AppView: View {
@@ -24,7 +27,25 @@ public struct AppView: View {
 
     public var body: some View {
         Group {
-            switch store.state.screens.last {
+            if let screen = store.state.screens.last {
+                viewForScreen(screen)
+            } else {
+                EmptyView()
+            }
+        }
+        .foregroundColor(.primary)
+    }
+
+    private func viewForScreen(_ screen: Screen) -> some View {
+        Group {
+            switch screen {
+            case .splash:
+                SplashView {
+                    store.projection {
+                        SplashState.from(globalState: $0)
+                    }
+                }
+
             case .home:
                 HomeView {
                     store.projection {
@@ -35,27 +56,23 @@ public struct AppView: View {
             case .game:
                 GamePlayView {
                     store.projection {
-                        GamePlayState.from(globalState: $0)
+                        GameState.from(globalState: $0)
                     }
                 }
 
-            case .splash:
-                SplashView {
+            case .settings:
+                SettingsView {
                     store.projection {
-                        SplashState.from(globalState: $0)
+                        SettingsState.from(globalState: $0)
                     }
                 }
-
-            case nil:
-                EmptyView()
             }
         }
-        .foregroundColor(.primary)
     }
 }
 
 #Preview {
     AppView {
-        Store<AppState>(initial: .init(screens: [.splash(.init())]))
+        Store<AppState>(initial: .init(screens: [.splash]))
     }
 }

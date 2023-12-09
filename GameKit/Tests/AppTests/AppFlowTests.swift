@@ -24,52 +24,49 @@ final class AppFlowTests: XCTestCase {
         let sut = createAppStore(initial: AppState())
 
         // Then
-        XCTAssertEqual(sut.state.screens, [.splash(.init())])
+        XCTAssertEqual(sut.state.screens, [.splash])
     }
 
-    func test_app_whenCompletedSplash_shouldShowHomeScreen() throws {
+    func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
         let sut = createAppStore(initial: AppState())
 
         // When
-        sut.dispatch(NavAction.showScreen(.home))
+        sut.dispatch(NavAction.showScreen(.home, transition: .replace))
 
         // Then
-        XCTAssertEqual(sut.state.screens, [.home(.init())])
+        XCTAssertEqual(sut.state.screens, [.home])
     }
 
-    func test_app_whenStartedGame_shouldShowGameScreen() throws {
+    func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let sut = createAppStore(initial: AppState(screens: [.home(.init())]))
+        let sut = createAppStore(initial: AppState(screens: [.home]))
 
         // When
         sut.dispatch(NavAction.showScreen(.game))
 
         // Then
-        guard case .game = sut.state.screens.last else {
-            XCTFail("Invalid last screen")
-            return
-        }
+        XCTAssertEqual(sut.state.screens.last, .game)
+        XCTAssertNotNil(sut.state.game)
     }
 
-    func test_app_whenFinishedGame_shouldBackToHomeScreen() throws {
+    func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
         // Given
         let sut = createAppStore(
             initial: AppState(
                 screens: [
-                    .home(.init()),
-                    .game(.init(gameState: GameState.makeBuilder().build()))
-                ]
+                    .home,
+                    .game
+                ],
+                game: GameState.makeBuilder().build()
             )
         )
 
-        // When
+        // When'
         sut.dispatch(NavAction.dismiss)
 
         // Then
-        guard case .home = sut.state.screens.last else {
-            XCTFail("Invalid last screen")
-            return
-        }
+        XCTAssertEqual(sut.state.screens.last, .home)
+        XCTAssertNil(sut.state.game)
     }
 }
