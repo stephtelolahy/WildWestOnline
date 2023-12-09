@@ -8,7 +8,7 @@ import Inventory
 import Redux
 
 public struct SettingsState: Codable, Equatable {
-    private var config: GameConfig
+    public var config: GameConfig
 
     public init(config: GameConfig) {
         self.config = config

@@ -14,7 +14,8 @@ import SettingsUI
 import SplashUI
 
 public struct AppState: Codable, Equatable {
-    public let screens: [ScreenState]
+    public var screens: [ScreenState]
+    public var config: GameConfig = Self.cachedGameConfig()
 
     public init(screens: [ScreenState] = [.splash(.init())]) {
         self.screens = screens
@@ -23,28 +24,41 @@ public struct AppState: Codable, Equatable {
 
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
-        var screens = state.screens
+        var state = state
 
         // Update visible screens
         switch action {
         case let NavAction.showScreen(screen):
-            screens.append(state.createStateForScreen(screen))
+            state.screens.append(state.createStateForScreen(screen))
 
         case NavAction.dismiss:
-            screens.removeLast()
+            #warning("duplicating config")
+            // copy local config to global config
+            if case let .settings(settingsState) = state.screens.last {
+                state.config = settingsState.config
+            }
+
+            state.screens.removeLast()
 
         default:
             break
         }
 
         // Reduce each screen state
-        screens = screens.map { ScreenState.reducer($0, action) }
+        state.screens = state.screens.map { ScreenState.reducer($0, action) }
 
-        return .init(screens: screens)
+        return state
     }
 }
 
 private extension AppState {
+    static func cachedGameConfig() -> GameConfig {
+        let cachedPlayersCount = 7
+        return .init(
+            playersCount: cachedPlayersCount
+        )
+    }
+
     func createStateForScreen(_ screen: Screen) -> ScreenState {
         switch screen {
         case .splash:
@@ -57,7 +71,7 @@ private extension AppState {
                 .game(.init(gameState: createGame()))
 
         case .settings:
-                .settings(.init(config: createGameConfig()))
+                .settings(.init(config: config))
         }
     }
 
@@ -70,12 +84,5 @@ private extension AppState {
             $0[$1] = $1 == sheriff ? .manual : .auto
         }
         return game
-    }
-
-    func createGameConfig() -> GameConfig {
-        let cachedPlayersCount = 7
-        return .init(
-            playersCount: cachedPlayersCount
-        )
     }
 }
