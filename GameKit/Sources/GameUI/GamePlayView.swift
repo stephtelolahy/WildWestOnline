@@ -83,7 +83,7 @@ public struct GamePlayView: View {
 
     private var footerView: some View {
         let data = store.state.activeActions
-        return HStack {
+        return TagFlowLayout(alignment: .leading) {
             ForEach(Array(data.keys.sorted()), id: \.self) { key in
                 Button("\(key)") {
                     guard let action = data[key] else {
