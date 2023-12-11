@@ -40,16 +40,18 @@ private func createStore() -> Store<AppState> {
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])
-            .lift(stateMap: { GameState.from(globalState: $0) })
+            .lift(stateMap: { GameState.from(globalState: $0) }),
+            SettingsCacheMiddleware()
+                .lift { SettingsState.from(globalState: $0) }
         ]
     )
 }
 
 private func cachedSettings() -> SettingsState {
-    let defaultPlayersCount = 5
-    let defaultSimulation = false
+    let playersCount = (UserDefaults.standard.value(forKey: "settings.playersCount") as? Int) ?? 5
+    let simulation = UserDefaults.standard.bool(forKey: "settings.simulation")
     return .init(
-        playersCount: defaultPlayersCount,
-        simulation: defaultSimulation
+        playersCount: playersCount,
+        simulation: simulation
     )
 }

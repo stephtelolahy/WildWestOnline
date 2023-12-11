@@ -126,7 +126,7 @@ extension SplashState {
     }
 }
 
-extension SettingsState {
+public extension SettingsState {
     static func from(globalState: AppState) -> Self? {
         globalState.settings
     }
