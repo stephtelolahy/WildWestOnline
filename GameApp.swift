@@ -10,13 +10,14 @@ import App
 import Game
 import Redux
 import Theme
+import SettingsUI
 
 @main
 struct GameApp: App {
     var body: some Scene {
         WindowGroup {
             AppView {
-                store
+                createStore()
             }
             .environment(\.colorScheme, .light)
             .accentColor(AppColor.button)
@@ -24,9 +25,12 @@ struct GameApp: App {
     }
 }
 
-private var store: Store<AppState> {
+private func createStore() -> Store<AppState> {
     Store<AppState>(
-        initial: .init(),
+        initial: .init(
+            screens: [.splash],
+            settings: cachedSettings()
+        ),
         reducer: AppState.reducer,
         middlewares: [
             LoggerMiddleware(),
@@ -38,5 +42,14 @@ private var store: Store<AppState> {
             ])
             .lift(stateMap: { GameState.from(globalState: $0) })
         ]
+    )
+}
+
+private func cachedSettings() -> SettingsState {
+    let defaultPlayersCount = 5
+    let defaultSimulation = false
+    return .init(
+        playersCount: defaultPlayersCount,
+        simulation: defaultSimulation
     )
 }

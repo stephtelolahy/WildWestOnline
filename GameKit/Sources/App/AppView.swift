@@ -73,6 +73,11 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store<AppState>(initial: .init(screens: [.splash]))
+        Store<AppState>(
+            initial: .init(
+                screens: [.splash],
+                settings: .init(playersCount: 5, simulation: false)
+            )
+        )
     }
 }

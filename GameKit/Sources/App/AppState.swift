@@ -17,18 +17,15 @@ import SplashUI
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
-    public var user: String?
     public var screens: [Screen]
     public var settings: SettingsState
     public var game: GameState?
 
     public init(
-        user: String? = nil,
-        screens: [Screen] = [.splash],
-        settings: SettingsState = Self.cachedSettings(),
+        screens: [Screen],
+        settings: SettingsState,
         game: GameState? = nil
     ) {
-        self.user = user
         self.screens = screens
         self.settings = settings
         self.game = game
@@ -79,17 +76,6 @@ public extension AppState {
         state.settings = SettingsState.reducer(settingsState, action)
 
         return state
-    }
-}
-
-public extension AppState {
-    static func cachedSettings() -> SettingsState {
-        let defaultPlayersCount = 5
-        let defaultSimulation = false
-        return .init(
-            playersCount: defaultPlayersCount,
-            simulation: defaultSimulation
-        )
     }
 }
 

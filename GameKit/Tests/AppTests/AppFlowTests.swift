@@ -4,10 +4,12 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
+// swiftlint:disable no_magic_numbers
 @testable import App
 import Game
 import Redux
 import Routing
+import SettingsUI
 import XCTest
 
 final class AppFlowTests: XCTestCase {
@@ -18,18 +20,9 @@ final class AppFlowTests: XCTestCase {
         )
     }
 
-    func test_app_initially_shouldShowSplashScreen() throws {
-        // Given
-        // When
-        let sut = createAppStore(initial: AppState())
-
-        // Then
-        XCTAssertEqual(sut.state.screens, [.splash])
-    }
-
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let sut = createAppStore(initial: AppState())
+        let sut = createAppStore(initial: AppState(screens: [.splash], settings: .default))
 
         // When
         sut.dispatch(NavAction.showScreen(.home, transition: .replace))
@@ -40,7 +33,7 @@ final class AppFlowTests: XCTestCase {
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let sut = createAppStore(initial: AppState(screens: [.home]))
+        let sut = createAppStore(initial: AppState(screens: [.home], settings: .default))
 
         // When
         sut.dispatch(NavAction.showScreen(.game))
@@ -58,6 +51,7 @@ final class AppFlowTests: XCTestCase {
                     .home,
                     .game
                 ],
+                settings: .default,
                 game: GameState.makeBuilder().build()
             )
         )
@@ -69,4 +63,8 @@ final class AppFlowTests: XCTestCase {
         XCTAssertEqual(sut.state.screens.last, .home)
         XCTAssertNil(sut.state.game)
     }
+}
+
+private extension SettingsState {
+    static let `default`: Self = .init(playersCount: 5, simulation: false)
 }
