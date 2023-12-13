@@ -8,7 +8,7 @@ import Combine
 
 public final class LoggerMiddleware<State>: Middleware<State> {
     override public func handle(action: Action, state: State) -> AnyPublisher<Action, Never>? {
-        print("➡️ \(action)")
+        print(String(describing: action))
         return nil
     }
 }
