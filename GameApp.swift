@@ -26,19 +26,19 @@ struct GameApp: App {
 }
 
 private func createStore() -> Store<AppState> {
-    
+
     let settingsService = SettingsService()
-    
+
     let cachedSettings = SettingsState(
         playersCount: settingsService.playersCount,
         simulation: settingsService.simulationEnabled
     )
-    
+
     let initialState = AppState(
         screens: [.splash],
         settings: cachedSettings
     )
-    
+
     return Store<AppState>(
         initial: initialState,
         reducer: AppState.reducer,

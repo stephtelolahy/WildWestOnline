@@ -13,12 +13,6 @@ public struct UserDefaultsStored<T> {
     private let defaultValue: T
     private let storage: UserDefaults
 
-    public init(_ key: String, defaultValue: T, storage: UserDefaults = .standard) {
-        self.key = key
-        self.defaultValue = defaultValue
-        self.storage = storage
-    }
-
     public var wrappedValue: T {
         get {
             storage.object(forKey: key) as? T ?? defaultValue
@@ -27,5 +21,11 @@ public struct UserDefaultsStored<T> {
             storage.set(newValue, forKey: key)
             storage.synchronize()
         }
+    }
+
+    public init(_ key: String, defaultValue: T, storage: UserDefaults = .standard) {
+        self.key = key
+        self.defaultValue = defaultValue
+        self.storage = storage
     }
 }

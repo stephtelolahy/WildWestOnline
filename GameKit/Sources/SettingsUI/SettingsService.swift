@@ -14,11 +14,11 @@ public protocol SettingsServiceProtocol {
 }
 
 public class SettingsService: SettingsServiceProtocol {
-    public init() {}
-
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
     public var playersCount: Int
 
     @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
     public var simulationEnabled: Bool
+
+    public init() {}
 }
