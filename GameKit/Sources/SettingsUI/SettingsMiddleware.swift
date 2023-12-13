@@ -1,17 +1,18 @@
 //
-//  SettingsCacheMiddleware.swift
+//  SettingsMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
 //
-// swiftlint:disable modifier_order
 import Combine
 import Foundation
 import Redux
-import SettingsUI
 
-public class SettingsCacheMiddleware: Middleware<SettingsState> {
-    public override init() {
+public class SettingsMiddleware: Middleware<SettingsState> {
+    private var cacheService: SettingsServiceProtocol
+
+    public init(cacheService: SettingsServiceProtocol) {
+        self.cacheService = cacheService
         super.init()
     }
 
@@ -22,10 +23,10 @@ public class SettingsCacheMiddleware: Middleware<SettingsState> {
 
         switch action {
         case let .updatePlayersCount(playersCount):
-            UserDefaults.standard.setValue(playersCount, forKey: "settings.playersCount")
+            cacheService.playersCount = playersCount
 
         case .toggleSimulation:
-            UserDefaults.standard.setValue(state.simulation, forKey: "settings.simulation")
+            cacheService.simulationEnabled = state.simulation
         }
 
         return nil

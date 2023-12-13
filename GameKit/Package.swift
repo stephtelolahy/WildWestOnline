@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "Theme", targets: ["Theme"]),
+        .library(name: "Utils", targets: ["Utils"]),
         .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SplashUI", targets: ["SplashUI"]),
@@ -81,14 +81,14 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Theme",
+            name: "Utils",
             dependencies: []),
         .target(
             name: "GameUI",
             dependencies: [
                 "Redux",
                 "Routing",
-                "Theme",
+                "Utils",
                 "Game",
                 "Inventory"
             ],
@@ -100,7 +100,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Routing",
-                "Theme"
+                "Utils"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -110,7 +110,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Routing",
-                "Theme"
+                "Utils"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -120,7 +120,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Routing",
-                "Theme"
+                "Utils"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")

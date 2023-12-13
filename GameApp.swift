@@ -9,8 +9,8 @@ import SwiftUI
 import App
 import Game
 import Redux
-import Theme
 import SettingsUI
+import Utils
 
 @main
 struct GameApp: App {
@@ -26,11 +26,21 @@ struct GameApp: App {
 }
 
 private func createStore() -> Store<AppState> {
-    Store<AppState>(
-        initial: .init(
-            screens: [.splash],
-            settings: cachedSettings()
-        ),
+    
+    let settingsService = SettingsService()
+    
+    let cachedSettings = SettingsState(
+        playersCount: settingsService.playersCount,
+        simulation: settingsService.simulationEnabled
+    )
+    
+    let initialState = AppState(
+        screens: [.splash],
+        settings: cachedSettings
+    )
+    
+    return Store<AppState>(
+        initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
             LoggerMiddleware(),
@@ -41,17 +51,8 @@ private func createStore() -> Store<AppState> {
                 AIAgentMiddleware()
             ])
             .lift(stateMap: { GameState.from(globalState: $0) }),
-            SettingsCacheMiddleware()
+            SettingsMiddleware(cacheService: settingsService)
                 .lift { SettingsState.from(globalState: $0) }
         ]
-    )
-}
-
-private func cachedSettings() -> SettingsState {
-    let playersCount = (UserDefaults.standard.value(forKey: "settings.playersCount") as? Int) ?? 5
-    let simulation = UserDefaults.standard.bool(forKey: "settings.simulation")
-    return .init(
-        playersCount: playersCount,
-        simulation: simulation
     )
 }
