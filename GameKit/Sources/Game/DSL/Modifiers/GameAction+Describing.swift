@@ -37,6 +37,15 @@ extension GameAction: CustomStringConvertible {
         case let .damage(amount, player):
             "\(String(repeating: "🥵", count: amount)) \(player)"
 
+        case let .drawDeck(player):
+            "💰 \(player)"
+
+        case let .drawDiscard(player):
+            "💰 \(player)"
+
+        case let .drawArena(card, player):
+            "💰 \(player) \(card)"
+
         default:
             ""
         }

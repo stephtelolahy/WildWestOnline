@@ -76,4 +76,25 @@ final class ActionDescribingTests: XCTestCase {
             "🥵🥵 p1"
         )
     }
+
+    func test_DescribingDraw() {
+        XCTAssertEqual(
+            String(describing: GameAction.drawDeck(player: "p1")),
+            "💰 p1"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.drawArena("c1", player: "p1")),
+            "💰 p1 c1"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.drawDiscard(player: "p1")),
+            "💰 p1"
+        )
+    }
+
+    func test_DescribingSteal() {
+
+    }
 }
