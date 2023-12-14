@@ -16,7 +16,7 @@ public func createGameStore(initial: GameState, completed: (() -> Void)? = nil) 
                 GameLoopMiddleware(),
                 ActivateCardsMiddleware()
             ]),
-            EventLoggerMiddleware()
+            LoggerMiddleware()
         ],
         completed: completed
     )
