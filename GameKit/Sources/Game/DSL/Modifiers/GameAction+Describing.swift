@@ -52,6 +52,12 @@ extension GameAction: CustomStringConvertible {
         case let .drawInPlay(card, target, player):
             "‼️ \(player) -> \(target) \(card)"
 
+        case let .discardHand(card, player):
+            "❌ \(player) \(card)"
+
+        case let .discardInPlay(card, player):
+            "❌ \(player) \(card)"
+
         default:
             ""
         }

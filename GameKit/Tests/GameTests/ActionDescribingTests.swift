@@ -105,4 +105,16 @@ final class ActionDescribingTests: XCTestCase {
             "‼️ p1 -> p2 c1"
         )
     }
+
+    func test_DescribingDiscard() {
+        XCTAssertEqual(
+            String(describing: GameAction.discardHand("c1", player: "p1")),
+            "❌ p1 c1"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.discardInPlay("c1", player: "p1")),
+            "❌ p1 c1"
+        )
+    }
 }
