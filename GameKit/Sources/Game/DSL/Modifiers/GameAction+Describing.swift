@@ -12,7 +12,7 @@ extension GameAction: CustomStringConvertible {
             "▶️ \(player) \(card)"
 
         case let .playEquipment(card, player):
-            "✅ \(player) \(card)"
+            "💼 \(player) \(card)"
 
         case let .playHandicap(card, target, player):
             "❇️ \(player) \(card) \(target)"
@@ -30,6 +30,9 @@ extension GameAction: CustomStringConvertible {
             } else {
                 "✅ \(player) \(alias)"
             }
+
+        case let .heal(amount, player):
+            "\(String(repeating: "❤️", count: amount)) \(player)"
 
         default:
             ""
