@@ -64,4 +64,16 @@ final class ActionDescribingTests: XCTestCase {
             "❤️❤️ p1"
         )
     }
+
+    func test_DescribingDamage() {
+        XCTAssertEqual(
+            String(describing: GameAction.damage(1, player: "p1")),
+            "🥵 p1"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.damage(2, player: "p1")),
+            "🥵🥵 p1"
+        )
+    }
 }

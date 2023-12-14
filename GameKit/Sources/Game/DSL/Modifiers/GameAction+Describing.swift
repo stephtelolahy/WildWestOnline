@@ -34,6 +34,9 @@ extension GameAction: CustomStringConvertible {
         case let .heal(amount, player):
             "\(String(repeating: "❤️", count: amount)) \(player)"
 
+        case let .damage(amount, player):
+            "\(String(repeating: "🥵", count: amount)) \(player)"
+
         default:
             ""
         }
