@@ -15,18 +15,18 @@ extension GameAction: CustomStringConvertible {
             "💼 \(player) \(card)"
 
         case let .playHandicap(card, target, player):
-            "❇️ \(player) \(card) \(target)"
+            "❇️ \(player) -> \(target) \(card)"
 
         case let .playImmediate(card, target, player):
             if let target {
-                "❇️ \(player) \(card) \(target)"
+                "❇️ \(player) -> \(target) \(card)"
             } else {
                 "✅ \(player) \(card)"
             }
 
         case let .playAs(alias, _, target, player):
             if let target {
-                "❇️ \(player) \(alias) \(target)"
+                "❇️ \(player) -> \(target) \(alias)"
             } else {
                 "✅ \(player) \(alias)"
             }
@@ -45,6 +45,12 @@ extension GameAction: CustomStringConvertible {
 
         case let .drawArena(card, player):
             "💰 \(player) \(card)"
+
+        case let .drawHand(card, target, player):
+            "‼️ \(player) -> \(target) \(card)"
+
+        case let .drawInPlay(card, target, player):
+            "‼️ \(player) -> \(target) \(card)"
 
         default:
             ""

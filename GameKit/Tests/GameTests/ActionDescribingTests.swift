@@ -32,17 +32,17 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPlayWithTarget() {
         XCTAssertEqual(
             String(describing: GameAction.playImmediate("c1", target: "p2", player: "p1")),
-            "❇️ p1 c1 p2"
+            "❇️ p1 -> p2 c1"
         )
 
         XCTAssertEqual(
             String(describing: GameAction.playAs("a1", card: "c1", target: "p2", player: "p1")),
-            "❇️ p1 a1 p2"
+            "❇️ p1 -> p2 a1"
         )
 
         XCTAssertEqual(
             String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")),
-            "❇️ p1 c1 p2"
+            "❇️ p1 -> p2 c1"
         )
     }
 
@@ -95,6 +95,14 @@ final class ActionDescribingTests: XCTestCase {
     }
 
     func test_DescribingSteal() {
+        XCTAssertEqual(
+            String(describing: GameAction.drawHand("c1", target: "p2", player: "p1")),
+            "‼️ p1 -> p2 c1"
+        )
 
+        XCTAssertEqual(
+            String(describing: GameAction.drawInPlay("c1", target: "p2", player: "p1")),
+            "‼️ p1 -> p2 c1"
+        )
     }
 }
