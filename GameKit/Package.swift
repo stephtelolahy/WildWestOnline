@@ -42,7 +42,8 @@ let package = Package(
         .target(
             name: "Game",
             dependencies: [
-                "Redux"
+                "Redux",
+                "Utils"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
