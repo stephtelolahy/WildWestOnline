@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 13/12/2023.
 //
+// swiftlint:disable legacy_objc_type
 
 import XCTest
 public func XCTAssertEqual(
