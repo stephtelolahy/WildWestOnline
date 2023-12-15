@@ -58,6 +58,15 @@ extension GameAction: CustomStringConvertible {
         case let .discardInPlay(card, player):
             "❌ \(player) \(card)"
 
+        case let .revealHand(card, player):
+            "🌁 \(player) \(card)"
+
+        case let .passInPlay(card, target, player):
+            "🧨 \(player) -> \(target) \(card)"
+
+        case .discover:
+            "🌁"
+
         default:
             ""
         }

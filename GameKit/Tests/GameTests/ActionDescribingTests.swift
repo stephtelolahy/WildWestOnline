@@ -117,4 +117,25 @@ final class ActionDescribingTests: XCTestCase {
             "❌ p1 c1"
         )
     }
+
+    func test_RevealHand() {
+        XCTAssertEqual(
+            String(describing: GameAction.revealHand("c1", player: "p1")),
+            "🌁 p1 c1"
+        )
+    }
+
+    func test_DescribingPassInPlay() {
+        XCTAssertEqual(
+            String(describing: GameAction.passInPlay("c1", target: "p2", player: "p1")),
+            "🧨 p1 -> p2 c1"
+        )
+    }
+
+    func test_RevealDiscover() {
+        XCTAssertEqual(
+            String(describing: GameAction.discover),
+            "🌁"
+        )
+    }
 }
