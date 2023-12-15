@@ -12,7 +12,7 @@ extension GameAction: CustomStringConvertible {
             "▶️ \(player) \(card)"
 
         case let .playEquipment(card, player):
-            "💼 \(player) \(card)"
+            "✅ \(player) \(card)"
 
         case let .playHandicap(card, target, player):
             "❇️ \(player) -> \(target) \(card)"
@@ -59,13 +59,19 @@ extension GameAction: CustomStringConvertible {
             "❌ \(player) \(card)"
 
         case let .revealHand(card, player):
-            "🌁 \(player) \(card)"
+            "🎲 \(player) \(card)"
 
         case let .passInPlay(card, target, player):
             "🧨 \(player) -> \(target) \(card)"
 
         case .discover:
-            "🌁"
+            "🌁 >"
+
+        case .putBack:
+            "🌁 <"
+
+        case .draw:
+            "🎲"
 
         default:
             ""

@@ -49,7 +49,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPlayEquipment() {
         XCTAssertEqual(
             String(describing: GameAction.playEquipment("c1", player: "p1")),
-            "💼 p1 c1"
+            "✅ p1 c1"
         )
     }
 
@@ -77,7 +77,7 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_DescribingDraw() {
+    func test_DescribingDrawCard() {
         XCTAssertEqual(
             String(describing: GameAction.drawDeck(player: "p1")),
             "💰 p1"
@@ -118,10 +118,10 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_RevealHand() {
+    func test_DescribingRevealHand() {
         XCTAssertEqual(
             String(describing: GameAction.revealHand("c1", player: "p1")),
-            "🌁 p1 c1"
+            "🎲 p1 c1"
         )
     }
 
@@ -132,10 +132,24 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_RevealDiscover() {
+    func test_DescribingDiscover() {
         XCTAssertEqual(
             String(describing: GameAction.discover),
-            "🌁"
+            "🌁 >"
+        )
+    }
+
+    func test_DescribingPutBack() {
+        XCTAssertEqual(
+            String(describing: GameAction.putBack),
+            "🌁 <"
+        )
+    }
+
+    func test_DescribingDraw() {
+        XCTAssertEqual(
+            String(describing: GameAction.draw),
+            "🎲"
         )
     }
 }
