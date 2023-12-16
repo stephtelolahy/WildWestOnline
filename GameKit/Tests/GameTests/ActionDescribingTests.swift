@@ -166,4 +166,16 @@ final class ActionDescribingTests: XCTestCase {
             "☠️ p1"
         )
     }
+
+    func test_DescribingSetAttribute() {
+        XCTAssertEqual(
+            String(describing: GameAction.setAttribute(.bangsPerTurn, value: 1, player: "p1")),
+            "😎 p1 bangsPerTurn 1"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.removeAttribute(.bangsPerTurn, player: "p1")),
+            "😕 p1 bangsPerTurn X"
+        )
+    }
 }
