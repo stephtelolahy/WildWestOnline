@@ -192,4 +192,11 @@ final class ActionDescribingTests: XCTestCase {
             "✋ \(String(describing: GameAction.nothing))"
         )
     }
+
+    func test_DescribingChooseOne() {
+        XCTAssertEqual(
+            String(describing: GameAction.chooseOne(player: "p1", options: ["o1": .nothing, "o2": .nothing])),
+            "❓ p1 o1 o2"
+        )
+    }
 }

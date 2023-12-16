@@ -91,6 +91,9 @@ extension GameAction: CustomStringConvertible {
         case let .cancel(action):
             "✋ \(String(describing: action))"
 
+        case let .chooseOne(player, options):
+            "❓ \(player) \(Array(options.keys).joined(separator: " "))"
+
         default:
             ""
         }
