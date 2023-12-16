@@ -162,7 +162,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingEliminate() {
         XCTAssertEqual(
-            String(describing: GameAction.eliminate("p1")),
+            String(describing: GameAction.eliminate(player: "p1")),
             "☠️ p1"
         )
     }
