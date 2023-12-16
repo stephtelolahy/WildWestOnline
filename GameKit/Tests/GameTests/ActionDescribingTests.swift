@@ -27,6 +27,11 @@ final class ActionDescribingTests: XCTestCase {
             String(describing: GameAction.playAs("a1", card: "c1", player: "p1")),
             "✅ p1 a1"
         )
+
+        XCTAssertEqual(
+            String(describing: GameAction.playAbility("c1", player: "p1")),
+            "✅ p1 c1"
+        )
     }
 
     func test_DescribingPlayWithTarget() {
@@ -204,6 +209,25 @@ final class ActionDescribingTests: XCTestCase {
         XCTAssertEqual(
             String(describing: GameAction.activate(["c1", "c2"], player: "p1")),
             "🎮 p1 c1 c2"
+        )
+    }
+
+    func test_DescribingEffect() {
+        XCTAssertEqual(
+            String(describing: GameAction.effect(.discover, ctx: .init(actor: "p1", card: "c1", event: .nothing))),
+            "➡️ p1 discover"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.effect(.damage(3), ctx: .init(actor: "p1", card: "c1", event: .nothing))),
+            "➡️ p1 damage(3)"
+        )
+    }
+
+    func test_DescribingGroup() {
+        XCTAssertEqual(
+            String(describing: GameAction.group([])),
+            "➡️ group"
         )
     }
 }

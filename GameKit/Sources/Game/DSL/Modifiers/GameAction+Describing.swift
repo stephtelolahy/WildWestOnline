@@ -14,6 +14,9 @@ extension GameAction: CustomStringConvertible {
         case let .playEquipment(card, player):
             "✅ \(player) \(card)"
 
+        case let .playAbility(card, player):
+            "✅ \(player) \(card)"
+
         case let .playHandicap(card, target, player):
             "❇️ \(player) -> \(target) \(card)"
 
@@ -97,8 +100,11 @@ extension GameAction: CustomStringConvertible {
         case let .activate(cards, player):
             "🎮 \(player) \(cards.joined(separator: " "))"
 
-        default:
-            ""
+        case let .effect(effect, ctx):
+            "➡️ \(ctx.actor) \(effect)"
+
+        case .group:
+            "➡️ group"
         }
     }
 }
