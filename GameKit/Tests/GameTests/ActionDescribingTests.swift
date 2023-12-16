@@ -199,4 +199,11 @@ final class ActionDescribingTests: XCTestCase {
             "❓ p1 o1 o2"
         )
     }
+
+    func test_DescribingActivate() {
+        XCTAssertEqual(
+            String(describing: GameAction.activate(["c1", "c2"], player: "p1")),
+            "🎮 p1 c1 c2"
+        )
+    }
 }

@@ -94,6 +94,9 @@ extension GameAction: CustomStringConvertible {
         case let .chooseOne(player, options):
             "❓ \(player) \(Array(options.keys).joined(separator: " "))"
 
+        case let .activate(cards, player):
+            "🎮 \(player) \(cards.joined(separator: " "))"
+
         default:
             ""
         }
