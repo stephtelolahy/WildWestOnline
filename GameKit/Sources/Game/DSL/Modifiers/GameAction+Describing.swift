@@ -88,6 +88,9 @@ extension GameAction: CustomStringConvertible {
         case let .setGameOver(winner):
             "🎉 \(winner)"
 
+        case let .cancel(action):
+            "✋ \(String(describing: action))"
+
         default:
             ""
         }

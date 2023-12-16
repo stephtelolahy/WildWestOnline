@@ -185,4 +185,11 @@ final class ActionDescribingTests: XCTestCase {
             "🎉 p1"
         )
     }
+
+    func test_DescribingCancel() {
+        XCTAssertEqual(
+            String(describing: GameAction.cancel(.nothing)),
+            "✋ \(String(describing: GameAction.nothing))"
+        )
+    }
 }
