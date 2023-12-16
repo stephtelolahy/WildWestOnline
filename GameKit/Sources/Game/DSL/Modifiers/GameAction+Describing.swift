@@ -103,8 +103,8 @@ extension GameAction: CustomStringConvertible {
         case let .effect(effect, ctx):
             "➡️ \(ctx.actor) \(effect)"
 
-        case .group:
-            "➡️ group"
+        case let .group(actions):
+            "➡️ group \(actions)"
         }
     }
 }
