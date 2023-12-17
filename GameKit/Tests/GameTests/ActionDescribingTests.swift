@@ -10,6 +10,8 @@ import Game
 import XCTest
 
 final class ActionDescribingTests: XCTestCase {
+    // MARK: - Player event
+
     func test_DescribingPlayIntent() {
         XCTAssertEqual(
             String(describing: GameAction.play("c1", player: "p1")),
@@ -32,6 +34,11 @@ final class ActionDescribingTests: XCTestCase {
             String(describing: GameAction.playAbility("c1", player: "p1")),
             "✅ p1 c1"
         )
+
+        XCTAssertEqual(
+            String(describing: GameAction.playEquipment("c1", player: "p1")),
+            "✅ p1 c1"
+        )
     }
 
     func test_DescribingPlayWithTarget() {
@@ -48,13 +55,6 @@ final class ActionDescribingTests: XCTestCase {
         XCTAssertEqual(
             String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")),
             "❇️ p1 c1 p2"
-        )
-    }
-
-    func test_DescribingPlayEquipment() {
-        XCTAssertEqual(
-            String(describing: GameAction.playEquipment("c1", player: "p1")),
-            "✅ p1 c1"
         )
     }
 
@@ -97,17 +97,15 @@ final class ActionDescribingTests: XCTestCase {
             String(describing: GameAction.drawDiscard(player: "p1")),
             "💰 p1"
         )
-    }
 
-    func test_DescribingSteal() {
         XCTAssertEqual(
             String(describing: GameAction.drawHand("c1", target: "p2", player: "p1")),
-            "‼️ p1 -> p2 c1"
+            "‼️ p1 c1 p2"
         )
 
         XCTAssertEqual(
             String(describing: GameAction.drawInPlay("c1", target: "p2", player: "p1")),
-            "‼️ p1 -> p2 c1"
+            "‼️ p1 c1 p2"
         )
     }
 
@@ -123,13 +121,6 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_DescribingRevealHand() {
-        XCTAssertEqual(
-            String(describing: GameAction.revealHand("c1", player: "p1")),
-            "🎲 p1 c1"
-        )
-    }
-
     func test_DescribingPassInPlay() {
         XCTAssertEqual(
             String(describing: GameAction.passInPlay("c1", target: "p2", player: "p1")),
@@ -137,24 +128,10 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_DescribingDiscover() {
+    func test_DescribingRevealHand() {
         XCTAssertEqual(
-            String(describing: GameAction.discover),
-            "🌁 >"
-        )
-    }
-
-    func test_DescribingPutBack() {
-        XCTAssertEqual(
-            String(describing: GameAction.putBack),
-            "🌁 <"
-        )
-    }
-
-    func test_DescribingDraw() {
-        XCTAssertEqual(
-            String(describing: GameAction.draw),
-            "🎲"
+            String(describing: GameAction.revealHand("c1", player: "p1")),
+            "🎲 p1 c1"
         )
     }
 
@@ -191,6 +168,29 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
+    // MARK: - Game event
+
+    func test_DescribingDiscover() {
+        XCTAssertEqual(
+            String(describing: GameAction.discover),
+            "🌁"
+        )
+    }
+
+    func test_DescribingPutBack() {
+        XCTAssertEqual(
+            String(describing: GameAction.putBack),
+            "🌁"
+        )
+    }
+
+    func test_DescribingDraw() {
+        XCTAssertEqual(
+            String(describing: GameAction.draw),
+            "🎲"
+        )
+    }
+
     func test_DescribingCancel() {
         XCTAssertEqual(
             String(describing: GameAction.cancel(.nothing)),
@@ -198,17 +198,19 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
+    // MARK: - Choice event
+
     func test_DescribingChooseOne() {
         XCTAssertEqual(
-            String(describing: GameAction.chooseOne(player: "p1", options: ["o1": .nothing, "o2": .nothing])),
-            "❓ p1 o1 o2"
+            String(describing: GameAction.chooseOne(player: "p1", options: ["o1": .nothing])),
+            "❓ p1 o1"
         )
     }
 
     func test_DescribingActivate() {
         XCTAssertEqual(
             String(describing: GameAction.activate(["c1", "c2"], player: "p1")),
-            "🎮 p1 c1 c2"
+            "❓ p1 c1 c2"
         )
     }
 

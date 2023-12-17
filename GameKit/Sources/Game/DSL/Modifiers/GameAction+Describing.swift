@@ -50,10 +50,10 @@ extension GameAction: CustomStringConvertible {
             "💰 \(player) \(card)"
 
         case let .drawHand(card, target, player):
-            "‼️ \(player) -> \(target) \(card)"
+            "‼️ \(player) \(card) \(target)"
 
         case let .drawInPlay(card, target, player):
-            "‼️ \(player) -> \(target) \(card)"
+            "‼️ \(player) \(card) \(target)"
 
         case let .discardHand(card, player):
             "❌ \(player) \(card)"
@@ -68,10 +68,10 @@ extension GameAction: CustomStringConvertible {
             "🧨 \(player) -> \(target) \(card)"
 
         case .discover:
-            "🌁 >"
+            "🌁"
 
         case .putBack:
-            "🌁 <"
+            "🌁"
 
         case .draw:
             "🎲"
@@ -98,7 +98,7 @@ extension GameAction: CustomStringConvertible {
             "❓ \(player) \(Array(options.keys).joined(separator: " "))"
 
         case let .activate(cards, player):
-            "🎮 \(player) \(cards.joined(separator: " "))"
+            "❓ \(player) \(cards.joined(separator: " "))"
 
         case let .effect(effect, ctx):
             "➡️ \(ctx.actor) \(effect)"
