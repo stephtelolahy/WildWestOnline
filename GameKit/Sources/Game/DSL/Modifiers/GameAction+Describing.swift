@@ -18,18 +18,18 @@ extension GameAction: CustomStringConvertible {
             "✅ \(player) \(card)"
 
         case let .playHandicap(card, target, player):
-            "❇️ \(player) -> \(target) \(card)"
+            "❇️ \(player) \(card) \(target)"
 
         case let .playImmediate(card, target, player):
             if let target {
-                "❇️ \(player) -> \(target) \(card)"
+                "❇️ \(player) \(card) \(target)"
             } else {
                 "✅ \(player) \(card)"
             }
 
         case let .playAs(alias, _, target, player):
             if let target {
-                "❇️ \(player) -> \(target) \(alias)"
+                "❇️ \(player) \(alias) \(target)"
             } else {
                 "✅ \(player) \(alias)"
             }
