@@ -59,6 +59,9 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Reveal hand card
     case revealHand(String, player: String)
 
+    /// Put back hand card to deck
+    case putBackHand(String, player: String)
+
     /// Pass inPlay card to another player
     case passInPlay(String, target: String, player: String)
 
