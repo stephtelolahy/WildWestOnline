@@ -8,14 +8,20 @@ import Redux
 
 public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
+    public var simulation: Bool
 
-    public init(playersCount: Int) {
+    public init(
+        playersCount: Int,
+        simulation: Bool
+    ) {
         self.playersCount = playersCount
+        self.simulation = simulation
     }
 }
 
 public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
+    case toggleSimulation
 }
 
 public extension SettingsState {
@@ -29,6 +35,9 @@ public extension SettingsState {
         switch action {
         case let .updatePlayersCount(count):
             state.playersCount = count
+
+        case .toggleSimulation:
+            state.simulation.toggle()
         }
 
         return state

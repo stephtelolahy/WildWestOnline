@@ -14,7 +14,11 @@ import Combine
 final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Store<LocalState> {
     private let globalStore: Store<GlobalState>
     private let stateMap: (GlobalState) -> LocalState?
-    private var globalStateObservation: AnyCancellable?
+    private var subscriptions = Set<AnyCancellable>()
+
+    override var log: [Action] {
+        globalStore.log
+    }
 
     init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
         guard let initialState = stateMap(globalStore.state) else {
@@ -25,26 +29,20 @@ final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Stor
         self.stateMap = stateMap
         super.init(initial: initialState)
 
-        globalStateObservation = globalStore.$state.sink { [weak self] globalState in
-            guard let self else {
-                return
-            }
-
-            guard let newState = self.stateMap(globalState) else {
-                return
-            }
-
-            guard newState != self.state else {
+        globalStore.$state.sink { [weak self] globalState in
+            guard let self,
+                  let newState = self.stateMap(globalState),
+                  newState != self.state else {
                 return
             }
 
             self.state = newState
         }
+        .store(in: &subscriptions)
     }
 
     override func dispatch(_ action: Action) {
         globalStore.dispatch(action)
-        log.append(action)
     }
 }
 

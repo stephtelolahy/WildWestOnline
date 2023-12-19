@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable type_contents_order
+// swiftlint:disable type_contents_order no_magic_numbers
 
 import Game
 import GameUI
@@ -73,6 +73,11 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store<AppState>(initial: .init(screens: [.splash]))
+        Store<AppState>(
+            initial: .init(
+                screens: [.splash],
+                settings: .init(playersCount: 5, simulation: false)
+            )
+        )
     }
 }

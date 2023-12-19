@@ -11,7 +11,7 @@ import Inventory
 import Redux
 import Routing
 import SwiftUI
-import Theme
+import Utils
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GameState>
@@ -26,17 +26,14 @@ public struct GamePlayView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             headerView
-            ScrollView {
-                VStack(alignment: .leading) {
-                    ForEach(store.state.visiblePlayers) {
-                        itemPlayerButton($0)
-                        Divider()
-                    }
-                    logView
-                }
-                .padding()
+            ForEach(store.state.visiblePlayers) {
+                itemPlayerView($0)
             }
+            Divider()
+            logView
+            footerView
         }
+        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AppColor.background)
         .alert(
@@ -47,7 +44,7 @@ public struct GamePlayView: View {
             ),
             presenting: store.state.chooseOneAlertData
         ) { data in
-            ForEach(Array(data.keys), id: \.self) { key in
+            ForEach(Array(data.keys.sorted()), id: \.self) { key in
                 Button(key, role: key == .pass ? .cancel : nil) {
                     guard let action = data[key] else {
                         fatalError("unexpected")
@@ -76,7 +73,7 @@ public struct GamePlayView: View {
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
-                        .foregroundColor(AppColor.button)
+                        .foregroundColor(.accentColor)
                         .padding()
                         .font(.title)
                 }
@@ -84,30 +81,19 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerButton(_ player: PlayerItem) -> some View {
-        Button(action: {
-//            store.dispatch(GamePlayAction.didSelectPlayer(player.id))
-        }, label: {
-            itemPlayerView(player)
-        })
-//        .confirmationDialog(
-//            "Play a card",
-//            isPresented: Binding<Bool>(
-//                get: { store.state.activeSheetData.isNotEmpty },
-//                set: { _ in }
-//            ),
-//            titleVisibility: .visible,
-//            presenting: store.state.activeSheetData
-//        ) { data in
-//            ForEach(Array(data.keys), id: \.self) { key in
-//                Button(key) {
-//                    guard let action = data[key] else {
-//                        fatalError("unexpected")
-//                    }
-//                    store.dispatch(action)
-//                }
-//            }
-//        }
+    private var footerView: some View {
+        let data = store.state.activeActions
+        return TagFlowLayout(alignment: .leading) {
+            ForEach(Array(data.keys.sorted()), id: \.self) { key in
+                Button("\(key)") {
+                    guard let action = data[key] else {
+                        fatalError("unexpected")
+                    }
+                    store.dispatch(action)
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        }
     }
 
     private func itemPlayerView(_ player: PlayerItem) -> some View {
@@ -148,10 +134,14 @@ public struct GamePlayView: View {
         let logs = store.log
             .reversed()
             .map { String(describing: $0) }
-        return ForEach(logs, id: \.self) { message in
-            Text(message)
-                .lineLimit(1)
-                .font(.footnote)
+        return ScrollView {
+            VStack(alignment: .leading) {
+                ForEach(Array(logs.enumerated()), id: \.offset) { _, event in
+                    Text(event)
+                        .lineLimit(1)
+                        .font(.footnote)
+                }
+            }
         }
     }
 }
@@ -173,8 +163,9 @@ private var previewState: GameState {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
         }
-        .withActive("p1", cards: [.bang, .endTurn])
-        .withChooseOne("p1", options: [.bang: GameAction.nothing])
+        .withActive("p1", cards: [.bang, .mustang, .barrel, .beer, .endTurn])
+        .withChooseOne("p2", options: [.missed: .nothing])
         .withTurn("p1")
+        .withPlayModes(["p1": .manual])
         .build()
 }

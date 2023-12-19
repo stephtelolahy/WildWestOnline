@@ -17,18 +17,15 @@ import SplashUI
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
-    public var user: String?
     public var screens: [Screen]
     public var settings: SettingsState
     public var game: GameState?
 
     public init(
-        user: String? = nil,
-        screens: [Screen] = [.splash],
-        settings: SettingsState = Self.cachedSettings(),
+        screens: [Screen],
+        settings: SettingsState,
         game: GameState? = nil
     ) {
-        self.user = user
         self.screens = screens
         self.settings = settings
         self.game = game
@@ -39,35 +36,11 @@ public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
 
+        // Update active game
+        state = gameReducer(state, action)
+
         // Update visible screens
-        switch action {
-        case let NavAction.showScreen(screen, transition):
-            switch transition {
-            case .push:
-                state.screens.append(screen)
-
-            case .replace:
-                state.screens = [screen]
-            }
-
-            // <create game>
-            if case .game = screen {
-                state.game = state.createGame()
-            }
-            // </create game>
-
-        case NavAction.dismiss:
-            // <delete game>
-            if case .game = state.screens.last {
-                state.game = nil
-            }
-            // </delete game>
-
-            state.screens.removeLast()
-
-        default:
-            break
-        }
+        state.screens = screenReducer(state.screens, action)
 
         // Reduce game
         if let gameState = state.game {
@@ -82,21 +55,54 @@ public extension AppState {
     }
 }
 
-public extension AppState {
-    static func cachedSettings() -> SettingsState {
-        let defaultPlayersCount = 5
-        return .init(
-            playersCount: defaultPlayersCount
-        )
-    }
-}
-
 private extension AppState {
+    static let screenReducer: Reducer<[Screen]> = { state, action in
+        guard let action = action as? NavAction else {
+            return state
+        }
+
+        var state = state
+        switch action {
+        case let .showScreen(screen, transition):
+            switch transition {
+            case .push:
+                state.append(screen)
+
+            case .replace:
+                state = [screen]
+            }
+
+        case .dismiss:
+            state.removeLast()
+        }
+
+        return state
+    }
+
+    static let gameReducer: Reducer<AppState> = { state, action in
+        var state = state
+
+        if case let NavAction.showScreen(screen, _) = action,
+           screen == .game {
+            state.game = state.createGame()
+        }
+
+        if case NavAction.dismiss = action,
+           state.screens.last == .game {
+            state.game = nil
+        }
+
+        return state
+    }
+
     func createGame() -> GameState {
         var game = Inventory.createGame(playersCount: settings.playersCount)
-        let sheriff = game.playOrder[0]
+        var manualPlayer: String?
+        if !settings.simulation {
+            manualPlayer = game.playOrder[0]
+        }
         game.playMode = game.startOrder.reduce(into: [:]) {
-            $0[$1] = $1 == sheriff ? .manual : .auto
+            $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
         return game
     }
@@ -120,7 +126,7 @@ extension SplashState {
     }
 }
 
-extension SettingsState {
+public extension SettingsState {
     static func from(globalState: AppState) -> Self? {
         globalState.settings
     }

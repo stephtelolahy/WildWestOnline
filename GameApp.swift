@@ -9,22 +9,38 @@ import SwiftUI
 import App
 import Game
 import Redux
+import SettingsUI
+import Utils
 
 @main
 struct GameApp: App {
     var body: some Scene {
         WindowGroup {
             AppView {
-                store
+                createStore()
             }
             .environment(\.colorScheme, .light)
+            .accentColor(AppColor.button)
         }
     }
 }
 
-private var store: Store<AppState> {
-    Store<AppState>(
-        initial: .init(),
+private func createStore() -> Store<AppState> {
+
+    let settingsService = SettingsService()
+
+    let cachedSettings = SettingsState(
+        playersCount: settingsService.playersCount,
+        simulation: settingsService.simulationEnabled
+    )
+
+    let initialState = AppState(
+        screens: [.splash],
+        settings: cachedSettings
+    )
+
+    return Store<AppState>(
+        initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
             LoggerMiddleware(),
@@ -34,7 +50,9 @@ private var store: Store<AppState> {
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])
-            .lift(stateMap: { GameState.from(globalState: $0) })
+            .lift(stateMap: { GameState.from(globalState: $0) }),
+            SettingsMiddleware(cacheService: settingsService)
+                .lift { SettingsState.from(globalState: $0) }
         ]
     )
 }
