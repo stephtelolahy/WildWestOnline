@@ -49,13 +49,13 @@ final class PanicSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "p2": .playImmediate(.panic, target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .playImmediate(.panic, target: "p2", player: "p1"),
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 .randomHand: .drawHand("c21", target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .drawHand("c21", target: "p2", player: "p1")
                         ]
                     }
@@ -79,14 +79,14 @@ final class PanicSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "p2": .playImmediate(.panic, target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .playImmediate(.panic, target: "p2", player: "p1"),
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "c21": .drawInPlay("c21", target: "p2", player: "p1"),
                                 "c22": .drawInPlay("c22", target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .drawInPlay("c22", target: "p2", player: "p1")
                         ]
                     }
@@ -111,15 +111,15 @@ final class PanicSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "p2": .playImmediate(.panic, target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .playImmediate(.panic, target: "p2", player: "p1"),
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 .randomHand: .drawHand("c21", target: "p2", player: "p1"),
                                 "c22": .drawInPlay("c22", target: "p2", player: "p1"),
                                 "c23": .drawInPlay("c23", target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .drawInPlay("c23", target: "p2", player: "p1")
                         ]
                     }

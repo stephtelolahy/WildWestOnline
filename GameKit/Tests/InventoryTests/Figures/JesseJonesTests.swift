@@ -34,12 +34,12 @@ final class JesseJonesTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .drawDiscard(player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -56,12 +56,12 @@ final class JesseJonesTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

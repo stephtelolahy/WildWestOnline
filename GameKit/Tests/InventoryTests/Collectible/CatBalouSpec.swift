@@ -49,13 +49,13 @@ final class CatBalouSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "p2": .playImmediate(.catBalou, target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .playImmediate(.catBalou, target: "p2", player: "p1"),
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 .randomHand: .discardHand("c21", player: "p2")
-                            ]),
+                            ], player: "p1"),
                             .discardHand("c21", player: "p2")
                         ]
                     }
@@ -79,14 +79,14 @@ final class CatBalouSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "p2": .playImmediate(.catBalou, target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .playImmediate(.catBalou, target: "p2", player: "p1"),
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "c21": .discardInPlay("c21", player: "p2"),
                                 "c22": .discardInPlay("c22", player: "p2")
-                            ]),
+                            ], player: "p1"),
                             .discardInPlay("c22", player: "p2")
                         ]
                     }
@@ -111,15 +111,15 @@ final class CatBalouSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 "p2": .playImmediate(.catBalou, target: "p2", player: "p1")
-                            ]),
+                            ], player: "p1"),
                             .playImmediate(.catBalou, target: "p2", player: "p1"),
-                            .chooseOne(player: "p1", options: [
+                            .chooseOne([
                                 .randomHand: .discardHand("c21", player: "p2"),
                                 "c22": .discardInPlay("c22", player: "p2"),
                                 "c23": .discardInPlay("c23", player: "p2")
-                            ]),
+                            ], player: "p1"),
                             .discardInPlay("c23", player: "p2")
                         ]
                     }

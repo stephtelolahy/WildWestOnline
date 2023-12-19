@@ -51,7 +51,7 @@ final class SimulationTests: XCTestCase {
 
         // When
         let sheriff = game.playOrder[0]
-        sut.dispatch(GameAction.setTurn(sheriff))
+        sut.dispatch(GameAction.setTurn(player: sheriff))
 
         // Then
         wait(for: [expectation], timeout: timeout)

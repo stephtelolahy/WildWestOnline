@@ -33,25 +33,25 @@ final class KitCarlsonTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state, choose: ["c2", "c3"])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .discover,
             .discover,
             .discover,
-            .chooseOne(player: "p1", options: [
+            .chooseOne([
                 "c1": .drawArena("c1", player: "p1"),
                 "c2": .drawArena("c2", player: "p1"),
                 "c3": .drawArena("c3", player: "p1")
-            ]),
+            ], player: "p1"),
             .drawArena("c2", player: "p1"),
-            .chooseOne(player: "p1", options: [
+            .chooseOne([
                 "c1": .drawArena("c1", player: "p1"),
                 "c3": .drawArena("c3", player: "p1")
-            ]),
+            ], player: "p1"),
             .drawArena("c3", player: "p1"),
             .putBack
         ])
@@ -69,25 +69,25 @@ final class KitCarlsonTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state, choose: ["c2", "c3"])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .discover,
             .discover,
             .discover,
-            .chooseOne(player: "p1", options: [
+            .chooseOne([
                 "c1": .drawArena("c1", player: "p1"),
                 "c2": .drawArena("c2", player: "p1"),
                 "c3": .drawArena("c3", player: "p1")
-            ]),
+            ], player: "p1"),
             .drawArena("c2", player: "p1"),
-            .chooseOne(player: "p1", options: [
+            .chooseOne([
                 "c1": .drawArena("c1", player: "p1"),
                 "c3": .drawArena("c3", player: "p1")
-            ]),
+            ], player: "p1"),
             .drawArena("c3", player: "p1"),
             .putBack
         ])

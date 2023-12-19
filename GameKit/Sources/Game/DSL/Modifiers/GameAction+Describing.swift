@@ -43,6 +43,9 @@ extension GameAction: CustomStringConvertible {
         case let .drawDeck(player):
             "💰 \(player)"
 
+        case let .drawDeckRevealing(player):
+            "💰 \(player)"
+
         case let .drawDiscard(player):
             "💰 \(player)"
 
@@ -94,7 +97,7 @@ extension GameAction: CustomStringConvertible {
         case let .cancel(action):
             "✋ \(String(describing: action))"
 
-        case let .chooseOne(player, options):
+        case let .chooseOne(options, player):
             "❓ \(player) \(Array(options.keys).joined(separator: " "))"
 
         case let .activate(cards, player):

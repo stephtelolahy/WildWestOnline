@@ -55,6 +55,9 @@ private extension GameAction {
         case let .drawDeck(player):
             ActionDrawDeck(player: player)
 
+        case let .drawDeckRevealing(player):
+            ActionDrawDeck(player: player)
+
         case let .drawArena(card, player):
             ActionDrawArena(player: player, card: card)
 
@@ -91,8 +94,8 @@ private extension GameAction {
         case let .effect(effect, ctx):
             ActionResolveEffect(effect: effect, ctx: ctx)
 
-        case let .chooseOne(player, options):
-            ActionChooseOne(chooser: player, options: options)
+        case let .chooseOne(options, player):
+            ActionChooseOne(options: options, player: player)
 
         case let .activate(cards, player):
             ActionActivate(player: player, cards: cards)

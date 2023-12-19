@@ -30,7 +30,7 @@ final class EndTurnSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playAbility(.endTurn, player: "p1"),
-                        .setTurn("p2")
+                        .setTurn(player: "p2")
                     ]
                 }
             }
@@ -56,7 +56,7 @@ final class EndTurnSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playAbility(.endTurn, player: "p1"),
-                        .setTurn("p2")
+                        .setTurn(player: "p2")
                     ]
                 }
             }
@@ -81,13 +81,13 @@ final class EndTurnSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playAbility(.endTurn, player: "p1"),
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),
                             "c3": .discardHand("c3", player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .discardHand("c1", player: "p1"),
-                        .setTurn("p2")
+                        .setTurn(player: "p2")
                     ]
                 }
             }
@@ -112,18 +112,18 @@ final class EndTurnSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playAbility(.endTurn, player: "p1"),
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),
                             "c3": .discardHand("c3", player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .discardHand("c1", player: "p1"),
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "c2": .discardHand("c2", player: "p1"),
                             "c3": .discardHand("c3", player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .discardHand("c3", player: "p1"),
-                        .setTurn("p2")
+                        .setTurn(player: "p2")
                     ]
                 }
             }

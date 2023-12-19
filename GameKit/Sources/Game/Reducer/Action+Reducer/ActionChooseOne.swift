@@ -6,12 +6,12 @@
 //
 
 struct ActionChooseOne: GameActionReducer {
-    let chooser: String
     let options: [String: GameAction]
+    let player: String
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state.chooseOne[chooser] = options
+        state.chooseOne[player] = options
         return state
     }
 }

@@ -26,7 +26,7 @@ extension GameAction {
             throw GameError.noValidOption
         }
 
-        return .chooseOne(player: chooser, options: validOptions)
+        return .chooseOne(validOptions, player: chooser)
     }
 
     static func validatePlay(

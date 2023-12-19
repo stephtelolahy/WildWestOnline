@@ -22,10 +22,10 @@ struct EffectForce: EffectResolver {
             case let .effect(childEffect, childCtx):
                 return [.effect(.force(childEffect, otherwise: otherwise), ctx: childCtx)]
 
-            case let .chooseOne(chooser, options):
+            case let .chooseOne(options, player):
                 var options = options
                 options[.pass] = .effect(otherwise, ctx: ctx)
-                let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
+                let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
                 return [chooseOne]
 
             default:

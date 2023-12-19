@@ -46,11 +46,11 @@ final class DynamiteSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.setTurn("p1")
+                    let action = GameAction.setTurn(player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(result) == [.setTurn("p1"),
+                    expect(result) == [.setTurn(player: "p1"),
                                        .draw,
                                        .passInPlay(.dynamite, target: "p2", player: "p1"),
                                        .drawDeck(player: "p1"),
@@ -73,11 +73,11 @@ final class DynamiteSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.setTurn("p1")
+                        let action = GameAction.setTurn(player: "p1")
                         let (result, _) = self.awaitAction(action, state: state)
 
                         // Then
-                        expect(result) == [.setTurn("p1"),
+                        expect(result) == [.setTurn(player: "p1"),
                                            .draw,
                                            .damage(3, player: "p1"),
                                            .discardInPlay(.dynamite, player: "p1"),
@@ -112,17 +112,17 @@ final class DynamiteSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.setTurn("p1")
+                        let action = GameAction.setTurn(player: "p1")
                         let (result, _) = self.awaitAction(action, state: state)
 
                         // Then
-                        expect(result) == [.setTurn("p1"),
+                        expect(result) == [.setTurn(player: "p1"),
                                            .draw,
                                            .damage(3, player: "p1"),
                                            .eliminate(player: "p1"),
                                            .discardInPlay(.jail, player: "p1"),
                                            .discardInPlay(.dynamite, player: "p1"),
-                                           .setTurn("p2"),
+                                           .setTurn(player: "p2"),
                                            .drawDeck(player: "p2"),
                                            .drawDeck(player: "p2")]
                     }

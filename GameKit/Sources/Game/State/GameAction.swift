@@ -38,6 +38,9 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Draw top deck card
     case drawDeck(player: String)
 
+    /// Draw top deck card revealing it
+    case drawDeckRevealing(player: String)
+
     /// Draw card from other player's hand
     case drawHand(String, target: String, player: String)
 
@@ -72,7 +75,7 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case draw
 
     /// Set turn
-    case setTurn(String)
+    case setTurn(player: String)
 
     /// Eliminate
     case eliminate(player: String)
@@ -87,7 +90,7 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case cancel(Self)
 
     /// Expose a choice
-    case chooseOne(player: String, options: [String: Self])
+    case chooseOne([String: Self], player: String)
 
     /// Expose active cards
     case activate([String], player: String)

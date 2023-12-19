@@ -33,12 +33,12 @@ final class BlackJackTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .revealHand("c2-8♥️", player: "p1"),
@@ -57,12 +57,12 @@ final class BlackJackTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .revealHand("c2-A♠️", player: "p1")
