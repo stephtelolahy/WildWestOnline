@@ -38,9 +38,6 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Draw top deck card
     case drawDeck(player: String)
 
-    /// Draw top deck card revealing it
-    case drawDeckRevealing(player: String)
-
     /// Draw card from other player's hand
     case drawHand(String, target: String, player: String)
 

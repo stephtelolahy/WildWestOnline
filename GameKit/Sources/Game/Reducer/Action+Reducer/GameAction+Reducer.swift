@@ -55,9 +55,6 @@ private extension GameAction {
         case let .drawDeck(player):
             ActionDrawDeck(player: player)
 
-        case let .drawDeckRevealing(player):
-            ActionDrawDeck(player: player)
-
         case let .drawArena(card, player):
             ActionDrawArena(player: player, card: card)
 

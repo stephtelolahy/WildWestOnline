@@ -43,9 +43,6 @@ extension GameAction: CustomStringConvertible {
         case let .drawDeck(player):
             "💰 \(player)"
 
-        case let .drawDeckRevealing(player):
-            "💰 \(player)"
-
         case let .drawDiscard(player):
             "💰 \(player)"
 
