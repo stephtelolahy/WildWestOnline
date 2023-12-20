@@ -173,14 +173,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingDiscover() {
         XCTAssertEqual(
             String(describing: GameAction.discover),
-            "🌁"
-        )
-    }
-
-    func test_DescribingPutBack() {
-        XCTAssertEqual(
-            String(describing: GameAction.putBack),
-            "🌁"
+            "🎁"
         )
     }
 

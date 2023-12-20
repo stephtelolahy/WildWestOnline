@@ -71,10 +71,7 @@ extension GameAction: CustomStringConvertible {
             "🧨 \(player) -> \(target) \(card)"
 
         case .discover:
-            "🌁"
-
-        case .putBack:
-            "🌁"
+            "🎁"
 
         case .draw:
             "🎲"

@@ -34,26 +34,20 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2", "c3"])
+        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [
             .setTurn(player: "p1"),
-            .discover,
-            .discover,
-            .discover,
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
             .chooseOne([
-                "c1": .drawArena("c1", player: "p1"),
-                "c2": .drawArena("c2", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
+                "c1": .putBackHand("c1", player: "p1"),
+                "c2": .putBackHand("c2", player: "p1"),
+                "c3": .putBackHand("c3", player: "p1")
             ], player: "p1"),
-            .drawArena("c2", player: "p1"),
-            .chooseOne([
-                "c1": .drawArena("c1", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ], player: "p1"),
-            .drawArena("c3", player: "p1"),
-            .putBack
+            .putBackHand("c2", player: "p1")
         ])
     }
 
@@ -70,26 +64,20 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2", "c3"])
+        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [
             .setTurn(player: "p1"),
-            .discover,
-            .discover,
-            .discover,
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
             .chooseOne([
-                "c1": .drawArena("c1", player: "p1"),
-                "c2": .drawArena("c2", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
+                "c1": .putBackHand("c1", player: "p1"),
+                "c2": .putBackHand("c2", player: "p1"),
+                "c3": .putBackHand("c3", player: "p1")
             ], player: "p1"),
-            .drawArena("c2", player: "p1"),
-            .chooseOne([
-                "c1": .drawArena("c1", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ], player: "p1"),
-            .drawArena("c3", player: "p1"),
-            .putBack
+            .putBackHand("c2", player: "p1")
         ])
     }
 }

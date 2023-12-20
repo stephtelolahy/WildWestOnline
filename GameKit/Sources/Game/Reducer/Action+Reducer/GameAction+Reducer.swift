@@ -76,9 +76,6 @@ private extension GameAction {
         case .discover:
             ActionDiscover()
 
-        case .putBack:
-            ActionPutBack()
-
         case .draw:
             ActionDraw()
 

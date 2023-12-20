@@ -68,9 +68,6 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Draw a card from deck and put to arena
     case discover
 
-    /// Put back arena card to deck
-    case putBack
-
     /// Reveal top deck card and put to discard
     case draw
 
