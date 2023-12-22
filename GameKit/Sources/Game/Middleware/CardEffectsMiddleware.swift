@@ -49,7 +49,6 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         }
         // </sort triggered by priority>
 
-        // Ignore empty
         if triggered.isEmpty {
             return nil
         } else if triggered.count == 1 {
