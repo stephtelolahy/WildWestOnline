@@ -27,7 +27,7 @@ public indirect enum CardEffect: Codable, Equatable {
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
 
-    /// Put back hand cards amoung N
+    /// Put back a hand cards among last N
     case putBackHand(among: ArgNum)
 
     /// Draw card from a player
@@ -80,7 +80,7 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Try an effect. If cannot, then do nothing
     case ignoreError(Self)
 
-    /// Flip over the top card of the deck, then apply effects according to card value
+    /// Apply effects according to just flipped card value
     case luck(ArgCardLuck, regex: String, onSuccess: Self, onFailure: Self? = nil)
 
     /// Counter shoot effect

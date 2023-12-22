@@ -76,7 +76,7 @@ let package = Package(
                 "Inventory"
             ]),
         .target(
-            name: "Routing",
+            name: "Navigation",
             dependencies: [
                 "Redux"
             ]
@@ -88,7 +88,7 @@ let package = Package(
             name: "GameUI",
             dependencies: [
                 "Redux",
-                "Routing",
+                "Navigation",
                 "Utils",
                 "Game",
                 "Inventory"
@@ -100,7 +100,7 @@ let package = Package(
             name: "HomeUI",
             dependencies: [
                 "Redux",
-                "Routing",
+                "Navigation",
                 "Utils"
             ],
             plugins: [
@@ -110,7 +110,7 @@ let package = Package(
             name: "SplashUI",
             dependencies: [
                 "Redux",
-                "Routing",
+                "Navigation",
                 "Utils"
             ],
             plugins: [
@@ -120,7 +120,7 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "Redux",
-                "Routing",
+                "Navigation",
                 "Utils"
             ],
             plugins: [
@@ -130,7 +130,7 @@ let package = Package(
             name: "App",
             dependencies: [
                 "Redux",
-                "Routing",
+                "Navigation",
                 "Game",
                 "Inventory",
                 "GameUI",

@@ -9,7 +9,7 @@
 import Game
 import Inventory
 import Redux
-import Routing
+import Navigation
 import SwiftUI
 import Utils
 

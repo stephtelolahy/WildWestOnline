@@ -10,7 +10,7 @@ import Game
 import GameUI
 import HomeUI
 import Redux
-import Routing
+import Navigation
 import SettingsUI
 import SplashUI
 import SwiftUI

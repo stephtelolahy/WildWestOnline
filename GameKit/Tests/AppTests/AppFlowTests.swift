@@ -7,8 +7,8 @@
 // swiftlint:disable no_magic_numbers
 @testable import App
 import Game
+import Navigation
 import Redux
-import Routing
 import SettingsUI
 import XCTest
 
