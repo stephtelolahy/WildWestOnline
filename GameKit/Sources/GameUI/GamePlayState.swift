@@ -25,8 +25,8 @@ extension GameState {
             let health = max(0, playerObj.health)
             let maxHealth = playerObj.attributes[.maxHealth] ?? 0
             let healthText = ""
-            + Array(repeating: "░", count: maxHealth - health).joined()
-            + Array(repeating: "■", count: health).joined()
+            + Array(repeating: "♡", count: maxHealth - health).joined()
+            + Array(repeating: "♥", count: health).joined()
 
             let equipmentText = playerObj.inPlay.joined(separator: "-")
 
