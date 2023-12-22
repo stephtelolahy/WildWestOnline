@@ -9,7 +9,7 @@ public extension CardEffect {
     static let nothing: Self = .group([])
 
     static func group(@CardEffectsBuilder content: () -> [Self]) -> Self {
-        precondition(content().count >= 2)
+        assert(content().count > 1)
         return .group(content())
     }
 
