@@ -54,6 +54,8 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         }
         // </sort triggered by priority>
 
+        assert(triggered.count >= 2)
+
         let cardEffects = GameAction.group(triggered)
         return Just(cardEffects).eraseToAnyPublisher()
     }

@@ -28,6 +28,7 @@ final class KitCarlsonTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withAbilities([.kitCarlson])
                     .withAttributes([.startTurnCards: 2])
+                    .withHand(["c0"])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()

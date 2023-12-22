@@ -12,7 +12,7 @@ struct EffectPutBackHand: EffectResolver {
         let player = ctx.player()
         let card = ArgCard.selectHand
         return try card.resolve(state: state, ctx: ctx) {
-            .discardHand($0, player: player)
+            .putBackHand($0, player: player)
         }
     }
 }

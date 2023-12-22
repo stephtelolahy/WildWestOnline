@@ -9,7 +9,7 @@ extension GameAction: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .play(card, player):
-            "▶️ \(player) \(card)"
+            "\n▶️ \(player) \(card)"
 
         case let .playEquipment(card, player):
             "✅ \(player) \(card)"
@@ -98,7 +98,7 @@ extension GameAction: CustomStringConvertible {
             "❓ \(player) \(Array(options.keys).joined(separator: " "))"
 
         case let .activate(cards, player):
-            "❓ \(player) \(cards.joined(separator: " "))"
+            "❔ \(player) \(cards.joined(separator: " "))"
 
         case let .effect(effect, ctx):
             "➡️ \(ctx.actor) \(effect)"

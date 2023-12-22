@@ -15,7 +15,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPlayIntent() {
         XCTAssertEqual(
             String(describing: GameAction.play("c1", player: "p1")),
-            "▶️ p1 c1"
+            "\n▶️ p1 c1"
         )
     }
 
@@ -203,7 +203,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingActivate() {
         XCTAssertEqual(
             String(describing: GameAction.activate(["c1", "c2"], player: "p1")),
-            "❓ p1 c1 c2"
+            "❔ p1 c1 c2"
         )
     }
 
