@@ -108,3 +108,62 @@ extension GameAction: CustomStringConvertible {
         }
     }
 }
+
+extension CardEffect: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .heal(amount):
+            "heal(\(amount))"
+        case let .damage(amount):
+            "damage(\(amount)"
+        case .shoot:
+            "shoot"
+        case .drawDeck:
+            "drawDeck"
+        case .discard:
+            "discard"
+        case .putBackHand:
+            "putBackHand"
+        case .steal:
+            "steal"
+        case .passInPlay:
+            "passInPlay"
+        case .drawArena:
+            "drawArena"
+        case .drawDiscard:
+            "drawDiscard"
+        case .discover:
+            "discover"
+        case .draw:
+            "draw"
+        case .setTurn:
+            "setTurn"
+        case .eliminate:
+            "eliminate"
+        case .updateAttributes:
+            "updateAttributes"
+        case .repeat:
+            "repeat"
+        case .group:
+            "group"
+        case .target:
+            "target"
+        case .force:
+            "force"
+        case .challenge:
+            "challenge"
+        case .ignoreError(let self):
+            "ignoreError"
+        case .luck:
+            "luck"
+        case .counterShoot:
+            "counterShoot"
+        case .cancelTurn:
+            "cancelTurn"
+        case .activateCounterCards:
+            "activateCounterCards"
+        case .updateGameOver:
+            "updateGameOver"
+        }
+    }
+}
