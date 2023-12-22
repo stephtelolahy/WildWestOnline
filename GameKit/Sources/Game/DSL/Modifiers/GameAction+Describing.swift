@@ -100,7 +100,7 @@ extension GameAction: CustomStringConvertible {
         case let .activate(cards, player):
             "❔ \(player) \(cards.joined(separator: " "))"
 
-        case let .effect(effect, ctx):
+        case let .effect(effect, _):
             "➡️ \(effect)"
 
         case let .group(actions):
@@ -115,7 +115,7 @@ extension CardEffect: CustomStringConvertible {
         case let .heal(amount):
             "heal(\(amount))"
         case let .damage(amount):
-            "damage(\(amount)"
+            "damage(\(amount))"
         case .shoot:
             "shoot"
         case .drawDeck:
@@ -144,15 +144,15 @@ extension CardEffect: CustomStringConvertible {
             "updateAttributes"
         case .repeat:
             "repeat"
-        case .group:
-            "group"
+        case let .group(content):
+            "group(\(content.count))"
         case .target:
             "target"
         case .force:
             "force"
         case .challenge:
             "challenge"
-        case .ignoreError(let self):
+        case .ignoreError:
             "ignoreError"
         case .luck:
             "luck"

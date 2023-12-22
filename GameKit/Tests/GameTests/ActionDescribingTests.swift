@@ -210,12 +210,12 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingEffect() {
         XCTAssertEqual(
             String(describing: GameAction.effect(.discover, ctx: .init(actor: "p1", card: "c1", event: .nothing))),
-            "➡️ p1 discover"
+            "➡️ discover"
         )
 
         XCTAssertEqual(
             String(describing: GameAction.effect(.damage(3), ctx: .init(actor: "p1", card: "c1", event: .nothing))),
-            "➡️ p1 damage(3)"
+            "➡️ damage(3)"
         )
     }
 

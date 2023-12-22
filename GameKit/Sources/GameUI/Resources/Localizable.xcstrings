@@ -1,16 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "[]%lld\t❤️%lld/%lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "[]%1$lld\t❤️%2$lld/%3$lld"
-          }
-        }
-      }
-    },
     "%@" : {
 
     },

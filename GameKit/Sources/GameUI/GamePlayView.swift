@@ -138,8 +138,6 @@ public struct GamePlayView: View {
             VStack(alignment: .leading) {
                 ForEach(Array(logs.enumerated()), id: \.offset) { _, event in
                     Text(event)
-                        .lineLimit(1)
-                        .font(.footnote)
                 }
             }
         }

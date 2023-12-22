@@ -9,6 +9,7 @@ public extension GameAction {
     static let nothing: Self = .group([])
 
     static func group(@GameActionBuilder content: () -> [Self]) -> Self {
-        .group(content())
+        precondition(content().count >= 2)
+        return .group(content())
     }
 }

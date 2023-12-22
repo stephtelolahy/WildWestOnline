@@ -20,14 +20,17 @@ extension GameState {
                 }
             }
 
-            let highlighted = active[playerId] != nil || chooseOne[playerId] != nil
+            let highlighted = playerId == turn
+            let handText = "[]\(playerObj.hand.count)"
+            let healthText = Array(repeating: "❤️", count: playerObj.health).joined()
+            let equipmentText = playerObj.inPlay.joined(separator: "-")
 
             return PlayerItem(
                 id: playerId,
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
-                status: "[]\(playerObj.hand.count)\t❤️\(playerObj.health)/\(playerObj.attributes[.maxHealth] ?? 0)",
-                equipment: playerObj.inPlay.joined(separator: "-"),
+                status: "\(handText)\t\(healthText)",
+                equipment: equipmentText,
                 activeActions: activeActions,
                 highlighted: highlighted
             )
