@@ -55,8 +55,8 @@ private extension CardEffect {
         case let .putBackHand(among):
             EffectPutBackHand(among: among)
 
-        case let .steal(card, toPlayer):
-            EffectSteal(card: card, toPlayer: toPlayer)
+        case let .steal(card):
+            EffectSteal(card: card)
 
         case let .passInPlay(card, toPlayer):
             EffectPassInPlay(card: card, toPlayer: toPlayer)

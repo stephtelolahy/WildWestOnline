@@ -7,11 +7,10 @@
 
 struct EffectSteal: EffectResolver {
     let card: ArgCard
-    let toPlayer: ArgPlayer
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let fromPlayerId = ctx.player()
-        let toPlayerId = try toPlayer.resolveUnique(state: state, ctx: ctx)
+        let fromPlayerId = ctx.target!
+        let toPlayerId = ctx.actor
         var chooserContext = ctx
         chooserContext.chooser = toPlayerId
         return try card.resolve(state: state, ctx: chooserContext) {

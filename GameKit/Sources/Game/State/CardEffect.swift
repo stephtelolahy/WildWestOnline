@@ -31,8 +31,9 @@ public indirect enum CardEffect: Codable, Equatable {
     case putBackHand(among: ArgNum)
 
     /// Draw card from a player
-    /// - `toPlayer` is the player that chooses and steals cards
-    case steal(ArgCard, toPlayer: ArgPlayer = .actor)
+    /// - the player that chooses and steals cards is `EffectContext.actor`
+    /// - the player that looses a card is `EffectContext.target`
+    case steal(ArgCard)
 
     /// Pass inPlay card to another player
     /// - `toPlayer` is the player that receives the card
