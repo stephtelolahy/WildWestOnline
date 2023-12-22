@@ -155,11 +155,13 @@ private var previewState: GameState {
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
+                .withAttributes([.maxHealth: 3])
                 .withInPlay([.saloon, .barrel])
         }
         .withPlayer("p2") {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
+                .withAttributes([.maxHealth: 4])
         }
         .withActive("p1", cards: [.bang, .mustang, .barrel, .beer, .endTurn])
         .withChooseOne("p2", options: [.missed: .nothing])

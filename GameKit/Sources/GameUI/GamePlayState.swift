@@ -22,7 +22,12 @@ extension GameState {
 
             let highlighted = playerId == turn
             let handText = "[]\(playerObj.hand.count)"
-            let healthText = Array(repeating: "❤️", count: min(0, playerObj.health)).joined()
+            let health = max(0, playerObj.health)
+            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
+            let healthText = ""
+            + Array(repeating: "░", count: maxHealth - health).joined()
+            + Array(repeating: "■", count: health).joined()
+
             let equipmentText = playerObj.inPlay.joined(separator: "-")
 
             return PlayerItem(
