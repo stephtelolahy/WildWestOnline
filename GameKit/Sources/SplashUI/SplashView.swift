@@ -6,8 +6,8 @@
 //
 // swiftlint:disable type_contents_order
 
-import Redux
 import Navigation
+import Redux
 import SwiftUI
 
 public struct SplashView: View {

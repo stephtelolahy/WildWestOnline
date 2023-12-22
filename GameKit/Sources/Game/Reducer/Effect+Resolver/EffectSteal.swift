@@ -9,7 +9,10 @@ struct EffectSteal: EffectResolver {
     let card: ArgCard
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let fromPlayerId = ctx.target!
+        guard let fromPlayerId = ctx.target else {
+            fatalError("undefined target")
+        }
+
         let toPlayerId = ctx.actor
         var chooserContext = ctx
         chooserContext.chooser = toPlayerId

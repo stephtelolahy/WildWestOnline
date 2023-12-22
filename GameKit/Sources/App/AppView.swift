@@ -9,8 +9,8 @@
 import Game
 import GameUI
 import HomeUI
-import Redux
 import Navigation
+import Redux
 import SettingsUI
 import SplashUI
 import SwiftUI

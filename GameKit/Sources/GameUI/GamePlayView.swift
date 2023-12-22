@@ -8,8 +8,8 @@
 
 import Game
 import Inventory
-import Redux
 import Navigation
+import Redux
 import SwiftUI
 import Utils
 

@@ -6,8 +6,8 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import Redux
 import Navigation
+import Redux
 import SwiftUI
 import Utils
 
