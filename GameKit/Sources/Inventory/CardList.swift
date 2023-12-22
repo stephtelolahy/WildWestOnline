@@ -383,9 +383,8 @@ private extension CardList {
     static let kitCarlson = Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
         CardEffect.group {
             CardEffect.drawDeck
-                .repeat(.attr(.startTurnCards))
-            CardEffect.drawDeck
-//            CardEffect.putBackHand
+                .repeat(.add(1, attr: .startTurnCards))
+            CardEffect.putBackHand(among: .add(1, attr: .startTurnCards))
         }
         .on([.setTurn])
     }

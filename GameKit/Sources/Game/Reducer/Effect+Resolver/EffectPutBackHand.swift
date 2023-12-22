@@ -1,0 +1,18 @@
+//
+//  EffectPutBackHand.swift
+//  
+//
+//  Created by Hugues Stephano TELOLAHY on 21/12/2023.
+//
+
+struct EffectPutBackHand: EffectResolver {
+    let among: ArgNum
+
+    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+        let player = ctx.player()
+        let card = ArgCard.selectHand
+        return try card.resolve(state: state, ctx: ctx) {
+            .discardHand($0, player: player)
+        }
+    }
+}

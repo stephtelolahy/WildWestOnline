@@ -27,6 +27,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
 
+    /// Put back hand cards amoung N
+    case putBackHand(among: ArgNum)
+
     /// Draw card from a player
     /// - `toPlayer` is the player that chooses and steals cards
     case steal(ArgCard, toPlayer: ArgPlayer = .actor)
