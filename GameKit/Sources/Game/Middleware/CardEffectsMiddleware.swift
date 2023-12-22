@@ -54,10 +54,11 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         }
         // </sort triggered by priority>
 
-        assert(triggered.count >= 2)
-
-        let cardEffects = GameAction.group(triggered)
-        return Just(cardEffects).eraseToAnyPublisher()
+        if triggered.count == 1 {
+            return Just(triggered[0]).eraseToAnyPublisher()
+        } else {
+            return Just(GameAction.group(triggered)).eraseToAnyPublisher()
+        }
     }
 
     private func triggeredEffect(

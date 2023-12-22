@@ -101,7 +101,7 @@ extension GameAction: CustomStringConvertible {
             "❔ \(player) \(cards.joined(separator: " "))"
 
         case let .effect(effect, ctx):
-            "➡️ \(ctx.actor) \(effect)"
+            "➡️ \(effect)"
 
         case let .group(actions):
             "➡️ group \(actions)"

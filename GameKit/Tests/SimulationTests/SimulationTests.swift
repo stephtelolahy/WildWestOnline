@@ -28,6 +28,10 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
+    func test_simulate10PlayersGame_shouldComplete() throws {
+        simulateGame(playersCount: 16)
+    }
+
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
         var game = Inventory.createGame(playersCount: playersCount)
