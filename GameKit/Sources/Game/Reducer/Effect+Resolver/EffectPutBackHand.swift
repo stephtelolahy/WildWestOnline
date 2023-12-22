@@ -10,7 +10,8 @@ struct EffectPutBackHand: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.player()
-        let card = ArgCard.selectHand
+        let number = try among.resolve(state: state, ctx: ctx)
+        let card = ArgCard.selectLastHand(number)
         return try card.resolve(state: state, ctx: ctx) {
             .putBackHand($0, player: player)
         }
