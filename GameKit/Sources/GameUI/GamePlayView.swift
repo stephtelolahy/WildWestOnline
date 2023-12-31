@@ -39,10 +39,10 @@ public struct GamePlayView: View {
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
-                get: { store.state.chooseOneAlertData.isNotEmpty },
+                get: { store.state.chooseOneActions.isNotEmpty },
                 set: { _ in }
             ),
-            presenting: store.state.chooseOneAlertData
+            presenting: store.state.chooseOneActions
         ) { data in
             ForEach(Array(data.keys.sorted()), id: \.self) { key in
                 Button(key, role: key == .pass ? .cancel : nil) {

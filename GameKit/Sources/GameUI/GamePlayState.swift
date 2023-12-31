@@ -54,7 +54,7 @@ extension GameState {
         visiblePlayers.first { playMode[$0.id] == .manual }?.activeActions ?? [:]
     }
 
-    var chooseOneAlertData: [String: GameAction] {
+    var chooseOneActions: [String: GameAction] {
         guard let chooseOne = chooseOne.first,
               playMode[chooseOne.key] == .manual else {
             return  [:]
