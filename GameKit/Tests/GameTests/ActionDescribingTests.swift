@@ -15,7 +15,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPlayIntent() {
         XCTAssertEqual(
             String(describing: GameAction.play("c1", player: "p1")),
-            "▶️ p1 c1"
+            "\n▶️ p1 c1"
         )
     }
 
@@ -137,7 +137,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingSetTurn() {
         XCTAssertEqual(
-            String(describing: GameAction.setTurn("p1")),
+            String(describing: GameAction.setTurn(player: "p1")),
             "🔥 p1"
         )
     }
@@ -173,14 +173,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingDiscover() {
         XCTAssertEqual(
             String(describing: GameAction.discover),
-            "🌁"
-        )
-    }
-
-    func test_DescribingPutBack() {
-        XCTAssertEqual(
-            String(describing: GameAction.putBack),
-            "🌁"
+            "🎁"
         )
     }
 
@@ -202,7 +195,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingChooseOne() {
         XCTAssertEqual(
-            String(describing: GameAction.chooseOne(player: "p1", options: ["o1": .nothing])),
+            String(describing: GameAction.chooseOne(["o1": .nothing], player: "p1")),
             "❓ p1 o1"
         )
     }
@@ -210,19 +203,19 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingActivate() {
         XCTAssertEqual(
             String(describing: GameAction.activate(["c1", "c2"], player: "p1")),
-            "❓ p1 c1 c2"
+            "❔ p1 c1 c2"
         )
     }
 
     func test_DescribingEffect() {
         XCTAssertEqual(
             String(describing: GameAction.effect(.discover, ctx: .init(actor: "p1", card: "c1", event: .nothing))),
-            "➡️ p1 discover"
+            "➡️ discover"
         )
 
         XCTAssertEqual(
             String(describing: GameAction.effect(.damage(3), ctx: .init(actor: "p1", card: "c1", event: .nothing))),
-            "➡️ p1 damage(3)"
+            "➡️ damage(3)"
         )
     }
 

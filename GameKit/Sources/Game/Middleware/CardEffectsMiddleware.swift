@@ -37,11 +37,6 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
             }
         }
 
-        // Ignore empty
-        guard triggered.isNotEmpty else {
-            return nil
-        }
-
         // <sort triggered by priority>
         triggered.sort { action1, action2 in
             guard case let .effect(_, ctx1) = action1,
@@ -54,8 +49,13 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         }
         // </sort triggered by priority>
 
-        let cardEffects = GameAction.group(triggered)
-        return Just(cardEffects).eraseToAnyPublisher()
+        if triggered.isEmpty {
+            return nil
+        } else if triggered.count == 1 {
+            return Just(triggered[0]).eraseToAnyPublisher()
+        } else {
+            return Just(GameAction.group(triggered)).eraseToAnyPublisher()
+        }
     }
 
     private func triggeredEffect(

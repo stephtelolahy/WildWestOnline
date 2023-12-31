@@ -47,7 +47,7 @@ struct EffectChallenge: EffectResolver {
                     )
                 ]
 
-            case let .chooseOne(chooser, options):
+            case let .chooseOne(options, player):
                 var reversedCtx = ctx
                 reversedCtx.target = challengerId
                 let reversedAction = GameAction.effect(
@@ -65,7 +65,7 @@ struct EffectChallenge: EffectResolver {
                     }
                 }
                 options[.pass] = .effect(otherwise, ctx: ctx)
-                let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
+                let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
                 return [chooseOne]
 
             default:

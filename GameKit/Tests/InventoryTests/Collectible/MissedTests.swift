@@ -46,10 +46,10 @@ final class MissedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne(player: "p2", options: [
+            .chooseOne([
                 .missed: .playImmediate(.missed, player: "p2"),
                 .pass: .nothing
-            ]),
+            ], player: "p2"),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
@@ -75,11 +75,11 @@ final class MissedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne(player: "p2", options: [
+            .chooseOne([
                 .missed1: .playImmediate(.missed1, player: "p2"),
                 .missed2: .playImmediate(.missed2, player: "p2"),
                 .pass: .nothing
-            ]),
+            ], player: "p2"),
             .playImmediate(.missed2, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
@@ -109,16 +109,16 @@ final class MissedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .playImmediate(.gatling, player: "p1"),
-            .chooseOne(player: "p2", options: [
+            .chooseOne([
                 .missed: .playImmediate(.missed, player: "p2"),
                 .pass: .nothing
-            ]),
+            ], player: "p2"),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2")),
-            .chooseOne(player: "p3", options: [
+            .chooseOne([
                 .missed: .playImmediate(.missed, player: "p3"),
                 .pass: .nothing
-            ]),
+            ], player: "p3"),
             .playImmediate(.missed, player: "p3"),
             .cancel(.damage(1, player: "p3"))
         ])

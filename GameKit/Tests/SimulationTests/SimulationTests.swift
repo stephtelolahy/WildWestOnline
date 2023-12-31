@@ -28,6 +28,10 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
+    func test_simulate10PlayersGame_shouldComplete() throws {
+        simulateGame(playersCount: 16)
+    }
+
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
         var game = Inventory.createGame(playersCount: playersCount)
@@ -51,7 +55,7 @@ final class SimulationTests: XCTestCase {
 
         // When
         let sheriff = game.playOrder[0]
-        sut.dispatch(GameAction.setTurn(sheriff))
+        sut.dispatch(GameAction.setTurn(player: sheriff))
 
         // Then
         wait(for: [expectation], timeout: timeout)

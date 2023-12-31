@@ -20,14 +20,22 @@ extension GameState {
                 }
             }
 
-            let highlighted = active[playerId] != nil || chooseOne[playerId] != nil
+            let highlighted = playerId == turn
+            let handText = "[]\(playerObj.hand.count)"
+            let health = max(0, playerObj.health)
+            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
+            let healthText = ""
+            + Array(repeating: "♡", count: maxHealth - health).joined()
+            + Array(repeating: "♥", count: health).joined()
+
+            let equipmentText = playerObj.inPlay.joined(separator: "-")
 
             return PlayerItem(
                 id: playerId,
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
-                status: "[]\(playerObj.hand.count)\t❤️\(playerObj.health)/\(playerObj.attributes[.maxHealth] ?? 0)",
-                equipment: playerObj.inPlay.joined(separator: "-"),
+                status: "\(handText)\t\(healthText)",
+                equipment: equipmentText,
                 activeActions: activeActions,
                 highlighted: highlighted
             )
@@ -46,7 +54,7 @@ extension GameState {
         visiblePlayers.first { playMode[$0.id] == .manual }?.activeActions ?? [:]
     }
 
-    var chooseOneAlertData: [String: GameAction] {
+    var chooseOneActions: [String: GameAction] {
         guard let chooseOne = chooseOne.first,
               playMode[chooseOne.key] == .manual else {
             return  [:]

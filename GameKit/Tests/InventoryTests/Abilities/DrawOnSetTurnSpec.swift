@@ -24,12 +24,12 @@ final class DrawOnSetTurnSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.setTurn("p1")
+                    let action = GameAction.setTurn(player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .setTurn("p1"),
+                        .setTurn(player: "p1"),
                         .drawDeck(player: "p1"),
                         .drawDeck(player: "p1")
                     ]
@@ -48,12 +48,12 @@ final class DrawOnSetTurnSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.setTurn("p1")
+                    let action = GameAction.setTurn(player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .setTurn("p1"),
+                        .setTurn(player: "p1"),
                         .drawDeck(player: "p1"),
                         .drawDeck(player: "p1"),
                         .drawDeck(player: "p1")

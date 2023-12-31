@@ -19,7 +19,7 @@ final class SetTurnSpec: QuickSpec {
                     .build()
 
                 // When
-                let action = GameAction.setTurn("p1")
+                let action = GameAction.setTurn(player: "p1")
                 let result = GameState.reducer(state, action)
 
                 // Then

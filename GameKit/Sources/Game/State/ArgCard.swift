@@ -28,6 +28,9 @@ public enum ArgCard: Codable, Equatable {
     /// Select any player's hand card
     case selectHand
 
+    /// Select one of last N player's hand card
+    case selectLastHand(Int)
+
     /// Select any arena card
     case selectArena
 

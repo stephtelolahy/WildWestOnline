@@ -36,13 +36,13 @@ final class DuelSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "p2": .playImmediate(.duel, target: "p2", player: "p1"),
                             "p3": .playImmediate(.duel, target: "p3", player: "p1"),
                             "p4": .playImmediate(.duel, target: "p4", player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .playImmediate(.duel, target: "p2", player: "p1"),
-                        .chooseOne(player: "p2", options: [
+                        .chooseOne([
                             .bang2: .group([
                                 .discardHand(.bang2, player: "p2"),
                                 .effect(.challenge(.id("p2"),
@@ -56,7 +56,7 @@ final class DuelSpec: QuickSpec {
                                 )
                             ]),
                             .pass: .damage(1, player: "p2")
-                        ]),
+                        ], player: "p2"),
                         .damage(1, player: "p2")
                     ]
                 }
@@ -70,13 +70,13 @@ final class DuelSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "p2": .playImmediate(.duel, target: "p2", player: "p1"),
                             "p3": .playImmediate(.duel, target: "p3", player: "p1"),
                             "p4": .playImmediate(.duel, target: "p4", player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .playImmediate(.duel, target: "p2", player: "p1"),
-                        .chooseOne(player: "p2", options: [
+                        .chooseOne([
                             .bang2: .group([
                                 .discardHand(.bang2, player: "p2"),
                                 .effect(.challenge(.id("p2"),
@@ -90,9 +90,9 @@ final class DuelSpec: QuickSpec {
                                 )
                             ]),
                             .pass: .damage(1, player: "p2")
-                        ]),
+                        ], player: "p2"),
                         .discardHand(.bang2, player: "p2"),
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             .bang1: .group([
                                 .discardHand(.bang1, player: "p1"),
                                 .effect(.challenge(.id("p1"),
@@ -106,7 +106,7 @@ final class DuelSpec: QuickSpec {
                                 )
                             ]),
                             .pass: .damage(1, player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .damage(1, player: "p1")
                     ]
                 }

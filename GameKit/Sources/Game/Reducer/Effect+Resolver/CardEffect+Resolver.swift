@@ -34,14 +34,11 @@ private extension CardEffect {
         case .discover:
             EffectJust { _ in .discover }
 
-        case .putBack:
-            EffectJust { _ in .putBack }
-
         case .draw:
             EffectJust { _ in .draw }
 
         case .setTurn:
-            EffectJust { .setTurn($0.player()) }
+            EffectJust { .setTurn(player: $0.player()) }
 
         case .eliminate:
             EffectJust { .eliminate(player: $0.player()) }
@@ -55,8 +52,11 @@ private extension CardEffect {
         case let .discard(card, chooser):
             EffectDiscard(card: card, chooser: chooser)
 
-        case let .steal(card, toPlayer):
-            EffectSteal(card: card, toPlayer: toPlayer)
+        case let .putBackHand(among):
+            EffectPutBackHand(among: among)
+
+        case let .steal(card):
+            EffectSteal(card: card)
 
         case let .passInPlay(card, toPlayer):
             EffectPassInPlay(card: card, toPlayer: toPlayer)

@@ -78,6 +78,9 @@ private extension ArgCard {
         case .selectHand:
             CardSelectHand()
 
+        case let .selectLastHand(count):
+            CardSelectLastHand(count: count)
+
         case .all:
             CardAll()
 

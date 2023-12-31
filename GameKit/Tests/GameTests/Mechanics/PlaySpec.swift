@@ -128,9 +128,10 @@ final class PlaySpec: QuickSpec {
 
                     // Then
                     expect(result.sequence) == [
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "p3": .playHandicap("c1", target: "p3", player: "p1"),
-                            "p2": .playHandicap("c1", target: "p2", player: "p1")])
+                            "p2": .playHandicap("c1", target: "p2", player: "p1")
+                        ], player: "p1")
                     ]
                 }
             }

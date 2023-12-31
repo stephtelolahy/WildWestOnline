@@ -6,8 +6,8 @@
 //
 
 /// Effect that can be applied to a player or a group of players
-/// It applies to `EffectContext.target` if defined
 /// By default it applies to `EffectContext.actor`
+/// Could set specific target(s) with `EffectContext.target`
 public indirect enum CardEffect: Codable, Equatable {
     // MARK: - Actions
 
@@ -27,9 +27,13 @@ public indirect enum CardEffect: Codable, Equatable {
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
 
+    /// Put  back on top deck a hand card among last N
+    case putBackHand(among: ArgNum)
+
     /// Draw card from a player
-    /// - `toPlayer` is the player that chooses and steals cards
-    case steal(ArgCard, toPlayer: ArgPlayer = .actor)
+    /// - the player that steals cards is `EffectContext.actor`
+    /// - the player that looses a card is `EffectContext.target`
+    case steal(ArgCard)
 
     /// Pass inPlay card to another player
     /// - `toPlayer` is the player that receives the card
@@ -43,9 +47,6 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Draw a card from deck and put to arena
     case discover
-
-    /// Put back arena card to deck
-    case putBack
 
     /// Put top deck card to discard
     case draw
@@ -79,7 +80,7 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Try an effect. If cannot, then do nothing
     case ignoreError(Self)
 
-    /// Flip over the top card of the deck, then apply effects according to card value
+    /// Apply effects according to just flipped card value
     case luck(ArgCardLuck, regex: String, onSuccess: Self, onFailure: Self? = nil)
 
     /// Counter shoot effect

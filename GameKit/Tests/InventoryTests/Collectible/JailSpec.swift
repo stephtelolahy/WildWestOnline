@@ -28,9 +28,9 @@ final class JailSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .chooseOne(player: "p1", options: [
+                        .chooseOne([
                             "p2": .playHandicap(.jail, target: "p2", player: "p1")
-                        ]),
+                        ], player: "p1"),
                         .playHandicap(.jail, target: "p2", player: "p1")
                     ]
                 }
@@ -57,11 +57,11 @@ final class JailSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.setTurn("p1")
+                    let action = GameAction.setTurn(player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(result) == [.setTurn("p1"),
+                    expect(result) == [.setTurn(player: "p1"),
                                        .draw,
                                        .discardInPlay(.jail, player: "p1"),
                                        .drawDeck(player: "p1"),
@@ -83,15 +83,15 @@ final class JailSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.setTurn("p1")
+                    let action = GameAction.setTurn(player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(result) == [.setTurn("p1"),
+                    expect(result) == [.setTurn(player: "p1"),
                                        .draw,
-                                       .cancel(.effect(.repeat(.attr(.startTurnCards), effect: .drawDeck), ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn("p1")))),
+                                       .cancel(.effect(.repeat(.attr(.startTurnCards), effect: .drawDeck), ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn(player: "p1")))),
                                        .discardInPlay(.jail, player: "p1"),
-                                       .setTurn("p2")]
+                                       .setTurn(player: "p2")]
                 }
             }
         }

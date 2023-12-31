@@ -8,8 +8,8 @@ import Game
 import GameUI
 import HomeUI
 import Inventory
+import Navigation
 import Redux
-import Routing
 import SettingsUI
 import SplashUI
 

@@ -39,16 +39,16 @@ final class PedroRamirezTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
-            .chooseOne(player: "p1", options: [
+            .setTurn(player: "p1"),
+            .chooseOne([
                 "p2": .drawHand("c2", target: "p2", player: "p1"),
                 "p3": .drawHand("c3", target: "p3", player: "p1")
-            ]),
+            ], player: "p1"),
             .drawHand("c2", target: "p2", player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -65,12 +65,12 @@ final class PedroRamirezTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
+        let action = GameAction.setTurn(player: "p1")
         let (result, _) = self.awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
+            .setTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

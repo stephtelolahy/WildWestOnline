@@ -9,7 +9,7 @@ extension GameAction: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .play(card, player):
-            "▶️ \(player) \(card)"
+            "\n▶️ \(player) \(card)"
 
         case let .playEquipment(card, player):
             "✅ \(player) \(card)"
@@ -58,6 +58,9 @@ extension GameAction: CustomStringConvertible {
         case let .discardHand(card, player):
             "❌ \(player) \(card)"
 
+        case let .putBackHand(card, player):
+            "❌ \(player) \(card)"
+
         case let .discardInPlay(card, player):
             "❌ \(player) \(card)"
 
@@ -68,10 +71,7 @@ extension GameAction: CustomStringConvertible {
             "🧨 \(player) -> \(target) \(card)"
 
         case .discover:
-            "🌁"
-
-        case .putBack:
-            "🌁"
+            "🎁"
 
         case .draw:
             "🎲"
@@ -94,17 +94,76 @@ extension GameAction: CustomStringConvertible {
         case let .cancel(action):
             "✋ \(String(describing: action))"
 
-        case let .chooseOne(player, options):
+        case let .chooseOne(options, player):
             "❓ \(player) \(Array(options.keys).joined(separator: " "))"
 
         case let .activate(cards, player):
-            "❓ \(player) \(cards.joined(separator: " "))"
+            "❔ \(player) \(cards.joined(separator: " "))"
 
-        case let .effect(effect, ctx):
-            "➡️ \(ctx.actor) \(effect)"
+        case let .effect(effect, _):
+            "➡️ \(effect)"
 
         case let .group(actions):
             "➡️ group \(actions)"
+        }
+    }
+}
+
+extension CardEffect: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .heal(amount):
+            "heal(\(amount))"
+        case let .damage(amount):
+            "damage(\(amount))"
+        case .shoot:
+            "shoot"
+        case .drawDeck:
+            "drawDeck"
+        case .discard:
+            "discard"
+        case .putBackHand:
+            "putBackHand"
+        case .steal:
+            "steal"
+        case .passInPlay:
+            "passInPlay"
+        case .drawArena:
+            "drawArena"
+        case .drawDiscard:
+            "drawDiscard"
+        case .discover:
+            "discover"
+        case .draw:
+            "draw"
+        case .setTurn:
+            "setTurn"
+        case .eliminate:
+            "eliminate"
+        case .updateAttributes:
+            "updateAttributes"
+        case .repeat:
+            "repeat"
+        case let .group(content):
+            "group(\(content.count))"
+        case .target:
+            "target"
+        case .force:
+            "force"
+        case .challenge:
+            "challenge"
+        case .ignoreError:
+            "ignoreError"
+        case .luck:
+            "luck"
+        case .counterShoot:
+            "counterShoot"
+        case .cancelTurn:
+            "cancelTurn"
+        case .activateCounterCards:
+            "activateCounterCards"
+        case .updateGameOver:
+            "updateGameOver"
         }
     }
 }

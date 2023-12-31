@@ -27,9 +27,9 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .chooseOne(player: "p1", options: [
+            .chooseOne([
                 "p2": .playImmediate(.bang, target: "p2", player: "p1")
-            ]),
+            ], player: "p1"),
             .playImmediate(.bang, target: "p2", player: "p1"),
             .damage(1, player: "p2")
         ])
@@ -52,9 +52,9 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .chooseOne(player: "p1", options: [
+            .chooseOne([
                 "p2": .playAs(.bang, card: .missed, target: "p2", player: "p1")
-            ]),
+            ], player: "p1"),
             .playAs(.bang, card: .missed, target: "p2", player: "p1"),
             .damage(1, player: "p2")
         ])
@@ -81,10 +81,10 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne(player: "p2", options: [
+            .chooseOne([
                 .bang: .playAs(.missed, card: .bang, player: "p2"),
                 .pass: .nothing
-            ]),
+            ], player: "p2"),
             .playAs(.missed, card: .bang, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
@@ -111,10 +111,10 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne(player: "p2", options: [
+            .chooseOne([
                 .missed: .playImmediate(.missed, player: "p2"),
                 .pass: .nothing
-            ]),
+            ], player: "p2"),
             .playImmediate(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])

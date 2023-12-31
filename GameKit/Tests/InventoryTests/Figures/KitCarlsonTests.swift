@@ -28,32 +28,27 @@ final class KitCarlsonTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withAbilities([.kitCarlson])
                     .withAttributes([.startTurnCards: 2])
+                    .withHand(["c0"])
             }
             .withDeck(["c1", "c2", "c3"])
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2", "c3"])
+        let action = GameAction.setTurn(player: "p1")
+        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
-            .discover,
-            .discover,
-            .discover,
-            .chooseOne(player: "p1", options: [
-                "c1": .drawArena("c1", player: "p1"),
-                "c2": .drawArena("c2", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ]),
-            .drawArena("c2", player: "p1"),
-            .chooseOne(player: "p1", options: [
-                "c1": .drawArena("c1", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ]),
-            .drawArena("c3", player: "p1"),
-            .putBack
+            .setTurn(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .chooseOne([
+                "c1": .putBackHand("c1", player: "p1"),
+                "c2": .putBackHand("c2", player: "p1"),
+                "c3": .putBackHand("c3", player: "p1")
+            ], player: "p1"),
+            .putBackHand("c2", player: "p1")
         ])
     }
 
@@ -69,27 +64,21 @@ final class KitCarlsonTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn("p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2", "c3"])
+        let action = GameAction.setTurn(player: "p1")
+        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn("p1"),
-            .discover,
-            .discover,
-            .discover,
-            .chooseOne(player: "p1", options: [
-                "c1": .drawArena("c1", player: "p1"),
-                "c2": .drawArena("c2", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ]),
-            .drawArena("c2", player: "p1"),
-            .chooseOne(player: "p1", options: [
-                "c1": .drawArena("c1", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ]),
-            .drawArena("c3", player: "p1"),
-            .putBack
+            .setTurn(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .chooseOne([
+                "c1": .putBackHand("c1", player: "p1"),
+                "c2": .putBackHand("c2", player: "p1"),
+                "c3": .putBackHand("c3", player: "p1")
+            ], player: "p1"),
+            .putBackHand("c2", player: "p1")
         ])
     }
 }

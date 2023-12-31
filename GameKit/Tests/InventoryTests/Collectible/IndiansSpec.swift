@@ -32,10 +32,10 @@ final class IndiansSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playImmediate(.indians, player: "p1"),
-                        .chooseOne(player: "p2", options: [
+                        .chooseOne([
                             .bang: .discardHand(.bang, player: "p2"),
                             .pass: .damage(1, player: "p2")
-                        ]),
+                        ], player: "p2"),
                         .discardHand(.bang, player: "p2"),
                         .damage(1, player: "p3")
                     ]
@@ -61,10 +61,10 @@ final class IndiansSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .playImmediate(.indians, player: "p1"),
-                        .chooseOne(player: "p2", options: [
+                        .chooseOne([
                             .bang: .discardHand(.bang, player: "p2"),
                             .pass: .damage(1, player: "p2")
-                        ]),
+                        ], player: "p2"),
                         .discardHand(.bang, player: "p2")
                     ]
                 }

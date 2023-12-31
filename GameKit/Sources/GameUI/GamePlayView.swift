@@ -8,8 +8,8 @@
 
 import Game
 import Inventory
+import Navigation
 import Redux
-import Routing
 import SwiftUI
 import Utils
 
@@ -39,10 +39,10 @@ public struct GamePlayView: View {
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
-                get: { store.state.chooseOneAlertData.isNotEmpty },
+                get: { store.state.chooseOneActions.isNotEmpty },
                 set: { _ in }
             ),
-            presenting: store.state.chooseOneAlertData
+            presenting: store.state.chooseOneActions
         ) { data in
             ForEach(Array(data.keys.sorted()), id: \.self) { key in
                 Button(key, role: key == .pass ? .cancel : nil) {
@@ -55,7 +55,7 @@ public struct GamePlayView: View {
         }
         .onAppear {
             let sheriff = store.state.playOrder[0]
-            store.dispatch(GameAction.setTurn(sheriff))
+            store.dispatch(GameAction.setTurn(player: sheriff))
         }
     }
 
@@ -138,8 +138,6 @@ public struct GamePlayView: View {
             VStack(alignment: .leading) {
                 ForEach(Array(logs.enumerated()), id: \.offset) { _, event in
                     Text(event)
-                        .lineLimit(1)
-                        .font(.footnote)
                 }
             }
         }
@@ -157,11 +155,13 @@ private var previewState: GameState {
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
+                .withAttributes([.maxHealth: 3])
                 .withInPlay([.saloon, .barrel])
         }
         .withPlayer("p2") {
             $0.withFigure(.bartCassidy)
                 .withHealth(3)
+                .withAttributes([.maxHealth: 4])
         }
         .withActive("p1", cards: [.bang, .mustang, .barrel, .beer, .endTurn])
         .withChooseOne("p2", options: [.missed: .nothing])

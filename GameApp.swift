@@ -46,7 +46,7 @@ private func createStore() -> Store<AppState> {
             LoggerMiddleware(),
             ComposedMiddleware([
                 CardEffectsMiddleware(),
-                GameLoopMiddleware(),
+                GameSequenceMiddleware(),
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])

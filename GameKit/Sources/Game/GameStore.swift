@@ -11,9 +11,15 @@ public func createGameStore(initial: GameState, completed: (() -> Void)? = nil) 
         initial: initial,
         reducer: GameState.reducer,
         middlewares: [
+            // These are basic game rules 
+            // that won't be modellized as card effects
+            // 1. Check if game is over
+            // 2. Trigger card effects
+            // 3. Resolve playing sequence
+            // 4. Activate playable cards
             ComposedMiddleware([
                 CardEffectsMiddleware(),
-                GameLoopMiddleware(),
+                GameSequenceMiddleware(),
                 ActivateCardsMiddleware()
             ]),
             LoggerMiddleware()

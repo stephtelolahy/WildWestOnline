@@ -6,8 +6,8 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
+import Navigation
 import Redux
-import Routing
 import SwiftUI
 import Utils
 
@@ -91,7 +91,7 @@ public struct SettingsView: View {
                         get: { store.state.playersCount },
                         set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
                     ).animation(),
-                    in: 2...8
+                    in: 2...16
                 )
             }
 

@@ -46,6 +46,9 @@ private extension GameAction {
         case let .discardHand(card, player):
             ActionDiscardHand(player: player, card: card)
 
+        case let .putBackHand(card, player):
+            ActionPutBackHand(player: player, card: card)
+
         case let .revealHand(card, player):
             ActionRevealHand(card: card, player: player)
 
@@ -73,9 +76,6 @@ private extension GameAction {
         case .discover:
             ActionDiscover()
 
-        case .putBack:
-            ActionPutBack()
-
         case .draw:
             ActionDraw()
 
@@ -91,8 +91,8 @@ private extension GameAction {
         case let .effect(effect, ctx):
             ActionResolveEffect(effect: effect, ctx: ctx)
 
-        case let .chooseOne(player, options):
-            ActionChooseOne(chooser: player, options: options)
+        case let .chooseOne(options, player):
+            ActionChooseOne(options: options, player: player)
 
         case let .activate(cards, player):
             ActionActivate(player: player, cards: cards)
