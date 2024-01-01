@@ -162,8 +162,6 @@ extension CardEffect: CustomStringConvertible {
             "cancelTurn"
         case .activateCounterCards:
             "activateCounterCards"
-        case .updateGameOver:
-            "updateGameOver"
         }
     }
 }

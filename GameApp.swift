@@ -28,7 +28,6 @@ struct GameApp: App {
 private func createStore() -> Store<AppState> {
 
     let settingsService = SettingsService()
-
     let cachedSettings = SettingsState(
         playersCount: settingsService.playersCount,
         simulation: settingsService.simulationEnabled
@@ -43,16 +42,17 @@ private func createStore() -> Store<AppState> {
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
-            LoggerMiddleware(),
             ComposedMiddleware([
+                GameOverMiddleware(),
                 CardEffectsMiddleware(),
                 GameSequenceMiddleware(),
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware()
             ])
-            .lift(stateMap: { GameState.from(globalState: $0) }),
+                .lift { GameState.from(globalState: $0) },
             SettingsMiddleware(cacheService: settingsService)
-                .lift { SettingsState.from(globalState: $0) }
+                .lift { SettingsState.from(globalState: $0) },
+            LoggerMiddleware()
         ]
     )
 }

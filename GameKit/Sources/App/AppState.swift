@@ -42,12 +42,12 @@ public extension AppState {
         // Update visible screens
         state.screens = screenReducer(state.screens, action)
 
-        // Reduce game
+        // Update game state
         if let gameState = state.game {
             state.game = GameState.reducer(gameState, action)
         }
 
-        // Reduce settings
+        // Update settings
         let settingsState = state.settings
         state.settings = SettingsState.reducer(settingsState, action)
 

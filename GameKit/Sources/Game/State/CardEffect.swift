@@ -91,7 +91,4 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Expose a choice to play counter cards
     case activateCounterCards
-
-    /// Evaluate game over
-    case updateGameOver
 }

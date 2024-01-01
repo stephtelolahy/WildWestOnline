@@ -39,7 +39,6 @@ public enum CardList {
         discardPreviousWeaponOnPlayWeapon
         updateAttributesOnChangeInPlay
         activateCounterCardsOnShot
-        updateGameOverOnEliminated
         willyTheKid
         roseDoolan
         paulRegret
@@ -280,11 +279,6 @@ private extension CardList {
             .on([.shot])
     }
 
-    static let updateGameOverOnEliminated = Card(.updateGameOverOnEliminated) {
-        CardEffect.updateGameOver
-            .on([.eliminated])
-    }
-
     // MARK: - Figures
 
     static let pDefault = Card(
@@ -297,8 +291,7 @@ private extension CardList {
             .nextTurnOnEliminated,
             .updateAttributesOnChangeInPlay,
             .discardPreviousWeaponOnPlayWeapon,
-            .activateCounterCardsOnShot,
-            .updateGameOverOnEliminated
+            .activateCounterCardsOnShot
         ],
         attributes: [
             .startTurnCards: 2,
@@ -331,10 +324,11 @@ private extension CardList {
 
     static let luckyDuke = Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
 
-    private static let playBangAsMissedAndViceVersa: [CardAlias] = [
+    static let playBangAsMissedAndViceVersa: [CardAlias] = [
         CardAlias(card: .bang, regex: .missed, playReqs: [.play]),
         CardAlias(card: .missed, regex: .bang, playReqs: [.shot])
     ]
+
     static let calamityJanet = Card(.calamityJanet, prototype: pDefault, attributes: [.maxHealth: 4], alias: playBangAsMissedAndViceVersa)
 
     static let bartCassidy = Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
@@ -415,7 +409,6 @@ private extension CardList {
     /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
-        .updateGameOverOnEliminated,
         .dynamite,
         .jail,
         .drawOnSetTurn,

@@ -132,7 +132,6 @@ public struct GamePlayView: View {
 
     private var logView: some View {
         let logs = store.log
-            .reversed()
             .map { String(describing: $0) }
         return ScrollView {
             VStack(alignment: .leading) {

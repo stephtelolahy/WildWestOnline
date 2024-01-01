@@ -17,9 +17,7 @@ final class GameOverSpec: QuickSpec {
                     // Given
                     let state = GameState.makeBuilderWithCardRef()
                         .withPlayer("p1")
-                        .withPlayer("p2") {
-                            $0.withAbilities([.updateGameOverOnEliminated])
-                        }
+                        .withPlayer("p2")
                         .build()
 
                     // When
