@@ -26,7 +26,7 @@ struct ActionPlayEquipment: GameActionReducer {
         state.incrementPlayedThisTurn(for: cardName)
 
         // queue triggered effect
-        let event = GameAction.playEquipment(card, player: player)
+        let event = GameAction.equip(card, player: player)
         let children = PlayEffectResolver.triggeredEffect(event: event, state: state)
         state.sequence.insert(contentsOf: children, at: 0)
 

@@ -36,7 +36,7 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.playEquipment("c1", player: "p1")),
+            String(describing: GameAction.equip("c1", player: "p1")),
             "✅ p1 c1"
         )
     }
@@ -53,7 +53,7 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")),
+            String(describing: GameAction.handicap("c1", target: "p2", player: "p1")),
             "❇️ p1 c1 p2"
         )
     }

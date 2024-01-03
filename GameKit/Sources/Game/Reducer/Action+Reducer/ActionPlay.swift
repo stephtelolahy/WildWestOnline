@@ -87,12 +87,12 @@ enum PlayEffectResolver {
         } else if playRule.isMatching(.playAbility) {
             return .playAbility(card, player: player)
         } else if playRule.isMatching(.playEquipment) {
-            return .playEquipment(card, player: player)
+            return .equip(card, player: player)
         } else if playRule.isMatching(.playHandicap) {
             guard let target else {
                 fatalError("missing handicap target")
             }
-            return .playHandicap(card, target: target, player: player)
+            return .handicap(card, target: target, player: player)
         } else {
             fatalError("unexpected")
         }
@@ -145,7 +145,7 @@ enum PlayEffectResolver {
 
             playRule = aRule
 
-        case let .playEquipment(aCard, aPlayer):
+        case let .equip(aCard, aPlayer):
             player = aPlayer
             card = aCard
             let cardName = aCard.extractName()
@@ -156,7 +156,7 @@ enum PlayEffectResolver {
 
             playRule = aRule
 
-        case let .playHandicap(aCard, aTarget, aPlayer):
+        case let .handicap(aCard, aTarget, aPlayer):
             player = aPlayer
             card = aCard
             target = aTarget

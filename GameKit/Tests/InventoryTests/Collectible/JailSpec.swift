@@ -29,9 +29,9 @@ final class JailSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .chooseOne([
-                            "p2": .playHandicap(.jail, target: "p2", player: "p1")
+                            "p2": .handicap(.jail, target: "p2", player: "p1")
                         ], player: "p1"),
-                        .playHandicap(.jail, target: "p2", player: "p1")
+                        .handicap(.jail, target: "p2", player: "p1")
                     ]
                 }
             }

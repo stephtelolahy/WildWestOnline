@@ -26,7 +26,7 @@ final class ScopeSpec: QuickSpec {
 
                 // Then
                 expect(result) == [
-                    .playEquipment(.scope, player: "p1"),
+                    .equip(.scope, player: "p1"),
                     .setAttribute(.scope, value: 1, player: "p1")
                 ]
             }

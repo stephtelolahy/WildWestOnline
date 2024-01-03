@@ -28,7 +28,7 @@ final class RemingtonSpec: QuickSpec {
 
                 // Then
                 expect(result) == [
-                    .playEquipment(.remington, player: "p1"),
+                    .equip(.remington, player: "p1"),
                     .setAttribute(.weapon, value: 3, player: "p1")
                 ]
             }

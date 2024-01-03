@@ -13,7 +13,7 @@ struct OnHandEmpty: PlayReqMatcher {
             return true
         }
 
-        if case let .playHandicap(_, _, player) = ctx.event,
+        if case let .handicap(_, _, player) = ctx.event,
            player == ctx.actor,
            state.player(ctx.actor).hand.isEmpty {
             return true

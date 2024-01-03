@@ -28,7 +28,7 @@ final class PlayEquipmentSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.playEquipment("c1", player: "p1")
+                    let action = GameAction.equip("c1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -50,7 +50,7 @@ final class PlayEquipmentSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.playEquipment("c-1", player: "p1")
+                    let action = GameAction.equip("c-1", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then

@@ -25,7 +25,7 @@ final class BarrelSpec: QuickSpec {
                 let (result, _) = self.awaitAction(action, state: state)
 
                 // Then
-                expect(result) == [.playEquipment(.barrel, player: "p1")]
+                expect(result) == [.equip(.barrel, player: "p1")]
             }
         }
 

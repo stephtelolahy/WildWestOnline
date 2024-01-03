@@ -26,7 +26,7 @@ final class DynamiteSpec: QuickSpec {
 
                 // Then
                 expect(result) == [
-                    .playEquipment(.dynamite, player: "p1")
+                    .equip(.dynamite, player: "p1")
                 ]
             }
         }

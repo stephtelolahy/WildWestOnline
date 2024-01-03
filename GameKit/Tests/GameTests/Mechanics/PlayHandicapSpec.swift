@@ -23,7 +23,7 @@ final class PlayHandicapSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.playHandicap("c1", target: "p2", player: "p1")
+                    let action = GameAction.handicap("c1", target: "p2", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then
@@ -47,7 +47,7 @@ final class PlayHandicapSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.playHandicap("c-1", target: "p2", player: "p1")
+                    let action = GameAction.handicap("c-1", target: "p2", player: "p1")
                     let result = GameState.reducer(state, action)
 
                     // Then

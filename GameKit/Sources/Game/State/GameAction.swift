@@ -21,13 +21,10 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Invoke an ability
     case playAbility(String, player: String)
 
-    /// Put in play an equipment card
-    case playEquipment(String, player: String)
-
-    /// Play an handicap card
-    case playHandicap(String, target: String, player: String)
-
     // MARK: - Renderable actions
+
+    /// Play a card
+    case play(String, player: String)
 
     /// Restore player's health, limited to maxHealth
     case heal(Int, player: String)
@@ -55,6 +52,12 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
 
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
+
+    /// Put an equipment card on player's inPlay
+    case equip(String, player: String)
+
+    /// Put handicap card on target's inPlay
+    case handicap(String, target: String, player: String)
 
     /// Reveal hand card
     case revealHand(String, player: String)
@@ -96,9 +99,6 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case setGameOver(winner: String)
 
     // MARK: - Invisible actions
-
-    /// Resolve playing a card
-    case play(String, player: String)
 
     /// Resolve an effect
     case effect(CardEffect, ctx: EffectContext)

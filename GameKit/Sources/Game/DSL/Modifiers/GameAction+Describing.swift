@@ -11,13 +11,13 @@ extension GameAction: CustomStringConvertible {
         case let .play(card, player):
             "\n▶️ \(player) \(card)"
 
-        case let .playEquipment(card, player):
+        case let .equip(card, player):
             "✅ \(player) \(card)"
 
         case let .playAbility(card, player):
             "✅ \(player) \(card)"
 
-        case let .playHandicap(card, target, player):
+        case let .handicap(card, target, player):
             "❇️ \(player) \(card) \(target)"
 
         case let .playImmediate(card, target, player):

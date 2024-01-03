@@ -27,7 +27,7 @@ final class MustangSpec: QuickSpec {
 
                 // Then
                 expect(result) == [
-                    .playEquipment(.mustang, player: "p1"),
+                    .equip(.mustang, player: "p1"),
                     .setAttribute(.mustang, value: 1, player: "p1")
                 ]
             }
