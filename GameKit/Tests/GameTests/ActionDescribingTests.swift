@@ -31,8 +31,8 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.playAbility("c1", player: "p1")),
-            "✅ p1 c1"
+            String(describing: GameAction.discardPlayed("c1", player: "p1")),
+            "❌ p1 c1"
         )
 
         XCTAssertEqual(

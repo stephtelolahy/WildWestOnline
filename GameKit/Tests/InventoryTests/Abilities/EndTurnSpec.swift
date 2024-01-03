@@ -29,7 +29,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, player: "p1"),
+                        .play(.endTurn, player: "p1"),
                         .setTurn(player: "p2")
                     ]
                 }
@@ -55,7 +55,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, player: "p1"),
+                        .play(.endTurn, player: "p1"),
                         .setTurn(player: "p2")
                     ]
                 }
@@ -80,7 +80,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, player: "p1"),
+                        .play(.endTurn, player: "p1"),
                         .chooseOne([
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),
@@ -111,7 +111,7 @@ final class EndTurnSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playAbility(.endTurn, player: "p1"),
+                        .play(.endTurn, player: "p1"),
                         .chooseOne([
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),

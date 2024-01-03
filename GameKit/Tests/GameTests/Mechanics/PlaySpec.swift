@@ -75,7 +75,7 @@ final class PlaySpec: QuickSpec {
 
                     // Then
                     expect(result.sequence) == [
-                        .playAbility("c1", player: "p1")
+                        .play("c1", player: "p1")
                     ]
                 }
             }

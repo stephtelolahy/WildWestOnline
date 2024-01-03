@@ -22,14 +22,14 @@ private extension GameAction {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
 
+        case let .discardPlayed(card, player):
+            fatalError()
+
         case let .playImmediate(card, target, player):
             ActionPlayImmediate(player: player, card: card, target: target)
 
         case let .playAs(aliasCardName, card, target, player):
             ActionPlayAs(player: player, aliasCardName: aliasCardName, card: card, target: target)
-
-        case let .playAbility(card, player):
-            ActionPlayAbility(player: player, card: card)
 
         case let .equip(card, player):
             ActionPlayEquipment(player: player, card: card)

@@ -30,7 +30,7 @@ final class SidKetchumSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playAbility(.sidKetchum, player: "p1"),
+                        .play(.sidKetchum, player: "p1"),
                         .chooseOne([
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1")
@@ -63,7 +63,7 @@ final class SidKetchumSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playAbility(.sidKetchum, player: "p1"),
+                        .play(.sidKetchum, player: "p1"),
                         .chooseOne([
                             "c1": .discardHand("c1", player: "p1"),
                             "c2": .discardHand("c2", player: "p1"),

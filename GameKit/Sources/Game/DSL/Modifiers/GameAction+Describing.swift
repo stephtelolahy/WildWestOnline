@@ -14,9 +14,6 @@ extension GameAction: CustomStringConvertible {
         case let .equip(card, player):
             "✅ \(player) \(card)"
 
-        case let .playAbility(card, player):
-            "✅ \(player) \(card)"
-
         case let .handicap(card, target, player):
             "❇️ \(player) \(card) \(target)"
 
@@ -62,6 +59,9 @@ extension GameAction: CustomStringConvertible {
             "❌ \(player) \(card)"
 
         case let .discardInPlay(card, player):
+            "❌ \(player) \(card)"
+
+        case let .discardPlayed(card, player: player):
             "❌ \(player) \(card)"
 
         case let .revealHand(card, player):

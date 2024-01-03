@@ -18,9 +18,6 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Play a brown card as another card's effect, discard immediately
     case playAs(String, card: String, target: String? = nil, player: String)
 
-    /// Invoke an ability
-    case playAbility(String, player: String)
-
     // MARK: - Renderable actions
 
     /// Play a card
@@ -52,6 +49,9 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
 
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
+
+    /// Discard just played hand card
+    case discardPlayed(String, player: String)
 
     /// Put an equipment card on player's inPlay
     case equip(String, player: String)

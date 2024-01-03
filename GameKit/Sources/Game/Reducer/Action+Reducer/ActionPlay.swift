@@ -57,6 +57,24 @@ struct ActionPlay: GameActionReducer {
             }
         }
 
+        // queue effect immediately
+        if playRule.isMatching(.playAbility) {
+            var state = state
+            state.incrementPlayedThisTurn(for: card)
+
+            let event = GameAction.play(card, player: player)
+            let cardEffect = playRule.effect
+            let ctx = EffectContext(
+                actor: player,
+                card: card,
+                event: event
+            )
+
+            let childAction = GameAction.effect(cardEffect, ctx: ctx)
+            state.sequence.insert(childAction, at: 0)
+            return state
+        }
+
         // queue play action
         let action = PlayEffectResolver.playAction(
             card: card,
@@ -84,8 +102,6 @@ enum PlayEffectResolver {
             } else {
                 return .playImmediate(card, target: target, player: player)
             }
-        } else if playRule.isMatching(.playAbility) {
-            return .playAbility(card, player: player)
         } else if playRule.isMatching(.playEquipment) {
             return .equip(card, player: player)
         } else if playRule.isMatching(.playHandicap) {
@@ -129,17 +145,6 @@ enum PlayEffectResolver {
 
             guard let cardObj = state.cardRef[aliasCardName],
                   let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playImmediate) }) else {
-                return []
-            }
-
-            playRule = aRule
-
-        case let .playAbility(aCard, aPlayer):
-            player = aPlayer
-            card = aCard
-            let cardName = aCard.extractName()
-            guard let cardObj = state.cardRef[cardName],
-                  let aRule = cardObj.rules.first(where: { $0.playReqs.contains(.playAbility) }) else {
                 return []
             }
 
