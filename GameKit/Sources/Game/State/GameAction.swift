@@ -113,8 +113,7 @@ public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
-        case .play,
-             .effect,
+        case .effect,
              .group:
             false
 
