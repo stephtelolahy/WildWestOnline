@@ -10,12 +10,12 @@ import Utils
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
 public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible {
-    // MARK: - Play
-
     /// Play a brown card, discard immediately
+    @available(*, deprecated, renamed: "discardPlayed")
     case playImmediate(String, target: String? = nil, player: String)
 
     /// Play a brown card as another card's effect, discard immediately
+    @available(*, deprecated, renamed: "discardPlayed")
     case playAs(String, card: String, target: String? = nil, player: String)
 
     // MARK: - Renderable actions
@@ -56,17 +56,17 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     /// Put an equipment card on player's inPlay
     case equip(String, player: String)
 
-    /// Put handicap card on target's inPlay
+    /// Put hand card on target's inPlay
     case handicap(String, target: String, player: String)
 
-    /// Reveal hand card
-    case revealHand(String, player: String)
+    /// Pass inPlay card on target's inPlay
+    case passInPlay(String, target: String, player: String)
 
     /// Put back hand card to deck
     case putBackHand(String, player: String)
 
-    /// Pass inPlay card to another player
-    case passInPlay(String, target: String, player: String)
+    /// Reveal hand card
+    case revealHand(String, player: String)
 
     /// Draw a card from deck and put to arena
     case discover
