@@ -23,7 +23,7 @@ private extension GameAction {
             ActionPlay(player: player, card: card)
 
         case let .discardPlayed(card, player):
-            fatalError()
+            ActionDiscardHand(player: player, card: card)
 
         case let .playImmediate(card, target, player):
             ActionPlayImmediate(player: player, card: card, target: target)
