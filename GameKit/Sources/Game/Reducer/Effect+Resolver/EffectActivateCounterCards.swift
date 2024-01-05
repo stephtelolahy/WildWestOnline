@@ -64,11 +64,12 @@ private enum CounterActionResolver {
             return nil
         }
 
-        let action: GameAction = if let aliasCardName {
-            .playAs(aliasCardName, card: card, player: player)
-        } else {
-            .playImmediate(card, player: player)
-        }
+//        let action: GameAction = if let aliasCardName {
+//            .playAs(aliasCardName, card: card, player: player)
+//        } else {
+//            .play(card, player: player)
+//        }
+        let action = GameAction.play(card, player: player)
 
         return CounterOption(card: card, action: action)
     }

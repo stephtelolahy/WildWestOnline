@@ -9,27 +9,13 @@ extension GameAction: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .play(card, player):
-            "\n▶️ \(player) \(card)"
+            "\n✅ \(player) \(card)"
 
         case let .equip(card, player):
-            "✅ \(player) \(card)"
+            "💼 \(player) \(card)"
 
         case let .handicap(card, target, player):
-            "❇️ \(player) \(card) \(target)"
-
-        case let .playImmediate(card, target, player):
-            if let target {
-                "❇️ \(player) \(card) \(target)"
-            } else {
-                "✅ \(player) \(card)"
-            }
-
-        case let .playAs(alias, _, target, player):
-            if let target {
-                "❇️ \(player) \(alias) \(target)"
-            } else {
-                "✅ \(player) \(alias)"
-            }
+            "🚫 \(player) \(card) \(target)"
 
         case let .heal(amount, player):
             "\(String(repeating: "❤️", count: amount)) \(player)"

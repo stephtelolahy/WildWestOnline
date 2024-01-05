@@ -10,14 +10,6 @@ import Utils
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
 public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible {
-    /// Play a brown card, discard immediately
-    @available(*, deprecated, renamed: "discardPlayed")
-    case playImmediate(String, target: String? = nil, player: String)
-
-    /// Play a brown card as another card's effect, discard immediately
-    @available(*, deprecated, renamed: "discardPlayed")
-    case playAs(String, card: String, target: String? = nil, player: String)
-
     // MARK: - Renderable actions
 
     /// Play a card

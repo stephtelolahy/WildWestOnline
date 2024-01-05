@@ -23,14 +23,6 @@ struct ActionPlayHandicap: GameActionReducer {
         state[keyPath: \GameState.players[player]]?.hand.remove(card)
         state[keyPath: \GameState.players[target]]?.inPlay.append(card)
 
-        // save played card
-        state.incrementPlayedThisTurn(for: cardName)
-
-        // queue triggered effect
-        let event = GameAction.handicap(card, target: target, player: player)
-        let children = PlayEffectResolver.triggeredEffect(event: event, state: state)
-        state.sequence.insert(contentsOf: children, at: 0)
-
         return state
     }
 }

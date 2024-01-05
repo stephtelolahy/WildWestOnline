@@ -32,62 +32,42 @@ struct ActionPlay: GameActionReducer {
             try playReq.throwingMatch(state: state, ctx: playReqContext)
         }
 
-        // resolve target
-        if case let .target(requiredTarget, _) = playRule.effect {
-            let ctx = EffectContext(
-                actor: player,
-                card: card,
-                event: .nothing
-            )
-            let resolvedTarget = try requiredTarget.resolve(state: state, ctx: ctx)
-            if case let .selectable(pIds) = resolvedTarget {
-                let options = pIds.reduce(into: [String: GameAction]()) {
-                    $0[$1] = PlayEffectResolver.playAction(
-                        card: card,
-                        player: player,
-                        playRule: playRule,
-                        target: $1,
-                        aliasCardName: aliasCardName
-                    )
-                }
-                let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
-                var state = state
-                state.sequence.insert(chooseOne, at: 0)
-                return state
-            }
-        }
-
-        // queue effect immediately
-        if playRule.isMatching(.playAbility) {
-            var state = state
-            state.incrementPlayedThisTurn(for: card)
-
-            let event = GameAction.play(card, player: player)
-            let cardEffect = playRule.effect
-            let ctx = EffectContext(
-                actor: player,
-                card: card,
-                event: event
-            )
-
-            let childAction = GameAction.effect(cardEffect, ctx: ctx)
-            state.sequence.insert(childAction, at: 0)
-            return state
-        }
-
-        // queue play action
-        let action = PlayEffectResolver.playAction(
-            card: card,
-            player: player,
-            playRule: playRule,
-            aliasCardName: aliasCardName
-        )
+        // queue play effects
         var state = state
-        state.sequence.insert(action, at: 0)
+        state.incrementPlayedThisTurn(for: card)
+
+        let event = GameAction.play(card, player: player)
+        let cardEffect = playRule.effect
+        let ctx = EffectContext(
+            actor: player,
+            card: card,
+            event: event
+        )
+
+        var children: [GameAction] = []
+
+        // discard brown card immediately
+        if playRule.isMatching(.playImmediate) {
+//            if let aliasCardName {
+//                return .playAs(aliasCardName, card: card, target: target, player: player)
+//            } else {
+//                return .playImmediate(card, target: target, player: player)
+//            }
+
+            children.append(.discardPlayed(card, player: player))
+        }
+
+        if playRule.isMatching(.playEquipment) {
+            children.append(.equip(card, player: player))
+        }
+
+        children.append(.effect(cardEffect, ctx: ctx))
+        state.sequence.insert(contentsOf: children, at: 0)
+
         return state
     }
 }
-
+/*
 enum PlayEffectResolver {
     static func playAction(
         card: String,
@@ -195,7 +175,7 @@ enum PlayEffectResolver {
         return [.effect(sideEffect, ctx: ctx)]
     }
 }
-
+*/
 private extension PlayReq {
     static let playEvents: [Self] = [
         .playImmediate,

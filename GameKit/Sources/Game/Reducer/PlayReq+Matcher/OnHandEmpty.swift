@@ -7,19 +7,19 @@
 
 struct OnHandEmpty: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        if case let .playImmediate(_, _, player) = ctx.event,
-           player == ctx.actor,
-           state.player(ctx.actor).hand.isEmpty {
-            return true
-        }
-
-        if case let .handicap(_, _, player) = ctx.event,
+        if case let .discardPlayed(_, player) = ctx.event,
            player == ctx.actor,
            state.player(ctx.actor).hand.isEmpty {
             return true
         }
 
         if case let .discardHand(_, player) = ctx.event,
+           player == ctx.actor,
+           state.player(ctx.actor).hand.isEmpty {
+            return true
+        }
+
+        if case let .handicap(_, _, player) = ctx.event,
            player == ctx.actor,
            state.player(ctx.actor).hand.isEmpty {
             return true
