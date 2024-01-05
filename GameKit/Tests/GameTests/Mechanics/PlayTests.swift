@@ -9,7 +9,7 @@ import Game
 import XCTest
 
 final class PlayTests: XCTestCase {
-    func test_playing_withNotPlayableCard_shouldThrowError() {
+    func test_play_withNotPlayableCard_shouldThrowError() {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -25,7 +25,7 @@ final class PlayTests: XCTestCase {
         XCTAssertEqual(result.error, .cardNotPlayable("c1"))
     }
 
-    func test_playing_withPlayableCard_shouldApplyEffects() {
+    func test_play_withPlayableCard_shouldApplyEffects() {
         // Given
         let card1 = Card("c1") {
             CardEffect.nothing
