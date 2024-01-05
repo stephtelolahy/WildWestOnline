@@ -22,14 +22,11 @@ private extension GameAction {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
 
-        case let .discardPlayed(card, player):
-            ActionDiscardHand(player: player, card: card)
-
         case let .equip(card, player):
-            ActionPlayEquipment(player: player, card: card)
+            ActionEquip(player: player, card: card)
 
         case let .handicap(card, target, player):
-            ActionPlayHandicap(player: player, card: card, target: target)
+            ActionHandicap(player: player, card: card, target: target)
 
         case let .heal(amount, player):
             ActionHeal(player: player, amount: amount)
@@ -37,11 +34,12 @@ private extension GameAction {
         case let .damage(amount, player):
             ActionDamage(player: player, amount: amount)
 
-        case let .discardHand(card, player):
+        case let .discardHand(card, player),
+            let .discardPlayed(card, player):
             ActionDiscardHand(player: player, card: card)
 
         case let .putBack(card, player):
-            ActionPutBackHand(player: player, card: card)
+            ActionPutBack(player: player, card: card)
 
         case let .revealHand(card, player):
             ActionRevealHand(card: card, player: player)

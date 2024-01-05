@@ -1,11 +1,11 @@
 //
-//  ActionPutBackHand.swift
+//  ActionPutBack.swift
 //  
 //
 //  Created by Hugues Stephano TELOLAHY on 19/12/2023.
 //
 
-struct ActionPutBackHand: GameActionReducer {
+struct ActionPutBack: GameActionReducer {
     let player: String
     let card: String
 

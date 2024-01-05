@@ -28,7 +28,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case discard(ArgCard, chooser: ArgPlayer? = nil)
 
     /// Put  back on top deck a hand card among last N
-    case putBackHand(among: ArgNum)
+    case putBack(among: ArgNum)
 
     /// Draw card from a player
     /// - the player that steals cards is `EffectContext.actor`

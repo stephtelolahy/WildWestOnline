@@ -1,27 +1,26 @@
 //
-//  ActionPlayHandicap.swift
-//  
+//  ActionEquip.swift
 //
-//  Created by Hugues Telolahy on 11/06/2023.
+//
+//  Created by Hugues Telolahy on 10/06/2023.
 //
 
-struct ActionPlayHandicap: GameActionReducer {
+struct ActionEquip: GameActionReducer {
     let player: String
     let card: String
-    let target: String
 
     func reduce(state: GameState) throws -> GameState {
         // verify rule: not already inPlay
         let cardName = card.extractName()
-        let targetObj = state.player(target)
-        guard targetObj.inPlay.allSatisfy({ $0.extractName() != cardName }) else {
+        let playerObj = state.player(player)
+        guard playerObj.inPlay.allSatisfy({ $0.extractName() != cardName }) else {
             throw GameError.cardAlreadyInPlay(cardName)
         }
 
-        // put card on other's play
+        // put card on self's play
         var state = state
         state[keyPath: \GameState.players[player]]?.hand.remove(card)
-        state[keyPath: \GameState.players[target]]?.inPlay.append(card)
+        state[keyPath: \GameState.players[player]]?.inPlay.append(card)
 
         return state
     }

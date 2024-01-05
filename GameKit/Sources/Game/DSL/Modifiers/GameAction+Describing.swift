@@ -108,8 +108,8 @@ extension CardEffect: CustomStringConvertible {
             "drawDeck"
         case .discard:
             "discard"
-        case .putBackHand:
-            "putBackHand"
+        case .putBack:
+            "putBack"
         case .steal:
             "steal"
         case .passInPlay:

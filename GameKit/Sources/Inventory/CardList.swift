@@ -378,7 +378,7 @@ private extension CardList {
         CardEffect.group {
             CardEffect.drawDeck
                 .repeat(.add(1, attr: .startTurnCards))
-            CardEffect.putBackHand(among: .add(1, attr: .startTurnCards))
+            CardEffect.putBack(among: .add(1, attr: .startTurnCards))
         }
         .on([.setTurn])
     }

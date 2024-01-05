@@ -6,8 +6,7 @@
 //
 
 extension EffectContext {
-    /// Player to whom effect is applied
-    func player() -> String {
+    func targetOrActor() -> String {
         target ?? actor
     }
 }
