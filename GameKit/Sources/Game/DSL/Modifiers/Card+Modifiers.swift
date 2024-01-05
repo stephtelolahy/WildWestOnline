@@ -27,7 +27,7 @@ public extension Card {
         self.abilities = abilities
         self.attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
         self.rules = (prototype?.rules ?? []) + content()
-        self.alias = alias
+        self.abilityToPlayCardAs = alias
     }
 
     func withPriority(_ value: Int) -> Self {
@@ -35,7 +35,7 @@ public extension Card {
             name: name,
             abilities: abilities,
             attributes: attributes,
-            alias: alias,
+            abilityToPlayCardAs: abilityToPlayCardAs,
             priority: value,
             rules: rules
         )

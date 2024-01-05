@@ -10,47 +10,40 @@ struct EffectActivateCounterCards: EffectResolver {
         let playerObj = state.player(ctx.actor)
         let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
 
-        let counterOptions = playerObj.hand.compactMap {
-            CounterActionResolver.counterAction(card: $0, player: ctx.actor, state: state, ctx: playReqContext)
+        var counterOptions: [String: GameAction] = [:]
+        for card in playerObj.hand {
+            if CounterActionResolver.isCounterCard(card, player: ctx.actor, state: state, ctx: playReqContext) {
+                counterOptions[card] = .play(card, player: ctx.actor)
+            }
         }
 
         guard counterOptions.isNotEmpty else {
             return []
         }
 
-        var options = counterOptions.reduce(into: [String: GameAction]()) {
-            $0[$1.card] = $1.action
-        }
-        options[.pass] = .nothing
+        counterOptions[.pass] = .nothing
 
         let chooseOne = try GameAction.validateChooseOne(
             chooser: ctx.actor,
-            options: options,
+            options: counterOptions,
             state: state
         )
         return [chooseOne]
     }
 }
 
-private struct CounterOption {
-    let card: String
-    let action: GameAction
-}
-
 private enum CounterActionResolver {
-    static func counterAction(card: String, player: String, state: GameState, ctx: PlayReqContext) -> CounterOption? {
+    static func isCounterCard(_ card: String, player: String, state: GameState, ctx: PlayReqContext) -> Bool {
         var cardName = card.extractName()
 
         // resolve card alias>
-        var aliasCardName: String?
         if let alias = state.alias(for: card, player: player, ctx: ctx) {
             cardName = alias
-            aliasCardName = alias
         }
         // </resolve card alias>
 
         guard let cardObj = state.cardRef[cardName] else {
-            return nil
+            return false
         }
 
         guard cardObj.rules.contains(where: {
@@ -61,16 +54,9 @@ private enum CounterActionResolver {
                 return false
             }
         }) else {
-            return nil
+            return false
         }
 
-//        let action: GameAction = if let aliasCardName {
-//            .playAs(aliasCardName, card: card, player: player)
-//        } else {
-//            .play(card, player: player)
-//        }
-        let action = GameAction.play(card, player: player)
-
-        return CounterOption(card: card, action: action)
+        return true
     }
 }

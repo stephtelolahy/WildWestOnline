@@ -10,15 +10,12 @@ struct ActionPlay: GameActionReducer {
     let card: String
 
     func reduce(state: GameState) throws -> GameState {
-        // verify play rule
-        var cardName = card.extractName()
-
         // <resolve card alias>
-        var aliasCardName: String?
-        let playReqContext = PlayReqContext(actor: player, event: .play(card, player: player))
+        var cardName = card.extractName()
+        let event = GameAction.play(card, player: player)
+        let playReqContext = PlayReqContext(actor: player, event: event)
         if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
             cardName = alias
-            aliasCardName = alias
         }
         // </resolve card alias>
 
@@ -36,7 +33,6 @@ struct ActionPlay: GameActionReducer {
         var state = state
         state.incrementPlayedThisTurn(for: card)
 
-        let event = GameAction.play(card, player: player)
         let cardEffect = playRule.effect
         let ctx = EffectContext(
             actor: player,

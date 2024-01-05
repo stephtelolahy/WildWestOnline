@@ -14,7 +14,7 @@ public struct Card: Codable, Equatable {
     public let attributes: [AttributeKey: Int]
 
     /// Playable card alias
-    public let alias: [CardAlias]
+    public let abilityToPlayCardAs: [CardAlias]
 
     /// Effect priority
     public let priority: Int

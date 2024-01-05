@@ -23,7 +23,7 @@ final class CardTests: XCTestCase {
             "priority": 1,
             "abilities": [],
             "attributes": {},
-            "alias": [],
+            "abilityToPlayCardAs": [],
             "rules": []
         }
         """
