@@ -40,7 +40,7 @@ private extension GameAction {
         case let .discardHand(card, player):
             ActionDiscardHand(player: player, card: card)
 
-        case let .putBackHand(card, player):
+        case let .putBack(card, player):
             ActionPutBackHand(player: player, card: card)
 
         case let .revealHand(card, player):
