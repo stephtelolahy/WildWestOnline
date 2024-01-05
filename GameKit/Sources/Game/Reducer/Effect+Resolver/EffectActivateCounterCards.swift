@@ -11,10 +11,9 @@ struct EffectActivateCounterCards: EffectResolver {
         let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
 
         var counterOptions: [String: GameAction] = [:]
-        for card in playerObj.hand {
-            if CounterActionResolver.isCounterCard(card, player: ctx.actor, state: state, ctx: playReqContext) {
-                counterOptions[card] = .play(card, player: ctx.actor)
-            }
+        for card in playerObj.hand
+            where CounterActionResolver.isCounterCard(card, player: ctx.actor, state: state, ctx: playReqContext) {
+            counterOptions[card] = .play(card, player: ctx.actor)
         }
 
         guard counterOptions.isNotEmpty else {
