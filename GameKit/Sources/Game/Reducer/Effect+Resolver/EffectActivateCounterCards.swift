@@ -40,9 +40,9 @@ private struct CounterOption {
 private enum CounterActionResolver {
     static func counterAction(card: String, player: String, state: GameState, ctx: PlayReqContext) -> CounterOption? {
         var cardName = card.extractName()
-        var aliasCardName: String?
 
         // resolve card alias>
+        var aliasCardName: String?
         if let alias = state.alias(for: card, player: player, ctx: ctx) {
             cardName = alias
             aliasCardName = alias
@@ -54,7 +54,7 @@ private enum CounterActionResolver {
         }
 
         guard cardObj.rules.contains(where: {
-            if $0.playReqs.contains(.playImmediate),
+            if $0.playReqs.contains(.play),
                case .counterShoot = $0.effect {
                 return true
             } else {

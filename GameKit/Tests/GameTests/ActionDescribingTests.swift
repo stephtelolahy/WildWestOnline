@@ -15,21 +15,21 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPlay() {
         XCTAssertEqual(
             String(describing: GameAction.play("c1", player: "p1")),
-            "\n▶️ p1 c1"
+            "\n✅ p1 c1"
         )
     }
 
     func test_DescribingEquip() {
         XCTAssertEqual(
             String(describing: GameAction.equip("c1", player: "p1")),
-            "✅ p1 c1"
+            "💼 p1 c1"
         )
     }
 
     func test_DescribingHandicap() {
         XCTAssertEqual(
             String(describing: GameAction.handicap("c1", target: "p2", player: "p1")),
-            "❇️ p1 c1 p2"
+            "🚫 p1 c1 p2"
         )
     }
 

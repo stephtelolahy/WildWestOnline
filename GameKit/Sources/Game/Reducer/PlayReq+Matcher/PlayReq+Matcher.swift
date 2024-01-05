@@ -46,12 +46,6 @@ private extension PlayReq {
         case .anotherEliminated:
             OnAnotherEliminated()
 
-        case .playImmediate,
-                .playHandicap,
-                .playAbility,
-                .playEquipment:
-            NeverMatch()
-
         case .play:
             OnPlay()
 
@@ -76,11 +70,5 @@ private extension PlayReq {
         case .isYourTurn:
             IsYourTurn()
         }
-    }
-}
-
-private struct NeverMatch: PlayReqMatcher {
-    func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        false
     }
 }
