@@ -26,5 +26,4 @@ final class PassInPlayTests: XCTestCase {
         XCTAssertEqual(result.player("p1").inPlay, ["c2"])
         XCTAssertEqual(result.player("p2").inPlay, ["c1"])
     }
-
 }
