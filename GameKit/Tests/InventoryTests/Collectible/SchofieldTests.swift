@@ -26,6 +26,7 @@ final class SchofieldTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
+            .play(.schofield, player: "p1"),
             .equip(.schofield, player: "p1"),
             .setAttribute(.weapon, value: 2, player: "p1")
         ])
@@ -48,6 +49,7 @@ final class SchofieldTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
+            .play(.schofield, player: "p1"),
             .equip(.schofield, player: "p1"),
             .discardInPlay(.remington, player: "p1"),
             .setAttribute(.weapon, value: 2, player: "p1")

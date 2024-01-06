@@ -29,5 +29,4 @@ final class MustangTests: XCTestCase {
             .setAttribute(.mustang, value: 1, player: "p1")
         ])
     }
-
 }

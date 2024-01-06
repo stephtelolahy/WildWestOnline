@@ -50,6 +50,7 @@ final class PanicSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .play(.panic, player: "p1"),
+                            .discardPlayed(.panic, player: "p1"),
                             .chooseOne([
                                 "p2": .play(.panic, player: "p1")
                             ], player: "p1"),
@@ -80,6 +81,7 @@ final class PanicSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .play(.panic, player: "p1"),
+                            .discardPlayed(.panic, player: "p1"),
                             .chooseOne([
                                 "p2": .nothing
                             ], player: "p1"),
@@ -112,6 +114,7 @@ final class PanicSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .play(.panic, player: "p1"),
+                            .discardPlayed(.panic, player: "p1"),
                             .chooseOne([
                                 "p2": .nothing
                             ], player: "p1"),

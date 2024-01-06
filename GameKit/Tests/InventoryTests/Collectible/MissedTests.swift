@@ -46,6 +46,7 @@ final class MissedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .chooseOne([
                 .missed: .play(.missed, player: "p2"),
                 .pass: .nothing
@@ -75,6 +76,7 @@ final class MissedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .chooseOne([
                 .missed1: .play(.missed1, player: "p2"),
                 .missed2: .play(.missed2, player: "p2"),
@@ -109,6 +111,7 @@ final class MissedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.gatling, player: "p1"),
+            .discardPlayed(.gatling, player: "p1"),
             .chooseOne([
                 .missed: .play(.missed, player: "p2"),
                 .pass: .nothing

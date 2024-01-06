@@ -28,6 +28,7 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .chooseOne([
                 "p2": .nothing
             ], player: "p1"),
@@ -53,6 +54,7 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.missed, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .chooseOne([
                 "p2": .nothing
             ], player: "p1"),
@@ -81,6 +83,7 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .chooseOne([
                 "p2": .nothing
             ], player: "p1"),
@@ -114,6 +117,7 @@ final class CalamityJanetTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .chooseOne([
                 "p2": .nothing
             ], player: "p1"),
