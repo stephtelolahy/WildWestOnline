@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 22/06/2023.
 //
+
 import Foundation
 
 struct EffectLuck: EffectResolver {

@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 09/04/2023.
 //
+
 import Redux
 
 public func createGameStore(initial: GameState, completed: (() -> Void)? = nil) -> Store<GameState> {
