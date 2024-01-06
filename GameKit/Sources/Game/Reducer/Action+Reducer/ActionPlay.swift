@@ -19,28 +19,37 @@ struct ActionPlay: GameActionReducer {
         }
         // </resolve card alias>
 
-        guard let cardObj = state.cardRef[cardName],
-              let playRule = cardObj.rules.first(where: { $0.playReqs.contains(.play) }) else {
+        guard let cardObj = state.cardRef[cardName] else {
+            throw GameError.cardNotPlayable(card)
+        }
+
+        let playRules =  cardObj.rules.filter { $0.playReqs.contains(.play) }
+        guard playRules.isNotEmpty else {
             throw GameError.cardNotPlayable(card)
         }
 
         // verify requirements
-        for playReq in playRule.playReqs where playReq != .play {
-            try playReq.throwingMatch(state: state, ctx: playReqContext)
+        for playRule in playRules {
+            for playReq in playRule.playReqs {
+                try playReq.throwingMatch(state: state, ctx: playReqContext)
+            }
         }
 
-        // queue play effects
-        var state = state
-        state.incrementPlayedThisTurn(for: card)
 
-        let cardEffect = playRule.effect
+        var state = state
+
+        // increment play counter
+        state.incrementPlayedThisTurn(for: cardName)
+
+        // queue play effects
         let ctx = EffectContext(
             actor: player,
             card: card,
             event: event
         )
+        let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
+        state.sequence.insert(contentsOf: children, at: 0)
 
-        state.sequence.insert(.effect(cardEffect, ctx: ctx), at: 0)
         return state
     }
 }
