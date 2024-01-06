@@ -12,7 +12,7 @@ struct EffectActivateCounterCards: EffectResolver {
 
         var counterOptions: [String: GameAction] = [:]
         for card in playerObj.hand
-            where CounterActionResolver.isCounterCard(card, player: ctx.actor, state: state, ctx: playReqContext) {
+            where CounterActionResolver.isCounterShootCard(card, player: ctx.actor, state: state, ctx: playReqContext) {
             counterOptions[card] = .play(card, player: ctx.actor)
         }
 
@@ -32,7 +32,12 @@ struct EffectActivateCounterCards: EffectResolver {
 }
 
 private enum CounterActionResolver {
-    static func isCounterCard(_ card: String, player: String, state: GameState, ctx: PlayReqContext) -> Bool {
+    static func isCounterShootCard(
+        _ card: String,
+        player: String,
+        state: GameState,
+        ctx: PlayReqContext
+    ) -> Bool {
         var cardName = card.extractName()
 
         // resolve card alias>

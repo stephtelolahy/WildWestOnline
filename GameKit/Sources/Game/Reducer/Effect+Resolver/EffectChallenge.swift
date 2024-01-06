@@ -48,15 +48,15 @@ struct EffectChallenge: EffectResolver {
                 ]
 
             case let .chooseOne(options, player):
-                var reversedCtx = ctx
-                reversedCtx.target = challengerId
+                var contextWithReversedTarget = ctx
+                contextWithReversedTarget.target = challengerId
                 let reversedAction = GameAction.effect(
                     .challenge(
                         .id(target),
                         effect: effect,
                         otherwise: otherwise
                     ),
-                    ctx: reversedCtx
+                    ctx: contextWithReversedTarget
                 )
                 var options = options.mapValues { childAction in
                     GameAction.group {

@@ -1,6 +1,6 @@
 //
 //  CardEffect+Resolver.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 11/05/2023.
 //
@@ -53,13 +53,13 @@ private extension CardEffect {
             EffectDiscard(card: card, chooser: chooser)
 
         case .discardPlayed:
-            fatalError("unimplemented")
+            EffectJust { .discardPlayed($0.card, player: $0.actor) }
 
         case .equip:
-            fatalError("unimplemented")
+            EffectJust { .equip($0.card, player: $0.actor) }
 
         case .handicap:
-            fatalError("unimplemented")
+            EffectJust { .handicap($0.card, target: $0.target!, player: $0.actor) }
 
         case let .putBack(among):
             EffectPutBack(among: among)
