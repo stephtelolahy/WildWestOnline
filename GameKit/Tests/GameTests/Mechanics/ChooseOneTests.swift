@@ -9,7 +9,7 @@ import Game
 import XCTest
 
 final class ChooseOneTests: XCTestCase {
-    func test_dispatch_withWaitedAction_shouldRemoveWaitingState() {
+    func test_dispatchAction_waited_shouldRemoveWaitingState() {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -29,7 +29,7 @@ final class ChooseOneTests: XCTestCase {
         XCTAssertEqual(result.chooseOne, [:])
     }
 
-    func test_dispatch_withNonWaitedAction_shouldThrowError() {
+    func test_dispatchAction_nonWaited_shouldThrowError() {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
