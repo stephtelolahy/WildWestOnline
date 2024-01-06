@@ -21,12 +21,10 @@ final class SetupTests: XCTestCase {
         let deck = Setup.buildDeck(cardSets: cardSets)
 
         // Then
-        XCTAssertTrue(deck.contains([
-            "card1-val11",
-            "card1-val12",
-            "card2-val21",
-            "card2-val22"
-        ]))
+        XCTAssertTrue(deck.contains("card1-val11"))
+        XCTAssertTrue(deck.contains("card1-val12"))
+        XCTAssertTrue(deck.contains("card2-val21"))
+        XCTAssertTrue(deck.contains("card2-val22"))
     }
 
     func test_setupGame_shouldCreatePlayer() {
