@@ -83,7 +83,6 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case cancel(Self)
 
     /// Expose a choice
-    @available(*, deprecated, message: "Hide option details")
     case chooseOne([String: Self], player: String)
 
     /// Expose active cards

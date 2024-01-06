@@ -33,7 +33,7 @@ final class ElGringoTests: XCTestCase {
             .play(.bang, player: "p2"),
             .discardPlayed(.bang, player: "p2"),
             .chooseOne([
-                "p1": .nothing
+                "p1": .damage(1, player: "p1")
             ], player: "p2"),
             .damage(1, player: "p1"),
             .drawHand("c2", target: "p2", player: "p1")
@@ -49,6 +49,7 @@ final class ElGringoTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.bang])
+                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withTurn("p2")
             .build()
@@ -60,8 +61,9 @@ final class ElGringoTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.bang, player: "p2"),
+            .discardPlayed(.bang, player: "p2"),
             .chooseOne([
-                "p1": .nothing
+                "p1": .damage(1, player: "p1")
             ], player: "p2"),
             .damage(1, player: "p1")
         ])
