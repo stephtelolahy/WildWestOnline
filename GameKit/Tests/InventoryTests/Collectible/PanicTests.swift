@@ -120,11 +120,13 @@ final class PanicTests: XCTestCase {
         // Given
         // When
         // Then
+        #warning("unimplemented")
     }
 
     func test_playing_Panic_targetIsSelf_shouldNotChooseHandCard() {
         // Given
         // When
         // Then
+        #warning("unimplemented")
     }
 }
