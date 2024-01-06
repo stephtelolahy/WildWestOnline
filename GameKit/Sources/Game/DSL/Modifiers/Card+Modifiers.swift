@@ -16,13 +16,13 @@ public extension Card {
         silent: [String] = [],
         alias: [CardAlias] = [],
         priority: Int = 0,
-        @CardRuleBuilder content: () -> [CardRule] = { [] }
+        @CardRuleBuilder rules: () -> [CardRule] = { [] }
     ) {
         self.name = name
         self.priority = priority
         self.abilities = (prototype?.abilities ?? []).union(abilities).filter { !silent.contains($0) }
         self.attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
-        self.rules = (prototype?.rules ?? []) + content()
+        self.rules = (prototype?.rules ?? []) + rules()
         self.abilityToPlayCardAs = alias
     }
 

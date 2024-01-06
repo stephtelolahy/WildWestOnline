@@ -200,7 +200,7 @@ private extension CardList {
         Card(
             .barrel,
             prototype: equipement,
-            content: {
+            rules: {
                 CardEffect.group {
                     CardEffect.draw
                         .repeat(.attr(.flippedCards))
@@ -218,7 +218,7 @@ private extension CardList {
         Card(
             .dynamite,
             prototype: equipement,
-            content: {
+            rules: {
                 CardEffect.group {
                     CardEffect.draw
                         .repeat(.attr(.flippedCards))
