@@ -35,7 +35,6 @@ struct ActionPlay: GameActionReducer {
             }
         }
 
-
         var state = state
 
         // increment play counter

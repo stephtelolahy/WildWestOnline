@@ -61,5 +61,4 @@ final class NextTurnOnEliminatedTests: XCTestCase {
             .drawDeck(player: "p2")
         ])
     }
-
 }

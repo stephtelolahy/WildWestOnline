@@ -57,5 +57,4 @@ final class GameOverTests: XCTestCase {
         // Then
         XCTAssertEqual(error, .gameIsOver)
     }
-
 }
