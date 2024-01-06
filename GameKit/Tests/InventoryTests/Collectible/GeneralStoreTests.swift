@@ -9,7 +9,6 @@ import Game
 import XCTest
 
 final class GeneralStoreTests: XCTestCase {
-
     func test_playingGeneralStore_threePlayers_shouldAllowEachPlayerToChooseACard() {
         // Given
         let state = GameState.makeBuilderWithCardRef()

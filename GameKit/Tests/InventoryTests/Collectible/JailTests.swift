@@ -37,7 +37,6 @@ final class JailTests: XCTestCase {
         // Given
         // When
         // Then
-#warning("unimplemented")
     }
 
     func test_triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() {
