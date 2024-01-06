@@ -197,61 +197,94 @@ private extension CardList {
     }
 
     static var barrel: Card {
-        Card(.barrel, prototype: equipement) {
-            CardEffect.group {
-                CardEffect.draw
-                    .repeat(.attr(.flippedCards))
-                CardEffect.luck(
-                    .topDiscard,
-                    regex: .regexSaveByBarrel,
-                    onSuccess: .counterShoot
-                )
-            }
-            .on([.shot])
-        }
+        Card(
+            .barrel,
+            prototype: equipement,
+            content: {
+                CardEffect.group {
+                    CardEffect.draw
+                        .repeat(.attr(.flippedCards))
+                    CardEffect.luck(
+                        .topDiscard,
+                        regex: .regexSaveByBarrel,
+                        onSuccess: .counterShoot
+                    )
+                }
+                .on([.shot])
+            })
     }
 
     static var dynamite: Card {
-        Card(.dynamite, prototype: equipement) {
-            CardEffect.group {
-                CardEffect.draw
-                    .repeat(.attr(.flippedCards))
-                CardEffect.luck(
-                    .topDiscard,
-                    regex: .regexPassDynamite,
-                    onSuccess: .passInPlay(.played, toPlayer: .next),
-                    onFailure: .group([
-                        .damage(3),
-                        .discard(.played)
-                    ])
-                )
-            }
-            .on([.setTurn])
-        }
+        Card(
+            .dynamite,
+            prototype: equipement,
+            content: {
+                CardEffect.group {
+                    CardEffect.draw
+                        .repeat(.attr(.flippedCards))
+                    CardEffect.luck(
+                        .topDiscard,
+                        regex: .regexPassDynamite,
+                        onSuccess: .passInPlay(.played, toPlayer: .next),
+                        onFailure: .group([
+                            .damage(3),
+                            .discard(.played)
+                        ])
+                    )
+                }
+                .on([.setTurn])
+            })
     }
 
     static var schofield: Card {
-        Card(.schofield, prototype: equipement, attributes: [.weapon: 2])
+        Card(
+            .schofield,
+            prototype: equipement,
+            attributes: [.weapon: 2]
+        )
     }
 
     static var remington: Card {
-        Card(.remington, prototype: equipement, attributes: [.weapon: 3])
+        Card(
+            .remington,
+            prototype: equipement,
+            attributes: [.weapon: 3]
+        )
     }
 
     static var revCarabine: Card {
-        Card(.revCarabine, prototype: equipement, attributes: [.weapon: 4])
+        Card(
+            .revCarabine,
+            prototype: equipement,
+            attributes: [.weapon: 4]
+        )
     }
 
     static var winchester: Card {
-        Card(.winchester, prototype: equipement, attributes: [.weapon: 5])
+        Card(
+            .winchester,
+            prototype: equipement,
+            attributes: [.weapon: 5]
+        )
     }
 
     static var volcanic: Card {
-        Card(.volcanic, prototype: equipement, attributes: [.weapon: 1, .bangsPerTurn: 0])
+        Card(
+            .volcanic,
+            prototype: equipement,
+            attributes: [
+                .weapon: 1,
+                .bangsPerTurn: 0
+            ]
+        )
     }
 
     static var scope: Card {
-        Card(.scope, prototype: equipement, attributes: [.scope: 1])
+        Card(
+            .scope,
+            prototype: equipement,
+            attributes: [.scope: 1]
+        )
     }
 
     static var mustang: Card {
