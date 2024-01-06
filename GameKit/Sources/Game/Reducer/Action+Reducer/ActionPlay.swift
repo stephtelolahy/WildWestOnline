@@ -23,7 +23,7 @@ struct ActionPlay: GameActionReducer {
             throw GameError.cardNotPlayable(card)
         }
 
-        let playRules =  cardObj.rules.filter { $0.playReqs.contains(.play) }
+        let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
         guard playRules.isNotEmpty else {
             throw GameError.cardNotPlayable(card)
         }
