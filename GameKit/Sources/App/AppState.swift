@@ -35,21 +35,10 @@ public struct AppState: Codable, Equatable {
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-
-        // Update active game
         state = activeGameReducer(state, action)
-
-        // Update visible screens
         state.screens = NavState.reducer(state.screens, action)
-
-        // Update game state
-        if let gameState = state.game {
-            state.game = GameState.reducer(gameState, action)
-        }
-
-        // Update settings
+        state.game = state.game.flatMap { GameState.reducer($0, action) }
         state.settings = SettingsState.reducer(state.settings, action)
-
         return state
     }
 }
