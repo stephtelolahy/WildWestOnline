@@ -29,8 +29,8 @@ public extension Card {
     func withPriority(_ value: Int) -> Self {
         .init(
             name: name,
-            abilities: abilities,
             attributes: attributes,
+            abilities: abilities,
             abilityToPlayCardAs: abilityToPlayCardAs,
             priority: value,
             rules: rules
