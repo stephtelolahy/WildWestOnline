@@ -1,6 +1,6 @@
 //
 //  VolcanicTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
@@ -42,8 +42,8 @@ final class VolcanicTests: XCTestCase {
                         .updateAttributesOnChangeInPlay
                     ])
                     .withAttributes([
-                            .weapon: 2,
-                            .bangsPerTurn: 1
+                        .weapon: 2,
+                        .bangsPerTurn: 1
                     ])
             }
             .build()

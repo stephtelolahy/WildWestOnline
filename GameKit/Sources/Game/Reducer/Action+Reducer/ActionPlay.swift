@@ -30,7 +30,7 @@ struct ActionPlay: GameActionReducer {
 
         // verify requirements
         for playRule in playRules {
-            for playReq in playRule.playReqs {
+            for playReq in playRule.playReqs where playReq != .play {
                 try playReq.throwingMatch(state: state, ctx: playReqContext)
             }
         }
