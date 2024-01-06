@@ -23,7 +23,10 @@ final class BarrelTests: XCTestCase {
         let (result, _) = self.awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [.equip(.barrel, player: "p1")])
+        XCTAssertEqual(result, [
+            .play(.barrel, player: "p1"),
+            .equip(.barrel, player: "p1")
+        ])
     }
 
     func test_triggeringBarrel_oneFlippedCard_isHearts_shouldCancelShot() {
