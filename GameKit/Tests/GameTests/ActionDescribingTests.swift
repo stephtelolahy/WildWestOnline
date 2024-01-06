@@ -175,8 +175,8 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingChooseOne() {
         XCTAssertEqual(
-            String(describing: GameAction.chooseOne(["o1": .nothing], player: "p1")),
-            "❓ p1 o1"
+            String(describing: GameAction.chooseOne([:], player: "p1")),
+            "❓ p1 [:]"
         )
     }
 
