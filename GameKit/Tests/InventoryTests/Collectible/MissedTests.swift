@@ -48,6 +48,9 @@ final class MissedTests: XCTestCase {
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne([
+                "p2": .nothing
+            ], player: "p1"),
+            .chooseOne([
                 .missed: .play(.missed, player: "p2"),
                 .pass: .nothing
             ], player: "p2"),
