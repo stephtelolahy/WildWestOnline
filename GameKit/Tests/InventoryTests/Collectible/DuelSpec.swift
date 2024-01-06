@@ -37,11 +37,11 @@ final class DuelSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .chooseOne([
-                            "p2": .playImmediate(.duel, target: "p2", player: "p1"),
-                            "p3": .playImmediate(.duel, target: "p3", player: "p1"),
-                            "p4": .playImmediate(.duel, target: "p4", player: "p1")
+                            "p2": .play(.duel, target: "p2", player: "p1"),
+                            "p3": .play(.duel, target: "p3", player: "p1"),
+                            "p4": .play(.duel, target: "p4", player: "p1")
                         ], player: "p1"),
-                        .playImmediate(.duel, target: "p2", player: "p1"),
+                        .play(.duel, target: "p2", player: "p1"),
                         .chooseOne([
                             .bang2: .group([
                                 .discardHand(.bang2, player: "p2"),
@@ -52,7 +52,7 @@ final class DuelSpec: QuickSpec {
                                         ctx: EffectContext(
                                             actor: "p1",
                                             card: .duel,
-                                            event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1")
+                                            event: .play(.duel, target: "p2", player: "p1"), target: "p1")
                                 )
                             ]),
                             .pass: .damage(1, player: "p2")
@@ -71,11 +71,11 @@ final class DuelSpec: QuickSpec {
                     // Then
                     expect(result) == [
                         .chooseOne([
-                            "p2": .playImmediate(.duel, target: "p2", player: "p1"),
-                            "p3": .playImmediate(.duel, target: "p3", player: "p1"),
-                            "p4": .playImmediate(.duel, target: "p4", player: "p1")
+                            "p2": .play(.duel, target: "p2", player: "p1"),
+                            "p3": .play(.duel, target: "p3", player: "p1"),
+                            "p4": .play(.duel, target: "p4", player: "p1")
                         ], player: "p1"),
-                        .playImmediate(.duel, target: "p2", player: "p1"),
+                        .play(.duel, target: "p2", player: "p1"),
                         .chooseOne([
                             .bang2: .group([
                                 .discardHand(.bang2, player: "p2"),
@@ -86,7 +86,7 @@ final class DuelSpec: QuickSpec {
                                         ctx: EffectContext(
                                             actor: "p1",
                                             card: .duel,
-                                            event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p1")
+                                            event: .play(.duel, target: "p2", player: "p1"), target: "p1")
                                 )
                             ]),
                             .pass: .damage(1, player: "p2")
@@ -102,7 +102,7 @@ final class DuelSpec: QuickSpec {
                                         ctx: EffectContext(
                                             actor: "p1",
                                             card: .duel,
-                                            event: .playImmediate(.duel, target: "p2", player: "p1"), target: "p2")
+                                            event: .play(.duel, target: "p2", player: "p1"), target: "p2")
                                 )
                             ]),
                             .pass: .damage(1, player: "p1")

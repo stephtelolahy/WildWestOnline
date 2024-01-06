@@ -24,12 +24,12 @@ final class ElGringoTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p1", player: "p2")
+        let action = GameAction.play(.bang, target: "p1", player: "p2")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p1", player: "p2"),
+            .play(.bang, target: "p1", player: "p2"),
             .damage(1, player: "p1"),
             .drawHand("c2", target: "p2", player: "p1")
         ])
@@ -49,12 +49,12 @@ final class ElGringoTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p1", player: "p2")
+        let action = GameAction.play(.bang, target: "p1", player: "p2")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p1", player: "p2"),
+            .play(.bang, target: "p1", player: "p2"),
             .damage(1, player: "p1")
         ])
     }

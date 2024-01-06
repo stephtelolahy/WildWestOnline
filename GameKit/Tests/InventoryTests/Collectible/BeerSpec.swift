@@ -30,7 +30,7 @@ final class BeerSpec: QuickSpec {
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
-                    expect(result) == [.playImmediate(.beer, player: "p1"),
+                    expect(result) == [.play(.beer, player: "p1"),
                                        .heal(1, player: "p1")]
                 }
             }

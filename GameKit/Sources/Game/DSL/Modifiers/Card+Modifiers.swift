@@ -20,11 +20,7 @@ public extension Card {
     ) {
         self.name = name
         self.priority = priority
-        var abilities = (prototype?.abilities ?? []).union(abilities)
-        for element in silent {
-            abilities.remove(element)
-        }
-        self.abilities = abilities
+        self.abilities = (prototype?.abilities ?? []).union(abilities).filter { !silent.contains($0) }
         self.attributes = (prototype?.attributes ?? [:]).merging(attributes) { _, new in new }
         self.rules = (prototype?.rules ?? []) + content()
         self.abilityToPlayCardAs = alias

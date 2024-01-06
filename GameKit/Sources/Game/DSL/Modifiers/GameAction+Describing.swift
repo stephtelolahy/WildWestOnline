@@ -118,6 +118,12 @@ extension CardEffect: CustomStringConvertible {
             "drawArena"
         case .drawDiscard:
             "drawDiscard"
+        case .discardPlayed:
+            "discardPlayed"
+        case .equip:
+            "equip"
+        case .handicap:
+            "handicap"
         case .discover:
             "discover"
         case .draw:

@@ -39,6 +39,15 @@ public indirect enum CardEffect: Codable, Equatable {
     /// - `toPlayer` is the player that receives the card
     case passInPlay(ArgCard, toPlayer: ArgPlayer)
 
+    /// Discard played card
+    case discardPlayed
+
+    /// Put played card inPlay
+    case equip
+
+    /// Put played card in target's inPlay
+    case handicap
+
     /// Draw  cards from arena
     case drawArena
 

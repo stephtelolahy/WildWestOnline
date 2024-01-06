@@ -27,12 +27,12 @@ final class JourdonnaisSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+                    let action = GameAction.play(.bang, target: "p2", player: "p1")
                     let (result, _) = self.awaitAction(action, state: state)
 
                     // Then
                     expect(result) == [
-                        .playImmediate(.bang, target: "p2", player: "p1"),
+                        .play(.bang, target: "p2", player: "p1"),
                         .draw,
                         .cancel(.damage(1, player: "p2"))
                     ]

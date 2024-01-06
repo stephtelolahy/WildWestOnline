@@ -50,9 +50,9 @@ final class PanicSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .chooseOne([
-                                "p2": .playImmediate(.panic, target: "p2", player: "p1")
+                                "p2": .play(.panic, target: "p2", player: "p1")
                             ], player: "p1"),
-                            .playImmediate(.panic, target: "p2", player: "p1"),
+                            .play(.panic, target: "p2", player: "p1"),
                             .chooseOne([
                                 .randomHand: .drawHand("c21", target: "p2", player: "p1")
                             ], player: "p1"),
@@ -80,9 +80,9 @@ final class PanicSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .chooseOne([
-                                "p2": .playImmediate(.panic, target: "p2", player: "p1")
+                                "p2": .play(.panic, target: "p2", player: "p1")
                             ], player: "p1"),
-                            .playImmediate(.panic, target: "p2", player: "p1"),
+                            .play(.panic, target: "p2", player: "p1"),
                             .chooseOne([
                                 "c21": .drawInPlay("c21", target: "p2", player: "p1"),
                                 "c22": .drawInPlay("c22", target: "p2", player: "p1")
@@ -112,9 +112,9 @@ final class PanicSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .chooseOne([
-                                "p2": .playImmediate(.panic, target: "p2", player: "p1")
+                                "p2": .play(.panic, target: "p2", player: "p1")
                             ], player: "p1"),
-                            .playImmediate(.panic, target: "p2", player: "p1"),
+                            .play(.panic, target: "p2", player: "p1"),
                             .chooseOne([
                                 .randomHand: .drawHand("c21", target: "p2", player: "p1"),
                                 "c22": .drawInPlay("c22", target: "p2", player: "p1"),

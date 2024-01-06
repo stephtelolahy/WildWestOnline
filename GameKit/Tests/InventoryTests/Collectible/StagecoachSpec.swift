@@ -27,7 +27,7 @@ final class StagecoachSpec: QuickSpec {
 
                 // Then
                 expect(result) == [
-                    .playImmediate(.stagecoach, player: "p1"),
+                    .play(.stagecoach, player: "p1"),
                     .drawDeck(player: "p1"),
                     .drawDeck(player: "p1")
                 ]

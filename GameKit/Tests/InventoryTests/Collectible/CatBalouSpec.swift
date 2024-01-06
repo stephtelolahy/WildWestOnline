@@ -50,9 +50,9 @@ final class CatBalouSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .chooseOne([
-                                "p2": .playImmediate(.catBalou, target: "p2", player: "p1")
+                                "p2": .play(.catBalou, target: "p2", player: "p1")
                             ], player: "p1"),
-                            .playImmediate(.catBalou, target: "p2", player: "p1"),
+                            .play(.catBalou, target: "p2", player: "p1"),
                             .chooseOne([
                                 .randomHand: .discardHand("c21", player: "p2")
                             ], player: "p1"),
@@ -80,9 +80,9 @@ final class CatBalouSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .chooseOne([
-                                "p2": .playImmediate(.catBalou, target: "p2", player: "p1")
+                                "p2": .play(.catBalou, target: "p2", player: "p1")
                             ], player: "p1"),
-                            .playImmediate(.catBalou, target: "p2", player: "p1"),
+                            .play(.catBalou, target: "p2", player: "p1"),
                             .chooseOne([
                                 "c21": .discardInPlay("c21", player: "p2"),
                                 "c22": .discardInPlay("c22", player: "p2")
@@ -112,9 +112,9 @@ final class CatBalouSpec: QuickSpec {
                         // Then
                         expect(result) == [
                             .chooseOne([
-                                "p2": .playImmediate(.catBalou, target: "p2", player: "p1")
+                                "p2": .play(.catBalou, target: "p2", player: "p1")
                             ], player: "p1"),
-                            .playImmediate(.catBalou, target: "p2", player: "p1"),
+                            .play(.catBalou, target: "p2", player: "p1"),
                             .chooseOne([
                                 .randomHand: .discardHand("c21", player: "p2"),
                                 "c22": .discardInPlay("c22", player: "p2"),

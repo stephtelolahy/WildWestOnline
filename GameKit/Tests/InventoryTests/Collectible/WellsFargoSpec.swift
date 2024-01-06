@@ -27,7 +27,7 @@ final class WellsFargoSpec: QuickSpec {
                 let (result, _) = self.awaitAction(action, state: state)
 
                 // Then
-                expect(result) == [.playImmediate(.wellsFargo, player: "p1"),
+                expect(result) == [.play(.wellsFargo, player: "p1"),
                                    .drawDeck(player: "p1"),
                                    .drawDeck(player: "p1"),
                                    .drawDeck(player: "p1")]

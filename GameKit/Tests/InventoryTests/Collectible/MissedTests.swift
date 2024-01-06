@@ -40,17 +40,17 @@ final class MissedTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+        let action = GameAction.play(.bang, target: "p2", player: "p1")
         let (result, _) = awaitAction(action, state: state, choose: [.missed])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p2", player: "p1"),
+            .play(.bang, target: "p2", player: "p1"),
             .chooseOne([
-                .missed: .playImmediate(.missed, player: "p2"),
+                .missed: .play(.missed, player: "p2"),
                 .pass: .nothing
             ], player: "p2"),
-            .playImmediate(.missed, player: "p2"),
+            .play(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -69,18 +69,18 @@ final class MissedTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
+        let action = GameAction.play(.bang, target: "p2", player: "p1")
         let (result, _) = awaitAction(action, state: state, choose: [.missed2])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p2", player: "p1"),
+            .play(.bang, target: "p2", player: "p1"),
             .chooseOne([
-                .missed1: .playImmediate(.missed1, player: "p2"),
-                .missed2: .playImmediate(.missed2, player: "p2"),
+                .missed1: .play(.missed1, player: "p2"),
+                .missed2: .play(.missed2, player: "p2"),
                 .pass: .nothing
             ], player: "p2"),
-            .playImmediate(.missed2, player: "p2"),
+            .play(.missed2, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -108,18 +108,18 @@ final class MissedTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.gatling, player: "p1"),
+            .play(.gatling, player: "p1"),
             .chooseOne([
-                .missed: .playImmediate(.missed, player: "p2"),
+                .missed: .play(.missed, player: "p2"),
                 .pass: .nothing
             ], player: "p2"),
-            .playImmediate(.missed, player: "p2"),
+            .play(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2")),
             .chooseOne([
-                .missed: .playImmediate(.missed, player: "p3"),
+                .missed: .play(.missed, player: "p3"),
                 .pass: .nothing
             ], player: "p3"),
-            .playImmediate(.missed, player: "p3"),
+            .play(.missed, player: "p3"),
             .cancel(.damage(1, player: "p3"))
         ])
     }

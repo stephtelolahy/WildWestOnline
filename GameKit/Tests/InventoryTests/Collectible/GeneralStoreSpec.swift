@@ -30,7 +30,7 @@ final class GeneralStoreSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playImmediate(.generalStore, player: "p1"),
+                        .play(.generalStore, player: "p1"),
                         .discover,
                         .discover,
                         .discover,
@@ -67,7 +67,7 @@ final class GeneralStoreSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
-                        .playImmediate(.generalStore, player: "p1"),
+                        .play(.generalStore, player: "p1"),
                         .discover,
                         .discover,
                         .chooseOne([
