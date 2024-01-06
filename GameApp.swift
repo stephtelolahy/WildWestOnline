@@ -10,7 +10,7 @@ import App
 import Game
 import Redux
 import SettingsUI
-import Utils
+import Theme
 
 @main
 struct GameApp: App {

@@ -11,7 +11,7 @@ import Inventory
 import Navigation
 import Redux
 import SwiftUI
-import Utils
+import Theme
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GameState>
