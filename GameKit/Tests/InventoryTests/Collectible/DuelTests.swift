@@ -40,15 +40,16 @@ final class DuelTests: XCTestCase {
             .chooseOne([
                 .bang2: .group([
                     .discardHand(.bang2, player: "p2"),
-                    .effect(.challenge(.id("p2"),
-                                       effect: .discard(.selectHandNamed(.bang)),
-                                       otherwise: .damage(1)
-                                      ),
-                            ctx: EffectContext(
-                                actor: "p1",
-                                card: .duel,
-                                event: .play(.duel, player: "p1")
-                            )
+                    .effect(
+                        .challenge(.id("p2"),
+                                   effect: .discard(.selectHandNamed(.bang)),
+                                   otherwise: .damage(1)
+                                  ),
+                        ctx: EffectContext(
+                            actor: "p1",
+                            card: .duel,
+                            event: .play(.duel, player: "p1")
+                        )
                     )
                 ]),
                 .pass: .damage(1, player: "p2")
@@ -73,15 +74,16 @@ final class DuelTests: XCTestCase {
             .chooseOne([
                 .bang2: .group([
                     .discardHand(.bang2, player: "p2"),
-                    .effect(.challenge(.id("p2"),
-                                       effect: .discard(.selectHandNamed(.bang)),
-                                       otherwise: .damage(1)
-                                      ),
-                            ctx: EffectContext(
-                                actor: "p1",
-                                card: .duel,
-                                event: .play(.duel, player: "p1")
-                            )
+                    .effect(
+                        .challenge(.id("p2"),
+                                   effect: .discard(.selectHandNamed(.bang)),
+                                   otherwise: .damage(1)
+                                  ),
+                        ctx: EffectContext(
+                            actor: "p1",
+                            card: .duel,
+                            event: .play(.duel, player: "p1")
+                        )
                     )
                 ]),
                 .pass: .damage(1, player: "p2")

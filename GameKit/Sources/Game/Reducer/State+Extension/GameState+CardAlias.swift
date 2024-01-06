@@ -6,7 +6,7 @@
 //
 
 extension GameState {
-    func alias(for card: String, player: String, ctx: PlayReqContext) -> String? {
+    func aliasWhenPlayingCard(_ card: String, player: String, ctx: PlayReqContext) -> String? {
         let state = self
         let playerObj = self.player(player)
         let figure = playerObj.figure

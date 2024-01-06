@@ -14,7 +14,7 @@ struct ActionPlay: GameActionReducer {
         var cardName = card.extractName()
         let event = GameAction.play(card, player: player)
         let playReqContext = PlayReqContext(actor: player, event: event)
-        if let alias = state.alias(for: card, player: player, ctx: playReqContext) {
+        if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: playReqContext) {
             cardName = alias
         }
         // </resolve card alias>

@@ -41,7 +41,7 @@ private enum CounterActionResolver {
         var cardName = card.extractName()
 
         // resolve card alias>
-        if let alias = state.alias(for: card, player: player, ctx: ctx) {
+        if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: ctx) {
             cardName = alias
         }
         // </resolve card alias>
