@@ -74,7 +74,7 @@ final class SidKetchumTests: XCTestCase {
         ])
     }
 
-    func test_playing_SidKetchum_havingOneCard_shouldThrowError() {
+    func test_playing_SidKetchum_withoutCard_shouldThrowError() {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
