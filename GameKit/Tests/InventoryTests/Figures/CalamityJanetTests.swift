@@ -27,10 +27,10 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
+            .play(.bang, player: "p1"),
             .chooseOne([
-                "p2": .play(.bang, target: "p2", player: "p1")
+                "p2": .nothing
             ], player: "p1"),
-            .play(.bang, target: "p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -52,10 +52,10 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
+            .play(.missed, player: "p1"),
             .chooseOne([
-                "p2": .playAs(.bang, card: .missed, target: "p2", player: "p1")
+                "p2": .nothing
             ], player: "p1"),
-            .playAs(.bang, card: .missed, target: "p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -75,17 +75,20 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.bang])
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", .bang])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, target: "p2", player: "p1"),
+            .play(.bang, player: "p1"),
             .chooseOne([
-                .bang: .playAs(.missed, card: .bang, player: "p2"),
+                "p2": .nothing
+            ], player: "p1"),
+            .chooseOne([
+                .bang: .play(.bang, player: "p2"),
                 .pass: .nothing
             ], player: "p2"),
-            .playAs(.missed, card: .bang, player: "p2"),
+            .play(.bang, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -105,12 +108,15 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed])
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, target: "p2", player: "p1"),
+            .play(.bang, player: "p1"),
+            .chooseOne([
+                "p2": .nothing
+            ], player: "p1"),
             .chooseOne([
                 .missed: .play(.missed, player: "p2"),
                 .pass: .nothing

@@ -53,13 +53,13 @@ private extension CardEffect {
             EffectDiscard(card: card, chooser: chooser)
 
         case .discardPlayed:
-            fatalError()
+            fatalError("unimplemented")
 
         case .equip:
-            fatalError()
+            fatalError("unimplemented")
 
         case .handicap:
-            fatalError()
+            fatalError("unimplemented")
 
         case let .putBack(among):
             EffectPutBack(among: among)
