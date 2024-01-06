@@ -50,17 +50,13 @@ private enum CounterActionResolver {
             return false
         }
 
-        guard cardObj.rules.contains(where: {
+        return cardObj.rules.contains {
             if $0.playReqs.contains(.play),
                case .counterShoot = $0.effect {
                 return true
             } else {
                 return false
             }
-        }) else {
-            return false
         }
-
-        return true
     }
 }
