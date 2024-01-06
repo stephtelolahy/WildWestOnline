@@ -32,7 +32,7 @@ final class JourdonnaisTests: XCTestCase {
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne([
-                "p2": .damage(1, player: "p2")
+                "p2": .nothing
             ], player: "p1"),
             .draw,
             .cancel(.damage(1, player: "p2"))

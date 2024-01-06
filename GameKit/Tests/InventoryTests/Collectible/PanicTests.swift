@@ -45,7 +45,7 @@ final class PanicTests: XCTestCase {
             .play(.panic, player: "p1"),
             .discardPlayed(.panic, player: "p1"),
             .chooseOne([
-                "p2": .play(.panic, player: "p1")
+                "p2": .nothing
             ], player: "p1"),
             .chooseOne([
                 .randomHand: .drawHand("c21", target: "p2", player: "p1")
