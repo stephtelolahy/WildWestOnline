@@ -37,10 +37,10 @@ public extension AppState {
         var state = state
 
         // Update active game
-        state = gameReducer(state, action)
+        state = activeGameReducer(state, action)
 
         // Update visible screens
-        state.screens = screenReducer(state.screens, action)
+        state.screens = NavState.reducer(state.screens, action)
 
         // Update game state
         if let gameState = state.game {
@@ -48,38 +48,14 @@ public extension AppState {
         }
 
         // Update settings
-        let settingsState = state.settings
-        state.settings = SettingsState.reducer(settingsState, action)
+        state.settings = SettingsState.reducer(state.settings, action)
 
         return state
     }
 }
 
 private extension AppState {
-    static let screenReducer: Reducer<[Screen]> = { state, action in
-        guard let action = action as? NavAction else {
-            return state
-        }
-
-        var state = state
-        switch action {
-        case let .showScreen(screen, transition):
-            switch transition {
-            case .push:
-                state.append(screen)
-
-            case .replace:
-                state = [screen]
-            }
-
-        case .dismiss:
-            state.removeLast()
-        }
-
-        return state
-    }
-
-    static let gameReducer: Reducer<AppState> = { state, action in
+    static let activeGameReducer: Reducer<AppState> = { state, action in
         var state = state
 
         if case let NavAction.showScreen(screen, _) = action,
@@ -107,6 +83,8 @@ private extension AppState {
         return game
     }
 }
+
+// MARK: - Extract local states
 
 public extension GameState {
     static func from(globalState: AppState) -> Self? {
