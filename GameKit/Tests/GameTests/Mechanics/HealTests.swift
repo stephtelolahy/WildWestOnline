@@ -10,12 +10,14 @@ import Game
 import XCTest
 
 final class HealTests: XCTestCase {
-    private let state = GameState.makeBuilder()
-        .withPlayer("p1") {
-            $0.withHealth(2)
-                .withAttributes([.maxHealth: 4])
-        }
-        .build()
+    private var state: GameState {
+        GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHealth(2)
+                    .withAttributes([.maxHealth: 4])
+            }
+            .build()
+    }
 
     func test_heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() {
         // When

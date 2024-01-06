@@ -47,12 +47,15 @@ final class BarrelSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.play(.bang, target: "p2", player: "p1")
-                        let (result, _) = self.awaitAction(action, state: state)
+                        let action = GameAction.play(.bang, player: "p1")
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                         // Then
                         expect(result) == [
-                            .play(.bang, target: "p2", player: "p1"),
+                            .play(.bang, player: "p1"),
+                            .chooseOne([
+                                "p2": .nothing
+                            ], player: "p1"),
                             .draw,
                             .cancel(.damage(1, player: "p2"))
                         ]
@@ -75,12 +78,15 @@ final class BarrelSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.play(.bang, target: "p2", player: "p1")
-                        let (result, _) = self.awaitAction(action, state: state)
+                        let action = GameAction.play(.bang, player: "p1")
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                         // Then
                         expect(result) == [
-                            .play(.bang, target: "p2", player: "p1"),
+                            .play(.bang, player: "p1"),
+                            .chooseOne([
+                                "p2": .nothing
+                            ], player: "p1"),
                             .draw,
                             .damage(1, player: "p2")
                         ]
@@ -105,12 +111,15 @@ final class BarrelSpec: QuickSpec {
                             .build()
 
                         // When
-                        let action = GameAction.play(.bang, target: "p2", player: "p1")
-                        let (result, _) = self.awaitAction(action, state: state)
+                        let action = GameAction.play(.bang, player: "p1")
+                        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                         // Then
                         expect(result) == [
-                            .play(.bang, target: "p2", player: "p1"),
+                            .play(.bang, player: "p1"),
+                            .chooseOne([
+                                "p2": .nothing
+                            ], player: "p1"),
                             .draw,
                             .draw,
                             .cancel(.damage(1, player: "p2"))
@@ -137,12 +146,15 @@ final class BarrelSpec: QuickSpec {
                         .build()
 
                     // When
-                    let action = GameAction.play(.bang, target: "p2", player: "p1")
-                    let (result, _) = self.awaitAction(action, state: state)
+                    let action = GameAction.play(.bang, player: "p1")
+                    let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
 
                     // Then
                     expect(result) == [
-                        .play(.bang, target: "p2", player: "p1"),
+                        .play(.bang, player: "p1"),
+                        .chooseOne([
+                            "p2": .nothing
+                        ], player: "p1"),
                         .draw,
                         .cancel(.damage(1, player: "p2"))
                     ]

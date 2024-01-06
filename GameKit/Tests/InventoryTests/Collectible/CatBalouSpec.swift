@@ -49,10 +49,10 @@ final class CatBalouSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
+                            .play(.catBalou, player: "p1"),
                             .chooseOne([
-                                "p2": .play(.catBalou, target: "p2", player: "p1")
+                                "p2": .nothing
                             ], player: "p1"),
-                            .play(.catBalou, target: "p2", player: "p1"),
                             .chooseOne([
                                 .randomHand: .discardHand("c21", player: "p2")
                             ], player: "p1"),
@@ -79,10 +79,10 @@ final class CatBalouSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
+                            .play(.catBalou, player: "p1"),
                             .chooseOne([
-                                "p2": .play(.catBalou, target: "p2", player: "p1")
+                                "p2": .nothing
                             ], player: "p1"),
-                            .play(.catBalou, target: "p2", player: "p1"),
                             .chooseOne([
                                 "c21": .discardInPlay("c21", player: "p2"),
                                 "c22": .discardInPlay("c22", player: "p2")
@@ -111,10 +111,10 @@ final class CatBalouSpec: QuickSpec {
 
                         // Then
                         expect(result) == [
+                            .play(.catBalou, player: "p1"),
                             .chooseOne([
-                                "p2": .play(.catBalou, target: "p2", player: "p1")
+                                "p2": .nothing
                             ], player: "p1"),
-                            .play(.catBalou, target: "p2", player: "p1"),
                             .chooseOne([
                                 .randomHand: .discardHand("c21", player: "p2"),
                                 "c22": .discardInPlay("c22", player: "p2"),

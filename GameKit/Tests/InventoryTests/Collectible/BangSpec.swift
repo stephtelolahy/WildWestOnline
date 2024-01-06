@@ -29,10 +29,10 @@ final class BangSpec: QuickSpec {
 
                     // Then
                     expect(result) == [
+                        .play(.bang, player: "p1"),
                         .chooseOne([
-                            "p2": .play(.bang, target: "p2", player: "p1")
+                            "p2": .nothing
                         ], player: "p1"),
-                        .play(.bang, target: "p2", player: "p1"),
                         .damage(1, player: "p2")
                     ]
                 }
@@ -77,10 +77,10 @@ final class BangSpec: QuickSpec {
 
                     // Assert
                     expect(result) == [
+                        .play(.bang, player: "p1"),
                         .chooseOne([
-                            "p2": .play(.bang, target: "p2", player: "p1")
+                            "p2": .nothing
                         ], player: "p1"),
-                        .play(.bang, target: "p2", player: "p1"),
                         .damage(1, player: "p2")
                     ]
                 }
