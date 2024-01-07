@@ -40,7 +40,7 @@ final class ChooseOneTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertFalse(result.chooseOne.isEmpty)
         XCTAssertEqual(result.error, .unwaitedAction)
+        XCTAssertNotNil(result.chooseOne["p1"])
     }
 }
