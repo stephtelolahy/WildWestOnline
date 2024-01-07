@@ -31,13 +31,14 @@ private extension GameAction {
         var state = state
 
         // Game is over
-        guard state.winner == nil else {
+        if state.winner != nil {
             throw GameError.gameIsOver
         }
 
         // Pending choice
         if let chooseOne = state.chooseOne.first {
             guard case let .choose(option, player) = self,
+                  player == chooseOne.key,
                   chooseOne.value.contains(option) else {
                 throw GameError.unwaitedAction
             }
@@ -49,7 +50,7 @@ private extension GameAction {
         // Active cards
         if let active = state.active.first {
             guard case let .play(card, player) = self,
-                  active.key == player,
+                  player == active.key,
                   active.value.contains(card) else {
                 throw GameError.unwaitedAction
             }

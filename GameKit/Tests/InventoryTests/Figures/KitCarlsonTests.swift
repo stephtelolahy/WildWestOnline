@@ -43,11 +43,8 @@ final class KitCarlsonTests: XCTestCase {
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
-            .chooseOne([
-                "c1": .putBack("c1", player: "p1"),
-                "c2": .putBack("c2", player: "p1"),
-                "c3": .putBack("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(["c1", "c2", "c3"], player: "p1"),
+            .choose("c2", player: "p1"),
             .putBack("c2", player: "p1")
         ])
     }
@@ -73,11 +70,8 @@ final class KitCarlsonTests: XCTestCase {
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
-            .chooseOne([
-                "c1": .putBack("c1", player: "p1"),
-                "c2": .putBack("c2", player: "p1"),
-                "c3": .putBack("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(["c1", "c2", "c3"], player: "p1"),
+            .choose("c2", player: "p1"),
             .putBack("c2", player: "p1")
         ])
     }

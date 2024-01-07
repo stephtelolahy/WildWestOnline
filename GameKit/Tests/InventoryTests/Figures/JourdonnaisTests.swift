@@ -31,9 +31,8 @@ final class JourdonnaisTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(["p2"], player: "p1"),
+            .choose("p1", player: "p1"),
             .draw,
             .cancel(.damage(1, player: "p2"))
         ])
