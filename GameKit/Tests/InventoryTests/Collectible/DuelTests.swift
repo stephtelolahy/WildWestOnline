@@ -41,10 +41,11 @@ final class DuelTests: XCTestCase {
                 .bang2: .group([
                     .discardHand(.bang2, player: "p2"),
                     .effect(
-                        .challenge(.id("p2"),
-                                   effect: .discard(.selectHandNamed(.bang)),
-                                   otherwise: .damage(1)
-                                  ),
+                        .challenge(
+                            .id("p2"),
+                            effect: .discard(.selectHandNamed(.bang)),
+                            otherwise: .damage(1)
+                        ),
                         ctx: EffectContext(
                             actor: "p1",
                             card: .duel,
@@ -75,10 +76,11 @@ final class DuelTests: XCTestCase {
                 .bang2: .group([
                     .discardHand(.bang2, player: "p2"),
                     .effect(
-                        .challenge(.id("p2"),
-                                   effect: .discard(.selectHandNamed(.bang)),
-                                   otherwise: .damage(1)
-                                  ),
+                        .challenge(
+                            .id("p2"),
+                            effect: .discard(.selectHandNamed(.bang)),
+                            otherwise: .damage(1)
+                        ),
                         ctx: EffectContext(
                             actor: "p1",
                             card: .duel,
@@ -92,10 +94,11 @@ final class DuelTests: XCTestCase {
             .chooseOne([
                 .bang1: .group([
                     .discardHand(.bang1, player: "p1"),
-                    .effect(.challenge(.id("p1"),
-                                       effect: .discard(.selectHandNamed(.bang)),
-                                       otherwise: .damage(1)
-                                      ),
+                    .effect(.challenge(
+                        .id("p1"),
+                        effect: .discard(.selectHandNamed(.bang)),
+                        otherwise: .damage(1)
+                    ),
                             ctx: EffectContext(
                                 actor: "p1",
                                 card: .duel,
