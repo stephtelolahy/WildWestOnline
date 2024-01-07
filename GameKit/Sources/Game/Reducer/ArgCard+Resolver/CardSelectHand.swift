@@ -7,7 +7,7 @@
 
 struct CardSelectHand: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
-        let owner = ctx.player()
+        let owner = ctx.targetOrActor()
         let playerObj = state.player(owner)
         let options = playerObj.hand.toCardOptions()
 

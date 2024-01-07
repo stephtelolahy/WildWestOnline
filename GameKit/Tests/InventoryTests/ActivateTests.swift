@@ -7,11 +7,10 @@
 // swiftlint:disable no_magic_numbers
 
 import Game
-import Inventory
 import XCTest
 
 final class ActivateTests: XCTestCase {
-    func test_activatingCards_withCardsPlayable_shouldActivate() throws {
+    func test_activatingCards_withPlayableCards_shouldActivate() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -35,7 +34,7 @@ final class ActivateTests: XCTestCase {
         ])
     }
 
-    func test_activatingCards_withCardsNotPlayable_shouldDoNothing() throws {
+    func test_activatingCards_withoutPlayableCards_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

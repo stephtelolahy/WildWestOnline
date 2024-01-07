@@ -16,14 +16,14 @@ public struct EffectContext: Codable, Equatable {
     /// Occurred event triggering the effect
     let event: GameAction
 
-    /// Root action which causes the effect to be cancelled automatically
-    /// when this action got cancelled
+    /// When this action is cancelled
+    /// then the effect is also cancelled automatically
     let cancellingAction: GameAction?
 
     /// Targeted player while resolving the effect
     var target: String?
 
-    /// Chooser while resolving selectable card
+    /// Card chooser while resolving the effect
     var chooser: String?
 
     public init(
@@ -31,14 +31,12 @@ public struct EffectContext: Codable, Equatable {
         card: String,
         event: GameAction,
         cancellingAction: GameAction? = nil,
-        target: String? = nil,
-        chooser: String? = nil
+        target: String? = nil
     ) {
         self.actor = actor
         self.card = card
         self.event = event
         self.cancellingAction = cancellingAction
         self.target = target
-        self.chooser = chooser
     }
 }

@@ -9,30 +9,13 @@ extension GameAction: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .play(card, player):
-            "\n▶️ \(player) \(card)"
-
-        case let .playEquipment(card, player):
             "✅ \(player) \(card)"
 
-        case let .playAbility(card, player):
-            "✅ \(player) \(card)"
+        case let .equip(card, player):
+            "💼 \(player) \(card)"
 
-        case let .playHandicap(card, target, player):
-            "❇️ \(player) \(card) \(target)"
-
-        case let .playImmediate(card, target, player):
-            if let target {
-                "❇️ \(player) \(card) \(target)"
-            } else {
-                "✅ \(player) \(card)"
-            }
-
-        case let .playAs(alias, _, target, player):
-            if let target {
-                "❇️ \(player) \(alias) \(target)"
-            } else {
-                "✅ \(player) \(alias)"
-            }
+        case let .handicap(card, target, player):
+            "🚫 \(player) \(card) \(target)"
 
         case let .heal(amount, player):
             "\(String(repeating: "❤️", count: amount)) \(player)"
@@ -58,10 +41,13 @@ extension GameAction: CustomStringConvertible {
         case let .discardHand(card, player):
             "❌ \(player) \(card)"
 
-        case let .putBackHand(card, player):
+        case let .putBack(card, player):
             "❌ \(player) \(card)"
 
         case let .discardInPlay(card, player):
+            "❌ \(player) \(card)"
+
+        case let .discardPlayed(card, player: player):
             "❌ \(player) \(card)"
 
         case let .revealHand(card, player):
@@ -95,7 +81,7 @@ extension GameAction: CustomStringConvertible {
             "✋ \(String(describing: action))"
 
         case let .chooseOne(options, player):
-            "❓ \(player) \(Array(options.keys).joined(separator: " "))"
+            "❓ \(player) \(options)"
 
         case let .activate(cards, player):
             "❔ \(player) \(cards.joined(separator: " "))"
@@ -105,65 +91,6 @@ extension GameAction: CustomStringConvertible {
 
         case let .group(actions):
             "➡️ group \(actions)"
-        }
-    }
-}
-
-extension CardEffect: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case let .heal(amount):
-            "heal(\(amount))"
-        case let .damage(amount):
-            "damage(\(amount))"
-        case .shoot:
-            "shoot"
-        case .drawDeck:
-            "drawDeck"
-        case .discard:
-            "discard"
-        case .putBackHand:
-            "putBackHand"
-        case .steal:
-            "steal"
-        case .passInPlay:
-            "passInPlay"
-        case .drawArena:
-            "drawArena"
-        case .drawDiscard:
-            "drawDiscard"
-        case .discover:
-            "discover"
-        case .draw:
-            "draw"
-        case .setTurn:
-            "setTurn"
-        case .eliminate:
-            "eliminate"
-        case .updateAttributes:
-            "updateAttributes"
-        case .repeat:
-            "repeat"
-        case let .group(content):
-            "group(\(content.count))"
-        case .target:
-            "target"
-        case .force:
-            "force"
-        case .challenge:
-            "challenge"
-        case .ignoreError:
-            "ignoreError"
-        case .luck:
-            "luck"
-        case .counterShoot:
-            "counterShoot"
-        case .cancelTurn:
-            "cancelTurn"
-        case .activateCounterCards:
-            "activateCounterCards"
-        case .updateGameOver:
-            "updateGameOver"
         }
     }
 }

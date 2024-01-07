@@ -11,9 +11,9 @@ import XCTest
 
 final class CardsEncodingTests: XCTestCase {
     func test_CardList_shouldBeEncodableToJson() throws {
-        let model = CardList.all
-        let jsonData = try JSONEncoder().encode(model)
-        let jsonString = try XCTUnwrap(String(data: jsonData, encoding: .utf8))
-        print(jsonString)
+        let cards = CardList.all
+        let jsonData = try JSONEncoder().encode(cards)
+        let cardsJsonString = try XCTUnwrap(String(data: jsonData, encoding: .utf8))
+        print(cardsJsonString)
     }
 }

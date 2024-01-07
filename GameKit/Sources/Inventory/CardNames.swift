@@ -61,5 +61,4 @@ public extension String {
     static let discardPreviousWeaponOnPlayWeapon = "discardPreviousWeaponOnPlayWeapon"
     static let updateAttributesOnChangeInPlay = "updateAttributesOnChangeInPlay"
     static let activateCounterCardsOnShot = "activateCounterCardsOnShot"
-    static let updateGameOverOnEliminated = "updateGameOverOnEliminated"
 }

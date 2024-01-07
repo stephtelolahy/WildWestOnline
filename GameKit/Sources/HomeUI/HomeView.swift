@@ -9,7 +9,7 @@
 import Navigation
 import Redux
 import SwiftUI
-import Utils
+import Theme
 
 public struct HomeView: View {
     @StateObject private var store: Store<HomeState>

@@ -1,6 +1,6 @@
 //
 //  CardEffect+Resolver.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 11/05/2023.
 //
@@ -20,16 +20,16 @@ private extension CardEffect {
     func resolver() -> EffectResolver {
         switch self {
         case let .heal(amount):
-            EffectJust { .heal(amount, player: $0.player()) }
+            EffectJust { .heal(amount, player: $0.targetOrActor()) }
 
         case let .damage(amount):
-            EffectJust { .damage(amount, player: $0.player()) }
+            EffectJust { .damage(amount, player: $0.targetOrActor()) }
 
         case .shoot:
-            EffectJust { .damage(1, player: $0.player()) }
+            EffectJust { .damage(1, player: $0.targetOrActor()) }
 
         case .drawDeck:
-            EffectJust { .drawDeck(player: $0.player()) }
+            EffectJust { .drawDeck(player: $0.targetOrActor()) }
 
         case .discover:
             EffectJust { _ in .discover }
@@ -38,22 +38,31 @@ private extension CardEffect {
             EffectJust { _ in .draw }
 
         case .setTurn:
-            EffectJust { .setTurn(player: $0.player()) }
+            EffectJust { .setTurn(player: $0.targetOrActor()) }
 
         case .eliminate:
-            EffectJust { .eliminate(player: $0.player()) }
+            EffectJust { .eliminate(player: $0.targetOrActor()) }
 
         case .drawArena:
             EffectDrawArena()
 
         case .drawDiscard:
-            EffectJust { .drawDiscard(player: $0.player()) }
+            EffectJust { .drawDiscard(player: $0.targetOrActor()) }
 
         case let .discard(card, chooser):
             EffectDiscard(card: card, chooser: chooser)
 
-        case let .putBackHand(among):
-            EffectPutBackHand(among: among)
+        case .discardPlayed:
+            EffectJust { .discardPlayed($0.card, player: $0.actor) }
+
+        case .equip:
+            EffectJust { .equip($0.card, player: $0.actor) }
+
+        case .handicap:
+            EffectJust { .handicap($0.card, target: $0.target!, player: $0.actor) }
+
+        case let .putBack(among):
+            EffectPutBack(among: among)
 
         case let .steal(card):
             EffectSteal(card: card)
@@ -93,9 +102,6 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
-
-        case .updateGameOver:
-            EffectUpdateGameOver()
         }
     }
 }

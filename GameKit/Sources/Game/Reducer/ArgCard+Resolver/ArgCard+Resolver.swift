@@ -32,7 +32,7 @@ extension ArgCard {
             let options = cIdOptions.reduce(into: [String: GameAction]()) {
                 $0[$1.label] = copy($1.id)
             }
-            let chooser = ctx.chooser ?? ctx.player()
+            let chooser = ctx.chooser ?? ctx.targetOrActor()
             let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
             return [chooseOne]
         }

@@ -13,9 +13,10 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(name: "Redux", targets: ["Redux"]),
+        .library(name: "Utils", targets: ["Utils"]),
+        .library(name: "Theme", targets: ["Theme"]),
         .library(name: "Game", targets: ["Game"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "Utils", targets: ["Utils"]),
         .library(name: "GameUI", targets: ["GameUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SplashUI", targets: ["SplashUI"]),
@@ -24,9 +25,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2"),
-        .package(url: "https://github.com/Quick/Quick", from: "6.1.0"),
-        .package(url: "https://github.com/Quick/Nimble", from: "11.2.2")
+        .package(url: "https://github.com/lukepistrol/SwiftLintPlugin", from: "0.2.2")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -51,9 +50,7 @@ let package = Package(
         .testTarget(
             name: "GameTests",
             dependencies: [
-                "Game",
-                "Quick",
-                "Nimble"
+                "Game"
             ]),
         .target(
             name: "Inventory",
@@ -66,9 +63,7 @@ let package = Package(
         .testTarget(
             name: "InventoryTests",
             dependencies: [
-                "Inventory",
-                "Quick",
-                "Nimble"
+                "Inventory"
             ]),
         .testTarget(
             name: "SimulationTests",
@@ -85,11 +80,14 @@ let package = Package(
             name: "Utils",
             dependencies: []),
         .target(
+            name: "Theme",
+            dependencies: []),
+        .target(
             name: "GameUI",
             dependencies: [
                 "Redux",
                 "Navigation",
-                "Utils",
+                "Theme",
                 "Game",
                 "Inventory"
             ],
@@ -101,7 +99,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Navigation",
-                "Utils"
+                "Theme"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -111,7 +109,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Navigation",
-                "Utils"
+                "Theme"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -121,7 +119,7 @@ let package = Package(
             dependencies: [
                 "Redux",
                 "Navigation",
-                "Utils"
+                "Theme"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -130,9 +128,9 @@ let package = Package(
             name: "App",
             dependencies: [
                 "Redux",
-                "Navigation",
                 "Game",
                 "Inventory",
+                "Navigation",
                 "GameUI",
                 "HomeUI",
                 "SplashUI",

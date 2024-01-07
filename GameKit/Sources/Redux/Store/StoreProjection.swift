@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 29/11/2023.
 //
+
 import Combine
 
 /// An app should have a single real Store, holding a single source-of-truth.

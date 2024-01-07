@@ -7,7 +7,7 @@
 
 struct CardAll: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
-        let owner = ctx.player()
+        let owner = ctx.targetOrActor()
         let playerObj = state.player(owner)
         let all = playerObj.inPlay + playerObj.hand
         return .identified(all)

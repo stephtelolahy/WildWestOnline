@@ -19,17 +19,22 @@ final class ElGringoTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.bang, "c2", "c2"])
+                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withTurn("p2")
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p1", player: "p2")
-        let (result, _) = awaitAction(action, state: state)
+        let action = GameAction.play(.bang, player: "p2")
+        let (result, _) = awaitAction(action, state: state, choose: ["p1"])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p1", player: "p2"),
+            .play(.bang, player: "p2"),
+            .discardPlayed(.bang, player: "p2"),
+            .chooseOne([
+                "p1": .effect(.shoot, ctx: .init(actor: "p2", card: .bang, event: action, target: "p1"))
+            ], player: "p2"),
             .damage(1, player: "p1"),
             .drawHand("c2", target: "p2", player: "p1")
         ])
@@ -44,17 +49,22 @@ final class ElGringoTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.bang])
+                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withTurn("p2")
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p1", player: "p2")
-        let (result, _) = awaitAction(action, state: state)
+        let action = GameAction.play(.bang, player: "p2")
+        let (result, _) = awaitAction(action, state: state, choose: ["p1"])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p1", player: "p2"),
+            .play(.bang, player: "p2"),
+            .discardPlayed(.bang, player: "p2"),
+            .chooseOne([
+                "p1": .effect(.shoot, ctx: .init(actor: "p2", card: .bang, event: action, target: "p1"))
+            ], player: "p2"),
             .damage(1, player: "p1")
         ])
     }

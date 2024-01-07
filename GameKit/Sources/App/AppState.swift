@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/07/2023.
 //
+
 import Game
 import GameUI
 import HomeUI
@@ -35,51 +36,16 @@ public struct AppState: Codable, Equatable {
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-
-        // Update active game
-        state = gameReducer(state, action)
-
-        // Update visible screens
-        state.screens = screenReducer(state.screens, action)
-
-        // Reduce game
-        if let gameState = state.game {
-            state.game = GameState.reducer(gameState, action)
-        }
-
-        // Reduce settings
-        let settingsState = state.settings
-        state.settings = SettingsState.reducer(settingsState, action)
-
+        state = activeGameReducer(state, action)
+        state.screens = NavState.reducer(state.screens, action)
+        state.game = state.game.flatMap { GameState.reducer($0, action) }
+        state.settings = SettingsState.reducer(state.settings, action)
         return state
     }
 }
 
 private extension AppState {
-    static let screenReducer: Reducer<[Screen]> = { state, action in
-        guard let action = action as? NavAction else {
-            return state
-        }
-
-        var state = state
-        switch action {
-        case let .showScreen(screen, transition):
-            switch transition {
-            case .push:
-                state.append(screen)
-
-            case .replace:
-                state = [screen]
-            }
-
-        case .dismiss:
-            state.removeLast()
-        }
-
-        return state
-    }
-
-    static let gameReducer: Reducer<AppState> = { state, action in
+    static let activeGameReducer: Reducer<AppState> = { state, action in
         var state = state
 
         if case let NavAction.showScreen(screen, _) = action,
@@ -107,6 +73,8 @@ private extension AppState {
         return game
     }
 }
+
+// MARK: - Extract local states
 
 public extension GameState {
     static func from(globalState: AppState) -> Self? {

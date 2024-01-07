@@ -46,14 +46,8 @@ private extension PlayReq {
         case .anotherEliminated:
             OnAnotherEliminated()
 
-        case .playImmediate,
-                .playHandicap,
-                .playAbility,
-                .playEquipment:
-            NeverMatch()
-
         case .play:
-            OnPlay()
+            NeverMatch()
 
         case .shot:
             OnShot()

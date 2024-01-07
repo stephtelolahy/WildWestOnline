@@ -16,26 +16,17 @@ extension GameAction {
 }
 
 private extension GameAction {
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    // swiftlint:disable:next cyclomatic_complexity
     func reducer() -> GameActionReducer {
         switch self {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
 
-        case let .playImmediate(card, target, player):
-            ActionPlayImmediate(player: player, card: card, target: target)
+        case let .equip(card, player):
+            ActionEquip(player: player, card: card)
 
-        case let .playAs(aliasCardName, card, target, player):
-            ActionPlayAs(player: player, aliasCardName: aliasCardName, card: card, target: target)
-
-        case let .playAbility(card, player):
-            ActionPlayAbility(player: player, card: card)
-
-        case let .playEquipment(card, player):
-            ActionPlayEquipment(player: player, card: card)
-
-        case let .playHandicap(card, target, player):
-            ActionPlayHandicap(player: player, card: card, target: target)
+        case let .handicap(card, target, player):
+            ActionHandicap(player: player, card: card, target: target)
 
         case let .heal(amount, player):
             ActionHeal(player: player, amount: amount)
@@ -43,11 +34,12 @@ private extension GameAction {
         case let .damage(amount, player):
             ActionDamage(player: player, amount: amount)
 
-        case let .discardHand(card, player):
+        case let .discardHand(card, player),
+            let .discardPlayed(card, player):
             ActionDiscardHand(player: player, card: card)
 
-        case let .putBackHand(card, player):
-            ActionPutBackHand(player: player, card: card)
+        case let .putBack(card, player):
+            ActionPutBack(player: player, card: card)
 
         case let .revealHand(card, player):
             ActionRevealHand(card: card, player: player)
