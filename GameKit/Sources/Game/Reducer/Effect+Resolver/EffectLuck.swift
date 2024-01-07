@@ -8,7 +8,7 @@
 import Foundation
 
 struct EffectLuck: EffectResolver {
-    let card: ArgCardLuck
+    let card: ArgLuckCard
     let regex: String
     let onSuccess: CardEffect
     let onFailure: CardEffect?

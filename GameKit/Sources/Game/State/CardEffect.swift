@@ -90,7 +90,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case ignoreError(Self)
 
     /// Apply effects according to just flipped card value
-    case luck(ArgCardLuck, regex: String, onSuccess: Self, onFailure: Self? = nil)
+    case luck(ArgLuckCard, regex: String, onSuccess: Self, onFailure: Self? = nil)
 
     /// Counter shoot effect
     case counterShoot

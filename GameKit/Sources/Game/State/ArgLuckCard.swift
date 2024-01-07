@@ -1,12 +1,12 @@
 //
-//  ArgCardLuck.swift
+//  ArgLuckCard.swift
 //  
 //
 //  Created by Hugues Telolahy on 18/11/2023.
 //
 
 /// Card argument for luck effect
-public enum ArgCardLuck: Codable, Equatable {
+public enum ArgLuckCard: Codable, Equatable {
     /// Determine luck using top discard
     case topDiscard
 
