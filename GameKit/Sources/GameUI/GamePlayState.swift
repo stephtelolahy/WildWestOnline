@@ -70,7 +70,9 @@ extension GameState {
             return  [:]
         }
 
-        return chooseOne.value
+        return chooseOne.value.options.reduce(into: [String: GameAction]()) {
+            $0[$1] = .choose($1, player: chooseOne.key)
+        }
     }
 }
 
@@ -87,6 +89,7 @@ struct PlayerItem: Identifiable {
     let hand: String
     let health: String
     let equipment: String
+    // TODO: expose {hand, abilities } x active
     let activeActions: [String: GameAction]
     let state: State
 }

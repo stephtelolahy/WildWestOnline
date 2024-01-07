@@ -175,8 +175,8 @@ private var previewState: GameState {
                 .withHealth(3)
                 .withAttributes([.maxHealth: 4])
         }
-        .withActive("p1", cards: [.bang, .mustang, .barrel, .beer, .endTurn])
-        .withChooseOne("p2", options: [.missed: .nothing])
+        .withActive([.bang, .mustang, .barrel, .beer, .endTurn], player: "p1")
+        .withChooseOne(.card, options: [.missed, .bang], player: "p2")
         .withTurn("p1")
         .withPlayModes(["p1": .manual])
         .build()

@@ -87,7 +87,7 @@ public extension GameState {
             return self
         }
 
-        public func withActive(_ player: String, cards: [String]) -> Self {
+        public func withActive(_ cards: [String], player: String) -> Self {
             active = [player: cards]
             return self
         }
