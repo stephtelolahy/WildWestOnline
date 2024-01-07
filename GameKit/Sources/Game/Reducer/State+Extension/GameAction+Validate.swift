@@ -69,6 +69,11 @@ private extension GameAction {
             return self
         }
 
+        #warning("exception to keep shoot effect")
+        if case .shoot = effect {
+            return self
+        }
+
         let children = try effect.resolve(state: state, ctx: ctx)
         guard children.count == 1 else {
             return self

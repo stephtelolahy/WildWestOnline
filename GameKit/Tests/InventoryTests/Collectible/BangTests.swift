@@ -28,7 +28,7 @@ final class BangTests: XCTestCase {
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne([
-                "p2": .damage(1, player: "p2")
+                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
             ], player: "p1"),
             .damage(1, player: "p2")
         ])

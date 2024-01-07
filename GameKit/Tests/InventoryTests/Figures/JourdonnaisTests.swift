@@ -32,7 +32,7 @@ final class JourdonnaisTests: XCTestCase {
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne([
-                "p2": .nothing
+                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
             ], player: "p1"),
             .draw,
             .cancel(.damage(1, player: "p2"))
