@@ -81,11 +81,15 @@ final class MissedTests: XCTestCase {
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne([
+                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
+            ], player: "p1"),
+            .chooseOne([
                 .missed1: .play(.missed1, player: "p2"),
                 .missed2: .play(.missed2, player: "p2"),
                 .pass: .nothing
             ], player: "p2"),
             .play(.missed2, player: "p2"),
+            .discardPlayed(.missed2, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -120,12 +124,14 @@ final class MissedTests: XCTestCase {
                 .pass: .nothing
             ], player: "p2"),
             .play(.missed, player: "p2"),
+            .discardPlayed(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2")),
             .chooseOne([
                 .missed: .play(.missed, player: "p3"),
                 .pass: .nothing
             ], player: "p3"),
             .play(.missed, player: "p3"),
+            .discardPlayed(.missed, player: "p3"),
             .cancel(.damage(1, player: "p3"))
         ])
     }

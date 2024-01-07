@@ -75,6 +75,12 @@ extension GameState {
 }
 
 struct PlayerItem: Identifiable {
+    enum State {
+        case active
+        case idle
+        case eliminated
+    }
+
     let id: String
     let imageName: String
     let displayName: String
@@ -83,10 +89,4 @@ struct PlayerItem: Identifiable {
     let equipment: String
     let activeActions: [String: GameAction]
     let state: State
-
-    enum State {
-        case active
-        case idle
-        case eliminated
-    }
 }
