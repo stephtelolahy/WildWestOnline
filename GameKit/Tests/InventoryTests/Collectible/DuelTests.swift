@@ -6,7 +6,6 @@
 //
 
 import Game
-import Inventory
 import XCTest
 
 final class DuelTests: XCTestCase {

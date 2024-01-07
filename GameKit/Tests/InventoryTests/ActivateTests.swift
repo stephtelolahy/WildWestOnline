@@ -7,7 +7,6 @@
 // swiftlint:disable no_magic_numbers
 
 import Game
-import Inventory
 import XCTest
 
 final class ActivateTests: XCTestCase {

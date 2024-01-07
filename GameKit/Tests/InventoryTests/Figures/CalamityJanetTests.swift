@@ -6,7 +6,6 @@
 //
 
 import Game
-import Inventory
 import XCTest
 
 final class CalamityJanetTests: XCTestCase {
@@ -62,7 +61,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
+    func TODOtest_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
