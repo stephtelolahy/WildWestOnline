@@ -115,7 +115,7 @@ public struct GamePlayView: View {
                         .lineLimit(1)
                 }
                 Spacer()
-                Text(player.status)
+                Text("\(player.hand)\t\(player.health)")
                     .lineLimit(1)
                     .padding(.trailing, 8)
             }
@@ -126,7 +126,7 @@ public struct GamePlayView: View {
                     .font(.headline)
             }
         }
-        .background(Color.white.opacity(player.highlighted ? 0.4 : 0.2))
+        .background(backgroundColor(for: player.state))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
@@ -139,6 +139,19 @@ public struct GamePlayView: View {
                     Text(event)
                 }
             }
+        }
+    }
+
+    private func backgroundColor(for state: PlayerItem.State) -> Color {
+        switch state {
+        case .active:
+            Color.white.opacity(0.6)
+
+        case .idle:
+            Color.white.opacity(0.2)
+
+        case .eliminated:
+            Color.clear
         }
     }
 }
