@@ -36,7 +36,7 @@ public struct GameState: Codable, Equatable, DocumentConvertible {
     public var error: GameError?
 
     /// Pending action by player
-    public var chooseOne: [String: [String]]
+    public var chooseOne: [String: ChooseOne]
 
     /// Playable cards by player
     public var active: [String: [String]]

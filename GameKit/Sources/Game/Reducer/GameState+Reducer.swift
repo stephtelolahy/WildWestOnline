@@ -39,7 +39,7 @@ private extension GameAction {
         if let chooseOne = state.chooseOne.first {
             guard case let .choose(option, player) = self,
                   player == chooseOne.key,
-                  chooseOne.value.contains(option) else {
+                  chooseOne.value.options.contains(option) else {
                 throw GameError.unwaitedAction
             }
 

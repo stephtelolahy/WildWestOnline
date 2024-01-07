@@ -15,7 +15,7 @@ final class ChooseOneTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
             }
-            .withChooseOne("p1", options: ["c1", "c2"])
+            .withChooseOne(.card, options: ["c1", "c2"], player: "p1")
             .build()
 
         // When
@@ -32,7 +32,7 @@ final class ChooseOneTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
             }
-            .withChooseOne("p1", options: ["c1", "c2"])
+            .withChooseOne(.card, options: ["c1", "c2"], player: "p1")
             .build()
 
         // When
