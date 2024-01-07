@@ -8,9 +8,9 @@
 extension GameState {
     func aliasWhenPlayingCard(_ card: String, player: String, ctx: PlayReqContext) -> String? {
         let state = self
-        let playerObj = self.player(player)
+        let playerObj = state.player(player)
         let figure = playerObj.figure
-        guard let cardAlias = self.cardRef[figure]?.abilityToPlayCardAs,
+        guard let cardAlias = state.cardRef[figure]?.abilityToPlayCardAs,
               let matched = cardAlias.first(where: {
                   card.matches(regex: $0.regex)
                   && $0.playReqs.allSatisfy({ $0.match(state: state, ctx: ctx) })
