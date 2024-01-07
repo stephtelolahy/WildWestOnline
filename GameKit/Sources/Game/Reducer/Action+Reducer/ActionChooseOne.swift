@@ -6,6 +6,7 @@
 //
 
 struct ActionChooseOne: GameActionReducer {
+    let type: ChooseOneType
     let options: [String]
     let player: String
 

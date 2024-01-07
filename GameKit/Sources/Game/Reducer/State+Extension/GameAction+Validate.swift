@@ -26,7 +26,7 @@ extension GameAction {
             throw GameError.noValidOption
         }
 
-        return .chooseOne(validOptions.map(\.key), player: chooser)
+        return .chooseOne(.force, options: validOptions.map(\.key), player: chooser)
     }
 
     static func validatePlay(

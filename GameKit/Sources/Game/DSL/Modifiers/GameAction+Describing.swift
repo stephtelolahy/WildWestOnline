@@ -80,7 +80,7 @@ extension GameAction: CustomStringConvertible {
         case let .cancel(action):
             "✋ \(String(describing: action))"
 
-        case let .chooseOne(options, player):
+        case let .chooseOne(_, options, player):
             "❓ \(player) \(options.joined(separator: " "))"
 
         case let .choose(option, player):

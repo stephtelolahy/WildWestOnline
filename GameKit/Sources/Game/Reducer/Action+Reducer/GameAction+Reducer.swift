@@ -83,8 +83,8 @@ private extension GameAction {
         case let .effect(effect, ctx):
             ActionResolveEffect(effect: effect, ctx: ctx)
 
-        case let .chooseOne(options, player):
-            ActionChooseOne(options: options, player: player)
+        case let .chooseOne(type, options, player):
+            ActionChooseOne(type: type, options: options, player: player)
 
         case let .choose(option, player):
             ActionChoose(player: player, option: option)
