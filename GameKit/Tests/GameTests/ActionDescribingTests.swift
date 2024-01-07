@@ -15,7 +15,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPlay() {
         XCTAssertEqual(
             String(describing: GameAction.play("c1", player: "p1")),
-            "\n✅ p1 c1"
+            "✅ p1 c1"
         )
     }
 
