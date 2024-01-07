@@ -59,16 +59,11 @@ final class SidKetchumTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.sidKetchum, player: "p1"),
-            .chooseOne([
-                "c1": .discardHand("c1", player: "p1"),
-                "c2": .discardHand("c2", player: "p1"),
-                "c3": .discardHand("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(["c1", "c2", "c3"], player: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
-            .chooseOne([
-                "c2": .discardHand("c2", player: "p1"),
-                "c3": .discardHand("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(["c2", "c3"], player: "p1"),
+            .choose("c2", player: "p1"),
             .discardHand("c2", player: "p1"),
             .heal(1, player: "p1")
         ])
