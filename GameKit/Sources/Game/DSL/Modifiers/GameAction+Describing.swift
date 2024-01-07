@@ -81,7 +81,10 @@ extension GameAction: CustomStringConvertible {
             "✋ \(String(describing: action))"
 
         case let .chooseOne(options, player):
-            "❓ \(player) \(options)"
+            "❓ \(player) \(options.joined(separator: " "))"
+
+        case let .choose(option, player):
+            "👉 \(player) \(option)"
 
         case let .activate(cards, player):
             "❔ \(player) \(cards.joined(separator: " "))"

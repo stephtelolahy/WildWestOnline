@@ -6,7 +6,7 @@
 //
 
 struct ActionChooseOne: GameActionReducer {
-    let options: [String: GameAction]
+    let options: [String]
     let player: String
 
     func reduce(state: GameState) throws -> GameState {

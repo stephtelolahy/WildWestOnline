@@ -29,8 +29,8 @@ public final class AIAgentMiddleware: Middleware<GameState> {
 
         if let chooseOne = state.chooseOne.first,
            state.playMode[chooseOne.key] == .auto,
-           let randomAction = chooseOne.value.values.randomElement() {
-            return randomAction
+           let randomOption = chooseOne.value.randomElement() {
+            return .choose(randomOption, player: chooseOne.key)
         }
 
         return nil

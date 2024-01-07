@@ -15,14 +15,11 @@ final class ChooseOneTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
             }
-            .withChooseOne("p1", options: [
-                "c1": .discardHand("c1", player: "p1"),
-                "c2": .discardHand("c2", player: "p1")
-            ])
+            .withChooseOne("p1", options: ["c1", "c2"])
             .build()
 
         // When
-        let action = GameAction.discardHand("c1", player: "p1")
+        let action = GameAction.choose("c1", player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then
@@ -35,14 +32,11 @@ final class ChooseOneTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
             }
-            .withChooseOne("p1", options: [
-                "c1": .discardHand("c1", player: "p1"),
-                "c2": .discardHand("c2", player: "p1")
-            ])
+            .withChooseOne("p1", options: ["c1", "c2"])
             .build()
 
         // When
-        let action = GameAction.discardHand("c3", player: "p1")
+        let action = GameAction.choose("c3", player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then

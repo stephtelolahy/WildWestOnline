@@ -16,7 +16,7 @@ public extension GameState {
         private var arena: [String] = []
         private var winner: String?
         private var error: GameError?
-        private var chooseOne: [String: [String: GameAction]] = [:]
+        private var chooseOne: [String: [String]] = [:]
         private var active: [String: [String]] = [:]
         private var sequence: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
@@ -82,7 +82,7 @@ public extension GameState {
             return self
         }
 
-        public func withChooseOne(_ chooser: String, options: [String: GameAction]) -> Self {
+        public func withChooseOne(_ chooser: String, options: [String]) -> Self {
             chooseOne = [chooser: options]
             return self
         }

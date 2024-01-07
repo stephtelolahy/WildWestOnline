@@ -15,9 +15,9 @@ extension GameAction {
         for (key, action) in options {
             do {
                 try action.validate(state: state)
-                validOptions[key] = try action.reduceToSingleAction(state: state)
+                validOptions[key] = action
             } catch {
-//                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
+                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
                 continue
             }
         }
@@ -26,7 +26,7 @@ extension GameAction {
             throw GameError.noValidOption
         }
 
-        return .chooseOne(validOptions, player: chooser)
+        return .chooseOne(validOptions.map(\.key), player: chooser)
     }
 
     static func validatePlay(
@@ -39,7 +39,7 @@ extension GameAction {
             try action.validate(state: state)
             return true
         } catch {
-//            print("‼️ validatePlay: \(action)\tthrows: \(error)")
+            print("‼️ validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }
@@ -60,25 +60,5 @@ private extension GameAction {
                 try next.validate(state: newState)
             }
         }
-    }
-
-    /// Reducing effect to a more meaningful action
-    /// If not possible, then return `self`
-    func reduceToSingleAction(state: GameState) throws -> GameAction {
-        guard case let .effect(effect, ctx) = self else {
-            return self
-        }
-
-        #warning("exception to keep shoot effect")
-        if case .shoot = effect {
-            return self
-        }
-
-        let children = try effect.resolve(state: state, ctx: ctx)
-        guard children.count == 1 else {
-            return self
-        }
-
-        return try children[0].reduceToSingleAction(state: state)
     }
 }

@@ -83,7 +83,10 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case cancel(Self)
 
     /// Expose a choice
-    case chooseOne([String: Self], player: String)
+    case chooseOne([String], player: String)
+
+    /// Choose an option
+    case choose(String, player: String)
 
     /// Expose active cards
     case activate([String], player: String)

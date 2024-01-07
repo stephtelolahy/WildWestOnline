@@ -30,12 +30,15 @@ private extension GameAction {
     func prepare(state: GameState) throws -> GameState {
         var state = state
 
+        // Game is over
         guard state.winner == nil else {
             throw GameError.gameIsOver
         }
 
+        // Pending choice
         if let chooseOne = state.chooseOne.first {
-            guard chooseOne.value.values.contains(self) else {
+            guard case let .choose(option, player) = self,
+                  chooseOne.value.contains(option) else {
                 throw GameError.unwaitedAction
             }
 
@@ -43,6 +46,7 @@ private extension GameAction {
             return state
         }
 
+        // Active cards
         if let active = state.active.first {
             guard case let .play(card, player) = self,
                   active.key == player,
@@ -54,6 +58,7 @@ private extension GameAction {
             return state
         }
 
+        // Resolving sequence
         if state.sequence.first == self {
             state.sequence.removeFirst()
         }

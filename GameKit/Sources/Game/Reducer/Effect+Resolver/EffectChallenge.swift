@@ -11,6 +11,8 @@ struct EffectChallenge: EffectResolver {
     let otherwise: CardEffect
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+        []
+        /*
         let target = ctx.targetOrActor()
 
         guard case let .id(challengerId) = challenger else {
@@ -74,5 +76,6 @@ struct EffectChallenge: EffectResolver {
         } catch {
             return [.effect(otherwise, ctx: ctx)]
         }
+         */
     }
 }
