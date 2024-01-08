@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 08/01/2024.
 //
 
-/// ChooseOne context
+/// Choice request
 public struct ChooseOne: Codable, Equatable {
     public let type: ChoiceType
     public let options: [String]
@@ -14,7 +14,7 @@ public struct ChooseOne: Codable, Equatable {
 /// ChooseOne context
 public enum ChoiceType: Codable, Equatable {
     case card
-    case player
+    case target
     case counter
     case force
 }

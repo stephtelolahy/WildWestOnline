@@ -28,9 +28,8 @@ final class CalamityJanetTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -54,9 +53,8 @@ final class CalamityJanetTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.missed, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .nothing
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -83,13 +81,10 @@ final class CalamityJanetTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .nothing
-            ], player: "p1"),
-            .chooseOne([
-                .bang: .play(.bang, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.counter, options: [.bang, .pass], player: "p2"),
+            .choose(.bang, player: "p2"),
             .play(.bang, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
@@ -117,13 +112,10 @@ final class CalamityJanetTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
-            .chooseOne([
-                .missed: .play(.missed, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.counter, options: [.missed, .pass], player: "p2"),
+            .choose(.missed, player: "p2"),
             .play(.missed, player: "p2"),
             .discardPlayed(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))

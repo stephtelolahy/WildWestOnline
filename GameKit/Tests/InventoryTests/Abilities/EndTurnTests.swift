@@ -1,6 +1,6 @@
 //
 //  EndTurnTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
@@ -74,11 +74,8 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .chooseOne([
-                "c1": .discardHand("c1", player: "p1"),
-                "c2": .discardHand("c2", player: "p1"),
-                "c3": .discardHand("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.card, options: ["c1", "c2", "c3"], player: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
             .setTurn(player: "p2")
         ])
@@ -103,16 +100,11 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .chooseOne([
-                "c1": .discardHand("c1", player: "p1"),
-                "c2": .discardHand("c2", player: "p1"),
-                "c3": .discardHand("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.card, options: ["c1", "c2", "c3"], player: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
-            .chooseOne([
-                "c2": .discardHand("c2", player: "p1"),
-                "c3": .discardHand("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.card, options: ["c2", "c3"], player: "p1"),
+            .choose("c3", player: "p1"),
             .discardHand("c3", player: "p1"),
             .setTurn(player: "p2")
         ])
