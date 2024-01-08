@@ -31,16 +31,11 @@ final class GeneralStoreTests: XCTestCase {
             .discover,
             .discover,
             .discover,
-            .chooseOne([
-                "c1": .drawArena("c1", player: "p1"),
-                "c2": .drawArena("c2", player: "p1"),
-                "c3": .drawArena("c3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.card, options: ["c1", "c2", "c3"], player: "p1"),
+            .choose("c1", player: "p1"),
             .drawArena("c1", player: "p1"),
-            .chooseOne([
-                "c2": .drawArena("c2", player: "p2"),
-                "c3": .drawArena("c3", player: "p2")
-            ], player: "p2"),
+            .chooseOne(.card, options: ["c2", "c3"], player: "p2"),
+            .choose("c2", player: "p2"),
             .drawArena("c2", player: "p2"),
             .drawArena("c3", player: "p3")
         ])

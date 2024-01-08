@@ -1,6 +1,6 @@
 //
 //  IndiansTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
@@ -29,10 +29,8 @@ final class IndiansTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
-            .chooseOne([
-                .bang: .discardHand(.bang, player: "p2"),
-                .pass: .damage(1, player: "p2")
-            ], player: "p2"),
+            .chooseOne(.force, options: [.bang, .pass], player: "p2"),
+            .choose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2"),
             .damage(1, player: "p3")
         ])
@@ -57,10 +55,8 @@ final class IndiansTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
-            .chooseOne([
-                .bang: .discardHand(.bang, player: "p2"),
-                .pass: .damage(1, player: "p2")
-            ], player: "p2"),
+            .chooseOne(.force, options: [.bang, .pass], player: "p2"),
+            .choose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2")
         ])
     }

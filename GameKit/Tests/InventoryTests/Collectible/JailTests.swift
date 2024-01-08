@@ -26,17 +26,10 @@ final class JailTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.jail, player: "p1"),
-            .chooseOne([
-                "p2": .handicap(.jail, target: "p2", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .handicap(.jail, target: "p2", player: "p1")
         ])
-    }
-
-    func test_playingJail_againstSheriff_shouldNotBeAsked() {
-        // Given
-        // When
-        // Then
     }
 
     func test_triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() {
