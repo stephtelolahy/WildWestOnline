@@ -59,7 +59,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func TODOtest_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
+    func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

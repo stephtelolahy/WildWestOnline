@@ -23,7 +23,7 @@ extension GameAction {
         }
 
         guard !validOptions.isEmpty else {
-            throw GameError.noValidOption
+            fatalError("no valid option")
         }
 
         return .chooseOne(.force, options: validOptions.map(\.key), player: chooser)

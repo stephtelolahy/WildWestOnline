@@ -30,13 +30,11 @@ public struct EffectContext: Codable, Equatable {
         actor: String,
         card: String,
         event: GameAction,
-        cancellingAction: GameAction? = nil,
-        target: String? = nil
+        cancellingAction: GameAction? = nil
     ) {
         self.actor = actor
         self.card = card
         self.event = event
         self.cancellingAction = cancellingAction
-        self.target = target
     }
 }

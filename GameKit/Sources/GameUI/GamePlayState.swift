@@ -89,7 +89,7 @@ struct PlayerItem: Identifiable {
     let hand: String
     let health: String
     let equipment: String
-    // TODO: expose {hand, abilities } x active
+    // TODO: replace with hand cards x active
     let activeActions: [String: GameAction]
     let state: State
 }
