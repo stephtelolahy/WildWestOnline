@@ -1,6 +1,6 @@
 //
 //  PedroRamirezTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 13/11/2023.
 //
@@ -45,10 +45,8 @@ final class PedroRamirezTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn(player: "p1"),
-            .chooseOne([
-                "p2": .drawHand("c2", target: "p2", player: "p1"),
-                "p3": .drawHand("c3", target: "p3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2", "p3"], player: "p1"),
+            .choose("p2", player: "p1"),
             .drawHand("c2", target: "p2", player: "p1"),
             .drawDeck(player: "p1")
         ])

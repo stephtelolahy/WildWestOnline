@@ -1,6 +1,6 @@
 //
 //  BangTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
@@ -27,9 +27,8 @@ final class BangTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -72,9 +71,8 @@ final class BangTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
