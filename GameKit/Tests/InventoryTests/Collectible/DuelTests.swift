@@ -31,29 +31,10 @@ final class DuelTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.duel, player: "p1"),
-            .chooseOne([
-                "p2": .nothing,
-                "p3": .nothing,
-                "p4": .nothing
-            ], player: "p1"),
-            .chooseOne([
-                .bang2: .group([
-                    .discardHand(.bang2, player: "p2"),
-                    .effect(
-                        .challenge(
-                            .id("p2"),
-                            effect: .discard(.selectHandNamed(.bang)),
-                            otherwise: .damage(1)
-                        ),
-                        ctx: EffectContext(
-                            actor: "p1",
-                            card: .duel,
-                            event: .play(.duel, player: "p1")
-                        )
-                    )
-                ]),
-                .pass: .damage(1, player: "p2")
-            ], player: "p2"),
+            .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.force, options: [.bang2, .pass], player: "p2"),
+            .choose(.pass, player: "p2"),
             .damage(1, player: "p2")
         ])
     }
@@ -66,47 +47,13 @@ final class DuelTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.duel, player: "p1"),
-            .chooseOne([
-                "p2": .nothing,
-                "p3": .nothing,
-                "p4": .nothing
-            ], player: "p1"),
-            .chooseOne([
-                .bang2: .group([
-                    .discardHand(.bang2, player: "p2"),
-                    .effect(
-                        .challenge(
-                            .id("p2"),
-                            effect: .discard(.selectHandNamed(.bang)),
-                            otherwise: .damage(1)
-                        ),
-                        ctx: EffectContext(
-                            actor: "p1",
-                            card: .duel,
-                            event: .play(.duel, player: "p1")
-                        )
-                    )
-                ]),
-                .pass: .damage(1, player: "p2")
-            ], player: "p2"),
+            .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.force, options: [.bang2, .pass], player: "p2"),
+            .choose(.bang2, player: "p2"),
             .discardHand(.bang2, player: "p2"),
-            .chooseOne([
-                .bang1: .group([
-                    .discardHand(.bang1, player: "p1"),
-                    .effect(.challenge(
-                        .id("p1"),
-                        effect: .discard(.selectHandNamed(.bang)),
-                        otherwise: .damage(1)
-                    ),
-                            ctx: EffectContext(
-                                actor: "p1",
-                                card: .duel,
-                                event: .play(.duel, player: "p1")
-                            )
-                    )
-                ]),
-                .pass: .damage(1, player: "p1")
-            ], player: "p1"),
+            .chooseOne(.force, options: [.bang1, .pass], player: "p1"),
+            .choose(.pass, player: "p2"),
             .damage(1, player: "p1")
         ])
     }

@@ -1,6 +1,6 @@
 //
 //  PanicTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
@@ -44,12 +44,10 @@ final class PanicTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.panic, player: "p1"),
             .discardPlayed(.panic, player: "p1"),
-            .chooseOne([
-                "p2": .nothing
-            ], player: "p1"),
-            .chooseOne([
-                .randomHand: .drawHand("c21", target: "p2", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.card, options: [.randomHand], player: "p1"),
+            .choose(.randomHand, player: "p1"),
             .drawHand("c21", target: "p2", player: "p1")
         ])
     }
@@ -73,13 +71,10 @@ final class PanicTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.panic, player: "p1"),
             .discardPlayed(.panic, player: "p1"),
-            .chooseOne([
-                "p2": .nothing
-            ], player: "p1"),
-            .chooseOne([
-                "c21": .drawInPlay("c21", target: "p2", player: "p1"),
-                "c22": .drawInPlay("c22", target: "p2", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.card, options: ["c21", "c22", .randomHand], player: "p1"),
+            .choose("c22", player: "p1"),
             .drawInPlay("c22", target: "p2", player: "p1")
         ])
     }
@@ -104,14 +99,10 @@ final class PanicTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.panic, player: "p1"),
             .discardPlayed(.panic, player: "p1"),
-            .chooseOne([
-                "p2": .nothing
-            ], player: "p1"),
-            .chooseOne([
-                .randomHand: .drawHand("c21", target: "p2", player: "p1"),
-                "c22": .drawInPlay("c22", target: "p2", player: "p1"),
-                "c23": .drawInPlay("c23", target: "p2", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.card, options: ["c22", "c23", .randomHand], player: "p1"),
+            .choose("c23", player: "p1"),
             .drawInPlay("c23", target: "p2", player: "p1")
         ])
     }

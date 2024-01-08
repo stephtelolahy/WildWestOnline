@@ -51,9 +51,8 @@ final class BarrelTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .draw,
             .cancel(.damage(1, player: "p2"))
         ])
@@ -81,9 +80,8 @@ final class BarrelTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .draw,
             .damage(1, player: "p2")
         ])
@@ -111,9 +109,8 @@ final class BarrelTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .draw,
             .draw,
             .cancel(.damage(1, player: "p2"))
@@ -142,16 +139,15 @@ final class BarrelTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .draw,
             .draw,
             .damage(1, player: "p2")
         ])
     }
 
-    func test_triggeringBarrel_holdingMissedCards_shouldNotAskToCounter() {
+    func test_triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -175,9 +171,8 @@ final class BarrelTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
-            .chooseOne([
-                "p2": .effect(.shoot, ctx: .init(actor: "p1", card: .bang, event: action, target: "p2"))
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .draw,
             .cancel(.damage(1, player: "p2"))
         ])
