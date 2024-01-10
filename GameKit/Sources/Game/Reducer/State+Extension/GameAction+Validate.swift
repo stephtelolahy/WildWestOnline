@@ -31,18 +31,18 @@ extension GameAction {
     }
 
     static func validateOptions(
-        _ labels: [String],
-        options: [String: GameAction],
+        _ options: [String],
+        actions: [String: GameAction],
         state: GameState
     ) -> [String] {
         var validOptions: [String] = []
-        for key in labels {
-            let action = options[key]!
+        for key in options {
+            let action = actions[key]!
             do {
                 try action.validate(state: state)
                 validOptions.append(key)
             } catch {
-                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
+                print("‼️ validateOptions: \(action)\tthrows: \(error)")
                 continue
             }
         }

@@ -29,7 +29,7 @@ extension ArgCard {
                 throw GameError.noCard(self)
             }
 
-            let options = cIdOptions.reduce(into: [String: GameAction]()) {
+            let actions = cIdOptions.reduce(into: [String: GameAction]()) {
                 $0[$1.label] = copy($1.id)
             }
 
@@ -39,13 +39,13 @@ extension ArgCard {
                     fatalError("invalid chosen option \(choice)")
                 }
 
-                return [options[choice]!]
+                return [actions[choice]!]
             }
             // </handle chooseOne>
 
             let validoptions = GameAction.validateOptions(
                 cIdOptions.map(\.label),
-                options: options,
+                actions: actions,
                 state: state
             )
 

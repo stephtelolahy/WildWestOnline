@@ -5,13 +5,12 @@
 //  Created by Hugues Telolahy on 08/01/2024.
 //
 
+/// Apply next effect with chosen option
 struct ActionChoose: GameActionReducer {
     let player: String
     let option: String
 
     func reduce(state: GameState) throws -> GameState {
-        var state = state
-
         guard let nextAction = state.sequence.first,
               case let .effect(cardEffect, ctx) = nextAction else {
             fatalError("Next action should be an effect")
@@ -20,6 +19,7 @@ struct ActionChoose: GameActionReducer {
         var updatedContext = ctx
         updatedContext.option = option
         let updateAction = GameAction.effect(cardEffect, ctx: updatedContext)
+        var state = state
         state.sequence[0] = updateAction
 
         return state
