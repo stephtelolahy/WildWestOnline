@@ -29,7 +29,7 @@ extension ArgCard {
                 throw GameError.noCard(self)
             }
 
-            var options = cIdOptions.reduce(into: [String: GameAction]()) {
+            let options = cIdOptions.reduce(into: [String: GameAction]()) {
                 $0[$1.label] = copy($1.id)
             }
 
