@@ -29,11 +29,29 @@ extension ArgCard {
                 throw GameError.noCard(self)
             }
 
-            let options = cIdOptions.reduce(into: [String: GameAction]()) {
+            var options = cIdOptions.reduce(into: [String: GameAction]()) {
                 $0[$1.label] = copy($1.id)
             }
+
+            // <handle chooseOne>
+            if let choice = ctx.option {
+                guard cIdOptions.contains(where: { choice == $0.label }) else {
+                    fatalError("invalid chosen option \(choice)")
+                }
+
+                return [options[choice]!]
+            }
+            // </handle chooseOne>
+
+            let validoptions = GameAction.validateOptions(
+                cIdOptions.map(\.label),
+                options: options,
+                state: state
+            )
+
             let chooser = ctx.chooser ?? ctx.targetOrActor()
-            let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
+            let chooseOne = GameAction.chooseOne(.card, options: validoptions, player: chooser)
+
             return [chooseOne]
         }
     }
