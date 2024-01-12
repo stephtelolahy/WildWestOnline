@@ -38,7 +38,7 @@ extension GameAction {
         var validOptions: [String] = []
         for key in options {
             guard let action = actions[key] else {
-                continue
+                fatalError("missing action for key \(key)")
             }
 
             do {
