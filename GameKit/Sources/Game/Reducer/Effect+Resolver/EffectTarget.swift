@@ -13,6 +13,8 @@ struct EffectTarget: EffectResolver {
         try target.resolve(state: state, ctx: ctx) {
             var contextWithTarget = ctx
             contextWithTarget.target = $0
+            #warning("reset context")
+            contextWithTarget.option = nil
             return GameAction.effect(effect, ctx: contextWithTarget)
         }
     }

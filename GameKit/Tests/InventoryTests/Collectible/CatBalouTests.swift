@@ -43,6 +43,7 @@ final class CatBalouTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.catBalou, player: "p1"),
+            .discardPlayed(.catBalou, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
             .chooseOne(.card, options: [.randomHand], player: "p1"),
@@ -69,6 +70,7 @@ final class CatBalouTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.catBalou, player: "p1"),
+            .discardPlayed(.catBalou, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
             .chooseOne(.card, options: ["c21", "c22"], player: "p1"),
@@ -96,6 +98,7 @@ final class CatBalouTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.catBalou, player: "p1"),
+            .discardPlayed(.catBalou, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
             .chooseOne(.card, options: ["c22", "c23", .randomHand], player: "p1"),
