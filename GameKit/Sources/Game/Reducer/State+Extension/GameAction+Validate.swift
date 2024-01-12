@@ -6,7 +6,7 @@
 //
 
 extension GameAction {
-    @available(*, deprecated, message: "UsevalidateOptions instead")
+    @available(*, deprecated, message: "Use `validateOptions` instead")
     static func validateChooseOne(
         chooser: String,
         options: [String: GameAction],
