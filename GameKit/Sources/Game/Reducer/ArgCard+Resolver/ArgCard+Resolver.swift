@@ -33,11 +33,8 @@ extension ArgCard {
                 $0[$1.label] = copy($1.id)
             }
 
-            if let choice = ctx.option {
-                guard let action = actions[choice] else {
-                    fatalError("invalid choice \(choice) among \(cIdOptions.map(\.label))")
-                }
-
+            if let choice = ctx.option,
+               let action = actions[choice] {
                 return [action]
             }
 
