@@ -33,7 +33,6 @@ extension ArgCard {
                 $0[$1.label] = copy($1.id)
             }
 
-            // <handle chooseOne>
             if let choice = ctx.option {
                 guard let action = actions[choice] else {
                     fatalError("invalid choice \(choice) among \(cIdOptions.map(\.label))")
@@ -41,7 +40,6 @@ extension ArgCard {
 
                 return [action]
             }
-            // </handle chooseOne>
 
             let validoptions = GameAction.validateOptions(
                 cIdOptions.map(\.label),

@@ -60,7 +60,6 @@ extension ArgPlayer {
                 $0[$1] = copy($1)
             }
 
-            // <handle chooseOne>
             if let choice = ctx.option {
                 guard let action = actions[choice] else {
                     fatalError("invalid choice \(choice) among \(pIds)")
@@ -68,7 +67,6 @@ extension ArgPlayer {
 
                 return [action]
             }
-            // </handle chooseOne>
 
             let validoptions = GameAction.validateOptions(
                 pIds,
