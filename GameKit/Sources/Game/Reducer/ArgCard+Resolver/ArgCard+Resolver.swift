@@ -35,11 +35,11 @@ extension ArgCard {
 
             // <handle chooseOne>
             if let choice = ctx.option {
-                guard cIdOptions.contains(where: { choice == $0.label }) else {
+                guard let action = actions[choice] else {
                     fatalError("invalid chosen option \(choice)")
                 }
 
-                return [actions[choice]!]
+                return [action]
             }
             // </handle chooseOne>
 
@@ -49,8 +49,12 @@ extension ArgCard {
                 state: state
             )
 
-            let chooser = ctx.chooser ?? ctx.targetOrActor()
-            let chooseOne = GameAction.chooseOne(.card, options: validoptions, player: chooser)
+            let chooser = ctx.cardChooser ?? ctx.targetOrActor()
+            let chooseOne = GameAction.chooseOne(
+                .card,
+                options: validoptions,
+                player: chooser
+            )
 
             return [chooseOne]
         }

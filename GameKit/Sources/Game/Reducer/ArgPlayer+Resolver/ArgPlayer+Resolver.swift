@@ -56,14 +56,30 @@ extension ArgPlayer {
             return pIds.map { copy($0) }
 
         case let .selectable(pIds):
-            let options = pIds.reduce(into: [String: GameAction]()) {
+            let actions = pIds.reduce(into: [String: GameAction]()) {
                 $0[$1] = copy($1)
             }
 
-            let chooseOne = try GameAction.validateChooseOne(
-                chooser: ctx.actor,
-                options: options,
+            // <handle chooseOne>
+            if let choice = ctx.option {
+                guard let action = actions[choice] else {
+                    fatalError("invalid chosen option \(choice)")
+                }
+
+                return [action]
+            }
+            // </handle chooseOne>
+
+            let validoptions = GameAction.validateOptions(
+                pIds,
+                actions: actions,
                 state: state
+            )
+
+            let chooseOne = GameAction.chooseOne(
+                .target,
+                options: validoptions,
+                player: ctx.actor
             )
 
             return [chooseOne]

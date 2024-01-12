@@ -37,7 +37,10 @@ extension GameAction {
     ) -> [String] {
         var validOptions: [String] = []
         for key in options {
-            let action = actions[key]!
+            guard let action = actions[key] else {
+                continue
+            }
+
             do {
                 try action.validate(state: state)
                 validOptions.append(key)
