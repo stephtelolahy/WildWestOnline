@@ -36,7 +36,7 @@ extension ArgCard {
             // <handle chooseOne>
             if let choice = ctx.option {
                 guard let action = actions[choice] else {
-                    fatalError("invalid chosen option \(choice)")
+                    fatalError("invalid chosen option \(choice) among \(cIdOptions.map(\.label))")
                 }
 
                 return [action]

@@ -63,7 +63,7 @@ extension ArgPlayer {
             // <handle chooseOne>
             if let choice = ctx.option {
                 guard let action = actions[choice] else {
-                    fatalError("invalid chosen option \(choice)")
+                    fatalError("invalid chosen option \(choice) among \(pIds)")
                 }
 
                 return [action]

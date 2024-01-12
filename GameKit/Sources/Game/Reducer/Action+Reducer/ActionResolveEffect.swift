@@ -13,7 +13,6 @@ struct ActionResolveEffect: GameActionReducer {
         var state = state
         var children = try effect.resolve(state: state, ctx: ctx)
 
-        // TODO: improve
         // <handle chooseOne>
         if children.count == 1,
            case .chooseOne = children[0] {
