@@ -16,6 +16,7 @@ final class ChooseOneTests: XCTestCase {
                 $0.withHand(["c1", "c2", "c3"])
             }
             .withChooseOne(.card, options: ["c1", "c2"], player: "p1")
+            .withSequence([.effect(.nothing, ctx: .init(actor: "p1", card: "c0", event: .draw))])
             .build()
 
         // When
