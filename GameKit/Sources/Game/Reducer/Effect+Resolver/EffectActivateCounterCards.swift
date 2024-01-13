@@ -10,23 +10,43 @@ struct EffectActivateCounterCards: EffectResolver {
         let playerObj = state.player(ctx.actor)
         let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
 
-        var counterOptions: [String: GameAction] = [:]
-        for card in playerObj.hand
-            where CounterActionResolver.isCounterShootCard(card, player: ctx.actor, state: state, ctx: playReqContext) {
-            counterOptions[card] = .play(card, player: ctx.actor)
+        let counterCards = playerObj.hand.filter {
+            CounterActionResolver.isCounterShootCard(
+                $0,
+                player: ctx.actor,
+                state: state,
+                ctx: playReqContext
+            )
         }
 
-        guard counterOptions.isNotEmpty else {
+        guard counterCards.isNotEmpty else {
             return []
         }
 
-        counterOptions[.pass] = .nothing
+        var actions = counterCards.reduce(into: [String: GameAction]()) {
+            $0[$1] = .play($1, player: ctx.actor)
+        }
 
-        let chooseOne = try GameAction.validateChooseOne(
-            chooser: ctx.actor,
-            options: counterOptions,
+        actions[.pass] = .nothing
+
+        if let choice = ctx.option,
+           let action = actions[choice] {
+            return [action]
+        }
+
+        let options = counterCards + [.pass]
+        let validoptions = GameAction.validateOptions(
+            options,
+            actions: actions,
             state: state
         )
+
+        let chooseOne = GameAction.chooseOne(
+            .counter,
+            options: validoptions,
+            player: ctx.actor
+        )
+
         return [chooseOne]
     }
 }
@@ -40,7 +60,7 @@ private enum CounterActionResolver {
     ) -> Bool {
         var cardName = card.extractName()
 
-        // resolve card alias>
+        // <resolve card alias>
         if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: ctx) {
             cardName = alias
         }

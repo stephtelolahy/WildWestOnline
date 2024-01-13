@@ -78,7 +78,12 @@ final class JailTests: XCTestCase {
         XCTAssertEqual(result, [
             .setTurn(player: "p1"),
             .draw,
-            .cancel(.effect(.repeat(.attr(.startTurnCards), effect: .drawDeck), ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn(player: "p1")))),
+            .cancel(
+                .effect(
+                    .repeat(.attr(.startTurnCards), effect: .drawDeck),
+                    ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn(player: "p1"))
+                )
+            ),
             .discardInPlay(.jail, player: "p1"),
             .setTurn(player: "p2")
         ])

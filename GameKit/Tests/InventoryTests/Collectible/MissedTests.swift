@@ -80,7 +80,7 @@ final class MissedTests: XCTestCase {
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .chooseOne(.counter, options: [.missed1, .missed2], player: "p2"),
+            .chooseOne(.counter, options: [.missed1, .missed2, .pass], player: "p2"),
             .choose(.missed2, player: "p2"),
             .play(.missed2, player: "p2"),
             .discardPlayed(.missed2, player: "p2"),
