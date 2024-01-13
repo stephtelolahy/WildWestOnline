@@ -60,11 +60,6 @@ extension ArgPlayer {
                 $0[$1] = copy($1)
             }
 
-            if let choice = ctx.option,
-               let action = actions[choice] {
-                return [action]
-            }
-
             let validoptions = GameAction.validateOptions(
                 pIds,
                 actions: actions,
@@ -77,7 +72,9 @@ extension ArgPlayer {
                 player: ctx.actor
             )
 
-            return [chooseOne]
+            let match = GameAction.effect(.matchAction(actions), ctx: ctx)
+
+            return [chooseOne, match]
         }
     }
 }

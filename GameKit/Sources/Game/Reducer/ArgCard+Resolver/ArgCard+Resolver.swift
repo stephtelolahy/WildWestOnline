@@ -33,11 +33,6 @@ extension ArgCard {
                 $0[$1.label] = copy($1.id)
             }
 
-            if let choice = ctx.option,
-               let action = actions[choice] {
-                return [action]
-            }
-
             let validoptions = GameAction.validateOptions(
                 cIdOptions.map(\.label),
                 actions: actions,
@@ -51,7 +46,9 @@ extension ArgCard {
                 player: chooser
             )
 
-            return [chooseOne]
+            let match = GameAction.effect(.matchAction(actions), ctx: ctx)
+
+            return [chooseOne, match]
         }
     }
 }

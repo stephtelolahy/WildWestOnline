@@ -102,6 +102,9 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
+
+        case let .matchAction(actions):
+            EffectMatchAction(actions: actions)
         }
     }
 }

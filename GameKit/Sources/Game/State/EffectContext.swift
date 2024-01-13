@@ -27,7 +27,7 @@ public struct EffectContext: Codable, Equatable {
     var cardChooser: String?
 
     /// Chosen option while resolving effect
-    var option: String?
+    var chosenOption: String?
 
     public init(
         actor: String,

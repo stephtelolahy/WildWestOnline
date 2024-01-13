@@ -12,12 +12,13 @@ struct ActionChoose: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         guard let nextAction = state.sequence.first,
-              case let .effect(cardEffect, ctx) = nextAction else {
-            fatalError("Next action should be an effect")
+              case let .effect(cardEffect, ctx) = nextAction,
+              case .matchAction = cardEffect else {
+            fatalError("Next action should be an effect.matchAction")
         }
 
         var updatedContext = ctx
-        updatedContext.option = option
+        updatedContext.chosenOption = option
         let updateAction = GameAction.effect(cardEffect, ctx: updatedContext)
         var state = state
         state.sequence[0] = updateAction

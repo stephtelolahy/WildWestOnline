@@ -69,6 +69,15 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Evaluate all player attributes
     case updateAttributes
 
+    /// Counter shoot effect
+    case counterShoot
+
+    /// Cancel turn
+    case cancelTurn
+
+    /// Expose a choice to play counter cards
+    case activateCounterCards
+
     // MARK: - Operators
 
     /// Repeat an effect
@@ -92,12 +101,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Apply effects according to just flipped card value
     case luck(ArgLuckCard, regex: String, onSuccess: Self, onFailure: Self? = nil)
 
-    /// Counter shoot effect
-    case counterShoot
-
-    /// Cancel turn
-    case cancelTurn
-
-    /// Expose a choice to play counter cards
-    case activateCounterCards
+    /// Runs the action matching `EffectContext.chosenOption`
+    case matchAction([String: GameAction])
 }
