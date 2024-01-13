@@ -8,7 +8,7 @@
 import Foundation
 
 /// Player who is playing in a game
-public struct Player: Identifiable, Codable, Equatable {
+public struct Player: Codable, Equatable {
     /// Unique identifier
     public let id: String
 

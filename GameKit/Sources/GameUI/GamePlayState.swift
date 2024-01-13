@@ -76,7 +76,7 @@ extension GameState {
     }
 }
 
-struct PlayerItem: Identifiable {
+struct PlayerItem {
     enum State {
         case active
         case idle
