@@ -20,6 +20,7 @@ public extension GameState {
             state.error = nil
         } catch {
             state.error = error as? GameError
+            print("🚨 reduceAction: \(action)\tthrows: \(error)")
         }
 
         return state
