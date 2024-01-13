@@ -57,6 +57,32 @@ final class MissedTests: XCTestCase {
         ])
     }
 
+    func test_beingShot_withoutMissedCard_shouldNotAskToCounter() throws {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withHand([.bang])
+                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+            }
+            .withPlayer("p2") {
+                $0.withAbilities([.activateCounterCardsOnShot])
+            }
+            .build()
+
+        // When
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
+
+        // Then
+        XCTAssertEqual(result, [
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .damage(1, player: "p2")
+        ])
+    }
+
     func test_beingShot_holdingMissedCards_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
