@@ -21,11 +21,13 @@ struct EffectForce: EffectResolver {
 //                    return [.effect(.force(childEffect, otherwise: otherwise), ctx: childCtx)]
                     fatalError("unexpected")
 
+                case .drawDiscard:
+                    // verify action, if succeed then return it
+                    _ = try action.reduce(state: state)
+                    return [action]
+
                 default:
                     fatalError("unexpected")
-                    // verify action, if succeed then return it
-//                    _ = try action.reduce(state: state)
-//                    return [action]
                 }
             } else if children.count == 2 {
                 if case .chooseOne(let type, var options, let player) = children[0],
