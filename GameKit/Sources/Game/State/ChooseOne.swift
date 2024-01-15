@@ -16,5 +16,4 @@ public enum ChoiceType: Codable, Equatable {
     case card
     case target
     case counter
-    case force
 }

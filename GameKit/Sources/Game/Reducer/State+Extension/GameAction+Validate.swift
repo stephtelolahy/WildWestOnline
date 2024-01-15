@@ -6,30 +6,6 @@
 //
 
 extension GameAction {
-    @available(*, deprecated, message: "Use `validateOptions` instead")
-    static func validateChooseOne(
-        chooser: String,
-        options: [String: GameAction],
-        state: GameState
-    ) throws -> GameAction {
-        var validOptions: [String: GameAction] = [:]
-        for (key, action) in options {
-            do {
-                try action.validate(state: state)
-                validOptions[key] = action
-            } catch {
-                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
-                continue
-            }
-        }
-
-        guard !validOptions.isEmpty else {
-            fatalError("no valid option")
-        }
-
-        return .chooseOne(.force, options: validOptions.map(\.key), player: chooser)
-    }
-
     static func validateOptions(
         _ options: [String],
         actions: [String: GameAction],
