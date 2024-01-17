@@ -59,7 +59,7 @@ private extension CardEffect {
             EffectJust { .equip($0.card, player: $0.actor) }
 
         case .handicap:
-            EffectJust { .handicap($0.card, target: $0.target!, player: $0.actor) }
+            EffectJust { .handicap($0.card, target: $0.getTarget(), player: $0.actor) }
 
         case let .putBack(among):
             EffectPutBack(among: among)

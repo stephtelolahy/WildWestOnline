@@ -9,4 +9,11 @@ extension EffectContext {
     func targetOrActor() -> String {
         target ?? actor
     }
+
+    func getTarget() -> String {
+        guard let player = target else {
+            fatalError("missing target")
+        }
+        return player
+    }
 }
