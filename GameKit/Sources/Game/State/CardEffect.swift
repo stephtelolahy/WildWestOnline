@@ -92,9 +92,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Try an effect. If cannot, then apply some effect
     case force(Self, otherwise: Self)
 
-    /// Try an effect. If succeed, then apply a second effect
-    case require(Self, then: Self)
-
     /// Force two players to perform an effect repeatedly. If cannot, then apply some effect
     case challenge(ArgPlayer, effect: Self, otherwise: Self)
 

@@ -499,7 +499,7 @@ private extension CardList {
                     .repeat(2)
                 CardEffect.heal(1)
             }
-            .on([.play])
+            .on([.play, .isHandAtLeast(2)])
         }
     }
 

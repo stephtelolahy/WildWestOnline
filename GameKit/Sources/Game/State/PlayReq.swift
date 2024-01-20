@@ -45,4 +45,7 @@ public enum PlayReq: Codable, Equatable {
 
     /// The current turn is actor
     case isYourTurn
+
+    // The minimum number of hand card is X
+    case isHandAtLeast(Int)
 }

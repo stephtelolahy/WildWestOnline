@@ -82,9 +82,6 @@ private extension CardEffect {
         case let .force(effect, otherwise):
             EffectForce(effect: effect, otherwise: otherwise)
 
-        case let .require(effect, thenEffect):
-            EffectRequire(requiredEffect: effect, thenEffect: thenEffect)
-
         case let .challenge(challenger, effect, otherwise):
             EffectChallenge(challenger: challenger, effect: effect, otherwise: otherwise)
 

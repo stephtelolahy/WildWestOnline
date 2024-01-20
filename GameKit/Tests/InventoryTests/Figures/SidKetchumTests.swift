@@ -81,6 +81,6 @@ final class SidKetchumTests: XCTestCase {
         let (_, error) = self.awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(error, .noCard(.selectHand))
+        XCTAssertEqual(error, .noReq(.isHandAtLeast(2)))
     }
 }
