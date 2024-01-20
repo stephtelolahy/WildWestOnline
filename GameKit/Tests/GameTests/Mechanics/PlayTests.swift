@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 05/01/2024.
 //
 
-import Game
+@testable import Game
 import XCTest
 
 final class PlayTests: XCTestCase {

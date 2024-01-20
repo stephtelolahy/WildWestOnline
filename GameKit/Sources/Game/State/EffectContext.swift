@@ -18,7 +18,7 @@ public struct EffectContext: Codable, Equatable {
 
     /// When this action is cancelled
     /// then the effect is also cancelled automatically
-    let cancellingAction: GameAction?
+    var cancellingAction: GameAction?
 
     /// Targeted player while resolving the effect
     var target: String?
@@ -28,16 +28,4 @@ public struct EffectContext: Codable, Equatable {
 
     /// Chosen option while resolving effect
     var chosenOption: String?
-
-    public init(
-        actor: String,
-        card: String,
-        event: GameAction,
-        cancellingAction: GameAction? = nil
-    ) {
-        self.actor = actor
-        self.card = card
-        self.event = event
-        self.cancellingAction = cancellingAction
-    }
 }
