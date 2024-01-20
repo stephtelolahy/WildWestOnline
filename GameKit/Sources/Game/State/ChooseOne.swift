@@ -15,5 +15,5 @@ public struct ChooseOne: Codable, Equatable {
 public enum ChoiceType: Codable, Equatable {
     case card
     case target
-    case counter
+    case counterCard
 }

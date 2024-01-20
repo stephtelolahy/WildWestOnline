@@ -37,7 +37,7 @@ struct EffectActivateCounterCards: EffectResolver {
         )
 
         let chooseOne = GameAction.chooseOne(
-            .counter,
+            .counterCard,
             options: validoptions,
             player: ctx.actor
         )
