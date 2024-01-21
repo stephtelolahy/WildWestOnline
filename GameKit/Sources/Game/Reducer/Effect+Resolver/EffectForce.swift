@@ -17,10 +17,6 @@ struct EffectForce: EffectResolver {
             if children.count == 1 {
                 let action = children[0]
                 switch action {
-                case let .effect(childEffect, childCtx):
-//                    return [.effect(.force(childEffect, otherwise: otherwise), ctx: childCtx)]
-                    fatalError("unexpected")
-
                 case .drawDiscard:
                     // verify action, if succeed then return it
                     _ = try action.reduce(state: state)
