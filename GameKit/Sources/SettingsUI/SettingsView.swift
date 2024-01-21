@@ -9,7 +9,6 @@
 import Navigation
 import Redux
 import SwiftUI
-import Utils
 
 public struct SettingsView: View {
     @StateObject private var store: Store<SettingsState>
