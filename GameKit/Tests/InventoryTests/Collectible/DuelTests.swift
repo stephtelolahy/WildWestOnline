@@ -23,7 +23,7 @@ final class DuelTests: XCTestCase {
             .build()
     }
 
-    func xtest_playDuel_withTargetPassing_shouldDamage() {
+    func test_playDuel_withTargetPassing_shouldDamage() {
         // When
         let action = GameAction.play(.duel, player: "p1")
         let (result, _) = self.awaitAction(action, state: state, choose: ["p2", .pass])
@@ -31,6 +31,7 @@ final class DuelTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.duel, player: "p1"),
+            .discardPlayed(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
             .choose("p2", player: "p1"),
             .chooseOne(.card, options: [.bang2, .pass], player: "p2"),
@@ -39,7 +40,7 @@ final class DuelTests: XCTestCase {
         ])
     }
 
-    func xtest_playDuel_withTargetDiscardingBang_shouldDamageOffender() {
+    func test_playDuel_withTargetDiscardingBang_shouldDamageOffender() {
         // When
         let action = GameAction.play(.duel, player: "p1")
         let (result, _) = self.awaitAction(action, state: state, choose: ["p2", .bang2, .pass])
@@ -47,13 +48,14 @@ final class DuelTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.duel, player: "p1"),
+            .discardPlayed(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
             .choose("p2", player: "p1"),
             .chooseOne(.card, options: [.bang2, .pass], player: "p2"),
             .choose(.bang2, player: "p2"),
             .discardHand(.bang2, player: "p2"),
             .chooseOne(.card, options: [.bang1, .pass], player: "p1"),
-            .choose(.pass, player: "p2"),
+            .choose(.pass, player: "p1"),
             .damage(1, player: "p1")
         ])
     }

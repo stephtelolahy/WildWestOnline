@@ -31,6 +31,7 @@ struct EffectForce: EffectResolver {
                    case var .matchAction(actions) = childEffect {
                     options.append(.pass)
                     actions[.pass] = .effect(otherwise, ctx: childCtx)
+
                     let chooseOne = GameAction.chooseOne(
                         type,
                         options: options,
