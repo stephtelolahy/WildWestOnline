@@ -80,7 +80,6 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case removeAttribute(AttributeKey, player: String)
 
     /// Cancel an effect
-    @available(*, deprecated, message: "cancel should apply to some kind of action")
     case cancel(Self)
 
     /// Expose a choice
