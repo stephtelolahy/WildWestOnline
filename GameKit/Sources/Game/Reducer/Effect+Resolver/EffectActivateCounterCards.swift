@@ -30,7 +30,7 @@ struct EffectActivateCounterCards: EffectResolver {
         actions[.pass] = .nothing
 
         let options = counterCards + [.pass]
-        let validoptions = GameAction.validateOptions(
+        let validoptions = try GameAction.validateOptions(
             options,
             actions: actions,
             state: state

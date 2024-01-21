@@ -10,8 +10,9 @@ extension GameAction {
         _ options: [String],
         actions: [String: GameAction],
         state: GameState
-    ) -> [String] {
+    ) throws -> [String] {
         var validOptions: [String] = []
+        var caughtError: Error?
         for key in options {
             guard let action = actions[key] else {
                 fatalError("missing action for key \(key)")
@@ -22,12 +23,13 @@ extension GameAction {
                 validOptions.append(key)
             } catch {
                 print("🚨 validateOptions: \(action)\tthrows: \(error)")
+                caughtError = error
                 continue
             }
         }
 
         guard !validOptions.isEmpty else {
-            fatalError("no valid option")
+            throw caughtError!
         }
 
         return validOptions
@@ -49,7 +51,7 @@ extension GameAction {
     }
 }
 
-private extension GameAction {
+extension GameAction {
     func validate(state: GameState) throws {
         switch self {
         case .activate,

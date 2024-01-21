@@ -60,7 +60,7 @@ extension ArgPlayer {
                 $0[$1] = copy($1)
             }
 
-            let validoptions = GameAction.validateOptions(
+            let validoptions = try GameAction.validateOptions(
                 pIds,
                 actions: actions,
                 state: state

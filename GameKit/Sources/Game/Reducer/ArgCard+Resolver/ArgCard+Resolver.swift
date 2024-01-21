@@ -33,7 +33,7 @@ extension ArgCard {
                 $0[$1.label] = copy($1.id)
             }
 
-            let validoptions = GameAction.validateOptions(
+            let validoptions = try GameAction.validateOptions(
                 cIdOptions.map(\.label),
                 actions: actions,
                 state: state

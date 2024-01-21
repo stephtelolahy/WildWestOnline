@@ -50,8 +50,9 @@ struct ActionPlay: GameActionReducer {
         state.sequence.insert(contentsOf: children, at: 0)
 
         // <early validate play>
-
-
+        var stateCopy = state
+        let nextEffect = stateCopy.sequence.removeFirst()
+        try nextEffect.validate(state: stateCopy)
         // </early validate play>
 
         return state
