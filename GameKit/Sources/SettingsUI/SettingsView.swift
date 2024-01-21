@@ -26,8 +26,6 @@ public struct SettingsView: View {
     public var body: some View {
         NavigationView {
             Form {
-                headerView
-                contentSection
                 preferencesSection
             }
             .toolbar {
@@ -36,47 +34,6 @@ public struct SettingsView: View {
                         store.dispatch(NavAction.dismiss)
                     }
                 }
-            }
-        }
-    }
-
-    private var headerView: some View {
-        VStack {
-            Image(systemName: "person.crop.circle")
-                .resizable()
-                .frame(width: 100, height: 100)
-            Text("Wolf Knight")
-                .font(.title)
-            Text("WolfKnight@kingdom.tv")
-                .font(.subheadline)
-            Button(action: {
-                print("Sign out tapped")
-            }, label: {
-                Text("Sign out")
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .padding()
-                    .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.white, lineWidth: 2)
-                    )
-            })
-            .background(Color.blue)
-            .cornerRadius(25)
-        }
-        .padding()
-    }
-
-    private var contentSection: some View {
-        Section(header: Text("CONTENT")) {
-            HStack {
-                Image(systemName: "star")
-                Text("Favorites")
-            }
-
-            HStack {
-                Image(systemName: "arrow.down.circle")
-                Text("Downloads")
             }
         }
     }
