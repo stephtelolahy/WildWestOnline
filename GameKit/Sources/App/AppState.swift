@@ -37,8 +37,8 @@ public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
         state = activeGameReducer(state, action)
-        state.screens = NavState.reducer(state.screens, action)
         state.game = state.game.flatMap { GameState.reducer($0, action) }
+        state.screens = NavState.reducer(state.screens, action)
         state.settings = SettingsState.reducer(state.settings, action)
         return state
     }

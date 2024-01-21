@@ -49,6 +49,11 @@ struct ActionPlay: GameActionReducer {
         let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
         state.sequence.insert(contentsOf: children, at: 0)
 
+        // <early validate play>
+
+
+        // </early validate play>
+
         return state
     }
 }
