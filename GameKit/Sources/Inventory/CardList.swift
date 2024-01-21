@@ -453,8 +453,8 @@ private extension CardList {
             prototype: pDefault,
             attributes: [.maxHealth: 4],
             alias: [
-                CardAlias(playedRegex: .missed, as: .bang, playReqs: [.play]),
-                CardAlias(playedRegex: .bang, as: .missed, playReqs: [.shot])
+                CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
+                CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
             ]
         )
     }

@@ -18,6 +18,7 @@ final class CalamityJanetTests: XCTestCase {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
+            .withTurn("p1")
             .build()
 
         // When
@@ -34,7 +35,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func xtest_calamityJanetPlayingMissed_shouldPlayAsBang() throws {
+    func test_calamityJanetPlayingMissed_shouldPlayAsBang() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -43,6 +44,7 @@ final class CalamityJanetTests: XCTestCase {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
+            .withTurn("p1")
             .build()
 
         // When
@@ -59,7 +61,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func xtest_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
+    func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -86,6 +88,7 @@ final class CalamityJanetTests: XCTestCase {
             .chooseOne(.counterCard, options: [.bang, .pass], player: "p2"),
             .choose(.bang, player: "p2"),
             .play(.bang, player: "p2"),
+            .discardPlayed(.bang, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }

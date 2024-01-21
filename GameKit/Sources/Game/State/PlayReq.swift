@@ -6,7 +6,7 @@
 //
 
 /// Condition triggering card effect
-public enum PlayReq: Codable, Equatable {
+public indirect enum PlayReq: Codable, Equatable {
     /// playing a card
     case play
 
@@ -45,4 +45,7 @@ public enum PlayReq: Codable, Equatable {
 
     /// The current turn is actor
     case isYourTurn
+
+    /// Not playReq
+    case isNot(Self)
 }
