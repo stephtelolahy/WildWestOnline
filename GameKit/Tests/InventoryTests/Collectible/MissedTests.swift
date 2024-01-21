@@ -40,18 +40,46 @@ final class MissedTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed])
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne([
-                .missed: .playImmediate(.missed, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
-            .playImmediate(.missed, player: "p2"),
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.counterCard, options: [.missed, .pass], player: "p2"),
+            .choose(.missed, player: "p2"),
+            .play(.missed, player: "p2"),
+            .discardPlayed(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))
+        ])
+    }
+
+    func test_beingShot_withoutMissedCard_shouldNotAskToCounter() throws {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withHand([.bang])
+                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+            }
+            .withPlayer("p2") {
+                $0.withAbilities([.activateCounterCardsOnShot])
+            }
+            .build()
+
+        // When
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
+
+        // Then
+        XCTAssertEqual(result, [
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .damage(1, player: "p2")
         ])
     }
 
@@ -69,18 +97,19 @@ final class MissedTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed2])
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed2])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne([
-                .missed1: .playImmediate(.missed1, player: "p2"),
-                .missed2: .playImmediate(.missed2, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
-            .playImmediate(.missed2, player: "p2"),
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.counterCard, options: [.missed1, .missed2, .pass], player: "p2"),
+            .choose(.missed2, player: "p2"),
+            .play(.missed2, player: "p2"),
+            .discardPlayed(.missed2, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -108,18 +137,17 @@ final class MissedTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.gatling, player: "p1"),
-            .chooseOne([
-                .missed: .playImmediate(.missed, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
-            .playImmediate(.missed, player: "p2"),
+            .play(.gatling, player: "p1"),
+            .discardPlayed(.gatling, player: "p1"),
+            .chooseOne(.counterCard, options: [.missed, .pass], player: "p2"),
+            .choose(.missed, player: "p2"),
+            .play(.missed, player: "p2"),
+            .discardPlayed(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2")),
-            .chooseOne([
-                .missed: .playImmediate(.missed, player: "p3"),
-                .pass: .nothing
-            ], player: "p3"),
-            .playImmediate(.missed, player: "p3"),
+            .chooseOne(.counterCard, options: [.missed, .pass], player: "p3"),
+            .choose(.missed, player: "p3"),
+            .play(.missed, player: "p3"),
+            .discardPlayed(.missed, player: "p3"),
             .cancel(.damage(1, player: "p3"))
         ])
     }

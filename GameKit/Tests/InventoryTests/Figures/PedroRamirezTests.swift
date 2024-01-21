@@ -1,6 +1,6 @@
 //
 //  PedroRamirezTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 13/11/2023.
 //
@@ -22,7 +22,7 @@ final class PedroRamirezTests: XCTestCase {
         XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
     }
 
-    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayer() throws {
+    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() throws {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
@@ -45,11 +45,39 @@ final class PedroRamirezTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .setTurn(player: "p1"),
-            .chooseOne([
-                "p2": .drawHand("c2", target: "p2", player: "p1"),
-                "p3": .drawHand("c3", target: "p3", player: "p1")
-            ], player: "p1"),
+            .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
+            .choose("p2", player: "p1"),
             .drawHand("c2", target: "p2", player: "p1"),
+            .drawDeck(player: "p1")
+        ])
+    }
+
+    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() throws {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withAbilities([.pedroRamirez])
+                    .withAttributes([.startTurnCards: 2])
+            }
+            .withPlayer("p2") {
+                $0.withHand(["c2"])
+            }
+            .withPlayer("p3") {
+                $0.withHand(["c3"])
+            }
+            .withDeck(["c1"])
+            .build()
+
+        // When
+        let action = GameAction.setTurn(player: "p1")
+        let (result, _) = self.awaitAction(action, state: state, choose: [.pass])
+
+        // Then
+        XCTAssertEqual(result, [
+            .setTurn(player: "p1"),
+            .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
+            .choose(.pass, player: "p1"),
+            .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }

@@ -10,7 +10,6 @@ public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
     public private(set) var log: [Action] = []
 
-    private let queue = DispatchQueue(label: "store.queue", qos: .userInitiated)
     private let reducer: Reducer<State>
     private var middlewares: [Middleware<State>]
     private let completed: (() -> Void)?
@@ -29,7 +28,7 @@ public class Store<State: Equatable>: ObservableObject {
     }
 
     public func dispatch(_ action: Action) {
-        queue.sync {
+        DispatchQueue.main.async {
             self.dispatch(self.state, action)
         }
     }

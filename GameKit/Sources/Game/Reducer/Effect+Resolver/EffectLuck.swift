@@ -4,10 +4,11 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 22/06/2023.
 //
+
 import Foundation
 
 struct EffectLuck: EffectResolver {
-    let card: ArgCardLuck
+    let card: ArgLuckCard
     let regex: String
     let onSuccess: CardEffect
     let onFailure: CardEffect?

@@ -28,7 +28,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case discard(ArgCard, chooser: ArgPlayer? = nil)
 
     /// Put  back on top deck a hand card among last N
-    case putBackHand(among: ArgNum)
+    case putBack(among: ArgNum)
 
     /// Draw card from a player
     /// - the player that steals cards is `EffectContext.actor`
@@ -38,6 +38,15 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Pass inPlay card to another player
     /// - `toPlayer` is the player that receives the card
     case passInPlay(ArgCard, toPlayer: ArgPlayer)
+
+    /// Discard played card
+    case discardPlayed
+
+    /// Put played card inPlay
+    case equip
+
+    /// Put played card in target's inPlay
+    case handicap
 
     /// Draw  cards from arena
     case drawArena
@@ -60,6 +69,15 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Evaluate all player attributes
     case updateAttributes
 
+    /// Counter shoot effect
+    case counterShoot
+
+    /// Cancel turn
+    case cancelTurn
+
+    /// Expose a choice to play counter cards
+    case activateCounterCards
+
     // MARK: - Operators
 
     /// Repeat an effect
@@ -81,17 +99,8 @@ public indirect enum CardEffect: Codable, Equatable {
     case ignoreError(Self)
 
     /// Apply effects according to just flipped card value
-    case luck(ArgCardLuck, regex: String, onSuccess: Self, onFailure: Self? = nil)
+    case luck(ArgLuckCard, regex: String, onSuccess: Self, onFailure: Self? = nil)
 
-    /// Counter shoot effect
-    case counterShoot
-
-    /// Cancel turn
-    case cancelTurn
-
-    /// Expose a choice to play counter cards
-    case activateCounterCards
-
-    /// Evaluate game over
-    case updateGameOver
+    /// Runs the action matching `EffectContext.chosenOption`
+    case matchAction([String: GameAction])
 }

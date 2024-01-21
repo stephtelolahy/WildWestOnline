@@ -6,55 +6,30 @@
 //
 // swiftlint:disable no_magic_numbers
 
-import Game
+@testable import Game
 import XCTest
 
 final class ActionDescribingTests: XCTestCase {
     // MARK: - Player event
 
-    func test_DescribingPlayIntent() {
+    func test_DescribingPlay() {
         XCTAssertEqual(
             String(describing: GameAction.play("c1", player: "p1")),
-            "\n▶️ p1 c1"
-        )
-    }
-
-    func test_DescribingPlayWithoutTarget() {
-        XCTAssertEqual(
-            String(describing: GameAction.playImmediate("c1", player: "p1")),
-            "✅ p1 c1"
-        )
-
-        XCTAssertEqual(
-            String(describing: GameAction.playAs("a1", card: "c1", player: "p1")),
-            "✅ p1 a1"
-        )
-
-        XCTAssertEqual(
-            String(describing: GameAction.playAbility("c1", player: "p1")),
-            "✅ p1 c1"
-        )
-
-        XCTAssertEqual(
-            String(describing: GameAction.playEquipment("c1", player: "p1")),
             "✅ p1 c1"
         )
     }
 
-    func test_DescribingPlayWithTarget() {
+    func test_DescribingEquip() {
         XCTAssertEqual(
-            String(describing: GameAction.playImmediate("c1", target: "p2", player: "p1")),
-            "❇️ p1 c1 p2"
+            String(describing: GameAction.equip("c1", player: "p1")),
+            "💼 p1 c1"
         )
+    }
 
+    func test_DescribingHandicap() {
         XCTAssertEqual(
-            String(describing: GameAction.playAs("a1", card: "c1", target: "p2", player: "p1")),
-            "❇️ p1 a1 p2"
-        )
-
-        XCTAssertEqual(
-            String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")),
-            "❇️ p1 c1 p2"
+            String(describing: GameAction.handicap("c1", target: "p2", player: "p1")),
+            "🚫 p1 c1 p2"
         )
     }
 
@@ -117,6 +92,11 @@ final class ActionDescribingTests: XCTestCase {
 
         XCTAssertEqual(
             String(describing: GameAction.discardInPlay("c1", player: "p1")),
+            "❌ p1 c1"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.discardPlayed("c1", player: "p1")),
             "❌ p1 c1"
         )
     }
@@ -195,8 +175,13 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingChooseOne() {
         XCTAssertEqual(
-            String(describing: GameAction.chooseOne(["o1": .nothing], player: "p1")),
-            "❓ p1 o1"
+            String(describing: GameAction.chooseOne(.card, options: ["c1", "c2"], player: "p1")),
+            "❓ p1 c1 c2"
+        )
+
+        XCTAssertEqual(
+            String(describing: GameAction.choose("c1", player: "p1")),
+            "👉 p1 c1"
         )
     }
 

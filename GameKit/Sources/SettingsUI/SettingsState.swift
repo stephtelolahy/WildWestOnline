@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 09/12/2023.
 //
+
 import Redux
 
 public struct SettingsState: Codable, Equatable {

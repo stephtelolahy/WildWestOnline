@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 30/11/2023.
 //
+
 import Redux
 
 public enum NavAction: Action, Codable, Equatable {

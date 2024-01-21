@@ -11,7 +11,7 @@ import Inventory
 import Navigation
 import Redux
 import SwiftUI
-import Utils
+import Theme
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<GameState>
@@ -26,7 +26,7 @@ public struct GamePlayView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             headerView
-            ForEach(store.state.visiblePlayers) {
+            ForEach(store.state.visiblePlayers, id: \.id) {
                 itemPlayerView($0)
             }
             Divider()
@@ -115,7 +115,7 @@ public struct GamePlayView: View {
                         .lineLimit(1)
                 }
                 Spacer()
-                Text(player.status)
+                Text("\(player.hand)\t\(player.health)")
                     .lineLimit(1)
                     .padding(.trailing, 8)
             }
@@ -126,13 +126,12 @@ public struct GamePlayView: View {
                     .font(.headline)
             }
         }
-        .background(Color.white.opacity(player.highlighted ? 0.4 : 0.2))
+        .background(backgroundColor(for: player.state))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
     private var logView: some View {
-        let logs = store.log
-            .reversed()
+        let logs = store.log.reversed()
             .map { String(describing: $0) }
         return ScrollView {
             VStack(alignment: .leading) {
@@ -140,6 +139,19 @@ public struct GamePlayView: View {
                     Text(event)
                 }
             }
+        }
+    }
+
+    private func backgroundColor(for state: PlayerItem.State) -> Color {
+        switch state {
+        case .active:
+            Color.white.opacity(0.6)
+
+        case .idle:
+            Color.white.opacity(0.2)
+
+        case .eliminated:
+            Color.clear
         }
     }
 }
@@ -163,8 +175,8 @@ private var previewState: GameState {
                 .withHealth(3)
                 .withAttributes([.maxHealth: 4])
         }
-        .withActive("p1", cards: [.bang, .mustang, .barrel, .beer, .endTurn])
-        .withChooseOne("p2", options: [.missed: .nothing])
+        .withActive([.bang, .mustang, .barrel, .beer, .endTurn], player: "p1")
+        .withChooseOne(.card, options: [.missed, .bang], player: "p2")
         .withTurn("p1")
         .withPlayModes(["p1": .manual])
         .build()

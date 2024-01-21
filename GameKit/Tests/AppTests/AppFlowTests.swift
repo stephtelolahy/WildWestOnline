@@ -13,55 +13,49 @@ import SettingsUI
 import XCTest
 
 final class AppFlowTests: XCTestCase {
-    private func createAppStore(initial: AppState) -> Store<AppState> {
-        Store(
-            initial: initial,
-            reducer: AppState.reducer
-        )
-    }
-
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let sut = createAppStore(initial: AppState(screens: [.splash], settings: .default))
+        let state = AppState(screens: [.splash], settings: .default)
 
         // When
-        sut.dispatch(NavAction.showScreen(.home, transition: .replace))
+        let action = NavAction.showScreen(.home, transition: .replace)
+        let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(sut.state.screens, [.home])
+        XCTAssertEqual(result.screens, [.home])
     }
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let sut = createAppStore(initial: AppState(screens: [.home], settings: .default))
+        let state = AppState(screens: [.home], settings: .default)
 
         // When
-        sut.dispatch(NavAction.showScreen(.game))
+        let action = NavAction.showScreen(.game)
+        let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(sut.state.screens.last, .game)
-        XCTAssertNotNil(sut.state.game)
+        XCTAssertEqual(result.screens.last, .game)
+        XCTAssertNotNil(result.game)
     }
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
         // Given
-        let sut = createAppStore(
-            initial: AppState(
-                screens: [
-                    .home,
-                    .game
-                ],
-                settings: .default,
-                game: GameState.makeBuilder().build()
-            )
+        let state = AppState(
+            screens: [
+                .home,
+                .game
+            ],
+            settings: .default,
+            game: GameState.makeBuilder().build()
         )
 
-        // When'
-        sut.dispatch(NavAction.dismiss)
+        // When
+        let action = NavAction.dismiss
+        let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(sut.state.screens.last, .home)
-        XCTAssertNil(sut.state.game)
+        XCTAssertEqual(result.screens.last, .home)
+        XCTAssertNil(result.game)
     }
 }
 

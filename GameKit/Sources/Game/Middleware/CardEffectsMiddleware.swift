@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
+
 import Combine
 import Redux
 
@@ -20,9 +21,8 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
             let playerObj = state.player(player)
             let cards = triggerableCardsOfActivePlayer(playerObj, state: state)
             for card in cards {
-                if let action = triggeredEffect(by: card, player: player, state: state, event: action) {
-                    triggered.append(action)
-                }
+                let actions = triggeredEffects(by: card, player: player, state: state, event: action)
+                triggered.append(contentsOf: actions)
             }
         }
 
@@ -31,9 +31,8 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
             let playerObj = state.player(player)
             let cards = triggerableCardsOfEliminatedPlayer(playerObj)
             for card in cards {
-                if let action = triggeredEffect(by: card, player: player, state: state, event: action) {
-                    triggered.append(action)
-                }
+                let actions = triggeredEffects(by: card, player: player, state: state, event: action)
+                triggered.append(contentsOf: actions)
             }
         }
 
@@ -58,18 +57,19 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         }
     }
 
-    private func triggeredEffect(
+    private func triggeredEffects(
         by card: String,
         player: String,
         state: GameState,
         event: GameAction
-    ) -> GameAction? {
+    ) -> [GameAction] {
         let cardName = card.extractName()
         guard let cardObj = state.cardRef[cardName] else {
-            return nil
+            return []
         }
 
         let playReqContext = PlayReqContext(actor: player, event: event)
+        var actions: [GameAction] = []
         for rule in cardObj.rules {
             guard rule.playReqs.allSatisfy({ $0.match(state: state, ctx: playReqContext) }) else {
                 continue
@@ -82,10 +82,10 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
                 cancellingAction: cancellingAction(event: event, state: state)
             )
 
-            return GameAction.effect(rule.effect, ctx: ctx)
+            actions.append(.effect(rule.effect, ctx: ctx))
         }
 
-        return nil
+        return actions
     }
 
     private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {

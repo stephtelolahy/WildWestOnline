@@ -6,18 +6,22 @@
 //
 
 extension GameAction {
-    static func validateChooseOne(
-        chooser: String,
-        options: [String: GameAction],
+    static func validateOptions(
+        _ options: [String],
+        actions: [String: GameAction],
         state: GameState
-    ) throws -> GameAction {
-        var validOptions: [String: GameAction] = [:]
-        for (key, action) in options {
+    ) throws -> [String] {
+        var validOptions: [String] = []
+        for key in options {
+            guard let action = actions[key] else {
+                fatalError("missing action for key \(key)")
+            }
+
             do {
                 try action.validate(state: state)
-                validOptions[key] = try action.simplified(state: state)
+                validOptions.append(key)
             } catch {
-//                print("‼️ validateChooseOne: \(action)\tthrows: \(error)")
+                print("🚨 validateOptions: \(action)\tthrows: \(error)")
                 continue
             }
         }
@@ -26,7 +30,7 @@ extension GameAction {
             throw GameError.noValidOption
         }
 
-        return .chooseOne(validOptions, player: chooser)
+        return validOptions
     }
 
     static func validatePlay(
@@ -39,13 +43,13 @@ extension GameAction {
             try action.validate(state: state)
             return true
         } catch {
-//            print("‼️ validatePlay: \(action)\tthrows: \(error)")
+//            print("🚨 validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }
 }
 
-private extension GameAction {
+extension GameAction {
     func validate(state: GameState) throws {
         switch self {
         case .activate,
@@ -60,20 +64,5 @@ private extension GameAction {
                 try next.validate(state: newState)
             }
         }
-    }
-
-    /// Reducing effect to a more meaningful action
-    /// If not possible, then return `self`
-    func simplified(state: GameState) throws -> GameAction {
-        guard case let .effect(effect, ctx) = self else {
-            return self
-        }
-
-        let children = try effect.resolve(state: state, ctx: ctx)
-        guard children.count == 1 else {
-            return self
-        }
-
-        return try children[0].simplified(state: state)
     }
 }

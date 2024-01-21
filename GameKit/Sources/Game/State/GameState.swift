@@ -4,7 +4,7 @@ import Utils
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
-public struct GameState: Codable, Equatable {
+public struct GameState: Codable, Equatable, DocumentConvertible {
     /// All players
     public var players: [String: Player]
 
@@ -36,7 +36,7 @@ public struct GameState: Codable, Equatable {
     public var error: GameError?
 
     /// Pending action by player
-    public var chooseOne: [String: [String: GameAction]]
+    public var chooseOne: [String: ChooseOne]
 
     /// Playable cards by player
     public var active: [String: [String]]

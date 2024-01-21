@@ -19,7 +19,7 @@ final class PutBackHandTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.putBackHand("c1", player: "p1")
+        let action = GameAction.putBack("c1", player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then

@@ -6,7 +6,6 @@
 //
 
 import Game
-import Inventory
 import XCTest
 
 final class CalamityJanetTests: XCTestCase {
@@ -19,6 +18,7 @@ final class CalamityJanetTests: XCTestCase {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
+            .withTurn("p1")
             .build()
 
         // When
@@ -27,10 +27,10 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .chooseOne([
-                "p2": .playImmediate(.bang, target: "p2", player: "p1")
-            ], player: "p1"),
-            .playImmediate(.bang, target: "p2", player: "p1"),
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -44,6 +44,7 @@ final class CalamityJanetTests: XCTestCase {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
+            .withTurn("p1")
             .build()
 
         // When
@@ -52,10 +53,10 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .chooseOne([
-                "p2": .playAs(.bang, card: .missed, target: "p2", player: "p1")
-            ], player: "p1"),
-            .playAs(.bang, card: .missed, target: "p2", player: "p1"),
+            .play(.missed, player: "p1"),
+            .discardPlayed(.missed, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -75,17 +76,19 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.bang])
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", .bang])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne([
-                .bang: .playAs(.missed, card: .bang, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
-            .playAs(.missed, card: .bang, player: "p2"),
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.counterCard, options: [.bang, .pass], player: "p2"),
+            .choose(.bang, player: "p2"),
+            .play(.bang, player: "p2"),
+            .discardPlayed(.bang, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }
@@ -105,17 +108,19 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.playImmediate(.bang, target: "p2", player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed])
+        let action = GameAction.play(.bang, player: "p1")
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(result, [
-            .playImmediate(.bang, target: "p2", player: "p1"),
-            .chooseOne([
-                .missed: .playImmediate(.missed, player: "p2"),
-                .pass: .nothing
-            ], player: "p2"),
-            .playImmediate(.missed, player: "p2"),
+            .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
+            .chooseOne(.target, options: ["p2"], player: "p1"),
+            .choose("p2", player: "p1"),
+            .chooseOne(.counterCard, options: [.missed, .pass], player: "p2"),
+            .choose(.missed, player: "p2"),
+            .play(.missed, player: "p2"),
+            .discardPlayed(.missed, player: "p2"),
             .cancel(.damage(1, player: "p2"))
         ])
     }

@@ -1,0 +1,53 @@
+//
+//  ScopeTests.swift
+//  
+//
+//  Created by Hugues Stephano TELOLAHY on 06/01/2024.
+//
+
+import Game
+import XCTest
+
+final class ScopeTests: XCTestCase {
+    func test_playScope_shouldEquipAndSetAttribute() {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withHand([.scope])
+                    .withAbilities([.updateAttributesOnChangeInPlay])
+            }
+            .build()
+
+        // When
+        let action = GameAction.play(.scope, player: "p1")
+        let (result, _) = self.awaitAction(action, state: state)
+
+        // Then
+        XCTAssertEqual(result, [
+            .play(.scope, player: "p1"),
+            .equip(.scope, player: "p1"),
+            .setAttribute(.scope, value: 1, player: "p1")
+        ])
+    }
+
+    func test_discardScope_shouldRemoveAttribute() {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withInPlay([.scope])
+                    .withAbilities([.updateAttributesOnChangeInPlay])
+                    .withAttributes([.scope: 1])
+            }
+            .build()
+
+        // When
+        let action = GameAction.discardInPlay(.scope, player: "p1")
+        let (result, _) = self.awaitAction(action, state: state)
+
+        // Then
+        XCTAssertEqual(result, [
+            .discardInPlay(.scope, player: "p1"),
+            .removeAttribute(.scope, player: "p1")
+        ])
+    }
+}

@@ -72,14 +72,12 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
         }
 
         guard !choices.isEmpty else {
-            fatalError("Expected a choice between \(chooseOne.value.keys)")
+            fatalError("Expected a choice between \(chooseOne.value.options)")
         }
 
-        let choice = choices.removeFirst()
-        guard let option = chooseOne.value[choice] else {
-            fatalError("Expect chooseOne with option \(choice)")
-        }
+        let option = choices.removeFirst()
+        let action = GameAction.choose(option, player: chooseOne.key)
 
-        return Just(option).eraseToAnyPublisher()
+        return Just(action).eraseToAnyPublisher()
     }
 }

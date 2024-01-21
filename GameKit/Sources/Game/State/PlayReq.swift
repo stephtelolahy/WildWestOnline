@@ -6,19 +6,7 @@
 //
 
 /// Condition triggering card effect
-public enum PlayReq: Codable, Equatable {
-    /// playing an immediate effect card, then the card is discarded
-    case playImmediate
-
-    /// playing an ability
-    case playAbility
-
-    /// playing an equipment card, put in self's play
-    case playEquipment
-
-    /// playing a handicap card, put in target's play
-    case playHandicap
-
+public indirect enum PlayReq: Codable, Equatable {
     /// playing a card
     case play
 
@@ -57,4 +45,7 @@ public enum PlayReq: Codable, Equatable {
 
     /// The current turn is actor
     case isYourTurn
+
+    /// Not playReq
+    case isNot(Self)
 }

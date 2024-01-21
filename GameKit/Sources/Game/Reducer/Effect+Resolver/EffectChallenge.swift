@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 13/05/2023.
 //
+// swiftlint:disable no_magic_numbers
 
 struct EffectChallenge: EffectResolver {
     let challenger: ArgPlayer
@@ -11,7 +12,7 @@ struct EffectChallenge: EffectResolver {
     let otherwise: CardEffect
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let target = ctx.player()
+        let target = ctx.targetOrActor()
 
         guard case let .id(challengerId) = challenger else {
             return try challenger.resolve(state: state, ctx: ctx) {
@@ -29,46 +30,41 @@ struct EffectChallenge: EffectResolver {
         do {
             let children = try effect.resolve(state: state, ctx: ctx)
 
-            guard children.count == 1 else {
-                fatalError("unexpected")
-            }
-
-            let action = children[0]
-            switch action {
-            case let .effect(childEffect, childCtx):
-                return [
-                    .effect(
+            if children.count == 2 {
+                if case .chooseOne(let type, var options, let player) = children[0],
+                   case let .effect(childEffect, childCtx) = children[1],
+                   case var .matchAction(actions) = childEffect {
+                    var contextWithReversedTarget = ctx
+                    contextWithReversedTarget.target = challengerId
+                    let reversedChallenge = GameAction.effect(
                         .challenge(
-                            challenger,
-                            effect: childEffect,
+                            .id(target),
+                            effect: effect,
                             otherwise: otherwise
                         ),
+                        ctx: contextWithReversedTarget
+                    )
+                    actions = actions.mapValues {
+                        GameAction.group([$0, reversedChallenge])
+                    }
+
+                    options.append(.pass)
+                    actions[.pass] = .effect(otherwise, ctx: childCtx)
+
+                    let chooseOne = GameAction.chooseOne(
+                        type,
+                        options: options,
+                        player: player
+                    )
+                    let match = GameAction.effect(
+                        .matchAction(actions),
                         ctx: childCtx
                     )
-                ]
-
-            case let .chooseOne(options, player):
-                var reversedCtx = ctx
-                reversedCtx.target = challengerId
-                let reversedAction = GameAction.effect(
-                    .challenge(
-                        .id(target),
-                        effect: effect,
-                        otherwise: otherwise
-                    ),
-                    ctx: reversedCtx
-                )
-                var options = options.mapValues { childAction in
-                    GameAction.group {
-                        childAction
-                        reversedAction
-                    }
+                    return [chooseOne, match]
+                } else {
+                    fatalError("unexpected")
                 }
-                options[.pass] = .effect(otherwise, ctx: ctx)
-                let chooseOne = try GameAction.validateChooseOne(chooser: player, options: options, state: state)
-                return [chooseOne]
-
-            default:
+            } else {
                 fatalError("unexpected")
             }
         } catch {

@@ -10,12 +10,12 @@ struct EffectDiscard: EffectResolver {
     let chooser: ArgPlayer?
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let player = ctx.player()
-        var chooserContext = ctx
+        let player = ctx.targetOrActor()
+        var contextWithChooser = ctx
         if let chooser {
-            chooserContext.chooser = try chooser.resolveUnique(state: state, ctx: chooserContext)
+            contextWithChooser.cardChooser = try chooser.resolveUnique(state: state, ctx: contextWithChooser)
         }
-        return try card.resolve(state: state, ctx: chooserContext) {
+        return try card.resolve(state: state, ctx: contextWithChooser) {
             if state.player(player).hand.contains($0) {
                 return .discardHand($0, player: player)
             }

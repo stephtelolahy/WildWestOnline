@@ -29,12 +29,26 @@ extension ArgCard {
                 throw GameError.noCard(self)
             }
 
-            let options = cIdOptions.reduce(into: [String: GameAction]()) {
+            let actions = cIdOptions.reduce(into: [String: GameAction]()) {
                 $0[$1.label] = copy($1.id)
             }
-            let chooser = ctx.chooser ?? ctx.player()
-            let chooseOne = try GameAction.validateChooseOne(chooser: chooser, options: options, state: state)
-            return [chooseOne]
+
+            let validoptions = try GameAction.validateOptions(
+                cIdOptions.map(\.label),
+                actions: actions,
+                state: state
+            )
+
+            let chooser = ctx.cardChooser ?? ctx.targetOrActor()
+            let chooseOne = GameAction.chooseOne(
+                .card,
+                options: validoptions,
+                player: chooser
+            )
+
+            let match = GameAction.effect(.matchAction(actions), ctx: ctx)
+
+            return [chooseOne, match]
         }
     }
 }

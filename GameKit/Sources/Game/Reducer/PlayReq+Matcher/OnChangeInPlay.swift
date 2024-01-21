@@ -7,7 +7,7 @@
 
 struct OnChangeInPlay: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        if case let .playEquipment(_, player) = ctx.event,
+        if case let .equip(_, player) = ctx.event,
            player == ctx.actor {
             return true
         }

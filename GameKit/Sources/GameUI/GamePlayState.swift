@@ -5,12 +5,13 @@
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
+
 import Game
 
 // MARK: - Derived state
 extension GameState {
     var visiblePlayers: [PlayerItem] {
-        playOrder.map { playerId in
+        startOrder.map { playerId in
             let playerObj = player(playerId)
 
             var activeActions: [String: GameAction] = [:]
@@ -20,24 +21,33 @@ extension GameState {
                 }
             }
 
-            let highlighted = playerId == turn
             let handText = "[]\(playerObj.hand.count)"
-            let health = max(0, playerObj.health)
             let maxHealth = playerObj.attributes[.maxHealth] ?? 0
+            let health = max(0, playerObj.health)
+            let damage = maxHealth - health
             let healthText = ""
-            + Array(repeating: "♡", count: maxHealth - health).joined()
+            + Array(repeating: "♡", count: damage).joined()
             + Array(repeating: "♥", count: health).joined()
-
             let equipmentText = playerObj.inPlay.joined(separator: "-")
+
+            let state: PlayerItem.State
+            = if playerId == turn {
+                .active
+            } else if !playOrder.contains(playerId) {
+                .eliminated
+            } else {
+                .idle
+            }
 
             return PlayerItem(
                 id: playerId,
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
-                status: "\(handText)\t\(healthText)",
+                hand: handText,
+                health: healthText,
                 equipment: equipmentText,
                 activeActions: activeActions,
-                highlighted: highlighted
+                state: state
             )
         }
     }
@@ -60,16 +70,26 @@ extension GameState {
             return  [:]
         }
 
-        return chooseOne.value
+        return chooseOne.value.options.reduce(into: [String: GameAction]()) {
+            $0[$1] = .choose($1, player: chooseOne.key)
+        }
     }
 }
 
-struct PlayerItem: Identifiable {
+struct PlayerItem {
+    enum State {
+        case active
+        case idle
+        case eliminated
+    }
+
     let id: String
     let imageName: String
     let displayName: String
-    let status: String
+    let hand: String
+    let health: String
     let equipment: String
+    // TODO: replace with hand cards x active
     let activeActions: [String: GameAction]
-    let highlighted: Bool
+    let state: State
 }

@@ -56,17 +56,25 @@ extension ArgPlayer {
             return pIds.map { copy($0) }
 
         case let .selectable(pIds):
-            let options = pIds.reduce(into: [String: GameAction]()) {
+            let actions = pIds.reduce(into: [String: GameAction]()) {
                 $0[$1] = copy($1)
             }
 
-            let chooseOne = try GameAction.validateChooseOne(
-                chooser: ctx.actor,
-                options: options,
+            let validoptions = try GameAction.validateOptions(
+                pIds,
+                actions: actions,
                 state: state
             )
 
-            return [chooseOne]
+            let chooseOne = GameAction.chooseOne(
+                .target,
+                options: validoptions,
+                player: ctx.actor
+            )
+
+            let match = GameAction.effect(.matchAction(actions), ctx: ctx)
+
+            return [chooseOne, match]
         }
     }
 }

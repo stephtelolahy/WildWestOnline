@@ -1,9 +1,10 @@
 //
 //  ActivateCardsMiddleware.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
+
 import Combine
 import Redux
 
