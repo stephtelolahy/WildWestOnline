@@ -9,7 +9,6 @@
 import Game
 import GameUI
 import HomeUI
-import Navigation
 import Redux
 import SettingsUI
 import SplashUI
@@ -27,18 +26,7 @@ public struct AppView: View {
 
     public var body: some View {
         Group {
-            if let screen = store.state.screens.last {
-                viewForScreen(screen)
-            } else {
-                EmptyView()
-            }
-        }
-        .foregroundColor(.primary)
-    }
-
-    private func viewForScreen(_ screen: Screen) -> some View {
-        Group {
-            switch screen {
+            switch store.state.screen {
             case .splash:
                 SplashView {
                     store.projection {
@@ -68,6 +56,7 @@ public struct AppView: View {
                 }
             }
         }
+        .foregroundColor(.primary)
     }
 }
 
@@ -75,7 +64,7 @@ public struct AppView: View {
     AppView {
         Store<AppState>(
             initial: .init(
-                screens: [.splash],
+                screen: .splash,
                 settings: .init(playersCount: 5, simulation: false)
             )
         )

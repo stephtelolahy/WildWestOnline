@@ -7,54 +7,53 @@
 // swiftlint:disable no_magic_numbers
 @testable import App
 import Game
-import Navigation
+import GameUI
+import HomeUI
 import Redux
 import SettingsUI
+import SplashUI
 import XCTest
 
 final class AppFlowTests: XCTestCase {
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let state = AppState(screens: [.splash], settings: .default)
+        let state = AppState(screen: .splash, settings: .default)
 
         // When
-        let action = NavAction.showScreen(.home, transition: .replace)
+        let action = SplashAction.finish
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.screens, [.home])
+        XCTAssertEqual(result.screen, .home)
     }
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let state = AppState(screens: [.home], settings: .default)
+        let state = AppState(screen: .home, settings: .default)
 
         // When
-        let action = NavAction.showScreen(.game)
+        let action = HomeAction.play
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.screens.last, .game)
+        XCTAssertEqual(result.screen, .game)
         XCTAssertNotNil(result.game)
     }
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
         // Given
         let state = AppState(
-            screens: [
-                .home,
-                .game
-            ],
+            screen: .game,
             settings: .default,
             game: GameState.makeBuilder().build()
         )
 
         // When
-        let action = NavAction.dismiss
+        let action = GamePlayAction.quit
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.screens.last, .home)
+        XCTAssertEqual(result.screen, .home)
         XCTAssertNil(result.game)
     }
 }

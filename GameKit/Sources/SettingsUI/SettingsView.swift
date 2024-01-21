@@ -6,14 +6,13 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import Navigation
 import Redux
 import SwiftUI
 
 public struct SettingsView: View {
     @StateObject private var store: Store<SettingsState>
-    @State private var speedIndex = 1
-    private var speedOptions = ["Slow", "Normal", "Fast"]
+    @State private var speedIndex = 0
+    private var speedOptions = ["Normal", "Fast"]
 
     public init(store: @escaping () -> Store<SettingsState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -30,7 +29,7 @@ public struct SettingsView: View {
             .toolbar {
                 Button("Done") {
                     withAnimation {
-                        store.dispatch(NavAction.dismiss)
+                        store.dispatch(SettingsAction.close)
                     }
                 }
             }

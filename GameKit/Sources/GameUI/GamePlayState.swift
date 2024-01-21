@@ -7,6 +7,11 @@
 //
 
 import Game
+import Redux
+
+public enum GamePlayAction: Action, Codable, Equatable {
+    case quit
+}
 
 // MARK: - Derived state
 extension GameState {

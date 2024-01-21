@@ -6,7 +6,6 @@
 //
 // swiftlint:disable type_contents_order
 
-import Navigation
 import Redux
 import SwiftUI
 
@@ -32,7 +31,7 @@ public struct SplashView: View {
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + splashDelaySeconds) {
-                store.dispatch(NavAction.showScreen(.home, transition: .replace))
+                store.dispatch(SplashAction.finish)
             }
         }
     }

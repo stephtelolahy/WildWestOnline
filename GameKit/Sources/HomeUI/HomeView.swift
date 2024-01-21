@@ -6,7 +6,6 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import Navigation
 import Redux
 import SwiftUI
 import Theme
@@ -23,6 +22,7 @@ public struct HomeView: View {
 
     public var body: some View {
         VStack(spacing: 48) {
+            headerView
             Spacer()
             VStack(spacing: 32) {
                 VStack {
@@ -34,14 +34,13 @@ public struct HomeView: View {
                         .frame(width: 200, height: 200)
                 }
                 VStack(spacing: 16) {
-                    roundedButton("menu.start.button") {
+                    roundedButton("menu.play.button") {
                         withAnimation {
-                            store.dispatch(NavAction.showScreen(.game))
+                            store.dispatch(HomeAction.play)
                         }
                     }
-                    roundedButton("menu.settings.button") {
+                    roundedButton("menu.online.button") {
                         withAnimation {
-                            store.dispatch(NavAction.showScreen(.settings))
                         }
                     }
                 }
@@ -52,6 +51,21 @@ public struct HomeView: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(AppColor.background)
+    }
+
+    private var headerView: some View {
+        HStack {
+            Spacer()
+            Button {
+                withAnimation {
+                    store.dispatch(HomeAction.openSettings)
+                }
+            } label: {
+                Image(systemName: "gearshape")
+                    .foregroundColor(.accentColor)
+                    .font(.title)
+            }
+        }
     }
 
     private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {

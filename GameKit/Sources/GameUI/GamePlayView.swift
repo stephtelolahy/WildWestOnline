@@ -8,7 +8,6 @@
 
 import Game
 import Inventory
-import Navigation
 import Redux
 import SwiftUI
 import Theme
@@ -69,12 +68,11 @@ public struct GamePlayView: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        store.dispatch(NavAction.dismiss)
+                        store.dispatch(GamePlayAction.quit)
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
                         .foregroundColor(.accentColor)
-                        .padding()
                         .font(.title)
                 }
             }

@@ -35,6 +35,26 @@
         }
       }
     },
+    "menu.online.button" : {
+
+    },
+    "menu.play.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PLAY"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NOUVELLE PARTIE"
+          }
+        }
+      }
+    },
     "menu.settings.button" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -48,23 +68,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "PARAMETRES"
-          }
-        }
-      }
-    },
-    "menu.start.button" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "NEW GAME"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "NOUVELLE PARTIE"
           }
         }
       }

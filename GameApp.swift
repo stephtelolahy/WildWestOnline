@@ -34,7 +34,7 @@ private func createStore() -> Store<AppState> {
     )
 
     let initialState = AppState(
-        screens: [.splash],
+        screen: .splash,
         settings: cachedSettings
     )
 

@@ -9,7 +9,6 @@ import Game
 import GameUI
 import HomeUI
 import Inventory
-import Navigation
 import Redux
 import SettingsUI
 import SplashUI
@@ -18,16 +17,16 @@ import SplashUI
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
-    public var screens: [Screen]
+    public var screen: Screen
     public var settings: SettingsState
     public var game: GameState?
 
     public init(
-        screens: [Screen],
+        screen: Screen,
         settings: SettingsState,
         game: GameState? = nil
     ) {
-        self.screens = screens
+        self.screen = screen
         self.settings = settings
         self.game = game
     }
@@ -36,26 +35,37 @@ public struct AppState: Codable, Equatable {
 public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-        state = activeGameReducer(state, action)
-        state.game = state.game.flatMap { GameState.reducer($0, action) }
-        state.screens = NavState.reducer(state.screens, action)
+        state = screenReducer(state, action)
         state.settings = SettingsState.reducer(state.settings, action)
+        state.game = state.game.flatMap { GameState.reducer($0, action) }
         return state
     }
 }
 
 private extension AppState {
-    static let activeGameReducer: Reducer<AppState> = { state, action in
+    static let screenReducer: Reducer<AppState> = { state, action in
         var state = state
 
-        if case let NavAction.showScreen(screen, _) = action,
-           screen == .game {
-            state.game = state.createGame()
+        if case SplashAction.finish = action {
+            state.screen = .home
         }
 
-        if case NavAction.dismiss = action,
-           state.screens.last == .game {
+        if case HomeAction.play = action {
+            state.game = state.createGame()
+            state.screen = .game
+        }
+
+        if case HomeAction.openSettings = action {
+            state.screen = .settings
+        }
+
+        if case SettingsAction.close = action {
+            state.screen = .home
+        }
+
+        if case GamePlayAction.quit = action {
             state.game = nil
+            state.screen = .home
         }
 
         return state
