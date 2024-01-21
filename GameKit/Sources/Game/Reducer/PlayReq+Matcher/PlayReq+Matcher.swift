@@ -72,6 +72,9 @@ private extension PlayReq {
 
         case let .isHandAtLeast(minCount):
             IsHandAtLeast(minCount: minCount)
+
+        case .isDamaged:
+            IsDamaged()
         }
     }
 }
