@@ -12,7 +12,6 @@ extension GameAction {
         state: GameState
     ) throws -> [String] {
         var validOptions: [String] = []
-        var caughtError: Error?
         for key in options {
             guard let action = actions[key] else {
                 fatalError("missing action for key \(key)")
@@ -23,13 +22,12 @@ extension GameAction {
                 validOptions.append(key)
             } catch {
                 print("🚨 validateOptions: \(action)\tthrows: \(error)")
-                caughtError = error
                 continue
             }
         }
 
         guard !validOptions.isEmpty else {
-            throw caughtError!
+            throw GameError.noValidOption
         }
 
         return validOptions
