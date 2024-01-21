@@ -78,10 +78,16 @@ let package = Package(
         ),
         .target(
             name: "Utils",
-            dependencies: []),
+            dependencies: [],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
         .target(
             name: "Theme",
-            dependencies: []),
+            dependencies: [],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
         .target(
             name: "GameUI",
             dependencies: [
@@ -127,10 +133,6 @@ let package = Package(
         .target(
             name: "App",
             dependencies: [
-                "Redux",
-                "Game",
-                "Inventory",
-                "Navigation",
                 "GameUI",
                 "HomeUI",
                 "SplashUI",
