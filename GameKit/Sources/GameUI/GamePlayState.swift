@@ -8,14 +8,14 @@
 import Game
 import Redux
 
-public protocol GamePlayState {
+protocol GamePlayState {
     var visiblePlayers: [PlayerItem] { get }
     var message: String { get }
     var chooseOneActions: [String: GameAction] { get }
     var handActions: [CardAction] { get }
 }
 
-public struct PlayerItem {
+struct PlayerItem {
     enum State {
         case active
         case idle
@@ -31,18 +31,18 @@ public struct PlayerItem {
     let state: State
 }
 
-public struct CardAction {
+struct CardAction {
     let card: String
     let action: GameAction?
 }
 
-public enum GamePlayAction: Action, Codable, Equatable {
+enum GamePlayAction: Action, Codable, Equatable {
     case quit
 }
 
 // MARK: - Derived state
 extension GameState: GamePlayState {
-    public var visiblePlayers: [PlayerItem] {
+    var visiblePlayers: [PlayerItem] {
         startOrder.map { playerId in
             let playerObj = player(playerId)
             let handText = "[]\(playerObj.hand.count)"
@@ -75,7 +75,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    public var message: String {
+    var message: String {
         if let turn {
             "\(turn.uppercased())'s turn"
         } else {
@@ -83,7 +83,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    public var chooseOneActions: [String: GameAction] {
+    var chooseOneActions: [String: GameAction] {
         guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
             return  [:]
         }
@@ -93,7 +93,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    public var handActions: [CardAction] {
+    var handActions: [CardAction] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
