@@ -20,6 +20,7 @@ public struct AppState: Codable, Equatable {
     public var screen: Screen
     public var settings: SettingsState
     public var game: GameState?
+    public var showingSettings: Bool = false
 
     public init(
         screen: Screen,
@@ -56,11 +57,11 @@ private extension AppState {
         }
 
         if case HomeAction.openSettings = action {
-            state.screen = .settings
+            state.showingSettings = true
         }
 
         if case SettingsAction.close = action {
-            state.screen = .home
+            state.showingSettings = false
         }
 
         if case GamePlayAction.quit = action {

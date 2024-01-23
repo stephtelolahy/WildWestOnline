@@ -47,12 +47,15 @@ public struct AppView: View {
                         GameState.from(globalState: $0)
                     }
                 }
-
-            case .settings:
-                SettingsView {
-                    store.projection {
-                        SettingsState.from(globalState: $0)
-                    }
+            }
+        }
+        .sheet(isPresented: Binding<Bool>(
+            get: { store.state.showingSettings },
+            set: { _ in }
+        )) {
+            SettingsView {
+                store.projection {
+                    SettingsState.from(globalState: $0)
                 }
             }
         }
