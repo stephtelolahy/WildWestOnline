@@ -20,7 +20,7 @@ public struct AppState: Codable, Equatable {
     public var screen: Screen
     public var settings: SettingsState
     public var game: GameState?
-    public var showingSettings: Bool = false
+    public var showingSettings = false
 
     public init(
         screen: Screen,
