@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  GamePlayState.swift
 //
@@ -9,14 +8,14 @@
 import Game
 import Redux
 
-protocol GamePlayState {
+public protocol GamePlayState {
     var visiblePlayers: [PlayerItem] { get }
     var message: String { get }
     var chooseOneActions: [String: GameAction] { get }
     var handActions: [CardAction] { get }
 }
 
-struct PlayerItem {
+public struct PlayerItem {
     enum State {
         case active
         case idle
@@ -32,7 +31,7 @@ struct PlayerItem {
     let state: State
 }
 
-struct CardAction {
+public struct CardAction {
     let card: String
     let action: GameAction?
 }
@@ -43,7 +42,7 @@ public enum GamePlayAction: Action, Codable, Equatable {
 
 // MARK: - Derived state
 extension GameState: GamePlayState {
-    var visiblePlayers: [PlayerItem] {
+    public var visiblePlayers: [PlayerItem] {
         startOrder.map { playerId in
             let playerObj = player(playerId)
             let handText = "[]\(playerObj.hand.count)"
@@ -76,7 +75,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    var message: String {
+    public var message: String {
         if let turn {
             "\(turn.uppercased())'s turn"
         } else {
@@ -84,7 +83,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    var chooseOneActions: [String: GameAction] {
+    public var chooseOneActions: [String: GameAction] {
         guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
             return  [:]
         }
@@ -94,7 +93,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    var handActions: [CardAction] {
+    public var handActions: [CardAction] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []

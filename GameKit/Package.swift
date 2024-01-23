@@ -93,6 +93,9 @@ let package = Package(
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
+        .testTarget(
+            name: "GameUITests",
+            dependencies: ["GameUI"]),
         .target(
             name: "HomeUI",
             dependencies: [
