@@ -31,12 +31,12 @@ struct PlayerItem {
     let state: State
 }
 
-struct CardAction {
+struct CardAction: Equatable {
     let card: String
     let action: GameAction?
 }
 
-enum GamePlayAction: Action, Codable, Equatable {
+public enum GamePlayAction: Action, Codable, Equatable {
     case quit
 }
 
@@ -101,7 +101,7 @@ extension GameState: GamePlayState {
 
         let activeCards = self.active[playerId] ?? []
 
-        return playerObj.hand.map { card in
+        return (playerObj.hand + playerObj.abilities).map { card in
             var action: GameAction?
             if activeCards.contains(card) {
                 action = .play(card, player: playerId)
