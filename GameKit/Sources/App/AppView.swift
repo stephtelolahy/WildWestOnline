@@ -46,7 +46,7 @@ public struct AppView: View {
                     store.projection {
                         GameState.from(globalState: $0)
                     }
-                }   
+                }
             }
         }
         .sheet(isPresented: Binding<Bool>(

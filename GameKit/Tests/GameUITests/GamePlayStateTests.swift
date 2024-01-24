@@ -81,11 +81,26 @@ final class GamePlayStateTests: XCTestCase {
         XCTAssertEqual(result.handActions, [
             .init(card: .bang, action: .play(.bang, player: "p1")),
             .init(card: .gatling, action: nil),
-            .init(card: .endTurn, action: .play(.endTurn, player: "p1")),
-            .init(card: .willyTheKid, action: nil)
+            .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
         ])
     }
 
     func test_state_shouldDisplayChooseOneActions() {
+        // Given
+        let sut = GameState.makeBuilder()
+            .withPlayer("p1")
+            .withPlayer("p2")
+            .withChooseOne(.card, options: [.missed, .bang], player: "p1")
+            .withPlayModes(["p1": .manual])
+            .build()
+
+        // When
+        let result: GamePlayState = sut
+
+        // Then
+        XCTAssertEqual(result.chooseOneActions, [
+            .missed: .choose(.missed, player: "p1"),
+            .bang: .choose(.bang, player: "p1")
+        ])
     }
 }

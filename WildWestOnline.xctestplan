@@ -59,7 +59,7 @@
     },
     {
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:GameKit",
         "identifier" : "GameUITests",
         "name" : "GameUITests"
       }

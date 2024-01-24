@@ -101,12 +101,22 @@ extension GameState: GamePlayState {
 
         let activeCards = self.active[playerId] ?? []
 
-        return (playerObj.hand + playerObj.abilities).map { card in
-            var action: GameAction?
+        let handCardActions = playerObj.hand .map { card in
             if activeCards.contains(card) {
-                action = .play(card, player: playerId)
+                CardAction(card: card, action: .play(card, player: playerId))
+            } else {
+                CardAction(card: card, action: nil)
             }
-            return CardAction(card: card, action: action)
         }
+
+        let abilityActions: [CardAction] = playerObj.abilities.compactMap { card in
+            if activeCards.contains(card) {
+                CardAction(card: card, action: .play(card, player: playerId))
+            } else {
+                nil
+            }
+        }
+
+        return handCardActions + abilityActions
     }
 }
