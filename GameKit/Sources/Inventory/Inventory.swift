@@ -10,7 +10,7 @@ import Game
 public enum Inventory {
     public static func createGame(playersCount: Int) -> GameState {
         let figures = Array(CardList.figures.shuffled().prefix(playersCount))
-        let deck = Setup.buildDeck(cardSets: CardSets.bang)
+        let deck = Setup.buildDeck(cardSets: CardSets.bang).shuffled()
         return Setup.buildGame(
             figures: figures,
             deck: deck,

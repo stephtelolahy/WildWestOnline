@@ -11,7 +11,7 @@ public enum Setup {
         deck: [String],
         cardRef: [String: Card]
     ) -> GameState {
-        var deck = deck.shuffled()
+        var deck = deck
         let players: [Player] = figures.map {
             Self.buildPlayer(
                 figure: $0,
