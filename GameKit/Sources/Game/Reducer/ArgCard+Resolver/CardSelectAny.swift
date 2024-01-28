@@ -19,7 +19,9 @@ struct CardSelectAny: ArgCardResolver {
 
         if playerObj.hand.isNotEmpty {
             if chooser != owner {
-                let randomId = playerObj.hand.randomElement().unsafelyUnwrapped
+                guard let randomId = playerObj.hand.deterministicRandomElement() else {
+                    return .identified([])
+                }
                 let randomOption = CardArgOption(id: randomId, label: .randomHand)
                 options.append(randomOption)
             } else {
