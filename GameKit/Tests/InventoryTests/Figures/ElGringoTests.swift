@@ -26,7 +26,7 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p2")
-        let (result, _) = awaitAction(action, state: state, choose: ["p1"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
@@ -35,6 +35,8 @@ final class ElGringoTests: XCTestCase {
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .choose("p1", player: "p2"),
             .damage(1, player: "p1"),
+            .chooseOne(.card, options: ["hiddenHand-0"], player: "p1"),
+            .choose("hiddenHand-0", player: "p1"),
             .drawHand("c2", target: "p2", player: "p1")
         ])
     }

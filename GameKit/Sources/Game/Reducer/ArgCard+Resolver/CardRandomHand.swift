@@ -9,10 +9,9 @@ struct CardRandomHand: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
         let playerObj = state.player(owner)
-        guard let card = playerObj.hand.deterministicRandomElement() else {
-            return .identified([])
+        let options = playerObj.hand.indices.map {
+            CardArgOption(id: playerObj.hand[$0], label: "\(String.hiddenHand)-\($0)")
         }
-
-        return .identified([card])
+        return .selectable(options)
     }
 }

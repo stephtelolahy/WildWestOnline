@@ -42,7 +42,7 @@ final class SimulationTests: XCTestCase {
         let sut = createGameStore(initial: game) {
             expectation.fulfill()
         }
-        sut.addMiddleware(AIAgentMiddleware())
+        sut.addMiddleware(AIAgentMiddleware(strategy: RandomAIStrategy()))
 
         sut.addMiddleware(StateReproducerMiddleware(initial: game))
 

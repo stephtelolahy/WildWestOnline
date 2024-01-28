@@ -47,7 +47,7 @@ private func createStore() -> Store<AppState> {
                 CardEffectsMiddleware(),
                 GameSequenceMiddleware(),
                 ActivateCardsMiddleware(),
-                AIAgentMiddleware()
+                AIAgentMiddleware(strategy: RandomAIStrategy())
             ])
                 .lift { GameState.from(globalState: $0) },
             SettingsMiddleware(cacheService: settingsService)
