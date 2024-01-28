@@ -8,8 +8,17 @@
 struct CardSelectHand: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
+        let chooser = ctx.cardChooser ?? owner
         let playerObj = state.player(owner)
-        let options = playerObj.hand.toCardOptions()
+        let options: [CardArgOption]
+
+        if chooser != owner {
+            options = playerObj.hand.indices.map {
+                CardArgOption(id: playerObj.hand[$0], label: "\(String.hiddenHand)-\($0)")
+            }
+        } else {
+            options = playerObj.hand.toCardOptions()
+        }
 
         return .selectable(options)
     }

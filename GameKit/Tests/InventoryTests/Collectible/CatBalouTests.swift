@@ -25,7 +25,7 @@ final class CatBalouTests: XCTestCase {
         XCTAssertEqual(error, .noPlayer(.selectAny))
     }
 
-    func test_playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneRandomHandCard() {
+    func test_playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

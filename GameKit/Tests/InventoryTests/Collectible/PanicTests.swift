@@ -25,7 +25,7 @@ final class PanicTests: XCTestCase {
         XCTAssertEqual(error, .noPlayer(.selectAt(1)))
     }
 
-    func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneRandomHandCard() {
+    func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {

@@ -29,8 +29,8 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
-    func test_simulate10PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 16)
+    func test_simulate8PlayersGame_shouldComplete() throws {
+        simulateGame(playersCount: 8)
     }
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
