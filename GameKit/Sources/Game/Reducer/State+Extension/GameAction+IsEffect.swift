@@ -1,5 +1,5 @@
 //
-//  GameAction+Extension.swift
+//  GameAction+IsEffect.swift
 //
 //
 //  Created by Hugues Telolahy on 22/09/2023.
@@ -25,7 +25,7 @@ extension GameAction {
         }
     }
 
-    @available(*, deprecated, message: "damage is not enough to determine shoot effect")
+    // TODO: damage is not enough to determine shoot effect
     func isEffectOfShoot(_ player: String) -> Bool {
         if case let .damage(_, target) = self,
            target == player {

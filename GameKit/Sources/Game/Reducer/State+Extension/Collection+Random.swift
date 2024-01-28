@@ -7,7 +7,7 @@
 
 extension Collection {
     func deterministicRandomElement() -> Element? {
-        return self.first
-//        return randomElement()
+//        first
+        randomElement()
     }
 }
