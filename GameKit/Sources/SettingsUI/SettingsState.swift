@@ -23,6 +23,7 @@ public struct SettingsState: Codable, Equatable {
 public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
     case toggleSimulation
+    case close
 }
 
 public extension SettingsState {
@@ -39,6 +40,9 @@ public extension SettingsState {
 
         case .toggleSimulation:
             state.simulation.toggle()
+
+        default:
+            break
         }
 
         return state

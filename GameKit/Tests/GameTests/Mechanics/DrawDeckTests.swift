@@ -29,7 +29,7 @@ final class DrawDeckTests: XCTestCase {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
-            .withDiscard(["c1", "c2"])
+            .withDiscard(["c1", "c2", "c3", "c4"])
             .build()
 
         // When
@@ -37,7 +37,7 @@ final class DrawDeckTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.deck, [])
+        XCTAssertEqual(result.deck, ["c3", "c4"])
         XCTAssertEqual(result.discard, ["c1"])
         XCTAssertEqual(result.player("p1").hand, ["c2"])
     }

@@ -32,14 +32,14 @@ public extension DocumentConvertible where Self: Codable {
     }
 }
 
-extension JSONEncoder {
+private extension JSONEncoder {
     func encodeToDictionary<T>(_ value: T) throws -> [String: Any]? where T: Encodable {
         let data = try self.encode(value)
         return try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
     }
 }
 
-extension JSONDecoder {
+private extension JSONDecoder {
     func decode<T>(_ type: T.Type, from dictionary: [String: Any]) throws -> T where T: Decodable {
         let data = try JSONSerialization.data(withJSONObject: dictionary, options: [])
         return try self.decode(type, from: data)

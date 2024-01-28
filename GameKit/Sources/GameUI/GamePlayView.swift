@@ -8,7 +8,6 @@
 
 import Game
 import Inventory
-import Navigation
 import Redux
 import SwiftUI
 import Theme
@@ -69,12 +68,11 @@ public struct GamePlayView: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        store.dispatch(NavAction.dismiss)
+                        store.dispatch(GamePlayAction.quit)
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
                         .foregroundColor(.accentColor)
-                        .padding()
                         .font(.title)
                 }
             }
@@ -82,16 +80,17 @@ public struct GamePlayView: View {
     }
 
     private var footerView: some View {
-        let data = store.state.activeActions
+        let data = store.state.handActions
         return TagFlowLayout(alignment: .leading) {
-            ForEach(Array(data.keys.sorted()), id: \.self) { key in
-                Button("\(key)") {
-                    guard let action = data[key] else {
+            ForEach(data, id: \.card) { item in
+                Button("\(item.card)") {
+                    guard let action = item.action else {
                         fatalError("unexpected")
                     }
                     store.dispatch(action)
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(item.action == nil)
             }
         }
     }
@@ -119,14 +118,8 @@ public struct GamePlayView: View {
                     .lineLimit(1)
                     .padding(.trailing, 8)
             }
-
-            if player.activeActions.isNotEmpty {
-                Image(systemName: "\(player.activeActions.count).circle.fill")
-                    .foregroundColor(.accentColor)
-                    .font(.headline)
-            }
         }
-        .background(backgroundColor(for: player.state))
+        .background(itemPlayerBackgroundColor(for: player.state))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
@@ -142,7 +135,7 @@ public struct GamePlayView: View {
         }
     }
 
-    private func backgroundColor(for state: PlayerItem.State) -> Color {
+    private func itemPlayerBackgroundColor(for state: PlayerItem.State) -> Color {
         switch state {
         case .active:
             Color.white.opacity(0.6)
@@ -168,6 +161,8 @@ private var previewState: GameState {
             $0.withFigure(.willyTheKid)
                 .withHealth(1)
                 .withAttributes([.maxHealth: 3])
+                .withAbilities([.endTurn, .willyTheKid])
+                .withHand([.bang, .gatling, .schofield, .mustang, .barrel, .beer])
                 .withInPlay([.saloon, .barrel])
         }
         .withPlayer("p2") {

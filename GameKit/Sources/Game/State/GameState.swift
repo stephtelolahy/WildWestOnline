@@ -62,12 +62,3 @@ public extension GameState {
         return player
     }
 }
-
-/// ChooseOne labels
-public extension String {
-    /// Random hand card
-    static let randomHand = "randomHand"
-
-    /// Pass when asked to do an action
-    static let pass = "pass"
-}

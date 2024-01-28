@@ -9,6 +9,7 @@
 import Combine
 import Game
 import Inventory
+import Redux
 import XCTest
 
 final class SimulationTests: XCTestCase {
@@ -28,8 +29,8 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
-    func test_simulate10PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 16)
+    func test_simulate8PlayersGame_shouldComplete() throws {
+        simulateGame(playersCount: 8)
     }
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
@@ -41,7 +42,9 @@ final class SimulationTests: XCTestCase {
         let sut = createGameStore(initial: game) {
             expectation.fulfill()
         }
-        sut.addMiddleware(AIAgentMiddleware())
+        sut.addMiddleware(AIAgentMiddleware(strategy: RandomAIStrategy()))
+
+        sut.addMiddleware(StateReproducerMiddleware(initial: game))
 
         let cancellable = sut.$state.sink { state in
             if state.winner != nil {
@@ -61,5 +64,24 @@ final class SimulationTests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
         XCTAssertNotNil(sut.state.winner, "Expected game over")
+    }
+}
+
+/// Middleare reproducting state according to received event
+private class StateReproducerMiddleware: Middleware<GameState> {
+    private var prevState: GameState
+
+    init(initial: GameState) {
+        self.prevState = initial
+    }
+
+    override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+        let resultState = GameState.reducer(prevState, action)
+
+        assert(state == resultState, "Inconsistent state applying \(action)")
+
+        self.prevState = resultState
+
+        return nil
     }
 }

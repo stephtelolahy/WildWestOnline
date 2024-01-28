@@ -28,6 +28,9 @@ public class SettingsMiddleware: Middleware<SettingsState> {
 
         case .toggleSimulation:
             cacheService.simulationEnabled = state.simulation
+
+        default:
+            break
         }
 
         return nil

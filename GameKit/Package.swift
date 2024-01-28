@@ -71,22 +71,21 @@ let package = Package(
                 "Inventory"
             ]),
         .target(
-            name: "Navigation",
-            dependencies: [
-                "Redux"
-            ]
-        ),
-        .target(
             name: "Utils",
-            dependencies: []),
+            dependencies: [],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
         .target(
             name: "Theme",
-            dependencies: []),
+            dependencies: [],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
         .target(
             name: "GameUI",
             dependencies: [
                 "Redux",
-                "Navigation",
                 "Theme",
                 "Game",
                 "Inventory"
@@ -94,11 +93,13 @@ let package = Package(
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
+        .testTarget(
+            name: "GameUITests",
+            dependencies: ["GameUI"]),
         .target(
             name: "HomeUI",
             dependencies: [
                 "Redux",
-                "Navigation",
                 "Theme"
             ],
             plugins: [
@@ -108,7 +109,6 @@ let package = Package(
             name: "SplashUI",
             dependencies: [
                 "Redux",
-                "Navigation",
                 "Theme"
             ],
             plugins: [
@@ -118,7 +118,6 @@ let package = Package(
             name: "SettingsUI",
             dependencies: [
                 "Redux",
-                "Navigation",
                 "Utils"
             ],
             plugins: [
@@ -127,10 +126,6 @@ let package = Package(
         .target(
             name: "App",
             dependencies: [
-                "Redux",
-                "Game",
-                "Inventory",
-                "Navigation",
                 "GameUI",
                 "HomeUI",
                 "SplashUI",

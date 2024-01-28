@@ -17,7 +17,7 @@ extension GameState {
 
             let cards = discard
             discard = Array(cards.prefix(1))
-            deck = Array(cards.dropFirst()).shuffled()
+            deck = Array(cards.dropFirst())
         }
 
         return deck.remove(at: 0)

@@ -369,7 +369,7 @@ private extension CardList {
 
     static var discardPreviousWeaponOnPlayWeapon: Card {
         Card(.discardPreviousWeaponOnPlayWeapon) {
-            CardEffect.discard(.previousInPlayWithAttribute(.weapon))
+            CardEffect.discard(.previousInPlay(.weapon))
                 .on([.playWeapon])
         }
     }
@@ -469,7 +469,7 @@ private extension CardList {
 
     static var elGringo: Card {
         Card(.elGringo, prototype: pDefault, attributes: [.maxHealth: 3]) {
-            CardEffect.steal(.randomHand)
+            CardEffect.steal(.selectHand)
                 .target(.offender)
                 .ignoreError()
                 .repeat(.damage)
@@ -540,7 +540,7 @@ private extension CardList {
     static var pedroRamirez: Card {
         Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
             CardEffect.group {
-                CardEffect.steal(.randomHand)
+                CardEffect.steal(.selectHand)
                     .target(.selectAny)
                     .force(otherwise: .drawDeck)
                 CardEffect.drawDeck

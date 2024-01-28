@@ -1,6 +1,6 @@
 //
-//  Array+Extension.swift
-//  
+//  Array+Starting.swift
+//
 //
 //  Created by Hugues Telolahy on 10/04/2023.
 //
@@ -27,11 +27,5 @@ extension Array where Element: Equatable {
         }
 
         self.remove(at: index)
-    }
-}
-
-public extension Collection {
-    var isNotEmpty: Bool {
-        !isEmpty
     }
 }

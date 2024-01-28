@@ -101,11 +101,8 @@ private extension ArgCard {
         case .played:
             CardPlayed()
 
-        case .previousInPlayWithAttribute(let key):
-            CardPreviousInPlayWithAttribute(key: key)
-
-        case .randomHand:
-            CardRandomHand()
+        case .previousInPlay(let key):
+            CardPreviousInPlay(key: key)
 
         case .id:
             fatalError("unexpected")

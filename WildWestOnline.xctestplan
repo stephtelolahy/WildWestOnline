@@ -56,6 +56,13 @@
         "identifier" : "AppTests",
         "name" : "AppTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "GameUITests",
+        "name" : "GameUITests"
+      }
     }
   ],
   "version" : 1

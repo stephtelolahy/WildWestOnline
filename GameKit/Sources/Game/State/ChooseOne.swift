@@ -17,3 +17,12 @@ public enum ChoiceType: Codable, Equatable {
     case target
     case counterCard
 }
+
+/// ChooseOne labels
+public extension String {
+    /// Hidden hand card
+    static let hiddenHand = "hiddenHand"
+
+    /// Pass when asked to do an action
+    static let pass = "pass"
+}

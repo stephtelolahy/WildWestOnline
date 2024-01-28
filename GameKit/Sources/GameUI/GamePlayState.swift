@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  GamePlayState.swift
 //
@@ -7,20 +6,45 @@
 //
 
 import Game
+import Redux
+
+protocol GamePlayState {
+    var visiblePlayers: [PlayerItem] { get }
+    var message: String { get }
+    var chooseOneActions: [String: GameAction] { get }
+    var handActions: [CardAction] { get }
+}
+
+struct PlayerItem {
+    enum State {
+        case active
+        case idle
+        case eliminated
+    }
+
+    let id: String
+    let imageName: String
+    let displayName: String
+    let hand: String
+    let health: String
+    let equipment: String
+    let state: State
+}
+
+struct CardAction: Equatable {
+    let card: String
+    let action: GameAction?
+}
+
+public enum GamePlayAction: Action, Codable, Equatable {
+    case quit
+}
 
 // MARK: - Derived state
-extension GameState {
+extension GameState: GamePlayState {
     var visiblePlayers: [PlayerItem] {
         startOrder.map { playerId in
             let playerObj = player(playerId)
-
-            var activeActions: [String: GameAction] = [:]
-            if let activeCards = active[playerId] {
-                activeActions = activeCards.reduce(into: [String: GameAction]()) {
-                    $0[$1] = .play($1, player: playerId)
-                }
-            }
-
             let handText = "[]\(playerObj.hand.count)"
             let maxHealth = playerObj.attributes[.maxHealth] ?? 0
             let health = max(0, playerObj.health)
@@ -46,7 +70,6 @@ extension GameState {
                 hand: handText,
                 health: healthText,
                 equipment: equipmentText,
-                activeActions: activeActions,
                 state: state
             )
         }
@@ -60,13 +83,8 @@ extension GameState {
         }
     }
 
-    var activeActions: [String: GameAction] {
-        visiblePlayers.first { playMode[$0.id] == .manual }?.activeActions ?? [:]
-    }
-
     var chooseOneActions: [String: GameAction] {
-        guard let chooseOne = chooseOne.first,
-              playMode[chooseOne.key] == .manual else {
+        guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
             return  [:]
         }
 
@@ -74,22 +92,31 @@ extension GameState {
             $0[$1] = .choose($1, player: chooseOne.key)
         }
     }
-}
 
-struct PlayerItem {
-    enum State {
-        case active
-        case idle
-        case eliminated
+    var handActions: [CardAction] {
+        guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
+              let playerObj = players[playerId] else {
+            return []
+        }
+
+        let activeCards = self.active[playerId] ?? []
+
+        let handCardActions = playerObj.hand .map { card in
+            if activeCards.contains(card) {
+                CardAction(card: card, action: .play(card, player: playerId))
+            } else {
+                CardAction(card: card, action: nil)
+            }
+        }
+
+        let abilityActions: [CardAction] = playerObj.abilities.compactMap { card in
+            if activeCards.contains(card) {
+                CardAction(card: card, action: .play(card, player: playerId))
+            } else {
+                nil
+            }
+        }
+
+        return handCardActions + abilityActions
     }
-
-    let id: String
-    let imageName: String
-    let displayName: String
-    let hand: String
-    let health: String
-    let equipment: String
-    // TODO: replace with hand cards x active
-    let activeActions: [String: GameAction]
-    let state: State
 }
