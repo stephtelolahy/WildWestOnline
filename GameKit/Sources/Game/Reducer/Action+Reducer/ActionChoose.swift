@@ -19,9 +19,9 @@ struct ActionChoose: GameActionReducer {
 
         var updatedContext = ctx
         updatedContext.chosenOption = option
-        let updateAction = GameAction.effect(cardEffect, ctx: updatedContext)
+        let updatedAction = GameAction.effect(cardEffect, ctx: updatedContext)
         var state = state
-        state.sequence[0] = updateAction
+        state.sequence[0] = updatedAction
 
         return state
     }

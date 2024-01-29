@@ -1,5 +1,5 @@
 //
-//  SettingsMiddleware.swift
+//  SettingsUpdateMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
@@ -9,7 +9,7 @@ import Combine
 import Foundation
 import Redux
 
-public class SettingsMiddleware: Middleware<SettingsState> {
+public class SettingsUpdateMiddleware: Middleware<SettingsState> {
     private var cacheService: SettingsServiceProtocol
 
     public init(cacheService: SettingsServiceProtocol) {

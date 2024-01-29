@@ -44,7 +44,7 @@ private func createStore() -> Store<AppState> {
         middlewares: [
             gameLoopMiddleware()
                 .lift { GameState.from(globalState: $0) },
-            SettingsMiddleware(cacheService: settingsService)
+            SettingsUpdateMiddleware(cacheService: settingsService)
                 .lift { SettingsState.from(globalState: $0) },
             LoggerMiddleware()
         ]
