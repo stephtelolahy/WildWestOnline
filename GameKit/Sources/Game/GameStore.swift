@@ -21,7 +21,7 @@ public func createGameStore(initial: GameState, completed: (() -> Void)? = nil) 
             ComposedMiddleware([
                 GameOverMiddleware(),
                 CardEffectsMiddleware(),
-                GameSequenceMiddleware(),
+                PlaySequenceMiddleware(),
                 ActivateCardsMiddleware()
             ]),
             LoggerMiddleware()

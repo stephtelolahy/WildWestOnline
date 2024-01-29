@@ -45,7 +45,7 @@ private func createStore() -> Store<AppState> {
             ComposedMiddleware([
                 GameOverMiddleware(),
                 CardEffectsMiddleware(),
-                GameSequenceMiddleware(),
+                PlaySequenceMiddleware(),
                 ActivateCardsMiddleware(),
                 AIAgentMiddleware(strategy: RandomAIStrategy())
             ])
