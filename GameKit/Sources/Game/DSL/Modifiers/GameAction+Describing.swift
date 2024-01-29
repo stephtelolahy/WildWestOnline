@@ -54,7 +54,7 @@ extension GameAction: CustomStringConvertible {
             "🎲 \(player) \(card)"
 
         case let .passInPlay(card, target, player):
-            "🧨 \(player) -> \(target) \(card)"
+            "🧨 \(player) \(target) \(card)"
 
         case .discover:
             "🎁"
@@ -72,7 +72,7 @@ extension GameAction: CustomStringConvertible {
             "😎 \(player) \(key.rawValue) \(value)"
 
         case let .removeAttribute(key, player):
-            "😕 \(player) \(key.rawValue) X"
+            "😕 \(player) \(key.rawValue)"
 
         case let .setGameOver(winner):
             "🎉 \(winner)"

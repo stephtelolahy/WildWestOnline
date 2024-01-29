@@ -104,7 +104,7 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingPassInPlay() {
         XCTAssertEqual(
             String(describing: GameAction.passInPlay("c1", target: "p2", player: "p1")),
-            "🧨 p1 -> p2 c1"
+            "🧨 p1 p2 c1"
         )
     }
 
@@ -137,7 +137,7 @@ final class ActionDescribingTests: XCTestCase {
 
         XCTAssertEqual(
             String(describing: GameAction.removeAttribute(.bangsPerTurn, player: "p1")),
-            "😕 p1 bangsPerTurn X"
+            "😕 p1 bangsPerTurn"
         )
     }
 
