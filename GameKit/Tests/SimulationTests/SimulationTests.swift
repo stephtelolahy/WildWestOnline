@@ -82,10 +82,11 @@ private class StateReproducerMiddleware: Middleware<GameState> {
 
     override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         let resultState = GameState.reducer(prevState, action)
+        prevState = resultState
 
-        assert(state == resultState, "Inconsistent state applying \(action)")
-
-        self.prevState = resultState
+        guard state == resultState else {
+            fatalError("Inconsistent state after applying \(action)")
+        }
 
         return nil
     }
