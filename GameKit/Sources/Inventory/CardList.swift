@@ -508,6 +508,7 @@ private extension CardList {
             CardEffect.group {
                 CardEffect.drawDeck
                     .repeat(.attr(.startTurnCards))
+                CardEffect.revealLastHand
                 CardEffect.luck(.lastHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
             }
             .on([.setTurn])

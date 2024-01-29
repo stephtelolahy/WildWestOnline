@@ -64,6 +64,9 @@ private extension CardEffect {
         case let .putBack(among):
             EffectPutBack(among: among)
 
+        case .revealLastHand:
+            EffectRevealLastHand()
+
         case let .steal(card):
             EffectSteal(card: card)
 

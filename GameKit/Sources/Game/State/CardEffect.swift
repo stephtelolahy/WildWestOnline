@@ -30,6 +30,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Put  back on top deck a hand card among last N
     case putBack(among: ArgNum)
 
+    /// Reveal last hand card
+    case revealLastHand
+
     /// Draw card from a player
     /// - the player that steals cards is `EffectContext.actor`
     /// - the player that looses a card is `EffectContext.target`

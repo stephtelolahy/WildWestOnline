@@ -26,7 +26,6 @@ struct EffectLuck: EffectResolver {
             }
 
             drawnCards = [lastHandCard]
-            result.append(.revealHand(lastHandCard, player: player))
 
         case .topDiscard:
             guard let flippedCards = playerObj.attributes[.flippedCards] else {
