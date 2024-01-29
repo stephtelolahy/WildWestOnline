@@ -39,12 +39,17 @@ final class SimulationTests: XCTestCase {
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = createGameStore(initial: game) {
+        let sut = Store<GameState>(
+            initial: game,
+            reducer: GameState.reducer,
+            middlewares: [
+                gameLoopMiddleware(),
+                StateReproducerMiddleware(initial: game),
+                LoggerMiddleware()
+            ]
+        ) {
             expectation.fulfill()
         }
-        sut.addMiddleware(AIAgentMiddleware(strategy: RandomAIStrategy()))
-
-        sut.addMiddleware(StateReproducerMiddleware(initial: game))
 
         let cancellable = sut.$state.sink { state in
             if state.winner != nil {

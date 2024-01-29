@@ -20,12 +20,18 @@ extension XCTestCase {
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
-        let store = createGameStore(initial: state) {
+        let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
+        let store = Store<GameState>(
+            initial: state,
+            reducer: GameState.reducer,
+            middlewares: [
+                gameLoopMiddleware(),
+                choosingMiddleware,
+                LoggerMiddleware()
+            ]
+        ) {
             expectation.fulfill()
         }
-
-        let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
-        store.addMiddleware(choosingMiddleware)
 
         var ocurredError: GameError?
 

@@ -42,13 +42,7 @@ private func createStore() -> Store<AppState> {
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
-            ComposedMiddleware([
-                GameOverMiddleware(),
-                CardEffectsMiddleware(),
-                PlaySequenceMiddleware(),
-                ActivateCardsMiddleware(),
-                AIAgentMiddleware(strategy: RandomAIStrategy())
-            ])
+            gameLoopMiddleware()
                 .lift { GameState.from(globalState: $0) },
             SettingsMiddleware(cacheService: settingsService)
                 .lift { SettingsState.from(globalState: $0) },
