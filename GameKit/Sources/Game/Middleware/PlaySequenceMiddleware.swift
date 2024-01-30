@@ -26,8 +26,14 @@ public final class PlaySequenceMiddleware: Middleware<GameState> {
                 return nil
             }
 
+            let waitDelay = if nextAction.isRenderable {
+                state.waitDelayMilliseconds
+            } else {
+                0
+            }
+
             return Just(nextAction)
-                .delay(for: .milliseconds(state.waitDelayMilliseconds), scheduler: DispatchQueue.main)
+                .delay(for: .milliseconds(waitDelay), scheduler: DispatchQueue.main)
                 .eraseToAnyPublisher()
         }
     }
