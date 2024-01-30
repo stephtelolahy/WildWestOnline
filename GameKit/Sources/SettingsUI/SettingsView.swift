@@ -11,8 +11,6 @@ import SwiftUI
 
 public struct SettingsView: View {
     @StateObject private var store: Store<SettingsState>
-    @State private var speedIndex = 0
-    private var speedOptions = ["Normal", "Fast"]
 
     public init(store: @escaping () -> Store<SettingsState>) {
         // SwiftUI ensures that the following initialization uses the
@@ -38,34 +36,58 @@ public struct SettingsView: View {
 
     private var preferencesSection: some View {
         Section(header: Text("PREFRENCES")) {
-            HStack {
-                Image(systemName: "gamecontroller")
-                Stepper(
-                    "Players count: \(store.state.playersCount)",
-                    value: Binding<Int>(
-                        get: { store.state.playersCount },
-                        set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
-                    ).animation(),
-                    in: 2...16
-                )
-            }
+            playersCountView
+            simulationView
+            speedView
+        }
+    }
 
-            HStack {
-                Image(systemName: "record.circle")
-                Toggle(isOn: Binding<Bool>(
-                    get: { store.state.simulation },
-                    set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
-                ).animation()) {
-                    Text("Simulation")
-                }
-            }
+    private var playersCountView: some View {
+        HStack {
+            Image(systemName: "gamecontroller")
+            Stepper(
+                "Players count: \(store.state.playersCount)",
+                value: Binding<Int>(
+                    get: { store.state.playersCount },
+                    set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
+                ).animation(),
+                in: 2...16
+            )
+        }
+    }
 
-            HStack {
-                Image(systemName: "hare")
-                Picker(selection: $speedIndex, label: Text("Game speed")) {
-                    ForEach(0..<(speedOptions.count), id: \.self) {
-                        Text(speedOptions[$0])
+    private var simulationView: some View {
+        HStack {
+            Image(systemName: "record.circle")
+            Toggle(isOn: Binding<Bool>(
+                get: { store.state.simulation },
+                set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
+            ).animation()) {
+                Text("Simulation")
+            }
+        }
+    }
+
+    private var speedView: some View {
+        HStack {
+            Image(systemName: "hare")
+            Picker(
+                selection: Binding<Int>(
+                    get: {
+                        store.state.speedIndex
+                    },
+                    set: { index in
+                        let option = store.state.speedOptions[index]
+                        let action = SettingsAction.updateWaitDelayMilliseconds(option.value)
+                        store.dispatch(action)
                     }
+                ),
+                label: Text(
+                    "Game speed"
+                )
+            ) {
+                ForEach(0..<(store.state.speedOptions.count), id: \.self) {
+                    Text(store.state.speedOptions[$0].label)
                 }
             }
         }

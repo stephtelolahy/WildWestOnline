@@ -15,7 +15,7 @@ struct RadialView: View {
         RadialLayout {
             ForEach(0..<count, id: \.self) { value in
                 Text("\(value)")
-                    .frame(width: 100, height: 100, alignment: .center)
+                    .frame(width: 80, height: 100, alignment: .center)
                     .padding()
                     .overlay(
                         Circle()

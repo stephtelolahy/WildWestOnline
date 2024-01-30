@@ -23,8 +23,33 @@ public struct SettingsState: Codable, Equatable {
     }
 }
 
+extension SettingsState {
+    var speedOptions: [SpeedOption] {
+        SpeedOption.all
+    }
+
+    var speedIndex: Int {
+        SpeedOption.all.firstIndex { $0.value == waitDelayMilliseconds } ?? 0
+    }
+}
+
+struct SpeedOption {
+    let label: String
+    let value: Int
+}
+
+private extension SpeedOption {
+    static let defaultWaitDelay = 500
+
+    static let all: [Self] = [
+        .init(label: "Normal", value: defaultWaitDelay),
+        .init(label: "Fast", value: 0)
+    ]
+}
+
 public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
+    case updateWaitDelayMilliseconds(Int)
     case toggleSimulation
     case close
 }
