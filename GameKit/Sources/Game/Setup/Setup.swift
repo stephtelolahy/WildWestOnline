@@ -39,7 +39,8 @@ public enum Setup {
             active: [:],
             playMode: [:],
             sequence: [],
-            cardRef: cardRef
+            cardRef: cardRef,
+            waitDelayMilliseconds: 0
         )
     }
 

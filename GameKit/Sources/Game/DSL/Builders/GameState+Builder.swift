@@ -21,6 +21,7 @@ public extension GameState {
         private var sequence: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
         private var cardRef: [String: Card] = [:]
+        private var waitDelayMilliseconds: Int = 0
 
         public func build() -> GameState {
             GameState(
@@ -38,7 +39,8 @@ public extension GameState {
                 active: active,
                 playMode: playMode,
                 sequence: sequence,
-                cardRef: cardRef
+                cardRef: cardRef,
+                waitDelayMilliseconds: waitDelayMilliseconds
             )
         }
 
@@ -107,6 +109,11 @@ public extension GameState {
             let player = builderFunc(builder).build()
             players[player.id] = player
             playOrder.append(player.id)
+            return self
+        }
+
+        public func withWaitDelayMilliseconds(_ value: Int) -> Self {
+            waitDelayMilliseconds = value
             return self
         }
     }

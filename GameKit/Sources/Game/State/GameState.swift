@@ -49,6 +49,9 @@ public struct GameState: Codable, Equatable, DocumentConvertible {
 
     /// All cards reference by cardName
     public let cardRef: [String: Card]
+
+    /// Wait delay between two visible actions
+    public var waitDelayMilliseconds: Int
 }
 
 // MARK: - Convenience

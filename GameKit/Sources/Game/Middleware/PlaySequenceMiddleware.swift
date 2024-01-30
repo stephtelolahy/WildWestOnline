@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 import Redux
 
 public final class PlaySequenceMiddleware: Middleware<GameState> {
@@ -25,7 +26,9 @@ public final class PlaySequenceMiddleware: Middleware<GameState> {
                 return nil
             }
 
-            return Just(nextAction).eraseToAnyPublisher()
+            return Just(nextAction)
+                .delay(for: .milliseconds(state.waitDelayMilliseconds), scheduler: DispatchQueue.main)
+                .eraseToAnyPublisher()
         }
     }
 }

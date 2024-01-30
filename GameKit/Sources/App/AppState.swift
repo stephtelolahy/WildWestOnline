@@ -81,6 +81,7 @@ private extension AppState {
         game.playMode = game.startOrder.reduce(into: [:]) {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
+        game.waitDelayMilliseconds = settings.waitDelayMilliseconds
         return game
     }
 }

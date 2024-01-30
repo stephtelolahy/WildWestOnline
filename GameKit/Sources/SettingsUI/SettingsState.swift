@@ -9,13 +9,16 @@ import Redux
 
 public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
+    public var waitDelayMilliseconds: Int
     public var simulation: Bool
 
     public init(
         playersCount: Int,
+        waitDelayMilliseconds: Int,
         simulation: Bool
     ) {
         self.playersCount = playersCount
+        self.waitDelayMilliseconds = waitDelayMilliseconds
         self.simulation = simulation
     }
 }

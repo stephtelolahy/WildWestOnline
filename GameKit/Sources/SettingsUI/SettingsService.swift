@@ -17,6 +17,9 @@ public class SettingsService: SettingsServiceProtocol {
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
     public var playersCount: Int
 
+    @UserDefaultsStored("settings.waitDelayMilliseconds", defaultValue: 500)
+    public var waitDelayMilliseconds: Int
+
     @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
     public var simulationEnabled: Bool
 

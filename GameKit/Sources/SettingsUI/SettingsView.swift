@@ -77,6 +77,7 @@ public struct SettingsView: View {
         Store<SettingsState>(
             initial: .init(
                 playersCount: 5,
+                waitDelayMilliseconds: 0,
                 simulation: false
             ),
             reducer: SettingsState.reducer

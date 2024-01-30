@@ -204,6 +204,7 @@ final class GameTests: XCTestCase {
             "active": {},
             "playMode": {},
             "cardRef": {},
+            "waitDelayMilliseconds": 100
         }
         """
         let jsonData = try XCTUnwrap(JSON.data(using: .utf8))
@@ -219,5 +220,6 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.deck, ["c1"])
         XCTAssertEqual(sut.discard, ["c2"])
         XCTAssertEqual(sut.arena, [])
+        XCTAssertEqual(sut.waitDelayMilliseconds, 100)
     }
 }

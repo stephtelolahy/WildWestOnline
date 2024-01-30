@@ -30,6 +30,7 @@ private func createStore() -> Store<AppState> {
     let settingsService = SettingsService()
     let cachedSettings = SettingsState(
         playersCount: settingsService.playersCount,
+        waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
         simulation: settingsService.simulationEnabled
     )
 

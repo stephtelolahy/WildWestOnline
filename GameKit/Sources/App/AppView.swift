@@ -68,7 +68,11 @@ public struct AppView: View {
         Store<AppState>(
             initial: .init(
                 screen: .splash,
-                settings: .init(playersCount: 5, simulation: false)
+                settings: .init(
+                    playersCount: 5,
+                    waitDelayMilliseconds: 0,
+                    simulation: false
+                )
             )
         )
     }
