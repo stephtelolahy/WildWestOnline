@@ -11,6 +11,7 @@ import Utils
 public protocol SettingsServiceProtocol {
     var playersCount: Int { get set }
     var simulationEnabled: Bool { get set }
+    var waitDelayMilliseconds: Int { get set }
 }
 
 public class SettingsService: SettingsServiceProtocol {

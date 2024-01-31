@@ -29,6 +29,9 @@ public class SettingsUpdateMiddleware: Middleware<SettingsState> {
         case .toggleSimulation:
             cacheService.simulationEnabled = state.simulation
 
+        case let .updateWaitDelayMilliseconds(delay):
+            cacheService.waitDelayMilliseconds = delay
+
         default:
             break
         }

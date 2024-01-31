@@ -69,6 +69,9 @@ public extension SettingsState {
         case .toggleSimulation:
             state.simulation.toggle()
 
+        case let .updateWaitDelayMilliseconds(value):
+            state.waitDelayMilliseconds = value
+
         default:
             break
         }
