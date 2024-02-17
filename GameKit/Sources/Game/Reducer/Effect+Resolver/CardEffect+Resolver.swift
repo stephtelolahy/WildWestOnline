@@ -16,7 +16,7 @@ extension CardEffect {
 }
 
 private extension CardEffect {
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func resolver() -> EffectResolver {
         switch self {
         case let .heal(amount):
