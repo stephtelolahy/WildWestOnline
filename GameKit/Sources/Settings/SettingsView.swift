@@ -53,7 +53,7 @@ public struct SettingsView: View {
                     get: { store.state.playersCount },
                     set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
                 ).animation(),
-                in: 2...16
+                in: Self.minPlayersCount...Self.maxPlayersCount
             )
         }
     }
@@ -76,10 +76,10 @@ public struct SettingsView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        store.state.speedIndex
+                        speedIndex
                     },
                     set: { index in
-                        let option = store.state.speedOptions[index]
+                        let option = SpeedOption.all[index]
                         let action = SettingsAction.updateWaitDelayMilliseconds(option.value)
                         store.dispatch(action)
                     }
@@ -88,11 +88,15 @@ public struct SettingsView: View {
                     "Game speed"
                 )
             ) {
-                ForEach(0..<(store.state.speedOptions.count), id: \.self) {
-                    Text(store.state.speedOptions[$0].label)
+                ForEach(0..<(SpeedOption.all.count), id: \.self) {
+                    Text(SpeedOption.all[$0].label)
                 }
             }
         }
+    }
+
+    private var speedIndex: Int {
+        SpeedOption.all.firstIndex { $0.value == store.state.waitDelayMilliseconds } ?? 0
     }
 }
 
@@ -106,5 +110,24 @@ public struct SettingsView: View {
             ),
             reducer: SettingsState.reducer
         )
+    }
+}
+
+// MARK: - Constants
+
+extension SettingsView {
+    static let minPlayersCount = 2
+    static let maxPlayersCount = 16
+
+    struct SpeedOption {
+        let label: String
+        let value: Int
+
+        static let defaultWaitDelay = 500
+
+        static let all: [Self] = [
+            .init(label: "Normal", value: defaultWaitDelay),
+            .init(label: "Fast", value: 0)
+        ]
     }
 }
