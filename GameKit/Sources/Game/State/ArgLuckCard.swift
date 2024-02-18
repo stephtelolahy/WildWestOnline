@@ -7,9 +7,9 @@
 
 /// Card argument for luck effect
 public enum ArgLuckCard: Codable, Equatable {
-    /// Determine luck using top discard
-    case topDiscard
+    /// Determine luck using last drawn card
+    case drawn
 
     /// Determine luck using last drawn hand card
-    case lastHand
+    case drawnHand
 }

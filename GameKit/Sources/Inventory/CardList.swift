@@ -205,7 +205,7 @@ private extension CardList {
                     CardEffect.draw
                         .repeat(.attr(.flippedCards))
                     CardEffect.luck(
-                        .topDiscard,
+                        .drawn,
                         regex: .regexSaveByBarrel,
                         onSuccess: .counterShoot
                     )
@@ -224,7 +224,7 @@ private extension CardList {
                     CardEffect.draw
                         .repeat(.attr(.flippedCards))
                     CardEffect.luck(
-                        .topDiscard,
+                        .drawn,
                         regex: .regexPassDynamite,
                         onSuccess: .passInPlay(.played, toPlayer: .next),
                         onFailure: .group([
@@ -309,7 +309,7 @@ private extension CardList {
                 CardEffect.draw
                     .repeat(.attr(.flippedCards))
                 CardEffect.luck(
-                    .topDiscard,
+                    .drawn,
                     regex: .regexEscapeFromJail,
                     onSuccess: .discard(.played),
                     onFailure: .group([
@@ -430,7 +430,7 @@ private extension CardList {
                 CardEffect.draw
                     .repeat(.attr(.flippedCards))
                 CardEffect.luck(
-                    .topDiscard,
+                    .drawn,
                     regex: .regexSaveByBarrel,
                     onSuccess: .counterShoot
                 )
@@ -509,7 +509,7 @@ private extension CardList {
                 CardEffect.drawDeck
                     .repeat(.attr(.startTurnCards))
                 CardEffect.revealLastHand
-                CardEffect.luck(.lastHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
+                CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
             }
             .on([.setTurn])
         }
