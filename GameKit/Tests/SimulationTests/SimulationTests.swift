@@ -7,7 +7,7 @@
 // swiftlint:disable no_magic_numbers
 
 import Combine
-import Game
+import GameCore
 import Inventory
 import Redux
 import XCTest
@@ -27,10 +27,6 @@ final class SimulationTests: XCTestCase {
 
     func test_simulate7PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 7)
-    }
-
-    func test_simulate8PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 8)
     }
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {

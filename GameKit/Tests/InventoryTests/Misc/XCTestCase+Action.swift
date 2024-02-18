@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Game
+import GameCore
 import Redux
 import XCTest
 

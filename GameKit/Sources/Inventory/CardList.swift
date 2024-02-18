@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/04/2023.
 //
 // swiftlint:disable no_magic_numbers closure_body_length file_length trailing_closure
-import Game
+import GameCore
 
 public enum CardList {
     public static let all: [String: Card] = createCardDict(priorities) {

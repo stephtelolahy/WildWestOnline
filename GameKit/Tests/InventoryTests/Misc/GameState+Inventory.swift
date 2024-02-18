@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 25/04/2023.
 //
 
-import Game
+import GameCore
 import Inventory
 
 extension GameState {

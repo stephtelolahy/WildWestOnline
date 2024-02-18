@@ -6,12 +6,12 @@
 //
 // swiftlint:disable no_magic_numbers
 @testable import App
-import Game
-import GameUI
-import HomeUI
+import GameCore
+import GamePlay
+import Home
 import Redux
-import SettingsUI
-import SplashUI
+import Settings
+import Splash
 import XCTest
 
 final class AppFlowTests: XCTestCase {

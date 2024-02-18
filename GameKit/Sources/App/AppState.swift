@@ -5,18 +5,24 @@
 //  Created by Hugues Telolahy on 12/07/2023.
 //
 
-import Game
-import GameUI
-import HomeUI
+import GameCore
+import GamePlay
+import Home
 import Inventory
 import Redux
-import SettingsUI
-import SplashUI
+import Settings
+import Splash
 
 /// Global app state
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
+    public enum Screen: Codable, Equatable {
+        case splash
+        case home
+        case game
+    }
+
     public var screen: Screen
     public var settings: SettingsState
     public var game: GameState?

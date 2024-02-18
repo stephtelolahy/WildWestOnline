@@ -7,9 +7,9 @@
 
 import SwiftUI
 import App
-import Game
+import GameCore
 import Redux
-import SettingsUI
+import Settings
 import Theme
 
 @main
