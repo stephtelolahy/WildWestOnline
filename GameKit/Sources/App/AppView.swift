@@ -6,12 +6,12 @@
 //
 // swiftlint:disable type_contents_order no_magic_numbers
 
-import Game
-import GameUI
-import HomeUI
+import GameCore
+import GamePlay
+import Home
 import Redux
-import SettingsUI
-import SplashUI
+import Settings
+import Splash
 import SwiftUI
 
 public struct AppView: View {
@@ -52,13 +52,15 @@ public struct AppView: View {
         .sheet(isPresented: Binding<Bool>(
             get: { store.state.showingSettings },
             set: { _ in }
-        )) {
+        ), onDismiss: {
+            store.dispatch(SettingsAction.close)
+        }, content: {
             SettingsView {
                 store.projection {
                     SettingsState.from(globalState: $0)
                 }
             }
-        }
+        })
         .foregroundColor(.primary)
     }
 }
@@ -68,7 +70,11 @@ public struct AppView: View {
         Store<AppState>(
             initial: .init(
                 screen: .splash,
-                settings: .init(playersCount: 5, simulation: false)
+                settings: .init(
+                    playersCount: 5,
+                    waitDelayMilliseconds: 0,
+                    simulation: false
+                )
             )
         )
     }

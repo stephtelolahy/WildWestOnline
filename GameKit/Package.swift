@@ -15,12 +15,12 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "Theme", targets: ["Theme"]),
-        .library(name: "Game", targets: ["Game"]),
+        .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "GameUI", targets: ["GameUI"]),
-        .library(name: "HomeUI", targets: ["HomeUI"]),
-        .library(name: "SplashUI", targets: ["SplashUI"]),
-        .library(name: "SettingsUI", targets: ["SettingsUI"]),
+        .library(name: "GamePlay", targets: ["GamePlay"]),
+        .library(name: "Splash", targets: ["Splash"]),
+        .library(name: "Home", targets: ["Home"]),
+        .library(name: "Settings", targets: ["Settings"]),
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -39,7 +39,7 @@ let package = Package(
                 "Redux"
             ]),
         .target(
-            name: "Game",
+            name: "GameCore",
             dependencies: [
                 "Redux",
                 "Utils"
@@ -48,14 +48,14 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .testTarget(
-            name: "GameTests",
+            name: "GameCoreTests",
             dependencies: [
-                "Game"
+                "GameCore"
             ]),
         .target(
             name: "Inventory",
             dependencies: [
-                "Game"
+                "GameCore"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
@@ -83,21 +83,21 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "GameUI",
+            name: "GamePlay",
             dependencies: [
                 "Redux",
                 "Theme",
-                "Game",
+                "GameCore",
                 "Inventory"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .testTarget(
-            name: "GameUITests",
-            dependencies: ["GameUI"]),
+            name: "GamePlayTests",
+            dependencies: ["GamePlay"]),
         .target(
-            name: "HomeUI",
+            name: "Home",
             dependencies: [
                 "Redux",
                 "Theme"
@@ -106,7 +106,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "SplashUI",
+            name: "Splash",
             dependencies: [
                 "Redux",
                 "Theme"
@@ -115,7 +115,7 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
-            name: "SettingsUI",
+            name: "Settings",
             dependencies: [
                 "Redux",
                 "Utils"
@@ -126,10 +126,10 @@ let package = Package(
         .target(
             name: "App",
             dependencies: [
-                "GameUI",
-                "HomeUI",
-                "SplashUI",
-                "SettingsUI"
+                "GamePlay",
+                "Home",
+                "Splash",
+                "Settings"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")

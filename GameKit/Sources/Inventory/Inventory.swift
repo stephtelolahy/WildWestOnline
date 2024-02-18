@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 11/07/2023.
 //
 
-import Game
+import GameCore
 
 public enum Inventory {
     public static func createGame(playersCount: Int) -> GameState {

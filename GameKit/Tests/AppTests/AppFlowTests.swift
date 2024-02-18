@@ -6,18 +6,18 @@
 //
 // swiftlint:disable no_magic_numbers
 @testable import App
-import Game
-import GameUI
-import HomeUI
+import GameCore
+import GamePlay
+import Home
 import Redux
-import SettingsUI
-import SplashUI
+import Settings
+import Splash
 import XCTest
 
 final class AppFlowTests: XCTestCase {
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let state = AppState(screen: .splash, settings: .default)
+        let state = AppState(screen: .splash, settings: .sample)
 
         // When
         let action = SplashAction.finish
@@ -29,7 +29,7 @@ final class AppFlowTests: XCTestCase {
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let state = AppState(screen: .home, settings: .default)
+        let state = AppState(screen: .home, settings: .sample)
 
         // When
         let action = HomeAction.play
@@ -44,7 +44,7 @@ final class AppFlowTests: XCTestCase {
         // Given
         let state = AppState(
             screen: .game,
-            settings: .default,
+            settings: .sample,
             game: GameState.makeBuilder().build()
         )
 
@@ -59,5 +59,9 @@ final class AppFlowTests: XCTestCase {
 }
 
 private extension SettingsState {
-    static let `default`: Self = .init(playersCount: 5, simulation: false)
+    static let sample: Self = .init(
+        playersCount: 5,
+        waitDelayMilliseconds: 0,
+        simulation: false
+    )
 }

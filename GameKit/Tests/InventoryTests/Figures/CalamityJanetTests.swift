@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 20/11/2023.
 //
 
-import Game
+import GameCore
 import XCTest
 
 final class CalamityJanetTests: XCTestCase {

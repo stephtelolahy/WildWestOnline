@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 22/04/2023.
 //
 
-import Game
+import GameCore
 import XCTest
 
 final class GatlingTests: XCTestCase {

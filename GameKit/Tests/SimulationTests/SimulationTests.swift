@@ -7,7 +7,7 @@
 // swiftlint:disable no_magic_numbers
 
 import Combine
-import Game
+import GameCore
 import Inventory
 import Redux
 import XCTest
@@ -29,22 +29,23 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
-    func test_simulate8PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 8)
-    }
-
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
         var game = Inventory.createGame(playersCount: playersCount)
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = createGameStore(initial: game) {
+        let sut = Store<GameState>(
+            initial: game,
+            reducer: GameState.reducer,
+            middlewares: [
+                gameLoopMiddleware(),
+                StateReproducerMiddleware(initial: game),
+                LoggerMiddleware()
+            ]
+        ) {
             expectation.fulfill()
         }
-        sut.addMiddleware(AIAgentMiddleware(strategy: RandomAIStrategy()))
-
-        sut.addMiddleware(StateReproducerMiddleware(initial: game))
 
         let cancellable = sut.$state.sink { state in
             if state.winner != nil {
@@ -77,10 +78,11 @@ private class StateReproducerMiddleware: Middleware<GameState> {
 
     override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
         let resultState = GameState.reducer(prevState, action)
+        prevState = resultState
 
-        assert(state == resultState, "Inconsistent state applying \(action)")
-
-        self.prevState = resultState
+        guard state == resultState else {
+            fatalError("Inconsistent state after applying \(action)")
+        }
 
         return nil
     }

@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 12/10/2023.
 //
 
-import Game
+import GameCore
 import XCTest
 
 final class MissedTests: XCTestCase {

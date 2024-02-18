@@ -6,7 +6,7 @@
 //
 // swiftlint:disable no_magic_numbers
 
-@testable import Game
+@testable import GameCore
 import XCTest
 
 final class JailTests: XCTestCase {

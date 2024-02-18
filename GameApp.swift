@@ -7,9 +7,9 @@
 
 import SwiftUI
 import App
-import Game
+import GameCore
 import Redux
-import SettingsUI
+import Settings
 import Theme
 
 @main
@@ -30,6 +30,7 @@ private func createStore() -> Store<AppState> {
     let settingsService = SettingsService()
     let cachedSettings = SettingsState(
         playersCount: settingsService.playersCount,
+        waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
         simulation: settingsService.simulationEnabled
     )
 
@@ -42,15 +43,9 @@ private func createStore() -> Store<AppState> {
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
-            ComposedMiddleware([
-                GameOverMiddleware(),
-                CardEffectsMiddleware(),
-                GameSequenceMiddleware(),
-                ActivateCardsMiddleware(),
-                AIAgentMiddleware(strategy: RandomAIStrategy())
-            ])
+            gameLoopMiddleware()
                 .lift { GameState.from(globalState: $0) },
-            SettingsMiddleware(cacheService: settingsService)
+            SettingsUpdateMiddleware(cacheService: settingsService)
                 .lift { SettingsState.from(globalState: $0) },
             LoggerMiddleware()
         ]

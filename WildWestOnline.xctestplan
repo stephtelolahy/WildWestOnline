@@ -20,14 +20,6 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
-        "identifier" : "GameTests",
-        "name" : "GameTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:GameKit",
         "identifier" : "InventoryTests",
         "name" : "InventoryTests"
       }
@@ -42,7 +34,6 @@
     },
     {
       "enabled" : false,
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SimulationTests",
@@ -58,10 +49,19 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
-        "identifier" : "GameUITests",
-        "name" : "GameUITests"
+        "identifier" : "GamePlayTests",
+        "name" : "GamePlayTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "GameCoreTests",
+        "name" : "GameCoreTests"
       }
     }
   ],
