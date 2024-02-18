@@ -52,13 +52,15 @@ public struct AppView: View {
         .sheet(isPresented: Binding<Bool>(
             get: { store.state.showingSettings },
             set: { _ in }
-        )) {
+        ), onDismiss: {
+            store.dispatch(SettingsAction.close)
+        }, content: {
             SettingsView {
                 store.projection {
                     SettingsState.from(globalState: $0)
                 }
             }
-        }
+        })
         .foregroundColor(.primary)
     }
 }
