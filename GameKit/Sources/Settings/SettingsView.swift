@@ -23,7 +23,6 @@ public struct SettingsView: View {
         NavigationView {
             Form {
                 preferencesSection
-                cardsSection
             }
             .toolbar {
                 Button("Done") {
@@ -91,32 +90,6 @@ public struct SettingsView: View {
             ) {
                 ForEach(0..<(store.state.speedOptions.count), id: \.self) {
                     Text(store.state.speedOptions[$0].label)
-                }
-            }
-        }
-    }
-
-    // MARK: - Cards
-
-    struct CardUsage {
-        let name: String
-        let count: Int
-    }
-
-    @State private var cardsUsage: [CardUsage] = [
-        .init(name: "beer", count: 95),
-        .init(name: "jail", count: 80),
-        .init(name: "missed", count: 85)
-    ]
-
-    private var cardsSection: some View {
-        Section(header: Text("CARDS")) {
-            ForEach(cardsUsage, id: \.name) { card in
-                HStack {
-                    Text(card.name)
-                    Spacer()
-                    Text(String(card.count))
-                        .foregroundStyle(.secondary)
                 }
             }
         }

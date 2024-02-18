@@ -33,7 +33,7 @@
       }
     },
     {
-      "parallelizable" : true,
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SimulationTests",
@@ -49,6 +49,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GamePlayTests",
@@ -56,6 +57,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GameCoreTests",
