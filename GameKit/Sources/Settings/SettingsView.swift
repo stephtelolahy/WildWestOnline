@@ -116,9 +116,6 @@ public struct SettingsView: View {
 // MARK: - Constants
 
 extension SettingsView {
-    static let minPlayersCount = 2
-    static let maxPlayersCount = 16
-
     struct SpeedOption {
         let label: String
         let value: Int
@@ -130,4 +127,7 @@ extension SettingsView {
             .init(label: "Fast", value: 0)
         ]
     }
+
+    static let minPlayersCount = 2
+    static let maxPlayersCount = 16
 }
