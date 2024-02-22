@@ -55,7 +55,9 @@ Redux architecture is meant to protect changes in an application’s state. It f
 The app should have a single real Store, holding a single source-of-truth. 
 However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each screen. So we can map back-and-forth to the original store types.
 
-![](https://camo.githubusercontent.com/c17e3d31e7b38db7ee12b2be27230f1e1bf3b3de6e3a42bfaa2a5060118ee199/68747470733a2f2f73776966747265782e6769746875622e696f2f53776966745265782f6d61726b646f776e2f696d672f53746f726550726f6a656374696f6e4469616772616d2e706e67)
+#### Overview of app modules
+
+![](Docs/app_modules.png)
 
 ### Sequence diagram
 
