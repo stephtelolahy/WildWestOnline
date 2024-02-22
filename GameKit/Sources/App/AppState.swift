@@ -94,7 +94,7 @@ private extension AppState {
 
 // MARK: - Extract local states
 
-public extension GameState {
+extension GameState {
     static func from(globalState: AppState) -> Self? {
         globalState.game
     }
@@ -112,7 +112,7 @@ extension SplashState {
     }
 }
 
-public extension SettingsState {
+extension SettingsState {
     static func from(globalState: AppState) -> Self? {
         globalState.settings
     }
