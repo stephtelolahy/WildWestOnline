@@ -16,16 +16,22 @@ public struct AppState: Codable, Equatable {
     public var screens: [Screen]
 
     /// App configuration
-    public var settings: Settings
+    public var settings: SettingsState
 
     /// Current game
     public var game: GameState?
 
-    public init(screens: [Screen], settings: Settings, game: GameState? = nil) {
+    public init(screens: [Screen], settings: SettingsState, game: GameState? = nil) {
         self.screens = screens
         self.settings = settings
         self.game = game
     }
+}
+
+public enum Screen: Codable, Equatable {
+    case splash
+    case home
+    case game
 }
 
 public enum AppAction: Action {
@@ -37,7 +43,7 @@ public extension AppState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
         state = screenReducer(state, action)
-        state.settings = Settings.reducer(state.settings, action)
+        state.settings = SettingsState.reducer(state.settings, action)
         state.game = state.game.flatMap { GameState.reducer($0, action) }
         return state
     }
@@ -69,7 +75,7 @@ private extension AppState {
         return state
     }
 
-    static func createGame(settings: Settings) -> GameState {
+    static func createGame(settings: SettingsState) -> GameState {
         guard let inventory = settings.inventory else {
             fatalError("Missing inventory")
         }

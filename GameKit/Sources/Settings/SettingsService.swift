@@ -8,12 +8,6 @@
 
 import Utils
 
-public protocol SettingsServiceProtocol {
-    var playersCount: Int { get set }
-    var simulationEnabled: Bool { get set }
-    var waitDelayMilliseconds: Int { get set }
-}
-
 public class SettingsService: SettingsServiceProtocol {
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
     public var playersCount: Int

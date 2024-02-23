@@ -12,11 +12,11 @@ import XCTest
 final class SettingsCoreTests: XCTestCase {
     func test_updatePlayersCount() throws {
         // Given
-        let state = Settings(playersCount: 2)
+        let state = SettingsState(playersCount: 2)
 
         // When
         let action = SettingsAction.updatePlayersCount(5)
-        let result = Settings.reducer(state, action)
+        let result = SettingsState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.playersCount, 5)
@@ -24,11 +24,11 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_toggleSimulation() throws {
         // Given
-        let state = Settings(playersCount: 3, simulation: false)
+        let state = SettingsState(playersCount: 3, simulation: false)
 
         // When
         let action = SettingsAction.toggleSimulation
-        let result = Settings.reducer(state, action)
+        let result = SettingsState.reducer(state, action)
 
         // Then
         XCTAssertTrue(result.simulation)
@@ -36,11 +36,11 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_updateWaitDelay() throws {
         // Given
-        let state = Settings(playersCount: 3, waitDelayMilliseconds: 0)
+        let state = SettingsState(playersCount: 3, waitDelayMilliseconds: 0)
 
         // When
         let action = SettingsAction.updateWaitDelayMilliseconds(500)
-        let result = Settings.reducer(state, action)
+        let result = SettingsState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.waitDelayMilliseconds, 500)

@@ -56,7 +56,7 @@ final class AppCoreTests: XCTestCase {
     }
 }
 
-private extension Settings {
+private extension SettingsState {
     static let sample: Self = .init(
         playersCount: 5,
         waitDelayMilliseconds: 0,

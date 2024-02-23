@@ -1,12 +1,13 @@
 //
-//  Settings.swift
+//  SettingsState.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
+import GameCore
 import Redux
 
-public struct Settings: Codable, Equatable {
+public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
@@ -25,13 +26,29 @@ public struct Settings: Codable, Equatable {
     }
 }
 
+public struct Inventory: Codable, Equatable {
+    public let figures: [String]
+    public let cardSets: [String: [String]]
+    public let cardRef: [String: Card]
+
+    public init(
+        figures: [String],
+        cardSets: [String: [String]],
+        cardRef: [String: Card]
+    ) {
+        self.figures = figures
+        self.cardSets = cardSets
+        self.cardRef = cardRef
+    }
+}
+
 public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation
 }
 
-public extension Settings {
+public extension SettingsState {
     static let reducer: Reducer<Self> = { state, action in
         guard let action = action as? SettingsAction else {
             return state
