@@ -14,12 +14,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Utils", targets: ["Utils"]),
-        .library(name: "Theme", targets: ["Theme"]),
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
         // TODO: review ------------------------------------
         .library(name: "Inventory", targets: ["Inventory"]),
+        .library(name: "Theme", targets: ["Theme"]),
         .library(name: "GamePlay", targets: ["GamePlay"]),
         .library(name: "Splash", targets: ["Splash"]),
         .library(name: "Home", targets: ["Home"]),
@@ -44,6 +44,14 @@ let package = Package(
                 "Redux"
             ],
             path: "Tools/Redux/Tests"
+        ),
+        .target(
+            name: "Utils",
+            dependencies: [],
+            path: "Tools/Utils/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
         ),
         .target(
             name: "GameCore",
@@ -116,12 +124,6 @@ let package = Package(
             name: "SimulationTests",
             dependencies: [
                 "Inventory"
-            ]),
-        .target(
-            name: "Utils",
-            dependencies: [],
-            plugins: [
-                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]),
         .target(
             name: "Theme",
