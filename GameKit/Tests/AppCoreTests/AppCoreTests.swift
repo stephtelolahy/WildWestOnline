@@ -1,11 +1,64 @@
 //
 //  AppCoreTests.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
+// swiftlint:disable no_magic_numbers
 
+import AppCore
+import GameCore
+import Redux
 import XCTest
 
 final class AppCoreTests: XCTestCase {
+    func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
+        // Given
+        let state = AppState(screens: [.splash], settings: .sample)
+
+        // When
+        let action = AppAction.navigate(.home)
+        let result = AppState.reducer(state, action)
+
+        // Then
+        XCTAssertEqual(result.screens, [.home])
+    }
+
+    func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
+        // Given
+        let state = AppState(screens: [.home], settings: .sample)
+
+        // When
+        let action = AppAction.navigate(.game)
+        let result = AppState.reducer(state, action)
+
+        // Then
+        XCTAssertEqual(result.screens, [.home, .game])
+        XCTAssertNotNil(result.game)
+    }
+
+    func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
+        // Given
+        let state = AppState(
+            screens: [.home, .game],
+            settings: .sample,
+            game: GameState.makeBuilder().build()
+        )
+
+        // When
+        let action = AppAction.close
+        let result = AppState.reducer(state, action)
+
+        // Then
+        XCTAssertEqual(result.screens, [.home])
+        XCTAssertNil(result.game)
+    }
+}
+
+private extension Settings {
+    static let sample: Self = .init(
+        playersCount: 5,
+        waitDelayMilliseconds: 0,
+        simulation: false
+    )
 }

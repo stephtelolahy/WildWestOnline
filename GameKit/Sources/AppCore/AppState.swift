@@ -20,12 +20,7 @@ public struct AppState: Codable, Equatable {
     /// Current game
     public var game: GameState?
 
-    public init(
-        screens: [Screen],
-        settings: Settings,
-        game: GameState? = nil,
-        showingSettings: Bool = false
-    ) {
+    public init(screens: [Screen], settings: Settings, game: GameState? = nil) {
         self.screens = screens
         self.settings = settings
         self.game = game
@@ -56,6 +51,9 @@ private extension AppState {
         var state = state
         switch action {
         case .navigate(let screen):
+            if case .splash = state.screens.last {
+                state.screens = []
+            }
             state.screens.append(screen)
             if case .game = screen {
                 state.game = createGame()
@@ -71,6 +69,7 @@ private extension AppState {
     }
 
     static func createGame() -> GameState {
-        fatalError("TODO implement")
+#warning("create game")
+        return GameState.makeBuilder().build()
     }
 }
