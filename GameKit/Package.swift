@@ -35,53 +35,69 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Redux",
-            dependencies: []),
+            dependencies: [],
+            path: "Tools/Redux/Sources"
+        ),
         .testTarget(
             name: "ReduxTests",
             dependencies: [
                 "Redux"
-            ]),
+            ],
+            path: "Tools/Redux/Tests"
+        ),
         .target(
             name: "GameCore",
             dependencies: [
                 "Redux",
                 "Utils"
             ],
+            path: "Core/Game/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
             name: "GameCoreTests",
             dependencies: [
                 "GameCore"
-            ]),
+            ],
+            path: "Core/Game/Tests"
+        ),
         .target(
             name: "SettingsCore",
             dependencies: [
                 "GameCore"
             ],
+            path: "Core/Settings/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
             name: "SettingsCoreTests",
             dependencies: [
                 "SettingsCore"
-            ]),
+            ],
+            path: "Core/Settings/Tests"
+        ),
         .target(
             name: "AppCore",
             dependencies: [
                 "GameCore",
                 "SettingsCore"
             ],
+            path: "Core/App/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
             name: "AppCoreTests",
             dependencies: [
                 "AppCore"
-            ]),
+            ],
+            path: "Core/App/Tests"
+        ),
         // TODO: review ------------------------------------
         .target(
             name: "Inventory",
@@ -164,9 +180,6 @@ let package = Package(
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
-        .testTarget(
-            name: "AppTests",
-            dependencies: ["App"])
+            ])
     ]
 )
