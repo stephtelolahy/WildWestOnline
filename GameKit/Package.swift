@@ -16,6 +16,7 @@ let package = Package(
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "Theme", targets: ["Theme"]),
         .library(name: "GameCore", targets: ["GameCore"]),
+        .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
         // TODO: review ------------------------------------
         .library(name: "Inventory", targets: ["Inventory"]),
@@ -55,9 +56,23 @@ let package = Package(
                 "GameCore"
             ]),
         .target(
-            name: "AppCore",
+            name: "SettingsCore",
             dependencies: [
                 "GameCore"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
+        .testTarget(
+            name: "SettingsCoreTests",
+            dependencies: [
+                "SettingsCore"
+            ]),
+        .target(
+            name: "AppCore",
+            dependencies: [
+                "GameCore",
+                "SettingsCore"
             ],
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")

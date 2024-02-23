@@ -9,6 +9,7 @@
 import AppCore
 import GameCore
 import Redux
+import SettingsCore
 import XCTest
 
 final class AppCoreTests: XCTestCase {
@@ -57,10 +58,10 @@ final class AppCoreTests: XCTestCase {
 
 private extension Settings {
     static let sample: Self = .init(
-        inventory: .sample,
         playersCount: 5,
         waitDelayMilliseconds: 0,
-        simulation: false
+        simulation: false,
+        inventory: .sample
     )
 }
 

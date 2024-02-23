@@ -6,6 +6,7 @@
 //
 import GameCore
 import Redux
+import SettingsCore
 
 /// Global app state
 /// Organize State Structure Based on Data Types, Not Components
@@ -69,7 +70,11 @@ private extension AppState {
     }
 
     static func createGame(settings: Settings) -> GameState {
-        var game = createGame(playersCount: settings.playersCount, inventory: settings.inventory)
+        guard let inventory = settings.inventory else {
+            fatalError("Missing inventory")
+        }
+
+        var game = createGame(playersCount: settings.playersCount, inventory: inventory)
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {
