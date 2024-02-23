@@ -16,6 +16,8 @@ let package = Package(
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "Theme", targets: ["Theme"]),
         .library(name: "GameCore", targets: ["GameCore"]),
+        .library(name: "AppCore", targets: ["AppCore"]),
+        // TODO: review ------------------------------------
         .library(name: "Inventory", targets: ["Inventory"]),
         .library(name: "GamePlay", targets: ["GamePlay"]),
         .library(name: "Splash", targets: ["Splash"]),
@@ -52,6 +54,20 @@ let package = Package(
             dependencies: [
                 "GameCore"
             ]),
+        .target(
+            name: "AppCore",
+            dependencies: [
+                "GameCore"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]),
+        .testTarget(
+            name: "AppCoreTests",
+            dependencies: [
+                "AppCore"
+            ]),
+        // TODO: review ------------------------------------
         .target(
             name: "Inventory",
             dependencies: [
