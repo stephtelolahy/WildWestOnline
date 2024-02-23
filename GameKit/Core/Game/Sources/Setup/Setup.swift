@@ -6,6 +6,26 @@
 //
 
 public enum Setup {
+    public static func createGame(
+        playersCount: Int,
+        inventory: Inventory
+    ) -> GameState {
+        let figures = Array(
+            inventory.figures
+                .shuffled()
+                .prefix(playersCount)
+        )
+
+        let deck = Setup.buildDeck(cardSets: inventory.cardSets)
+            .shuffled()
+
+        return Setup.buildGame(
+            figures: figures,
+            deck: deck,
+            cardRef: inventory.cardRef
+        )
+    }
+
     public static func buildGame(
         figures: [String],
         deck: [String],
@@ -44,7 +64,19 @@ public enum Setup {
         )
     }
 
-    private static func buildPlayer(
+    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
+        var result: [String] = []
+        for (key, values) in cardSets {
+            for value in values {
+                result.append("\(key)-\(value)")
+            }
+        }
+        return result
+    }
+}
+
+private extension Setup {
+    static func buildPlayer(
         figure: String,
         deck: inout [String],
         cardRef: [String: Card]
@@ -77,15 +109,5 @@ public enum Setup {
             hand: hand,
             inPlay: []
         )
-    }
-
-    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
-        var result: [String] = []
-        for (key, values) in cardSets {
-            for value in values {
-                result.append("\(key)-\(value)")
-            }
-        }
-        return result
     }
 }

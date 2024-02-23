@@ -26,22 +26,6 @@ public struct SettingsState: Codable, Equatable {
     }
 }
 
-public struct Inventory: Codable, Equatable {
-    public let figures: [String]
-    public let cardSets: [String: [String]]
-    public let cardRef: [String: Card]
-
-    public init(
-        figures: [String],
-        cardSets: [String: [String]],
-        cardRef: [String: Card]
-    ) {
-        self.figures = figures
-        self.cardSets = cardSets
-        self.cardRef = cardRef
-    }
-}
-
 public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)

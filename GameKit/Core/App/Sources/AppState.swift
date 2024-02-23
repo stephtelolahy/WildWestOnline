@@ -80,7 +80,7 @@ private extension AppState {
             fatalError("Missing inventory")
         }
 
-        var game = createGame(playersCount: settings.playersCount, inventory: inventory)
+        var game = Setup.createGame(playersCount: settings.playersCount, inventory: inventory)
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {
@@ -90,22 +90,5 @@ private extension AppState {
         game.waitDelayMilliseconds = settings.waitDelayMilliseconds
 
         return game
-    }
-
-    static func createGame(playersCount: Int, inventory: Inventory) -> GameState {
-        let figures = Array(
-            inventory.figures
-                .shuffled()
-                .prefix(playersCount)
-        )
-
-        let deck = Setup.buildDeck(cardSets: inventory.cardSets)
-            .shuffled()
-
-        return Setup.buildGame(
-            figures: figures,
-            deck: deck,
-            cardRef: inventory.cardRef
-        )
     }
 }
