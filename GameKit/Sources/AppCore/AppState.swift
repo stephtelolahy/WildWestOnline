@@ -56,7 +56,7 @@ private extension AppState {
             }
             state.screens.append(screen)
             if case .game = screen {
-                state.game = createGame()
+                state.game = createGame(settings: state.settings)
             }
 
         case .close:
@@ -68,8 +68,33 @@ private extension AppState {
         return state
     }
 
-    static func createGame() -> GameState {
-#warning("create game")
-        return GameState.makeBuilder().build()
+    static func createGame(settings: Settings) -> GameState {
+        var game = createGame(playersCount: settings.playersCount, inventory: settings.inventory)
+
+        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
+        game.playMode = game.startOrder.reduce(into: [:]) {
+            $0[$1] = $1 == manualPlayer ? .manual : .auto
+        }
+
+        game.waitDelayMilliseconds = settings.waitDelayMilliseconds
+
+        return game
+    }
+
+    static func createGame(playersCount: Int, inventory: Inventory) -> GameState {
+        let figures = Array(
+            inventory.figures
+                .shuffled()
+                .prefix(playersCount)
+        )
+
+        let deck = Setup.buildDeck(cardSets: inventory.cardSets)
+            .shuffled()
+
+        return Setup.buildGame(
+            figures: figures,
+            deck: deck,
+            cardRef: inventory.cardRef
+        )
     }
 }

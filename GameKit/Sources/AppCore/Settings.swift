@@ -7,15 +7,18 @@
 import Redux
 
 public struct Settings: Codable, Equatable {
+    public let inventory: Inventory
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
 
     public init(
+        inventory: Inventory,
         playersCount: Int,
         waitDelayMilliseconds: Int,
         simulation: Bool
     ) {
+        self.inventory = inventory
         self.playersCount = playersCount
         self.waitDelayMilliseconds = waitDelayMilliseconds
         self.simulation = simulation

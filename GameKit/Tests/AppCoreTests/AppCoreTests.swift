@@ -57,8 +57,21 @@ final class AppCoreTests: XCTestCase {
 
 private extension Settings {
     static let sample: Self = .init(
+        inventory: .sample,
         playersCount: 5,
         waitDelayMilliseconds: 0,
         simulation: false
     )
+}
+
+private extension Inventory {
+    static let sample: Self = .init(
+        figures: (1...16).map { "c\($0)" },
+        cardSets: [:],
+        cardRef: Dictionary(uniqueKeysWithValues: (1...100).map { "c\($0)" }.map { ($0, Card.sample) })
+    )
+}
+
+private extension Card {
+    static let sample: Self = .init("", attributes: [.maxHealth: 4])
 }
