@@ -32,6 +32,7 @@ public enum Screen: Codable, Equatable {
     case splash
     case home
     case game
+    case settings
 }
 
 public enum AppAction: Action {

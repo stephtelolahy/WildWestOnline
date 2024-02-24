@@ -6,6 +6,7 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
+import AppCore
 import Redux
 import SwiftUI
 import Theme
@@ -20,30 +21,10 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        VStack(spacing: 48) {
+        VStack() {
             headerView
             Spacer()
-            VStack(spacing: 32) {
-                VStack {
-                    Text("menu.game.title", bundle: .module)
-                        .font(.subheadline)
-                        .foregroundStyle(.primary)
-                    Image("logo", bundle: .module)
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                }
-                VStack(spacing: 16) {
-                    roundedButton("menu.play.button") {
-                        withAnimation {
-                            store.dispatch(HomeAction.play)
-                        }
-                    }
-                    roundedButton("menu.online.button") {
-                        withAnimation {
-                        }
-                    }
-                }
-            }
+            contentView
             Spacer()
             footerView
         }
@@ -57,7 +38,7 @@ public struct HomeView: View {
             Spacer()
             Button {
                 withAnimation {
-                    store.dispatch(HomeAction.openSettings)
+                    store.dispatch(AppAction.navigate(.settings))
                 }
             } label: {
                 Image(systemName: "gearshape")
@@ -67,7 +48,34 @@ public struct HomeView: View {
         }
     }
 
-    private func roundedButton(_ titleKey: String.LocalizationValue, action: @escaping () -> Void) -> some View {
+    private var contentView:  some View {
+        VStack() {
+            VStack {
+                Text("menu.game.title", bundle: .module)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                Image("logo", bundle: .module)
+                    .resizable()
+                    .frame(width: 200, height: 200)
+            }
+            VStack(spacing: 16) {
+                roundedButton("menu.play.button") {
+                    withAnimation {
+                        store.dispatch(AppAction.navigate(.game))
+                    }
+                }
+                roundedButton("menu.online.button") {
+                    withAnimation {
+                    }
+                }
+            }
+        }
+    }
+
+    private func roundedButton(
+        _ titleKey: String.LocalizationValue,
+        action: @escaping () -> Void
+    ) -> some View {
         Button(action: action) {
             Text(String(localized: titleKey, bundle: .module))
                 .font(.headline)

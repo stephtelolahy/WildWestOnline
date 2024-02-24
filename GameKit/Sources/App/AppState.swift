@@ -96,12 +96,6 @@ extension GameState {
     }
 }
 
-extension HomeState {
-    static func from(globalState: AppState) -> Self? {
-        .init()
-    }
-}
-
 extension SettingsState {
     static func from(globalState: AppState) -> Self? {
         globalState.settings

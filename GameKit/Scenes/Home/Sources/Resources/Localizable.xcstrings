@@ -36,7 +36,20 @@
       }
     },
     "menu.online.button" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ONLINE"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "MULTIJOUEUR"
+          }
+        }
+      }
     },
     "menu.play.button" : {
       "extractionState" : "manual",
