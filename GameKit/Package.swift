@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Utils", targets: ["Utils"]),
         .library(name: "GameCore", targets: ["GameCore"]),
+        .library(name: "CardNames", targets: ["CardNames"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
         .library(name: "Theme", targets: ["Theme"]),
@@ -70,6 +71,10 @@ let package = Package(
                 "GameCore"
             ],
             path: "Core/Game/Tests"
+        ),
+        .target(
+            name: "CardNames",
+            path: "Core/CardNames/Sources"
         ),
         .target(
             name: "SettingsCore",
@@ -172,7 +177,8 @@ let package = Package(
             name: "GamePlay",
             dependencies: [
                 "AppCore",
-                "Theme"
+                "Theme",
+                "CardNames"
             ],
             path: "Scenes/GamePlay/Sources",
             plugins: [
@@ -189,6 +195,7 @@ let package = Package(
         .target(
             name: "CardsRepository",
             dependencies: [
+                "CardNames",
                 "GameCore"
             ],
             path: "Repositories/Cards/Sources",

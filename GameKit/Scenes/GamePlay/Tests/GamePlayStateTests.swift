@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers
 
 import AppCore
+import CardNames
 import GameCore
 import GamePlay
 import XCTest
@@ -61,7 +62,7 @@ final class GamePlayStateTests: XCTestCase {
         XCTAssertEqual(player2.status, .idle)
     }
 
-    func test_state_shouldDisplayCardActions() {
+    func test_state_shouldDisplayCardActions() throws {
         // Given
         let game = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -88,7 +89,7 @@ final class GamePlayStateTests: XCTestCase {
         ])
     }
 
-    func test_state_shouldDisplayChooseOneActions() {
+    func test_state_shouldDisplayChooseOneActions() throws {
         // Given
         let game = GameState.makeBuilder()
             .withPlayer("p1")

@@ -35,6 +35,11 @@ extension GamePlayView {
         public struct CardAction: Equatable {
             public let card: String
             public let action: GameAction?
+
+            public init(card: String, action: GameAction?) {
+                self.card = card
+                self.action = action
+            }
         }
     }
 }

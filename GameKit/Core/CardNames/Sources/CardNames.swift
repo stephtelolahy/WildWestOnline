@@ -6,6 +6,8 @@
 //  Created by Hugues Telolahy on 12/04/2023.
 //
 
+/// Well known card names
+///
 public extension String {
     // MARK: - Collectible
 
