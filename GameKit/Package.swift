@@ -150,6 +150,24 @@ let package = Package(
             ],
             path: "Scenes/Home/Tests"
         ),
+        .target(
+            name: "Settings",
+            dependencies: [
+                "AppCore",
+                "Theme"
+            ],
+            path: "Scenes/Settings/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "SettingsTests",
+            dependencies: [
+                "Settings"
+            ],
+            path: "Scenes/Settings/Tests"
+        ),
         // TODO: review ------------------------------------
         .target(
             name: "Inventory",
@@ -183,15 +201,6 @@ let package = Package(
         .testTarget(
             name: "GamePlayTests",
             dependencies: ["GamePlay"]),
-        .target(
-            name: "Settings",
-            dependencies: [
-                "Redux",
-                "Utils"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
         .target(
             name: "App",
             dependencies: [

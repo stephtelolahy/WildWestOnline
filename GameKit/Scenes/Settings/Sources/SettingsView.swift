@@ -6,13 +6,30 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
+import AppCore
 import Redux
+import SettingsCore
 import SwiftUI
 
 public struct SettingsView: View {
-    @StateObject private var store: Store<SettingsState>
+    struct SpeedOption {
+        let label: String
+        let value: Int
 
-    public init(store: @escaping () -> Store<SettingsState>) {
+        static let defaultWaitDelay = 500
+
+        static let all: [Self] = [
+            .init(label: "Normal", value: defaultWaitDelay),
+            .init(label: "Fast", value: 0)
+        ]
+    }
+
+    static let minPlayersCount = 2
+    static let maxPlayersCount = 16
+
+    @StateObject private var store: Store<State>
+
+    public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -26,7 +43,7 @@ public struct SettingsView: View {
             .toolbar {
                 Button("Done") {
                     withAnimation {
-                        store.dispatch(SettingsAction.close)
+                        store.dispatch(AppAction.close)
                     }
                 }
             }
@@ -101,32 +118,13 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store<SettingsState>(
+        Store<SettingsView.State>(
             initial: .init(
                 playersCount: 5,
                 waitDelayMilliseconds: 0,
                 simulation: false
             ),
-            reducer: SettingsState.reducer
+            reducer: { state, _ in state }
         )
     }
-}
-
-// MARK: - Constants
-
-extension SettingsView {
-    struct SpeedOption {
-        let label: String
-        let value: Int
-
-        static let defaultWaitDelay = 500
-
-        static let all: [Self] = [
-            .init(label: "Normal", value: defaultWaitDelay),
-            .init(label: "Fast", value: 0)
-        ]
-    }
-
-    static let minPlayersCount = 2
-    static let maxPlayersCount = 16
 }

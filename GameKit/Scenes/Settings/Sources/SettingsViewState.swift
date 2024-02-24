@@ -1,0 +1,27 @@
+//
+//  SettingsViewState.swift
+//
+//
+//  Created by Hugues Telolahy on 09/12/2023.
+//
+
+import AppCore
+import Redux
+
+extension SettingsView {
+    public struct State: Equatable {
+        public var playersCount: Int
+        public var waitDelayMilliseconds: Int
+        public var simulation: Bool
+    }
+}
+
+public extension SettingsView.State {
+    static func from(globalState: AppState) -> Self? {
+        .init(
+            playersCount: globalState.settings.playersCount,
+            waitDelayMilliseconds: globalState.settings.waitDelayMilliseconds,
+            simulation: globalState.settings.simulation
+        )
+    }
+}
