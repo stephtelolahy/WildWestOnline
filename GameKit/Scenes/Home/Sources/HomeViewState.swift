@@ -9,7 +9,7 @@ import AppCore
 import Redux
 
 extension HomeView {
-    public struct State: Codable, Equatable {
+    public struct State: Equatable {
     }
 }
 

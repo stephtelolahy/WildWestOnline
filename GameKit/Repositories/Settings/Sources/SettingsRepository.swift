@@ -8,7 +8,7 @@
 import SettingsCore
 import Utils
 
-class SettingsRepository: SettingsService {
+public class SettingsRepository: SettingsService {
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
     public var playersCount: Int
 

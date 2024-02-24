@@ -176,12 +176,12 @@ private var previewState: GamePlayView.State {
                 health: "0x",
                 equipment: "",
                 status: .eliminated
-            ),
+            )
         ],
         message: "P1's turn",
         chooseOneActions: [
             .missed: .play(.missed, player: "p2"),
-            .bang: .play(.bang, player: "p2"),
+            .bang: .play(.bang, player: "p2")
         ],
         handActions: [
             .init(card: .bang, action: .play(.bang, player: "p1")),
@@ -189,7 +189,7 @@ private var previewState: GamePlayView.State {
             .init(card: .schofield, action: .play(.schofield, player: "p1")),
             .init(card: .mustang, action: nil),
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
-            .init(card: .beer, action: nil),
+            .init(card: .beer, action: nil)
         ]
     )
 }

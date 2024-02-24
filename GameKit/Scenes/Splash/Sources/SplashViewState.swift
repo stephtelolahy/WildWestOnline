@@ -8,7 +8,7 @@ import AppCore
 import Redux
 
 extension SplashView {
-    public struct State: Codable, Equatable {
+    public struct State: Equatable {
     }
 }
 

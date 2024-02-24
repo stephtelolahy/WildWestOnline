@@ -11,10 +11,10 @@ import Redux
 
 extension GamePlayView {
     public struct State: Equatable {
-        public var visiblePlayers: [PlayerItem]
-        public var message: String
-        public var chooseOneActions: [String: GameAction]
-        public var handActions: [CardAction]
+        public let visiblePlayers: [PlayerItem]
+        public let message: String
+        public let chooseOneActions: [String: GameAction]
+        public let handActions: [CardAction]
 
         public struct PlayerItem: Equatable {
             public enum Status {

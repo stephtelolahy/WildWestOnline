@@ -4,9 +4,8 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable type_contents_order no_magic_numbers
 
-import GameCore
+import AppCore
 import GamePlay
 import Home
 import Redux
@@ -25,38 +24,41 @@ public struct AppView: View {
 
     public var body: some View {
         Group {
-            switch store.state.screen {
+            switch store.state.screens.last {
             case .splash:
                 SplashView {
                     store.projection {
-                        SplashState.from(globalState: $0)
+                        SplashView.State.from(globalState: $0)
                     }
                 }
 
             case .home:
                 HomeView {
                     store.projection {
-                        HomeState.from(globalState: $0)
+                        HomeView.State.from(globalState: $0)
                     }
                 }
 
             case .game:
                 GamePlayView {
                     store.projection {
-                        GameState.from(globalState: $0)
+                        GamePlayView.State.from(globalState: $0)
                     }
                 }
+
+            default:
+                fatalError()
             }
         }
         .sheet(isPresented: Binding<Bool>(
-            get: { store.state.showingSettings },
+            get: { store.state.screens.last == .settings },
             set: { _ in }
         ), onDismiss: {
-            store.dispatch(SettingsAction.close)
+            store.dispatch(AppAction.close)
         }, content: {
             SettingsView {
                 store.projection {
-                    SettingsState.from(globalState: $0)
+                    SettingsView.State.from(globalState: $0)
                 }
             }
         })
@@ -66,15 +68,10 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store<AppState>(
-            initial: .init(
-                screen: .splash,
-                settings: .init(
-                    playersCount: 5,
-                    waitDelayMilliseconds: 0,
-                    simulation: false
-                )
-            )
-        )
+        Store<AppState>(initial: previewState)
     }
+}
+
+private var previewState: AppState {
+    .init(screens: [.splash], settings: .init())
 }

@@ -10,9 +10,9 @@ import Redux
 
 extension SettingsView {
     public struct State: Equatable {
-        public var playersCount: Int
-        public var waitDelayMilliseconds: Int
-        public var simulation: Bool
+        public let playersCount: Int
+        public let waitDelayMilliseconds: Int
+        public let simulation: Bool
     }
 }
 
