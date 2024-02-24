@@ -16,10 +16,10 @@ public enum Setup {
                 .prefix(playersCount)
         )
 
-        let deck = Setup.buildDeck(cardSets: inventory.cardSets)
+        let deck = Self.buildDeck(cardSets: inventory.cardSets)
             .shuffled()
 
-        return Setup.buildGame(
+        return Self.buildGame(
             figures: figures,
             deck: deck,
             cardRef: inventory.cardRef

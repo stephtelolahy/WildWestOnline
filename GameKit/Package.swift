@@ -242,6 +242,6 @@ let package = Package(
                 "App"
             ],
             path: "Scenes/App/Tests"
-        ),
+        )
     ]
 )

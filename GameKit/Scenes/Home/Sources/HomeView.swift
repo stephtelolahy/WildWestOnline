@@ -21,7 +21,7 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        VStack() {
+        VStack {
             headerView
             Spacer()
             contentView
@@ -38,7 +38,7 @@ public struct HomeView: View {
             Spacer()
             Button {
                 withAnimation {
-                    store.dispatch(AppAction.navigate(.settings))
+                    store.dispatch(AppAction.present(.settings))
                 }
             } label: {
                 Image(systemName: "gearshape")
@@ -48,8 +48,8 @@ public struct HomeView: View {
         }
     }
 
-    private var contentView:  some View {
-        VStack() {
+    private var contentView: some View {
+        VStack {
             VStack {
                 Text("menu.game.title", bundle: .module)
                     .font(.subheadline)

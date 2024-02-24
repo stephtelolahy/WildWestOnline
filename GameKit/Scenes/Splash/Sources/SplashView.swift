@@ -5,9 +5,9 @@
 //  Created by Hugues Telolahy on 02/04/2023.
 //
 
+import AppCore
 import Redux
 import SwiftUI
-import AppCore
 
 public struct SplashView: View {
     private enum Constant {

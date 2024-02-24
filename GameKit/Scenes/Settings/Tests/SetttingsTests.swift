@@ -10,7 +10,6 @@ import Settings
 import XCTest
 
 final class SetttingsTests: XCTestCase {
-
     func test_SettingsStateProjection() throws {
         // Given
         let appState = AppState(screens: [.home, .settings], settings: .init(playersCount: 3))

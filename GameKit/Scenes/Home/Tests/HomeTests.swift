@@ -10,7 +10,6 @@ import Home
 import XCTest
 
 final class HomeTests: XCTestCase {
-
     func test_HomeStateProjection() {
         // Given
         let appState = AppState(screens: [.home], settings: .init(playersCount: 3))

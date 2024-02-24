@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 25/04/2023.
 //
 
-import GameCore
 import CardsRepository
+import GameCore
 
 extension GameState {
     static func makeBuilderWithCardRef() -> Builder {

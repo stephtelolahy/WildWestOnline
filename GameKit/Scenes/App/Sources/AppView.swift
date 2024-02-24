@@ -47,11 +47,11 @@ public struct AppView: View {
                 }
 
             default:
-                fatalError()
+                EmptyView()
             }
         }
         .sheet(isPresented: Binding<Bool>(
-            get: { store.state.screens.last == .settings },
+            get: { store.state.alert == .settings },
             set: { _ in }
         ), onDismiss: {
             store.dispatch(AppAction.close)

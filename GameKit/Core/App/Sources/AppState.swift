@@ -12,8 +12,20 @@ import SettingsCore
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
+    public enum Screen: Codable, Equatable {
+        case splash
+        case home
+        case game
+    }
+
+    public enum Alert: Codable, Equatable {
+        case settings
+    }
+
     /// Screens stack
     public var screens: [Screen]
+
+    public var alert: Alert?
 
     /// App configuration
     public var settings: SettingsState
@@ -21,22 +33,22 @@ public struct AppState: Codable, Equatable {
     /// Current game
     public var game: GameState?
 
-    public init(screens: [Screen], settings: SettingsState, game: GameState? = nil) {
+    public init(
+        screens: [Screen],
+        alert: Alert? = nil,
+        settings: SettingsState,
+        game: GameState? = nil
+    ) {
         self.screens = screens
+        self.alert = alert
         self.settings = settings
         self.game = game
     }
 }
 
-public enum Screen: Codable, Equatable {
-    case splash
-    case home
-    case game
-    case settings
-}
-
 public enum AppAction: Action {
-    case navigate(Screen)
+    case navigate(AppState.Screen)
+    case present(AppState.Alert)
     case close
 }
 
@@ -67,11 +79,18 @@ private extension AppState {
                 state.game = createGame(settings: state.settings)
             }
 
+        case .present(let alert):
+            state.alert = alert
+
         case .close:
-            if case .game = state.screens.last {
-                state.game = nil
+            if state.alert != nil {
+                state.alert = nil
+            } else {
+                if case .game = state.screens.last {
+                    state.game = nil
+                }
+                state.screens.removeLast()
             }
-            state.screens.removeLast()
         }
         return state
     }
