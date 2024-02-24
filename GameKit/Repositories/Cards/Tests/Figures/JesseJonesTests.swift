@@ -7,7 +7,7 @@
 // swiftlint:disable no_magic_numbers
 
 import GameCore
-import Inventory
+import CardsRepository
 import XCTest
 
 final class JesseJonesTests: XCTestCase {

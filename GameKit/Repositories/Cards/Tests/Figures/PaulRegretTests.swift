@@ -6,7 +6,7 @@
 //
 
 import GameCore
-import Inventory
+import CardsRepository
 import XCTest
 
 final class PaulRegretTests: XCTestCase {

@@ -6,7 +6,7 @@
 //
 
 import GameCore
-import Inventory
+import CardsRepository
 
 extension GameState {
     static func makeBuilderWithCardRef() -> Builder {

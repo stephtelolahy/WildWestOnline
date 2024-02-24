@@ -18,12 +18,12 @@ let package = Package(
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
         .library(name: "Theme", targets: ["Theme"]),
-        // TODO: review ------------------------------------
-        .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "GamePlay", targets: ["GamePlay"]),
         .library(name: "Splash", targets: ["Splash"]),
         .library(name: "Home", targets: ["Home"]),
         .library(name: "Settings", targets: ["Settings"]),
+        .library(name: "GamePlay", targets: ["GamePlay"]),
+        .library(name: "CardsRepository", targets: ["CardsRepository"]),
+        // TODO: review ------------------------------------
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -186,24 +186,28 @@ let package = Package(
             ],
             path: "Scenes/GamePlay/Tests"
         ),
-        // TODO: review ------------------------------------
         .target(
-            name: "Inventory",
+            name: "CardsRepository",
             dependencies: [
                 "GameCore"
             ],
+            path: "Repositories/Cards/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
-            name: "InventoryTests",
+            name: "CardsRepositoryTests",
             dependencies: [
-                "Inventory"
-            ]),
+                "CardsRepository"
+            ],
+            path: "Repositories/Cards/Tests"
+        ),
+        // TODO: review ------------------------------------
         .testTarget(
             name: "SimulationTests",
             dependencies: [
-                "Inventory"
+                "CardsRepository"
             ]),
         .target(
             name: "App",

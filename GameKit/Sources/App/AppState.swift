@@ -8,7 +8,7 @@
 import GameCore
 import GamePlay
 import Home
-import Inventory
+import CardsRepository
 import Redux
 import Settings
 import Splash

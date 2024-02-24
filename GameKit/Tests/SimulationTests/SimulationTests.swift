@@ -8,7 +8,7 @@
 
 import Combine
 import GameCore
-import Inventory
+import CardsRepository
 import Redux
 import XCTest
 

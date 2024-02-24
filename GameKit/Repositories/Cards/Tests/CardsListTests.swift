@@ -1,14 +1,14 @@
 //
-//  InventoryTests.swift
+//  CardsListTests.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import Inventory
+import CardsRepository
 import XCTest
 
-final class InventoryTests: XCTestCase {
+final class CardsListTests: XCTestCase {
     // Given
     // When
     private let cards = CardList.all
