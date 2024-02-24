@@ -1,14 +1,14 @@
 //
-//  SettingsService.swift
+//  SettingsRepository.swift
 //  
 //
-//  Created by Hugues Telolahy on 13/12/2023.
+//  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
-// swiftlint:disable no_magic_numbers
 
+import SettingsCore
 import Utils
 
-public class SettingsService: SettingsServiceProtocol {
+class SettingsRepository: SettingsService {
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
     public var playersCount: Int
 

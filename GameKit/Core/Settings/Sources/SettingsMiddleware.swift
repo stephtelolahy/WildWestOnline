@@ -8,16 +8,16 @@
 import Combine
 import Redux
 
-public protocol SettingsServiceProtocol {
+public protocol SettingsService {
     var playersCount: Int { get set }
     var simulationEnabled: Bool { get set }
     var waitDelayMilliseconds: Int { get set }
 }
 
 public class SettingsMiddleware: Middleware<SettingsState> {
-    private var service: SettingsServiceProtocol
+    private var service: SettingsService
 
-    public init(service: SettingsServiceProtocol) {
+    public init(service: SettingsService) {
         self.service = service
         super.init()
     }
