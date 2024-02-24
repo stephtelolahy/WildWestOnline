@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+@available(*, deprecated, message: "Use `@EnvironmentObject var theme: Theme` instead")
 public enum AppColor {
     public static var background = Color(
         red: 208.0 / 255.0,
