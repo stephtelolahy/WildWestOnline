@@ -17,6 +17,6 @@ final class HomeTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(HomeState.from(globalState: appState))
+        XCTAssertNotNil(HomeView.State.from(globalState: appState))
     }
 }

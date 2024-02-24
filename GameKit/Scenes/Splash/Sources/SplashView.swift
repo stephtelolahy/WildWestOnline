@@ -14,9 +14,9 @@ public struct SplashView: View {
         static let waitDelaySeconds = 2.0
     }
 
-    @StateObject private var store: Store<SplashState>
+    @StateObject private var store: Store<State>
 
-    public init(store: @escaping () -> Store<SplashState>) {
+    public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -40,6 +40,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        Store<SplashState>(initial: .init())
+        Store<SplashView.State>(initial: .init())
     }
 }

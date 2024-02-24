@@ -123,8 +123,7 @@ public struct SettingsView: View {
                 playersCount: 5,
                 waitDelayMilliseconds: 0,
                 simulation: false
-            ),
-            reducer: { state, _ in state }
+            )
         )
     }
 }

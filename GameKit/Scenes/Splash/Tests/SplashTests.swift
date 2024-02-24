@@ -17,6 +17,6 @@ final class SplashTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(SplashState.from(globalState: appState))
+        XCTAssertNotNil(SplashView.State.from(globalState: appState))
     }
 }

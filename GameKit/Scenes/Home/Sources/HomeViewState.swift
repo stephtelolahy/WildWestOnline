@@ -1,6 +1,6 @@
 //
-//  Home.swift
-//  
+//  HomeViewState.swift
+//
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
@@ -8,10 +8,12 @@
 import AppCore
 import Redux
 
-public struct HomeState: Codable, Equatable {
+extension HomeView {
+    public struct State: Codable, Equatable {
+    }
 }
 
-public extension HomeState {
+public extension HomeView.State {
     static func from(globalState: AppState) -> Self? {
         .init()
     }

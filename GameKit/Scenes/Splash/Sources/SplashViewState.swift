@@ -1,16 +1,18 @@
 //
-//  SplashState.swift
-//  
+//  SplashViewState.swift
+//
 //
 //  Created by Hugues Telolahy on 01/12/2023.
 //
 import AppCore
 import Redux
 
-public struct SplashState: Codable, Equatable {
+extension SplashView {
+    public struct State: Codable, Equatable {
+    }
 }
 
-public extension SplashState {
+public extension SplashView.State {
     static func from(globalState: AppState) -> Self? {
         .init()
     }
