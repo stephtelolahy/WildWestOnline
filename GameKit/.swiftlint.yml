@@ -1,11 +1,10 @@
 # SwiftLint configuration file
 # See all rules at https://realm.github.io/SwiftLint/rule-directory.html
 included:
-  - Sources
-  - Tests
-excluded:
-  -  Tests/*/*Spec.swift
-  -  Tests/*/*/*Spec.swift
+  - Core
+  - Repositories
+  - Scenes
+  - Tools
 analyzer_rules:
   - capture_variable
   - explicit_self

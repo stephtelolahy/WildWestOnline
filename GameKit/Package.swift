@@ -14,13 +14,17 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Utils", targets: ["Utils"]),
-        .library(name: "Theme", targets: ["Theme"]),
         .library(name: "GameCore", targets: ["GameCore"]),
-        .library(name: "Inventory", targets: ["Inventory"]),
-        .library(name: "GamePlay", targets: ["GamePlay"]),
+        .library(name: "CardNames", targets: ["CardNames"]),
+        .library(name: "SettingsCore", targets: ["SettingsCore"]),
+        .library(name: "AppCore", targets: ["AppCore"]),
+        .library(name: "Theme", targets: ["Theme"]),
         .library(name: "Splash", targets: ["Splash"]),
         .library(name: "Home", targets: ["Home"]),
         .library(name: "Settings", targets: ["Settings"]),
+        .library(name: "GamePlay", targets: ["GamePlay"]),
+        .library(name: "CardsRepository", targets: ["CardsRepository"]),
+        .library(name: "SettingsRepository", targets: ["SettingsRepository"]),
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -32,110 +36,212 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Redux",
-            dependencies: []),
+            dependencies: [],
+            path: "Tools/Redux/Sources"
+        ),
         .testTarget(
             name: "ReduxTests",
             dependencies: [
                 "Redux"
-            ]),
+            ],
+            path: "Tools/Redux/Tests"
+        ),
+        .target(
+            name: "Utils",
+            dependencies: [],
+            path: "Tools/Utils/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
         .target(
             name: "GameCore",
             dependencies: [
                 "Redux",
                 "Utils"
             ],
+            path: "Core/Game/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
             name: "GameCoreTests",
             dependencies: [
                 "GameCore"
-            ]),
+            ],
+            path: "Core/Game/Tests"
+        ),
         .target(
-            name: "Inventory",
+            name: "CardNames",
+            path: "Core/CardNames/Sources"
+        ),
+        .target(
+            name: "SettingsCore",
             dependencies: [
                 "GameCore"
             ],
+            path: "Core/Settings/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
-            name: "InventoryTests",
+            name: "SettingsCoreTests",
             dependencies: [
-                "Inventory"
-            ]),
-        .testTarget(
-            name: "SimulationTests",
-            dependencies: [
-                "Inventory"
-            ]),
+                "SettingsCore"
+            ],
+            path: "Core/Settings/Tests"
+        ),
         .target(
-            name: "Utils",
-            dependencies: [],
+            name: "AppCore",
+            dependencies: [
+                "GameCore",
+                "SettingsCore"
+            ],
+            path: "Core/App/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
+        .testTarget(
+            name: "AppCoreTests",
+            dependencies: [
+                "AppCore"
+            ],
+            path: "Core/App/Tests"
+        ),
         .target(
             name: "Theme",
             dependencies: [],
+            path: "Tools/Theme/sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
-        .target(
-            name: "GamePlay",
-            dependencies: [
-                "Redux",
-                "Theme",
-                "GameCore",
-                "Inventory"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
-        .testTarget(
-            name: "GamePlayTests",
-            dependencies: ["GamePlay"]),
-        .target(
-            name: "Home",
-            dependencies: [
-                "Redux",
-                "Theme"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .target(
             name: "Splash",
             dependencies: [
-                "Redux",
+                "AppCore",
                 "Theme"
             ],
+            path: "Scenes/Splash/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
+        .testTarget(
+            name: "SplashTests",
+            dependencies: [
+                "Splash"
+            ],
+            path: "Scenes/Splash/Tests"
+        ),
+        .target(
+            name: "Home",
+            dependencies: [
+                "AppCore",
+                "Theme"
+            ],
+            path: "Scenes/Home/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "HomeTests",
+            dependencies: [
+                "Home"
+            ],
+            path: "Scenes/Home/Tests"
+        ),
         .target(
             name: "Settings",
             dependencies: [
-                "Redux",
-                "Utils"
+                "AppCore",
+                "Theme"
             ],
+            path: "Scenes/Settings/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
+        .testTarget(
+            name: "SettingsTests",
+            dependencies: [
+                "Settings"
+            ],
+            path: "Scenes/Settings/Tests"
+        ),
+        .target(
+            name: "GamePlay",
+            dependencies: [
+                "AppCore",
+                "Theme",
+                "CardNames"
+            ],
+            path: "Scenes/GamePlay/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "GamePlayTests",
+            dependencies: [
+                "GamePlay"
+            ],
+            path: "Scenes/GamePlay/Tests"
+        ),
+        .target(
+            name: "CardsRepository",
+            dependencies: [
+                "CardNames",
+                "GameCore"
+            ],
+            path: "Repositories/Cards/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "CardsRepositoryTests",
+            dependencies: [
+                "CardsRepository"
+            ],
+            path: "Repositories/Cards/Tests"
+        ),
+        .target(
+            name: "SettingsRepository",
+            dependencies: [
+                "SettingsCore",
+                "Utils"
+            ],
+            path: "Repositories/Settings/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
         .target(
             name: "App",
             dependencies: [
-                "GamePlay",
-                "Home",
                 "Splash",
-                "Settings"
+                "Home",
+                "Settings",
+                "GamePlay",
+                "CardsRepository",
+                "SettingsRepository"
             ],
+            path: "Scenes/App/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
+            ]
+        ),
         .testTarget(
             name: "AppTests",
-            dependencies: ["App"])
+            dependencies: [
+                "App"
+            ],
+            path: "Scenes/App/Tests"
+        )
     ]
 )

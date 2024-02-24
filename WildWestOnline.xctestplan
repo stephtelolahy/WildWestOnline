@@ -17,15 +17,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:GameKit",
-        "identifier" : "InventoryTests",
-        "name" : "InventoryTests"
-      }
-    },
-    {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "ReduxTests",
@@ -33,15 +24,6 @@
       }
     },
     {
-      "enabled" : false,
-      "target" : {
-        "containerPath" : "container:GameKit",
-        "identifier" : "SimulationTests",
-        "name" : "SimulationTests"
-      }
-    },
-    {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "AppTests",
@@ -49,7 +31,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GamePlayTests",
@@ -57,11 +38,52 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GameCoreTests",
         "name" : "GameCoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "AppCoreTests",
+        "name" : "AppCoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "CardsRepositoryTests",
+        "name" : "CardsRepositoryTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "HomeTests",
+        "name" : "HomeTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "SettingsCoreTests",
+        "name" : "SettingsCoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "SettingsTests",
+        "name" : "SettingsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "SplashTests",
+        "name" : "SplashTests"
       }
     }
   ],

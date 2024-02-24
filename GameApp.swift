@@ -4,12 +4,14 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-
-import SwiftUI
 import App
+import AppCore
+import CardsRepository
 import GameCore
 import Redux
-import Settings
+import SettingsCore
+import SettingsRepository
+import SwiftUI
 import Theme
 
 @main
@@ -26,17 +28,23 @@ struct GameApp: App {
 }
 
 private func createStore() -> Store<AppState> {
+    let settingsService = SettingsRepository()
+    let inventory = Inventory(
+        figures: CardList.figures,
+        cardSets: CardSets.bang,
+        cardRef: CardList.all
+    )
 
-    let settingsService = SettingsService()
-    let cachedSettings = SettingsState(
+    let settings = SettingsState(
         playersCount: settingsService.playersCount,
         waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
-        simulation: settingsService.simulationEnabled
+        simulation: settingsService.simulationEnabled,
+        inventory: inventory
     )
 
     let initialState = AppState(
-        screen: .splash,
-        settings: cachedSettings
+        screens: [.splash],
+        settings: settings
     )
 
     return Store<AppState>(
@@ -44,9 +52,9 @@ private func createStore() -> Store<AppState> {
         reducer: AppState.reducer,
         middlewares: [
             gameLoopMiddleware()
-                .lift { GameState.from(globalState: $0) },
-            SettingsUpdateMiddleware(cacheService: settingsService)
-                .lift { SettingsState.from(globalState: $0) },
+                .lift { $0.game },
+            SettingsMiddleware(service: settingsService)
+                .lift { $0.settings },
             LoggerMiddleware()
         ]
     )
