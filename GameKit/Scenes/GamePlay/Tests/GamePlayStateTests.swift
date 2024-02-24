@@ -68,6 +68,7 @@ final class GamePlayStateTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
+                    .withAttributes([.maxHealth: 4])
                     .withAbilities([.endTurn, .willyTheKid])
                     .withHand([.bang, .gatling])
                     .withInPlay([.saloon, .barrel])

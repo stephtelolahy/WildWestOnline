@@ -7,6 +7,7 @@
 // swiftlint:disable no_magic_numbers type_contents_order
 
 import AppCore
+import CardNames
 import GameCore
 import Redux
 import SwiftUI
@@ -156,26 +157,39 @@ public struct GamePlayView: View {
 }
 
 private var previewState: GamePlayView.State {
-    fatalError()
-    /*
-    GameState.makeBuilder()
-        .withPlayer("p1") {
-            $0.withFigure(.willyTheKid)
-                .withHealth(1)
-                .withAttributes([.maxHealth: 3])
-                .withAbilities([.endTurn, .willyTheKid])
-                .withHand([.bang, .gatling, .schofield, .mustang, .barrel, .beer])
-                .withInPlay([.saloon, .barrel])
-        }
-        .withPlayer("p2") {
-            $0.withFigure(.bartCassidy)
-                .withHealth(3)
-                .withAttributes([.maxHealth: 4])
-        }
-        .withActive([.bang, .mustang, .barrel, .beer, .endTurn], player: "p1")
-        .withChooseOne(.card, options: [.missed, .bang], player: "p2")
-        .withTurn("p1")
-        .withPlayModes(["p1": .manual])
-        .build()
-     */
+    .init(
+        visiblePlayers: [
+            .init(
+                id: "p1",
+                imageName: .willyTheKid,
+                displayName: .willyTheKid,
+                hand: "[]2",
+                health: "2x",
+                equipment: "SCOPE",
+                status: .active
+            ),
+            .init(
+                id: "p2",
+                imageName: .bartCassidy,
+                displayName: .bartCassidy,
+                hand: "[]2",
+                health: "0x",
+                equipment: "",
+                status: .eliminated
+            ),
+        ],
+        message: "P1's turn",
+        chooseOneActions: [
+            .missed: .play(.missed, player: "p2"),
+            .bang: .play(.bang, player: "p2"),
+        ],
+        handActions: [
+            .init(card: .bang, action: .play(.bang, player: "p1")),
+            .init(card: .gatling, action: .play(.gatling, player: "p1")),
+            .init(card: .schofield, action: .play(.schofield, player: "p1")),
+            .init(card: .mustang, action: nil),
+            .init(card: .barrel, action: .play(.barrel, player: "p1")),
+            .init(card: .beer, action: nil),
+        ]
+    )
 }
