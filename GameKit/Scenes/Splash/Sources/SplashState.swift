@@ -4,12 +4,14 @@
 //
 //  Created by Hugues Telolahy on 01/12/2023.
 //
+import AppCore
 import Redux
 
 public struct SplashState: Codable, Equatable {
-    public init() {}
 }
 
-public enum SplashAction: Action, Codable, Equatable {
-    case finish
+public extension SplashState {
+    static func from(globalState: AppState) -> Self? {
+        .init()
+    }
 }

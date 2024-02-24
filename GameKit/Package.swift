@@ -114,6 +114,24 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]
         ),
+        .target(
+            name: "Splash",
+            dependencies: [
+                "AppCore",
+                "Theme"
+            ],
+            path: "Scenes/Splash/Sources",
+            plugins: [
+                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "SplashTests",
+            dependencies: [
+                "Splash"
+            ],
+            path: "Scenes/Splash/Tests"
+        ),
         // TODO: review ------------------------------------
         .target(
             name: "Inventory",
@@ -149,15 +167,6 @@ let package = Package(
             dependencies: ["GamePlay"]),
         .target(
             name: "Home",
-            dependencies: [
-                "Redux",
-                "Theme"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ]),
-        .target(
-            name: "Splash",
             dependencies: [
                 "Redux",
                 "Theme"

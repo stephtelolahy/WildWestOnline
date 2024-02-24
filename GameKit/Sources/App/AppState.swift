@@ -53,10 +53,6 @@ private extension AppState {
     static let screenReducer: Reducer<AppState> = { state, action in
         var state = state
 
-        if case SplashAction.finish = action {
-            state.screen = .home
-        }
-
         if case HomeAction.play = action {
             state.game = state.createGame()
             state.screen = .game
@@ -101,12 +97,6 @@ extension GameState {
 }
 
 extension HomeState {
-    static func from(globalState: AppState) -> Self? {
-        .init()
-    }
-}
-
-extension SplashState {
     static func from(globalState: AppState) -> Self? {
         .init()
     }

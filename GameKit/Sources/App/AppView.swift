@@ -19,8 +19,7 @@ public struct AppView: View {
 
     public init(store: @escaping () -> Store<AppState>) {
         // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view, so
-        // later changes to the view's name input have no effect.
+        // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
