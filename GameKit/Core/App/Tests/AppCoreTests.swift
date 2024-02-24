@@ -75,8 +75,8 @@ final class AppCoreTests: XCTestCase {
         // Given
         let state = AppState(
             screens: [.home],
-            alert: .settings,
-            settings: .sample
+            settings: .sample,
+            alert: .settings
         )
 
         // When

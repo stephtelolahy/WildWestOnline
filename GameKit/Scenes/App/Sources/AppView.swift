@@ -54,7 +54,6 @@ public struct AppView: View {
             get: { store.state.alert == .settings },
             set: { _ in }
         ), onDismiss: {
-            store.dispatch(AppAction.close)
         }, content: {
             SettingsView {
                 store.projection {

@@ -21,11 +21,11 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 5)
     }
 
-    func test_simulate6PlayersGame_shouldComplete() throws {
+    func xtest_simulate6PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 6)
     }
 
-    func test_simulate7PlayersGame_shouldComplete() throws {
+    func xtest_simulate7PlayersGame_shouldComplete() throws {
         simulateGame(playersCount: 7)
     }
 

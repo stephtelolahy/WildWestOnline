@@ -19,7 +19,7 @@ struct GameApp: App {
     var body: some Scene {
         WindowGroup {
             AppView {
-                createAppStore()
+                createStore()
             }
             .environment(\.colorScheme, .light)
             .accentColor(AppColor.button)
@@ -27,7 +27,7 @@ struct GameApp: App {
     }
 }
 
-private func createAppStore() -> Store<AppState> {
+private func createStore() -> Store<AppState> {
     let settingsService = SettingsRepository()
     let inventory = Inventory(
         figures: CardList.figures,

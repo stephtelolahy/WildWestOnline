@@ -25,6 +25,7 @@ public struct AppState: Codable, Equatable {
     /// Screens stack
     public var screens: [Screen]
 
+    /// Presented alert
     public var alert: Alert?
 
     /// App configuration
@@ -35,8 +36,8 @@ public struct AppState: Codable, Equatable {
 
     public init(
         screens: [Screen],
-        alert: Alert? = nil,
         settings: SettingsState,
+        alert: Alert? = nil,
         game: GameState? = nil
     ) {
         self.screens = screens
