@@ -25,7 +25,6 @@ let package = Package(
         .library(name: "GamePlay", targets: ["GamePlay"]),
         .library(name: "CardsRepository", targets: ["CardsRepository"]),
         .library(name: "SettingsRepository", targets: ["SettingsRepository"]),
-        // TODO: review ------------------------------------
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -222,22 +221,27 @@ let package = Package(
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
             ]
         ),
-        // TODO: review ------------------------------------
-        .testTarget(
-            name: "SimulationTests",
-            dependencies: [
-                "CardsRepository"
-            ]),
         .target(
             name: "App",
             dependencies: [
-                "GamePlay",
-                "Home",
                 "Splash",
-                "Settings"
+                "Home",
+                "Settings",
+                "GamePlay",
+                "CardsRepository",
+                "SettingsRepository"
             ],
+            path: "Scenes/App/Sources",
             plugins: [
                 .plugin(name: "SwiftLint", package: "SwiftLintPlugin")
-            ])
+            ]
+        ),
+        .testTarget(
+            name: "AppTests",
+            dependencies: [
+                "App"
+            ],
+            path: "Scenes/App/Tests"
+        ),
     ]
 )

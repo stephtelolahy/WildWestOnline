@@ -6,9 +6,9 @@
 //
 // swiftlint:disable no_magic_numbers
 
+import CardsRepository
 import Combine
 import GameCore
-import CardsRepository
 import Redux
 import XCTest
 
@@ -31,7 +31,15 @@ final class SimulationTests: XCTestCase {
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
-        var game = Inventory.createGame(playersCount: playersCount)
+        let inventory = Inventory(
+            figures: CardList.figures,
+            cardSets: CardSets.bang,
+            cardRef: CardList.all
+        )
+        var game = Setup.createGame(
+            playersCount: playersCount,
+            inventory: inventory
+        )
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
