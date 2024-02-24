@@ -16,8 +16,8 @@ extension SettingsView {
     }
 }
 
-public extension SettingsView.State {
-    static func from(globalState: AppState) -> Self? {
+extension SettingsView.State {
+    public static func from(globalState: AppState) -> Self? {
         .init(
             playersCount: globalState.settings.playersCount,
             waitDelayMilliseconds: globalState.settings.waitDelayMilliseconds,

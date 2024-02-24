@@ -12,8 +12,8 @@ extension SplashView {
     }
 }
 
-public extension SplashView.State {
-    static func from(globalState: AppState) -> Self? {
+extension SplashView.State {
+    public static func from(globalState: AppState) -> Self? {
         .init()
     }
 }

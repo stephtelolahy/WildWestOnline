@@ -118,12 +118,14 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store<SettingsView.State>(
-            initial: .init(
-                playersCount: 5,
-                waitDelayMilliseconds: 0,
-                simulation: false
-            )
-        )
+        Store<SettingsView.State>(initial: previewState)
     }
+}
+
+private var previewState: SettingsView.State {
+    .init(
+        playersCount: 5,
+        waitDelayMilliseconds: 0,
+        simulation: false
+    )
 }

@@ -37,9 +37,6 @@
     "Choose one option" : {
 
     },
-    "Count: %lld" : {
-
-    },
     "game.message" : {
       "extractionState" : "manual",
       "localizations" : {

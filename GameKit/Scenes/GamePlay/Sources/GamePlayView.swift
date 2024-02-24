@@ -6,16 +6,16 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
+import AppCore
 import GameCore
-import Inventory
 import Redux
 import SwiftUI
 import Theme
 
 public struct GamePlayView: View {
-    @StateObject private var store: Store<GameState>
+    @StateObject private var store: Store<State>
 
-    public init(store: @escaping () -> Store<GameState>) {
+    public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -52,7 +52,7 @@ public struct GamePlayView: View {
             }
         }
         .onAppear {
-            let sheriff = store.state.playOrder[0]
+            let sheriff = store.state.visiblePlayers[0].id
             store.dispatch(GameAction.setTurn(player: sheriff))
         }
     }
@@ -67,7 +67,7 @@ public struct GamePlayView: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        store.dispatch(GamePlayAction.quit)
+                        store.dispatch(AppAction.close)
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
@@ -94,7 +94,7 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerView(_ player: PlayerItem) -> some View {
+    private func itemPlayerView(_ player: GamePlayView.State.PlayerItem) -> some View {
         ZStack {
             HStack {
                 CircleImage(
@@ -118,7 +118,7 @@ public struct GamePlayView: View {
                     .padding(.trailing, 8)
             }
         }
-        .background(itemPlayerBackgroundColor(for: player.state))
+        .background(itemPlayerBackgroundColor(for: player.status))
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
@@ -135,8 +135,8 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerBackgroundColor(for state: PlayerItem.State) -> Color {
-        switch state {
+    private func itemPlayerBackgroundColor(for status: GamePlayView.State.PlayerItem.Status) -> Color {
+        switch status {
         case .active:
             Color.white.opacity(0.6)
 
@@ -151,11 +151,13 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store<GameState>(initial: previewState)
+        Store<GamePlayView.State>(initial: previewState)
     }
 }
 
-private var previewState: GameState {
+private var previewState: GamePlayView.State {
+    fatalError()
+    /*
     GameState.makeBuilder()
         .withPlayer("p1") {
             $0.withFigure(.willyTheKid)
@@ -175,4 +177,5 @@ private var previewState: GameState {
         .withTurn("p1")
         .withPlayModes(["p1": .manual])
         .build()
+     */
 }

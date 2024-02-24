@@ -13,8 +13,8 @@ extension HomeView {
     }
 }
 
-public extension HomeView.State {
-    static func from(globalState: AppState) -> Self? {
+extension HomeView.State {
+    public static func from(globalState: AppState) -> Self? {
         .init()
     }
 }

@@ -1,48 +1,61 @@
 //
-//  GamePlayState.swift
+//  GamePlayViewState.swift
 //
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 
+import AppCore
 import GameCore
 import Redux
 
-protocol GamePlayState {
-    var visiblePlayers: [PlayerItem] { get }
-    var message: String { get }
-    var chooseOneActions: [String: GameAction] { get }
-    var handActions: [CardAction] { get }
-}
+extension GamePlayView {
+    public struct State: Equatable {
+        public var visiblePlayers: [PlayerItem]
+        public var message: String
+        public var chooseOneActions: [String: GameAction]
+        public var handActions: [CardAction]
 
-struct PlayerItem {
-    enum State {
-        case active
-        case idle
-        case eliminated
+        public struct PlayerItem: Equatable {
+            public enum Status {
+                case active
+                case idle
+                case eliminated
+            }
+
+            public let id: String
+            public let imageName: String
+            public let displayName: String
+            public let hand: String
+            public let health: String
+            public let equipment: String
+            public let status: Status
+        }
+
+        public struct CardAction: Equatable {
+            public let card: String
+            public let action: GameAction?
+        }
     }
-
-    let id: String
-    let imageName: String
-    let displayName: String
-    let hand: String
-    let health: String
-    let equipment: String
-    let state: State
 }
 
-struct CardAction: Equatable {
-    let card: String
-    let action: GameAction?
+extension GamePlayView.State {
+    public static func from(globalState: AppState) -> Self? {
+        guard let game = globalState.game else {
+            return nil
+        }
+
+        return .init(
+            visiblePlayers: game.visiblePlayers,
+            message: game.message,
+            chooseOneActions: game.chooseOneActions,
+            handActions: game.handActions
+        )
+    }
 }
 
-public enum GamePlayAction: Action, Codable, Equatable {
-    case quit
-}
-
-// MARK: - Derived state
-extension GameState: GamePlayState {
-    var visiblePlayers: [PlayerItem] {
+private extension GameState {
+    var visiblePlayers: [GamePlayView.State.PlayerItem] {
         startOrder.map { playerId in
             let playerObj = player(playerId)
             let handText = "[]\(playerObj.hand.count)"
@@ -54,7 +67,7 @@ extension GameState: GamePlayState {
             + Array(repeating: "♥", count: health).joined()
             let equipmentText = playerObj.inPlay.joined(separator: "-")
 
-            let state: PlayerItem.State
+            let status: GamePlayView.State.PlayerItem.Status
             = if playerId == turn {
                 .active
             } else if !playOrder.contains(playerId) {
@@ -63,14 +76,14 @@ extension GameState: GamePlayState {
                 .idle
             }
 
-            return PlayerItem(
+            return GamePlayView.State.PlayerItem(
                 id: playerId,
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
                 hand: handText,
                 health: healthText,
                 equipment: equipmentText,
-                state: state
+                status: status
             )
         }
     }
@@ -93,7 +106,7 @@ extension GameState: GamePlayState {
         }
     }
 
-    var handActions: [CardAction] {
+    var handActions: [GamePlayView.State.CardAction] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
@@ -103,15 +116,15 @@ extension GameState: GamePlayState {
 
         let handCardActions = playerObj.hand .map { card in
             if activeCards.contains(card) {
-                CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
-                CardAction(card: card, action: nil)
+                GamePlayView.State.CardAction(card: card, action: nil)
             }
         }
 
-        let abilityActions: [CardAction] = playerObj.abilities.compactMap { card in
+        let abilityActions: [GamePlayView.State.CardAction] = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
                 nil
             }

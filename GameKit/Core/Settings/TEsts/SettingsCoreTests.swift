@@ -24,7 +24,7 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_toggleSimulation() throws {
         // Given
-        let state = SettingsState(playersCount: 3, simulation: false)
+        let state = SettingsState(simulation: false)
 
         // When
         let action = SettingsAction.toggleSimulation
@@ -36,7 +36,7 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_updateWaitDelay() throws {
         // Given
-        let state = SettingsState(playersCount: 3, waitDelayMilliseconds: 0)
+        let state = SettingsState(waitDelayMilliseconds: 0)
 
         // When
         let action = SettingsAction.updateWaitDelayMilliseconds(500)

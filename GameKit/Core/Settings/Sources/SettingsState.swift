@@ -14,7 +14,7 @@ public struct SettingsState: Codable, Equatable {
     public var inventory: Inventory?
 
     public init(
-        playersCount: Int,
+        playersCount: Int = 5,
         waitDelayMilliseconds: Int = 0,
         simulation: Bool = false,
         inventory: Inventory? = nil
