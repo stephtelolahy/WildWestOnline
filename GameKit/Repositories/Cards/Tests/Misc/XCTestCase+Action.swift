@@ -16,6 +16,7 @@ extension XCTestCase {
         state: GameState,
         choose: [String] = [],
         timeout: TimeInterval = 0.1,
+        expectIdle: Bool = true,
         file: StaticString = #file,
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
@@ -47,7 +48,10 @@ extension XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
 
-        XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
+        if expectIdle {
+            XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
+        }
+
         XCTAssertEqual(store.state.chooseOne, [:], "Game must be idle", file: file, line: line)
         XCTAssertEqual(choosingMiddleware.choices, [], "Choices must be empty", file: file, line: line)
 

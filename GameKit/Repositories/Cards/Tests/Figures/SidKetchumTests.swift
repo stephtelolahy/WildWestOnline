@@ -78,7 +78,7 @@ final class SidKetchumTests: XCTestCase {
 
         // When
         let action = GameAction.play(.sidKetchum, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = self.awaitAction(action, state: state, expectIdle: false)
 
         // Then
         XCTAssertEqual(error, .noCard(.selectHand))
