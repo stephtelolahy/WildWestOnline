@@ -25,13 +25,17 @@ public struct GamePlayView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             headerView
-            ForEach(store.state.visiblePlayers, id: \.id) {
-                itemPlayerView($0)
+            ScrollView {
+                VStack {
+                    ForEach(store.state.visiblePlayers, id: \.id) {
+                        itemPlayerView($0)
+                    }
+                    Divider()
+                    logView
+                    Spacer()
+                    footerView
+                }
             }
-            Divider()
-            logView
-            Spacer()
-            footerView
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)

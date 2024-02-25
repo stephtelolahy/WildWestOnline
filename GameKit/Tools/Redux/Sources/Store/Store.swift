@@ -30,7 +30,12 @@ public class Store<State: Equatable>: ObservableObject {
     public func dispatch(_ action: Action) {
         state = reducer(state, action)
         log.append(action)
+        DispatchQueue.global().async { [weak self] in
+            self?.handlEffect(on: action)
+        }
+    }
 
+    private func handlEffect(on action: Action) {
         var publishedEffect = false
         for middleware in middlewares {
             if let effect = middleware.handle(action: action, state: state) {
