@@ -28,29 +28,21 @@ public class Store<State: Equatable>: ObservableObject {
     }
 
     public func dispatch(_ action: Action) {
-        DispatchQueue.main.async {
-            self.dispatch(self.state, action)
-        }
-    }
-
-    private func dispatch(_ currentState: State, _ action: Action) {
+        state = reducer(state, action)
         log.append(action)
 
-        let newState = reducer(currentState, action)
-        state = newState
-
-        var middlewaresHaveEffect = false
+        var publishedEffect = false
         for middleware in middlewares {
-            if let effect = middleware.handle(action: action, state: newState) {
+            if let effect = middleware.handle(action: action, state: state) {
                 effect
-                    .receive(on: RunLoop.main)
+                    .receive(on: DispatchQueue.main)
                     .sink(receiveValue: dispatch)
                     .store(in: &subscriptions)
-                middlewaresHaveEffect = true
+                publishedEffect = true
             }
         }
 
-        if !middlewaresHaveEffect {
+        if !publishedEffect {
             completed?()
         }
     }
