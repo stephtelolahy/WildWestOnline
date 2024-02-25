@@ -30,6 +30,7 @@ public struct GamePlayView: View {
             }
             Divider()
             logView
+            Spacer()
             footerView
         }
         .padding()
