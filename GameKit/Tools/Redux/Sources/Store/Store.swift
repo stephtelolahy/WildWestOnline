@@ -12,6 +12,7 @@ public class Store<State: Equatable>: ObservableObject {
 
     private let reducer: Reducer<State>
     private var middlewares: [Middleware<State>]
+    // TODO: detect completed
     private let completed: (() -> Void)?
     private var subscriptions = Set<AnyCancellable>()
 
@@ -36,23 +37,32 @@ public class Store<State: Equatable>: ObservableObject {
     }
 
     private func handlEffect(on action: Action) {
-        var publishedEffect = false
+        let currentState = state
         for middleware in middlewares {
-            if let effect = middleware.handle(action: action, state: state) {
-                effect
-                    .receive(on: DispatchQueue.main)
-                    .sink(receiveValue: dispatch)
-                    .store(in: &subscriptions)
-                publishedEffect = true
-            }
-        }
-
-        if !publishedEffect {
-            completed?()
+            Future { await middleware.effect(on: action, state: currentState) }
+                .subscribe(on: DispatchQueue.global())
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: { [weak self] action in
+                    if let action {
+                        self?.dispatch(action)
+                    }
+                })
+                .store(in: &subscriptions)
         }
     }
 
     public func addMiddleware(_ middleware: Middleware<State>) {
         middlewares.append(middleware)
+    }
+}
+
+private extension Future where Failure == Never {
+    convenience init(operation: @escaping () async -> Output) {
+        self.init { promise in
+            Task {
+                let output = await operation()
+                promise(.success(output))
+            }
+        }
     }
 }

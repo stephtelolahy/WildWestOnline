@@ -47,6 +47,7 @@ final class SimulationTests: XCTestCase {
             reducer: GameState.reducer,
             middlewares: [
                 gameLoopMiddleware(),
+                // TODO: restore StateReproducerMiddleware
 //                StateReproducerMiddleware(initial: game),
                 LoggerMiddleware()
             ]
@@ -55,10 +56,6 @@ final class SimulationTests: XCTestCase {
         }
 
         let cancellable = sut.$state.sink { state in
-            if state.winner != nil {
-                expectation.fulfill()
-            }
-
             if let error = state.error {
                 XCTFail("Unexpected error \(error)")
             }
@@ -83,7 +80,7 @@ private class StateReproducerMiddleware: Middleware<GameState> {
         self.prevState = initial
     }
 
-    override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override func effect(on action: Action, state: GameState) async -> Action? {
         let resultState = GameState.reducer(prevState, action)
         prevState = resultState
 

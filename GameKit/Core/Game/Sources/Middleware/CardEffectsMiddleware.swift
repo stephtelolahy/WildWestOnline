@@ -5,11 +5,10 @@
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
 
-import Combine
 import Redux
 
 public final class CardEffectsMiddleware: Middleware<GameState> {
-    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override public func effect(on action: Action, state: GameState) async -> Action? {
         guard let action = action as? GameAction else {
             return nil
         }
@@ -51,9 +50,9 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         if triggered.isEmpty {
             return nil
         } else if triggered.count == 1 {
-            return Just(triggered[0]).eraseToAnyPublisher()
+            return triggered[0]
         } else {
-            return Just(GameAction.group(triggered)).eraseToAnyPublisher()
+            return GameAction.group(triggered)
         }
     }
 

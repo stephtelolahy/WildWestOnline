@@ -39,7 +39,6 @@ extension XCTestCase {
         let cancellable = store.$state.dropFirst(1).sink { state in
             if let error = state.error {
                 ocurredError = error
-                expectation.fulfill()
             }
         }
 
@@ -76,7 +75,7 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
         super.init()
     }
 
-    override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override func effect(on action: Action, state: GameState) async -> Action? {
         guard let chooseOne = state.chooseOne.first else {
             return nil
         }
@@ -86,8 +85,6 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
         }
 
         let option = choices.removeFirst()
-        let action = GameAction.choose(option, player: chooseOne.key)
-
-        return Just(action).eraseToAnyPublisher()
+        return GameAction.choose(option, player: chooseOne.key)
     }
 }

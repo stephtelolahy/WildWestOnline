@@ -5,7 +5,6 @@
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
 //
 
-import Combine
 import Redux
 
 public protocol SettingsService {
@@ -22,7 +21,7 @@ public class SettingsMiddleware: Middleware<SettingsState> {
         super.init()
     }
 
-    override public func handle(action: Action, state: SettingsState) -> AnyPublisher<Action, Never>? {
+    override public func effect(on action: Action, state: SettingsState) async -> Action? {
         guard let action = action as? SettingsAction else {
             return nil
         }

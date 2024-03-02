@@ -5,12 +5,11 @@
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
 
-import Combine
 import Foundation
 import Redux
 
 public final class PlaySequenceMiddleware: Middleware<GameState> {
-    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override public func effect(on action: Action, state: GameState) async -> Action? {
         guard let action = action as? GameAction else {
             return nil
         }
@@ -32,9 +31,10 @@ public final class PlaySequenceMiddleware: Middleware<GameState> {
                 0
             }
 
-            return Just(nextAction)
-                .delay(for: .milliseconds(waitDelay), scheduler: DispatchQueue.main)
-                .eraseToAnyPublisher()
+            let milliToNanoSeconds = 1000
+            try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
+
+            return nextAction
         }
     }
 }
