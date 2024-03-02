@@ -1,16 +1,18 @@
+// swiftlint:disable:this file_name
 //
 //  GamePlayViewState.swift
 //
 //
 //  Created by Hugues Telolahy on 15/04/2023.
 //
+// swiftlint:disable nesting
 
 import AppCore
 import GameCore
 import Redux
 
-extension GamePlayView {
-    public struct State: Equatable {
+public extension GamePlayView {
+    struct State: Equatable {
         public let visiblePlayers: [PlayerItem]
         public let message: String
         public let chooseOneActions: [String: GameAction]
@@ -44,8 +46,8 @@ extension GamePlayView {
     }
 }
 
-extension GamePlayView.State {
-    public static func from(globalState: AppState) -> Self? {
+public extension GamePlayView.State {
+    static func from(globalState: AppState) -> Self? {
         guard let game = globalState.game else {
             return nil
         }

@@ -4,6 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
+// swiftlint:disable no_magic_numbers
 
 import SettingsCore
 import Utils

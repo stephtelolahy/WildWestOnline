@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 23/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import AppCore
 import CardNames

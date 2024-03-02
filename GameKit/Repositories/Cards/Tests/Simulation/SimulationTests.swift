@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import Combine
@@ -48,7 +47,7 @@ final class SimulationTests: XCTestCase {
             reducer: GameState.reducer,
             middlewares: [
                 gameLoopMiddleware(),
-                StateReproducerMiddleware(initial: game),
+//                StateReproducerMiddleware(initial: game),
                 LoggerMiddleware()
             ]
         ) {

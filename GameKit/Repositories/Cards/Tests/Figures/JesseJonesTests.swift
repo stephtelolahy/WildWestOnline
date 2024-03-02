@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 20/11/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import GameCore

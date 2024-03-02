@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 @testable import GameCore
 import XCTest

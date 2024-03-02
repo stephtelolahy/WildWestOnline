@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  HomeViewState.swift
 //
@@ -8,13 +9,13 @@
 import AppCore
 import Redux
 
-extension HomeView {
-    public struct State: Equatable {
+public extension HomeView {
+    struct State: Equatable {
     }
 }
 
-extension HomeView.State {
-    public static func from(globalState: AppState) -> Self? {
+public extension HomeView.State {
+    static func from(globalState: AppState) -> Self? {
         .init()
     }
 }
