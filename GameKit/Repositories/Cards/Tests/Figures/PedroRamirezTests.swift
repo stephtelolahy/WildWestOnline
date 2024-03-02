@@ -66,7 +66,7 @@ final class PedroRamirezTests: XCTestCase {
             .withPlayer("p3") {
                 $0.withHand(["c3"])
             }
-            .withDeck(["c1"])
+            .withDeck(["c1", "c2"])
             .build()
 
         // When

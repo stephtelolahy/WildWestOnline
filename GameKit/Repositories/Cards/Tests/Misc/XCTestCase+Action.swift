@@ -16,7 +16,6 @@ extension XCTestCase {
         state: GameState,
         choose: [String] = [],
         timeout: TimeInterval = 0.1,
-        expectIdle: Bool = true,
         file: StaticString = #file,
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
@@ -34,8 +33,12 @@ extension XCTestCase {
         )
 
         var ocurredError: GameError?
+        var ocurredEvents: [GameAction] = []
 
         let cancellable = store.$state.dropFirst(1).sink { state in
+            if let event = state.event {
+                ocurredEvents.append(event)
+            }
             if let error = state.error {
                 ocurredError = error
             }
@@ -46,23 +49,11 @@ extension XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
 
-        if expectIdle {
-            XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
-        }
-
+        XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
         XCTAssertEqual(store.state.chooseOne, [:], "Game must be idle", file: file, line: line)
         XCTAssertEqual(choosingMiddleware.choices, [], "Choices must be empty", file: file, line: line)
 
-        let events: [GameAction] = store.log.compactMap { action in
-            if let event = action as? GameAction,
-               event.isRenderable {
-                return event
-            } else {
-                return nil
-            }
-        }
-
-        return (events, ocurredError)
+        return (ocurredEvents, ocurredError)
     }
 }
 

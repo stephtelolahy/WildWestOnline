@@ -17,8 +17,10 @@ public extension GameState {
         do {
             state = try action.prepare(state: state)
             state = try action.reduce(state: state)
+            state.event = action.isRenderable ? action : nil
             state.error = nil
         } catch {
+            state.event = nil
             state.error = error as? GameError
             print("🚨 reduceAction: \(action)\tthrows: \(error)")
         }

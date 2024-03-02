@@ -15,6 +15,7 @@ import Theme
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<State>
+    @SwiftUI.State private var events: [String] = []
 
     public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
@@ -31,7 +32,7 @@ public struct GamePlayView: View {
                         itemPlayerView($0)
                     }
                     Divider()
-                    logView
+                    eventsView
                     Spacer()
                     footerView
                 }
@@ -128,12 +129,10 @@ public struct GamePlayView: View {
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
-    private var logView: some View {
-        let logs = store.log.reversed()
-            .map { String(describing: $0) }
-        return ScrollView {
+    private var eventsView: some View {
+        ScrollView {
             VStack(alignment: .leading) {
-                ForEach(Array(logs.enumerated()), id: \.offset) { _, event in
+                ForEach(Array(events.enumerated()), id: \.offset) { _, event in
                     Text(event)
                         .lineLimit(1)
                 }

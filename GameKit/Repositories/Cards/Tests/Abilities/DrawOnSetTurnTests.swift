@@ -38,7 +38,7 @@ final class DrawOnSetTurnTests: XCTestCase {
                 $0.withAbilities([.drawOnSetTurn])
                     .withAttributes([.startTurnCards: 3])
             }
-            .withDeck(["c1", "c2"])
+            .withDeck(["c1", "c2", "c3"])
             .build()
 
         // When

@@ -8,7 +8,6 @@ import SwiftUI
 /// - and publish changes of the the current app `State` to possible subscribers.
 public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
-    public private(set) var log: [Action] = []
 
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
@@ -27,16 +26,11 @@ public class Store<State: Equatable>: ObservableObject {
     public func dispatch(_ action: Action) {
         let newState = reducer(state, action)
         state = newState
-        log.append(action)
         for middleware in middlewares {
             Future { await middleware.effect(on: action, state: newState) }
-                .subscribe(on: DispatchQueue.global())
+                .subscribe(on: DispatchQueue.global(qos: .background))
                 .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { [weak self] action in
-                    if let action {
-                        self?.dispatch(action)
-                    }
-                })
+                .sink(receiveValue: { $0.flatMap(self.dispatch) })
                 .store(in: &subscriptions)
         }
     }

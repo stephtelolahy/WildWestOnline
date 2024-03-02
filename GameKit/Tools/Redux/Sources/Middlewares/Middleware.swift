@@ -12,6 +12,6 @@ open class Middleware<State> {
     public init() {}
 
     open func effect(on action: Action, state: State) async -> Action? {
-        fatalError("Unimplemented middleware")
+        nil
     }
 }

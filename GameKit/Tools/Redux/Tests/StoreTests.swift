@@ -17,6 +17,5 @@ final class StoreTests: XCTestCase {
         // Then
         XCTAssertNotNil(store)
         XCTAssertEqual(store.state, "initial")
-        XCTAssertEqual(store.log.count, 0)
     }
 }
