@@ -15,7 +15,6 @@ import Theme
 
 public struct GamePlayView: View {
     @StateObject private var store: Store<State>
-    @SwiftUI.State private var events: [String] = []
 
     public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
@@ -132,7 +131,7 @@ public struct GamePlayView: View {
     private var eventsView: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                ForEach(Array(events.enumerated()), id: \.offset) { _, event in
+                ForEach(Array(store.state.events.enumerated()), id: \.offset) { _, event in
                     Text(event)
                         .lineLimit(1)
                 }
@@ -194,6 +193,7 @@ private var previewState: GamePlayView.State {
             .init(card: .mustang, action: nil),
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
             .init(card: .beer, action: nil)
-        ]
+        ],
+        events: []
     )
 }

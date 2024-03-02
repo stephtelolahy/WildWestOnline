@@ -17,6 +17,7 @@ public extension GamePlayView {
         public let message: String
         public let chooseOneActions: [String: GameAction]
         public let handActions: [CardAction]
+        public let events: [String]
 
         public struct PlayerItem: Equatable {
             public enum Status {
@@ -56,7 +57,8 @@ public extension GamePlayView.State {
             visiblePlayers: game.visiblePlayers,
             message: game.message,
             chooseOneActions: game.chooseOneActions,
-            handActions: game.handActions
+            handActions: game.handActions,
+            events: game.events.reversed().map { String(describing: $0)}
         )
     }
 }

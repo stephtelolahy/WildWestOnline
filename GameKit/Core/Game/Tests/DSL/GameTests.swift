@@ -198,6 +198,7 @@ final class GameTests: XCTestCase {
             ],
             "arena": [],
             "sequence": [],
+            "events": [],
             "playedThisTurn": {},
             "chooseOne": {},
             "active": {},

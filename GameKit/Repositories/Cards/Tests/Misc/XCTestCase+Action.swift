@@ -36,9 +36,7 @@ extension XCTestCase {
         var ocurredEvents: [GameAction] = []
 
         let cancellable = store.$state.dropFirst(1).sink { state in
-            if let event = state.event {
-                ocurredEvents.append(event)
-            }
+            ocurredEvents = state.events
             if let error = state.error {
                 ocurredError = error
             }
