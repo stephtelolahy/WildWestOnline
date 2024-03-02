@@ -31,7 +31,7 @@ public final class PlaySequenceMiddleware: Middleware<GameState> {
                 0
             }
 
-            let milliToNanoSeconds = 1000
+            let milliToNanoSeconds = 1_000_000
             try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
 
             return nextAction
