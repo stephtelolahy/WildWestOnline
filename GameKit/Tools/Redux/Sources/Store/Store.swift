@@ -11,7 +11,7 @@ public class Store<State: Equatable>: ObservableObject {
     public private(set) var log: [Action] = []
 
     private let reducer: Reducer<State>
-    private var middlewares: [Middleware<State>]
+    private let middlewares: [Middleware<State>]
     private var subscriptions = Set<AnyCancellable>()
 
     public init(
@@ -25,17 +25,11 @@ public class Store<State: Equatable>: ObservableObject {
     }
 
     public func dispatch(_ action: Action) {
-        state = reducer(state, action)
+        let newState = reducer(state, action)
+        state = newState
         log.append(action)
-        DispatchQueue.global().async { [weak self] in
-            self?.handlEffect(on: action)
-        }
-    }
-
-    private func handlEffect(on action: Action) {
-        let currentState = state
         for middleware in middlewares {
-            Future { await middleware.effect(on: action, state: currentState) }
+            Future { await middleware.effect(on: action, state: newState) }
                 .subscribe(on: DispatchQueue.global())
                 .receive(on: DispatchQueue.main)
                 .sink(receiveValue: { [weak self] action in
@@ -45,10 +39,6 @@ public class Store<State: Equatable>: ObservableObject {
                 })
                 .store(in: &subscriptions)
         }
-    }
-
-    public func addMiddleware(_ middleware: Middleware<State>) {
-        middlewares.append(middleware)
     }
 }
 
