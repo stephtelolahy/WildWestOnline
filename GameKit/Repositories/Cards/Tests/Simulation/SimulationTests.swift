@@ -51,11 +51,13 @@ final class SimulationTests: XCTestCase {
 //                StateReproducerMiddleware(initial: game),
                 LoggerMiddleware()
             ]
-        ) {
-            expectation.fulfill()
-        }
+        )
 
         let cancellable = sut.$state.sink { state in
+            if state.winner != nil {
+                expectation.fulfill()
+            }
+
             if let error = state.error {
                 XCTFail("Unexpected error \(error)")
             }

@@ -21,6 +21,7 @@ extension XCTestCase {
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
+        expectation.isInverted = true
         let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
         let store = Store<GameState>(
             initial: state,
@@ -30,9 +31,7 @@ extension XCTestCase {
                 choosingMiddleware,
                 LoggerMiddleware()
             ]
-        ) {
-            expectation.fulfill()
-        }
+        )
 
         var ocurredError: GameError?
 

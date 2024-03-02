@@ -12,20 +12,16 @@ public class Store<State: Equatable>: ObservableObject {
 
     private let reducer: Reducer<State>
     private var middlewares: [Middleware<State>]
-    // TODO: detect completed
-    private let completed: (() -> Void)?
     private var subscriptions = Set<AnyCancellable>()
 
     public init(
         initial state: State,
         reducer: @escaping Reducer<State> = { state, _ in state },
-        middlewares: [Middleware<State>] = [],
-        completed: (() -> Void)? = nil
+        middlewares: [Middleware<State>] = []
     ) {
         self.state = state
         self.reducer = reducer
         self.middlewares = middlewares
-        self.completed = completed
     }
 
     public func dispatch(_ action: Action) {
