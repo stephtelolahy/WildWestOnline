@@ -77,7 +77,7 @@ public struct SettingsView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        speedIndex
+                        store.state.currentSpeedIndex
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
@@ -95,10 +95,6 @@ public struct SettingsView: View {
             }
         }
     }
-
-    private var speedIndex: Int {
-        store.state.speedOptions.firstIndex { $0.value == store.state.waitDelayMilliseconds } ?? 0
-    }
 }
 
 #Preview {
@@ -110,7 +106,7 @@ public struct SettingsView: View {
 private var previewState: SettingsView.State {
     .init(
         playersCount: 5,
-        waitDelayMilliseconds: 0,
+        currentSpeedIndex: 0,
         simulation: false
     )
 }

@@ -13,11 +13,11 @@ import Redux
 public extension SettingsView {
     struct State: Equatable {
         public let playersCount: Int
-        public let waitDelayMilliseconds: Int
-        public let simulation: Bool
-        public let speedOptions: [SpeedOption] = SpeedOption.all
         public let minPlayersCount = 2
         public let maxPlayersCount = 16
+        public let speedOptions: [SpeedOption] = SpeedOption.all
+        public let currentSpeedIndex: Int
+        public let simulation: Bool
 
         public struct SpeedOption: Equatable {
             let label: String
@@ -36,8 +36,16 @@ public extension SettingsView.State {
     static func from(globalState: AppState) -> Self? {
         .init(
             playersCount: globalState.settings.playersCount,
-            waitDelayMilliseconds: globalState.settings.waitDelayMilliseconds,
+            currentSpeedIndex: globalState.speedOptionIndex,
             simulation: globalState.settings.simulation
         )
+    }
+}
+
+private extension AppState {
+    var speedOptionIndex: Int {
+        SettingsView.State.SpeedOption.all.firstIndex {
+            $0.value == settings.waitDelayMilliseconds
+        } ?? 0
     }
 }
