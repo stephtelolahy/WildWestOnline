@@ -29,7 +29,7 @@ public class Store<State: Equatable>: ObservableObject {
         for middleware in middlewares {
             // swiftlint:disable:next trailing_closure
             Future { await middleware.effect(on: action, state: newState) }
-                .subscribe(on: DispatchQueue.global(qos: .background))
+                .subscribe(on: DispatchQueue.global(qos: .userInitiated))
                 .receive(on: DispatchQueue.main)
                 .sink(receiveValue: { [weak self] action in
                     if let action {
