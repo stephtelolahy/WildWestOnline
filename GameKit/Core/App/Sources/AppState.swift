@@ -97,11 +97,7 @@ private extension AppState {
     }
 
     static func createGame(settings: SettingsState) -> GameState {
-        guard let inventory = settings.inventory else {
-            fatalError("Missing inventory")
-        }
-
-        var game = Setup.createGame(playersCount: settings.playersCount, inventory: inventory)
+        var game = Setup.createGame(playersCount: settings.playersCount, inventory: settings.inventory)
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {

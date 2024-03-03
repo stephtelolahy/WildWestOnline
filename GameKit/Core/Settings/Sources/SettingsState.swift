@@ -11,13 +11,13 @@ public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
-    public var inventory: Inventory?
+    public var inventory: Inventory
 
     public init(
         playersCount: Int = 5,
         waitDelayMilliseconds: Int = 0,
         simulation: Bool = false,
-        inventory: Inventory? = nil
+        inventory: Inventory = .init(figures: [], cardSets: [:], cardRef: [:])
     ) {
         self.inventory = inventory
         self.playersCount = playersCount
