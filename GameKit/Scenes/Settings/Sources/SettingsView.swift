@@ -12,21 +12,6 @@ import SettingsCore
 import SwiftUI
 
 public struct SettingsView: View {
-    struct SpeedOption {
-        let label: String
-        let value: Int
-
-        static let defaultWaitDelay = 500
-
-        static let all: [Self] = [
-            .init(label: "Normal", value: defaultWaitDelay),
-            .init(label: "Fast", value: 0)
-        ]
-    }
-
-    static let minPlayersCount = 2
-    static let maxPlayersCount = 16
-
     @StateObject private var store: Store<State>
 
     public init(store: @escaping () -> Store<State>) {
@@ -69,7 +54,7 @@ public struct SettingsView: View {
                     get: { store.state.playersCount },
                     set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
                 ).animation(),
-                in: Self.minPlayersCount...Self.maxPlayersCount
+                in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
         }
     }
@@ -92,10 +77,10 @@ public struct SettingsView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        speedIndex
+                        store.state.currentSpeedIndex
                     },
                     set: { index in
-                        let option = SpeedOption.all[index]
+                        let option = store.state.speedOptions[index]
                         let action = SettingsAction.updateWaitDelayMilliseconds(option.value)
                         store.dispatch(action)
                     }
@@ -104,15 +89,11 @@ public struct SettingsView: View {
                     "Game speed"
                 )
             ) {
-                ForEach(0..<(SpeedOption.all.count), id: \.self) {
-                    Text(SpeedOption.all[$0].label)
+                ForEach(0..<(store.state.speedOptions.count), id: \.self) {
+                    Text(store.state.speedOptions[$0].label)
                 }
             }
         }
-    }
-
-    private var speedIndex: Int {
-        SpeedOption.all.firstIndex { $0.value == store.state.waitDelayMilliseconds } ?? 0
     }
 }
 
@@ -125,7 +106,8 @@ public struct SettingsView: View {
 private var previewState: SettingsView.State {
     .init(
         playersCount: 5,
-        waitDelayMilliseconds: 0,
+        maxPlayersCount: 7,
+        currentSpeedIndex: 0,
         simulation: false
     )
 }

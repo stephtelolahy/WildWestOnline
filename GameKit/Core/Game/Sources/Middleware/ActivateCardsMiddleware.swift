@@ -5,11 +5,10 @@
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
 
-import Combine
 import Redux
 
 public final class ActivateCardsMiddleware: Middleware<GameState> {
-    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override public func effect(on action: Action, state: GameState) async -> Action? {
         guard state.sequence.isEmpty,
               state.winner == nil,
               state.chooseOne.isEmpty,
@@ -30,8 +29,7 @@ public final class ActivateCardsMiddleware: Middleware<GameState> {
             return nil
         }
 
-        let activateAction = GameAction.activate(activeCards, player: player)
-        return Just(activateAction).eraseToAnyPublisher()
+        return GameAction.activate(activeCards, player: player)
     }
 
     private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {

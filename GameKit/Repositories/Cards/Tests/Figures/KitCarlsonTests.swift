@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 18/11/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import GameCore
@@ -35,7 +34,7 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -62,7 +61,7 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [

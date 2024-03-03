@@ -17,7 +17,6 @@ opt_in_rules:
   # - accessibility_label_for_image
   - accessibility_trait_for_button
   # - anonymous_argument_in_multiline_closure
-  - anyobject_protocol
   - array_init
   - attributes
   - balanced_xctest_lifecycle
@@ -66,7 +65,6 @@ opt_in_rules:
   - implicit_return
   - implicitly_unwrapped_optional
   # - indentation_width
-  - inert_defer
   - joined_default_parameter
   - last_where
   - legacy_multiple
@@ -140,7 +138,6 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
   - unowned_variable_capture
   - untyped_error_in_catch
-  - unused_capture_list
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_between_cases
   - vertical_whitespace_closing_braces

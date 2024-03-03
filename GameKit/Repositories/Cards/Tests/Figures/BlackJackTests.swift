@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 10/11/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import GameCore
@@ -34,7 +33,7 @@ final class BlackJackTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -58,7 +57,7 @@ final class BlackJackTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

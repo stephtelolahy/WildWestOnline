@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -23,7 +22,7 @@ final class EliminateOnDamageLethalTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -43,7 +42,7 @@ final class EliminateOnDamageLethalTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

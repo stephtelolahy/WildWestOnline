@@ -20,6 +20,7 @@ extension XCTestCase {
         line: UInt = #line
     ) -> ([GameAction], GameError?) {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
+        expectation.isInverted = true
         let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
         let store = Store<GameState>(
             initial: state,
@@ -29,16 +30,15 @@ extension XCTestCase {
                 choosingMiddleware,
                 LoggerMiddleware()
             ]
-        ) {
-            expectation.fulfill()
-        }
+        )
 
         var ocurredError: GameError?
+        var ocurredEvents: [GameAction] = []
 
         let cancellable = store.$state.dropFirst(1).sink { state in
+            ocurredEvents = state.events
             if let error = state.error {
                 ocurredError = error
-                expectation.fulfill()
             }
         }
 
@@ -51,16 +51,7 @@ extension XCTestCase {
         XCTAssertEqual(store.state.chooseOne, [:], "Game must be idle", file: file, line: line)
         XCTAssertEqual(choosingMiddleware.choices, [], "Choices must be empty", file: file, line: line)
 
-        let events: [GameAction] = store.log.compactMap { action in
-            if let event = action as? GameAction,
-               event.isRenderable {
-                return event
-            } else {
-                return nil
-            }
-        }
-
-        return (events, ocurredError)
+        return (ocurredEvents, ocurredError)
     }
 }
 
@@ -72,7 +63,7 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
         super.init()
     }
 
-    override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override func effect(on action: Action, state: GameState) async -> Action? {
         guard let chooseOne = state.chooseOne.first else {
             return nil
         }
@@ -82,8 +73,6 @@ private class ChoosingAgentMiddleware: Middleware<GameState> {
         }
 
         let option = choices.removeFirst()
-        let action = GameAction.choose(option, player: chooseOne.key)
-
-        return Just(action).eraseToAnyPublisher()
+        return GameAction.choose(option, player: chooseOne.key)
     }
 }

@@ -5,11 +5,10 @@
 //  Created by Hugues Telolahy on 31/12/2023.
 //
 
-import Combine
 import Redux
 
 public final class GameOverMiddleware: Middleware<GameState> {
-    override public func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    override public func effect(on action: Action, state: GameState) async -> Action? {
         guard let action = action as? GameAction else {
             return nil
         }
@@ -23,8 +22,6 @@ public final class GameOverMiddleware: Middleware<GameState> {
         }
 
         let winner = state.playOrder.first ?? ""
-        let gameOverAction = GameAction.setGameOver(winner: winner)
-
-        return Just(gameOverAction).eraseToAnyPublisher()
+        return GameAction.setGameOver(winner: winner)
     }
 }

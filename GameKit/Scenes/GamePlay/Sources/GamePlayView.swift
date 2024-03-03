@@ -25,12 +25,15 @@ public struct GamePlayView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             headerView
-            ForEach(store.state.visiblePlayers, id: \.id) {
-                itemPlayerView($0)
+            VStack {
+                ForEach(store.state.visiblePlayers, id: \.id) {
+                    itemPlayerView($0)
+                }
+                Divider()
+                eventsView
+                Spacer()
+                footerView
             }
-            Divider()
-            logView
-            footerView
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -95,7 +98,7 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerView(_ player: Self.State.PlayerItem) -> some View {
+    private func itemPlayerView(_ player: State.PlayerItem) -> some View {
         ZStack {
             HStack {
                 CircleImage(
@@ -123,12 +126,10 @@ public struct GamePlayView: View {
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .circular))
     }
 
-    private var logView: some View {
-        let logs = store.log.reversed()
-            .map { String(describing: $0) }
-        return ScrollView {
+    private var eventsView: some View {
+        ScrollView {
             VStack(alignment: .leading) {
-                ForEach(Array(logs.enumerated()), id: \.offset) { _, event in
+                ForEach(Array(store.state.events.enumerated()), id: \.offset) { _, event in
                     Text(event)
                         .lineLimit(1)
                 }
@@ -136,7 +137,7 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerBackgroundColor(for status: Self.State.PlayerItem.Status) -> Color {
+    private func itemPlayerBackgroundColor(for status: State.PlayerItem.Status) -> Color {
         switch status {
         case .active:
             Color.white.opacity(0.6)
@@ -190,6 +191,7 @@ private var previewState: GamePlayView.State {
             .init(card: .mustang, action: nil),
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
             .init(card: .beer, action: nil)
-        ]
+        ],
+        events: []
     )
 }

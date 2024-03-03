@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import SettingsCore
 import XCTest

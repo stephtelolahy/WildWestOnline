@@ -21,7 +21,7 @@ final class BangTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -46,7 +46,7 @@ final class BangTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Assert
         XCTAssertEqual(error, .noReq(.isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))))
@@ -65,7 +65,7 @@ final class BangTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Assert
         XCTAssertEqual(result, [
@@ -91,7 +91,7 @@ final class BangTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .noPlayer(.selectReachable))

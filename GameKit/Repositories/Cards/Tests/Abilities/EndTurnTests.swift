@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -22,7 +21,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -46,7 +45,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -69,7 +68,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c1"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c1"])
 
         // Then
         XCTAssertEqual(result, [
@@ -95,7 +94,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c3"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c1", "c3"])
 
         // Then
         XCTAssertEqual(result, [

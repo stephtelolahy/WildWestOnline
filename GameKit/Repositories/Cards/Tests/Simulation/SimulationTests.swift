@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import Combine
@@ -48,12 +47,10 @@ final class SimulationTests: XCTestCase {
             reducer: GameState.reducer,
             middlewares: [
                 gameLoopMiddleware(),
-                StateReproducerMiddleware(initial: game),
-                LoggerMiddleware()
+                LoggerMiddleware(),
+                StateReproducerMiddleware(initial: game)
             ]
-        ) {
-            expectation.fulfill()
-        }
+        )
 
         let cancellable = sut.$state.sink { state in
             if state.winner != nil {
@@ -84,7 +81,8 @@ private class StateReproducerMiddleware: Middleware<GameState> {
         self.prevState = initial
     }
 
-    override func handle(action: Action, state: GameState) -> AnyPublisher<Action, Never>? {
+    @MainActor
+    override func effect(on action: Action, state: GameState) async -> Action? {
         let resultState = GameState.reducer(prevState, action)
         prevState = resultState
 

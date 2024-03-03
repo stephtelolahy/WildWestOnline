@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 05/06/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -26,7 +25,7 @@ final class ActivateTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -49,7 +48,7 @@ final class ActivateTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [])

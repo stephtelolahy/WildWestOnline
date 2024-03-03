@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -23,7 +22,7 @@ final class SidKetchumTests: XCTestCase {
 
         // When
         let action = GameAction.play(.sidKetchum, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -51,7 +50,7 @@ final class SidKetchumTests: XCTestCase {
 
         // When
         let action = GameAction.play(.sidKetchum, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -78,7 +77,7 @@ final class SidKetchumTests: XCTestCase {
 
         // When
         let action = GameAction.play(.sidKetchum, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .noCard(.selectHand))

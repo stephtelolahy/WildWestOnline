@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -24,7 +23,7 @@ final class BeerTests: XCTestCase {
 
         // When
         let action = GameAction.play(.beer, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -48,7 +47,7 @@ final class BeerTests: XCTestCase {
 
         // When
         let action = GameAction.play(.beer, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .playerAlreadyMaxHealth("p1"))
@@ -67,7 +66,7 @@ final class BeerTests: XCTestCase {
 
         // When
         let action = GameAction.play(.beer, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .noReq(.isPlayersAtLeast(3)))

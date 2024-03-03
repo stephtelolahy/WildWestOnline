@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 13/11/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import GameCore
@@ -40,7 +39,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
@@ -67,12 +66,12 @@ final class PedroRamirezTests: XCTestCase {
             .withPlayer("p3") {
                 $0.withHand(["c3"])
             }
-            .withDeck(["c1"])
+            .withDeck(["c1", "c2"])
             .build()
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: [.pass])
+        let (result, _) = awaitAction(action, state: state, choose: [.pass])
 
         // Then
         XCTAssertEqual(result, [
@@ -96,7 +95,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

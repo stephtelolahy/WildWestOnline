@@ -8,7 +8,6 @@
 import Foundation
 import GameCore
 import XCTest
-// swiftlint:disable no_magic_numbers
 
 final class GameTests: XCTestCase {
     func test_buildGame_byDefault_shouldHaveEmptyDeck() throws {
@@ -199,6 +198,7 @@ final class GameTests: XCTestCase {
             ],
             "arena": [],
             "sequence": [],
+            "events": [],
             "playedThisTurn": {},
             "chooseOne": {},
             "active": {},

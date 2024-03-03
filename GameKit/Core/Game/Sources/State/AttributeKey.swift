@@ -8,7 +8,16 @@
 /// Well known player attributes
 /// Sorted by order in which attributes are settled
 public enum AttributeKey: String, CaseIterable, Codable, CodingKeyRepresentable {
-    public static var allCases: [Self] = [.maxHealth, .weapon, .mustang, .scope, .flippedCards, .startTurnCards, .bangsPerTurn, .handLimit]
+    public static var allCases: [Self] = [
+        .maxHealth,
+        .weapon,
+        .mustang,
+        .scope,
+        .flippedCards,
+        .startTurnCards,
+        .bangsPerTurn,
+        .handLimit
+    ]
 
     /// Max health
     case maxHealth

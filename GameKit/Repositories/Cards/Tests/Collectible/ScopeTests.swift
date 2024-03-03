@@ -20,7 +20,7 @@ final class ScopeTests: XCTestCase {
 
         // When
         let action = GameAction.play(.scope, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -42,7 +42,7 @@ final class ScopeTests: XCTestCase {
 
         // When
         let action = GameAction.discardInPlay(.scope, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

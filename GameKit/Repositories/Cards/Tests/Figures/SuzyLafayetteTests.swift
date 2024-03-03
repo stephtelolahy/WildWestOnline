@@ -21,7 +21,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -41,7 +41,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

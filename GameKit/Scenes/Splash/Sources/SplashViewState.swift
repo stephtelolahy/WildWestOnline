@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  SplashViewState.swift
 //
@@ -7,13 +8,13 @@
 import AppCore
 import Redux
 
-extension SplashView {
-    public struct State: Equatable {
+public extension SplashView {
+    struct State: Equatable {
     }
 }
 
-extension SplashView.State {
-    public static func from(globalState: AppState) -> Self? {
+public extension SplashView.State {
+    static func from(globalState: AppState) -> Self? {
         .init()
     }
 }

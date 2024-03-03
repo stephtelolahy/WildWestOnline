@@ -20,7 +20,7 @@ final class MustangTests: XCTestCase {
 
         // When
         let action = GameAction.play(.mustang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

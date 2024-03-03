@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 17/07/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -22,7 +21,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.play(.schofield, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -45,7 +44,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.play(.schofield, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -70,7 +69,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.discardInPlay(.schofield, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -89,7 +88,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand(.schofield, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

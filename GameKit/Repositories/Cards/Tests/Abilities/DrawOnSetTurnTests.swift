@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import GameCore
 import XCTest
@@ -22,7 +21,7 @@ final class DrawOnSetTurnTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -39,12 +38,12 @@ final class DrawOnSetTurnTests: XCTestCase {
                 $0.withAbilities([.drawOnSetTurn])
                     .withAttributes([.startTurnCards: 3])
             }
-            .withDeck(["c1", "c2"])
+            .withDeck(["c1", "c2", "c3"])
             .build()
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

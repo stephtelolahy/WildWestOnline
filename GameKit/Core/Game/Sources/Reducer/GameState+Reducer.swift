@@ -17,6 +17,9 @@ public extension GameState {
         do {
             state = try action.prepare(state: state)
             state = try action.reduce(state: state)
+            if action.isRenderable {
+                state.events.append(action)
+            }
             state.error = nil
         } catch {
             state.error = error as? GameError

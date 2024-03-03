@@ -17,6 +17,7 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "ReduxTests",
@@ -24,6 +25,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "AppTests",
@@ -31,6 +33,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GamePlayTests",
@@ -38,6 +41,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "GameCoreTests",
@@ -45,6 +49,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "AppCoreTests",
@@ -52,6 +57,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "CardsRepositoryTests",
@@ -59,6 +65,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "HomeTests",
@@ -66,6 +73,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SettingsCoreTests",
@@ -73,6 +81,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SettingsTests",
@@ -80,6 +89,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "SplashTests",

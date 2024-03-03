@@ -23,7 +23,7 @@ final class IndiansTests: XCTestCase {
 
         // When
         let action = GameAction.play(.indians, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: [.bang])
+        let (result, _) = awaitAction(action, state: state, choose: [.bang])
 
         // Then
         XCTAssertEqual(result, [
@@ -49,7 +49,7 @@ final class IndiansTests: XCTestCase {
 
         // When
         let action = GameAction.play(.indians, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: [.bang])
+        let (result, _) = awaitAction(action, state: state, choose: [.bang])
 
         // Then
         XCTAssertEqual(result, [
