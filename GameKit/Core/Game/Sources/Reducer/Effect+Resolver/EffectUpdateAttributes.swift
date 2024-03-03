@@ -13,7 +13,7 @@ struct EffectUpdateAttributes: EffectResolver {
         let figureAttributes = state.cardRef[figure]?.attributes ?? [:]
         var result: [GameAction] = []
 
-        for key in attributesPriority {
+        for key in state.updatableAttributes(of: playerObj) {
             var expectedValue: Int? = figureAttributes[key]
             for card in playerObj.inPlay {
                 let cardName = card.extractName()
@@ -34,5 +34,18 @@ struct EffectUpdateAttributes: EffectResolver {
         }
 
         return result
+    }
+}
+
+private extension GameState {
+    func updatableAttributes(of player: Player) -> [String] {
+        var result: Set<String> = Set(player.attributes.keys)
+        for card in player.inPlay {
+            let cardName = card.extractName()
+            if let cardObj = cardRef[cardName] {
+                result = result.union(cardObj.attributes.keys)
+            }
+        }
+        return Array(result).sorted()
     }
 }

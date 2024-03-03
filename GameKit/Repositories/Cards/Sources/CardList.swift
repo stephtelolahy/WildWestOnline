@@ -585,3 +585,13 @@ private extension String {
     static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
     static let regexDrawAnotherCard = "(♥️)|(♦️)"
 }
+
+/// Dynamic attribute names
+public extension String {
+    /// Cards to draw at beginning of turn
+    static let startTurnCards = "startTurnCards"
+
+    /// Number of bangs per turn
+    /// Unlimited when value is 0
+    static let bangsPerTurn = "bangsPerTurn"
+}
