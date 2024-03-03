@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  AttributeKey.swift
 //
@@ -7,43 +8,23 @@
 
 /// Well known player attributes
 /// Sorted by order in which attributes are settled
-public enum AttributeKey: String, CaseIterable, Codable, CodingKeyRepresentable {
-    public static var allCases: [Self] = [
-        .maxHealth,
-        .weapon,
-        .mustang,
-        .scope,
-        .flippedCards,
-        .startTurnCards,
-        .bangsPerTurn,
-        .handLimit
-    ]
-
+public extension String {
     /// Max health
-    case maxHealth
+    static let maxHealth = "maxHealth"
 
     /// Gun range
-    case weapon
+    static let weapon = "weapon"
 
     /// Increment distance from others, default: 0
-    case mustang
+    static let mustang = "mustang"
 
     /// Decrement distance to others, default: 0
-    case scope
-
-    /// Cards to draw at beginning of turn
-    @available(*, deprecated, message: "Use dynamic attribute")
-    case startTurnCards
+    static let scope = "scope"
 
     /// Number of flipped cards on a draw
-    case flippedCards
-
-    /// Number of bangs per turn
-    /// Unlimited when value is 0
-    @available(*, deprecated, message: "Use dynamic attribute")
-    case bangsPerTurn
+    static let flippedCards = "flippedCards"
 
     /// If defined, this attribute overrides the maximum allowed hand cards at the end of his turn
     /// by default the maximum allowed hand cards is equal to health
-    case handLimit
+    static let handLimit = "handLimit"
 }

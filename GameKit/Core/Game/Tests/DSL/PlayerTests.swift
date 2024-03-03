@@ -105,8 +105,7 @@ final class PlayerTests: XCTestCase {
                 "mustang": 0,
                 "scope": 1,
                 "weapon": 3,
-                "handLimit": 2,
-                "startTurnCards": 2,
+                "handLimit": 2
             },
             "hand": [],
             "inPlay": []
@@ -126,6 +125,5 @@ final class PlayerTests: XCTestCase {
         XCTAssertEqual(sut.attributes[.weapon], 3)
         XCTAssertEqual(sut.attributes[.mustang], 0)
         XCTAssertEqual(sut.attributes[.scope], 1)
-        XCTAssertEqual(sut.attributes[.startTurnCards], 2)
     }
 }

@@ -8,7 +8,7 @@ public struct Card: Codable, Equatable {
     public let name: String
 
     /// Attributes
-    public let attributes: [AttributeKey: Int]
+    public let attributes: [String: Int]
 
     /// Abilities
     public let abilities: Set<String>

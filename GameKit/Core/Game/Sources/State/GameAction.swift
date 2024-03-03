@@ -74,10 +74,10 @@ public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible
     case eliminate(player: String)
 
     /// Set player attribute
-    case setAttribute(AttributeKey, value: Int, player: String)
+    case setAttribute(String, value: Int, player: String)
 
     /// Remove player attribute
-    case removeAttribute(AttributeKey, player: String)
+    case removeAttribute(String, player: String)
 
     /// Cancel an effect
     case cancel(Self)

@@ -7,7 +7,7 @@
 
 struct NumPlayerAddAttr: ArgNumResolver {
     let amount: Int
-    let key: AttributeKey
+    let key: String
 
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
         let playerObj = state.player(ctx.actor)

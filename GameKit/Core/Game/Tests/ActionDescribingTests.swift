@@ -130,13 +130,13 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingSetAttribute() {
         XCTAssertEqual(
-            String(describing: GameAction.setAttribute(.bangsPerTurn, value: 1, player: "p1")),
-            "😎 p1 bangsPerTurn 1"
+            String(describing: GameAction.setAttribute(.scope, value: 1, player: "p1")),
+            "😎 p1 scope 1"
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.removeAttribute(.bangsPerTurn, player: "p1")),
-            "😕 p1 bangsPerTurn"
+            String(describing: GameAction.removeAttribute(.scope, player: "p1")),
+            "😕 p1 scope"
         )
     }
 

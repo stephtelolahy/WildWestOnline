@@ -13,7 +13,7 @@ struct EffectUpdateAttributes: EffectResolver {
         let figureAttributes = state.cardRef[figure]?.attributes ?? [:]
         var result: [GameAction] = []
 
-        for key in AttributeKey.allCases {
+        for key in attributesPriority {
             var expectedValue: Int? = figureAttributes[key]
             for card in playerObj.inPlay {
                 let cardName = card.extractName()

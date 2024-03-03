@@ -31,8 +31,8 @@ final class SetupTests: XCTestCase {
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
         let cardRef: [String: Card] = [
-            "p1": Card("p1", attributes: [.maxHealth: 4, .startTurnCards: 2]),
-            "p2": Card("p2", attributes: [.maxHealth: 3, .startTurnCards: 3])
+            "p1": Card("p1", attributes: [.maxHealth: 4, .scope: 1]),
+            "p2": Card("p2", attributes: [.maxHealth: 3, .mustang: 1])
         ]
 
         // When
@@ -63,10 +63,10 @@ final class SetupTests: XCTestCase {
 
         // should set figure attributes
         XCTAssertEqual(state.player("p1").abilities, ["p1"])
-        XCTAssertEqual(state.player("p1").attributes[.startTurnCards], 2)
+        XCTAssertEqual(state.player("p1").attributes[.scope], 1)
         XCTAssertEqual(state.player("p1").attributes[.maxHealth], 4)
         XCTAssertEqual(state.player("p2").abilities, ["p2"])
-        XCTAssertEqual(state.player("p2").attributes[.startTurnCards], 3)
+        XCTAssertEqual(state.player("p2").attributes[.mustang], 1)
         XCTAssertEqual(state.player("p2").attributes[.maxHealth], 3)
     }
 }
