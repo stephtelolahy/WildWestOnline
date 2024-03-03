@@ -22,7 +22,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p3")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -50,7 +50,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

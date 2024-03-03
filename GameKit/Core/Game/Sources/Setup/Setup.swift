@@ -16,10 +16,10 @@ public enum Setup {
                 .prefix(playersCount)
         )
 
-        let deck = Self.buildDeck(cardSets: inventory.cardSets)
+        let deck = buildDeck(cardSets: inventory.cardSets)
             .shuffled()
 
-        return Self.buildGame(
+        return buildGame(
             figures: figures,
             deck: deck,
             cardRef: inventory.cardRef
@@ -33,7 +33,7 @@ public enum Setup {
     ) -> GameState {
         var deck = deck
         let players: [Player] = figures.map {
-            Self.buildPlayer(
+            buildPlayer(
                 figure: $0,
                 deck: &deck,
                 cardRef: cardRef

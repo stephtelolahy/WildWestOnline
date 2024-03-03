@@ -5,6 +5,7 @@
 //
 //  Created by Hugues Telolahy on 09/12/2023.
 //
+// swiftlint:disable nesting no_magic_numbers
 
 import AppCore
 import Redux
@@ -14,6 +15,20 @@ public extension SettingsView {
         public let playersCount: Int
         public let waitDelayMilliseconds: Int
         public let simulation: Bool
+        public let speedOptions: [SpeedOption] = SpeedOption.all
+        public let minPlayersCount = 2
+        public let maxPlayersCount = 16
+
+        public struct SpeedOption: Equatable {
+            let label: String
+            let value: Int
+
+            static let all: [Self] = [
+                .init(label: "Normal", value: 500),
+                .init(label: "Slow", value: 1000),
+                .init(label: "Fast", value: 0)
+            ]
+        }
     }
 }
 

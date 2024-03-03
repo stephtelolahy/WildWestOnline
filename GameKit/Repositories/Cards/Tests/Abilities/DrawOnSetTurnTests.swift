@@ -21,7 +21,7 @@ final class DrawOnSetTurnTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -43,7 +43,7 @@ final class DrawOnSetTurnTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

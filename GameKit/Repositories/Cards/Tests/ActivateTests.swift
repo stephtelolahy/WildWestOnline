@@ -25,7 +25,7 @@ final class ActivateTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -48,7 +48,7 @@ final class ActivateTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [])

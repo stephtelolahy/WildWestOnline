@@ -34,7 +34,7 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -61,7 +61,7 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c2"])
 
         // Then
         XCTAssertEqual(result, [

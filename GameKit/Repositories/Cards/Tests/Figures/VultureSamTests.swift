@@ -25,7 +25,7 @@ final class VultureSamTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p2")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

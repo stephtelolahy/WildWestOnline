@@ -17,8 +17,8 @@ extension GameState {
             .filter { distance(from: player, to: $0) <= range }
     }
 
-    private func distance(from player: String, to other: String) -> Int {
-        guard let pIndex = playOrder.firstIndex(of: player),
+    private func distance(from playerId: String, to other: String) -> Int {
+        guard let pIndex = playOrder.firstIndex(of: playerId),
               let oIndex = playOrder.firstIndex(of: other),
               pIndex != oIndex else {
             return 0
@@ -29,10 +29,10 @@ extension GameState {
         let leftDistance = (pIndex > oIndex) ? (pIndex - oIndex) : (pIndex + pCount - oIndex)
         var distance = min(rightDistance, leftDistance)
 
-        let scope = self.player(player).attributes[.scope] ?? 0
+        let scope = player(playerId).attributes[.scope] ?? 0
         distance -= scope
 
-        let mustang = self.player(other).attributes[.mustang] ?? 0
+        let mustang = player(other).attributes[.mustang] ?? 0
         distance += mustang
 
         return distance

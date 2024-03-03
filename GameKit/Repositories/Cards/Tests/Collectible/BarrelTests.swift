@@ -19,7 +19,7 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.play(.barrel, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -44,7 +44,7 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -73,7 +73,7 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -102,7 +102,7 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -132,7 +132,7 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -164,7 +164,7 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [

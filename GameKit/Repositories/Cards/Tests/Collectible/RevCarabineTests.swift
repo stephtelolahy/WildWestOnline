@@ -21,7 +21,7 @@ final class RevCarabineTests: XCTestCase {
 
         // When
         let action = GameAction.play(.revCarabine, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

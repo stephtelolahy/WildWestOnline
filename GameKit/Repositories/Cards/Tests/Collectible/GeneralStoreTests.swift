@@ -22,7 +22,7 @@ final class GeneralStoreTests: XCTestCase {
 
         // When
         let action = GameAction.play(.generalStore, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["c1", "c2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
         XCTAssertEqual(result, [

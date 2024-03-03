@@ -19,7 +19,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .noPlayer(.selectAt(1)))
@@ -38,7 +38,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
@@ -65,7 +65,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "c22"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", "c22"])
 
         // Then
         XCTAssertEqual(result, [
@@ -93,7 +93,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "c23"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", "c23"])
 
         // Then
         XCTAssertEqual(result, [

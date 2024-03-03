@@ -98,7 +98,7 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerView(_ player: Self.State.PlayerItem) -> some View {
+    private func itemPlayerView(_ player: State.PlayerItem) -> some View {
         ZStack {
             HStack {
                 CircleImage(
@@ -137,7 +137,7 @@ public struct GamePlayView: View {
         }
     }
 
-    private func itemPlayerBackgroundColor(for status: Self.State.PlayerItem.Status) -> Color {
+    private func itemPlayerBackgroundColor(for status: State.PlayerItem.Status) -> Color {
         switch status {
         case .active:
             Color.white.opacity(0.6)

@@ -20,7 +20,7 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.play(.jail, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -45,7 +45,7 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -71,7 +71,7 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

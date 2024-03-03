@@ -39,7 +39,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let (result, _) = awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
@@ -71,7 +71,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state, choose: [.pass])
+        let (result, _) = awaitAction(action, state: state, choose: [.pass])
 
         // Then
         XCTAssertEqual(result, [
@@ -95,7 +95,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.setTurn(player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

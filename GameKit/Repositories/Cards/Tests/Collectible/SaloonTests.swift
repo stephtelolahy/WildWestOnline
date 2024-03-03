@@ -29,7 +29,7 @@ final class SaloonTests: XCTestCase {
 
         // When
         let action = GameAction.play(.saloon, player: "p1")
-        let (result, _) = self.awaitAction(action, state: state)
+        let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -56,7 +56,7 @@ final class SaloonTests: XCTestCase {
 
         // When
         let action = GameAction.play(.saloon, player: "p1")
-        let (_, error) = self.awaitAction(action, state: state)
+        let (_, error) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(error, .noPlayer(.damaged))
