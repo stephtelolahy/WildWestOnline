@@ -25,13 +25,13 @@ extension GameAction {
         }
     }
 
-    // TODO: damage is not enough to determine shoot effect
     func isEffectOfShoot(_ player: String) -> Bool {
+        #warning("damage is not enough to determine shoot effect")
         if case let .damage(_, target) = self,
            target == player {
-            true
+            return true
         } else {
-            false
+            return false
         }
     }
 }

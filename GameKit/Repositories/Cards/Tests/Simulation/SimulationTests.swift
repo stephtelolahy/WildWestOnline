@@ -81,7 +81,7 @@ private class StateReproducerMiddleware: Middleware<GameState> {
         self.prevState = initial
     }
 
-    @MainActor 
+    @MainActor
     override func effect(on action: Action, state: GameState) async -> Action? {
         let resultState = GameState.reducer(prevState, action)
         prevState = resultState

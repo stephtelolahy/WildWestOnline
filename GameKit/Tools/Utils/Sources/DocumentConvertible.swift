@@ -33,6 +33,7 @@ public extension DocumentConvertible where Self: Codable {
 }
 
 private extension JSONEncoder {
+    // swiftlint:disable:next discouraged_optional_collection
     func encodeToDictionary<T>(_ value: T) throws -> [String: Any]? where T: Encodable {
         let data = try self.encode(value)
         return try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]

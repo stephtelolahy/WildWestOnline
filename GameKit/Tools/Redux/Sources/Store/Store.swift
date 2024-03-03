@@ -27,10 +27,15 @@ public class Store<State: Equatable>: ObservableObject {
         let newState = reducer(state, action)
         state = newState
         for middleware in middlewares {
+            // swiftlint:disable:next trailing_closure
             Future { await middleware.effect(on: action, state: newState) }
                 .subscribe(on: DispatchQueue.global(qos: .background))
                 .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { $0.flatMap(self.dispatch) })
+                .sink(receiveValue: { [weak self] action in
+                    if let action {
+                        self?.dispatch(action)
+                    }
+                })
                 .store(in: &subscriptions)
         }
     }

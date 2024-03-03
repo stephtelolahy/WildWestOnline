@@ -58,7 +58,7 @@ public extension GamePlayView.State {
             message: game.message,
             chooseOneActions: game.chooseOneActions,
             handActions: game.handActions,
-            events: game.events.reversed().map { String(describing: $0)}
+            events: game.events.reversed().map { String(describing: $0) }
         )
     }
 }
