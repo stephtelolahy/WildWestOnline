@@ -47,9 +47,8 @@ final class SimulationTests: XCTestCase {
             reducer: GameState.reducer,
             middlewares: [
                 gameLoopMiddleware(),
-                // TODO: restore StateReproducerMiddleware
-//                StateReproducerMiddleware(initial: game),
-                LoggerMiddleware()
+                LoggerMiddleware(),
+                StateReproducerMiddleware(initial: game)
             ]
         )
 
@@ -82,6 +81,7 @@ private class StateReproducerMiddleware: Middleware<GameState> {
         self.prevState = initial
     }
 
+    @MainActor 
     override func effect(on action: Action, state: GameState) async -> Action? {
         let resultState = GameState.reducer(prevState, action)
         prevState = resultState
