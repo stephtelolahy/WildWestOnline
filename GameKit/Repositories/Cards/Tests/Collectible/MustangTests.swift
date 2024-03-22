@@ -26,7 +26,7 @@ final class MustangTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.mustang, player: "p1"),
             .equip(.mustang, player: "p1"),
-            .setAttribute(.mustang, value: 1, player: "p1")
+            .setAttribute(.remoteness, value: 1, player: "p1")
         ])
     }
 }

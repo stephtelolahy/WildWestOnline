@@ -6,7 +6,7 @@
 //
 
 struct CardPreviousInPlay: ArgCardResolver {
-    let key: AttributeKey
+    let key: String
 
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()

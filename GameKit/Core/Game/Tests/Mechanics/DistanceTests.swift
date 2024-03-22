@@ -41,7 +41,7 @@ final class DistanceTests: XCTestCase {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
-                $0.withAttributes([.scope: 1])
+                $0.withAttributes([.magnifying: 1])
             }
             .withPlayer("p2")
             .withPlayer("p3")
@@ -66,11 +66,11 @@ final class DistanceTests: XCTestCase {
         XCTAssertEqual(state.playersAt(2, from: "p5"), ["p1", "p2", "p3", "p4"])
     }
 
-    func test_distance_withMustang_shouldIncrementDistanceFromOthers() {
+    func test_distance_withRemoteness_shouldIncrementDistanceFromOthers() {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
-                $0.withAttributes([.mustang: 1])
+                $0.withAttributes([.remoteness: 1])
             }
             .withPlayer("p2")
             .withPlayer("p3")

@@ -69,10 +69,10 @@ extension GameAction: CustomStringConvertible {
             "☠️ \(player)"
 
         case let .setAttribute(key, value, player):
-            "😎 \(player) \(key.rawValue) \(value)"
+            "😎 \(player) \(key) \(value)"
 
         case let .removeAttribute(key, player):
-            "😕 \(player) \(key.rawValue)"
+            "😕 \(player) \(key)"
 
         case let .setGameOver(winner):
             "🎉 \(winner)"

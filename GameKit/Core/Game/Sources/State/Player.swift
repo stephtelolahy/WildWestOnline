@@ -20,7 +20,7 @@ public struct Player: Codable, Equatable {
     public var abilities: Set<String>
 
     /// Current attributes
-    public var attributes: [AttributeKey: Int]
+    public var attributes: [String: Int]
 
     /// Life points
     public var health: Int

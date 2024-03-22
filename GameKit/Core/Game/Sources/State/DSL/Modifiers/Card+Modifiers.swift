@@ -12,7 +12,7 @@ public extension Card {
         _ name: String,
         prototype: Card? = nil,
         abilities: Set<String> = [],
-        attributes: [AttributeKey: Int] = [:],
+        attributes: [String: Int] = [:],
         silent: [String] = [],
         alias: [CardAlias] = [],
         priority: Int = 0,

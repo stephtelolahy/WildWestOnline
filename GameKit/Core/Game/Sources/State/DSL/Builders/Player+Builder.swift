@@ -12,7 +12,7 @@ public extension Player {
         private var id: String = UUID().uuidString
         private var figure: String = ""
         private var abilities: Set<String> = []
-        private var attributes: [AttributeKey: Int] = [:]
+        private var attributes: [String: Int] = [:]
         private var health: Int = 0
         private var hand: [String] = []
         private var inPlay: [String] = []
@@ -44,7 +44,7 @@ public extension Player {
             return self
         }
 
-        public func withAttributes(_ value: [AttributeKey: Int]) -> Self {
+        public func withAttributes(_ value: [String: Int]) -> Self {
             attributes = value
             return self
         }

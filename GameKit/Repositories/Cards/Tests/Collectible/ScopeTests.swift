@@ -26,7 +26,7 @@ final class ScopeTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.scope, player: "p1"),
             .equip(.scope, player: "p1"),
-            .setAttribute(.scope, value: 1, player: "p1")
+            .setAttribute(.magnifying, value: 1, player: "p1")
         ])
     }
 
@@ -36,7 +36,7 @@ final class ScopeTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withInPlay([.scope])
                     .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.scope: 1])
+                    .withAttributes([.magnifying: 1])
             }
             .build()
 
@@ -47,7 +47,7 @@ final class ScopeTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .discardInPlay(.scope, player: "p1"),
-            .removeAttribute(.scope, player: "p1")
+            .removeAttribute(.magnifying, player: "p1")
         ])
     }
 }

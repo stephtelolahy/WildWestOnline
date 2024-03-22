@@ -85,7 +85,7 @@ final class BangTests: XCTestCase {
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
-                $0.withAttributes([.mustang: 1])
+                $0.withAttributes([.remoteness: 1])
             }
             .build()
 

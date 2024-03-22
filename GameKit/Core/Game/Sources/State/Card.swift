@@ -8,7 +8,7 @@ public struct Card: Codable, Equatable {
     public let name: String
 
     /// Attributes
-    public let attributes: [AttributeKey: Int]
+    public let attributes: [String: Int]
 
     /// Abilities
     public let abilities: Set<String>
@@ -33,17 +33,17 @@ public struct CardRule: Codable, Equatable {
 
 public struct CardAlias: Codable, Equatable {
     /// Regex of played card
-    let regex: String
+    let playedRegex: String
 
-    /// Name of card having the play effect
-    let card: String
+    /// Name of card having the play effect 
+    let effectCard: String
 
     /// Conditions to trigger the card alias
     let playReqs: [PlayReq]
 
     public init(playedRegex: String, as effectCard: String, playReqs: [PlayReq]) {
-        self.regex = playedRegex
-        self.card = effectCard
+        self.playedRegex = playedRegex
+        self.effectCard = effectCard
         self.playReqs = playReqs
     }
 }

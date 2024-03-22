@@ -10,7 +10,7 @@ import GameCore
 import XCTest
 
 final class PaulRegretTests: XCTestCase {
-    func test_PaulRegret_shouldHaveMustang() {
+    func test_PaulRegret_shouldIncrementDistanceFromOthers() {
         // Given
         let state = Setup.buildGame(figures: [.paulRegret], deck: [], cardRef: CardList.all)
 
@@ -18,6 +18,6 @@ final class PaulRegretTests: XCTestCase {
         let player = state.player(.paulRegret)
 
         // Then
-        XCTAssertEqual(player.attributes[.mustang], 1)
+        XCTAssertEqual(player.attributes[.remoteness], 1)
     }
 }

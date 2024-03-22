@@ -83,11 +83,11 @@ final class PlayerTests: XCTestCase {
         // Given
         // When
         let sut = Player.makeBuilder()
-            .withAttributes([.mustang: 1])
+            .withAttributes([.remoteness: 1])
             .build()
 
         // Then
-        XCTAssertEqual(sut.attributes[.mustang], 1)
+        XCTAssertEqual(sut.attributes[.remoteness], 1)
     }
 
     func test_player_shouldBeSerializable() throws {
@@ -102,11 +102,10 @@ final class PlayerTests: XCTestCase {
             ],
             "attributes": {
                 "maxHealth": 4,
-                "mustang": 0,
-                "scope": 1,
+                "remoteness": 0,
+                "magnifying": 1,
                 "weapon": 3,
-                "handLimit": 2,
-                "startTurnCards": 2,
+                "handLimit": 2
             },
             "hand": [],
             "inPlay": []
@@ -124,8 +123,7 @@ final class PlayerTests: XCTestCase {
         XCTAssertEqual(sut.health, 2)
         XCTAssertEqual(sut.attributes[.handLimit], 2)
         XCTAssertEqual(sut.attributes[.weapon], 3)
-        XCTAssertEqual(sut.attributes[.mustang], 0)
-        XCTAssertEqual(sut.attributes[.scope], 1)
-        XCTAssertEqual(sut.attributes[.startTurnCards], 2)
+        XCTAssertEqual(sut.attributes[.remoteness], 0)
+        XCTAssertEqual(sut.attributes[.magnifying], 1)
     }
 }

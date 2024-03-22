@@ -16,26 +16,26 @@ final class SetAttributeTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setAttribute(.scope, value: 1, player: "p1")
+        let action = GameAction.setAttribute(.magnifying, value: 1, player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").attributes[.scope], 1)
+        XCTAssertEqual(result.player("p1").attributes[.magnifying], 1)
     }
 
     func test_removeAttribute_shouldRemoveValue() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
-                $0.withAttributes([.scope: 1])
+                $0.withAttributes([.magnifying: 1])
             }
             .build()
 
         // When
-        let action = GameAction.removeAttribute(.scope, player: "p1")
+        let action = GameAction.removeAttribute(.magnifying, player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.player("p1").attributes[.scope])
+        XCTAssertNil(result.player("p1").attributes[.magnifying])
     }
 }

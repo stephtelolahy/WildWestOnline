@@ -132,7 +132,7 @@ final class GameTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHealth(4)
-                    .withAttributes([.bangsPerTurn: 2])
+                    .withAttributes([.weapon: 2])
                     .withAbilities(["a1"])
                     .withHand(["c21", "c22"])
                     .withInPlay(["c23", "c24"])
@@ -159,7 +159,7 @@ final class GameTests: XCTestCase {
 
         XCTAssertNotNil(state.players["p2"])
         XCTAssertEqual(state.player("p2").health, 4)
-        XCTAssertEqual(state.player("p2").attributes[.bangsPerTurn], 2)
+        XCTAssertEqual(state.player("p2").attributes[.weapon], 2)
         XCTAssertEqual(state.player("p2").abilities, ["a1"])
         XCTAssertEqual(state.player("p2").hand, ["c21", "c22"])
         XCTAssertEqual(state.player("p2").inPlay, ["c23", "c24"])
