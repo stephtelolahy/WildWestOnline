@@ -12,12 +12,12 @@ extension GameState {
         let figure = playerObj.figure
         guard let cardAlias = state.cardRef[figure]?.abilityToPlayCardAs,
               let matched = cardAlias.first(where: {
-                  card.matches(regex: $0.regex)
+                  card.matches(regex: $0.playedRegex)
                   && $0.playReqs.allSatisfy({ $0.match(state: state, ctx: ctx) })
               }) else {
             return nil
         }
 
-        return matched.card
+        return matched.effectCard
     }
 }
