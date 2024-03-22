@@ -29,11 +29,13 @@ extension GameState {
         let leftDistance = (pIndex > oIndex) ? (pIndex - oIndex) : (pIndex + pCount - oIndex)
         var distance = min(rightDistance, leftDistance)
 
-        let scope = player(playerId).attributes[.magnifying] ?? 0
-        distance -= scope
+        if let magnifying = player(playerId).attributes[.magnifying] {
+            distance -= magnifying
+        }
 
-        let remoteness = player(other).attributes[.remoteness] ?? 0
-        distance += remoteness
+        if let remoteness = player(other).attributes[.remoteness] {
+            distance += remoteness
+        }
 
         return distance
     }
