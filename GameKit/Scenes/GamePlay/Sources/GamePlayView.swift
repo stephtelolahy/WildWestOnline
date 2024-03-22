@@ -189,6 +189,7 @@ private var previewState: GamePlayView.State {
             .init(card: .gatling, action: .play(.gatling, player: "p1")),
             .init(card: .schofield, action: .play(.schofield, player: "p1")),
             .init(card: .mustang, action: nil),
+            .init(card: .scope, action: nil),
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
             .init(card: .beer, action: nil)
         ],

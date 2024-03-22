@@ -1,13 +1,12 @@
 // swiftlint:disable:this file_name
 //
-//  AttributeKey.swift
+//  CardAttribute.swift
+//  
 //
-//
-//  Created by Hugues Telolahy on 06/05/2023.
+//  Created by Stephano Hugues TELOLAHY on 22/03/2024.
 //
 
-/// Well known player attributes
-/// Sorted by order in which attributes are settled
+/// Well known card attributes
 public extension String {
     /// Max health
     static let maxHealth = "maxHealth"
@@ -15,16 +14,16 @@ public extension String {
     /// Gun range
     static let weapon = "weapon"
 
-    /// Increment distance from others, default: 0
-    static let mustang = "mustang"
+    /// Increment distance from others
+    static let remoteness = "remoteness"
 
-    /// Decrement distance to others, default: 0
-    static let scope = "scope"
+    /// Decrement distance to others
+    static let magnifying = "magnifying"
 
     /// Number of flipped cards on a draw
     static let flippedCards = "flippedCards"
 
     /// If defined, this attribute overrides the maximum allowed hand cards at the end of his turn
-    /// by default the maximum allowed hand cards is equal to health
+    /// By default the maximum allowed hand cards is equal to health
     static let handLimit = "handLimit"
 }

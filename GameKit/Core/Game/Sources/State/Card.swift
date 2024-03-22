@@ -33,9 +33,11 @@ public struct CardRule: Codable, Equatable {
 
 public struct CardAlias: Codable, Equatable {
     /// Regex of played card
+    // TODO: playedRegex
     let regex: String
 
     /// Name of card having the play effect
+    // TODO: effectCard
     let card: String
 
     /// Conditions to trigger the card alias

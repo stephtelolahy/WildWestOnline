@@ -285,12 +285,12 @@ private extension CardList {
         Card(
             .scope,
             prototype: equipement,
-            attributes: [.scope: 1]
+            attributes: [.magnifying: 1]
         )
     }
 
     static var mustang: Card {
-        Card(.mustang, prototype: equipement, attributes: [.mustang: 1])
+        Card(.mustang, prototype: equipement, attributes: [.remoteness: 1])
     }
 
     // MARK: - Collectibles - Blue Handicap
@@ -417,11 +417,11 @@ private extension CardList {
     }
 
     static var roseDoolan: Card {
-        Card(.roseDoolan, prototype: pDefault, attributes: [.maxHealth: 4, .scope: 1])
+        Card(.roseDoolan, prototype: pDefault, attributes: [.maxHealth: 4, .magnifying: 1])
     }
 
     static var paulRegret: Card {
-        Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .mustang: 1])
+        Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .remoteness: 1])
     }
 
     static var jourdonnais: Card {

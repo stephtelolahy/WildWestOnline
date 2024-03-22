@@ -10,7 +10,7 @@ import GameCore
 import XCTest
 
 final class RoseDoolanTests: XCTestCase {
-    func test_RoseDoolan_shouldHaveScope() {
+    func test_RoseDoolan_shouldDecrementDistanceToOthers() {
         // Given
         let state = Setup.buildGame(figures: [.roseDoolan], deck: [], cardRef: CardList.all)
 
@@ -18,6 +18,6 @@ final class RoseDoolanTests: XCTestCase {
         let player = state.player(.roseDoolan)
 
         // Then
-        XCTAssertEqual(player.attributes[.scope], 1)
+        XCTAssertEqual(player.attributes[.magnifying], 1)
     }
 }
