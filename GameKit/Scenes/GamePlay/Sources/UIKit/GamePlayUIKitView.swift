@@ -4,23 +4,39 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
+import AppCore
+import Redux
 import SwiftUI
 
-public struct GamePlayUIKitView: View {
-    public var body: some View {
-        GamePlayWrapperView()
-    }
-}
+public struct GamePlayUIKitView: UIViewControllerRepresentable {
+    @StateObject private var store: Store<GamePlayView.State>
 
-struct GamePlayWrapperView: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> GamePlayViewController {
+    public init(store: @escaping () -> Store<GamePlayView.State>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view.
+        _store = StateObject(wrappedValue: store())
+    }
+
+    public func makeUIViewController(context: Context) -> GamePlayViewController {
         GamePlayViewController()
     }
 
-    func updateUIViewController(_ uiViewController: GamePlayViewController, context: Context) {
+    public func updateUIViewController(_ uiViewController: GamePlayViewController, context: Context) {
     }
 }
 
 #Preview {
-    GamePlayUIKitView()
+    GamePlayUIKitView {
+        Store<GamePlayView.State>(initial: previewState)
+    }
+}
+
+private var previewState: GamePlayView.State {
+    .init(
+        visiblePlayers: [],
+        message: "",
+        chooseOneActions: [:],
+        handActions: [],
+        events: []
+    )
 }

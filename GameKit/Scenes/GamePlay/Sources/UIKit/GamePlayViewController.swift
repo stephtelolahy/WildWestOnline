@@ -7,8 +7,8 @@
 
 import UIKit
 
-class GamePlayViewController: UIViewController {
-    override func viewDidLoad() {
+public class GamePlayViewController: UIViewController {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .red
     }

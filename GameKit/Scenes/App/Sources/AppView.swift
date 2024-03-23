@@ -41,7 +41,7 @@ public struct AppView: View {
                 }
 
             case .game:
-                GamePlayView {
+                GamePlayUIKitView {
                     store.projection {
                         GamePlayView.State.from(globalState: $0)
                     }
