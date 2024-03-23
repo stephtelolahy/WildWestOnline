@@ -251,6 +251,6 @@ let package = Package(
             capability: .buildTool(),
             dependencies: ["SwiftLintBinary"],
             path: "Tools/SwiftLintPlugin/Sources"
-        ),
+        )
     ]
 )
