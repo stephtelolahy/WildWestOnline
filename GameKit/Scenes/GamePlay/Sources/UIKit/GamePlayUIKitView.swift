@@ -18,7 +18,7 @@ public struct GamePlayUIKitView: UIViewControllerRepresentable {
     }
 
     public func makeUIViewController(context: Context) -> GamePlayViewController {
-        GamePlayViewController()
+        GamePlayViewController(nibName: "GamePlayViewController", bundle: .module)
     }
 
     public func updateUIViewController(_ uiViewController: GamePlayViewController, context: Context) {
