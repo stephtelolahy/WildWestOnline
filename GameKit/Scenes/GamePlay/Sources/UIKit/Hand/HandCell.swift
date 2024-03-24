@@ -20,8 +20,8 @@ class HandCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 2
     }
 
-    func update(with cardName: String, active: Bool) {
-        cardImageView.image = UIImage(named: cardName)
-        cardView.isHidden = active
+    func update(with item: GamePlayUIKitView.State.CardAction) {
+        cardImageView.image = UIImage(named: item.card)
+        cardView.isHidden = item.action == nil
     }
 }

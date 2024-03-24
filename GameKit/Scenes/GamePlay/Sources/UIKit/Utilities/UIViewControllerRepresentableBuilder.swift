@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct UIViewControllerRepresentableBuilder<T: UIViewController>: UIViewControllerRepresentable {
-    let builder: () -> T
+    let builderFunc: () -> T
 
     func makeUIViewController(context: Context) -> T {
-        builder()
+        builderFunc()
     }
 
     func updateUIViewController(_ uiViewController: T, context: Context) {

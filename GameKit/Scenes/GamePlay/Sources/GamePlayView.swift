@@ -201,6 +201,9 @@ private var previewState: GamePlayView.State {
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
             .init(card: .beer, action: nil)
         ],
-        events: []
+        events: [
+            "Event2",
+            "Event1"
+        ]
     )
 }

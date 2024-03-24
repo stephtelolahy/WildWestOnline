@@ -16,7 +16,6 @@ public protocol AppTheme {
 }
 
 struct DefaultTheme: AppTheme {
-    
     var backgroundView = Color.orange.opacity(0.4)
 
     var buttoColor = Color(

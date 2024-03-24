@@ -29,7 +29,7 @@ enum PlayerLayoutBuilder {
             return buildLayoutFor7Players(size: size, padding: padding)
 
         default:
-            fatalError("Illegal state")
+            fatalError("Invalid number of players \(playersCount)")
         }
     }
 }
