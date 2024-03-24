@@ -12,6 +12,7 @@ import SwiftUI
 import Theme
 
 public struct GamePlayUIKitView: View {
+    @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 
     public init(store: @escaping () -> Store<State>) {
@@ -23,7 +24,7 @@ public struct GamePlayUIKitView: View {
     public var body: some View {
         NavigationView {
             ZStack {
-                AppTheme.backgroundView.edgesIgnoringSafeArea(.all)
+                theme.backgroundView.edgesIgnoringSafeArea(.all)
                 UIViewControllerRepresentableBuilder {
                     GamePlayViewController(store: store)
                 }

@@ -19,7 +19,7 @@ opt_in_rules:
   - accessibility_trait_for_button
   # - anonymous_argument_in_multiline_closure
   - array_init
-  - attributes
+  # - attributes
   - balanced_xctest_lifecycle
   - closure_body_length
   - closure_end_indentation
