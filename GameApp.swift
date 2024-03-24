@@ -36,10 +36,10 @@ private func createStore() -> Store<AppState> {
     )
 
     let settings = SettingsState(
+        inventory: inventory, 
         playersCount: settingsService.playersCount,
         waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
-        simulation: settingsService.simulationEnabled,
-        inventory: inventory
+        simulation: settingsService.simulationEnabled
     )
 
     let initialState = AppState(

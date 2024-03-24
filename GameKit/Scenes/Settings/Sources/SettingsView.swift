@@ -40,8 +40,9 @@ public struct SettingsView: View {
     private var preferencesSection: some View {
         Section(header: Text("PREFRENCES")) {
             playersCountView
-            simulationView
             speedView
+            simulationView
+            gamePlayView
         }
     }
 
@@ -56,18 +57,6 @@ public struct SettingsView: View {
                 ).animation(),
                 in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
-        }
-    }
-
-    private var simulationView: some View {
-        HStack {
-            Image(systemName: "record.circle")
-            Toggle(isOn: Binding<Bool>(
-                get: { store.state.simulation },
-                set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
-            ).animation()) {
-                Text("Simulation")
-            }
         }
     }
 
@@ -95,6 +84,30 @@ public struct SettingsView: View {
             }
         }
     }
+
+    private var simulationView: some View {
+        HStack {
+            Image(systemName: "record.circle")
+            Toggle(isOn: Binding<Bool>(
+                get: { store.state.simulation },
+                set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
+            ).animation()) {
+                Text("Simulation")
+            }
+        }
+    }
+
+    private var gamePlayView: some View {
+        HStack {
+            Image(systemName: "apps.iphone.landscape")
+            Toggle(isOn: Binding<Bool>(
+                get: { store.state.oldGamePlay },
+                set: { _ in store.dispatch(SettingsAction.toggleGamePlay) }
+            ).animation()) {
+                Text("Old gamePlay")
+            }
+        }
+    }
 }
 
 #Preview {
@@ -108,6 +121,7 @@ private var previewState: SettingsView.State {
         playersCount: 5,
         maxPlayersCount: 7,
         currentSpeedIndex: 0,
-        simulation: false
+        simulation: false,
+        oldGamePlay: true
     )
 }
