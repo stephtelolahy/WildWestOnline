@@ -35,7 +35,7 @@ struct EffectChallenge: EffectResolver {
                    case let .effect(childEffect, childCtx) = children[1],
                    case var .matchAction(actions) = childEffect {
                     var contextWithReversedTarget = ctx
-                    contextWithReversedTarget.target = challengerId
+                    contextWithReversedTarget.resolvingTarget = challengerId
                     let reversedChallenge = GameAction.effect(
                         .challenge(
                             .id(target),

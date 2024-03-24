@@ -39,7 +39,7 @@ extension ArgCard {
                 state: state
             )
 
-            let chooser = ctx.cardChooser ?? ctx.targetOrActor()
+            let chooser = ctx.resolvingChooser ?? ctx.targetOrActor()
             let chooseOne = GameAction.chooseOne(
                 .card,
                 options: validoptions,

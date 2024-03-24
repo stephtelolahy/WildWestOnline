@@ -44,7 +44,7 @@ final class PlayTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result.sequence, [
-            .effect(.nothing, ctx: .init(actor: "p1", card: "c1", event: action))
+            .effect(.nothing, ctx: .init(sourceEvent: action, sourceActor: "p1", sourceCard: "c1"))
         ])
     }
 }

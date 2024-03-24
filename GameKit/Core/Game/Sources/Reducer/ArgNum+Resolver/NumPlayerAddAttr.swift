@@ -10,7 +10,7 @@ struct NumPlayerAddAttr: ArgNumResolver {
     let key: String
 
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
-        let playerObj = state.player(ctx.actor)
+        let playerObj = state.player(ctx.sourceActor)
         guard let value = playerObj.attributes[key] else {
             fatalError("undefined attribute \(key)")
         }

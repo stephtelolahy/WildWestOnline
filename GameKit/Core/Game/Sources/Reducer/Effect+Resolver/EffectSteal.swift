@@ -9,13 +9,13 @@ struct EffectSteal: EffectResolver {
     let card: ArgCard
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        guard let fromPlayerId = ctx.target else {
+        guard let fromPlayerId = ctx.resolvingTarget else {
             fatalError("undefined target")
         }
 
-        let toPlayerId = ctx.actor
+        let toPlayerId = ctx.sourceActor
         var contextWithChooser = ctx
-        contextWithChooser.cardChooser = toPlayerId
+        contextWithChooser.resolvingChooser = toPlayerId
         return try card.resolve(state: state, ctx: contextWithChooser) {
             if state.player(fromPlayerId).hand.contains($0) {
                 return .drawHand($0, target: fromPlayerId, player: toPlayerId)
