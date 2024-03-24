@@ -68,7 +68,7 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store<AppState>(initial: previewState)
+        Store(initial: previewState)
     }
 }
 

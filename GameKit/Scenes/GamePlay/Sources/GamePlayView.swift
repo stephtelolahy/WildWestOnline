@@ -26,7 +26,7 @@ public struct GamePlayView: View {
         VStack(alignment: .leading) {
             headerView
             VStack {
-                ForEach(store.state.visiblePlayers, id: \.id) {
+                ForEach(store.state.players, id: \.id) {
                     itemPlayerView($0)
                 }
                 Divider()
@@ -56,7 +56,7 @@ public struct GamePlayView: View {
             }
         }
         .onAppear {
-            let sheriff = store.state.visiblePlayers[0].id
+            let sheriff = store.state.players[0].id
             store.dispatch(GameAction.setTurn(player: sheriff))
         }
     }
@@ -153,13 +153,13 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store<GamePlayView.State>(initial: previewState)
+        Store(initial: previewState)
     }
 }
 
 private var previewState: GamePlayView.State {
     .init(
-        visiblePlayers: [
+        players: [
             .init(
                 id: "p1",
                 imageName: .willyTheKid,

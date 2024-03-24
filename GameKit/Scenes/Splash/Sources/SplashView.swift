@@ -38,6 +38,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        Store<SplashView.State>(initial: .init())
+        Store(initial: .init())
     }
 }

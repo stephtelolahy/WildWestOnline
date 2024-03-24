@@ -99,7 +99,7 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store<SettingsView.State>(initial: previewState)
+        Store(initial: previewState)
     }
 }
 

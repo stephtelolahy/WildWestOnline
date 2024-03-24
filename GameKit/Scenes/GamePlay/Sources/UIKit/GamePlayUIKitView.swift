@@ -9,16 +9,16 @@ import Redux
 import SwiftUI
 
 public struct GamePlayUIKitView: UIViewControllerRepresentable {
-    @StateObject private var store: Store<GamePlayView.State>
+    @StateObject private var store: Store<State>
 
-    public init(store: @escaping () -> Store<GamePlayView.State>) {
+    public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
     public func makeUIViewController(context: Context) -> GamePlayViewController {
-        GamePlayViewController(nibName: "GamePlayViewController", bundle: .module)
+        .init(store: store)
     }
 
     public func updateUIViewController(_ uiViewController: GamePlayViewController, context: Context) {
@@ -27,13 +27,13 @@ public struct GamePlayUIKitView: UIViewControllerRepresentable {
 
 #Preview {
     GamePlayUIKitView {
-        Store<GamePlayView.State>(initial: previewState)
+        Store(initial: previewState)
     }
 }
 
-private var previewState: GamePlayView.State {
+private var previewState: GamePlayUIKitView.State {
     .init(
-        visiblePlayers: [],
+        players: [],
         message: "",
         chooseOneActions: [:],
         handActions: [],

@@ -56,6 +56,7 @@ class PlayerCollectionViewLayout: UICollectionViewLayout {
     }
 
     // Is called  to determine which items are visible in the given rect
+    // swiftlint:disable:next discouraged_optional_collection
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
 

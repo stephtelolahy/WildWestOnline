@@ -25,10 +25,10 @@
             <rect key="frame" x="0.0" y="0.0" width="852" height="393"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iQk-fs-eZc" userLabel="stateCollectionView">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iQk-fs-eZc" userLabel="playersCollectionView">
                     <rect key="frame" x="59" y="20" width="734" height="352"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="YWc-rJ-o57" customClass="PlayerCollectionViewLayout">
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="YWc-rJ-o57">
                         <size key="itemSize" width="145" height="146"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -74,7 +74,7 @@
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="m5e-H5-wvG" userLabel="handCollectionView">
                     <rect key="frame" x="503.33333333333326" y="254" width="289.66666666666674" height="118"/>
                     <color key="backgroundColor" red="0.75559097529999997" green="0.67946600909999999" blue="0.55683469770000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="xnb-8S-cWW" customClass="HandCollectionViewLayout">
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="xnb-8S-cWW">
                         <size key="itemSize" width="120" height="92.5"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>

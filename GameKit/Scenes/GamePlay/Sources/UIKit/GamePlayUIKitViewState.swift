@@ -1,9 +1,9 @@
 // swiftlint:disable:this file_name
 //
-//  GamePlayViewState.swift
+//  GamePlayUIKitViewState.swift
+//  
 //
-//
-//  Created by Hugues Telolahy on 15/04/2023.
+//  Created by Stephano Hugues TELOLAHY on 24/03/2024.
 //
 // swiftlint:disable nesting
 
@@ -11,7 +11,7 @@ import AppCore
 import GameCore
 import Redux
 
-public extension GamePlayView {
+public extension GamePlayUIKitView {
     struct State: Equatable {
         public let players: [PlayerItem]
         public let message: String
@@ -20,19 +20,17 @@ public extension GamePlayView {
         public let events: [String]
 
         public struct PlayerItem: Equatable {
-            public enum Status {
-                case active
-                case idle
-                case eliminated
-            }
-
-            public let id: String
-            public let imageName: String
-            public let displayName: String
-            public let hand: String
-            public let health: String
-            public let equipment: String
-            public let status: Status
+            public let name: String
+            public let health: Int
+            public let maxHealth: Int
+            public let handCount: Int
+            public let inPlay: [String]
+            public let isTurn: Bool
+            public let isHitLooseHealth: Bool
+            public let isHitSomeAction: Bool
+            public let isEliminated: Bool
+            public let role: String?
+            public let userPhotoUrl: String?
         }
 
         public struct CardAction: Equatable {
@@ -47,7 +45,7 @@ public extension GamePlayView {
     }
 }
 
-public extension GamePlayView.State {
+public extension GamePlayUIKitView.State {
     static func from(globalState: AppState) -> Self? {
         guard let game = globalState.game else {
             return nil
@@ -64,35 +62,28 @@ public extension GamePlayView.State {
 }
 
 private extension GameState {
-    var playerItems: [GamePlayView.State.PlayerItem] {
-        startOrder.map { playerId in
+    var playerItems: [GamePlayUIKitView.State.PlayerItem] {
+        self.startOrder.map { playerId in
             let playerObj = player(playerId)
-            let handText = "[]\(playerObj.hand.count)"
-            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
             let health = max(0, playerObj.health)
-            let damage = maxHealth - health
-            let healthText = ""
-            + Array(repeating: "♡", count: damage).joined()
-            + Array(repeating: "♥", count: health).joined()
-            let equipmentText = playerObj.inPlay.joined(separator: "-")
+            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
+            let handCount = playerObj.hand.count
+            let equipment = playerObj.inPlay
+            let isTurn = playerId == turn
+            let isEliminated = !playOrder.contains(playerId)
 
-            let status: GamePlayView.State.PlayerItem.Status
-            = if playerId == turn {
-                .active
-            } else if !playOrder.contains(playerId) {
-                .eliminated
-            } else {
-                .idle
-            }
-
-            return GamePlayView.State.PlayerItem(
-                id: playerId,
-                imageName: playerObj.figure,
-                displayName: playerObj.figure.uppercased(),
-                hand: handText,
-                health: healthText,
-                equipment: equipmentText,
-                status: status
+            return .init(
+                name: playerId,
+                health: health,
+                maxHealth: maxHealth,
+                handCount: handCount,
+                inPlay: equipment,
+                isTurn: isTurn,
+                isHitLooseHealth: false,
+                isHitSomeAction: false,
+                isEliminated: isEliminated,
+                role: nil,
+                userPhotoUrl: nil
             )
         }
     }
@@ -115,7 +106,7 @@ private extension GameState {
         }
     }
 
-    var handActions: [GamePlayView.State.CardAction] {
+    var handActions: [GamePlayUIKitView.State.CardAction] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
@@ -125,15 +116,15 @@ private extension GameState {
 
         let handCardActions = playerObj.hand.map { card in
             if activeCards.contains(card) {
-                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayUIKitView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
-                GamePlayView.State.CardAction(card: card, action: nil)
+                GamePlayUIKitView.State.CardAction(card: card, action: nil)
             }
         }
 
         let abilityActions = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayUIKitView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
                 nil
             }

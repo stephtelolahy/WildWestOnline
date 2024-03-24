@@ -8,21 +8,6 @@
 import UIKit
 // import Kingfisher
 
-// TODO: move to SubState
-struct PlayerItem {
-    let name: String
-    let health: Int
-    let maxHealth: Int
-    let handCount: Int
-    let inPlay: [String]
-    let isTurn: Bool
-    let isHitLooseHealth: Bool
-    let isHitSomeAction: Bool
-    let isEliminated: Bool
-    let role: String?
-    let userPhotoUrl: String?
-}
-
 class PlayerCell: UICollectionViewCell {
     @IBOutlet private weak var figureImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
@@ -37,7 +22,7 @@ class PlayerCell: UICollectionViewCell {
         figureImageView.addBrownRoundedBorder()
     }
 
-    func update(with item: PlayerItem) {
+    func update(with item: GamePlayUIKitView.State.PlayerItem) {
         updateBackground(item)
 
         nameLabel.text = item.name.uppercased()
@@ -61,7 +46,7 @@ class PlayerCell: UICollectionViewCell {
 //        }
     }
 
-    private func updateBackground(_ item: PlayerItem) {
+    private func updateBackground(_ item: GamePlayUIKitView.State.PlayerItem) {
         if item.isEliminated {
             backgroundColor = .clear
         } else if item.isHitLooseHealth {

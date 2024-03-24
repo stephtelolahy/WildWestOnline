@@ -103,6 +103,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        Store<HomeView.State>(initial: .init())
+        Store(initial: .init())
     }
 }
