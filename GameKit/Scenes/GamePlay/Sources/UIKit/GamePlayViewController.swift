@@ -4,13 +4,13 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable modifier_order type_contents_order
+// swiftlint:disable type_contents_order
 
 import AppCore
 import Redux
 import UIKit
 
-public class GamePlayViewController: UIViewController {
+class GamePlayViewController: UIViewController {
     // MARK: - Data
 
     private var store: Store<GamePlayUIKitView.State>
@@ -37,13 +37,13 @@ public class GamePlayViewController: UIViewController {
     }
 
     // swiftlint:disable:next unavailable_function
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Lifecycle
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }

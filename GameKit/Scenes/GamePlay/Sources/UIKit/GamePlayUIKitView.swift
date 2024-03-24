@@ -4,11 +4,14 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
+// swiftlint:disable type_contents_order
+
 import AppCore
 import Redux
 import SwiftUI
+import Theme
 
-public struct GamePlayUIKitView: UIViewControllerRepresentable {
+public struct GamePlayUIKitView: View {
     @StateObject private var store: Store<State>
 
     public init(store: @escaping () -> Store<State>) {
@@ -17,11 +20,15 @@ public struct GamePlayUIKitView: UIViewControllerRepresentable {
         _store = StateObject(wrappedValue: store())
     }
 
-    public func makeUIViewController(context: Context) -> GamePlayViewController {
-        .init(store: store)
-    }
-
-    public func updateUIViewController(_ uiViewController: GamePlayViewController, context: Context) {
+    public var body: some View {
+        NavigationView {
+            ZStack {
+                AppTheme.backgroundView.edgesIgnoringSafeArea(.all)
+                UIViewControllerRepresentableBuilder {
+                    GamePlayViewController(store: store)
+                }
+            }
+        }
     }
 }
 
