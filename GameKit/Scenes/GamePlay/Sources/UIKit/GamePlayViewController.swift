@@ -6,6 +6,7 @@
 //
 // swiftlint:disable modifier_order type_contents_order
 
+import AppCore
 import Redux
 import UIKit
 
@@ -50,6 +51,7 @@ public class GamePlayViewController: UIViewController {
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
+        store.dispatch(AppAction.close)
     }
 
     @IBAction private func endTurnTapped(_ sender: Any) {

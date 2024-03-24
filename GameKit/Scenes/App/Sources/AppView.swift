@@ -43,9 +43,14 @@ public struct AppView: View {
             case .game:
                 GamePlayUIKitView {
                     store.projection {
-                        GamePlayView.State.from(globalState: $0)
+                        GamePlayUIKitView.State.from(globalState: $0)
                     }
                 }
+//                GamePlayView {
+//                    store.projection {
+//                        GamePlayView.State.from(globalState: $0)
+//                    }
+//                }
 
             default:
                 EmptyView()
