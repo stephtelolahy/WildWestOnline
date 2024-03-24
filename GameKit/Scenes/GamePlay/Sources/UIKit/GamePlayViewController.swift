@@ -63,14 +63,17 @@ private extension GamePlayViewController {
     func setupViews() {
         playersCollectionViewLayout.delegate = self
         playersCollectionView.setCollectionViewLayout(playersCollectionViewLayout, animated: false)
-        playersCollectionView.dataSource = self
-        playersCollectionView.delegate = self
+//        playersCollectionView.dataSource = self
+//        playersCollectionView.delegate = self
 
         handCollectionView.setCollectionViewLayout(handlCollectionViewLayout, animated: false)
-        handCollectionView.dataSource = self
-        handCollectionView.delegate = self
+//        handCollectionView.dataSource = self
+//        handCollectionView.delegate = self
 
-        messageTableView.register(MessageCell.self, forCellReuseIdentifier: MessageCell.className)
+        messageTableView.register(
+            UINib(nibName: "MessageCell", bundle: .module),
+            forCellReuseIdentifier: "MessageCellIdentifier"
+        )
         messageTableView.dataSource = self
     }
 }
@@ -87,7 +90,8 @@ extension GamePlayViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(with: MessageCell.self, for: indexPath)
+        // swiftlint:disable:next force_cast
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellIdentifier", for: indexPath) as! MessageCell
         let item = store.state.events[indexPath.row]
         cell.update(with: item)
         return cell
@@ -129,7 +133,8 @@ extension GamePlayViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(with: PlayerCell.self, for: indexPath)
+        // swiftlint:disable:next force_cast
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerCellIdentifier", for: indexPath) as! PlayerCell
         let item = store.state.players[indexPath.row]
         cell.update(with: item)
         return cell
@@ -139,7 +144,8 @@ extension GamePlayViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(with: HandCell.self, for: indexPath)
+        // swiftlint:disable:next force_cast
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandCellIdentifier", for: indexPath) as! HandCell
         let item = store.state.handActions[indexPath.row]
         cell.update(with: item)
         return cell

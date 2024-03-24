@@ -19,7 +19,7 @@ public struct SettingsState: Codable, Equatable {
         playersCount: Int = 5,
         waitDelayMilliseconds: Int = 0,
         simulation: Bool = false,
-        oldGamePlay: Bool = false
+        oldGamePlay: Bool = true
     ) {
         self.inventory = inventory
         self.playersCount = playersCount

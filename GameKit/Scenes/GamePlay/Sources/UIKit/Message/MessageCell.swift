@@ -1,7 +1,8 @@
 //
 //  MessageCell.swift
+//  
 //
-//  Created by Hugues Stéphano TELOLAHY on 2/25/20.
+//  Created by Stephano Hugues TELOLAHY on 24/03/2024.
 //
 
 import UIKit
