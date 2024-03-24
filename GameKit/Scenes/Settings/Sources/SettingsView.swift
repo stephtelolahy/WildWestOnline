@@ -25,6 +25,7 @@ public struct SettingsView: View {
             Form {
                 preferencesSection
             }
+            .navigationTitle("Settings")
             .toolbar {
                 Button("Done") {
                     withAnimation {

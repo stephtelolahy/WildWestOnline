@@ -23,6 +23,15 @@ public struct GamePlayView: View {
     }
 
     public var body: some View {
+        NavigationView {
+            ZStack {
+                AppTheme.backgroundView.edgesIgnoringSafeArea(.all)
+                contentView
+            }
+        }
+    }
+
+    private var contentView: some View {
         VStack(alignment: .leading) {
             headerView
             VStack {
@@ -36,8 +45,6 @@ public struct GamePlayView: View {
             }
         }
         .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColor.background)
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(

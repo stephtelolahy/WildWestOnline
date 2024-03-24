@@ -81,5 +81,5 @@ public struct AppView: View {
 }
 
 private var previewState: AppState {
-    .init(screens: [.splash], settings: .init())
+    .init(screens: [.home], settings: .init())
 }

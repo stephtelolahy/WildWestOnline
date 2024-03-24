@@ -22,3 +22,8 @@ public enum AppColor {
         blue: 0.0 / 255.0
     )
 }
+
+@available(*, deprecated, message: "Use `@EnvironmentObject var theme: Theme` instead")
+public enum AppTheme {
+    public static var backgroundView = Color.orange.opacity(0.4)
+}
