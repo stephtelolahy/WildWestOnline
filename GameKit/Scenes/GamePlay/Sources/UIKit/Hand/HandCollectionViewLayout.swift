@@ -13,6 +13,8 @@ class HandCollectionViewLayout: UICollectionViewFlowLayout {
     override func prepare() {
         super.prepare()
 
+        self.scrollDirection = .horizontal
+
         guard let collectionView else {
             return
         }
