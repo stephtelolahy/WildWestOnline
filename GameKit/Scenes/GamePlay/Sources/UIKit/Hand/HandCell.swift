@@ -10,7 +10,7 @@ import UIKit
 class HandCell: UICollectionViewCell {
     // MARK: Outlets
 
-    @IBOutlet private weak var cardView: UIView!
+    @IBOutlet private weak var cardDisabledLayer: UIView!
     @IBOutlet private weak var cardImageView: UIImageView!
 
     // MARK: Setup
@@ -22,6 +22,6 @@ class HandCell: UICollectionViewCell {
 
     func update(with item: GamePlayUIKitView.State.CardAction) {
         cardImageView.image = UIImage(named: item.card)
-        cardView.isHidden = item.action == nil
+        cardDisabledLayer.isHidden = item.action != nil
     }
 }

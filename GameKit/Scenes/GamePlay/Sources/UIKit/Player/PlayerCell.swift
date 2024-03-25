@@ -25,7 +25,7 @@ class PlayerCell: UICollectionViewCell {
     func update(with item: GamePlayUIKitView.State.PlayerItem) {
         updateBackground(item)
 
-        nameLabel.text = item.name.uppercased()
+        nameLabel.text = item.displayName
         figureImageView.alpha = !item.isEliminated ? 1.0 : 0.4
         equipmentLabel.text = item.inPlay.map { "[\($0)]" }.joined(separator: "\n")
         if let role = item.role {
@@ -37,7 +37,7 @@ class PlayerCell: UICollectionViewCell {
         + Array(item.health..<item.maxHealth).map { _ in "░" }
             + Array(0..<item.health).map { _ in "■" }.joined()
         handLabel.text = "[] \(item.handCount)"
-        figureImageView.image = UIImage(named: item.name)
+        figureImageView.image = UIImage(named: item.imageName)
 
 //        if let userPhotoUrl = item.userPhotoUrl {
 //            avatarImageView.kf.setImage(with: URL(string: userPhotoUrl))

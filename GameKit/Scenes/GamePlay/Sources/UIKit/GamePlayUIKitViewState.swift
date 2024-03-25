@@ -20,7 +20,9 @@ public extension GamePlayUIKitView {
         public let events: [String]
 
         public struct PlayerItem: Equatable {
-            public let name: String
+            public let id: String
+            public let imageName: String
+            public let displayName: String
             public let health: Int
             public let maxHealth: Int
             public let handCount: Int
@@ -73,7 +75,9 @@ private extension GameState {
             let isEliminated = !playOrder.contains(playerId)
 
             return .init(
-                name: playerId,
+                id: playerId,
+                imageName: playerObj.figure,
+                displayName: playerObj.figure.uppercased(),
                 health: health,
                 maxHealth: maxHealth,
                 handCount: handCount,

@@ -7,6 +7,8 @@
 // swiftlint:disable type_contents_order
 
 import AppCore
+import Combine
+import GameCore
 import Redux
 import UIKit
 
@@ -14,6 +16,7 @@ class GamePlayViewController: UIViewController {
     // MARK: - Data
 
     private var store: Store<GamePlayUIKitView.State>
+    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - IBOutlets
 
@@ -46,6 +49,12 @@ class GamePlayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        observeData()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startGame()
     }
 
     // MARK: - IBAction
@@ -63,18 +72,40 @@ private extension GamePlayViewController {
     func setupViews() {
         playersCollectionViewLayout.delegate = self
         playersCollectionView.setCollectionViewLayout(playersCollectionViewLayout, animated: false)
-//        playersCollectionView.dataSource = self
-//        playersCollectionView.delegate = self
+        //        playersCollectionView.dataSource = self
+        //        playersCollectionView.delegate = self
 
         handCollectionView.setCollectionViewLayout(handlCollectionViewLayout, animated: false)
-//        handCollectionView.dataSource = self
-//        handCollectionView.delegate = self
+        handCollectionView.register(
+            UINib(nibName: "HandCell", bundle: .module),
+            forCellWithReuseIdentifier: "HandCellIdentifier"
+        )
+        handCollectionView.dataSource = self
+        handCollectionView.delegate = self
 
         messageTableView.register(
             UINib(nibName: "MessageCell", bundle: .module),
             forCellReuseIdentifier: "MessageCellIdentifier"
         )
         messageTableView.dataSource = self
+    }
+
+    func observeData() {
+        store.$state.sink { [weak self] state in
+            self?.updateViews(with: state)
+        }
+        .store(in: &subscriptions)
+    }
+
+    func updateViews(with state: GamePlayUIKitView.State) {
+        titleLabel.text = state.message
+        messageTableView.reloadData()
+        handCollectionView.reloadData()
+    }
+
+    func startGame() {
+        let sheriff = store.state.players[0].id
+        store.dispatch(GameAction.setTurn(player: sheriff))
     }
 }
 

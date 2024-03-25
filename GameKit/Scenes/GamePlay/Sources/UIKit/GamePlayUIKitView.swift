@@ -45,7 +45,9 @@ private var previewState: GamePlayUIKitView.State {
     .init(
         players: [
             .init(
-                name: .willyTheKid,
+                id: "p1",
+                imageName: .willyTheKid,
+                displayName: .willyTheKid,
                 health: 2,
                 maxHealth: 4,
                 handCount: 5,
@@ -58,7 +60,9 @@ private var previewState: GamePlayUIKitView.State {
                 userPhotoUrl: nil
             ),
             .init(
-                name: .bartCassidy,
+                id: "p2",
+                imageName: .bartCassidy,
+                displayName: .bartCassidy,
                 health: 1,
                 maxHealth: 4,
                 handCount: 0,
