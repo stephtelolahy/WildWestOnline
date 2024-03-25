@@ -81,13 +81,11 @@ private var previewState: GamePlayUIKitView.State {
             .bang: .play(.bang, player: "p2")
         ],
         handActions: [
+            .init(card: "\(String.mustang)-2♥️", action: nil),
             .init(card: .bang, action: .play(.bang, player: "p1")),
             .init(card: .gatling, action: .play(.gatling, player: "p1")),
-            .init(card: .schofield, action: .play(.schofield, player: "p1")),
-            .init(card: .mustang, action: nil),
             .init(card: .scope, action: nil),
-            .init(card: .barrel, action: .play(.barrel, player: "p1")),
-            .init(card: .beer, action: nil)
+            .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
         ],
         events: [
             "Event2",

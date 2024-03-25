@@ -21,7 +21,9 @@ class HandCell: UICollectionViewCell {
     }
 
     func update(with item: GamePlayUIKitView.State.CardAction) {
-        cardImageView.image = UIImage(named: item.card)
-        cardDisabledLayer.isHidden = item.action != nil
+        let cardName = item.card.extractName()
+        cardImageView.image = UIImage(named: cardName, in: Bundle.module, with: .none)
+        let isActive = item.action != nil
+        cardDisabledLayer.isHidden = isActive
     }
 }
