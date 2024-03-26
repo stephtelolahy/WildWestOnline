@@ -92,7 +92,7 @@ private var previewState: GamePlayUIKitView.State {
             "Event2",
             "Event1"
         ],
-        topDiscard: .barrel,
+        topDiscard: .bang,
         deckCount: 43
     )
 }
