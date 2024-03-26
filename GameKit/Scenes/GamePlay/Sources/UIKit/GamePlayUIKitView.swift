@@ -76,10 +76,13 @@ private var previewState: GamePlayUIKitView.State {
             )
         ],
         message: "P1's turn",
-        chooseOneActions: [
-            .missed: .play(.missed, player: "p2"),
-            .bang: .play(.bang, player: "p2")
-        ],
+        chooseOneData: .init(
+            choiceType: .card,
+            actions: [
+                .missed: .play(.missed, player: "p2"),
+                .bang: .play(.bang, player: "p2")
+            ]
+        ),
         handActions: [
             .init(card: "\(String.mustang)-2♥️", action: nil),
             .init(card: .gatling, action: .play(.gatling, player: "p1")),

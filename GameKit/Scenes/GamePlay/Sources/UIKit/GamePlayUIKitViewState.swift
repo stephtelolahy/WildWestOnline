@@ -15,7 +15,7 @@ public extension GamePlayUIKitView {
     struct State: Equatable {
         public let players: [PlayerItem]
         public let message: String
-        public let chooseOneActions: [String: GameAction]
+        public let chooseOneData: ChooseOneData?
         public let handActions: [CardAction]
         public let events: [String]
 
@@ -44,6 +44,11 @@ public extension GamePlayUIKitView {
                 self.action = action
             }
         }
+
+        public struct ChooseOneData: Equatable {
+            public let choiceType: ChoiceType
+            public let actions: [String: GameAction]
+        }
     }
 }
 
@@ -56,7 +61,7 @@ public extension GamePlayUIKitView.State {
         return .init(
             players: game.playerItems,
             message: game.message,
-            chooseOneActions: game.chooseOneActions,
+            chooseOneData: game.chooseOneData,
             handActions: game.handActions,
             events: game.events.reversed().map { String(describing: $0) }
         )
@@ -100,14 +105,15 @@ private extension GameState {
         }
     }
 
-    var chooseOneActions: [String: GameAction] {
+    var chooseOneData: GamePlayUIKitView.State.ChooseOneData? {
         guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
-            return  [:]
+            return  nil
         }
 
-        return chooseOne.value.options.reduce(into: [String: GameAction]()) {
+        let options = chooseOne.value.options.reduce(into: [String: GameAction]()) {
             $0[$1] = .choose($1, player: chooseOne.key)
         }
+        return .init(choiceType: chooseOne.value.type, actions: options)
     }
 
     var handActions: [GamePlayUIKitView.State.CardAction] {

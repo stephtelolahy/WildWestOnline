@@ -101,6 +101,34 @@ private extension GamePlayViewController {
         titleLabel.text = state.message
         messageTableView.reloadData()
         handCollectionView.reloadData()
+        if let data = state.chooseOneData {
+            showChooseOneAlert(data) { [weak self] action in
+                self?.store.dispatch(action)
+            }
+        }
+    }
+
+    func showChooseOneAlert(
+        _ data: GamePlayUIKitView.State.ChooseOneData,
+        completion: @escaping (GameAction) -> Void
+    ) {
+        let alert = UIAlertController(
+            title: "Choose \(data.choiceType.rawValue)",
+            message: nil,
+            preferredStyle: .alert
+        )
+
+        data.actions.forEach { key, action in
+            alert.addAction(
+                UIAlertAction(title: key,
+                              style: .default,
+                              handler: { _ in
+                                  completion(action)
+                              })
+            )
+        }
+
+        present(alert, animated: true)
     }
 
     func startGame() {
