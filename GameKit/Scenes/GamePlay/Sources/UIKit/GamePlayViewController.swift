@@ -100,6 +100,8 @@ private extension GamePlayViewController {
     func updateViews(with state: GamePlayUIKitView.State) {
         titleLabel.text = state.message
         messageTableView.reloadData()
+        discardImageView.image = state.topDiscardImage
+        deckCountLabel.text = "[] \(state.deckCount)"
         handCollectionView.reloadData()
         if let data = state.chooseOneData {
             showChooseOneAlert(data) { [weak self] action in
@@ -120,11 +122,13 @@ private extension GamePlayViewController {
 
         data.actions.forEach { key, action in
             alert.addAction(
-                UIAlertAction(title: key,
-                              style: .default,
-                              handler: { _ in
-                                  completion(action)
-                              })
+                UIAlertAction(
+                    title: key,
+                    style: .default,
+                    handler: { _ in
+                        completion(action)
+                    }
+                )
             )
         }
 
@@ -241,5 +245,16 @@ extension GamePlayViewController: UICollectionViewDelegate {
 extension GamePlayViewController: PlayerCollectionViewLayoutDelegate {
     func numberOfItemsForGameCollectionViewLayout(layout: PlayerCollectionViewLayout) -> Int {
         store.state.players.count
+    }
+}
+
+private extension GamePlayUIKitView.State {
+    var topDiscardImage: UIImage? {
+        guard let topDiscard else {
+            return nil
+        }
+
+        let discardCardName = topDiscard.extractName()
+        return UIImage(named: discardCardName, in: Bundle.module, with: .none)
     }
 }
