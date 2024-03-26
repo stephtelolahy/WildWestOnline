@@ -82,9 +82,7 @@ private var previewState: GamePlayUIKitView.State {
         ],
         handActions: [
             .init(card: "\(String.mustang)-2♥️", action: nil),
-            .init(card: .bang, action: .play(.bang, player: "p1")),
             .init(card: .gatling, action: .play(.gatling, player: "p1")),
-            .init(card: .scope, action: nil),
             .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
         ],
         events: [
