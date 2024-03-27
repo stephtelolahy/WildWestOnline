@@ -61,8 +61,8 @@ private var previewState: GamePlayUIKitView.State {
             ),
             .init(
                 id: "p2",
-                imageName: .bartCassidy,
-                displayName: .bartCassidy,
+                imageName: .calamityJanet,
+                displayName: .calamityJanet,
                 health: 1,
                 maxHealth: 4,
                 handCount: 0,
@@ -87,7 +87,7 @@ private var previewState: GamePlayUIKitView.State {
             "Event1"
         ],
         topDiscard: .bang,
-        deckCount: 43
+        deckCount: 12
     )
 }
 

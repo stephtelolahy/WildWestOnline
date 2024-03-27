@@ -37,7 +37,13 @@ class PlayerCell: UICollectionViewCell {
         + Array(item.health..<item.maxHealth).map { _ in "░" }
             + Array(0..<item.health).map { _ in "■" }.joined()
         handLabel.text = "[] \(item.handCount)"
-        figureImageView.image = UIImage(named: item.imageName)
+
+        let figureImage = UIImage(named: item.imageName, in: Bundle.module, with: .none)
+        guard let figureImage else {
+            fatalError("Missing image for figure \(item.imageName)")
+        }
+
+        figureImageView.image = figureImage
 
 //        if let userPhotoUrl = item.userPhotoUrl {
 //            avatarImageView.kf.setImage(with: URL(string: userPhotoUrl))
