@@ -64,16 +64,24 @@ class GamePlayViewController: UIViewController {
     }
 
     @IBAction private func endTurnTapped(_ sender: Any) {
-        // TODO: endTurn
     }
 }
 
 private extension GamePlayViewController {
+    func startGame() {
+        let sheriff = store.state.players[0].id
+        store.dispatch(GameAction.setTurn(player: sheriff))
+    }
+
     func setupViews() {
+        playersCollectionView.register(
+            UINib(nibName: "PlayerCell", bundle: .module),
+            forCellWithReuseIdentifier: "PlayerCellIdentifier"
+        )
         playersCollectionViewLayout.delegate = self
         playersCollectionView.setCollectionViewLayout(playersCollectionViewLayout, animated: false)
-        //        playersCollectionView.dataSource = self
-        //        playersCollectionView.delegate = self
+        playersCollectionView.dataSource = self
+        playersCollectionView.delegate = self
 
         handCollectionView.setCollectionViewLayout(handlCollectionViewLayout, animated: false)
         handCollectionView.register(
@@ -135,9 +143,16 @@ private extension GamePlayViewController {
         present(alert, animated: true)
     }
 
-    func startGame() {
-        let sheriff = store.state.players[0].id
-        store.dispatch(GameAction.setTurn(player: sheriff))
+    func showPlayerInfoAlert(_ player: GamePlayUIKitView.State.PlayerItem) {
+        let alert = UIAlertController(
+            title: player.displayName,
+            message: "TODO: description",
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(title: "Close", style: .cancel)
+        )
+        present(alert, animated: true)
     }
 }
 
@@ -229,8 +244,7 @@ extension GamePlayViewController: UICollectionViewDelegate {
 
     private func playersCollectionViewDidSelectItem(at indexPath: IndexPath) {
         let player = store.state.players[indexPath.row]
-        // TODO: open player description
-        //        router.toGamePlayer(player)
+        showPlayerInfoAlert(player)
     }
 
     private func handCollectionViewDidSelectItem(at indexPath: IndexPath) {
