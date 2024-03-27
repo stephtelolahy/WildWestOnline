@@ -115,9 +115,15 @@ final class UIKitGamePlayStateTests: XCTestCase {
         let result = try XCTUnwrap(GamePlayUIKitView.State.from(globalState: appState))
 
         // Then
-        XCTAssertEqual(result.chooseOneActions, [
-            .missed: .choose(.missed, player: "p1"),
-            .bang: .choose(.bang, player: "p1")
-        ])
+        XCTAssertEqual(
+            result.chooseOneData,
+            GamePlayUIKitView.State.ChooseOneData(
+                choiceType: .card,
+                actions: [
+                    .missed: .choose(.missed, player: "p1"),
+                    .bang: .choose(.bang, player: "p1")
+                ]
+            )
+        )
     }
 }

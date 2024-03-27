@@ -111,6 +111,7 @@ private extension GamePlayViewController {
         discardImageView.image = state.topDiscardImage
         deckCountLabel.text = "[] \(state.deckCount)"
         handCollectionView.reloadData()
+        playersCollectionView.reloadData()
         if let data = state.chooseOneData {
             showChooseOneAlert(data) { [weak self] action in
                 self?.store.dispatch(action)

@@ -50,6 +50,11 @@ public extension GamePlayUIKitView {
         public struct ChooseOneData: Equatable {
             public let choiceType: ChoiceType
             public let actions: [String: GameAction]
+
+            public init(choiceType: ChoiceType, actions: [String : GameAction]) {
+                self.choiceType = choiceType
+                self.actions = actions
+            }
         }
     }
 }
