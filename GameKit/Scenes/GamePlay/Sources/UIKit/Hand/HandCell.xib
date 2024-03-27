@@ -26,6 +26,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="120" height="92.666666666666671"/>
                         <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
+                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="endTurn" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1VM-IN-uhw" userLabel="abilityLabel">
+                        <rect key="frame" x="40.333333333333343" y="38.333333333333336" width="39.666666666666657" height="16"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="X9H-lR-Ju3" firstAttribute="top" secondItem="3qb-aF-6Es" secondAttribute="top" id="1S1-8J-Qpx"/>
@@ -33,7 +40,9 @@
                     <constraint firstItem="3qb-aF-6Es" firstAttribute="top" secondItem="T9l-2S-vfk" secondAttribute="top" id="BMF-WC-f4u"/>
                     <constraint firstAttribute="trailing" secondItem="X9H-lR-Ju3" secondAttribute="trailing" id="ErC-EL-Nof"/>
                     <constraint firstItem="X9H-lR-Ju3" firstAttribute="bottom" secondItem="3qb-aF-6Es" secondAttribute="bottom" id="GBJ-lv-dWC"/>
+                    <constraint firstItem="1VM-IN-uhw" firstAttribute="centerX" secondItem="T9l-2S-vfk" secondAttribute="centerX" id="Lvv-Lh-AWc"/>
                     <constraint firstItem="X9H-lR-Ju3" firstAttribute="top" secondItem="T9l-2S-vfk" secondAttribute="top" id="ST5-6m-8lC"/>
+                    <constraint firstItem="1VM-IN-uhw" firstAttribute="centerY" secondItem="T9l-2S-vfk" secondAttribute="centerY" id="ejx-D9-y5Y"/>
                     <constraint firstAttribute="bottom" secondItem="X9H-lR-Ju3" secondAttribute="bottom" id="n5R-n9-JX5"/>
                     <constraint firstItem="X9H-lR-Ju3" firstAttribute="leading" secondItem="T9l-2S-vfk" secondAttribute="leading" id="pcf-wF-7br"/>
                     <constraint firstItem="X9H-lR-Ju3" firstAttribute="leading" secondItem="3qb-aF-6Es" secondAttribute="leading" id="tMj-fM-Xrj"/>
@@ -47,6 +56,7 @@
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
             <connections>
+                <outlet property="abilityLabel" destination="1VM-IN-uhw" id="Vl8-qL-IRX"/>
                 <outlet property="cardDisabledLayer" destination="X9H-lR-Ju3" id="QUz-tm-c0H"/>
                 <outlet property="cardImageView" destination="3qb-aF-6Es" id="4gK-uv-aMZ"/>
             </connections>

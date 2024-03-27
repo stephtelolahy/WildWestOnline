@@ -68,7 +68,6 @@ public extension GamePlayUIKitView.State {
             events: game.events.reversed().map { String(describing: $0) },
             topDiscard: game.discard.first,
             deckCount: game.deck.count
-
         )
     }
 }

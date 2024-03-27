@@ -12,6 +12,7 @@ class HandCell: UICollectionViewCell {
 
     @IBOutlet private weak var cardDisabledLayer: UIView!
     @IBOutlet private weak var cardImageView: UIImageView!
+    @IBOutlet private weak var abilityLabel: UILabel!
 
     // MARK: Setup
 
@@ -22,7 +23,15 @@ class HandCell: UICollectionViewCell {
 
     func update(with item: GamePlayUIKitView.State.CardAction) {
         let cardName = item.card.extractName()
-        cardImageView.image = UIImage(named: cardName, in: Bundle.module, with: .none)
+        let cardImage = UIImage(named: cardName, in: Bundle.module, with: .none)
+        if let cardImage {
+            cardImageView.image = cardImage
+            abilityLabel.text = nil
+        } else {
+            abilityLabel.text = item.card
+            cardImageView.image = nil
+        }
+
         let isActive = item.action != nil
         cardDisabledLayer.isHidden = isActive
     }
