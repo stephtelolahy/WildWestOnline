@@ -12,7 +12,7 @@ public class Store<State: Equatable>: ObservableObject {
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions = Set<AnyCancellable>()
-    private let middlewareQueue = DispatchQueue(label: "store.middleware")
+    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware")
 
     public init(
         initial state: State,
@@ -30,7 +30,7 @@ public class Store<State: Equatable>: ObservableObject {
         for middleware in middlewares {
             // swiftlint:disable:next trailing_closure
             Future { await middleware.effect(on: action, state: newState) }
-                .subscribe(on: middlewareQueue)
+                .subscribe(on: middlewareSerialQueue)
                 .receive(on: DispatchQueue.main)
                 .sink(receiveValue: { [weak self] action in
                     if let action {

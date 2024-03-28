@@ -14,13 +14,15 @@ public extension GameState {
         }
 
         var state = state
+        state.occurredEvent = nil
+        state.error = nil
         do {
             state = try action.prepare(state: state)
             state = try action.reduce(state: state)
             if action.isRenderable {
+                state.occurredEvent = action
                 state.events.append(action)
             }
-            state.error = nil
         } catch {
             state.error = error as? GameError
             print("🚨 reduceAction: \(action)\tthrows: \(error)")

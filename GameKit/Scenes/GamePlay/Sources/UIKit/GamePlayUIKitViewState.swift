@@ -20,6 +20,7 @@ public extension GamePlayUIKitView {
         public let events: [String]
         public let topDiscard: String?
         public let deckCount: Int
+        public let occurredEvent: GameAction?
 
         public struct PlayerItem: Equatable {
             public let id: String
@@ -51,7 +52,7 @@ public extension GamePlayUIKitView {
             public let choiceType: ChoiceType
             public let actions: [String: GameAction]
 
-            public init(choiceType: ChoiceType, actions: [String : GameAction]) {
+            public init(choiceType: ChoiceType, actions: [String: GameAction]) {
                 self.choiceType = choiceType
                 self.actions = actions
             }
@@ -72,7 +73,8 @@ public extension GamePlayUIKitView.State {
             handActions: game.handActions,
             events: game.events.reversed().map { String(describing: $0) },
             topDiscard: game.discard.first,
-            deckCount: game.deck.count
+            deckCount: game.deck.count,
+            occurredEvent: game.occurredEvent
         )
     }
 }

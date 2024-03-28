@@ -31,6 +31,7 @@ class GamePlayViewController: UIViewController {
 
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
     private let handlCollectionViewLayout = HandCollectionViewLayout()
+    private let animationController = AnimationController()
 
     // MARK: - Init
 
@@ -49,7 +50,7 @@ class GamePlayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        observeData()
+        observeState()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -98,7 +99,7 @@ private extension GamePlayViewController {
         messageTableView.dataSource = self
     }
 
-    func observeData() {
+    func observeState() {
         store.$state.sink { [weak self] state in
             self?.updateViews(with: state)
         }
@@ -107,15 +108,19 @@ private extension GamePlayViewController {
 
     func updateViews(with state: GamePlayUIKitView.State) {
         titleLabel.text = state.message
-        messageTableView.reloadData()
         discardImageView.image = state.topDiscardImage
         deckCountLabel.text = "[] \(state.deckCount)"
+
+        messageTableView.reloadData()
         handCollectionView.reloadData()
         playersCollectionView.reloadData()
-        if let data = state.chooseOneData {
-            showChooseOneAlert(data) { [weak self] action in
-                self?.store.dispatch(action)
-            }
+
+        if let chooseOneData = state.chooseOneData {
+            showChooseOneAlert(chooseOneData, completion: store.dispatch)
+        }
+
+        if let event = state.occurredEvent {
+            animationController.handleEvent(event)
         }
     }
 
@@ -133,11 +138,10 @@ private extension GamePlayViewController {
             alert.addAction(
                 UIAlertAction(
                     title: key,
-                    style: .default,
-                    handler: { _ in
-                        completion(action)
-                    }
-                )
+                    style: .default
+                ) { _ in
+                    completion(action)
+                }
             )
         }
 

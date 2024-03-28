@@ -87,7 +87,8 @@ private var previewState: GamePlayUIKitView.State {
             "Event1"
         ],
         topDiscard: .bang,
-        deckCount: 12
+        deckCount: 12,
+        occurredEvent: .damage(1, player: .calamityJanet)
     )
 }
 
