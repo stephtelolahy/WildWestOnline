@@ -80,7 +80,7 @@ final class JailTests: XCTestCase {
             .cancel(
                 .effect(
                     .repeat(.attr(.startTurnCards), effect: .drawDeck),
-                    ctx: EffectContext(actor: "p1", card: .drawOnSetTurn, event: .setTurn(player: "p1"))
+                    ctx: EffectContext(sourceEvent: .setTurn(player: "p1"), sourceActor: "p1", sourceCard: .drawOnSetTurn)
                 )
             ),
             .discardInPlay(.jail, player: "p1"),

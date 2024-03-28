@@ -8,7 +8,7 @@
 extension GameAction {
     func isEffectTriggeredBy(_ player: String) -> Bool {
         if case let .effect(_, ctx) = self,
-           ctx.actor == player {
+           ctx.sourceActor == player {
             true
         } else {
             false
@@ -17,8 +17,8 @@ extension GameAction {
 
     func isEffectOfSetTurn(ignoredCard: String) -> Bool {
         if case let .effect(_, ctx) = self,
-           case .setTurn = ctx.event,
-           ctx.card != ignoredCard {
+           case .setTurn = ctx.sourceEvent,
+           ctx.sourceCard != ignoredCard {
             true
         } else {
             false

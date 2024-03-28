@@ -42,9 +42,9 @@ struct ActionPlay: GameActionReducer {
 
         // queue play effects
         let ctx = EffectContext(
-            actor: player,
-            card: card,
-            event: event
+            sourceEvent: event,
+            sourceActor: player,
+            sourceCard: card
         )
         let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
         state.sequence.insert(contentsOf: children, at: 0)

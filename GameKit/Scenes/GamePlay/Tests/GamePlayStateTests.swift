@@ -48,14 +48,14 @@ final class GamePlayStateTests: XCTestCase {
         let result = try XCTUnwrap(GamePlayView.State.from(globalState: appState))
 
         // Then
-        XCTAssertEqual(result.visiblePlayers.count, 2)
+        XCTAssertEqual(result.players.count, 2)
 
-        let player1 = try XCTUnwrap(result.visiblePlayers[0])
+        let player1 = try XCTUnwrap(result.players[0])
         XCTAssertEqual(player1.id, "p1")
         XCTAssertEqual(player1.imageName, "willyTheKid")
         XCTAssertEqual(player1.status, .active)
 
-        let player2 = try XCTUnwrap(result.visiblePlayers[1])
+        let player2 = try XCTUnwrap(result.players[1])
         XCTAssertEqual(player2.id, "p2")
         XCTAssertEqual(player2.imageName, "bartCassidy")
         XCTAssertEqual(player2.status, .idle)

@@ -12,6 +12,7 @@ import SwiftUI
 import Theme
 
 public struct HomeView: View {
+    @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 
     public init(store: @escaping () -> Store<State>) {
@@ -21,29 +22,26 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        VStack {
-            headerView
-            Spacer()
-            contentView
-            Spacer()
-            footerView
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColor.background)
-    }
-
-    private var headerView: some View {
-        HStack {
-            Spacer()
-            Button {
-                withAnimation {
-                    store.dispatch(AppAction.present(.settings))
+        NavigationView {
+            ZStack {
+                theme.backgroundView.edgesIgnoringSafeArea(.all)
+                VStack {
+                    Spacer()
+                    contentView
+                    Spacer()
+                    footerView
                 }
-            } label: {
-                Image(systemName: "gearshape")
-                    .foregroundColor(.accentColor)
-                    .font(.title)
+            }
+            .toolbar {
+                Button {
+                    withAnimation {
+                        store.dispatch(AppAction.present(.settings))
+                    }
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.accentColor)
+                        .font(.title)
+                }
             }
         }
     }
@@ -56,9 +54,9 @@ public struct HomeView: View {
                     .foregroundStyle(.primary)
                 Image("logo", bundle: .module)
                     .resizable()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 120, height: 120)
             }
-            VStack(spacing: 16) {
+            VStack(spacing: 8) {
                 roundedButton("menu.play.button") {
                     withAnimation {
                         store.dispatch(AppAction.navigate(.game))
@@ -79,23 +77,23 @@ public struct HomeView: View {
         Button(action: action) {
             Text(String(localized: titleKey, bundle: .module))
                 .font(.headline)
-                .padding(12)
+                .padding(8)
                 .frame(minWidth: 0, maxWidth: 200)
                 .foregroundStyle(.primary)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 24)
+                    RoundedRectangle(cornerRadius: 16)
                         .stroke(Color.accentColor, lineWidth: 4)
                 )
         }
     }
 
     private var footerView: some View {
-        VStack(spacing: 8) {
+        VStack {
             Text("splash.developer.name", bundle: .module)
-                .font(.subheadline)
+                .font(.footnote)
                 .foregroundStyle(.primary)
             Text("splash.developer.email", bundle: .module)
-                .font(.subheadline)
+                .font(.footnote)
                 .foregroundStyle(.primary.opacity(0.4))
         }
     }
@@ -103,6 +101,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        Store<HomeView.State>(initial: .init())
+        Store(initial: .init())
     }
 }

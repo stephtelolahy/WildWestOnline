@@ -24,7 +24,7 @@ public struct SplashView: View {
             Color.black
                 .ignoresSafeArea()
             Text("splash.editor.name", bundle: .module)
-                .font(.title2)
+                .font(.callout)
                 .foregroundStyle(.red)
         }
         .onAppear {
@@ -38,6 +38,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        Store<SplashView.State>(initial: .init())
+        Store(initial: .init())
     }
 }

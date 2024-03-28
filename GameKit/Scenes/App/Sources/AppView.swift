@@ -41,9 +41,17 @@ public struct AppView: View {
                 }
 
             case .game:
-                GamePlayView {
-                    store.projection {
-                        GamePlayView.State.from(globalState: $0)
+                if store.state.settings.oldGamePlay {
+                    GamePlayUIKitView {
+                        store.projection {
+                            GamePlayUIKitView.State.from(globalState: $0)
+                        }
+                    }
+                } else {
+                    GamePlayView {
+                        store.projection {
+                            GamePlayView.State.from(globalState: $0)
+                        }
                     }
                 }
 
@@ -68,10 +76,10 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store<AppState>(initial: previewState)
+        Store(initial: previewState)
     }
 }
 
 private var previewState: AppState {
-    .init(screens: [.splash], settings: .init())
+    .init(screens: [.home], settings: .init())
 }

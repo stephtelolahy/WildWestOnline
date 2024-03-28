@@ -35,6 +35,9 @@ public class SettingsMiddleware: Middleware<SettingsState> {
 
         case let .updateWaitDelayMilliseconds(delay):
             service.waitDelayMilliseconds = delay
+
+        default:
+            break
         }
 
         return nil
