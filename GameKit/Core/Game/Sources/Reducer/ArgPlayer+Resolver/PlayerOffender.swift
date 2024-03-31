@@ -7,8 +7,8 @@
 
 struct PlayerOffender: ArgPlayerResolver {
     func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
-        guard case let .damage(_, player) = ctx.event,
-              player == ctx.actor,
+        guard case let .damage(_, player) = ctx.sourceEvent,
+              player == ctx.sourceActor,
               let turnPlayer = state.turn else {
             fatalError("invalid triggering action")
         }

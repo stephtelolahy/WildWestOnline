@@ -91,10 +91,9 @@ final class AppCoreTests: XCTestCase {
 
 private extension SettingsState {
     static let sample: Self = .init(
+        inventory: .sample,
         playersCount: 5,
-        waitDelayMilliseconds: 0,
-        simulation: false,
-        inventory: .sample
+        waitDelayMilliseconds: 0
     )
 }
 

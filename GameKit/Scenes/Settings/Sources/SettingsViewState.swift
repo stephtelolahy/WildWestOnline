@@ -18,6 +18,7 @@ public extension SettingsView {
         public let speedOptions: [SpeedOption] = SpeedOption.all
         public let currentSpeedIndex: Int
         public let simulation: Bool
+        public let oldGamePlay: Bool
 
         public struct SpeedOption: Equatable {
             let label: String
@@ -38,7 +39,8 @@ public extension SettingsView.State {
             playersCount: globalState.settings.playersCount,
             maxPlayersCount: globalState.settings.inventory.figures.count,
             currentSpeedIndex: globalState.speedOptionIndex,
-            simulation: globalState.settings.simulation
+            simulation: globalState.settings.simulation,
+            oldGamePlay: globalState.settings.oldGamePlay
         )
     }
 }

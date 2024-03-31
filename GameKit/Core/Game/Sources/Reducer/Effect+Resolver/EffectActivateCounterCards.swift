@@ -7,13 +7,13 @@
 
 struct EffectActivateCounterCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        let playerObj = state.player(ctx.actor)
-        let playReqContext = PlayReqContext(actor: ctx.actor, event: ctx.event)
+        let playerObj = state.player(ctx.sourceActor)
+        let playReqContext = PlayReqContext(actor: ctx.sourceActor, event: ctx.sourceEvent)
 
         let counterCards = playerObj.hand.filter {
             CounterActionResolver.isCounterShootCard(
                 $0,
-                player: ctx.actor,
+                player: ctx.sourceActor,
                 state: state,
                 ctx: playReqContext
             )
@@ -24,7 +24,7 @@ struct EffectActivateCounterCards: EffectResolver {
         }
 
         var actions = counterCards.reduce(into: [String: GameAction]()) {
-            $0[$1] = .play($1, player: ctx.actor)
+            $0[$1] = .play($1, player: ctx.sourceActor)
         }
 
         actions[.pass] = .nothing
@@ -39,7 +39,7 @@ struct EffectActivateCounterCards: EffectResolver {
         let chooseOne = GameAction.chooseOne(
             .counterCard,
             options: validoptions,
-            player: ctx.actor
+            player: ctx.sourceActor
         )
 
         let match = GameAction.effect(.matchAction(actions), ctx: ctx)

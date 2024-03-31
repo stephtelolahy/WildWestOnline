@@ -193,12 +193,12 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingEffect() {
         XCTAssertEqual(
-            String(describing: GameAction.effect(.discover, ctx: .init(actor: "p1", card: "c1", event: .nothing))),
+            String(describing: GameAction.effect(.discover, ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))),
             "➡️ discover"
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.effect(.damage(3), ctx: .init(actor: "p1", card: "c1", event: .nothing))),
+            String(describing: GameAction.effect(.damage(3), ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))),
             "➡️ damage(3)"
         )
     }

@@ -35,7 +35,10 @@ public struct GameState: Codable, Equatable, DocumentConvertible {
     /// Occurred error
     public var error: GameError?
 
-    /// Occurred renderable event
+    /// Last occurred renderable event
+    public var occurredEvent: GameAction?
+
+    /// Occurred renderable event history
     public var events: [GameAction]
 
     /// Pending action by player

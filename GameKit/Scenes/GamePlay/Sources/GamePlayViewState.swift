@@ -13,7 +13,7 @@ import Redux
 
 public extension GamePlayView {
     struct State: Equatable {
-        public let visiblePlayers: [PlayerItem]
+        public let players: [PlayerItem]
         public let message: String
         public let chooseOneActions: [String: GameAction]
         public let handActions: [CardAction]
@@ -54,7 +54,7 @@ public extension GamePlayView.State {
         }
 
         return .init(
-            visiblePlayers: game.visiblePlayers,
+            players: game.playerItems,
             message: game.message,
             chooseOneActions: game.chooseOneActions,
             handActions: game.handActions,
@@ -64,7 +64,7 @@ public extension GamePlayView.State {
 }
 
 private extension GameState {
-    var visiblePlayers: [GamePlayView.State.PlayerItem] {
+    var playerItems: [GamePlayView.State.PlayerItem] {
         startOrder.map { playerId in
             let playerObj = player(playerId)
             let handText = "[]\(playerObj.hand.count)"
@@ -123,7 +123,7 @@ private extension GameState {
 
         let activeCards = self.active[playerId] ?? []
 
-        let handCardActions = playerObj.hand .map { card in
+        let handCardActions = playerObj.hand.map { card in
             if activeCards.contains(card) {
                 GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
@@ -131,7 +131,7 @@ private extension GameState {
             }
         }
 
-        let abilityActions: [GamePlayView.State.CardAction] = playerObj.abilities.compactMap { card in
+        let abilityActions = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
                 GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {

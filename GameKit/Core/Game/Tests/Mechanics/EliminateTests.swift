@@ -28,7 +28,7 @@ final class EliminateTests: XCTestCase {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
-            .withSequence([.effect(.drawDeck, ctx: EffectContext(actor: "p1", card: "c1", event: .nothing))])
+            .withSequence([.effect(.drawDeck, ctx: EffectContext(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))])
             .build()
 
         // When

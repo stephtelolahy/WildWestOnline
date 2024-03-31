@@ -14,6 +14,7 @@ import SwiftUI
 import Theme
 
 public struct GamePlayView: View {
+    @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 
     public init(store: @escaping () -> Store<State>) {
@@ -23,10 +24,19 @@ public struct GamePlayView: View {
     }
 
     public var body: some View {
+        NavigationView {
+            ZStack {
+                theme.backgroundView.edgesIgnoringSafeArea(.all)
+                contentView
+            }
+        }
+    }
+
+    private var contentView: some View {
         VStack(alignment: .leading) {
             headerView
             VStack {
-                ForEach(store.state.visiblePlayers, id: \.id) {
+                ForEach(store.state.players, id: \.id) {
                     itemPlayerView($0)
                 }
                 Divider()
@@ -36,8 +46,6 @@ public struct GamePlayView: View {
             }
         }
         .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColor.background)
         .alert(
             "Choose one option",
             isPresented: Binding<Bool>(
@@ -56,7 +64,7 @@ public struct GamePlayView: View {
             }
         }
         .onAppear {
-            let sheriff = store.state.visiblePlayers[0].id
+            let sheriff = store.state.players[0].id
             store.dispatch(GameAction.setTurn(player: sheriff))
         }
     }
@@ -153,13 +161,13 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store<GamePlayView.State>(initial: previewState)
+        Store(initial: previewState)
     }
 }
 
 private var previewState: GamePlayView.State {
     .init(
-        visiblePlayers: [
+        players: [
             .init(
                 id: "p1",
                 imageName: .willyTheKid,
@@ -193,6 +201,9 @@ private var previewState: GamePlayView.State {
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
             .init(card: .beer, action: nil)
         ],
-        events: []
+        events: [
+            "Event2",
+            "Event1"
+        ]
     )
 }

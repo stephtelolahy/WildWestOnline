@@ -8,7 +8,7 @@
 struct EffectCancelTurn: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let effectsToCancel = state.sequence.filter {
-            $0.isEffectOfSetTurn(ignoredCard: ctx.card)
+            $0.isEffectOfSetTurn(ignoredCard: ctx.sourceCard)
         }
         return effectsToCancel.map { .cancel($0) }
     }

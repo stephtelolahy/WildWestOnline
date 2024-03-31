@@ -69,7 +69,7 @@ extension ArgPlayer {
             let chooseOne = GameAction.chooseOne(
                 .target,
                 options: validoptions,
-                player: ctx.actor
+                player: ctx.sourceActor
             )
 
             let match = GameAction.effect(.matchAction(actions), ctx: ctx)

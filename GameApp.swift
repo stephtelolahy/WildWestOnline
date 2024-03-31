@@ -16,13 +16,15 @@ import Theme
 
 @main
 struct GameApp: App {
+    @Environment(\.theme) private var theme
+
     var body: some Scene {
         WindowGroup {
             AppView {
                 createStore()
             }
             .environment(\.colorScheme, .light)
-            .accentColor(AppColor.button)
+            .accentColor(theme.buttoColor)
         }
     }
 }
@@ -36,10 +38,10 @@ private func createStore() -> Store<AppState> {
     )
 
     let settings = SettingsState(
+        inventory: inventory,
         playersCount: settingsService.playersCount,
         waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
-        simulation: settingsService.simulationEnabled,
-        inventory: inventory
+        simulation: settingsService.simulationEnabled
     )
 
     let initialState = AppState(

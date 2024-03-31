@@ -39,8 +39,8 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         triggered.sort { action1, action2 in
             guard case let .effect(_, ctx1) = action1,
                   case let .effect(_, ctx2) = action2,
-                  let cardObj1 = state.cardRef[ctx1.card.extractName()],
-                  let cardObj2 = state.cardRef[ctx2.card.extractName()] else {
+                  let cardObj1 = state.cardRef[ctx1.sourceCard.extractName()],
+                  let cardObj2 = state.cardRef[ctx2.sourceCard.extractName()] else {
                 fatalError("invalid triggered effect")
             }
             return cardObj1.priority < cardObj2.priority
@@ -75,10 +75,10 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
             }
 
             let ctx = EffectContext(
-                actor: player,
-                card: card,
-                event: event,
-                cancellingAction: cancellingAction(event: event, state: state)
+                sourceEvent: event,
+                sourceActor: player,
+                sourceCard: card,
+                linkedAction: linkedAction(event: event, state: state)
             )
 
             actions.append(.effect(rule.effect, ctx: ctx))
@@ -95,7 +95,7 @@ public final class CardEffectsMiddleware: Middleware<GameState> {
         Array(playerObj.abilities)
     }
 
-    private func cancellingAction(event: GameAction, state: GameState) -> GameAction? {
+    private func linkedAction(event: GameAction, state: GameState) -> GameAction? {
         if case let .effect(cardEffect, _) = event,
            case .shoot = cardEffect,
            let nextAction = state.sequence.first,

@@ -13,12 +13,13 @@ analyzer_rules:
   - unused_import
 disabled_rules:
 - blanket_disable_command
+- strong_iboutlet
 opt_in_rules:
   # - accessibility_label_for_image
   - accessibility_trait_for_button
   # - anonymous_argument_in_multiline_closure
   - array_init
-  - attributes
+  # - attributes
   - balanced_xctest_lifecycle
   - closure_body_length
   - closure_end_indentation
@@ -105,7 +106,7 @@ opt_in_rules:
   - private_outlet
   - private_subject
   # - private_swiftui_state
-  - prohibited_interface_builder
+  # - prohibited_interface_builder
   - prohibited_super_call
   - quick_discouraged_call
   - quick_discouraged_focused_test

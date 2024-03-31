@@ -15,7 +15,7 @@ struct EffectLuck: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         var result: [GameAction] = []
-        let player = ctx.actor
+        let player = ctx.sourceActor
         let playerObj = state.player(player)
 
         let drawnCards: [String]

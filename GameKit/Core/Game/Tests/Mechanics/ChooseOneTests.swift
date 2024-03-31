@@ -16,7 +16,7 @@ final class ChooseOneTests: XCTestCase {
                 $0.withHand(["c1", "c2", "c3"])
             }
             .withChooseOne(.card, options: ["c1", "c2"], player: "p1")
-            .withSequence([.effect(.matchAction([:]), ctx: .init(actor: "p1", card: "c0", event: .draw))])
+            .withSequence([.effect(.matchAction([:]), ctx: .init(sourceEvent: .draw, sourceActor: "p1", sourceCard: "c0"))])
             .build()
 
         // When

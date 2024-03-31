@@ -12,7 +12,7 @@ struct EffectTarget: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         try target.resolve(state: state, ctx: ctx) {
             var contextWithTarget = ctx
-            contextWithTarget.target = $0
+            contextWithTarget.resolvingTarget = $0
             return GameAction.effect(effect, ctx: contextWithTarget)
         }
     }
