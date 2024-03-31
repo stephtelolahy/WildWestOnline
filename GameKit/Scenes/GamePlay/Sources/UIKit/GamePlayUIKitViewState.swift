@@ -17,7 +17,6 @@ public extension GamePlayUIKitView {
         public let message: String
         public let chooseOneData: ChooseOneData?
         public let handActions: [CardAction]
-        public let events: [String]
         public let topDiscard: String?
         public let deckCount: Int
         public let occurredEvent: GameAction?
@@ -71,7 +70,6 @@ public extension GamePlayUIKitView.State {
             message: game.message,
             chooseOneData: game.chooseOneData,
             handActions: game.handActions,
-            events: game.events.reversed().map { String(describing: $0) },
             topDiscard: game.discard.first,
             deckCount: game.deck.count,
             occurredEvent: game.occurredEvent

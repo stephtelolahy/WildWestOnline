@@ -17,6 +17,7 @@ class GamePlayViewController: UIViewController {
 
     private var store: Store<GamePlayUIKitView.State>
     private var subscriptions = Set<AnyCancellable>()
+    private var events: [String] = []
 
     // MARK: - IBOutlets
 
@@ -111,9 +112,8 @@ private extension GamePlayViewController {
         discardImageView.image = state.topDiscardImage
         deckCountLabel.text = "[] \(state.deckCount)"
 
-        messageTableView.reloadData()
-        handCollectionView.reloadData()
         playersCollectionView.reloadData()
+        handCollectionView.reloadData()
 
         if let chooseOneData = state.chooseOneData {
             showChooseOneAlert(chooseOneData, completion: store.dispatch)
@@ -121,6 +121,9 @@ private extension GamePlayViewController {
 
         if let event = state.occurredEvent {
             animationController.handleEvent(event)
+
+            events.insert(String(describing: event), at: 0)
+            messageTableView.reloadData()
         }
     }
 
@@ -166,7 +169,7 @@ extension GamePlayViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        store.state.events.count
+        events.count
     }
 
     func tableView(
@@ -175,7 +178,7 @@ extension GamePlayViewController: UITableViewDataSource {
     ) -> UITableViewCell {
         // swiftlint:disable:next force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellIdentifier", for: indexPath) as! MessageCell
-        let item = store.state.events[indexPath.row]
+        let item = events[indexPath.row]
         cell.update(with: item)
         return cell
     }
