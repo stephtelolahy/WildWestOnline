@@ -64,9 +64,6 @@ class GamePlayViewController: UIViewController {
     @IBAction private func closeButtonTapped(_ sender: Any) {
         store.dispatch(AppAction.close)
     }
-
-    @IBAction private func endTurnTapped(_ sender: Any) {
-    }
 }
 
 private extension GamePlayViewController {

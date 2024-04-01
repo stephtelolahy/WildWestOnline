@@ -13,7 +13,6 @@
                 <outlet property="deckCountLabel" destination="Fbc-Ba-Hu0" id="tMt-lb-FMn"/>
                 <outlet property="deckImageView" destination="xM0-9c-veJ" id="S3E-zZ-0Dz"/>
                 <outlet property="discardImageView" destination="E3C-Au-BoO" id="lez-d6-zZA"/>
-                <outlet property="endTurnButton" destination="vuF-Uc-Rb3" id="mYq-QX-rFK"/>
                 <outlet property="handCollectionView" destination="m5e-H5-wvG" id="3dk-LC-nia"/>
                 <outlet property="messageTableView" destination="rfw-4A-huH" id="cGY-8o-R3F"/>
                 <outlet property="playersCollectionView" destination="iQk-fs-eZc" id="Nfy-L4-Y4N"/>
@@ -26,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iQk-fs-eZc" userLabel="playersCollectionView">
-                    <rect key="frame" x="59" y="20" width="734" height="352"/>
+                    <rect key="frame" x="59" y="20" width="734" height="344.33333333333331"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="YWc-rJ-o57">
                         <size key="itemSize" width="145" height="146"/>
@@ -37,10 +36,10 @@
                     <cells/>
                 </collectionView>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IMj-27-YOb" userLabel="deckStackView">
-                    <rect key="frame" x="361" y="147.33333333333334" width="130" height="98.333333333333343"/>
+                    <rect key="frame" x="362" y="144.33333333333337" width="128" height="96.333333333333314"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_back" translatesAutoresizingMaskIntoConstraints="NO" id="xM0-9c-veJ" userLabel="deckImageView">
-                            <rect key="frame" x="0.0" y="0.0" width="63" height="98.333333333333329"/>
+                            <rect key="frame" x="0.0" y="0.0" width="62" height="96.333333333333329"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="xM0-9c-veJ" secondAttribute="height" multiplier="250:389" id="4t0-ia-bbh"/>
@@ -52,7 +51,7 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bang" translatesAutoresizingMaskIntoConstraints="NO" id="E3C-Au-BoO" userLabel="discardImageView">
-                            <rect key="frame" x="67" y="0.0" width="63" height="98.333333333333329"/>
+                            <rect key="frame" x="66" y="0.0" width="62" height="96.333333333333329"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="E3C-Au-BoO" secondAttribute="height" multiplier="250:389" id="YGp-gu-HW4"/>
@@ -65,14 +64,14 @@
                     </constraints>
                 </stackView>
                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[]3" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fbc-Ba-Hu0">
-                    <rect key="frame" x="343.66666666666669" y="188.66666666666666" width="13.333333333333314" height="16"/>
+                    <rect key="frame" x="344.66666666666669" y="184.66666666666663" width="13.333333333333314" height="16"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="m5e-H5-wvG" userLabel="handCollectionView">
-                    <rect key="frame" x="503.33333333333326" y="254" width="289.66666666666674" height="118"/>
+                    <rect key="frame" x="503.33333333333326" y="248.66666666666674" width="289.66666666666674" height="115.66666666666652"/>
                     <color key="backgroundColor" red="0.75559097529999997" green="0.67946600909999999" blue="0.55683469770000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="xnb-8S-cWW">
                         <size key="itemSize" width="120" height="92.5"/>
@@ -83,7 +82,7 @@
                     <cells/>
                 </collectionView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="rfw-4A-huH">
-                    <rect key="frame" x="59" y="254" width="289.66666666666669" height="118"/>
+                    <rect key="frame" x="59" y="248.66666666666674" width="289.66666666666669" height="115.66666666666652"/>
                     <color key="backgroundColor" red="0.75559097529999997" green="0.67946600909999999" blue="0.55683469770000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </tableView>
                 <label userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Your turn" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bSb-xC-zkP">
@@ -93,18 +92,6 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuF-Uc-Rb3" userLabel="endTurnButton">
-                    <rect key="frame" x="761" y="214" width="32" height="32"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="vuF-Uc-Rb3" secondAttribute="height" multiplier="1:1" id="BiY-Ud-s2U"/>
-                        <constraint firstAttribute="width" constant="32" id="d33-nM-cwB"/>
-                    </constraints>
-                    <color key="tintColor" red="0.57874745130000005" green="0.32151988149999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" image="checkmark.circle" catalog="system"/>
-                    <connections>
-                        <action selector="endTurnTapped:" destination="-1" eventType="touchUpInside" id="IFM-LJ-boy"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzp-Tq-Jfh" userLabel="closeButton">
                     <rect key="frame" x="761" y="16" width="32" height="32"/>
                     <constraints>
@@ -134,13 +121,12 @@
                 <constraint firstItem="wzp-Tq-Jfh" firstAttribute="top" secondItem="OJU-jQ-blB" secondAttribute="top" constant="16" id="MoW-34-XxB"/>
                 <constraint firstItem="rfw-4A-huH" firstAttribute="width" secondItem="NAa-nV-wNs" secondAttribute="width" multiplier="0.34" id="REg-7p-Tge"/>
                 <constraint firstItem="IMj-27-YOb" firstAttribute="leading" secondItem="Fbc-Ba-Hu0" secondAttribute="trailing" constant="4" id="TtC-9F-Skk"/>
-                <constraint firstItem="OJU-jQ-blB" firstAttribute="trailing" secondItem="vuF-Uc-Rb3" secondAttribute="trailing" id="dc9-lx-4M9"/>
                 <constraint firstItem="iQk-fs-eZc" firstAttribute="bottom" secondItem="OJU-jQ-blB" secondAttribute="bottom" id="dzk-Lv-sXG"/>
-                <constraint firstItem="m5e-H5-wvG" firstAttribute="top" secondItem="vuF-Uc-Rb3" secondAttribute="bottom" constant="8" id="eRj-od-Tch"/>
                 <constraint firstItem="Fbc-Ba-Hu0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OJU-jQ-blB" secondAttribute="leading" id="fYY-ze-ekV"/>
                 <constraint firstItem="IMj-27-YOb" firstAttribute="centerY" secondItem="NAa-nV-wNs" secondAttribute="centerY" id="jXm-nk-aBs"/>
                 <constraint firstItem="m5e-H5-wvG" firstAttribute="height" secondItem="NAa-nV-wNs" secondAttribute="height" multiplier="0.3" id="kDu-Ab-2pP"/>
                 <constraint firstItem="bSb-xC-zkP" firstAttribute="centerX" secondItem="NAa-nV-wNs" secondAttribute="centerX" id="oC7-pQ-hya"/>
+                <constraint firstItem="IMj-27-YOb" firstAttribute="width" secondItem="NAa-nV-wNs" secondAttribute="width" multiplier="0.15" id="oOt-DE-nzn"/>
                 <constraint firstItem="iQk-fs-eZc" firstAttribute="trailing" secondItem="OJU-jQ-blB" secondAttribute="trailing" id="tmF-ae-Ifg"/>
                 <constraint firstItem="m5e-H5-wvG" firstAttribute="width" secondItem="NAa-nV-wNs" secondAttribute="width" multiplier="0.34" id="vMw-ge-HgH"/>
                 <constraint firstItem="IMj-27-YOb" firstAttribute="height" secondItem="NAa-nV-wNs" secondAttribute="height" multiplier="0.25" id="wUX-32-94D"/>
@@ -153,7 +139,6 @@
     <resources>
         <image name="bang" width="250" height="389"/>
         <image name="card_back" width="320" height="494"/>
-        <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="xmark.circle" catalog="system" width="128" height="123"/>
     </resources>
 </document>
