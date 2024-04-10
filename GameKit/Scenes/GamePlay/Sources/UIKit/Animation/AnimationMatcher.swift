@@ -1,49 +1,53 @@
 //
-//  AnimationEventMatcher.swift
+//  AnimationMatcher.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 04/04/2024.
 //
+// swiftlint:disable identifier_name type_contents_order
 
+import Foundation
 import GameCore
 
-protocol AnimationEventMatcherProtocol {
+protocol AnimationMatcherProtocol {
     func animation(on event: GameAction) -> EventAnimation?
 }
 
 struct EventAnimation: Equatable {
-    let type: EventAnimationType
+    let type: AnimationType
     let duration: TimeInterval
-}
 
-enum EventAnimationType: Equatable {
-    case move(card: String?, source: CardArea, target: CardArea)
-    case reveal(card: String?, source: CardArea, target: CardArea)
-    case dummy
-}
-
-enum CardArea: Hashable, Equatable {
-    case deck
-    case discard
-    case store
-    case hand(String)
-    case inPlay(String)
-}
-
-enum StateCard {
-    static let deck = "deck"
-    static let discard = "discard"
-}
-
-class AnimationEventMatcher: AnimationEventMatcherProtocol {
-
-    private let preferences: UserPreferencesProtocol
-
-    init(preferences: UserPreferencesProtocol) {
-        self.preferences = preferences
+    enum AnimationType: Equatable {
+        case move(card: String?, from: CardArea, to: CardArea)
+        case reveal(card: String?, from: CardArea, to: CardArea)
     }
 
-    func waitDuration(_ event: GEvent) -> Double {
+    enum CardArea: Hashable, Equatable {
+        case deck
+        case discard
+        case arena
+        case hand(String)
+        case inPlay(String)
+    }
+
+    enum CardId {
+        static let deck = "deck"
+        static let discard = "discard"
+    }
+}
+
+struct AnimationMatcher: AnimationMatcherProtocol {
+    func animation(on event: GameAction) -> EventAnimation? {
+        guard let type = animationType(on: event) else {
+            return nil
+        }
+
+        return EventAnimation(type: type, duration: 0.5)
+    }
+}
+
+private extension AnimationMatcher {
+    func waitDuration(_ event: GameAction) -> Double {
         guard let animation = animation(on: event) else {
             return 0
         }
@@ -51,36 +55,21 @@ class AnimationEventMatcher: AnimationEventMatcherProtocol {
         return animation.duration
     }
 
-    func animation(on event: GEvent) -> EventAnimation? {
-        guard let type = animationType(on: event) else {
-            return nil
-        }
-
-        return EventAnimation(type: type, duration: preferences.updateDelay)
-    }
-
-    private func animationType(on event: GEvent) -> EventAnimationType? {
+    // swiftlint:disable:next cyclomatic_complexity
+    private func animationType(on event: GameAction) -> EventAnimation.AnimationType? {
         switch event {
-        case .setTurn,
-        .setPhase,
-        .gainHealth,
-        .looseHealth,
-        .eliminate,
-        .addHit:
-            return .dummy
-
         case let .drawDeck(player):
-            return .move(card: nil, source: .deck, target: .hand(player))
+            return .move(card: nil, from: .deck, to: .hand(player))
 
-        case let .drawDeckChoosing(player, _):
-            return .move(card: nil, source: .deck, target: .hand(player))
+        case let .putBack(_, player):
+            return .move(card: nil, from: .hand(player), to: .deck)
 
-        case let .drawDeckFlipping(player):
-            return .reveal(card: StateCard.deck, source: .deck, target: .hand(player))
+        case let .revealHand(card, player):
+            return .reveal(card: card, from: .hand(player), to: .hand(player))
 
-        case let .drawHand(player, other, _):
-            return .move(card: nil, source: .hand(other), target: .hand(player))
-
+        case let .drawHand(_, target, player):
+            return .move(card: nil, from: .hand(target), to: .hand(player))
+/*
         case let .drawInPlay(player, other, card):
             return .move(card: card, source: .inPlay(other), target: .hand(player))
 
@@ -113,9 +102,9 @@ class AnimationEventMatcher: AnimationEventMatcherProtocol {
 
         case .flipDeck:
             return .reveal(card: StateCard.deck, source: .deck, target: .discard)
-
+*/
         default:
-            return nil
+            fatalError("undefined")
         }
     }
 }

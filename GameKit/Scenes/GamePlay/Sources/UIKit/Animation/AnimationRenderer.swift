@@ -7,16 +7,19 @@
 import GameCore
 import UIKit
 
-Protocol AnimationRendererDataSource {
-
-}
-
 protocol AnimationRendererProtocol {
-    func execute(_ animation: EventAnimation, in state: GameState)
+    func execute(_ animation: EventAnimation, in state: GamePlayUIKitView.State)
 }
 
-class AnimationRenderer: AnimationRendererProtocol {
+protocol AnimationRendererDataSource {
+}
 
+struct AnimationRenderer: AnimationRendererProtocol {
+    func execute(_ animation: EventAnimation, in state: GamePlayUIKitView.State) {
+    }
+}
+/*
+class AnimationRenderer: AnimationRendererProtocol {
     private weak var viewController: UIViewController?
     private let cardPositions: [CardArea: CGPoint]
     private let cardSize: CGSize
@@ -91,3 +94,4 @@ private extension UIImage {
         return UIImage(named: String(cardName))!
     }
 }
+*/
