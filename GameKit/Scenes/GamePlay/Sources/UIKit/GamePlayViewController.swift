@@ -32,7 +32,7 @@ class GamePlayViewController: UIViewController {
 
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
     private let handlCollectionViewLayout = HandCollectionViewLayout()
-    private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher(animationDelay: 0.5)
+    private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
     private var animationRenderer: AnimationRendererProtocol!
 
     // MARK: - Init
