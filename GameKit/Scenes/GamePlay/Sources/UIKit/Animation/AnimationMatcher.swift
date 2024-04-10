@@ -1,6 +1,6 @@
 //
 //  AnimationMatcher.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 04/04/2024.
 //
@@ -18,31 +18,33 @@ struct EventAnimation: Equatable {
     let duration: TimeInterval
 
     enum AnimationType: Equatable {
-        case move(card: String?, from: CardArea, to: CardArea)
-        case reveal(card: String?, from: CardArea, to: CardArea)
+        case move(card: String?, from: CardLocation, to: CardLocation)
+        case reveal(card: String?, from: CardLocation, to: CardLocation)
     }
 
-    enum CardArea: Hashable, Equatable {
+    enum CardLocation: Hashable, Equatable {
         case deck
         case discard
         case arena
         case hand(String)
         case inPlay(String)
     }
+}
 
-    enum CardId {
-        static let deck = "deck"
-        static let discard = "discard"
-    }
+extension String {
+    static let topDeckCard = "$deck"
+    static let topDiscardCard = "$discard"
 }
 
 struct AnimationMatcher: AnimationMatcherProtocol {
+    let animationDelay: TimeInterval
+
     func animation(on event: GameAction) -> EventAnimation? {
         guard let type = animationType(on: event) else {
             return nil
         }
 
-        return EventAnimation(type: type, duration: 0.5)
+        return EventAnimation(type: type, duration: animationDelay)
     }
 }
 
@@ -69,42 +71,81 @@ private extension AnimationMatcher {
 
         case let .drawHand(_, target, player):
             return .move(card: nil, from: .hand(target), to: .hand(player))
-/*
-        case let .drawInPlay(player, other, card):
-            return .move(card: card, source: .inPlay(other), target: .hand(player))
 
-        case let .drawStore(player, card):
-            return .move(card: card, source: .store, target: .hand(player))
+        case let .drawInPlay(card, target, player):
+            return .move(card: card, from: .inPlay(target), to: .hand(player))
+
+        case let .drawArena(card, player):
+            return .move(card: card, from: .arena, to: .hand(player))
 
         case let .drawDiscard(player):
-            return .move(card: StateCard.discard, source: .discard, target: .hand(player))
+            return .move(card: .topDiscardCard, from: .discard, to: .hand(player))
 
-        case let .equip(player, card):
-            return .move(card: card, source: .hand(player), target: .inPlay(player))
+        case let .equip(card, player):
+            return .move(card: card, from: .hand(player), to: .inPlay(player))
 
-        case let .handicap(player, card, other):
-            return .move(card: card, source: .hand(player), target: .inPlay(other))
+        case let .handicap(card, target, player):
+            return .move(card: card, from: .hand(player), to: .inPlay(target))
 
-        case let .passInPlay(player, card, other):
-            return .move(card: card, source: .inPlay(player), target: .inPlay(other))
+        case let .passInPlay(card, target, player):
+            return .move(card: card, from: .inPlay(player), to: .inPlay(target))
 
-        case let .discardHand(player, card):
-            return .move(card: card, source: .hand(player), target: .discard)
+        case let .discardHand(card, player):
+            return .move(card: card, from: .hand(player), to: .discard)
 
-        case let .play(player, card):
-            return .move(card: card, source: .hand(player), target: .discard)
+        case .play:
+            return nil
 
-        case let .discardInPlay(player, card):
-            return .move(card: card, source: .inPlay(player), target: .discard)
+        case let .discardInPlay(card, player):
+            return .move(card: card, from: .inPlay(player), to: .discard)
 
-        case .deckToStore:
-            return .reveal(card: StateCard.deck, source: .deck, target: .store)
+        case .discover:
+            return .reveal(card: .topDeckCard, from: .deck, to: .arena)
 
-        case .flipDeck:
-            return .reveal(card: StateCard.deck, source: .deck, target: .discard)
-*/
-        default:
-            fatalError("undefined")
+        case .draw:
+            return .reveal(card: .topDeckCard, from: .deck, to: .discard)
+
+        case .heal:
+            return nil
+
+        case .damage:
+            return nil
+
+        case let .discardPlayed(card, player):
+            return .move(card: card, from: .hand(player), to: .discard)
+
+        case .setTurn:
+            return nil
+
+        case .eliminate:
+            return nil
+
+        case .setAttribute:
+            return nil
+
+        case .removeAttribute:
+            return nil
+
+        case .cancel:
+            return nil
+
+        case .chooseOne:
+            return nil
+
+        case .choose:
+            return nil
+
+        case .activate:
+            return nil
+
+        case .setGameOver:
+            return nil
+
+        case .effect:
+            return nil
+
+        case .group:
+            return nil
         }
     }
 }
