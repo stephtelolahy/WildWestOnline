@@ -1,13 +1,18 @@
 //
 //  AnimationController.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 28/03/2024.
 //
 import GameCore
 
 struct AnimationController {
-    func handleEvent(_ event: GameAction) {
-        // TODO: animating for event
+    let animationMatcher: AnimationEventMatcherProtocol
+    let animationRenderer: AnimationRendererProtocol
+
+    func handleEvent(_ event: GameAction, in state: GameState) {
+        if let animation = animationMatcher.animation(on: event) {
+            animationRenderer.execute(animation, in: state)
+        }
     }
 }

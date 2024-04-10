@@ -32,7 +32,10 @@ class GamePlayViewController: UIViewController {
 
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
     private let handlCollectionViewLayout = HandCollectionViewLayout()
-    private let animationController = AnimationController()
+    private lazy var animationController = AnimationController(
+        animationMatcher: AnimationEventMatcher(),
+        animationRenderer: AnimationRenderer()
+    )
 
     // MARK: - Init
 
@@ -117,7 +120,7 @@ private extension GamePlayViewController {
         }
 
         if let event = state.occurredEvent {
-            animationController.handleEvent(event)
+            animationController.handleEvent(event, in: state)
 
             events.insert(String(describing: event), at: 0)
             messageTableView.reloadData()
