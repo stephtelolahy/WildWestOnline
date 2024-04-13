@@ -72,7 +72,7 @@ public extension GamePlayUIKitView.State {
             handActions: game.handActions,
             topDiscard: game.discard.first,
             deckCount: game.deck.count,
-            occurredEvent: game.occurredEvent
+            occurredEvent: game.event
         )
     }
 }
