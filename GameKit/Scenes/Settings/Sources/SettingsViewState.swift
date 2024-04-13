@@ -14,7 +14,7 @@ public extension SettingsView {
     struct State: Equatable {
         public let playersCount: Int
         public let minPlayersCount = 2
-        public let maxPlayersCount: Int
+        public let maxPlayersCount = 7
         public let speedOptions: [SpeedOption] = SpeedOption.all
         public let currentSpeedIndex: Int
         public let simulation: Bool
@@ -37,7 +37,6 @@ public extension SettingsView.State {
     static func from(globalState: AppState) -> Self? {
         .init(
             playersCount: globalState.settings.playersCount,
-            maxPlayersCount: globalState.settings.inventory.figures.count,
             currentSpeedIndex: globalState.speedOptionIndex,
             simulation: globalState.settings.simulation,
             oldGamePlay: globalState.settings.oldGamePlay

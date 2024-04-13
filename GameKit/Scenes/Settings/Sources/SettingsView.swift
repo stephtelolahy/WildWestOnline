@@ -120,7 +120,6 @@ public struct SettingsView: View {
 private var previewState: SettingsView.State {
     .init(
         playersCount: 5,
-        maxPlayersCount: 7,
         currentSpeedIndex: 0,
         simulation: false,
         oldGamePlay: true
