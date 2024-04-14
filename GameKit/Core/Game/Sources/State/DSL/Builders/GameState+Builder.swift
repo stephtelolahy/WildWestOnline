@@ -35,7 +35,6 @@ public extension GameState {
                 arena: arena,
                 winner: winner,
                 error: error,
-                events: [],
                 chooseOne: chooseOne,
                 active: active,
                 playMode: playMode,

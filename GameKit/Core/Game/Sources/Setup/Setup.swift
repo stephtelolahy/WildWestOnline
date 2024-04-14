@@ -55,7 +55,6 @@ public enum Setup {
             deck: deck,
             discard: [],
             arena: [],
-            events: [],
             chooseOne: [:],
             active: [:],
             playMode: [:],

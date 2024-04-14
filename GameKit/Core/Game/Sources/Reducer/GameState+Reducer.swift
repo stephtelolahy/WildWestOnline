@@ -21,7 +21,6 @@ public extension GameState {
             state = try action.reduce(state: state)
             if action.isRenderable {
                 state.event = action
-                state.events.append(action)
             }
         } catch {
             state.error = error as? GameError
