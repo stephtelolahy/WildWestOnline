@@ -21,7 +21,6 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - IBOutlets
 
-    @IBOutlet private weak var endTurnButton: UIButton!
     @IBOutlet private weak var playersCollectionView: UICollectionView!
     @IBOutlet private weak var handCollectionView: UICollectionView!
     @IBOutlet private weak var messageTableView: UITableView!
@@ -33,7 +32,8 @@ class GamePlayViewController: UIViewController {
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
     private let handlCollectionViewLayout = HandCollectionViewLayout()
     private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
-    private var animationRenderer: AnimationRendererProtocol!
+    private let animationRenderer: AnimationRendererProtocol = AnimationRenderer()
+    private var previousState: GamePlayUIKitView.State?
 
     // MARK: - Init
 
@@ -101,6 +101,7 @@ private extension GamePlayViewController {
     func observeState() {
         store.$state.sink { [weak self] state in
             self?.updateViews(with: state)
+            self?.previousState = state
         }
         .store(in: &subscriptions)
     }
@@ -118,8 +119,9 @@ private extension GamePlayViewController {
         }
 
         if let event = state.occurredEvent {
-            if let animation = animationMatcher.animation(on: event) {
-                animationRenderer.execute(animation, in: state)
+            if let animation = animationMatcher.animation(on: event),
+               let previousState {
+                animationRenderer.execute(animation, from: previousState, to: state)
             }
 
             events.insert(String(describing: event), at: 0)

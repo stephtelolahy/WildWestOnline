@@ -8,14 +8,22 @@ import GameCore
 import UIKit
 
 protocol AnimationRendererProtocol {
-    func execute(_ animation: EventAnimation, in state: GamePlayUIKitView.State)
+    func execute(
+        _ animation: EventAnimation,
+        from initialState: GamePlayUIKitView.State,
+        to finalState: GamePlayUIKitView.State
+    )
 }
 
 protocol AnimationRendererDataSource {
 }
 
 struct AnimationRenderer: AnimationRendererProtocol {
-    func execute(_ animation: EventAnimation, in state: GamePlayUIKitView.State) {
+    func execute(
+        _ animation: EventAnimation,
+        from initialState: GamePlayUIKitView.State,
+        to finalState: GamePlayUIKitView.State
+    ) {
     }
 }
 /*
