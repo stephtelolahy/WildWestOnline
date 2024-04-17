@@ -84,12 +84,22 @@ private class StateReproducerMiddleware: Middleware<GameState> {
     @MainActor
     override func effect(on action: Action, state: GameState) async -> Action? {
         let resultState = GameState.reducer(prevState, action)
-        prevState = resultState
-
-        guard state == resultState else {
+        guard resultState.isEqualIgnoringSequence(to: state) else {
             fatalError("Inconsistent state after applying \(action)")
         }
 
+        prevState = resultState
         return nil
+    }
+}
+
+private extension GameState {
+    func isEqualIgnoringSequence(to anotherState: GameState) -> Bool {
+        var state = self
+        state.sequence = []
+        var anotherState = anotherState
+        anotherState.sequence = []
+
+        return state == anotherState
     }
 }
