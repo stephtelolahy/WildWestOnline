@@ -1,4 +1,4 @@
-//  AIAgentMiddleware.swift
+//  PlayAIMovesMiddleware.swift
 //
 //
 //  Created by Hugues Telolahy on 14/07/2023.
@@ -6,7 +6,7 @@
 
 import Redux
 
-public final class AIAgentMiddleware: Middleware<GameState> {
+public final class PlayAIMovesMiddleware: Middleware<GameState> {
     private let strategy: AIStrategy
 
     public init(strategy: AIStrategy) {

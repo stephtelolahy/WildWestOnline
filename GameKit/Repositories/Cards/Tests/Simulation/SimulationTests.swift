@@ -46,7 +46,7 @@ final class SimulationTests: XCTestCase {
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
-                gameLoopMiddleware(),
+                updateGameMiddleware(),
                 LoggerMiddleware(),
                 StateReproducerMiddleware(initial: game)
             ]

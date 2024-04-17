@@ -26,7 +26,7 @@ extension XCTestCase {
             initial: state,
             reducer: GameState.reducer,
             middlewares: [
-                gameLoopMiddleware(),
+                updateGameMiddleware(),
                 choosingMiddleware,
                 LoggerMiddleware()
             ]
