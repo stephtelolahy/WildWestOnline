@@ -12,19 +12,26 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
+
+        // Utilities
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Utils", targets: ["Utils"]),
+        .library(name: "Theme", targets: ["Theme"]),
+
+        // Core
         .library(name: "GameCore", targets: ["GameCore"]),
-        .library(name: "CardNames", targets: ["CardNames"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
-        .library(name: "Theme", targets: ["Theme"]),
+
+        // Repository
+        .library(name: "CardsRepository", targets: ["CardsRepository"]),
+        .library(name: "SettingsRepository", targets: ["SettingsRepository"]),
+
+        // UI
         .library(name: "Splash", targets: ["Splash"]),
         .library(name: "Home", targets: ["Home"]),
         .library(name: "Settings", targets: ["Settings"]),
         .library(name: "GamePlay", targets: ["GamePlay"]),
-        .library(name: "CardsRepository", targets: ["CardsRepository"]),
-        .library(name: "SettingsRepository", targets: ["SettingsRepository"]),
         .library(name: "App", targets: ["App"])
     ],
     dependencies: [
@@ -70,10 +77,6 @@ let package = Package(
                 "GameCore"
             ],
             path: "Core/Game/Tests"
-        ),
-        .target(
-            name: "CardNames",
-            path: "Core/CardNames/Sources"
         ),
         .target(
             name: "SettingsCore",
@@ -177,7 +180,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "CardNames"
+                "CardsRepository"
             ],
             path: "Scenes/GamePlay/Sources",
             plugins: [
@@ -194,7 +197,6 @@ let package = Package(
         .target(
             name: "CardsRepository",
             dependencies: [
-                "CardNames",
                 "GameCore"
             ],
             path: "Repositories/Cards/Sources",

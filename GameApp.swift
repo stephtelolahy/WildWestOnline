@@ -24,7 +24,7 @@ struct GameApp: App {
                 createStore()
             }
             .environment(\.colorScheme, .light)
-            .accentColor(theme.buttoColor)
+            .accentColor(theme.accentColor)
         }
     }
 }

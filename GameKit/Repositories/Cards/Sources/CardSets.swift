@@ -6,8 +6,6 @@
 //
 // swiftlint:disable line_length
 
-import CardNames
-
 public enum CardSets {
     public static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],

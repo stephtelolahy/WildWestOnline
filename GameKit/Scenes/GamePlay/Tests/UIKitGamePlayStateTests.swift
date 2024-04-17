@@ -6,7 +6,7 @@
 //
 
 import AppCore
-import CardNames
+import CardsRepository
 import GameCore
 import GamePlay
 import XCTest

@@ -7,7 +7,7 @@
 // swiftlint:disable no_magic_numbers type_contents_order
 
 import AppCore
-import CardNames
+import CardsRepository
 import GameCore
 import Redux
 import SwiftUI
