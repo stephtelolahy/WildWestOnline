@@ -15,7 +15,7 @@ protocol AnimationMatcherProtocol {
 
 enum EventAnimation: Equatable {
     case move(card: String?, from: Location, to: Location)
-    case reveal(card: String?, from: Location, to: Location)
+    case reveal(card: String, from: Location, to: Location)
 
     enum Location: Hashable, Equatable {
         case deck
@@ -27,8 +27,8 @@ enum EventAnimation: Equatable {
 }
 
 extension String {
-    static let topDeckCard = "$deck"
-    static let topDiscardCard = "$discard"
+    static let topDeckCard = "deck"
+    static let topDiscardCard = "discard"
 }
 
 struct AnimationMatcher: AnimationMatcherProtocol {
@@ -68,8 +68,8 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .discardHand(card, player):
                 .move(card: card, from: .hand(player), to: .discard)
 
-        case .play:
-            nil
+        case let .discardPlayed(card, player):
+                .move(card: card, from: .hand(player), to: .discard)
 
         case let .discardInPlay(card, player):
                 .move(card: card, from: .inPlay(player), to: .discard)
@@ -80,14 +80,14 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case .draw:
                 .reveal(card: .topDeckCard, from: .deck, to: .discard)
 
+        case .play:
+            nil
+
         case .heal:
             nil
 
         case .damage:
             nil
-
-        case let .discardPlayed(card, player):
-                .move(card: card, from: .hand(player), to: .discard)
 
         case .setTurn:
             nil
