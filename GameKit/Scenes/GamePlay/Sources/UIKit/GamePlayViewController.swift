@@ -32,7 +32,7 @@ class GamePlayViewController: UIViewController {
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
     private let handlCollectionViewLayout = HandCollectionViewLayout()
     private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
-    private let animationRenderer: AnimationRendererProtocol = AnimationRenderer()
+    private var animationRenderer: AnimationRendererProtocol!
     private var previousState: GamePlayUIKitView.State?
 
     // MARK: - Init

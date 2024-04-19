@@ -15,36 +15,24 @@ protocol AnimationRendererProtocol {
     )
 }
 
-protocol AnimationRendererDataSource {
+protocol AnimationRendererConfiguration {
+    func supportingViewController() -> UIViewController
+    func cardPosition(for location: EventAnimation.Location) -> CGPoint
+    func cardSize() -> CGSize
+    func cardBackImage() -> UIImage
+    func animationDuration() -> TimeInterval
 }
 
 struct AnimationRenderer: AnimationRendererProtocol {
+    private let config: AnimationRendererConfiguration
+
     func execute(
         _ animation: EventAnimation,
         from initialState: GamePlayUIKitView.State,
         to finalState: GamePlayUIKitView.State
     ) {
-    }
-}
-/*
-class AnimationRenderer: AnimationRendererProtocol {
-    private weak var viewController: UIViewController?
-    private let cardPositions: [CardArea: CGPoint]
-    private let cardSize: CGSize
-    private let cardBackImage: UIImage
-
-    init(viewController: UIViewController,
-         cardPositions: [CardArea: CGPoint],
-         cardSize: CGSize,
-         cardBackImage: UIImage) {
-        self.viewController = viewController
-        self.cardPositions = cardPositions
-        self.cardSize = cardSize
-        self.cardBackImage = cardBackImage
-    }
-
-    func execute(_ animation: EventAnimation, in state: StateProtocol) {
-        switch animation.type {
+        /*
+        switch animation {
         case let .move(card, source, target):
             let sourceName = sourceImageName(for: card, in: state)
             let targetName = targetImageName(to: target, in: state)
@@ -64,42 +52,36 @@ class AnimationRenderer: AnimationRendererProtocol {
                                               from: cardPositions[source]!,
                                               to: cardPositions[target]!,
                                               duration: animation.duration)
-
-        case .dummy:
-            break
-        }
+         }
+         */
     }
+}
 
-    private func sourceImageName(for card: String?, in state: StateProtocol) -> String? {
+private extension AnimationRenderer {
+    private func sourceImageName(
+        for card: String?,
+        in state: GamePlayUIKitView.State
+    ) -> String? {
         switch card {
-        case StateCard.deck:
-            return state.deck.first?.identifier
+//        case .topDeckCard:
+//            return state.deck.first?.extractName()
 
-        case StateCard.discard:
-            return state.discard.first?.identifier
+        case .topDiscardCard:
+            return state.topDiscard?.extractName()
 
         default:
-            return card
+            return card?.extractName()
         }
     }
 
-    private func targetImageName(to target: CardArea, in state: StateProtocol) -> String? {
-        if target == .discard {
-            return state.discard.first?.identifier
+    private func targetImageName(
+        for location: EventAnimation.Location,
+        in state: GamePlayUIKitView.State
+    ) -> String? {
+        if location == .discard {
+            return state.topDiscard?.extractName()
         } else {
             return nil
         }
     }
-
 }
-
-private extension UIImage {
-
-    static func image(named card: String?) -> UIImage? {
-        guard let cardName = card?.split(separator: "-").first else {
-            return nil
-        }
-        return UIImage(named: String(cardName))!
-    }
-}
-*/

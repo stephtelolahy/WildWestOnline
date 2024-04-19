@@ -24,6 +24,13 @@ enum EventAnimation: Equatable {
         case hand(String)
         case inPlay(String)
     }
+
+    enum CardId: Equatable {
+        case identified(String)
+        case initialStateTopDeck
+        case finalStateTopDiscard
+        case hiddenCard
+    }
 }
 
 extension String {
