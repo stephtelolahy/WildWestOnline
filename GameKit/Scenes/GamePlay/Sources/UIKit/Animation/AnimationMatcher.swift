@@ -14,8 +14,8 @@ protocol AnimationMatcherProtocol {
 }
 
 enum EventAnimation: Equatable {
-    case move(card: String?, from: Location, to: Location)
-    case reveal(card: String, from: Location, to: Location)
+    case move(card: Card, from: Location, to: Location)
+    case reveal(card: Card, from: Location, to: Location)
 
     enum Location: Hashable, Equatable {
         case deck
@@ -25,17 +25,12 @@ enum EventAnimation: Equatable {
         case inPlay(String)
     }
 
-    enum CardId: Equatable {
-        case identified(String)
-        case initialStateTopDeck
-        case finalStateTopDiscard
-        case hiddenCard
+    enum Card: Equatable {
+        case id(String)
+        case initialDeck
+        case initialDiscard
+        case hidden
     }
-}
-
-extension String {
-    static let topDeckCard = "deck"
-    static let topDiscardCard = "discard"
 }
 
 struct AnimationMatcher: AnimationMatcherProtocol {
@@ -43,49 +38,49 @@ struct AnimationMatcher: AnimationMatcherProtocol {
     func animation(on event: GameAction) -> EventAnimation? {
         switch event {
         case let .drawDeck(player):
-                .move(card: nil, from: .deck, to: .hand(player))
+                .move(card: .hidden, from: .deck, to: .hand(player))
 
         case let .putBack(_, player):
-                .move(card: nil, from: .hand(player), to: .deck)
+                .move(card: .hidden, from: .hand(player), to: .deck)
 
         case let .revealHand(card, player):
-                .reveal(card: card, from: .hand(player), to: .hand(player))
+                .reveal(card: .id(card), from: .hand(player), to: .hand(player))
 
         case let .drawHand(_, target, player):
-                .move(card: nil, from: .hand(target), to: .hand(player))
+                .move(card: .hidden, from: .hand(target), to: .hand(player))
 
         case let .drawInPlay(card, target, player):
-                .move(card: card, from: .inPlay(target), to: .hand(player))
+                .move(card: .id(card), from: .inPlay(target), to: .hand(player))
 
         case let .drawArena(card, player):
-                .move(card: card, from: .arena, to: .hand(player))
+                .move(card: .id(card), from: .arena, to: .hand(player))
 
         case let .drawDiscard(player):
-                .move(card: .topDiscardCard, from: .discard, to: .hand(player))
+                .move(card: .initialDiscard, from: .discard, to: .hand(player))
 
         case let .equip(card, player):
-                .move(card: card, from: .hand(player), to: .inPlay(player))
+                .move(card: .id(card), from: .hand(player), to: .inPlay(player))
 
         case let .handicap(card, target, player):
-                .move(card: card, from: .hand(player), to: .inPlay(target))
+                .move(card: .id(card), from: .hand(player), to: .inPlay(target))
 
         case let .passInPlay(card, target, player):
-                .move(card: card, from: .inPlay(player), to: .inPlay(target))
+                .move(card: .id(card), from: .inPlay(player), to: .inPlay(target))
 
         case let .discardHand(card, player):
-                .move(card: card, from: .hand(player), to: .discard)
+                .move(card: .id(card), from: .hand(player), to: .discard)
 
         case let .discardPlayed(card, player):
-                .move(card: card, from: .hand(player), to: .discard)
+                .move(card: .id(card), from: .hand(player), to: .discard)
 
         case let .discardInPlay(card, player):
-                .move(card: card, from: .inPlay(player), to: .discard)
+                .move(card: .id(card), from: .inPlay(player), to: .discard)
 
         case .discover:
-                .reveal(card: .topDeckCard, from: .deck, to: .arena)
+                .reveal(card: .initialDeck, from: .deck, to: .arena)
 
         case .draw:
-                .reveal(card: .topDeckCard, from: .deck, to: .discard)
+                .reveal(card: .initialDeck, from: .deck, to: .discard)
 
         case .play:
             nil
@@ -110,7 +105,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
 
         case .cancel:
             nil
-
+            
         case .chooseOne:
             nil
 
