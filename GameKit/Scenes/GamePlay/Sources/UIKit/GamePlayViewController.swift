@@ -279,33 +279,70 @@ private extension GamePlayUIKitView.State {
             return nil
         }
 
-        let discardCardName = topDiscard.extractName()
-        return UIImage(named: discardCardName, in: Bundle.module, with: .none)
+        return UIImage(named: topDiscard.extractName(), in: Bundle.module, with: .none)
     }
 }
 
+// swiftlint:disable force_unwrapping
 extension GamePlayViewController: AnimationRendererConfiguration {
     func supportingViewController() -> UIViewController {
         self
     }
 
     func cardPosition(for location: EventAnimation.Location) -> CGPoint {
-        <#code#>
+        switch location {
+        case .deck:
+            return deckImageView.superview!.convert(deckImageView.center, to: view)
+
+        case .discard:
+            return discardImageView.superview!.convert(discardImageView.center, to: view)
+
+        case .arena:
+            return deckImageView.superview!.convert(deckImageView.center, to: view)
+
+        case .hand(let playerId):
+            let state = previousState!
+            guard let index = state.startOrder.firstIndex(of: playerId) else {
+                fatalError("missing player \(playerId)")
+            }
+
+            guard let attribute = playersCollectionView.collectionViewLayout
+                .layoutAttributesForItem(at: IndexPath(row: index, section: 0)) else {
+                fatalError("missing attribute for item at \(index)")
+            }
+
+            return playersCollectionView.convert(attribute.center, to: view)
+
+        case .inPlay(let playerId):
+            let state = previousState!
+            guard let index = state.startOrder.firstIndex(of: playerId) else {
+                fatalError("missing player \(playerId)")
+            }
+
+            guard let attribute = playersCollectionView.collectionViewLayout
+                .layoutAttributesForItem(at: IndexPath(row: index, section: 0)) else {
+                fatalError("missing attribute for item at \(index)")
+            }
+
+            let cellCenter = playersCollectionView.convert(attribute.center, to: view)
+            return cellCenter.applying(CGAffineTransform(translationX: attribute.bounds.size.height / 2, y: 0))
+        }
     }
-    
+
     func cardSize() -> CGSize {
-        <#code#>
+        discardImageView.bounds.size
     }
-    
+
     func hiddenCardImage() -> UIImage {
-        <#code#>
+        UIImage(named: "card_back", in: Bundle.module, with: .none)!
     }
-    
+
     func cardImage(for cardId: String) -> UIImage {
-        <#code#>
+        UIImage(named: cardId.extractName(), in: Bundle.module, with: .none)!
     }
-    
+
     func animationDuration() -> TimeInterval {
-        <#code#>
+        let state = previousState!
+        return state.animationDelay
     }
 }

@@ -8,6 +8,7 @@
 // swiftlint:disable nesting
 
 import AppCore
+import Foundation
 import GameCore
 import Redux
 
@@ -19,6 +20,8 @@ public extension GamePlayUIKitView {
         public let handActions: [CardAction]
         public let topDiscard: String?
         public let topDeck: String?
+        public let animationDelay: TimeInterval
+        public let startOrder: [String]
         public let deckCount: Int
         public let occurredEvent: GameAction?
 
@@ -73,6 +76,8 @@ public extension GamePlayUIKitView.State {
             handActions: game.handActions,
             topDiscard: game.discard.first,
             topDeck: game.deck.first,
+            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
+            startOrder: game.startOrder,
             deckCount: game.deck.count,
             occurredEvent: game.event
         )
