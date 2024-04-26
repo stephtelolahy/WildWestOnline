@@ -27,8 +27,8 @@ enum EventAnimation: Equatable {
 
     enum Card: Equatable {
         case id(String)
-        case initialDeck
-        case initialDiscard
+        case topDeck
+        case topDiscard
         case hidden
     }
 }
@@ -56,7 +56,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
                 .move(card: .id(card), from: .arena, to: .hand(player))
 
         case let .drawDiscard(player):
-                .move(card: .initialDiscard, from: .discard, to: .hand(player))
+                .move(card: .topDiscard, from: .discard, to: .hand(player))
 
         case let .equip(card, player):
                 .move(card: .id(card), from: .hand(player), to: .inPlay(player))
@@ -77,10 +77,10 @@ struct AnimationMatcher: AnimationMatcherProtocol {
                 .move(card: .id(card), from: .inPlay(player), to: .discard)
 
         case .discover:
-                .reveal(card: .initialDeck, from: .deck, to: .arena)
+                .reveal(card: .topDeck, from: .deck, to: .arena)
 
         case .draw:
-                .reveal(card: .initialDeck, from: .deck, to: .discard)
+                .reveal(card: .topDeck, from: .deck, to: .discard)
 
         case .play:
             nil
@@ -105,7 +105,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
 
         case .cancel:
             nil
-            
+
         case .chooseOne:
             nil
 

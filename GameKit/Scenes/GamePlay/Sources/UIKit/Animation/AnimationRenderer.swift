@@ -19,17 +19,78 @@ protocol AnimationRendererConfiguration {
     func supportingViewController() -> UIViewController
     func cardPosition(for location: EventAnimation.Location) -> CGPoint
     func cardSize() -> CGSize
-    func cardBackImage() -> UIImage
+    func hiddenCardImage() -> UIImage
+    func cardImage(for cardId: String) -> UIImage
     func animationDuration() -> TimeInterval
 }
 
 struct AnimationRenderer: AnimationRendererProtocol {
-    private let config: AnimationRendererConfiguration
+    let config: AnimationRendererConfiguration
 
     func execute(
         _ animation: EventAnimation,
         from initialState: GamePlayUIKitView.State,
         to finalState: GamePlayUIKitView.State
     ) {
+        switch animation {
+        case let .move(card, source, target):
+            config.supportingViewController().animateMoveCard(
+                sourceImage: config.image(for: card, in: initialState) ?? config.hiddenCardImage(),
+                targetImage: config.image(at: target, in: initialState),
+                size: config.cardSize(),
+                from: config.cardPosition(for: source),
+                to: config.cardPosition(for: target),
+                duration: config.animationDuration()
+            )
+
+        case let .reveal(card, source, target):
+            config.supportingViewController().animateRevealCard(
+                sourceImage: config.image(for: card, in: initialState) ?? config.hiddenCardImage(),
+                targetImage: config.image(at: target, in: initialState),
+                size: config.cardSize(),
+                from: config.cardPosition(for: source),
+                to: config.cardPosition(for: target),
+                duration: config.animationDuration()
+            )
+        }
+    }
+}
+
+private extension AnimationRendererConfiguration {
+    func image(for card: EventAnimation.Card, in state: GamePlayUIKitView.State) -> UIImage? {
+        switch card {
+        case let .id(cardId):
+            return cardImage(for: cardId)
+
+        case .topDeck:
+            if let cardId = state.topDeck {
+                return cardImage(for: cardId)
+            } else {
+                return nil
+            }
+
+        case .topDiscard:
+            if let cardId = state.topDiscard {
+                return cardImage(for: cardId)
+            } else {
+                return nil
+            }
+
+        case .hidden:
+            return hiddenCardImage()
+        }
+    }
+
+    func image(at location: EventAnimation.Location, in state: GamePlayUIKitView.State) -> UIImage? {
+        switch location {
+        case .deck:
+            return image(for: .topDeck, in: state)
+
+        case .discard:
+            return image(for: .topDiscard, in: state)
+
+        default:
+            fatalError("unexpected requesting image for \(location)")
+        }
     }
 }
