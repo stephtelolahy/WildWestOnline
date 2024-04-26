@@ -19,8 +19,8 @@ protocol AnimationRendererConfiguration {
     func supportingViewController() -> UIViewController
     func cardPosition(for location: EventAnimation.Location) -> CGPoint
     func cardSize() -> CGSize
-    func hiddenCardImage() -> UIImage
     func cardImage(for cardId: String) -> UIImage
+    func hiddenCardImage() -> UIImage
     func animationDuration() -> TimeInterval
 }
 

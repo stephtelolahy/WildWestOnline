@@ -32,7 +32,8 @@ class GamePlayViewController: UIViewController {
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
     private let handlCollectionViewLayout = HandCollectionViewLayout()
     private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
-    private var animationRenderer: AnimationRendererProtocol!
+    private lazy var animationRenderer: AnimationRendererProtocol = AnimationRenderer(config: self)
+
     private var previousState: GamePlayUIKitView.State?
 
     // MARK: - Init
@@ -280,5 +281,31 @@ private extension GamePlayUIKitView.State {
 
         let discardCardName = topDiscard.extractName()
         return UIImage(named: discardCardName, in: Bundle.module, with: .none)
+    }
+}
+
+extension GamePlayViewController: AnimationRendererConfiguration {
+    func supportingViewController() -> UIViewController {
+        self
+    }
+
+    func cardPosition(for location: EventAnimation.Location) -> CGPoint {
+        <#code#>
+    }
+    
+    func cardSize() -> CGSize {
+        <#code#>
+    }
+    
+    func hiddenCardImage() -> UIImage {
+        <#code#>
+    }
+    
+    func cardImage(for cardId: String) -> UIImage {
+        <#code#>
+    }
+    
+    func animationDuration() -> TimeInterval {
+        <#code#>
     }
 }

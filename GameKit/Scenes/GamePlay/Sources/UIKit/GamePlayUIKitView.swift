@@ -83,6 +83,7 @@ private var previewState: GamePlayUIKitView.State {
             .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
         ],
         topDiscard: .bang,
+        topDeck: nil,
         deckCount: 12,
         occurredEvent: .damage(1, player: .calamityJanet)
     )
