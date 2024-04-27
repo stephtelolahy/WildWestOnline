@@ -25,10 +25,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IMj-27-YOb" userLabel="deckStackView">
-                    <rect key="frame" x="363" y="149" width="126" height="95"/>
+                    <rect key="frame" x="371" y="155.33333333333334" width="110" height="82.333333333333343"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card_back" translatesAutoresizingMaskIntoConstraints="NO" id="xM0-9c-veJ" userLabel="deckImageView">
-                            <rect key="frame" x="0.0" y="0.0" width="61" height="95"/>
+                            <rect key="frame" x="0.0" y="0.0" width="53" height="82.333333333333329"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="xM0-9c-veJ" secondAttribute="height" multiplier="250:389" id="4t0-ia-bbh"/>
@@ -40,7 +40,7 @@
                             </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bang" translatesAutoresizingMaskIntoConstraints="NO" id="E3C-Au-BoO" userLabel="discardImageView">
-                            <rect key="frame" x="65" y="0.0" width="61" height="95"/>
+                            <rect key="frame" x="57" y="0.0" width="53" height="82.333333333333329"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="E3C-Au-BoO" secondAttribute="height" multiplier="250:389" id="YGp-gu-HW4"/>
@@ -53,7 +53,7 @@
                     </constraints>
                 </stackView>
                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[]3" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fbc-Ba-Hu0">
-                    <rect key="frame" x="345.66666666666669" y="188.66666666666666" width="13.333333333333314" height="16"/>
+                    <rect key="frame" x="353.66666666666669" y="188.66666666666666" width="13.333333333333314" height="16"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="DINCondensed-Bold" family="DIN Condensed" pointSize="16"/>
                     <nil key="textColor"/>
@@ -113,7 +113,7 @@
                 <constraint firstItem="OJU-jQ-blB" firstAttribute="bottom" secondItem="rfw-4A-huH" secondAttribute="bottom" id="4HE-oD-rs2"/>
                 <constraint firstItem="Fbc-Ba-Hu0" firstAttribute="centerY" secondItem="IMj-27-YOb" secondAttribute="centerY" id="5hW-rp-PfD"/>
                 <constraint firstItem="OJU-jQ-blB" firstAttribute="bottom" secondItem="m5e-H5-wvG" secondAttribute="bottom" id="6x3-KK-Phd"/>
-                <constraint firstItem="IMj-27-YOb" firstAttribute="width" secondItem="NAa-nV-wNs" secondAttribute="height" multiplier="8:25" id="88h-MV-MBY"/>
+                <constraint firstItem="IMj-27-YOb" firstAttribute="width" secondItem="NAa-nV-wNs" secondAttribute="height" multiplier="7:25" id="88h-MV-MBY"/>
                 <constraint firstItem="iQk-fs-eZc" firstAttribute="leading" secondItem="OJU-jQ-blB" secondAttribute="leading" id="9Ms-R2-6rJ"/>
                 <constraint firstItem="IMj-27-YOb" firstAttribute="centerX" secondItem="NAa-nV-wNs" secondAttribute="centerX" id="BfG-zA-tKP"/>
                 <constraint firstItem="rfw-4A-huH" firstAttribute="height" secondItem="NAa-nV-wNs" secondAttribute="height" multiplier="0.3" id="DWJ-ed-WFz"/>
