@@ -11,7 +11,8 @@ protocol AnimationRendererProtocol {
     func execute(
         _ animation: EventAnimation,
         from initialState: GamePlayUIKitView.State,
-        to finalState: GamePlayUIKitView.State
+        to finalState: GamePlayUIKitView.State,
+        duration: TimeInterval
     )
 }
 
@@ -21,9 +22,6 @@ protocol AnimationRendererConfiguration {
     func cardSize() -> CGSize
     func cardImage(for cardId: String) -> UIImage
     func hiddenCardImage() -> UIImage
-
-    /// Animation duration in seconds
-    func animationDuration() -> TimeInterval
 }
 
 struct AnimationRenderer: AnimationRendererProtocol {
@@ -32,7 +30,8 @@ struct AnimationRenderer: AnimationRendererProtocol {
     func execute(
         _ animation: EventAnimation,
         from initialState: GamePlayUIKitView.State,
-        to finalState: GamePlayUIKitView.State
+        to finalState: GamePlayUIKitView.State,
+        duration: TimeInterval
     ) {
         switch animation {
         case let .move(card, source, target):
@@ -42,7 +41,7 @@ struct AnimationRenderer: AnimationRendererProtocol {
                 size: config.cardSize(),
                 from: config.cardPosition(for: source),
                 to: config.cardPosition(for: target),
-                duration: config.animationDuration()
+                duration: duration
             )
 
         case let .reveal(card, source, target):
@@ -52,7 +51,7 @@ struct AnimationRenderer: AnimationRendererProtocol {
                 size: config.cardSize(),
                 from: config.cardPosition(for: source),
                 to: config.cardPosition(for: target),
-                duration: config.animationDuration()
+                duration: duration
             )
         }
     }

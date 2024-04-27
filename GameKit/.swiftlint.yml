@@ -155,6 +155,10 @@ number_separator:
   minimum_length: 5
 function_body_length: 60
 type_body_length: 400
+line_length: 
+  warning: 200
+  ignores_comments: true
+
 
 custom_rules:
   rule_id:

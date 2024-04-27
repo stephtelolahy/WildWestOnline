@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable line_length
 
 public enum CardSets {
     public static let bang: [String: [String]] = [

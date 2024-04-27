@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable type_contents_order no_magic_numbers
+// swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
 
 import AppCore
 import Combine
@@ -13,6 +13,13 @@ import Redux
 import UIKit
 
 class GamePlayViewController: UIViewController {
+    // MARK: Constant
+
+    enum Constant {
+        static let cardRatio: CGFloat = 250.0 / 389.0
+        static let cardBackImageName = "card_back"
+    }
+
     // MARK: - Data
 
     private var store: Store<GamePlayUIKitView.State>
@@ -30,7 +37,7 @@ class GamePlayViewController: UIViewController {
     @IBOutlet private weak var deckCountLabel: UILabel!
 
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
-    private let handlCollectionViewLayout = HandCollectionViewLayout()
+    private let handlCollectionViewLayout = HandCollectionViewLayout(cardRatio: Constant.cardRatio)
     private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
     private lazy var animationRenderer: AnimationRendererProtocol = AnimationRenderer(config: self)
 
@@ -122,7 +129,12 @@ private extension GamePlayViewController {
         if let event = state.occurredEvent {
             if let animation = animationMatcher.animation(on: event),
                let previousState {
-                animationRenderer.execute(animation, from: previousState, to: state)
+                animationRenderer.execute(
+                    animation,
+                    from: previousState,
+                    to: state,
+                    duration: state.animationDelay
+                )
             }
 
             events.insert(String(describing: event), at: 0)
@@ -179,7 +191,7 @@ extension GamePlayViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        // swiftlint:disable:next force_cast line_length
+        // swiftlint:disable:next force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellIdentifier", for: indexPath) as! MessageCell
         let item = events[indexPath.row]
         cell.update(with: item)
@@ -222,7 +234,7 @@ extension GamePlayViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        // swiftlint:disable:next force_cast line_length
+        // swiftlint:disable:next force_cast
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerCellIdentifier", for: indexPath) as! PlayerCell
         let item = store.state.players[indexPath.row]
         cell.update(with: item)
@@ -233,7 +245,7 @@ extension GamePlayViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        // swiftlint:disable:next force_cast line_length
+        // swiftlint:disable:next force_cast
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandCellIdentifier", for: indexPath) as! HandCell
         let item = store.state.handActions[indexPath.row]
         cell.update(with: item)
@@ -283,7 +295,6 @@ private extension GamePlayUIKitView.State {
     }
 }
 
-// swiftlint:disable force_unwrapping
 extension GamePlayViewController: AnimationRendererConfiguration {
     func supportingViewController() -> UIViewController {
         self
@@ -330,19 +341,16 @@ extension GamePlayViewController: AnimationRendererConfiguration {
     }
 
     func cardSize() -> CGSize {
-        discardImageView.bounds.size
+        let width: CGFloat = discardImageView.bounds.size.width
+        let height: CGFloat = width / Constant.cardRatio
+        return CGSize(width: width, height: height)
     }
 
     func hiddenCardImage() -> UIImage {
-        UIImage(named: "card_back", in: Bundle.module, with: .none)!
+        UIImage(named: Constant.cardBackImageName, in: Bundle.module, with: .none)!
     }
 
     func cardImage(for cardId: String) -> UIImage {
         UIImage(named: cardId.extractName(), in: Bundle.module, with: .none)!
-    }
-
-    func animationDuration() -> TimeInterval {
-        let state = previousState!
-        return state.animationDelay
     }
 }
