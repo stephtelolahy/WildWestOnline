@@ -17,19 +17,19 @@ enum EventAnimation: Equatable {
     case move(card: Card, from: Location, to: Location)
     case reveal(card: Card, from: Location, to: Location)
 
+    enum Card: Equatable {
+        case id(String)
+        case topDeck
+        case topDiscard
+        case hidden
+    }
+
     enum Location: Hashable, Equatable {
         case deck
         case discard
         case arena
         case hand(String)
         case inPlay(String)
-    }
-
-    enum Card: Equatable {
-        case id(String)
-        case topDeck
-        case topDiscard
-        case hidden
     }
 }
 

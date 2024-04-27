@@ -5,7 +5,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.
 //
-// swiftlint:disable nesting
+// swiftlint:disable nesting no_magic_numbers
 
 import AppCore
 import Foundation

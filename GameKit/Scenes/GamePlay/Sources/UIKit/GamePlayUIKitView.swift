@@ -84,7 +84,7 @@ private var previewState: GamePlayUIKitView.State {
         ],
         topDiscard: .bang,
         topDeck: nil,
-        animationDelay: 1000, 
+        animationDelay: 1000,
         startOrder: [],
         deckCount: 12,
         occurredEvent: .damage(1, player: .calamityJanet)
