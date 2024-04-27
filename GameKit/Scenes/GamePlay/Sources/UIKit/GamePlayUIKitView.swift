@@ -42,39 +42,40 @@ public struct GamePlayUIKitView: View {
 }
 
 private var previewState: GamePlayUIKitView.State {
-    .init(
-        players: [
-            .init(
-                id: "p1",
-                imageName: .willyTheKid,
-                displayName: .willyTheKid,
-                health: 2,
-                maxHealth: 4,
-                handCount: 5,
-                inPlay: [.scope, .jail],
-                isTurn: true,
-                isHitLooseHealth: false,
-                isHitSomeAction: false,
-                isEliminated: false,
-                role: nil,
-                userPhotoUrl: nil
-            ),
-            .init(
-                id: "p2",
-                imageName: .calamityJanet,
-                displayName: .calamityJanet,
-                health: 1,
-                maxHealth: 4,
-                handCount: 0,
-                inPlay: [.scope, .jail],
-                isTurn: false,
-                isHitLooseHealth: false,
-                isHitSomeAction: false,
-                isEliminated: false,
-                role: nil,
-                userPhotoUrl: nil
-            )
-        ],
+    let player1 = GamePlayUIKitView.State.PlayerItem(
+        id: "p1",
+        imageName: .willyTheKid,
+        displayName: .willyTheKid,
+        health: 2,
+        maxHealth: 4,
+        handCount: 5,
+        inPlay: [.scope, .jail],
+        isTurn: true,
+        isHitLooseHealth: false,
+        isHitSomeAction: false,
+        isEliminated: false,
+        role: nil,
+        userPhotoUrl: nil
+    )
+
+    let player2 = GamePlayUIKitView.State.PlayerItem(
+        id: "p2",
+        imageName: .calamityJanet,
+        displayName: .calamityJanet,
+        health: 1,
+        maxHealth: 4,
+        handCount: 0,
+        inPlay: [.scope, .jail],
+        isTurn: false,
+        isHitLooseHealth: false,
+        isHitSomeAction: false,
+        isEliminated: false,
+        role: nil,
+        userPhotoUrl: nil
+    )
+
+    return .init(
+        players: [player1, player2, player2, player2, player2, player2, player2],
         message: "P1's turn",
         chooseOneData: nil,
         handActions: [
