@@ -149,7 +149,7 @@ private extension GamePlayViewController {
         let alert = UIAlertController(
             title: "Choose \(data.choiceType.rawValue)",
             message: nil,
-            preferredStyle: .alert
+            preferredStyle: .actionSheet
         )
 
         data.actions.forEach { key, action in
