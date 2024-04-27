@@ -34,8 +34,7 @@ public extension GamePlayUIKitView {
             public let handCount: Int
             public let inPlay: [String]
             public let isTurn: Bool
-            public let isHitLooseHealth: Bool
-            public let isHitSomeAction: Bool
+            public let isTargeted: Bool
             public let isEliminated: Bool
             public let role: String?
             public let userPhotoUrl: String?
@@ -95,6 +94,15 @@ private extension GameState {
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
 
+            let isTargeted = self.sequence.contains { action in
+                if case .effect(_, let ctx) = action,
+                   ctx.resolvingTarget == playerId {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
             return .init(
                 id: playerId,
                 imageName: playerObj.figure,
@@ -104,8 +112,7 @@ private extension GameState {
                 handCount: handCount,
                 inPlay: equipment,
                 isTurn: isTurn,
-                isHitLooseHealth: false,
-                isHitSomeAction: false,
+                isTargeted: isTargeted,
                 isEliminated: isEliminated,
                 role: nil,
                 userPhotoUrl: nil

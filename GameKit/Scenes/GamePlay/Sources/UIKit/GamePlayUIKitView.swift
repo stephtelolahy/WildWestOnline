@@ -51,8 +51,7 @@ private var previewState: GamePlayUIKitView.State {
         handCount: 5,
         inPlay: [.scope, .jail],
         isTurn: true,
-        isHitLooseHealth: false,
-        isHitSomeAction: false,
+        isTargeted: false,
         isEliminated: false,
         role: nil,
         userPhotoUrl: nil
@@ -67,8 +66,7 @@ private var previewState: GamePlayUIKitView.State {
         handCount: 0,
         inPlay: [.scope, .jail],
         isTurn: false,
-        isHitLooseHealth: false,
-        isHitSomeAction: false,
+        isTargeted: false,
         isEliminated: false,
         role: nil,
         userPhotoUrl: nil
