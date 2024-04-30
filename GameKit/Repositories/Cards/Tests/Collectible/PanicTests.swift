@@ -106,16 +106,4 @@ final class PanicTests: XCTestCase {
             .drawInPlay("c23", target: "p2", player: "p1")
         ])
     }
-
-    func test_playing_Panic_targetIsSelf_shouldChooseInPlayCard() {
-        // Given
-        // When
-        // Then
-    }
-
-    func test_playing_Panic_targetIsSelf_shouldNotChooseHandCard() {
-        // Given
-        // When
-        // Then
-    }
 }

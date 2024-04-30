@@ -8,6 +8,18 @@
 import UIKit
 
 class HandCollectionViewLayout: UICollectionViewFlowLayout {
+    private let cardRatio: CGFloat
+
+    init(cardRatio: CGFloat) {
+        self.cardRatio = cardRatio
+        super.init()
+    }
+
+    // swiftlint:disable:next unavailable_function
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: Layout Overrides
 
     override func prepare() {
@@ -27,9 +39,8 @@ class HandCollectionViewLayout: UICollectionViewFlowLayout {
         let availableHeight = collectionView.bounds.height
 
         let spacing: CGFloat = self.minimumInteritemSpacing
-        let ratio: CGFloat = 250.0 / 389.0
         let cellHeight: CGFloat = availableHeight - 2 * spacing
-        let cellWidth: CGFloat = cellHeight * ratio
+        let cellWidth: CGFloat = cellHeight * cardRatio
 
         self.itemSize = CGSize(width: cellWidth, height: cellHeight)
         self.sectionInset = UIEdgeInsets.zero

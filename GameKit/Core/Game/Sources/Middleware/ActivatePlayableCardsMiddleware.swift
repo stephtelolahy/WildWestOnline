@@ -1,5 +1,5 @@
 //
-//  ActivateCardsMiddleware.swift
+//  ActivatePlayableCardsMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
@@ -7,7 +7,7 @@
 
 import Redux
 
-public final class ActivateCardsMiddleware: Middleware<GameState> {
+public final class ActivatePlayableCardsMiddleware: Middleware<GameState> {
     override public func effect(on action: Action, state: GameState) async -> Action? {
         guard state.sequence.isEmpty,
               state.winner == nil,

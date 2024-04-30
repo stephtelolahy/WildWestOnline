@@ -55,9 +55,7 @@ class PlayerCell: UICollectionViewCell {
     private func updateBackground(_ item: GamePlayUIKitView.State.PlayerItem) {
         if item.isEliminated {
             backgroundColor = .clear
-        } else if item.isHitLooseHealth {
-            backgroundColor = UIColor.red
-        } else if item.isHitSomeAction {
+        } else if item.isTargeted {
             backgroundColor = UIColor.blue.withAlphaComponent(0.4)
         } else if item.isTurn {
             backgroundColor = UIColor.orange

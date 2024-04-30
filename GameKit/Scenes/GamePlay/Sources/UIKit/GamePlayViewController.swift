@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable type_contents_order
+// swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
 
 import AppCore
 import Combine
@@ -13,6 +13,13 @@ import Redux
 import UIKit
 
 class GamePlayViewController: UIViewController {
+    // MARK: Constant
+
+    enum Constant {
+        static let cardRatio: CGFloat = 250.0 / 389.0
+        static let cardBackImageName = "card_back"
+    }
+
     // MARK: - Data
 
     private var store: Store<GamePlayUIKitView.State>
@@ -21,7 +28,6 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - IBOutlets
 
-    @IBOutlet private weak var endTurnButton: UIButton!
     @IBOutlet private weak var playersCollectionView: UICollectionView!
     @IBOutlet private weak var handCollectionView: UICollectionView!
     @IBOutlet private weak var messageTableView: UITableView!
@@ -31,8 +37,11 @@ class GamePlayViewController: UIViewController {
     @IBOutlet private weak var deckCountLabel: UILabel!
 
     private let playersCollectionViewLayout = PlayerCollectionViewLayout()
-    private let handlCollectionViewLayout = HandCollectionViewLayout()
-    private let animationController = AnimationController()
+    private let handlCollectionViewLayout = HandCollectionViewLayout(cardRatio: Constant.cardRatio)
+    private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
+    private lazy var animationRenderer: AnimationRendererProtocol = AnimationRenderer(config: self)
+
+    private var previousState: GamePlayUIKitView.State?
 
     // MARK: - Init
 
@@ -63,9 +72,6 @@ class GamePlayViewController: UIViewController {
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
         store.dispatch(AppAction.close)
-    }
-
-    @IBAction private func endTurnTapped(_ sender: Any) {
     }
 }
 
@@ -103,6 +109,7 @@ private extension GamePlayViewController {
     func observeState() {
         store.$state.sink { [weak self] state in
             self?.updateViews(with: state)
+            self?.previousState = state
         }
         .store(in: &subscriptions)
     }
@@ -120,7 +127,15 @@ private extension GamePlayViewController {
         }
 
         if let event = state.occurredEvent {
-            animationController.handleEvent(event)
+            if let animation = animationMatcher.animation(on: event),
+               let previousState {
+                animationRenderer.execute(
+                    animation,
+                    from: previousState,
+                    to: state,
+                    duration: state.animationDelay
+                )
+            }
 
             events.insert(String(describing: event), at: 0)
             messageTableView.reloadData()
@@ -134,7 +149,7 @@ private extension GamePlayViewController {
         let alert = UIAlertController(
             title: "Choose \(data.choiceType.rawValue)",
             message: nil,
-            preferredStyle: .alert
+            preferredStyle: .actionSheet
         )
 
         data.actions.forEach { key, action in
@@ -276,7 +291,66 @@ private extension GamePlayUIKitView.State {
             return nil
         }
 
-        let discardCardName = topDiscard.extractName()
-        return UIImage(named: discardCardName, in: Bundle.module, with: .none)
+        return UIImage(named: topDiscard.extractName(), in: Bundle.module, with: .none)
+    }
+}
+
+extension GamePlayViewController: AnimationRendererConfiguration {
+    func supportingViewController() -> UIViewController {
+        self
+    }
+
+    func cardPosition(for location: EventAnimation.Location) -> CGPoint {
+        switch location {
+        case .deck:
+            return deckImageView.superview!.convert(deckImageView.center, to: view)
+
+        case .discard:
+            return discardImageView.superview!.convert(discardImageView.center, to: view)
+
+        case .arena:
+            return deckImageView.superview!.convert(deckImageView.center, to: view)
+
+        case .hand(let playerId):
+            let state = previousState!
+            guard let index = state.startOrder.firstIndex(of: playerId) else {
+                fatalError("missing player \(playerId)")
+            }
+
+            guard let attribute = playersCollectionView.collectionViewLayout
+                .layoutAttributesForItem(at: IndexPath(row: index, section: 0)) else {
+                fatalError("missing attribute for item at \(index)")
+            }
+
+            return playersCollectionView.convert(attribute.center, to: view)
+
+        case .inPlay(let playerId):
+            let state = previousState!
+            guard let index = state.startOrder.firstIndex(of: playerId) else {
+                fatalError("missing player \(playerId)")
+            }
+
+            guard let attribute = playersCollectionView.collectionViewLayout
+                .layoutAttributesForItem(at: IndexPath(row: index, section: 0)) else {
+                fatalError("missing attribute for item at \(index)")
+            }
+
+            let cellCenter = playersCollectionView.convert(attribute.center, to: view)
+            return cellCenter.applying(CGAffineTransform(translationX: attribute.bounds.size.height / 2, y: 0))
+        }
+    }
+
+    func cardSize() -> CGSize {
+        let width: CGFloat = discardImageView.bounds.size.width
+        let height: CGFloat = width / Constant.cardRatio
+        return CGSize(width: width, height: height)
+    }
+
+    func hiddenCardImage() -> UIImage {
+        UIImage(named: Constant.cardBackImageName, in: Bundle.module, with: .none)!
+    }
+
+    func cardImage(for cardId: String) -> UIImage {
+        UIImage(named: cardId.extractName(), in: Bundle.module, with: .none)!
     }
 }

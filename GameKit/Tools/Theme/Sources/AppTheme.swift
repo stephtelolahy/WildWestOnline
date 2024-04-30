@@ -12,13 +12,17 @@ import SwiftUI
 ///
 public protocol AppTheme {
     var backgroundView: Color { get }
-    var buttoColor: Color { get }
+    var accentColor: Color { get }
 }
 
 struct DefaultTheme: AppTheme {
-    var backgroundView = Color.orange.opacity(0.4)
+    var backgroundView = Color(
+        red: 249.0 / 255.0,
+        green: 215.0 / 255.0,
+        blue: 160.0 / 255.0
+    )
 
-    var buttoColor = Color(
+    var accentColor = Color(
         red: 148.0 / 255.0,
         green: 82.0 / 255.0,
         blue: 0.0 / 255.0

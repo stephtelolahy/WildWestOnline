@@ -5,9 +5,10 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.
 //
-// swiftlint:disable nesting
+// swiftlint:disable nesting no_magic_numbers
 
 import AppCore
+import Foundation
 import GameCore
 import Redux
 
@@ -18,6 +19,9 @@ public extension GamePlayUIKitView {
         public let chooseOneData: ChooseOneData?
         public let handActions: [CardAction]
         public let topDiscard: String?
+        public let topDeck: String?
+        public let animationDelay: TimeInterval
+        public let startOrder: [String]
         public let deckCount: Int
         public let occurredEvent: GameAction?
 
@@ -30,8 +34,7 @@ public extension GamePlayUIKitView {
             public let handCount: Int
             public let inPlay: [String]
             public let isTurn: Bool
-            public let isHitLooseHealth: Bool
-            public let isHitSomeAction: Bool
+            public let isTargeted: Bool
             public let isEliminated: Bool
             public let role: String?
             public let userPhotoUrl: String?
@@ -71,8 +74,11 @@ public extension GamePlayUIKitView.State {
             chooseOneData: game.chooseOneData,
             handActions: game.handActions,
             topDiscard: game.discard.first,
+            topDeck: game.deck.first,
+            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
+            startOrder: game.startOrder,
             deckCount: game.deck.count,
-            occurredEvent: game.occurredEvent
+            occurredEvent: game.event
         )
     }
 }
@@ -88,6 +94,15 @@ private extension GameState {
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
 
+            let isTargeted = self.sequence.contains { action in
+                if case .effect(_, let ctx) = action,
+                   ctx.resolvingTarget == playerId {
+                    return true
+                } else {
+                    return false
+                }
+            }
+
             return .init(
                 id: playerId,
                 imageName: playerObj.figure,
@@ -97,8 +112,7 @@ private extension GameState {
                 handCount: handCount,
                 inPlay: equipment,
                 isTurn: isTurn,
-                isHitLooseHealth: false,
-                isHitSomeAction: false,
+                isTargeted: isTargeted,
                 isEliminated: isEliminated,
                 role: nil,
                 userPhotoUrl: nil

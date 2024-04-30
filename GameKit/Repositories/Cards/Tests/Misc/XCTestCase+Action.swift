@@ -26,7 +26,7 @@ extension XCTestCase {
             initial: state,
             reducer: GameState.reducer,
             middlewares: [
-                gameLoopMiddleware(),
+                updateGameMiddleware(),
                 choosingMiddleware,
                 LoggerMiddleware()
             ]
@@ -36,7 +36,10 @@ extension XCTestCase {
         var ocurredEvents: [GameAction] = []
 
         let cancellable = store.$state.dropFirst(1).sink { state in
-            ocurredEvents = state.events
+            if let event = state.event {
+                ocurredEvents.append(event)
+            }
+
             if let error = state.error {
                 ocurredError = error
             }

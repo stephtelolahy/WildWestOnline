@@ -7,7 +7,7 @@
 // swiftlint:disable type_contents_order no_magic_numbers
 
 import AppCore
-import CardNames
+import CardsRepository
 import GameCore
 import Redux
 import SwiftUI
@@ -42,39 +42,38 @@ public struct GamePlayUIKitView: View {
 }
 
 private var previewState: GamePlayUIKitView.State {
-    .init(
-        players: [
-            .init(
-                id: "p1",
-                imageName: .willyTheKid,
-                displayName: .willyTheKid,
-                health: 2,
-                maxHealth: 4,
-                handCount: 5,
-                inPlay: [.scope, .jail],
-                isTurn: true,
-                isHitLooseHealth: false,
-                isHitSomeAction: false,
-                isEliminated: false,
-                role: nil,
-                userPhotoUrl: nil
-            ),
-            .init(
-                id: "p2",
-                imageName: .calamityJanet,
-                displayName: .calamityJanet,
-                health: 1,
-                maxHealth: 4,
-                handCount: 0,
-                inPlay: [.scope, .jail],
-                isTurn: false,
-                isHitLooseHealth: false,
-                isHitSomeAction: false,
-                isEliminated: false,
-                role: nil,
-                userPhotoUrl: nil
-            )
-        ],
+    let player1 = GamePlayUIKitView.State.PlayerItem(
+        id: "p1",
+        imageName: .willyTheKid,
+        displayName: .willyTheKid,
+        health: 2,
+        maxHealth: 4,
+        handCount: 5,
+        inPlay: [.scope, .jail],
+        isTurn: true,
+        isTargeted: false,
+        isEliminated: false,
+        role: nil,
+        userPhotoUrl: nil
+    )
+
+    let player2 = GamePlayUIKitView.State.PlayerItem(
+        id: "p2",
+        imageName: .calamityJanet,
+        displayName: .calamityJanet,
+        health: 1,
+        maxHealth: 4,
+        handCount: 0,
+        inPlay: [.scope, .jail],
+        isTurn: false,
+        isTargeted: false,
+        isEliminated: false,
+        role: nil,
+        userPhotoUrl: nil
+    )
+
+    return .init(
+        players: [player1, player2, player2, player2, player2, player2, player2],
         message: "P1's turn",
         chooseOneData: nil,
         handActions: [
@@ -83,6 +82,9 @@ private var previewState: GamePlayUIKitView.State {
             .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
         ],
         topDiscard: .bang,
+        topDeck: nil,
+        animationDelay: 1000,
+        startOrder: [],
         deckCount: 12,
         occurredEvent: .damage(1, player: .calamityJanet)
     )

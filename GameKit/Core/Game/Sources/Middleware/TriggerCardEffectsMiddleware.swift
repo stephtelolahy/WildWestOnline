@@ -1,5 +1,5 @@
 //
-//  CardEffectsMiddleware.swift
+//  TriggerCardEffectsMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
@@ -7,7 +7,7 @@
 
 import Redux
 
-public final class CardEffectsMiddleware: Middleware<GameState> {
+public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
     override public func effect(on action: Action, state: GameState) async -> Action? {
         guard let action = action as? GameAction else {
             return nil

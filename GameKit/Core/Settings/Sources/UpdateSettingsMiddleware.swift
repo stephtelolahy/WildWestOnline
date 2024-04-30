@@ -1,5 +1,5 @@
 //
-//  SettingsMiddleware.swift
+//  UpdateSettingsMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
@@ -13,7 +13,7 @@ public protocol SettingsService {
     var waitDelayMilliseconds: Int { get set }
 }
 
-public class SettingsMiddleware: Middleware<SettingsState> {
+public class UpdateSettingsMiddleware: Middleware<SettingsState> {
     private var service: SettingsService
 
     public init(service: SettingsService) {

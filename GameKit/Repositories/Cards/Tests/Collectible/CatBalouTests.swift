@@ -106,16 +106,4 @@ final class CatBalouTests: XCTestCase {
             .discardInPlay("c23", player: "p2")
         ])
     }
-
-    func test_playingCatBalou_targetIsSelf_shouldChooseOneInPlayCard() {
-        // Given
-        // When
-        // Then
-    }
-
-    func test_playingCatBalou_targetIsSelf_shouldNotChooseHandCards() {
-        // Given
-        // When
-        // Then
-    }
 }

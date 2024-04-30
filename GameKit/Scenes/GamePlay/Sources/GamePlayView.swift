@@ -7,7 +7,7 @@
 // swiftlint:disable no_magic_numbers type_contents_order
 
 import AppCore
-import CardNames
+import CardsRepository
 import GameCore
 import Redux
 import SwiftUI
@@ -137,9 +137,11 @@ public struct GamePlayView: View {
     private var eventsView: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                ForEach(Array(store.state.events.enumerated()), id: \.offset) { _, event in
-                    Text(event)
+                if let event = store.state.occurredEvent {
+                    Text(String(describing: event))
                         .lineLimit(1)
+                } else {
+                    EmptyView()
                 }
             }
         }
@@ -201,9 +203,6 @@ private var previewState: GamePlayView.State {
             .init(card: .barrel, action: .play(.barrel, player: "p1")),
             .init(card: .beer, action: nil)
         ],
-        events: [
-            "Event2",
-            "Event1"
-        ]
+        occurredEvent: .play(.beer, player: "p1")
     )
 }
