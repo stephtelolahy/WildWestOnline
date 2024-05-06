@@ -32,19 +32,6 @@ public struct HomeView: View {
                     footerView
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        withAnimation {
-                            store.dispatch(AppAction.present(.settings))
-                        }
-                    } label: {
-                        Image(systemName: "gear")
-                            .imageScale(.large)
-                            .foregroundColor(.accentColor)
-                    }
-                }
-            }
         }
     }
 
@@ -64,8 +51,9 @@ public struct HomeView: View {
                         store.dispatch(AppAction.navigate(.game))
                     }
                 }
-                mainButton("menu.online.button") {
+                mainButton("menu.settings.button") {
                     withAnimation {
+                        store.dispatch(AppAction.present(.settings))
                     }
                 }
             }
@@ -81,7 +69,7 @@ public struct HomeView: View {
                 .font(.headline)
                 .padding(8)
                 .foregroundColor(.accentColor)
-        }
+        }.symbolRenderingMode(.multicolor)
     }
 
     private var footerView: some View {
