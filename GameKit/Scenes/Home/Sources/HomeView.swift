@@ -33,13 +33,16 @@ public struct HomeView: View {
                 }
             }
             .toolbar {
-                Button {
-                    withAnimation {
-                        store.dispatch(AppAction.present(.settings))
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        withAnimation {
+                            store.dispatch(AppAction.present(.settings))
+                        }
+                    } label: {
+                        Image(systemName: "gear")
+                            .imageScale(.large)
+                            .foregroundColor(.accentColor)
                     }
-                } label: {
-                    Image(systemName: "gearshape")
-                        .foregroundColor(.accentColor)
                 }
             }
         }
@@ -56,12 +59,12 @@ public struct HomeView: View {
                     .frame(width: 120, height: 120)
             }
             VStack(spacing: 8) {
-                roundedButton("menu.play.button") {
+                mainButton("menu.play.button") {
                     withAnimation {
                         store.dispatch(AppAction.navigate(.game))
                     }
                 }
-                roundedButton("menu.online.button") {
+                mainButton("menu.online.button") {
                     withAnimation {
                     }
                 }
@@ -69,7 +72,7 @@ public struct HomeView: View {
         }
     }
 
-    private func roundedButton(
+    private func mainButton(
         _ titleKey: String.LocalizationValue,
         action: @escaping () -> Void
     ) -> some View {
@@ -77,12 +80,7 @@ public struct HomeView: View {
             Text(String(localized: titleKey, bundle: .module))
                 .font(.headline)
                 .padding(8)
-                .frame(minWidth: 0, maxWidth: 200)
-                .foregroundStyle(.primary)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.accentColor, lineWidth: 4)
-                )
+                .foregroundColor(.accentColor)
         }
     }
 
