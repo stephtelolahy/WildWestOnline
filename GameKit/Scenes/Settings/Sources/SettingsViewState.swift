@@ -40,7 +40,7 @@ public extension SettingsView {
         public let currentSpeedIndex: Int
         public let simulation: Bool
         public let gamePlay: Int
-        public let figures: [String]
+        public let figureOptions: [String]
         public let preferredFigure: Int
     }
 }
@@ -49,19 +49,15 @@ public extension SettingsView.State {
     static func from(globalState: AppState) -> Self? {
         .init(
             playersCount: globalState.settings.playersCount,
-            currentSpeedIndex: globalState.speedOptionIndex,
+            currentSpeedIndex: speedOptionIndex(for: globalState.settings.waitDelayMilliseconds),
             simulation: globalState.settings.simulation,
             gamePlay: globalState.settings.gamePlay,
-            figures: globalState.settings.inventory.figures,
+            figureOptions: globalState.settings.inventory.figures,
             preferredFigure: globalState.settings.preferredFigure
         )
     }
-}
 
-private extension AppState {
-    var speedOptionIndex: Int {
-        SettingsView.State.SpeedOption.all.firstIndex {
-            $0.value == settings.waitDelayMilliseconds
-        } ?? 0
+    private static func speedOptionIndex(for delayMilliseconds: Int) -> Int {
+        SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
     }
 }

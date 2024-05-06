@@ -44,12 +44,13 @@ public struct SettingsView: View {
             speedView
             simulationView
             gamePlayView
+            figureView
         }
     }
 
     private var playersCountView: some View {
         HStack {
-            Image(systemName: "person")
+            Image(systemName: "person.2")
             Stepper(
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
@@ -121,6 +122,30 @@ public struct SettingsView: View {
             }
         }
     }
+
+    private var figureView: some View {
+        HStack {
+            Image(systemName: "star")
+            Picker(
+                selection: Binding<Int>(
+                    get: {
+                        store.state.preferredFigure
+                    },
+                    set: { index in
+                        let action = SettingsAction.updatePreferredFigure(index)
+                        store.dispatch(action)
+                    }
+                ),
+                label: Text(
+                    "Preferred figure"
+                )
+            ) {
+                ForEach(0..<(store.state.figureOptions.count), id: \.self) {
+                    Text(store.state.figureOptions[$0])
+                }
+            }
+        }
+    }
 }
 
 #Preview {
@@ -135,7 +160,7 @@ private var previewState: SettingsView.State {
         currentSpeedIndex: 0,
         simulation: false,
         gamePlay: 0,
-        figures: ["Figure1", "Figure2", "Figure3"],
+        figureOptions: ["Figure1", "Figure2", "Figure3"],
         preferredFigure: 0
     )
 }
