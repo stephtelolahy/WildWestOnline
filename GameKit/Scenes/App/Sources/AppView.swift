@@ -41,19 +41,7 @@ public struct AppView: View {
                 }
 
             case .game:
-                if store.state.settings.oldGamePlay {
-                    GamePlayUIKitView {
-                        store.projection {
-                            GamePlayUIKitView.State.from(globalState: $0)
-                        }
-                    }
-                } else {
-                    GamePlayView {
-                        store.projection {
-                            GamePlayView.State.from(globalState: $0)
-                        }
-                    }
-                }
+                gamePlayView
 
             default:
                 EmptyView()
@@ -71,6 +59,29 @@ public struct AppView: View {
             }
         })
         .foregroundColor(.primary)
+    }
+
+    private var gamePlayView: some View {
+        Group {
+            switch store.state.settings.gamePlay {
+            case 0:
+                GamePlayUIKitView {
+                    store.projection {
+                        GamePlayUIKitView.State.from(globalState: $0)
+                    }
+                }
+
+            case 1:
+                GamePlayView {
+                    store.projection {
+                        GamePlayView.State.from(globalState: $0)
+                    }
+                }
+
+            default:
+                fatalError("unexpected")
+            }
+        }
     }
 }
 
