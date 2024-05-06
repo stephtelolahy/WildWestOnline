@@ -12,13 +12,11 @@ import Redux
 
 public extension SettingsView {
     struct State: Equatable {
-        public let playersCount: Int
+        // MARK: - Constants
+
         public let minPlayersCount = 2
         public let maxPlayersCount = 7
         public let speedOptions: [SpeedOption] = SpeedOption.all
-        public let currentSpeedIndex: Int
-        public let simulation: Bool
-        public let oldGamePlay: Bool
 
         public struct SpeedOption: Equatable {
             let label: String
@@ -30,6 +28,20 @@ public extension SettingsView {
                 .init(label: "Fast", value: 0)
             ]
         }
+
+        public let gamePlayOptions: [String] = [
+            "UIKit",
+            "SwiftUI"
+        ]
+
+        // MARK: - Instance variables
+
+        public let playersCount: Int
+        public let currentSpeedIndex: Int
+        public let simulation: Bool
+        public let gamePlay: Int
+        public let figures: [String]
+        public let preferredFigure: Int
     }
 }
 
@@ -39,7 +51,9 @@ public extension SettingsView.State {
             playersCount: globalState.settings.playersCount,
             currentSpeedIndex: globalState.speedOptionIndex,
             simulation: globalState.settings.simulation,
-            oldGamePlay: globalState.settings.oldGamePlay
+            gamePlay: globalState.settings.gamePlay,
+            figures: globalState.settings.inventory.figures,
+            preferredFigure: globalState.settings.preferredFigure
         )
     }
 }

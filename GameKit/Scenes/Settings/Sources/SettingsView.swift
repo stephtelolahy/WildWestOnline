@@ -49,7 +49,7 @@ public struct SettingsView: View {
 
     private var playersCountView: some View {
         HStack {
-            Image(systemName: "gamecontroller")
+            Image(systemName: "person")
             Stepper(
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
@@ -100,12 +100,24 @@ public struct SettingsView: View {
 
     private var gamePlayView: some View {
         HStack {
-            Image(systemName: "apps.iphone.landscape")
-            Toggle(isOn: Binding<Bool>(
-                get: { store.state.oldGamePlay },
-                set: { _ in store.dispatch(SettingsAction.toggleGamePlay) }
-            ).animation()) {
-                Text("Old gamePlay")
+            Image(systemName: "gamecontroller")
+            Picker(
+                selection: Binding<Int>(
+                    get: {
+                        store.state.gamePlay
+                    },
+                    set: { index in
+                        let action = SettingsAction.updateGamePlay(index)
+                        store.dispatch(action)
+                    }
+                ),
+                label: Text(
+                    "GamePlay"
+                )
+            ) {
+                ForEach(0..<(store.state.gamePlayOptions.count), id: \.self) {
+                    Text(store.state.gamePlayOptions[$0])
+                }
             }
         }
     }
@@ -122,6 +134,8 @@ private var previewState: SettingsView.State {
         playersCount: 5,
         currentSpeedIndex: 0,
         simulation: false,
-        oldGamePlay: true
+        gamePlay: 0,
+        figures: ["Figure1", "Figure2", "Figure3"],
+        preferredFigure: 0
     )
 }

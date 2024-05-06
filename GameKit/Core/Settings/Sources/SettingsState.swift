@@ -12,20 +12,23 @@ public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
-    public var oldGamePlay: Bool
+    public var gamePlay: Int
+    public var preferredFigure: Int
 
     public init(
         inventory: Inventory = .init(figures: [], cardSets: [:], cardRef: [:]),
         playersCount: Int = 5,
         waitDelayMilliseconds: Int = 0,
         simulation: Bool = false,
-        oldGamePlay: Bool = true
+        gamePlay: Int = 0,
+        preferredFigure: Int = 0
     ) {
         self.inventory = inventory
         self.playersCount = playersCount
         self.waitDelayMilliseconds = waitDelayMilliseconds
         self.simulation = simulation
-        self.oldGamePlay = oldGamePlay
+        self.gamePlay = gamePlay
+        self.preferredFigure = preferredFigure
     }
 }
 
@@ -33,7 +36,8 @@ public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation
-    case toggleGamePlay
+    case updateGamePlay(Int)
+    case updatePreferredFigure(Int)
 }
 
 public extension SettingsState {
@@ -54,8 +58,11 @@ public extension SettingsState {
         case .toggleSimulation:
             state.simulation.toggle()
 
-        case .toggleGamePlay:
-            state.oldGamePlay.toggle()
+        case let .updateGamePlay(value):
+            state.gamePlay = value
+
+        case let .updatePreferredFigure(value):
+            state.preferredFigure = value
         }
 
         return state
