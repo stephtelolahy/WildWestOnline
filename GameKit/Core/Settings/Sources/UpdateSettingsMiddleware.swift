@@ -9,8 +9,10 @@ import Redux
 
 public protocol SettingsService {
     var playersCount: Int { get set }
-    var simulationEnabled: Bool { get set }
     var waitDelayMilliseconds: Int { get set }
+    var simulationEnabled: Bool { get set }
+    var gamePlay: Int { get set }
+    var preferredFigure: Int { get set }
 }
 
 public class UpdateSettingsMiddleware: Middleware<SettingsState> {
@@ -27,17 +29,20 @@ public class UpdateSettingsMiddleware: Middleware<SettingsState> {
         }
 
         switch action {
-        case let .updatePlayersCount(playersCount):
-            service.playersCount = playersCount
-
-        case .toggleSimulation:
-            service.simulationEnabled = state.simulation
+        case let .updatePlayersCount(value):
+            service.playersCount = value
 
         case let .updateWaitDelayMilliseconds(delay):
             service.waitDelayMilliseconds = delay
 
-        default:
-            break
+        case .toggleSimulation:
+            service.simulationEnabled = state.simulation
+
+        case let .updateGamePlay(value):
+            service.gamePlay = value
+
+        case let .updatePreferredFigure(value):
+            service.preferredFigure = value
         }
 
         return nil

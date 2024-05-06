@@ -49,8 +49,8 @@ public extension SettingsState {
         var  state = state
 
         switch action {
-        case let .updatePlayersCount(count):
-            state.playersCount = count
+        case let .updatePlayersCount(value):
+            state.playersCount = value
 
         case let .updateWaitDelayMilliseconds(value):
             state.waitDelayMilliseconds = value

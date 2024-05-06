@@ -41,7 +41,9 @@ private func createStore() -> Store<AppState> {
         inventory: inventory,
         playersCount: settingsService.playersCount,
         waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
-        simulation: settingsService.simulationEnabled
+        simulation: settingsService.simulationEnabled,
+        gamePlay: settingsService.gamePlay,
+        preferredFigure: settingsService.preferredFigure
     )
 
     let initialState = AppState(
