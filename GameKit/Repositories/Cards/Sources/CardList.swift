@@ -55,6 +55,7 @@ public enum CardList {
         kitCarlson
         jesseJones
         pedroRamirez
+        custom
     }
 
     public static let figures: [String] = [
@@ -74,7 +75,7 @@ public enum CardList {
         .kitCarlson,
         .jesseJones,
         .pedroRamirez,
-//        .master
+        .custom
     ]
 }
 
@@ -552,9 +553,9 @@ private extension CardList {
         }
     }
 
-    static var master: Card {
+    static var custom: Card {
         Card(
-            .master,
+            .custom,
             prototype: pDefault,
             abilities: [
                 .willyTheKid,
@@ -569,10 +570,10 @@ private extension CardList {
                 .suzyLafayette,
                 .vultureSam,
                 .sidKetchum,
-                .blackJack,
-                .kitCarlson,
-                .jesseJones,
-                .pedroRamirez
+//                .blackJack,
+//                .kitCarlson,
+//                .jesseJones,
+//                .pedroRamirez
             ],
             attributes: [.maxHealth: 4]
         )

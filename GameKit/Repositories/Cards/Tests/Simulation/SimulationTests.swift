@@ -28,12 +28,21 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
-    private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
+    func test_simulateGameWithCustomFigure_shouldComplete() throws {
+        simulateGame(playersCount: 4, preferredFigure: .custom)
+    }
+
+    private func simulateGame(
+        playersCount: Int,
+        preferredFigure: String? = nil,
+        timeout: TimeInterval = 30.0
+    ) {
         // Given
         let inventory = CardsRepository().inventory
         var game = Setup.createGame(
             playersCount: playersCount,
-            inventory: inventory
+            inventory: inventory,
+            preferredFigure: preferredFigure
         )
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
 
