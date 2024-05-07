@@ -53,7 +53,7 @@ public struct HomeView: View {
                 }
                 mainButton("menu.settings.button") {
                     withAnimation {
-                        store.dispatch(AppAction.present(.settings))
+                        store.dispatch(AppAction.navigate(.settings))
                     }
                 }
             }

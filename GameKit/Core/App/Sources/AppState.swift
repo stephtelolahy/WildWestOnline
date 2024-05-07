@@ -16,6 +16,7 @@ public struct AppState: Codable, Equatable {
         case splash
         case home
         case game
+        case settings
     }
 
     public enum Alert: Codable, Equatable {
@@ -24,9 +25,6 @@ public struct AppState: Codable, Equatable {
 
     /// Screens stack
     public var screens: [Screen]
-
-    /// Presented alert
-    public var alert: Alert?
 
     /// App configuration
     public var settings: SettingsState
@@ -37,11 +35,9 @@ public struct AppState: Codable, Equatable {
     public init(
         screens: [Screen],
         settings: SettingsState,
-        alert: Alert? = nil,
         game: GameState? = nil
     ) {
         self.screens = screens
-        self.alert = alert
         self.settings = settings
         self.game = game
     }
@@ -49,7 +45,6 @@ public struct AppState: Codable, Equatable {
 
 public enum AppAction: Action {
     case navigate(AppState.Screen)
-    case present(AppState.Alert)
     case close
 }
 
@@ -80,18 +75,11 @@ private extension AppState {
                 state.game = createGame(settings: state.settings)
             }
 
-        case .present(let alert):
-            state.alert = alert
-
         case .close:
-            if state.alert != nil {
-                state.alert = nil
-            } else {
-                if case .game = state.screens.last {
-                    state.game = nil
-                }
-                state.screens.removeLast()
+            if case .game = state.screens.last {
+                state.game = nil
             }
+            state.screens.removeLast()
         }
         return state
     }

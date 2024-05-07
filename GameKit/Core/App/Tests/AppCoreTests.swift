@@ -55,7 +55,7 @@ final class AppCoreTests: XCTestCase {
         XCTAssertNil(result.game)
     }
 
-    func test_showingAlert_shouldDisplayAlert() throws {
+    func test_showingSettings_shouldDisplayAlert() throws {
         // Given
         let state = AppState(
             screens: [.home],
@@ -63,20 +63,18 @@ final class AppCoreTests: XCTestCase {
         )
 
         // When
-        let action = AppAction.present(.settings)
+        let action = AppAction.navigate(.settings)
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.alert, .settings)
-        XCTAssertEqual(result.screens, [.home])
+        XCTAssertEqual(result.screens, [.home, .settings])
     }
 
-    func test_closing_withAlert_shouldRemoveAlert() throws {
+    func test_closingSettings_shouldRemoveAlert() throws {
         // Given
         let state = AppState(
-            screens: [.home],
-            settings: .sample,
-            alert: .settings
+            screens: [.home, .settings],
+            settings: .sample
         )
 
         // When
@@ -84,7 +82,6 @@ final class AppCoreTests: XCTestCase {
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.alert)
         XCTAssertEqual(result.screens, [.home])
     }
 }

@@ -48,7 +48,7 @@ public struct AppView: View {
             }
         }
         .sheet(isPresented: Binding<Bool>(
-            get: { store.state.alert == .settings },
+            get: { store.state.screens.last == .settings },
             set: { _ in }
         ), onDismiss: {
         }, content: {
