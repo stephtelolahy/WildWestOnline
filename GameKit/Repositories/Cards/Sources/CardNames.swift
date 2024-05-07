@@ -52,6 +52,7 @@ public extension String {
     static let kitCarlson = "kitCarlson"
     static let jesseJones = "jesseJones"
     static let pedroRamirez = "pedroRamirez"
+    static let master = "master"
 
     // MARK: - Abilities
 

@@ -30,11 +30,7 @@ final class SimulationTests: XCTestCase {
 
     private func simulateGame(playersCount: Int, timeout: TimeInterval = 30.0) {
         // Given
-        let inventory = Inventory(
-            figures: CardList.figures,
-            cardSets: CardSets.bang,
-            cardRef: CardList.all
-        )
+        let inventory = CardsRepository().inventory
         var game = Setup.createGame(
             playersCount: playersCount,
             inventory: inventory

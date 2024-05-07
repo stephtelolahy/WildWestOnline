@@ -73,7 +73,8 @@ public enum CardList {
         .blackJack,
         .kitCarlson,
         .jesseJones,
-        .pedroRamirez
+        .pedroRamirez,
+//        .master
     ]
 }
 
@@ -549,6 +550,32 @@ private extension CardList {
             }
             .on([.setTurn])
         }
+    }
+
+    static var master: Card {
+        Card(
+            .master,
+            prototype: pDefault,
+            abilities: [
+                .willyTheKid,
+                .roseDoolan,
+                .paulRegret,
+                .jourdonnais,
+                .slabTheKiller,
+                .luckyDuke,
+                .calamityJanet,
+                .bartCassidy,
+                .elGringo,
+                .suzyLafayette,
+                .vultureSam,
+                .sidKetchum,
+                .blackJack,
+                .kitCarlson,
+                .jesseJones,
+                .pedroRamirez
+            ],
+            attributes: [.maxHealth: 4]
+        )
     }
 }
 
