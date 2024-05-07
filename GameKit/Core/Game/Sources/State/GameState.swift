@@ -1,5 +1,4 @@
 import Foundation
-import Utils
 
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules

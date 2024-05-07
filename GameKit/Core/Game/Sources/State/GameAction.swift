@@ -6,7 +6,6 @@
 //
 
 import Redux
-import Utils
 
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
