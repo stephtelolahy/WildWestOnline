@@ -95,6 +95,13 @@
         "identifier" : "SplashTests",
         "name" : "SplashTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:GameKit",
+        "identifier" : "UtilsTests",
+        "name" : "UtilsTests"
+      }
     }
   ],
   "version" : 1

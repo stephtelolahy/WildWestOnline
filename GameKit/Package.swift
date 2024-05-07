@@ -60,11 +60,17 @@ let package = Package(
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
+        .testTarget(
+            name: "UtilsTests",
+            dependencies: [
+                "Utils"
+            ],
+            path: "Tools/Utils/Tests"
+        ),
         .target(
             name: "GameCore",
             dependencies: [
-                "Redux",
-                "Utils"
+                "Redux"
             ],
             path: "Core/Game/Sources",
             plugins: [
