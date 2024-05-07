@@ -55,7 +55,7 @@ final class AppCoreTests: XCTestCase {
         XCTAssertNil(result.game)
     }
 
-    func test_showingSettings_shouldDisplayAlert() throws {
+    func test_showingSettings_shouldDisplaySettings() throws {
         // Given
         let state = AppState(
             screens: [.home],
@@ -70,7 +70,7 @@ final class AppCoreTests: XCTestCase {
         XCTAssertEqual(result.screens, [.home, .settings])
     }
 
-    func test_closingSettings_shouldRemoveAlert() throws {
+    func test_closingSettings_shouldRemoveSettings() throws {
         // Given
         let state = AppState(
             screens: [.home, .settings],

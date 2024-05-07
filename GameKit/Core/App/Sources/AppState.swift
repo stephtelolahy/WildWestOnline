@@ -19,10 +19,6 @@ public struct AppState: Codable, Equatable {
         case settings
     }
 
-    public enum Alert: Codable, Equatable {
-        case settings
-    }
-
     /// Screens stack
     public var screens: [Screen]
 
@@ -85,7 +81,11 @@ private extension AppState {
     }
 
     static func createGame(settings: SettingsState) -> GameState {
-        var game = Setup.createGame(playersCount: settings.playersCount, inventory: settings.inventory)
+        var game = Setup.createGame(
+            playersCount: settings.playersCount,
+            inventory: settings.inventory,
+            preferredFigure: settings.inventory.figures[settings.preferredFigure]
+        )
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {

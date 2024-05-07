@@ -31,14 +31,10 @@ struct GameApp: App {
 
 private func createStore() -> Store<AppState> {
     let settingsService = SettingsRepository()
-    let inventory = Inventory(
-        figures: CardList.figures,
-        cardSets: CardSets.bang,
-        cardRef: CardList.all
-    )
+    let cardsService = CardsRepository()
 
     let settings = SettingsState(
-        inventory: inventory,
+        inventory: cardsService.inventory,
         playersCount: settingsService.playersCount,
         waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
         simulation: settingsService.simulationEnabled,

@@ -7,14 +7,6 @@
 
 import Redux
 
-public protocol SettingsService {
-    var playersCount: Int { get set }
-    var waitDelayMilliseconds: Int { get set }
-    var simulationEnabled: Bool { get set }
-    var gamePlay: Int { get set }
-    var preferredFigure: Int { get set }
-}
-
 public class UpdateSettingsMiddleware: Middleware<SettingsState> {
     private var service: SettingsService
 
