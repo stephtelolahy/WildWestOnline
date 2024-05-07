@@ -150,17 +150,19 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store(initial: previewState)
+        Store(initial: .mock)
     }
 }
 
-private var previewState: SettingsView.State {
-    .init(
-        playersCount: 5,
-        currentSpeedIndex: 0,
-        simulation: false,
-        gamePlay: 0,
-        figureOptions: ["Figure1", "Figure2", "Figure3"],
-        preferredFigure: 0
-    )
+private extension SettingsView.State {
+    static var mock: Self {
+        .init(
+            playersCount: 5,
+            currentSpeedIndex: 0,
+            simulation: false,
+            gamePlay: 0,
+            figureOptions: ["Figure1", "Figure2", "Figure3"],
+            preferredFigure: 0
+        )
+    }
 }
