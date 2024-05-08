@@ -22,8 +22,8 @@ public class SettingsRepository: SettingsService {
     @UserDefaultsStored("settings.gamePlay", defaultValue: 0)
     public var gamePlay: Int
 
-    @UserDefaultsStored("settings.preferredFigure", defaultValue: 0)
-    public var preferredFigure: Int
+    @OptionalUserDefaultsStored("settings.preferredFigure")
+    public var preferredFigure: String?
 
     public init() {}
 }

@@ -68,7 +68,7 @@ public struct SettingsView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        store.state.currentSpeedIndex
+                        store.state.speedIndex
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
@@ -129,10 +129,11 @@ public struct SettingsView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        store.state.preferredFigure
+                        store.state.preferredFigureIndex
                     },
                     set: { index in
-                        let action = SettingsAction.updatePreferredFigure(index)
+                        let figure = store.state.figureOptions[index]
+                        let action = SettingsAction.updatePreferredFigure(figure)
                         store.dispatch(action)
                     }
                 ),
@@ -158,11 +159,11 @@ private extension SettingsView.State {
     static var mock: Self {
         .init(
             playersCount: 5,
-            currentSpeedIndex: 0,
+            speedIndex: 0,
             simulation: false,
             gamePlay: 0,
             figureOptions: ["Figure1", "Figure2", "Figure3"],
-            preferredFigure: 0
+            preferredFigureIndex: -1
         )
     }
 }

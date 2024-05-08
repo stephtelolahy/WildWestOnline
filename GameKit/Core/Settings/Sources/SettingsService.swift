@@ -10,5 +10,5 @@ public protocol SettingsService {
     var waitDelayMilliseconds: Int { get set }
     var simulationEnabled: Bool { get set }
     var gamePlay: Int { get set }
-    var preferredFigure: Int { get set }
+    var preferredFigure: String? { get set }
 }

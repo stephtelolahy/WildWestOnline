@@ -8,6 +8,7 @@
 import Foundation
 
 public extension Card {
+    @available(*, deprecated, message: "Use builder")
     init(
         _ name: String,
         prototype: Card? = nil,
@@ -26,6 +27,7 @@ public extension Card {
         self.abilityToPlayCardAs = alias
     }
 
+    @available(*, deprecated, message: "Use builder")
     func withPriority(_ value: Int) -> Self {
         .init(
             name: name,

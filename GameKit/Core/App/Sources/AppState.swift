@@ -84,7 +84,7 @@ private extension AppState {
         var game = Setup.createGame(
             playersCount: settings.playersCount,
             inventory: settings.inventory,
-            preferredFigure: settings.inventory.figures[settings.preferredFigure]
+            preferredFigure: settings.preferredFigure
         )
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]

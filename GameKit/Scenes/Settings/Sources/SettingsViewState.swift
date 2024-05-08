@@ -37,11 +37,11 @@ public extension SettingsView {
         // MARK: - Instance variables
 
         public let playersCount: Int
-        public let currentSpeedIndex: Int
+        public let speedIndex: Int
         public let simulation: Bool
         public let gamePlay: Int
         public let figureOptions: [String]
-        public let preferredFigure: Int
+        public let preferredFigureIndex: Int
     }
 }
 
@@ -49,15 +49,24 @@ public extension SettingsView.State {
     static func from(globalState: AppState) -> Self? {
         .init(
             playersCount: globalState.settings.playersCount,
-            currentSpeedIndex: speedOptionIndex(for: globalState.settings.waitDelayMilliseconds),
+            speedIndex: indexOfSpeed(globalState.settings.waitDelayMilliseconds),
             simulation: globalState.settings.simulation,
             gamePlay: globalState.settings.gamePlay,
             figureOptions: globalState.settings.inventory.figures,
-            preferredFigure: globalState.settings.preferredFigure
+            preferredFigureIndex: indexOfFigure(globalState.settings.preferredFigure, in: globalState.settings.inventory.figures)
         )
     }
 
-    private static func speedOptionIndex(for delayMilliseconds: Int) -> Int {
+    private static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
         SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
+    }
+
+    private static func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
+        guard let figure,
+              let index = figures.firstIndex(of: figure) else {
+            return -1
+        }
+
+        return index
     }
 }

@@ -13,15 +13,16 @@ public struct SettingsState: Codable, Equatable {
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
     public var gamePlay: Int
-    public var preferredFigure: Int
+    public var preferredFigure: String?
 
+    @available(*, deprecated, message: "Use builder")
     public init(
         inventory: Inventory = .init(figures: [], cardSets: [:], cardRef: [:]),
         playersCount: Int = 5,
         waitDelayMilliseconds: Int = 0,
         simulation: Bool = false,
         gamePlay: Int = 0,
-        preferredFigure: Int = 0
+        preferredFigure: String? = nil
     ) {
         self.inventory = inventory
         self.playersCount = playersCount
@@ -37,7 +38,7 @@ public enum SettingsAction: Action, Codable, Equatable {
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation
     case updateGamePlay(Int)
-    case updatePreferredFigure(Int)
+    case updatePreferredFigure(String?)
 }
 
 public extension SettingsState {
