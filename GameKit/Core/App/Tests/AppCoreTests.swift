@@ -15,7 +15,10 @@ import XCTest
 final class AppCoreTests: XCTestCase {
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let state = AppState(screens: [.splash], settings: .sample)
+        let state = AppState(
+            screens: [.splash],
+            settings: SettingsState.makeBuilder().build()
+        )
 
         // When
         let action = AppAction.navigate(.home)
@@ -27,7 +30,11 @@ final class AppCoreTests: XCTestCase {
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let state = AppState(screens: [.home], settings: .sample)
+        let invetory = Inventory.makeBuilder().build()
+        let state = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().withInventory(invetory).build()
+        )
 
         // When
         let action = AppAction.navigate(.game)
@@ -42,7 +49,7 @@ final class AppCoreTests: XCTestCase {
         // Given
         let state = AppState(
             screens: [.home, .game],
-            settings: .sample,
+            settings: SettingsState.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
 
@@ -59,7 +66,7 @@ final class AppCoreTests: XCTestCase {
         // Given
         let state = AppState(
             screens: [.home],
-            settings: .sample
+            settings: SettingsState.makeBuilder().build()
         )
 
         // When
@@ -74,7 +81,7 @@ final class AppCoreTests: XCTestCase {
         // Given
         let state = AppState(
             screens: [.home, .settings],
-            settings: .sample
+            settings: SettingsState.makeBuilder().build()
         )
 
         // When
@@ -84,24 +91,4 @@ final class AppCoreTests: XCTestCase {
         // Then
         XCTAssertEqual(result.screens, [.home])
     }
-}
-
-private extension SettingsState {
-    static let sample: Self = .init(
-        inventory: .sample,
-        playersCount: 5,
-        waitDelayMilliseconds: 0
-    )
-}
-
-private extension Inventory {
-    static let sample: Self = .init(
-        figures: (1...16).map { "c\($0)" },
-        cardSets: [:],
-        cardRef: Dictionary(uniqueKeysWithValues: (1...100).map { "c\($0)" }.map { ($0, Card.sample) })
-    )
-}
-
-private extension Card {
-    static let sample: Self = .init("", attributes: [.maxHealth: 4])
 }

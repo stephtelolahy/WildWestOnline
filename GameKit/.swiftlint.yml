@@ -115,7 +115,7 @@ opt_in_rules:
   - reduce_into
   - redundant_nil_coalescing
   # - redundant_self_in_closure
-  - redundant_type_annotation
+  # - redundant_type_annotation
   # - required_deinit
   - required_enum_case
   - return_value_from_void_function

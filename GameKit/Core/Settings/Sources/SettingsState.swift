@@ -8,29 +8,12 @@ import GameCore
 import Redux
 
 public struct SettingsState: Codable, Equatable {
-    public var inventory: Inventory
+    public let inventory: Inventory
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
     public var gamePlay: Int
     public var preferredFigure: String?
-
-    @available(*, deprecated, message: "Use builder")
-    public init(
-        inventory: Inventory = .init(figures: [], cardSets: [:], cardRef: [:]),
-        playersCount: Int = 5,
-        waitDelayMilliseconds: Int = 0,
-        simulation: Bool = false,
-        gamePlay: Int = 0,
-        preferredFigure: String? = nil
-    ) {
-        self.inventory = inventory
-        self.playersCount = playersCount
-        self.waitDelayMilliseconds = waitDelayMilliseconds
-        self.simulation = simulation
-        self.gamePlay = gamePlay
-        self.preferredFigure = preferredFigure
-    }
 }
 
 public enum SettingsAction: Action, Codable, Equatable {
