@@ -16,13 +16,13 @@ import SwiftUI
 
 public struct AppView: View {
     @StateObject private var store: Store<AppState>
-    
+
     public init(store: @escaping () -> Store<AppState>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
-    
+
     public var body: some View {
         Group {
             switch store.state.screens.last {
@@ -32,17 +32,17 @@ public struct AppView: View {
                         SplashView.State.from(globalState: $0)
                     }
                 }
-                
+
             case .home:
                 HomeView {
                     store.projection {
                         HomeView.State.from(globalState: $0)
                     }
                 }
-                
+
             case .game:
                 gamePlayView
-                
+
             default:
                 EmptyView()
             }
@@ -60,7 +60,7 @@ public struct AppView: View {
         })
         .foregroundColor(.primary)
     }
-    
+
     private var gamePlayView: some View {
         Group {
             switch store.state.settings.gamePlay {
@@ -70,14 +70,14 @@ public struct AppView: View {
                         GamePlayUIKitView.State.from(globalState: $0)
                     }
                 }
-                
+
             case 1:
                 GamePlayView {
                     store.projection {
                         GamePlayView.State.from(globalState: $0)
                     }
                 }
-                
+
             default:
                 fatalError("unexpected")
             }

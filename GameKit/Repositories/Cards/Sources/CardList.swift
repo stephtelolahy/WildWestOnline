@@ -572,7 +572,7 @@ private extension CardList {
                 .elGringo,
                 .suzyLafayette,
                 .vultureSam,
-                .sidKetchum,
+                .sidKetchum
 //                .blackJack,
 //                .kitCarlson,
 //                .jesseJones,
