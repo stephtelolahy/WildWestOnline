@@ -11,6 +11,7 @@ import GamePlay
 import Home
 import Redux
 import Settings
+import SettingsCore
 import Splash
 import SwiftUI
 
@@ -93,6 +94,9 @@ public struct AppView: View {
 
 private extension AppState {
     static var mock: Self {
-        .init(screens: [.home], settings: .init())
+        .init(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().build()
+        )
     }
 }

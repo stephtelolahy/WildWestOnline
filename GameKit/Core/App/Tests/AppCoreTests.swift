@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import AppCore
 import GameCore
@@ -30,10 +29,13 @@ final class AppCoreTests: XCTestCase {
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let invetory = Inventory.makeBuilder().build()
+        let invetory = Inventory.makeBuilder().withSample().build()
         let state = AppState(
             screens: [.home],
-            settings: SettingsState.makeBuilder().withInventory(invetory).build()
+            settings: SettingsState.makeBuilder()
+                .withInventory(invetory)
+                .withPlayersCount(5)
+                .build()
         )
 
         // When

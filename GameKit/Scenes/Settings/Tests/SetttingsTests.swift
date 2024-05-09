@@ -7,12 +7,16 @@
 
 import AppCore
 import Settings
+import SettingsCore
 import XCTest
 
 final class SetttingsTests: XCTestCase {
     func test_SettingsStateProjection() throws {
         // Given
-        let appState = AppState(screens: [.home], settings: .init(playersCount: 3))
+        let appState = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().withPlayersCount(3).build()
+        )
 
         // When
         let settingsState = try XCTUnwrap(SettingsView.State.from(globalState: appState))

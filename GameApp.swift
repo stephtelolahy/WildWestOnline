@@ -33,14 +33,14 @@ private func createStore() -> Store<AppState> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
-    let settings = SettingsState(
-        inventory: cardsService.inventory,
-        playersCount: settingsService.playersCount,
-        waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
-        simulation: settingsService.simulationEnabled,
-        gamePlay: settingsService.gamePlay,
-        preferredFigure: settingsService.preferredFigure
-    )
+    let settings = SettingsState.makeBuilder()
+        .withInventory(cardsService.inventory)
+        .withPlayersCount(settingsService.playersCount)
+        .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds)
+        .withSimulation(settingsService.simulationEnabled)
+        .withGamePlay(settingsService.gamePlay)
+        .withPreferredFigure(settingsService.preferredFigure)
+        .build()
 
     let initialState = AppState(
         screens: [.splash],

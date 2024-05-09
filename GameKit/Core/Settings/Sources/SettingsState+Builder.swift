@@ -45,6 +45,16 @@ public extension SettingsState {
             inventory = value
             return self
         }
+
+        public func withGamePlay(_ value: Int) -> Self {
+            gamePlay = value
+            return self
+        }
+
+        public func withPreferredFigure(_ value: String?) -> Self {
+            preferredFigure = value
+            return self
+        }
     }
 
     static func makeBuilder() -> Builder {

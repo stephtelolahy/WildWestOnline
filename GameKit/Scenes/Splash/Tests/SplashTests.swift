@@ -6,13 +6,17 @@
 //
 
 import AppCore
+import SettingsCore
 import Splash
 import XCTest
 
 final class SplashTests: XCTestCase {
     func test_splashStateProjection() {
         // Given
-        let appState = AppState(screens: [.splash], settings: .init(playersCount: 3))
+        let appState = AppState(
+            screens: [.splash],
+            settings: SettingsState.makeBuilder().build()
+        )
 
         // When
         // Then
