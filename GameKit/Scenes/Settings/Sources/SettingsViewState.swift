@@ -39,29 +39,3 @@ public extension SettingsView {
         public let preferredFigureIndex: Int
     }
 }
-
-public extension SettingsView.State {
-    static func from(globalState: AppState) -> Self? {
-        .init(
-            playersCount: globalState.settings.playersCount,
-            speedIndex: indexOfSpeed(globalState.settings.waitDelayMilliseconds),
-            simulation: globalState.settings.simulation,
-            gamePlay: globalState.settings.gamePlay,
-            figureOptions: globalState.settings.inventory.figures,
-            preferredFigureIndex: indexOfFigure(globalState.settings.preferredFigure, in: globalState.settings.inventory.figures)
-        )
-    }
-
-    private static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
-        SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
-    }
-
-    private static func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
-        guard let figure,
-              let index = figures.firstIndex(of: figure) else {
-            return -1
-        }
-
-        return index
-    }
-}

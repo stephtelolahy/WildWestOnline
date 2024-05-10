@@ -54,9 +54,7 @@ public struct AppView: View {
         ), onDismiss: {
         }, content: {
             SettingsView {
-                store.projection {
-                    SettingsView.State.from(globalState: $0)
-                }
+                store.projection(using: Connectors.SettingsViewConnector())
             }
         })
         .foregroundColor(.primary)

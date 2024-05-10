@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import Redux
 import Settings
 import SettingsCore
 import XCTest
@@ -17,9 +18,10 @@ final class SetttingsTests: XCTestCase {
             screens: [.home],
             settings: SettingsState.makeBuilder().withPlayersCount(3).build()
         )
+        let sut = Connectors.SettingsViewConnector()
 
         // When
-        let settingsState = try XCTUnwrap(SettingsView.State.from(globalState: appState))
+        let settingsState = try XCTUnwrap(sut.connect(state: appState))
 
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)
