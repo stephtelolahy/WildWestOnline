@@ -375,7 +375,7 @@ private extension Cards {
     static var discardPreviousWeaponOnPlayWeapon: Card {
         Card(.discardPreviousWeaponOnPlayWeapon) {
             CardEffect.discard(.previousInPlay(.weapon))
-                .on([.playWeapon])
+                .on([.equipWeapon])
         }
     }
 
@@ -587,11 +587,14 @@ private extension Cards {
     /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
+        // MARK: - setTurn
         .dynamite,
         .jail,
         .drawOnSetTurn,
+        // MARK: - changeInPlay
         .discardPreviousWeaponOnPlayWeapon,
         .updateAttributesOnChangeInPlay,
+
         .eliminateOnDamageLethal,
         .vultureSam,
         .discardCardsOnEliminated,

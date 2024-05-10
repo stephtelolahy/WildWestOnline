@@ -12,6 +12,11 @@ struct OnChangeInPlay: PlayReqMatcher {
             return true
         }
 
+        if case let .handicap(_, target, _) = ctx.event,
+           target == ctx.actor {
+            return true
+        }
+
         if case let .discardInPlay(_, player) = ctx.event,
            player == ctx.actor {
             return true

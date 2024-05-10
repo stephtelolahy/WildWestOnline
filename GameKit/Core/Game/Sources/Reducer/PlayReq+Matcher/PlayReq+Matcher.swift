@@ -55,8 +55,8 @@ private extension PlayReq {
         case .changeInPlay:
             OnChangeInPlay()
 
-        case .playWeapon:
-            OnPlayWeapon()
+        case .equipWeapon:
+            OnEquipWeapon()
 
         case .handEmpty:
             OnHandEmpty()

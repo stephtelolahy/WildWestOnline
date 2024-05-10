@@ -1,11 +1,11 @@
 //
-//  OnPlayWeapon.swift
+//  OnEquipWeapon.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 07/09/2023.
 //
 
-struct OnPlayWeapon: PlayReqMatcher {
+struct OnEquipWeapon: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         guard case let .equip(playedCard, player) = ctx.event,
               player == ctx.actor else {
