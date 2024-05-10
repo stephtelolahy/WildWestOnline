@@ -20,7 +20,7 @@ public extension GameState {
         private var active: [String: [String]] = [:]
         private var sequence: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
-        private var cardRef: [String: Card] = [:]
+        private var cards: [String: Card] = [:]
         private var waitDelayMilliseconds: Int = 0
 
         public func build() -> GameState {
@@ -39,7 +39,7 @@ public extension GameState {
                 active: active,
                 playMode: playMode,
                 sequence: sequence,
-                cardRef: cardRef,
+                cards: cards,
                 waitDelayMilliseconds: waitDelayMilliseconds
             )
         }
@@ -74,13 +74,13 @@ public extension GameState {
             return self
         }
 
-        public func withCardRef(_ value: [String: Card]) -> Self {
-            cardRef = value
+        public func withCards(_ value: [String: Card]) -> Self {
+            cards = value
             return self
         }
 
-        public func withExtraCardRef(_ cards: [String: Card]) -> Self {
-            cardRef.merge(cards) { _, new in new }
+        public func withExtraCards(_ cards: [String: Card]) -> Self {
+            self.cards.merge(cards) { _, new in new }
             return self
         }
 

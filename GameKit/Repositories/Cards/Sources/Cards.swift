@@ -1,5 +1,5 @@
 //
-//  CardList.swift
+//  Cards.swift
 //
 //
 //  Created by Hugues Telolahy on 12/04/2023.
@@ -7,7 +7,7 @@
 // swiftlint:disable no_magic_numbers file_length trailing_closure
 import GameCore
 
-public enum CardList {
+public enum Cards {
     public static let all: [String: Card] = createCardDict(
         priorities,
         content: [
@@ -82,7 +82,7 @@ public enum CardList {
     ]
 }
 
-private extension CardList {
+private extension Cards {
     // MARK: - Collectibles - Brown
 
     static var brown: Card {
@@ -375,7 +375,7 @@ private extension CardList {
     static var discardPreviousWeaponOnPlayWeapon: Card {
         Card(.discardPreviousWeaponOnPlayWeapon) {
             CardEffect.discard(.previousInPlay(.weapon))
-                .on([.playWeapon])
+                .on([.equipWeapon])
         }
     }
 
@@ -583,16 +583,18 @@ private extension CardList {
     }
 }
 
-private extension CardList {
+private extension Cards {
     /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
+        // MARK: - setTurn
         .dynamite,
         .jail,
         .drawOnSetTurn,
+        // MARK: - changeInPlay
         .discardPreviousWeaponOnPlayWeapon,
         .updateAttributesOnChangeInPlay,
-        .eliminateOnDamageLethal,
+        // MARK: - eliminated
         .vultureSam,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated

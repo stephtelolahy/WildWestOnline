@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import Redux
 import SettingsCore
 import Splash
 import XCTest
@@ -17,9 +18,10 @@ final class SplashTests: XCTestCase {
             screens: [.splash],
             settings: SettingsState.makeBuilder().build()
         )
+        let sut = Connectors.SplashViewConnector()
 
         // When
         // Then
-        XCTAssertNotNil(SplashView.State.from(globalState: appState))
+        XCTAssertNotNil(sut.connect(state: appState))
     }
 }

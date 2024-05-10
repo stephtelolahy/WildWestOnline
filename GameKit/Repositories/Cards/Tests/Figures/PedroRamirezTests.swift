@@ -12,7 +12,7 @@ import XCTest
 final class PedroRamirezTests: XCTestCase {
     func test_pedroRamirez_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.pedroRamirez], deck: [], cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.pedroRamirez], deck: [], cards: Cards.all)
 
         // When
         let player = state.player(.pedroRamirez)

@@ -15,27 +15,21 @@ import Combine
 final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Store<LocalState> {
     private let globalStore: Store<GlobalState>
     private let stateMap: (GlobalState) -> LocalState?
-    private var subscriptions = Set<AnyCancellable>()
 
     init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
         guard let initialState = stateMap(globalStore.state) else {
-            fatalError("failed to resolve local state")
+            fatalError("failed mapping to local state")
         }
 
         self.globalStore = globalStore
         self.stateMap = stateMap
         super.init(initial: initialState)
 
-        globalStore.$state.sink { [weak self] globalState in
-            guard let self,
-                  let newState = self.stateMap(globalState),
-                  newState != self.state else {
-                return
-            }
-
-            self.state = newState
-        }
-        .store(in: &subscriptions)
+        globalStore.$state
+            .map(self.stateMap)
+            .compactMap { $0 }
+            .removeDuplicates()
+            .assign(to: &self.$state)
     }
 
     override func dispatch(_ action: Action) {

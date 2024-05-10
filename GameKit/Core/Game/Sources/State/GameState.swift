@@ -50,7 +50,7 @@ public struct GameState: Codable, Equatable {
     public var sequence: [GameAction]
 
     /// All cards reference by cardName
-    public let cardRef: [String: Card]
+    public let cards: [String: Card]
 
     /// Wait delay between two visible actions
     public var waitDelayMilliseconds: Int

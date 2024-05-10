@@ -10,13 +10,13 @@ public extension Inventory {
     class Builder {
         private var figures: [String] = []
         private var cardSets: [String: [String]] = [:]
-        private var cardRef: [String: Card] = [:]
+        private var cards: [String: Card] = [:]
 
         public func build() -> Inventory {
             .init(
+                cards: cards,
                 figures: figures,
-                cardSets: cardSets,
-                cardRef: cardRef
+                cardSets: cardSets
             )
         }
 
@@ -25,8 +25,8 @@ public extension Inventory {
             return self
         }
 
-        public func withCardRef(_ value: [String: Card]) -> Self {
-            cardRef = value
+        public func withCards(_ value: [String: Card]) -> Self {
+            cards = value
             return self
         }
 
@@ -34,9 +34,8 @@ public extension Inventory {
             figures = (1...16).map { "c\($0)" }
             cardSets = [:]
             let sampleCard = Card("", attributes: [.maxHealth: 4])
-            cardRef = Dictionary(
-                uniqueKeysWithValues: (1...100).map {
-                    "c\($0)" }.map { ($0, sampleCard) }
+            cards = Dictionary(
+                uniqueKeysWithValues: (1...100).map { "c\($0)" }.map { ($0, sampleCard) }
             )
             return self
          }

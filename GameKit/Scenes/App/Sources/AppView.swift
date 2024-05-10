@@ -29,16 +29,12 @@ public struct AppView: View {
             switch store.state.screens.last {
             case .splash:
                 SplashView {
-                    store.projection {
-                        SplashView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.SplashViewConnector())
                 }
 
             case .home:
                 HomeView {
-                    store.projection {
-                        HomeView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.HomeViewConnector())
                 }
 
             case .game:
@@ -54,9 +50,7 @@ public struct AppView: View {
         ), onDismiss: {
         }, content: {
             SettingsView {
-                store.projection {
-                    SettingsView.State.from(globalState: $0)
-                }
+                store.projection(using: Connectors.SettingsViewConnector())
             }
         })
         .foregroundColor(.primary)
@@ -67,16 +61,12 @@ public struct AppView: View {
             switch store.state.settings.gamePlay {
             case 0:
                 GamePlayUIKitView {
-                    store.projection {
-                        GamePlayUIKitView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.GamePlayUIKitViewConnector())
                 }
 
             case 1:
                 GamePlayView {
-                    store.projection {
-                        GamePlayView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.GamePlayViewConnector())
                 }
 
             default:
@@ -88,12 +78,12 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store(initial: .mock)
+        Store(initial: .preview)
     }
 }
 
 private extension AppState {
-    static var mock: Self {
+    static var preview: Self {
         .init(
             screens: [.home],
             settings: SettingsState.makeBuilder().build()

@@ -23,32 +23,3 @@ public enum SettingsAction: Action, Codable, Equatable {
     case updateGamePlay(Int)
     case updatePreferredFigure(String?)
 }
-
-public extension SettingsState {
-    static let reducer: Reducer<Self> = { state, action in
-        guard let action = action as? SettingsAction else {
-            return state
-        }
-
-        var  state = state
-
-        switch action {
-        case let .updatePlayersCount(value):
-            state.playersCount = value
-
-        case let .updateWaitDelayMilliseconds(value):
-            state.waitDelayMilliseconds = value
-
-        case .toggleSimulation:
-            state.simulation.toggle()
-
-        case let .updateGamePlay(value):
-            state.gamePlay = value
-
-        case let .updatePreferredFigure(value):
-            state.preferredFigure = value
-        }
-
-        return state
-    }
-}

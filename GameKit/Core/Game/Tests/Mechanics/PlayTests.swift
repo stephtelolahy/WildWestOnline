@@ -35,7 +35,7 @@ final class PlayTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withAbilities(["c1"])
             }
-            .withCardRef(["c1": card1])
+            .withCards(["c1": card1])
             .build()
 
         // When

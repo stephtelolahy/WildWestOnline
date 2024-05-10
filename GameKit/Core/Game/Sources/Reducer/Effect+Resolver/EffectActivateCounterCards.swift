@@ -63,7 +63,7 @@ private enum CounterActionResolver {
         }
         // </resolve card alias>
 
-        guard let cardObj = state.cardRef[cardName] else {
+        guard let cardObj = state.cards[cardName] else {
             return false
         }
 

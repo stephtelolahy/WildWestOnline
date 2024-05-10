@@ -10,14 +10,14 @@ struct EffectUpdateAttributes: EffectResolver {
         let player = ctx.targetOrActor()
         let playerObj = state.player(player)
         let figure = playerObj.figure
-        let figureAttributes = state.cardRef[figure]?.attributes ?? [:]
+        let figureAttributes = state.cards[figure]?.attributes ?? [:]
         var result: [GameAction] = []
 
         for key in state.updatableAttributes(of: playerObj) {
             var expectedValue: Int? = figureAttributes[key]
             for card in playerObj.inPlay {
                 let cardName = card.extractName()
-                if let cardObj = state.cardRef[cardName],
+                if let cardObj = state.cards[cardName],
                    let value = cardObj.attributes[key] {
                     expectedValue = value
                 }
@@ -42,7 +42,7 @@ private extension GameState {
         var result: Set<String> = Set(player.attributes.keys)
         for card in player.inPlay {
             let cardName = card.extractName()
-            if let cardObj = cardRef[cardName] {
+            if let cardObj = cards[cardName] {
                 result = result.union(cardObj.attributes.keys)
             }
         }

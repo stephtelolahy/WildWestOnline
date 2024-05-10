@@ -39,8 +39,8 @@ public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
         triggered.sort { action1, action2 in
             guard case let .effect(_, ctx1) = action1,
                   case let .effect(_, ctx2) = action2,
-                  let cardObj1 = state.cardRef[ctx1.sourceCard.extractName()],
-                  let cardObj2 = state.cardRef[ctx2.sourceCard.extractName()] else {
+                  let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
+                  let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
                 fatalError("invalid triggered effect")
             }
             return cardObj1.priority < cardObj2.priority
@@ -63,7 +63,7 @@ public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
         event: GameAction
     ) -> [GameAction] {
         let cardName = card.extractName()
-        guard let cardObj = state.cardRef[cardName] else {
+        guard let cardObj = state.cards[cardName] else {
             return []
         }
 

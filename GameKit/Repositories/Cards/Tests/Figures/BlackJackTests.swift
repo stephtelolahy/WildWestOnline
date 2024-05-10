@@ -12,7 +12,7 @@ import XCTest
 final class BlackJackTests: XCTestCase {
     func test_blackJack_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.blackJack], deck: [], cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.blackJack], deck: [], cards: Cards.all)
 
         // When
         let player = state.player(.blackJack)

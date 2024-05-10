@@ -35,7 +35,7 @@ public struct GamePlayView: View {
     private var contentView: some View {
         VStack(alignment: .leading) {
             headerView
-            VStack {
+            ScrollView {
                 ForEach(store.state.players, id: \.id) {
                     itemPlayerView($0)
                 }
@@ -79,7 +79,7 @@ public struct GamePlayView: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        store.dispatch(AppAction.close)
+                        store.dispatch(AppAction.exitGame)
                     }
                 } label: {
                     Image(systemName: "xmark.circle")
@@ -163,12 +163,12 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store(initial: .mock)
+        Store(initial: .preview)
     }
 }
 
 private extension GamePlayView.State {
-    static var mock: Self {
+    static var preview: Self {
         .init(
             players: [
                 .init(

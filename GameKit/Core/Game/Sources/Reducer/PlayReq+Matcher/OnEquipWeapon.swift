@@ -1,11 +1,11 @@
 //
-//  OnPlayWeapon.swift
+//  OnEquipWeapon.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 07/09/2023.
 //
 
-struct OnPlayWeapon: PlayReqMatcher {
+struct OnEquipWeapon: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         guard case let .equip(playedCard, player) = ctx.event,
               player == ctx.actor else {
@@ -13,7 +13,7 @@ struct OnPlayWeapon: PlayReqMatcher {
         }
 
         let cardName = playedCard.extractName()
-        guard let cardObj = state.cardRef[cardName],
+        guard let cardObj = state.cards[cardName],
               cardObj.attributes.keys.contains(.weapon) else {
             return false
         }

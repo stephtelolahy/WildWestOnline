@@ -9,6 +9,7 @@ import AppCore
 import CardsRepository
 import GameCore
 import GamePlay
+import Redux
 import SettingsCore
 import XCTest
 
@@ -23,9 +24,10 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(GamePlayView.State.from(globalState: appState))
+        let result = try XCTUnwrap(sut.connect(state: appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -52,9 +54,10 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(GamePlayView.State.from(globalState: appState))
+        let result = try XCTUnwrap(sut.connect(state: appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -90,9 +93,10 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(GamePlayView.State.from(globalState: appState))
+        let result = try XCTUnwrap(sut.connect(state: appState))
 
         // Then
         XCTAssertEqual(result.handActions, [
@@ -115,9 +119,10 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(GamePlayView.State.from(globalState: appState))
+        let result = try XCTUnwrap(sut.connect(state: appState))
 
         // Then
         XCTAssertEqual(result.chooseOneActions, [

@@ -32,7 +32,7 @@ public indirect enum PlayReq: Codable, Equatable {
     case changeInPlay
 
     /// playing a weapon
-    case playWeapon
+    case equipWeapon
 
     /// having no cards in hand
     case handEmpty

@@ -7,6 +7,7 @@
 
 import AppCore
 import Home
+import Redux
 import SettingsCore
 import XCTest
 
@@ -17,9 +18,10 @@ final class HomeTests: XCTestCase {
             screens: [.home],
             settings: SettingsState.makeBuilder().build()
         )
+        let sut = Connectors.HomeViewConnector()
 
         // When
         // Then
-        XCTAssertNotNil(HomeView.State.from(globalState: appState))
+        XCTAssertNotNil(sut.connect(state: appState))
     }
 }
