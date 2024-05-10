@@ -49,7 +49,7 @@ extension GameAction {
     }
 }
 
-private extension GameAction {
+extension GameAction {
     func validate(state: GameState) throws {
         switch self {
         case .activate,
