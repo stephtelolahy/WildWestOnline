@@ -11,7 +11,7 @@ public extension Connectors {
     struct SettingsViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> SettingsView.State {
+        public func connect(state: AppState) -> SettingsView.State? {
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),

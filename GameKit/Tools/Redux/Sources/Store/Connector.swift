@@ -9,7 +9,7 @@ public protocol Connector {
     associatedtype GlobalState: Equatable
     associatedtype LocalState: Equatable
 
-    func connect(state: GlobalState) -> LocalState
+    func connect(state: GlobalState) -> LocalState?
 }
 
 public enum Connectors {}

@@ -40,18 +40,12 @@ public class Store<State: Equatable>: ObservableObject {
 
 private extension Middleware {
     func asPublisher(on action: Action, state: State) -> AnyPublisher<Action?, Never> {
-        Future { await self.effect(on: action, state: state) }
-            .eraseToAnyPublisher()
-    }
-}
-
-private extension Future where Failure == Never {
-    convenience init(operation: @escaping () async -> Output) {
-        self.init { promise in
+        Future { promise in
             Task {
-                let output = await operation()
+                let output = await self.effect(on: action, state: state)
                 promise(.success(output))
             }
         }
+        .eraseToAnyPublisher()
     }
 }

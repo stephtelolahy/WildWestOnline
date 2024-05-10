@@ -13,9 +13,9 @@ public extension Connectors {
     struct GamePlayViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> GamePlayView.State {
+        public func connect(state: AppState) -> GamePlayView.State? {
             guard let game = state.game else {
-                fatalError("Missing current game")
+                return nil
             }
 
             return .init(

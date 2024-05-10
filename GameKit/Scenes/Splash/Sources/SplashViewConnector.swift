@@ -12,7 +12,7 @@ public extension Connectors {
     struct SplashViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> SplashView.State {
+        public func connect(state: AppState) -> SplashView.State? {
             .init()
         }
     }
