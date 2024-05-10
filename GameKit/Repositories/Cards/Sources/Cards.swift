@@ -594,8 +594,7 @@ private extension Cards {
         // MARK: - changeInPlay
         .discardPreviousWeaponOnPlayWeapon,
         .updateAttributesOnChangeInPlay,
-
-        .eliminateOnDamageLethal,
+        // MARK: - eliminated
         .vultureSam,
         .discardCardsOnEliminated,
         .nextTurnOnEliminated
