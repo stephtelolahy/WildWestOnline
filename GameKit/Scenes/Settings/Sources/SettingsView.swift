@@ -151,12 +151,12 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store(initial: .mock)
+        Store(initial: .preview)
     }
 }
 
 private extension SettingsView.State {
-    static var mock: Self {
+    static var preview: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,

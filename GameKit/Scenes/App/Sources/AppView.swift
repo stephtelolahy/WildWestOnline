@@ -78,12 +78,12 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store(initial: .mock)
+        Store(initial: .preview)
     }
 }
 
 private extension AppState {
-    static var mock: Self {
+    static var preview: Self {
         .init(
             screens: [.home],
             settings: SettingsState.makeBuilder().build()

@@ -163,12 +163,12 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store(initial: .mock)
+        Store(initial: .preview)
     }
 }
 
 private extension GamePlayView.State {
-    static var mock: Self {
+    static var preview: Self {
         .init(
             players: [
                 .init(
