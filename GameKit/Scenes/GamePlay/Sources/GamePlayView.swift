@@ -79,7 +79,7 @@ public struct GamePlayView: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        store.dispatch(AppAction.close)
+                        store.dispatch(AppAction.exitGame)
                     }
                 } label: {
                     Image(systemName: "xmark.circle")

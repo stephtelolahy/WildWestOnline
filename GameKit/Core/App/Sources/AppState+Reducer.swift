@@ -31,15 +31,17 @@ private extension AppState {
                 state.screens = []
             }
             state.screens.append(screen)
-            if case .game = screen {
-                state.game = createGame(settings: state.settings)
-            }
 
         case .close:
-            if case .game = state.screens.last {
-                state.game = nil
-            }
             state.screens.removeLast()
+
+        case .startGame:
+            state.game = createGame(settings: state.settings)
+            state.screens.append(.game)
+
+        case .exitGame:
+            state.screens.removeLast()
+            state.game = nil
         }
         return state
     }
