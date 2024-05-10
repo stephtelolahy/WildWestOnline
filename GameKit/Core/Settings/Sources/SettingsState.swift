@@ -8,32 +8,20 @@ import GameCore
 import Redux
 
 public struct SettingsState: Codable, Equatable {
-    public var inventory: Inventory
+    public let inventory: Inventory
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
-    public var oldGamePlay: Bool
-
-    public init(
-        inventory: Inventory = .init(figures: [], cardSets: [:], cardRef: [:]),
-        playersCount: Int = 5,
-        waitDelayMilliseconds: Int = 0,
-        simulation: Bool = false,
-        oldGamePlay: Bool = true
-    ) {
-        self.inventory = inventory
-        self.playersCount = playersCount
-        self.waitDelayMilliseconds = waitDelayMilliseconds
-        self.simulation = simulation
-        self.oldGamePlay = oldGamePlay
-    }
+    public var gamePlay: Int
+    public var preferredFigure: String?
 }
 
 public enum SettingsAction: Action, Codable, Equatable {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation
-    case toggleGamePlay
+    case updateGamePlay(Int)
+    case updatePreferredFigure(String?)
 }
 
 public extension SettingsState {
@@ -45,8 +33,8 @@ public extension SettingsState {
         var  state = state
 
         switch action {
-        case let .updatePlayersCount(count):
-            state.playersCount = count
+        case let .updatePlayersCount(value):
+            state.playersCount = value
 
         case let .updateWaitDelayMilliseconds(value):
             state.waitDelayMilliseconds = value
@@ -54,8 +42,11 @@ public extension SettingsState {
         case .toggleSimulation:
             state.simulation.toggle()
 
-        case .toggleGamePlay:
-            state.oldGamePlay.toggle()
+        case let .updateGamePlay(value):
+            state.gamePlay = value
+
+        case let .updatePreferredFigure(value):
+            state.preferredFigure = value
         }
 
         return state

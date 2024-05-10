@@ -1,10 +1,9 @@
 import Foundation
-import Utils
 
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
-public struct GameState: Codable, Equatable, DocumentConvertible {
+public struct GameState: Codable, Equatable {
     /// All players
     public var players: [String: Player]
 

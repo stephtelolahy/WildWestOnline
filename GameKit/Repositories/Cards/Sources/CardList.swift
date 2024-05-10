@@ -4,58 +4,62 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable no_magic_numbers closure_body_length file_length trailing_closure
+// swiftlint:disable no_magic_numbers file_length trailing_closure
 import GameCore
 
 public enum CardList {
-    public static let all: [String: Card] = createCardDict(priorities) {
-        beer
-        saloon
-        stagecoach
-        wellsFargo
-        catBalou
-        panic
-        generalStore
-        bang
-        missed
-        gatling
-        indians
-        duel
-        barrel
-        dynamite
-        jail
-        schofield
-        remington
-        revCarabine
-        winchester
-        volcanic
-        scope
-        mustang
-        endTurn
-        drawOnSetTurn
-        eliminateOnDamageLethal
-        nextTurnOnEliminated
-        discardCardsOnEliminated
-        discardPreviousWeaponOnPlayWeapon
-        updateAttributesOnChangeInPlay
-        activateCounterCardsOnShot
-        willyTheKid
-        roseDoolan
-        paulRegret
-        jourdonnais
-        slabTheKiller
-        luckyDuke
-        calamityJanet
-        bartCassidy
-        elGringo
-        suzyLafayette
-        vultureSam
-        sidKetchum
-        blackJack
-        kitCarlson
-        jesseJones
-        pedroRamirez
-    }
+    public static let all: [String: Card] = createCardDict(
+        priorities,
+        content: [
+            beer,
+            saloon,
+            stagecoach,
+            wellsFargo,
+            catBalou,
+            panic,
+            generalStore,
+            bang,
+            missed,
+            gatling,
+            indians,
+            duel,
+            barrel,
+            dynamite,
+            jail,
+            schofield,
+            remington,
+            revCarabine,
+            winchester,
+            volcanic,
+            scope,
+            mustang,
+            endTurn,
+            drawOnSetTurn,
+            eliminateOnDamageLethal,
+            nextTurnOnEliminated,
+            discardCardsOnEliminated,
+            discardPreviousWeaponOnPlayWeapon,
+            updateAttributesOnChangeInPlay,
+            activateCounterCardsOnShot,
+            willyTheKid,
+            roseDoolan,
+            paulRegret,
+            jourdonnais,
+            slabTheKiller,
+            luckyDuke,
+            calamityJanet,
+            bartCassidy,
+            elGringo,
+            suzyLafayette,
+            vultureSam,
+            sidKetchum,
+            blackJack,
+            kitCarlson,
+            jesseJones,
+            pedroRamirez,
+            custom
+        ]
+    )
 
     public static let figures: [String] = [
         .willyTheKid,
@@ -73,7 +77,8 @@ public enum CardList {
         .blackJack,
         .kitCarlson,
         .jesseJones,
-        .pedroRamirez
+        .pedroRamirez,
+        .custom
     ]
 }
 
@@ -550,6 +555,32 @@ private extension CardList {
             .on([.setTurn])
         }
     }
+
+    static var custom: Card {
+        Card(
+            .custom,
+            prototype: pDefault,
+            abilities: [
+                .willyTheKid,
+                .roseDoolan,
+                .paulRegret,
+                .jourdonnais,
+                .slabTheKiller,
+                .luckyDuke,
+                .calamityJanet,
+                .bartCassidy,
+                .elGringo,
+                .suzyLafayette,
+                .vultureSam,
+                .sidKetchum
+//                .blackJack,
+//                .kitCarlson,
+//                .jesseJones,
+//                .pedroRamirez
+            ],
+            attributes: [.maxHealth: 4]
+        )
+    }
 }
 
 private extension CardList {
@@ -570,9 +601,9 @@ private extension CardList {
 
 private func createCardDict(
     _ priorities: [String],
-    @CardBuilder content: () -> [Card]
+    content: [Card]
 ) -> [String: Card] {
-    content().reduce(into: [String: Card]()) { result, card in
+    content.reduce(into: [String: Card]()) { result, card in
         let priority = priorities.firstIndex(of: card.name) ?? Int.max
         return result[card.name] = card.withPriority(priority)
     }

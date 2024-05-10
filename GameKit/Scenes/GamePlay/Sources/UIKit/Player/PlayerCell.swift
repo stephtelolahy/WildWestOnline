@@ -39,11 +39,11 @@ class PlayerCell: UICollectionViewCell {
         handLabel.text = "[] \(item.handCount)"
 
         let figureImage = UIImage(named: item.imageName, in: Bundle.module, with: .none)
-        guard let figureImage else {
-            fatalError("Missing image for figure \(item.imageName)")
+        if let figureImage {
+            figureImageView.image = figureImage
+        } else {
+            figureImageView.image = nil
         }
-
-        figureImageView.image = figureImage
 
 //        if let userPhotoUrl = item.userPhotoUrl {
 //            avatarImageView.kf.setImage(with: URL(string: userPhotoUrl))

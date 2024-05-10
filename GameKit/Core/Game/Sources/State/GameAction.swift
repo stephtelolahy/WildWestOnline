@@ -6,11 +6,10 @@
 //
 
 import Redux
-import Utils
 
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
-public indirect enum GameAction: Action, Codable, Equatable, DocumentConvertible {
+public indirect enum GameAction: Action, Codable, Equatable {
     // MARK: - Renderable actions
 
     /// Play a card

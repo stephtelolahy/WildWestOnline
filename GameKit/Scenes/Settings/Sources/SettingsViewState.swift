@@ -12,13 +12,11 @@ import Redux
 
 public extension SettingsView {
     struct State: Equatable {
-        public let playersCount: Int
+        // MARK: - Constants
+
         public let minPlayersCount = 2
         public let maxPlayersCount = 7
         public let speedOptions: [SpeedOption] = SpeedOption.all
-        public let currentSpeedIndex: Int
-        public let simulation: Bool
-        public let oldGamePlay: Bool
 
         public struct SpeedOption: Equatable {
             let label: String
@@ -30,6 +28,20 @@ public extension SettingsView {
                 .init(label: "Fast", value: 0)
             ]
         }
+
+        public let gamePlayOptions: [String] = [
+            "UIKit",
+            "SwiftUI"
+        ]
+
+        // MARK: - Instance variables
+
+        public let playersCount: Int
+        public let speedIndex: Int
+        public let simulation: Bool
+        public let gamePlay: Int
+        public let figureOptions: [String]
+        public let preferredFigureIndex: Int
     }
 }
 
@@ -37,17 +49,24 @@ public extension SettingsView.State {
     static func from(globalState: AppState) -> Self? {
         .init(
             playersCount: globalState.settings.playersCount,
-            currentSpeedIndex: globalState.speedOptionIndex,
+            speedIndex: indexOfSpeed(globalState.settings.waitDelayMilliseconds),
             simulation: globalState.settings.simulation,
-            oldGamePlay: globalState.settings.oldGamePlay
+            gamePlay: globalState.settings.gamePlay,
+            figureOptions: globalState.settings.inventory.figures,
+            preferredFigureIndex: indexOfFigure(globalState.settings.preferredFigure, in: globalState.settings.inventory.figures)
         )
     }
-}
 
-private extension AppState {
-    var speedOptionIndex: Int {
-        SettingsView.State.SpeedOption.all.firstIndex {
-            $0.value == settings.waitDelayMilliseconds
-        } ?? 0
+    private static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
+        SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
+    }
+
+    private static func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
+        guard let figure,
+              let index = figures.firstIndex(of: figure) else {
+            return -1
+        }
+
+        return index
     }
 }

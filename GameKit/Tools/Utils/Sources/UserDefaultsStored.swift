@@ -29,3 +29,24 @@ public struct UserDefaultsStored<T> {
         self.storage = storage
     }
 }
+
+@propertyWrapper
+public struct OptionalUserDefaultsStored<T> {
+    private let key: String
+    private let storage: UserDefaults
+
+    public var wrappedValue: T? {
+        get {
+            storage.object(forKey: key) as? T
+        }
+        set {
+            storage.set(newValue, forKey: key)
+            storage.synchronize()
+        }
+    }
+
+    public init(_ key: String, storage: UserDefaults = .standard) {
+        self.key = key
+        self.storage = storage
+    }
+}

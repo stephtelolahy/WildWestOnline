@@ -31,18 +31,16 @@ struct GameApp: App {
 
 private func createStore() -> Store<AppState> {
     let settingsService = SettingsRepository()
-    let inventory = Inventory(
-        figures: CardList.figures,
-        cardSets: CardSets.bang,
-        cardRef: CardList.all
-    )
+    let cardsService = CardsRepository()
 
-    let settings = SettingsState(
-        inventory: inventory,
-        playersCount: settingsService.playersCount,
-        waitDelayMilliseconds: settingsService.waitDelayMilliseconds,
-        simulation: settingsService.simulationEnabled
-    )
+    let settings = SettingsState.makeBuilder()
+        .withInventory(cardsService.inventory)
+        .withPlayersCount(settingsService.playersCount)
+        .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds)
+        .withSimulation(settingsService.simulationEnabled)
+        .withGamePlay(settingsService.gamePlay)
+        .withPreferredFigure(settingsService.preferredFigure)
+        .build()
 
     let initialState = AppState(
         screens: [.splash],

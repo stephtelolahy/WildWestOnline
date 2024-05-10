@@ -16,17 +16,11 @@ public struct AppState: Codable, Equatable {
         case splash
         case home
         case game
-    }
-
-    public enum Alert: Codable, Equatable {
         case settings
     }
 
     /// Screens stack
     public var screens: [Screen]
-
-    /// Presented alert
-    public var alert: Alert?
 
     /// App configuration
     public var settings: SettingsState
@@ -37,11 +31,9 @@ public struct AppState: Codable, Equatable {
     public init(
         screens: [Screen],
         settings: SettingsState,
-        alert: Alert? = nil,
         game: GameState? = nil
     ) {
         self.screens = screens
-        self.alert = alert
         self.settings = settings
         self.game = game
     }
@@ -49,7 +41,6 @@ public struct AppState: Codable, Equatable {
 
 public enum AppAction: Action {
     case navigate(AppState.Screen)
-    case present(AppState.Alert)
     case close
 }
 
@@ -80,24 +71,21 @@ private extension AppState {
                 state.game = createGame(settings: state.settings)
             }
 
-        case .present(let alert):
-            state.alert = alert
-
         case .close:
-            if state.alert != nil {
-                state.alert = nil
-            } else {
-                if case .game = state.screens.last {
-                    state.game = nil
-                }
-                state.screens.removeLast()
+            if case .game = state.screens.last {
+                state.game = nil
             }
+            state.screens.removeLast()
         }
         return state
     }
 
     static func createGame(settings: SettingsState) -> GameState {
-        var game = Setup.createGame(playersCount: settings.playersCount, inventory: settings.inventory)
+        var game = Setup.createGame(
+            playersCount: settings.playersCount,
+            inventory: settings.inventory,
+            preferredFigure: settings.preferredFigure
+        )
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {

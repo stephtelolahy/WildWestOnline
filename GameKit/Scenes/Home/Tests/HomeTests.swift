@@ -7,12 +7,16 @@
 
 import AppCore
 import Home
+import SettingsCore
 import XCTest
 
 final class HomeTests: XCTestCase {
     func test_HomeStateProjection() {
         // Given
-        let appState = AppState(screens: [.home], settings: .init(playersCount: 3))
+        let appState = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().build()
+        )
 
         // When
         // Then

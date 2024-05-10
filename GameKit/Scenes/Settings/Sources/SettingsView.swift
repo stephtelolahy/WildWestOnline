@@ -44,12 +44,13 @@ public struct SettingsView: View {
             speedView
             simulationView
             gamePlayView
+            figureView
         }
     }
 
     private var playersCountView: some View {
         HStack {
-            Image(systemName: "gamecontroller")
+            Image(systemName: "person.2")
             Stepper(
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
@@ -67,7 +68,7 @@ public struct SettingsView: View {
             Picker(
                 selection: Binding<Int>(
                     get: {
-                        store.state.currentSpeedIndex
+                        store.state.speedIndex
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
@@ -100,12 +101,49 @@ public struct SettingsView: View {
 
     private var gamePlayView: some View {
         HStack {
-            Image(systemName: "apps.iphone.landscape")
-            Toggle(isOn: Binding<Bool>(
-                get: { store.state.oldGamePlay },
-                set: { _ in store.dispatch(SettingsAction.toggleGamePlay) }
-            ).animation()) {
-                Text("Old gamePlay")
+            Image(systemName: "gamecontroller")
+            Picker(
+                selection: Binding<Int>(
+                    get: {
+                        store.state.gamePlay
+                    },
+                    set: { index in
+                        let action = SettingsAction.updateGamePlay(index)
+                        store.dispatch(action)
+                    }
+                ),
+                label: Text(
+                    "GamePlay"
+                )
+            ) {
+                ForEach(0..<(store.state.gamePlayOptions.count), id: \.self) {
+                    Text(store.state.gamePlayOptions[$0])
+                }
+            }
+        }
+    }
+
+    private var figureView: some View {
+        HStack {
+            Image(systemName: "star")
+            Picker(
+                selection: Binding<Int>(
+                    get: {
+                        store.state.preferredFigureIndex
+                    },
+                    set: { index in
+                        let figure = store.state.figureOptions[index]
+                        let action = SettingsAction.updatePreferredFigure(figure)
+                        store.dispatch(action)
+                    }
+                ),
+                label: Text(
+                    "Preferred figure"
+                )
+            ) {
+                ForEach(0..<(store.state.figureOptions.count), id: \.self) {
+                    Text(store.state.figureOptions[$0])
+                }
             }
         }
     }
@@ -113,15 +151,19 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store(initial: previewState)
+        Store(initial: .mock)
     }
 }
 
-private var previewState: SettingsView.State {
-    .init(
-        playersCount: 5,
-        currentSpeedIndex: 0,
-        simulation: false,
-        oldGamePlay: true
-    )
+private extension SettingsView.State {
+    static var mock: Self {
+        .init(
+            playersCount: 5,
+            speedIndex: 0,
+            simulation: false,
+            gamePlay: 0,
+            figureOptions: ["Figure1", "Figure2", "Figure3"],
+            preferredFigureIndex: -1
+        )
+    }
 }

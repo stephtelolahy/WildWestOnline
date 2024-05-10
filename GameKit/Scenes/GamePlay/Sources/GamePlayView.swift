@@ -163,46 +163,48 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store(initial: previewState)
+        Store(initial: .mock)
     }
 }
 
-private var previewState: GamePlayView.State {
-    .init(
-        players: [
-            .init(
-                id: "p1",
-                imageName: .willyTheKid,
-                displayName: .willyTheKid,
-                hand: "[]2",
-                health: "2x",
-                equipment: "SCOPE",
-                status: .active
-            ),
-            .init(
-                id: "p2",
-                imageName: .bartCassidy,
-                displayName: .bartCassidy,
-                hand: "[]2",
-                health: "0x",
-                equipment: "",
-                status: .eliminated
-            )
-        ],
-        message: "P1's turn",
-        chooseOneActions: [
-            .missed: .play(.missed, player: "p2"),
-            .bang: .play(.bang, player: "p2")
-        ],
-        handActions: [
-            .init(card: .bang, action: .play(.bang, player: "p1")),
-            .init(card: .gatling, action: .play(.gatling, player: "p1")),
-            .init(card: .schofield, action: .play(.schofield, player: "p1")),
-            .init(card: .mustang, action: nil),
-            .init(card: .scope, action: nil),
-            .init(card: .barrel, action: .play(.barrel, player: "p1")),
-            .init(card: .beer, action: nil)
-        ],
-        occurredEvent: .play(.beer, player: "p1")
-    )
+private extension GamePlayView.State {
+    static var mock: Self {
+        .init(
+            players: [
+                .init(
+                    id: "p1",
+                    imageName: .willyTheKid,
+                    displayName: .willyTheKid,
+                    hand: "[]2",
+                    health: "2x",
+                    equipment: "SCOPE",
+                    status: .active
+                ),
+                .init(
+                    id: "p2",
+                    imageName: .bartCassidy,
+                    displayName: .bartCassidy,
+                    hand: "[]2",
+                    health: "0x",
+                    equipment: "",
+                    status: .eliminated
+                )
+            ],
+            message: "P1's turn",
+            chooseOneActions: [
+                .missed: .play(.missed, player: "p2"),
+                .bang: .play(.bang, player: "p2")
+            ],
+            handActions: [
+                .init(card: .bang, action: .play(.bang, player: "p1")),
+                .init(card: .gatling, action: .play(.gatling, player: "p1")),
+                .init(card: .schofield, action: .play(.schofield, player: "p1")),
+                .init(card: .mustang, action: nil),
+                .init(card: .scope, action: nil),
+                .init(card: .barrel, action: .play(.barrel, player: "p1")),
+                .init(card: .beer, action: nil)
+            ],
+            occurredEvent: .play(.beer, player: "p1")
+        )
+    }
 }

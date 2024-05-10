@@ -10,7 +10,7 @@ public struct Card: Codable, Equatable {
     /// Attributes
     public let attributes: [String: Int]
 
-    /// Abilities
+    /// Abilities: included actions from another card
     public let abilities: Set<String>
 
     /// Ability to play card X as Y

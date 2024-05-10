@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 import AppCore
 import GameCore
@@ -15,7 +14,10 @@ import XCTest
 final class AppCoreTests: XCTestCase {
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let state = AppState(screens: [.splash], settings: .sample)
+        let state = AppState(
+            screens: [.splash],
+            settings: SettingsState.makeBuilder().build()
+        )
 
         // When
         let action = AppAction.navigate(.home)
@@ -27,7 +29,14 @@ final class AppCoreTests: XCTestCase {
 
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
-        let state = AppState(screens: [.home], settings: .sample)
+        let invetory = Inventory.makeBuilder().withSample().build()
+        let state = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder()
+                .withInventory(invetory)
+                .withPlayersCount(5)
+                .build()
+        )
 
         // When
         let action = AppAction.navigate(.game)
@@ -42,7 +51,7 @@ final class AppCoreTests: XCTestCase {
         // Given
         let state = AppState(
             screens: [.home, .game],
-            settings: .sample,
+            settings: SettingsState.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
 
@@ -55,28 +64,26 @@ final class AppCoreTests: XCTestCase {
         XCTAssertNil(result.game)
     }
 
-    func test_showingAlert_shouldDisplayAlert() throws {
+    func test_showingSettings_shouldDisplaySettings() throws {
         // Given
         let state = AppState(
             screens: [.home],
-            settings: .sample
+            settings: SettingsState.makeBuilder().build()
         )
 
         // When
-        let action = AppAction.present(.settings)
+        let action = AppAction.navigate(.settings)
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.alert, .settings)
-        XCTAssertEqual(result.screens, [.home])
+        XCTAssertEqual(result.screens, [.home, .settings])
     }
 
-    func test_closing_withAlert_shouldRemoveAlert() throws {
+    func test_closingSettings_shouldRemoveSettings() throws {
         // Given
         let state = AppState(
-            screens: [.home],
-            settings: .sample,
-            alert: .settings
+            screens: [.home, .settings],
+            settings: SettingsState.makeBuilder().build()
         )
 
         // When
@@ -84,27 +91,6 @@ final class AppCoreTests: XCTestCase {
         let result = AppState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.alert)
         XCTAssertEqual(result.screens, [.home])
     }
-}
-
-private extension SettingsState {
-    static let sample: Self = .init(
-        inventory: .sample,
-        playersCount: 5,
-        waitDelayMilliseconds: 0
-    )
-}
-
-private extension Inventory {
-    static let sample: Self = .init(
-        figures: (1...16).map { "c\($0)" },
-        cardSets: [:],
-        cardRef: Dictionary(uniqueKeysWithValues: (1...100).map { "c\($0)" }.map { ($0, Card.sample) })
-    )
-}
-
-private extension Card {
-    static let sample: Self = .init("", attributes: [.maxHealth: 4])
 }

@@ -9,6 +9,7 @@ import AppCore
 import CardsRepository
 import GameCore
 import GamePlay
+import SettingsCore
 import XCTest
 
 final class UIKitGamePlayStateTests: XCTestCase {
@@ -17,7 +18,11 @@ final class UIKitGamePlayStateTests: XCTestCase {
         let game = GameState.makeBuilder()
             .withTurn("p1")
             .build()
-        let appState = AppState(screens: [], settings: .init(), game: game)
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build(),
+            game: game
+        )
 
         // When
         let result = try XCTUnwrap(GamePlayUIKitView.State.from(globalState: appState))
@@ -42,7 +47,11 @@ final class UIKitGamePlayStateTests: XCTestCase {
             .withPlayModes(["p1": .manual])
             .withTurn("p1")
             .build()
-        let appState = AppState(screens: [], settings: .init(), game: game)
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build(),
+            game: game
+        )
 
         // When
         let result = try XCTUnwrap(GamePlayUIKitView.State.from(globalState: appState))
@@ -88,7 +97,11 @@ final class UIKitGamePlayStateTests: XCTestCase {
             .withPlayModes(["p1": .manual])
             .withActive([.bang, .endTurn], player: "p1")
             .build()
-        let appState = AppState(screens: [], settings: .init(), game: game)
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build(),
+            game: game
+        )
 
         // When
         let result = try XCTUnwrap(GamePlayUIKitView.State.from(globalState: appState))
@@ -109,7 +122,11 @@ final class UIKitGamePlayStateTests: XCTestCase {
             .withChooseOne(.card, options: [.missed, .bang], player: "p1")
             .withPlayModes(["p1": .manual])
             .build()
-        let appState = AppState(screens: [], settings: .init(), game: game)
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build(),
+            game: game
+        )
 
         // When
         let result = try XCTUnwrap(GamePlayUIKitView.State.from(globalState: appState))

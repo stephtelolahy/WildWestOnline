@@ -36,6 +36,7 @@
       }
     },
     "menu.online.button" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -74,13 +75,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SETTINGS"
+            "value" : "OPTIONS"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PARAMETRES"
+            "value" : "OPTIONS"
           }
         }
       }

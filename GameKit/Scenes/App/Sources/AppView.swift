@@ -11,6 +11,7 @@ import GamePlay
 import Home
 import Redux
 import Settings
+import SettingsCore
 import Splash
 import SwiftUI
 
@@ -41,26 +42,14 @@ public struct AppView: View {
                 }
 
             case .game:
-                if store.state.settings.oldGamePlay {
-                    GamePlayUIKitView {
-                        store.projection {
-                            GamePlayUIKitView.State.from(globalState: $0)
-                        }
-                    }
-                } else {
-                    GamePlayView {
-                        store.projection {
-                            GamePlayView.State.from(globalState: $0)
-                        }
-                    }
-                }
+                gamePlayView
 
             default:
                 EmptyView()
             }
         }
         .sheet(isPresented: Binding<Bool>(
-            get: { store.state.alert == .settings },
+            get: { store.state.screens.last == .settings },
             set: { _ in }
         ), onDismiss: {
         }, content: {
@@ -72,14 +61,42 @@ public struct AppView: View {
         })
         .foregroundColor(.primary)
     }
+
+    private var gamePlayView: some View {
+        Group {
+            switch store.state.settings.gamePlay {
+            case 0:
+                GamePlayUIKitView {
+                    store.projection {
+                        GamePlayUIKitView.State.from(globalState: $0)
+                    }
+                }
+
+            case 1:
+                GamePlayView {
+                    store.projection {
+                        GamePlayView.State.from(globalState: $0)
+                    }
+                }
+
+            default:
+                fatalError("unexpected")
+            }
+        }
+    }
 }
 
 #Preview {
     AppView {
-        Store(initial: previewState)
+        Store(initial: .mock)
     }
 }
 
-private var previewState: AppState {
-    .init(screens: [.home], settings: .init())
+private extension AppState {
+    static var mock: Self {
+        .init(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().build()
+        )
+    }
 }

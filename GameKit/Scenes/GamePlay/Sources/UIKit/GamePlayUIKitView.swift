@@ -37,65 +37,57 @@ public struct GamePlayUIKitView: View {
 
 #Preview {
     GamePlayUIKitView {
-        Store(initial: previewState)
+        Store(initial: .mock)
     }
 }
 
-private var previewState: GamePlayUIKitView.State {
-    let player1 = GamePlayUIKitView.State.PlayerItem(
-        id: "p1",
-        imageName: .willyTheKid,
-        displayName: .willyTheKid,
-        health: 2,
-        maxHealth: 4,
-        handCount: 5,
-        inPlay: [.scope, .jail],
-        isTurn: true,
-        isTargeted: false,
-        isEliminated: false,
-        role: nil,
-        userPhotoUrl: nil
-    )
+private extension GamePlayUIKitView.State {
+    static var mock: Self {
+        let player1 = GamePlayUIKitView.State.PlayerItem(
+            id: "p1",
+            imageName: .willyTheKid,
+            displayName: .willyTheKid,
+            health: 2,
+            maxHealth: 4,
+            handCount: 5,
+            inPlay: [.scope, .jail],
+            isTurn: true,
+            isTargeted: false,
+            isEliminated: false,
+            role: nil,
+            userPhotoUrl: nil
+        )
 
-    let player2 = GamePlayUIKitView.State.PlayerItem(
-        id: "p2",
-        imageName: .calamityJanet,
-        displayName: .calamityJanet,
-        health: 1,
-        maxHealth: 4,
-        handCount: 0,
-        inPlay: [.scope, .jail],
-        isTurn: false,
-        isTargeted: false,
-        isEliminated: false,
-        role: nil,
-        userPhotoUrl: nil
-    )
+        let player2 = GamePlayUIKitView.State.PlayerItem(
+            id: "p2",
+            imageName: .calamityJanet,
+            displayName: .calamityJanet,
+            health: 1,
+            maxHealth: 4,
+            handCount: 0,
+            inPlay: [.scope, .jail],
+            isTurn: false,
+            isTargeted: false,
+            isEliminated: false,
+            role: nil,
+            userPhotoUrl: nil
+        )
 
-    return .init(
-        players: [player1, player2, player2, player2, player2, player2, player2],
-        message: "P1's turn",
-        chooseOneData: nil,
-        handActions: [
-            .init(card: "\(String.mustang)-2♥️", action: nil),
-            .init(card: .gatling, action: .play(.gatling, player: "p1")),
-            .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
-        ],
-        topDiscard: .bang,
-        topDeck: nil,
-        animationDelay: 1000,
-        startOrder: [],
-        deckCount: 12,
-        occurredEvent: .damage(1, player: .calamityJanet)
-    )
-}
-
-private var previewChooseOneData: GamePlayUIKitView.State.ChooseOneData {
-    .init(
-        choiceType: .card,
-        actions: [
-            .missed: .play(.missed, player: "p2"),
-            .bang: .play(.bang, player: "p2")
-        ]
-    )
+        return .init(
+            players: [player1, player2, player2, player2, player2, player2, player2],
+            message: "P1's turn",
+            chooseOneData: nil,
+            handActions: [
+                .init(card: "\(String.mustang)-2♥️", action: nil),
+                .init(card: .gatling, action: .play(.gatling, player: "p1")),
+                .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
+            ],
+            topDiscard: .bang,
+            topDeck: nil,
+            animationDelay: 1000,
+            startOrder: [],
+            deckCount: 12,
+            occurredEvent: .damage(1, player: .calamityJanet)
+        )
+    }
 }
