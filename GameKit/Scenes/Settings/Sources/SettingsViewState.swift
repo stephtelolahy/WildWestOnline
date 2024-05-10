@@ -12,12 +12,6 @@ import Redux
 
 public extension SettingsView {
     struct State: Equatable {
-        // MARK: - Constants
-
-        public let minPlayersCount = 2
-        public let maxPlayersCount = 7
-        public let speedOptions: [SpeedOption] = SpeedOption.all
-
         public struct SpeedOption: Equatable {
             let label: String
             let value: Int
@@ -34,8 +28,9 @@ public extension SettingsView {
             "SwiftUI"
         ]
 
-        // MARK: - Instance variables
-
+        public let minPlayersCount = 2
+        public let maxPlayersCount = 7
+        public let speedOptions: [SpeedOption] = SpeedOption.all
         public let playersCount: Int
         public let speedIndex: Int
         public let simulation: Bool
