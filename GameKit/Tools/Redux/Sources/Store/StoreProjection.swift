@@ -14,15 +14,20 @@ import Combine
 /// It won't store anything, only project the original store.
 final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Store<LocalState> {
     private let globalStore: Store<GlobalState>
-    private let stateMap: (GlobalState) -> LocalState
+    private let stateMap: (GlobalState) -> LocalState?
 
-    init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState) {
+    init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
+        guard let initialState = stateMap(globalStore.state) else {
+            fatalError("failed mapping to local state")
+        }
+
         self.globalStore = globalStore
         self.stateMap = stateMap
-        super.init(initial: stateMap(globalStore.state))
+        super.init(initial: initialState)
 
         globalStore.$state
             .map(self.stateMap)
+            .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
     }
@@ -34,7 +39,7 @@ final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Stor
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(stateMap: @escaping (State) -> LocalState) -> Store<LocalState> {
+    func projection<LocalState: Equatable>(stateMap: @escaping (State) -> LocalState?) -> Store<LocalState> {
         StoreProjection(globalStore: self, stateMap: stateMap)
     }
 }

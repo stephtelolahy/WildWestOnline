@@ -28,17 +28,20 @@ public class Store<State: Equatable>: ObservableObject {
         let newState = reducer(state, action)
         state = newState
         for middleware in middlewares {
-            // swiftlint:disable:next trailing_closure
-            Future { await middleware.effect(on: action, state: newState) }
+            middleware.asPublisher(on: action, state: newState)
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { [weak self] action in
-                    if let action {
-                        self?.dispatch(action)
-                    }
-                })
+                .compactMap { $0 }
+                .sink(receiveValue: self.dispatch)
                 .store(in: &subscriptions)
         }
+    }
+}
+
+private extension Middleware {
+    func asPublisher(on action: Action, state: State) -> AnyPublisher<Action?, Never> {
+        Future { await self.effect(on: action, state: state) }
+            .eraseToAnyPublisher()
     }
 }
 
