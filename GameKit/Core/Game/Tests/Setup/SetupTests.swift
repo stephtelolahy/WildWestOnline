@@ -30,7 +30,7 @@ final class SetupTests: XCTestCase {
         // Given
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
-        let cardRef: [String: Card] = [
+        let cards: [String: Card] = [
             "p1": Card("p1", attributes: [.maxHealth: 4, .magnifying: 1]),
             "p2": Card("p2", attributes: [.maxHealth: 3, .remoteness: 1])
         ]
@@ -39,7 +39,7 @@ final class SetupTests: XCTestCase {
         let state = Setup.buildGame(
             figures: figures,
             deck: deck,
-            cardRef: cardRef
+            cards: cards
         )
 
         // Then

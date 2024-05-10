@@ -12,7 +12,7 @@ import XCTest
 final class PaulRegretTests: XCTestCase {
     func test_PaulRegret_shouldIncrementDistanceFromOthers() {
         // Given
-        let state = Setup.buildGame(figures: [.paulRegret], deck: [], cardRef: CardList.all)
+        let state = Setup.buildGame(figures: [.paulRegret], deck: [], cards: CardList.all)
 
         // When
         let player = state.player(.paulRegret)

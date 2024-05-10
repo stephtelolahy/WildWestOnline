@@ -13,7 +13,7 @@ struct OnPlayWeapon: PlayReqMatcher {
         }
 
         let cardName = playedCard.extractName()
-        guard let cardObj = state.cardRef[cardName],
+        guard let cardObj = state.cards[cardName],
               cardObj.attributes.keys.contains(.weapon) else {
             return false
         }

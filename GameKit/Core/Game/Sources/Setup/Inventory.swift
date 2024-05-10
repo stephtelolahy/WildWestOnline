@@ -6,17 +6,17 @@
 //
 
 public struct Inventory: Codable, Equatable {
+    public let cards: [String: Card]
     public let figures: [String]
     public let cardSets: [String: [String]]
-    public let cardRef: [String: Card]
 
     public init(
+        cards: [String: Card],
         figures: [String],
-        cardSets: [String: [String]],
-        cardRef: [String: Card]
+        cardSets: [String: [String]]
     ) {
+        self.cards = cards
         self.figures = figures
         self.cardSets = cardSets
-        self.cardRef = cardRef
     }
 }

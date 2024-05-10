@@ -23,21 +23,21 @@ public enum Setup {
         return buildGame(
             figures: figures,
             deck: deck,
-            cardRef: inventory.cardRef
+            cards: inventory.cards
         )
     }
 
     public static func buildGame(
         figures: [String],
         deck: [String],
-        cardRef: [String: Card]
+        cards: [String: Card]
     ) -> GameState {
         var deck = deck
         let players: [Player] = figures.map {
             buildPlayer(
                 figure: $0,
                 deck: &deck,
-                cardRef: cardRef
+                cards: cards
             )
         }
 
@@ -60,7 +60,7 @@ public enum Setup {
             active: [:],
             playMode: [:],
             sequence: [],
-            cardRef: cardRef,
+            cards: cards,
             waitDelayMilliseconds: 0
         )
     }
@@ -80,9 +80,9 @@ private extension Setup {
     static func buildPlayer(
         figure: String,
         deck: inout [String],
-        cardRef: [String: Card]
+        cards: [String: Card]
     ) -> Player {
-        guard let figureObj = cardRef[figure] else {
+        guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
         }
 

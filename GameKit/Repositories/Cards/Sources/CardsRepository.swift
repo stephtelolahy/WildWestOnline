@@ -9,11 +9,12 @@ import GameCore
 public class CardsRepository: InventoryService {
     public var inventory: Inventory {
         .init(
+            cards: CardList.all,
             figures: CardList.figures,
-            cardSets: CardSets.bang,
-            cardRef: CardList.all
+            cardSets: CardSets.bang
         )
     }
 
-    public init() {}
+    public init() {
+    }
 }
