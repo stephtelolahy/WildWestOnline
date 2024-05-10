@@ -52,7 +52,7 @@ private func createStore() -> Store<AppState> {
         reducer: AppState.reducer,
         middlewares: [
             updateGameMiddleware()
-                .lift { $0.game },
+                .lift { $0.game! },
             UpdateSettingsMiddleware(service: settingsService)
                 .lift { $0.settings },
             LoggerMiddleware()

@@ -10,6 +10,8 @@ import Redux
 
 public extension Connectors {
     struct HomeViewConnector: Connector {
+        public init() {}
+
         public func connect(state: AppState) -> HomeView.State {
             .init()
         }

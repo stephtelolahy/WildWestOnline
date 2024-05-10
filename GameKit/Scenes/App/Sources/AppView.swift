@@ -29,16 +29,12 @@ public struct AppView: View {
             switch store.state.screens.last {
             case .splash:
                 SplashView {
-                    store.projection {
-                        SplashView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.SplashViewConnector())
                 }
 
             case .home:
                 HomeView {
-                    store.projection {
-                        HomeView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.HomeViewConnector())
                 }
 
             case .game:
@@ -65,16 +61,12 @@ public struct AppView: View {
             switch store.state.settings.gamePlay {
             case 0:
                 GamePlayUIKitView {
-                    store.projection {
-                        GamePlayUIKitView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.GamePlayUIKitViewConnector())
                 }
 
             case 1:
                 GamePlayView {
-                    store.projection {
-                        GamePlayView.State.from(globalState: $0)
-                    }
+                    store.projection(using: Connectors.GamePlayViewConnector())
                 }
 
             default:
