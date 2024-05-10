@@ -35,7 +35,7 @@ public struct GamePlayView: View {
     private var contentView: some View {
         VStack(alignment: .leading) {
             headerView
-            VStack {
+            ScrollView {
                 ForEach(store.state.players, id: \.id) {
                     itemPlayerView($0)
                 }
