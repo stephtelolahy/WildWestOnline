@@ -7,8 +7,6 @@
 //
 // swiftlint:disable nesting no_magic_numbers
 
-import AppCore
-
 public extension SettingsView {
     struct State: Equatable {
         public let minPlayersCount = 2
