@@ -12,6 +12,8 @@ public protocol Connector {
     func connect(state: GlobalState) -> LocalState
 }
 
+public enum Connectors {}
+
 public extension Store {
     func projection<C: Connector>(
         using connector: C
@@ -19,5 +21,3 @@ public extension Store {
         StoreProjection(globalStore: self, stateMap: connector.connect)
     }
 }
-
-public enum Connectors {}
