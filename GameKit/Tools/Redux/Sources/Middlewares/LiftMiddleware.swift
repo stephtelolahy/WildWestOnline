@@ -13,23 +13,27 @@
 /// passing as parameter the keyPath from whole to part.
 final class LiftMiddleware<GlobalState, LocalState>: Middleware<GlobalState> {
     private let partMiddleware: Middleware<LocalState>
-    private let stateMap: (GlobalState) -> LocalState
+    private let stateMap: (GlobalState) -> LocalState?
 
     init(
         middleware: Middleware<LocalState>,
-        stateMap: @escaping (GlobalState) -> LocalState
+        stateMap: @escaping (GlobalState) -> LocalState?
     ) {
         self.stateMap = stateMap
         self.partMiddleware = middleware
     }
 
     override func effect(on action: Action, state: GlobalState) async -> Action? {
-        await partMiddleware.effect(on: action, state: stateMap(state))
+        guard let localState = stateMap(state) else {
+            return nil
+        }
+
+        return await partMiddleware.effect(on: action, state: localState)
     }
 }
 
 public extension Middleware {
-    func lift<GlobalState>(stateMap: @escaping (GlobalState) -> State) -> Middleware<GlobalState> {
+    func lift<GlobalState>(stateMap: @escaping (GlobalState) -> State?) -> Middleware<GlobalState> {
         LiftMiddleware(
             middleware: self,
             stateMap: stateMap
