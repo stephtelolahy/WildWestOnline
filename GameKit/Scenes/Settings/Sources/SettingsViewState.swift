@@ -8,10 +8,19 @@
 // swiftlint:disable nesting no_magic_numbers
 
 import AppCore
-import Redux
 
 public extension SettingsView {
     struct State: Equatable {
+        public let minPlayersCount = 2
+        public let maxPlayersCount = 7
+        public let speedOptions: [SpeedOption] = SpeedOption.all
+        public let playersCount: Int
+        public let speedIndex: Int
+        public let simulation: Bool
+        public let gamePlay: Int
+        public let figureOptions: [String]
+        public let preferredFigureIndex: Int
+
         public struct SpeedOption: Equatable {
             let label: String
             let value: Int
@@ -27,15 +36,5 @@ public extension SettingsView {
             "UIKit",
             "SwiftUI"
         ]
-
-        public let minPlayersCount = 2
-        public let maxPlayersCount = 7
-        public let speedOptions: [SpeedOption] = SpeedOption.all
-        public let playersCount: Int
-        public let speedIndex: Int
-        public let simulation: Bool
-        public let gamePlay: Int
-        public let figureOptions: [String]
-        public let preferredFigureIndex: Int
     }
 }

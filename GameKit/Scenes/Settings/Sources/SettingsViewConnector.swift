@@ -9,7 +9,6 @@ import Redux
 
 public extension Connectors {
     struct SettingsViewConnector: Connector {
-
         public init() {}
 
         public func connect(state: AppState) -> SettingsView.State {
