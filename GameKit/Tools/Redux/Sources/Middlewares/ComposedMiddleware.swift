@@ -20,10 +20,12 @@ public final class ComposedMiddleware<State>: Middleware<State> {
     override public func effect(on action: Action, state: State) async -> Action? {
         for middleware in middlewares {
             if let response = await middleware.effect(on: action, state: state) {
+                print("⚙️ \(middleware) > \(response)")
                 return response
             }
         }
 
+        print("🛑 No middleware emitted action")
         return nil
     }
 }

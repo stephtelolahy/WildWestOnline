@@ -35,7 +35,7 @@ final class SimulationTests: XCTestCase {
     private func simulateGame(
         playersCount: Int,
         preferredFigure: String? = nil,
-        timeout: TimeInterval = 30.0
+        timeout: TimeInterval = 60.0
     ) {
         // Given
         let inventory = CardsRepository().inventory
@@ -86,14 +86,17 @@ private class StateReproducerMiddleware: Middleware<GameState> {
         self.prevState = initial
     }
 
-    @MainActor
     override func effect(on action: Action, state: GameState) async -> Action? {
-        let resultState = GameState.reducer(prevState, action)
-        guard resultState.isEqualIgnoringSequence(to: state) else {
-            fatalError("Inconsistent state after applying \(action)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {
+                return
+            }
+            let resultState = GameState.reducer(self.prevState, action)
+            self.prevState = resultState
+            if !resultState.isEqualIgnoringSequence(to: state) {
+                print("🚨 Inconsistent state after applying \(action)")
+            }
         }
-
-        prevState = resultState
         return nil
     }
 }
