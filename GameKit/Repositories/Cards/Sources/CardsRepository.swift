@@ -9,8 +9,8 @@ import GameCore
 public class CardsRepository: InventoryService {
     public var inventory: Inventory {
         .init(
-            cards: CardList.all,
-            figures: CardList.figures,
+            cards: Cards.all,
+            figures: Cards.figures,
             cardSets: CardSets.bang
         )
     }

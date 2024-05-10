@@ -31,5 +31,3 @@ public enum CardSets {
         .wellsFargo: ["3♥️"]
     ]
 }
-
-// swiftlint:enable line_length

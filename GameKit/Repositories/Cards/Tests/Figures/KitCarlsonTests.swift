@@ -12,7 +12,7 @@ import XCTest
 final class KitCarlsonTests: XCTestCase {
     func test_kitCarlson_shouldHaveSpecialStartTurn() throws {
         // Given
-        let state = Setup.buildGame(figures: [.kitCarlson], deck: [], cards: CardList.all)
+        let state = Setup.buildGame(figures: [.kitCarlson], deck: [], cards: Cards.all)
 
         // When
         let player = state.player(.kitCarlson)

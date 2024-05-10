@@ -11,7 +11,7 @@ import XCTest
 final class CardsListTests: XCTestCase {
     // Given
     // When
-    private let cards = CardList.all
+    private let cards = Cards.all
 
     func test_inventory_shouldContainCollectibleCards() {
         // Then

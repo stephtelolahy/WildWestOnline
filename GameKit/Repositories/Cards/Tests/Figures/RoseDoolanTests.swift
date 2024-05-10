@@ -12,7 +12,7 @@ import XCTest
 final class RoseDoolanTests: XCTestCase {
     func test_RoseDoolan_shouldDecrementDistanceToOthers() {
         // Given
-        let state = Setup.buildGame(figures: [.roseDoolan], deck: [], cards: CardList.all)
+        let state = Setup.buildGame(figures: [.roseDoolan], deck: [], cards: Cards.all)
 
         // When
         let player = state.player(.roseDoolan)
