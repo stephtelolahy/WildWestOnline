@@ -20,8 +20,9 @@ extension GameAction {
             do {
                 try action.validate(state: state)
                 validOptions.append(key)
+                print("🟢 validateOption: \(action)")
             } catch {
-                print("🚨 validateOptions: \(action)\tthrows: \(error)")
+                print("🛑 validateOption: \(action)\tthrows: \(error)")
                 continue
             }
         }
@@ -41,9 +42,10 @@ extension GameAction {
         let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: state)
+            print("🟢 validatePlay: \(action)")
             return true
         } catch {
-            print("🚨 validatePlay: \(action)\tthrows: \(error)")
+            print("🛑 validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }

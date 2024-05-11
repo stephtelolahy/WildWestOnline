@@ -58,13 +58,14 @@ final class ActivateTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withHand((1...10).map { "\(String.schofield)-\($0)" })
+                $0.withHand((1...1).map { "\(String.beer)-\($0)" })
                     .withAttributes([.maxHealth: 4])
                     .withAbilities([.endTurn])
                     .withHealth(1)
             }
             .withPlayer("p2") {
-                $0.withAttributes([.maxHealth: 4])
+                $0.withAttributes([.maxHealth: 4, .startTurnCards: 2])
+                    .withAbilities([.drawOnSetTurn])
             }
             .withTurn("p1")
             .build()
@@ -74,6 +75,6 @@ final class ActivateTests: XCTestCase {
         let (result, _) = awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result.count, 1)
+        XCTAssertEqual(result, [.activate([.endTurn], player: "p1")])
     }
 }
