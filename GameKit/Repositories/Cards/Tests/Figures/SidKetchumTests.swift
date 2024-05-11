@@ -82,4 +82,23 @@ final class SidKetchumTests: XCTestCase {
         // Then
         XCTAssertEqual(error, .noCard(.selectHand))
     }
+
+    func test_playing_SidKetchum_alreadyMaxHealth_shouldThrowError() {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withAbilities([.sidKetchum])
+                    .withAttributes([.maxHealth: 4])
+                    .withHand(["c1", "c2"])
+                    .withHealth(4)
+            }
+            .build()
+
+        // When
+        let action = GameAction.play(.sidKetchum, player: "p1")
+        let (_, error) = awaitAction(action, state: state)
+
+        // Then
+        XCTAssertEqual(error, .playerAlreadyMaxHealth("p1"))
+    }
 }
