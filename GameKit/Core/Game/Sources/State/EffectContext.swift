@@ -17,7 +17,7 @@ public struct EffectContext: Codable, Equatable {
     let sourceCard: String
 
     /// Targeted player while resolving the effect
-    public var resolvingTarget: String?
+    var resolvingTarget: String?
 
     /// Card chooser while resolving the effect
     var resolvingChooser: String?

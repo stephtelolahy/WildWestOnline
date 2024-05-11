@@ -45,15 +45,7 @@ private extension GameState {
             let equipment = playerObj.inPlay
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
-
-            let isTargeted = self.sequence.contains { action in
-                if case .effect(_, let ctx) = action,
-                   ctx.resolvingTarget == playerId {
-                    return true
-                } else {
-                    return false
-                }
-            }
+            let isTargeted = sequence.contains { $0.isEffectTargeting(playerId) }
 
             return .init(
                 id: playerId,

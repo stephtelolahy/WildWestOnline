@@ -33,4 +33,13 @@ extension GameAction {
             return false
         }
     }
+
+    public func isEffectTargeting(_ player: String) -> Bool {
+        if case .effect(_, let ctx) = self,
+           ctx.resolvingTarget == player {
+            return true
+        } else {
+            return false
+        }
+    }
 }
