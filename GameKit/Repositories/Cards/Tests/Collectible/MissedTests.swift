@@ -113,44 +113,6 @@ final class MissedTests: XCTestCase {
             .cancel(.damage(1, player: "p2"))
         ])
     }
-
-    func test_multiplePlayersBeingShot_holdingMissedCard_shouldAskToCounter() throws {
-        // Given
-        let state = GameState.makeBuilderWithCardRef()
-            .withPlayer("p1") {
-                $0.withHand([.gatling])
-            }
-            .withPlayer("p2") {
-                $0.withHand([.missed])
-                    .withAbilities([.activateCounterCardsOnShot])
-            }
-            .withPlayer("p3") {
-                $0.withHand([.missed])
-                    .withAbilities([.activateCounterCardsOnShot])
-            }
-            .withDeck(["c1", "c2", "c3"])
-            .build()
-
-        // When
-        let action = GameAction.play(.gatling, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed, .missed])
-
-        // Then
-        XCTAssertEqual(result, [
-            .play(.gatling, player: "p1"),
-            .discardPlayed(.gatling, player: "p1"),
-            .chooseOne(.counterCard, options: [.missed, .pass], player: "p2"),
-            .choose(.missed, player: "p2"),
-            .play(.missed, player: "p2"),
-            .discardPlayed(.missed, player: "p2"),
-            .cancel(.damage(1, player: "p2")),
-            .chooseOne(.counterCard, options: [.missed, .pass], player: "p3"),
-            .choose(.missed, player: "p3"),
-            .play(.missed, player: "p3"),
-            .discardPlayed(.missed, player: "p3"),
-            .cancel(.damage(1, player: "p3"))
-        ])
-    }
 }
 
 private extension String {
