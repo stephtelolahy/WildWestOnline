@@ -58,7 +58,7 @@ final class ActivateTests: XCTestCase {
         // Given
         let state = GameState.makeBuilderWithCardRef()
             .withPlayer("p1") {
-                $0.withHand([.saloon, .gatling, .missed, .duel, .barrel, .beer, .dynamite, .jail])
+                $0.withHand((1...10).map { "\(String.schofield)-\($0)" })
                     .withAttributes([.maxHealth: 4])
                     .withAbilities([.endTurn])
                     .withHealth(1)
