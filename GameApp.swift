@@ -53,7 +53,7 @@ private func createStore() -> Store<AppState> {
         middlewares: [
             updateGameMiddleware()
                 .lift { $0.game },
-            UpdateSettingsMiddleware(service: settingsService)
+            SaveSettingsMiddleware(service: settingsService)
                 .lift { $0.settings },
             LoggerMiddleware()
         ]
