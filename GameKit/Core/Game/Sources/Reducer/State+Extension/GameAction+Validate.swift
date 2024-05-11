@@ -43,7 +43,7 @@ extension GameAction {
             try action.validate(state: state)
             return true
         } catch {
-//            print("🚨 validatePlay: \(action)\tthrows: \(error)")
+            print("🚨 validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }
@@ -51,6 +51,7 @@ extension GameAction {
 
 extension GameAction {
     func validate(state: GameState) throws {
+        print("⚙️ validate: \(self) ...")
         switch self {
         case .activate,
                 .chooseOne,

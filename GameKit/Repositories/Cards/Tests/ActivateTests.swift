@@ -53,4 +53,27 @@ final class ActivateTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [])
     }
+
+    func test_activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() throws {
+        // Given
+        let state = GameState.makeBuilderWithCardRef()
+            .withPlayer("p1") {
+                $0.withHand([.saloon, .gatling, .missed, .duel, .barrel, .beer, .dynamite, .jail])
+                    .withAttributes([.maxHealth: 4])
+                    .withAbilities([.endTurn])
+                    .withHealth(1)
+            }
+            .withPlayer("p2") {
+                $0.withAttributes([.maxHealth: 4])
+            }
+            .withTurn("p1")
+            .build()
+
+        // When
+        let action = GameAction.nothing
+        let (result, _) = awaitAction(action, state: state)
+
+        // Then
+        XCTAssertEqual(result.count, 1)
+    }
 }

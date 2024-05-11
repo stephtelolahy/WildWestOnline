@@ -35,7 +35,7 @@ final class SimulationTests: XCTestCase {
     private func simulateGame(
         playersCount: Int,
         preferredFigure: String? = nil,
-        timeout: TimeInterval = 60.0
+        timeout: TimeInterval = 30.0
     ) {
         // Given
         let inventory = CardsRepository().inventory
