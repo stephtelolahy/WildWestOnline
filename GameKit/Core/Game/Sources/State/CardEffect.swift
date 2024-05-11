@@ -79,7 +79,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case cancelTurn
 
     /// Expose a choice to play counter cards
-    case activateCounterCards
+    case playCounterCards
 
     // MARK: - Operators
 

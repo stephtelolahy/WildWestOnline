@@ -35,7 +35,7 @@ final class MissedTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.missed])
-                    .withAbilities([.activateCounterCardsOnShot])
+                    .withAbilities([.playCounterCardsOnShot])
             }
             .build()
 
@@ -65,7 +65,7 @@ final class MissedTests: XCTestCase {
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.activateCounterCardsOnShot])
+                $0.withAbilities([.playCounterCardsOnShot])
             }
             .build()
 
@@ -92,7 +92,7 @@ final class MissedTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withHand([.missed1, .missed2])
-                    .withAbilities([.activateCounterCardsOnShot])
+                    .withAbilities([.playCounterCardsOnShot])
             }
             .build()
 

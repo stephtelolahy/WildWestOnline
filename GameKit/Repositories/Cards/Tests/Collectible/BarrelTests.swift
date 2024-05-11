@@ -156,7 +156,7 @@ final class BarrelTests: XCTestCase {
             .withPlayer("p2") {
                 $0.withHand([.missed])
                     .withInPlay([.barrel])
-                    .withAbilities([.activateCounterCardsOnShot])
+                    .withAbilities([.playCounterCardsOnShot])
                     .withAttributes([.flippedCards: 1])
             }
             .withDeck(["c1-2♥️"])

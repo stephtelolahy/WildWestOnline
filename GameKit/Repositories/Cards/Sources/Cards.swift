@@ -40,7 +40,7 @@ public enum Cards {
             discardCardsOnEliminated,
             discardPreviousWeaponOnPlayWeapon,
             updateAttributesOnChangeInPlay,
-            activateCounterCardsOnShot,
+            playCounterCardsOnShot,
             willyTheKid,
             roseDoolan,
             paulRegret,
@@ -386,9 +386,9 @@ private extension Cards {
         }
     }
 
-    static var activateCounterCardsOnShot: Card {
-        Card(.activateCounterCardsOnShot) {
-            CardEffect.activateCounterCards
+    static var playCounterCardsOnShot: Card {
+        Card(.playCounterCardsOnShot) {
+            CardEffect.playCounterCards
                 .on([.shot])
         }
     }
@@ -406,7 +406,7 @@ private extension Cards {
                 .nextTurnOnEliminated,
                 .updateAttributesOnChangeInPlay,
                 .discardPreviousWeaponOnPlayWeapon,
-                .activateCounterCardsOnShot
+                .playCounterCardsOnShot
             ],
             attributes: [
                 .startTurnCards: 2,

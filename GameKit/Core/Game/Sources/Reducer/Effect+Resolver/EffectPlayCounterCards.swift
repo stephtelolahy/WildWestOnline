@@ -1,11 +1,11 @@
 //
-//  EffectActivateCounterCards.swift
+//  EffectPlayCounterCards.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 12/10/2023.
 //
 
-struct EffectActivateCounterCards: EffectResolver {
+struct EffectPlayCounterCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let playerObj = state.player(ctx.sourceActor)
         let playReqContext = PlayReqContext(actor: ctx.sourceActor, event: ctx.sourceEvent)
