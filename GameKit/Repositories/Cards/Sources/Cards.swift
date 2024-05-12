@@ -362,66 +362,89 @@ private extension Cards {
     // MARK: - Abilities
 
     static var endTurn: Card {
-        Card(.endTurn) {
-            CardEffect.group {
-                CardEffect.discard(.selectHand)
-                    .repeat(.excessHand)
-                CardEffect.setTurn
-                    .target(.next)
+        Card.makeBuilderForCollectible(name: .endTurn)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.discard(.selectHand)
+                        .repeat(.excessHand)
+                    CardEffect.setTurn
+                        .target(.next)
+                }
+                .on([.play])
             }
-            .on([.play])
-        }
+            .build()
     }
 
     static var drawOnSetTurn: Card {
-        Card(.drawOnSetTurn) {
-            CardEffect.drawDeck
-                .repeat(.attr(.startTurnCards))
-                .on([.setTurn])
-        }
+        Card.makeBuilderForCollectible(name: .drawOnSetTurn)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.drawDeck
+                    .repeat(.attr(.startTurnCards))
+                    .on([.setTurn])
+            }
+            .build()
     }
 
     static var eliminateOnDamageLethal: Card {
-        Card(.eliminateOnDamageLethal) {
-            CardEffect.eliminate
-                .on([.damageLethal])
-        }
+        Card.makeBuilderForCollectible(name: .eliminateOnDamageLethal)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.eliminate
+                    .on([.damageLethal])
+            }
+            .build()
     }
 
     static var nextTurnOnEliminated: Card {
-        Card(.nextTurnOnEliminated) {
-            CardEffect.setTurn
-                .target(.next)
-                .on([.eliminated, .isYourTurn])
-        }
+        Card.makeBuilderForCollectible(name: .nextTurnOnEliminated)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.setTurn
+                    .target(.next)
+                    .on([.eliminated, .isYourTurn])
+            }
+            .build()
     }
 
     static var discardCardsOnEliminated: Card {
-        Card(.discardCardsOnEliminated) {
-            CardEffect.discard(.all)
-                .on([.eliminated])
-        }
+        Card.makeBuilderForCollectible(name: .discardCardsOnEliminated)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.discard(.all)
+                    .on([.eliminated])
+            }
+            .build()
     }
 
     static var discardPreviousWeaponOnPlayWeapon: Card {
-        Card(.discardPreviousWeaponOnPlayWeapon) {
-            CardEffect.discard(.previousInPlay(.weapon))
-                .on([.equipWeapon])
-        }
+        Card.makeBuilderForCollectible(name: .discardPreviousWeaponOnPlayWeapon)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.discard(.previousInPlay(.weapon))
+                    .on([.equipWeapon])
+            }
+            .build()
     }
 
     static var updateAttributesOnChangeInPlay: Card {
-        Card(.updateAttributesOnChangeInPlay) {
-            CardEffect.updateAttributes
-                .on([.changeInPlay])
-        }
+        Card.makeBuilderForCollectible(name: .updateAttributesOnChangeInPlay)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.updateAttributes
+                    .on([.changeInPlay])
+            }
+            .build()
     }
 
     static var playCounterCardsOnShot: Card {
-        Card(.playCounterCardsOnShot) {
-            CardEffect.playCounterCards
-                .on([.shot])
-        }
+        Card.makeBuilderForCollectible(name: .playCounterCardsOnShot)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.playCounterCards
+                    .on([.shot])
+            }
+            .build()
     }
 
     // MARK: - Figures
