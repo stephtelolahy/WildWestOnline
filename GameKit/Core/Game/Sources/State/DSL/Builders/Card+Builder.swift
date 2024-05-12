@@ -57,7 +57,7 @@ public extension Card {
             return self
         }
 
-        public func withPrototype(_ protypeFigure: Figure) -> Self {
+        public func withFigure(_ protypeFigure: Figure) -> Self {
             abilities = protypeFigure.abilities.union(abilities)
             attributes = protypeFigure.attributes.merging(attributes) { _, new in new }
             return self
