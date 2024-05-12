@@ -54,6 +54,14 @@ extension GameAction {
 extension GameAction {
     func validate(state: GameState) throws {
         print("⚙️ validate: \(self) ...")
+
+        // <HACK: Skip validating endTurn's effect>
+        if case .effect(_, let ctx) = self,
+           ctx.sourceCard == "endTurn" {
+            return
+        }
+        // </HACK: Skip validating endTurn's effect>
+
         switch self {
         case .activate,
                 .chooseOne,
