@@ -22,7 +22,7 @@ struct CircleImage: View {
 
 #Preview {
     CircleImage(
-        image: Image("turtlerock", bundle: Bundle.module),
+        image: Image(.turtlerock),
         size: 50
     )
 }
