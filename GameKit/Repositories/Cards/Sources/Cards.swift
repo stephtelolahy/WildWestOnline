@@ -85,13 +85,9 @@ public enum Cards {
 private extension Cards {
     // MARK: - Collectibles - Brown
 
-    static var brown: Card {
-        Card.makeBuilderForCollectible(name: "")
-            .withRule {
-                CardEffect.discardPlayed
-                    .on([.play])
-            }
-            .build()
+    static var brown: CardRule {
+        CardEffect.discardPlayed
+            .on([.play])
     }
 
     static var beer: Card {
@@ -232,18 +228,16 @@ private extension Cards {
 
     // MARK: - Collectibles - blue Equipment
 
-    static var equipement: Card {
-        Card(String()) {
-            CardEffect.equip
-                .on([.play])
-        }
+    static var equipement: CardRule {
+        CardEffect.equip
+            .on([.play])
     }
 
     static var barrel: Card {
-        Card(
-            .barrel,
-            prototype: equipement,
-            rules: {
+        Card.makeBuilderForCollectible(name: .barrel)
+            .withPrototype(equipement)
+            .withPriorityIndex(priorities)
+            .withRule {
                 CardEffect.group {
                     CardEffect.draw
                         .repeat(.attr(.flippedCards))
@@ -255,14 +249,14 @@ private extension Cards {
                 }
                 .on([.shot])
             }
-        )
+            .build()
     }
 
     static var dynamite: Card {
-        Card(
-            .dynamite,
-            prototype: equipement,
-            rules: {
+        Card.makeBuilderForCollectible(name: .dynamite)
+            .withPrototype(equipement)
+            .withPriorityIndex(priorities)
+            .withRule {
                 CardEffect.group {
                     CardEffect.draw
                         .repeat(.attr(.flippedCards))
@@ -278,62 +272,59 @@ private extension Cards {
                 }
                 .on([.setTurn])
             }
-        )
+            .build()
     }
 
     static var schofield: Card {
-        Card(
-            .schofield,
-            prototype: equipement,
-            attributes: [.weapon: 2]
-        )
+        Card.makeBuilderForCollectible(name: .schofield)
+            .withPrototype(equipement)
+            .withAttributes([.weapon: 2])
+            .build()
     }
 
     static var remington: Card {
-        Card(
-            .remington,
-            prototype: equipement,
-            attributes: [.weapon: 3]
-        )
+        Card.makeBuilderForCollectible(name: .remington)
+            .withPrototype(equipement)
+            .withAttributes([.weapon: 3])
+            .build()
     }
 
     static var revCarabine: Card {
-        Card(
-            .revCarabine,
-            prototype: equipement,
-            attributes: [.weapon: 4]
-        )
+        Card.makeBuilderForCollectible(name: .revCarabine)
+            .withPrototype(equipement)
+            .withAttributes([.weapon: 4])
+            .build()
     }
 
     static var winchester: Card {
-        Card(
-            .winchester,
-            prototype: equipement,
-            attributes: [.weapon: 5]
-        )
+        Card.makeBuilderForCollectible(name: .winchester)
+            .withPrototype(equipement)
+            .withAttributes([.weapon: 5])
+            .build()
     }
 
     static var volcanic: Card {
-        Card(
-            .volcanic,
-            prototype: equipement,
-            attributes: [
+        Card.makeBuilderForCollectible(name: .volcanic)
+            .withPrototype(equipement)
+            .withAttributes([
                 .weapon: 1,
                 .bangsPerTurn: 0
-            ]
-        )
+            ])
+            .build()
     }
 
     static var scope: Card {
-        Card(
-            .scope,
-            prototype: equipement,
-            attributes: [.magnifying: 1]
-        )
+        Card.makeBuilderForCollectible(name: .scope)
+            .withPrototype(equipement)
+            .withAttributes([.magnifying: 1])
+            .build()
     }
 
     static var mustang: Card {
-        Card(.mustang, prototype: equipement, attributes: [.remoteness: 1])
+        Card.makeBuilderForCollectible(name: .mustang)
+            .withPrototype(equipement)
+            .withAttributes([.remoteness: 1])
+            .build()
     }
 
     // MARK: - Collectibles - Blue Handicap

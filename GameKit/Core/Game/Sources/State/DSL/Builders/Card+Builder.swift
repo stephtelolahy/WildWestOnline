@@ -32,11 +32,6 @@ public extension Card {
             return self
         }
 
-        public func withPriority(_ value: Int) -> Self {
-            priority = value
-            return self
-        }
-
         public func withPriorityIndex(_ array: [String]) -> Self {
             if let index = array.firstIndex(of: name) {
                 priority = index
@@ -49,9 +44,8 @@ public extension Card {
             return self
         }
 
-        /// Prepend rules from another card
-        public func withPrototype(_ anotherCard: Card) -> Self {
-            rules.insert(contentsOf: anotherCard.rules, at: 0)
+        public func withPrototype(_ protypeRule: CardRule) -> Self {
+            rules.insert(protypeRule, at: 0)
             return self
         }
     }
