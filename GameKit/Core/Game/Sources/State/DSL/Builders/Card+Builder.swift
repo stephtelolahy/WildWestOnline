@@ -9,6 +9,7 @@ public extension Card {
     class Builder {
         private let name: String
         private var attributes: [String: Int] = [:]
+        private var abilities: Set<String> = []
         private var priority: Int = Int.max
         private var rules: [CardRule] = []
 
@@ -28,6 +29,7 @@ public extension Card {
         }
 
         public func withAttributes(_ value: [String: Int]) -> Self {
+            // TODO: append
             attributes = value
             return self
         }
@@ -48,9 +50,33 @@ public extension Card {
             rules.insert(protypeRule, at: 0)
             return self
         }
+
+        public func withAbilities(_ value: [String]) -> Self {
+            // TODO: append
+            abilities = Set(value)
+            return self
+        }
+
+        public func withPrototype(_ protypeFigure: Figure) -> Self {
+            abilities = protypeFigure.abilities.union(abilities)
+            attributes = protypeFigure.attributes.merging(attributes) { _, new in new }
+            return self
+        }
     }
 
     static func makeBuilder(name: String) -> Builder {
         .init(name: name)
+    }
+}
+
+public extension Card {
+    struct Figure {
+        let attributes: [String: Int]
+        let abilities: Set<String>
+
+        public init(attributes: [String: Int], abilities: Set<String>) {
+            self.attributes = attributes
+            self.abilities = abilities
+        }
     }
 }

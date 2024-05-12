@@ -449,6 +449,27 @@ private extension Cards {
 
     // MARK: - Figures
 
+    static var defaultPlayer: Card.Figure {
+        .init(
+            attributes: [
+                .startTurnCards: 2,
+                .weapon: 1,
+                .flippedCards: 1,
+                .bangsPerTurn: 1
+            ],
+            abilities: [
+                .endTurn,
+                .drawOnSetTurn,
+                .eliminateOnDamageLethal,
+                .discardCardsOnEliminated,
+                .nextTurnOnEliminated,
+                .updateAttributesOnChangeInPlay,
+                .discardPreviousWeaponOnPlayWeapon,
+                .playCounterCardsOnShot
+            ]
+        )
+    }
+
     static var pDefault: Card {
         Card(
             String(),
@@ -472,7 +493,10 @@ private extension Cards {
     }
 
     static var willyTheKid: Card {
-        Card(.willyTheKid, prototype: pDefault, attributes: [.maxHealth: 4, .bangsPerTurn: 0])
+        Card.makeBuilder(name: .willyTheKid)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4, .bangsPerTurn: 0])
+            .build()
     }
 
     static var roseDoolan: Card {
