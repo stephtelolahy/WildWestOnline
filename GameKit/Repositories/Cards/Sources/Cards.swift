@@ -329,32 +329,34 @@ private extension Cards {
 
     // MARK: - Collectibles - Blue Handicap
 
-    static var handicap: Card {
-        Card(String()) {
-            CardEffect.handicap
-                .target(.selectAny)
-                .on([.play])
-        }
+    static var handicap: CardRule {
+        CardEffect.handicap
+            .target(.selectAny)
+            .on([.play])
     }
 
     static var jail: Card {
-        Card(.jail, prototype: handicap) {
-            CardEffect.group {
-                CardEffect.draw
-                    .repeat(.attr(.flippedCards))
-                CardEffect.luck(
-                    .drawn,
-                    regex: .regexEscapeFromJail,
-                    onSuccess: .discard(.played),
-                    onFailure: .group([
-                        .cancelTurn,
-                        .discard(.played),
-                        .setTurn.target(.next)
-                    ])
-                )
+        Card.makeBuilderForCollectible(name: .jail)
+            .withPrototype(handicap)
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.draw
+                        .repeat(.attr(.flippedCards))
+                    CardEffect.luck(
+                        .drawn,
+                        regex: .regexEscapeFromJail,
+                        onSuccess: .discard(.played),
+                        onFailure: .group([
+                            .cancelTurn,
+                            .discard(.played),
+                            .setTurn.target(.next)
+                        ])
+                    )
+                }
+                .on([.setTurn])
             }
-            .on([.setTurn])
-        }
+            .build()
     }
 
     // MARK: - Abilities
