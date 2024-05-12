@@ -24,7 +24,7 @@ public extension GameState {
         private var waitDelayMilliseconds: Int = 0
 
         public func build() -> GameState {
-            GameState(
+            .init(
                 players: players,
                 playOrder: playOrder,
                 startOrder: playOrder,
