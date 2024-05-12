@@ -38,8 +38,14 @@ public extension Card {
             return self
         }
 
-        public func withRule(_ value: CardRule) -> Self {
-            rules.append(value)
+        public func withRule(@CardRuleBuilder content: () -> [CardRule]) -> Self {
+            rules.append(contentsOf: content())
+            return self
+        }
+
+        /// Prepend rules from another card
+        public func withPrototype(_ anotherCard: Card) -> Self {
+            rules.insert(contentsOf: anotherCard.rules, at: 0)
             return self
         }
     }
