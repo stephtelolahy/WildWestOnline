@@ -7,7 +7,7 @@
 
 public extension Card {
     class CollectibleBuilder {
-        private var name: String = ""
+        private let name: String
         private var attributes: [String: Int] = [:]
         private var priority: Int = Int.max
         private var rules: [CardRule] = []
@@ -23,9 +23,8 @@ public extension Card {
             )
         }
 
-        public func withName(_ value: String) -> Self {
-            name = value
-            return self
+        init(name: String) {
+            self.name = name
         }
 
         public func withAttributes(_ value: [String: Int]) -> Self {
@@ -35,6 +34,13 @@ public extension Card {
 
         public func withPriority(_ value: Int) -> Self {
             priority = value
+            return self
+        }
+
+        public func withPriorityIndex(_ array: [String]) -> Self {
+            if let index = array.firstIndex(of: name) {
+                priority = index
+            }
             return self
         }
 
@@ -50,7 +56,7 @@ public extension Card {
         }
     }
 
-    static func makeCollectibleBuilder() -> CollectibleBuilder {
-        .init()
+    static func makeBuilderForCollectible(name: String) -> CollectibleBuilder {
+        .init(name: name)
     }
 }

@@ -86,110 +86,148 @@ private extension Cards {
     // MARK: - Collectibles - Brown
 
     static var brown: Card {
-        Card(String()) {
-            CardEffect.discardPlayed
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: "")
+            .withRule {
+                CardEffect.discardPlayed
+                    .on([.play])
+            }
+            .build()
     }
 
     static var beer: Card {
-        Card(.beer, prototype: brown) {
-            CardEffect.heal(1)
-                .on([.play, .isPlayersAtLeast(3)])
-        }
+        Card.makeBuilderForCollectible(name: .beer)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.heal(1)
+                    .on([.play, .isPlayersAtLeast(3)])
+            }
+            .build()
     }
 
     static var saloon: Card {
-        Card(.saloon, prototype: brown) {
-            CardEffect.heal(1)
-                .target(.damaged)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .saloon)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.heal(1)
+                    .target(.damaged)
+                    .on([.play])
+            }
+            .build()
     }
 
     static var stagecoach: Card {
-        Card(.stagecoach, prototype: brown) {
-            CardEffect.drawDeck
-                .repeat(2)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .stagecoach)
+            .withPrototype(brown)
+            .withRule(content: {
+                CardEffect.drawDeck
+                    .repeat(2)
+                    .on([.play])
+            })
+            .build()
     }
 
     static var wellsFargo: Card {
-        Card(.wellsFargo, prototype: brown) {
-            CardEffect.drawDeck
-                .repeat(3)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .wellsFargo)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.drawDeck
+                    .repeat(3)
+                    .on([.play])
+            }
+            .build()
     }
 
     static var catBalou: Card {
-        Card(.catBalou, prototype: brown) {
-            CardEffect.discard(.selectAny, chooser: .actor)
-                .target(.selectAny)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .catBalou)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.discard(.selectAny, chooser: .actor)
+                    .target(.selectAny)
+                    .on([.play])
+            }
+            .build()
     }
 
     static var panic: Card {
-        Card(.panic, prototype: brown) {
-            CardEffect.steal(.selectAny)
-                .target(.selectAt(1))
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .panic)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.steal(.selectAny)
+                    .target(.selectAt(1))
+                    .on([.play])
+            }
+            .build()
     }
 
     static var generalStore: Card {
-        Card(.generalStore, prototype: brown) {
-            CardEffect.group {
-                CardEffect.discover
-                    .repeat(.activePlayers)
-                CardEffect.drawArena
-                    .target(.all)
+        Card.makeBuilderForCollectible(name: .generalStore)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.discover
+                        .repeat(.activePlayers)
+                    CardEffect.drawArena
+                        .target(.all)
+                }
+                .on([.play])
             }
-            .on([.play])
-        }
+            .build()
     }
 
     static var bang: Card {
-        Card(.bang, prototype: brown) {
-            CardEffect.shoot
-                .target(.selectReachable)
-                .on([.play, .isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))])
-        }
+        Card.makeBuilderForCollectible(name: .bang)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.shoot
+                    .target(.selectReachable)
+                    .on([.play, .isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))])
+            }
+            .build()
     }
 
     static var missed: Card {
-        Card(.missed, prototype: brown) {
-            CardEffect.counterShoot
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .missed)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.counterShoot
+                    .on([.play])
+            }
+            .build()
     }
 
     static var gatling: Card {
-        Card(.gatling, prototype: brown) {
-            CardEffect.shoot
-                .target(.others)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .gatling)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.shoot
+                    .target(.others)
+                    .on([.play])
+            }
+            .build()
     }
 
     static var indians: Card {
-        Card(.indians, prototype: brown) {
-            CardEffect.discard(.selectHandNamed(.bang))
-                .force(otherwise: .damage(1))
-                .target(.others)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .indians)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.discard(.selectHandNamed(.bang))
+                    .force(otherwise: .damage(1))
+                    .target(.others)
+                    .on([.play])
+            }
+            .build()
     }
 
     static var duel: Card {
-        Card(.duel, prototype: brown) {
-            CardEffect.discard(.selectHandNamed(.bang))
-                .challenge(.actor, otherwise: .damage(1))
-                .target(.selectAny)
-                .on([.play])
-        }
+        Card.makeBuilderForCollectible(name: .duel)
+            .withPrototype(brown)
+            .withRule {
+                CardEffect.discard(.selectHandNamed(.bang))
+                    .challenge(.actor, otherwise: .damage(1))
+                    .target(.selectAny)
+                    .on([.play])
+            }
+            .build()
     }
 
     // MARK: - Collectibles - blue Equipment
@@ -591,13 +629,21 @@ private extension Cards {
         .dynamite,
         .jail,
         .drawOnSetTurn,
+        .blackJack,
+        .kitCarlson,
+        .jesseJones,
+        .pedroRamirez,
         // MARK: - changeInPlay
         .discardPreviousWeaponOnPlayWeapon,
         .updateAttributesOnChangeInPlay,
         // MARK: - eliminated
         .vultureSam,
         .discardCardsOnEliminated,
-        .nextTurnOnEliminated
+        .nextTurnOnEliminated,
+        // MARK: - shot
+        .barrel,
+        .jourdonnais,
+        .playCounterCardsOnShot
     ]
 }
 
