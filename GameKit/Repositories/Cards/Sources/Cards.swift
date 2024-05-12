@@ -91,7 +91,7 @@ private extension Cards {
     }
 
     static var beer: Card {
-        Card.makeBuilderForCollectible(name: .beer)
+        Card.makeBuilder(name: .beer)
             .withPrototype(brown)
             .withRule {
                 CardEffect.heal(1)
@@ -101,7 +101,7 @@ private extension Cards {
     }
 
     static var saloon: Card {
-        Card.makeBuilderForCollectible(name: .saloon)
+        Card.makeBuilder(name: .saloon)
             .withPrototype(brown)
             .withRule {
                 CardEffect.heal(1)
@@ -112,7 +112,7 @@ private extension Cards {
     }
 
     static var stagecoach: Card {
-        Card.makeBuilderForCollectible(name: .stagecoach)
+        Card.makeBuilder(name: .stagecoach)
             .withPrototype(brown)
             .withRule(content: {
                 CardEffect.drawDeck
@@ -123,7 +123,7 @@ private extension Cards {
     }
 
     static var wellsFargo: Card {
-        Card.makeBuilderForCollectible(name: .wellsFargo)
+        Card.makeBuilder(name: .wellsFargo)
             .withPrototype(brown)
             .withRule {
                 CardEffect.drawDeck
@@ -134,7 +134,7 @@ private extension Cards {
     }
 
     static var catBalou: Card {
-        Card.makeBuilderForCollectible(name: .catBalou)
+        Card.makeBuilder(name: .catBalou)
             .withPrototype(brown)
             .withRule {
                 CardEffect.discard(.selectAny, chooser: .actor)
@@ -145,7 +145,7 @@ private extension Cards {
     }
 
     static var panic: Card {
-        Card.makeBuilderForCollectible(name: .panic)
+        Card.makeBuilder(name: .panic)
             .withPrototype(brown)
             .withRule {
                 CardEffect.steal(.selectAny)
@@ -156,7 +156,7 @@ private extension Cards {
     }
 
     static var generalStore: Card {
-        Card.makeBuilderForCollectible(name: .generalStore)
+        Card.makeBuilder(name: .generalStore)
             .withPrototype(brown)
             .withRule {
                 CardEffect.group {
@@ -171,7 +171,7 @@ private extension Cards {
     }
 
     static var bang: Card {
-        Card.makeBuilderForCollectible(name: .bang)
+        Card.makeBuilder(name: .bang)
             .withPrototype(brown)
             .withRule {
                 CardEffect.shoot
@@ -182,7 +182,7 @@ private extension Cards {
     }
 
     static var missed: Card {
-        Card.makeBuilderForCollectible(name: .missed)
+        Card.makeBuilder(name: .missed)
             .withPrototype(brown)
             .withRule {
                 CardEffect.counterShoot
@@ -192,7 +192,7 @@ private extension Cards {
     }
 
     static var gatling: Card {
-        Card.makeBuilderForCollectible(name: .gatling)
+        Card.makeBuilder(name: .gatling)
             .withPrototype(brown)
             .withRule {
                 CardEffect.shoot
@@ -203,7 +203,7 @@ private extension Cards {
     }
 
     static var indians: Card {
-        Card.makeBuilderForCollectible(name: .indians)
+        Card.makeBuilder(name: .indians)
             .withPrototype(brown)
             .withRule {
                 CardEffect.discard(.selectHandNamed(.bang))
@@ -215,7 +215,7 @@ private extension Cards {
     }
 
     static var duel: Card {
-        Card.makeBuilderForCollectible(name: .duel)
+        Card.makeBuilder(name: .duel)
             .withPrototype(brown)
             .withRule {
                 CardEffect.discard(.selectHandNamed(.bang))
@@ -234,7 +234,7 @@ private extension Cards {
     }
 
     static var barrel: Card {
-        Card.makeBuilderForCollectible(name: .barrel)
+        Card.makeBuilder(name: .barrel)
             .withPrototype(equipement)
             .withPriorityIndex(priorities)
             .withRule {
@@ -253,7 +253,7 @@ private extension Cards {
     }
 
     static var dynamite: Card {
-        Card.makeBuilderForCollectible(name: .dynamite)
+        Card.makeBuilder(name: .dynamite)
             .withPrototype(equipement)
             .withPriorityIndex(priorities)
             .withRule {
@@ -276,35 +276,35 @@ private extension Cards {
     }
 
     static var schofield: Card {
-        Card.makeBuilderForCollectible(name: .schofield)
+        Card.makeBuilder(name: .schofield)
             .withPrototype(equipement)
             .withAttributes([.weapon: 2])
             .build()
     }
 
     static var remington: Card {
-        Card.makeBuilderForCollectible(name: .remington)
+        Card.makeBuilder(name: .remington)
             .withPrototype(equipement)
             .withAttributes([.weapon: 3])
             .build()
     }
 
     static var revCarabine: Card {
-        Card.makeBuilderForCollectible(name: .revCarabine)
+        Card.makeBuilder(name: .revCarabine)
             .withPrototype(equipement)
             .withAttributes([.weapon: 4])
             .build()
     }
 
     static var winchester: Card {
-        Card.makeBuilderForCollectible(name: .winchester)
+        Card.makeBuilder(name: .winchester)
             .withPrototype(equipement)
             .withAttributes([.weapon: 5])
             .build()
     }
 
     static var volcanic: Card {
-        Card.makeBuilderForCollectible(name: .volcanic)
+        Card.makeBuilder(name: .volcanic)
             .withPrototype(equipement)
             .withAttributes([
                 .weapon: 1,
@@ -314,14 +314,14 @@ private extension Cards {
     }
 
     static var scope: Card {
-        Card.makeBuilderForCollectible(name: .scope)
+        Card.makeBuilder(name: .scope)
             .withPrototype(equipement)
             .withAttributes([.magnifying: 1])
             .build()
     }
 
     static var mustang: Card {
-        Card.makeBuilderForCollectible(name: .mustang)
+        Card.makeBuilder(name: .mustang)
             .withPrototype(equipement)
             .withAttributes([.remoteness: 1])
             .build()
@@ -336,7 +336,7 @@ private extension Cards {
     }
 
     static var jail: Card {
-        Card.makeBuilderForCollectible(name: .jail)
+        Card.makeBuilder(name: .jail)
             .withPrototype(handicap)
             .withPriorityIndex(priorities)
             .withRule {
@@ -362,7 +362,7 @@ private extension Cards {
     // MARK: - Abilities
 
     static var endTurn: Card {
-        Card.makeBuilderForCollectible(name: .endTurn)
+        Card.makeBuilder(name: .endTurn)
             .withRule {
                 CardEffect.group {
                     CardEffect.discard(.selectHand)
@@ -376,7 +376,7 @@ private extension Cards {
     }
 
     static var drawOnSetTurn: Card {
-        Card.makeBuilderForCollectible(name: .drawOnSetTurn)
+        Card.makeBuilder(name: .drawOnSetTurn)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.drawDeck
@@ -387,7 +387,7 @@ private extension Cards {
     }
 
     static var eliminateOnDamageLethal: Card {
-        Card.makeBuilderForCollectible(name: .eliminateOnDamageLethal)
+        Card.makeBuilder(name: .eliminateOnDamageLethal)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.eliminate
@@ -397,7 +397,7 @@ private extension Cards {
     }
 
     static var nextTurnOnEliminated: Card {
-        Card.makeBuilderForCollectible(name: .nextTurnOnEliminated)
+        Card.makeBuilder(name: .nextTurnOnEliminated)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.setTurn
@@ -408,7 +408,7 @@ private extension Cards {
     }
 
     static var discardCardsOnEliminated: Card {
-        Card.makeBuilderForCollectible(name: .discardCardsOnEliminated)
+        Card.makeBuilder(name: .discardCardsOnEliminated)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.discard(.all)
@@ -418,7 +418,7 @@ private extension Cards {
     }
 
     static var discardPreviousWeaponOnPlayWeapon: Card {
-        Card.makeBuilderForCollectible(name: .discardPreviousWeaponOnPlayWeapon)
+        Card.makeBuilder(name: .discardPreviousWeaponOnPlayWeapon)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.discard(.previousInPlay(.weapon))
@@ -428,7 +428,7 @@ private extension Cards {
     }
 
     static var updateAttributesOnChangeInPlay: Card {
-        Card.makeBuilderForCollectible(name: .updateAttributesOnChangeInPlay)
+        Card.makeBuilder(name: .updateAttributesOnChangeInPlay)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.updateAttributes
@@ -438,7 +438,7 @@ private extension Cards {
     }
 
     static var playCounterCardsOnShot: Card {
-        Card.makeBuilderForCollectible(name: .playCounterCardsOnShot)
+        Card.makeBuilder(name: .playCounterCardsOnShot)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.playCounterCards

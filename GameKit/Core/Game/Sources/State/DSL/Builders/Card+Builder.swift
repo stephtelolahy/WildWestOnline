@@ -6,7 +6,7 @@
 //
 
 public extension Card {
-    class CollectibleBuilder {
+    class Builder {
         private let name: String
         private var attributes: [String: Int] = [:]
         private var priority: Int = Int.max
@@ -50,7 +50,7 @@ public extension Card {
         }
     }
 
-    static func makeBuilderForCollectible(name: String) -> CollectibleBuilder {
+    static func makeBuilder(name: String) -> Builder {
         .init(name: name)
     }
 }
