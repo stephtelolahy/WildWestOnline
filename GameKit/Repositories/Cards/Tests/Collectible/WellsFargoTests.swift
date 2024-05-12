@@ -11,7 +11,7 @@ import XCTest
 final class WellsFargoTests: XCTestCase {
     func test_playWellsFargo_shouldDraw3Cards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.wellsFargo])
             }

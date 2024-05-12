@@ -11,7 +11,7 @@ import XCTest
 final class DrawOnSetTurnTests: XCTestCase {
     func test_setTurn_with2StartTurnCards_shouldDraw2Cards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.drawOnSetTurn])
                     .withAttributes([.startTurnCards: 2])
@@ -33,7 +33,7 @@ final class DrawOnSetTurnTests: XCTestCase {
 
     func test_setTurn_with3StartTurnCards_shouldDraw3Cards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.drawOnSetTurn])
                     .withAttributes([.startTurnCards: 3])

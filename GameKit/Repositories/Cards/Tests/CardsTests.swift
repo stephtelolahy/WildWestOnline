@@ -1,5 +1,5 @@
 //
-//  CardsListTests.swift
+//  CardsTests.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import CardsRepository
 import XCTest
 
-final class CardsListTests: XCTestCase {
+final class CardsTests: XCTestCase {
     // Given
     // When
     private let cards = Cards.all

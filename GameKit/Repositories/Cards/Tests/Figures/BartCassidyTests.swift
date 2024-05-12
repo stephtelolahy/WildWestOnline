@@ -11,7 +11,7 @@ import XCTest
 final class BartCassidyTests: XCTestCase {
     func test_BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -32,7 +32,7 @@ final class BartCassidyTests: XCTestCase {
 
     func test_BartCassidyBeingDamaged_SeveralLifePoints_shouldDrawCards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -54,7 +54,7 @@ final class BartCassidyTests: XCTestCase {
 
     func test_BartCassidyBeingDamaged_Lethal_shouldDoNothing() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(1)

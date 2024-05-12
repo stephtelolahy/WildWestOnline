@@ -11,7 +11,7 @@ import XCTest
 final class BarrelTests: XCTestCase {
     func test_playingBarrel_shouldEquip() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.barrel])
             }
@@ -30,7 +30,7 @@ final class BarrelTests: XCTestCase {
 
     func test_triggeringBarrel_oneFlippedCard_isHearts_shouldCancelShot() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])
@@ -59,7 +59,7 @@ final class BarrelTests: XCTestCase {
 
     func test_triggeringBarrel_oneFlippedCard_isSpades_shouldApplyDamage() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])
@@ -88,7 +88,7 @@ final class BarrelTests: XCTestCase {
 
     func test_triggeringBarrel_twoFlippedCards_oneIsHearts_shouldCancelShot() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])
@@ -118,7 +118,7 @@ final class BarrelTests: XCTestCase {
 
     func test_triggeringBarrel_twoFlippedCards_noneIsHearts_shouldApplyDamage() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])
@@ -148,7 +148,7 @@ final class BarrelTests: XCTestCase {
 
     func test_triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])

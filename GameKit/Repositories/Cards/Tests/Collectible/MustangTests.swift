@@ -11,7 +11,7 @@ import XCTest
 final class MustangTests: XCTestCase {
     func test_playMustang_shouldEquipAndSetAttribute() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.mustang])
                     .withAbilities([.updateAttributesOnChangeInPlay])

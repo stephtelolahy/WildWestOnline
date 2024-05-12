@@ -11,7 +11,7 @@ import XCTest
 final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
     func test_playVolcanic_withWeaponInPlay_shouldDiscardPreviousWeapon() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.volcanic])
                     .withInPlay([.schofield])

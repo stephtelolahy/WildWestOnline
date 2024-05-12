@@ -11,7 +11,7 @@ import XCTest
 final class IndiansTests: XCTestCase {
     func test_playIndians_threePlayers_shouldAllowEachPlayerToCounterOrPass() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.indians])
             }
@@ -38,7 +38,7 @@ final class IndiansTests: XCTestCase {
 
     func test_playIndians_twoPlayers_shouldAllowEachPlayerToCounter() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.indians])
             }

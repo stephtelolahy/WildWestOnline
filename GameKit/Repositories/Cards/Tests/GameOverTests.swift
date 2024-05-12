@@ -11,7 +11,7 @@ import XCTest
 final class GameOverTests: XCTestCase {
     func test_game_withOnePlayerLast_shouldBeOver() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
             .withPlayer("p2")
             .build()
@@ -29,7 +29,7 @@ final class GameOverTests: XCTestCase {
 
     func test_game_with2Players_shouldNotBeOver() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3")

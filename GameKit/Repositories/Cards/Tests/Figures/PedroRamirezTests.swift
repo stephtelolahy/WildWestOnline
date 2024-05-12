@@ -23,7 +23,7 @@ final class PedroRamirezTests: XCTestCase {
 
     func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -55,7 +55,7 @@ final class PedroRamirezTests: XCTestCase {
 
     func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -85,7 +85,7 @@ final class PedroRamirezTests: XCTestCase {
 
     func test_pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])

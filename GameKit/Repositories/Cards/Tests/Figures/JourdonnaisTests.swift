@@ -11,7 +11,7 @@ import XCTest
 final class JourdonnaisTests: XCTestCase {
     func test_JourdonnaisBeingShot_flippedCardIsHearts_shouldCancelShot() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])

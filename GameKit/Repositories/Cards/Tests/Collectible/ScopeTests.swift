@@ -11,7 +11,7 @@ import XCTest
 final class ScopeTests: XCTestCase {
     func test_playScope_shouldEquipAndSetAttribute() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.scope])
                     .withAbilities([.updateAttributesOnChangeInPlay])
@@ -32,7 +32,7 @@ final class ScopeTests: XCTestCase {
 
     func test_discardScope_shouldRemoveAttribute() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.scope])
                     .withAbilities([.updateAttributesOnChangeInPlay])

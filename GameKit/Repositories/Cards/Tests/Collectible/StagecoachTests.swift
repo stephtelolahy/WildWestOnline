@@ -11,7 +11,7 @@ import XCTest
 final class StagecoachTests: XCTestCase {
     func test_plaStagecoach_shouldDraw2Cards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.stagecoach])
             }

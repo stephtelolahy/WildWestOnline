@@ -11,7 +11,7 @@ import XCTest
 final class MissedTests: XCTestCase {
     func test_playMissed_withoutBeingShoot_shouldThrowError() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.missed])
             }
@@ -28,7 +28,7 @@ final class MissedTests: XCTestCase {
 
     func test_beingShot_holdingMissedCard_shouldAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
@@ -59,7 +59,7 @@ final class MissedTests: XCTestCase {
 
     func test_beingShot_withoutMissedCard_shouldNotAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
@@ -85,7 +85,7 @@ final class MissedTests: XCTestCase {
 
     func test_beingShot_holdingMissedCards_shouldAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])

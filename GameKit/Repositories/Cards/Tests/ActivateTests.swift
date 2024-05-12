@@ -11,7 +11,7 @@ import XCTest
 final class ActivateTests: XCTestCase {
     func test_activatingCards_withPlayableCards_shouldActivate() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon, .gatling])
                     .withAttributes([.maxHealth: 4])
@@ -35,7 +35,7 @@ final class ActivateTests: XCTestCase {
 
     func test_activatingCards_withoutPlayableCards_shouldDoNothing() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer, .missed])
                     .withAttributes([.maxHealth: 4])
@@ -56,7 +56,7 @@ final class ActivateTests: XCTestCase {
 
     func test_activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand((1...10).map { "\(String.beer)-\($0)" })
                     .withAttributes([.maxHealth: 4])

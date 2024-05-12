@@ -10,7 +10,7 @@ import XCTest
 final class VolcanicTests: XCTestCase {
     func test_playVolcanic_withoutWeaponInPlay_shouldSetBangsPerTurn() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.volcanic])
                     .withAbilities([.updateAttributesOnChangeInPlay])

@@ -11,7 +11,7 @@ import XCTest
 final class SaloonTests: XCTestCase {
     func test_playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -42,7 +42,7 @@ final class SaloonTests: XCTestCase {
 
     func test_playSaloon_withoutPlayerDamaged_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)

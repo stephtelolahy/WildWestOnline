@@ -9,7 +9,7 @@ import CardsRepository
 import GameCore
 
 extension GameState {
-    static func makeBuilderWithCardRef() -> Builder {
+    static func makeBuilderWithCards() -> Builder {
         makeBuilder().withCards(Cards.all)
     }
 }

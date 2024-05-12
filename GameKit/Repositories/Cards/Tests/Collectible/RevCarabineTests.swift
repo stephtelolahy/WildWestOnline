@@ -11,7 +11,7 @@ import XCTest
 final class RevCarabineTests: XCTestCase {
     func test_playRevCarabine_shouldEquipAndSetWeapon() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.revCarabine])
                     .withAbilities([.updateAttributesOnChangeInPlay])

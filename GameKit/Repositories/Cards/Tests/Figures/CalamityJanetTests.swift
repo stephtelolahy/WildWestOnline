@@ -11,7 +11,7 @@ import XCTest
 final class CalamityJanetTests: XCTestCase {
     func test_calamityJanetPlayingBang_shouldPlayAsBang() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAttributes([.bangsPerTurn: 1, .weapon: 1])
                     .withHand([.bang])
@@ -37,7 +37,7 @@ final class CalamityJanetTests: XCTestCase {
 
     func test_calamityJanetPlayingMissed_shouldPlayAsBang() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAttributes([.bangsPerTurn: 1, .weapon: 1])
                     .withHand([.missed])
@@ -63,7 +63,7 @@ final class CalamityJanetTests: XCTestCase {
 
     func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
@@ -95,7 +95,7 @@ final class CalamityJanetTests: XCTestCase {
 
     func test_calamityJanetBeingShot_holdingMissed_shouldAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])

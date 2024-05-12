@@ -11,7 +11,7 @@ import XCTest
 final class GatlingTests: XCTestCase {
     func test_playGatling_withThreePlayers_shouldDamageEachPlayer() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.gatling])
             }
@@ -34,7 +34,7 @@ final class GatlingTests: XCTestCase {
 
     func test_playGatling_withTwoPlayers_shouldDamageEachPlayer() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.gatling])
             }

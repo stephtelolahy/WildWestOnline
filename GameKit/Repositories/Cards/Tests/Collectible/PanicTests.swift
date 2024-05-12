@@ -11,7 +11,7 @@ import XCTest
 final class PanicTests: XCTestCase {
     func test_playing_Panic_noPlayerAllowed_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -27,7 +27,7 @@ final class PanicTests: XCTestCase {
 
     func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -54,7 +54,7 @@ final class PanicTests: XCTestCase {
 
     func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -81,7 +81,7 @@ final class PanicTests: XCTestCase {
 
     func test_playing_Panic_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }

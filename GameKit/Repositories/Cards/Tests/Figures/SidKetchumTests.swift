@@ -11,7 +11,7 @@ import XCTest
 final class SidKetchumTests: XCTestCase {
     func test_playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -39,7 +39,7 @@ final class SidKetchumTests: XCTestCase {
 
     func test_playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -67,7 +67,7 @@ final class SidKetchumTests: XCTestCase {
 
     func test_playing_SidKetchum_withoutCard_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -85,7 +85,7 @@ final class SidKetchumTests: XCTestCase {
 
     func test_playing_SidKetchum_alreadyMaxHealth_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])

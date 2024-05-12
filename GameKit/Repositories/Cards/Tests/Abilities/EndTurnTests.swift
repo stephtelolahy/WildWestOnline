@@ -11,7 +11,7 @@ import XCTest
 final class EndTurnTests: XCTestCase {
     func test_endingTurn_noExcessCards_shouldDoNothing() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.endTurn])
             }
@@ -32,7 +32,7 @@ final class EndTurnTests: XCTestCase {
 
     func test_endingTurn_customHandLimit_shouldDoNothing() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)
@@ -56,7 +56,7 @@ final class EndTurnTests: XCTestCase {
 
     func test_endingTurn_oneExcessCard_shouldDiscardAHandCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
@@ -82,7 +82,7 @@ final class EndTurnTests: XCTestCase {
 
     func test_endingTurn_twoExcessCard_shouldDiscardTwoHandCards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)

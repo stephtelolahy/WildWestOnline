@@ -11,7 +11,7 @@ import XCTest
 final class BangTests: XCTestCase {
     func test_playingBang_shouldDamageBy1() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
@@ -35,7 +35,7 @@ final class BangTests: XCTestCase {
 
     func test_playingBang_reachedLimitPerTurn_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 1])
@@ -54,7 +54,7 @@ final class BangTests: XCTestCase {
 
     func test_playingBang_noLimitPerTurn_shouldAllowMultipleBang() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .bangsPerTurn: 0])
@@ -79,7 +79,7 @@ final class BangTests: XCTestCase {
 
     func test_playingBang_noPlayerReachable_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
