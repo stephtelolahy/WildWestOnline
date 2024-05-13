@@ -470,29 +470,6 @@ private extension Cards {
         )
     }
 
-    @available(*, deprecated, message: "Use defaultPlayer")
-    static var pDefault: Card {
-        Card(
-            String(),
-            abilities: [
-                .endTurn,
-                .drawOnSetTurn,
-                .eliminateOnDamageLethal,
-                .discardCardsOnEliminated,
-                .nextTurnOnEliminated,
-                .updateAttributesOnChangeInPlay,
-                .discardPreviousWeaponOnPlayWeapon,
-                .playCounterCardsOnShot
-            ],
-            attributes: [
-                .startTurnCards: 2,
-                .weapon: 1,
-                .flippedCards: 1,
-                .bangsPerTurn: 1
-            ]
-        )
-    }
-
     static var willyTheKid: Card {
         Card.makeBuilder(name: .willyTheKid)
             .withPrototype(defaultPlayer)
@@ -629,6 +606,7 @@ private extension Cards {
     static var blackJack: Card {
         Card.makeBuilder(name: .blackJack)
             .withPrototype(defaultPlayer)
+            .withPriorityIndex(priorities)
             .withAttributes([.maxHealth: 4])
             .withoutAbility(.drawOnSetTurn)
             .withRule {
@@ -644,46 +622,64 @@ private extension Cards {
     }
 
     static var kitCarlson: Card {
-        Card(.kitCarlson, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
-            CardEffect.group {
-                CardEffect.drawDeck
-                    .repeat(.add(1, attr: .startTurnCards))
-                CardEffect.putBack(among: .add(1, attr: .startTurnCards))
+        Card.makeBuilder(name: .kitCarlson)
+            .withPrototype(defaultPlayer)
+            .withPriorityIndex(priorities)
+            .withAttributes([.maxHealth: 4])
+            .withoutAbility(.drawOnSetTurn)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.drawDeck
+                        .repeat(.add(1, attr: .startTurnCards))
+                    CardEffect.putBack(among: .add(1, attr: .startTurnCards))
+                }
+                .on([.setTurn])
             }
-            .on([.setTurn])
-        }
+            .build()
     }
 
     static var jesseJones: Card {
-        Card(.jesseJones, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
-            CardEffect.group {
-                CardEffect.drawDiscard
-                    .force(otherwise: .drawDeck)
-                CardEffect.drawDeck
-                    .repeat(.add(-1, attr: .startTurnCards))
+        Card.makeBuilder(name: .jesseJones)
+            .withPrototype(defaultPlayer)
+            .withPriorityIndex(priorities)
+            .withAttributes([.maxHealth: 4])
+            .withoutAbility(.drawOnSetTurn)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.drawDiscard
+                        .force(otherwise: .drawDeck)
+                    CardEffect.drawDeck
+                        .repeat(.add(-1, attr: .startTurnCards))
+                }
+                .on([.setTurn])
             }
-            .on([.setTurn])
-        }
+            .build()
     }
 
     static var pedroRamirez: Card {
-        Card(.pedroRamirez, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
-            CardEffect.group {
-                CardEffect.steal(.selectHand)
-                    .target(.selectAny)
-                    .force(otherwise: .drawDeck)
-                CardEffect.drawDeck
-                    .repeat(.add(-1, attr: .startTurnCards))
+        Card.makeBuilder(name: .pedroRamirez)
+            .withPrototype(defaultPlayer)
+            .withPriorityIndex(priorities)
+            .withAttributes([.maxHealth: 4])
+            .withoutAbility(.drawOnSetTurn)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.steal(.selectHand)
+                        .target(.selectAny)
+                        .force(otherwise: .drawDeck)
+                    CardEffect.drawDeck
+                        .repeat(.add(-1, attr: .startTurnCards))
+                }
+                .on([.setTurn])
             }
-            .on([.setTurn])
-        }
+            .build()
     }
 
     static var custom: Card {
-        Card(
-            .custom,
-            prototype: pDefault,
-            abilities: [
+        Card.makeBuilder(name: .custom)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withAbilities([
                 .willyTheKid,
                 .roseDoolan,
                 .paulRegret,
@@ -700,9 +696,8 @@ private extension Cards {
 //                .kitCarlson,
 //                .jesseJones,
 //                .pedroRamirez
-            ],
-            attributes: [.maxHealth: 4]
-        )
+            ])
+            .build()
     }
 }
 
