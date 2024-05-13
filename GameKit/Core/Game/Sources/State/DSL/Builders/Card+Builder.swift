@@ -66,6 +66,11 @@ public extension Card {
             abilityToPlayCardAs = value
             return self
         }
+
+        public func withoutAbility(_ value: String) -> Self {
+            abilities.remove(value)
+            return self
+        }
     }
 
     static func makeBuilder(name: String) -> Builder {

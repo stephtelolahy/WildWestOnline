@@ -560,59 +560,87 @@ private extension Cards {
     }
 
     static var bartCassidy: Card {
-        Card(.bartCassidy, prototype: pDefault, attributes: [.maxHealth: 4]) {
-            CardEffect.drawDeck
-                .repeat(.damage)
-                .on([.damage])
-        }
+        Card.makeBuilder(name: .bartCassidy)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.drawDeck
+                    .repeat(.damage)
+                    .on([.damage])
+            }
+            .build()
     }
 
     static var elGringo: Card {
-        Card(.elGringo, prototype: pDefault, attributes: [.maxHealth: 3]) {
-            CardEffect.steal(.selectHand)
-                .target(.offender)
-                .ignoreError()
-                .repeat(.damage)
-                .on([.damage])
-        }
+        Card.makeBuilder(name: .elGringo)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 3])
+            .withRule {
+                CardEffect.steal(.selectHand)
+                    .target(.offender)
+                    .ignoreError()
+                    .repeat(.damage)
+                    .on([.damage])
+            }
+            .build()
     }
 
     static var suzyLafayette: Card {
-        Card(.suzyLafayette, prototype: pDefault, attributes: [.maxHealth: 4]) {
-            CardEffect.drawDeck
-                .on([.handEmpty])
-        }
+        Card.makeBuilder(name: .suzyLafayette)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.drawDeck
+                    .on([.handEmpty])
+            }
+            .build()
     }
 
     static var vultureSam: Card {
-        Card(.vultureSam, prototype: pDefault, attributes: [.maxHealth: 4]) {
-            CardEffect.steal(.all)
-                .target(.eliminated)
-                .on([.anotherEliminated])
-        }
+        Card.makeBuilder(name: .vultureSam)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.steal(.all)
+                    .target(.eliminated)
+                    .on([.anotherEliminated])
+            }
+            .build()
     }
 
     static var sidKetchum: Card {
-        Card(.sidKetchum, prototype: pDefault, attributes: [.maxHealth: 4]) {
-            CardEffect.group {
-                CardEffect.discard(.selectHand)
-                    .repeat(2)
-                CardEffect.heal(1)
+        Card.makeBuilder(name: .sidKetchum)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withRule {
+                CardEffect.group {
+                    CardEffect.discard(.selectHand)
+                        .repeat(2)
+                    CardEffect.heal(1)
+                }
+                .on([.play])
             }
-            .on([.play])
-        }
+            .build()
     }
 
     static var blackJack: Card {
-        Card(.blackJack, prototype: pDefault, attributes: [.maxHealth: 4], silent: [.drawOnSetTurn]) {
-            CardEffect.group {
-                CardEffect.drawDeck
-                    .repeat(.attr(.startTurnCards))
-                CardEffect.revealLastHand
-                CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
+        Card.makeBuilder(name: .blackJack)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withoutAbility(.drawOnSetTurn)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.drawDeck
+                        .repeat(.attr(.startTurnCards))
+                    CardEffect.revealLastHand
+                    CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
+                }
+                .on([.setTurn])
             }
-            .on([.setTurn])
-        }
+            .build()
     }
 
     static var kitCarlson: Card {
