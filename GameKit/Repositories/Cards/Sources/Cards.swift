@@ -501,30 +501,44 @@ private extension Cards {
     }
 
     static var roseDoolan: Card {
-        Card(.roseDoolan, prototype: pDefault, attributes: [.maxHealth: 4, .magnifying: 1])
+        Card.makeBuilder(name: .roseDoolan)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4, .magnifying: 1])
+            .build()
     }
 
     static var paulRegret: Card {
-        Card(.paulRegret, prototype: pDefault, attributes: [.maxHealth: 3, .remoteness: 1])
+        Card.makeBuilder(name: .paulRegret)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 3, .remoteness: 1])
+            .build()
     }
 
     static var jourdonnais: Card {
-        Card(.jourdonnais, prototype: pDefault, attributes: [.maxHealth: 4]) {
-            CardEffect.group {
-                CardEffect.draw
-                    .repeat(.attr(.flippedCards))
-                CardEffect.luck(
-                    .drawn,
-                    regex: .regexSaveByBarrel,
-                    onSuccess: .counterShoot
-                )
+        Card.makeBuilder(name: .jourdonnais)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withPriorityIndex(priorities)
+            .withRule {
+                CardEffect.group {
+                    CardEffect.draw
+                        .repeat(.attr(.flippedCards))
+                    CardEffect.luck(
+                        .drawn,
+                        regex: .regexSaveByBarrel,
+                        onSuccess: .counterShoot
+                    )
+                }
+                .on([.shot])
             }
-            .on([.shot])
-        }
+            .build()
     }
 
     static var slabTheKiller: Card {
-        Card(.slabTheKiller, prototype: pDefault, attributes: [.maxHealth: 4])
+        Card.makeBuilder(name: .slabTheKiller)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .build()
     }
 
     static var luckyDuke: Card {
