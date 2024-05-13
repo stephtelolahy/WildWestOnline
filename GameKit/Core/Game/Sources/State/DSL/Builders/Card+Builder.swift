@@ -12,6 +12,7 @@ public extension Card {
         private var abilities: Set<String> = []
         private var priority: Int = Int.max
         private var rules: [CardRule] = []
+        private var abilityToPlayCardAs: [CardAlias] = []
 
         public func build() -> Card {
             .init(
@@ -58,6 +59,11 @@ public extension Card {
         public func withPrototype(_ protypeFigure: Figure) -> Self {
             abilities = protypeFigure.abilities
             attributes = protypeFigure.attributes
+            return self
+        }
+
+        public func withAbilityToPlayCardAs(_ value: [CardAlias]) -> Self {
+            abilityToPlayCardAs = value
             return self
         }
     }

@@ -542,19 +542,21 @@ private extension Cards {
     }
 
     static var luckyDuke: Card {
-        Card(.luckyDuke, prototype: pDefault, attributes: [.maxHealth: 4, .flippedCards: 2])
+        Card.makeBuilder(name: .luckyDuke)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4, .flippedCards: 2])
+            .build()
     }
 
     static var calamityJanet: Card {
-        Card(
-            .calamityJanet,
-            prototype: pDefault,
-            attributes: [.maxHealth: 4],
-            alias: [
+        Card.makeBuilder(name: .calamityJanet)
+            .withPrototype(defaultPlayer)
+            .withAttributes([.maxHealth: 4])
+            .withAbilityToPlayCardAs([
                 CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
                 CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
-            ]
-        )
+            ])
+            .build()
     }
 
     static var bartCassidy: Card {
