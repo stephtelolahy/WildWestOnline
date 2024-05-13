@@ -470,6 +470,7 @@ private extension Cards {
         )
     }
 
+    @available(*, deprecated, message: "Use defaultPlayer")
     static var pDefault: Card {
         Card(
             String(),
@@ -494,8 +495,8 @@ private extension Cards {
 
     static var willyTheKid: Card {
         Card.makeBuilder(name: .willyTheKid)
+            .withPrototype(defaultPlayer)
             .withAttributes([.maxHealth: 4, .bangsPerTurn: 0])
-            .withFigure(defaultPlayer)
             .build()
     }
 

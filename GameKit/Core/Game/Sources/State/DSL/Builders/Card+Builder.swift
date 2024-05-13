@@ -29,8 +29,7 @@ public extension Card {
         }
 
         public func withAttributes(_ value: [String: Int]) -> Self {
-            // TODO: append
-            attributes = value
+            attributes = attributes.merging(value) { _, new in new }
             return self
         }
 
@@ -52,14 +51,13 @@ public extension Card {
         }
 
         public func withAbilities(_ value: [String]) -> Self {
-            // TODO: append
-            abilities = Set(value)
+            abilities = abilities.union(value)
             return self
         }
 
-        public func withFigure(_ protypeFigure: Figure) -> Self {
-            abilities = protypeFigure.abilities.union(abilities)
-            attributes = protypeFigure.attributes.merging(attributes) { _, new in new }
+        public func withPrototype(_ protypeFigure: Figure) -> Self {
+            abilities = protypeFigure.abilities
+            attributes = protypeFigure.attributes
             return self
         }
     }
