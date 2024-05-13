@@ -18,8 +18,8 @@ public extension Card {
             .init(
                 name: name,
                 attributes: attributes,
-                abilities: [],
-                abilityToPlayCardAs: [],
+                abilities: abilities,
+                abilityToPlayCardAs: abilityToPlayCardAs,
                 priority: priority,
                 rules: rules
             )
