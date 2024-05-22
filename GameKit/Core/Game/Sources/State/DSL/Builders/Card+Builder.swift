@@ -41,13 +41,13 @@ public extension Card {
             return self
         }
 
-        public func withRule(@CardRuleBuilder content: () -> [CardRule]) -> Self {
-            rules.append(contentsOf: content())
+        public func withRule(_ content: CardRule) -> Self {
+            rules.append(content)
             return self
         }
 
-        public func withPrototype(_ protypeRule: CardRule) -> Self {
-            rules.insert(protypeRule, at: 0)
+        public func withRule(@CardRuleBuilder content: () -> [CardRule]) -> Self {
+            rules.append(contentsOf: content())
             return self
         }
 

@@ -4,13 +4,12 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable no_magic_numbers file_length trailing_closure
+// swiftlint:disable no_magic_numbers file_length
 import GameCore
 
 public enum Cards {
     public static let all: [String: Card] = createCardDict(
-        priorities,
-        content: [
+        [
             beer,
             saloon,
             stagecoach,
@@ -92,7 +91,7 @@ private extension Cards {
 
     static var beer: Card {
         Card.makeBuilder(name: .beer)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.heal(1)
                     .on([.play, .isPlayersAtLeast(3)])
@@ -102,7 +101,7 @@ private extension Cards {
 
     static var saloon: Card {
         Card.makeBuilder(name: .saloon)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.heal(1)
                     .target(.damaged)
@@ -113,18 +112,18 @@ private extension Cards {
 
     static var stagecoach: Card {
         Card.makeBuilder(name: .stagecoach)
-            .withPrototype(brown)
-            .withRule(content: {
+            .withRule(brown)
+            .withRule {
                 CardEffect.drawDeck
                     .repeat(2)
                     .on([.play])
-            })
+            }
             .build()
     }
 
     static var wellsFargo: Card {
         Card.makeBuilder(name: .wellsFargo)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.drawDeck
                     .repeat(3)
@@ -135,7 +134,7 @@ private extension Cards {
 
     static var catBalou: Card {
         Card.makeBuilder(name: .catBalou)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.discard(.selectAny, chooser: .actor)
                     .target(.selectAny)
@@ -146,7 +145,7 @@ private extension Cards {
 
     static var panic: Card {
         Card.makeBuilder(name: .panic)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.steal(.selectAny)
                     .target(.selectAt(1))
@@ -157,7 +156,7 @@ private extension Cards {
 
     static var generalStore: Card {
         Card.makeBuilder(name: .generalStore)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.group {
                     CardEffect.discover
@@ -172,7 +171,7 @@ private extension Cards {
 
     static var bang: Card {
         Card.makeBuilder(name: .bang)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.shoot
                     .target(.selectReachable)
@@ -183,7 +182,7 @@ private extension Cards {
 
     static var missed: Card {
         Card.makeBuilder(name: .missed)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.counterShoot
                     .on([.play])
@@ -193,7 +192,7 @@ private extension Cards {
 
     static var gatling: Card {
         Card.makeBuilder(name: .gatling)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.shoot
                     .target(.others)
@@ -204,7 +203,7 @@ private extension Cards {
 
     static var indians: Card {
         Card.makeBuilder(name: .indians)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.discard(.selectHandNamed(.bang))
                     .force(otherwise: .damage(1))
@@ -216,7 +215,7 @@ private extension Cards {
 
     static var duel: Card {
         Card.makeBuilder(name: .duel)
-            .withPrototype(brown)
+            .withRule(brown)
             .withRule {
                 CardEffect.discard(.selectHandNamed(.bang))
                     .challenge(.actor, otherwise: .damage(1))
@@ -235,7 +234,7 @@ private extension Cards {
 
     static var barrel: Card {
         Card.makeBuilder(name: .barrel)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.group {
@@ -254,7 +253,7 @@ private extension Cards {
 
     static var dynamite: Card {
         Card.makeBuilder(name: .dynamite)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.group {
@@ -277,35 +276,35 @@ private extension Cards {
 
     static var schofield: Card {
         Card.makeBuilder(name: .schofield)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([.weapon: 2])
             .build()
     }
 
     static var remington: Card {
         Card.makeBuilder(name: .remington)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([.weapon: 3])
             .build()
     }
 
     static var revCarabine: Card {
         Card.makeBuilder(name: .revCarabine)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([.weapon: 4])
             .build()
     }
 
     static var winchester: Card {
         Card.makeBuilder(name: .winchester)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([.weapon: 5])
             .build()
     }
 
     static var volcanic: Card {
         Card.makeBuilder(name: .volcanic)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([
                 .weapon: 1,
                 .bangsPerTurn: 0
@@ -315,14 +314,14 @@ private extension Cards {
 
     static var scope: Card {
         Card.makeBuilder(name: .scope)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([.magnifying: 1])
             .build()
     }
 
     static var mustang: Card {
         Card.makeBuilder(name: .mustang)
-            .withPrototype(equipement)
+            .withRule(equipement)
             .withAttributes([.remoteness: 1])
             .build()
     }
@@ -337,7 +336,7 @@ private extension Cards {
 
     static var jail: Card {
         Card.makeBuilder(name: .jail)
-            .withPrototype(handicap)
+            .withRule(handicap)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.group {
@@ -692,10 +691,10 @@ private extension Cards {
                 .suzyLafayette,
                 .vultureSam,
                 .sidKetchum
-//                .blackJack,
-//                .kitCarlson,
-//                .jesseJones,
-//                .pedroRamirez
+                //                .blackJack,
+                //                .kitCarlson,
+                //                .jesseJones,
+                //                .pedroRamirez
             ])
             .build()
     }
@@ -727,13 +726,9 @@ private extension Cards {
     ]
 }
 
-private func createCardDict(
-    _ priorities: [String],
-    content: [Card]
-) -> [String: Card] {
+private func createCardDict(_ content: [Card]) -> [String: Card] {
     content.reduce(into: [String: Card]()) { result, card in
-        let priority = priorities.firstIndex(of: card.name) ?? Int.max
-        return result[card.name] = card.withPriority(priority)
+        result[card.name] = card
     }
 }
 
