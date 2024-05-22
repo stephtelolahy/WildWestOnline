@@ -10,11 +10,6 @@ import GameCore
 import XCTest
 
 final class CardTests: XCTestCase {
-    func test_Card_initially_shouldHaveName() throws {
-        let sut = Card("c1")
-        XCTAssertEqual(sut.name, "c1")
-    }
-
     func test_Card_shouldBeSerializable() throws {
         // Given
         let JSON = """

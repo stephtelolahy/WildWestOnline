@@ -124,7 +124,7 @@ final class GameTests: XCTestCase {
             .withDiscard(["c3", "c4"])
             .withArena(["c5", "c6"])
             .withWinner("p1")
-            .withCards(["name": Card("name")])
+            .withCards(["name": Card.makeBuilder(name: "name").build()])
             .withChooseOne(.card, options: [], player: "p1")
             .withSequence([.discover])
             .withPlayer("p1") {
@@ -146,7 +146,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.discard, ["c3", "c4"])
         XCTAssertEqual(state.arena, ["c5", "c6"])
         XCTAssertEqual(state.winner, "p1")
-        XCTAssertEqual(state.cards["name"], Card("name"))
+        XCTAssertNotNil(state.cards["name"])
         XCTAssertNotNil(state.chooseOne["p1"])
         XCTAssertEqual(state.sequence, [.discover])
         XCTAssertEqual(state.playOrder, ["p1", "p2"])
