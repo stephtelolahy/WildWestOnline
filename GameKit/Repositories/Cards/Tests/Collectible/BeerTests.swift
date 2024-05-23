@@ -11,7 +11,7 @@ import XCTest
 final class BeerTests: XCTestCase {
     func test_playingBeer_beingDamaged_shouldHealOneLifePoint() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
@@ -35,7 +35,7 @@ final class BeerTests: XCTestCase {
 
     func test_playingBeer_alreadyMaxHealth_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(3)
@@ -55,7 +55,7 @@ final class BeerTests: XCTestCase {
 
     func test_playingBeer_twoPlayersLeft_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)

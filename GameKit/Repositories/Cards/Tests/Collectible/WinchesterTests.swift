@@ -11,7 +11,7 @@ import XCTest
 final class WinchesterTests: XCTestCase {
     func test_playWinchester_shouldEquipAndSetAttribute() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.winchester])
                     .withAbilities([.updateAttributesOnChangeInPlay])

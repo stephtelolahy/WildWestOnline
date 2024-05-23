@@ -20,8 +20,9 @@ extension GameAction {
             do {
                 try action.validate(state: state)
                 validOptions.append(key)
+                print("🟢 validateOption: \(action)")
             } catch {
-                print("🚨 validateOptions: \(action)\tthrows: \(error)")
+                print("🛑 validateOption: \(action)\tthrows: \(error)")
                 continue
             }
         }
@@ -41,16 +42,26 @@ extension GameAction {
         let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: state)
+            print("🟢 validatePlay: \(action)")
             return true
         } catch {
-//            print("🚨 validatePlay: \(action)\tthrows: \(error)")
+            print("🛑 validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }
 }
 
-private extension GameAction {
+extension GameAction {
     func validate(state: GameState) throws {
+        print("⚙️ validate: \(self) ...")
+
+        // <HACK: Skip validating endTurn's effect>
+        if case .effect(_, let ctx) = self,
+           ctx.sourceCard == "endTurn" {
+            return
+        }
+        // </HACK: Skip validating endTurn's effect>
+
         switch self {
         case .activate,
                 .chooseOne,

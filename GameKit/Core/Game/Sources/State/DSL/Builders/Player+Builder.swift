@@ -18,7 +18,7 @@ public extension Player {
         private var inPlay: [String] = []
 
         public func build() -> Player {
-            Player(
+            .init(
                 id: id,
                 figure: figure,
                 abilities: abilities,

@@ -11,7 +11,7 @@ import XCTest
 final class DynamiteTests: XCTestCase {
     func test_playDynamite_shouldEquip() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.dynamite])
             }
@@ -30,7 +30,7 @@ final class DynamiteTests: XCTestCase {
 
     func test_triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.drawOnSetTurn])
@@ -56,7 +56,7 @@ final class DynamiteTests: XCTestCase {
 
     func test_triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
                     .withAbilities([.drawOnSetTurn])
@@ -83,7 +83,7 @@ final class DynamiteTests: XCTestCase {
 
     func test_triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail, .dynamite])
                     .withAbilities([

@@ -11,7 +11,7 @@ import XCTest
 final class JailTests: XCTestCase {
     func test_playingJail_againstAnyPlayer_shouldHandicap() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.jail])
             }
@@ -33,7 +33,7 @@ final class JailTests: XCTestCase {
 
     func test_triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([.drawOnSetTurn])
@@ -59,7 +59,7 @@ final class JailTests: XCTestCase {
 
     func test_triggeringJail_flippedCardIsSpades_shouldSkipTurn() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([.drawOnSetTurn])

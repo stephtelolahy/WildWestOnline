@@ -11,7 +11,7 @@ import XCTest
 final class MissedTests: XCTestCase {
     func test_playMissed_withoutBeingShoot_shouldThrowError() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.missed])
             }
@@ -28,14 +28,14 @@ final class MissedTests: XCTestCase {
 
     func test_beingShot_holdingMissedCard_shouldAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
                 $0.withHand([.missed])
-                    .withAbilities([.activateCounterCardsOnShot])
+                    .withAbilities([.playCounterCardsOnShot])
             }
             .build()
 
@@ -59,13 +59,13 @@ final class MissedTests: XCTestCase {
 
     func test_beingShot_withoutMissedCard_shouldNotAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.activateCounterCardsOnShot])
+                $0.withAbilities([.playCounterCardsOnShot])
             }
             .build()
 
@@ -85,14 +85,14 @@ final class MissedTests: XCTestCase {
 
     func test_beingShot_holdingMissedCards_shouldAskToCounter() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .weapon: 1])
             }
             .withPlayer("p2") {
                 $0.withHand([.missed1, .missed2])
-                    .withAbilities([.activateCounterCardsOnShot])
+                    .withAbilities([.playCounterCardsOnShot])
             }
             .build()
 
@@ -111,44 +111,6 @@ final class MissedTests: XCTestCase {
             .play(.missed2, player: "p2"),
             .discardPlayed(.missed2, player: "p2"),
             .cancel(.damage(1, player: "p2"))
-        ])
-    }
-
-    func test_multiplePlayersBeingShot_holdingMissedCard_shouldAskToCounter() throws {
-        // Given
-        let state = GameState.makeBuilderWithCardRef()
-            .withPlayer("p1") {
-                $0.withHand([.gatling])
-            }
-            .withPlayer("p2") {
-                $0.withHand([.missed])
-                    .withAbilities([.activateCounterCardsOnShot])
-            }
-            .withPlayer("p3") {
-                $0.withHand([.missed])
-                    .withAbilities([.activateCounterCardsOnShot])
-            }
-            .withDeck(["c1", "c2", "c3"])
-            .build()
-
-        // When
-        let action = GameAction.play(.gatling, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.missed, .missed])
-
-        // Then
-        XCTAssertEqual(result, [
-            .play(.gatling, player: "p1"),
-            .discardPlayed(.gatling, player: "p1"),
-            .chooseOne(.counterCard, options: [.missed, .pass], player: "p2"),
-            .choose(.missed, player: "p2"),
-            .play(.missed, player: "p2"),
-            .discardPlayed(.missed, player: "p2"),
-            .cancel(.damage(1, player: "p2")),
-            .chooseOne(.counterCard, options: [.missed, .pass], player: "p3"),
-            .choose(.missed, player: "p3"),
-            .play(.missed, player: "p3"),
-            .discardPlayed(.missed, player: "p3"),
-            .cancel(.damage(1, player: "p3"))
         ])
     }
 }

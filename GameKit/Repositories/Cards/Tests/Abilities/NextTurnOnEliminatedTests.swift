@@ -11,7 +11,7 @@ import XCTest
 final class NextTurnOnEliminatedTests: XCTestCase {
     func test_beingEliminated_currentTurn_shouldNextTurn() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3") {
@@ -33,7 +33,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
     func test_beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand(["c11"])
                     .withInPlay(["c12"])

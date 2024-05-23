@@ -11,7 +11,7 @@ import XCTest
 final class RemingtonTests: XCTestCase {
     func test_playRemington_shouldEquipAndSetWeapon() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.remington])
                     .withAbilities([.updateAttributesOnChangeInPlay])

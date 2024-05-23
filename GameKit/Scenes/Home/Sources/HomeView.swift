@@ -41,7 +41,7 @@ public struct HomeView: View {
                 Text("menu.game.title", bundle: .module)
                     .font(.subheadline)
                     .foregroundStyle(.primary)
-                Image("logo", bundle: .module)
+                Image(.logo)
                     .resizable()
                     .frame(width: 120, height: 120)
             }

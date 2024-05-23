@@ -1,5 +1,5 @@
 //
-//  UpdateSettingsMiddleware.swift
+//  SaveSettingsMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
@@ -7,7 +7,7 @@
 
 import Redux
 
-public class UpdateSettingsMiddleware: Middleware<SettingsState> {
+public class SaveSettingsMiddleware: Middleware<SettingsState> {
     private var service: SettingsService
 
     public init(service: SettingsService) {

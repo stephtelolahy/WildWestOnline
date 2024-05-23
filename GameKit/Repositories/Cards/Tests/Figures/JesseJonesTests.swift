@@ -23,7 +23,7 @@ final class JesseJonesTests: XCTestCase {
 
     func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jesseJones])
                     .withAttributes([.startTurnCards: 2])
@@ -46,7 +46,7 @@ final class JesseJonesTests: XCTestCase {
 
     func test_jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jesseJones])
                     .withAttributes([.startTurnCards: 2])

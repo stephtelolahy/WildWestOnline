@@ -11,7 +11,7 @@ import XCTest
 final class DiscardCardsOnEliminatedTests: XCTestCase {
     func test_beingEliminated_havingCards_shouldDiscardAllCards() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand(["c1"])
                     .withInPlay(["c2"])

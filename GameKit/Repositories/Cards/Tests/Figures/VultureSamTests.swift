@@ -11,7 +11,7 @@ import XCTest
 final class VultureSamTests: XCTestCase {
     func test_VultureSam_anotherPlayerEliminated_shouldDrawItsCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.vultureSam])
             }

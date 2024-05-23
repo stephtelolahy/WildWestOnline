@@ -23,7 +23,7 @@ final class BlackJackTests: XCTestCase {
 
     func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.blackJack])
                     .withAttributes([.startTurnCards: 2])
@@ -47,7 +47,7 @@ final class BlackJackTests: XCTestCase {
 
     func test_blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() throws {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.blackJack])
                     .withAttributes([.startTurnCards: 2])

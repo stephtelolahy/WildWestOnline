@@ -11,7 +11,7 @@ import XCTest
 final class EliminateOnDamageLethalTests: XCTestCase {
     func test_beingDamaged_lethal_shouldBeEliminated() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withAbilities([.eliminateOnDamageLethal])
@@ -33,7 +33,7 @@ final class EliminateOnDamageLethalTests: XCTestCase {
 
     func test_beingDamaged_nonLethal_shouldRemainActive() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withAbilities([.eliminateOnDamageLethal])

@@ -17,14 +17,14 @@ public struct EffectContext: Codable, Equatable {
     let sourceCard: String
 
     /// Targeted player while resolving the effect
-    public var resolvingTarget: String?
+    var resolvingTarget: String?
 
-    /// Card chooser while resolving the effect
+    /// Chooser player while resolving the effect
     var resolvingChooser: String?
 
     /// Chosen option while resolving effect
     var resolvingOption: String?
 
-    /// The cancelation of  this action will result the cancelation of the effect
+    /// The cancelation of this action will result the cancelation of the effect
     var linkedAction: GameAction?
 }

@@ -11,7 +11,7 @@ import XCTest
 final class SuzyLafayetteTests: XCTestCase {
     func test_SuzyLafayette_havingNoHandCards_shouldDrawACard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])
@@ -32,7 +32,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
     func test_SuzyLafayette_havingSomeHandCards_shouldDoNothing() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1", "c2"])

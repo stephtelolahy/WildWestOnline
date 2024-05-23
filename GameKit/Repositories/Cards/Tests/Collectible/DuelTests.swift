@@ -11,7 +11,7 @@ import XCTest
 final class DuelTests: XCTestCase {
     // Given
     private var state: GameState {
-        GameState.makeBuilderWithCardRef()
+        GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.duel, .bang1])
             }

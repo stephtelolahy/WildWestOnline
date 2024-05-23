@@ -11,7 +11,7 @@ import XCTest
 final class CatBalouTests: XCTestCase {
     func test_playingCatBalou_noPlayerAllowed_shouldThrowError() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -27,7 +27,7 @@ final class CatBalouTests: XCTestCase {
 
     func test_playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -54,7 +54,7 @@ final class CatBalouTests: XCTestCase {
 
     func test_playingCatBalou_targetIsOther_havingInPlayCards_shouldChooseOneInPlayCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -81,7 +81,7 @@ final class CatBalouTests: XCTestCase {
 
     func test_playingCatBalou_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() {
         // Given
-        let state = GameState.makeBuilderWithCardRef()
+        let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }

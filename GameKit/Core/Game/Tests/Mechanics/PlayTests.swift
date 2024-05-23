@@ -27,10 +27,12 @@ final class PlayTests: XCTestCase {
 
     func test_play_withPlayableCard_shouldApplyEffects() {
         // Given
-        let card1 = Card("c1") {
-            CardEffect.nothing
-                .on([.play])
-        }
+        let card1 = Card.makeBuilder(name: "c1")
+            .withRule {
+                CardEffect.nothing
+                    .on([.play])
+            }
+            .build()
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withAbilities(["c1"])
