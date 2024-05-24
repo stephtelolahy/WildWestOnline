@@ -6,11 +6,31 @@
 //
 
 extension GameAction {
-    static func validateOptions(
+    static func validatePlay(
+        card: String,
+        player: String,
+        state: GameState
+    ) -> Bool {
+        let action = GameAction.play(card, player: player)
+        do {
+            try action.validate(state: state)
+            print("🟢 validatePlay: \(action)")
+            return true
+        } catch {
+            print("🛑 validatePlay: \(action)\tthrows: \(error)")
+            return false
+        }
+    }
+
+    //  swiftlint:disable:next function_parameter_count
+    static func validateChooseOne(
         _ options: [String],
         actions: [String: GameAction],
-        state: GameState
-    ) throws -> [String] {
+        chooser: String,
+        type: ChoiceType,
+        state: GameState,
+        ctx: EffectContext
+    ) throws -> [GameAction] {
         var validOptions: [String] = []
         for key in options {
             guard let action = actions[key] else {
@@ -28,26 +48,12 @@ extension GameAction {
         }
 
         guard !validOptions.isEmpty else {
-            throw GameError.noValidOption
+            return []
         }
 
-        return validOptions
-    }
-
-    static func validatePlay(
-        card: String,
-        player: String,
-        state: GameState
-    ) -> Bool {
-        let action = GameAction.play(card, player: player)
-        do {
-            try action.validate(state: state)
-            print("🟢 validatePlay: \(action)")
-            return true
-        } catch {
-            print("🛑 validatePlay: \(action)\tthrows: \(error)")
-            return false
-        }
+        let chooseOne = GameAction.chooseOne(type, options: validOptions, player: chooser)
+        let match = GameAction.effect(.matchAction(actions), ctx: ctx)
+        return [chooseOne, match]
     }
 }
 

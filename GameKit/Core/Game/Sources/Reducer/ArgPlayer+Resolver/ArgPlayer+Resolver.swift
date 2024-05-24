@@ -60,21 +60,14 @@ extension ArgPlayer {
                 $0[$1] = copy($1)
             }
 
-            let validoptions = try GameAction.validateOptions(
+            return try GameAction.validateChooseOne(
                 pIds,
                 actions: actions,
-                state: state
+                chooser: ctx.sourceActor,
+                type: .target,
+                state: state,
+                ctx: ctx
             )
-
-            let chooseOne = GameAction.chooseOne(
-                .target,
-                options: validoptions,
-                player: ctx.sourceActor
-            )
-
-            let match = GameAction.effect(.matchAction(actions), ctx: ctx)
-
-            return [chooseOne, match]
         }
     }
 }
