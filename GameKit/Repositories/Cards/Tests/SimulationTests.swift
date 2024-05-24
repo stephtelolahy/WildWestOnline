@@ -94,7 +94,7 @@ private class StateReproducerMiddleware: Middleware<GameState> {
             let resultState = GameState.reducer(self.prevState, action)
             self.prevState = resultState
             if !resultState.isEqualIgnoringSequence(to: state) {
-                print("🚨 Inconsistent state after applying \(action)")
+                assertionFailure("🚨 Inconsistent state after applying \(action)")
             }
         }
         return nil

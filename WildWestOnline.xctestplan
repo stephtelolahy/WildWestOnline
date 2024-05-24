@@ -97,6 +97,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:GameKit",
         "identifier" : "UtilsTests",
