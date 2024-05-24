@@ -80,7 +80,11 @@ private extension GameState {
         let options = chooseOne.value.options.reduce(into: [String: GameAction]()) {
             $0[$1] = .choose($1, player: chooseOne.key)
         }
-        return .init(choiceType: chooseOne.value.type, actions: options)
+        return .init(
+            choiceType: chooseOne.value.type,
+            options: chooseOne.value.options,
+            actions: options
+        )
     }
 
     var handActions: [GamePlayUIKitView.State.CardAction] {

@@ -152,13 +152,13 @@ private extension GamePlayViewController {
             preferredStyle: .actionSheet
         )
 
-        data.actions.forEach { key, action in
+        data.options.forEach { key in
             alert.addAction(
                 UIAlertAction(
                     title: key,
                     style: .default
                 ) { _ in
-                    completion(action)
+                    completion(data.actions[key]!)
                 }
             )
         }

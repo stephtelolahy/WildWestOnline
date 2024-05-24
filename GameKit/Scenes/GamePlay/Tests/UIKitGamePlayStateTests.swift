@@ -1,6 +1,6 @@
 //
 //  UIKitGamePlayStateTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
 //
@@ -141,6 +141,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
             result.chooseOneData,
             GamePlayUIKitView.State.ChooseOneData(
                 choiceType: .cardToDraw,
+                options: [.missed, .bang],
                 actions: [
                     .missed: .choose(.missed, player: "p1"),
                     .bang: .choose(.bang, player: "p1")
