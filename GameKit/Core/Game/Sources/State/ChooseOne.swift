@@ -14,11 +14,10 @@ public struct ChooseOne: Codable, Equatable {
 /// ChooseOne context
 public enum ChoiceType: String, Codable, Equatable {
     case target
-    case challenger
+    case cardToDraw
+    case cardToSteal
     case cardToDiscard
     case cardToPassInPlay
-    case cardToSteal
-    case cardToDraw
     case cardToPutBack
     case cardToPlayCounter
 }
