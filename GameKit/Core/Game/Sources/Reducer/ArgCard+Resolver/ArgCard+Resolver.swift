@@ -15,6 +15,7 @@ extension ArgCard {
     }
 
     func resolve(
+        _ type: ChoiceType,
         state: GameState,
         ctx: EffectContext,
         copy: @escaping (String) -> GameAction
@@ -38,7 +39,7 @@ extension ArgCard {
                 cIdOptions.map(\.label),
                 actions: actions,
                 chooser: chooser,
-                type: .card,
+                type: type,
                 state: state,
                 ctx: ctx
             )

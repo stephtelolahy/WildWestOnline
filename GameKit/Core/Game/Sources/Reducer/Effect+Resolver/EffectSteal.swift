@@ -16,7 +16,7 @@ struct EffectSteal: EffectResolver {
         let toPlayerId = ctx.sourceActor
         var contextWithChooser = ctx
         contextWithChooser.resolvingChooser = toPlayerId
-        return try card.resolve(state: state, ctx: contextWithChooser) {
+        return try card.resolve(.cardToSteal, state: state, ctx: contextWithChooser) {
             if state.player(fromPlayerId).hand.contains($0) {
                 return .drawHand($0, target: fromPlayerId, player: toPlayerId)
             }

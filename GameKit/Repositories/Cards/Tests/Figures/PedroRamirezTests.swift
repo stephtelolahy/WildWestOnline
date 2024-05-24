@@ -46,7 +46,7 @@ final class PedroRamirezTests: XCTestCase {
             .setTurn(player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
             .choose("p2", player: "p1"),
-            .chooseOne(.card, options: ["hiddenHand-0"], player: "p1"),
+            .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .drawHand("c2", target: "p2", player: "p1"),
             .drawDeck(player: "p1")

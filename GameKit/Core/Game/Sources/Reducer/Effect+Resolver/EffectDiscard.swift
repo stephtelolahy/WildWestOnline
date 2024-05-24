@@ -15,7 +15,7 @@ struct EffectDiscard: EffectResolver {
         if let chooser {
             contextWithChooser.resolvingChooser = try chooser.resolveUnique(state: state, ctx: ctx)
         }
-        return try card.resolve(state: state, ctx: contextWithChooser) {
+        return try card.resolve(.cardToDiscard, state: state, ctx: contextWithChooser) {
             if state.player(player).hand.contains($0) {
                 return .discardHand($0, player: player)
             }

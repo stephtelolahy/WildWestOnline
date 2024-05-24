@@ -29,7 +29,7 @@ final class IndiansTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
-            .chooseOne(.card, options: [.bang, .pass], player: "p2"),
+            .chooseOne(.cardToDiscard, options: [.bang, .pass], player: "p2"),
             .choose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2"),
             .damage(1, player: "p3")
@@ -55,7 +55,7 @@ final class IndiansTests: XCTestCase {
         XCTAssertEqual(result, [
             .play(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
-            .chooseOne(.card, options: [.bang, .pass], player: "p2"),
+            .chooseOne(.cardToDiscard, options: [.bang, .pass], player: "p2"),
             .choose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2")
         ])

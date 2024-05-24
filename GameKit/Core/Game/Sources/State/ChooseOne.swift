@@ -13,9 +13,14 @@ public struct ChooseOne: Codable, Equatable {
 
 /// ChooseOne context
 public enum ChoiceType: String, Codable, Equatable {
-    case card
     case target
-    case counterCard
+    case challenger
+    case cardToDiscard
+    case cardToPassInPlay
+    case cardToSteal
+    case cardToDraw
+    case cardToPutBack
+    case cardToPlayCounter
 }
 
 /// ChooseOne labels

@@ -125,7 +125,7 @@ final class GameTests: XCTestCase {
             .withArena(["c5", "c6"])
             .withWinner("p1")
             .withCards(["name": Card.makeBuilder(name: "name").build()])
-            .withChooseOne(.card, options: [], player: "p1")
+            .withChooseOne(.cardToDraw, options: [], player: "p1")
             .withSequence([.discover])
             .withPlayer("p1") {
                 $0.withHealth(3)

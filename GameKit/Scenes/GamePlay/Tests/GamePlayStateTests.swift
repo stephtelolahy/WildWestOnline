@@ -111,7 +111,7 @@ final class GamePlayStateTests: XCTestCase {
         let game = GameState.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
-            .withChooseOne(.card, options: [.missed, .bang], player: "p1")
+            .withChooseOne(.cardToDraw, options: [.missed, .bang], player: "p1")
             .withPlayModes(["p1": .manual])
             .build()
         let appState = AppState(

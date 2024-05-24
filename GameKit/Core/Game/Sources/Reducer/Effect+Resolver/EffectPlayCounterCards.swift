@@ -34,7 +34,7 @@ struct EffectPlayCounterCards: EffectResolver {
             options,
             actions: actions,
             chooser: ctx.sourceActor,
-            type: .counterCard,
+            type: .cardToPlayCounter,
             state: state,
             ctx: ctx
         )
