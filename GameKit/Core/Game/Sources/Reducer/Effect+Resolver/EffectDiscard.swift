@@ -13,7 +13,7 @@ struct EffectDiscard: EffectResolver {
         let player = ctx.targetOrActor()
         var contextWithChooser = ctx
         if let chooser {
-            contextWithChooser.resolvingChooser = try chooser.resolveUnique(state: state, ctx: contextWithChooser)
+            contextWithChooser.resolvingChooser = try chooser.resolveUnique(state: state, ctx: ctx)
         }
         return try card.resolve(state: state, ctx: contextWithChooser) {
             if state.player(player).hand.contains($0) {
