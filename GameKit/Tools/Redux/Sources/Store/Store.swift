@@ -12,7 +12,7 @@ public class Store<State: Equatable>: ObservableObject {
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions = Set<AnyCancellable>()
-    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware")
+    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
@@ -32,7 +32,7 @@ public class Store<State: Equatable>: ObservableObject {
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink(receiveValue: self.dispatch)
+                .sink(receiveValue: dispatch)
                 .store(in: &subscriptions)
         }
     }
