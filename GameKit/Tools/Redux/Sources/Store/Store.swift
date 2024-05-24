@@ -28,7 +28,7 @@ public class Store<State: Equatable>: ObservableObject {
         let newState = reducer(state, action)
         state = newState
         for middleware in middlewares {
-            middleware.asPublisher(on: action, state: newState)
+            middleware.performAsFuture(on: action, state: newState)
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
@@ -39,13 +39,12 @@ public class Store<State: Equatable>: ObservableObject {
 }
 
 private extension Middleware {
-    func asPublisher(on action: Action, state: State) -> AnyPublisher<Action?, Never> {
+    func performAsFuture(on action: Action, state: State) -> Future<Action?, Never> {
         Future { promise in
             Task {
                 let output = await self.effect(on: action, state: state)
                 promise(.success(output))
             }
         }
-        .eraseToAnyPublisher()
     }
 }
