@@ -78,12 +78,12 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        Store(initial: .preview)
+        Store(initial: .sample)
     }
 }
 
 private extension AppState {
-    static var preview: Self {
+    static var sample: Self {
         .init(
             screens: [.home],
             settings: SettingsState.makeBuilder().build()
