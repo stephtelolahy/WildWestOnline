@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 12/04/2023.
 //
 
-public enum CardSets {
-    public static let bang: [String: [String]] = [
+enum CardSets {
+    static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],
         .dynamite: ["2♥️"],
         .jail: ["J♠️", "10♠️", "4♥️"],

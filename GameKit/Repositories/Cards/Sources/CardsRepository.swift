@@ -10,7 +10,7 @@ public class CardsRepository: InventoryService {
     public var inventory: Inventory {
         .init(
             cards: Cards.all,
-            figures: Cards.figures,
+            figures: Figures.bang,
             cardSets: CardSets.bang
         )
     }
