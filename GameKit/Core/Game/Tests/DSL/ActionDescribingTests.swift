@@ -123,8 +123,8 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingEndTurn() {
         XCTAssertEqual(
-            String(describing: GameAction.endTurn),
-            "💤"
+            String(describing: GameAction.endTurn(player: "p1")),
+            "💤 p1"
         )
     }
 

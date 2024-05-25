@@ -1,5 +1,5 @@
 //
-//  GameApp.swift
+//  WildWestOnlineApp.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 02/04/2023.
@@ -15,7 +15,7 @@ import SwiftUI
 import Theme
 
 @main
-struct GameApp: App {
+struct WildWestOnlineApp: App {
     @Environment(\.theme) private var theme
 
     var body: some Scene {
