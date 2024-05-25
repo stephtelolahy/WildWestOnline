@@ -37,12 +37,12 @@ public struct GamePlayUIKitView: View {
 
 #Preview {
     GamePlayUIKitView {
-        Store(initial: .preview)
+        Store(initial: .sample)
     }
 }
 
 private extension GamePlayUIKitView.State {
-    static var preview: Self {
+    static var sample: Self {
         let player1 = GamePlayUIKitView.State.PlayerItem(
             id: "p1",
             imageName: .willyTheKid,

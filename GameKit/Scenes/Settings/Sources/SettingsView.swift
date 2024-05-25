@@ -151,12 +151,12 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store(initial: .preview)
+        Store(initial: .sample)
     }
 }
 
 private extension SettingsView.State {
-    static var preview: Self {
+    static var sample: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,

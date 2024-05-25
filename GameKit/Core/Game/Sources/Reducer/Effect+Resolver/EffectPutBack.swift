@@ -12,7 +12,7 @@ struct EffectPutBack: EffectResolver {
         let player = ctx.targetOrActor()
         let number = try among.resolve(state: state, ctx: ctx)
         let card = ArgCard.selectLastHand(number)
-        return try card.resolve(state: state, ctx: ctx) {
+        return try card.resolve(.cardToPutBack, state: state, ctx: ctx) {
             .putBack($0, player: player)
         }
     }

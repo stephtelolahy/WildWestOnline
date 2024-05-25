@@ -1,6 +1,6 @@
 //
 //  UIKitGamePlayStateTests.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
 //
@@ -123,7 +123,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
         let game = GameState.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
-            .withChooseOne(.card, options: [.missed, .bang], player: "p1")
+            .withChooseOne(.cardToDraw, options: [.missed, .bang], player: "p1")
             .withPlayModes(["p1": .manual])
             .build()
         let appState = AppState(
@@ -140,7 +140,8 @@ final class UIKitGamePlayStateTests: XCTestCase {
         XCTAssertEqual(
             result.chooseOneData,
             GamePlayUIKitView.State.ChooseOneData(
-                choiceType: .card,
+                choiceType: .cardToDraw,
+                options: [.missed, .bang],
                 actions: [
                     .missed: .choose(.missed, player: "p1"),
                     .bang: .choose(.bang, player: "p1")

@@ -8,77 +8,57 @@
 import GameCore
 
 public enum Cards {
-    public static let all: [String: Card] = createCardDict(
-        [
-            beer,
-            saloon,
-            stagecoach,
-            wellsFargo,
-            catBalou,
-            panic,
-            generalStore,
-            bang,
-            missed,
-            gatling,
-            indians,
-            duel,
-            barrel,
-            dynamite,
-            jail,
-            schofield,
-            remington,
-            revCarabine,
-            winchester,
-            volcanic,
-            scope,
-            mustang,
-            endTurn,
-            drawOnSetTurn,
-            eliminateOnDamageLethal,
-            nextTurnOnEliminated,
-            discardCardsOnEliminated,
-            discardPreviousWeaponOnPlayWeapon,
-            updateAttributesOnChangeInPlay,
-            playCounterCardsOnShot,
-            willyTheKid,
-            roseDoolan,
-            paulRegret,
-            jourdonnais,
-            slabTheKiller,
-            luckyDuke,
-            calamityJanet,
-            bartCassidy,
-            elGringo,
-            suzyLafayette,
-            vultureSam,
-            sidKetchum,
-            blackJack,
-            kitCarlson,
-            jesseJones,
-            pedroRamirez,
-            custom
-        ]
-    )
-
-    public static let figures: [String] = [
-        .willyTheKid,
-        .roseDoolan,
-        .paulRegret,
-        .jourdonnais,
-        .slabTheKiller,
-        .luckyDuke,
-        .calamityJanet,
-        .bartCassidy,
-        .elGringo,
-        .suzyLafayette,
-        .vultureSam,
-        .sidKetchum,
-        .blackJack,
-        .kitCarlson,
-        .jesseJones,
-        .pedroRamirez,
-        .custom
-    ]
+    public static let all: [String: Card] = [
+        beer,
+        saloon,
+        stagecoach,
+        wellsFargo,
+        catBalou,
+        panic,
+        generalStore,
+        bang,
+        missed,
+        gatling,
+        indians,
+        duel,
+        barrel,
+        dynamite,
+        jail,
+        schofield,
+        remington,
+        revCarabine,
+        winchester,
+        volcanic,
+        scope,
+        mustang,
+        endTurn,
+        drawOnSetTurn,
+        eliminateOnDamageLethal,
+        nextTurnOnEliminated,
+        discardCardsOnEliminated,
+        discardPreviousWeaponOnPlayWeapon,
+        updateAttributesOnChangeInPlay,
+        playCounterCardsOnShot,
+        willyTheKid,
+        roseDoolan,
+        paulRegret,
+        jourdonnais,
+        slabTheKiller,
+        luckyDuke,
+        calamityJanet,
+        bartCassidy,
+        elGringo,
+        suzyLafayette,
+        vultureSam,
+        sidKetchum,
+        blackJack,
+        kitCarlson,
+        jesseJones,
+        pedroRamirez,
+        custom
+    ].reduce(into: [:]) { result, card in
+        result[card.name] = card
+    }
 }
 
 private extension Cards {
@@ -724,12 +704,6 @@ private extension Cards {
         .jourdonnais,
         .playCounterCardsOnShot
     ]
-}
-
-private func createCardDict(_ content: [Card]) -> [String: Card] {
-    content.reduce(into: [String: Card]()) { result, card in
-        result[card.name] = card
-    }
 }
 
 /// Card effect regex

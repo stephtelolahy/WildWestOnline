@@ -15,6 +15,7 @@ extension ArgCard {
     }
 
     func resolve(
+        _ type: ChoiceType,
         state: GameState,
         ctx: EffectContext,
         copy: @escaping (String) -> GameAction
@@ -33,22 +34,15 @@ extension ArgCard {
                 $0[$1.label] = copy($1.id)
             }
 
-            let validoptions = try GameAction.validateOptions(
+            let chooser = ctx.resolvingChooser ?? ctx.targetOrActor()
+            return try GameAction.validateChooseOne(
                 cIdOptions.map(\.label),
                 actions: actions,
-                state: state
+                chooser: chooser,
+                type: type,
+                state: state,
+                ctx: ctx
             )
-
-            let chooser = ctx.resolvingChooser ?? ctx.targetOrActor()
-            let chooseOne = GameAction.chooseOne(
-                .card,
-                options: validoptions,
-                player: chooser
-            )
-
-            let match = GameAction.effect(.matchAction(actions), ctx: ctx)
-
-            return [chooseOne, match]
         }
     }
 }

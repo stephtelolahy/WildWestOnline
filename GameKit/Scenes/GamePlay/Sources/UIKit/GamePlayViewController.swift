@@ -152,15 +152,27 @@ private extension GamePlayViewController {
             preferredStyle: .actionSheet
         )
 
-        data.actions.forEach { key, action in
-            alert.addAction(
-                UIAlertAction(
-                    title: key,
-                    style: .default
-                ) { _ in
-                    completion(action)
-                }
+        data.options.forEach { key in
+            let alertAction = UIAlertAction(
+                title: key,
+                style: .default
+            ) { _ in
+                completion(
+                    data.actions[key]!
+                )
+            }
+            let image = UIImage(
+                named: key.extractName(),
+                in: Bundle.module,
+                with: .none
+            )?.scale(newWidth: 32)
+
+            alertAction.setValue(
+                image?.withRenderingMode(.alwaysOriginal),
+                forKey: "image"
             )
+
+            alert.addAction(alertAction)
         }
 
         present(alert, animated: true)

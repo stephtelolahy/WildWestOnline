@@ -30,21 +30,14 @@ struct EffectPlayCounterCards: EffectResolver {
         actions[.pass] = .nothing
 
         let options = counterCards + [.pass]
-        let validoptions = try GameAction.validateOptions(
+        return try GameAction.validateChooseOne(
             options,
             actions: actions,
-            state: state
+            chooser: ctx.sourceActor,
+            type: .cardToPlayCounter,
+            state: state,
+            ctx: ctx
         )
-
-        let chooseOne = GameAction.chooseOne(
-            .counterCard,
-            options: validoptions,
-            player: ctx.sourceActor
-        )
-
-        let match = GameAction.effect(.matchAction(actions), ctx: ctx)
-
-        return [chooseOne, match]
     }
 }
 

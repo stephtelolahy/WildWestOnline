@@ -12,7 +12,7 @@ struct EffectPassInPlay: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let fromPlayerId = ctx.targetOrActor()
         let toPlayerId = try toPlayer.resolveUnique(state: state, ctx: ctx)
-        return try card.resolve(state: state, ctx: ctx) {
+        return try card.resolve(.cardToPassInPlay, state: state, ctx: ctx) {
             .passInPlay($0, target: toPlayerId, player: fromPlayerId)
         }
     }

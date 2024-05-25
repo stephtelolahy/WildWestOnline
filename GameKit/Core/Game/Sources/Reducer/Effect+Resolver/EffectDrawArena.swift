@@ -7,7 +7,7 @@
 
 struct EffectDrawArena: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        try ArgCard.selectArena.resolve(state: state, ctx: ctx) {
+        try ArgCard.selectArena.resolve(.cardToDraw, state: state, ctx: ctx) {
             .drawArena($0, player: ctx.targetOrActor())
         }
     }

@@ -46,7 +46,7 @@ final class PanicTests: XCTestCase {
             .discardPlayed(.panic, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .chooseOne(.card, options: ["hiddenHand-0"], player: "p1"),
+            .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .drawHand("c21", target: "p2", player: "p1")
         ])
@@ -73,7 +73,7 @@ final class PanicTests: XCTestCase {
             .discardPlayed(.panic, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .chooseOne(.card, options: ["c21", "c22"], player: "p1"),
+            .chooseOne(.cardToSteal, options: ["c21", "c22"], player: "p1"),
             .choose("c22", player: "p1"),
             .drawInPlay("c22", target: "p2", player: "p1")
         ])
@@ -101,7 +101,7 @@ final class PanicTests: XCTestCase {
             .discardPlayed(.panic, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .chooseOne(.card, options: ["c22", "c23", "hiddenHand-0"], player: "p1"),
+            .chooseOne(.cardToSteal, options: ["c22", "c23", "hiddenHand-0"], player: "p1"),
             .choose("c23", player: "p1"),
             .drawInPlay("c23", target: "p2", player: "p1")
         ])

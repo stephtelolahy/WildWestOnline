@@ -174,7 +174,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingChooseOne() {
         XCTAssertEqual(
-            String(describing: GameAction.chooseOne(.card, options: ["c1", "c2"], player: "p1")),
+            String(describing: GameAction.chooseOne(.cardToDraw, options: ["c1", "c2"], player: "p1")),
             "❓ p1 c1 c2"
         )
 

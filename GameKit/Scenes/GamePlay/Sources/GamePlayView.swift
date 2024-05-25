@@ -163,12 +163,12 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        Store(initial: .preview)
+        Store(initial: .sample)
     }
 }
 
 private extension GamePlayView.State {
-    static var preview: Self {
+    static var sample: Self {
         .init(
             players: [
                 .init(

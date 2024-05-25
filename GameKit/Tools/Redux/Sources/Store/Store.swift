@@ -12,7 +12,7 @@ public class Store<State: Equatable>: ObservableObject {
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions = Set<AnyCancellable>()
-    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware")
+    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
@@ -28,24 +28,23 @@ public class Store<State: Equatable>: ObservableObject {
         let newState = reducer(state, action)
         state = newState
         for middleware in middlewares {
-            middleware.asPublisher(on: action, state: newState)
+            middleware.performAsFuture(on: action, state: newState)
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
-                .sink(receiveValue: self.dispatch)
+                .sink(receiveValue: dispatch)
                 .store(in: &subscriptions)
         }
     }
 }
 
 private extension Middleware {
-    func asPublisher(on action: Action, state: State) -> AnyPublisher<Action?, Never> {
+    func performAsFuture(on action: Action, state: State) -> Future<Action?, Never> {
         Future { promise in
             Task {
                 let output = await self.effect(on: action, state: state)
                 promise(.success(output))
             }
         }
-        .eraseToAnyPublisher()
     }
 }
