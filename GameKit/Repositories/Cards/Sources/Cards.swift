@@ -32,6 +32,7 @@ public enum Cards {
         scope,
         mustang,
         endTurn,
+        discardExcessHandOnEndTurn,
         drawOnStartTurn,
         eliminateOnDamageLethal,
         nextTurnOnEliminated,

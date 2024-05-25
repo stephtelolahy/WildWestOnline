@@ -89,7 +89,7 @@ final class EndTurnTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)
-                    .withAbilities([.endTurn])
+                    .withAbilities([.endTurn, .discardExcessHandOnEndTurn])
             }
             .withPlayer("p2")
             .withTurn("p1")
