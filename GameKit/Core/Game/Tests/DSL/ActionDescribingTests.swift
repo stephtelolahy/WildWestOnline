@@ -121,6 +121,13 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
+    func test_DescribingEndTurn() {
+        XCTAssertEqual(
+            String(describing: GameAction.endTurn),
+            "☑️"
+        )
+    }
+
     func test_DescribingEliminate() {
         XCTAssertEqual(
             String(describing: GameAction.eliminate(player: "p1")),

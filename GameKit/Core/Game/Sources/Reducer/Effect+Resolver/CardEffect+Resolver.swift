@@ -40,6 +40,9 @@ private extension CardEffect {
         case .startTurn:
             EffectJust { .startTurn(player: $0.targetOrActor()) }
 
+        case .endTurn:
+            EffectJust { _ in .endTurn }
+
         case .eliminate:
             EffectJust { .eliminate(player: $0.targetOrActor()) }
 

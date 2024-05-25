@@ -66,6 +66,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Start turn
     case startTurn
 
+    /// End turn
+    case endTurn
+
     /// Eliminate a player from the game
     case eliminate
 

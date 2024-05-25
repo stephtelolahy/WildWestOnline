@@ -69,6 +69,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Start turn
     case startTurn(player: String)
 
+    /// End turn
+    case endTurn
+
     /// Eliminate
     case eliminate(player: String)
 

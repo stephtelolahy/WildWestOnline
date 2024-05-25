@@ -34,7 +34,7 @@ enum EventAnimation: Equatable {
 }
 
 struct AnimationMatcher: AnimationMatcherProtocol {
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func animation(on event: GameAction) -> EventAnimation? {
         switch event {
         case let .drawDeck(player):
@@ -92,6 +92,9 @@ struct AnimationMatcher: AnimationMatcherProtocol {
             nil
 
         case .startTurn:
+            nil
+
+        case .endTurn:
             nil
 
         case .eliminate:

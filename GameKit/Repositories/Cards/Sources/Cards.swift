@@ -243,10 +243,10 @@ private extension Cards {
                         .drawn,
                         regex: .regexPassDynamite,
                         onSuccess: .passInPlay(.played, toPlayer: .next(.actor)),
-                        onFailure: .group([
-                            .damage(3),
-                            .discard(.played)
-                        ])
+                        onFailure: .group {
+                            CardEffect.damage(3)
+                            CardEffect.discard(.played)
+                        }
                     )
                 }
                 .on([.startTurn])
@@ -326,11 +326,11 @@ private extension Cards {
                         .drawn,
                         regex: .regexEscapeFromJail,
                         onSuccess: .discard(.played),
-                        onFailure: .group([
-                            .cancelTurn,
-                            .discard(.played),
-                            .startTurn.target(.next(.actor))
-                        ])
+                        onFailure: .group {
+                            CardEffect.cancelTurn
+                            CardEffect.discard(.played)
+                            CardEffect.startTurn.target(.next(.actor))
+                        }
                     )
                 }
                 .on([.startTurn])
@@ -344,8 +344,9 @@ private extension Cards {
         Card.makeBuilder(name: .endTurn)
             .withRule {
                 CardEffect.group {
-                    CardEffect.discard(.selectHand)
-                        .repeat(.excessHand)
+                    CardEffect.endTurn
+//                    CardEffect.discard(.selectHand)
+//                        .repeat(.excessHand)
                     CardEffect.startTurn
                         .target(.next(.actor))
                 }
