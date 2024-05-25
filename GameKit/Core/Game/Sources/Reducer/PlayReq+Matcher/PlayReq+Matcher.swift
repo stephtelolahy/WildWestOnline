@@ -34,6 +34,9 @@ private extension PlayReq {
         case .startTurn:
             OnStartTurn()
 
+        case .endTurn:
+            OnEndTurn()
+
         case .damage:
             OnDamage()
 

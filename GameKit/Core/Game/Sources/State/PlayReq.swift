@@ -13,6 +13,9 @@ public indirect enum PlayReq: Codable, Equatable {
     /// starting turn
     case startTurn
 
+    /// ending turn
+    case endTurn
+
     /// being damaged
     case damage
 

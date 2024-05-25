@@ -26,7 +26,7 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .endTurn,
+            .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
     }
@@ -51,7 +51,7 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .endTurn,
+            .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
     }
@@ -62,7 +62,7 @@ final class EndTurnTests: XCTestCase {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
-                    .withAbilities([.endTurn])
+                    .withAbilities([.endTurn, .discardExcessHandOnEndTurn])
             }
             .withPlayer("p2")
             .withTurn("p1")
@@ -75,7 +75,7 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .endTurn,
+            .endTurn(player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
@@ -102,7 +102,7 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .endTurn,
+            .endTurn(player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),

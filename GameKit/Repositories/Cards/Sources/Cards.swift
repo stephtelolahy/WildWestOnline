@@ -345,12 +345,20 @@ private extension Cards {
             .withRule {
                 CardEffect.group {
                     CardEffect.endTurn
-//                    CardEffect.discard(.selectHand)
-//                        .repeat(.excessHand)
                     CardEffect.startTurn
                         .target(.next(.actor))
                 }
                 .on([.play])
+            }
+            .build()
+    }
+
+    static var discardExcessHandOnEndTurn: Card {
+        Card.makeBuilder(name: .discardExcessHandOnEndTurn)
+            .withRule {
+                CardEffect.discard(.selectHand)
+                    .repeat(.excessHand)
+                    .on([.endTurn])
             }
             .build()
     }
@@ -439,6 +447,7 @@ private extension Cards {
             ],
             abilities: [
                 .endTurn,
+                .discardExcessHandOnEndTurn,
                 .drawOnStartTurn,
                 .eliminateOnDamageLethal,
                 .discardCardsOnEliminated,

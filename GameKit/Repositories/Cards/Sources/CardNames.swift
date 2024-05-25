@@ -57,6 +57,7 @@ public extension String {
     // MARK: - Abilities
 
     static let endTurn = "endTurn"
+    static let discardExcessHandOnEndTurn = "discardExcessHandOnEndTurn"
     static let drawOnStartTurn = "drawOnStartTurn"
     static let eliminateOnDamageLethal = "eliminateOnDamageLethal"
     static let nextTurnOnEliminated = "nextTurnOnEliminated"
