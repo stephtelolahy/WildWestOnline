@@ -14,10 +14,10 @@ extension GameAction {
         let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: state)
-            print("🟢 validatePlay: \(action)")
+//            print("🟢 validatePlay: \(action)")
             return true
         } catch {
-            print("🛑 validatePlay: \(action)\tthrows: \(error)")
+//            print("🛑 validatePlay: \(action)\tthrows: \(error)")
             return false
         }
     }
@@ -40,9 +40,9 @@ extension GameAction {
             do {
                 try action.validate(state: state)
                 validOptions.append(key)
-                print("🟢 validateOption: \(action)")
+//                print("🟢 validateOption: \(action)")
             } catch {
-                print("🛑 validateOption: \(action)\tthrows: \(error)")
+//                print("🛑 validateOption: \(action)\tthrows: \(error)")
                 continue
             }
         }
@@ -59,7 +59,7 @@ extension GameAction {
 
 extension GameAction {
     func validate(state: GameState) throws {
-        print("⚙️ validate: \(self) ...")
+//        print("⚙️ validate: \(self) ...")
         switch self {
         case .chooseOne,
              .setGameOver:

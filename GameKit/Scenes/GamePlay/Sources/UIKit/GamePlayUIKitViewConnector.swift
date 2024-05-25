@@ -68,7 +68,7 @@ private extension GameState {
         if let turn {
             "\(turn.uppercased())'s turn"
         } else {
-            ""
+            "-"
         }
     }
 
