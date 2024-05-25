@@ -6,15 +6,15 @@
 //
 
 /// Player argument
-public enum ArgPlayer: Codable, Equatable {
+public indirect enum ArgPlayer: Codable, Equatable {
     /// The player identified by
     case id(String)
 
     /// Who is playing the card
     case actor
 
-    /// The next player's turn, in clockwise order.
-    case next
+    /// The next player, in clockwise order.
+    case next(Self)
 
     /// Select any other player
     case selectAny

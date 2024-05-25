@@ -242,7 +242,7 @@ private extension Cards {
                     CardEffect.luck(
                         .drawn,
                         regex: .regexPassDynamite,
-                        onSuccess: .passInPlay(.played, toPlayer: .next),
+                        onSuccess: .passInPlay(.played, toPlayer: .next(.actor)),
                         onFailure: .group([
                             .damage(3),
                             .discard(.played)
@@ -329,7 +329,7 @@ private extension Cards {
                         onFailure: .group([
                             .cancelTurn,
                             .discard(.played),
-                            .setTurn.target(.next)
+                            .setTurn.target(.next(.actor))
                         ])
                     )
                 }
@@ -347,7 +347,7 @@ private extension Cards {
                     CardEffect.discard(.selectHand)
                         .repeat(.excessHand)
                     CardEffect.setTurn
-                        .target(.next)
+                        .target(.next(.actor))
                 }
                 .on([.play])
             }
@@ -380,7 +380,7 @@ private extension Cards {
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.setTurn
-                    .target(.next)
+                    .target(.next(.actor))
                     .on([.eliminated, .isYourTurn])
             }
             .build()

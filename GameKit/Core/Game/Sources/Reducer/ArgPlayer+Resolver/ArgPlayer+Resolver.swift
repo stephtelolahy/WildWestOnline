@@ -6,12 +6,12 @@
 //
 
 protocol ArgPlayerResolver {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput
+    func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput
 }
 
 extension ArgPlayer {
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
-        let output = resolver().resolve(state: state, ctx: ctx)
+        let output = try resolver().resolve(state: state, ctx: ctx)
         let pIds: [String]
         switch output {
         case let .identified(identifiers):
@@ -97,8 +97,8 @@ private extension ArgPlayer {
         case .selectAny:
             PlayerSelectAny()
 
-        case .next:
-            PlayerNext()
+        case .next(let pivot):
+            PlayerNext(pivot: pivot)
 
         case .damaged:
             PlayerDamaged()

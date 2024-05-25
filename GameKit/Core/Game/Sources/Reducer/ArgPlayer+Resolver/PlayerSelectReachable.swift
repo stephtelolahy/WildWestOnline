@@ -6,9 +6,9 @@
 //
 
 struct PlayerSelectReachable: ArgPlayerResolver {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
         let playerObj = state.player(ctx.sourceActor)
         let range = playerObj.attributes.get(.weapon)
-        return PlayerSelectAt(distance: range).resolve(state: state, ctx: ctx)
+        return try PlayerSelectAt(distance: range).resolve(state: state, ctx: ctx)
     }
 }

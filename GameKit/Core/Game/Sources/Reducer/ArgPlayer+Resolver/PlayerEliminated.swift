@@ -6,7 +6,7 @@
 //
 
 struct PlayerEliminated: ArgPlayerResolver {
-    func resolve(state: GameState, ctx: EffectContext) -> PlayerArgOutput {
+    func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
         guard case let .eliminate(player) = ctx.sourceEvent else {
             fatalError("invalid triggering action")
         }
