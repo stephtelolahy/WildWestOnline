@@ -66,8 +66,8 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Reveal top deck card and put to discard
     case draw
 
-    /// Set turn
-    case setTurn(player: String)
+    /// Start turn
+    case startTurn(player: String)
 
     /// Eliminate
     case eliminate(player: String)

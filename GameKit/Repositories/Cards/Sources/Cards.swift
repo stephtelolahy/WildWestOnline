@@ -32,7 +32,7 @@ public enum Cards {
         scope,
         mustang,
         endTurn,
-        drawOnSetTurn,
+        drawOnStartTurn,
         eliminateOnDamageLethal,
         nextTurnOnEliminated,
         discardCardsOnEliminated,
@@ -249,7 +249,7 @@ private extension Cards {
                         ])
                     )
                 }
-                .on([.setTurn])
+                .on([.startTurn])
             }
             .build()
     }
@@ -329,11 +329,11 @@ private extension Cards {
                         onFailure: .group([
                             .cancelTurn,
                             .discard(.played),
-                            .setTurn.target(.next(.actor))
+                            .startTurn.target(.next(.actor))
                         ])
                     )
                 }
-                .on([.setTurn])
+                .on([.startTurn])
             }
             .build()
     }
@@ -346,7 +346,7 @@ private extension Cards {
                 CardEffect.group {
                     CardEffect.discard(.selectHand)
                         .repeat(.excessHand)
-                    CardEffect.setTurn
+                    CardEffect.startTurn
                         .target(.next(.actor))
                 }
                 .on([.play])
@@ -354,13 +354,13 @@ private extension Cards {
             .build()
     }
 
-    static var drawOnSetTurn: Card {
-        Card.makeBuilder(name: .drawOnSetTurn)
+    static var drawOnStartTurn: Card {
+        Card.makeBuilder(name: .drawOnStartTurn)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.drawDeck
                     .repeat(.attr(.startTurnCards))
-                    .on([.setTurn])
+                    .on([.startTurn])
             }
             .build()
     }
@@ -379,7 +379,7 @@ private extension Cards {
         Card.makeBuilder(name: .nextTurnOnEliminated)
             .withPriorityIndex(priorities)
             .withRule {
-                CardEffect.setTurn
+                CardEffect.startTurn
                     .target(.next(.actor))
                     .on([.eliminated, .isYourTurn])
             }
@@ -438,7 +438,7 @@ private extension Cards {
             ],
             abilities: [
                 .endTurn,
-                .drawOnSetTurn,
+                .drawOnStartTurn,
                 .eliminateOnDamageLethal,
                 .discardCardsOnEliminated,
                 .nextTurnOnEliminated,
@@ -587,7 +587,7 @@ private extension Cards {
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
             .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnSetTurn)
+            .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
                     CardEffect.drawDeck
@@ -595,7 +595,7 @@ private extension Cards {
                     CardEffect.revealLastHand
                     CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
                 }
-                .on([.setTurn])
+                .on([.startTurn])
             }
             .build()
     }
@@ -605,14 +605,14 @@ private extension Cards {
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
             .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnSetTurn)
+            .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
                     CardEffect.drawDeck
                         .repeat(.add(1, attr: .startTurnCards))
                     CardEffect.putBack(among: .add(1, attr: .startTurnCards))
                 }
-                .on([.setTurn])
+                .on([.startTurn])
             }
             .build()
     }
@@ -622,7 +622,7 @@ private extension Cards {
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
             .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnSetTurn)
+            .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
                     CardEffect.drawDiscard
@@ -630,7 +630,7 @@ private extension Cards {
                     CardEffect.drawDeck
                         .repeat(.add(-1, attr: .startTurnCards))
                 }
-                .on([.setTurn])
+                .on([.startTurn])
             }
             .build()
     }
@@ -640,7 +640,7 @@ private extension Cards {
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
             .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnSetTurn)
+            .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
                     CardEffect.steal(.selectHand)
@@ -649,7 +649,7 @@ private extension Cards {
                     CardEffect.drawDeck
                         .repeat(.add(-1, attr: .startTurnCards))
                 }
-                .on([.setTurn])
+                .on([.startTurn])
             }
             .build()
     }
@@ -684,10 +684,10 @@ private extension Cards {
     /// Order in which triggered effects are dispatched
     /// sorted from highest to lowest priority
     static let priorities: [String] = [
-        // MARK: - setTurn
+        // MARK: - startTurn
         .dynamite,
         .jail,
-        .drawOnSetTurn,
+        .drawOnStartTurn,
         .blackJack,
         .kitCarlson,
         .jesseJones,

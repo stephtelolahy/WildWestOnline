@@ -36,7 +36,7 @@ final class JailTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.drawOnSetTurn])
+                    .withAbilities([.drawOnStartTurn])
                     .withAttributes([.flippedCards: 1, .startTurnCards: 2])
             }
             .withPlayer("p2")
@@ -44,12 +44,12 @@ final class JailTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .draw,
             .discardInPlay(.jail, player: "p1"),
             .drawDeck(player: "p1"),
@@ -62,7 +62,7 @@ final class JailTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.drawOnSetTurn])
+                    .withAbilities([.drawOnStartTurn])
                     .withAttributes([.flippedCards: 1, .startTurnCards: 2])
             }
             .withPlayer("p2")
@@ -70,21 +70,21 @@ final class JailTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .draw,
             .cancel(
                 .effect(
                     .repeat(.attr(.startTurnCards), effect: .drawDeck),
-                    ctx: EffectContext(sourceEvent: .setTurn(player: "p1"), sourceActor: "p1", sourceCard: .drawOnSetTurn)
+                    ctx: EffectContext(sourceEvent: .startTurn(player: "p1"), sourceActor: "p1", sourceCard: .drawOnStartTurn)
                 )
             ),
             .discardInPlay(.jail, player: "p1"),
-            .setTurn(player: "p2")
+            .startTurn(player: "p2")
         ])
     }
 }

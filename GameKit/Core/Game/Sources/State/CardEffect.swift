@@ -63,8 +63,8 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Put top deck card to discard
     case draw
 
-    /// Set turn
-    case setTurn
+    /// Start turn
+    case startTurn
 
     /// Eliminate a player from the game
     case eliminate

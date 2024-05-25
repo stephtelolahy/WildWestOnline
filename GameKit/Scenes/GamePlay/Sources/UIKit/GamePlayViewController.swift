@@ -78,7 +78,7 @@ class GamePlayViewController: UIViewController {
 private extension GamePlayViewController {
     func startGame() {
         let sheriff = store.state.players[0].id
-        store.dispatch(GameAction.setTurn(player: sheriff))
+        store.dispatch(GameAction.startTurn(player: sheriff))
     }
 
     func setupViews() {

@@ -62,7 +62,7 @@ extension GameAction: CustomStringConvertible {
         case .draw:
             "🎲"
 
-        case let .setTurn(player):
+        case let .startTurn(player):
             "🔥 \(player)"
 
         case let .eliminate(player):

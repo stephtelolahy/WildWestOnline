@@ -91,7 +91,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case .damage:
             nil
 
-        case .setTurn:
+        case .startTurn:
             nil
 
         case .eliminate:

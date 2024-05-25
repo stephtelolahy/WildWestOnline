@@ -18,7 +18,7 @@ final class PedroRamirezTests: XCTestCase {
         let player = state.player(.pedroRamirez)
 
         // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
+        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
     }
 
     func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() throws {
@@ -38,12 +38,12 @@ final class PedroRamirezTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
             .choose("p2", player: "p1"),
             .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
@@ -70,12 +70,12 @@ final class PedroRamirezTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state, choose: [.pass])
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
             .choose(.pass, player: "p1"),
             .drawDeck(player: "p1"),
@@ -94,12 +94,12 @@ final class PedroRamirezTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

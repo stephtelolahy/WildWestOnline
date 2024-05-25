@@ -65,7 +65,7 @@ public struct GamePlayView: View {
         }
         .onAppear {
             let sheriff = store.state.players[0].id
-            store.dispatch(GameAction.setTurn(player: sheriff))
+            store.dispatch(GameAction.startTurn(player: sheriff))
         }
     }
 

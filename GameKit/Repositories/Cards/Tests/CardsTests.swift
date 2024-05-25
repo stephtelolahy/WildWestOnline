@@ -42,7 +42,7 @@ final class CardsTests: XCTestCase {
     func test_inventory_shouldContainAbilities() {
         // Then
         XCTAssertNotNil(cards[.endTurn])
-        XCTAssertNotNil(cards[.drawOnSetTurn])
+        XCTAssertNotNil(cards[.drawOnStartTurn])
         XCTAssertNotNil(cards[.eliminateOnDamageLethal])
         XCTAssertNotNil(cards[.discardCardsOnEliminated])
         XCTAssertNotNil(cards[.nextTurnOnEliminated])

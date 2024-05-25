@@ -15,9 +15,9 @@ extension GameAction {
         }
     }
 
-    func isEffectOfSetTurn(ignoredCard: String) -> Bool {
+    func isEffectOfStartTurn(ignoredCard: String) -> Bool {
         if case let .effect(_, ctx) = self,
-           case .setTurn = ctx.sourceEvent,
+           case .startTurn = ctx.sourceEvent,
            ctx.sourceCard != ignoredCard {
             true
         } else {

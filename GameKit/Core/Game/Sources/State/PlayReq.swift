@@ -10,8 +10,8 @@ public indirect enum PlayReq: Codable, Equatable {
     /// playing a card
     case play
 
-    /// setting turn
-    case setTurn
+    /// starting turn
+    case startTurn
 
     /// being damaged
     case damage

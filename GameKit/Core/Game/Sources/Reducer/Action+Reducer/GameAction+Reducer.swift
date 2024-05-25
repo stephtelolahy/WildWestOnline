@@ -74,8 +74,8 @@ private extension GameAction {
         case let .group(actions):
             ActionGroup(children: actions)
 
-        case let .setTurn(player):
-            ActionSetTurn(player: player)
+        case let .startTurn(player):
+            ActionStartTurn(player: player)
 
         case let .eliminate(player):
             ActionEliminate(player: player)

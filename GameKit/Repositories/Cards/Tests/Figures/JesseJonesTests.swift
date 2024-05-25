@@ -18,7 +18,7 @@ final class JesseJonesTests: XCTestCase {
         let player = state.player(.jesseJones)
 
         // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
+        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
     }
 
     func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
@@ -33,12 +33,12 @@ final class JesseJonesTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .drawDiscard(player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -55,12 +55,12 @@ final class JesseJonesTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

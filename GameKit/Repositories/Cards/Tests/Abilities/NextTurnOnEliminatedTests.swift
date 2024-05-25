@@ -27,7 +27,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .eliminate(player: "p3"),
-            .setTurn(player: "p1")
+            .startTurn(player: "p1")
         ])
     }
 
@@ -40,7 +40,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
                     .withAbilities([.discardCardsOnEliminated, .nextTurnOnEliminated])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.drawOnSetTurn])
+                $0.withAbilities([.drawOnStartTurn])
                     .withAttributes([.startTurnCards: 2])
             }
             .withPlayer("p3")
@@ -57,7 +57,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
             .eliminate(player: "p1"),
             .discardInPlay("c12", player: "p1"),
             .discardHand("c11", player: "p1"),
-            .setTurn(player: "p2"),
+            .startTurn(player: "p2"),
             .drawDeck(player: "p2"),
             .drawDeck(player: "p2")
         ])

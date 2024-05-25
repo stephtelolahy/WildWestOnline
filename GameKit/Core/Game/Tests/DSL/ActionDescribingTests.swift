@@ -114,9 +114,9 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_DescribingSetTurn() {
+    func test_DescribingStartTurn() {
         XCTAssertEqual(
-            String(describing: GameAction.setTurn(player: "p1")),
+            String(describing: GameAction.startTurn(player: "p1")),
             "🔥 p1"
         )
     }

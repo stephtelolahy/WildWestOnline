@@ -37,8 +37,8 @@ private extension CardEffect {
         case .draw:
             EffectJust { _ in .draw }
 
-        case .setTurn:
-            EffectJust { .setTurn(player: $0.targetOrActor()) }
+        case .startTurn:
+            EffectJust { .startTurn(player: $0.targetOrActor()) }
 
         case .eliminate:
             EffectJust { .eliminate(player: $0.targetOrActor()) }

@@ -26,7 +26,7 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .setTurn(player: "p2")
+            .startTurn(player: "p2")
         ])
     }
 
@@ -50,7 +50,7 @@ final class EndTurnTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .play(.endTurn, player: "p1"),
-            .setTurn(player: "p2")
+            .startTurn(player: "p2")
         ])
     }
 
@@ -76,7 +76,7 @@ final class EndTurnTests: XCTestCase {
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
-            .setTurn(player: "p2")
+            .startTurn(player: "p2")
         ])
     }
 
@@ -105,7 +105,7 @@ final class EndTurnTests: XCTestCase {
             .chooseOne(.cardToDiscard, options: ["c2", "c3"], player: "p1"),
             .choose("c3", player: "p1"),
             .discardHand("c3", player: "p1"),
-            .setTurn(player: "p2")
+            .startTurn(player: "p2")
         ])
     }
 }

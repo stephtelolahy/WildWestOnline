@@ -65,7 +65,7 @@ final class ActivateTests: XCTestCase {
             }
             .withPlayer("p2") {
                 $0.withAttributes([.maxHealth: 4, .startTurnCards: 2])
-                    .withAbilities([.drawOnSetTurn])
+                    .withAbilities([.drawOnStartTurn])
             }
             .withTurn("p1")
             .build()

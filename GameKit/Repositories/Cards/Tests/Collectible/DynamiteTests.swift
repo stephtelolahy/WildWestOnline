@@ -33,7 +33,7 @@ final class DynamiteTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.drawOnSetTurn])
+                    .withAbilities([.drawOnStartTurn])
                     .withAttributes([.flippedCards: 1, .startTurnCards: 2])
             }
             .withPlayer("p2")
@@ -41,12 +41,12 @@ final class DynamiteTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .draw,
             .passInPlay(.dynamite, target: "p2", player: "p1"),
             .drawDeck(player: "p1"),
@@ -59,7 +59,7 @@ final class DynamiteTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.drawOnSetTurn])
+                    .withAbilities([.drawOnStartTurn])
                     .withAttributes([.flippedCards: 1, .startTurnCards: 2])
                     .withHealth(4)
             }
@@ -67,12 +67,12 @@ final class DynamiteTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .draw,
             .damage(3, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
@@ -98,7 +98,7 @@ final class DynamiteTests: XCTestCase {
                     .withHealth(3)
             }
             .withPlayer("p2") {
-                $0.withAbilities([.drawOnSetTurn])
+                $0.withAbilities([.drawOnStartTurn])
                     .withAttributes([.startTurnCards: 2])
             }
             .withPlayer("p3")
@@ -106,18 +106,18 @@ final class DynamiteTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .draw,
             .damage(3, player: "p1"),
             .eliminate(player: "p1"),
             .discardInPlay(.jail, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
-            .setTurn(player: "p2"),
+            .startTurn(player: "p2"),
             .drawDeck(player: "p2"),
             .drawDeck(player: "p2")
         ])

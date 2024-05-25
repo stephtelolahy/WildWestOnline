@@ -18,7 +18,7 @@ final class BlackJackTests: XCTestCase {
         let player = state.player(.blackJack)
 
         // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnSetTurn))
+        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
     }
 
     func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
@@ -32,12 +32,12 @@ final class BlackJackTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .revealHand("c2-8♥️", player: "p1"),
@@ -56,12 +56,12 @@ final class BlackJackTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.setTurn(player: "p1")
+        let action = GameAction.startTurn(player: "p1")
         let (result, _) = awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .setTurn(player: "p1"),
+            .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .revealHand("c2-A♠️", player: "p1")
