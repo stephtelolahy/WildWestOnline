@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "GameKit",
+    name: "WildWestOnline",
     defaultLocalization: "fr",
     platforms: [
         .iOS(.v16),
