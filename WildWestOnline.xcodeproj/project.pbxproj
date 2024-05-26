@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* GameApp.swift */; };
+		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
 		26E6D66D2B2480C1009643EB /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 26E6D66C2B2480C1009643EB /* App */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2699EF0029D93AD00030ACCD /* GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApp.swift; sourceTree = "<group>"; };
+		2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildWestOnlineApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildWestOnline.entitlements; sourceTree = "<group>"; };
 		269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WildWestOnline.xctestplan; sourceTree = "<group>"; };
-		26DD32B829F3D646002E0F93 /* GameKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameKit; sourceTree = "<group>"; };
+		26DD32B829F3D646002E0F93 /* WildWestOnline */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WildWestOnline; sourceTree = "<group>"; };
 		F37D85E02A0438EE00C3A754 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -34,6 +34,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15BB90682C02AA5C0075BD78 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */,
+				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
+				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
+				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		2653DAE829DA2ADD007EAE71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -45,11 +56,8 @@
 			isa = PBXGroup;
 			children = (
 				F37D85E02A0438EE00C3A754 /* README.md */,
-				2699EF0029D93AD00030ACCD /* GameApp.swift */,
-				26DD32B829F3D646002E0F93 /* GameKit */,
-				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
-				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
-				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
+				15BB90682C02AA5C0075BD78 /* App */,
+				26DD32B829F3D646002E0F93 /* WildWestOnline */,
 				2699EEFE29D93AD00030ACCD /* Products */,
 				2653DAE829DA2ADD007EAE71 /* Frameworks */,
 			);
@@ -136,7 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2699EF0129D93AD00030ACCD /* GameApp.swift in Sources */,
+				2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +277,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = WildWestOnline.entitlements;
+				CODE_SIGN_ENTITLEMENTS = App/WildWestOnline.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MDE3YTL7P4;
@@ -309,7 +317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = WildWestOnline.entitlements;
+				CODE_SIGN_ENTITLEMENTS = App/WildWestOnline.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = MDE3YTL7P4;

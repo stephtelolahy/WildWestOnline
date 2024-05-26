@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:WildWestOnline.xctestplan"
+            reference = "container:App/WildWestOnline.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

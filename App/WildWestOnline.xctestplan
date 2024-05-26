@@ -1,0 +1,109 @@
+{
+  "configurations" : [
+    {
+      "id" : "90394C49-A569-48CB-AF80-F9C85E9C9AEB",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WildWestOnline.xcodeproj",
+      "identifier" : "2699EEFC29D93AD00030ACCD",
+      "name" : "WildWestOnline"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "ReduxTests",
+        "name" : "ReduxTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "AppTests",
+        "name" : "AppTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "GamePlayTests",
+        "name" : "GamePlayTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "GameCoreTests",
+        "name" : "GameCoreTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "AppCoreTests",
+        "name" : "AppCoreTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "CardsRepositoryTests",
+        "name" : "CardsRepositoryTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "HomeTests",
+        "name" : "HomeTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SettingsCoreTests",
+        "name" : "SettingsCoreTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SettingsTests",
+        "name" : "SettingsTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SplashTests",
+        "name" : "SplashTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "UtilsTests",
+        "name" : "UtilsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
