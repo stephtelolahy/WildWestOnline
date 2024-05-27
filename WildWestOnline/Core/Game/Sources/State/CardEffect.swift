@@ -18,7 +18,7 @@ public indirect enum CardEffect: Codable, Equatable {
     case damage(Int)
 
     /// Shoot a player
-    case shoot
+    case shoot(missesRequired: ArgNum)
 
     /// Draw top deck card
     case drawDeck
@@ -81,8 +81,8 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Cancel turn
     case cancelTurn
 
-    /// Expose a choice to play counter cards
-    case playCounterCards
+    /// Expose a choice to play counter shoot cards
+    case playCounterShootCards
 
     // MARK: - Operators
 

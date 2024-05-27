@@ -154,7 +154,7 @@ private extension Cards {
         Card.makeBuilder(name: .bang)
             .withRule(brown)
             .withRule {
-                CardEffect.shoot
+                CardEffect.shoot(missesRequired: .attr(.missesRequiredForBang))
                     .target(.selectReachable)
                     .on([.play, .isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))])
             }
@@ -175,7 +175,7 @@ private extension Cards {
         Card.makeBuilder(name: .gatling)
             .withRule(brown)
             .withRule {
-                CardEffect.shoot
+                CardEffect.shoot(missesRequired: .exact(1))
                     .target(.others)
                     .on([.play])
             }
@@ -430,7 +430,8 @@ private extension Cards {
         Card.makeBuilder(name: .playCounterCardsOnShot)
             .withPriorityIndex(priorities)
             .withRule {
-                CardEffect.playCounterCards
+                CardEffect.playCounterShootCards
+                    .repeat(.shootMissesRequired)
                     .on([.shot])
             }
             .build()
@@ -444,7 +445,8 @@ private extension Cards {
                 .startTurnCards: 2,
                 .weapon: 1,
                 .flippedCards: 1,
-                .bangsPerTurn: 1
+                .bangsPerTurn: 1,
+                .missesRequiredForBang: 1
             ],
             abilities: [
                 .endTurn,
@@ -734,4 +736,7 @@ public extension String {
     /// Number of bangs per turn
     /// Unlimited when value is 0
     static let bangsPerTurn = "bangsPerTurn"
+
+    /// Number of misses required to counter his bang
+    static let missesRequiredForBang = "missesRequiredForBang"
 }

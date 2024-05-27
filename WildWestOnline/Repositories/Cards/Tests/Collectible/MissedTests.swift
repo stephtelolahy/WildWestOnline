@@ -31,7 +31,7 @@ final class MissedTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+                    .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 1, .weapon: 1])
             }
             .withPlayer("p2") {
                 $0.withHand([.missed])
@@ -62,7 +62,7 @@ final class MissedTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+                    .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 1, .weapon: 1])
             }
             .withPlayer("p2") {
                 $0.withAbilities([.playCounterCardsOnShot])
@@ -88,7 +88,7 @@ final class MissedTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+                    .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 1, .weapon: 1])
             }
             .withPlayer("p2") {
                 $0.withHand([.missed1, .missed2])

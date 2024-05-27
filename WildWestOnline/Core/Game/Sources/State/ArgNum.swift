@@ -24,4 +24,7 @@ public enum ArgNum: Codable, Equatable {
 
     /// Player attributed by adding some value
     case add(Int, attr: String)
+
+    /// Misses required for shoot effect
+    case shootMissesRequired
 }

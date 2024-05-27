@@ -5,13 +5,13 @@
 //  Created by Hugues Stephano TELOLAHY on 12/10/2023.
 //
 
-struct EffectPlayCounterCards: EffectResolver {
+struct EffectPlayCounterShootCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let playerObj = state.player(ctx.sourceActor)
         let playReqContext = PlayReqContext(actor: ctx.sourceActor, event: ctx.sourceEvent)
 
         let counterCards = playerObj.hand.filter {
-            CounterActionResolver.isCounterShootCard(
+            Self.isCounterShootCard(
                 $0,
                 player: ctx.sourceActor,
                 state: state,
@@ -41,7 +41,7 @@ struct EffectPlayCounterCards: EffectResolver {
     }
 }
 
-private enum CounterActionResolver {
+private extension EffectPlayCounterShootCards {
     static func isCounterShootCard(
         _ card: String,
         player: String,

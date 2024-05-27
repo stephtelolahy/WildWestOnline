@@ -35,6 +35,9 @@ private extension ArgNum {
 
         case .damage:
             NumDamage()
+
+        case .shootMissesRequired:
+            ShootMissesRequired()
         }
     }
 }

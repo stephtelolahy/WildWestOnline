@@ -97,8 +97,8 @@ private extension CardEffect {
         case let .luck(card, regex, onSuccess, onFailure):
             EffectLuck(card: card, regex: regex, onSuccess: onSuccess, onFailure: onFailure)
 
-        case .playCounterCards:
-            EffectPlayCounterCards()
+        case .playCounterShootCards:
+            EffectPlayCounterShootCards()
 
         case .updateAttributes:
             EffectUpdateAttributes()
