@@ -11,6 +11,8 @@ struct EffectCounterShoot: EffectResolver {
             throw GameError.noShootToCounter
         }
 
+        // TODO: check required misses
+
         return [.cancel(state.sequence[index])]
     }
 }
