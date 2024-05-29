@@ -78,7 +78,7 @@ public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
                 sourceEvent: event,
                 sourceActor: player,
                 sourceCard: card,
-                linkedAction: linkedAction(event: event, state: state)
+                linkedToShoot: linkedToShoot(event: event, state: state)
             )
 
             actions.append(.effect(rule.effect, ctx: ctx))
@@ -95,14 +95,12 @@ public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
         Array(playerObj.abilities)
     }
 
-    private func linkedAction(event: GameAction, state: GameState) -> GameAction? {
-        if case let .effect(cardEffect, _) = event,
-           case .shoot = cardEffect,
-           let nextAction = state.sequence.first,
-           case .damage = nextAction {
-            return nextAction
+    private func linkedToShoot(event: GameAction, state: GameState) -> String? {
+        guard case let .effect(cardEffect, ctx) = event,
+              case .shoot = cardEffect else {
+            return nil
         }
 
-        return nil
+        return ctx.resolvingTarget
     }
 }

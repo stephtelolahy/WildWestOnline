@@ -506,7 +506,7 @@ private extension Cards {
     static var slabTheKiller: Card {
         Card.makeBuilder(name: .slabTheKiller)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withAttributes([.maxHealth: 4, .missesRequiredForBang: 2])
             .build()
     }
 

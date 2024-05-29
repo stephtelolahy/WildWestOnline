@@ -20,6 +20,9 @@ public indirect enum CardEffect: Codable, Equatable {
     /// Shoot a player
     case shoot(missesRequired: ArgNum)
 
+    /// Prepare shoot damage effect
+    case prepareShoot(missesRequired: ArgNum)
+
     /// Draw top deck card
     case drawDeck
 

@@ -52,8 +52,7 @@ final class BarrelTests: XCTestCase {
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .draw,
-            .cancel(.damage(1, player: "p2"))
+            .draw
         ])
     }
 
@@ -111,8 +110,7 @@ final class BarrelTests: XCTestCase {
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
             .draw,
-            .draw,
-            .cancel(.damage(1, player: "p2"))
+            .draw
         ])
     }
 
@@ -172,8 +170,7 @@ final class BarrelTests: XCTestCase {
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .draw,
-            .cancel(.damage(1, player: "p2"))
+            .draw
         ])
     }
 }

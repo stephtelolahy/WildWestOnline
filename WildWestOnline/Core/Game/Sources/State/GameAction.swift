@@ -81,9 +81,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Remove player attribute
     case removeAttribute(String, player: String)
 
-    /// Cancel an effect
-    case cancel(Self)
-
     /// Expose a choice
     case chooseOne(ChoiceType, options: [String], player: String)
 
@@ -103,6 +100,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Push actions
     case group([Self])
+
+    /// Cancel action
+    case cancel(Self)
 }
 
 // MARK: - Convenience
@@ -112,7 +112,8 @@ public extension GameAction {
     var isRenderable: Bool {
         switch self {
         case .effect,
-             .group:
+             .group,
+             .cancel:
             false
 
         default:

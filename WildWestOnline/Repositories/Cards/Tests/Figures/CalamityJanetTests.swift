@@ -88,8 +88,7 @@ final class CalamityJanetTests: XCTestCase {
             .chooseOne(.cardToPlayCounter, options: [.bang, .pass], player: "p2"),
             .choose(.bang, player: "p2"),
             .play(.bang, player: "p2"),
-            .discardPlayed(.bang, player: "p2"),
-            .cancel(.damage(1, player: "p2"))
+            .discardPlayed(.bang, player: "p2")
         ])
     }
 
@@ -120,8 +119,7 @@ final class CalamityJanetTests: XCTestCase {
             .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),
             .choose(.missed, player: "p2"),
             .play(.missed, player: "p2"),
-            .discardPlayed(.missed, player: "p2"),
-            .cancel(.damage(1, player: "p2"))
+            .discardPlayed(.missed, player: "p2")
         ])
     }
 }

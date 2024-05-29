@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-@testable import GameCore
+import GameCore
 import XCTest
 
 final class JailTests: XCTestCase {
@@ -77,12 +77,6 @@ final class JailTests: XCTestCase {
         XCTAssertEqual(result, [
             .startTurn(player: "p1"),
             .draw,
-            .cancel(
-                .effect(
-                    .repeat(.attr(.startTurnCards), effect: .drawDeck),
-                    ctx: EffectContext(sourceEvent: .startTurn(player: "p1"), sourceActor: "p1", sourceCard: .drawOnStartTurn)
-                )
-            ),
             .discardInPlay(.jail, player: "p1"),
             .startTurn(player: "p2")
         ])

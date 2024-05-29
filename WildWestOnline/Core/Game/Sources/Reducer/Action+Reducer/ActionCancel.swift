@@ -21,9 +21,15 @@ struct ActionCancel: GameActionReducer {
 
 private extension GameState {
     mutating func removeEffectsLinkedTo(_ action: GameAction) {
+        guard case let .effect(effect, effectCtx) = action,
+              case .prepareShoot = effect,
+              let target = effectCtx.resolvingTarget else {
+            return
+        }
+
         sequence.removeAll { item in
             if case let .effect(_, ctx) = item,
-               ctx.linkedAction == action {
+               ctx.linkedToShoot == target {
                 return true
             } else {
                 return false
