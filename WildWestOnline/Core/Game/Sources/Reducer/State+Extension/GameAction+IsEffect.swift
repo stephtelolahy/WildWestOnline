@@ -25,9 +25,10 @@ extension GameAction {
         }
     }
 
-    func isEffectOfShoot(_ player: String) -> Bool {
-        if case let .damage(_, target) = self,
-           target == player {
+    func isEffectOfShoot(_ target: String) -> Bool {
+        if case let .effect(effect, ctx: effectCtx) = self,
+           case .prepareShoot = effect,
+            effectCtx.resolvingTarget == target {
             return true
         } else {
             return false

@@ -98,6 +98,9 @@ private extension GameAction {
         case let .cancel(action):
             ActionCancel(action: action)
 
+        case let .counterShoot(action):
+            ActionCounterShoot(action: action)
+
         case let .setGameOver(winner):
             ActionSetGameOver(winner: winner)
 

@@ -1,6 +1,6 @@
 //
 //  EffectCounterShoot.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 07/11/2023.
 //
@@ -11,6 +11,18 @@ struct EffectCounterShoot: EffectResolver {
             throw GameError.noShootToCounter
         }
 
-        return [.cancel(state.sequence[index])]
+        let action = state.sequence[index]
+        guard case .effect(let cardEffect, let effectCtx) = action,
+              case .prepareShoot(let missesRequired) = cardEffect else {
+            fatalError("unexpected action to counter")
+        }
+
+        let misses = try missesRequired.resolve(state: state, ctx: effectCtx)
+
+        if misses == 1 {
+            return [.cancel(action)]
+        } else {
+            return [.counterShoot(action)]
+        }
     }
 }

@@ -25,7 +25,10 @@ private extension CardEffect {
         case let .damage(amount):
             EffectJust { .damage(amount, player: $0.targetOrActor()) }
 
-        case .shoot:
+        case let .shoot(missesRequired):
+            EffectJust { .effect(.prepareShoot(missesRequired: missesRequired), ctx: $0) }
+
+        case .prepareShoot:
             EffectJust { .damage(1, player: $0.targetOrActor()) }
 
         case .drawDeck:
@@ -97,8 +100,8 @@ private extension CardEffect {
         case let .luck(card, regex, onSuccess, onFailure):
             EffectLuck(card: card, regex: regex, onSuccess: onSuccess, onFailure: onFailure)
 
-        case .playCounterCards:
-            EffectPlayCounterCards()
+        case .playCounterShootCards:
+            EffectPlayCounterShootCards()
 
         case .updateAttributes:
             EffectUpdateAttributes()

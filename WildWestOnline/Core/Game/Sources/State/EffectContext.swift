@@ -25,6 +25,7 @@ public struct EffectContext: Codable, Equatable {
     /// Chosen option while resolving effect
     var resolvingOption: String?
 
-    /// The cancelation of this action will result the cancelation of the effect
-    var linkedAction: GameAction?
+    /// Shot player
+    /// The cancelation of the shoot results in the cancelation of the effect
+    var linkedToShoot: String?
 }

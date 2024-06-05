@@ -14,7 +14,7 @@ final class JourdonnaisTests: XCTestCase {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withAttributes([.weapon: 1, .bangsPerTurn: 1])
+                    .withAttributes([.weapon: 1, .missesRequiredForBang: 1, .bangsPerTurn: 1])
             }
             .withPlayer("p2") {
                 $0.withAbilities([.jourdonnais])
@@ -33,8 +33,7 @@ final class JourdonnaisTests: XCTestCase {
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .choose("p2", player: "p1"),
-            .draw,
-            .cancel(.damage(1, player: "p2"))
+            .draw
         ])
     }
 }

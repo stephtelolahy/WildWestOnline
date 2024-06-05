@@ -56,7 +56,9 @@ However, we can "derive" this store to small subsets, called store projections, 
 
 #### Overview of app modules
 
-Clean architecture: Infrastructure > Adapter > Core
+Clean architecture
+
+![](Docs/clean.png)
 
 ![](Docs/app_modules.png)
 
