@@ -670,24 +670,30 @@ private extension Cards {
     static var custom: Card {
         Card.makeBuilder(name: .custom)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withAttributes([
+                    .maxHealth: 4,
+                    .startTurnCards: 3,
+                    .missesRequiredForBang: 2,
+                    .bangsPerTurn: 0,
+                    .magnifying: 1,
+                    .remoteness: 1,
+                    .flippedCards: 2
+            ])
+            .withAbilityToPlayCardAs([
+                CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
+                CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
+            ])
             .withAbilities([
-                .willyTheKid,
-                .roseDoolan,
-                .paulRegret,
                 .jourdonnais,
-                .slabTheKiller,
-                .luckyDuke,
-                .calamityJanet,
                 .bartCassidy,
                 .elGringo,
                 .suzyLafayette,
                 .vultureSam,
-                .sidKetchum
-                //                .blackJack,
-                //                .kitCarlson,
-                //                .jesseJones,
-                //                .pedroRamirez
+                .sidKetchum,
+                .blackJack,
+                .kitCarlson,
+                .jesseJones,
+                .pedroRamirez
             ])
             .build()
     }
