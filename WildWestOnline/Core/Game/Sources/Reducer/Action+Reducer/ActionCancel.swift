@@ -1,6 +1,6 @@
 //
 //  ActionCancel.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 22/06/2023.
 //
@@ -21,12 +21,14 @@ struct ActionCancel: GameActionReducer {
 
 private extension GameState {
     mutating func removeEffectsLinkedTo(_ action: GameAction) {
-        guard case let .effect(effect, effectCtx) = action,
-              case .prepareShoot = effect,
-              let target = effectCtx.resolvingTarget else {
-            return
+        if case let .effect(effect, effectCtx) = action,
+           case .prepareShoot = effect,
+           let target = effectCtx.resolvingTarget {
+            removeEffectsLinkedToShoot(on: target)
         }
+    }
 
+    mutating func removeEffectsLinkedToShoot(on target: String) {
         sequence.removeAll { item in
             if case let .effect(_, ctx) = item,
                ctx.linkedToShoot == target {

@@ -25,7 +25,7 @@ public struct EffectContext: Codable, Equatable {
     /// Chosen option while resolving effect
     var resolvingOption: String?
 
-    /// Effect is linked to shoot on a given player, 
+    /// Shot player
     /// The cancelation of the shoot results in the cancelation of the effect
     var linkedToShoot: String?
 }
