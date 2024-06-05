@@ -109,6 +109,9 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case .cancel:
             nil
 
+        case .counterShoot:
+            nil
+
         case .chooseOne:
             nil
 
