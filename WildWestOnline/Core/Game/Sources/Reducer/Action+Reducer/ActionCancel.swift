@@ -24,11 +24,11 @@ private extension GameState {
         if case let .effect(effect, effectCtx) = action,
            case .prepareShoot = effect,
            let target = effectCtx.resolvingTarget {
-            removeEffectsLinkedToShoot(on: target)
+            removeEffectsLinkedToShoot(target)
         }
     }
 
-    mutating func removeEffectsLinkedToShoot(on target: String) {
+    mutating func removeEffectsLinkedToShoot(_ target: String) {
         sequence.removeAll { item in
             if case let .effect(_, ctx) = item,
                ctx.linkedToShoot == target {

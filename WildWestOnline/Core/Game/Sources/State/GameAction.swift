@@ -1,6 +1,6 @@
 //
 //  GameAction.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 06/04/2023.
 //
@@ -103,6 +103,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Cancel action
     case cancel(Self)
+
+    /// Counter shoot effect by reducing required misses
+    case counterShoot(Self)
 }
 
 // MARK: - Convenience
@@ -112,8 +115,9 @@ public extension GameAction {
     var isRenderable: Bool {
         switch self {
         case .effect,
-             .group,
-             .cancel:
+                .group,
+                .cancel,
+                .counterShoot:
             false
 
         default:

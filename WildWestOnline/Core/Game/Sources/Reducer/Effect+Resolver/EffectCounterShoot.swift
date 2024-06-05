@@ -1,6 +1,6 @@
 //
 //  EffectCounterShoot.swift
-//  
+//
 //
 //  Created by Hugues Stephano TELOLAHY on 07/11/2023.
 //
@@ -11,7 +11,6 @@ struct EffectCounterShoot: EffectResolver {
             throw GameError.noShootToCounter
         }
 
-        // check required misses
         let action = state.sequence[index]
         guard case .effect(let cardEffect, let effectCtx) = action,
               case .prepareShoot(let missesRequired) = cardEffect else {
@@ -19,13 +18,11 @@ struct EffectCounterShoot: EffectResolver {
         }
 
         let misses = try missesRequired.resolve(state: state, ctx: effectCtx)
+
         if misses == 1 {
             return [.cancel(action)]
         } else {
-            fatalError("update remainingMisses")
-//            let remainingMisses = ArgNum.exact(misses - 1)
-//            let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
-//            return [.update(action, misses: remainingMisses)]
+            return [.counterShoot(action)]
         }
     }
 }
