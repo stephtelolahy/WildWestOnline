@@ -11,8 +11,21 @@ struct EffectCounterShoot: EffectResolver {
             throw GameError.noShootToCounter
         }
 
-        // TODO: check required misses
+        // check required misses
+        let action = state.sequence[index]
+        guard case .effect(let cardEffect, let effectCtx) = action,
+              case .prepareShoot(let missesRequired) = cardEffect else {
+            fatalError("unexpected action to counter")
+        }
 
-        return [.cancel(state.sequence[index])]
+        let misses = try missesRequired.resolve(state: state, ctx: effectCtx)
+        if misses == 1 {
+            return [.cancel(action)]
+        } else {
+            fatalError("update remainingMisses")
+//            let remainingMisses = ArgNum.exact(misses - 1)
+//            let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
+//            return [.update(action, misses: remainingMisses)]
+        }
     }
 }
