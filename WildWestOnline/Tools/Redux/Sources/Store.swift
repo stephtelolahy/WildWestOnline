@@ -17,17 +17,41 @@ public class Store<State: Equatable, Action: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
 
     private let reducer: Reducer<State, Action>
+    private let middlewares: [Middleware<State, Action>]
+    private var subscriptions = Set<AnyCancellable>()
+    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
-        reducer: @escaping Reducer<State, Action> = { state, _ in state }
+        reducer: @escaping Reducer<State, Action> = { state, _ in state },
+        middlewares: [Middleware<State, Action>] = []
     ) {
         self.state = state
         self.reducer = reducer
+        self.middlewares = middlewares
     }
 
     public func dispatch(_ action: Action) {
         let newState = reducer(state, action)
         state = newState
+        for middleware in middlewares {
+            middleware.handleAsFuture(action, state: newState)
+                .subscribe(on: middlewareSerialQueue)
+                .receive(on: DispatchQueue.main)
+                .compactMap { $0 }
+                .sink(receiveValue: dispatch)
+                .store(in: &subscriptions)
+        }
+    }
+}
+
+private extension Middleware {
+    func handleAsFuture(_ action: Action, state: State) -> Future<Action?, Never> {
+        Future { promise in
+            Task { [weak self] in
+                let output = await self?.handle(action, state: state)
+                promise(.success(output))
+            }
+        }
     }
 }
