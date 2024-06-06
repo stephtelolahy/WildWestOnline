@@ -9,7 +9,7 @@ import AppCore
 import Redux
 
 public extension Connectors {
-    struct HomeViewConnector: Connector {
+    struct HomeViewConnector: ConnectorV1 {
         public init() {}
 
         public func connect(state: AppState) -> HomeView.State? {

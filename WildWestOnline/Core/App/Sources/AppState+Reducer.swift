@@ -9,7 +9,7 @@ import Redux
 import SettingsCore
 
 public extension AppState {
-    static let reducer: Reducer<Self> = { state, action in
+    static let reducer: ReducerV1<Self> = { state, action in
         var state = state
         state = screenReducer(state, action)
         state.settings = SettingsState.reducer(state.settings, action)
@@ -19,7 +19,7 @@ public extension AppState {
 }
 
 private extension AppState {
-    static let screenReducer: Reducer<Self> = { state, action in
+    static let screenReducer: ReducerV1<Self> = { state, action in
         guard let action = action as? AppAction else {
             return state
         }

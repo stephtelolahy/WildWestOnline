@@ -10,7 +10,7 @@ import GameCore
 import Redux
 
 public extension Connectors {
-    struct GamePlayViewConnector: Connector {
+    struct GamePlayViewConnector: ConnectorV1 {
         public init() {}
 
         public func connect(state: AppState) -> GamePlayView.State? {

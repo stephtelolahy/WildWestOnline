@@ -7,7 +7,7 @@
 import Redux
 
 public extension SettingsState {
-    static let reducer: Reducer<Self> = { state, action in
+    static let reducer: ReducerV1<Self> = { state, action in
         guard let action = action as? SettingsAction else {
             return state
         }

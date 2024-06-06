@@ -1,5 +1,5 @@
 //
-//  ComposedMiddleware.swift
+//  ComposedMiddlewareV1.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
@@ -10,14 +10,14 @@
 /// Whenever an action arrives to be handled by this `ComposedMiddleware`, 
 /// it will delegate to its internal chain of middlewares.
 /// Only the first non-nil middleware response will be returned
-public final class ComposedMiddleware<State>: Middleware<State> {
-    private let middlewares: [Middleware<State>]
+public final class ComposedMiddlewareV1<State>: MiddlewareV1<State> {
+    private let middlewares: [MiddlewareV1<State>]
 
-    public init(_ middlewares: [Middleware<State>]) {
+    public init(_ middlewares: [MiddlewareV1<State>]) {
         self.middlewares = middlewares
     }
 
-    override public func effect(on action: Action, state: State) async -> Action? {
+    override public func effect(on action: ActionV1, state: State) async -> ActionV1? {
         for middleware in middlewares {
             if let response = await middleware.effect(on: action, state: state) {
                 return response

@@ -9,7 +9,7 @@ import Redux
 
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
-public indirect enum GameAction: Action, Codable, Equatable {
+public indirect enum GameAction: ActionV1, Codable, Equatable {
     // MARK: - Renderable actions
 
     /// Play a card

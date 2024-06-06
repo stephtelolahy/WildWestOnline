@@ -15,9 +15,9 @@ import Theme
 
 public struct GamePlayUIKitView: View {
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<State>
+    @StateObject private var store: StoreV1<State>
 
-    public init(store: @escaping () -> Store<State>) {
+    public init(store: @escaping () -> StoreV1<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -37,7 +37,7 @@ public struct GamePlayUIKitView: View {
 
 #Preview {
     GamePlayUIKitView {
-        Store(initial: .sample)
+        StoreV1(initial: .sample)
     }
 }
 

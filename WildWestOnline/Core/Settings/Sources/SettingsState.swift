@@ -16,7 +16,7 @@ public struct SettingsState: Codable, Equatable {
     public var preferredFigure: String?
 }
 
-public enum SettingsAction: Action, Codable, Equatable {
+public enum SettingsAction: ActionV1, Codable, Equatable {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation

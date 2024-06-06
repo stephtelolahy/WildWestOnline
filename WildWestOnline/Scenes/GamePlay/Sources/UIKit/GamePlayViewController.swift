@@ -22,7 +22,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Data
 
-    private var store: Store<GamePlayUIKitView.State>
+    private var store: StoreV1<GamePlayUIKitView.State>
     private var subscriptions = Set<AnyCancellable>()
     private var events: [String] = []
 
@@ -45,7 +45,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Init
 
-    init(store: Store<GamePlayUIKitView.State>) {
+    init(store: StoreV1<GamePlayUIKitView.State>) {
         self.store = store
         super.init(nibName: "GamePlayViewController", bundle: .module)
     }

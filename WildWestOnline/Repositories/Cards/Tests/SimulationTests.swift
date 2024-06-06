@@ -47,7 +47,7 @@ final class SimulationTests: XCTestCase {
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = Store<GameState>(
+        let sut = StoreV1<GameState>(
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
@@ -79,14 +79,14 @@ final class SimulationTests: XCTestCase {
 }
 
 /// Middleare reproducting state according to received event
-private class StateReproducerMiddleware: Middleware<GameState> {
+private class StateReproducerMiddleware: MiddlewareV1<GameState> {
     private var prevState: GameState
 
     init(initial: GameState) {
         self.prevState = initial
     }
 
-    override func effect(on action: Action, state: GameState) async -> Action? {
+    override func effect(on action: ActionV1, state: GameState) async -> ActionV1? {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return

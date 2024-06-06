@@ -1,5 +1,5 @@
 //
-//  StoreProjection.swift
+//  StoreProjectionV1.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 29/11/2023.
@@ -12,11 +12,11 @@ import Combine
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Store<LocalState> {
-    private let globalStore: Store<GlobalState>
+final class StoreProjectionV1<GlobalState: Equatable, LocalState: Equatable>: StoreV1<LocalState> {
+    private let globalStore: StoreV1<GlobalState>
     private let stateMap: (GlobalState) -> LocalState?
 
-    init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
+    init(globalStore: StoreV1<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
         guard let initialState = stateMap(globalStore.state) else {
             fatalError("failed mapping to local state")
         }
@@ -32,14 +32,14 @@ final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Stor
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: Action) {
+    override func dispatch(_ action: ActionV1) {
         globalStore.dispatch(action)
     }
 }
 
-public extension Store {
+public extension StoreV1 {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(stateMap: @escaping (State) -> LocalState?) -> Store<LocalState> {
-        StoreProjection(globalStore: self, stateMap: stateMap)
+    func projection<LocalState: Equatable>(stateMap: @escaping (State) -> LocalState?) -> StoreV1<LocalState> {
+        StoreProjectionV1(globalStore: self, stateMap: stateMap)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  LiftMiddleware.swift
+//  LiftMiddlewareV1.swift
 //
 //
 //  Created by Hugues Telolahy on 27/11/2023.
@@ -11,19 +11,19 @@
 /// You should not be able to instantiate this class directly,
 /// instead, create a middleware for the sub-state and call `Middleware.lift(_:)`,
 /// passing as parameter the keyPath from whole to part.
-final class LiftMiddleware<GlobalState, LocalState>: Middleware<GlobalState> {
-    private let partMiddleware: Middleware<LocalState>
+final class LiftMiddlewareV1<GlobalState, LocalState>: MiddlewareV1<GlobalState> {
+    private let partMiddleware: MiddlewareV1<LocalState>
     private let stateMap: (GlobalState) -> LocalState?
 
     init(
-        middleware: Middleware<LocalState>,
+        middleware: MiddlewareV1<LocalState>,
         stateMap: @escaping (GlobalState) -> LocalState?
     ) {
         self.stateMap = stateMap
         self.partMiddleware = middleware
     }
 
-    override func effect(on action: Action, state: GlobalState) async -> Action? {
+    override func effect(on action: ActionV1, state: GlobalState) async -> ActionV1? {
         guard let localState = stateMap(state) else {
             return nil
         }
@@ -32,9 +32,9 @@ final class LiftMiddleware<GlobalState, LocalState>: Middleware<GlobalState> {
     }
 }
 
-public extension Middleware {
-    func lift<GlobalState>(stateMap: @escaping (GlobalState) -> State?) -> Middleware<GlobalState> {
-        LiftMiddleware(
+public extension MiddlewareV1 {
+    func lift<GlobalState>(stateMap: @escaping (GlobalState) -> State?) -> MiddlewareV1<GlobalState> {
+        LiftMiddlewareV1(
             middleware: self,
             stateMap: stateMap
         )

@@ -7,7 +7,7 @@
 
 import Redux
 
-public class SaveSettingsMiddleware: Middleware<SettingsState> {
+public class SaveSettingsMiddleware: MiddlewareV1<SettingsState> {
     private var service: SettingsService
 
     public init(service: SettingsService) {
@@ -15,7 +15,7 @@ public class SaveSettingsMiddleware: Middleware<SettingsState> {
         super.init()
     }
 
-    override public func effect(on action: Action, state: SettingsState) async -> Action? {
+    override public func effect(on action: ActionV1, state: SettingsState) async -> ActionV1? {
         guard let action = action as? SettingsAction else {
             return nil
         }

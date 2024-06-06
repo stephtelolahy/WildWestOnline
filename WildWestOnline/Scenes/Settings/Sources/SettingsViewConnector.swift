@@ -8,7 +8,7 @@ import AppCore
 import Redux
 
 public extension Connectors {
-    struct SettingsViewConnector: Connector {
+    struct SettingsViewConnector: ConnectorV1 {
         public init() {}
 
         public func connect(state: AppState) -> SettingsView.State? {

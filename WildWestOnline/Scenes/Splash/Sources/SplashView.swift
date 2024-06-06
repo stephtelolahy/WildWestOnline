@@ -11,9 +11,9 @@ import Redux
 import SwiftUI
 
 public struct SplashView: View {
-    @StateObject private var store: Store<State>
+    @StateObject private var store: StoreV1<State>
 
-    public init(store: @escaping () -> Store<State>) {
+    public init(store: @escaping () -> StoreV1<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -38,6 +38,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        Store(initial: .init())
+        StoreV1(initial: .init())
     }
 }

@@ -8,7 +8,7 @@
 import Redux
 
 public extension GameState {
-    static let reducer: Reducer<Self> = { state, action in
+    static let reducer: ReducerV1<Self> = { state, action in
         guard let action = action as? GameAction else {
             return state
         }

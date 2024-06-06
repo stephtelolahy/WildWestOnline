@@ -9,7 +9,7 @@ import AppCore
 import Redux
 
 public extension Connectors {
-    struct SplashViewConnector: Connector {
+    struct SplashViewConnector: ConnectorV1 {
         public init() {}
 
         public func connect(state: AppState) -> SplashView.State? {
