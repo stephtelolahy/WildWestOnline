@@ -13,19 +13,19 @@ import Combine
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
 final class StoreProjection<
-    GlobalState: Equatable,
-    LocalState: Equatable,
-    GlobalAction: Equatable,
-    LocalAction: Equatable
->: Store<LocalState, LocalAction> {
-    private let globalStore: Store<GlobalState, GlobalAction>
-    private let stateMap: (GlobalState) -> LocalState?
-    private let actionMap: (LocalAction) -> GlobalAction
+    State: Equatable,
+    Action: Equatable,
+    DerivedState: Equatable,
+    ExtractedAction: Equatable
+>: Store<DerivedState, ExtractedAction> {
+    private let globalStore: Store<State, Action>
+    private let stateMap: (State) -> DerivedState?
+    private let actionMap: (ExtractedAction) -> Action
 
     init(
-        globalStore: Store<GlobalState, GlobalAction>,
-        stateMap: @escaping (GlobalState) -> LocalState?,
-        actionMap: @escaping (LocalAction) -> GlobalAction
+        globalStore: Store<State, Action>,
+        stateMap: @escaping (State) -> DerivedState?,
+        actionMap: @escaping (ExtractedAction) -> Action
     ) {
         guard let initialState = stateMap(globalStore.state) else {
             fatalError("failed mapping to local state")
@@ -43,7 +43,7 @@ final class StoreProjection<
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: LocalAction) {
+    override func dispatch(_ action: ExtractedAction) {
         globalStore.dispatch(actionMap(action))
     }
 }

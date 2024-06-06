@@ -6,13 +6,13 @@
 //
 
 public protocol Connector {
-    associatedtype GlobalState: Equatable
-    associatedtype GlobalAction: Equatable
-    associatedtype LocalState: Equatable
-    associatedtype LocalAction: Equatable
+    associatedtype State: Equatable
+    associatedtype Action: Equatable
+    associatedtype ViewState: Equatable
+    associatedtype ViewAction: Equatable
 
-    func connect(state: GlobalState) -> LocalState?
-    func connect(action: LocalAction) -> GlobalAction
+    func connect(state: State) -> ViewState?
+    func connect(action: ViewAction) -> Action
 }
 
 public enum Connectors {}
@@ -20,7 +20,7 @@ public enum Connectors {}
 public extension Store {
     func projection<C: Connector>(
         using connector: C
-    ) -> Store<C.LocalState, C.LocalAction> where C.GlobalState == State, C.GlobalAction == Action {
+    ) -> Store<C.ViewState, C.ViewAction> where C.State == State, C.Action == Action {
         StoreProjection(
             globalStore: self,
             stateMap: connector.connect,
