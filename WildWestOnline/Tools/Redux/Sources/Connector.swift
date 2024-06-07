@@ -6,10 +6,10 @@
 //
 
 public protocol Connector {
-    associatedtype State: Equatable
-    associatedtype Action: Equatable
+    associatedtype State
+    associatedtype Action
     associatedtype ViewState: Equatable
-    associatedtype ViewAction: Equatable
+    associatedtype ViewAction
 
     func deriveState(state: State) -> ViewState?
     func embedAction(action: ViewAction) -> Action

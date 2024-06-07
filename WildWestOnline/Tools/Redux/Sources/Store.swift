@@ -13,7 +13,7 @@ import SwiftUI
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-public class Store<State: Equatable, Action: Equatable>: ObservableObject {
+public class Store<State, Action>: ObservableObject {
     @Published public internal(set) var state: State
 
     private let reducer: Reducer<State, Action>
