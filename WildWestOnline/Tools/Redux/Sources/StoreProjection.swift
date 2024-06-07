@@ -15,49 +15,49 @@ import Combine
 final class StoreProjection<
     State: Equatable,
     Action: Equatable,
-    DerivedState: Equatable,
-    ExtractedAction: Equatable
->: Store<DerivedState, ExtractedAction> {
+    ViewState: Equatable,
+    ViewAction: Equatable
+>: Store<ViewState, ViewAction> {
     private let globalStore: Store<State, Action>
-    private let stateMap: (State) -> DerivedState?
-    private let actionMap: (ExtractedAction) -> Action
+    private let deriveState: (State) -> ViewState?
+    private let embedAction: (ViewAction) -> Action
 
     init(
         globalStore: Store<State, Action>,
-        stateMap: @escaping (State) -> DerivedState?,
-        actionMap: @escaping (ExtractedAction) -> Action
+        deriveState: @escaping (State) -> ViewState?,
+        embedAction: @escaping (ViewAction) -> Action
     ) {
-        guard let initialState = stateMap(globalStore.state) else {
+        guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
         }
 
         self.globalStore = globalStore
-        self.stateMap = stateMap
-        self.actionMap = actionMap
+        self.deriveState = deriveState
+        self.embedAction = embedAction
         super.init(initial: initialState)
 
         globalStore.$state
-            .map(self.stateMap)
+            .map(self.deriveState)
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: ExtractedAction) {
-        globalStore.dispatch(actionMap(action))
+    override func dispatch(_ action: ViewAction) {
+        globalStore.dispatch(embedAction(action))
     }
 }
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable, LocalAction: Equatable>(
-        stateMap: @escaping (State) -> LocalState?,
-        actionMap: @escaping (LocalAction) -> Action
-    ) -> Store<LocalState, LocalAction> {
+    func projection<ViewState: Equatable, ViewAction: Equatable>(
+        deriveState: @escaping (State) -> ViewState?,
+        embedAction: @escaping (ViewAction) -> Action
+    ) -> Store<ViewState, ViewAction> {
         StoreProjection(
             globalStore: self,
-            stateMap: stateMap,
-            actionMap: actionMap
+            deriveState: deriveState,
+            embedAction: embedAction
         )
     }
 }

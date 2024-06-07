@@ -11,8 +11,8 @@ public protocol Connector {
     associatedtype ViewState: Equatable
     associatedtype ViewAction: Equatable
 
-    func connect(state: State) -> ViewState?
-    func connect(action: ViewAction) -> Action
+    func deriveState(state: State) -> ViewState?
+    func embedAction(action: ViewAction) -> Action
 }
 
 public enum Connectors {}
@@ -23,8 +23,8 @@ public extension Store {
     ) -> Store<C.ViewState, C.ViewAction> where C.State == State, C.Action == Action {
         StoreProjection(
             globalStore: self,
-            stateMap: connector.connect,
-            actionMap: connector.connect
+            deriveState: connector.deriveState,
+            embedAction: connector.embedAction
         )
     }
 }
