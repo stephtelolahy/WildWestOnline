@@ -22,13 +22,10 @@ public extension Store {
             fatalError("failed mapping to local state")
         }
 
-        let viewStore = Store<ViewState, ViewAction>(
-            initial: viewState,
-            reducer: { [weak self] state, action in
-                self?.dispatch(embedAction(action))
-                return state
-            }
-        )
+        let viewStore = Store<ViewState, ViewAction>(initial: viewState) { [weak self] state, action in
+            self?.dispatch(embedAction(action))
+            return state
+        }
 
         $state
             .map(deriveState)
