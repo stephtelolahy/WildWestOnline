@@ -52,13 +52,11 @@ final class LiftMiddleware<
     override func handle(_ action: GlobalAction, state: GlobalState) async -> GlobalAction? {
         guard let localState = deriveState(state),
               let localAction = deriveAction(action) else {
+            // This middleware doesn't care about this action type
             return nil
         }
 
-        guard let nextLocalAction = await partMiddleware.handle(localAction, state: localState) else {
-            return nil
-        }
-
-        return embedAction(nextLocalAction)
+        let nextLocalAction = await partMiddleware.handle(localAction, state: localState)
+        return nextLocalAction.flatMap(embedAction)
     }
 }
