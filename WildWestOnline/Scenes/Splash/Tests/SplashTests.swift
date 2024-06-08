@@ -22,7 +22,7 @@ final class SplashTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertEqual(sut.deriveState(state: appState), SplashView.State())
+        XCTAssertEqual(sut.deriveState(state: appState), .init())
     }
 
     func test_embedActionFinish() {
@@ -31,6 +31,6 @@ final class SplashTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertEqual(sut.embedAction(action: .finish), AppAction.navigate(.home))
+        XCTAssertEqual(sut.embedAction(action: .finish), .navigate(.home))
     }
 }
