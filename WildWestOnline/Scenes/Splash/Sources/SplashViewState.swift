@@ -9,4 +9,8 @@
 public extension SplashView {
     struct State: Equatable {
     }
+
+    enum Action {
+        case finish
+    }
 }

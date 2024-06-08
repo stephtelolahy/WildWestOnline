@@ -8,11 +8,11 @@
 import AppCore
 import Redux
 import SettingsCore
-import Splash
+@testable import Splash
 import XCTest
 
 final class SplashTests: XCTestCase {
-    func test_splashStateProjection() {
+    func test_deriveState() {
         // Given
         let appState = AppState(
             screens: [.splash],
@@ -22,6 +22,15 @@ final class SplashTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(sut.connect(state: appState))
+        XCTAssertEqual(sut.deriveState(state: appState), SplashView.State())
+    }
+
+    func test_embedActionFinish() {
+        // Given
+        let sut = Connectors.SplashViewConnector()
+
+        // When
+        // Then
+        XCTAssertEqual(sut.embedAction(action: .finish), AppAction.navigate(.home))
     }
 }

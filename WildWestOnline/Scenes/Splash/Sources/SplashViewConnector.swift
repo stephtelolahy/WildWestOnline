@@ -1,19 +1,25 @@
 //
 //  SplashViewConnector.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 10/05/2024.
 //
-
 import AppCore
 import Redux
 
 public extension Connectors {
-    struct SplashViewConnector: ConnectorV1 {
+    struct SplashViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> SplashView.State? {
+        public func deriveState(state: AppState) -> SplashView.State? {
             .init()
+        }
+
+        public func embedAction(action: SplashView.Action) -> AppAction {
+            switch action {
+            case .finish:
+                return AppAction.navigate(.home)
+            }
         }
     }
 }

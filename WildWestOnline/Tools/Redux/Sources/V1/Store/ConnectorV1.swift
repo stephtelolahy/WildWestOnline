@@ -19,3 +19,26 @@ public extension StoreV1 {
         StoreProjectionV1(globalStore: self, stateMap: connector.connect)
     }
 }
+
+public extension StoreV1 {
+    func projection<C: Connector>(
+        using connector: C
+    ) -> Store<C.ViewState, C.ViewAction> where C.State == State, C.Action: ActionV1 {
+        guard let viewState = connector.deriveState(state: self.state) else {
+            fatalError("failed mapping to local state")
+        }
+
+        let viewStore = Store<C.ViewState, C.ViewAction>(initial: viewState) { [weak self] state, action in
+            self?.dispatch(connector.embedAction(action: action))
+            return state
+        }
+
+        $state
+            .map(connector.deriveState)
+            .compactMap { $0 }
+            .removeDuplicates()
+            .assign(to: &viewStore.$state)
+
+        return viewStore
+    }
+}
