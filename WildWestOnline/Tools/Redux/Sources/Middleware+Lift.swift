@@ -11,32 +11,47 @@
 /// You should not be able to instantiate this class directly,
 /// instead, create a middleware for the sub-state and call `Middleware.lift(_:)`,
 /// passing as parameter the keyPath from whole to part.
+public extension Middleware {
+    func lift<GlobalState, GlobalAction>(
+        deriveState: @escaping (GlobalState) -> State?,
+        deriveAction: @escaping (GlobalAction) -> Action?,
+        embedAction: @escaping (Action) -> GlobalAction
+    ) -> Middleware<GlobalState, GlobalAction> {
+        LiftMiddleware(
+            partMiddleware: self,
+            deriveState: deriveState,
+            deriveAction: deriveAction,
+            embedAction: embedAction
+        )
+    }
+}
+
 final class LiftMiddleware<
     GlobalState,
     GlobalAction,
     LocalState,
     LocalAction
 >: Middleware<GlobalState, GlobalAction> {
-    private let partMiddleware: Middleware<LocalState,  LocalAction>
-    private let stateMap: (GlobalState) -> LocalState?
-    private let actionMap: (GlobalAction) -> LocalAction?
+    private let partMiddleware: Middleware<LocalState, LocalAction>
+    private let deriveState: (GlobalState) -> LocalState?
+    private let deriveAction: (GlobalAction) -> LocalAction?
     private let embedAction: (LocalAction) -> GlobalAction
 
     init(
-        partMiddleware: Middleware<LocalState,  LocalAction>,
-        stateMap: @escaping (GlobalState) -> LocalState?,
-        actionMap: @escaping (GlobalAction) -> LocalAction?,
+        partMiddleware: Middleware<LocalState, LocalAction>,
+        deriveState: @escaping (GlobalState) -> LocalState?,
+        deriveAction: @escaping (GlobalAction) -> LocalAction?,
         embedAction: @escaping (LocalAction) -> GlobalAction
     ) {
         self.partMiddleware = partMiddleware
-        self.stateMap = stateMap
-        self.actionMap = actionMap
+        self.deriveState = deriveState
+        self.deriveAction = deriveAction
         self.embedAction = embedAction
     }
 
     override func handle(_ action: GlobalAction, state: GlobalState) async -> GlobalAction? {
-        guard let localState = stateMap(state),
-              let localAction = actionMap(action) else {
+        guard let localState = deriveState(state),
+              let localAction = deriveAction(action) else {
             return nil
         }
 
@@ -45,21 +60,5 @@ final class LiftMiddleware<
         }
 
         return embedAction(nextLocalAction)
-    }
-}
-
-public extension Middleware {
-    func lift<
-        GlobalState,
-        GlobalAction
-    >(
-        stateMap: @escaping (GlobalState) -> State?,
-        actionMap: @escaping (GlobalAction) -> Action?
-    ) -> Middleware<GlobalState, GlobalAction> {
-        LiftMiddleware(
-            partMiddleware: self,
-            stateMap: stateMap,
-            actionMap: actionMap
-        )
     }
 }
