@@ -11,21 +11,6 @@
 /// You should not be able to instantiate this class directly,
 /// instead, create a middleware for the sub-state and call `Middleware.lift(_:)`,
 /// passing as parameter the keyPath from whole to part.
-public extension Middleware {
-    func lift<GlobalState, GlobalAction>(
-        deriveState: @escaping (GlobalState) -> State?,
-        deriveAction: @escaping (GlobalAction) -> Action?,
-        embedAction: @escaping (Action) -> GlobalAction
-    ) -> Middleware<GlobalState, GlobalAction> {
-        LiftMiddleware(
-            partMiddleware: self,
-            deriveState: deriveState,
-            deriveAction: deriveAction,
-            embedAction: embedAction
-        )
-    }
-}
-
 final class LiftMiddleware<
     GlobalState,
     GlobalAction,
@@ -58,5 +43,20 @@ final class LiftMiddleware<
 
         let nextLocalAction = await partMiddleware.handle(localAction, state: localState)
         return nextLocalAction.flatMap(embedAction)
+    }
+}
+
+public extension Middleware {
+    func lift<GlobalState, GlobalAction>(
+        deriveState: @escaping (GlobalState) -> State?,
+        deriveAction: @escaping (GlobalAction) -> Action?,
+        embedAction: @escaping (Action) -> GlobalAction
+    ) -> Middleware<GlobalState, GlobalAction> {
+        LiftMiddleware(
+            partMiddleware: self,
+            deriveState: deriveState,
+            deriveAction: deriveAction,
+            embedAction: embedAction
+        )
     }
 }
