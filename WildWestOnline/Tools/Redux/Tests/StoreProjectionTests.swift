@@ -10,7 +10,6 @@ import Redux
 import XCTest
 
 final class StoreProjectionTests: XCTestCase {
-
     func testExplore() {
         // Given
         var subscriptions = Set<AnyCancellable>()
@@ -19,7 +18,6 @@ final class StoreProjectionTests: XCTestCase {
         }
         let deriveState: (String) -> Int? = { Int($0) }
         let embedAction: (Int) -> Int = { $0 }
-
         let sut = globalStore.projection(deriveState: deriveState, embedAction: embedAction)
         var receivedStates: [Int?] = []
         sut.$state.sink { viewState in
@@ -27,12 +25,10 @@ final class StoreProjectionTests: XCTestCase {
         }
         .store(in: &subscriptions)
 
-
         // When
         sut.dispatch(2)
 
         // Then
-        XCTAssertEqual(receivedStates, [11])
+        XCTAssertEqual(receivedStates, [1, 11])
     }
-
 }
