@@ -41,7 +41,6 @@ public struct SettingsView: View {
             playersCountView
             speedView
             simulationView
-            gamePlayView
             figureView
         }
     }
@@ -96,29 +95,6 @@ public struct SettingsView: View {
         }
     }
 
-    private var gamePlayView: some View {
-        HStack {
-            Image(systemName: "gamecontroller")
-            Picker(
-                selection: Binding<Int>(
-                    get: {
-                        store.state.gamePlay
-                    },
-                    set: { index in
-                        store.dispatch(.updateGamePlay(index))
-                    }
-                ),
-                label: Text(
-                    "GamePlay"
-                )
-            ) {
-                ForEach(0..<(store.state.gamePlayOptions.count), id: \.self) {
-                    Text(store.state.gamePlayOptions[$0])
-                }
-            }
-        }
-    }
-
     private var figureView: some View {
         HStack {
             Image(systemName: "star")
@@ -156,7 +132,6 @@ private extension SettingsView.State {
             playersCount: 5,
             speedIndex: 0,
             simulation: false,
-            gamePlay: 0,
             figureOptions: ["Figure1", "Figure2", "Figure3"],
             preferredFigureIndex: -1
         )

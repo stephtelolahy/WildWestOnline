@@ -15,7 +15,6 @@ public extension SettingsView {
         public let playersCount: Int
         public let speedIndex: Int
         public let simulation: Bool
-        public let gamePlay: Int
         public let figureOptions: [String]
         public let preferredFigureIndex: Int
 
@@ -29,17 +28,11 @@ public extension SettingsView {
                 .init(label: "Fast", value: 0)
             ]
         }
-
-        public let gamePlayOptions: [String] = [
-            "UIKit",
-            "SwiftUI"
-        ]
     }
 
     enum Action {
         case close
         case updatePreferredFigure(String)
-        case updateGamePlay(Int)
         case updateWaitDelayMilliseconds(Int)
         case updatePlayersCount(Int)
         case toggleSimulation

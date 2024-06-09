@@ -30,9 +30,6 @@ public class SaveSettingsMiddleware: MiddlewareV1<SettingsState> {
         case .toggleSimulation:
             service.simulationEnabled = state.simulation
 
-        case let .updateGamePlay(value):
-            service.gamePlay = value
-
         case let .updatePreferredFigure(value):
             service.preferredFigure = value
         }

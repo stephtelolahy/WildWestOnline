@@ -12,7 +12,6 @@ public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
-    public var gamePlay: Int
     public var preferredFigure: String?
 }
 
@@ -20,6 +19,5 @@ public enum SettingsAction: ActionV1, Codable, Equatable {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation
-    case updateGamePlay(Int)
     case updatePreferredFigure(String?)
 }

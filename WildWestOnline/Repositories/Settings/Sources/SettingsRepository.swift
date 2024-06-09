@@ -19,9 +19,6 @@ public class SettingsRepository: SettingsService {
     @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
     public var simulationEnabled: Bool
 
-    @UserDefaultsStored("settings.gamePlay", defaultValue: 0)
-    public var gamePlay: Int
-
     @OptionalUserDefaultsStored("settings.preferredFigure")
     public var preferredFigure: String?
 

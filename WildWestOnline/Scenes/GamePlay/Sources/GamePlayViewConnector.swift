@@ -1,16 +1,17 @@
 //
 //  GamePlayViewConnector.swift
-//
+//  
 //
 //  Created by Stephano Hugues TELOLAHY on 10/05/2024.
 //
+// swiftlint:disable no_magic_numbers
 
 import AppCore
 import GameCore
 import Redux
 
 public extension Connectors {
-    struct GamePlayViewConnector: ConnectorV1 {
+    struct GamePlayUIKitViewConnector: ConnectorV1 {
         public init() {}
 
         public func connect(state: AppState) -> GamePlayView.State? {
@@ -21,8 +22,13 @@ public extension Connectors {
             return .init(
                 players: game.playerItems,
                 message: game.message,
-                chooseOneActions: game.chooseOneActions,
+                chooseOneData: game.chooseOneData,
                 handActions: game.handActions,
+                topDiscard: game.discard.first,
+                topDeck: game.deck.first,
+                animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
+                startOrder: game.startOrder,
+                deckCount: game.deck.count,
                 occurredEvent: game.event
             )
         }
@@ -31,34 +37,29 @@ public extension Connectors {
 
 private extension GameState {
     var playerItems: [GamePlayView.State.PlayerItem] {
-        startOrder.map { playerId in
+        self.startOrder.map { playerId in
             let playerObj = player(playerId)
-            let handText = "[]\(playerObj.hand.count)"
-            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
             let health = max(0, playerObj.health)
-            let damage = maxHealth - health
-            let healthText = ""
-            + Array(repeating: "♡", count: damage).joined()
-            + Array(repeating: "♥", count: health).joined()
-            let equipmentText = playerObj.inPlay.joined(separator: "-")
+            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
+            let handCount = playerObj.hand.count
+            let equipment = playerObj.inPlay
+            let isTurn = playerId == turn
+            let isEliminated = !playOrder.contains(playerId)
+            let isTargeted = sequence.contains { $0.isEffectTargeting(playerId) }
 
-            let status: GamePlayView.State.PlayerItem.Status
-            = if playerId == turn {
-                .active
-            } else if !playOrder.contains(playerId) {
-                .eliminated
-            } else {
-                .idle
-            }
-
-            return GamePlayView.State.PlayerItem(
+            return .init(
                 id: playerId,
                 imageName: playerObj.figure,
                 displayName: playerObj.figure.uppercased(),
-                hand: handText,
-                health: healthText,
-                equipment: equipmentText,
-                status: status
+                health: health,
+                maxHealth: maxHealth,
+                handCount: handCount,
+                inPlay: equipment,
+                isTurn: isTurn,
+                isTargeted: isTargeted,
+                isEliminated: isEliminated,
+                role: nil,
+                userPhotoUrl: nil
             )
         }
     }
@@ -67,18 +68,23 @@ private extension GameState {
         if let turn {
             "\(turn.uppercased())'s turn"
         } else {
-            ""
+            "-"
         }
     }
 
-    var chooseOneActions: [String: GameAction] {
+    var chooseOneData: GamePlayView.State.ChooseOneData? {
         guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
-            return  [:]
+            return  nil
         }
 
-        return chooseOne.value.options.reduce(into: [String: GameAction]()) {
+        let options = chooseOne.value.options.reduce(into: [String: GameAction]()) {
             $0[$1] = .choose($1, player: chooseOne.key)
         }
+        return .init(
+            choiceType: chooseOne.value.type,
+            options: chooseOne.value.options,
+            actions: options
+        )
     }
 
     var handActions: [GamePlayView.State.CardAction] {

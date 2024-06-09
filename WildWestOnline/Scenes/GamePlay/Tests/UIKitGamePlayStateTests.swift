@@ -139,7 +139,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
         // Then
         XCTAssertEqual(
             result.chooseOneData,
-            GamePlayUIKitView.State.ChooseOneData(
+            GamePlayView.State.ChooseOneData(
                 choiceType: .cardToDraw,
                 options: [.missed, .bang],
                 actions: [

@@ -38,7 +38,6 @@ private func createStore() -> StoreV1<AppState> {
         .withPlayersCount(settingsService.playersCount)
         .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds)
         .withSimulation(settingsService.simulationEnabled)
-        .withGamePlay(settingsService.gamePlay)
         .withPreferredFigure(settingsService.preferredFigure)
         .build()
 

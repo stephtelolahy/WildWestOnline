@@ -38,7 +38,9 @@ public struct AppView: View {
                 }
 
             case .game:
-                gamePlayView
+                GamePlayView {
+                    store.projection(using: Connectors.GamePlayUIKitViewConnector())
+                }
 
             default:
                 EmptyView()
@@ -54,25 +56,6 @@ public struct AppView: View {
             }
         })
         .foregroundColor(.primary)
-    }
-
-    private var gamePlayView: some View {
-        Group {
-            switch store.state.settings.gamePlay {
-            case 0:
-                GamePlayUIKitView {
-                    store.projection(using: Connectors.GamePlayUIKitViewConnector())
-                }
-
-            case 1:
-                GamePlayView {
-                    store.projection(using: Connectors.GamePlayViewConnector())
-                }
-
-            default:
-                fatalError("unexpected")
-            }
-        }
     }
 }
 
