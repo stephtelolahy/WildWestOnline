@@ -7,7 +7,6 @@
 // swiftlint:disable no_magic_numbers type_contents_order
 
 import Redux
-import SettingsCore
 import SwiftUI
 
 public struct SettingsView: View {
