@@ -26,29 +26,29 @@ public extension Connectors {
         public func embedAction(action: SettingsView.Action) -> AppAction {
             switch action {
             case .close:
-                AppAction.close
+                    .close
 
             case .updatePreferredFigure(let figure):
-                SettingsAction.updatePreferredFigure(figure)
+                    .settings(.updatePreferredFigure(figure))
 
             case .updateGamePlay(let index):
-                SettingsAction.updateGamePlay(index)
+                    .settings(.updateGamePlay(index))
 
             case .updateWaitDelayMilliseconds(let delay):
-                SettingsAction.updateWaitDelayMilliseconds(delay)
+                    .settings(.updateWaitDelayMilliseconds(delay))
 
             case .updatePlayersCount(let count):
-                SettingsAction.updatePlayersCount(count)
+                    .settings(.updatePlayersCount(count))
 
             case .toggleSimulation:
-                SettingsAction.toggleSimulation
+                    .settings(.toggleSimulation)
             }
         }
 
         private func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
             SettingsView.State.SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
         }
-
+        
         private func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
             guard let figure,
                   let index = figures.firstIndex(of: figure) else {

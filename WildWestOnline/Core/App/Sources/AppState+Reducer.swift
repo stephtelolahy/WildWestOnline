@@ -40,8 +40,12 @@ private extension AppState {
             state.screens.append(.game)
 
         case .exitGame:
-            state.screens.removeLast()
             state.game = nil
+            state.screens.removeLast()
+
+        case .settings:
+            // TODO: settings reducer
+            break
         }
         return state
     }
