@@ -35,4 +35,13 @@ public extension SettingsView {
             "SwiftUI"
         ]
     }
+
+    enum Action {
+        case close
+        case updatePreferredFigure(String)
+        case updateGamePlay(Int)
+        case updateWaitDelayMilliseconds(Int)
+        case updatePlayersCount(Int)
+        case toggleSimulation
+    }
 }

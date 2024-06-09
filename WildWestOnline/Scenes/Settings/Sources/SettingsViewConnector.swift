@@ -6,12 +6,13 @@
 //
 import AppCore
 import Redux
+import SettingsCore
 
 public extension Connectors {
-    struct SettingsViewConnector: ConnectorV1 {
+    struct SettingsViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> SettingsView.State? {
+        public func deriveState(state: AppState) -> SettingsView.State? {
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),
@@ -20,6 +21,28 @@ public extension Connectors {
                 figureOptions: state.settings.inventory.figures,
                 preferredFigureIndex: indexOfFigure(state.settings.preferredFigure, in: state.settings.inventory.figures)
             )
+        }
+
+        public func embedAction(action: SettingsView.Action) -> AppAction {
+            switch action {
+            case .close:
+                AppAction.close
+
+            case .updatePreferredFigure(let figure):
+                SettingsAction.updatePreferredFigure(figure)
+
+            case .updateGamePlay(let index):
+                SettingsAction.updateGamePlay(index)
+
+            case .updateWaitDelayMilliseconds(let delay):
+                SettingsAction.updateWaitDelayMilliseconds(delay)
+
+            case .updatePlayersCount(let count):
+                SettingsAction.updatePlayersCount(count)
+
+            case .toggleSimulation:
+                SettingsAction.toggleSimulation
+            }
         }
 
         private func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
