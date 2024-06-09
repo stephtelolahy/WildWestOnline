@@ -21,9 +21,18 @@ final class SetttingsTests: XCTestCase {
         let sut = Connectors.SettingsViewConnector()
 
         // When
-        let settingsState = try XCTUnwrap(sut.connect(state: appState))
+        let settingsState = try XCTUnwrap(sut.deriveState(state: appState))
 
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)
+    }
+
+    func test_SettingsEmbedAction() throws {
+        // Given
+        let sut = Connectors.SettingsViewConnector()
+
+        // When
+        // Then
+        XCTAssertEqual(sut.embedAction(action: .toggleSimulation), .settings(.toggleSimulation))
     }
 }

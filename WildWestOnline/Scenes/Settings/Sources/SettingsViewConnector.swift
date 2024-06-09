@@ -48,7 +48,7 @@ public extension Connectors {
         private func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
             SettingsView.State.SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
         }
-        
+
         private func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
             guard let figure,
                   let index = figures.firstIndex(of: figure) else {
