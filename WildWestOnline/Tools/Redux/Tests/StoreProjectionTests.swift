@@ -10,7 +10,7 @@ import Redux
 import XCTest
 
 final class StoreProjectionTests: XCTestCase {
-    func testExplore() {
+    func testProjectingStore_shouldEmitDerivedState() {
         // Given
         var subscriptions = Set<AnyCancellable>()
         let globalStore: Store<String, Int> = Store(initial: "1") { state, action in

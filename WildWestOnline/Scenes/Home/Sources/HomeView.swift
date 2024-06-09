@@ -6,16 +6,15 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import AppCore
 import Redux
 import SwiftUI
 import Theme
 
 public struct HomeView: View {
     @Environment(\.theme) private var theme
-    @StateObject private var store: StoreV1<State>
+    @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> StoreV1<State>) {
+    public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -48,12 +47,12 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     withAnimation {
-                        store.dispatch(AppAction.startGame)
+                        store.dispatch(.startGame)
                     }
                 }
                 mainButton("menu.settings.button") {
                     withAnimation {
-                        store.dispatch(AppAction.navigate(.settings))
+                        store.dispatch(.openSettings)
                     }
                 }
             }
@@ -86,6 +85,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        StoreV1(initial: .init())
+        Store(initial: .init())
     }
 }

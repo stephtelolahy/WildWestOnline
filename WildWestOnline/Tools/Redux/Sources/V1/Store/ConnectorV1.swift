@@ -21,6 +21,7 @@ public extension StoreV1 {
 }
 
 public extension StoreV1 {
+    @available(*, message: "use Store<State, Action>")
     func projection<C: Connector>(
         using connector: C
     ) -> Store<C.ViewState, C.ViewAction> where C.State == State, C.Action: ActionV1 {

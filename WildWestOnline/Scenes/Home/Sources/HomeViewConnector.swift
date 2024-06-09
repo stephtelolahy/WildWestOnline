@@ -9,11 +9,21 @@ import AppCore
 import Redux
 
 public extension Connectors {
-    struct HomeViewConnector: ConnectorV1 {
+    struct HomeViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> HomeView.State? {
+        public func deriveState(state: AppState) -> HomeView.State? {
             .init()
+        }
+
+        public func embedAction(action: HomeView.Action) -> AppAction {
+            switch action {
+            case .openSettings:
+                .navigate(.settings)
+
+            case .startGame:
+                .navigate(.game)
+            }
         }
     }
 }

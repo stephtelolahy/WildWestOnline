@@ -9,4 +9,9 @@
 public extension HomeView {
     struct State: Equatable {
     }
+
+    enum Action {
+        case openSettings
+        case startGame
+    }
 }
