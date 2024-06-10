@@ -46,6 +46,10 @@ private extension AppState {
         case .settings:
             // TODO: settings reducer
             break
+
+        case .game:
+            // TODO: game reducer
+            break
         }
         return state
     }

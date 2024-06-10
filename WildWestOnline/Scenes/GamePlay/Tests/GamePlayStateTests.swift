@@ -14,6 +14,8 @@ import SettingsCore
 import XCTest
 
 final class GamePlayStateTests: XCTestCase {
+    private let sut = Connectors.GamePlayViewConnector()
+
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
@@ -24,7 +26,6 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.deriveState(state: appState))
@@ -54,7 +55,6 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.deriveState(state: appState))
@@ -105,7 +105,6 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.deriveState(state: appState))
@@ -131,7 +130,6 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.deriveState(state: appState))
@@ -148,10 +146,20 @@ final class GamePlayStateTests: XCTestCase {
 
     func test_embedActionQuit() {
         // Given
-        let sut = Connectors.GamePlayViewConnector()
-
         // When
         // then
         XCTAssertEqual(sut.embedAction(action: .quit), .close)
+    }
+
+    func test_embedActionStart() {
+        XCTAssertEqual(sut.embedAction(action: .start), .game(.startTurn(player: "p1")))
+    }
+
+    func test_embedActionPlay() {
+        XCTAssertEqual(sut.embedAction(action: .play("c1")), .game(.play("c1", player: "p1")))
+    }
+
+    func test_embedActionChoose() {
+        XCTAssertEqual(sut.embedAction(action: .choose("o1")), .game(.choose("o1", player: "p1")))
     }
 }

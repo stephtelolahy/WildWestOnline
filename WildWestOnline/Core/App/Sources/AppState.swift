@@ -40,4 +40,5 @@ public enum AppAction: ActionV1, Equatable {
     case startGame
     case exitGame
     case settings(SettingsAction)
+    case game(GameAction)
 }

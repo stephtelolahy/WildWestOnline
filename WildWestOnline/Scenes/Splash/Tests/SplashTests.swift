@@ -12,14 +12,14 @@ import SettingsCore
 import XCTest
 
 final class SplashTests: XCTestCase {
+    private let sut = Connectors.SplashViewConnector()
+
     func test_deriveState() {
         // Given
         let appState = AppState(
             screens: [.splash],
             settings: SettingsState.makeBuilder().build()
         )
-        let sut = Connectors.SplashViewConnector()
-
         // When
         // Then
         XCTAssertEqual(sut.deriveState(state: appState), .init())
@@ -27,8 +27,6 @@ final class SplashTests: XCTestCase {
 
     func test_embedActionFinish() {
         // Given
-        let sut = Connectors.SplashViewConnector()
-
         // When
         // Then
         XCTAssertEqual(sut.embedAction(action: .finish), .navigate(.home))
