@@ -5,6 +5,11 @@
 //  Created by Hugues Telolahy on 09/06/2024.
 //
 
+/// Stateless converter between View state and App state.
+/// Defines two functions.
+/// The first one transforms the whole app state into the view state,
+/// and the second one converts view actions into app actions.
+///
 public protocol Connector {
     associatedtype State
     associatedtype Action
