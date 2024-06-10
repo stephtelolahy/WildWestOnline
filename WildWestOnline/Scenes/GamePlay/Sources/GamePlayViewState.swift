@@ -1,7 +1,7 @@
 // swiftlint:disable:this file_name
 //
 //  GamePlayViewState.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.
 //
@@ -40,32 +40,17 @@ public extension GamePlayView {
 
         public struct CardAction: Equatable {
             public let card: String
-            public let action: GameAction?
-
-            public init(card: String, action: GameAction?) {
-                self.card = card
-                self.action = action
-            }
+            public let active: Bool
         }
 
         public struct ChooseOneData: Equatable {
             public let choiceType: ChoiceType
             public let options: [String]
-            public let actions: [String: GameAction]
-
-            public init(
-                choiceType: ChoiceType,
-                options: [String],
-                actions: [String: GameAction]
-            ) {
-                self.choiceType = choiceType
-                self.options = options
-                self.actions = actions
-            }
         }
     }
 
     enum Action {
+        case start
         case quit
         case play(String)
         case choose(String)

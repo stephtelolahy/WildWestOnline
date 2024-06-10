@@ -8,7 +8,7 @@
 import AppCore
 import CardsRepository
 import GameCore
-import GamePlay
+@testable import GamePlay
 import Redux
 import SettingsCore
 import XCTest
@@ -24,10 +24,10 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(state: appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -54,10 +54,10 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(state: appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -105,16 +105,16 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(state: appState))
 
         // Then
         XCTAssertEqual(result.handActions, [
-            .init(card: .bang, action: .play(.bang, player: "p1")),
-            .init(card: .gatling, action: nil),
-            .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
+            .init(card: .bang, active: true),
+            .init(card: .gatling, active: false),
+            .init(card: .endTurn, active: true)
         ])
     }
 
@@ -131,22 +131,27 @@ final class GamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(state: appState))
 
         // Then
         XCTAssertEqual(
             result.chooseOneData,
             GamePlayView.State.ChooseOneData(
                 choiceType: .cardToDraw,
-                options: [.missed, .bang],
-                actions: [
-                    .missed: .choose(.missed, player: "p1"),
-                    .bang: .choose(.bang, player: "p1")
-                ]
+                options: [.missed, .bang]
             )
         )
+    }
+
+    func test_embedActionQuit() {
+        // Given
+        let sut = Connectors.GamePlayViewConnector()
+
+        // When
+        // then
+        XCTAssertEqual(sut.embedAction(action: .quit), .close)
     }
 }

@@ -11,10 +11,10 @@ import GameCore
 import Redux
 
 public extension Connectors {
-    struct GamePlayUIKitViewConnector: ConnectorV1 {
+    struct GamePlayViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> GamePlayView.State? {
+        public func deriveState(state: AppState) -> GamePlayView.State? {
             guard let game = state.game else {
                 return nil
             }
@@ -31,6 +31,10 @@ public extension Connectors {
                 deckCount: game.deck.count,
                 occurredEvent: game.event
             )
+        }
+
+        public func embedAction(action: GamePlayView.Action) -> AppAction {
+            .close
         }
     }
 }
@@ -77,13 +81,9 @@ private extension GameState {
             return  nil
         }
 
-        let options = chooseOne.value.options.reduce(into: [String: GameAction]()) {
-            $0[$1] = .choose($1, player: chooseOne.key)
-        }
         return .init(
             choiceType: chooseOne.value.type,
-            options: chooseOne.value.options,
-            actions: options
+            options: chooseOne.value.options
         )
     }
 
@@ -96,16 +96,12 @@ private extension GameState {
         let activeCards = self.active[playerId] ?? []
 
         let handCardActions = playerObj.hand.map { card in
-            if activeCards.contains(card) {
-                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
-            } else {
-                GamePlayView.State.CardAction(card: card, action: nil)
-            }
+            GamePlayView.State.CardAction(card: card, active: activeCards.contains(card))
         }
 
         let abilityActions = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayView.State.CardAction(card: card, active: true)
             } else {
                 nil
             }

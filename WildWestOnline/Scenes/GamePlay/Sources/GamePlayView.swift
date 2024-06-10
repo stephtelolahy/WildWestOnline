@@ -76,9 +76,9 @@ private extension GamePlayView.State {
             message: "P1's turn",
             chooseOneData: nil,
             handActions: [
-                .init(card: "\(String.mustang)-2♥️", action: nil),
-                .init(card: .gatling, action: .play(.gatling, player: "p1")),
-                .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
+                .init(card: "\(String.mustang)-2♥️", active: false),
+                .init(card: .gatling, active: true),
+                .init(card: .endTurn, active: true)
             ],
             topDiscard: .bang,
             topDeck: nil,

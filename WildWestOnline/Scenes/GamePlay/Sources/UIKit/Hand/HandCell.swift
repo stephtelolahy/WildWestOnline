@@ -32,7 +32,6 @@ class HandCell: UICollectionViewCell {
             cardImageView.image = nil
         }
 
-        let isActive = item.action != nil
-        cardDisabledLayer.isHidden = isActive
+        cardDisabledLayer.isHidden = item.active
     }
 }

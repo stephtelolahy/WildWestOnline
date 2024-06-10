@@ -71,14 +71,13 @@ class GamePlayViewController: UIViewController {
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
-        store.dispatch(AppAction.exitGame)
+        store.dispatch(.quit)
     }
 }
 
 private extension GamePlayViewController {
     func startGame() {
-        let sheriff = store.state.players[0].id
-        store.dispatch(GameAction.startTurn(player: sheriff))
+        store.dispatch(.start)
     }
 
     func setupViews() {
@@ -123,7 +122,9 @@ private extension GamePlayViewController {
         handCollectionView.reloadData()
 
         if let chooseOneData = state.chooseOneData {
-            showChooseOneAlert(chooseOneData, completion: store.dispatch)
+            showChooseOneAlert(chooseOneData) { [weak self] option in
+                self?.store.dispatch(.choose(option))
+            }
         }
 
         if let event = state.occurredEvent {
@@ -144,7 +145,7 @@ private extension GamePlayViewController {
 
     func showChooseOneAlert(
         _ data: GamePlayView.State.ChooseOneData,
-        completion: @escaping (GameAction) -> Void
+        completion: @escaping (String) -> Void
     ) {
         let alert = UIAlertController(
             title: "Choose \(data.choiceType.rawValue)",
@@ -157,9 +158,7 @@ private extension GamePlayViewController {
                 title: key,
                 style: .default
             ) { _ in
-                completion(
-                    data.actions[key]!
-                )
+                completion(key)
             }
             let image = UIImage(
                 named: key.extractName(),
@@ -283,11 +282,12 @@ extension GamePlayViewController: UICollectionViewDelegate {
     }
 
     private func handCollectionViewDidSelectItem(at indexPath: IndexPath) {
-        guard let action = store.state.handActions[indexPath.row].action else {
+        let item = store.state.handActions[indexPath.row]
+        guard item.active else {
             return
         }
 
-        store.dispatch(action)
+        store.dispatch(.play(item.card))
     }
 }
 

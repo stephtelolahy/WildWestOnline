@@ -39,7 +39,7 @@ public struct AppView: View {
 
             case .game:
                 GamePlayView {
-                    store.projection(using: Connectors.GamePlayUIKitViewConnector())
+                    store.projection(using: Connectors.GamePlayViewConnector())
                 }
 
             default:
