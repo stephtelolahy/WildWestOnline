@@ -6,18 +6,16 @@
 //
 // swiftlint:disable type_contents_order no_magic_numbers
 
-import AppCore
 import CardsRepository
-import GameCore
 import Redux
 import SwiftUI
 import Theme
 
 public struct GamePlayView: View {
     @Environment(\.theme) private var theme
-    @StateObject private var store: StoreV1<State>
+    @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> StoreV1<State>) {
+    public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -37,7 +35,7 @@ public struct GamePlayView: View {
 
 #Preview {
     GamePlayView {
-        StoreV1(initial: .sample)
+        Store(initial: .sample)
     }
 }
 

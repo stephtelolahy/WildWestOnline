@@ -64,4 +64,10 @@ public extension GamePlayView {
             }
         }
     }
+
+    enum Action {
+        case quit
+        case play(String)
+        case choose(String)
+    }
 }

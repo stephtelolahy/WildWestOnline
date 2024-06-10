@@ -13,7 +13,7 @@ import Redux
 import SettingsCore
 import XCTest
 
-final class UIKitGamePlayStateTests: XCTestCase {
+final class GamePlayStateTests: XCTestCase {
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
