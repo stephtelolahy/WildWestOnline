@@ -148,18 +148,18 @@ final class GamePlayStateTests: XCTestCase {
         // Given
         // When
         // then
-        XCTAssertEqual(sut.embedAction(action: .quit), .close)
+        XCTAssertEqual(sut.embedAction(action: .didTapQuitButton), .close)
     }
 
     func test_embedActionStart() {
-        XCTAssertEqual(sut.embedAction(action: .start), .game(.startTurn(player: "p1")))
+        XCTAssertEqual(sut.embedAction(action: .didAppear), .game(.startTurn(player: "p1")))
     }
 
     func test_embedActionPlay() {
-        XCTAssertEqual(sut.embedAction(action: .play("c1")), .game(.play("c1", player: "p1")))
+        XCTAssertEqual(sut.embedAction(action: .didPlay("c1")), .game(.play("c1", player: "p1")))
     }
 
     func test_embedActionChoose() {
-        XCTAssertEqual(sut.embedAction(action: .choose("o1")), .game(.choose("o1", player: "p1")))
+        XCTAssertEqual(sut.embedAction(action: .didChoose("o1")), .game(.choose("o1", player: "p1")))
     }
 }

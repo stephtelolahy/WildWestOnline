@@ -30,6 +30,6 @@ final class SetttingsTests: XCTestCase {
         // Given
         // When
         // Then
-        XCTAssertEqual(sut.embedAction(action: .toggleSimulation), .settings(.toggleSimulation))
+        XCTAssertEqual(sut.embedAction(action: .didToggleSimulation), .settings(.toggleSimulation))
     }
 }

@@ -27,7 +27,7 @@ public struct SettingsView: View {
             .toolbar {
                 Button("Done") {
                     withAnimation {
-                        store.dispatch(.close)
+                        store.dispatch(.didTapCloseButton)
                     }
                 }
             }
@@ -52,7 +52,7 @@ public struct SettingsView: View {
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
                     get: { store.state.playersCount },
-                    set: { store.dispatch(.updatePlayersCount($0)) }
+                    set: { store.dispatch(.didSelectPlayersCount($0)) }
                 ).animation(),
                 in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
@@ -69,7 +69,7 @@ public struct SettingsView: View {
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
-                        store.dispatch(.updateWaitDelayMilliseconds(option.value))
+                        store.dispatch(.didSelectWaitDelayMilliseconds(option.value))
                     }
                 ),
                 label: Text(
@@ -88,7 +88,7 @@ public struct SettingsView: View {
             Image(systemName: "record.circle")
             Toggle(isOn: Binding<Bool>(
                 get: { store.state.simulation },
-                set: { _ in store.dispatch(.toggleSimulation) }
+                set: { _ in store.dispatch(.didToggleSimulation) }
             ).animation()) {
                 Text("Simulation")
             }
@@ -105,7 +105,7 @@ public struct SettingsView: View {
                     },
                     set: { index in
                         let figure = store.state.figureOptions[index]
-                        store.dispatch(.updatePreferredFigure(figure))
+                        store.dispatch(.didSelectFigure(figure))
                     }
                 ),
                 label: Text(

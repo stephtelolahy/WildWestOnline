@@ -24,19 +24,19 @@ public extension Connectors {
 
         public func embedAction(action: SettingsView.Action) -> AppAction {
             switch action {
-            case .close:
+            case .didTapCloseButton:
                     .close
 
-            case .updatePreferredFigure(let figure):
+            case .didSelectFigure(let figure):
                     .settings(.updatePreferredFigure(figure))
 
-            case .updateWaitDelayMilliseconds(let delay):
+            case .didSelectWaitDelayMilliseconds(let delay):
                     .settings(.updateWaitDelayMilliseconds(delay))
 
-            case .updatePlayersCount(let count):
+            case .didSelectPlayersCount(let count):
                     .settings(.updatePlayersCount(count))
 
-            case .toggleSimulation:
+            case .didToggleSimulation:
                     .settings(.toggleSimulation)
             }
         }

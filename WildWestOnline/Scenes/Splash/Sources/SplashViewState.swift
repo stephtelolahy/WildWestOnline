@@ -11,6 +11,6 @@ public extension SplashView {
     }
 
     enum Action {
-        case finish
+        case didAppear
     }
 }

@@ -29,6 +29,6 @@ final class SplashTests: XCTestCase {
         // Given
         // When
         // Then
-        XCTAssertEqual(sut.embedAction(action: .finish), .navigate(.home))
+        XCTAssertEqual(sut.embedAction(action: .didAppear), .navigate(.home))
     }
 }

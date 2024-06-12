@@ -71,13 +71,13 @@ class GamePlayViewController: UIViewController {
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
-        store.dispatch(.quit)
+        store.dispatch(.didTapQuitButton)
     }
 }
 
 private extension GamePlayViewController {
     func startGame() {
-        store.dispatch(.start)
+        store.dispatch(.didAppear)
     }
 
     func setupViews() {
@@ -123,7 +123,7 @@ private extension GamePlayViewController {
 
         if let chooseOneData = state.chooseOneData {
             showChooseOneAlert(chooseOneData) { [weak self] option in
-                self?.store.dispatch(.choose(option))
+                self?.store.dispatch(.didChoose(option))
             }
         }
 
@@ -287,7 +287,7 @@ extension GamePlayViewController: UICollectionViewDelegate {
             return
         }
 
-        store.dispatch(.play(item.card))
+        store.dispatch(.didPlay(item.card))
     }
 }
 

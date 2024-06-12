@@ -67,3 +67,7 @@ Clean architecture
 Online gameplay uses shared database
 
 ![](Docs/sequence.png)
+
+
+### References
+- https://redux.js.org/style-guide/

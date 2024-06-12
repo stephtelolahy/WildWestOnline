@@ -26,10 +26,10 @@ final class HomeTests: XCTestCase {
     }
 
     func test_embedActionOpenSettings() {
-        XCTAssertEqual(sut.embedAction(action: .openSettings), .navigate(.settings))
+        XCTAssertEqual(sut.embedAction(action: .didTapSettingsButton), .navigate(.settings))
     }
 
     func test_embedActionStartGame() {
-        XCTAssertEqual(sut.embedAction(action: .startGame), .navigate(.game))
+        XCTAssertEqual(sut.embedAction(action: .didTapPlayButton), .navigate(.game))
     }
 }

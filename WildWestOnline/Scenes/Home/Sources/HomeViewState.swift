@@ -11,7 +11,7 @@ public extension HomeView {
     }
 
     enum Action {
-        case openSettings
-        case startGame
+        case didTapSettingsButton
+        case didTapPlayButton
     }
 }

@@ -18,10 +18,10 @@ public extension Connectors {
 
         public func embedAction(action: HomeView.Action) -> AppAction {
             switch action {
-            case .openSettings:
+            case .didTapSettingsButton:
                 .navigate(.settings)
 
-            case .startGame:
+            case .didTapPlayButton:
                 .navigate(.game)
             }
         }

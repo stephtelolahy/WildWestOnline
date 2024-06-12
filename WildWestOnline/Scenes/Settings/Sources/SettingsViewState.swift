@@ -31,10 +31,10 @@ public extension SettingsView {
     }
 
     enum Action {
-        case close
-        case updatePreferredFigure(String)
-        case updateWaitDelayMilliseconds(Int)
-        case updatePlayersCount(Int)
-        case toggleSimulation
+        case didTapCloseButton
+        case didSelectFigure(String)
+        case didSelectWaitDelayMilliseconds(Int)
+        case didSelectPlayersCount(Int)
+        case didToggleSimulation
     }
 }

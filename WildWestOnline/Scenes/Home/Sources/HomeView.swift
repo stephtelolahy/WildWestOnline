@@ -47,12 +47,12 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     withAnimation {
-                        store.dispatch(.startGame)
+                        store.dispatch(.didTapPlayButton)
                     }
                 }
                 mainButton("menu.settings.button") {
                     withAnimation {
-                        store.dispatch(.openSettings)
+                        store.dispatch(.didTapSettingsButton)
                     }
                 }
             }

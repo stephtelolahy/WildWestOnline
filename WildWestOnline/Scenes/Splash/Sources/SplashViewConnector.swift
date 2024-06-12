@@ -17,7 +17,7 @@ public extension Connectors {
 
         public func embedAction(action: SplashView.Action) -> AppAction {
             switch action {
-            case .finish:
+            case .didAppear:
                 return AppAction.navigate(.home)
             }
         }
