@@ -22,7 +22,7 @@ public extension Connectors {
                 .navigate(.settings)
 
             case .didTapPlayButton:
-                .navigate(.game)
+                .createGame
             }
         }
     }

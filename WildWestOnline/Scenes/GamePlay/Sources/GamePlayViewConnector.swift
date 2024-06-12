@@ -39,7 +39,7 @@ public extension Connectors {
                     .game(.startTurn(player: player))
 
             case .didTapQuitButton:
-                    .close
+                    .quitGame
 
             case let .didPlay(card, player):
                     .game(.play(card, player: player))
