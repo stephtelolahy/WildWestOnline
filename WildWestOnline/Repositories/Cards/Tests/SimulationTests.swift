@@ -79,7 +79,7 @@ final class SimulationTests: XCTestCase {
 }
 
 /// Middleare reproducting state according to received event
-private class StateReproducerMiddleware: MiddlewareV1<GameState> {
+private class StateReproducerMiddleware: Middleware<GameState, GameAction> {
     private var prevState: GameState
 
     init(initial: GameState) {

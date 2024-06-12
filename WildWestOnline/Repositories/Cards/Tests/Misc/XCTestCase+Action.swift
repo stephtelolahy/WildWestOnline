@@ -58,7 +58,7 @@ extension XCTestCase {
     }
 }
 
-private class ChoosingAgentMiddleware: MiddlewareV1<GameState> {
+private class ChoosingAgentMiddleware: Middleware<GameState, GameAction> {
     private(set) var choices: [String]
 
     init(choices: [String]) {
