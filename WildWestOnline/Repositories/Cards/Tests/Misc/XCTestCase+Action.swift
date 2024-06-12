@@ -22,7 +22,7 @@ extension XCTestCase {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
         let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
-        let store = StoreV1<GameState>(
+        let store = Store<GameState, GameAction>(
             initial: state,
             reducer: GameState.reducer,
             middlewares: [
@@ -66,7 +66,7 @@ private class ChoosingAgentMiddleware: Middleware<GameState, GameAction> {
         super.init()
     }
 
-    override func effect(on action: ActionV1, state: GameState) async -> ActionV1? {
+    override func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard let chooseOne = state.chooseOne.first else {
             return nil
         }

@@ -29,7 +29,7 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private func createStore() -> StoreV1<AppState> {
+private func createStore() -> Store<AppState, AppAction> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
@@ -46,14 +46,14 @@ private func createStore() -> StoreV1<AppState> {
         settings: settings
     )
 
-    return StoreV1<AppState>(
+    return Store(
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
-            updateGameMiddleware()
-                .lift { $0.game },
-            SaveSettingsMiddleware(service: settingsService)
-                .lift { $0.settings },
+//            updateGameMiddleware()
+//                .lift { $0.game },
+//            SaveSettingsMiddleware(service: settingsService)
+//                .lift { $0.settings },
             LoggerMiddleware()
         ]
     )
