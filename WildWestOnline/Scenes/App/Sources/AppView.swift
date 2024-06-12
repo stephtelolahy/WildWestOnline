@@ -16,9 +16,9 @@ import Splash
 import SwiftUI
 
 public struct AppView: View {
-    @StateObject private var store: StoreV1<AppState>
+    @StateObject private var store: Store<AppState, AppAction>
 
-    public init(store: @escaping () -> StoreV1<AppState>) {
+    public init(store: @escaping () -> Store<AppState, AppAction>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -61,7 +61,7 @@ public struct AppView: View {
 
 #Preview {
     AppView {
-        StoreV1(initial: .sample)
+        Store(initial: .sample)
     }
 }
 
