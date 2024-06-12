@@ -30,7 +30,7 @@ public extension Connectors {
             case .didSelectFigure(let figure):
                     .settings(.updatePreferredFigure(figure))
 
-            case .didSelectWaitDelayMilliseconds(let delay):
+            case .didSelectSpeed(let delay):
                     .settings(.updateWaitDelayMilliseconds(delay))
 
             case .didSelectPlayersCount(let count):

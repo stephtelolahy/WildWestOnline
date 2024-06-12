@@ -69,7 +69,7 @@ public struct SettingsView: View {
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
-                        store.dispatch(.didSelectWaitDelayMilliseconds(option.value))
+                        store.dispatch(.didSelectSpeed(option.value))
                     }
                 ),
                 label: Text(

@@ -33,7 +33,7 @@ public extension SettingsView {
     enum Action {
         case didTapCloseButton
         case didSelectFigure(String)
-        case didSelectWaitDelayMilliseconds(Int)
+        case didSelectSpeed(Int)
         case didSelectPlayersCount(Int)
         case didToggleSimulation
     }
