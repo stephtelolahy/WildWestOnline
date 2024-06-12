@@ -11,11 +11,11 @@ public extension Connectors {
     struct SplashViewConnector: Connector {
         public init() {}
 
-        public func deriveState(state: AppState) -> SplashView.State? {
+        public func deriveState(_ state: AppState) -> SplashView.State? {
             .init()
         }
 
-        public func embedAction(action: SplashView.Action) -> AppAction {
+        public func embedAction(_ action: SplashView.Action) -> AppAction {
             switch action {
             case .didAppear:
                 return AppAction.navigate(.home)

@@ -22,14 +22,14 @@ final class HomeTests: XCTestCase {
         )
         // When
         // Then
-        XCTAssertEqual(sut.deriveState(state: appState), .init())
+        XCTAssertEqual(sut.deriveState(appState), .init())
     }
 
     func test_embedActionOpenSettings() {
-        XCTAssertEqual(sut.embedAction(action: .didTapSettingsButton), .navigate(.settings))
+        XCTAssertEqual(sut.embedAction(.didTapSettingsButton), .navigate(.settings))
     }
 
     func test_embedActionStartGame() {
-        XCTAssertEqual(sut.embedAction(action: .didTapPlayButton), .navigate(.game))
+        XCTAssertEqual(sut.embedAction(.didTapPlayButton), .navigate(.game))
     }
 }

@@ -12,11 +12,11 @@ public extension Connectors {
     struct HomeViewConnector: Connector {
         public init() {}
 
-        public func deriveState(state: AppState) -> HomeView.State? {
+        public func deriveState(_ state: AppState) -> HomeView.State? {
             .init()
         }
 
-        public func embedAction(action: HomeView.Action) -> AppAction {
+        public func embedAction(_ action: HomeView.Action) -> AppAction {
             switch action {
             case .didTapSettingsButton:
                 .navigate(.settings)

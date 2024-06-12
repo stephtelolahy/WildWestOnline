@@ -28,7 +28,7 @@ final class GamePlayStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -57,7 +57,7 @@ final class GamePlayStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -107,7 +107,7 @@ final class GamePlayStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.handActions, [
@@ -132,7 +132,7 @@ final class GamePlayStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(state: appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(
@@ -148,18 +148,18 @@ final class GamePlayStateTests: XCTestCase {
         // Given
         // When
         // then
-        XCTAssertEqual(sut.embedAction(action: .didTapQuitButton), .close)
+        XCTAssertEqual(sut.embedAction(.didTapQuitButton), .close)
     }
 
     func test_embedActionStart() {
-        XCTAssertEqual(sut.embedAction(action: .didAppear), .game(.startTurn(player: "p1")))
+        XCTAssertEqual(sut.embedAction(.didAppear), .game(.startTurn(player: "p1")))
     }
 
     func test_embedActionPlay() {
-        XCTAssertEqual(sut.embedAction(action: .didPlay("c1")), .game(.play("c1", player: "p1")))
+        XCTAssertEqual(sut.embedAction(.didPlay("c1")), .game(.play("c1", player: "p1")))
     }
 
     func test_embedActionChoose() {
-        XCTAssertEqual(sut.embedAction(action: .didChoose("o1")), .game(.choose("o1", player: "p1")))
+        XCTAssertEqual(sut.embedAction(.didChoose("o1")), .game(.choose("o1", player: "p1")))
     }
 }

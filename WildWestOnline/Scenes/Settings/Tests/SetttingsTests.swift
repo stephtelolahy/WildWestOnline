@@ -21,7 +21,7 @@ final class SetttingsTests: XCTestCase {
             settings: SettingsState.makeBuilder().withPlayersCount(3).build()
         )
         // When
-        let settingsState = try XCTUnwrap(sut.deriveState(state: appState))
+        let settingsState = try XCTUnwrap(sut.deriveState(appState))
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)
     }
@@ -30,6 +30,6 @@ final class SetttingsTests: XCTestCase {
         // Given
         // When
         // Then
-        XCTAssertEqual(sut.embedAction(action: .didToggleSimulation), .settings(.toggleSimulation))
+        XCTAssertEqual(sut.embedAction(.didToggleSimulation), .settings(.toggleSimulation))
     }
 }

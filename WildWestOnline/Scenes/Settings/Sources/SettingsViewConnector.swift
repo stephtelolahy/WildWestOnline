@@ -12,7 +12,7 @@ public extension Connectors {
     struct SettingsViewConnector: Connector {
         public init() {}
 
-        public func deriveState(state: AppState) -> SettingsView.State? {
+        public func deriveState(_ state: AppState) -> SettingsView.State? {
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),
@@ -22,7 +22,7 @@ public extension Connectors {
             )
         }
 
-        public func embedAction(action: SettingsView.Action) -> AppAction {
+        public func embedAction(_ action: SettingsView.Action) -> AppAction {
             switch action {
             case .didTapCloseButton:
                     .close

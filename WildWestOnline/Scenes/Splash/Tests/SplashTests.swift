@@ -22,13 +22,13 @@ final class SplashTests: XCTestCase {
         )
         // When
         // Then
-        XCTAssertEqual(sut.deriveState(state: appState), .init())
+        XCTAssertEqual(sut.deriveState(appState), .init())
     }
 
     func test_embedActionFinish() {
         // Given
         // When
         // Then
-        XCTAssertEqual(sut.embedAction(action: .didAppear), .navigate(.home))
+        XCTAssertEqual(sut.embedAction(.didAppear), .navigate(.home))
     }
 }

@@ -14,7 +14,7 @@ public extension Connectors {
     struct GamePlayViewConnector: Connector {
         public init() {}
 
-        public func deriveState(state: AppState) -> GamePlayView.State? {
+        public func deriveState(_ state: AppState) -> GamePlayView.State? {
             guard let game = state.game else {
                 return nil
             }
@@ -33,7 +33,7 @@ public extension Connectors {
             )
         }
 
-        public func embedAction(action: GamePlayView.Action) -> AppAction {
+        public func embedAction(_ action: GamePlayView.Action) -> AppAction {
             .close
         }
     }
