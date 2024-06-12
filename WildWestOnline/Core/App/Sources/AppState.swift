@@ -34,11 +34,11 @@ public enum Screen: Codable, Equatable {
     case settings
 }
 
-public enum AppAction: ActionV1, Equatable {
+public enum AppAction: Equatable {
     case navigate(Screen)
     case close
-    case startGame
-    case exitGame
+    case createGame
+    case quitGame
     case settings(SettingsAction)
     case game(GameAction)
 }

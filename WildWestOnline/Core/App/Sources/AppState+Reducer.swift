@@ -9,24 +9,17 @@ import Redux
 import SettingsCore
 
 public extension AppState {
-    static let reducer: ReducerV1<Self> = { state, action in
+    static let reducer: Reducer<Self, AppAction> = { state, action in
         var state = state
-        state = screenReducer(state, action)
-        state.settings = SettingsState.reducer(state.settings, action)
-        state.game = state.game.flatMap { GameState.reducer($0, action) }
-        return state
-    }
-}
 
-private extension AppState {
-    static let screenReducer: ReducerV1<Self> = { state, action in
-        guard let action = action as? AppAction else {
-            return state
-        }
-
-        var state = state
         switch action {
-        case .navigate(let screen):
+        case let .settings(settingsAction):
+            state.settings = SettingsState.reducer(state.settings, settingsAction)
+
+        case let .game(gameAction):
+            state.game = state.game.flatMap { GameState.reducer($0, gameAction) }
+
+        case let .navigate(screen):
             if case .splash = state.screens.last {
                 state.screens = []
             }
@@ -35,25 +28,20 @@ private extension AppState {
         case .close:
             state.screens.removeLast()
 
-        case .startGame:
+        case .createGame:
             state.game = createGame(settings: state.settings)
             state.screens.append(.game)
 
-        case .exitGame:
+        case .quitGame:
             state.game = nil
             state.screens.removeLast()
-
-        case .settings:
-            // TODO: settings reducer
-            break
-
-        case .game:
-            // TODO: game reducer
-            break
         }
+
         return state
     }
+}
 
+private extension AppState {
     static func createGame(settings: SettingsState) -> GameState {
         var game = Setup.createGame(
             playersCount: settings.playersCount,
