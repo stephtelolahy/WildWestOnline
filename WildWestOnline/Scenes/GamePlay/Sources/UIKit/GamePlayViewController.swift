@@ -77,7 +77,8 @@ class GamePlayViewController: UIViewController {
 
 private extension GamePlayViewController {
     func startGame() {
-        store.dispatch(.didAppear)
+        let player = store.state.players[0].id
+        store.dispatch(.didStartTurn(player: player))
     }
 
     func setupViews() {
@@ -122,8 +123,9 @@ private extension GamePlayViewController {
         handCollectionView.reloadData()
 
         if let chooseOneData = state.chooseOneData {
+            let player = store.state.players[0].id
             showChooseOneAlert(chooseOneData) { [weak self] option in
-                self?.store.dispatch(.didChoose(option))
+                self?.store.dispatch(.didChoose(option, player: player))
             }
         }
 
@@ -287,7 +289,8 @@ extension GamePlayViewController: UICollectionViewDelegate {
             return
         }
 
-        store.dispatch(.didPlay(item.card))
+        let player = store.state.players[0].id
+        store.dispatch(.didPlay(item.card, player: player))
     }
 }
 

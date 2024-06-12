@@ -34,7 +34,19 @@ public extension Connectors {
         }
 
         public func embedAction(_ action: GamePlayView.Action) -> AppAction {
-            .close
+            switch action {
+            case .didStartTurn(let player):
+                    .game(.startTurn(player: player))
+
+            case .didTapQuitButton:
+                    .close
+
+            case let .didPlay(card, player):
+                    .game(.play(card, player: player))
+
+            case let .didChoose(option, player):
+                    .game(.choose(option, player: player))
+            }
         }
     }
 }

@@ -50,9 +50,9 @@ public extension GamePlayView {
     }
 
     enum Action {
-        case didAppear
+        case didStartTurn(player: String)
         case didTapQuitButton
-        case didPlay(String)
-        case didChoose(String)
+        case didPlay(String, player: String)
+        case didChoose(String, player: String)
     }
 }
