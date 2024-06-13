@@ -148,7 +148,7 @@ final class GamePlayStateTests: XCTestCase {
         // Given
         // When
         // then
-        XCTAssertEqual(sut.embedAction(.didTapQuitButton), .close)
+        XCTAssertEqual(sut.embedAction(.didTapQuitButton), .quitGame)
     }
 
     func test_embedActionStart() {

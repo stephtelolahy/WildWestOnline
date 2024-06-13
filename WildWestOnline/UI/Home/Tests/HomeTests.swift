@@ -30,6 +30,6 @@ final class HomeTests: XCTestCase {
     }
 
     func test_embedActionStartGame() {
-        XCTAssertEqual(sut.embedAction(.didTapPlayButton), .navigate(.game))
+        XCTAssertEqual(sut.embedAction(.didTapPlayButton), .createGame)
     }
 }
