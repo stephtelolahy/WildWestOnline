@@ -13,7 +13,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		15E0F5332C1A593100C32375 /* STRUCTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = STRUCTURE.md; sourceTree = "<group>"; };
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildWestOnlineApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +56,6 @@
 			isa = PBXGroup;
 			children = (
 				F37D85E02A0438EE00C3A754 /* README.md */,
-				15E0F5332C1A593100C32375 /* STRUCTURE.md */,
 				15BB90682C02AA5C0075BD78 /* App */,
 				26DD32B829F3D646002E0F93 /* WildWestOnline */,
 				2699EEFE29D93AD00030ACCD /* Products */,
