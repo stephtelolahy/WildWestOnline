@@ -8,22 +8,18 @@
 import AppCore
 import Redux
 
-public extension Connectors {
-    struct HomeViewConnector: Connector {
-        public init() {}
-
-        public func deriveState(_ state: AppState) -> HomeView.State? {
-            .init()
-        }
-
-        public func embedAction(_ action: HomeView.Action) -> AppAction {
-            switch action {
-            case .didTapSettingsButton:
+public enum HomeViewConnector: Connector {
+    public static func deriveState(_ state: AppState) -> HomeView.State? {
+        .init()
+    }
+    
+    public static func embedAction(_ action: HomeView.Action) -> AppAction {
+        switch action {
+        case .didTapSettingsButton:
                 .navigate(.settings)
-
-            case .didTapPlayButton:
+            
+        case .didTapPlayButton:
                 .createGame
-            }
         }
     }
 }

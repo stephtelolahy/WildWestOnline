@@ -7,19 +7,15 @@
 import AppCore
 import Redux
 
-public extension Connectors {
-    struct SplashViewConnector: Connector {
-        public init() {}
-
-        public func deriveState(_ state: AppState) -> SplashView.State? {
-            .init()
-        }
-
-        public func embedAction(_ action: SplashView.Action) -> AppAction {
-            switch action {
-            case .didAppear:
-                return AppAction.navigate(.home)
-            }
+public enum SplashViewConnector: Connector {
+    public static func deriveState(_ state: AppState) -> SplashView.State? {
+        .init()
+    }
+    
+    public static func embedAction(_ action: SplashView.Action) -> AppAction {
+        switch action {
+        case .didAppear:
+            return AppAction.navigate(.home)
         }
     }
 }

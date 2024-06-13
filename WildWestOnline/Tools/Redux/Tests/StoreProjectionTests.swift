@@ -18,6 +18,7 @@ final class StoreProjectionTests: XCTestCase {
         }
         let deriveState: (String) -> Int? = { Int($0) }
         let embedAction: (Int) -> Int = { $0 }
+
         let sut = globalStore.projection(deriveState: deriveState, embedAction: embedAction)
         var receivedStates: [Int?] = []
         sut.$state.sink { viewState in
@@ -30,5 +31,36 @@ final class StoreProjectionTests: XCTestCase {
 
         // Then
         XCTAssertEqual(receivedStates, [1, 11])
+    }
+
+    func testProjectingStore_withConnector_shouldEmitDerivedState() {
+        // Given
+        var subscriptions = Set<AnyCancellable>()
+        let globalStore: Store<String, Int> = Store(initial: "1") { state, action in
+            String(repeating: state, count: action)
+        }
+
+        let sut = globalStore.projection(using: SampleConnector.self)
+        var receivedStates: [Int?] = []
+        sut.$state.sink { viewState in
+            receivedStates.append(viewState)
+        }
+        .store(in: &subscriptions)
+
+        // When
+        sut.dispatch(2)
+
+        // Then
+        XCTAssertEqual(receivedStates, [1, 11])
+    }
+}
+
+private enum SampleConnector: Connector {
+    static func deriveState(_ state: String) -> Int? {
+        Int(state)
+    }
+
+    static func embedAction(_ action: Int) -> Int {
+        action
     }
 }

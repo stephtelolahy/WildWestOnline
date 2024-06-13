@@ -16,15 +16,13 @@ public protocol Connector {
     associatedtype ViewState: Equatable
     associatedtype ViewAction
 
-    func deriveState(_ state: State) -> ViewState?
-    func embedAction(_ action: ViewAction) -> Action
+    static func deriveState(_ state: State) -> ViewState?
+    static func embedAction(_ action: ViewAction) -> Action
 }
-
-public enum Connectors {}
 
 public extension Store {
     func projection<C: Connector>(
-        using connector: C
+        using connector: C.Type
     ) -> Store<C.ViewState, C.ViewAction> where C.State == State, C.Action == Action {
         projection(
             deriveState: connector.deriveState,

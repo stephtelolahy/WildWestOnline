@@ -1,6 +1,6 @@
 //
 //  GamePlayViewConnector.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 10/05/2024.
 //
@@ -10,43 +10,39 @@ import AppCore
 import GameCore
 import Redux
 
-public extension Connectors {
-    struct GamePlayViewConnector: Connector {
-        public init() {}
-
-        public func deriveState(_ state: AppState) -> GamePlayView.State? {
-            guard let game = state.game else {
-                return nil
-            }
-
-            return .init(
-                players: game.playerItems,
-                message: game.message,
-                chooseOneData: game.chooseOneData,
-                handActions: game.handActions,
-                topDiscard: game.discard.first,
-                topDeck: game.deck.first,
-                animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
-                startOrder: game.startOrder,
-                deckCount: game.deck.count,
-                occurredEvent: game.event
-            )
+public enum GamePlayViewConnector: Connector {
+    public static func deriveState(_ state: AppState) -> GamePlayView.State? {
+        guard let game = state.game else {
+            return nil
         }
 
-        public func embedAction(_ action: GamePlayView.Action) -> AppAction {
-            switch action {
-            case .didStartTurn(let player):
-                    .game(.startTurn(player: player))
+        return .init(
+            players: game.playerItems,
+            message: game.message,
+            chooseOneData: game.chooseOneData,
+            handActions: game.handActions,
+            topDiscard: game.discard.first,
+            topDeck: game.deck.first,
+            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
+            startOrder: game.startOrder,
+            deckCount: game.deck.count,
+            occurredEvent: game.event
+        )
+    }
 
-            case .didTapQuitButton:
-                    .quitGame
+    public static func embedAction(_ action: GamePlayView.Action) -> AppAction {
+        switch action {
+        case .didStartTurn(let player):
+                .game(.startTurn(player: player))
 
-            case let .didPlay(card, player):
-                    .game(.play(card, player: player))
+        case .didTapQuitButton:
+                .quitGame
 
-            case let .didChoose(option, player):
-                    .game(.choose(option, player: player))
-            }
+        case let .didPlay(card, player):
+                .game(.play(card, player: player))
+
+        case let .didChoose(option, player):
+                .game(.choose(option, player: player))
         }
     }
 }
