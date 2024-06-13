@@ -8,7 +8,7 @@
         - GameAction.swift
         - GameReducer.swift
         - GameMiddleware.swift
-        - GamseBuilder.swift
+        - GameBuilder.swift
     - Settings
 
 - UI
@@ -21,11 +21,11 @@
     - Settings
     - Theme
 
-- Data
+- Repository
     - Cards
         - CardsRepository.swift
     - Settings
 
-- Tools
+- Utils
     - Redux
     - Utils
