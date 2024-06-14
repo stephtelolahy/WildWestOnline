@@ -12,7 +12,7 @@ import SettingsCore
 import XCTest
 
 final class SplashTests: XCTestCase {
-    private let sut = SplashView.Connector.self
+    private let sut = SplashView.Connector()
 
     func test_deriveState() {
         // Given

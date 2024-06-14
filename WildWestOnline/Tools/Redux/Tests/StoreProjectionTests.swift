@@ -40,7 +40,7 @@ final class StoreProjectionTests: XCTestCase {
             String(repeating: state, count: action)
         }
 
-        let sut = globalStore.projection(using: SampleConnector.self)
+        let sut = globalStore.projection(using: SampleConnector())
         var receivedStates: [Int?] = []
         sut.$state.sink { viewState in
             receivedStates.append(viewState)
@@ -55,12 +55,12 @@ final class StoreProjectionTests: XCTestCase {
     }
 }
 
-private enum SampleConnector: Connector {
-    static func deriveState(_ state: String) -> Int? {
+private struct SampleConnector: Connector {
+    func deriveState(_ state: String) -> Int? {
         Int(state)
     }
 
-    static func embedAction(_ action: Int) -> Int {
+    func embedAction(_ action: Int) -> Int {
         action
     }
 }

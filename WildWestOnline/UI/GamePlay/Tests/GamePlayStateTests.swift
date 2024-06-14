@@ -14,7 +14,7 @@ import SettingsCore
 import XCTest
 
 final class GamePlayStateTests: XCTestCase {
-    private let sut = GamePlayView.Connector.self
+    private let sut = GamePlayView.Connector()
 
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given

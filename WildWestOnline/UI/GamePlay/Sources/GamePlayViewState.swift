@@ -58,8 +58,10 @@ public extension GamePlayView {
         case didChoose(String, player: String)
     }
 
-    enum Connector: Redux.Connector {
-        public static func deriveState(_ state: AppState) -> State? {
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
             guard let game = state.game else {
                 return nil
             }
@@ -78,7 +80,7 @@ public extension GamePlayView {
             )
         }
 
-        public static func embedAction(_ action: Action) -> AppAction {
+        public func embedAction(_ action: Action) -> AppAction {
             switch action {
             case .didStartTurn(let player):
                     .game(.startTurn(player: player))

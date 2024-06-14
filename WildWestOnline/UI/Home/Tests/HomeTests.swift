@@ -12,7 +12,7 @@ import SettingsCore
 import XCTest
 
 final class HomeTests: XCTestCase {
-    private let sut = HomeView.Connector.self
+    private let sut = HomeView.Connector()
 
     func test_HomeStateProjection() {
         // Given

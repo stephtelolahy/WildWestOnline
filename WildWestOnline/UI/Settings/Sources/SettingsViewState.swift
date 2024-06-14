@@ -41,8 +41,10 @@ public extension SettingsView {
         case didToggleSimulation
     }
 
-    enum Connector: Redux.Connector {
-        public static func deriveState(_ state: AppState) -> State? {
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),
@@ -52,7 +54,7 @@ public extension SettingsView {
             )
         }
 
-        public static func embedAction(_ action: Action) -> AppAction {
+        public func embedAction(_ action: Action) -> AppAction {
             switch action {
             case .didTapCloseButton:
                     .close
@@ -71,11 +73,11 @@ public extension SettingsView {
             }
         }
 
-        private static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
+        private func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
             SettingsView.State.SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
         }
 
-        private static func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
+        private func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
             guard let figure,
                   let index = figures.firstIndex(of: figure) else {
                 return -1

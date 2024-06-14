@@ -17,12 +17,14 @@ public extension HomeView {
         case didTapPlayButton
     }
 
-    enum Connector: Redux.Connector {
-        public static func deriveState(_ state: AppState) -> State? {
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
             .init()
         }
 
-        public static func embedAction(_ action: Action) -> AppAction {
+        public func embedAction(_ action: Action) -> AppAction {
             switch action {
             case .didTapSettingsButton:
                     .navigate(.settings)
