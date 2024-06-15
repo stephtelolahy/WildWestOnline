@@ -61,7 +61,7 @@ public extension GamePlayView {
     struct Connector: Redux.Connector {
         public init() {}
 
-        public func deriveState(_ state: AppState) -> State? {
+        public func deriveState(_ state: App.State) -> State? {
             guard let game = state.game else {
                 return nil
             }
@@ -80,7 +80,7 @@ public extension GamePlayView {
             )
         }
 
-        public func embedAction(_ action: Action) -> AppAction {
+        public func embedAction(_ action: Action) -> App.Action {
             switch action {
             case .didStartTurn(let player):
                     .game(.startTurn(player: player))

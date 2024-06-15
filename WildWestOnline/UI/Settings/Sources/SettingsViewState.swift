@@ -44,7 +44,7 @@ public extension SettingsView {
     struct Connector: Redux.Connector {
         public init() {}
 
-        public func deriveState(_ state: AppState) -> State? {
+        public func deriveState(_ state: App.State) -> State? {
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),
@@ -54,7 +54,7 @@ public extension SettingsView {
             )
         }
 
-        public func embedAction(_ action: Action) -> AppAction {
+        public func embedAction(_ action: Action) -> App.Action {
             switch action {
             case .didTapCloseButton:
                     .close

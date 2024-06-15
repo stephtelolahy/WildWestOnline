@@ -16,9 +16,9 @@ final class SplashTests: XCTestCase {
 
     func test_deriveState() {
         // Given
-        let appState = AppState(
+        let appState = App.State(
             screens: [.splash],
-            settings: SettingsState.makeBuilder().build()
+            settings: Settings.State.makeBuilder().build()
         )
         // When
         // Then

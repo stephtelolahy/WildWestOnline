@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable type_contents_order no_magic_numbers
+// swiftlint:disable no_magic_numbers
 
 import CardsRepository
 import Redux

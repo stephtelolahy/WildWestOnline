@@ -16,9 +16,9 @@ final class HomeTests: XCTestCase {
 
     func test_HomeStateProjection() {
         // Given
-        let appState = AppState(
+        let appState = App.State(
             screens: [.home],
-            settings: SettingsState.makeBuilder().build()
+            settings: Settings.State.makeBuilder().build()
         )
         // When
         // Then

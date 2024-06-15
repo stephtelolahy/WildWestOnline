@@ -21,9 +21,9 @@ final class GamePlayStateTests: XCTestCase {
         let game = GameState.makeBuilder()
             .withTurn("p1")
             .build()
-        let appState = AppState(
+        let appState = App.State(
             screens: [],
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             game: game
         )
 
@@ -50,9 +50,9 @@ final class GamePlayStateTests: XCTestCase {
             .withPlayModes(["p1": .manual])
             .withTurn("p1")
             .build()
-        let appState = AppState(
+        let appState = App.State(
             screens: [],
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             game: game
         )
 
@@ -100,9 +100,9 @@ final class GamePlayStateTests: XCTestCase {
             .withPlayModes(["p1": .manual])
             .withActive([.bang, .endTurn], player: "p1")
             .build()
-        let appState = AppState(
+        let appState = App.State(
             screens: [],
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             game: game
         )
 
@@ -125,9 +125,9 @@ final class GamePlayStateTests: XCTestCase {
             .withChooseOne(.cardToDraw, options: [.missed, .bang], player: "p1")
             .withPlayModes(["p1": .manual])
             .build()
-        let appState = AppState(
+        let appState = App.State(
             screens: [],
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             game: game
         )
 

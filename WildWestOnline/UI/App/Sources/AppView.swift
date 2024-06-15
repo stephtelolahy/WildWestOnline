@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable type_contents_order
 
 import AppCore
 import GamePlay
@@ -16,9 +15,9 @@ import Splash
 import SwiftUI
 
 public struct AppView: View {
-    @StateObject private var store: Store<AppState, AppAction>
+    @StateObject private var store: Store<AppCore.App.State, AppCore.App.Action>
 
-    public init(store: @escaping () -> Store<AppState, AppAction>) {
+    public init(store: @escaping () -> Store<AppCore.App.State, AppCore.App.Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -65,11 +64,11 @@ public struct AppView: View {
     }
 }
 
-private extension AppState {
+private extension AppCore.App.State {
     static var sample: Self {
         .init(
             screens: [.home],
-            settings: SettingsState.makeBuilder().build()
+            settings: Settings.State.makeBuilder().build()
         )
     }
 }

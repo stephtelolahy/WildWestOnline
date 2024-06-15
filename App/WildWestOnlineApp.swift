@@ -29,11 +29,11 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private func createStore() -> Store<AppState, AppAction> {
+private func createStore() -> Store<App.State, App.Action> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
-    let settings = SettingsState.makeBuilder()
+    let settings = Settings.State.makeBuilder()
         .withInventory(cardsService.inventory)
         .withPlayersCount(settingsService.playersCount)
         .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds)
@@ -41,14 +41,14 @@ private func createStore() -> Store<AppState, AppAction> {
         .withPreferredFigure(settingsService.preferredFigure)
         .build()
 
-    let initialState = AppState(
+    let initialState = App.State(
         screens: [.splash],
         settings: settings
     )
 
     return Store(
         initial: initialState,
-        reducer: AppState.reducer,
+        reducer: App.State.reducer,
         middlewares: [
             updateGameMiddleware()
                 .lift(
@@ -56,7 +56,7 @@ private func createStore() -> Store<AppState, AppAction> {
                     deriveAction: { $0.toGame() },
                     embedAction: { .game($0) }
                 ),
-            SaveSettingsMiddleware(service: settingsService)
+            Settings.SaveMiddleware(service: settingsService)
                 .lift(
                     deriveState: { $0.settings },
                     deriveAction: { $0.toSettings() },
@@ -67,7 +67,7 @@ private func createStore() -> Store<AppState, AppAction> {
     )
 }
 
-private extension AppAction {
+private extension App.Action {
     func toGame() -> GameAction? {
         guard case let .game(gameAction) = self else {
             return nil
@@ -75,7 +75,7 @@ private extension AppAction {
         return gameAction
     }
 
-    func toSettings() -> SettingsAction? {
+    func toSettings() -> Settings.Action? {
         guard case let .settings(settingsAction) = self else {
             return nil
         }

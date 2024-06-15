@@ -1,20 +1,53 @@
+// swiftlint:disable:this file_name
 //
-//  AppState+Reducer.swift
+//  AppCore.swift
 //  
 //
-//  Created by Stephano Hugues TELOLAHY on 10/05/2024.
+//  Created by Stephano Hugues TELOLAHY on 15/06/2024.
 //
 import GameCore
 import Redux
 import SettingsCore
 
-public extension AppState {
-    static let reducer: Reducer<Self, AppAction> = { state, action in
+public enum App {
+    public struct State: Codable, Equatable {
+        public var screens: [Screen]
+        public var settings: Settings.State
+        public var game: GameState?
+
+        public init(
+            screens: [Screen],
+            settings: Settings.State,
+            game: GameState? = nil
+        ) {
+            self.screens = screens
+            self.settings = settings
+            self.game = game
+        }
+    }
+
+    public enum Screen: Codable, Equatable {
+        case splash
+        case home
+        case game
+        case settings
+    }
+
+    public enum Action: Equatable {
+        case navigate(Screen)
+        case close
+        case createGame
+        case quitGame
+        case settings(Settings.Action)
+        case game(GameAction)
+    }
+
+    public static let reducer: Reducer<State, Action> = { state, action in
         var state = state
 
         switch action {
         case let .settings(settingsAction):
-            state.settings = SettingsState.reducer(state.settings, settingsAction)
+            state.settings = Settings.reducer(state.settings, settingsAction)
 
         case let .game(gameAction):
             state.game = state.game.flatMap { GameState.reducer($0, gameAction) }
@@ -41,8 +74,8 @@ public extension AppState {
     }
 }
 
-private extension AppState {
-    static func createGame(settings: SettingsState) -> GameState {
+private extension App {
+    static func createGame(settings: Settings.State) -> GameState {
         var game = Setup.createGame(
             playersCount: settings.playersCount,
             inventory: settings.inventory,

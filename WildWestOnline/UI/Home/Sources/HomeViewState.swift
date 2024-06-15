@@ -20,11 +20,11 @@ public extension HomeView {
     struct Connector: Redux.Connector {
         public init() {}
 
-        public func deriveState(_ state: AppState) -> State? {
+        public func deriveState(_ state: App.State) -> State? {
             .init()
         }
 
-        public func embedAction(_ action: Action) -> AppAction {
+        public func embedAction(_ action: Action) -> App.Action {
             switch action {
             case .didTapSettingsButton:
                     .navigate(.settings)

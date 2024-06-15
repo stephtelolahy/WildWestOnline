@@ -16,9 +16,9 @@ final class SetttingsTests: XCTestCase {
 
     func test_SettingsStateProjection() throws {
         // Given
-        let appState = AppState(
+        let appState = App.State(
             screens: [.home],
-            settings: SettingsState.makeBuilder().withPlayersCount(3).build()
+            settings: Settings.State.makeBuilder().withPlayersCount(3).build()
         )
         // When
         let settingsState = try XCTUnwrap(sut.deriveState(appState))

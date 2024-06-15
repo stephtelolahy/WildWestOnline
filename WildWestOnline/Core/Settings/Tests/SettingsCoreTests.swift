@@ -11,11 +11,11 @@ import XCTest
 final class SettingsCoreTests: XCTestCase {
     func test_updatePlayersCount() throws {
         // Given
-        let state = SettingsState.makeBuilder().withPlayersCount(2).build()
+        let state = Settings.State.makeBuilder().withPlayersCount(2).build()
 
         // When
-        let action = SettingsAction.updatePlayersCount(5)
-        let result = SettingsState.reducer(state, action)
+        let action = Settings.Action.updatePlayersCount(5)
+        let result = Settings.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.playersCount, 5)
@@ -23,11 +23,11 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_toggleSimulation() throws {
         // Given
-        let state = SettingsState.makeBuilder().withSimulation(true).build()
+        let state = Settings.State.makeBuilder().withSimulation(true).build()
 
         // When
-        let action = SettingsAction.toggleSimulation
-        let result = SettingsState.reducer(state, action)
+        let action = Settings.Action.toggleSimulation
+        let result = Settings.reducer(state, action)
 
         // Then
         XCTAssertFalse(result.simulation)
@@ -35,11 +35,11 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_updateWaitDelay() throws {
         // Given
-        let state = SettingsState.makeBuilder().withWaitDelayMilliseconds(0).build()
+        let state = Settings.State.makeBuilder().withWaitDelayMilliseconds(0).build()
 
         // When
-        let action = SettingsAction.updateWaitDelayMilliseconds(500)
-        let result = SettingsState.reducer(state, action)
+        let action = Settings.Action.updateWaitDelayMilliseconds(500)
+        let result = Settings.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.waitDelayMilliseconds, 500)

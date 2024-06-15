@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  SettingsState+Builder.swift
 //
@@ -6,7 +7,7 @@
 //
 import GameCore
 
-public extension SettingsState {
+public extension Settings.State {
     class Builder {
         private var inventory: Inventory = Inventory.makeBuilder().build()
         private var playersCount: Int = 0
@@ -14,7 +15,7 @@ public extension SettingsState {
         private var simulation: Bool = false
         private var preferredFigure: String?
 
-        public func build() -> SettingsState {
+        public func build() -> Settings.State {
             .init(
                 inventory: inventory,
                 playersCount: playersCount,
