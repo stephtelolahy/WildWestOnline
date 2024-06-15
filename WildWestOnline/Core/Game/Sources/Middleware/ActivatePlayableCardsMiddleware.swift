@@ -7,8 +7,8 @@
 
 import Redux
 
-public final class ActivatePlayableCardsMiddleware: Middleware<GameState> {
-    override public func effect(on action: Action, state: GameState) async -> Action? {
+public final class ActivatePlayableCardsMiddleware: Middleware<GameState, GameAction> {
+    public override func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard state.sequence.isEmpty,
               state.winner == nil,
               state.chooseOne.isEmpty,

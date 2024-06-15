@@ -8,12 +8,8 @@
 import Foundation
 import Redux
 
-public final class ProcessSequenceMiddleware: Middleware<GameState> {
-    override public func effect(on action: Action, state: GameState) async -> Action? {
-        guard let action = action as? GameAction else {
-            return nil
-        }
-
+public final class ProcessSequenceMiddleware: Middleware<GameState, GameAction> {
+    public override func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         switch action {
         case .setGameOver,
                 .chooseOne,

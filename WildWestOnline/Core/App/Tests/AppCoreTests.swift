@@ -39,7 +39,7 @@ final class AppCoreTests: XCTestCase {
         )
 
         // When
-        let action = AppAction.startGame
+        let action = AppAction.createGame
         let result = AppState.reducer(state, action)
 
         // Then
@@ -56,7 +56,7 @@ final class AppCoreTests: XCTestCase {
         )
 
         // When
-        let action = AppAction.exitGame
+        let action = AppAction.quitGame
         let result = AppState.reducer(state, action)
 
         // Then

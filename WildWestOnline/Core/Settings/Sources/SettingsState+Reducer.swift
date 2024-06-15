@@ -7,11 +7,7 @@
 import Redux
 
 public extension SettingsState {
-    static let reducer: Reducer<Self> = { state, action in
-        guard let action = action as? SettingsAction else {
-            return state
-        }
-
+    static let reducer: Reducer<Self, SettingsAction> = { state, action in
         var  state = state
 
         switch action {
@@ -23,9 +19,6 @@ public extension SettingsState {
 
         case .toggleSimulation:
             state.simulation.toggle()
-
-        case let .updateGamePlay(value):
-            state.gamePlay = value
 
         case let .updatePreferredFigure(value):
             state.preferredFigure = value

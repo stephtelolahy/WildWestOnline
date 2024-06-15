@@ -29,7 +29,7 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private func createStore() -> Store<AppState> {
+private func createStore() -> Store<AppState, AppAction> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
@@ -38,7 +38,6 @@ private func createStore() -> Store<AppState> {
         .withPlayersCount(settingsService.playersCount)
         .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds)
         .withSimulation(settingsService.simulationEnabled)
-        .withGamePlay(settingsService.gamePlay)
         .withPreferredFigure(settingsService.preferredFigure)
         .build()
 
@@ -47,15 +46,39 @@ private func createStore() -> Store<AppState> {
         settings: settings
     )
 
-    return Store<AppState>(
+    return Store(
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
             updateGameMiddleware()
-                .lift { $0.game },
+                .lift(
+                    deriveState: { $0.game },
+                    deriveAction: { $0.toGame() },
+                    embedAction: { .game($0) }
+                ),
             SaveSettingsMiddleware(service: settingsService)
-                .lift { $0.settings },
+                .lift(
+                    deriveState: { $0.settings },
+                    deriveAction: { $0.toSettings() },
+                    embedAction: { .settings($0) }
+                ),
             LoggerMiddleware()
         ]
     )
+}
+
+private extension AppAction {
+    func toGame() -> GameAction? {
+        guard case let .game(gameAction) = self else {
+            return nil
+        }
+        return gameAction
+    }
+
+    func toSettings() -> SettingsAction? {
+        guard case let .settings(settingsAction) = self else {
+            return nil
+        }
+        return settingsAction
+    }
 }

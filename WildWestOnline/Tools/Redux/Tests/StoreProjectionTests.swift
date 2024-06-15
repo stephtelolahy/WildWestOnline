@@ -1,0 +1,66 @@
+//
+//  StoreProjectionTests.swift
+//  
+//
+//  Created by Hugues Telolahy on 08/06/2024.
+//
+
+import Combine
+import Redux
+import XCTest
+
+final class StoreProjectionTests: XCTestCase {
+    func testProjectingStore_shouldEmitDerivedState() {
+        // Given
+        var subscriptions = Set<AnyCancellable>()
+        let globalStore: Store<String, Int> = Store(initial: "1") { state, action in
+            String(repeating: state, count: action)
+        }
+        let deriveState: (String) -> Int? = { Int($0) }
+        let embedAction: (Int) -> Int = { $0 }
+
+        let sut = globalStore.projection(deriveState: deriveState, embedAction: embedAction)
+        var receivedStates: [Int?] = []
+        sut.$state.sink { viewState in
+            receivedStates.append(viewState)
+        }
+        .store(in: &subscriptions)
+
+        // When
+        sut.dispatch(2)
+
+        // Then
+        XCTAssertEqual(receivedStates, [1, 11])
+    }
+
+    func testProjectingStore_withConnector_shouldEmitDerivedState() {
+        // Given
+        var subscriptions = Set<AnyCancellable>()
+        let globalStore: Store<String, Int> = Store(initial: "1") { state, action in
+            String(repeating: state, count: action)
+        }
+
+        let sut = globalStore.projection(using: SampleConnector())
+        var receivedStates: [Int?] = []
+        sut.$state.sink { viewState in
+            receivedStates.append(viewState)
+        }
+        .store(in: &subscriptions)
+
+        // When
+        sut.dispatch(2)
+
+        // Then
+        XCTAssertEqual(receivedStates, [1, 11])
+    }
+}
+
+private struct SampleConnector: Connector {
+    func deriveState(_ state: String) -> Int? {
+        Int(state)
+    }
+
+    func embedAction(_ action: Int) -> Int {
+        action
+    }
+}

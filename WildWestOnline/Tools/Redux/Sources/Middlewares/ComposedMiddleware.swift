@@ -1,25 +1,25 @@
 //
 //  ComposedMiddleware.swift
+//  
 //
-//
-//  Created by Hugues Stephano TELOLAHY on 27/11/2023.
+//  Created by Hugues Telolahy on 08/06/2024.
 //
 
-/// The `ComposedMiddleware` is a container of inner middlewares 
+/// The ``ComposedMiddleware`` is a container of inner middlewares
 /// that are chained together in the order as they were composed.
-/// Whenever an action arrives to be handled by this `ComposedMiddleware`, 
+/// Whenever an action arrives to be handled by this `ComposedMiddleware`,
 /// it will delegate to its internal chain of middlewares.
 /// Only the first non-nil middleware response will be returned
-public final class ComposedMiddleware<State>: Middleware<State> {
-    private let middlewares: [Middleware<State>]
+public final class ComposedMiddleware<State, Action>: Middleware<State, Action> {
+    private let middlewares: [Middleware<State, Action>]
 
-    public init(_ middlewares: [Middleware<State>]) {
+    public init(_ middlewares: [Middleware<State, Action>]) {
         self.middlewares = middlewares
     }
 
-    override public func effect(on action: Action, state: State) async -> Action? {
+    public override func handle(_ action: Action, state: State) async -> Action? {
         for middleware in middlewares {
-            if let response = await middleware.effect(on: action, state: state) {
+            if let response = await middleware.handle(action, state: state) {
                 return response
             }
         }

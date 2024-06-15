@@ -2,8 +2,8 @@
 //  Reducer.swift
 //  
 //
-//  Created by Hugues Stephano TELOLAHY on 27/11/2023.
+//  Created by Hugues Stephano TELOLAHY on 06/06/2024.
 //
 
-/// `Reducer` is a pure function that takes an action and the current state to calculate the new state.
-public typealias Reducer<State> = (State, Action) -> State
+/// ``Reducer`` is a pure function that takes an `Action` and the current `State` to calculate the new `State`.
+public typealias Reducer<State, Action> = (State, Action) -> State

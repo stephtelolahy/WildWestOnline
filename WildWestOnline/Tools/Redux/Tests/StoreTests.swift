@@ -12,7 +12,7 @@ final class StoreTests: XCTestCase {
     func test_createStore() {
         // Given
         // When
-        let store: Store<String> = Store(initial: "initial")
+        let store: Store<String, Int> = Store(initial: "initial")
 
         // Then
         XCTAssertNotNil(store)
