@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //
-//  GamePlayViewState.swift
+//  GamePlayViewModel.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.

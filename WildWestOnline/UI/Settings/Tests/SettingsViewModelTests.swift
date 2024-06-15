@@ -1,5 +1,5 @@
 //
-//  SetttingsTests.swift
+//  SettingsViewModelTests.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -11,7 +11,7 @@ import Settings
 import SettingsCore
 import XCTest
 
-final class SetttingsTests: XCTestCase {
+final class SettingsViewModelTests: XCTestCase {
     private let sut = SettingsView.Connector()
 
     func test_SettingsStateProjection() throws {

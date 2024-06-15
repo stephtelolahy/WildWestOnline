@@ -1,5 +1,5 @@
 //
-//  HomeTests.swift
+//  HomeViewModelTests.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -11,7 +11,7 @@ import Redux
 import SettingsCore
 import XCTest
 
-final class HomeTests: XCTestCase {
+final class HomeViewModelTests: XCTestCase {
     private let sut = HomeView.Connector()
 
     func test_HomeStateProjection() {

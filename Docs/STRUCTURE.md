@@ -1,31 +1,9 @@
-# Project structure
+# Componenets structure
 
 - Core
-    - App
-        - AppCore.swift 
-    - Game
-        - GameState.swift
-        - GameAction.swift
-        - GameReducer.swift
-        - GameMiddleware.swift
-        - GameBuilder.swift
-    - Settings
-
+    - Store: State, Action, reducer(), middleware(), Service
 - UI
-    - App
-        - AppView.swift
-        - AppViewModel.swift
-    - Splash
-    - Home
-    - GamePlay
-    - Settings
-    - Theme
-
-- Repository
-    - Cards
-        - CardsRepository.swift
-    - Settings
-
-- Utils
-    - Redux
-    - Utils
+    - View: body, preview
+    - ViewModel: State, Action, dericeState(), embedAction()
+- Data
+    - Repository

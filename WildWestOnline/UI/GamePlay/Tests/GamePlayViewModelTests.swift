@@ -1,5 +1,5 @@
 //
-//  UIKitGamePlayStateTests.swift
+//  GamePlayViewModelTests.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
@@ -13,7 +13,7 @@ import Redux
 import SettingsCore
 import XCTest
 
-final class GamePlayStateTests: XCTestCase {
+final class GamePlayViewModelTests: XCTestCase {
     private let sut = GamePlayView.Connector()
 
     func test_state_shouldDisplayCurrentTurnPlayer() throws {

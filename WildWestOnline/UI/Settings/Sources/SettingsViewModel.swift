@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //
-//  SettingsViewState.swift
+//  SettingsViewModel.swift
 //
 //
 //  Created by Hugues Telolahy on 09/12/2023.
