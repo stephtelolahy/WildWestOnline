@@ -1,6 +1,6 @@
 //
 //  Bang.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 15/06/2024.
 //
@@ -48,16 +48,32 @@ enum Bang {
         }
     }
 
-    enum Moves {
+    enum PossibleMoves {
         struct State {
-            var chooseOne: [String: [String]]
             var active: [String: [String]]
+            var chooseOne: [String: [String]]
         }
         enum Action {
             case activate([String], player: String)
             case removeActivate(player: String)
             case chooseOne([String], player: String)
             case removeChooseOne(player: String)
+        }
+    }
+
+    enum Game {
+        struct State {
+            var players: [String: Player]
+            let startOrder: [String]
+            var playOrder: [String]
+            var turn: String?
+            var winner: String?
+        }
+        enum Action {
+            case startTurn(String)
+            case endTurn
+            case eliminate(player: String)
+            case finish(winner: String)
         }
     }
 
@@ -72,22 +88,6 @@ enum Bang {
             case counterShoot(Any)
             case resolve(Any)
             case push([Any])
-        }
-    }
-
-    enum Game {
-        struct State {
-            let startOrder: [String]
-            var playOrder: [String]
-            var turn: String?
-            var players: [String: Player]
-            var winner: String?
-        }
-        enum Action {
-            case startTurn(String)
-            case endTurn
-            case eliminate(player: String)
-            case finish(winner: String)
         }
     }
 }
