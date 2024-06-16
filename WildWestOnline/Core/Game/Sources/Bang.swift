@@ -66,8 +66,9 @@ enum Bang {
             var players: [String: Player]
             let startOrder: [String]
             var playOrder: [String]
-            var turn: String?
             var winner: String?
+            var turn: String?
+            var playedThisTurn: [String: Int]
         }
         enum Action {
             case startTurn(String)
