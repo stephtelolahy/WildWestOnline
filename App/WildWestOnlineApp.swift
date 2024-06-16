@@ -53,13 +53,13 @@ private func createStore() -> Store<AppState, AppAction> {
             updateGameMiddleware()
                 .lift(
                     deriveState: { $0.game },
-                    deriveAction: { $0.toGame() },
+                    deriveAction: { $0.game },
                     embedAction: { .game($0) }
                 ),
             SaveSettingsMiddleware(service: settingsService)
                 .lift(
                     deriveState: { $0.settings },
-                    deriveAction: { $0.toSettings() },
+                    deriveAction: { $0.settings },
                     embedAction: { .settings($0) }
                 ),
             LoggerMiddleware()
@@ -68,14 +68,14 @@ private func createStore() -> Store<AppState, AppAction> {
 }
 
 private extension AppAction {
-    func toGame() -> GameAction? {
+    var game: GameAction? {
         guard case let .game(gameAction) = self else {
             return nil
         }
         return gameAction
     }
 
-    func toSettings() -> SettingsAction? {
+    var settings: SettingsAction? {
         guard case let .settings(settingsAction) = self else {
             return nil
         }
