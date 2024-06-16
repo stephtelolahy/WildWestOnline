@@ -4,6 +4,6 @@
     - Store: State, Action, reducer(), middleware(), Service
 - UI
     - View: body, preview
-    - ViewModel: State, Action, dericeState(), embedAction()
+    - ViewModel: State, Action, deriveState(), embedAction()
 - Data
     - Repository
