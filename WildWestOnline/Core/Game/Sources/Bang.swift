@@ -50,14 +50,30 @@ enum Bang {
 
     enum Players {
         struct State {
+            let playMode: [String: PlayMode]
             let startOrder: [String]
             var playOrder: [String]
             var turn: String?
+            var players: [String: Player]
         }
         enum Action {
             case startTurn(String)
             case endTurn
             case eliminate(player: String)
+        }
+    }
+
+    enum Moves {
+        struct State {
+            var chooseOne: [String: [String]]
+            var active: [String: [String]]
+        }
+        enum Action {
+            case activate([String], player: String)
+            case removeActivate(player: String)
+            case chooseOne([String], player: String)
+            case removeChooseOne(player: String)
+            case choose(String, player: String)
         }
     }
 
@@ -69,6 +85,15 @@ enum Bang {
             case play(String, player: String)
             case cancel(Any)
             case counterShoot(Any)
+        }
+    }
+
+    enum Game {
+        struct State {
+            var winner: String?
+        }
+        enum Action {
+            case finish(winner: String)
         }
     }
 }
