@@ -48,29 +48,25 @@ enum Bang {
         }
     }
 
-    enum Game {
+    enum Players {
         struct State {
             let startOrder: [String]
             var playOrder: [String]
-            var winner: String?
             var turn: String?
         }
         enum Action {
-            case eliminate(player: String)
-            case setGameOver(winner: String)
             case startTurn(String)
             case endTurn
+            case eliminate(player: String)
         }
     }
 
     enum Sequence {
         struct State {
             var queue: [GameAction]
-            var played: [String: Int]
         }
         enum Action {
             case play(String, player: String)
-            case choose(String, player: String)
             case cancel(Any)
             case counterShoot(Any)
         }
