@@ -45,7 +45,10 @@ public struct AppView: View {
 
             case .game:
                 GamePlayView {
-                    store.projection(using: GamePlayView.Connector())
+                    store.projection(
+                        deriveState: GamePlayView.deriveState,
+                        embedAction: GamePlayView.embedAction
+                    )
                 }
 
             default:

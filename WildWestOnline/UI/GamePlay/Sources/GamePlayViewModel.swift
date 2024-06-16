@@ -58,42 +58,38 @@ public extension GamePlayView {
         case didChoose(String, player: String)
     }
 
-    struct Connector: Redux.Connector {
-        public init() {}
-
-        public func deriveState(_ state: AppState) -> State? {
-            guard let game = state.game else {
-                return nil
-            }
-
-            return .init(
-                players: game.playerItems,
-                message: game.message,
-                chooseOneData: game.chooseOneData,
-                handActions: game.handActions,
-                topDiscard: game.discard.first,
-                topDeck: game.deck.first,
-                animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
-                startOrder: game.startOrder,
-                deckCount: game.deck.count,
-                occurredEvent: game.event
-            )
+    static let deriveState: (AppState) -> State? = { state in
+        guard let game = state.game else {
+            return nil
         }
 
-        public func embedAction(_ action: Action) -> AppAction {
-            switch action {
-            case .didStartTurn(let player):
-                    .game(.startTurn(player: player))
+        return .init(
+            players: game.playerItems,
+            message: game.message,
+            chooseOneData: game.chooseOneData,
+            handActions: game.handActions,
+            topDiscard: game.discard.first,
+            topDeck: game.deck.first,
+            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
+            startOrder: game.startOrder,
+            deckCount: game.deck.count,
+            occurredEvent: game.event
+        )
+    }
 
-            case .didTapQuitButton:
-                    .quitGame
+    static let embedAction: (Action) -> AppAction = { action in
+        switch action {
+        case .didStartTurn(let player):
+                .game(.startTurn(player: player))
 
-            case let .didPlay(card, player):
-                    .game(.play(card, player: player))
+        case .didTapQuitButton:
+                .quitGame
 
-            case let .didChoose(option, player):
-                    .game(.choose(option, player: player))
-            }
+        case let .didPlay(card, player):
+                .game(.play(card, player: player))
+
+        case let .didChoose(option, player):
+                .game(.choose(option, player: player))
         }
     }
 }
