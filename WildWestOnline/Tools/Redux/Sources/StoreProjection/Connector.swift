@@ -10,6 +10,7 @@
 /// The first one transforms the whole app state into the view state,
 /// and the second one converts view actions into app actions.
 ///
+@available(*, deprecated, message: "use functions")
 public protocol Connector {
     associatedtype State
     associatedtype Action
