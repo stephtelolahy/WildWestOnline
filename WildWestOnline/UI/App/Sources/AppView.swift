@@ -29,30 +29,45 @@ public struct AppView: View {
             switch store.state.screens.last {
             case .splash:
                 SplashView {
-                    store.projection(using: SplashView.Connector())
+                    store.projection(
+                        deriveState: SplashView.deriveState,
+                        embedAction: SplashView.embedAction
+                    )
                 }
 
             case .home:
                 HomeView {
-                    store.projection(using: HomeView.Connector())
+                    store.projection(
+                        deriveState: HomeView.deriveState,
+                        embedAction: HomeView.embedAction
+                    )
                 }
 
             case .game:
                 GamePlayView {
-                    store.projection(using: GamePlayView.Connector())
+                    store.projection(
+                        deriveState: GamePlayView.deriveState,
+                        embedAction: GamePlayView.embedAction
+                    )
                 }
 
             default:
                 EmptyView()
             }
         }
-        .sheet(isPresented: Binding<Bool>(
-            get: { store.state.screens.last == .settings },
-            set: { _ in }
-        ), onDismiss: {
-        }, content: {
-            SettingsView {
-                store.projection(using: SettingsView.Connector())
+        .sheet(
+            isPresented: Binding<Bool>(
+                get: { store.state.screens.last == .settings },
+                set: { _ in }
+            ),
+            onDismiss: {
+            },
+            content: {
+                SettingsView {
+                    store.projection(
+                        deriveState: SettingsView.deriveState,
+                        embedAction: SettingsView.embedAction
+                    )
             }
         })
         .foregroundColor(.primary)

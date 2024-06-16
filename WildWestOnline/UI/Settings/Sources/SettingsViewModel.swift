@@ -41,50 +41,47 @@ public extension SettingsView {
         case didToggleSimulation
     }
 
-    struct Connector: Redux.Connector {
-        public init() {}
-
-        public func deriveState(_ state: AppState) -> State? {
-            .init(
-                playersCount: state.settings.playersCount,
-                speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),
-                simulation: state.settings.simulation,
-                figureOptions: state.settings.inventory.figures,
-                preferredFigureIndex: indexOfFigure(state.settings.preferredFigure, in: state.settings.inventory.figures)
-            )
-        }
-
-        public func embedAction(_ action: Action) -> AppAction {
-            switch action {
-            case .didTapCloseButton:
-                    .close
-
-            case .didSelectFigure(let figure):
-                    .settings(.updatePreferredFigure(figure))
-
-            case .didSelectSpeed(let delay):
-                    .settings(.updateWaitDelayMilliseconds(delay))
-
-            case .didSelectPlayersCount(let count):
-                    .settings(.updatePlayersCount(count))
-
-            case .didToggleSimulation:
-                    .settings(.toggleSimulation)
-            }
-        }
-
-        private func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
-            SettingsView.State.SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
-        }
-
-        private func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
-            guard let figure,
-                  let index = figures.firstIndex(of: figure) else {
-                return -1
-            }
-
-            return index
-        }
+    static let deriveState: (AppState) -> State? = { state in
+        .init(
+            playersCount: state.settings.playersCount,
+            speedIndex: state.indexOfSpeed(state.settings.waitDelayMilliseconds),
+            simulation: state.settings.simulation,
+            figureOptions: state.settings.inventory.figures,
+            preferredFigureIndex: state.indexOfFigure(state.settings.preferredFigure)
+        )
     }
 
+    static let embedAction: (Action) -> AppAction  = { action in
+        switch action {
+        case .didTapCloseButton:
+                .close
+
+        case .didSelectFigure(let figure):
+                .settings(.updatePreferredFigure(figure))
+
+        case .didSelectSpeed(let delay):
+                .settings(.updateWaitDelayMilliseconds(delay))
+
+        case .didSelectPlayersCount(let count):
+                .settings(.updatePlayersCount(count))
+
+        case .didToggleSimulation:
+                .settings(.toggleSimulation)
+        }
+    }
+}
+
+private extension AppState {
+    func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
+        SettingsView.State.SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
+    }
+
+    func indexOfFigure(_ figure: String?) -> Int {
+        guard let figure,
+              let index = settings.inventory.figures.firstIndex(of: figure) else {
+            return -1
+        }
+
+        return index
+    }
 }
