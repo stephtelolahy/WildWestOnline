@@ -50,7 +50,6 @@ enum Bang {
 
     enum Players {
         struct State {
-            let playMode: [String: PlayMode]
             let startOrder: [String]
             var playOrder: [String]
             var turn: String?
@@ -73,18 +72,20 @@ enum Bang {
             case removeActivate(player: String)
             case chooseOne([String], player: String)
             case removeChooseOne(player: String)
-            case choose(String, player: String)
         }
     }
 
     enum Sequence {
         struct State {
-            var queue: [GameAction]
+            var queue: [Any]
         }
         enum Action {
             case play(String, player: String)
+            case choose(String, player: String)
             case cancel(Any)
             case counterShoot(Any)
+            case resolve(Any)
+            case push([Any])
         }
     }
 
