@@ -49,13 +49,19 @@ public struct AppView: View {
                 EmptyView()
             }
         }
-        .sheet(isPresented: Binding<Bool>(
-            get: { store.state.screens.last == .settings },
-            set: { _ in }
-        ), onDismiss: {
-        }, content: {
-            SettingsView {
-                store.projection(using: SettingsView.Connector())
+        .sheet(
+            isPresented: Binding<Bool>(
+                get: { store.state.screens.last == .settings },
+                set: { _ in }
+            ),
+            onDismiss: {
+            },
+            content: {
+                SettingsView {
+                    store.projection(
+                        deriveState: SettingsView.deriveState,
+                        embedAction: SettingsView.embedAction
+                    )
             }
         })
         .foregroundColor(.primary)
