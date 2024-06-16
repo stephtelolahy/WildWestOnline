@@ -92,3 +92,11 @@ enum Bang {
         }
     }
 }
+
+/*
+ public var event: GameAction?
+ public var error: GameError?
+ public var playMode: [String: PlayMode]
+ public let cards: [String: Card]
+ public var waitDelayMilliseconds: Int
+ */
