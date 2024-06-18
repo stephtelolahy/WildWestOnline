@@ -52,17 +52,17 @@ private func createStore() -> Store<AppState, AppAction> {
         middlewares: [
             updateGameMiddleware()
                 .lift(
-                    deriveState: { $0.game },
-                    deriveAction: { $0.game },
+                    deriveState: { (state: AppState) in state.game },
+                    deriveAction: { (action: AppAction) in action.game },
                     embedAction: { .game($0) }
                 ),
             SaveSettingsMiddleware(service: settingsService)
                 .lift(
-                    deriveState: { $0.settings },
-                    deriveAction: { $0.settings },
+                    deriveState: { (state: AppState) in state.settings },
+                    deriveAction: { (action: AppAction) in action.settings },
                     embedAction: { .settings($0) }
                 ),
-            LoggerMiddleware()
+            LoggerMiddleware<AppState, AppAction>()
         ]
     )
 }

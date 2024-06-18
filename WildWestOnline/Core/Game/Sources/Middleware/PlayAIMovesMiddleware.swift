@@ -6,14 +6,14 @@
 
 import Redux
 
-public final class PlayAIMovesMiddleware: Middleware<GameState, GameAction> {
+public struct PlayAIMovesMiddleware: Middleware {
     private let strategy: AIStrategy
 
     public init(strategy: AIStrategy) {
         self.strategy = strategy
     }
 
-    public override func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+    public func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard state.winner == nil else {
             return nil
         }
