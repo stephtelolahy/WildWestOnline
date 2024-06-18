@@ -12,7 +12,7 @@
 /// instead, create a middleware for the sub-state and call `Middleware.lift(_:)`,
 /// passing as parameter the keyPath from whole to part.
 public struct LiftMiddleware<State, Action, LocalState, LocalAction>: Middleware {
-    private let partMiddleware: any Middleware
+    private let partMiddleware: any Middleware<LocalState, LocalAction>
     private let deriveState: (State) -> LocalState?
     private let deriveAction: (Action) -> LocalAction?
     private let embedAction: (LocalAction) -> Action
@@ -36,11 +36,7 @@ public struct LiftMiddleware<State, Action, LocalState, LocalAction>: Middleware
             return nil
         }
 
-        guard let typedMiddleware = partMiddleware as? any Middleware<LocalState, LocalAction> else {
-            fatalError("invalid middleware type")
-        }
-
-        let nextLocalAction = await typedMiddleware.handle(localAction, state: localState)
+        let nextLocalAction = await partMiddleware.handle(localAction, state: localState)
         return nextLocalAction.flatMap(embedAction)
     }
 }

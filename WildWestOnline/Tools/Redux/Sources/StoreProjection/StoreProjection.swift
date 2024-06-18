@@ -78,7 +78,7 @@ public extension Store {
             globalStore: self,
             deriveState: connector.deriveState,
             embedAction: { viewAction in
-                // TODO: rewrite StoreProjection
+                // TODO: rewrite embedAction in StoreProjection
                 connector.embedAction(viewAction, state: self.state)
             }
         )
