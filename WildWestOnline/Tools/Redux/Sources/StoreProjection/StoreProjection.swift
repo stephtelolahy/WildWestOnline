@@ -67,7 +67,7 @@ public protocol Connector {
     associatedtype ViewAction
 
     func deriveState(_ state: State) -> ViewState?
-    func embedAction(_ action: ViewAction) -> Action
+    func embedAction(_ action: ViewAction, state: State) -> Action
 }
 
 public extension Store {
@@ -77,7 +77,10 @@ public extension Store {
         StoreProjection(
             globalStore: self,
             deriveState: connector.deriveState,
-            embedAction: connector.embedAction
+            embedAction: { viewAction in
+                // TODO: rewrite StoreProjection
+                connector.embedAction(viewAction, state: self.state)
+            }
         )
     }
 }

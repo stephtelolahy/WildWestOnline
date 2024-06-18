@@ -16,14 +16,18 @@ public extension SplashView {
         case didAppear
     }
 
-    static let deriveState: (AppState) -> State? = { _ in
-        .init()
-    }
+    struct Connector: Redux.Connector {
+        public init() {}
 
-    static let embedAction: (Action) -> AppAction = { action in
-        switch action {
-        case .didAppear:
-            return AppAction.navigate(.home)
+        public func deriveState(_ state: AppState) -> State? {
+            .init()
+        }
+
+        public func embedAction(_ action: Action, state: AppState) -> AppAction {
+            switch action {
+            case .didAppear:
+                return AppAction.navigate(.home)
+            }
         }
     }
 }

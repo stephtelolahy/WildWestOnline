@@ -29,10 +29,7 @@ public struct AppView: View {
             switch store.state.screens.last {
             case .splash:
                 SplashView {
-                    store.projection(
-                        deriveState: SplashView.deriveState,
-                        embedAction: SplashView.embedAction
-                    )
+                    store.projection(using: SplashView.Connector())
                 }
 
             case .home:
