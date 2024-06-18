@@ -46,7 +46,7 @@ final class StoreProjection<
     }
 }
 
-public extension Store {
+extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
     func projection<ViewState: Equatable, ViewAction>(
         deriveState: @escaping (State) -> ViewState?,

@@ -14,6 +14,8 @@ import SettingsCore
 import XCTest
 
 final class GamePlayViewModelTests: XCTestCase {
+    private let sut = GamePlayView.Connector()
+
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
@@ -26,7 +28,7 @@ final class GamePlayViewModelTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -55,7 +57,7 @@ final class GamePlayViewModelTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -105,7 +107,7 @@ final class GamePlayViewModelTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.handActions, [
@@ -130,7 +132,7 @@ final class GamePlayViewModelTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(
@@ -144,20 +146,36 @@ final class GamePlayViewModelTests: XCTestCase {
 
     func test_embedActionQuit() {
         // Given
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build()
+        )
         // When
         // then
-        XCTAssertEqual(GamePlayView.embedAction(.didTapQuitButton), .quitGame)
+        XCTAssertEqual(sut.embedAction(.didTapQuitButton, state: appState), .quitGame)
     }
 
     func test_embedActionStart() {
-        XCTAssertEqual(GamePlayView.embedAction(.didStartTurn(player: "p1")), .game(.startTurn(player: "p1")))
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build()
+        )
+        XCTAssertEqual(sut.embedAction(.didStartTurn(player: "p1"), state: appState), .game(.startTurn(player: "p1")))
     }
 
     func test_embedActionPlay() {
-        XCTAssertEqual(GamePlayView.embedAction(.didPlay("c1", player: "p1")), .game(.play("c1", player: "p1")))
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build()
+        )
+        XCTAssertEqual(sut.embedAction(.didPlay("c1", player: "p1"), state: appState), .game(.play("c1", player: "p1")))
     }
 
     func test_embedActionChoose() {
-        XCTAssertEqual(GamePlayView.embedAction(.didChoose("o1", player: "p1")), .game(.choose("o1", player: "p1")))
+        let appState = AppState(
+            screens: [],
+            settings: SettingsState.makeBuilder().build()
+        )
+        XCTAssertEqual(sut.embedAction(.didChoose("o1", player: "p1"), state: appState), .game(.choose("o1", player: "p1")))
     }
 }

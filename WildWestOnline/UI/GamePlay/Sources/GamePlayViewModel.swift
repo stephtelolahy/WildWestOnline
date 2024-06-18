@@ -24,7 +24,7 @@ public extension GamePlayView {
         public let startOrder: [String]
         public let deckCount: Int
         public let occurredEvent: GameAction?
-
+        
         public struct PlayerItem: Equatable {
             public let id: String
             public let imageName: String
@@ -39,57 +39,61 @@ public extension GamePlayView {
             public let role: String?
             public let userPhotoUrl: String?
         }
-
+        
         public struct CardAction: Equatable {
             public let card: String
             public let active: Bool
         }
-
+        
         public struct ChooseOneData: Equatable {
             public let choiceType: ChoiceType
             public let options: [String]
         }
     }
-
+    
     enum Action {
         case didStartTurn(player: String)
         case didTapQuitButton
         case didPlay(String, player: String)
         case didChoose(String, player: String)
     }
-
-    static let deriveState: (AppState) -> State? = { state in
-        guard let game = state.game else {
-            return nil
+    
+    struct Connector: Redux.Connector {
+        public init() {}
+        
+        public func deriveState(_ state: AppState) -> State? {
+            guard let game = state.game else {
+                return nil
+            }
+            
+            return .init(
+                players: game.playerItems,
+                message: game.message,
+                chooseOneData: game.chooseOneData,
+                handActions: game.handActions,
+                topDiscard: game.discard.first,
+                topDeck: game.deck.first,
+                animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
+                startOrder: game.startOrder,
+                deckCount: game.deck.count,
+                occurredEvent: game.event
+            )
         }
-
-        return .init(
-            players: game.playerItems,
-            message: game.message,
-            chooseOneData: game.chooseOneData,
-            handActions: game.handActions,
-            topDiscard: game.discard.first,
-            topDeck: game.deck.first,
-            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
-            startOrder: game.startOrder,
-            deckCount: game.deck.count,
-            occurredEvent: game.event
-        )
-    }
-
-    static let embedAction: (Action) -> AppAction = { action in
-        switch action {
-        case .didStartTurn(let player):
-                .game(.startTurn(player: player))
-
-        case .didTapQuitButton:
-                .quitGame
-
-        case let .didPlay(card, player):
-                .game(.play(card, player: player))
-
-        case let .didChoose(option, player):
-                .game(.choose(option, player: player))
+        
+        public func embedAction(_ action: Action, state: AppState) -> AppAction {
+            switch action {
+            case .didStartTurn(let player):
+                    .game(.startTurn(player: player))
+                
+            case .didTapQuitButton:
+                    .quitGame
+                
+            case let .didPlay(card, player):
+                    .game(.play(card, player: player))
+                
+            case let .didChoose(option, player):
+                    .game(.choose(option, player: player))
+            }
         }
     }
 }
@@ -105,7 +109,7 @@ private extension GameState {
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
             let isTargeted = sequence.contains { $0.isEffectTargeting(playerId) }
-
+            
             return .init(
                 id: playerId,
                 imageName: playerObj.figure,
@@ -122,7 +126,7 @@ private extension GameState {
             )
         }
     }
-
+    
     var message: String {
         if let turn {
             "\(turn.uppercased())'s turn"
@@ -130,30 +134,30 @@ private extension GameState {
             "-"
         }
     }
-
+    
     var chooseOneData: GamePlayView.State.ChooseOneData? {
         guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
             return  nil
         }
-
+        
         return .init(
             choiceType: chooseOne.value.type,
             options: chooseOne.value.options
         )
     }
-
+    
     var handActions: [GamePlayView.State.CardAction] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
         }
-
+        
         let activeCards = self.active[playerId] ?? []
-
+        
         let handCardActions = playerObj.hand.map { card in
             GamePlayView.State.CardAction(card: card, active: activeCards.contains(card))
         }
-
+        
         let abilityActions = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
                 GamePlayView.State.CardAction(card: card, active: true)
@@ -161,7 +165,7 @@ private extension GameState {
                 nil
             }
         }
-
+        
         return handCardActions + abilityActions
     }
 }
