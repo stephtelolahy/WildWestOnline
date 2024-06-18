@@ -34,10 +34,7 @@ public struct AppView: View {
 
             case .home:
                 HomeView {
-                    store.projection(
-                        deriveState: HomeView.deriveState,
-                        embedAction: HomeView.embedAction
-                    )
+                    store.projection(using: HomeView.Connector())
                 }
 
             case .game:
