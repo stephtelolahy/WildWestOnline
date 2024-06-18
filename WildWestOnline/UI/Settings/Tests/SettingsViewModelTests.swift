@@ -12,6 +12,8 @@ import SettingsCore
 import XCTest
 
 final class SettingsViewModelTests: XCTestCase {
+    private let sut = SettingsView.Connector()
+
     func test_SettingsStateProjection() throws {
         // Given
         let appState = AppState(
@@ -19,15 +21,19 @@ final class SettingsViewModelTests: XCTestCase {
             settings: SettingsState.makeBuilder().withPlayersCount(3).build()
         )
         // When
-        let settingsState = try XCTUnwrap(SettingsView.deriveState(appState))
+        let settingsState = try XCTUnwrap(sut.deriveState(appState))
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)
     }
 
     func test_SettingsEmbedAction() throws {
         // Given
+        let appState = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().build()
+        )
         // When
         // Then
-        XCTAssertEqual(SettingsView.embedAction(.didToggleSimulation), .settings(.toggleSimulation))
+        XCTAssertEqual(sut.embedAction(.didToggleSimulation, state: appState), .settings(.toggleSimulation))
     }
 }

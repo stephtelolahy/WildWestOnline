@@ -61,10 +61,7 @@ public struct AppView: View {
             },
             content: {
                 SettingsView {
-                    store.projection(
-                        deriveState: SettingsView.deriveState,
-                        embedAction: SettingsView.embedAction
-                    )
+                    store.projection(using: SettingsView.Connector())
             }
         })
         .foregroundColor(.primary)
