@@ -6,14 +6,14 @@
 
 import Redux
 
-public struct PlayAIMovesMiddleware: Middleware {
+struct PlayAIMovesMiddleware: Middleware {
     private let strategy: AIStrategy
 
-    public init(strategy: AIStrategy) {
+    init(strategy: AIStrategy) {
         self.strategy = strategy
     }
 
-    public func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+    func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard state.winner == nil else {
             return nil
         }
@@ -34,14 +34,12 @@ public struct PlayAIMovesMiddleware: Middleware {
     }
 }
 
-public protocol AIStrategy {
+protocol AIStrategy {
     func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction
 }
 
-public struct RandomAIStrategy: AIStrategy {
-    public init() {}
-
-    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+struct RandomAIStrategy: AIStrategy {
+    func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
         // swiftlint:disable force_unwrapping
         actions.randomElement()!
     }

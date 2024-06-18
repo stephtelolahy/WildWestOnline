@@ -8,8 +8,8 @@
 import Foundation
 import Redux
 
-public struct ProcessSequenceMiddleware: Middleware {
-    public func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+struct ProcessSequenceMiddleware: Middleware {
+    func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         switch action {
         case .setGameOver,
                 .chooseOne,

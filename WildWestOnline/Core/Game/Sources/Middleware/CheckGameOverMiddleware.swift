@@ -7,8 +7,8 @@
 
 import Redux
 
-public struct CheckGameOverMiddleware: Middleware {
-    public func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+struct CheckGameOverMiddleware: Middleware {
+    func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard case .eliminate = action else {
             return nil
         }

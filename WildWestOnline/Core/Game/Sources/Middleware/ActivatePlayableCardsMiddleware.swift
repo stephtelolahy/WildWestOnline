@@ -7,8 +7,8 @@
 
 import Redux
 
-public struct ActivatePlayableCardsMiddleware: Middleware {
-    public func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+struct ActivatePlayableCardsMiddleware: Middleware {
+    func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard state.sequence.isEmpty,
               state.winner == nil,
               state.chooseOne.isEmpty,

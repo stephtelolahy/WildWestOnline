@@ -7,8 +7,8 @@
 
 import Redux
 
-public struct TriggerCardEffectsMiddleware: Middleware {
-    public func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+struct TriggerCardEffectsMiddleware: Middleware {
+    func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         var triggered: [GameAction] = []
 
         // active players
