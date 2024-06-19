@@ -7,17 +7,40 @@
 // swiftlint:disable nesting
 
 enum Bang {
-    enum Player {
+
+    enum Game {
         struct State {
-            let maxHealth: Int
-            var health: Int
-            var attributes: [String: Int]
+            var players: Players.State
+            var cardLocation: CardLocation.State
+            var playOrder: PlayOrder.State
+            var possibleMoves: PossibleMoves.State
+            var effect: Effect.State
+
+            var winner: String?
         }
         enum Action {
-            case heal(Int)
-            case damage(Int)
-            case setAttribute(String, value: Int)
-            case removeAttribute(String)
+            case players(Players.Action)
+            case cardLocation(CardLocation.Action)
+            case playOrder(PlayOrder.Action)
+            case possibleMoves(PossibleMoves.Action)
+            case effect(Effect.Action)
+
+            case setGameOver(winner: String)
+            case play(String, player: String)
+            case choose(String, player: String)
+        }
+    }
+
+    enum Players {
+        struct State {
+            var health: [String: Int]
+            var attributes: [String: [String: Int]]
+        }
+        enum Action {
+            case heal(Int, player: String)
+            case damage(Int, player: String)
+            case setAttribute(String, value: Int, player: String)
+            case removeAttribute(String, player: String)
         }
     }
 
@@ -48,6 +71,19 @@ enum Bang {
         }
     }
 
+    enum PlayOrder {
+        struct State {
+            let startOrder: [String]
+            var playOrder: [String]
+            var turn: String?
+        }
+        enum Action {
+            case startTurn(player: String)
+            case endTurn(player: String)
+            case eliminate(player: String)
+        }
+    }
+
     enum PossibleMoves {
         struct State {
             var active: [String: [String]]
@@ -55,39 +91,20 @@ enum Bang {
         }
         enum Action {
             case activate([String], player: String)
-            case removeActivate(player: String)
             case chooseOne([String], player: String)
-            case removeChooseOne(player: String)
+            case deactivate(player: String)
         }
     }
 
-    enum Game {
-        struct State {
-            var players: [String: Player]
-            let startOrder: [String]
-            var playOrder: [String]
-            var turn: String?
-            var winner: String?
-        }
-        enum Action {
-            case startTurn(String)
-            case endTurn
-            case eliminate(player: String)
-            case finish(winner: String)
-        }
-    }
-
-    enum Sequence {
+    enum Effect {
         struct State {
             var queue: [Any]
         }
         enum Action {
-            case play(String, player: String)
-            case choose(String, player: String)
-            case cancel(Any)
-            case counterShoot(Any)
             case resolve(Any)
-            case push([Any])
+            case cancel(Any)
+            case group([Any])
+            case counterShoot(Any)
         }
     }
 }

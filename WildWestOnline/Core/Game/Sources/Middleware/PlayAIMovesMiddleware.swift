@@ -7,11 +7,7 @@
 import Redux
 
 struct PlayAIMovesMiddleware: Middleware {
-    private let strategy: AIStrategy
-
-    init(strategy: AIStrategy) {
-        self.strategy = strategy
-    }
+    let strategy: AIStrategy
 
     func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         guard state.winner == nil else {
