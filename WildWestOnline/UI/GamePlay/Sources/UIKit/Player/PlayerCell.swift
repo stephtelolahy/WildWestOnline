@@ -22,7 +22,7 @@ class PlayerCell: UICollectionViewCell {
         figureImageView.addBrownRoundedBorder()
     }
 
-    func update(with item: GamePlayView.State.PlayerItem) {
+    func update(with item: GamePlayView.State.Player) {
         updateBackground(item)
 
         nameLabel.text = item.displayName
@@ -52,7 +52,7 @@ class PlayerCell: UICollectionViewCell {
 //        }
     }
 
-    private func updateBackground(_ item: GamePlayView.State.PlayerItem) {
+    private func updateBackground(_ item: GamePlayView.State.Player) {
         if item.isEliminated {
             backgroundColor = .clear
         } else if item.isTargeted {

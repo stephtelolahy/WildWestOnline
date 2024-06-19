@@ -136,8 +136,8 @@ final class GamePlayViewModelTests: XCTestCase {
 
         // Then
         XCTAssertEqual(
-            result.chooseOneData,
-            GamePlayView.State.ChooseOneData(
+            result.chooseOne,
+            GamePlayView.State.ChooseOne(
                 choiceType: .cardToDraw,
                 options: [.missed, .bang]
             )
@@ -158,24 +158,27 @@ final class GamePlayViewModelTests: XCTestCase {
     func test_embedActionStart() {
         let appState = AppState(
             screens: [],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            game: GameState.makeBuilder().withPlayOrder(["p1", "p2"]).build()
         )
-        XCTAssertEqual(sut.embedAction(.didStartTurn(player: "p1"), state: appState), .game(.startTurn(player: "p1")))
+        XCTAssertEqual(sut.embedAction(.didAppear, state: appState), .game(.startTurn(player: "p1")))
     }
 
     func test_embedActionPlay() {
         let appState = AppState(
             screens: [],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            game: GameState.makeBuilder().withPlayModes(["p1": .manual]).build()
         )
-        XCTAssertEqual(sut.embedAction(.didPlay("c1", player: "p1"), state: appState), .game(.play("c1", player: "p1")))
+        XCTAssertEqual(sut.embedAction(.didPlay("c1"), state: appState), .game(.play("c1", player: "p1")))
     }
 
     func test_embedActionChoose() {
         let appState = AppState(
             screens: [],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            game: GameState.makeBuilder().withPlayModes(["p1": .manual]).build()
         )
-        XCTAssertEqual(sut.embedAction(.didChoose("o1", player: "p1"), state: appState), .game(.choose("o1", player: "p1")))
+        XCTAssertEqual(sut.embedAction(.didChoose("o1"), state: appState), .game(.choose("o1", player: "p1")))
     }
 }
