@@ -19,12 +19,12 @@ final class StoreProjection<
     ViewAction
 >: Store<ViewState, ViewAction> {
     private let globalStore: Store<State, Action>
-    private let embedAction: (ViewAction) -> Action
+    private let embedAction: (ViewAction, State) -> Action
 
     init(
         globalStore: Store<State, Action>,
         deriveState: @escaping (State) -> ViewState?,
-        embedAction: @escaping (ViewAction) -> Action
+        embedAction: @escaping (ViewAction, State) -> Action
     ) {
         guard let viewState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
@@ -42,7 +42,7 @@ final class StoreProjection<
     }
 
     override func dispatch(_ action: ViewAction) {
-        globalStore.dispatch(embedAction(action))
+        globalStore.dispatch(embedAction(action, globalStore.state))
     }
 }
 
@@ -50,12 +50,34 @@ public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
     func projection<ViewState: Equatable, ViewAction>(
         deriveState: @escaping (State) -> ViewState?,
-        embedAction: @escaping (ViewAction) -> Action
+        embedAction: @escaping (ViewAction, State) -> Action
     ) -> Store<ViewState, ViewAction> {
         StoreProjection(
             globalStore: self,
             deriveState: deriveState,
             embedAction: embedAction
+        )
+    }
+}
+
+public protocol Connector {
+    associatedtype State
+    associatedtype Action
+    associatedtype ViewState: Equatable
+    associatedtype ViewAction
+
+    func deriveState(_ state: State) -> ViewState?
+    func embedAction(_ action: ViewAction, state: State) -> Action
+}
+
+public extension Store {
+    func projection<C: Connector>(
+        using connector: C
+    ) -> Store<C.ViewState, C.ViewAction> where C.State == State, C.Action == Action {
+        StoreProjection(
+            globalStore: self,
+            deriveState: connector.deriveState,
+            embedAction: connector.embedAction
         )
     }
 }

@@ -52,7 +52,7 @@ final class SimulationTests: XCTestCase {
             reducer: GameState.reducer,
             middlewares: [
                 updateGameMiddleware(),
-                LoggerMiddleware(),
+                LoggerMiddleware<GameState, GameAction>(),
                 StateReproducerMiddleware(initial: game)
             ]
         )
@@ -79,14 +79,14 @@ final class SimulationTests: XCTestCase {
 }
 
 /// Middleare reproducting state according to received event
-private class StateReproducerMiddleware: Middleware<GameState, GameAction> {
+private class StateReproducerMiddleware: Middleware {
     private var prevState: GameState
 
     init(initial: GameState) {
         self.prevState = initial
     }
 
-    override func handle(_ action: GameAction, state: GameState) async -> GameAction? {
+    func handle(_ action: GameAction, state: GameState) async -> GameAction? {
         DispatchQueue.main.async { [weak self] in
             guard let self else {
                 return

@@ -41,7 +41,7 @@ public struct GamePlayView: View {
 
 private extension GamePlayView.State {
     static var sample: Self {
-        let player1 = GamePlayView.State.PlayerItem(
+        let player1 = GamePlayView.State.Player(
             id: "p1",
             imageName: .willyTheKid,
             displayName: .willyTheKid,
@@ -56,7 +56,7 @@ private extension GamePlayView.State {
             userPhotoUrl: nil
         )
 
-        let player2 = GamePlayView.State.PlayerItem(
+        let player2 = GamePlayView.State.Player(
             id: "p2",
             imageName: .calamityJanet,
             displayName: .calamityJanet,
@@ -74,7 +74,7 @@ private extension GamePlayView.State {
         return .init(
             players: [player1, player2, player2, player2, player2, player2, player2],
             message: "P1's turn",
-            chooseOneData: nil,
+            chooseOne: nil,
             handActions: [
                 .init(card: "\(String.mustang)-2♥️", active: false),
                 .init(card: .gatling, active: true),

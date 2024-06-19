@@ -12,6 +12,8 @@ import SettingsCore
 import XCTest
 
 final class HomeViewModelTests: XCTestCase {
+    private let sut = HomeView.Connector()
+
     func test_HomeStateProjection() {
         // Given
         let appState = AppState(
@@ -20,14 +22,22 @@ final class HomeViewModelTests: XCTestCase {
         )
         // When
         // Then
-        XCTAssertEqual(HomeView.deriveState(appState), .init())
+        XCTAssertEqual(sut.deriveState(appState), .init())
     }
 
     func test_embedActionOpenSettings() {
-        XCTAssertEqual(HomeView.embedAction(.didTapSettingsButton), .navigate(.settings))
+        let appState = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().build()
+        )
+        XCTAssertEqual(sut.embedAction(.didTapSettingsButton, state: appState), .navigate(.settings))
     }
 
     func test_embedActionStartGame() {
-        XCTAssertEqual(HomeView.embedAction(.didTapPlayButton), .createGame)
+        let appState = AppState(
+            screens: [.home],
+            settings: SettingsState.makeBuilder().build()
+        )
+        XCTAssertEqual(sut.embedAction(.didTapPlayButton, state: appState), .createGame)
     }
 }

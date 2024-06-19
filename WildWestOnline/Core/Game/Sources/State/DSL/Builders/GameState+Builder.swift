@@ -116,6 +116,11 @@ public extension GameState {
             waitDelayMilliseconds = value
             return self
         }
+
+        public func withPlayOrder(_ value: [String]) -> Self {
+            playOrder = value
+            return self
+        }
     }
 
     static func makeBuilder() -> Builder {

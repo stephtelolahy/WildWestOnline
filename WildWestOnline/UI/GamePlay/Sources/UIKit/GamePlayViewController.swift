@@ -65,7 +65,7 @@ class GamePlayViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startGame()
+        store.dispatch(.didAppear)
     }
 
     // MARK: - IBAction
@@ -76,11 +76,6 @@ class GamePlayViewController: UIViewController {
 }
 
 private extension GamePlayViewController {
-    func startGame() {
-        let player = store.state.players[0].id
-        store.dispatch(.didStartTurn(player: player))
-    }
-
     func setupViews() {
         playersCollectionView.register(
             UINib(nibName: "PlayerCell", bundle: .module),
@@ -122,10 +117,9 @@ private extension GamePlayViewController {
         playersCollectionView.reloadData()
         handCollectionView.reloadData()
 
-        if let chooseOneData = state.chooseOneData {
-            let player = store.state.players[0].id
+        if let chooseOneData = state.chooseOne {
             showChooseOneAlert(chooseOneData) { [weak self] option in
-                self?.store.dispatch(.didChoose(option, player: player))
+                self?.store.dispatch(.didChoose(option))
             }
         }
 
@@ -146,7 +140,7 @@ private extension GamePlayViewController {
     }
 
     func showChooseOneAlert(
-        _ data: GamePlayView.State.ChooseOneData,
+        _ data: GamePlayView.State.ChooseOne,
         completion: @escaping (String) -> Void
     ) {
         let alert = UIAlertController(
@@ -179,7 +173,7 @@ private extension GamePlayViewController {
         present(alert, animated: true)
     }
 
-    func showPlayerInfoAlert(_ player: GamePlayView.State.PlayerItem) {
+    func showPlayerInfoAlert(_ player: GamePlayView.State.Player) {
         let alert = UIAlertController(
             title: player.displayName,
             message: "TODO: description",
@@ -289,8 +283,7 @@ extension GamePlayViewController: UICollectionViewDelegate {
             return
         }
 
-        let player = store.state.players[0].id
-        store.dispatch(.didPlay(item.card, player: player))
+        store.dispatch(.didPlay(item.card))
     }
 }
 

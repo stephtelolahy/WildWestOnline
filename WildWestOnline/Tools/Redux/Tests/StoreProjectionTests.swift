@@ -16,10 +16,13 @@ final class StoreProjectionTests: XCTestCase {
         let globalStore: Store<String, Int> = Store(initial: "1") { state, action in
             String(repeating: state, count: action)
         }
-        let deriveState: (String) -> Int? = { Int($0) }
-        let embedAction: (Int) -> Int = { $0 }
 
-        let sut = globalStore.projection(deriveState: deriveState, embedAction: embedAction)
+        struct MyConector: Connector {
+            func deriveState(_ state: String) -> Int? { Int(state) }
+            func embedAction(_ action: Int, state: String) -> Int { action }
+        }
+
+        let sut = globalStore.projection(using: MyConector())
         var receivedStates: [Int?] = []
         sut.$state.sink { viewState in
             receivedStates.append(viewState)

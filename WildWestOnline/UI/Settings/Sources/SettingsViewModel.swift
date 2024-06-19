@@ -41,32 +41,36 @@ public extension SettingsView {
         case didToggleSimulation
     }
 
-    static let deriveState: (AppState) -> State? = { state in
-        .init(
-            playersCount: state.settings.playersCount,
-            speedIndex: state.indexOfSpeed(state.settings.waitDelayMilliseconds),
-            simulation: state.settings.simulation,
-            figureOptions: state.settings.inventory.figures,
-            preferredFigureIndex: state.indexOfFigure(state.settings.preferredFigure)
-        )
-    }
+    struct Connector: Redux.Connector {
+        public init() {}
 
-    static let embedAction: (Action) -> AppAction  = { action in
-        switch action {
-        case .didTapCloseButton:
-                .close
+        public func deriveState(_ state: AppState) -> State? {
+            .init(
+                playersCount: state.settings.playersCount,
+                speedIndex: state.indexOfSpeed(state.settings.waitDelayMilliseconds),
+                simulation: state.settings.simulation,
+                figureOptions: state.settings.inventory.figures,
+                preferredFigureIndex: state.indexOfFigure(state.settings.preferredFigure)
+            )
+        }
 
-        case .didSelectFigure(let figure):
-                .settings(.updatePreferredFigure(figure))
+        public func embedAction(_ action: Action, state: AppState) -> AppAction {
+            switch action {
+            case .didTapCloseButton:
+                    .close
 
-        case .didSelectSpeed(let delay):
-                .settings(.updateWaitDelayMilliseconds(delay))
+            case .didSelectFigure(let figure):
+                    .settings(.updatePreferredFigure(figure))
 
-        case .didSelectPlayersCount(let count):
-                .settings(.updatePlayersCount(count))
+            case .didSelectSpeed(let delay):
+                    .settings(.updateWaitDelayMilliseconds(delay))
 
-        case .didToggleSimulation:
-                .settings(.toggleSimulation)
+            case .didSelectPlayersCount(let count):
+                    .settings(.updatePlayersCount(count))
+
+            case .didToggleSimulation:
+                    .settings(.toggleSimulation)
+            }
         }
     }
 }

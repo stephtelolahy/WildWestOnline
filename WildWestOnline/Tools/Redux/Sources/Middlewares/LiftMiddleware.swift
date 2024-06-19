@@ -11,22 +11,17 @@
 /// You should not be able to instantiate this class directly,
 /// instead, create a middleware for the sub-state and call `Middleware.lift(_:)`,
 /// passing as parameter the keyPath from whole to part.
-final class LiftMiddleware<
-    GlobalState,
-    GlobalAction,
-    LocalState,
-    LocalAction
->: Middleware<GlobalState, GlobalAction> {
-    private let partMiddleware: Middleware<LocalState, LocalAction>
-    private let deriveState: (GlobalState) -> LocalState?
-    private let deriveAction: (GlobalAction) -> LocalAction?
-    private let embedAction: (LocalAction) -> GlobalAction
+public struct LiftMiddleware<State, Action, LocalState, LocalAction>: Middleware {
+    private let partMiddleware: any Middleware<LocalState, LocalAction>
+    private let deriveState: (State) -> LocalState?
+    private let deriveAction: (Action) -> LocalAction?
+    private let embedAction: (LocalAction) -> Action
 
     init(
-        partMiddleware: Middleware<LocalState, LocalAction>,
-        deriveState: @escaping (GlobalState) -> LocalState?,
-        deriveAction: @escaping (GlobalAction) -> LocalAction?,
-        embedAction: @escaping (LocalAction) -> GlobalAction
+        partMiddleware: any Middleware<LocalState, LocalAction>,
+        deriveState: @escaping (State) -> LocalState?,
+        deriveAction: @escaping (Action) -> LocalAction?,
+        embedAction: @escaping (LocalAction) -> Action
     ) {
         self.partMiddleware = partMiddleware
         self.deriveState = deriveState
@@ -34,7 +29,7 @@ final class LiftMiddleware<
         self.embedAction = embedAction
     }
 
-    override func handle(_ action: GlobalAction, state: GlobalState) async -> GlobalAction? {
+    public func handle(_ action: Action, state: State) async -> Action? {
         guard let localState = deriveState(state),
               let localAction = deriveAction(action) else {
             // This middleware doesn't care about this action type
@@ -51,7 +46,7 @@ public extension Middleware {
         deriveState: @escaping (GlobalState) -> State?,
         deriveAction: @escaping (GlobalAction) -> Action?,
         embedAction: @escaping (Action) -> GlobalAction
-    ) -> Middleware<GlobalState, GlobalAction> {
+    ) -> any Middleware<GlobalState, GlobalAction> {
         LiftMiddleware(
             partMiddleware: self,
             deriveState: deriveState,
