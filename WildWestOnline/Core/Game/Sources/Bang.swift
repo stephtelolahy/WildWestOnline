@@ -7,13 +7,12 @@
 // swiftlint:disable nesting
 
 enum Bang {
-
     enum Game {
         struct State {
             var players: Players.State
             var cardLocation: CardLocation.State
             var playOrder: PlayOrder.State
-            var possibleMoves: PossibleMoves.State
+            var callToAction: CallToAction.State
             var effect: Effect.State
 
             var winner: String?
@@ -22,7 +21,7 @@ enum Bang {
             case players(Players.Action)
             case cardLocation(CardLocation.Action)
             case playOrder(PlayOrder.Action)
-            case possibleMoves(PossibleMoves.Action)
+            case callToAction(CallToAction.Action)
             case effect(Effect.Action)
 
             case setGameOver(winner: String)
@@ -84,7 +83,7 @@ enum Bang {
         }
     }
 
-    enum PossibleMoves {
+    enum CallToAction {
         struct State {
             var active: [String: [String]]
             var chooseOne: [String: [String]]
@@ -104,7 +103,7 @@ enum Bang {
             case resolve(Any)
             case cancel(Any)
             case group([Any])
-            case counterShoot(Any)
+            case counter(Any)
         }
     }
 }
