@@ -11,14 +11,14 @@ public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
 
     private let reducer: Reducer<State>
-    private let middlewares: [any Middleware<State>]
+    private let middlewares: [Middleware<State>]
     private var subscriptions: [UUID: AnyCancellable] = [:]
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
         reducer: @escaping Reducer<State> = { state, _ in state },
-        middlewares: [any Middleware<State>] = []
+        middlewares: [Middleware<State>] = []
     ) {
         self.state = state
         self.reducer = reducer
@@ -30,7 +30,7 @@ public class Store<State: Equatable>: ObservableObject {
 
         middlewares.forEach { middleware in
             let key = UUID()
-            middleware.performAsFuture(on: action, state: newState)
+            Future<Action, Never>.create(from: middleware, state: newState, action: action)
                 .compactMap { $0 }
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: RunLoop.main)
@@ -45,11 +45,15 @@ public class Store<State: Equatable>: ObservableObject {
     }
 }
 
-private extension Middleware {
-    func performAsFuture(on action: Action, state: State) -> Future<Action?, Never> {
-        Future { promise in
+private extension Future {
+    static func create<State>(
+        from middleware: @escaping Middleware<State>,
+        state: State,
+        action: Action
+    ) -> Future<Action?, Never> {
+        Future<Action?, Never> { promise in
             Task {
-                let output = await self.effect(on: action, state: state)
+                let output = await middleware(state, action)
                 promise(.success(output))
             }
         }

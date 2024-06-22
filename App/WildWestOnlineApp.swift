@@ -51,11 +51,9 @@ private func createStore() -> Store<AppState> {
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
-            updateGameMiddleware()
-                .lift { $0.game },
-            SaveSettingsMiddleware(service: settingsService)
-                .lift { $0.settings },
-            LoggerMiddleware()
+            Middlewares.lift(Middlewares.updateGame(), stateMap: { $0.game }),
+            Middlewares.lift(Middlewares.saveSettings(with: settingsService), stateMap: { $0.settings }),
+            Middlewares.logger()
         ]
     )
 }

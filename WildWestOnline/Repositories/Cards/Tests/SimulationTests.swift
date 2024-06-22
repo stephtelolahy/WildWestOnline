@@ -46,15 +46,16 @@ final class SimulationTests: XCTestCase {
             preferredFigure: preferredFigure
         )
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        let stateWrapper = ClassWrapper(game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
         let sut = Store<GameState>(
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
-                updateGameMiddleware(),
-                LoggerMiddleware(),
-                StateReproducerMiddleware(prevState: ClassWrapper(game))
+                Middlewares.updateGame(),
+                Middlewares.logger(),
+                Middlewares.stateReproducer(stateWrapper)
             ]
         )
 
@@ -80,17 +81,18 @@ final class SimulationTests: XCTestCase {
 }
 
 /// Middleare reproducting state according to received event
-private struct StateReproducerMiddleware: Middleware {
-    let prevState: ClassWrapper<GameState>
-
-    @MainActor
-    func effect(on action: Action, state: GameState) async -> Action? {
-        let resultState = GameState.reducer(prevState.value, action)
-        prevState.value = resultState
-        if !resultState.isEqualIgnoringSequence(to: state) {
-            assertionFailure("🚨 Inconsistent state after applying \(action)")
+private extension Middlewares {
+    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState> {
+        { state, action in
+            DispatchQueue.main.async {
+                let resultState = GameState.reducer(prevState.value, action)
+                prevState.value = resultState
+                if !resultState.isEqualIgnoringSequence(to: state) {
+                    assertionFailure("🚨 Inconsistent state after applying \(action)")
+                }
+            }
+            return nil
         }
-        return nil
     }
 }
 

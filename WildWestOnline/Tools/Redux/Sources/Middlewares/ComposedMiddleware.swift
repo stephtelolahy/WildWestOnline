@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  ComposedMiddleware.swift
 //
@@ -10,20 +11,17 @@
 /// Whenever an action arrives to be handled by this `ComposedMiddleware`, 
 /// it will delegate to its internal chain of middlewares.
 /// Only the first non-nil middleware response will be returned
-public struct ComposedMiddleware<State>: Middleware {
-    private let middlewares: [any Middleware<State>]
-
-    public init(_ middlewares: [any Middleware<State>]) {
-        self.middlewares = middlewares
-    }
-
-    public func effect(on action: Action, state: State) async -> Action? {
-        for middleware in middlewares {
-            if let response = await middleware.effect(on: action, state: state) {
-                return response
+///
+public extension Middlewares {
+    static func compose<State>(_ middlewares: [Middleware<State>]) -> Middleware<State> {
+        { state, action in
+            for middleware in middlewares {
+                if let response = await middleware(state, action) {
+                    return response
+                }
             }
-        }
 
-        return nil
+            return nil
+        }
     }
 }
