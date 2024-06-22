@@ -28,7 +28,8 @@ final class SimulationTests: XCTestCase {
         simulateGame(playersCount: 7)
     }
 
-    func xtest_simulateGameWithCustomFigure_shouldComplete() throws {
+    func test_simulateGameWithCustomFigure_shouldComplete() throws {
+        try XCTSkipIf(!CardsRepository().inventory.figures.contains(.custom))
         simulateGame(playersCount: 4, preferredFigure: .custom)
     }
 
