@@ -14,7 +14,9 @@ struct EffectForce: EffectResolver {
         do {
             let children = try effect.resolve(state: state, ctx: ctx)
 
-            if children.count == 1 {
+            if children.isEmpty {
+                return [.effect(otherwise, ctx: ctx)]
+            } else if children.count == 1 {
                 let action = children[0]
                 switch action {
                 case .drawDiscard:
