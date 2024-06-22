@@ -23,5 +23,6 @@ enum Figures {
         .kitCarlson,
         .jesseJones,
         .pedroRamirez
+//        .custom
     ]
 }

@@ -14,7 +14,7 @@
 struct LiftMiddleware<State, LocalState>: Middleware {
     private let partMiddleware: any Middleware<LocalState>
     private let stateMap: (State) -> LocalState?
-    
+
     init(
         middleware: any Middleware<LocalState>,
         stateMap: @escaping (State) -> LocalState?
@@ -22,12 +22,12 @@ struct LiftMiddleware<State, LocalState>: Middleware {
         self.stateMap = stateMap
         self.partMiddleware = middleware
     }
-    
+
     func effect(on action: Action, state: State) async -> Action? {
         guard let localState = stateMap(state) else {
             return nil
         }
-        
+
         return await partMiddleware.effect(on: action, state: localState)
     }
 }

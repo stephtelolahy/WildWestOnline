@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import SwiftUI
+// swiftlint:disable trailing_closure
 
 /// `Store` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
