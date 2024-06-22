@@ -53,8 +53,8 @@ final class SimulationTests: XCTestCase {
             reducer: GameState.reducer,
             middlewares: [
                 updateGameMiddleware(),
-                LoggerMiddleware()
-                // StateReproducerMiddleware(initial: game)
+                LoggerMiddleware(),
+                StateReproducerMiddleware(prevState: ClassWrapper(game))
             ]
         )
 
@@ -80,23 +80,15 @@ final class SimulationTests: XCTestCase {
 }
 
 /// Middleare reproducting state according to received event
-private class StateReproducerMiddleware: Middleware {
-    private var prevState: GameState
+private struct StateReproducerMiddleware: Middleware {
+    let prevState: ClassWrapper<GameState>
 
-    init(initial: GameState) {
-        self.prevState = initial
-    }
-
+    @MainActor
     func effect(on action: Action, state: GameState) async -> Action? {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
-            }
-            let resultState = GameState.reducer(self.prevState, action)
-            self.prevState = resultState
-            if !resultState.isEqualIgnoringSequence(to: state) {
-                assertionFailure("🚨 Inconsistent state after applying \(action)")
-            }
+        let resultState = GameState.reducer(prevState.value, action)
+        prevState.value = resultState
+        if !resultState.isEqualIgnoringSequence(to: state) {
+            assertionFailure("🚨 Inconsistent state after applying \(action)")
         }
         return nil
     }

@@ -4,26 +4,55 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
-// swiftlint:disable no_magic_numbers
+// swiftlint:disable no_magic_numbers type_contents_order
 
 import SettingsCore
 import Utils
 
 public class SettingsRepository: SettingsService {
+    public init() {}
+
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
-    public var playersCount: Int
+    private var _playersCount: Int
 
     @UserDefaultsStored("settings.waitDelayMilliseconds", defaultValue: 500)
-    public var waitDelayMilliseconds: Int
+    private var _waitDelayMilliseconds: Int
 
     @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
-    public var simulationEnabled: Bool
-
-    @UserDefaultsStored("settings.gamePlay", defaultValue: 0)
-    public var gamePlay: Int
+    private var _simulationEnabled: Bool
 
     @OptionalUserDefaultsStored("settings.preferredFigure")
-    public var preferredFigure: String?
+    private var _preferredFigure: String?
 
-    public init() {}
+    public func playersCount() -> Int {
+        _playersCount
+    }
+
+    public func setPlayersCount(_ value: Int) {
+        _playersCount = value
+    }
+
+    public func waitDelayMilliseconds() -> Int {
+        _waitDelayMilliseconds
+    }
+
+    public func setWaitDelayMilliseconds(_ value: Int) {
+        _waitDelayMilliseconds = value
+    }
+
+    public func isSimulationEnabled() -> Bool {
+        _simulationEnabled
+    }
+
+    public func setSimulationEnabled(_ value: Bool) {
+        _simulationEnabled = value
+    }
+
+    public func preferredFigure() -> String? {
+        _preferredFigure
+    }
+
+    public func setPreferredFigure(_ value: String?) {
+        _preferredFigure = value
+    }
 }

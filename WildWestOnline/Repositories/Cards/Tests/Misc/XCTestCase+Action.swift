@@ -21,7 +21,7 @@ extension XCTestCase {
     ) -> ([GameAction], GameError?) {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
-        let choosingMiddleware = ChoosingAgentMiddleware(choices: choose)
+        let choosingMiddleware = ChoosingAgentMiddleware(choices: ClassWrapper(choose))
         let store = Store<GameState>(
             initial: state,
             reducer: GameState.reducer,
@@ -52,29 +52,25 @@ extension XCTestCase {
 
         XCTAssertEqual(store.state.sequence, [], "Game must be idle", file: file, line: line)
         XCTAssertEqual(store.state.chooseOne, [:], "Game must be idle", file: file, line: line)
-        XCTAssertEqual(choosingMiddleware.choices, [], "Choices must be empty", file: file, line: line)
+        XCTAssertEqual(choosingMiddleware.choices.value, [], "Choices must be empty", file: file, line: line)
 
         return (ocurredEvents, ocurredError)
     }
 }
 
-private class ChoosingAgentMiddleware: Middleware {
-    private(set) var choices: [String]
-
-    init(choices: [String]) {
-        self.choices = choices
-    }
+private struct ChoosingAgentMiddleware: Middleware {
+    let choices: ClassWrapper<[String]>
 
     func effect(on action: Action, state: GameState) async -> Action? {
         guard let chooseOne = state.chooseOne.first else {
             return nil
         }
 
-        guard !choices.isEmpty else {
+        guard !choices.value.isEmpty else {
             fatalError("Expected a choice between \(chooseOne.value.options)")
         }
 
-        let option = choices.removeFirst()
+        let option = choices.value.removeFirst()
         return GameAction.choose(option, player: chooseOne.key)
     }
 }

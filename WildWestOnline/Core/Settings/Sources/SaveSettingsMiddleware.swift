@@ -7,33 +7,29 @@
 
 import Redux
 
-public class SaveSettingsMiddleware: Middleware {
-    private var service: SettingsService
+public struct SaveSettingsMiddleware: Middleware {
+    private let service: SettingsService
 
     public init(service: SettingsService) {
         self.service = service
     }
 
     public func effect(on action: Action, state: SettingsState) async -> Action? {
-        guard let action = action as? SettingsAction else {
-            return nil
-        }
-
         switch action {
-        case let .updatePlayersCount(value):
-            service.playersCount = value
+        case let SettingsAction.updatePlayersCount(value):
+            service.setPlayersCount(value)
 
-        case let .updateWaitDelayMilliseconds(delay):
-            service.waitDelayMilliseconds = delay
+        case let SettingsAction.updateWaitDelayMilliseconds(delay):
+            service.setWaitDelayMilliseconds(delay)
 
-        case .toggleSimulation:
-            service.simulationEnabled = state.simulation
+        case SettingsAction.toggleSimulation:
+            service.setSimulationEnabled(state.simulation)
 
-        case let .updateGamePlay(value):
-            service.gamePlay = value
+        case let SettingsAction.updatePreferredFigure(value):
+            service.setPreferredFigure(value)
 
-        case let .updatePreferredFigure(value):
-            service.preferredFigure = value
+        default:
+            break
         }
 
         return nil

@@ -12,6 +12,7 @@ public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
+    @available(*, deprecated, message: "Use single gamePlay")
     public var gamePlay: Int
     public var preferredFigure: String?
 }
