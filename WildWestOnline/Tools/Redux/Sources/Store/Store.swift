@@ -11,7 +11,7 @@ public class Store<State: Equatable>: ObservableObject {
 
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
-    private var subscriptions = Set<AnyCancellable>()
+    private var subscriptions: [UUID: AnyCancellable] = [:]
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
@@ -26,15 +26,21 @@ public class Store<State: Equatable>: ObservableObject {
 
     public func dispatch(_ action: Action) {
         let newState = reducer(state, action)
-        state = newState
+
         for middleware in middlewares {
+            let key = UUID()
             middleware.performAsFuture(on: action, state: newState)
-                .subscribe(on: middlewareSerialQueue)
-                .receive(on: DispatchQueue.main)
                 .compactMap { $0 }
+                .subscribe(on: middlewareSerialQueue)
+                .receive(on: RunLoop.main)
+                .handleEvents(receiveCompletion: { [weak self] _ in
+                    self?.subscriptions.removeValue(forKey: key)
+                })
                 .sink(receiveValue: dispatch)
-                .store(in: &subscriptions)
+                .store(in: &subscriptions, key: key)
         }
+
+        state = newState
     }
 }
 
@@ -46,5 +52,11 @@ private extension Middleware {
                 promise(.success(output))
             }
         }
+    }
+}
+
+private extension AnyCancellable {
+    func store(in dictionary: inout [UUID: AnyCancellable], key: UUID) {
+        dictionary[key] = self
     }
 }
