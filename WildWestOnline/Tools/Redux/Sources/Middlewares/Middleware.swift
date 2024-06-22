@@ -8,10 +8,8 @@
 /// ``Middleware`` is a plugin, or a composition of several plugins, 
 /// that are assigned to the app global  state pipeline in order to
 /// Handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-open class Middleware<State> {
-    public init() {}
+public protocol Middleware<State> {
+    associatedtype State
 
-    open func effect(on action: Action, state: State) async -> Action? {
-        nil
-    }
+    func effect(on action: Action, state: State) async -> Action?
 }

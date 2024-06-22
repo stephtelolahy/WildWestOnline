@@ -58,15 +58,14 @@ extension XCTestCase {
     }
 }
 
-private class ChoosingAgentMiddleware: Middleware<GameState> {
+private class ChoosingAgentMiddleware: Middleware {
     private(set) var choices: [String]
 
     init(choices: [String]) {
         self.choices = choices
-        super.init()
     }
 
-    override func effect(on action: Action, state: GameState) async -> Action? {
+    func effect(on action: Action, state: GameState) async -> Action? {
         guard let chooseOne = state.chooseOne.first else {
             return nil
         }

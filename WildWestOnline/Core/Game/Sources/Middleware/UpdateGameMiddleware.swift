@@ -7,7 +7,7 @@
 import Redux
 
 /// Game loop features
-public func updateGameMiddleware() -> Middleware<GameState> {
+public func updateGameMiddleware() -> any Middleware<GameState> {
     ComposedMiddleware([
         CheckGameOverMiddleware(),
         TriggerCardEffectsMiddleware(),

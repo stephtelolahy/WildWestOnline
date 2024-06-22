@@ -10,14 +10,14 @@ public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
 
     private let reducer: Reducer<State>
-    private let middlewares: [Middleware<State>]
+    private let middlewares: [any Middleware<State>]
     private var subscriptions: [UUID: AnyCancellable] = [:]
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
         reducer: @escaping Reducer<State> = { state, _ in state },
-        middlewares: [Middleware<State>] = []
+        middlewares: [any Middleware<State>] = []
     ) {
         self.state = state
         self.reducer = reducer
@@ -27,7 +27,7 @@ public class Store<State: Equatable>: ObservableObject {
     public func dispatch(_ action: Action) {
         let newState = reducer(state, action)
 
-        for middleware in middlewares {
+        middlewares.forEach { middleware in
             let key = UUID()
             middleware.performAsFuture(on: action, state: newState)
                 .compactMap { $0 }
