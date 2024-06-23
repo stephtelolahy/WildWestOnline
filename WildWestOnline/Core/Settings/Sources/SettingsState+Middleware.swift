@@ -11,21 +11,22 @@ import Redux
 public extension Middlewares {
     static func saveSettings(with service: SettingsService) -> Middleware<SettingsState> {
         { state, action in
+            guard let action = action as? SettingsAction else {
+                return nil
+            }
+
             switch action {
-            case let SettingsAction.updatePlayersCount(value):
+            case let .updatePlayersCount(value):
                 service.setPlayersCount(value)
 
-            case let SettingsAction.updateWaitDelayMilliseconds(delay):
+            case let .updateWaitDelayMilliseconds(delay):
                 service.setWaitDelayMilliseconds(delay)
 
-            case SettingsAction.toggleSimulation:
+            case .toggleSimulation:
                 service.setSimulationEnabled(state.simulation)
 
-            case let SettingsAction.updatePreferredFigure(value):
+            case let .updatePreferredFigure(value):
                 service.setPreferredFigure(value)
-
-            default:
-                break
             }
 
             return nil
