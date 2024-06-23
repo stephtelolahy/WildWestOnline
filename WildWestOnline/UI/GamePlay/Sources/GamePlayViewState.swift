@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //
-//  GamePlayUIKitViewState.swift
+//  GamePlayViewState.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.
@@ -10,7 +10,7 @@
 import Foundation
 import GameCore
 
-public extension GamePlayUIKitView {
+public extension GamePlayView {
     struct State: Equatable {
         public let players: [PlayerItem]
         public let message: String

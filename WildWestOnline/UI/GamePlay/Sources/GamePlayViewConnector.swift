@@ -1,5 +1,5 @@
 //
-//  GamePlayUIKitViewConnector.swift
+//  GamePlayViewConnector.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 10/05/2024.
@@ -11,10 +11,10 @@ import GameCore
 import Redux
 
 public extension Connectors {
-    struct GamePlayUIKitViewConnector: Connector {
+    struct GamePlayViewConnector: Connector {
         public init() {}
 
-        public func connect(state: AppState) -> GamePlayUIKitView.State? {
+        public func connect(state: AppState) -> GamePlayView.State? {
             guard let game = state.game else {
                 return nil
             }
@@ -36,7 +36,7 @@ public extension Connectors {
 }
 
 private extension GameState {
-    var playerItems: [GamePlayUIKitView.State.PlayerItem] {
+    var playerItems: [GamePlayView.State.PlayerItem] {
         self.startOrder.map { playerId in
             let playerObj = player(playerId)
             let health = max(0, playerObj.health)
@@ -72,7 +72,7 @@ private extension GameState {
         }
     }
 
-    var chooseOneData: GamePlayUIKitView.State.ChooseOneData? {
+    var chooseOneData: GamePlayView.State.ChooseOneData? {
         guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
             return  nil
         }
@@ -87,7 +87,7 @@ private extension GameState {
         )
     }
 
-    var handActions: [GamePlayUIKitView.State.CardAction] {
+    var handActions: [GamePlayView.State.CardAction] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
@@ -97,15 +97,15 @@ private extension GameState {
 
         let handCardActions = playerObj.hand.map { card in
             if activeCards.contains(card) {
-                GamePlayUIKitView.State.CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
-                GamePlayUIKitView.State.CardAction(card: card, action: nil)
+                GamePlayView.State.CardAction(card: card, action: nil)
             }
         }
 
         let abilityActions = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                GamePlayUIKitView.State.CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
                 nil
             }

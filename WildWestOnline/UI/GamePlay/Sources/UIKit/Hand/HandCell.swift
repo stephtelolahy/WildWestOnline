@@ -21,7 +21,7 @@ class HandCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 2
     }
 
-    func update(with item: GamePlayUIKitView.State.CardAction) {
+    func update(with item: GamePlayView.State.CardAction) {
         let cardName = item.card.extractName()
         let cardImage = UIImage(named: cardName, in: Bundle.module, with: .none)
         if let cardImage {

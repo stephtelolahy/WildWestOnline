@@ -22,8 +22,8 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Data
 
-    private var store: Store<GamePlayUIKitView.State>
-    private var subscriptions = Set<AnyCancellable>()
+    private var store: Store<GamePlayView.State>
+    private var subscriptions: Set<AnyCancellable> = []
     private var events: [String] = []
 
     // MARK: - IBOutlets
@@ -41,11 +41,11 @@ class GamePlayViewController: UIViewController {
     private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
     private lazy var animationRenderer: AnimationRendererProtocol = AnimationRenderer(config: self)
 
-    private var previousState: GamePlayUIKitView.State?
+    private var previousState: GamePlayView.State?
 
     // MARK: - Init
 
-    init(store: Store<GamePlayUIKitView.State>) {
+    init(store: Store<GamePlayView.State>) {
         self.store = store
         super.init(nibName: "GamePlayViewController", bundle: .module)
     }
@@ -114,7 +114,7 @@ private extension GamePlayViewController {
         .store(in: &subscriptions)
     }
 
-    func updateViews(with state: GamePlayUIKitView.State) {
+    func updateViews(with state: GamePlayView.State) {
         titleLabel.text = state.message
         discardImageView.image = state.topDiscardImage
         deckCountLabel.text = "[] \(state.deckCount)"
@@ -143,7 +143,7 @@ private extension GamePlayViewController {
     }
 
     func showChooseOneAlert(
-        _ data: GamePlayUIKitView.State.ChooseOneData,
+        _ data: GamePlayView.State.ChooseOneData,
         completion: @escaping (GameAction) -> Void
     ) {
         let alert = UIAlertController(
@@ -178,7 +178,7 @@ private extension GamePlayViewController {
         present(alert, animated: true)
     }
 
-    func showPlayerInfoAlert(_ player: GamePlayUIKitView.State.PlayerItem) {
+    func showPlayerInfoAlert(_ player: GamePlayView.State.PlayerItem) {
         let alert = UIAlertController(
             title: player.displayName,
             message: "TODO: description",
@@ -297,7 +297,7 @@ extension GamePlayViewController: PlayerCollectionViewLayoutDelegate {
     }
 }
 
-private extension GamePlayUIKitView.State {
+private extension GamePlayView.State {
     var topDiscardImage: UIImage? {
         guard let topDiscard else {
             return nil

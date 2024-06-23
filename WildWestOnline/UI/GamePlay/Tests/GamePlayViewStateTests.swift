@@ -1,5 +1,5 @@
 //
-//  UIKitGamePlayStateTests.swift
+//  GamePlayViewStateTests.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
@@ -13,7 +13,7 @@ import Redux
 import SettingsCore
 import XCTest
 
-final class UIKitGamePlayStateTests: XCTestCase {
+final class GamePlayViewStateTests: XCTestCase {
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
@@ -24,7 +24,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.connect(state: appState))
@@ -54,7 +54,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.connect(state: appState))
@@ -105,7 +105,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.connect(state: appState))
@@ -131,7 +131,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayUIKitViewConnector()
+        let sut = Connectors.GamePlayViewConnector()
 
         // When
         let result = try XCTUnwrap(sut.connect(state: appState))
@@ -139,7 +139,7 @@ final class UIKitGamePlayStateTests: XCTestCase {
         // Then
         XCTAssertEqual(
             result.chooseOneData,
-            GamePlayUIKitView.State.ChooseOneData(
+            GamePlayView.State.ChooseOneData(
                 choiceType: .cardToDraw,
                 options: [.missed, .bang],
                 actions: [
