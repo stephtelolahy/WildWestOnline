@@ -10,8 +10,8 @@ import UIKit
 protocol AnimationRendererProtocol {
     func execute(
         _ animation: EventAnimation,
-        from initialState: GamePlayUIKitView.State,
-        to finalState: GamePlayUIKitView.State,
+        from initialState: GamePlayView.State,
+        to finalState: GamePlayView.State,
         duration: TimeInterval
     )
 }
@@ -29,8 +29,8 @@ struct AnimationRenderer: AnimationRendererProtocol {
 
     func execute(
         _ animation: EventAnimation,
-        from initialState: GamePlayUIKitView.State,
-        to finalState: GamePlayUIKitView.State,
+        from initialState: GamePlayView.State,
+        to finalState: GamePlayView.State,
         duration: TimeInterval
     ) {
         switch animation {
@@ -58,7 +58,7 @@ struct AnimationRenderer: AnimationRendererProtocol {
 }
 
 private extension AnimationRendererConfiguration {
-    func image(for card: EventAnimation.Card, in state: GamePlayUIKitView.State) -> UIImage {
+    func image(for card: EventAnimation.Card, in state: GamePlayView.State) -> UIImage {
         switch card {
         case .id(let cardId):
             return cardImage(for: cardId)
@@ -82,7 +82,7 @@ private extension AnimationRendererConfiguration {
         }
     }
 
-    func image(at location: EventAnimation.Location, in state: GamePlayUIKitView.State) -> UIImage? {
+    func image(at location: EventAnimation.Location, in state: GamePlayView.State) -> UIImage? {
         switch location {
         case .discard:
             if let cardId = state.topDiscard {

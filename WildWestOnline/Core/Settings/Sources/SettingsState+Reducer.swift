@@ -24,9 +24,6 @@ public extension SettingsState {
         case .toggleSimulation:
             state.simulation.toggle()
 
-        case let .updateGamePlay(value):
-            state.gamePlay = value
-
         case let .updatePreferredFigure(value):
             state.preferredFigure = value
         }

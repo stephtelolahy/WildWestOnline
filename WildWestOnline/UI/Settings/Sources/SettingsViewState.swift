@@ -6,6 +6,7 @@
 //  Created by Hugues Telolahy on 09/12/2023.
 //
 // swiftlint:disable nesting no_magic_numbers
+import AppCore
 
 public extension SettingsView {
     struct State: Equatable {
@@ -15,7 +16,6 @@ public extension SettingsView {
         public let playersCount: Int
         public let speedIndex: Int
         public let simulation: Bool
-        public let gamePlay: Int
         public let figureOptions: [String]
         public let preferredFigureIndex: Int
 
@@ -34,5 +34,30 @@ public extension SettingsView {
             "UIKit",
             "SwiftUI"
         ]
+    }
+
+    static let deriveState: (AppState) -> State?  = { state in
+            .init(
+                playersCount: state.settings.playersCount,
+                speedIndex: State.indexOfSpeed(state.settings.waitDelayMilliseconds),
+                simulation: state.settings.simulation,
+                figureOptions: state.settings.inventory.figures,
+                preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.settings.inventory.figures)
+            )
+    }
+}
+
+private extension SettingsView.State {
+    static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
+        SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
+    }
+
+    static func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
+        guard let figure,
+              let index = figures.firstIndex(of: figure) else {
+            return -1
+        }
+
+        return index
     }
 }

@@ -5,22 +5,11 @@
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
 import GameCore
-import Redux
 
 public struct SettingsState: Codable, Equatable {
     public let inventory: Inventory
     public var playersCount: Int
     public var waitDelayMilliseconds: Int
     public var simulation: Bool
-    @available(*, deprecated, message: "Use single gamePlay")
-    public var gamePlay: Int
     public var preferredFigure: String?
-}
-
-public enum SettingsAction: Action, Codable, Equatable {
-    case updatePlayersCount(Int)
-    case updateWaitDelayMilliseconds(Int)
-    case toggleSimulation
-    case updateGamePlay(Int)
-    case updatePreferredFigure(String?)
 }

@@ -29,16 +29,18 @@ public struct AppView: View {
             switch store.state.screens.last {
             case .splash:
                 SplashView {
-                    store.projection(using: Connectors.SplashViewConnector())
+                    store.projection(SplashView.deriveState)
                 }
 
             case .home:
                 HomeView {
-                    store.projection(using: Connectors.HomeViewConnector())
+                    store.projection(HomeView.deriveState)
                 }
 
             case .game:
-                gamePlayView
+                GamePlayView {
+                    store.projection(GamePlayView.deriveState)
+                }
 
             default:
                 EmptyView()
@@ -50,29 +52,10 @@ public struct AppView: View {
         ), onDismiss: {
         }, content: {
             SettingsView {
-                store.projection(using: Connectors.SettingsViewConnector())
+                store.projection(SettingsView.deriveState)
             }
         })
         .foregroundColor(.primary)
-    }
-
-    private var gamePlayView: some View {
-        Group {
-            switch store.state.settings.gamePlay {
-            case 0:
-                GamePlayUIKitView {
-                    store.projection(using: Connectors.GamePlayUIKitViewConnector())
-                }
-
-            case 1:
-                GamePlayView {
-                    store.projection(using: Connectors.GamePlayViewConnector())
-                }
-
-            default:
-                fatalError("unexpected")
-            }
-        }
     }
 }
 

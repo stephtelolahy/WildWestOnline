@@ -1,22 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-
-    },
-    "%@\t%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@\t%2$@"
-          }
-        }
-      }
-    },
-    "%lld" : {
-
-    },
     "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -33,9 +17,6 @@
           }
         }
       }
-    },
-    "Choose one option" : {
-
     },
     "game.message" : {
       "extractionState" : "manual",
