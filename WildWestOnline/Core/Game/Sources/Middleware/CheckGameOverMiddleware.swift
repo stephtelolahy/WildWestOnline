@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  CheckGameOverMiddleware.swift
 //  
@@ -7,21 +8,23 @@
 
 import Redux
 
-public final class CheckGameOverMiddleware: Middleware<GameState> {
-    override public func effect(on action: Action, state: GameState) async -> Action? {
-        guard let action = action as? GameAction else {
-            return nil
-        }
+extension Middlewares {
+    static func checkGameOver() -> Middleware<GameState> {
+        { state, action in
+            guard let action = action as? GameAction else {
+                return nil
+            }
 
-        guard case .eliminate = action else {
-            return nil
-        }
+            guard case .eliminate = action else {
+                return nil
+            }
 
-        guard state.playOrder.count <= 1 else {
-            return nil
-        }
+            guard state.playOrder.count <= 1 else {
+                return nil
+            }
 
-        let winner = state.playOrder.first ?? ""
-        return GameAction.setGameOver(winner: winner)
+            let winner = state.playOrder.first ?? ""
+            return GameAction.setGameOver(winner: winner)
+        }
     }
 }

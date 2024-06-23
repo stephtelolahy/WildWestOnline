@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  UpdateGameMiddleware.swift
 //
@@ -7,12 +8,14 @@
 import Redux
 
 /// Game loop features
-public func updateGameMiddleware() -> Middleware<GameState> {
-    ComposedMiddleware([
-        CheckGameOverMiddleware(),
-        TriggerCardEffectsMiddleware(),
-        ProcessSequenceMiddleware(),
-        ActivatePlayableCardsMiddleware(),
-        PlayAIMovesMiddleware(strategy: RandomAIStrategy())
-    ])
+public extension Middlewares {
+    static func updateGame() -> Middleware<GameState> {
+        chain([
+            checkGameOver(),
+            triggerCardEffects(),
+            processSequence(),
+            activatePlayableCards(),
+            playAIMoves(strategy: RandomAIStrategy())
+        ])
+    }
 }

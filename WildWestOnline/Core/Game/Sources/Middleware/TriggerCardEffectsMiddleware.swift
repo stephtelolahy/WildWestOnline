@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  TriggerCardEffectsMiddleware.swift
 //
@@ -7,61 +8,57 @@
 
 import Redux
 
-public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
-    override public func effect(on action: Action, state: GameState) async -> Action? {
-        guard let action = action as? GameAction else {
-            return nil
-        }
-
-        var triggered: [GameAction] = []
-
-        // active players
-        for player in state.playOrder {
-            let playerObj = state.player(player)
-            let cards = triggerableCardsOfActivePlayer(playerObj, state: state)
-            for card in cards {
-                let actions = triggeredEffects(by: card, player: player, state: state, event: action)
-                triggered.append(contentsOf: actions)
+extension Middlewares {
+    static func triggerCardEffects() -> Middleware<GameState> {
+        { state, action in
+            guard let action = action as? GameAction else {
+                return nil
             }
-        }
 
-        // just eliminated player
-        if case let .eliminate(player) = action {
-            let playerObj = state.player(player)
-            let cards = triggerableCardsOfEliminatedPlayer(playerObj)
-            for card in cards {
-                let actions = triggeredEffects(by: card, player: player, state: state, event: action)
-                triggered.append(contentsOf: actions)
+            var triggered: [GameAction] = []
+
+            // active players
+            for player in state.playOrder {
+                let playerObj = state.player(player)
+                let cards = playerObj.triggerableCardsOfActivePlayer
+                for card in cards {
+                    let actions = state.triggeredEffects(by: card, player: player, event: action)
+                    triggered.append(contentsOf: actions)
+                }
             }
-        }
 
-        // <sort triggered by priority>
-        triggered.sort { action1, action2 in
-            guard case let .effect(_, ctx1) = action1,
-                  case let .effect(_, ctx2) = action2,
-                  let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
-                  let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
-                fatalError("invalid triggered effect")
+            // just eliminated player
+            if case let .eliminate(player) = action {
+                let playerObj = state.player(player)
+                let cards = playerObj.triggerableCardsOfEliminatedPlayer
+                for card in cards {
+                    let actions = state.triggeredEffects(by: card, player: player, event: action)
+                    triggered.append(contentsOf: actions)
+                }
             }
-            return cardObj1.priority < cardObj2.priority
-        }
-        // </sort triggered by priority>
 
-        if triggered.isEmpty {
-            return nil
-        } else if triggered.count == 1 {
-            return triggered[0]
-        } else {
-            return GameAction.group(triggered)
+            // sort triggered by priority
+            triggered = state.sortedByPriority(triggered)
+
+            // return triggered effect(s)
+            if triggered.isEmpty {
+                return nil
+            } else if triggered.count == 1 {
+                return triggered[0]
+            } else {
+                return GameAction.group(triggered)
+            }
         }
     }
+}
 
-    private func triggeredEffects(
+private extension GameState {
+    func triggeredEffects(
         by card: String,
         player: String,
-        state: GameState,
         event: GameAction
     ) -> [GameAction] {
+        let state = self
         let cardName = card.extractName()
         guard let cardObj = state.cards[cardName] else {
             return []
@@ -78,7 +75,7 @@ public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
                 sourceEvent: event,
                 sourceActor: player,
                 sourceCard: card,
-                linkedToShoot: linkedToShoot(event: event, state: state)
+                linkedToShoot: state.linkedToShoot(event: event)
             )
 
             actions.append(.effect(rule.effect, ctx: ctx))
@@ -87,20 +84,35 @@ public final class TriggerCardEffectsMiddleware: Middleware<GameState> {
         return actions
     }
 
-    private func triggerableCardsOfActivePlayer(_ playerObj: Player, state: GameState) -> [String] {
-        playerObj.inPlay + playerObj.abilities
-    }
-
-    private func triggerableCardsOfEliminatedPlayer(_ playerObj: Player) -> [String] {
-        Array(playerObj.abilities)
-    }
-
-    private func linkedToShoot(event: GameAction, state: GameState) -> String? {
+    func linkedToShoot(event: GameAction) -> String? {
         guard case let .effect(cardEffect, ctx) = event,
               case .shoot = cardEffect else {
             return nil
         }
 
         return ctx.resolvingTarget
+    }
+
+    func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {
+        let state = self
+        return actions.sorted { action1, action2 in
+            guard case let .effect(_, ctx1) = action1,
+                  case let .effect(_, ctx2) = action2,
+                  let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
+                  let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
+                fatalError("invalid triggered effect")
+            }
+            return cardObj1.priority < cardObj2.priority
+        }
+    }
+}
+
+private extension Player {
+    var triggerableCardsOfActivePlayer: [String] {
+        inPlay + abilities
+    }
+
+    var triggerableCardsOfEliminatedPlayer: [String] {
+        Array(abilities)
     }
 }

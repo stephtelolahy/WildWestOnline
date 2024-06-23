@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //  PlayAIMovesMiddleware.swift
 //
 //
@@ -6,31 +7,27 @@
 
 import Redux
 
-public final class PlayAIMovesMiddleware: Middleware<GameState> {
-    private let strategy: AIStrategy
+extension Middlewares {
+    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
+        { state, _ in
+            guard state.winner == nil else {
+                return nil
+            }
 
-    public init(strategy: AIStrategy) {
-        self.strategy = strategy
-    }
+            if let active = state.active.first,
+               state.playMode[active.key] == .auto {
+                let actions = active.value.map { GameAction.play($0, player: active.key) }
+                return strategy.evaluateBestMove(actions, state: state)
+            }
 
-    override public func effect(on action: Action, state: GameState) async -> Action? {
-        guard state.winner == nil else {
+            if let chooseOne = state.chooseOne.first,
+               state.playMode[chooseOne.key] == .auto {
+                let actions = chooseOne.value.options.map { GameAction.choose($0, player: chooseOne.key) }
+                return strategy.evaluateBestMove(actions, state: state)
+            }
+
             return nil
         }
-
-        if let active = state.active.first,
-           state.playMode[active.key] == .auto {
-            let actions = active.value.map { GameAction.play($0, player: active.key) }
-            return strategy.evaluateBestMove(actions, state: state)
-        }
-
-        if let chooseOne = state.chooseOne.first,
-           state.playMode[chooseOne.key] == .auto {
-            let actions = chooseOne.value.options.map { GameAction.choose($0, player: chooseOne.key) }
-            return strategy.evaluateBestMove(actions, state: state)
-        }
-
-        return nil
     }
 }
 

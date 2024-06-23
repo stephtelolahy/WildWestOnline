@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  ActivatePlayableCardsMiddleware.swift
 //
@@ -7,32 +8,36 @@
 
 import Redux
 
-public final class ActivatePlayableCardsMiddleware: Middleware<GameState> {
-    override public func effect(on action: Action, state: GameState) async -> Action? {
-        guard state.sequence.isEmpty,
-              state.winner == nil,
-              state.chooseOne.isEmpty,
-              state.active.isEmpty,
-              let player = state.turn else {
-            return nil
-        }
+extension Middlewares {
+    static func activatePlayableCards() -> Middleware<GameState> {
+        { state, _ in
+            guard state.sequence.isEmpty,
+                  state.winner == nil,
+                  state.chooseOne.isEmpty,
+                  state.active.isEmpty,
+                  let player = state.turn else {
+                return nil
+            }
 
-        var activeCards: [String] = []
-        let playerObj = state.player(player)
-        for card in activableCardsOfPlayer(playerObj)
-        where GameAction.validatePlay(card: card, player: player, state: state) {
-            activeCards.append(card)
-        }
+            var activeCards: [String] = []
+            let playerObj = state.player(player)
+            for card in playerObj.activableCards
+            where GameAction.validatePlay(card: card, player: player, state: state) {
+                activeCards.append(card)
+            }
 
-        // Ignore empty
-        guard activeCards.isNotEmpty else {
-            return nil
-        }
+            // Ignore empty
+            guard activeCards.isNotEmpty else {
+                return nil
+            }
 
-        return GameAction.activate(activeCards, player: player)
+            return GameAction.activate(activeCards, player: player)
+        }
     }
+}
 
-    private func activableCardsOfPlayer(_ playerObj: Player) -> [String] {
-        playerObj.abilities + playerObj.hand
+private extension Player {
+    var activableCards: [String] {
+        abilities + hand
     }
 }

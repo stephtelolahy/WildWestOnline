@@ -12,6 +12,7 @@ public protocol Connector {
     func connect(state: GlobalState) -> LocalState?
 }
 
+// Namespace for Connectors
 public enum Connectors {}
 
 public extension Store {

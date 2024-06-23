@@ -29,6 +29,7 @@ final class SimulationTests: XCTestCase {
     }
 
     func test_simulateGameWithCustomFigure_shouldComplete() throws {
+        try XCTSkipIf(!CardsRepository().inventory.figures.contains(.custom))
         simulateGame(playersCount: 4, preferredFigure: .custom)
     }
 
@@ -45,15 +46,16 @@ final class SimulationTests: XCTestCase {
             preferredFigure: preferredFigure
         )
         game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        let stateWrapper = ClassWrapper(game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
         let sut = Store<GameState>(
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
-                updateGameMiddleware(),
-                LoggerMiddleware(),
-                StateReproducerMiddleware(initial: game)
+                Middlewares.updateGame(),
+                Middlewares.logger(),
+                Middlewares.stateReproducer(stateWrapper)
             ]
         )
 
@@ -79,25 +81,18 @@ final class SimulationTests: XCTestCase {
 }
 
 /// Middleare reproducting state according to received event
-private class StateReproducerMiddleware: Middleware<GameState> {
-    private var prevState: GameState
-
-    init(initial: GameState) {
-        self.prevState = initial
-    }
-
-    override func effect(on action: Action, state: GameState) async -> Action? {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {
-                return
+private extension Middlewares {
+    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState> {
+        { state, action in
+            DispatchQueue.main.async {
+                let resultState = GameState.reducer(prevState.value, action)
+                prevState.value = resultState
+                if !resultState.isEqualIgnoringSequence(to: state) {
+                    assertionFailure("🚨 Inconsistent state after applying \(action)")
+                }
             }
-            let resultState = GameState.reducer(self.prevState, action)
-            self.prevState = resultState
-            if !resultState.isEqualIgnoringSequence(to: state) {
-                assertionFailure("🚨 Inconsistent state after applying \(action)")
-            }
+            return nil
         }
-        return nil
     }
 }
 

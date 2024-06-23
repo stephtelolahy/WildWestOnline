@@ -22,7 +22,7 @@ enum Figures {
         .blackJack,
         .kitCarlson,
         .jesseJones,
-        .pedroRamirez,
-        .custom
+        .pedroRamirez
+//        .custom
     ]
 }

@@ -35,11 +35,11 @@ private func createStore() -> Store<AppState> {
 
     let settings = SettingsState.makeBuilder()
         .withInventory(cardsService.inventory)
-        .withPlayersCount(settingsService.playersCount)
-        .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds)
-        .withSimulation(settingsService.simulationEnabled)
-        .withGamePlay(settingsService.gamePlay)
-        .withPreferredFigure(settingsService.preferredFigure)
+        .withPlayersCount(settingsService.playersCount())
+        .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds())
+        .withSimulation(settingsService.isSimulationEnabled())
+        .withGamePlay(0)
+        .withPreferredFigure(settingsService.preferredFigure())
         .build()
 
     let initialState = AppState(
@@ -51,11 +51,9 @@ private func createStore() -> Store<AppState> {
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [
-            updateGameMiddleware()
-                .lift { $0.game },
-            SaveSettingsMiddleware(service: settingsService)
-                .lift { $0.settings },
-            LoggerMiddleware()
+            Middlewares.lift(Middlewares.updateGame(), stateMap: { $0.game }),
+            Middlewares.lift(Middlewares.saveSettings(with: settingsService), stateMap: { $0.settings }),
+            Middlewares.logger()
         ]
     )
 }

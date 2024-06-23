@@ -133,7 +133,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "Scenes/Splash/Sources",
+            path: "UI/Splash/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -143,7 +143,7 @@ let package = Package(
             dependencies: [
                 "Splash"
             ],
-            path: "Scenes/Splash/Tests"
+            path: "UI/Splash/Tests"
         ),
         .target(
             name: "Home",
@@ -151,7 +151,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "Scenes/Home/Sources",
+            path: "UI/Home/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -161,7 +161,7 @@ let package = Package(
             dependencies: [
                 "Home"
             ],
-            path: "Scenes/Home/Tests"
+            path: "UI/Home/Tests"
         ),
         .target(
             name: "Settings",
@@ -169,7 +169,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "Scenes/Settings/Sources",
+            path: "UI/Settings/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -179,7 +179,7 @@ let package = Package(
             dependencies: [
                 "Settings"
             ],
-            path: "Scenes/Settings/Tests"
+            path: "UI/Settings/Tests"
         ),
         .target(
             name: "GamePlay",
@@ -188,7 +188,7 @@ let package = Package(
                 "Theme",
                 "CardsRepository"
             ],
-            path: "Scenes/GamePlay/Sources",
+            path: "UI/GamePlay/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -198,14 +198,14 @@ let package = Package(
             dependencies: [
                 "GamePlay"
             ],
-            path: "Scenes/GamePlay/Tests"
+            path: "UI/GamePlay/Tests"
         ),
         .target(
             name: "CardsRepository",
             dependencies: [
                 "GameCore"
             ],
-            path: "Repositories/Cards/Sources",
+            path: "Data/Cards/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -215,7 +215,7 @@ let package = Package(
             dependencies: [
                 "CardsRepository"
             ],
-            path: "Repositories/Cards/Tests"
+            path: "Data/Cards/Tests"
         ),
         .target(
             name: "SettingsRepository",
@@ -223,7 +223,7 @@ let package = Package(
                 "SettingsCore",
                 "Utils"
             ],
-            path: "Repositories/Settings/Sources",
+            path: "Data/Settings/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -238,7 +238,7 @@ let package = Package(
                 "CardsRepository",
                 "SettingsRepository"
             ],
-            path: "Scenes/App/Sources",
+            path: "UI/App/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -248,7 +248,7 @@ let package = Package(
             dependencies: [
                 "App"
             ],
-            path: "Scenes/App/Tests"
+            path: "UI/App/Tests"
         ),
         .binaryTarget(
             name: "SwiftLintBinary",

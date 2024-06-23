@@ -1,3 +1,4 @@
+// swiftlint:disable:this file_name
 //
 //  LiftMiddleware.swift
 //
@@ -11,32 +12,18 @@
 /// You should not be able to instantiate this class directly,
 /// instead, create a middleware for the sub-state and call `Middleware.lift(_:)`,
 /// passing as parameter the keyPath from whole to part.
-final class LiftMiddleware<GlobalState, LocalState>: Middleware<GlobalState> {
-    private let partMiddleware: Middleware<LocalState>
-    private let stateMap: (GlobalState) -> LocalState?
-
-    init(
-        middleware: Middleware<LocalState>,
+///
+public extension Middlewares {
+    static func lift<LocalState, GlobalState>(
+        _ partMiddleware: @escaping Middleware<LocalState>,
         stateMap: @escaping (GlobalState) -> LocalState?
-    ) {
-        self.stateMap = stateMap
-        self.partMiddleware = middleware
-    }
+    ) -> Middleware<GlobalState> {
+        { state, action in
+            guard let localState = stateMap(state) else {
+                return nil
+            }
 
-    override func effect(on action: Action, state: GlobalState) async -> Action? {
-        guard let localState = stateMap(state) else {
-            return nil
+            return await partMiddleware(localState, action)
         }
-
-        return await partMiddleware.effect(on: action, state: localState)
-    }
-}
-
-public extension Middleware {
-    func lift<GlobalState>(stateMap: @escaping (GlobalState) -> State?) -> Middleware<GlobalState> {
-        LiftMiddleware(
-            middleware: self,
-            stateMap: stateMap
-        )
     }
 }

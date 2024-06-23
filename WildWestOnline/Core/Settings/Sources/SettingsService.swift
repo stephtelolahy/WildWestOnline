@@ -1,14 +1,20 @@
 //
 //  SettingsService.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 07/05/2024.
 //
 
 public protocol SettingsService {
-    var playersCount: Int { get set }
-    var waitDelayMilliseconds: Int { get set }
-    var simulationEnabled: Bool { get set }
-    var gamePlay: Int { get set }
-    var preferredFigure: String? { get set }
+    func playersCount() -> Int
+    func setPlayersCount(_ value: Int)
+
+    func waitDelayMilliseconds() -> Int
+    func setWaitDelayMilliseconds(_ value: Int)
+
+    func isSimulationEnabled() -> Bool
+    func setSimulationEnabled(_ value: Bool)
+
+    func preferredFigure() -> String?
+    func setPreferredFigure(_ value: String?)
 }
