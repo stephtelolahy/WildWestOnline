@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import SwiftUI
 
-/// `Store` is a base class that can be used to create the main store of an app, using the redux pattern.
+/// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
@@ -40,10 +40,10 @@ public class Store<State: Equatable>: ObservableObject {
     }
 }
 
-/// The `Action`defines an event type to be dispatched in a `Store`
+/// The ``Action`` defines an event type to be dispatched in a `Store`
 public protocol Action {}
 
-/// `Reducer` is a pure function that takes an action and the current state to calculate the new state.
+/// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 public typealias Reducer<State> = (State, Action) -> State
 
 /// ``Middleware`` is a plugin, or a composition of several plugins,
