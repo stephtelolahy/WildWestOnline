@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //
-//  SettingsState+Middleware.swift
+//  SaveSettingsMiddleware.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
