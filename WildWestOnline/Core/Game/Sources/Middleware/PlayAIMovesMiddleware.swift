@@ -56,7 +56,7 @@ public struct AgressiveStrategy: AIStrategy {
             "endTurn": -1
         ]
 
-        return actions.min { action1, action2 in
+        return actions.shuffled().min { action1, action2 in
             let value1 = cardsValue[action1.playedCard] ?? 0
             let value2 = cardsValue[action2.playedCard] ?? 0
             return value1 > value2
