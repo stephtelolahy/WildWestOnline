@@ -15,7 +15,6 @@ public extension SettingsView {
         public let playersCount: Int
         public let speedIndex: Int
         public let simulation: Bool
-        public let gamePlay: Int
         public let figureOptions: [String]
         public let preferredFigureIndex: Int
 

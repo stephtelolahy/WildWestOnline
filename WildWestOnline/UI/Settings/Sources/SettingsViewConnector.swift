@@ -16,7 +16,6 @@ public extension Connectors {
                 playersCount: state.settings.playersCount,
                 speedIndex: indexOfSpeed(state.settings.waitDelayMilliseconds),
                 simulation: state.settings.simulation,
-                gamePlay: state.settings.gamePlay,
                 figureOptions: state.settings.inventory.figures,
                 preferredFigureIndex: indexOfFigure(state.settings.preferredFigure, in: state.settings.inventory.figures)
             )
