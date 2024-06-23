@@ -24,10 +24,9 @@ final class GamePlayViewStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -54,10 +53,9 @@ final class GamePlayViewStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -105,10 +103,9 @@ final class GamePlayViewStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.handActions, [
@@ -131,10 +128,9 @@ final class GamePlayViewStateTests: XCTestCase {
             settings: SettingsState.makeBuilder().build(),
             game: game
         )
-        let sut = Connectors.GamePlayViewConnector()
 
         // When
-        let result = try XCTUnwrap(sut.connect(state: appState))
+        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
 
         // Then
         XCTAssertEqual(

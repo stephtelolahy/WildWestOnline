@@ -12,21 +12,21 @@ import Combine
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Store<LocalState> {
+final class StoreProjection<State: Equatable, GlobalState: Equatable>: Store<State> {
     private let globalStore: Store<GlobalState>
-    private let stateMap: (GlobalState) -> LocalState?
+    private let deriveState: (GlobalState) -> State?
 
-    init(globalStore: Store<GlobalState>, stateMap: @escaping (GlobalState) -> LocalState?) {
-        guard let initialState = stateMap(globalStore.state) else {
+    init(globalStore: Store<GlobalState>, deriveState: @escaping (GlobalState) -> State?) {
+        guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
         }
 
         self.globalStore = globalStore
-        self.stateMap = stateMap
+        self.deriveState = deriveState
         super.init(initial: initialState)
 
         globalStore.$state
-            .map(self.stateMap)
+            .map(self.deriveState)
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
@@ -39,7 +39,7 @@ final class StoreProjection<GlobalState: Equatable, LocalState: Equatable>: Stor
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(stateMap: @escaping (State) -> LocalState?) -> Store<LocalState> {
-        StoreProjection(globalStore: self, stateMap: stateMap)
+    func projection<LocalState: Equatable>(_ deriveState: @escaping (State) -> LocalState?) -> Store<LocalState> {
+        StoreProjection(globalStore: self, deriveState: deriveState)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SetttingsTests.swift
+//  SetttingsViewStateTests.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -11,17 +11,16 @@ import Settings
 import SettingsCore
 import XCTest
 
-final class SetttingsTests: XCTestCase {
+final class SetttingsViewStateTests: XCTestCase {
     func test_SettingsStateProjection() throws {
         // Given
         let appState = AppState(
             screens: [.home],
             settings: SettingsState.makeBuilder().withPlayersCount(3).build()
         )
-        let sut = Connectors.SettingsViewConnector()
 
         // When
-        let settingsState = try XCTUnwrap(sut.connect(state: appState))
+        let settingsState = try XCTUnwrap(SettingsView.deriveState(appState))
 
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)

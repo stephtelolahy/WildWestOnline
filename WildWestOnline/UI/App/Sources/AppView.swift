@@ -29,17 +29,17 @@ public struct AppView: View {
             switch store.state.screens.last {
             case .splash:
                 SplashView {
-                    store.projection(using: Connectors.SplashViewConnector())
+                    store.projection(SplashView.deriveState)
                 }
 
             case .home:
                 HomeView {
-                    store.projection(using: Connectors.HomeViewConnector())
+                    store.projection(HomeView.deriveState)
                 }
 
             case .game:
                 GamePlayView {
-                    store.projection(using: Connectors.GamePlayViewConnector())
+                    store.projection(GamePlayView.deriveState)
                 }
 
             default:
@@ -52,7 +52,7 @@ public struct AppView: View {
         ), onDismiss: {
         }, content: {
             SettingsView {
-                store.projection(using: Connectors.SettingsViewConnector())
+                store.projection(SettingsView.deriveState)
             }
         })
         .foregroundColor(.primary)

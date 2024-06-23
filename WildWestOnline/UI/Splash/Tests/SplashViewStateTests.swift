@@ -1,27 +1,26 @@
 //
-//  HomeTests.swift
+//  SplashViewStateTests.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 
 import AppCore
-import Home
 import Redux
 import SettingsCore
+import Splash
 import XCTest
 
-final class HomeTests: XCTestCase {
-    func test_HomeStateProjection() {
+final class SplashViewStateTests: XCTestCase {
+    func test_splashStateProjection() {
         // Given
         let appState = AppState(
-            screens: [.home],
+            screens: [.splash],
             settings: SettingsState.makeBuilder().build()
         )
-        let sut = Connectors.HomeViewConnector()
 
         // When
         // Then
-        XCTAssertNotNil(sut.connect(state: appState))
+        XCTAssertNotNil(SplashView.deriveState(appState))
     }
 }
