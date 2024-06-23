@@ -1,7 +1,6 @@
 import Combine
 import Foundation
 import SwiftUI
-// swiftlint:disable trailing_closure
 
 /// `Store` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
@@ -12,7 +11,7 @@ public class Store<State: Equatable>: ObservableObject {
 
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
-    private var subscriptions: [UUID: AnyCancellable] = [:]
+    private var subscriptions: Set<AnyCancellable> = []
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
@@ -29,19 +28,38 @@ public class Store<State: Equatable>: ObservableObject {
         let newState = reducer(state, action)
 
         middlewares.forEach { middleware in
-            let key = UUID()
             Future<Action, Never>.create(from: middleware, state: newState, action: action)
                 .compactMap { $0 }
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: RunLoop.main)
-                .handleEvents(receiveCompletion: { [weak self] _ in
-                    self?.subscriptions.removeValue(forKey: key)
-                })
                 .sink(receiveValue: dispatch)
-                .store(in: &subscriptions, key: key)
+                .store(in: &subscriptions)
         }
 
         state = newState
+    }
+}
+
+/// The `Action`defines an event type to be dispatched in a `Store`
+public protocol Action {}
+
+/// `Reducer` is a pure function that takes an action and the current state to calculate the new state.
+public typealias Reducer<State> = (State, Action) -> State
+
+/// ``Middleware`` is a plugin, or a composition of several plugins,
+/// that are assigned to the app global  state pipeline in order to
+/// Handle each action received action, to execute side-effects in response, and eventually dispatch more actions
+public typealias Middleware<State> = (State, Action) async -> Action?
+
+/// Namespace for Middlewares
+public enum Middlewares {}
+
+/// Class for holding value type
+public class ClassWrapper<T> {
+    public var value: T
+
+    public init(_ value: T) {
+        self.value = value
     }
 }
 
@@ -57,11 +75,5 @@ private extension Future {
                 promise(.success(output))
             }
         }
-    }
-}
-
-private extension AnyCancellable {
-    func store(in dictionary: inout [UUID: AnyCancellable], key: UUID) {
-        dictionary[key] = self
     }
 }
