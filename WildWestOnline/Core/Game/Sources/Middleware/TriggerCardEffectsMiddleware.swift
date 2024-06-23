@@ -37,18 +37,10 @@ extension Middlewares {
                 }
             }
 
-            // <sort triggered by priority>
-            triggered.sort { action1, action2 in
-                guard case let .effect(_, ctx1) = action1,
-                      case let .effect(_, ctx2) = action2,
-                      let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
-                      let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
-                    fatalError("invalid triggered effect")
-                }
-                return cardObj1.priority < cardObj2.priority
-            }
-            // </sort triggered by priority>
+            // sort triggered by priority
+            triggered = state.sortedByPriority(triggered)
 
+            // return triggered effect(s)
             if triggered.isEmpty {
                 return nil
             } else if triggered.count == 1 {
@@ -99,6 +91,19 @@ private extension GameState {
         }
 
         return ctx.resolvingTarget
+    }
+
+    func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {
+        let state = self
+        return actions.sorted { action1, action2 in
+            guard case let .effect(_, ctx1) = action1,
+                  case let .effect(_, ctx2) = action2,
+                  let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
+                  let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
+                fatalError("invalid triggered effect")
+            }
+            return cardObj1.priority < cardObj2.priority
+        }
     }
 }
 
