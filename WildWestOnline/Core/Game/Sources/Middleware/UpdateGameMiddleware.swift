@@ -15,7 +15,7 @@ public extension Middlewares {
             triggerCardEffects(),
             processSequence(),
             activatePlayableCards(),
-            playAIMoves(strategy: RandomAIStrategy())
+            playAIMoves(strategy: AgressiveStrategy())
         ])
     }
 }
