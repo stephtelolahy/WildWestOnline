@@ -66,7 +66,7 @@ public extension PlayersState {
             .init(players: players)
         }
 
-        public func withPlayer(_ id: String, builderFunc: (PlayersState.Player.Builder) -> PlayersState.Player.Builder = { $0 }) -> Self {
+        public func withPlayer(_ id: String, builderFunc: (PlayersState.Player.Builder) -> PlayersState.Player.Builder) -> Self {
             let builder = PlayersState.Player.makeBuilder()
             let player = builderFunc(builder).build()
             players[id] = player
