@@ -13,7 +13,6 @@ public extension Player {
         private var figure: String = ""
         private var abilities: Set<String> = []
         private var attributes: [String: Int] = [:]
-        private var health: Int = 0
         private var hand: [String] = []
         private var inPlay: [String] = []
 
@@ -23,7 +22,6 @@ public extension Player {
                 figure: figure,
                 abilities: abilities,
                 attributes: attributes,
-                health: health,
                 hand: hand,
                 inPlay: inPlay
             )
@@ -36,11 +34,6 @@ public extension Player {
 
         public func withFigure(_ value: String) -> Self {
             figure = value
-            return self
-        }
-
-        public func withHealth(_ value: Int) -> Self {
-            health = value
             return self
         }
 

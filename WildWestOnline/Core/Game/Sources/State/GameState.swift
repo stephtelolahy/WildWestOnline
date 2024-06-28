@@ -4,6 +4,9 @@ import Foundation
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
+    /// Players
+    public var playersState: PlayersState
+
     /// All players
     public var players: [String: Player]
 

@@ -22,9 +22,6 @@ public struct Player: Codable, Equatable {
     /// Current attributes
     public var attributes: [String: Int]
 
-    /// Life points
-    public var health: Int
-
     /// Hand cards
     public var hand: [String]
 

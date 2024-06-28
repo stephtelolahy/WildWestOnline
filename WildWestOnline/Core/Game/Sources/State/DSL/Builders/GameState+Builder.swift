@@ -7,6 +7,7 @@
 
 public extension GameState {
     class Builder {
+        private var playersStateBuilder: PlayersState.Builder = .init()
         private var players: [String: Player] = [:]
         private var playOrder: [String] = []
         private var turn: String?
@@ -25,6 +26,7 @@ public extension GameState {
 
         public func build() -> GameState {
             .init(
+                playersState: playersStateBuilder.build(),
                 players: players,
                 playOrder: playOrder,
                 startOrder: playOrder,
@@ -42,6 +44,11 @@ public extension GameState {
                 cards: cards,
                 waitDelayMilliseconds: waitDelayMilliseconds
             )
+        }
+
+        public func withPlayersState(_ builderFunc: (PlayersState.Builder) -> PlayersState.Builder) -> Self {
+            _ = builderFunc(playersStateBuilder)
+            return self
         }
 
         public func withTurn(_ value: String) -> Self {

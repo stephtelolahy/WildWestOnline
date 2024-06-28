@@ -34,12 +34,6 @@ final class PlayerTests: XCTestCase {
         XCTAssertEqual(sut.hand, [])
     }
 
-    func test_buildPlayer_byDefault_shouldHaveHealthZero() throws {
-        let sut = Player.makeBuilder()
-            .build()
-        XCTAssertEqual(sut.health, 0)
-    }
-
     func test_buildPlayer_byDefault_shouldHaveEmptyInPlay() throws {
         let sut = Player.makeBuilder()
             .build()
@@ -88,42 +82,5 @@ final class PlayerTests: XCTestCase {
 
         // Then
         XCTAssertEqual(sut.attributes[.remoteness], 1)
-    }
-
-    func test_player_shouldBeSerializable() throws {
-        // Given
-        let JSON = """
-        {
-            "id": "p1",
-            "figure": "n1",
-            "health": 2,
-            "abilities": [
-                "endTurn"
-            ],
-            "attributes": {
-                "maxHealth": 4,
-                "remoteness": 0,
-                "magnifying": 1,
-                "weapon": 3,
-                "handLimit": 2
-            },
-            "hand": [],
-            "inPlay": []
-        }
-        """
-        let jsonData = try XCTUnwrap(JSON.data(using: .utf8))
-
-        // When
-        let sut = try JSONDecoder().decode(Player.self, from: jsonData)
-
-        // Then
-        XCTAssertEqual(sut.id, "p1")
-        XCTAssertEqual(sut.figure, "n1")
-        XCTAssertEqual(sut.attributes[.maxHealth], 4)
-        XCTAssertEqual(sut.health, 2)
-        XCTAssertEqual(sut.attributes[.handLimit], 2)
-        XCTAssertEqual(sut.attributes[.weapon], 3)
-        XCTAssertEqual(sut.attributes[.remoteness], 0)
-        XCTAssertEqual(sut.attributes[.magnifying], 1)
     }
 }
