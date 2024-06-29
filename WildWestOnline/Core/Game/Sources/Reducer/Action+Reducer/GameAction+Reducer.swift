@@ -12,7 +12,8 @@ protocol GameActionReducer {
 extension GameAction {
     func reduce(state: GameState) throws -> GameState {
         var newState = try reducer().reduce(state: state)
-        newState.playersState = try PlayersState.reducer(state.playersState, self)
+        newState.players = try PlayersState.reducer(state.players, self)
+        newState.cardLocations = try CardLocationsState.reducer(state.cardLocations, self)
         return newState
     }
 }
@@ -29,12 +30,6 @@ private extension GameAction {
 
         case let .handicap(card, target, player):
             ActionHandicap(player: player, card: card, target: target)
-
-        case .heal:
-            ActionIdentity()
-
-        case .damage:
-            ActionIdentity()
 
         case let .discardHand(card, player),
             let .discardPlayed(card, player):
@@ -54,9 +49,6 @@ private extension GameAction {
 
         case let .drawArena(card, player):
             ActionDrawArena(player: player, card: card)
-
-        case let .drawHand(card, target, player):
-            ActionDrawHand(player: player, target: target, card: card)
 
         case let .drawInPlay(card, target, player):
             ActionDrawInPlay(player: player, target: target, card: card)
@@ -111,6 +103,9 @@ private extension GameAction {
 
         case let .removeAttribute(key, player):
             ActionRemoveAttribute(player: player, key: key)
+
+        default:
+            ActionIdentity()
         }
     }
 }
