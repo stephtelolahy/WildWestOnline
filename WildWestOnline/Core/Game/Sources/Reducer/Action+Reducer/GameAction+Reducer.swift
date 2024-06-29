@@ -31,10 +31,6 @@ private extension GameAction {
         case let .handicap(card, target, player):
             ActionHandicap(player: player, card: card, target: target)
 
-        case let .discardHand(card, player),
-            let .discardPlayed(card, player):
-            ActionDiscardHand(player: player, card: card)
-
         case let .putBack(card, player):
             ActionPutBack(player: player, card: card)
 
