@@ -18,22 +18,22 @@ public extension Player {
         private var maxHealth: Int = 0
         private var health: Int = 0
 
-        public func build() -> Player {
+        public func build() -> PlayersState.Player {
             .init(
-                id: id,
+                health: health,
+                maxHealth: maxHealth,
                 figure: figure,
                 abilities: abilities,
-                attributes: attributes,
-                hand: hand,
-                inPlay: inPlay
+                attributes: attributes
             )
         }
 
-        public func buildState() -> PlayersState.Player {
-            .init(
-                maxHealth: maxHealth,
-                health: health
-            )
+        public func buildHand() -> [String] {
+            hand
+        }
+
+        public func buildInPlay() -> [String] {
+            inPlay
         }
 
         public func withId(_ value: String) -> Self {

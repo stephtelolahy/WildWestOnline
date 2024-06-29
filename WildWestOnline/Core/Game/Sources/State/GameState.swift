@@ -5,10 +5,10 @@ import Foundation
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
     /// Players
-    public var playersState: PlayersState
+    public var players: PlayersState
 
-    /// All players
-    public var players: [String: Player]
+    /// Card locations
+    public var cardLocations: CardLocationsState
 
     /// Playing order
     public var playOrder: [String]
@@ -21,15 +21,6 @@ public struct GameState: Codable, Equatable {
 
     /// Current turn's number of times a card was played
     public var playedThisTurn: [String: Int]
-
-    /// Deck
-    public var deck: [String]
-
-    /// Discard pile
-    public var discard: [String]
-
-    /// Cards shop
-    public var arena: [String]
 
     /// Game over
     public var winner: String?
@@ -63,14 +54,7 @@ public struct GameState: Codable, Equatable {
 
 public extension GameState {
     /// Getting player with given identifier
-    func player(_ id: String) -> Player {
-        guard let player = players[id] else {
-            fatalError("player not found \(id)")
-        }
-        return player
-    }
-
-    func playerState(_ id: String) -> PlayersState.Player {
-        playersState.players.get(id)
+    func player(_ id: String) -> PlayersState.Player {
+        players.content.get(id)
     }
 }

@@ -10,11 +10,23 @@ import Foundation
 import Redux
 
 public struct PlayersState: Equatable, Codable {
-    public var players: [String: Player]
+    var content: [String: Player]
 
     public struct Player: Equatable, Codable {
-        public let maxHealth: Int
+        /// Life points
         public var health: Int
+
+        /// Maximum health
+        public let maxHealth: Int
+
+        /// Figure name. Determining initial attributes
+        public let figure: String
+
+        /// Current abilities
+        public let abilities: Set<String>
+
+        /// Current attributes
+        public var attributes: [String: Int]
     }
 }
 
@@ -35,7 +47,7 @@ public extension PlayersState {
 
 private extension PlayersState {
     func heal(amount: Int, id: String) throws -> Self {
-        var playerObj = players.get(id)
+        var playerObj = content.get(id)
 
         guard playerObj.health < playerObj.maxHealth else {
             throw GameError.playerAlreadyMaxHealth(id)
@@ -44,16 +56,16 @@ private extension PlayersState {
         playerObj.health = min(playerObj.health + amount, playerObj.maxHealth)
 
         var state = self
-        state.players[id] = playerObj
+        state.content[id] = playerObj
         return state
     }
 
     func damage(amount: Int, id: String) -> Self {
-        var playerObj = players.get(id)
+        var playerObj = content.get(id)
         playerObj.health -= amount
 
         var state = self
-        state.players[id] = playerObj
+        state.content[id] = playerObj
         return state
     }
 }
