@@ -27,8 +27,8 @@ public struct CardLocationsState: Equatable, Codable {
 public extension CardLocationsState {
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
-        case let GameAction.drawHand(card, target, player):
-            state
+        case GameAction.drawHand:
+            try drawHandReducer(state, action)
 
         default:
             state
@@ -37,8 +37,11 @@ public extension CardLocationsState {
 }
 
 private extension CardLocationsState {
-    func drawHand(card: String, target: String, player: String) -> Self {
-        var state = self
+    static let drawHandReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.drawHand(card, target, player) = action else {
+            fatalError("unexpected")
+        }
+        var state = state
         state[keyPath: \CardLocationsState.hand[target]]?.remove(card)
         state[keyPath: \CardLocationsState.hand[player]]?.append(card)
         return state

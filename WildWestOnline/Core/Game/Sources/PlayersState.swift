@@ -33,11 +33,11 @@ public struct PlayersState: Equatable, Codable {
 public extension PlayersState {
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
-        case let GameAction.heal(amount, player):
-            try state.heal(amount: amount, player: player)
+        case GameAction.heal:
+            try healReducer(state, action)
 
-        case let GameAction.damage(amount, player):
-            state.damage(amount: amount, player: player)
+        case GameAction.damage:
+            try damageReducer(state, action)
 
         default:
             state
@@ -46,8 +46,11 @@ public extension PlayersState {
 }
 
 private extension PlayersState {
-    func heal(amount: Int, player: String) throws -> Self {
-        var playerObj = content.get(player)
+    static let healReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.heal(amount, player) = action else {
+            fatalError("unexpected")
+        }
+        var playerObj = state.content.get(player)
 
         guard playerObj.health < playerObj.maxHealth else {
             throw GameError.playerAlreadyMaxHealth(player)
@@ -55,16 +58,19 @@ private extension PlayersState {
 
         playerObj.health = min(playerObj.health + amount, playerObj.maxHealth)
 
-        var state = self
+        var state = state
         state.content[player] = playerObj
         return state
     }
 
-    func damage(amount: Int, player: String) -> Self {
-        var playerObj = content.get(player)
+    static let damageReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.damage(amount, player) = action else {
+            fatalError("unexpected")
+        }
+        var playerObj = state.content.get(player)
         playerObj.health -= amount
 
-        var state = self
+        var state = state
         state.content[player] = playerObj
         return state
     }
