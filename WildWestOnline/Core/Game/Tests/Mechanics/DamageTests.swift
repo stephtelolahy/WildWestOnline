@@ -22,7 +22,7 @@ final class DamageTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.playerState("p1").health, 1)
+        XCTAssertEqual(result.player("p1").health, 1)
     }
 
     func test_damage_with2LifePoints_shouldReduceHealthBy2() {
@@ -38,6 +38,6 @@ final class DamageTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.playerState("p1").health, 0)
+        XCTAssertEqual(result.player("p1").health, 0)
     }
 }

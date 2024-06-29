@@ -152,13 +152,13 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.playOrder, ["p1", "p2"])
 
         XCTAssertNotNil(state.players["p1"])
-        XCTAssertEqual(state.playerState("p1").health, 3)
+        XCTAssertEqual(state.player("p1").health, 3)
         XCTAssertEqual(state.player("p1").attributes, [:])
         XCTAssertEqual(state.player("p1").hand, [])
         XCTAssertEqual(state.player("p1").inPlay, [])
 
         XCTAssertNotNil(state.players["p2"])
-        XCTAssertEqual(state.playerState("p2").health, 4)
+        XCTAssertEqual(state.player("p2").health, 4)
         XCTAssertEqual(state.player("p2").attributes[.weapon], 2)
         XCTAssertEqual(state.player("p2").abilities, ["a1"])
         XCTAssertEqual(state.player("p2").hand, ["c21", "c22"])

@@ -49,8 +49,8 @@ final class SetupTests: XCTestCase {
         XCTAssertTrue(state.startOrder.contains(["p1", "p2"]))
 
         // should set players to max health
-        XCTAssertEqual(state.playerState("p1").health, 4)
-        XCTAssertEqual(state.playerState("p2").health, 3)
+        XCTAssertEqual(state.player("p1").health, 4)
+        XCTAssertEqual(state.player("p2").health, 3)
 
         // should set players hand cards to health
         XCTAssertEqual(state.player("p1").hand.count, 4)
