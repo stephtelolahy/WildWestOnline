@@ -13,7 +13,7 @@ final class HealTests: XCTestCase {
         GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .build()
     }
@@ -24,7 +24,7 @@ final class HealTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 3)
+        XCTAssertEqual(result.playerState("p1").health, 3)
     }
 
     func test_heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() {
@@ -33,16 +33,16 @@ final class HealTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 4)
+        XCTAssertEqual(result.playerState("p1").health, 4)
     }
 
     func test_heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() {
         // When
-        let action = GameAction.heal(2, player: "p1")
+        let action = GameAction.heal(3, player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 4)
+        XCTAssertEqual(result.playerState("p1").health, 4)
     }
 
     func test_heal_alreadyMaxHealth_shouldThrowError() {

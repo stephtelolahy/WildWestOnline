@@ -69,4 +69,8 @@ public extension GameState {
         }
         return player
     }
+
+    func playerState(_ id: String) -> PlayersState.Player {
+        playersState.players.get(id)
+    }
 }

@@ -42,13 +42,20 @@ public enum Setup {
         }
 
         var playerDictionary: [String: Player] = [:]
+        var playerStateDictionary: [String: PlayersState.Player] = [:]
         var playOrder: [String] = []
+
         for player in players {
             playerDictionary[player.id] = player
+            let health = player.attributes[.maxHealth] ?? 0
+            playerStateDictionary[player.id] = .init(maxHealth: health, health: health)
             playOrder.append(player.id)
         }
 
+        let playersState = PlayersState(players: playerStateDictionary)
+
         return GameState(
+            playersState: playersState,
             players: playerDictionary,
             playOrder: playOrder,
             startOrder: playOrder,
@@ -106,7 +113,6 @@ private extension Setup {
             figure: figure,
             abilities: abilities,
             attributes: figureObj.attributes,
-            health: health,
             hand: hand,
             inPlay: []
         )
