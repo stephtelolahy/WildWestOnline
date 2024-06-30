@@ -27,6 +27,9 @@ public struct CardLocationsState: Equatable, Codable {
 public extension CardLocationsState {
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
+        case GameAction.equip:
+            try equipReducer(state, action)
+
         case GameAction.drawHand:
             try drawHandReducer(state, action)
 
@@ -36,6 +39,9 @@ public extension CardLocationsState {
         case GameAction.discardPlayed:
             try discardPlayedReducer(state, action)
 
+        case GameAction.discardInPlay:
+            try discardInPlayReducer(state, action)
+
         default:
             state
         }
@@ -43,13 +49,33 @@ public extension CardLocationsState {
 }
 
 private extension CardLocationsState {
+    static let equipReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.equip(card, player) = action else {
+            fatalError("unexpected")
+        }
+
+        // verify rule: not already inPlay
+        let cardName = card.extractName()
+        let playerInPlay = state.inPlay[player] ?? []
+        guard playerInPlay.allSatisfy({ $0.extractName() != cardName }) else {
+            throw GameError.cardAlreadyInPlay(cardName)
+        }
+
+        // put card on self's play
+        var state = state
+        state[keyPath: \Self.hand[player]]?.remove(card)
+        state[keyPath: \Self.inPlay[player]]?.append(card)
+
+        return state
+    }
+
     static let drawHandReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.drawHand(card, target, player) = action else {
             fatalError("unexpected")
         }
         var state = state
-        state[keyPath: \CardLocationsState.hand[target]]?.remove(card)
-        state[keyPath: \CardLocationsState.hand[player]]?.append(card)
+        state[keyPath: \Self.hand[target]]?.remove(card)
+        state[keyPath: \Self.hand[player]]?.append(card)
         return state
     }
 
@@ -58,7 +84,7 @@ private extension CardLocationsState {
             fatalError("unexpected")
         }
         var state = state
-        state[keyPath: \CardLocationsState.hand[player]]?.remove(card)
+        state[keyPath: \Self.hand[player]]?.remove(card)
         state.discard.insert(card, at: 0)
         return state
     }
@@ -68,7 +94,18 @@ private extension CardLocationsState {
             fatalError("unexpected")
         }
         var state = state
-        state[keyPath: \CardLocationsState.hand[player]]?.remove(card)
+        state[keyPath: \Self.hand[player]]?.remove(card)
+        state.discard.insert(card, at: 0)
+        return state
+    }
+
+    static let discardInPlayReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.discardInPlay(card, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state[keyPath: \Self.inPlay[player]]?.remove(card)
         state.discard.insert(card, at: 0)
         return state
     }
