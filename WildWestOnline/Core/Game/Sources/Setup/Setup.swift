@@ -33,29 +33,36 @@ public enum Setup {
         cards: [String: Card]
     ) -> GameState {
         var deck = deck
-        let players: [Player] = figures.map {
-            buildPlayer(
-                figure: $0,
-                deck: &deck,
-                cards: cards
-            )
-        }
+        var players: [String: PlayersState.Player] = [:]
+        var hand: [String: [String]] = [:]
 
-        var playerDictionary: [String: Player] = [:]
-        var playOrder: [String] = []
-        for player in players {
-            playerDictionary[player.id] = player
-            playOrder.append(player.id)
+        for figure in figures {
+            let id = figure
+            let player = buildPlayer(figure: figure, cards: cards)
+            players[id] = player
+            hand[id] = Array(1...player.health).compactMap { _ in
+                if deck.isNotEmpty {
+                    deck.removeFirst()
+                } else {
+                    nil
+                }
+            }
         }
 
         return GameState(
-            players: playerDictionary,
-            playOrder: playOrder,
-            startOrder: playOrder,
+            players: .init(
+                content: players
+            ),
+            cardLocations: .init(
+                deck: deck,
+                discard: [],
+                arena: [],
+                hand: hand,
+                inPlay: [:]
+            ),
+            playOrder: figures,
+            startOrder: figures,
             playedThisTurn: [:],
-            deck: deck,
-            discard: [],
-            arena: [],
             chooseOne: [:],
             active: [:],
             playMode: [:],
@@ -79,9 +86,8 @@ public enum Setup {
 private extension Setup {
     static func buildPlayer(
         figure: String,
-        deck: inout [String],
         cards: [String: Card]
-    ) -> Player {
+    ) -> PlayersState.Player {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
         }
@@ -90,25 +96,12 @@ private extension Setup {
             fatalError("missing attribute maxHealth")
         }
 
-        let hand: [String] = Array(1...health).compactMap { _ in
-            if deck.isNotEmpty {
-                deck.removeFirst()
-            } else {
-                nil
-            }
-        }
-
-        var abilities: Set<String> = figureObj.abilities
-        abilities.insert(figure)
-
-        return Player(
-            id: figure,
-            figure: figure,
-            abilities: abilities,
-            attributes: figureObj.attributes,
+        return .init(
             health: health,
-            hand: hand,
-            inPlay: []
+            maxHealth: health,
+            figure: figure,
+            abilities: figureObj.abilities.union([figure]),
+            attributes: figureObj.attributes
         )
     }
 }

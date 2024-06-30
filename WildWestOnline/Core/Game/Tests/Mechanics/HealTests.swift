@@ -38,7 +38,7 @@ final class HealTests: XCTestCase {
 
     func test_heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() {
         // When
-        let action = GameAction.heal(2, player: "p1")
+        let action = GameAction.heal(3, player: "p1")
         let result = GameState.reducer(state, action)
 
         // Then

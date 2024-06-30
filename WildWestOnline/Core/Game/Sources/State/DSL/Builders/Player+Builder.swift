@@ -17,16 +17,21 @@ public extension Player {
         private var hand: [String] = []
         private var inPlay: [String] = []
 
-        public func build() -> Player {
+        public func build() -> PlayersState.Player {
             .init(
-                id: id,
+                health: health,
                 figure: figure,
                 abilities: abilities,
-                attributes: attributes,
-                health: health,
-                hand: hand,
-                inPlay: inPlay
+                attributes: attributes
             )
+        }
+
+        public func buildHand() -> [String] {
+            hand
+        }
+
+        public func buildInPlay() -> [String] {
+            inPlay
         }
 
         public func withId(_ value: String) -> Self {

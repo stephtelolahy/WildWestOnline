@@ -6,27 +6,6 @@
 //
 
 extension Player {
-    var isDamaged: Bool {
-        health < maxHealth
-    }
-
-    var handLimitAtEndOfTurn: Int {
-        attributes[.handLimit] ?? health
-    }
-
-    mutating func gainHealth(_ value: Int) throws {
-        guard health < maxHealth else {
-            throw GameError.playerAlreadyMaxHealth(id)
-        }
-
-        let newHealth = min(health + value, maxHealth)
-        health = newHealth
-    }
-
-    mutating func looseHealth(_ value: Int) {
-        health -= value
-    }
-
     mutating func setValue(_ value: Int?, forAttribute key: String) {
         attributes[key] = value
     }
