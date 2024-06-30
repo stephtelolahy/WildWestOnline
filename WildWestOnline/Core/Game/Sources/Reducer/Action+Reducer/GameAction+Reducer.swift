@@ -25,20 +25,8 @@ private extension GameAction {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
 
-        case let .equip(card, player):
-            ActionEquip(player: player, card: card)
-
-        case let .handicap(card, target, player):
-            ActionHandicap(player: player, card: card, target: target)
-
-        case let .putBack(card, player):
-            ActionPutBack(player: player, card: card)
-
         case let .revealHand(card, player):
             ActionRevealHand(card: card, player: player)
-
-        case let .discardInPlay(card, player):
-            ActionDiscardInPlay(player: player, card: card)
 
         case let .drawDeck(player):
             ActionDrawDeck(player: player)

@@ -30,6 +30,12 @@ public extension CardLocationsState {
         case GameAction.equip:
             try equipReducer(state, action)
 
+        case GameAction.handicap:
+            try handicapReducer(state, action)
+
+        case GameAction.putBack:
+            try putBackReducer(state, action)
+
         case GameAction.drawHand:
             try drawHandReducer(state, action)
 
@@ -66,6 +72,37 @@ private extension CardLocationsState {
         state[keyPath: \Self.hand[player]]?.remove(card)
         state[keyPath: \Self.inPlay[player]]?.append(card)
 
+        return state
+    }
+
+    static let handicapReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.handicap(card, target, player) = action else {
+            fatalError("unexpected")
+        }
+
+        // verify rule: not already inPlay
+        let cardName = card.extractName()
+        let targetInPlay = state.inPlay[target] ?? []
+        guard targetInPlay.allSatisfy({ $0.extractName() != cardName }) else {
+            throw GameError.cardAlreadyInPlay(cardName)
+        }
+
+        // put card on other's play
+        var state = state
+        state[keyPath: \Self.hand[player]]?.remove(card)
+        state[keyPath: \Self.inPlay[target]]?.append(card)
+
+        return state
+    }
+
+    static let putBackReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.putBack(card, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state[keyPath: \Self.hand[player]]?.remove(card)
+        state.deck.insert(card, at: 0)
         return state
     }
 
