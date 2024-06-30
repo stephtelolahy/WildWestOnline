@@ -16,9 +16,6 @@ public struct PlayersState: Equatable, Codable {
         /// Life points
         public var health: Int
 
-        /// Maximum health
-        public let maxHealth: Int
-
         /// Figure name. Determining initial attributes
         public let figure: String
 
@@ -51,12 +48,13 @@ private extension PlayersState {
             fatalError("unexpected")
         }
         var playerObj = state.content.get(player)
+        let maxHealth = playerObj.attributes.get(.maxHealth)
 
-        guard playerObj.health < playerObj.maxHealth else {
+        guard playerObj.health < maxHealth else {
             throw GameError.playerAlreadyMaxHealth(player)
         }
 
-        playerObj.health = min(playerObj.health + amount, playerObj.maxHealth)
+        playerObj.health = min(playerObj.health + amount, maxHealth)
 
         var state = state
         state.content[player] = playerObj

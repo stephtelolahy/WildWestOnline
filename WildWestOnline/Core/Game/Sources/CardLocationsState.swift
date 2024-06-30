@@ -36,9 +36,6 @@ public extension CardLocationsState {
         case GameAction.putBack:
             try putBackReducer(state, action)
 
-        case GameAction.drawHand:
-            try drawHandReducer(state, action)
-
         case GameAction.discardHand:
             try discardHandReducer(state, action)
 
@@ -47,6 +44,9 @@ public extension CardLocationsState {
 
         case GameAction.discardInPlay:
             try discardInPlayReducer(state, action)
+
+        case GameAction.drawHand:
+            try drawHandReducer(state, action)
 
         default:
             state

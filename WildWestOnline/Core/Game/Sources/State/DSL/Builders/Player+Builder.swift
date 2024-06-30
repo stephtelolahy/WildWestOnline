@@ -13,15 +13,13 @@ public extension Player {
         private var figure: String = ""
         private var abilities: Set<String> = []
         private var attributes: [String: Int] = [:]
+        private var health: Int = 0
         private var hand: [String] = []
         private var inPlay: [String] = []
-        private var maxHealth: Int = 0
-        private var health: Int = 0
 
         public func build() -> PlayersState.Player {
             .init(
                 health: health,
-                maxHealth: maxHealth,
                 figure: figure,
                 abilities: abilities,
                 attributes: attributes
@@ -46,6 +44,11 @@ public extension Player {
             return self
         }
 
+        public func withHealth(_ value: Int) -> Self {
+            health = value
+            return self
+        }
+
         public func withAttributes(_ value: [String: Int]) -> Self {
             attributes = value
             return self
@@ -63,16 +66,6 @@ public extension Player {
 
         public func withInPlay(_ value: [String]) -> Self {
             inPlay = value
-            return self
-        }
-
-        public func withHealth(_ value: Int) -> Self {
-            health = value
-            return self
-        }
-
-        public func withMaxHealth(_ value: Int) -> Self {
-            maxHealth = value
             return self
         }
     }

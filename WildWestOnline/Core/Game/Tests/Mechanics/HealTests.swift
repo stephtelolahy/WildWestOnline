@@ -13,7 +13,7 @@ final class HealTests: XCTestCase {
         GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
-                    .withMaxHealth(4)
+                    .withAttributes([.maxHealth: 4])
             }
             .build()
     }
