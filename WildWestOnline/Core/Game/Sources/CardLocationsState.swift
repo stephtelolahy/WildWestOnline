@@ -36,6 +36,9 @@ public extension CardLocationsState {
         case GameAction.putBack:
             try putBackReducer(state, action)
 
+        case GameAction.drawDeck:
+            try drawDeckReducer(state, action)
+
         case GameAction.discardHand:
             try discardHandReducer(state, action)
 
@@ -116,6 +119,19 @@ private extension CardLocationsState {
         return state
     }
 
+    static let drawDeckReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.drawDeck(player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        let card = try state.popDeck()
+        state[keyPath: \Self.hand[player]]?.append(card)
+        return state
+    }
+
+    
+
     static let discardHandReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.discardHand(card, player) = action else {
             fatalError("unexpected")
@@ -145,5 +161,22 @@ private extension CardLocationsState {
         state[keyPath: \Self.inPlay[player]]?.remove(card)
         state.discard.insert(card, at: 0)
         return state
+    }
+}
+
+private extension CardLocationsState {
+    mutating func popDeck() throws -> String {
+        if deck.isEmpty {
+            let minDiscardedCards = 2
+            guard discard.count >= minDiscardedCards else {
+                throw GameError.deckIsEmpty
+            }
+
+            let cards = discard
+            discard = Array(cards.prefix(1))
+            deck = Array(cards.dropFirst())
+        }
+
+        return deck.remove(at: 0)
     }
 }
