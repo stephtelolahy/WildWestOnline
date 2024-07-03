@@ -54,6 +54,12 @@ public extension CardLocationsState {
         case GameAction.passInPlay:
             try passInPlayReducer(state, action)
 
+        case GameAction.discover:
+            try discoverReducer(state, action)
+
+        case GameAction.draw:
+            try drawReducer(state, action)
+
         case GameAction.discardPlayed:
             try discardPlayedReducer(state, action)
 
@@ -184,6 +190,28 @@ private extension CardLocationsState {
         var state = state
         state[keyPath: \Self.inPlay[player]]?.remove(card)
         state[keyPath: \Self.inPlay[target]]?.append(card)
+        return state
+    }
+
+    static let discoverReducer: ThrowingReducer<Self> = { state, action in
+        guard case GameAction.discover = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        let card = try state.popDeck()
+        state.arena.append(card)
+        return state
+    }
+
+    static let drawReducer: ThrowingReducer<Self> = { state, action in
+        guard case GameAction.draw = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        let card = try state.popDeck()
+        state.discard.insert(card, at: 0)
         return state
     }
 

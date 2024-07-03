@@ -25,15 +25,6 @@ private extension GameAction {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
 
-        case let .passInPlay(card, target, player):
-            ActionPassInPlay(card: card, target: target, player: player)
-
-        case .discover:
-            ActionDiscover()
-
-        case .draw:
-            ActionDraw()
-
         case let .group(actions):
             ActionGroup(children: actions)
 
