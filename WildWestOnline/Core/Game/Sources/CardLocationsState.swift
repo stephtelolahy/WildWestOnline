@@ -51,6 +51,9 @@ public extension CardLocationsState {
         case GameAction.drawInPlay:
             try drawInPlayReducer(state, action)
 
+        case GameAction.passInPlay:
+            try passInPlayReducer(state, action)
+
         case GameAction.discardPlayed:
             try discardPlayedReducer(state, action)
 
@@ -122,6 +125,7 @@ private extension CardLocationsState {
         guard case let GameAction.drawHand(card, target, player) = action else {
             fatalError("unexpected")
         }
+
         var state = state
         state[keyPath: \Self.hand[target]]?.remove(card)
         state[keyPath: \Self.hand[player]]?.append(card)
@@ -172,10 +176,22 @@ private extension CardLocationsState {
         return state
     }
 
+    static let passInPlayReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.passInPlay(card, target, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state[keyPath: \Self.inPlay[player]]?.remove(card)
+        state[keyPath: \Self.inPlay[target]]?.append(card)
+        return state
+    }
+
     static let discardHandReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.discardHand(card, player) = action else {
             fatalError("unexpected")
         }
+
         var state = state
         state[keyPath: \Self.hand[player]]?.remove(card)
         state.discard.insert(card, at: 0)
@@ -186,6 +202,7 @@ private extension CardLocationsState {
         guard case let GameAction.discardPlayed(card, player) = action else {
             fatalError("unexpected")
         }
+
         var state = state
         state[keyPath: \Self.hand[player]]?.remove(card)
         state.discard.insert(card, at: 0)
