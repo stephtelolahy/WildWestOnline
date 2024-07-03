@@ -58,12 +58,6 @@ private extension GameAction {
         case let .setGameOver(winner):
             ActionSetGameOver(winner: winner)
 
-        case let .setAttribute(key, value, player):
-            ActionSetAttribute(player: player, key: key, value: value)
-
-        case let .removeAttribute(key, player):
-            ActionRemoveAttribute(player: player, key: key)
-
         default:
             ActionIdentity()
         }

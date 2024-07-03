@@ -36,6 +36,12 @@ public extension PlayersState {
         case GameAction.damage:
             try damageReducer(state, action)
 
+        case GameAction.setAttribute:
+            try setAttributeReducer(state, action)
+
+        case GameAction.removeAttribute:
+            try removeAttributeReducer(state, action)
+
         default:
             state
         }
@@ -71,6 +77,32 @@ private extension PlayersState {
         var state = state
         state.content[player] = playerObj
         return state
+    }
+
+    static let setAttributeReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.setAttribute(key, value, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state[keyPath: \Self.content[player]]?.setValue(value, forAttribute: key)
+        return state
+    }
+
+    static let removeAttributeReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.removeAttribute(key, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state[keyPath: \Self.content[player]]?.setValue(nil, forAttribute: key)
+        return state
+    }
+}
+
+extension PlayersState.Player {
+    mutating func setValue(_ value: Int?, forAttribute key: String) {
+        attributes[key] = value
     }
 }
 
