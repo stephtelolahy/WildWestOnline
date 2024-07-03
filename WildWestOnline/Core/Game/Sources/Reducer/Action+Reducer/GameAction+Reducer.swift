@@ -25,9 +25,6 @@ private extension GameAction {
         case let .play(card, player):
             ActionPlay(player: player, card: card)
 
-        case let .drawArena(card, player):
-            ActionDrawArena(player: player, card: card)
-
         case let .drawInPlay(card, target, player):
             ActionDrawInPlay(player: player, target: target, card: card)
 

@@ -42,6 +42,9 @@ public extension CardLocationsState {
         case GameAction.discardHand:
             try discardHandReducer(state, action)
 
+        case GameAction.drawArena:
+            try drawArenaReducer(state, action)
+
         case GameAction.discardPlayed:
             try discardPlayedReducer(state, action)
 
@@ -130,7 +133,16 @@ private extension CardLocationsState {
         return state
     }
 
-    
+    static let drawArenaReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.drawArena(card, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.arena.remove(card)
+        state[keyPath: \Self.hand[player]]?.append(card)
+        return state
+    }
 
     static let discardHandReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.discardHand(card, player) = action else {
