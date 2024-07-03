@@ -45,6 +45,12 @@ public extension CardLocationsState {
         case GameAction.drawArena:
             try drawArenaReducer(state, action)
 
+        case GameAction.drawDiscard:
+            try drawDiscardReducer(state, action)
+
+        case GameAction.drawInPlay:
+            try drawInPlayReducer(state, action)
+
         case GameAction.discardPlayed:
             try discardPlayedReducer(state, action)
 
@@ -144,6 +150,28 @@ private extension CardLocationsState {
         return state
     }
 
+    static let drawDiscardReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.drawDiscard(player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        let card = try state.popDiscard()
+        state[keyPath: \Self.hand[player]]?.append(card)
+        return state
+    }
+
+    static let drawInPlayReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.drawInPlay(card, target, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state[keyPath: \Self.inPlay[target]]?.remove(card)
+        state[keyPath: \Self.hand[player]]?.append(card)
+        return state
+    }
+
     static let discardHandReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.discardHand(card, player) = action else {
             fatalError("unexpected")
@@ -177,6 +205,8 @@ private extension CardLocationsState {
 }
 
 private extension CardLocationsState {
+    /// Draw the top card from the deck
+    /// As soon as the draw pile is empty, shuffle the discard pile to create a new playing deck.
     mutating func popDeck() throws -> String {
         if deck.isEmpty {
             let minDiscardedCards = 2
@@ -190,5 +220,13 @@ private extension CardLocationsState {
         }
 
         return deck.remove(at: 0)
+    }
+
+    mutating func popDiscard() throws -> String {
+        if discard.isEmpty {
+            throw GameError.discardIsEmpty
+        }
+
+        return discard.remove(at: 0)
     }
 }
