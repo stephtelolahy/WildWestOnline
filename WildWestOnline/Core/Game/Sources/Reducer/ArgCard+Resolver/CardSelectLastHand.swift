@@ -10,8 +10,8 @@ struct CardSelectLastHand: ArgCardResolver {
 
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
-        let playerObj = state.player(owner)
-        let options = playerObj.hand.suffix(count).toCardOptions()
+        let handCards = state.field.hand.get(owner)
+        let options = handCards.suffix(count).toCardOptions()
         return .selectable(options)
     }
 }

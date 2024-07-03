@@ -54,7 +54,7 @@ public struct GameState: Codable, Equatable {
 
 public extension GameState {
     /// Getting player with given identifier
-    func player(_ id: String) -> PlayersState.Player {
-        players.content.get(id)
+    func player(_ id: String) -> Player {
+        players.get(id)
     }
 }

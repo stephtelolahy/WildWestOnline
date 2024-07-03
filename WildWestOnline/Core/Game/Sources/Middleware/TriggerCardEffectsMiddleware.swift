@@ -20,8 +20,8 @@ extension Middlewares {
             // active players
             for player in state.playOrder {
                 let playerObj = state.player(player)
-                let cards = playerObj.triggerableCardsOfActivePlayer
-                for card in cards {
+                let triggerableCards = state.field.inPlay.get(player) + playerObj.abilities
+                for card in triggerableCards {
                     let actions = state.triggeredEffects(by: card, player: player, event: action)
                     triggered.append(contentsOf: actions)
                 }
@@ -30,8 +30,8 @@ extension Middlewares {
             // just eliminated player
             if case let .eliminate(player) = action {
                 let playerObj = state.player(player)
-                let cards = playerObj.triggerableCardsOfEliminatedPlayer
-                for card in cards {
+                let triggerableCards = playerObj.abilities
+                for card in triggerableCards {
                     let actions = state.triggeredEffects(by: card, player: player, event: action)
                     triggered.append(contentsOf: actions)
                 }
@@ -107,12 +107,12 @@ private extension GameState {
     }
 }
 
-private extension Player {
-    var triggerableCardsOfActivePlayer: [String] {
-        inPlay + abilities
-    }
-
-    var triggerableCardsOfEliminatedPlayer: [String] {
-        Array(abilities)
-    }
-}
+//private extension Player {
+//    var triggerableCardsOfActivePlayer: [String] {
+//        inPlay + abilities
+//    }
+//
+//    var triggerableCardsOfEliminatedPlayer: [String] {
+//        Array(abilities)
+//    }
+//}

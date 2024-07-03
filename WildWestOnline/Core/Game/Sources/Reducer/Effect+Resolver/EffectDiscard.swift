@@ -16,10 +16,10 @@ struct EffectDiscard: EffectResolver {
             contextWithChooser.resolvingChooser = try chooser.resolveUnique(state: state, ctx: ctx)
         }
         return try card.resolve(.cardToDiscard, state: state, ctx: contextWithChooser) {
-            if state.player(player).hand.contains($0) {
+            if state.field.hand.get(player).contains($0) {
                 return .discardHand($0, player: player)
             }
-            if state.player(player).inPlay.contains($0) {
+            if state.field.inPlay.get(player).contains($0) {
                 return .discardInPlay($0, player: player)
             }
             fatalError("card not found \($0)")

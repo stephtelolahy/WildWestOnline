@@ -9,7 +9,7 @@ struct OnDamage: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         if case let .damage(_, player) = ctx.event,
            player == ctx.actor,
-           state.playerState(player).health > 0 {
+           state.player(player).health > 0 {
             true
         } else {
             false

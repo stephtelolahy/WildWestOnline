@@ -33,7 +33,7 @@ public enum Setup {
         cards: [String: Card]
     ) -> GameState {
         var deck = deck
-        var players: [String: PlayersState.Player] = [:]
+        var players: [String: Player] = [:]
         var hand: [String: [String]] = [:]
 
         for figure in figures {
@@ -50,9 +50,7 @@ public enum Setup {
         }
 
         return GameState(
-            players: .init(
-                content: players
-            ),
+            players: players,
             field: .init(
                 deck: deck,
                 discard: [],
@@ -87,7 +85,7 @@ private extension Setup {
     static func buildPlayer(
         figure: String,
         cards: [String: Card]
-    ) -> PlayersState.Player {
+    ) -> Player {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
         }

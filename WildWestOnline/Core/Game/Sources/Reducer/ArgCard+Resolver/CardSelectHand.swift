@@ -13,11 +13,15 @@ struct CardSelectHand: ArgCardResolver {
         let options: [CardArgOption]
 
         if chooser != owner {
-            options = playerObj.hand.indices.map {
-                CardArgOption(id: playerObj.hand[$0], label: "\(String.hiddenHand)-\($0)")
+            let handCards = state.field.hand.get(owner)
+            options = handCards.indices.map {
+                CardArgOption(
+                    id: handCards[$0],
+                    label: "\(String.hiddenHand)-\($0)"
+                )
             }
         } else {
-            options = playerObj.hand.toCardOptions()
+            options = state.field.hand.get(owner).toCardOptions()
         }
 
         return .selectable(options)

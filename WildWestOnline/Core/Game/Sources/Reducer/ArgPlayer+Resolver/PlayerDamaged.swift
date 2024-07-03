@@ -14,7 +14,7 @@ struct PlayerDamaged: ArgPlayerResolver {
     }
 }
 
-private extension PlayersState.Player {
+private extension Player {
     var isDamaged: Bool {
         health < attributes.get(.maxHealth)
     }

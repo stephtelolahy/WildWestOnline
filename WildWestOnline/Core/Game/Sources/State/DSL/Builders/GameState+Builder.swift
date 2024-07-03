@@ -7,7 +7,7 @@
 
 public extension GameState {
     class Builder {
-        private var players: [String: PlayersState.Player] = [:]
+        private var players: [String: Player] = [:]
         private var playOrder: [String] = []
         private var turn: String?
         private var playedThisTurn: [String: Int] = [:]
@@ -25,7 +25,7 @@ public extension GameState {
 
         public func build() -> GameState {
             .init(
-                players: .init(content: players),
+                players: players,
                 field: .init(
                     deck: deck,
                     discard: discard,

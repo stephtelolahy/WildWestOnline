@@ -4,27 +4,24 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 24/06/2024.
 //
-// swiftlint:disable type_contents_order
 
 import Foundation
 import Redux
 
-public struct PlayersState: Equatable, Codable {
-    var content: [String: Player]
+public typealias PlayersState = [String: Player]
 
-    public struct Player: Equatable, Codable {
-        /// Life points
-        public var health: Int
+public struct Player: Equatable, Codable {
+    /// Life points
+    public var health: Int
 
-        /// Current attributes
-        public var attributes: [String: Int]
+    /// Current attributes
+    public var attributes: [String: Int]
 
-        /// Inner abilities
-        public let abilities: Set<String>
+    /// Inner abilities
+    public let abilities: Set<String>
 
-        /// Figure name. Determining initial attributes
-        public let figure: String
-    }
+    /// Figure name. Determining initial attributes
+    public let figure: String
 }
 
 public extension PlayersState {
@@ -53,17 +50,17 @@ private extension PlayersState {
         guard case let GameAction.heal(amount, player) = action else {
             fatalError("unexpected")
         }
-        var playerObj = state.content.get(player)
+        var playerObj = state.get(player)
         let maxHealth = playerObj.attributes.get(.maxHealth)
 
         guard playerObj.health < maxHealth else {
             throw GameError.playerAlreadyMaxHealth(player)
         }
 
-        playerObj.health = min(playerObj.health + amount, maxHealth)
+        playerObj.health = Swift.min(playerObj.health + amount, maxHealth)
 
         var state = state
-        state.content[player] = playerObj
+        state[player] = playerObj
         return state
     }
 
@@ -71,11 +68,11 @@ private extension PlayersState {
         guard case let GameAction.damage(amount, player) = action else {
             fatalError("unexpected")
         }
-        var playerObj = state.content.get(player)
+        var playerObj = state.get(player)
         playerObj.health -= amount
 
         var state = state
-        state.content[player] = playerObj
+        state[player] = playerObj
         return state
     }
 
@@ -85,7 +82,7 @@ private extension PlayersState {
         }
 
         var state = state
-        state[keyPath: \Self.content[player]]?.setValue(value, forAttribute: key)
+        state[keyPath: \Self[player]]?.setValue(value, forAttribute: key)
         return state
     }
 
@@ -95,18 +92,18 @@ private extension PlayersState {
         }
 
         var state = state
-        state[keyPath: \Self.content[player]]?.setValue(nil, forAttribute: key)
+        state[keyPath: \Self[player]]?.setValue(nil, forAttribute: key)
         return state
     }
 }
 
-extension PlayersState.Player {
+extension Player {
     mutating func setValue(_ value: Int?, forAttribute key: String) {
         attributes[key] = value
     }
 }
 
-public extension PlayersState.Player {
+public extension Player {
     class Builder {
         private var id: String = UUID().uuidString
         private var figure: String = ""
@@ -116,7 +113,7 @@ public extension PlayersState.Player {
         private var hand: [String] = []
         private var inPlay: [String] = []
 
-        public func build() -> PlayersState.Player {
+        public func build() -> Player {
             .init(
                 health: health,
                 attributes: attributes,

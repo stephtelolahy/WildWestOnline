@@ -10,9 +10,9 @@ struct CardPreviousInPlay: ArgCardResolver {
 
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
-        let playerObj = state.player(owner)
         var matchedCards: [String] = []
-        for card in playerObj.inPlay {
+        let inPlayCards = state.field.inPlay.get(owner)
+        for card in inPlayCards {
             let cardName = card.extractName()
             if let cardObj = state.cards[cardName],
                cardObj.attributes.keys.contains(key) {

@@ -9,19 +9,20 @@ struct CardSelectAny: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
         let chooser = ctx.resolvingChooser ?? owner
-        let playerObj = state.player(owner)
         var options: [CardArgOption] = []
 
-        let inPlayOptions = playerObj.inPlay.toCardOptions()
+        let inPlayCards = state.field.inPlay.get(owner)
+        let inPlayOptions = inPlayCards.toCardOptions()
         options.append(contentsOf: inPlayOptions)
 
+        let handCards = state.field.hand.get(owner)
         if chooser != owner {
-            let handOptions = playerObj.hand.indices.map {
-                CardArgOption(id: playerObj.hand[$0], label: "\(String.hiddenHand)-\($0)")
+            let handOptions = handCards.indices.map {
+                CardArgOption(id: handCards[$0], label: "\(String.hiddenHand)-\($0)")
             }
             options.append(contentsOf: handOptions)
         } else {
-            let handOptions = playerObj.hand.toCardOptions()
+            let handOptions = handCards.toCardOptions()
             options.append(contentsOf: handOptions)
         }
 

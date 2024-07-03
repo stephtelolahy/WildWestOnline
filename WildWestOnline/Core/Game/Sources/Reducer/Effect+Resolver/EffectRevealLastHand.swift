@@ -8,8 +8,8 @@
 struct EffectRevealLastHand: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         let player = ctx.sourceActor
-        let playerObj = state.player(player)
-        guard let lastHandCard = playerObj.hand.last else {
+        let handCards = state.field.hand.get(player)
+        guard let lastHandCard = handCards.last else {
             fatalError("missing drawn card")
         }
         return [.revealHand(lastHandCard, player: player)]
