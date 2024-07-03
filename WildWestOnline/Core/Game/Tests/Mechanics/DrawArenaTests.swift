@@ -21,7 +21,7 @@ final class DrawArenaTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").hand, ["c1"])
-        XCTAssertEqual(result.arena, ["c2"])
+        XCTAssertEqual(result.field.hand["p1"], ["c1"])
+        XCTAssertEqual(result.field.arena, ["c2"])
     }
 }

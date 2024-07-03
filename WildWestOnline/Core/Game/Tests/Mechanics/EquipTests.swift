@@ -22,9 +22,9 @@ final class EquipTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").hand, ["c2"])
-        XCTAssertEqual(result.player("p1").inPlay, ["c1"])
-        XCTAssertEqual(result.discard.count, 0)
+        XCTAssertEqual(result.field.hand["p1"], ["c2"])
+        XCTAssertEqual(result.field.inPlay["p1"], ["c1"])
+        XCTAssertEqual(result.field.discard.count, 0)
     }
 
     func test_equip_withCardAlreadyInPlay_shouldThrowError() {

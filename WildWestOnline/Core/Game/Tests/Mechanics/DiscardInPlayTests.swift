@@ -22,7 +22,7 @@ final class DiscardInPlayTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").inPlay, ["c2"])
-        XCTAssertEqual(result.discard, ["c1"])
+        XCTAssertEqual(result.field.inPlay["p1"], ["c2"])
+        XCTAssertEqual(result.field.discard, ["c1"])
     }
 }

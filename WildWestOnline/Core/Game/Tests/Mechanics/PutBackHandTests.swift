@@ -23,7 +23,7 @@ final class PutBackHandTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.deck, ["c1", "c2"])
-        XCTAssertEqual(result.player("p1").hand, [])
+        XCTAssertEqual(result.field.deck, ["c1", "c2"])
+        XCTAssertEqual(result.field.hand["p1"], [])
     }
 }

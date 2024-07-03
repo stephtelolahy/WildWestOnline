@@ -53,10 +53,10 @@ final class SetupTests: XCTestCase {
         XCTAssertEqual(state.player("p2").health, 3)
 
         // should set players hand cards to health
-        XCTAssertEqual(state.player("p1").hand.count, 4)
-        XCTAssertEqual(state.player("p2").hand.count, 3)
-        XCTAssertEqual(state.deck.count, 73)
-        XCTAssertEqual(state.discard, [])
+        XCTAssertEqual(state.field.hand["p1"]?.count, 4)
+        XCTAssertEqual(state.field.hand["p2"]?.count, 3)
+        XCTAssertEqual(state.field.deck.count, 73)
+        XCTAssertEqual(state.field.discard, [])
 
         // should set undefined turn
         XCTAssertNil(state.turn)

@@ -117,7 +117,7 @@ private extension GamePlayViewController {
     func updateViews(with state: GamePlayView.State) {
         titleLabel.text = state.message
         discardImageView.image = state.topDiscardImage
-        deckCountLabel.text = "[] \(state.deckCount)"
+        deckCountLabel.text = "[] \(state.field.deckCount)"
 
         playersCollectionView.reloadData()
         handCollectionView.reloadData()

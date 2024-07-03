@@ -20,8 +20,8 @@ final class DiscoverTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.arena, ["c1"])
-        XCTAssertEqual(result.deck, ["c2", "c3"])
+        XCTAssertEqual(result.field.arena, ["c1"])
+        XCTAssertEqual(result.field.deck, ["c2", "c3"])
     }
 
     func test_discover_withNonEmptyArena_shouldAddCardtoArena() {
@@ -36,7 +36,7 @@ final class DiscoverTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.arena, ["c1", "c2"])
-        XCTAssertEqual(result.deck, ["c3"])
+        XCTAssertEqual(result.field.arena, ["c1", "c2"])
+        XCTAssertEqual(result.field.deck, ["c3"])
     }
 }

@@ -23,7 +23,7 @@ final class DrawHandTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").hand, ["c21"])
-        XCTAssertEqual(result.player("p2").hand, ["c22"])
+        XCTAssertEqual(result.field.hand["p1"], ["c21"])
+        XCTAssertEqual(result.field.hand["p2"], ["c22"])
     }
 }

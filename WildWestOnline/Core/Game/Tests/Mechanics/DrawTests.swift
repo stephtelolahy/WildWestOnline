@@ -21,7 +21,7 @@ final class DrawTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.discard, ["c2", "c1"])
-        XCTAssertEqual(result.deck, ["c3"])
+        XCTAssertEqual(result.field.discard, ["c2", "c1"])
+        XCTAssertEqual(result.field.deck, ["c3"])
     }
 }

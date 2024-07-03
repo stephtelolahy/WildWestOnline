@@ -22,7 +22,7 @@ final class DiscardHandTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").hand, ["c2"])
-        XCTAssertEqual(result.discard, ["c1"])
+        XCTAssertEqual(result.field.hand["p1"], ["c2"])
+        XCTAssertEqual(result.field.discard, ["c1"])
     }
 }

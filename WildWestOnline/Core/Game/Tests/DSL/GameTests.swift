@@ -13,19 +13,19 @@ final class GameTests: XCTestCase {
     func test_buildGame_byDefault_shouldHaveEmptyDeck() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.deck.count, 0)
+        XCTAssertEqual(sut.field.deck.count, 0)
     }
 
     func test_buildGame_byDefault_shouldHaveEmptyDiscard() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.discard.count, 0)
+        XCTAssertEqual(sut.field.discard.count, 0)
     }
 
     func test_buildGame_byDefault_shouldNotHaveArena() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.arena, [])
+        XCTAssertEqual(sut.field.arena, [])
     }
 
     func test_buildGame_byDefault_shouldNotBeOver() throws {
@@ -54,7 +54,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.deck.count, 2)
+        XCTAssertEqual(sut.field.deck.count, 2)
     }
 
     func test_buildGame_withDiscard_shouldHaveDiscard() throws {
@@ -65,7 +65,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.discard.count, 2)
+        XCTAssertEqual(sut.field.discard.count, 2)
     }
 
     func test_buildGame_withArena_shouldHaveArena() throws {
@@ -76,7 +76,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.arena, ["c1", "c2"])
+        XCTAssertEqual(sut.field.arena, ["c1", "c2"])
     }
 
     func test_buildGame_withGameOver_shouldBeOver() throws {
@@ -141,10 +141,10 @@ final class GameTests: XCTestCase {
 
         // Then
         XCTAssertEqual(state.turn, "p1")
-        XCTAssertEqual(state.deck, ["c1", "c2"])
+        XCTAssertEqual(state.field.deck, ["c1", "c2"])
         XCTAssertEqual(state.playedThisTurn["bang"], 1)
-        XCTAssertEqual(state.discard, ["c3", "c4"])
-        XCTAssertEqual(state.arena, ["c5", "c6"])
+        XCTAssertEqual(state.field.discard, ["c3", "c4"])
+        XCTAssertEqual(state.field.arena, ["c5", "c6"])
         XCTAssertEqual(state.winner, "p1")
         XCTAssertNotNil(state.cards["name"])
         XCTAssertNotNil(state.chooseOne["p1"])
@@ -154,14 +154,14 @@ final class GameTests: XCTestCase {
         XCTAssertNotNil(state.players["p1"])
         XCTAssertEqual(state.player("p1").health, 3)
         XCTAssertEqual(state.player("p1").attributes, [:])
-        XCTAssertEqual(state.player("p1").hand, [])
-        XCTAssertEqual(state.player("p1").inPlay, [])
+        XCTAssertEqual(state.field.hand["p1"], [])
+        XCTAssertEqual(state.field.inPlay["p1"], [])
 
         XCTAssertNotNil(state.players["p2"])
         XCTAssertEqual(state.player("p2").health, 4)
         XCTAssertEqual(state.player("p2").attributes[.weapon], 2)
         XCTAssertEqual(state.player("p2").abilities, ["a1"])
-        XCTAssertEqual(state.player("p2").hand, ["c21", "c22"])
-        XCTAssertEqual(state.player("p2").inPlay, ["c23", "c24"])
+        XCTAssertEqual(state.field.hand["p2"], ["c21", "c22"])
+        XCTAssertEqual(state.field.inPlay["p2"], ["c23", "c24"])
     }
 }
