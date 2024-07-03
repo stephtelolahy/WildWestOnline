@@ -25,6 +25,7 @@ public struct CardLocationsState: Equatable, Codable {
 }
 
 public extension CardLocationsState {
+    // swiftlint:disable:next closure_body_length
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
         case GameAction.equip:

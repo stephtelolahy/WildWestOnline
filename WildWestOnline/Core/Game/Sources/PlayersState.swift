@@ -16,14 +16,14 @@ public struct PlayersState: Equatable, Codable {
         /// Life points
         public var health: Int
 
-        /// Figure name. Determining initial attributes
-        public let figure: String
-
-        /// Current abilities
-        public let abilities: Set<String>
-
         /// Current attributes
         public var attributes: [String: Int]
+
+        /// Inner abilities
+        public let abilities: Set<String>
+
+        /// Figure name. Determining initial attributes
+        public let figure: String
     }
 }
 
@@ -71,5 +71,73 @@ private extension PlayersState {
         var state = state
         state.content[player] = playerObj
         return state
+    }
+}
+
+public extension PlayersState.Player {
+    class Builder {
+        private var id: String = UUID().uuidString
+        private var figure: String = ""
+        private var abilities: Set<String> = []
+        private var attributes: [String: Int] = [:]
+        private var health: Int = 0
+        private var hand: [String] = []
+        private var inPlay: [String] = []
+
+        public func build() -> PlayersState.Player {
+            .init(
+                health: health,
+                attributes: attributes,
+                abilities: abilities,
+                figure: figure
+            )
+        }
+
+        public func buildHand() -> [String] {
+            hand
+        }
+
+        public func buildInPlay() -> [String] {
+            inPlay
+        }
+
+        public func withId(_ value: String) -> Self {
+            id = value
+            return self
+        }
+
+        public func withFigure(_ value: String) -> Self {
+            figure = value
+            return self
+        }
+
+        public func withHealth(_ value: Int) -> Self {
+            health = value
+            return self
+        }
+
+        public func withAttributes(_ value: [String: Int]) -> Self {
+            attributes = value
+            return self
+        }
+
+        public func withAbilities(_ value: [String]) -> Self {
+            abilities = Set(value)
+            return self
+        }
+
+        public func withHand(_ value: [String]) -> Self {
+            hand = value
+            return self
+        }
+
+        public func withInPlay(_ value: [String]) -> Self {
+            inPlay = value
+            return self
+        }
+    }
+
+    static func makeBuilder() -> Builder {
+        Builder()
     }
 }
