@@ -106,13 +106,3 @@ private extension GameState {
         }
     }
 }
-
-//private extension Player {
-//    var triggerableCardsOfActivePlayer: [String] {
-//        inPlay + abilities
-//    }
-//
-//    var triggerableCardsOfEliminatedPlayer: [String] {
-//        Array(abilities)
-//    }
-//}
