@@ -13,7 +13,7 @@ extension GameAction {
     func reduce(state: GameState) throws -> GameState {
         var newState = try reducer().reduce(state: state)
         newState.players = try PlayersState.reducer(state.players, self)
-        newState.cardLocations = try CardLocationsState.reducer(state.cardLocations, self)
+        newState.field = try FieldState.reducer(state.field, self)
         return newState
     }
 }

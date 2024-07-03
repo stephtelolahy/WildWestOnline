@@ -8,7 +8,7 @@ public struct GameState: Codable, Equatable {
     public var players: PlayersState
 
     /// Card locations
-    public var cardLocations: CardLocationsState
+    public var field: FieldState
 
     /// Playing order
     public var playOrder: [String]

@@ -26,7 +26,7 @@ public extension GameState {
         public func build() -> GameState {
             .init(
                 players: .init(content: players),
-                cardLocations: .init(
+                field: .init(
                     deck: deck,
                     discard: discard,
                     arena: arena,

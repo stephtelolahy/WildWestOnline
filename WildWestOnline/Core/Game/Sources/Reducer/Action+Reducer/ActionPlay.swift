@@ -52,3 +52,9 @@ struct ActionPlay: GameActionReducer {
         return state
     }
 }
+
+private extension GameState {
+    mutating func incrementPlayedThisTurn(for cardName: String) {
+        playedThisTurn[cardName] = (playedThisTurn[cardName] ?? 0) + 1
+    }
+}

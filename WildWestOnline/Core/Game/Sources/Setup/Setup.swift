@@ -53,7 +53,7 @@ public enum Setup {
             players: .init(
                 content: players
             ),
-            cardLocations: .init(
+            field: .init(
                 deck: deck,
                 discard: [],
                 arena: [],
@@ -92,16 +92,12 @@ private extension Setup {
             fatalError("Missing figure named \(figure)")
         }
 
-        guard let health = figureObj.attributes[.maxHealth] else {
-            fatalError("missing attribute maxHealth")
-        }
-
+        let health = figureObj.attributes.get(.maxHealth)
         return .init(
             health: health,
-            maxHealth: health,
-            figure: figure,
+            attributes: figureObj.attributes,
             abilities: figureObj.abilities.union([figure]),
-            attributes: figureObj.attributes
+            figure: figure
         )
     }
 }

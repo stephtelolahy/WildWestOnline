@@ -1,5 +1,5 @@
 //
-//  CardLocationsState.swift
+//  FieldState.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 29/06/2024.
@@ -7,7 +7,7 @@
 
 import Redux
 
-public struct CardLocationsState: Equatable, Codable {
+public struct FieldState: Equatable, Codable {
     /// Deck
     public var deck: [String]
 
@@ -24,7 +24,7 @@ public struct CardLocationsState: Equatable, Codable {
     public var inPlay: [String: [String]]
 }
 
-public extension CardLocationsState {
+public extension FieldState {
     // swiftlint:disable:next closure_body_length
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
@@ -76,7 +76,7 @@ public extension CardLocationsState {
     }
 }
 
-private extension CardLocationsState {
+private extension FieldState {
     static let equipReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.equip(card, player) = action else {
             fatalError("unexpected")
@@ -250,7 +250,7 @@ private extension CardLocationsState {
     }
 }
 
-private extension CardLocationsState {
+private extension FieldState {
     /// Draw the top card from the deck
     /// As soon as the draw pile is empty, shuffle the discard pile to create a new playing deck.
     mutating func popDeck() throws -> String {
