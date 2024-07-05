@@ -21,7 +21,7 @@ final class EliminateTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.playOrder, ["p2"])
+        XCTAssertEqual(result.round.playOrder, ["p2"])
     }
 
     func test_eliminatePlayer_shouldRemoveSequence() throws {

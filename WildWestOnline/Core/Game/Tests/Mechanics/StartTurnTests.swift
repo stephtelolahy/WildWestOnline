@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class StartTurnTests: XCTestCase {
-    func test_startTurn_shouldSetAttributeAndResetCounters() {
+    func test_startTurn_shouldSetAttribute() {
         // Given
         let state = GameState.makeBuilder()
             .withPlayedThisTurn(["card1": 1, "card2": 1])
@@ -20,7 +20,20 @@ final class StartTurnTests: XCTestCase {
         let result = GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.turn, "p1")
+        XCTAssertEqual(result.round.turn, "p1")
+    }
+
+    func test_startTurn_shouldResetPlayCounters() {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayedThisTurn(["card1": 1, "card2": 1])
+            .build()
+
+        // When
+        let action = GameAction.startTurn(player: "p1")
+        let result = GameState.reducer(state, action)
+
+        // Then
         XCTAssertEqual(result.playedThisTurn, [:])
     }
 }

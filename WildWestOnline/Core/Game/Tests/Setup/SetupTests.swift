@@ -45,8 +45,8 @@ final class SetupTests: XCTestCase {
         // Then
         // should create a game with given player number
         XCTAssertEqual(state.players.count, 2)
-        XCTAssertTrue(state.playOrder.contains(["p1", "p2"]))
-        XCTAssertTrue(state.startOrder.contains(["p1", "p2"]))
+        XCTAssertTrue(state.round.playOrder.contains(["p1", "p2"]))
+        XCTAssertTrue(state.round.startOrder.contains(["p1", "p2"]))
 
         // should set players to max health
         XCTAssertEqual(state.player("p1").health, 4)
@@ -59,7 +59,7 @@ final class SetupTests: XCTestCase {
         XCTAssertEqual(state.field.discard, [])
 
         // should set undefined turn
-        XCTAssertNil(state.turn)
+        XCTAssertNil(state.round.turn)
 
         // should set figure attributes
         XCTAssertEqual(state.player("p1").abilities, ["p1"])
