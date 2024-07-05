@@ -19,11 +19,11 @@ extension Middlewares {
                 return nil
             }
 
-            guard state.playOrder.count <= 1 else {
+            guard state.round.playOrder.count <= 1 else {
                 return nil
             }
 
-            let winner = state.playOrder.first ?? ""
+            let winner = state.round.playOrder.first ?? ""
             return GameAction.setGameOver(winner: winner)
         }
     }

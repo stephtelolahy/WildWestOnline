@@ -7,7 +7,7 @@
 
 struct PlayerAll: ArgPlayerResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
-        let all = state.playOrder
+        let all = state.round.playOrder
             .starting(with: ctx.sourceActor)
         return .identified(all)
     }

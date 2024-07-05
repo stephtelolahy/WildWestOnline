@@ -58,8 +58,11 @@ public enum Setup {
                 hand: hand,
                 inPlay: [:]
             ),
-            playOrder: figures,
-            startOrder: figures,
+            round: .init(
+                startOrder: figures,
+                playOrder: figures,
+                turn: nil
+            ),
             playedThisTurn: [:],
             chooseOne: [:],
             active: [:],

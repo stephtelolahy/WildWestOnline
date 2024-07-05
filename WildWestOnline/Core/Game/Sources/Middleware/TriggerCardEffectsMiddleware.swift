@@ -18,7 +18,7 @@ extension Middlewares {
             var triggered: [GameAction] = []
 
             // active players
-            for player in state.playOrder {
+            for player in state.round.playOrder {
                 let playerObj = state.player(player)
                 let triggerableCards = state.field.inPlay.get(player) + playerObj.abilities
                 for card in triggerableCards {

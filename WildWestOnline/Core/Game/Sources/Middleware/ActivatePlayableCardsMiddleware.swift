@@ -15,7 +15,7 @@ extension Middlewares {
                   state.winner == nil,
                   state.chooseOne.isEmpty,
                   state.active.isEmpty,
-                  let player = state.turn else {
+                  let player = state.round.turn else {
                 return nil
             }
 

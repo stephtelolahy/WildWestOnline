@@ -13,6 +13,12 @@ public extension GameState {
             return state
         }
 
+        // TODO: startTurn
+        // state.playedThisTurn = [:]
+
+        // TODO: eliminate
+        // state.sequence.removeAll { $0.isEffectTriggeredBy(player) }
+
         var state = state
         state.event = nil
         state.error = nil

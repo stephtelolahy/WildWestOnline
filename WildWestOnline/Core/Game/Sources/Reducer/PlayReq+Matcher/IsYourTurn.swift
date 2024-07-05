@@ -7,6 +7,6 @@
 
 struct IsYourTurn: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        ctx.actor == state.turn
+        ctx.actor == state.round.turn
     }
 }

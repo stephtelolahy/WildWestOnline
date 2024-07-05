@@ -10,14 +10,8 @@ public struct GameState: Codable, Equatable {
     /// Card locations
     public var field: FieldState
 
-    /// Playing order
-    public var playOrder: [String]
-
-    /// Initial order
-    public let startOrder: [String]
-
-    /// Current turn's player
-    public var turn: String?
+    /// Round
+    public var round: RoundState
 
     /// Current turn's number of times a card was played
     public var playedThisTurn: [String: Int]

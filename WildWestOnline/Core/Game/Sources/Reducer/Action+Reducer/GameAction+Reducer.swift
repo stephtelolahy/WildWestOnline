@@ -12,14 +12,15 @@ protocol GameActionReducer {
 extension GameAction {
     func reduce(state: GameState) throws -> GameState {
         var newState = try reducer().reduce(state: state)
+
         newState.players = try PlayersState.reducer(state.players, self)
         newState.field = try FieldState.reducer(state.field, self)
+        newState.round = try RoundState.reducer(state.round, self)
         return newState
     }
 }
 
 private extension GameAction {
-    // swiftlint:disable:next cyclomatic_complexity
     func reducer() -> GameActionReducer {
         switch self {
         case let .play(card, player):
@@ -27,15 +28,6 @@ private extension GameAction {
 
         case let .group(actions):
             ActionGroup(children: actions)
-
-        case let .startTurn(player):
-            ActionStartTurn(player: player)
-
-        case .endTurn:
-            ActionEndTurn()
-
-        case let .eliminate(player):
-            ActionEliminate(player: player)
 
         case let .effect(effect, ctx):
             ActionResolveEffect(effect: effect, ctx: ctx)

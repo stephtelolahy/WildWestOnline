@@ -35,9 +35,11 @@ public extension GameState {
                     hand: hand,
                     inPlay: inPlay
                 ),
-                playOrder: playOrder,
-                startOrder: playOrder,
-                turn: turn,
+                round: .init(
+                    startOrder: playOrder,
+                    playOrder: playOrder,
+                    turn: turn
+                ),
                 playedThisTurn: playedThisTurn,
                 winner: winner,
                 error: error,

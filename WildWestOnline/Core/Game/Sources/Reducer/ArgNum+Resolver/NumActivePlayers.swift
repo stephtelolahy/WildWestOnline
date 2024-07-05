@@ -7,6 +7,6 @@
 
 struct NumActivePlayers: ArgNumResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
-        state.playOrder.count
+        state.round.playOrder.count
     }
 }
