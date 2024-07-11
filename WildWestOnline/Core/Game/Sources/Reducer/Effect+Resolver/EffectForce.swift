@@ -21,7 +21,7 @@ struct EffectForce: EffectResolver {
                 switch action {
                 case .drawDiscard:
                     // verify action, if succeed then return it
-                    _ = try action.reduce(state: state)
+                    _ = try GameState.reducer(state, action)
                     return [action]
 
                 default:

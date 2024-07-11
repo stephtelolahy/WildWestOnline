@@ -26,7 +26,9 @@ public struct SequenceState: Codable, Equatable {
 
 public extension SequenceState {
     static let reducer: ThrowingReducer<Self> = { state, action in
-        switch action {
+        var state = try prepareReducer(state, action)
+
+        return switch action {
         case GameAction.activate:
             try activateReducer(state, action)
 
@@ -36,6 +38,15 @@ public extension SequenceState {
         case GameAction.setGameOver:
             try setGameOverReducer(state, action)
 
+        case GameAction.play:
+            try playReducer(state, action)
+
+        case GameAction.startTurn:
+            try startTurnReducer(state, action)
+
+        case GameAction.eliminate:
+            try eliminateReducer(state, action)
+
         default:
             state
         }
@@ -43,6 +54,46 @@ public extension SequenceState {
 }
 
 private extension SequenceState {
+    static let prepareReducer: ThrowingReducer<Self> = { state, action in
+        // Game is over
+        if state.winner != nil {
+            throw GameError.gameIsOver
+        }
+
+        var state = state
+
+        // Pending choice
+        if let chooseOne = state.chooseOne.first {
+            guard case let GameAction.choose(option, player) = action,
+                  player == chooseOne.key,
+                  chooseOne.value.options.contains(option) else {
+                throw GameError.unwaitedAction
+            }
+
+            state.chooseOne.removeValue(forKey: chooseOne.key)
+            return state
+        }
+
+        // Active cards
+        if let active = state.active.first {
+            guard case let GameAction.play(card, player) = action,
+                  player == active.key,
+                  active.value.contains(card) else {
+                throw GameError.unwaitedAction
+            }
+
+            state.active.removeValue(forKey: active.key)
+            return state
+        }
+
+        // Resolving sequence
+        if state.queue.first == (action as? GameAction) {
+            state.queue.removeFirst()
+        }
+
+        return state
+    }
+
     static let activateReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.activate(cards, player) = action else {
             fatalError("unexpected")
@@ -73,6 +124,36 @@ private extension SequenceState {
 
         var state = state
         state.winner = winner
+        return state
+    }
+
+    static let playReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.play(card, player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.played[card] = 1
+        return state
+    }
+
+    static let startTurnReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.startTurn(player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.played = [:]
+        return state
+    }
+
+    static let eliminateReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.eliminate(player) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.queue.removeAll { $0.isEffectTriggeredBy(player) }
         return state
     }
 }
