@@ -47,7 +47,7 @@ struct ActionPlay: GameActionReducer {
             sourceCard: card
         )
         let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
-        state.sequence.insert(contentsOf: children, at: 0)
+        state.sequence.queue.insert(contentsOf: children, at: 0)
 
         return state
     }

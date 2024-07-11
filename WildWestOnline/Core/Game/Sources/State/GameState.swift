@@ -13,11 +13,18 @@ public struct GameState: Codable, Equatable {
     /// Round
     public var round: RoundState
 
+    /// Play sequence
+    public var sequence: SequenceState
+
+    // MARK: - To clean
+
     /// Current turn's number of times a card was played
     public var playedThisTurn: [String: Int]
 
     /// Game over
     public var winner: String?
+
+    // MARK: - Store
 
     /// Occurred error
     public var error: GameError?
@@ -25,23 +32,16 @@ public struct GameState: Codable, Equatable {
     /// Last occurred renderable event
     public var event: GameAction?
 
-    /// Pending action by player
-    public var chooseOne: [String: ChooseOne]
-
-    /// Playable cards by player
-    public var active: [String: [String]]
-
-    /// Play mode by player
-    public var playMode: [String: PlayMode]
-
-    /// Queued effects
-    public var sequence: [GameAction]
+    // MARK: - Configuration
 
     /// All cards reference by cardName
     public let cards: [String: Card]
 
     /// Wait delay between two visible actions
     public var waitDelayMilliseconds: Int
+
+    /// Play mode by player
+    public var playMode: [String: PlayMode]
 }
 
 // MARK: - Convenience

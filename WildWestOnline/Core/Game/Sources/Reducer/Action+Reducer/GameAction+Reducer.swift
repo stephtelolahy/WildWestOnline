@@ -16,6 +16,7 @@ extension GameAction {
         newState.players = try PlayersState.reducer(state.players, self)
         newState.field = try FieldState.reducer(state.field, self)
         newState.round = try RoundState.reducer(state.round, self)
+        newState.sequence = try SequenceState.reducer(state.sequence, self)
         return newState
     }
 }

@@ -10,7 +10,7 @@ struct ActionCounterShoot: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        guard let index = state.sequence.firstIndex(of: action) else {
+        guard let index = state.sequence.queue.firstIndex(of: action) else {
             fatalError("action not found \(action)")
         }
 
@@ -22,7 +22,7 @@ struct ActionCounterShoot: GameActionReducer {
         let misses = try missesRequired.resolve(state: state, ctx: effectCtx)
         let remainingMisses = ArgNum.exact(misses - 1)
         let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
-        state.sequence[index] = updatedAction
+        state.sequence.queue[index] = updatedAction
 
         return state
     }

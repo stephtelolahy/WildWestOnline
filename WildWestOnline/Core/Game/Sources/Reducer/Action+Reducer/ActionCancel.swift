@@ -10,8 +10,8 @@ struct ActionCancel: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        if let index = state.sequence.firstIndex(of: action) {
-            state.sequence.remove(at: index)
+        if let index = state.sequence.queue.firstIndex(of: action) {
+            state.sequence.queue.remove(at: index)
             state.removeEffectsLinkedTo(action)
         }
 
@@ -29,7 +29,7 @@ private extension GameState {
     }
 
     mutating func removeEffectsLinkedToShoot(_ target: String) {
-        sequence.removeAll { item in
+        sequence.queue.removeAll { item in
             if case let .effect(_, ctx) = item,
                ctx.linkedToShoot == target {
                 return true

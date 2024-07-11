@@ -7,11 +7,11 @@
 
 struct EffectCounterShoot: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        guard let index = state.sequence.firstIndex(where: { $0.isEffectOfShoot(ctx.sourceActor) }) else {
+        guard let index = state.sequence.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.sourceActor) }) else {
             throw GameError.noShootToCounter
         }
 
-        let action = state.sequence[index]
+        let action = state.sequence.queue[index]
         guard case .effect(let cardEffect, let effectCtx) = action,
               case .prepareShoot(let missesRequired) = cardEffect else {
             fatalError("unexpected action to counter")

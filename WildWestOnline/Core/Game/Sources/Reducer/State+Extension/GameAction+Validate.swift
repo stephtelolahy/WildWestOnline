@@ -67,8 +67,8 @@ extension GameAction {
 
         default:
             var newState = try reduce(state: state)
-            if newState.sequence.isNotEmpty {
-                let next = newState.sequence.removeFirst()
+            if newState.sequence.queue.isNotEmpty {
+                let next = newState.sequence.queue.removeFirst()
                 try next.validate(state: newState)
             }
         }

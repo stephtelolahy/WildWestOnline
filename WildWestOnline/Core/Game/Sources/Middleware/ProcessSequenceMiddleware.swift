@@ -23,7 +23,7 @@ extension Middlewares {
                 return nil
 
             default:
-                guard let nextAction = state.sequence.first else {
+                guard let nextAction = state.sequence.queue.first else {
                     return nil
                 }
 

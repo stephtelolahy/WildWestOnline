@@ -63,13 +63,15 @@ public enum Setup {
                 playOrder: figures,
                 turn: nil
             ),
+            sequence: .init(
+                queue: [],
+                chooseOne: [:],
+                active: [:]
+            ),
             playedThisTurn: [:],
-            chooseOne: [:],
-            active: [:],
-            playMode: [:],
-            sequence: [],
             cards: cards,
-            waitDelayMilliseconds: 0
+            waitDelayMilliseconds: 0,
+            playMode: [:]
         )
     }
 

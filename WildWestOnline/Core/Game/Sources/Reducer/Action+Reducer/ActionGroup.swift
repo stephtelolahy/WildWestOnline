@@ -10,7 +10,7 @@ struct ActionGroup: GameActionReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        state.sequence.insert(contentsOf: children, at: 0)
+        state.sequence.queue.insert(contentsOf: children, at: 0)
         return state
     }
 }

@@ -15,13 +15,13 @@ extension Middlewares {
                 return nil
             }
 
-            if let active = state.active.first,
+            if let active = state.sequence.active.first,
                state.playMode[active.key] == .auto {
                 let actions = active.value.map { GameAction.play($0, player: active.key) }
                 return strategy.evaluateBestMove(actions, state: state)
             }
 
-            if let chooseOne = state.chooseOne.first,
+            if let chooseOne = state.sequence.chooseOne.first,
                state.playMode[chooseOne.key] == .auto {
                 let actions = chooseOne.value.options.map { GameAction.choose($0, player: chooseOne.key) }
                 return strategy.evaluateBestMove(actions, state: state)

@@ -47,32 +47,32 @@ private extension GameAction {
         }
 
         // Pending choice
-        if let chooseOne = state.chooseOne.first {
+        if let chooseOne = state.sequence.chooseOne.first {
             guard case let .choose(option, player) = self,
                   player == chooseOne.key,
                   chooseOne.value.options.contains(option) else {
                 throw GameError.unwaitedAction
             }
 
-            state.chooseOne.removeValue(forKey: chooseOne.key)
+            state.sequence.chooseOne.removeValue(forKey: chooseOne.key)
             return state
         }
 
         // Active cards
-        if let active = state.active.first {
+        if let active = state.sequence.active.first {
             guard case let .play(card, player) = self,
                   player == active.key,
                   active.value.contains(card) else {
                 throw GameError.unwaitedAction
             }
 
-            state.active.removeValue(forKey: active.key)
+            state.sequence.active.removeValue(forKey: active.key)
             return state
         }
 
         // Resolving sequence
-        if state.sequence.first == self {
-            state.sequence.removeFirst()
+        if state.sequence.queue.first == self {
+            state.sequence.queue.removeFirst()
         }
 
         return state

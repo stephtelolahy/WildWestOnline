@@ -20,7 +20,7 @@ public extension GameState {
         private var error: GameError?
         private var chooseOne: [String: ChooseOne] = [:]
         private var active: [String: [String]] = [:]
-        private var sequence: [GameAction] = []
+        private var queue: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
         private var cards: [String: Card] = [:]
         private var waitDelayMilliseconds: Int = 0
@@ -40,15 +40,17 @@ public extension GameState {
                     playOrder: playOrder,
                     turn: turn
                 ),
+                sequence: .init(
+                    queue: queue,
+                    chooseOne: chooseOne,
+                    active: active
+                ),
                 playedThisTurn: playedThisTurn,
                 winner: winner,
                 error: error,
-                chooseOne: chooseOne,
-                active: active,
-                playMode: playMode,
-                sequence: sequence,
                 cards: cards,
-                waitDelayMilliseconds: waitDelayMilliseconds
+                waitDelayMilliseconds: waitDelayMilliseconds,
+                playMode: playMode
             )
         }
 
@@ -103,7 +105,7 @@ public extension GameState {
         }
 
         public func withSequence(_ value: [GameAction]) -> Self {
-            sequence = value
+            queue = value
             return self
         }
 

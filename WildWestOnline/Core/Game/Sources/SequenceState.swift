@@ -16,9 +16,6 @@ public struct SequenceState: Codable, Equatable {
 
     /// Playable cards by player
     public var active: [String: [String]]
-
-    /// Play counter by card
-    public var played: [String: Int]
 }
 
 public extension SequenceState {
