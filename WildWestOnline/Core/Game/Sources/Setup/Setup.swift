@@ -61,14 +61,15 @@ public enum Setup {
             round: .init(
                 startOrder: figures,
                 playOrder: figures,
-                turn: nil
+                turn: nil,
+                winner: nil
             ),
             sequence: .init(
                 queue: [],
                 chooseOne: [:],
-                active: [:]
+                active: [:],
+                played: [:]
             ),
-            playedThisTurn: [:],
             cards: cards,
             waitDelayMilliseconds: 0,
             playMode: [:]

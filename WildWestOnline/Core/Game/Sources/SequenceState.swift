@@ -16,6 +16,9 @@ public struct SequenceState: Codable, Equatable {
 
     /// Playable cards by player
     public var active: [String: [String]]
+
+    /// Current turn's number of times a card was played
+    public var played: [String: Int]
 }
 
 public extension SequenceState {

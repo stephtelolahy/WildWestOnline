@@ -16,18 +16,13 @@ public struct GameState: Codable, Equatable {
     /// Play sequence
     public var sequence: SequenceState
 
-    // MARK: - To clean
-
-    /// Current turn's number of times a card was played
-    public var playedThisTurn: [String: Int]
-
     // MARK: - Store
-
-    /// Occurred error
-    public var error: GameError?
 
     /// Last occurred renderable event
     public var event: GameAction?
+
+    /// Occurred error
+    public var error: GameError?
 
     // MARK: - Configuration
 

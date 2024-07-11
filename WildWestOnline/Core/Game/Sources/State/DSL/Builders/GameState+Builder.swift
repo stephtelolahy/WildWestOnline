@@ -17,7 +17,6 @@ public extension GameState {
         private var discard: [String] = []
         private var arena: [String] = []
         private var winner: String?
-        private var error: GameError?
         private var chooseOne: [String: ChooseOne] = [:]
         private var active: [String: [String]] = [:]
         private var queue: [GameAction] = []
@@ -44,10 +43,9 @@ public extension GameState {
                 sequence: .init(
                     queue: queue,
                     chooseOne: chooseOne,
-                    active: active
+                    active: active,
+                    played: playedThisTurn
                 ),
-                playedThisTurn: playedThisTurn,
-                error: error,
                 cards: cards,
                 waitDelayMilliseconds: waitDelayMilliseconds,
                 playMode: playMode
