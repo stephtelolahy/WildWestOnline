@@ -42,7 +42,7 @@ private extension GameAction {
         var state = state
 
         // Game is over
-        if state.winner != nil {
+        if state.round.winner != nil {
             throw GameError.gameIsOver
         }
 

@@ -12,7 +12,7 @@ extension Middlewares {
     static func activatePlayableCards() -> Middleware<GameState> {
         { state, _ in
             guard state.sequence.queue.isEmpty,
-                  state.winner == nil,
+                  state.round.winner == nil,
                   state.sequence.chooseOne.isEmpty,
                   state.sequence.active.isEmpty,
                   let player = state.round.turn else {

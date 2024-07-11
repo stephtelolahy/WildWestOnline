@@ -15,6 +15,9 @@ public struct RoundState: Codable, Equatable {
 
     /// Current turn's player
     public var turn: String?
+
+    /// Game over
+    public var winner: String?
 }
 
 public extension RoundState {
@@ -28,6 +31,9 @@ public extension RoundState {
 
         case GameAction.eliminate:
             try eliminateReducer(state, action)
+
+        case GameAction.setGameOver:
+            try setGameOverReducer(state, action)
 
         default:
             state
@@ -63,6 +69,16 @@ private extension RoundState {
 
         var state = state
         state.playOrder.removeAll { $0 == player }
+        return state
+    }
+
+    static let setGameOverReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.setGameOver(winner) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.winner = winner
         return state
     }
 }

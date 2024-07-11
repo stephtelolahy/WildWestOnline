@@ -42,9 +42,6 @@ private extension GameAction {
         case let .counterShoot(action):
             ActionCounterShoot(action: action)
 
-        case let .setGameOver(winner):
-            ActionSetGameOver(winner: winner)
-
         default:
             ActionIdentity()
         }

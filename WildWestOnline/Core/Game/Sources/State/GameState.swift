@@ -21,9 +21,6 @@ public struct GameState: Codable, Equatable {
     /// Current turn's number of times a card was played
     public var playedThisTurn: [String: Int]
 
-    /// Game over
-    public var winner: String?
-
     // MARK: - Store
 
     /// Occurred error
