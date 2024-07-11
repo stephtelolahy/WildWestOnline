@@ -38,9 +38,6 @@ public extension SequenceState {
         case GameAction.setGameOver:
             try setGameOverReducer(state, action)
 
-        case GameAction.play:
-            try playReducer(state, action)
-
         case GameAction.startTurn:
             try startTurnReducer(state, action)
 
@@ -124,16 +121,6 @@ private extension SequenceState {
 
         var state = state
         state.winner = winner
-        return state
-    }
-
-    static let playReducer: ThrowingReducer<Self> = { state, action in
-        guard case let GameAction.play(card, player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state.played[card] = 1
         return state
     }
 
