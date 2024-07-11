@@ -20,16 +20,10 @@ public extension GameState {
         // state.sequence.removeAll { $0.isEffectTriggeredBy(player) }
 
         var state = state
-        state.event = nil
-        state.error = nil
         do {
             state = try action.prepare(state: state)
             state = try action.reduce(state: state)
-            if action.isRenderable {
-                state.event = action
-            }
         } catch {
-            state.error = error as? GameError
             print("🚨 reduceAction: \(action)\tthrows: \(error)")
         }
 
@@ -42,7 +36,7 @@ private extension GameAction {
         var state = state
 
         // Game is over
-        if state.round.winner != nil {
+        if state.sequence.winner != nil {
             throw GameError.gameIsOver
         }
 

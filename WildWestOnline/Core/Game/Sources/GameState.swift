@@ -1,4 +1,5 @@
 import Foundation
+import Redux
 
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules
@@ -18,14 +19,6 @@ public struct GameState: Codable, Equatable {
 
     /// Configuration
     public let config: ConfigState
-
-    // MARK: - Store
-
-    /// Last occurred renderable event
-    public var event: GameAction?
-
-    /// Occurred error
-    public var error: GameError?
 }
 
 // MARK: - Convenience
@@ -34,5 +27,19 @@ public extension GameState {
     /// Getting player with given identifier
     func player(_ id: String) -> Player {
         players.get(id)
+    }
+}
+
+// MARK: - Reducer
+
+public extension GameState {
+    static let throwingReducer: ThrowingReducer<Self> = { state, action in
+            .init(
+                players: try PlayersState.reducer(state.players, action),
+                field: try FieldState.reducer(state.field, action),
+                round: try RoundState.reducer(state.round, action),
+                sequence: try SequenceState.reducer(state.sequence, action),
+                config: state.config
+            )
     }
 }

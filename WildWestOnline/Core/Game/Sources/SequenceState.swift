@@ -19,6 +19,9 @@ public struct SequenceState: Codable, Equatable {
 
     /// Current turn's number of times a card was played
     public var played: [String: Int]
+
+    /// Game over
+    public var winner: String?
 }
 
 public extension SequenceState {
@@ -29,6 +32,9 @@ public extension SequenceState {
 
         case GameAction.chooseOne:
             try chooseOneReducer(state, action)
+
+        case GameAction.setGameOver:
+            try setGameOverReducer(state, action)
 
         default:
             state
@@ -57,6 +63,16 @@ private extension SequenceState {
             type: type,
             options: options
         )
+        return state
+    }
+
+    static let setGameOverReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.setGameOver(winner) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.winner = winner
         return state
     }
 }

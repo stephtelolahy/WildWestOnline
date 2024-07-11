@@ -37,14 +37,14 @@ public extension GameState {
                 round: .init(
                     startOrder: playOrder,
                     playOrder: playOrder,
-                    turn: turn,
-                    winner: winner
+                    turn: turn
                 ),
                 sequence: .init(
                     queue: queue,
                     chooseOne: chooseOne,
                     active: active,
-                    played: playedThisTurn
+                    played: playedThisTurn,
+                    winner: winner
                 ),
                 config: .init(
                     cards: cards,

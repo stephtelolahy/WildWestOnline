@@ -11,7 +11,7 @@ import Redux
 extension Middlewares {
     static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
         { state, _ in
-            guard state.round.winner == nil else {
+            guard state.sequence.winner == nil else {
                 return nil
             }
 
