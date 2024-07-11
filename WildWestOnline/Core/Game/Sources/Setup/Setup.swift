@@ -70,9 +70,11 @@ public enum Setup {
                 active: [:],
                 played: [:]
             ),
-            cards: cards,
-            waitDelayMilliseconds: 0,
-            playMode: [:]
+            config: .init(
+                cards: cards,
+                waitDelayMilliseconds: 0,
+                playMode: [:]
+            )
         )
     }
 

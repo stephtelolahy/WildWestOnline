@@ -60,7 +60,7 @@ private extension GameState {
     ) -> [GameAction] {
         let state = self
         let cardName = card.extractName()
-        guard let cardObj = state.cards[cardName] else {
+        guard let cardObj = state.config.cards[cardName] else {
             return []
         }
 
@@ -98,8 +98,8 @@ private extension GameState {
         return actions.sorted { action1, action2 in
             guard case let .effect(_, ctx1) = action1,
                   case let .effect(_, ctx2) = action2,
-                  let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
-                  let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
+                  let cardObj1 = state.config.cards[ctx1.sourceCard.extractName()],
+                  let cardObj2 = state.config.cards[ctx2.sourceCard.extractName()] else {
                 fatalError("invalid triggered effect")
             }
             return cardObj1.priority < cardObj2.priority

@@ -16,6 +16,9 @@ public struct GameState: Codable, Equatable {
     /// Play sequence
     public var sequence: SequenceState
 
+    /// Configuration
+    public let config: ConfigState
+
     // MARK: - Store
 
     /// Last occurred renderable event
@@ -23,17 +26,6 @@ public struct GameState: Codable, Equatable {
 
     /// Occurred error
     public var error: GameError?
-
-    // MARK: - Configuration
-
-    /// All cards reference by cardName
-    public let cards: [String: Card]
-
-    /// Wait delay between two visible actions
-    public var waitDelayMilliseconds: Int
-
-    /// Play mode by player
-    public var playMode: [String: PlayMode]
 }
 
 // MARK: - Convenience

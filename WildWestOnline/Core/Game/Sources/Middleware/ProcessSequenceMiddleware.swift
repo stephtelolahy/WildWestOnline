@@ -28,7 +28,7 @@ extension Middlewares {
                 }
 
                 let waitDelay = if nextAction.isRenderable {
-                    state.waitDelayMilliseconds
+                    state.config.waitDelayMilliseconds
                 } else {
                     0
                 }

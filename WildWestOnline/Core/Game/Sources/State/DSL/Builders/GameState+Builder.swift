@@ -46,9 +46,11 @@ public extension GameState {
                     active: active,
                     played: playedThisTurn
                 ),
-                cards: cards,
-                waitDelayMilliseconds: waitDelayMilliseconds,
-                playMode: playMode
+                config: .init(
+                    cards: cards,
+                    waitDelayMilliseconds: waitDelayMilliseconds,
+                    playMode: playMode
+                )
             )
         }
 

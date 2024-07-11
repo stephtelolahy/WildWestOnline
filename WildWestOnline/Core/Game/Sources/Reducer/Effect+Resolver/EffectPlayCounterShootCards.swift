@@ -56,7 +56,7 @@ private extension EffectPlayCounterShootCards {
         }
         // </resolve card alias>
 
-        guard let cardObj = state.cards[cardName] else {
+        guard let cardObj = state.config.cards[cardName] else {
             return false
         }
 
