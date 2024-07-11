@@ -38,9 +38,6 @@ private extension GameAction {
         case let .choose(option, player):
             ActionChoose(player: player, option: option)
 
-        case let .activate(cards, player):
-            ActionActivate(player: player, cards: cards)
-
         case let .cancel(action):
             ActionCancel(action: action)
 
