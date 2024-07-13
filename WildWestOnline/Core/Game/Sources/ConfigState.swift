@@ -12,3 +12,11 @@ public struct ConfigState: Codable, Equatable {
     /// Play mode by player
     public let playMode: [String: PlayMode]
 }
+
+public enum PlayMode: Equatable, Codable {
+    /// Player is controller by user
+    case manual
+
+    /// Player is controlled by AI agent
+    case auto
+}
