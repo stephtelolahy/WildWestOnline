@@ -269,10 +269,57 @@ private extension SequenceState {
             fatalError("unexpected")
         }
 
-        let children = try effect.resolve(state: state, ctx: ctx)
+        return switch effect {
+        case .cancelTurn:
+            try effectCancelTurnReducer(state, action)
+
+        default:
+            state.sequence
+        }
+    }
+}
+
+private extension SequenceState {
+    static let effectCancelTurnReducer: SelectorReducer<GameState, Self> = { state, action in
+        guard case let GameAction.effect(effect, ctx) = action, case CardEffect.cancelTurn = effect else {
+            fatalError("unexpected")
+        }
+
+        let actionsToCancel = state.sequence.queue.filter {
+            $0.isEffectOfStartTurn(ignoredCard: ctx.sourceCard)
+        }
+
         var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
+
+        for actionToCancel in actionsToCancel {
+            if let index = sequence.queue.firstIndex(of: actionToCancel) {
+                sequence.queue.remove(at: index)
+                sequence.removeEffectsLinkedTo(actionToCancel)
+            }
+        }
 
         return sequence
+    }
+}
+
+
+private extension SequenceState {
+    mutating func removeEffectsLinkedTo(_ action: GameAction) {
+        if case let .effect(effect, effectCtx) = action,
+           case .prepareShoot = effect,
+           let target = effectCtx.resolvingTarget {
+            removeEffectsLinkedToShoot(target)
+        }
+    }
+
+    mutating func removeEffectsLinkedToShoot(_ target: String) {
+        queue.removeAll { item in
+            if case let .effect(_, ctx) = item,
+               ctx.linkedToShoot == target {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 }
