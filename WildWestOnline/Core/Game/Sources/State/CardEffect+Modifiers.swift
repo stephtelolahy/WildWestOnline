@@ -40,3 +40,10 @@ public extension CardEffect {
         .init(effect: self, playReqs: playReqs)
     }
 }
+
+@resultBuilder
+public enum CardEffectsBuilder {
+    public static func buildBlock(_ components: CardEffect...) -> [CardEffect] {
+        components
+    }
+}
