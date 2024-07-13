@@ -239,5 +239,4 @@ private extension GameState {
 
         return sequence
     }
-
 }

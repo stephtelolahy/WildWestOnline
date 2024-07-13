@@ -440,7 +440,7 @@ private extension Cards {
     // MARK: - Figures
 
     static var defaultPlayer: Card.Figure {
-        .init(
+        Card.Figure(
             attributes: [
                 .startTurnCards: 2,
                 .weapon: 1,
