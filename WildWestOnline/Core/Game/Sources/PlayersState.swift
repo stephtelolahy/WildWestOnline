@@ -25,6 +25,13 @@ public struct Player: Equatable, Codable {
 }
 
 public extension PlayersState {
+    enum Error: Swift.Error {
+        /// Expected player to be damaged
+        case playerAlreadyMaxHealth(String)
+    }
+}
+
+public extension PlayersState {
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
         case GameAction.heal:
@@ -54,7 +61,7 @@ private extension PlayersState {
         let maxHealth = playerObj.attributes.get(.maxHealth)
 
         guard playerObj.health < maxHealth else {
-            throw GameError.playerAlreadyMaxHealth(player)
+            throw Error.playerAlreadyMaxHealth(player)
         }
 
         playerObj.health = Swift.min(playerObj.health + amount, maxHealth)

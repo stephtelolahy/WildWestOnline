@@ -25,6 +25,19 @@ public struct FieldState: Equatable, Codable {
 }
 
 public extension FieldState {
+    enum Error: Swift.Error {
+        /// Already having same card in play
+        case cardAlreadyInPlay(String)
+
+        /// Expected non empty deck
+        case deckIsEmpty
+
+        /// Expected non empty discard pile
+        case discardIsEmpty
+    }
+}
+
+public extension FieldState {
     // swiftlint:disable:next closure_body_length
     static let reducer: ThrowingReducer<Self> = { state, action in
         switch action {
@@ -86,7 +99,7 @@ private extension FieldState {
         let cardName = card.extractName()
         let playerInPlay = state.inPlay[player] ?? []
         guard playerInPlay.allSatisfy({ $0.extractName() != cardName }) else {
-            throw GameError.cardAlreadyInPlay(cardName)
+            throw Error.cardAlreadyInPlay(cardName)
         }
 
         // put card on self's play
@@ -106,7 +119,7 @@ private extension FieldState {
         let cardName = card.extractName()
         let targetInPlay = state.inPlay[target] ?? []
         guard targetInPlay.allSatisfy({ $0.extractName() != cardName }) else {
-            throw GameError.cardAlreadyInPlay(cardName)
+            throw Error.cardAlreadyInPlay(cardName)
         }
 
         // put card on other's play
@@ -257,7 +270,7 @@ private extension FieldState {
         if deck.isEmpty {
             let minDiscardedCards = 2
             guard discard.count >= minDiscardedCards else {
-                throw GameError.deckIsEmpty
+                throw Error.deckIsEmpty
             }
 
             let cards = discard
@@ -270,7 +283,7 @@ private extension FieldState {
 
     mutating func popDiscard() throws -> String {
         if discard.isEmpty {
-            throw GameError.discardIsEmpty
+            throw Error.discardIsEmpty
         }
 
         return discard.remove(at: 0)

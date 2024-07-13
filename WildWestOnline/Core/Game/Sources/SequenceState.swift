@@ -41,13 +41,29 @@ public enum ChoiceType: String, Codable, Equatable {
     case cardToPlayCounter
 }
 
-/// ChooseOne labels
+/// ChooseOne options
 public extension String {
     /// Hidden hand card
     static let hiddenHand = "hiddenHand"
 
     /// Pass when asked to do an action
     static let pass = "pass"
+}
+
+public extension SequenceState {
+    enum Error: Swift.Error {
+        /// Expected game to be active
+        case gameIsOver
+
+        /// Expected to choose one of waited action
+        case unwaitedAction
+
+        /// Expected card to have play rule
+        case cardNotPlayable(String)
+
+        /// No shoot effect to counter
+        case noShootToCounter
+    }
 }
 
 public extension SequenceState {
@@ -80,7 +96,7 @@ private extension SequenceState {
     static let prepareReducer: ThrowingReducer<Self> = { state, action in
         // Game is over
         if state.winner != nil {
-            throw GameError.gameIsOver
+            throw Error.gameIsOver
         }
 
         var state = state
@@ -90,7 +106,7 @@ private extension SequenceState {
             guard case let GameAction.choose(option, player) = action,
                   player == chooseOne.key,
                   chooseOne.value.options.contains(option) else {
-                throw GameError.unwaitedAction
+                throw Error.unwaitedAction
             }
 
             state.chooseOne.removeValue(forKey: chooseOne.key)
@@ -102,7 +118,7 @@ private extension SequenceState {
             guard case let GameAction.play(card, player) = action,
                   player == active.key,
                   active.value.contains(card) else {
-                throw GameError.unwaitedAction
+                throw Error.unwaitedAction
             }
 
             state.active.removeValue(forKey: active.key)

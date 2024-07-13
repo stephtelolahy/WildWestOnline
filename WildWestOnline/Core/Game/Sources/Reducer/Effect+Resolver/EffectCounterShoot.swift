@@ -8,7 +8,7 @@
 struct EffectCounterShoot: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
         guard let index = state.sequence.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.sourceActor) }) else {
-            throw GameError.noShootToCounter
+            throw SequenceState.Error.noShootToCounter
         }
 
         let action = state.sequence.queue[index]

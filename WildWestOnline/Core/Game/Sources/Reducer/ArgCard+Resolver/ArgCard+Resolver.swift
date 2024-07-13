@@ -9,6 +9,13 @@ protocol ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput
 }
 
+public extension ArgCard {
+    enum Error: Swift.Error {
+        /// Not matching card
+        case noCard(ArgCard)
+    }
+}
+
 extension ArgCard {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         resolver().resolve(state: state, ctx: ctx)
@@ -27,7 +34,7 @@ extension ArgCard {
 
         case let .selectable(cIdOptions):
             guard cIdOptions.isNotEmpty else {
-                throw GameError.noCard(self)
+                throw Error.noCard(self)
             }
 
             let actions = cIdOptions.reduce(into: [String: GameAction]()) {

@@ -34,7 +34,6 @@ public struct GamePlayView: View {
         }
     }
 }
-
 #Preview {
     GamePlayView {
         Store(initial: .sample)

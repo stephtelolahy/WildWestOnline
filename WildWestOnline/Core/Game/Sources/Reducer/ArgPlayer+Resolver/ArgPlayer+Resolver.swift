@@ -9,6 +9,13 @@ protocol ArgPlayerResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput
 }
 
+public extension ArgPlayer {
+    enum Error: Swift.Error {
+        /// Not matching player
+        case noPlayer(ArgPlayer)
+    }
+}
+
 extension ArgPlayer {
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
         let output = try resolver().resolve(state: state, ctx: ctx)
@@ -22,7 +29,7 @@ extension ArgPlayer {
         }
 
         guard pIds.isNotEmpty else {
-            throw GameError.noPlayer(self)
+            throw Error.noPlayer(self)
         }
 
         return output
@@ -34,7 +41,7 @@ extension ArgPlayer {
         } else {
             let output = try resolve(state: state, ctx: ctx)
             guard case let .identified(pIds) = output else {
-                throw GameError.noPlayer(self)
+                throw Error.noPlayer(self)
             }
 
             guard pIds.count == 1 else {

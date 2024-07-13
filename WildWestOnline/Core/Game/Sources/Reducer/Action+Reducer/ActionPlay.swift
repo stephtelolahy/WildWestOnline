@@ -20,12 +20,12 @@ struct ActionPlay: GameActionReducer {
         // </resolve card alias>
 
         guard let cardObj = state.cards[cardName] else {
-            throw GameError.cardNotPlayable(card)
+            throw SequenceState.Error.cardNotPlayable(card)
         }
 
         let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
         guard playRules.isNotEmpty else {
-            throw GameError.cardNotPlayable(card)
+            throw SequenceState.Error.cardNotPlayable(card)
         }
 
         // verify requirements

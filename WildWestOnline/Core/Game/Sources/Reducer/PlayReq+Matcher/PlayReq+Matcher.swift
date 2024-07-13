@@ -14,6 +14,13 @@ struct PlayReqContext {
     let event: GameAction
 }
 
+public extension PlayReq {
+    enum Error: Swift.Error {
+        /// Not matching requirement
+        case noReq(PlayReq)
+    }
+}
+
 extension PlayReq {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
         matcher().match(state: state, ctx: ctx)
@@ -22,7 +29,7 @@ extension PlayReq {
     func throwingMatch(state: GameState, ctx: PlayReqContext) throws {
         let matched = matcher().match(state: state, ctx: ctx)
         guard matched else {
-            throw GameError.noReq(self)
+            throw Error.noReq(self)
         }
     }
 }
