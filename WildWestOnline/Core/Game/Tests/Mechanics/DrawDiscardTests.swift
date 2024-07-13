@@ -18,7 +18,7 @@ final class DrawDiscardTests: XCTestCase {
 
         // When
         let action = GameAction.drawDiscard(player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.hand["p1"], ["c1"])
@@ -32,10 +32,10 @@ final class DrawDiscardTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.drawDiscard(player: "p1")
-        let result = GameState.reducer(state, action)
-
         // Then
-        XCTAssertEqual(result.error, .discardIsEmpty)
+        let action = GameAction.drawDiscard(player: "p1")
+        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
+            XCTAssertEqual(error as? FieldState.Error, .discardIsEmpty)
+        }
     }
 }

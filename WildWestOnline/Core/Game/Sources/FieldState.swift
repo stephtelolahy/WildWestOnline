@@ -25,7 +25,7 @@ public struct FieldState: Equatable, Codable {
 }
 
 public extension FieldState {
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, Equatable {
         /// Already having same card in play
         case cardAlreadyInPlay(String)
 

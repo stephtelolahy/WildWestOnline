@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DamageTests: XCTestCase {
-    func test_damage_with1LifePoint_shouldReduceHealthBy1() {
+    func test_damage_with1LifePoint_shouldReduceHealthBy1() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -19,13 +19,13 @@ final class DamageTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.player("p1").health, 1)
     }
 
-    func test_damage_with2LifePoints_shouldReduceHealthBy2() {
+    func test_damage_with2LifePoints_shouldReduceHealthBy2() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -35,7 +35,7 @@ final class DamageTests: XCTestCase {
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.player("p1").health, 0)

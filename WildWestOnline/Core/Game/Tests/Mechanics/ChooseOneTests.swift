@@ -9,7 +9,7 @@
 import XCTest
 
 final class ChooseOneTests: XCTestCase {
-    func test_dispatchAction_waited_shouldRemoveWaitingState() {
+    func test_dispatchAction_waited_shouldRemoveWaitingState() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -21,13 +21,13 @@ final class ChooseOneTests: XCTestCase {
 
         // When
         let action = GameAction.choose("c1", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.chooseOne, [:])
+        XCTAssertEqual(result.sequence.chooseOne, [:])
     }
 
-    func test_dispatchAction_nonWaited_shouldThrowError() {
+    func test_dispatchAction_nonWaited_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -37,11 +37,10 @@ final class ChooseOneTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.choose("c3", player: "p1")
-        let result = GameState.reducer(state, action)
-
         // Then
-        XCTAssertEqual(result.error, .unwaitedAction)
-        XCTAssertNotNil(result.chooseOne["p1"])
+        let action = GameAction.choose("c3", player: "p1")
+        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
+            XCTAssertEqual(error as? SequenceState.Error, .unwaitedAction)
+        }
     }
 }

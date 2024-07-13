@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class SetupTests: XCTestCase {
-    func test_setupDeck_shouldCreateCardsByCombiningNameAndValues() {
+    func test_setupDeck_shouldCreateCardsByCombiningNameAndValues() throws {
         // Given
         let cardSets: [String: [String]] = [
             "card1": ["val11", "val12"],
@@ -26,7 +26,7 @@ final class SetupTests: XCTestCase {
         XCTAssertTrue(deck.contains("card2-val22"))
     }
 
-    func test_setupGame_shouldCreatePlayer() {
+    func test_setupGame_shouldCreatePlayer() throws {
         // Given
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]

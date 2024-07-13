@@ -31,7 +31,7 @@ final class GameTests: XCTestCase {
     func test_buildGame_byDefault_shouldNotBeOver() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertNil(sut.winner)
+        XCTAssertNil(sut.sequence.winner)
     }
 
     func test_buildGame_byDefault_shouldNotHaveTurn() throws {
@@ -87,7 +87,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.winner, "p1")
+        XCTAssertEqual(sut.sequence.winner, "p1")
     }
 
     func test_buildGame_withTurn_shouldHaveTurn() throws {
@@ -109,7 +109,7 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.sequence, [
+        XCTAssertEqual(sut.sequence.queue, [
             .drawDeck(player: "p1")
         ])
     }
@@ -142,13 +142,13 @@ final class GameTests: XCTestCase {
         // Then
         XCTAssertEqual(state.round.turn, "p1")
         XCTAssertEqual(state.field.deck, ["c1", "c2"])
-        XCTAssertEqual(state.playedThisTurn["bang"], 1)
+        XCTAssertEqual(state.sequence.played["bang"], 1)
         XCTAssertEqual(state.field.discard, ["c3", "c4"])
         XCTAssertEqual(state.field.arena, ["c5", "c6"])
-        XCTAssertEqual(state.winner, "p1")
+        XCTAssertEqual(state.sequence.winner, "p1")
         XCTAssertNotNil(state.cards["name"])
-        XCTAssertNotNil(state.chooseOne["p1"])
-        XCTAssertEqual(state.sequence, [.discover])
+        XCTAssertNotNil(state.sequence.chooseOne["p1"])
+        XCTAssertEqual(state.sequence.queue, [.discover])
         XCTAssertEqual(state.round.playOrder, ["p1", "p2"])
 
         XCTAssertNotNil(state.players["p1"])

@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class HandicapTests: XCTestCase {
-    func test_handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() {
+    func test_handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class HandicapTests: XCTestCase {
 
         // When
         let action = GameAction.handicap("c1", target: "p2", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.hand["p1"], ["c2"])
@@ -29,7 +29,7 @@ final class HandicapTests: XCTestCase {
         XCTAssertEqual(result.field.discard.count, 0)
     }
 
-    func test_handicap_withCardAlreadyInPlay_shouldThrowError() {
+    func test_handicap_withCardAlreadyInPlay_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -41,10 +41,10 @@ final class HandicapTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.handicap("c-1", target: "p2", player: "p1")
-        let result = GameState.reducer(state, action)
-
         // Then
-        XCTAssertEqual(result.error, .cardAlreadyInPlay("c"))
+        let action = GameAction.handicap("c-1", target: "p2", player: "p1")
+        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
+            XCTAssertEqual(error as? FieldState.Error, .cardAlreadyInPlay("c"))
+        }
     }
 }

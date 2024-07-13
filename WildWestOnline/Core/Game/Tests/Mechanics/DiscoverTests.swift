@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DiscoverTests: XCTestCase {
-    func test_discover_withEmptyArena_shouldAddCardtoArena() {
+    func test_discover_withEmptyArena_shouldAddCardtoArena() throws {
         // Given
         let state = GameState.makeBuilder()
             .withDeck(["c1", "c2", "c3"])
@@ -17,14 +17,14 @@ final class DiscoverTests: XCTestCase {
 
         // When
         let action = GameAction.discover
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.arena, ["c1"])
         XCTAssertEqual(result.field.deck, ["c2", "c3"])
     }
 
-    func test_discover_withNonEmptyArena_shouldAddCardtoArena() {
+    func test_discover_withNonEmptyArena_shouldAddCardtoArena() throws {
         // Given
         let state = GameState.makeBuilder()
             .withDeck(["c2", "c3"])
@@ -33,7 +33,7 @@ final class DiscoverTests: XCTestCase {
 
         // When
         let action = GameAction.discover
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.arena, ["c1", "c2"])

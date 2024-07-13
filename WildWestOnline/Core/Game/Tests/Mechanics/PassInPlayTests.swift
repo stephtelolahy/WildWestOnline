@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class PassInPlayTests: XCTestCase {
-    func test_passInPlay_shouldRemoveCardFromInPlay() {
+    func test_passInPlay_shouldRemoveCardFromInPlay() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class PassInPlayTests: XCTestCase {
 
         // When
         let action = GameAction.passInPlay("c1", target: "p2", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.inPlay["p1"], ["c2"])

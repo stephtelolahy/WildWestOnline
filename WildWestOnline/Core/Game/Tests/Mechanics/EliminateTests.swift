@@ -18,7 +18,7 @@ final class EliminateTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.round.playOrder, ["p2"])
@@ -33,9 +33,9 @@ final class EliminateTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sequence, [])
+        XCTAssertEqual(result.sequence.queue, [])
     }
 }

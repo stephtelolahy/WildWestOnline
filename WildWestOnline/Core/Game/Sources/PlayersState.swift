@@ -25,7 +25,7 @@ public struct Player: Equatable, Codable {
 }
 
 public extension PlayersState {
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, Equatable {
         /// Expected player to be damaged
         case playerAlreadyMaxHealth(String)
     }

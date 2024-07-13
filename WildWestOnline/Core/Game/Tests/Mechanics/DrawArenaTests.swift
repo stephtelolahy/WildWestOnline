@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DrawArenaTests: XCTestCase {
-    func test_drawingArena_shouldDrawCard() {
+    func test_drawingArena_shouldDrawCard() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -18,7 +18,7 @@ final class DrawArenaTests: XCTestCase {
 
         // When
         let action = GameAction.drawArena("c1", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.hand["p1"], ["c1"])

@@ -18,7 +18,7 @@ final class DrawDeckTests: XCTestCase {
 
         // When
         let action = GameAction.drawDeck(player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.hand["p1"], ["c1"])
@@ -34,7 +34,7 @@ final class DrawDeckTests: XCTestCase {
 
         // When
         let action = GameAction.drawDeck(player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.deck, ["c3", "c4"])
@@ -49,10 +49,10 @@ final class DrawDeckTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.drawDeck(player: "p1")
-        let result = GameState.reducer(state, action)
-
         // Then
-        XCTAssertEqual(result.error, .deckIsEmpty)
+        let action = GameAction.drawDeck(player: "p1")
+        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
+            XCTAssertEqual(error as? FieldState.Error, .deckIsEmpty)
+        }
     }
 }

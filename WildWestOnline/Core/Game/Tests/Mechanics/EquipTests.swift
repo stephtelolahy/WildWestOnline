@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class EquipTests: XCTestCase {
-    func test_equip_withCardNotInPlay_shouldPutCardInPlay() {
+    func test_equip_withCardNotInPlay_shouldPutCardInPlay() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -19,7 +19,7 @@ final class EquipTests: XCTestCase {
 
         // When
         let action = GameAction.equip("c1", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.hand["p1"], ["c2"])
@@ -27,7 +27,7 @@ final class EquipTests: XCTestCase {
         XCTAssertEqual(result.field.discard.count, 0)
     }
 
-    func test_equip_withCardAlreadyInPlay_shouldThrowError() {
+    func test_equip_withCardAlreadyInPlay_shouldThrowError() throws {
         // Given
         // Given
         let state = GameState.makeBuilder()
@@ -38,10 +38,10 @@ final class EquipTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.equip("c-1", player: "p1")
-        let result = GameState.reducer(state, action)
-
         // Then
-        XCTAssertEqual(result.error, .cardAlreadyInPlay("c"))
+        let action = GameAction.equip("c-1", player: "p1")
+        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
+            XCTAssertEqual(error as? FieldState.Error, .cardAlreadyInPlay("c"))
+        }
     }
 }

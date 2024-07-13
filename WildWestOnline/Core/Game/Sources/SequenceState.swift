@@ -51,7 +51,7 @@ public extension String {
 }
 
 public extension SequenceState {
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, Equatable {
         /// Expected game to be active
         case gameIsOver
 
@@ -68,7 +68,7 @@ public extension SequenceState {
 
 public extension SequenceState {
     static let reducer: ThrowingReducer<Self> = { state, action in
-        var state = try prepareReducer(state, action)
+        let state = try prepareReducer(state, action)
 
         return switch action {
         case GameAction.activate:

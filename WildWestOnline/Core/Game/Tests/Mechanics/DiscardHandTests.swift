@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DiscardHandTests: XCTestCase {
-    func test_discardHand_shouldRemoveCardFromHand() {
+    func test_discardHand_shouldRemoveCardFromHand() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -19,7 +19,7 @@ final class DiscardHandTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.field.hand["p1"], ["c2"])
