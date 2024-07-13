@@ -48,6 +48,8 @@ public typealias Reducer<State> = (State, Action) -> State
 
 public typealias ThrowingReducer<State> = (State, Action) throws -> State
 
+public typealias SelectorReducer<InputState, OutputState> = (InputState, Action) throws -> OutputState
+
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
 /// Handle each action received action, to execute side-effects in response, and eventually dispatch more actions

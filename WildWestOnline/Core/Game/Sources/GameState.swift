@@ -41,7 +41,7 @@ public extension GameState {
                 players: try PlayersState.reducer(state.players, action),
                 field: try FieldState.reducer(state.field, action),
                 round: try RoundState.reducer(state.round, action),
-                sequence: try SequenceState.reducer(state.sequence, action),
+                sequence: try SequenceState.reducer(state, action),
                 cards: state.cards,
                 config: state.config
             )

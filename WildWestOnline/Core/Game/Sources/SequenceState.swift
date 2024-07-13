@@ -67,8 +67,8 @@ public extension SequenceState {
 }
 
 public extension SequenceState {
-    static let reducer: ThrowingReducer<Self> = { state, action in
-        let state = try prepareReducer(state, action)
+    static let reducer: SelectorReducer<GameState, Self> = { state, action in
+        let state = try prepareReducer(state.sequence, action)
 
         return switch action {
         case GameAction.activate:
