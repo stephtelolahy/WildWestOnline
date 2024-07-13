@@ -93,6 +93,9 @@ public extension SequenceState {
         case GameAction.eliminate:
             try eliminateReducer(state.sequence, action)
 
+        case GameAction.effect:
+            try effectReducer(state, action)
+
         default:
             state.sequence
         }
@@ -256,6 +259,18 @@ private extension SequenceState {
             sourceCard: card
         )
         let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
+        sequence.queue.insert(contentsOf: children, at: 0)
+
+        return sequence
+    }
+
+    static let effectReducer: SelectorReducer<GameState, Self> = { state, action in
+        guard case let GameAction.effect(effect, ctx) = action else {
+            fatalError("unexpected")
+        }
+
+        let children = try effect.resolve(state: state, ctx: ctx)
+        var sequence = state.sequence
         sequence.queue.insert(contentsOf: children, at: 0)
 
         return sequence
