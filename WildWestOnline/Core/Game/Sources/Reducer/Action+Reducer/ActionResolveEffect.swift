@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 07/05/2023.
 //
 
-struct ActionResolveEffect: GameActionReducer {
+struct ActionResolveEffect {
     let effect: CardEffect
     let ctx: EffectContext
 

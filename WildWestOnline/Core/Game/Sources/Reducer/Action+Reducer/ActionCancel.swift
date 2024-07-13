@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 22/06/2023.
 //
 
-struct ActionCancel: GameActionReducer {
+struct ActionCancel {
     let action: GameAction
 
     func reduce(state: GameState) throws -> GameState {

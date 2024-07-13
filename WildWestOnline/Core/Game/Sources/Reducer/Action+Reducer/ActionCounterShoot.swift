@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 05/06/2024.
 //
 
-struct ActionCounterShoot: GameActionReducer {
+struct ActionCounterShoot {
     let action: GameAction
 
     func reduce(state: GameState) throws -> GameState {

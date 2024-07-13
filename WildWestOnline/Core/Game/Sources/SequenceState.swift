@@ -73,13 +73,16 @@ public extension SequenceState {
 
         return switch action {
         case GameAction.play:
-            try GameState.playReducer(state, action)
+            try playReducer(state, action)
 
         case GameAction.activate:
             try activateReducer(state.sequence, action)
 
         case GameAction.chooseOne:
             try chooseOneReducer(state.sequence, action)
+
+        case GameAction.choose:
+            try chooseReducer(state.sequence, action)
 
         case GameAction.setGameOver:
             try setGameOverReducer(state.sequence, action)
@@ -160,6 +163,26 @@ private extension SequenceState {
         return state
     }
 
+    static let chooseReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.choose(option, player) = action else {
+            fatalError("unexpected")
+        }
+
+        guard let nextAction = state.queue.first,
+              case let .effect(cardEffect, ctx) = nextAction,
+              case .matchAction = cardEffect else {
+            fatalError("Next action should be an effect.matchAction")
+        }
+
+        var updatedContext = ctx
+        updatedContext.resolvingOption = option
+        let updatedAction = GameAction.effect(cardEffect, ctx: updatedContext)
+        var state = state
+        state.queue[0] = updatedAction
+
+        return state
+    }
+
     static let setGameOverReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.setGameOver(winner) = action else {
             fatalError("unexpected")
@@ -189,10 +212,8 @@ private extension SequenceState {
         state.queue.removeAll { $0.isEffectTriggeredBy(player) }
         return state
     }
-}
 
-private extension GameState {
-    static let playReducer: SelectorReducer<Self, SequenceState> = { state, action in
+    static let playReducer: SelectorReducer<GameState, Self> = { state, action in
         guard case let GameAction.play(card, player) = action else {
             fatalError("unexpected")
         }
