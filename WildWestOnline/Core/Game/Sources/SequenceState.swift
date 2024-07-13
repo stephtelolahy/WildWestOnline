@@ -68,26 +68,30 @@ public extension SequenceState {
 
 public extension SequenceState {
     static let reducer: SelectorReducer<GameState, Self> = { state, action in
-        let state = try prepareReducer(state.sequence, action)
+        var state = state
+        state.sequence = try prepareReducer(state.sequence, action)
 
         return switch action {
+        case GameAction.play:
+            try GameState.playReducer(state, action)
+
         case GameAction.activate:
-            try activateReducer(state, action)
+            try activateReducer(state.sequence, action)
 
         case GameAction.chooseOne:
-            try chooseOneReducer(state, action)
+            try chooseOneReducer(state.sequence, action)
 
         case GameAction.setGameOver:
-            try setGameOverReducer(state, action)
+            try setGameOverReducer(state.sequence, action)
 
         case GameAction.startTurn:
-            try startTurnReducer(state, action)
+            try startTurnReducer(state.sequence, action)
 
         case GameAction.eliminate:
-            try eliminateReducer(state, action)
+            try eliminateReducer(state.sequence, action)
 
         default:
-            state
+            state.sequence
         }
     }
 }
@@ -185,4 +189,55 @@ private extension SequenceState {
         state.queue.removeAll { $0.isEffectTriggeredBy(player) }
         return state
     }
+}
+
+private extension GameState {
+    static let playReducer: SelectorReducer<Self, SequenceState> = { state, action in
+        guard case let GameAction.play(card, player) = action else {
+            fatalError("unexpected")
+        }
+
+        // <resolve card alias>
+        var cardName = card.extractName()
+        let event = GameAction.play(card, player: player)
+        let playReqContext = PlayReqContext(actor: player, event: event)
+        if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: playReqContext) {
+            cardName = alias
+        }
+        // </resolve card alias>
+
+        guard let cardObj = state.cards[cardName] else {
+            throw SequenceState.Error.cardNotPlayable(card)
+        }
+
+        let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
+        guard playRules.isNotEmpty else {
+            throw SequenceState.Error.cardNotPlayable(card)
+        }
+
+        // verify requirements
+        for playRule in playRules {
+            for playReq in playRule.playReqs where playReq != .play {
+                try playReq.throwingMatch(state: state, ctx: playReqContext)
+            }
+        }
+
+        var sequence = state.sequence
+
+        // increment play counter
+        let playedCount = sequence.played[cardName] ?? 0
+        sequence.played[cardName] = playedCount + 1
+
+        // queue play effects
+        let ctx = EffectContext(
+            sourceEvent: event,
+            sourceActor: player,
+            sourceCard: card
+        )
+        let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
+        sequence.queue.insert(contentsOf: children, at: 0)
+
+        return sequence
+    }
+
 }
