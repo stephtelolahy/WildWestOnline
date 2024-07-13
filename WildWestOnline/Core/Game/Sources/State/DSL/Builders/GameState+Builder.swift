@@ -46,8 +46,8 @@ public extension GameState {
                     played: playedThisTurn,
                     winner: winner
                 ),
+                cards: cards,
                 config: .init(
-                    cards: cards,
                     waitDelayMilliseconds: waitDelayMilliseconds,
                     playMode: playMode
                 )

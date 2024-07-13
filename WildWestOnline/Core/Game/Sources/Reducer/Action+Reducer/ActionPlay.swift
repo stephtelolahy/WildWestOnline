@@ -19,7 +19,7 @@ struct ActionPlay: GameActionReducer {
         }
         // </resolve card alias>
 
-        guard let cardObj = state.config.cards[cardName] else {
+        guard let cardObj = state.cards[cardName] else {
             throw GameError.cardNotPlayable(card)
         }
 

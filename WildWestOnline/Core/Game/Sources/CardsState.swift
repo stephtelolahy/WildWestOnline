@@ -1,4 +1,11 @@
-import Foundation
+//
+//  CardsState.swift
+//  
+//
+//  Created by Hugues Telolahy on 13/07/2024.
+//
+
+public typealias CardsState = [String: Card]
 
 /// Cards that are used in a game.
 /// Cards can have multiple attributes,
@@ -35,7 +42,7 @@ public struct CardAlias: Codable, Equatable {
     /// Regex of played card
     let playedRegex: String
 
-    /// Name of card having the play effect 
+    /// Name of card having the play effect
     let effectCard: String
 
     /// Conditions to trigger the card alias

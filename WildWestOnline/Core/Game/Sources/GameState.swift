@@ -17,6 +17,9 @@ public struct GameState: Codable, Equatable {
     /// Play sequence
     public var sequence: SequenceState
 
+    /// All cards reference by cardName
+    public let cards: CardsState
+
     /// Configuration
     public let config: ConfigState
 }
@@ -39,6 +42,7 @@ public extension GameState {
                 field: try FieldState.reducer(state.field, action),
                 round: try RoundState.reducer(state.round, action),
                 sequence: try SequenceState.reducer(state.sequence, action),
+                cards: state.cards,
                 config: state.config
             )
     }

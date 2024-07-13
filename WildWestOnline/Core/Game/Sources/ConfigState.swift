@@ -6,9 +6,6 @@
 //
 
 public struct ConfigState: Codable, Equatable {
-    /// All cards reference by cardName
-    public let cards: [String: Card]
-
     /// Wait delay between two visible actions
     public let waitDelayMilliseconds: Int
 

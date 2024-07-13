@@ -10,7 +10,7 @@ extension GameState {
         let state = self
         let playerObj = state.player(player)
         let figure = playerObj.figure
-        guard let cardAlias = state.config.cards[figure]?.abilityToPlayCardAs,
+        guard let cardAlias = state.cards[figure]?.abilityToPlayCardAs,
               let matched = cardAlias.first(where: {
                   card.matches(regex: $0.playedRegex)
                   && $0.playReqs.allSatisfy({ $0.match(state: state, ctx: ctx) })

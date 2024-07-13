@@ -14,7 +14,7 @@ struct CardPreviousInPlay: ArgCardResolver {
         let inPlayCards = state.field.inPlay.get(owner)
         for card in inPlayCards {
             let cardName = card.extractName()
-            if let cardObj = state.config.cards[cardName],
+            if let cardObj = state.cards[cardName],
                cardObj.attributes.keys.contains(key) {
                 matchedCards.append(card)
             }
