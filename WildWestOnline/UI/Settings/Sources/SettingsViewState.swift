@@ -36,7 +36,7 @@ public extension SettingsView {
         ]
     }
 
-    static let deriveState: (AppState) -> State? = { state in
+    static let deriveState: (AppState) -> State?  = { state in
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: State.indexOfSpeed(state.settings.waitDelayMilliseconds),
