@@ -170,13 +170,6 @@ final class ActionDescribingTests: XCTestCase {
         )
     }
 
-    func test_DescribingCancel() {
-        XCTAssertEqual(
-            String(describing: GameAction.cancel(.nothing)),
-            "✋ \(String(describing: GameAction.nothing))"
-        )
-    }
-
     // MARK: - Choice event
 
     func test_DescribingChooseOne() {

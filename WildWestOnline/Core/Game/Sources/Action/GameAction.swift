@@ -100,12 +100,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Push actions
     case group([Self])
-
-    /// Cancel action
-    case cancel(Self)
-
-    /// Counter shoot effect by reducing required misses
-    case counterShoot(Self)
 }
 
 // MARK: - Convenience
@@ -115,9 +109,7 @@ public extension GameAction {
     var isRenderable: Bool {
         switch self {
         case .effect,
-                .group,
-                .cancel,
-                .counterShoot:
+                .group:
             false
 
         default:

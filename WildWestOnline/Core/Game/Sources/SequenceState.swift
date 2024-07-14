@@ -271,7 +271,10 @@ private extension SequenceState {
 
         return switch effect {
         case .cancelTurn:
-            try effectCancelTurnReducer(state, action)
+            try effectCancelTurnReducer(state.sequence, action)
+
+        case .counterShoot:
+            try effectCounterShootReducer(state, action)
 
         default:
             state.sequence
@@ -280,30 +283,64 @@ private extension SequenceState {
 }
 
 private extension SequenceState {
-    static let effectCancelTurnReducer: SelectorReducer<GameState, Self> = { state, action in
+    static let effectCancelTurnReducer: ThrowingReducer<Self> = { state, action in
         guard case let GameAction.effect(effect, ctx) = action, case CardEffect.cancelTurn = effect else {
             fatalError("unexpected")
         }
 
-        let actionsToCancel = state.sequence.queue.filter {
+        let actionsToCancel = state.queue.filter {
             $0.isEffectOfStartTurn(ignoredCard: ctx.sourceCard)
         }
 
-        var sequence = state.sequence
-
+        var state = state
         for actionToCancel in actionsToCancel {
-            if let index = sequence.queue.firstIndex(of: actionToCancel) {
-                sequence.queue.remove(at: index)
-                sequence.removeEffectsLinkedTo(actionToCancel)
+            if let index = state.queue.firstIndex(of: actionToCancel) {
+                state.queue.remove(at: index)
+                state.removeEffectsLinkedTo(actionToCancel)
             }
+        }
+
+        return state
+    }
+
+    static let effectCounterShootReducer: SelectorReducer<GameState, Self> = { state, action in
+        guard case let GameAction.effect(effect, ctx) = action, case CardEffect.counterShoot = effect else {
+            fatalError("unexpected")
+        }
+
+        guard let index = state.sequence.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.sourceActor) }) else {
+            throw SequenceState.Error.noShootToCounter
+        }
+
+        let shootAction = state.sequence.queue[index]
+        guard case .effect(let cardEffect, let effectCtx) = shootAction,
+              case .prepareShoot(let missesRequired) = cardEffect else {
+            fatalError("unexpected action to counter")
+        }
+
+        let misses = try missesRequired.resolve(state: state, ctx: effectCtx)
+
+        var sequence = state.sequence
+        if misses == 1 {
+            sequence.cancel(shootAction)
+        } else {
+            let remainingMisses = ArgNum.exact(misses - 1)
+            let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
+            sequence.queue[index] = updatedAction
         }
 
         return sequence
     }
 }
 
-
 private extension SequenceState {
+    mutating func cancel(_ action: GameAction) {
+        if let index = queue.firstIndex(of: action) {
+            queue.remove(at: index)
+            removeEffectsLinkedTo(action)
+        }
+    }
+
     mutating func removeEffectsLinkedTo(_ action: GameAction) {
         if case let .effect(effect, effectCtx) = action,
            case .prepareShoot = effect,

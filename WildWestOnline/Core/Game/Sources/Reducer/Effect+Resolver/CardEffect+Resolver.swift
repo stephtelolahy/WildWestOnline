@@ -106,14 +106,11 @@ private extension CardEffect {
         case .updateAttributes:
             EffectUpdateAttributes()
 
-        case .cancelTurn:
-            EffectCancelTurn()
-
-        case .counterShoot:
-            EffectCounterShoot()
-
         case let .matchAction(actions):
             EffectMatchAction(actions: actions)
+
+        default:
+            fatalError("unexpected")
         }
     }
 }
