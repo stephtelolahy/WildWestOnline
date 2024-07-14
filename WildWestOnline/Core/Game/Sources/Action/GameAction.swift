@@ -105,6 +105,10 @@ public indirect enum GameAction: Action, Codable, Equatable {
 // MARK: - Convenience
 
 public extension GameAction {
+    static let nothing: Self = .group([])
+}
+
+public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
