@@ -1,11 +1,11 @@
 //
-//  ShootMissesRequired.swift
+//  NumShootMissesRequired.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 26/05/2024.
 //
 
-struct ShootMissesRequired: ArgNumResolver {
+struct NumShootMissesRequired: ArgNumResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
         guard case let .effect(effect, ctx: effectCtx) = ctx.sourceEvent,
                 case .shoot(let missesRequired) = effect else {

@@ -294,10 +294,7 @@ private extension SequenceState {
 
         var state = state
         for actionToCancel in actionsToCancel {
-            if let index = state.queue.firstIndex(of: actionToCancel) {
-                state.queue.remove(at: index)
-                state.removeEffectsLinkedTo(actionToCancel)
-            }
+            state.cancel(actionToCancel)
         }
 
         return state
