@@ -24,6 +24,31 @@ public struct SequenceState: Codable, Equatable {
     public var winner: String?
 }
 
+/// Context data associated to an effect
+public struct EffectContext: Codable, Equatable {
+    /// Occurred event triggering the effect
+    let sourceEvent: GameAction
+
+    /// Owner of the card triggering the effect
+    let sourceActor: String
+
+    /// Card triggering the effect
+    let sourceCard: String
+
+    /// Targeted player while resolving the effect
+    var resolvingTarget: String?
+
+    /// Chooser player while resolving the effect
+    var resolvingChooser: String?
+
+    /// Chosen option while resolving effect
+    var resolvingOption: String?
+
+    /// Shot player
+    /// The cancelation of the shoot results in the cancelation of the effect
+    var linkedToShoot: String?
+}
+
 /// Choice request
 public struct ChooseOne: Codable, Equatable {
     public let type: ChoiceType
@@ -269,91 +294,6 @@ private extension SequenceState {
             fatalError("unexpected")
         }
 
-        return switch effect {
-        case .cancelTurn:
-            try effectCancelTurnReducer(state.sequence, action)
-
-        case .counterShoot:
-            try effectCounterShootReducer(state, action)
-
-        default:
-            state.sequence
-        }
-    }
-}
-
-private extension SequenceState {
-    static let effectCancelTurnReducer: ThrowingReducer<Self> = { state, action in
-        guard case let GameAction.effect(effect, ctx) = action, case CardEffect.cancelTurn = effect else {
-            fatalError("unexpected")
-        }
-
-        let actionsToCancel = state.queue.filter {
-            $0.isEffectOfStartTurn(ignoredCard: ctx.sourceCard)
-        }
-
-        var state = state
-        for actionToCancel in actionsToCancel {
-            state.cancel(actionToCancel)
-        }
-
-        return state
-    }
-
-    static let effectCounterShootReducer: SelectorReducer<GameState, Self> = { state, action in
-        guard case let GameAction.effect(effect, ctx) = action, case CardEffect.counterShoot = effect else {
-            fatalError("unexpected")
-        }
-
-        guard let index = state.sequence.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.sourceActor) }) else {
-            throw SequenceState.Error.noShootToCounter
-        }
-
-        let shootAction = state.sequence.queue[index]
-        guard case .effect(let cardEffect, let effectCtx) = shootAction,
-              case .prepareShoot(let missesRequired) = cardEffect else {
-            fatalError("unexpected action to counter")
-        }
-
-        let misses = try missesRequired.resolve(state: state, ctx: effectCtx)
-
-        var sequence = state.sequence
-        if misses == 1 {
-            sequence.cancel(shootAction)
-        } else {
-            let remainingMisses = ArgNum.exact(misses - 1)
-            let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
-            sequence.queue[index] = updatedAction
-        }
-
-        return sequence
-    }
-}
-
-private extension SequenceState {
-    mutating func cancel(_ action: GameAction) {
-        if let index = queue.firstIndex(of: action) {
-            queue.remove(at: index)
-            removeEffectsLinkedTo(action)
-        }
-    }
-
-    mutating func removeEffectsLinkedTo(_ action: GameAction) {
-        if case let .effect(effect, effectCtx) = action,
-           case .prepareShoot = effect,
-           let target = effectCtx.resolvingTarget {
-            removeEffectsLinkedToShoot(target)
-        }
-    }
-
-    mutating func removeEffectsLinkedToShoot(_ target: String) {
-        queue.removeAll { item in
-            if case let .effect(_, ctx) = item,
-               ctx.linkedToShoot == target {
-                return true
-            } else {
-                return false
-            }
-        }
+        return try effect.resolve(state: state, ctx: ctx)
     }
 }

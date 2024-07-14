@@ -10,7 +10,7 @@ import Redux
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
 public indirect enum GameAction: Action, Codable, Equatable {
-    // MARK: - Renderable actions
+    // MARK: - Renderable
 
     /// Play a card
     case play(String, player: String)
@@ -93,7 +93,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// End game
     case setGameOver(winner: String)
 
-    // MARK: - Invisible actions
+    // MARK: - Invisible
 
     /// Resolve an effect
     case effect(CardEffect, ctx: EffectContext)
@@ -112,8 +112,7 @@ public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
-        case .effect,
-                .group:
+        case .effect, .group:
             false
 
         default:

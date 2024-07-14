@@ -9,13 +9,13 @@ struct EffectDiscard: EffectResolver {
     let card: ArgCard
     let chooser: ArgPlayer?
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
         let player = ctx.targetOrActor()
         var contextWithChooser = ctx
         if let chooser {
             contextWithChooser.resolvingChooser = try chooser.resolveUnique(state: state, ctx: ctx)
         }
-        return try card.resolve(.cardToDiscard, state: state, ctx: contextWithChooser) {
+        let children = try card.resolve(.cardToDiscard, state: state, ctx: contextWithChooser) {
             if state.field.hand.get(player).contains($0) {
                 return .discardHand($0, player: player)
             }
@@ -24,5 +24,9 @@ struct EffectDiscard: EffectResolver {
             }
             fatalError("card not found \($0)")
         }
+
+        var sequence = state.sequence
+        sequence.queue.insert(contentsOf: children, at: 0)
+        return sequence
     }
 }

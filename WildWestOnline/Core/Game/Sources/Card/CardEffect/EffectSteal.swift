@@ -8,7 +8,7 @@
 struct EffectSteal: EffectResolver {
     let card: ArgCard
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
         guard let fromPlayerId = ctx.resolvingTarget else {
             fatalError("undefined target")
         }
@@ -16,7 +16,7 @@ struct EffectSteal: EffectResolver {
         let toPlayerId = ctx.sourceActor
         var contextWithChooser = ctx
         contextWithChooser.resolvingChooser = toPlayerId
-        return try card.resolve(.cardToSteal, state: state, ctx: contextWithChooser) {
+        let children = try card.resolve(.cardToSteal, state: state, ctx: contextWithChooser) {
             if state.field.hand.get(fromPlayerId).contains($0) {
                 return .drawHand($0, target: fromPlayerId, player: toPlayerId)
             }
@@ -25,5 +25,9 @@ struct EffectSteal: EffectResolver {
             }
             fatalError("card not found \($0)")
         }
+
+        var sequence = state.sequence
+        sequence.queue.insert(contentsOf: children, at: 0)
+        return sequence
     }
 }

@@ -9,8 +9,12 @@ struct EffectRepeat: EffectResolver {
     let effect: CardEffect
     let times: ArgNum
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
         let number = try times.resolve(state: state, ctx: ctx)
-        return Array(repeating: .effect(effect, ctx: ctx), count: number)
+        let children: [GameAction] = Array(repeating: .effect(effect, ctx: ctx), count: number)
+
+        var sequence = state.sequence
+        sequence.queue.insert(contentsOf: children, at: 0)
+        return sequence
     }
 }

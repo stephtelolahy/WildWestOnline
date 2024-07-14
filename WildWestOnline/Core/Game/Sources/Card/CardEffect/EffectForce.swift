@@ -10,7 +10,9 @@ struct EffectForce: EffectResolver {
     let effect: CardEffect
     let otherwise: CardEffect
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+        state.sequence
+        /*
         do {
             let children = try effect.resolve(state: state, ctx: ctx)
 
@@ -53,5 +55,6 @@ struct EffectForce: EffectResolver {
         } catch {
             return [.effect(otherwise, ctx: ctx)]
         }
+         */
     }
 }

@@ -9,11 +9,15 @@ struct EffectTarget: EffectResolver {
     let target: ArgPlayer
     let effect: CardEffect
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        try target.resolve(state: state, ctx: ctx) {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+        let children = try target.resolve(state: state, ctx: ctx) {
             var contextWithTarget = ctx
             contextWithTarget.resolvingTarget = $0
             return GameAction.effect(effect, ctx: contextWithTarget)
         }
+
+        var sequence = state.sequence
+        sequence.queue.insert(contentsOf: children, at: 0)
+        return sequence
     }
 }

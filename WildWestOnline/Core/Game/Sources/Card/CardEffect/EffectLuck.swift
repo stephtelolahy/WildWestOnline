@@ -13,7 +13,7 @@ struct EffectLuck: EffectResolver {
     let onSuccess: CardEffect
     let onFailure: CardEffect?
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
         var result: [GameAction] = []
         let player = ctx.sourceActor
         let playerObj = state.player(player)
@@ -53,6 +53,8 @@ struct EffectLuck: EffectResolver {
             }
         }
 
-        return result
+        var sequence = state.sequence
+        sequence.queue.insert(contentsOf: result, at: 0)
+        return sequence
     }
 }

@@ -6,11 +6,11 @@
 //
 
 protocol EffectResolver {
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction]
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState
 }
 
 extension CardEffect {
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
         try resolver().resolve(state: state, ctx: ctx)
     }
 }
@@ -109,8 +109,11 @@ private extension CardEffect {
         case let .matchAction(actions):
             EffectMatchAction(actions: actions)
 
-        default:
-            fatalError("unexpected")
+        case .cancelTurn:
+            EffectCancelTurn()
+
+        case .counterShoot:
+            EffectCounterShoot()
         }
     }
 }

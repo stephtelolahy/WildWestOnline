@@ -9,7 +9,9 @@
 struct EffectJust: EffectResolver {
     let action: (EffectContext) -> GameAction
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
-        [action(ctx)]
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+        var sequence = state.sequence
+        sequence.queue.insert(action(ctx), at: 0)
+        return sequence
     }
 }

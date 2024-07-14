@@ -6,12 +6,12 @@
 //
 
 struct EffectUpdateAttributes: EffectResolver {
-    func resolve(state: GameState, ctx: EffectContext) throws -> [GameAction] {
+    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
         let player = ctx.targetOrActor()
         let playerObj = state.player(player)
         let figure = playerObj.figure
         let figureAttributes = state.cards[figure]?.attributes ?? [:]
-        var result: [GameAction] = []
+        var children: [GameAction] = []
 
         for key in state.updatableAttributes(of: player) {
             var expectedValue: Int? = figureAttributes[key]
@@ -26,14 +26,16 @@ struct EffectUpdateAttributes: EffectResolver {
             let actualValue = playerObj.attributes[key]
             if actualValue != expectedValue {
                 if let expectedValue {
-                    result.append(.setAttribute(key, value: expectedValue, player: player))
+                    children.append(.setAttribute(key, value: expectedValue, player: player))
                 } else {
-                    result.append(.removeAttribute(key, player: player))
+                    children.append(.removeAttribute(key, player: player))
                 }
             }
         }
 
-        return result
+        var sequence = state.sequence
+        sequence.queue.insert(contentsOf: children, at: 0)
+        return sequence
     }
 }
 
