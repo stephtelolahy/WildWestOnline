@@ -8,16 +8,13 @@
 struct EffectPutBack: EffectResolver {
     let among: ArgNum
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         let player = ctx.targetOrActor()
         let number = try among.resolve(state: state, ctx: ctx)
         let card = ArgCard.selectLastHand(number)
         let children = try card.resolve(.cardToPutBack, state: state, ctx: ctx) {
             .putBack($0, player: player)
         }
-
-        var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
-        return sequence
+        return .push(children)
     }
 }

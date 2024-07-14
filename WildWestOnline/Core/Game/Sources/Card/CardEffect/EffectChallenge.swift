@@ -11,8 +11,8 @@ struct EffectChallenge: EffectResolver {
     let effect: CardEffect
     let otherwise: CardEffect
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
-        state.sequence
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        .push([])
         /*
         let target = ctx.targetOrActor()
 

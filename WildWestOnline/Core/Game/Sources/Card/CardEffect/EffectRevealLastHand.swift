@@ -6,16 +6,14 @@
 //
 
 struct EffectRevealLastHand: EffectResolver {
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         let player = ctx.sourceActor
         let handCards = state.field.hand.get(player)
         guard let lastHandCard = handCards.last else {
             fatalError("missing drawn card")
         }
-        let children: [GameAction] = [.revealHand(lastHandCard, player: player)]
 
-        var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
-        return sequence
+        let children: [GameAction] = [.revealHand(lastHandCard, player: player)]
+        return .push(children)
     }
 }

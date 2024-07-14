@@ -8,14 +8,12 @@
 struct EffectMatchAction: EffectResolver {
     let actions: [String: GameAction]
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         guard let choice = ctx.resolvingOption,
            let action = actions[choice] else {
             fatalError("expected a valid ctx.chosenOption")
         }
 
-        var sequence = state.sequence
-        sequence.queue.insert(action, at: 0)
-        return sequence
+        return .push([action])
     }
 }

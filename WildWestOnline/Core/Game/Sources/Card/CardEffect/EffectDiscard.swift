@@ -9,7 +9,7 @@ struct EffectDiscard: EffectResolver {
     let card: ArgCard
     let chooser: ArgPlayer?
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         let player = ctx.targetOrActor()
         var contextWithChooser = ctx
         if let chooser {
@@ -25,8 +25,6 @@ struct EffectDiscard: EffectResolver {
             fatalError("card not found \($0)")
         }
 
-        var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
-        return sequence
+        return .push(children)
     }
 }

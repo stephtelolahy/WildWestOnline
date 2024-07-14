@@ -6,7 +6,7 @@
 //
 
 struct EffectPlayCounterShootCards: EffectResolver {
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         let actor = ctx.sourceActor
         let playReqContext = PlayReqContext(actor: ctx.sourceActor, event: ctx.sourceEvent)
 
@@ -20,7 +20,7 @@ struct EffectPlayCounterShootCards: EffectResolver {
         }
 
         guard counterCards.isNotEmpty else {
-            return state.sequence
+            return .nothing
         }
 
         var actions = counterCards.reduce(into: [String: GameAction]()) {
@@ -39,9 +39,7 @@ struct EffectPlayCounterShootCards: EffectResolver {
             ctx: ctx
         )
 
-        var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
-        return sequence
+        return .push(children)
     }
 }
 

@@ -6,11 +6,19 @@
 //
 
 protocol EffectResolver {
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput
+}
+
+enum EffectOutput {
+    case nothing
+    case push([GameAction])
+    case cancel([GameAction])
+    case replace(GameAction, index: Int)
+    case chooseOne(ChooseOne, player: String)
 }
 
 extension CardEffect {
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         try resolver().resolve(state: state, ctx: ctx)
     }
 }

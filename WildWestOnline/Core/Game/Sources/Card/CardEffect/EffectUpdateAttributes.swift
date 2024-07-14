@@ -6,7 +6,7 @@
 //
 
 struct EffectUpdateAttributes: EffectResolver {
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         let player = ctx.targetOrActor()
         let playerObj = state.player(player)
         let figure = playerObj.figure
@@ -33,9 +33,7 @@ struct EffectUpdateAttributes: EffectResolver {
             }
         }
 
-        var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
-        return sequence
+        return .push(children)
     }
 }
 

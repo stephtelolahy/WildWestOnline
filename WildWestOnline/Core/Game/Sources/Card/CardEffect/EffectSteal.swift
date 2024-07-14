@@ -8,7 +8,7 @@
 struct EffectSteal: EffectResolver {
     let card: ArgCard
 
-    func resolve(state: GameState, ctx: EffectContext) throws -> SequenceState {
+    func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         guard let fromPlayerId = ctx.resolvingTarget else {
             fatalError("undefined target")
         }
@@ -26,8 +26,6 @@ struct EffectSteal: EffectResolver {
             fatalError("card not found \($0)")
         }
 
-        var sequence = state.sequence
-        sequence.queue.insert(contentsOf: children, at: 0)
-        return sequence
+        return .push(children)
     }
 }
