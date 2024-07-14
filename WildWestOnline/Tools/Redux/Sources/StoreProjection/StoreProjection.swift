@@ -24,6 +24,8 @@ final class StoreProjection<State: Equatable, GlobalState: Equatable>: Store<Sta
         self.globalStore = globalStore
         self.deriveState = deriveState
         super.init(initial: initialState)
+        self.event = globalStore.event
+        self.error = globalStore.error
 
         globalStore.$state
             .map(self.deriveState)

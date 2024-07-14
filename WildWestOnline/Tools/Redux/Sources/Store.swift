@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import SwiftUI
+// swiftlint:disable private_subject
 
 /// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
@@ -8,35 +9,42 @@ import SwiftUI
 /// - and publish changes of the the current app `State` to possible subscribers.
 public class Store<State: Equatable>: ObservableObject {
     @Published public internal(set) var state: State
+    public internal(set) var event: PassthroughSubject<Action, Never>
+    public internal(set) var error: PassthroughSubject<Error, Never>
 
-    private let reducer: Reducer<State>
+    private let reducer: ThrowingReducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions: Set<AnyCancellable> = []
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
-        reducer: @escaping Reducer<State> = { state, _ in state },
+        reducer: @escaping ThrowingReducer<State> = { state, _ in state },
         middlewares: [Middleware<State>] = []
     ) {
         self.state = state
         self.reducer = reducer
         self.middlewares = middlewares
+        self.event = .init()
+        self.error = .init()
     }
 
     public func dispatch(_ action: Action) {
-        let newState = reducer(state, action)
-
-        middlewares.forEach { middleware in
-            Future<Action, Never>.create(from: middleware, state: newState, action: action)
-                .compactMap { $0 }
-                .subscribe(on: middlewareSerialQueue)
-                .receive(on: RunLoop.main)
-                .sink(receiveValue: dispatch)
-                .store(in: &subscriptions)
+        do {
+            let newState = try reducer(state, action)
+            event.send(action)
+            middlewares.forEach { middleware in
+                Future<Action, Never>.create(from: middleware, state: newState, action: action)
+                    .compactMap { $0 }
+                    .subscribe(on: middlewareSerialQueue)
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: dispatch)
+                    .store(in: &subscriptions)
+            }
+            state = newState
+        } catch {
+            self.error.send(error)
         }
-
-        state = newState
     }
 }
 

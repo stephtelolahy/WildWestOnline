@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class RevCarabineTests: XCTestCase {
-    func test_playRevCarabine_shouldEquipAndSetWeapon() {
+    func test_playRevCarabine_shouldEquipAndSetWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class RevCarabineTests: XCTestCase {
 
         // When
         let action = GameAction.play(.revCarabine, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

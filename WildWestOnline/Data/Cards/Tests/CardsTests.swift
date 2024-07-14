@@ -13,7 +13,7 @@ final class CardsTests: XCTestCase {
     // When
     private let cards = Cards.all
 
-    func test_inventory_shouldContainCollectibleCards() {
+    func test_inventory_shouldContainCollectibleCards() throws {
         // Then
         XCTAssertNotNil(cards[.beer])
         XCTAssertNotNil(cards[.saloon])
@@ -39,7 +39,7 @@ final class CardsTests: XCTestCase {
         XCTAssertNotNil(cards[.winchester])
     }
 
-    func test_inventory_shouldContainAbilities() {
+    func test_inventory_shouldContainAbilities() throws {
         // Then
         XCTAssertNotNil(cards[.endTurn])
         XCTAssertNotNil(cards[.drawOnStartTurn])
@@ -50,7 +50,7 @@ final class CardsTests: XCTestCase {
         XCTAssertNotNil(cards[.updateAttributesOnChangeInPlay])
     }
 
-    func test_inventory_shouldContainFigures() {
+    func test_inventory_shouldContainFigures() throws {
         // Then
         XCTAssertNotNil(cards[.willyTheKid])
         XCTAssertNotNil(cards[.roseDoolan])

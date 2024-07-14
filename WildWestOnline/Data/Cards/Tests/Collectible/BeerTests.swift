@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class BeerTests: XCTestCase {
-    func test_playingBeer_beingDamaged_shouldHealOneLifePoint() {
+    func test_playingBeer_beingDamaged_shouldHealOneLifePoint() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -23,7 +23,7 @@ final class BeerTests: XCTestCase {
 
         // When
         let action = GameAction.play(.beer, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -33,7 +33,7 @@ final class BeerTests: XCTestCase {
         ])
     }
 
-    func test_playingBeer_alreadyMaxHealth_shouldThrowError() {
+    func test_playingBeer_alreadyMaxHealth_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -46,14 +46,14 @@ final class BeerTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.beer, player: "p1")
-        let (_, error) = awaitAction(action, state: state)
-
         // Then
-        XCTAssertEqual(error, .playerAlreadyMaxHealth("p1"))
+        let action = GameAction.play(.beer, player: "p1")
+        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
+            XCTAssertEqual(error as? PlayersState.Error, .playerAlreadyMaxHealth("p1"))
+        }
     }
 
-    func test_playingBeer_twoPlayersLeft_shouldThrowError() {
+    func test_playingBeer_twoPlayersLeft_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -65,10 +65,10 @@ final class BeerTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.beer, player: "p1")
-        let (_, error) = awaitAction(action, state: state)
-
         // Then
-        XCTAssertEqual(error, .noReq(.isPlayersAtLeast(3)))
+        let action = GameAction.play(.beer, player: "p1")
+        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
+            XCTAssertEqual(error as? PlayReq.Error, .noReq(.isPlayersAtLeast(3)))
+        }
     }
 }

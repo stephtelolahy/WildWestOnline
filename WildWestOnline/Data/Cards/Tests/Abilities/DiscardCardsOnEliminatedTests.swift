@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DiscardCardsOnEliminatedTests: XCTestCase {
-    func test_beingEliminated_havingCards_shouldDiscardAllCards() {
+    func test_beingEliminated_havingCards_shouldDiscardAllCards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -23,7 +23,7 @@ final class DiscardCardsOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

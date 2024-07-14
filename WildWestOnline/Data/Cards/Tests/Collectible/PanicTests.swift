@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class PanicTests: XCTestCase {
-    func test_playing_Panic_noPlayerAllowed_shouldThrowError() {
+    func test_playing_Panic_noPlayerAllowed_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -18,14 +18,14 @@ final class PanicTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.panic, player: "p1")
-        let (_, error) = awaitAction(action, state: state)
-
         // Then
-        XCTAssertEqual(error, .noPlayer(.selectAt(1)))
+        let action = GameAction.play(.panic, player: "p1")
+        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
+            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.selectAt(1)))
+        }
     }
 
-    func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() {
+    func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -38,7 +38,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
@@ -52,7 +52,7 @@ final class PanicTests: XCTestCase {
         ])
     }
 
-    func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() {
+    func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -65,7 +65,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", "c22"])
+        let result = try awaitAction(action, state: state, choose: ["p2", "c22"])
 
         // Then
         XCTAssertEqual(result, [
@@ -79,7 +79,7 @@ final class PanicTests: XCTestCase {
         ])
     }
 
-    func test_playing_Panic_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() {
+    func test_playing_Panic_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -93,7 +93,7 @@ final class PanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", "c23"])
+        let result = try awaitAction(action, state: state, choose: ["p2", "c23"])
 
         // Then
         XCTAssertEqual(result, [

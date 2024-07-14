@@ -33,7 +33,7 @@ final class BlackJackTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -57,7 +57,7 @@ final class BlackJackTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

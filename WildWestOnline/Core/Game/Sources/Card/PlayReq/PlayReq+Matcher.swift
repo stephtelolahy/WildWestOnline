@@ -15,7 +15,7 @@ struct PlayReqContext {
 }
 
 public extension PlayReq {
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, Equatable {
         /// Not matching requirement
         case noReq(PlayReq)
     }

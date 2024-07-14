@@ -10,7 +10,7 @@ import GameCore
 import XCTest
 
 final class PaulRegretTests: XCTestCase {
-    func test_PaulRegret_shouldIncrementDistanceFromOthers() {
+    func test_PaulRegret_shouldIncrementDistanceFromOthers() throws {
         // Given
         let state = Setup.buildGame(figures: [.paulRegret], deck: [], cards: Cards.all)
 

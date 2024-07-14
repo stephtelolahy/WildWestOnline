@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class JailTests: XCTestCase {
-    func test_playingJail_againstAnyPlayer_shouldHandicap() {
+    func test_playingJail_againstAnyPlayer_shouldHandicap() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.play(.jail, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
+        let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -31,7 +31,7 @@ final class JailTests: XCTestCase {
         ])
     }
 
-    func test_triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() {
+    func test_triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -45,7 +45,7 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -57,7 +57,7 @@ final class JailTests: XCTestCase {
         ])
     }
 
-    func test_triggeringJail_flippedCardIsSpades_shouldSkipTurn() {
+    func test_triggeringJail_flippedCardIsSpades_shouldSkipTurn() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -71,7 +71,7 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

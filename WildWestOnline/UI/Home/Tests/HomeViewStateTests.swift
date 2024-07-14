@@ -12,7 +12,7 @@ import SettingsCore
 import XCTest
 
 final class HomeViewStateTests: XCTestCase {
-    func test_HomeStateProjection() {
+    func test_HomeStateProjection() throws {
         // Given
         let appState = AppState(
             screens: [.home],

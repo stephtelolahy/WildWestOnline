@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class WinchesterTests: XCTestCase {
-    func test_playWinchester_shouldEquipAndSetAttribute() {
+    func test_playWinchester_shouldEquipAndSetAttribute() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class WinchesterTests: XCTestCase {
 
         // When
         let action = GameAction.play(.winchester, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

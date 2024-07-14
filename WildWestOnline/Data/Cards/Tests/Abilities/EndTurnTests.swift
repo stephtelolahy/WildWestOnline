@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class EndTurnTests: XCTestCase {
-    func test_endingTurn_noExcessCards_shouldDoNothing() {
+    func test_endingTurn_noExcessCards_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -31,7 +31,7 @@ final class EndTurnTests: XCTestCase {
         ])
     }
 
-    func test_endingTurn_customHandLimit_shouldDoNothing() {
+    func test_endingTurn_customHandLimit_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -46,7 +46,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -56,7 +56,7 @@ final class EndTurnTests: XCTestCase {
         ])
     }
 
-    func test_endingTurn_oneExcessCard_shouldDiscardAHandCard() {
+    func test_endingTurn_oneExcessCard_shouldDiscardAHandCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -70,7 +70,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["c1"])
+        let result = try awaitAction(action, state: state, choose: ["c1"])
 
         // Then
         XCTAssertEqual(result, [
@@ -83,7 +83,7 @@ final class EndTurnTests: XCTestCase {
         ])
     }
 
-    func test_endingTurn_twoExcessCard_shouldDiscardTwoHandCards() {
+    func test_endingTurn_twoExcessCard_shouldDiscardTwoHandCards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -97,7 +97,7 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.play(.endTurn, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["c1", "c3"])
+        let result = try awaitAction(action, state: state, choose: ["c1", "c3"])
 
         // Then
         XCTAssertEqual(result, [

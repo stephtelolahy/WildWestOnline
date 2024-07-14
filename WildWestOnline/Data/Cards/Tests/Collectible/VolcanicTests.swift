@@ -8,7 +8,7 @@ import GameCore
 import XCTest
 
 final class VolcanicTests: XCTestCase {
-    func test_playVolcanic_withoutWeaponInPlay_shouldSetBangsPerTurn() {
+    func test_playVolcanic_withoutWeaponInPlay_shouldSetBangsPerTurn() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class VolcanicTests: XCTestCase {
 
         // When
         let action = GameAction.play(.volcanic, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

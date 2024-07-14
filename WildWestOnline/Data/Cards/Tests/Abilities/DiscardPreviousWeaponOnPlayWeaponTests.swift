@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
-    func test_playVolcanic_withWeaponInPlay_shouldDiscardPreviousWeapon() {
+    func test_playVolcanic_withWeaponInPlay_shouldDiscardPreviousWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -28,7 +28,7 @@ final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
 
         // When
         let action = GameAction.play(.volcanic, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

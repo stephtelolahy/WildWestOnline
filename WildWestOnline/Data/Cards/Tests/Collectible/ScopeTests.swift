@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class ScopeTests: XCTestCase {
-    func test_playScope_shouldEquipAndSetAttribute() {
+    func test_playScope_shouldEquipAndSetAttribute() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class ScopeTests: XCTestCase {
 
         // When
         let action = GameAction.play(.scope, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -30,7 +30,7 @@ final class ScopeTests: XCTestCase {
         ])
     }
 
-    func test_discardScope_shouldRemoveAttribute() {
+    func test_discardScope_shouldRemoveAttribute() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -42,7 +42,7 @@ final class ScopeTests: XCTestCase {
 
         // When
         let action = GameAction.discardInPlay(.scope, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

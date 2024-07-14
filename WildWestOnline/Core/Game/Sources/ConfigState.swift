@@ -10,7 +10,7 @@ public struct ConfigState: Codable, Equatable {
     public let waitDelayMilliseconds: Int
 
     /// Play mode by player
-    public let playMode: [String: PlayMode]
+    public var playMode: [String: PlayMode]
 }
 
 public enum PlayMode: Equatable, Codable {

@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class WellsFargoTests: XCTestCase {
-    func test_playWellsFargo_shouldDraw3Cards() {
+    func test_playWellsFargo_shouldDraw3Cards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class WellsFargoTests: XCTestCase {
 
         // When
         let action = GameAction.play(.wellsFargo, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

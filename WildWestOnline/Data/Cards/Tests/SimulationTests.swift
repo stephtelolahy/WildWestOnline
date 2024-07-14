@@ -40,12 +40,12 @@ final class SimulationTests: XCTestCase {
     ) {
         // Given
         let inventory = CardsRepository().inventory
-        var game = Setup.createGame(
+        var game = Setup.buildGame(
             playersCount: playersCount,
             inventory: inventory,
             preferredFigure: preferredFigure
         )
-        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        game.config.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
         let stateWrapper = ClassWrapper(game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
@@ -60,23 +60,19 @@ final class SimulationTests: XCTestCase {
         )
 
         let cancellable = sut.$state.sink { state in
-            if state.winner != nil {
+            if state.sequence.winner != nil {
                 expectation.fulfill()
-            }
-
-            if let error = state.error {
-                XCTFail("Unexpected error \(error)")
             }
         }
 
         // When
-        let sheriff = game.playOrder[0]
+        let sheriff = game.round.playOrder[0]
         sut.dispatch(GameAction.startTurn(player: sheriff))
 
         // Then
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
-        XCTAssertNotNil(sut.state.winner, "Expected game over")
+        XCTAssertNotNil(sut.state.sequence.winner, "Expected game over")
     }
 }
 
@@ -85,24 +81,13 @@ private extension Middlewares {
     static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState> {
         { state, action in
             DispatchQueue.main.async {
-                let resultState = GameState.reducer(prevState.value, action)
+                let resultState = try! GameState.reducer(prevState.value, action)
                 prevState.value = resultState
-                if !resultState.isEqualIgnoringSequence(to: state) {
+                if resultState != state {
                     assertionFailure("🚨 Inconsistent state after applying \(action)")
                 }
             }
             return nil
         }
-    }
-}
-
-private extension GameState {
-    func isEqualIgnoringSequence(to anotherState: GameState) -> Bool {
-        var state = self
-        state.sequence = []
-        var anotherState = anotherState
-        anotherState.sequence = []
-
-        return state == anotherState
     }
 }

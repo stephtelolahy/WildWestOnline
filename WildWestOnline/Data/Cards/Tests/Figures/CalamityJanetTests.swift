@@ -23,7 +23,7 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
+        let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -49,7 +49,7 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.play(.missed, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2"])
+        let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
@@ -77,7 +77,7 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", .bang])
+        let result = try awaitAction(action, state: state, choose: ["p2", .bang])
 
         // Then
         XCTAssertEqual(result, [
@@ -108,7 +108,7 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed])
+        let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(result, [

@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class GameOverTests: XCTestCase {
-    func test_game_withOnePlayerLast_shouldBeOver() {
+    func test_game_withOnePlayerLast_shouldBeOver() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
@@ -18,7 +18,7 @@ final class GameOverTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p2")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -27,7 +27,7 @@ final class GameOverTests: XCTestCase {
         ])
     }
 
-    func test_game_with2Players_shouldNotBeOver() {
+    func test_game_with2Players_shouldNotBeOver() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
@@ -37,7 +37,7 @@ final class GameOverTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p3")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -45,17 +45,17 @@ final class GameOverTests: XCTestCase {
         ])
     }
 
-    func test_dispatchAction_withGameOver_shouldThrowError() {
+    func test_dispatchAction_withGameOver_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilder()
             .withWinner("p1")
             .build()
 
         // When
-        let action = GameAction.play("c1", player: "p1")
-        let (_, error) = awaitAction(action, state: state)
-
         // Then
-        XCTAssertEqual(error, .gameIsOver)
+        let action = GameAction.play("c1", player: "p1")
+        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
+            XCTAssertEqual(error as? SequenceState.Error, .gameIsOver)
+        }
     }
 }

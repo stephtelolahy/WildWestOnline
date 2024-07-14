@@ -10,7 +10,7 @@ protocol ArgCardResolver {
 }
 
 public extension ArgCard {
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, Equatable {
         /// Not matching card
         case noCard(ArgCard)
     }

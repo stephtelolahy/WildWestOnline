@@ -10,7 +10,7 @@ protocol ArgPlayerResolver {
 }
 
 public extension ArgPlayer {
-    enum Error: Swift.Error {
+    enum Error: Swift.Error, Equatable {
         /// Not matching player
         case noPlayer(ArgPlayer)
     }

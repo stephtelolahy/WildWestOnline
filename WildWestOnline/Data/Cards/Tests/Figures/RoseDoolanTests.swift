@@ -10,7 +10,7 @@ import GameCore
 import XCTest
 
 final class RoseDoolanTests: XCTestCase {
-    func test_RoseDoolan_shouldDecrementDistanceToOthers() {
+    func test_RoseDoolan_shouldDecrementDistanceToOthers() throws {
         // Given
         let state = Setup.buildGame(figures: [.roseDoolan], deck: [], cards: Cards.all)
 

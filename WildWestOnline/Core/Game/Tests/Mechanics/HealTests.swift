@@ -45,7 +45,7 @@ final class HealTests: XCTestCase {
         XCTAssertEqual(result.player("p1").health, 4)
     }
 
-    func test_heal_alreadyMaxHealth_shouldThrowError() {
+    func test_heal_alreadyMaxHealth_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {

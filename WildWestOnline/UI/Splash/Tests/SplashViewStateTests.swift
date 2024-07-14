@@ -12,7 +12,7 @@ import Splash
 import XCTest
 
 final class SplashViewStateTests: XCTestCase {
-    func test_splashStateProjection() {
+    func test_splashStateProjection() throws {
         // Given
         let appState = AppState(
             screens: [.splash],
