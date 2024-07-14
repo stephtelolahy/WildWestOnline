@@ -6,24 +6,26 @@
 //
 
 public enum Setup {
-    public static func createGame(
+    public static func buildGame(
         playersCount: Int,
-        inventory: Inventory,
+        cards: [String: Card],
+        figures: [String],
+        cardSets: [String: [String]],
         preferredFigure: String? = nil
     ) -> GameState {
-        var figures = inventory.figures.shuffled()
+        var figures = figures.shuffled()
         if let preferredFigure {
             figures = figures.starting(with: preferredFigure)
         }
         figures = Array(figures.prefix(playersCount))
 
-        let deck = buildDeck(cardSets: inventory.cardSets)
+        let deck = buildDeck(cardSets: cardSets)
             .shuffled()
 
         return buildGame(
             figures: figures,
             deck: deck,
-            cards: inventory.cards
+            cards: cards
         )
     }
 
