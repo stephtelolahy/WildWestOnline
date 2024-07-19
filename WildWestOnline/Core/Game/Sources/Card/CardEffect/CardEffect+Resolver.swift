@@ -13,7 +13,7 @@ enum EffectOutput {
     case nothing
     case push([GameAction])
     case cancel([GameAction])
-    case replace(GameAction, index: Int)
+    case replace(_ index: Int, with: GameAction)
     case chooseOne(ChooseOne, player: String)
 }
 

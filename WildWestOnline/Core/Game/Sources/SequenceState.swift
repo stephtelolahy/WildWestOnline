@@ -317,7 +317,7 @@ private extension SequenceState {
                 sequence.cancel(action)
             }
 
-        case let .replace(updatedAction, index):
+        case let .replace(index, updatedAction):
             sequence.queue[index] = updatedAction
 
         case let .chooseOne(chooseOne, player):

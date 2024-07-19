@@ -24,7 +24,7 @@ struct EffectCounterShoot: EffectResolver {
         } else {
             let remainingMisses = ArgNum.exact(misses - 1)
             let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
-            return .replace(updatedAction, index: index)
+            return .replace(index, with: updatedAction)
         }
     }
 }
