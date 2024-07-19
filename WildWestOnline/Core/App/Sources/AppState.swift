@@ -36,40 +36,62 @@ public extension AppState {
                 screens: try ScreenState.reducer(state.screens, action),
                 settings: try SettingsState.reducer(state.settings, action),
                 inventory: state.inventory,
-                game: try state.game.flatMap { try GameState.reducer($0, action) }
+                game: try AppState.gamePlayReducer(state, action)
             )
     }
 }
 
 private extension AppState {
-    static let screenReducer: Reducer<Self> = { state, action in
+    static let gamePlayReducer: SelectorReducer<Self, GameState?> = { state, action in
+        switch action {
+        case AppAction.startGame:
+            try startGameReducer(state, action)
+
+        case AppAction.exitGame:
+            try exitGameReducer(state, action)
+
+        default:
+            try state.game.flatMap { try GameState.reducer($0, action) }
+        }
+    }
+
+    static let startGameReducer: ThrowingReducer<Self> = { state, action in
+        guard case AppAction.startGame = action else {
+            fatalError("unexpected")
+        }
 
         var state = state
-        switch action {
-        case .startGame:
-            state.game = createGame(settings: state.settings)
-            state.screens.append(.game)
-
-        case .exitGame:
-            state.screens.removeLast()
-            state.game = nil
-        }
+        state.game = createGame(settings: state.settings, inventory: state.inventory)
+        // TODO: emit screen change as middleware
+        state.screens.append(.game)
         return state
     }
 
-    static func createGame(settings: SettingsState) -> GameState {
+    static let exitGameReducer: ThrowingReducer<Self> = { state, action in
+        guard case AppAction.exitGame = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        // TODO: emit screen change as middleware
+        state.screens.removeLast()
+        state.game = nil
+        return state
+    }
+
+    static func createGame(settings: SettingsState, inventory: InventoryState) -> GameState {
         var game = Setup.buildGame(
             playersCount: settings.playersCount,
-            inventory: settings.inventory,
+            inventory: inventory,
             preferredFigure: settings.preferredFigure
         )
 
-        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
-        game.playMode = game.startOrder.reduce(into: [:]) {
+        let manualPlayer: String? = settings.simulation ? nil : game.round.playOrder[0]
+        game.config.playMode = game.round.startOrder.reduce(into: [:]) {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
 
-        game.waitDelayMilliseconds = settings.waitDelayMilliseconds
+        game.config.waitDelayMilliseconds = settings.waitDelayMilliseconds
 
         return game
     }

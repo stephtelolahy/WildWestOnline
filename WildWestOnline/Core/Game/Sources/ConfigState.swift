@@ -7,7 +7,7 @@
 
 public struct ConfigState: Codable, Equatable {
     /// Wait delay between two visible actions
-    public let waitDelayMilliseconds: Int
+    public var waitDelayMilliseconds: Int
 
     /// Play mode by player
     public var playMode: [String: PlayMode]
