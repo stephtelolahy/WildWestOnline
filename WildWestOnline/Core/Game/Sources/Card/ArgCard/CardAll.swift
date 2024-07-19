@@ -8,8 +8,8 @@
 struct CardAll: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
-        let inPlay = state.field.inPlay.get(owner)
-        let hand = state.field.hand.get(owner)
+        let inPlay = state.field.inPlay.getOrEmpty(owner)
+        let hand = state.field.hand.getOrEmpty(owner)
         let all = inPlay + hand
         return .identified(all)
     }

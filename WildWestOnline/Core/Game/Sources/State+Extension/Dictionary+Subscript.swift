@@ -14,3 +14,13 @@ extension Dictionary {
         return value
     }
 }
+
+extension Dictionary where Value == [String] {
+    func getOrEmpty(_ key: Key) -> Value {
+        self[key] ?? []
+    }
+
+    func isEmpty(_ key: Key) -> Bool {
+        (self[key] ?? []).isEmpty
+    }
+}

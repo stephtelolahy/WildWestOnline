@@ -12,7 +12,7 @@ struct CardSelectHand: ArgCardResolver {
         let options: [CardArgOption]
 
         if chooser != owner {
-            let handCards = state.field.hand.get(owner)
+            let handCards = state.field.hand.getOrEmpty(owner)
             options = handCards.indices.map {
                 CardArgOption(
                     id: handCards[$0],
@@ -20,7 +20,7 @@ struct CardSelectHand: ArgCardResolver {
                 )
             }
         } else {
-            options = state.field.hand.get(owner).toCardOptions()
+            options = state.field.hand.getOrEmpty(owner).toCardOptions()
         }
 
         return .selectable(options)
