@@ -106,9 +106,6 @@ public extension SequenceState {
         state.sequence = try prepareReducer(state.sequence, action)
 
         return switch action {
-        case GameAction.play:
-            try playReducer(state, action)
-
         case GameAction.activate:
             try activateReducer(state.sequence, action)
 
@@ -126,6 +123,12 @@ public extension SequenceState {
 
         case GameAction.eliminate:
             try eliminateReducer(state.sequence, action)
+
+        case GameAction.group:
+            try groupReducer(state.sequence, action)
+
+        case GameAction.play:
+            try playReducer(state, action)
 
         case GameAction.effect:
             try effectReducer(state, action)
@@ -325,6 +328,16 @@ private extension SequenceState {
         }
 
         return sequence
+    }
+
+    static let groupReducer: ThrowingReducer<Self> = { state, action in
+        guard case let GameAction.group(children) = action else {
+            fatalError("unexpected")
+        }
+
+        var state = state
+        state.queue.insert(contentsOf: children, at: 0)
+        return state
     }
 }
 
