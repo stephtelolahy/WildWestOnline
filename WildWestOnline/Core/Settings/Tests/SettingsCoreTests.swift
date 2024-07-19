@@ -15,7 +15,7 @@ final class SettingsCoreTests: XCTestCase {
 
         // When
         let action = SettingsAction.updatePlayersCount(5)
-        let result = SettingsState.reducer(state, action)
+        let result = try SettingsState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.playersCount, 5)
@@ -27,7 +27,7 @@ final class SettingsCoreTests: XCTestCase {
 
         // When
         let action = SettingsAction.toggleSimulation
-        let result = SettingsState.reducer(state, action)
+        let result = try SettingsState.reducer(state, action)
 
         // Then
         XCTAssertFalse(result.simulation)
@@ -39,7 +39,7 @@ final class SettingsCoreTests: XCTestCase {
 
         // When
         let action = SettingsAction.updateWaitDelayMilliseconds(500)
-        let result = SettingsState.reducer(state, action)
+        let result = try SettingsState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.waitDelayMilliseconds, 500)

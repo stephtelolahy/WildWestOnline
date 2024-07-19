@@ -87,7 +87,7 @@ let package = Package(
         .target(
             name: "SettingsCore",
             dependencies: [
-                "GameCore"
+                "Redux"
             ],
             path: "Core/Settings/Sources",
             plugins: [
