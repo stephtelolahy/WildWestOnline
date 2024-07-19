@@ -52,13 +52,13 @@ extension XCTestCase {
         wait(for: [expectation], timeout: timeout)
         subscriptions.removeAll()
 
-        XCTAssertEqual(store.state.sequence.queue, [], "Game must be idle", file: file, line: line)
-        XCTAssertEqual(store.state.sequence.chooseOne, [:], "Game must be idle", file: file, line: line)
-        XCTAssertEqual(choicesWrapper.value, [], "Choices must be empty", file: file, line: line)
-
         if let ocurredError {
             throw ocurredError
         }
+
+        XCTAssertEqual(store.state.sequence.queue, [], "Game must be idle", file: file, line: line)
+        XCTAssertEqual(store.state.sequence.chooseOne, [:], "Game must be idle", file: file, line: line)
+        XCTAssertEqual(choicesWrapper.value, [], "Choices must be empty", file: file, line: line)
 
         return ocurredEvents
     }
