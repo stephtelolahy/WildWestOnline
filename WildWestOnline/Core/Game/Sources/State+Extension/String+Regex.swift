@@ -7,16 +7,11 @@
 
 extension String {
     func matches(regex pattern: String) -> Bool {
-        if #available(iOS 16.0, *) {
-            if let regex = try? Regex(pattern),
-               ranges(of: regex).isNotEmpty {
-                return true
-            } else {
-                return false
-            }
+        if let regex = try? Regex(pattern),
+           ranges(of: regex).isNotEmpty {
+            return true
         } else {
-            // Fallback on earlier versions
-            fatalError("unimplemented")
+            return false
         }
     }
 }
