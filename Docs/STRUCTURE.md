@@ -28,7 +28,7 @@
 - XView.swift
     - struct View
     - struct Previews
-- XViewState.swift
+- XViewModel.swift
     - struct State
     - static let deriveState
 
