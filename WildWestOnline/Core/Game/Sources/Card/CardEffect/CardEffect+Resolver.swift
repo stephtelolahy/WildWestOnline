@@ -14,7 +14,6 @@ enum EffectOutput {
     case push([GameAction])
     case cancel([GameAction])
     case replace(_ index: Int, with: GameAction)
-    case chooseOne(ChooseOne, player: String)
 }
 
 extension CardEffect {

@@ -320,9 +320,6 @@ private extension SequenceState {
         case let .replace(index, updatedAction):
             sequence.queue[index] = updatedAction
 
-        case let .chooseOne(chooseOne, player):
-            sequence.chooseOne[player] = chooseOne
-
         case .nothing:
             break
         }
