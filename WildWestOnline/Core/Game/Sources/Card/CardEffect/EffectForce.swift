@@ -19,7 +19,7 @@ struct EffectForce: EffectResolver {
                 return .push([.effect(otherwise, ctx: ctx)])
 
             case .push(let children):
-                return try resolvePushChildren(children, state: state)
+                return try resolvePushChildren(children, state: state, ctx: ctx)
 
             default:
                 fatalError("unexpected")
@@ -29,9 +29,14 @@ struct EffectForce: EffectResolver {
         }
     }
 
-    private func resolvePushChildren(_ children: [GameAction], state: GameState) throws -> EffectOutput {
-        assert(children.isNotEmpty)
-        if children.count == 1 {
+    private func resolvePushChildren(
+        _ children: [GameAction],
+        state: GameState,
+        ctx: EffectContext
+    ) throws -> EffectOutput {
+        if children.isEmpty {
+            return .push([.effect(otherwise, ctx: ctx)])
+        } else if children.count == 1 {
             let action = children[0]
             switch action {
             case .drawDiscard:
