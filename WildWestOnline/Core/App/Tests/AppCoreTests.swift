@@ -16,12 +16,13 @@ final class AppCoreTests: XCTestCase {
         // Given
         let state = AppState(
             screens: [.splash],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            inventory: InventoryState.makeBuilder().build()
         )
 
         // When
         let action = AppAction.navigate(.home)
-        let result = AppState.reducer(state, action)
+        let result = try AppState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.screens, [.home])

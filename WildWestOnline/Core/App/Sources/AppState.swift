@@ -43,16 +43,17 @@ public extension AppState {
 
 private extension AppState {
     static let gamePlayReducer: SelectorReducer<Self, GameState?> = { state, action in
-        switch action {
-        case AppAction.startGame:
-            try startGameReducer(state, action)
-
-        case AppAction.exitGame:
-            try exitGameReducer(state, action)
-
-        default:
-            try state.game.flatMap { try GameState.reducer($0, action) }
-        }
+        state.game
+//        switch action {
+//        case AppAction.startGame:
+//            try startGameReducer(state, action)
+//
+//        case AppAction.exitGame:
+//            try exitGameReducer(state, action)
+//
+//        default:
+//            try state.game.flatMap { try GameState.reducer($0, action) }
+//        }
     }
 
     static let startGameReducer: ThrowingReducer<Self> = { state, action in
