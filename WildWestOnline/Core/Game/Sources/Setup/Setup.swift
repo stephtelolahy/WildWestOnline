@@ -8,7 +8,7 @@
 public enum Setup {
     public static func buildGame(
         playersCount: Int,
-        inventory: Inventory,
+        inventory: InventoryState,
         preferredFigure: String? = nil
     ) -> GameState {
         var figures = inventory.figures.shuffled()

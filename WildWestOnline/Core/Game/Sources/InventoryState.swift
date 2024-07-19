@@ -1,12 +1,11 @@
 //
-//  Inventory.swift
+//  InventoryState.swift
 //  
 //
-//  Created by Stephano Hugues TELOLAHY on 23/02/2024.
+//  Created by Stephano Hugues TELOLAHY on 20/07/2024.
 //
-// swiftlint:disable no_magic_numbers
 
-public struct Inventory: Codable, Equatable {
+public struct InventoryState: Codable, Equatable {
     public let cards: [String: Card]
     public let figures: [String]
     public let cardSets: [String: [String]]
@@ -22,13 +21,13 @@ public struct Inventory: Codable, Equatable {
     }
 }
 
-public extension Inventory {
+public extension InventoryState {
     class Builder {
         private var figures: [String] = []
         private var cardSets: [String: [String]] = [:]
         private var cards: [String: Card] = [:]
 
-        public func build() -> Inventory {
+        public func build() -> InventoryState {
             .init(
                 cards: cards,
                 figures: figures,
