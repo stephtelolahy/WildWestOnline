@@ -12,12 +12,8 @@ struct EffectChallenge: EffectResolver {
     let otherwise: CardEffect
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
-        .push([])
-        /*
-        let target = ctx.targetOrActor()
-
         guard case let .id(challengerId) = challenger else {
-            return try challenger.resolve(state: state, ctx: ctx) {
+            let children = try challenger.resolve(state: state, ctx: ctx) {
                 .effect(
                     .challenge(
                         .id($0),
@@ -27,51 +23,75 @@ struct EffectChallenge: EffectResolver {
                     ctx: ctx
                 )
             }
+            return .push(children)
         }
 
         do {
             let children = try effect.resolve(state: state, ctx: ctx)
 
-            if children.count == 2 {
-                if case .chooseOne(let type, var options, let player) = children[0],
-                   case let .effect(childEffect, childCtx) = children[1],
-                   case var .matchAction(actions) = childEffect {
-                    var contextWithReversedTarget = ctx
-                    contextWithReversedTarget.resolvingTarget = challengerId
-                    let reversedChallenge = GameAction.effect(
-                        .challenge(
-                            .id(target),
-                            effect: effect,
-                            otherwise: otherwise
-                        ),
-                        ctx: contextWithReversedTarget
-                    )
-                    actions = actions.mapValues {
-                        GameAction.group([$0, reversedChallenge])
-                    }
+            switch children {
+            case .nothing:
+                return .push([.effect(otherwise, ctx: ctx)])
 
-                    options.append(.pass)
-                    actions[.pass] = .effect(otherwise, ctx: childCtx)
+            case .push(let children):
+                return try resolvePushChildren(
+                    children,
+                    state: state,
+                    ctx: ctx,
+                    challengerId: challengerId
+                )
 
-                    let chooseOne = GameAction.chooseOne(
-                        type,
-                        options: options,
-                        player: player
-                    )
-                    let match = GameAction.effect(
-                        .matchAction(actions),
-                        ctx: childCtx
-                    )
-                    return [chooseOne, match]
-                } else {
-                    fatalError("unexpected")
-                }
-            } else {
+            default:
                 fatalError("unexpected")
             }
         } catch {
-            return [.effect(otherwise, ctx: ctx)]
+            return .push([.effect(otherwise, ctx: ctx)])
         }
-         */
+    }
+
+    private func resolvePushChildren(
+        _ children: [GameAction],
+        state: GameState,
+        ctx: EffectContext,
+        challengerId: String
+    ) throws -> EffectOutput {
+        if children.count == 2 {
+            if case .chooseOne(let type, var options, let player) = children[0],
+               case let .effect(childEffect, childCtx) = children[1],
+               case var .matchAction(actions) = childEffect {
+                var contextWithReversedTarget = ctx
+                let target = ctx.targetOrActor()
+                contextWithReversedTarget.resolvingTarget = challengerId
+                let reversedChallenge = GameAction.effect(
+                    .challenge(
+                        .id(target),
+                        effect: effect,
+                        otherwise: otherwise
+                    ),
+                    ctx: contextWithReversedTarget
+                )
+                actions = actions.mapValues {
+                    GameAction.group([$0, reversedChallenge])
+                }
+
+                options.append(.pass)
+                actions[.pass] = .effect(otherwise, ctx: childCtx)
+
+                let chooseOne = GameAction.chooseOne(
+                    type,
+                    options: options,
+                    player: player
+                )
+                let match = GameAction.effect(
+                    .matchAction(actions),
+                    ctx: childCtx
+                )
+                return .push([chooseOne, match])
+            } else {
+                fatalError("unexpected")
+            }
+        } else {
+            fatalError("unexpected")
+        }
     }
 }
