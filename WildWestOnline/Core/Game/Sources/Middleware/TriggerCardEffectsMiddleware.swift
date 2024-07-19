@@ -74,23 +74,13 @@ private extension GameState {
             let ctx = EffectContext(
                 sourceEvent: event,
                 sourceActor: player,
-                sourceCard: card,
-                linkedToShoot: state.linkedToShoot(event: event)
+                sourceCard: card
             )
 
             actions.append(.effect(rule.effect, ctx: ctx))
         }
 
         return actions
-    }
-
-    func linkedToShoot(event: GameAction) -> String? {
-        guard case let .effect(cardEffect, ctx) = event,
-              case .shoot = cardEffect else {
-            return nil
-        }
-
-        return ctx.resolvingTarget
     }
 
     func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {

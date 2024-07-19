@@ -43,10 +43,19 @@ public struct EffectContext: Codable, Equatable {
 
     /// Chosen option while resolving effect
     var resolvingOption: String?
+}
 
-    /// Shot player
+public extension EffectContext {
+    /// Shot player triggering this effect
     /// The cancelation of the shoot results in the cancelation of the effect
-    var linkedToShoot: String?
+    var sourceShoot: String? {
+        guard case let .effect(cardEffect, ctx) = sourceEvent,
+              case .shoot = cardEffect else {
+            return nil
+        }
+
+        return ctx.resolvingTarget
+    }
 }
 
 /// Choice request
@@ -338,7 +347,7 @@ private extension SequenceState {
     mutating func removeEffectsLinkedToShoot(_ target: String) {
         queue.removeAll { item in
             if case let .effect(_, ctx) = item,
-               ctx.linkedToShoot == target {
+               ctx.sourceShoot == target {
                 return true
             } else {
                 return false
