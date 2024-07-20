@@ -17,7 +17,7 @@ final class AppCoreTests: XCTestCase {
         let state = AppState(
             screens: [.splash],
             settings: SettingsState.makeBuilder().build(),
-            inventory: InventoryState.makeBuilder().build()
+            inventory: Inventory.makeBuilder().build()
         )
 
         // When
@@ -33,7 +33,7 @@ final class AppCoreTests: XCTestCase {
         let state = AppState(
             screens: [.home],
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
-            inventory: InventoryState.makeBuilder().withSample().build()
+            inventory: Inventory.makeBuilder().withSample().build()
         )
 
         // When
@@ -50,7 +50,7 @@ final class AppCoreTests: XCTestCase {
         let state = AppState(
             screens: [.home, .game],
             settings: SettingsState.makeBuilder().build(),
-            inventory: InventoryState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
 
@@ -68,7 +68,7 @@ final class AppCoreTests: XCTestCase {
         let state = AppState(
             screens: [.home],
             settings: SettingsState.makeBuilder().build(),
-            inventory: InventoryState.makeBuilder().build()
+            inventory: Inventory.makeBuilder().build()
         )
 
         // When
@@ -84,7 +84,7 @@ final class AppCoreTests: XCTestCase {
         let state = AppState(
             screens: [.home, .settings],
             settings: SettingsState.makeBuilder().build(),
-            inventory: InventoryState.makeBuilder().build()
+            inventory: Inventory.makeBuilder().build()
         )
 
         // When

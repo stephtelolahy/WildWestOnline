@@ -14,13 +14,13 @@ import SettingsCore
 public struct AppState: Codable, Equatable {
     public var screens: ScreenState
     public var settings: SettingsState
-    public var inventory: InventoryState
+    public var inventory: Inventory
     public var game: GameState?
 
     public init(
         screens: ScreenState,
         settings: SettingsState,
-        inventory: InventoryState,
+        inventory: Inventory,
         game: GameState? = nil
     ) {
         self.screens = screens
@@ -79,7 +79,7 @@ private extension AppState {
         return state
     }
 
-    static func createGame(settings: SettingsState, inventory: InventoryState) -> GameState {
+    static func createGame(settings: SettingsState, inventory: Inventory) -> GameState {
         var game = Setup.buildGame(
             playersCount: settings.playersCount,
             inventory: inventory,

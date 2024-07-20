@@ -6,5 +6,5 @@
 //
 
 public protocol InventoryService {
-    var inventory: InventoryState { get }
+    var inventory: Inventory { get }
 }
