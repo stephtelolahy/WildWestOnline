@@ -16,7 +16,7 @@ extension Dictionary {
 }
 
 extension Dictionary where Value == [String] {
-    func getOrEmpty(_ key: Key) -> Value {
+    public func getOrEmpty(_ key: Key) -> Value {
         self[key] ?? []
     }
 

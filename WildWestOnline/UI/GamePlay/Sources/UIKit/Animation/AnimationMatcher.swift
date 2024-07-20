@@ -82,52 +82,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case .draw:
                 .reveal(card: .topDeck, from: .deck, to: .discard)
 
-        case .play:
-            nil
-
-        case .heal:
-            nil
-
-        case .damage:
-            nil
-
-        case .startTurn:
-            nil
-
-        case .endTurn:
-            nil
-
-        case .eliminate:
-            nil
-
-        case .setAttribute:
-            nil
-
-        case .removeAttribute:
-            nil
-
-        case .cancel:
-            nil
-
-        case .counterShoot:
-            nil
-
-        case .chooseOne:
-            nil
-
-        case .choose:
-            nil
-
-        case .activate:
-            nil
-
-        case .setGameOver:
-            nil
-
-        case .effect:
-            nil
-
-        case .group:
+        default:
             nil
         }
     }

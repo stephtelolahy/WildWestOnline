@@ -34,7 +34,6 @@ private func createStore() -> Store<AppState> {
     let cardsService = CardsRepository()
 
     let settings = SettingsState.makeBuilder()
-        .withInventory(cardsService.inventory)
         .withPlayersCount(settingsService.playersCount())
         .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds())
         .withSimulation(settingsService.isSimulationEnabled())
@@ -43,7 +42,8 @@ private func createStore() -> Store<AppState> {
 
     let initialState = AppState(
         screens: [.splash],
-        settings: settings
+        settings: settings,
+        inventory: cardsService.inventory
     )
 
     return Store<AppState>(

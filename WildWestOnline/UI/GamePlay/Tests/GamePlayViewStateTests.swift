@@ -22,6 +22,7 @@ final class GamePlayViewStateTests: XCTestCase {
         let appState = AppState(
             screens: [],
             settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
@@ -51,6 +52,7 @@ final class GamePlayViewStateTests: XCTestCase {
         let appState = AppState(
             screens: [],
             settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
@@ -101,6 +103,7 @@ final class GamePlayViewStateTests: XCTestCase {
         let appState = AppState(
             screens: [],
             settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
@@ -126,6 +129,7 @@ final class GamePlayViewStateTests: XCTestCase {
         let appState = AppState(
             screens: [],
             settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 

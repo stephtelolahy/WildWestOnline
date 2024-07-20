@@ -7,6 +7,7 @@
 // swiftlint:disable type_contents_order
 
 import AppCore
+import GameCore
 import GamePlay
 import Home
 import Redux
@@ -69,7 +70,8 @@ private extension AppState {
     static var sample: Self {
         .init(
             screens: [.home],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build()
         )
     }
 }

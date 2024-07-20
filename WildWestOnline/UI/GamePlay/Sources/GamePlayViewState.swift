@@ -76,27 +76,27 @@ public extension GamePlayView {
             message: game.message,
             chooseOneData: game.chooseOneData,
             handActions: game.handActions,
-            topDiscard: game.discard.first,
-            topDeck: game.deck.first,
-            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
-            startOrder: game.startOrder,
-            deckCount: game.deck.count,
-            occurredEvent: game.event
+            topDiscard: game.field.discard.first,
+            topDeck: game.field.deck.first,
+            animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
+            startOrder: game.round.startOrder,
+            deckCount: game.field.deck.count,
+            occurredEvent: nil // TODO: bind to store's occurred event
         )
     }
 }
 
 private extension GameState {
     var playerItems: [GamePlayView.State.PlayerItem] {
-        self.startOrder.map { playerId in
+        self.round.startOrder.map { playerId in
             let playerObj = player(playerId)
             let health = max(0, playerObj.health)
             let maxHealth = playerObj.attributes[.maxHealth] ?? 0
-            let handCount = playerObj.hand.count
-            let equipment = playerObj.inPlay
-            let isTurn = playerId == turn
-            let isEliminated = !playOrder.contains(playerId)
-            let isTargeted = sequence.contains { $0.isEffectTargeting(playerId) }
+            let handCount = field.hand.getOrEmpty(playerId).count
+            let equipment = field.inPlay.getOrEmpty(playerId)
+            let isTurn = playerId == round.turn
+            let isEliminated = !round.playOrder.contains(playerId)
+            let isTargeted = sequence.queue.contains { $0.isEffectTargeting(playerId) }
 
             return .init(
                 id: playerId,
@@ -116,7 +116,7 @@ private extension GameState {
     }
 
     var message: String {
-        if let turn {
+        if let turn = round.turn {
             "\(turn.uppercased())'s turn"
         } else {
             "-"
@@ -124,7 +124,7 @@ private extension GameState {
     }
 
     var chooseOneData: GamePlayView.State.ChooseOneData? {
-        guard let chooseOne = chooseOne.first(where: { playMode[$0.key] == .manual }) else {
+        guard let chooseOne = sequence.chooseOne.first(where: { config.playMode[$0.key] == .manual }) else {
             return  nil
         }
 
@@ -139,14 +139,14 @@ private extension GameState {
     }
 
     var handActions: [GamePlayView.State.CardAction] {
-        guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
+        guard let playerId = players.first(where: { config.playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
         }
 
-        let activeCards = self.active[playerId] ?? []
+        let activeCards = sequence.active[playerId] ?? []
 
-        let handCardActions = playerObj.hand.map { card in
+        let handCardActions = field.hand.getOrEmpty(playerId).map { card in
             if activeCards.contains(card) {
                 GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
             } else {
