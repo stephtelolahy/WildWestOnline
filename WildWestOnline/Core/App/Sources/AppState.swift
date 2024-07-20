@@ -14,7 +14,7 @@ import SettingsCore
 public struct AppState: Codable, Equatable {
     public var screens: ScreenState
     public var settings: SettingsState
-    public var inventory: Inventory
+    public let inventory: Inventory
     public var game: GameState?
 
     public init(
