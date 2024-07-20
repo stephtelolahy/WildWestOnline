@@ -41,8 +41,8 @@ public extension SettingsView {
                 playersCount: state.settings.playersCount,
                 speedIndex: State.indexOfSpeed(state.settings.waitDelayMilliseconds),
                 simulation: state.settings.simulation,
-                figureOptions: state.settings.inventory.figures,
-                preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.settings.inventory.figures)
+                figureOptions: state.inventory.figures,
+                preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.inventory.figures)
             )
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import GameCore
 import Home
 import Redux
 import SettingsCore
@@ -16,7 +17,8 @@ final class HomeViewStateTests: XCTestCase {
         // Given
         let appState = AppState(
             screens: [.home],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build()
         )
 
         // When
