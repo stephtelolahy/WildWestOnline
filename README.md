@@ -57,6 +57,12 @@ However, we can "derive" this store to small subsets, called store projections, 
 ![](Docs/app_modules.png)
 
 
+#### Project structure
+
+The project is composed of SwiftPackage products with the following structure. 
+
+![](Docs/project_structure.png)
+
 
 ### Sequence diagram
 
