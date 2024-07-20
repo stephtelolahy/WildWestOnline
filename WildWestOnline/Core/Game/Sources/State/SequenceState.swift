@@ -140,14 +140,16 @@ public extension SequenceState {
 }
 
 private extension SequenceState {
-    static let prepareReducer: ThrowingReducer<Self> = { state, action in
+    static let prepareReducer: ThrowingReducer<Self> = {
+        state,
+        action in
         // Game is over
         if state.winner != nil {
             throw Error.gameIsOver
         }
-
+        
         var state = state
-
+        
         // Pending choice
         if let chooseOne = state.chooseOne.first {
             guard case let GameAction.choose(option, player) = action,
@@ -155,11 +157,11 @@ private extension SequenceState {
                   chooseOne.value.options.contains(option) else {
                 throw Error.unwaitedAction
             }
-
+            
             state.chooseOne.removeValue(forKey: chooseOne.key)
             return state
         }
-
+        
         // Active cards
         if let active = state.active.first {
             guard case let GameAction.play(card, player) = action,
@@ -167,13 +169,14 @@ private extension SequenceState {
                   active.value.contains(card) else {
                 throw Error.unwaitedAction
             }
-
+            
             state.active.removeValue(forKey: active.key)
             return state
         }
-
+        
         // Resolving sequence
-        if state.queue.first == (action as? GameAction) {
+        if state.queue.isNotEmpty,
+           state.queue.first == (action as? GameAction) {
             state.queue.removeFirst()
         }
 
