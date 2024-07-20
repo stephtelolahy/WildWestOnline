@@ -32,18 +32,19 @@ public struct AppState: Codable, Equatable {
 
 public extension AppState {
     static let reducer: ThrowingReducer<Self> = { state, action in
-            .init(
-                screens: try ScreenState.reducer(state.screens, action),
-                settings: try SettingsState.reducer(state.settings, action),
-                inventory: state.inventory,
-                game: try state.game.flatMap { try GameState.reducer($0, action) }
-            )
+        var state = AppState(
+            screens: try ScreenState.reducer(state.screens, action),
+            settings: try SettingsState.reducer(state.settings, action),
+            inventory: state.inventory,
+            game: try state.game.flatMap { try GameState.reducer($0, action) }
+        )
+        state = try gameStartStopReducer(state, action)
+        return state
     }
 }
-/*
+
 private extension AppState {
-    static let gamePlayReducer: SelectorReducer<Self, GameState?> = { state, action in
-        state.game
+    static let gameStartStopReducer: ThrowingReducer<Self> = { state, action in
         switch action {
         case AppAction.startGame:
             try startGameReducer(state, action)
@@ -52,7 +53,7 @@ private extension AppState {
             try exitGameReducer(state, action)
 
         default:
-            try state.game.flatMap { try GameState.reducer($0, action) }
+            state
         }
     }
 
@@ -97,4 +98,3 @@ private extension AppState {
         return game
     }
 }
-*/
