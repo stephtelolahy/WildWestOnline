@@ -64,7 +64,6 @@ private extension AppState {
 
         var state = state
         state.game = createGame(settings: state.settings, inventory: state.inventory)
-        // TODO: emit screen change as middleware
         state.screens.append(.game)
         return state
     }
@@ -75,7 +74,6 @@ private extension AppState {
         }
 
         var state = state
-        // TODO: emit screen change as middleware
         state.screens.removeLast()
         state.game = nil
         return state
