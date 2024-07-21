@@ -80,13 +80,12 @@ final class SimulationTests: XCTestCase {
 private extension Middlewares {
     static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState> {
         { state, action in
-            DispatchQueue.main.async {
-                let resultState = try! GameState.reducer(prevState.value, action)
-                prevState.value = resultState
-                if resultState != state {
-                    assertionFailure("🚨 Inconsistent state after applying \(action)")
-                }
-            }
+            let resultState = try! GameState.reducer(prevState.value, action)
+            prevState.value = resultState
+            assert(resultState.players == state.players, "🚨 Inconsistent state after applying \(action)")
+            assert(resultState.field == state.field, "🚨 Inconsistent state after applying \(action)")
+            assert(resultState.round == state.round, "🚨 Inconsistent state after applying \(action)")
+            assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
             return nil
         }
     }
