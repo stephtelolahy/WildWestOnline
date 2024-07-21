@@ -18,7 +18,7 @@ public struct GameState: Codable, Equatable {
     public var sequence: SequenceState
 
     /// All cards reference by cardName
-    public let cards: CardsState
+    public let cards: [String: Card]
 
     /// Configuration
     public var config: ConfigState

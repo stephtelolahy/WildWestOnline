@@ -1,11 +1,9 @@
 //
-//  CardsState.swift
+//  Card.swift
 //  
 //
-//  Created by Hugues Telolahy on 13/07/2024.
+//  Created by Stephano Hugues TELOLAHY on 22/07/2024.
 //
-
-public typealias CardsState = [String: Card]
 
 /// Cards that are used in a game.
 /// Cards can have multiple attributes,

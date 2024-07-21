@@ -37,8 +37,11 @@ extension XCTestCase {
         var ocurredError: Error?
 
         store.event.sink { event in
-            if let action = event as? GameAction,
-               action.isRenderable {
+            guard let action = event as? GameAction else {
+                fatalError("unexpected")
+            }
+
+            if action.isRenderable {
                 ocurredEvents.append(action)
             }
         }.store(in: &subscriptions)
