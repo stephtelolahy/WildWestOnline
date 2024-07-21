@@ -11,9 +11,9 @@ import Redux
 import SwiftUI
 
 public struct SplashView: View {
-    @StateObject private var store: Store<State>
+    @StateObject private var store: TypedStore<State, Action>
 
-    public init(store: @escaping () -> Store<State>) {
+    public init(store: @escaping () -> TypedStore<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -30,7 +30,7 @@ public struct SplashView: View {
         .onAppear {
             let waitDelaySeconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + waitDelaySeconds) {
-                store.dispatch(AppAction.navigate(.home))
+                store.dispatch(.wiewAppeared)
             }
         }
     }
@@ -38,6 +38,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        Store(initial: .init())
+        .init(.init())
     }
 }

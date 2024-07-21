@@ -86,6 +86,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        TypedStore(.init())
+        .init(.init())
     }
 }
