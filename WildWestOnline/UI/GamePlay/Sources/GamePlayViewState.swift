@@ -10,6 +10,7 @@
 import AppCore
 import Foundation
 import GameCore
+import Redux
 
 public extension GamePlayView {
     struct State: Equatable {
@@ -66,6 +67,9 @@ public extension GamePlayView {
         }
     }
 
+    enum Action {
+    }
+
     static let deriveState: (AppState) -> State? = { state in
         guard let game = state.game else {
             return nil
@@ -83,6 +87,10 @@ public extension GamePlayView {
             deckCount: game.field.deck.count,
             occurredEvent: nil // TODO: bind to store's occurred event
         )
+    }
+
+    static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
+        fatalError()
     }
 }
 

@@ -7,6 +7,7 @@
 //
 // swiftlint:disable nesting no_magic_numbers
 import AppCore
+import Redux
 
 public extension SettingsView {
     struct State: Equatable {
@@ -29,11 +30,9 @@ public extension SettingsView {
                 .init(label: "Fast", value: 0)
             ]
         }
+    }
 
-        public let gamePlayOptions: [String] = [
-            "UIKit",
-            "SwiftUI"
-        ]
+    enum Action {
     }
 
     static let deriveState: (AppState) -> State? = { state in
@@ -44,6 +43,10 @@ public extension SettingsView {
                 figureOptions: state.inventory.figures,
                 preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.inventory.figures)
             )
+    }
+
+    static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
+        fatalError()
     }
 }
 
