@@ -15,6 +15,7 @@
 - Services/
 
 ### UI
+- View/ (+Components)
 - ViewState/
 - Presenter/
 - ViewActions/
