@@ -39,7 +39,7 @@ public extension FieldState {
 
 public extension FieldState {
     // swiftlint:disable:next closure_body_length
-    static let reducer: ThrowingReducer<Self> = { state, action in
+    static let reducer: Reducer<Self> = { state, action in
         switch action {
         case GameAction.equip:
             try equipReducer(state, action)
@@ -90,7 +90,7 @@ public extension FieldState {
 }
 
 private extension FieldState {
-    static let equipReducer: ThrowingReducer<Self> = { state, action in
+    static let equipReducer: Reducer<Self> = { state, action in
         guard case let GameAction.equip(card, player) = action else {
             fatalError("unexpected")
         }
@@ -110,7 +110,7 @@ private extension FieldState {
         return state
     }
 
-    static let handicapReducer: ThrowingReducer<Self> = { state, action in
+    static let handicapReducer: Reducer<Self> = { state, action in
         guard case let GameAction.handicap(card, target, player) = action else {
             fatalError("unexpected")
         }
@@ -130,7 +130,7 @@ private extension FieldState {
         return state
     }
 
-    static let putBackReducer: ThrowingReducer<Self> = { state, action in
+    static let putBackReducer: Reducer<Self> = { state, action in
         guard case let GameAction.putBack(card, player) = action else {
             fatalError("unexpected")
         }
@@ -141,7 +141,7 @@ private extension FieldState {
         return state
     }
 
-    static let drawHandReducer: ThrowingReducer<Self> = { state, action in
+    static let drawHandReducer: Reducer<Self> = { state, action in
         guard case let GameAction.drawHand(card, target, player) = action else {
             fatalError("unexpected")
         }
@@ -152,7 +152,7 @@ private extension FieldState {
         return state
     }
 
-    static let drawDeckReducer: ThrowingReducer<Self> = { state, action in
+    static let drawDeckReducer: Reducer<Self> = { state, action in
         guard case let GameAction.drawDeck(player) = action else {
             fatalError("unexpected")
         }
@@ -163,7 +163,7 @@ private extension FieldState {
         return state
     }
 
-    static let drawArenaReducer: ThrowingReducer<Self> = { state, action in
+    static let drawArenaReducer: Reducer<Self> = { state, action in
         guard case let GameAction.drawArena(card, player) = action else {
             fatalError("unexpected")
         }
@@ -174,7 +174,7 @@ private extension FieldState {
         return state
     }
 
-    static let drawDiscardReducer: ThrowingReducer<Self> = { state, action in
+    static let drawDiscardReducer: Reducer<Self> = { state, action in
         guard case let GameAction.drawDiscard(player) = action else {
             fatalError("unexpected")
         }
@@ -185,7 +185,7 @@ private extension FieldState {
         return state
     }
 
-    static let drawInPlayReducer: ThrowingReducer<Self> = { state, action in
+    static let drawInPlayReducer: Reducer<Self> = { state, action in
         guard case let GameAction.drawInPlay(card, target, player) = action else {
             fatalError("unexpected")
         }
@@ -196,7 +196,7 @@ private extension FieldState {
         return state
     }
 
-    static let passInPlayReducer: ThrowingReducer<Self> = { state, action in
+    static let passInPlayReducer: Reducer<Self> = { state, action in
         guard case let GameAction.passInPlay(card, target, player) = action else {
             fatalError("unexpected")
         }
@@ -207,7 +207,7 @@ private extension FieldState {
         return state
     }
 
-    static let discoverReducer: ThrowingReducer<Self> = { state, action in
+    static let discoverReducer: Reducer<Self> = { state, action in
         guard case GameAction.discover = action else {
             fatalError("unexpected")
         }
@@ -218,7 +218,7 @@ private extension FieldState {
         return state
     }
 
-    static let drawReducer: ThrowingReducer<Self> = { state, action in
+    static let drawReducer: Reducer<Self> = { state, action in
         guard case GameAction.draw = action else {
             fatalError("unexpected")
         }
@@ -229,7 +229,7 @@ private extension FieldState {
         return state
     }
 
-    static let discardHandReducer: ThrowingReducer<Self> = { state, action in
+    static let discardHandReducer: Reducer<Self> = { state, action in
         guard case let GameAction.discardHand(card, player) = action else {
             fatalError("unexpected")
         }
@@ -240,7 +240,7 @@ private extension FieldState {
         return state
     }
 
-    static let discardPlayedReducer: ThrowingReducer<Self> = { state, action in
+    static let discardPlayedReducer: Reducer<Self> = { state, action in
         guard case let GameAction.discardPlayed(card, player) = action else {
             fatalError("unexpected")
         }
@@ -251,7 +251,7 @@ private extension FieldState {
         return state
     }
 
-    static let discardInPlayReducer: ThrowingReducer<Self> = { state, action in
+    static let discardInPlayReducer: Reducer<Self> = { state, action in
         guard case let GameAction.discardInPlay(card, player) = action else {
             fatalError("unexpected")
         }

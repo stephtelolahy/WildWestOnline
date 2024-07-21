@@ -12,14 +12,14 @@ public class Store<State: Equatable>: ObservableObject {
     public internal(set) var event: PassthroughSubject<Action, Never>
     public internal(set) var error: PassthroughSubject<Error, Never>
 
-    private let reducer: ThrowingReducer<State>
+    private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions: Set<AnyCancellable> = []
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
-        reducer: @escaping ThrowingReducer<State> = { state, _ in state },
+        reducer: @escaping Reducer<State> = { state, _ in state },
         middlewares: [Middleware<State>] = []
     ) {
         self.state = state
@@ -52,9 +52,7 @@ public class Store<State: Equatable>: ObservableObject {
 public protocol Action {}
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
-public typealias Reducer<State> = (State, Action) -> State
-
-public typealias ThrowingReducer<State> = (State, Action) throws -> State
+public typealias Reducer<State> = (State, Action) throws -> State
 
 public typealias SelectorReducer<InputState, OutputState> = (InputState, Action) throws -> OutputState
 

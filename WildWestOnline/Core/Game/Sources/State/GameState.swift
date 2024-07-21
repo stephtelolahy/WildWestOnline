@@ -36,7 +36,7 @@ public extension GameState {
 // MARK: - Reducer
 
 public extension GameState {
-    static let reducer: ThrowingReducer<Self> = { state, action in
+    static let reducer: Reducer<Self> = { state, action in
             .init(
                 players: try PlayersState.reducer(state.players, action),
                 field: try FieldState.reducer(state.field, action),

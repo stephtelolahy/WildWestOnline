@@ -7,17 +7,20 @@
 - Action = Middleware(State, Action)
 
 ### Core
+- Actions/
 - State/ (+Builder)
 - Reducers/ (+Extensions)
-- Actions/
 - Middlewares/
 - Models/
-
-### Data
-- Repositories
-- Utils
+- Services/
 
 ### UI
 - ViewState/
-- UiMiddleware/ #transform UI action to Core actions
 - Presenter/
+- ViewActions/
+- Middlewares/ #transform UI action to Core actions, transform UI action to navigator action
+https://github.com/reduxkotlin/NameGameSampleApp/tree/master/common/src/commonMain/kotlin/org/reduxkotlin/namegame/common/middleware
+
+### Data
+- Repositories/
+- Utils/

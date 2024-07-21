@@ -31,7 +31,7 @@ public struct AppState: Codable, Equatable {
 }
 
 public extension AppState {
-    static let reducer: ThrowingReducer<Self> = { state, action in
+    static let reducer: Reducer<Self> = { state, action in
         var state = AppState(
             screens: try ScreenState.reducer(state.screens, action),
             settings: try SettingsState.reducer(state.settings, action),
@@ -44,7 +44,7 @@ public extension AppState {
 }
 
 private extension AppState {
-    static let gameStartStopReducer: ThrowingReducer<Self> = { state, action in
+    static let gameStartStopReducer: Reducer<Self> = { state, action in
         switch action {
         case AppAction.startGame:
             try startGameReducer(state, action)
@@ -57,7 +57,7 @@ private extension AppState {
         }
     }
 
-    static let startGameReducer: ThrowingReducer<Self> = { state, action in
+    static let startGameReducer: Reducer<Self> = { state, action in
         guard case AppAction.startGame = action else {
             fatalError("unexpected")
         }
@@ -68,7 +68,7 @@ private extension AppState {
         return state
     }
 
-    static let exitGameReducer: ThrowingReducer<Self> = { state, action in
+    static let exitGameReducer: Reducer<Self> = { state, action in
         guard case AppAction.exitGame = action else {
             fatalError("unexpected")
         }

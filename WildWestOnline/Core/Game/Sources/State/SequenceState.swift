@@ -140,7 +140,7 @@ public extension SequenceState {
 }
 
 private extension SequenceState {
-    static let prepareReducer: ThrowingReducer<Self> = { state, action in
+    static let prepareReducer: Reducer<Self> = { state, action in
         // Game is over
         if state.winner != nil {
             throw Error.gameIsOver
@@ -181,7 +181,7 @@ private extension SequenceState {
         return state
     }
 
-    static let activateReducer: ThrowingReducer<Self> = { state, action in
+    static let activateReducer: Reducer<Self> = { state, action in
         guard case let GameAction.activate(cards, player) = action else {
             fatalError("unexpected")
         }
@@ -191,7 +191,7 @@ private extension SequenceState {
         return state
     }
 
-    static let chooseOneReducer: ThrowingReducer<Self> = { state, action in
+    static let chooseOneReducer: Reducer<Self> = { state, action in
         guard case let GameAction.chooseOne(type, options, player) = action else {
             fatalError("unexpected")
         }
@@ -204,7 +204,7 @@ private extension SequenceState {
         return state
     }
 
-    static let chooseReducer: ThrowingReducer<Self> = { state, action in
+    static let chooseReducer: Reducer<Self> = { state, action in
         guard case let GameAction.choose(option, player) = action else {
             fatalError("unexpected")
         }
@@ -224,7 +224,7 @@ private extension SequenceState {
         return state
     }
 
-    static let setGameOverReducer: ThrowingReducer<Self> = { state, action in
+    static let setGameOverReducer: Reducer<Self> = { state, action in
         guard case let GameAction.setGameOver(winner) = action else {
             fatalError("unexpected")
         }
@@ -234,7 +234,7 @@ private extension SequenceState {
         return state
     }
 
-    static let startTurnReducer: ThrowingReducer<Self> = { state, action in
+    static let startTurnReducer: Reducer<Self> = { state, action in
         guard case let GameAction.startTurn(player) = action else {
             fatalError("unexpected")
         }
@@ -244,7 +244,7 @@ private extension SequenceState {
         return state
     }
 
-    static let eliminateReducer: ThrowingReducer<Self> = { state, action in
+    static let eliminateReducer: Reducer<Self> = { state, action in
         guard case let GameAction.eliminate(player) = action else {
             fatalError("unexpected")
         }
@@ -328,7 +328,7 @@ private extension SequenceState {
         return sequence
     }
 
-    static let groupReducer: ThrowingReducer<Self> = { state, action in
+    static let groupReducer: Reducer<Self> = { state, action in
         guard case let GameAction.group(children) = action else {
             fatalError("unexpected")
         }

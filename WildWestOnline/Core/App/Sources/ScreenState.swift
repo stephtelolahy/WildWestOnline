@@ -16,7 +16,7 @@ public enum Screen: Codable, Equatable {
 }
 
 public extension ScreenState {
-    static let reducer: ThrowingReducer<Self> = { state, action in
+    static let reducer: Reducer<Self> = { state, action in
         switch action {
         case AppAction.navigate:
             try navigateReducer(state, action)
@@ -31,7 +31,7 @@ public extension ScreenState {
 }
 
 private extension ScreenState {
-    static let navigateReducer: ThrowingReducer<Self> = { state, action in
+    static let navigateReducer: Reducer<Self> = { state, action in
         guard case let AppAction.navigate(screen) = action else {
             fatalError("unexpected")
         }
@@ -44,7 +44,7 @@ private extension ScreenState {
         return state
     }
 
-    static let closeReducer: ThrowingReducer<Self> = { state, action in
+    static let closeReducer: Reducer<Self> = { state, action in
         guard case AppAction.close = action else {
             fatalError("unexpected")
         }

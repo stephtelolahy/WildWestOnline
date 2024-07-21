@@ -14,7 +14,7 @@ public struct SettingsState: Codable, Equatable {
 }
 
 public extension SettingsState {
-    static let reducer: ThrowingReducer<Self> = { state, action in
+    static let reducer: Reducer<Self> = { state, action in
         switch action {
         case SettingsAction.updatePlayersCount:
             try updatePlayersCountReducer(state, action)
@@ -35,7 +35,7 @@ public extension SettingsState {
 }
 
 private extension SettingsState {
-    static let updatePlayersCountReducer: ThrowingReducer<Self> = { state, action in
+    static let updatePlayersCountReducer: Reducer<Self> = { state, action in
         guard case let SettingsAction.updatePlayersCount(value) = action else {
             fatalError("unexpected")
         }
@@ -45,7 +45,7 @@ private extension SettingsState {
         return state
     }
 
-    static let updateWaitDelayMillisecondsReducer: ThrowingReducer<Self> = { state, action in
+    static let updateWaitDelayMillisecondsReducer: Reducer<Self> = { state, action in
         guard case let SettingsAction.updateWaitDelayMilliseconds(value) = action else {
             fatalError("unexpected")
         }
@@ -55,7 +55,7 @@ private extension SettingsState {
         return state
     }
 
-    static let toggleSimulationReducer: ThrowingReducer<Self> = { state, action in
+    static let toggleSimulationReducer: Reducer<Self> = { state, action in
         guard case SettingsAction.toggleSimulation = action else {
             fatalError("unexpected")
         }
@@ -65,7 +65,7 @@ private extension SettingsState {
         return state
     }
 
-    static let updatePreferredFigureReducer: ThrowingReducer<Self> = { state, action in
+    static let updatePreferredFigureReducer: Reducer<Self> = { state, action in
         guard case let SettingsAction.updatePreferredFigure(value) = action else {
             fatalError("unexpected")
         }

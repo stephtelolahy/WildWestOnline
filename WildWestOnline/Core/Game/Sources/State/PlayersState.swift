@@ -32,7 +32,7 @@ public extension PlayersState {
 }
 
 public extension PlayersState {
-    static let reducer: ThrowingReducer<Self> = { state, action in
+    static let reducer: Reducer<Self> = { state, action in
         switch action {
         case GameAction.heal:
             try healReducer(state, action)
@@ -53,7 +53,7 @@ public extension PlayersState {
 }
 
 private extension PlayersState {
-    static let healReducer: ThrowingReducer<Self> = { state, action in
+    static let healReducer: Reducer<Self> = { state, action in
         guard case let GameAction.heal(amount, player) = action else {
             fatalError("unexpected")
         }
@@ -71,7 +71,7 @@ private extension PlayersState {
         return state
     }
 
-    static let damageReducer: ThrowingReducer<Self> = { state, action in
+    static let damageReducer: Reducer<Self> = { state, action in
         guard case let GameAction.damage(amount, player) = action else {
             fatalError("unexpected")
         }
@@ -83,7 +83,7 @@ private extension PlayersState {
         return state
     }
 
-    static let setAttributeReducer: ThrowingReducer<Self> = { state, action in
+    static let setAttributeReducer: Reducer<Self> = { state, action in
         guard case let GameAction.setAttribute(key, value, player) = action else {
             fatalError("unexpected")
         }
@@ -93,7 +93,7 @@ private extension PlayersState {
         return state
     }
 
-    static let removeAttributeReducer: ThrowingReducer<Self> = { state, action in
+    static let removeAttributeReducer: Reducer<Self> = { state, action in
         guard case let GameAction.removeAttribute(key, player) = action else {
             fatalError("unexpected")
         }
