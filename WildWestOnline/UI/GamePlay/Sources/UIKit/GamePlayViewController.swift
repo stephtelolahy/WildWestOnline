@@ -6,7 +6,6 @@
 //
 // swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
 
-import AppCore
 import Combine
 import GameCore
 import Redux
@@ -22,7 +21,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Data
 
-    private var store: Store<GamePlayView.State>
+    private var store: TypedStore<GamePlayView.State, GamePlayView.Action>
     private var subscriptions: Set<AnyCancellable> = []
     private var events: [String] = []
 
@@ -45,7 +44,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Init
 
-    init(store: Store<GamePlayView.State>) {
+    init(store: TypedStore<GamePlayView.State, GamePlayView.Action>) {
         self.store = store
         super.init(nibName: "GamePlayViewController", bundle: .module)
     }
@@ -65,22 +64,17 @@ class GamePlayViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startGame()
+        store.dispatch(.didAppear)
     }
 
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
-        store.dispatch(AppAction.exitGame)
+        store.dispatch(.didTapCloseButton)
     }
 }
 
 private extension GamePlayViewController {
-    func startGame() {
-        let sheriff = store.state.players[0].id
-        store.dispatch(GameAction.startTurn(player: sheriff))
-    }
-
     func setupViews() {
         playersCollectionView.register(
             UINib(nibName: "PlayerCell", bundle: .module),

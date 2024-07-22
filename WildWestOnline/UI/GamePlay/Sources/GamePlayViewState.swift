@@ -68,6 +68,10 @@ public extension GamePlayView {
     }
 
     enum Action {
+        case didAppear
+        case didTapCloseButton
+        case didPlayCard(String)
+        case didChooseOption(String)
     }
 
     static let deriveState: (AppState) -> State? = { state in
@@ -90,7 +94,19 @@ public extension GamePlayView {
     }
 
     static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
-        fatalError()
+        switch action {
+        case .didAppear:
+            GameAction.startTurn(player: state.game!.round.playOrder[0])
+
+        case .didTapCloseButton:
+            AppAction.exitGame
+
+        case .didPlayCard(let card):
+            GameAction.play(card, player: <#T##String#>)
+
+        case .didChooseOption(let option):
+            GameAction.choose(option, player: <#T##String#>)
+        }
     }
 }
 
