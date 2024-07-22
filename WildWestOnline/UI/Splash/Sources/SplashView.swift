@@ -6,7 +6,6 @@
 //
 // swiftlint:disable type_contents_order
 
-import AppCore
 import Redux
 import SwiftUI
 

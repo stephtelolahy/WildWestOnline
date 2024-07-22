@@ -6,7 +6,6 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import AppCore
 import Redux
 import SwiftUI
 import Theme

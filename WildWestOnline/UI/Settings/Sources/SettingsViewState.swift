@@ -8,6 +8,7 @@
 // swiftlint:disable nesting no_magic_numbers
 import AppCore
 import Redux
+import SettingsCore
 
 public extension SettingsView {
     struct State: Equatable {
@@ -33,6 +34,11 @@ public extension SettingsView {
     }
 
     enum Action {
+        case closeButtonTapped
+        case playersCountChanged(Int)
+        case waitDelayChanged(Int)
+        case simulationToggled
+        case preferredFigureChanged(String)
     }
 
     static let deriveState: (AppState) -> State? = { state in
@@ -46,7 +52,22 @@ public extension SettingsView {
     }
 
     static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
-        fatalError()
+        switch action {
+        case .closeButtonTapped:
+            AppAction.close
+
+        case .playersCountChanged(let count):
+            SettingsAction.updatePlayersCount(count)
+
+        case .waitDelayChanged(let delay):
+            SettingsAction.updateWaitDelayMilliseconds(delay)
+
+        case .simulationToggled:
+            SettingsAction.toggleSimulation
+
+        case .preferredFigureChanged(let figure):
+            SettingsAction.updatePreferredFigure(figure)
+        }
     }
 }
 
