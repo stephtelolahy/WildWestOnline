@@ -13,19 +13,19 @@ import Combine
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
 private class StoreProjection<
-    ViewState: Equatable,
-    ViewAction,
+    LocalState: Equatable,
+    LocalAction,
     GlobalState,
     GlobalAction
->: Store<ViewState, ViewAction> {
+>: Store<LocalState, LocalAction> {
     private let globalStore: Store<GlobalState, GlobalAction>
-    private let deriveState: (GlobalState) -> ViewState?
-    private let embedAction: (ViewAction, GlobalState) -> GlobalAction
+    private let deriveState: (GlobalState) -> LocalState?
+    private let embedAction: (LocalAction, GlobalState) -> GlobalAction
 
     init(
         globalStore: Store<GlobalState, GlobalAction>,
-        deriveState: @escaping (GlobalState) -> ViewState?,
-        embedAction: @escaping (ViewAction, GlobalState) -> GlobalAction
+        deriveState: @escaping (GlobalState) -> LocalState?,
+        embedAction: @escaping (LocalAction, GlobalState) -> GlobalAction
     ) {
         guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
@@ -43,18 +43,18 @@ private class StoreProjection<
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ viewAction: ViewAction) {
-        let globalAction = embedAction(viewAction, globalStore.state)
+    override func dispatch(_ action: LocalAction) {
+        let globalAction = embedAction(action, globalStore.state)
         globalStore.dispatch(globalAction)
     }
 }
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<ViewState: Equatable, ViewAction>(
-        _ deriveState: @escaping (State) -> ViewState?,
-        _ embedAction: @escaping (ViewAction, State) -> Action
-    ) -> Store<ViewState, ViewAction> {
+    func projection<LocalState: Equatable, LocalAction>(
+        _ deriveState: @escaping (State) -> LocalState?,
+        _ embedAction: @escaping (LocalAction, State) -> Action
+    ) -> Store<LocalState, LocalAction> {
         StoreProjection(
             globalStore: self,
             deriveState: deriveState,

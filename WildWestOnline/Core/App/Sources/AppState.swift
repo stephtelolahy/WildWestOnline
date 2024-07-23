@@ -31,15 +31,23 @@ public struct AppState: Codable, Equatable {
 }
 
 public extension AppState {
-    // swiftlint:disable force_cast
     static let reducer: Reducer<Self, Any> = { state, action in
-        var state = AppState(
-            screens: try ScreenState.reducer(state.screens, action as! AppAction),
-            settings: try SettingsState.reducer(state.settings, action as! SettingsAction),
-            inventory: state.inventory,
-            game: try state.game.flatMap { try GameState.reducer($0, action as! GameAction) }
-        )
-        state = try gameStartStopReducer(state, action as! AppAction)
+        var state = state
+        switch action {
+        case let action as AppAction:
+            state.screens = try ScreenState.reducer(state.screens, action)
+            state = try gameStartStopReducer(state, action)
+
+        case let action as SettingsAction:
+            state.settings = try SettingsState.reducer(state.settings, action)
+
+        case let action as GameAction:
+            state.game = try state.game.flatMap { try GameState.reducer($0, action) }
+
+        default:
+            break
+        }
+
         return state
     }
 }
