@@ -83,7 +83,8 @@ public extension GamePlayView {
             animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
             startOrder: game.round.startOrder,
             deckCount: game.field.deck.count,
-            occurredEvent: nil // TODO: bind to store's occurred event
+            // TODO: bind to store's occurred event
+            occurredEvent: nil
         )
     }
 
@@ -92,18 +93,26 @@ public extension GamePlayView {
             fatalError("unexpected")
         }
 
-        return switch action {
+        switch action {
         case .didAppear:
-            GameAction.startTurn(player: game.startingPlayerId)
+            return GameAction.startTurn(player: game.startingPlayerId)
 
         case .didTapCloseButton:
-            AppAction.exitGame
+            return AppAction.exitGame
 
         case .didPlayCard(let card):
-            GameAction.play(card, player: game.controlledPlayerId)
+            guard let controlledId = game.controlledPlayerId else {
+                fatalError("unexpected")
+            }
+
+            return GameAction.play(card, player: controlledId)
 
         case .didChooseOption(let option):
-            GameAction.choose(option, player: game.controlledPlayerId)
+            guard let controlledId = game.controlledPlayerId else {
+                fatalError("unexpected")
+            }
+
+            return GameAction.choose(option, player: controlledId)
         }
     }
 }
@@ -146,7 +155,8 @@ private extension GameState {
     }
 
     var chooseOne: GamePlayView.State.ChooseOne? {
-        guard let chooseOne = sequence.chooseOne[controlledPlayerId] else {
+        guard let controlledId = controlledPlayerId,
+              let chooseOne = sequence.chooseOne[controlledId] else {
             return  nil
         }
 
@@ -189,7 +199,7 @@ private extension GameState {
         round.playOrder.first!
     }
 
-    var controlledPlayerId: String {
-        round.startOrder.first(where: { config.playMode[$0] == .manual })!
+    var controlledPlayerId: String? {
+        round.startOrder.first(where: { config.playMode[$0] == .manual })
     }
 }
