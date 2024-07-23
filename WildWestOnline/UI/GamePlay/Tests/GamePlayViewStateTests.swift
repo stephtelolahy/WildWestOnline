@@ -111,10 +111,10 @@ final class GamePlayViewStateTests: XCTestCase {
         let result = try XCTUnwrap(GamePlayView.deriveState(appState))
 
         // Then
-        XCTAssertEqual(result.handActions, [
-            .init(card: .bang, action: .play(.bang, player: "p1")),
-            .init(card: .gatling, action: nil),
-            .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
+        XCTAssertEqual(result.handCards, [
+            .init(card: .bang, active: true),
+            .init(card: .gatling, active: false),
+            .init(card: .endTurn, active: true)
         ])
     }
 
@@ -138,14 +138,10 @@ final class GamePlayViewStateTests: XCTestCase {
 
         // Then
         XCTAssertEqual(
-            result.chooseOneData,
+            result.chooseOne,
             GamePlayView.State.ChooseOne(
                 choiceType: .cardToDraw,
-                options: [.missed, .bang],
-                actions: [
-                    .missed: .choose(.missed, player: "p1"),
-                    .bang: .choose(.bang, player: "p1")
-                ]
+                options: [.missed, .bang]
             )
         )
     }
