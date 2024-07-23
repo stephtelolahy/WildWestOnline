@@ -13,20 +13,20 @@ public extension HomeView {
     }
 
     enum Action {
-        case playButtonTapped
-        case settingsButtonTapped
+        case didTapPlayButton
+        case didTapSettingsButton
     }
 
     static let deriveState: (AppState) -> State? = { _ in
             .init()
     }
 
-    static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
+    static let embedAction: (Action, AppState) -> Redux.Action = { action, _ in
         switch action {
-        case .playButtonTapped:
+        case .didTapPlayButton:
             AppAction.startGame
 
-        case .settingsButtonTapped:
+        case .didTapSettingsButton:
             AppAction.navigate(.settings)
         }
     }

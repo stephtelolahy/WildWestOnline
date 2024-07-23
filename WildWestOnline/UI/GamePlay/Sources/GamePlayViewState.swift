@@ -16,8 +16,8 @@ public extension GamePlayView {
     struct State: Equatable {
         public let players: [PlayerItem]
         public let message: String
-        public let chooseOneData: ChooseOneData?
-        public let handActions: [CardAction]
+        public let chooseOne: ChooseOne?
+        public let handCards: [HandCard]
         public let topDiscard: String?
         public let topDeck: String?
         public let animationDelay: TimeInterval
@@ -40,29 +40,23 @@ public extension GamePlayView {
             public let userPhotoUrl: String?
         }
 
-        public struct CardAction: Equatable {
+        public struct HandCard: Equatable {
             public let card: String
-            public let action: GameAction?
+            public let active: Bool
 
-            public init(card: String, action: GameAction?) {
+            public init(card: String, active: Bool) {
                 self.card = card
-                self.action = action
+                self.active = active
             }
         }
 
-        public struct ChooseOneData: Equatable {
+        public struct ChooseOne: Equatable {
             public let choiceType: ChoiceType
             public let options: [String]
-            public let actions: [String: GameAction]
 
-            public init(
-                choiceType: ChoiceType,
-                options: [String],
-                actions: [String: GameAction]
-            ) {
+            public init(choiceType: ChoiceType, options: [String]) {
                 self.choiceType = choiceType
                 self.options = options
-                self.actions = actions
             }
         }
     }
@@ -82,8 +76,8 @@ public extension GamePlayView {
         return .init(
             players: game.playerItems,
             message: game.message,
-            chooseOneData: game.chooseOneData,
-            handActions: game.handActions,
+            chooseOne: game.chooseOne,
+            handCards: game.handCards,
             topDiscard: game.field.discard.first,
             topDeck: game.field.deck.first,
             animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
@@ -94,18 +88,22 @@ public extension GamePlayView {
     }
 
     static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
-        switch action {
+        guard let game = state.game else {
+            fatalError("unexpected")
+        }
+
+        return switch action {
         case .didAppear:
-            GameAction.startTurn(player: state.game!.round.playOrder[0])
+            GameAction.startTurn(player: game.startingPlayerId)
 
         case .didTapCloseButton:
             AppAction.exitGame
 
         case .didPlayCard(let card):
-            GameAction.play(card, player: <#T##String#>)
+            GameAction.play(card, player: game.controlledPlayerId)
 
         case .didChooseOption(let option):
-            GameAction.choose(option, player: <#T##String#>)
+            GameAction.choose(option, player: game.controlledPlayerId)
         }
     }
 }
@@ -147,22 +145,18 @@ private extension GameState {
         }
     }
 
-    var chooseOneData: GamePlayView.State.ChooseOneData? {
-        guard let chooseOne = sequence.chooseOne.first(where: { config.playMode[$0.key] == .manual }) else {
+    var chooseOne: GamePlayView.State.ChooseOne? {
+        guard let chooseOne = sequence.chooseOne[controlledPlayerId] else {
             return  nil
         }
 
-        let options = chooseOne.value.options.reduce(into: [String: GameAction]()) {
-            $0[$1] = .choose($1, player: chooseOne.key)
-        }
         return .init(
-            choiceType: chooseOne.value.type,
-            options: chooseOne.value.options,
-            actions: options
+            choiceType: chooseOne.type,
+            options: chooseOne.options
         )
     }
 
-    var handActions: [GamePlayView.State.CardAction] {
+    var handCards: [GamePlayView.State.HandCard] {
         guard let playerId = players.first(where: { config.playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
@@ -170,22 +164,32 @@ private extension GameState {
 
         let activeCards = sequence.active[playerId] ?? []
 
-        let handCardActions = field.hand.getOrEmpty(playerId).map { card in
-            if activeCards.contains(card) {
-                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
-            } else {
-                GamePlayView.State.CardAction(card: card, action: nil)
-            }
+        let hand = field.hand.getOrEmpty(playerId).map { card in
+            GamePlayView.State.HandCard(
+                card: card,
+                active: activeCards.contains(card)
+            )
         }
 
-        let abilityActions = playerObj.abilities.compactMap { card in
+        let abilities = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                GamePlayView.State.CardAction(card: card, action: .play(card, player: playerId))
+                GamePlayView.State.HandCard(
+                    card: card,
+                    active: true
+                )
             } else {
                 nil
             }
         }
 
-        return handCardActions + abilityActions
+        return hand + abilities
+    }
+
+    var startingPlayerId: String {
+        round.playOrder.first!
+    }
+
+    var controlledPlayerId: String {
+        round.startOrder.first(where: { config.playMode[$0] == .manual })!
     }
 }

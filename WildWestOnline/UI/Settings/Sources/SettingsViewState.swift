@@ -34,11 +34,11 @@ public extension SettingsView {
     }
 
     enum Action {
-        case closeButtonTapped
-        case playersCountChanged(Int)
-        case waitDelayChanged(Int)
-        case simulationToggled
-        case preferredFigureChanged(String)
+        case didTapCloseButton
+        case didChangePlayersCount(Int)
+        case didChangeWaitDelay(Int)
+        case didToggleSimulation
+        case didChangePreferredFigure(String)
     }
 
     static let deriveState: (AppState) -> State? = { state in
@@ -51,21 +51,21 @@ public extension SettingsView {
             )
     }
 
-    static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
+    static let embedAction: (Action, AppState) -> Redux.Action = { action, _ in
         switch action {
-        case .closeButtonTapped:
+        case .didTapCloseButton:
             AppAction.close
 
-        case .playersCountChanged(let count):
+        case .didChangePlayersCount(let count):
             SettingsAction.updatePlayersCount(count)
 
-        case .waitDelayChanged(let delay):
+        case .didChangeWaitDelay(let delay):
             SettingsAction.updateWaitDelayMilliseconds(delay)
 
-        case .simulationToggled:
+        case .didToggleSimulation:
             SettingsAction.toggleSimulation
 
-        case .preferredFigureChanged(let figure):
+        case .didChangePreferredFigure(let figure):
             SettingsAction.updatePreferredFigure(figure)
         }
     }

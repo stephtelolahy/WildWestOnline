@@ -1,6 +1,6 @@
 #  Clean+Redux architecture 
 
-### Equations
+### Principles
 - App = View(State)
 - ViewState = Presenter(AppState)
 - State = Reducer(State, Action)
@@ -17,10 +17,9 @@
 ### UI
 - View (+Components)
 - ViewState
-- Presenter
 - ViewActions
-- Middlewares #transform UI action to Core actions, transform UI action to navigator action
-https://github.com/reduxkotlin/NameGameSampleApp/blob/master/common/src/commonMain/kotlin/org/reduxkotlin/namegame/common/middleware/UiMiddleware.kt
+- Presenter
+
 ### Data
 - Repositories
 - LocalStorage

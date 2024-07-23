@@ -13,16 +13,16 @@ public extension SplashView {
     }
 
     enum Action {
-        case wiewAppeared
+        case didAppear
     }
 
     static let deriveState: (AppState) -> State? = { _ in
             .init()
     }
 
-    static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
+    static let embedAction: (Action, AppState) -> Redux.Action = { action, _ in
         switch action {
-        case .wiewAppeared:
+        case .didAppear:
             AppAction.navigate(.home)
         }
     }

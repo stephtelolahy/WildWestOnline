@@ -139,7 +139,7 @@ final class GamePlayViewStateTests: XCTestCase {
         // Then
         XCTAssertEqual(
             result.chooseOneData,
-            GamePlayView.State.ChooseOneData(
+            GamePlayView.State.ChooseOne(
                 choiceType: .cardToDraw,
                 options: [.missed, .bang],
                 actions: [

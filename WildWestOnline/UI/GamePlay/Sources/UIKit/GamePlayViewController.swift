@@ -7,7 +7,6 @@
 // swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
 
 import Combine
-import GameCore
 import Redux
 import UIKit
 
@@ -116,8 +115,10 @@ private extension GamePlayViewController {
         playersCollectionView.reloadData()
         handCollectionView.reloadData()
 
-        if let chooseOneData = state.chooseOneData {
-            showChooseOneAlert(chooseOneData, completion: store.dispatch)
+        if let chooseOne = state.chooseOne {
+            showChooseOneAlert(chooseOne) { [weak self] option in
+                self?.store.dispatch(.didChooseOption(option))
+            }
         }
 
         if let event = state.occurredEvent {
@@ -137,8 +138,8 @@ private extension GamePlayViewController {
     }
 
     func showChooseOneAlert(
-        _ data: GamePlayView.State.ChooseOneData,
-        completion: @escaping (GameAction) -> Void
+        _ data: GamePlayView.State.ChooseOne,
+        completion: @escaping (String) -> Void
     ) {
         let alert = UIAlertController(
             title: "Choose \(data.choiceType.rawValue)",
@@ -151,9 +152,7 @@ private extension GamePlayViewController {
                 title: key,
                 style: .default
             ) { _ in
-                completion(
-                    data.actions[key]!
-                )
+                completion(key)
             }
             let image = UIImage(
                 named: key.extractName(),
@@ -233,7 +232,7 @@ extension GamePlayViewController: UICollectionViewDataSource {
     }
 
     private func handCollectionViewNumberOfItems() -> Int {
-        store.state.handActions.count
+        store.state.handCards.count
     }
 
     private func playersCollectionView(
@@ -253,7 +252,7 @@ extension GamePlayViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         // swiftlint:disable:next force_cast
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HandCellIdentifier", for: indexPath) as! HandCell
-        let item = store.state.handActions[indexPath.row]
+        let item = store.state.handCards[indexPath.row]
         cell.update(with: item)
         return cell
     }
@@ -277,11 +276,12 @@ extension GamePlayViewController: UICollectionViewDelegate {
     }
 
     private func handCollectionViewDidSelectItem(at indexPath: IndexPath) {
-        guard let action = store.state.handActions[indexPath.row].action else {
+        let item = store.state.handCards[indexPath.row]
+        guard item.active else {
             return
         }
 
-        store.dispatch(action)
+        store.dispatch(.didPlayCard(item.card))
     }
 }
 

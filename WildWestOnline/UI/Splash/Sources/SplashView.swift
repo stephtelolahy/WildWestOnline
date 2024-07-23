@@ -29,7 +29,7 @@ public struct SplashView: View {
         .onAppear {
             let waitDelaySeconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + waitDelaySeconds) {
-                store.dispatch(.wiewAppeared)
+                store.dispatch(.didAppear)
             }
         }
     }

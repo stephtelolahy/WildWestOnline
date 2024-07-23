@@ -6,9 +6,7 @@
 //
 // swiftlint:disable type_contents_order no_magic_numbers
 
-import AppCore
 import CardsRepository
-import GameCore
 import Redux
 import SwiftUI
 import Theme
@@ -76,11 +74,11 @@ private extension GamePlayView.State {
         return .init(
             players: [player1, player2, player2, player2, player2, player2, player2],
             message: "P1's turn",
-            chooseOneData: nil,
-            handActions: [
-                .init(card: "\(String.mustang)-2♥️", action: nil),
-                .init(card: .gatling, action: .play(.gatling, player: "p1")),
-                .init(card: .endTurn, action: .play(.endTurn, player: "p1"))
+            chooseOne: nil,
+            handCards: [
+                .init(card: "\(String.mustang)-2♥️", active: false),
+                .init(card: .gatling, active: true),
+                .init(card: .endTurn, active: true)
             ],
             topDiscard: .bang,
             topDeck: nil,
