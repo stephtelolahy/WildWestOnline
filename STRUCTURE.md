@@ -1,10 +1,12 @@
 #  Clean+Redux architecture 
 
 ### Principles
-- App = View(State)
-- ViewState = Presenter(AppState)
+- App = ∑ View(ViewState, ViewAction)
+- ViewState = derive(AppState)
+- ViewAction = extract(AppAction)
+- AppState = ∑ State
 - State = Reducer(State, Action)
-- Action = Middleware(State, Action)
+- Action = Middleware(State, Action, Service)
 
 ### Core
 - Actions

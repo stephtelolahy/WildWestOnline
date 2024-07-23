@@ -37,8 +37,8 @@ extension XCTestCase {
         var ocurredError: Error?
 
         store.event.sink { event in
-            if action.isRenderable {
-                ocurredEvents.append(action)
+            if event.isRenderable {
+                ocurredEvents.append(event)
             }
         }.store(in: &subscriptions)
 
