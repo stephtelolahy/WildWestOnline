@@ -84,8 +84,7 @@ private extension GamePlayView.State {
             topDeck: nil,
             animationDelay: 1000,
             startOrder: [],
-            deckCount: 12,
-            occurredEvent: .damage(1, player: .calamityJanet)
+            deckCount: 12
         )
     }
 }

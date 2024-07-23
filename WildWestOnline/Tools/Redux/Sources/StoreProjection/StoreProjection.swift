@@ -41,6 +41,9 @@ private class StoreProjection<
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
+
+//        globalStore.event
+//            .assign(to: &self.event)
     }
 
     override func dispatch(_ action: LocalAction) {

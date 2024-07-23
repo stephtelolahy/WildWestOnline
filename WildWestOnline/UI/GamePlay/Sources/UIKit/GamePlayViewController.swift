@@ -7,6 +7,7 @@
 // swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
 
 import Combine
+import GameCore
 import Redux
 import UIKit
 
@@ -105,6 +106,15 @@ private extension GamePlayViewController {
             self?.previousState = state
         }
         .store(in: &subscriptions)
+
+        store.event.sink { [weak self] event in
+            guard let gameAction = event as? GameAction else {
+                fatalError("unexpected")
+            }
+
+            self?.updateViews(with: gameAction)
+        }
+        .store(in: &subscriptions)
     }
 
     func updateViews(with state: GamePlayView.State) {
@@ -120,21 +130,22 @@ private extension GamePlayViewController {
                 self?.store.dispatch(.didChooseOption(option))
             }
         }
+    }
 
-        if let event = state.occurredEvent {
-            if let animation = animationMatcher.animation(on: event),
-               let previousState {
-                animationRenderer.execute(
-                    animation,
-                    from: previousState,
-                    to: state,
-                    duration: state.animationDelay
-                )
-            }
-
-            events.insert(String(describing: event), at: 0)
-            messageTableView.reloadData()
+    func updateViews(with event: GameAction) {
+        let state = store.state
+        if let animation = animationMatcher.animation(on: event),
+           let previousState {
+            animationRenderer.execute(
+                animation,
+                from: previousState,
+                to: state,
+                duration: state.animationDelay
+            )
         }
+
+        events.insert(String(describing: event), at: 0)
+        messageTableView.reloadData()
     }
 
     func showChooseOneAlert(

@@ -32,7 +32,6 @@ public class Store<State, Action>: ObservableObject {
     public func dispatch(_ action: Action) {
         do {
             let newState = try reducer(state, action)
-            event.send(action)
             middlewares.forEach { middleware in
                 Future<Action, Never>.create(from: middleware, state: newState, action: action)
                     .compactMap { $0 }
@@ -42,6 +41,7 @@ public class Store<State, Action>: ObservableObject {
                     .store(in: &subscriptions)
             }
             state = newState
+            event.send(action)
         } catch {
             self.error.send(error)
         }

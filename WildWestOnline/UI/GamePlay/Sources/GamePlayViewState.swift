@@ -23,7 +23,6 @@ public extension GamePlayView {
         public let animationDelay: TimeInterval
         public let startOrder: [String]
         public let deckCount: Int
-        public let occurredEvent: GameAction?
 
         public struct PlayerItem: Equatable {
             public let id: String
@@ -82,9 +81,7 @@ public extension GamePlayView {
             topDeck: game.field.deck.first,
             animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
             startOrder: game.round.startOrder,
-            deckCount: game.field.deck.count,
-            // TODO: bind to store's occurred event
-            occurredEvent: nil
+            deckCount: game.field.deck.count
         )
     }
 
