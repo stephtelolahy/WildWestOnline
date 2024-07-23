@@ -108,11 +108,9 @@ private extension GamePlayViewController {
         .store(in: &subscriptions)
 
         store.event.sink { [weak self] event in
-            guard let gameAction = event as? GameAction else {
-                fatalError("unexpected")
+            if let gameAction = event as? GameAction {
+                self?.updateViews(with: gameAction)
             }
-
-            self?.updateViews(with: gameAction)
         }
         .store(in: &subscriptions)
     }

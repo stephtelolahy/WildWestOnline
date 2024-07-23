@@ -9,7 +9,7 @@ import SwiftUI
 /// - and publish changes of the the current app `State` to possible subscribers.
 public class Store<State, Action>: ObservableObject {
     @Published public internal(set) var state: State
-    public internal(set) var event: PassthroughSubject<Action, Never>
+    public internal(set) var event: PassthroughSubject<Any, Never>
     public internal(set) var error: PassthroughSubject<Error, Never>
 
     private let reducer: Reducer<State, Action>

@@ -35,15 +35,14 @@ private class StoreProjection<
         self.deriveState = deriveState
         self.embedAction = embedAction
         super.init(initial: initialState)
+        self.event = globalStore.event
+        self.error = globalStore.error
 
         globalStore.$state
             .map(self.deriveState)
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
-
-//        globalStore.event
-//            .assign(to: &self.event)
     }
 
     override func dispatch(_ action: LocalAction) {
