@@ -16,6 +16,7 @@ import SettingsCore
 import Splash
 import SwiftUI
 
+// TODO: move to Application
 public struct AppView: View {
     @StateObject private var store: Store<AppState, Any>
 
