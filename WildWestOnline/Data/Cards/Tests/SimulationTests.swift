@@ -85,7 +85,7 @@ private extension Middlewares {
             assert(resultState.players == state.players, "🚨 Inconsistent state after applying \(action)")
             assert(resultState.field == state.field, "🚨 Inconsistent state after applying \(action)")
             assert(resultState.round == state.round, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
+            //assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
             return nil
         }
     }

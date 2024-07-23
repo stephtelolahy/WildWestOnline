@@ -31,8 +31,7 @@ let package = Package(
         .library(name: "Splash", targets: ["Splash"]),
         .library(name: "Home", targets: ["Home"]),
         .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "GamePlay", targets: ["GamePlay"]),
-        .library(name: "App", targets: ["App"])
+        .library(name: "GamePlay", targets: ["GamePlay"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -227,28 +226,6 @@ let package = Package(
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
-        ),
-        .target(
-            name: "App",
-            dependencies: [
-                "Splash",
-                "Home",
-                "Settings",
-                "GamePlay",
-                "CardsRepository",
-                "SettingsRepository"
-            ],
-            path: "UI/App/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintPlugin")
-            ]
-        ),
-        .testTarget(
-            name: "AppTests",
-            dependencies: [
-                "App"
-            ],
-            path: "UI/App/Tests"
         ),
         .binaryTarget(
             name: "SwiftLintBinary",
