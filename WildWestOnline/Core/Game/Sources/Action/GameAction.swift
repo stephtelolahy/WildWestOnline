@@ -5,11 +5,9 @@
 //  Created by Hugues Telolahy on 06/04/2023.
 //
 
-import Redux
-
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
-public indirect enum GameAction: Action, Codable, Equatable {
+public indirect enum GameAction: Codable, Equatable {
     // MARK: - Renderable
 
     /// Play a card

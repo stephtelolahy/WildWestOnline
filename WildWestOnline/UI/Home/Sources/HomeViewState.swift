@@ -21,7 +21,7 @@ public extension HomeView {
             .init()
     }
 
-    static let embedAction: (Action, AppState) -> Redux.Action = { action, _ in
+    static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didTapPlayButton:
             AppAction.startGame

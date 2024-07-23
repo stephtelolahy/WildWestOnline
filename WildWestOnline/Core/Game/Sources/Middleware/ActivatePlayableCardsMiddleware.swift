@@ -9,7 +9,7 @@
 import Redux
 
 extension Middlewares {
-    static func activatePlayableCards() -> Middleware<GameState> {
+    static func activatePlayableCards() -> Middleware<GameState, GameAction> {
         { state, _ in
             guard state.sequence.queue.isEmpty,
                   state.sequence.winner == nil,

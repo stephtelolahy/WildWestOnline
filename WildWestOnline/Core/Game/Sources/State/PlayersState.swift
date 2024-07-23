@@ -32,18 +32,18 @@ public extension PlayersState {
 }
 
 public extension PlayersState {
-    static let reducer: Reducer<Self> = { state, action in
+    static let reducer: Reducer<Self, GameAction> = { state, action in
         switch action {
-        case GameAction.heal:
+        case .heal:
             try healReducer(state, action)
 
-        case GameAction.damage:
+        case .damage:
             try damageReducer(state, action)
 
-        case GameAction.setAttribute:
+        case .setAttribute:
             try setAttributeReducer(state, action)
 
-        case GameAction.removeAttribute:
+        case .removeAttribute:
             try removeAttributeReducer(state, action)
 
         default:
@@ -53,8 +53,8 @@ public extension PlayersState {
 }
 
 private extension PlayersState {
-    static let healReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.heal(amount, player) = action else {
+    static let healReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .heal(amount, player) = action else {
             fatalError("unexpected")
         }
         var playerObj = state.get(player)
@@ -71,8 +71,8 @@ private extension PlayersState {
         return state
     }
 
-    static let damageReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.damage(amount, player) = action else {
+    static let damageReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .damage(amount, player) = action else {
             fatalError("unexpected")
         }
         var playerObj = state.get(player)
@@ -83,8 +83,8 @@ private extension PlayersState {
         return state
     }
 
-    static let setAttributeReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.setAttribute(key, value, player) = action else {
+    static let setAttributeReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .setAttribute(key, value, player) = action else {
             fatalError("unexpected")
         }
 
@@ -93,8 +93,8 @@ private extension PlayersState {
         return state
     }
 
-    static let removeAttributeReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.removeAttribute(key, player) = action else {
+    static let removeAttributeReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .removeAttribute(key, player) = action else {
             fatalError("unexpected")
         }
 

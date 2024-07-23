@@ -13,7 +13,7 @@
 /// Only the first non-nil middleware response will be returned
 ///
 public extension Middlewares {
-    static func chain<State>(_ middlewares: [Middleware<State>]) -> Middleware<State> {
+    static func chain<State, Action>(_ middlewares: [Middleware<State, Action>]) -> Middleware<State, Action> {
         { state, action in
             for middleware in middlewares {
                 if let response = await middleware(state, action) {

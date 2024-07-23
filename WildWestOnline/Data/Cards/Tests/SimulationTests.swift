@@ -49,7 +49,7 @@ final class SimulationTests: XCTestCase {
         let stateWrapper = ClassWrapper(game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = Store<GameState>(
+        let sut = Store<GameState, GameAction>(
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
@@ -78,7 +78,7 @@ final class SimulationTests: XCTestCase {
 
 /// Middleare reproducting state according to received event
 private extension Middlewares {
-    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState> {
+    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState, GameAction> {
         { state, action in
             let resultState = try! GameState.reducer(prevState.value, action)
             prevState.value = resultState

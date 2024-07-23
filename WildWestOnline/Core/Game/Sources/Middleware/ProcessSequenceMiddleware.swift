@@ -10,12 +10,8 @@ import Foundation
 import Redux
 
 extension Middlewares {
-    static func processSequence() -> Middleware<GameState> {
+    static func processSequence() -> Middleware<GameState, GameAction> {
         { state, action in
-            guard let action = action as? GameAction else {
-                return nil
-            }
-
             switch action {
             case .setGameOver,
                     .chooseOne,

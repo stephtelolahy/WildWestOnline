@@ -31,25 +31,26 @@ public struct AppState: Codable, Equatable {
 }
 
 public extension AppState {
-    static let reducer: Reducer<Self> = { state, action in
+    // swiftlint:disable force_cast
+    static let reducer: Reducer<Self, Any> = { state, action in
         var state = AppState(
-            screens: try ScreenState.reducer(state.screens, action),
-            settings: try SettingsState.reducer(state.settings, action),
+            screens: try ScreenState.reducer(state.screens, action as! AppAction),
+            settings: try SettingsState.reducer(state.settings, action as! SettingsAction),
             inventory: state.inventory,
-            game: try state.game.flatMap { try GameState.reducer($0, action) }
+            game: try state.game.flatMap { try GameState.reducer($0, action as! GameAction) }
         )
-        state = try gameStartStopReducer(state, action)
+        state = try gameStartStopReducer(state, action as! AppAction)
         return state
     }
 }
 
 private extension AppState {
-    static let gameStartStopReducer: Reducer<Self> = { state, action in
+    static let gameStartStopReducer: Reducer<Self, AppAction> = { state, action in
         switch action {
-        case AppAction.startGame:
+        case .startGame:
             try startGameReducer(state, action)
 
-        case AppAction.exitGame:
+        case .exitGame:
             try exitGameReducer(state, action)
 
         default:
@@ -57,8 +58,8 @@ private extension AppState {
         }
     }
 
-    static let startGameReducer: Reducer<Self> = { state, action in
-        guard case AppAction.startGame = action else {
+    static let startGameReducer: Reducer<Self, AppAction> = { state, action in
+        guard case .startGame = action else {
             fatalError("unexpected")
         }
 
@@ -68,8 +69,8 @@ private extension AppState {
         return state
     }
 
-    static let exitGameReducer: Reducer<Self> = { state, action in
-        guard case AppAction.exitGame = action else {
+    static let exitGameReducer: Reducer<Self, AppAction> = { state, action in
+        guard case .exitGame = action else {
             fatalError("unexpected")
         }
 

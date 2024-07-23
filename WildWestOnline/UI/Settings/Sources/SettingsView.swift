@@ -10,9 +10,9 @@ import Redux
 import SwiftUI
 
 public struct SettingsView: View {
-    @StateObject private var store: TypedStore<State, Action>
+    @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> TypedStore<State, Action>) {
+    public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -122,7 +122,7 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        .init(.sample)
+        .init(initial: .sample)
     }
 }
 

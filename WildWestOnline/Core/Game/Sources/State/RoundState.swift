@@ -18,15 +18,15 @@ public struct RoundState: Codable, Equatable {
 }
 
 public extension RoundState {
-    static let reducer: Reducer<Self> = { state, action in
+    static let reducer: Reducer<Self, GameAction> = { state, action in
         switch action {
-        case GameAction.startTurn:
+        case .startTurn:
             try startTurnReducer(state, action)
 
-        case GameAction.endTurn:
+        case .endTurn:
             try endTurnReducer(state, action)
 
-        case GameAction.eliminate:
+        case .eliminate:
             try eliminateReducer(state, action)
 
         default:
@@ -36,8 +36,8 @@ public extension RoundState {
 }
 
 private extension RoundState {
-    static let startTurnReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.startTurn(player) = action else {
+    static let startTurnReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .startTurn(player) = action else {
             fatalError("unexpected")
         }
 
@@ -46,8 +46,8 @@ private extension RoundState {
         return state
     }
 
-    static let endTurnReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.endTurn(player) = action else {
+    static let endTurnReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .endTurn(player) = action else {
             fatalError("unexpected")
         }
 
@@ -56,8 +56,8 @@ private extension RoundState {
         return state
     }
 
-    static let eliminateReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.eliminate(player) = action else {
+    static let eliminateReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .eliminate(player) = action else {
             fatalError("unexpected")
         }
 

@@ -7,7 +7,7 @@
 //
 
 public extension Middlewares {
-    static func logger<State>() -> Middleware<State> {
+    static func logger<State, Action>() -> Middleware<State, Action> {
         { _, action in
             print(String(describing: action))
             return nil

@@ -14,10 +14,10 @@
 /// passing as parameter the keyPath from whole to part.
 ///
 public extension Middlewares {
-    static func lift<LocalState, GlobalState>(
-        _ partMiddleware: @escaping Middleware<LocalState>,
+    static func lift<LocalState, GlobalState, Action>(
+        _ partMiddleware: @escaping Middleware<LocalState, Action>,
         stateMap: @escaping (GlobalState) -> LocalState?
-    ) -> Middleware<GlobalState> {
+    ) -> Middleware<GlobalState, Action> {
         { state, action in
             guard let localState = stateMap(state) else {
                 return nil

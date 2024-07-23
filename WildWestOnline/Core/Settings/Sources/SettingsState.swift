@@ -14,29 +14,26 @@ public struct SettingsState: Codable, Equatable {
 }
 
 public extension SettingsState {
-    static let reducer: Reducer<Self> = { state, action in
+    static let reducer: Reducer<Self, SettingsAction> = { state, action in
         switch action {
-        case SettingsAction.updatePlayersCount:
+        case .updatePlayersCount:
             try updatePlayersCountReducer(state, action)
 
-        case SettingsAction.updateWaitDelayMilliseconds:
+        case .updateWaitDelayMilliseconds:
             try updateWaitDelayMillisecondsReducer(state, action)
 
-        case SettingsAction.toggleSimulation:
+        case .toggleSimulation:
             try toggleSimulationReducer(state, action)
 
-        case SettingsAction.updatePreferredFigure:
+        case .updatePreferredFigure:
             try updatePreferredFigureReducer(state, action)
-
-        default:
-            state
         }
     }
 }
 
 private extension SettingsState {
-    static let updatePlayersCountReducer: Reducer<Self> = { state, action in
-        guard case let SettingsAction.updatePlayersCount(value) = action else {
+    static let updatePlayersCountReducer: Reducer<Self, SettingsAction> = { state, action in
+        guard case let .updatePlayersCount(value) = action else {
             fatalError("unexpected")
         }
 
@@ -45,8 +42,8 @@ private extension SettingsState {
         return state
     }
 
-    static let updateWaitDelayMillisecondsReducer: Reducer<Self> = { state, action in
-        guard case let SettingsAction.updateWaitDelayMilliseconds(value) = action else {
+    static let updateWaitDelayMillisecondsReducer: Reducer<Self, SettingsAction> = { state, action in
+        guard case let .updateWaitDelayMilliseconds(value) = action else {
             fatalError("unexpected")
         }
 
@@ -55,8 +52,8 @@ private extension SettingsState {
         return state
     }
 
-    static let toggleSimulationReducer: Reducer<Self> = { state, action in
-        guard case SettingsAction.toggleSimulation = action else {
+    static let toggleSimulationReducer: Reducer<Self, SettingsAction> = { state, action in
+        guard case .toggleSimulation = action else {
             fatalError("unexpected")
         }
 
@@ -65,8 +62,8 @@ private extension SettingsState {
         return state
     }
 
-    static let updatePreferredFigureReducer: Reducer<Self> = { state, action in
-        guard case let SettingsAction.updatePreferredFigure(value) = action else {
+    static let updatePreferredFigureReducer: Reducer<Self, SettingsAction> = { state, action in
+        guard case let .updatePreferredFigure(value) = action else {
             fatalError("unexpected")
         }
 

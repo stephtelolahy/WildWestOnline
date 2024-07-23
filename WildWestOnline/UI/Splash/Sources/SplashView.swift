@@ -10,9 +10,9 @@ import Redux
 import SwiftUI
 
 public struct SplashView: View {
-    @StateObject private var store: TypedStore<State, Action>
+    @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> TypedStore<State, Action>) {
+    public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -37,6 +37,6 @@ public struct SplashView: View {
 
 #Preview {
     SplashView {
-        .init(.init())
+        .init(initial: .init())
     }
 }

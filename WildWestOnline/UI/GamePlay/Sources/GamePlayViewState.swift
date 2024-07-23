@@ -87,7 +87,7 @@ public extension GamePlayView {
         )
     }
 
-    static let embedAction: (Action, AppState) -> Redux.Action = { action, state in
+    static let embedAction: (Action, AppState) -> Any = { action, state in
         guard let game = state.game else {
             fatalError("unexpected")
         }

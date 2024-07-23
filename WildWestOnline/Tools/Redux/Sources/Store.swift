@@ -7,20 +7,20 @@ import SwiftUI
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-public class Store<State: Equatable>: ObservableObject {
+public class Store<State, Action>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var event: PassthroughSubject<Action, Never>
     public internal(set) var error: PassthroughSubject<Error, Never>
 
-    private let reducer: Reducer<State>
-    private let middlewares: [Middleware<State>]
+    private let reducer: Reducer<State, Action>
+    private let middlewares: [Middleware<State, Action>]
     private var subscriptions: Set<AnyCancellable> = []
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
 
     public init(
         initial state: State,
-        reducer: @escaping Reducer<State> = { state, _ in state },
-        middlewares: [Middleware<State>] = []
+        reducer: @escaping Reducer<State, Action> = { state, _ in state },
+        middlewares: [Middleware<State, Action>] = []
     ) {
         self.state = state
         self.reducer = reducer
@@ -48,18 +48,15 @@ public class Store<State: Equatable>: ObservableObject {
     }
 }
 
-/// The ``Action`` defines an event type to be dispatched in a `Store`
-public protocol Action {}
-
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
-public typealias Reducer<State> = (State, Action) throws -> State
+public typealias Reducer<State, Action> = (State, Action) throws -> State
 
-public typealias SelectorReducer<InputState, OutputState> = (InputState, Action) throws -> OutputState
+public typealias SelectorReducer<InputState, OutputState, Action> = (InputState, Action) throws -> OutputState
 
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
 /// Handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-public typealias Middleware<State> = (State, Action) async -> Action?
+public typealias Middleware<State, Action> = (State, Action) async -> Action?
 
 /// Namespace for Middlewares
 public enum Middlewares {}
@@ -74,8 +71,8 @@ public class ClassWrapper<T> {
 }
 
 private extension Future {
-    static func create<State>(
-        from middleware: @escaping Middleware<State>,
+    static func create<State, Action>(
+        from middleware: @escaping Middleware<State, Action>,
         state: State,
         action: Action
     ) -> Future<Action?, Never> {

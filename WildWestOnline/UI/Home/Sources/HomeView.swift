@@ -12,9 +12,9 @@ import Theme
 
 public struct HomeView: View {
     @Environment(\.theme) private var theme
-    @StateObject private var store: TypedStore<State, Action>
+    @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> TypedStore<State, Action>) {
+    public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -85,6 +85,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        .init(.init())
+        .init(initial: .init())
     }
 }

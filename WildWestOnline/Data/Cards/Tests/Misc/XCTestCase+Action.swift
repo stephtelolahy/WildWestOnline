@@ -22,7 +22,7 @@ extension XCTestCase {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
         let choicesWrapper = ClassWrapper(choose)
-        let store = Store<GameState>(
+        let store = Store<GameState, GameAction>(
             initial: state,
             reducer: GameState.reducer,
             middlewares: [
@@ -37,10 +37,6 @@ extension XCTestCase {
         var ocurredError: Error?
 
         store.event.sink { event in
-            guard let action = event as? GameAction else {
-                fatalError("unexpected")
-            }
-
             if action.isRenderable {
                 ocurredEvents.append(action)
             }
@@ -68,7 +64,7 @@ extension XCTestCase {
 }
 
 private extension Middlewares {
-    static func choosingAgent(_ choices: ClassWrapper<[String]>) -> Middleware<GameState> {
+    static func choosingAgent(_ choices: ClassWrapper<[String]>) -> Middleware<GameState, GameAction> {
         { state, _ in
             guard let chooseOne = state.sequence.chooseOne.first else {
                 return nil

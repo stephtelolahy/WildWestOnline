@@ -51,7 +51,7 @@ public extension SettingsView {
             )
     }
 
-    static let embedAction: (Action, AppState) -> Redux.Action = { action, _ in
+    static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didTapCloseButton:
             AppAction.close

@@ -101,36 +101,36 @@ public extension SequenceState {
 }
 
 public extension SequenceState {
-    static let reducer: SelectorReducer<GameState, Self> = { state, action in
+    static let reducer: SelectorReducer<GameState, Self, GameAction> = { state, action in
         var state = state
         state.sequence = try prepareReducer(state.sequence, action)
 
         return switch action {
-        case GameAction.activate:
+        case .activate:
             try activateReducer(state.sequence, action)
 
-        case GameAction.chooseOne:
+        case .chooseOne:
             try chooseOneReducer(state.sequence, action)
 
-        case GameAction.choose:
+        case .choose:
             try chooseReducer(state.sequence, action)
 
-        case GameAction.setGameOver:
+        case .setGameOver:
             try setGameOverReducer(state.sequence, action)
 
-        case GameAction.startTurn:
+        case .startTurn:
             try startTurnReducer(state.sequence, action)
 
-        case GameAction.eliminate:
+        case .eliminate:
             try eliminateReducer(state.sequence, action)
 
-        case GameAction.group:
+        case .group:
             try groupReducer(state.sequence, action)
 
-        case GameAction.play:
+        case .play:
             try playReducer(state, action)
 
-        case GameAction.effect:
+        case .effect:
             try effectReducer(state, action)
 
         default:
@@ -140,7 +140,7 @@ public extension SequenceState {
 }
 
 private extension SequenceState {
-    static let prepareReducer: Reducer<Self> = { state, action in
+    static let prepareReducer: Reducer<Self, GameAction> = { state, action in
         // Game is over
         if state.winner != nil {
             throw Error.gameIsOver
@@ -150,7 +150,7 @@ private extension SequenceState {
 
         // Pending choice
         if let chooseOne = state.chooseOne.first {
-            guard case let GameAction.choose(option, player) = action,
+            guard case let .choose(option, player) = action,
                   player == chooseOne.key,
                   chooseOne.value.options.contains(option) else {
                 throw Error.unwaitedAction
@@ -162,7 +162,7 @@ private extension SequenceState {
 
         // Active cards
         if let active = state.active.first {
-            guard case let GameAction.play(card, player) = action,
+            guard case let .play(card, player) = action,
                   player == active.key,
                   active.value.contains(card) else {
                 throw Error.unwaitedAction
@@ -174,15 +174,15 @@ private extension SequenceState {
 
         // Resolving sequence
         if state.queue.isNotEmpty,
-           state.queue.first == (action as? GameAction) {
+           state.queue.first == action {
             state.queue.removeFirst()
         }
 
         return state
     }
 
-    static let activateReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.activate(cards, player) = action else {
+    static let activateReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .activate(cards, player) = action else {
             fatalError("unexpected")
         }
 
@@ -191,8 +191,8 @@ private extension SequenceState {
         return state
     }
 
-    static let chooseOneReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.chooseOne(type, options, player) = action else {
+    static let chooseOneReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .chooseOne(type, options, player) = action else {
             fatalError("unexpected")
         }
 
@@ -204,8 +204,8 @@ private extension SequenceState {
         return state
     }
 
-    static let chooseReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.choose(option, player) = action else {
+    static let chooseReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .choose(option, player) = action else {
             fatalError("unexpected")
         }
 
@@ -224,8 +224,8 @@ private extension SequenceState {
         return state
     }
 
-    static let setGameOverReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.setGameOver(winner) = action else {
+    static let setGameOverReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .setGameOver(winner) = action else {
             fatalError("unexpected")
         }
 
@@ -234,8 +234,8 @@ private extension SequenceState {
         return state
     }
 
-    static let startTurnReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.startTurn(player) = action else {
+    static let startTurnReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .startTurn(player) = action else {
             fatalError("unexpected")
         }
 
@@ -244,8 +244,8 @@ private extension SequenceState {
         return state
     }
 
-    static let eliminateReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.eliminate(player) = action else {
+    static let eliminateReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .eliminate(player) = action else {
             fatalError("unexpected")
         }
 
@@ -254,8 +254,8 @@ private extension SequenceState {
         return state
     }
 
-    static let playReducer: SelectorReducer<GameState, Self> = { state, action in
-        guard case let GameAction.play(card, player) = action else {
+    static let playReducer: SelectorReducer<GameState, Self, GameAction> = { state, action in
+        guard case let .play(card, player) = action else {
             fatalError("unexpected")
         }
 
@@ -302,8 +302,8 @@ private extension SequenceState {
         return sequence
     }
 
-    static let effectReducer: SelectorReducer<GameState, Self> = { state, action in
-        guard case let GameAction.effect(effect, ctx) = action else {
+    static let effectReducer: SelectorReducer<GameState, Self, GameAction> = { state, action in
+        guard case let .effect(effect, ctx) = action else {
             fatalError("unexpected")
         }
 
@@ -328,8 +328,8 @@ private extension SequenceState {
         return sequence
     }
 
-    static let groupReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.group(children) = action else {
+    static let groupReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .group(children) = action else {
             fatalError("unexpected")
         }
 

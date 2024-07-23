@@ -17,9 +17,9 @@ import Splash
 import SwiftUI
 
 public struct AppView: View {
-    @StateObject private var store: Store<AppState>
+    @StateObject private var store: Store<AppState, Any>
 
-    public init(store: @escaping () -> Store<AppState>) {
+    public init(store: @escaping () -> Store<AppState, Any>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())

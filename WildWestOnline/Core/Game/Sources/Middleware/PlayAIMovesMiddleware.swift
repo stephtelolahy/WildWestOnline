@@ -9,7 +9,7 @@
 import Redux
 
 extension Middlewares {
-    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
+    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState, GameAction> {
         { state, _ in
             guard state.sequence.winner == nil else {
                 return nil

@@ -9,12 +9,8 @@
 import Redux
 
 extension Middlewares {
-    static func triggerCardEffects() -> Middleware<GameState> {
+    static func triggerCardEffects() -> Middleware<GameState, GameAction> {
         { state, action in
-            guard let action = action as? GameAction else {
-                return nil
-            }
-
             var triggered: [GameAction] = []
 
             // active players
