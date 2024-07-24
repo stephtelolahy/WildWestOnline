@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
 
-import CardsRepository
+import CardsData
 import Combine
 import GameCore
 import Redux

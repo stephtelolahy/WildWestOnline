@@ -6,7 +6,7 @@
 //
 // swiftlint:disable type_contents_order no_magic_numbers
 
-import CardsRepository
+import CardsData
 import Redux
 import SwiftUI
 import Theme

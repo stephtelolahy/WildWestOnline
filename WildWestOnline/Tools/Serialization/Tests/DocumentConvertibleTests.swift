@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 13/12/2023.
 //
 
-import Utils
+import Serialization
 import XCTest
 
 final class DocumentConvertibleTests: XCTestCase {

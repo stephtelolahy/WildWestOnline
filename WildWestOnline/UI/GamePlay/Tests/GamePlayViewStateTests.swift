@@ -6,7 +6,7 @@
 //
 
 import AppCore
-import CardsRepository
+import CardsData
 import GameCore
 import GamePlay
 import Redux

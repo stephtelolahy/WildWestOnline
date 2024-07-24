@@ -15,7 +15,7 @@ let package = Package(
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
-        .library(name: "Utils", targets: ["Utils"]),
+        .library(name: "Serialization", targets: ["Serialization"]),
         .library(name: "Theme", targets: ["Theme"]),
 
         // Core
@@ -25,8 +25,8 @@ let package = Package(
         .library(name: "AppCore", targets: ["AppCore"]),
 
         // Repository
-        .library(name: "CardsRepository", targets: ["CardsRepository"]),
-        .library(name: "SettingsRepository", targets: ["SettingsRepository"]),
+        .library(name: "CardsData", targets: ["CardsData"]),
+        .library(name: "SettingsData", targets: ["SettingsData"]),
 
         // UI
         .library(name: "Splash", targets: ["Splash"]),
@@ -53,19 +53,19 @@ let package = Package(
             path: "Tools/Redux/Tests"
         ),
         .target(
-            name: "Utils",
+            name: "Serialization",
             dependencies: [],
-            path: "Tools/Utils/Sources",
+            path: "Tools/Serialization/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "UtilsTests",
+            name: "SerializationTests",
             dependencies: [
-                "Utils"
+                "Serialization"
             ],
-            path: "Tools/Utils/Tests"
+            path: "Tools/Serialization/Tests"
         ),
         .target(
             name: "GameCore",
@@ -204,7 +204,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "CardsRepository"
+                "CardsData"
             ],
             path: "UI/GamePlay/Sources",
             plugins: [
@@ -219,7 +219,7 @@ let package = Package(
             path: "UI/GamePlay/Tests"
         ),
         .target(
-            name: "CardsRepository",
+            name: "CardsData",
             dependencies: [
                 "GameCore"
             ],
@@ -229,17 +229,17 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "CardsRepositoryTests",
+            name: "CardsDataTests",
             dependencies: [
-                "CardsRepository"
+                "CardsData"
             ],
             path: "Data/Cards/Tests"
         ),
         .target(
-            name: "SettingsRepository",
+            name: "SettingsData",
             dependencies: [
                 "SettingsCore",
-                "Utils"
+                "Serialization"
             ],
             path: "Data/Settings/Sources",
             plugins: [

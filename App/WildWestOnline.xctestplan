@@ -52,14 +52,6 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "CardsRepositoryTests",
-        "name" : "CardsRepositoryTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
         "identifier" : "HomeTests",
         "name" : "HomeTests"
       }
@@ -89,18 +81,24 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "UtilsTests",
-        "name" : "UtilsTests"
+        "identifier" : "NavigationCoreTests",
+        "name" : "NavigationCoreTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "NavigationCoreTests",
-        "name" : "NavigationCoreTests"
+        "identifier" : "CardsDataTests",
+        "name" : "CardsDataTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SerializationTests",
+        "name" : "SerializationTests"
       }
     }
   ],

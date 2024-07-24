@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15DEA75D2C50614100134965 /* CardsRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA75C2C50614100134965 /* CardsRepository */; };
+		153E2F5B2C50C4A1003E9F54 /* CardsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5A2C50C4A1003E9F54 /* CardsData */; };
+		153E2F5D2C50C4A1003E9F54 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5C2C50C4A1003E9F54 /* SettingsData */; };
 		15DEA75F2C50614100134965 /* GamePlay in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA75E2C50614100134965 /* GamePlay */; };
 		15DEA7612C50614100134965 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7602C50614100134965 /* Home */; };
 		15DEA7632C50614100134965 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7622C50614100134965 /* Settings */; };
-		15DEA7652C50614100134965 /* SettingsRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7642C50614100134965 /* SettingsRepository */; };
 		15DEA7672C50614100134965 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7662C50614100134965 /* Splash */; };
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
@@ -34,10 +34,10 @@
 			files = (
 				15DEA75F2C50614100134965 /* GamePlay in Frameworks */,
 				15DEA7632C50614100134965 /* Settings in Frameworks */,
-				15DEA75D2C50614100134965 /* CardsRepository in Frameworks */,
-				15DEA7652C50614100134965 /* SettingsRepository in Frameworks */,
 				15DEA7612C50614100134965 /* Home in Frameworks */,
+				153E2F5D2C50C4A1003E9F54 /* SettingsData in Frameworks */,
 				15DEA7672C50614100134965 /* Splash in Frameworks */,
+				153E2F5B2C50C4A1003E9F54 /* CardsData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,12 +98,12 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				15DEA75C2C50614100134965 /* CardsRepository */,
 				15DEA75E2C50614100134965 /* GamePlay */,
 				15DEA7602C50614100134965 /* Home */,
 				15DEA7622C50614100134965 /* Settings */,
-				15DEA7642C50614100134965 /* SettingsRepository */,
 				15DEA7662C50614100134965 /* Splash */,
+				153E2F5A2C50C4A1003E9F54 /* CardsData */,
+				153E2F5C2C50C4A1003E9F54 /* SettingsData */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -390,9 +390,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		15DEA75C2C50614100134965 /* CardsRepository */ = {
+		153E2F5A2C50C4A1003E9F54 /* CardsData */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CardsRepository;
+			productName = CardsData;
+		};
+		153E2F5C2C50C4A1003E9F54 /* SettingsData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SettingsData;
 		};
 		15DEA75E2C50614100134965 /* GamePlay */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -405,10 +409,6 @@
 		15DEA7622C50614100134965 /* Settings */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Settings;
-		};
-		15DEA7642C50614100134965 /* SettingsRepository */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SettingsRepository;
 		};
 		15DEA7662C50614100134965 /* Splash */ = {
 			isa = XCSwiftPackageProductDependency;

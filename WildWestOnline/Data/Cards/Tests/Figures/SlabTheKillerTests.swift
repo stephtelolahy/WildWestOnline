@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 29/05/2024.
 //
 
-import CardsRepository
+import CardsData
 import GameCore
 import XCTest
 

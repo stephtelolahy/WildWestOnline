@@ -5,14 +5,14 @@
 //  Created by Hugues Telolahy on 02/04/2023.
 //
 import AppCore
-import CardsRepository
+import CardsData
 import GameCore
 import GamePlay
 import Home
 import Redux
 import Settings
 import SettingsCore
-import SettingsRepository
+import SettingsData
 import Splash
 import SwiftUI
 import Theme

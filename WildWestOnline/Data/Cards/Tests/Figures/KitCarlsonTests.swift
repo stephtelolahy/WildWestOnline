@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 18/11/2023.
 //
 
-import CardsRepository
+import CardsData
 import GameCore
 import XCTest
 
