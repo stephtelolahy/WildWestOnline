@@ -6,7 +6,7 @@
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 import AppCore
-import Redux
+import NavigationCore
 
 public extension HomeView {
     struct State: Equatable {
@@ -24,10 +24,10 @@ public extension HomeView {
     static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didTapPlayButton:
-            AppAction.startGame
+            GameSetupAction.start
 
         case .didTapSettingsButton:
-            AppAction.navigate(.settings)
+            NavigationAction.navigate(.settings)
         }
     }
 }

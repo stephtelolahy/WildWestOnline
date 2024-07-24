@@ -5,6 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
 import GameCore
+import NavigationCore
 import Redux
 import SettingsCore
 
@@ -34,9 +35,11 @@ public extension AppState {
     static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
         switch action {
-        case let action as AppAction:
+        case let action as NavigationAction:
             state.screens = try ScreenState.reducer(state.screens, action)
-            state = try gameStartStopReducer(state, action)
+
+        case let action as GameSetupAction:
+            state = try gameSetupReducer(state, action)
 
         case let action as SettingsAction:
             state.settings = try SettingsState.reducer(state.settings, action)
@@ -53,21 +56,18 @@ public extension AppState {
 }
 
 private extension AppState {
-    static let gameStartStopReducer: Reducer<Self, AppAction> = { state, action in
+    static let gameSetupReducer: Reducer<Self, GameSetupAction> = { state, action in
         switch action {
-        case .startGame:
-            try startGameReducer(state, action)
+        case .start:
+            try startReducer(state, action)
 
-        case .exitGame:
-            try exitGameReducer(state, action)
-
-        default:
-            state
+        case .quit:
+            try quitReducer(state, action)
         }
     }
 
-    static let startGameReducer: Reducer<Self, AppAction> = { state, action in
-        guard case .startGame = action else {
+    static let startReducer: Reducer<Self, GameSetupAction> = { state, action in
+        guard case .start = action else {
             fatalError("unexpected")
         }
 
@@ -77,8 +77,8 @@ private extension AppState {
         return state
     }
 
-    static let exitGameReducer: Reducer<Self, AppAction> = { state, action in
-        guard case .exitGame = action else {
+    static let quitReducer: Reducer<Self, GameSetupAction> = { state, action in
+        guard case .quit = action else {
             fatalError("unexpected")
         }
 

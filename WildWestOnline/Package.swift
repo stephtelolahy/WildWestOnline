@@ -21,6 +21,7 @@ let package = Package(
         // Core
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
+        .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
 
         // Repository
@@ -101,10 +102,28 @@ let package = Package(
             path: "Core/Settings/Tests"
         ),
         .target(
+            name: "NavigationCore",
+            dependencies: [
+                "Redux"
+            ],
+            path: "Core/Navigation/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "NavigationCoreTests",
+            dependencies: [
+                "NavigationCore"
+            ],
+            path: "Core/Navigation/Tests"
+        ),
+        .target(
             name: "AppCore",
             dependencies: [
                 "GameCore",
-                "SettingsCore"
+                "SettingsCore",
+                "NavigationCore"
             ],
             path: "Core/App/Sources",
             plugins: [

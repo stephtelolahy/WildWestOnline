@@ -10,7 +10,7 @@
 import AppCore
 import Foundation
 import GameCore
-import Redux
+import NavigationCore
 
 public extension GamePlayView {
     struct State: Equatable {
@@ -95,7 +95,7 @@ public extension GamePlayView {
             return GameAction.startTurn(player: game.startingPlayerId)
 
         case .didTapCloseButton:
-            return AppAction.exitGame
+            return GameSetupAction.quit
 
         case .didPlayCard(let card):
             guard let controlledId = game.controlledPlayerId else {

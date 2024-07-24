@@ -7,7 +7,7 @@
 //
 // swiftlint:disable nesting no_magic_numbers
 import AppCore
-import Redux
+import NavigationCore
 import SettingsCore
 
 public extension SettingsView {
@@ -54,7 +54,7 @@ public extension SettingsView {
     static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didTapCloseButton:
-            AppAction.close
+            NavigationAction.close
 
         case .didChangePlayersCount(let count):
             SettingsAction.updatePlayersCount(count)

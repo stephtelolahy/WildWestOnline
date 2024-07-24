@@ -95,6 +95,13 @@
         "identifier" : "UtilsTests",
         "name" : "UtilsTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "NavigationCoreTests",
+        "name" : "NavigationCoreTests"
+      }
     }
   ],
   "version" : 1

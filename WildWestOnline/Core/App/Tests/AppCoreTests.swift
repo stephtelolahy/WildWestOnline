@@ -12,22 +12,6 @@ import SettingsCore
 import XCTest
 
 final class AppCoreTests: XCTestCase {
-    func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
-        // Given
-        let state = AppState(
-            screens: [.splash],
-            settings: SettingsState.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build()
-        )
-
-        // When
-        let action = AppAction.navigate(.home)
-        let result = try AppState.reducer(state, action)
-
-        // Then
-        XCTAssertEqual(result.screens, [.home])
-    }
-
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
         let state = AppState(
@@ -37,7 +21,7 @@ final class AppCoreTests: XCTestCase {
         )
 
         // When
-        let action = AppAction.startGame
+        let action = GameSetupAction.start
         let result = try AppState.reducer(state, action)
 
         // Then
@@ -55,43 +39,11 @@ final class AppCoreTests: XCTestCase {
         )
 
         // When
-        let action = AppAction.exitGame
+        let action = GameSetupAction.quit
         let result = try AppState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.screens, [.home])
         XCTAssertNil(result.game)
-    }
-
-    func test_showingSettings_shouldDisplaySettings() throws {
-        // Given
-        let state = AppState(
-            screens: [.home],
-            settings: SettingsState.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build()
-        )
-
-        // When
-        let action = AppAction.navigate(.settings)
-        let result = try AppState.reducer(state, action)
-
-        // Then
-        XCTAssertEqual(result.screens, [.home, .settings])
-    }
-
-    func test_closingSettings_shouldRemoveSettings() throws {
-        // Given
-        let state = AppState(
-            screens: [.home, .settings],
-            settings: SettingsState.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build()
-        )
-
-        // When
-        let action = AppAction.close
-        let result = try AppState.reducer(state, action)
-
-        // Then
-        XCTAssertEqual(result.screens, [.home])
     }
 }

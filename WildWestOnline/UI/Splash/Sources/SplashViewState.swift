@@ -6,7 +6,7 @@
 //  Created by Hugues Telolahy on 01/12/2023.
 //
 import AppCore
-import Redux
+import NavigationCore
 
 public extension SplashView {
     struct State: Equatable {
@@ -23,7 +23,7 @@ public extension SplashView {
     static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didAppear:
-            AppAction.navigate(.home)
+            NavigationAction.navigate(.home)
         }
     }
 }
