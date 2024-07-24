@@ -28,14 +28,6 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "GamePlayTests",
-        "name" : "GamePlayTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
         "identifier" : "GameCoreTests",
         "name" : "GameCoreTests"
       }
@@ -46,38 +38,6 @@
         "containerPath" : "container:WildWestOnline",
         "identifier" : "AppCoreTests",
         "name" : "AppCoreTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "HomeTests",
-        "name" : "HomeTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "SettingsCoreTests",
-        "name" : "SettingsCoreTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "SettingsTests",
-        "name" : "SettingsTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "SplashTests",
-        "name" : "SplashTests"
       }
     },
     {
@@ -99,6 +59,41 @@
         "containerPath" : "container:WildWestOnline",
         "identifier" : "SerializationTests",
         "name" : "SerializationTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "GameUITests",
+        "name" : "GameUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "HomeUITests",
+        "name" : "HomeUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SettingsUICoreTests",
+        "name" : "SettingsUICoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SettingsUITests",
+        "name" : "SettingsUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SplashUITests",
+        "name" : "SplashUITests"
       }
     }
   ],

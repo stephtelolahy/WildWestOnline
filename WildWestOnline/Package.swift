@@ -24,15 +24,15 @@ let package = Package(
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
 
-        // Repository
+        // Data
         .library(name: "CardsData", targets: ["CardsData"]),
         .library(name: "SettingsData", targets: ["SettingsData"]),
 
         // UI
-        .library(name: "Splash", targets: ["Splash"]),
-        .library(name: "Home", targets: ["Home"]),
-        .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "GamePlay", targets: ["GamePlay"])
+        .library(name: "SplashUI", targets: ["SplashUI"]),
+        .library(name: "HomeUI", targets: ["HomeUI"]),
+        .library(name: "SettingsUI", targets: ["SettingsUI"]),
+        .library(name: "GameUI", targets: ["GameUI"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -146,7 +146,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Splash",
+            name: "SplashUI",
             dependencies: [
                 "AppCore",
                 "Theme"
@@ -157,14 +157,14 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "SplashTests",
+            name: "SplashUITests",
             dependencies: [
-                "Splash"
+                "SplashUI"
             ],
             path: "UI/Splash/Tests"
         ),
         .target(
-            name: "Home",
+            name: "HomeUI",
             dependencies: [
                 "AppCore",
                 "Theme"
@@ -175,14 +175,14 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "HomeTests",
+            name: "HomeUITests",
             dependencies: [
-                "Home"
+                "HomeUI"
             ],
             path: "UI/Home/Tests"
         ),
         .target(
-            name: "Settings",
+            name: "SettingsUI",
             dependencies: [
                 "AppCore",
                 "Theme"
@@ -193,30 +193,30 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "SettingsTests",
+            name: "SettingsUITests",
             dependencies: [
-                "Settings"
+                "SettingsUI"
             ],
             path: "UI/Settings/Tests"
         ),
         .target(
-            name: "GamePlay",
+            name: "GameUI",
             dependencies: [
                 "AppCore",
                 "Theme",
                 "CardsData"
             ],
-            path: "UI/GamePlay/Sources",
+            path: "UI/Game/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "GamePlayTests",
+            name: "GameUITests",
             dependencies: [
-                "GamePlay"
+                "GameUI"
             ],
-            path: "UI/GamePlay/Tests"
+            path: "UI/Game/Tests"
         ),
         .target(
             name: "CardsData",

@@ -8,7 +8,7 @@
 import AppCore
 import GameCore
 import Redux
-import Settings
+import SettingsUI
 import SettingsCore
 import XCTest
 

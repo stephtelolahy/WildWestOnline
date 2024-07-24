@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //
-//  GamePlayViewState.swift
+//  GameViewState.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.
@@ -12,7 +12,7 @@ import Foundation
 import GameCore
 import NavigationCore
 
-public extension GamePlayView {
+public extension GameView {
     struct State: Equatable {
         public let players: [PlayerItem]
         public let message: String
@@ -115,7 +115,7 @@ public extension GamePlayView {
 }
 
 private extension GameState {
-    var playerItems: [GamePlayView.State.PlayerItem] {
+    var playerItems: [GameView.State.PlayerItem] {
         self.round.startOrder.map { playerId in
             let playerObj = player(playerId)
             let health = max(0, playerObj.health)
@@ -151,7 +151,7 @@ private extension GameState {
         }
     }
 
-    var chooseOne: GamePlayView.State.ChooseOne? {
+    var chooseOne: GameView.State.ChooseOne? {
         guard let controlledId = controlledPlayerId,
               let chooseOne = sequence.chooseOne[controlledId] else {
             return  nil
@@ -163,7 +163,7 @@ private extension GameState {
         )
     }
 
-    var handCards: [GamePlayView.State.HandCard] {
+    var handCards: [GameView.State.HandCard] {
         guard let playerId = players.first(where: { config.playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
@@ -172,7 +172,7 @@ private extension GameState {
         let activeCards = sequence.active[playerId] ?? []
 
         let hand = field.hand.getOrEmpty(playerId).map { card in
-            GamePlayView.State.HandCard(
+            GameView.State.HandCard(
                 card: card,
                 active: activeCards.contains(card)
             )
@@ -180,7 +180,7 @@ private extension GameState {
 
         let abilities = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                GamePlayView.State.HandCard(
+                GameView.State.HandCard(
                     card: card,
                     active: true
                 )

@@ -21,7 +21,7 @@ class HandCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 2
     }
 
-    func update(with item: GamePlayView.State.HandCard) {
+    func update(with item: GameView.State.HandCard) {
         let cardName = item.card.extractName()
         let cardImage = UIImage(named: cardName, in: Bundle.module, with: .none)
         if let cardImage {
@@ -32,6 +32,6 @@ class HandCell: UICollectionViewCell {
             cardImageView.image = nil
         }
 
-        cardDisabledLayer.isHidden = !item.active
+        cardDisabledLayer.isHidden = item.active
     }
 }

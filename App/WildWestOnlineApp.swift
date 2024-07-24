@@ -7,13 +7,13 @@
 import AppCore
 import CardsData
 import GameCore
-import GamePlay
-import Home
+import GameUI
+import HomeUI
 import Redux
-import Settings
+import SettingsUI
 import SettingsCore
 import SettingsData
-import Splash
+import SplashUI
 import SwiftUI
 import Theme
 
@@ -55,8 +55,8 @@ struct ContentView: View {
                 }
 
             case .game:
-                GamePlayView {
-                    store.projection(GamePlayView.deriveState, GamePlayView.embedAction)
+                GameView {
+                    store.projection(GameView.deriveState, GameView.embedAction)
                 }
 
             default:

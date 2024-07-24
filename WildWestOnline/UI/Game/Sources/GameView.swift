@@ -1,5 +1,5 @@
 //
-//  GamePlayView.swift
+//  GameView.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
@@ -11,7 +11,7 @@ import Redux
 import SwiftUI
 import Theme
 
-public struct GamePlayView: View {
+public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Action>
 
@@ -34,14 +34,14 @@ public struct GamePlayView: View {
 }
 
 #Preview {
-    GamePlayView {
+    GameView {
         .init(initial: .sample)
     }
 }
 
-private extension GamePlayView.State {
+private extension GameView.State {
     static var sample: Self {
-        let player1 = GamePlayView.State.PlayerItem(
+        let player1 = GameView.State.PlayerItem(
             id: "p1",
             imageName: .willyTheKid,
             displayName: .willyTheKid,
@@ -56,7 +56,7 @@ private extension GamePlayView.State {
             userPhotoUrl: nil
         )
 
-        let player2 = GamePlayView.State.PlayerItem(
+        let player2 = GameView.State.PlayerItem(
             id: "p2",
             imageName: .calamityJanet,
             displayName: .calamityJanet,

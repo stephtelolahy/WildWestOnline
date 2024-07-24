@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		153E2F5B2C50C4A1003E9F54 /* CardsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5A2C50C4A1003E9F54 /* CardsData */; };
 		153E2F5D2C50C4A1003E9F54 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5C2C50C4A1003E9F54 /* SettingsData */; };
-		15DEA75F2C50614100134965 /* GamePlay in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA75E2C50614100134965 /* GamePlay */; };
-		15DEA7612C50614100134965 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7602C50614100134965 /* Home */; };
-		15DEA7632C50614100134965 /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7622C50614100134965 /* Settings */; };
-		15DEA7672C50614100134965 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 15DEA7662C50614100134965 /* Splash */; };
+		153E2F5F2C50C6DE003E9F54 /* GameUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5E2C50C6DE003E9F54 /* GameUI */; };
+		153E2F612C50C6DE003E9F54 /* HomeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F602C50C6DE003E9F54 /* HomeUI */; };
+		153E2F632C50C6DE003E9F54 /* SettingsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F622C50C6DE003E9F54 /* SettingsUI */; };
+		153E2F652C50C6DE003E9F54 /* SplashUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F642C50C6DE003E9F54 /* SplashUI */; };
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -32,11 +32,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15DEA75F2C50614100134965 /* GamePlay in Frameworks */,
-				15DEA7632C50614100134965 /* Settings in Frameworks */,
-				15DEA7612C50614100134965 /* Home in Frameworks */,
+				153E2F5F2C50C6DE003E9F54 /* GameUI in Frameworks */,
+				153E2F652C50C6DE003E9F54 /* SplashUI in Frameworks */,
+				153E2F612C50C6DE003E9F54 /* HomeUI in Frameworks */,
+				153E2F632C50C6DE003E9F54 /* SettingsUI in Frameworks */,
 				153E2F5D2C50C4A1003E9F54 /* SettingsData in Frameworks */,
-				15DEA7672C50614100134965 /* Splash in Frameworks */,
 				153E2F5B2C50C4A1003E9F54 /* CardsData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,12 +98,12 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				15DEA75E2C50614100134965 /* GamePlay */,
-				15DEA7602C50614100134965 /* Home */,
-				15DEA7622C50614100134965 /* Settings */,
-				15DEA7662C50614100134965 /* Splash */,
 				153E2F5A2C50C4A1003E9F54 /* CardsData */,
 				153E2F5C2C50C4A1003E9F54 /* SettingsData */,
+				153E2F5E2C50C6DE003E9F54 /* GameUI */,
+				153E2F602C50C6DE003E9F54 /* HomeUI */,
+				153E2F622C50C6DE003E9F54 /* SettingsUI */,
+				153E2F642C50C6DE003E9F54 /* SplashUI */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -398,21 +398,21 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SettingsData;
 		};
-		15DEA75E2C50614100134965 /* GamePlay */ = {
+		153E2F5E2C50C6DE003E9F54 /* GameUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = GamePlay;
+			productName = GameUI;
 		};
-		15DEA7602C50614100134965 /* Home */ = {
+		153E2F602C50C6DE003E9F54 /* HomeUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Home;
+			productName = HomeUI;
 		};
-		15DEA7622C50614100134965 /* Settings */ = {
+		153E2F622C50C6DE003E9F54 /* SettingsUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Settings;
+			productName = SettingsUI;
 		};
-		15DEA7662C50614100134965 /* Splash */ = {
+		153E2F642C50C6DE003E9F54 /* SplashUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Splash;
+			productName = SplashUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

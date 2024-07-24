@@ -1,5 +1,5 @@
 //
-//  GamePlayViewStateTests.swift
+//  GameViewStateTests.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
@@ -8,12 +8,12 @@
 import AppCore
 import CardsData
 import GameCore
-import GamePlay
+import GameUI
 import Redux
 import SettingsCore
 import XCTest
 
-final class GamePlayViewStateTests: XCTestCase {
+final class GameViewStateTests: XCTestCase {
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
@@ -27,7 +27,7 @@ final class GamePlayViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(GameView.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -57,7 +57,7 @@ final class GamePlayViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(GameView.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -108,7 +108,7 @@ final class GamePlayViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(GameView.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.handCards, [
@@ -134,12 +134,12 @@ final class GamePlayViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GamePlayView.deriveState(appState))
+        let result = try XCTUnwrap(GameView.deriveState(appState))
 
         // Then
         XCTAssertEqual(
             result.chooseOne,
-            GamePlayView.State.ChooseOne(
+            GameView.State.ChooseOne(
                 choiceType: .cardToDraw,
                 options: [.missed, .bang]
             )

@@ -21,7 +21,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Data
 
-    private var store: Store<GamePlayView.State, GamePlayView.Action>
+    private var store: Store<GameView.State, GameView.Action>
     private var subscriptions: Set<AnyCancellable> = []
     private var events: [String] = []
 
@@ -40,11 +40,11 @@ class GamePlayViewController: UIViewController {
     private let animationMatcher: AnimationMatcherProtocol = AnimationMatcher()
     private lazy var animationRenderer: AnimationRendererProtocol = AnimationRenderer(config: self)
 
-    private var previousState: GamePlayView.State?
+    private var previousState: GameView.State?
 
     // MARK: - Init
 
-    init(store: Store<GamePlayView.State, GamePlayView.Action>) {
+    init(store: Store<GameView.State, GameView.Action>) {
         self.store = store
         super.init(nibName: "GamePlayViewController", bundle: .module)
     }
@@ -115,7 +115,7 @@ private extension GamePlayViewController {
         .store(in: &subscriptions)
     }
 
-    func updateViews(with state: GamePlayView.State) {
+    func updateViews(with state: GameView.State) {
         titleLabel.text = state.message
         discardImageView.image = state.topDiscardImage
         deckCountLabel.text = "[] \(state.deckCount)"
@@ -147,7 +147,7 @@ private extension GamePlayViewController {
     }
 
     func showChooseOneAlert(
-        _ data: GamePlayView.State.ChooseOne,
+        _ data: GameView.State.ChooseOne,
         completion: @escaping (String) -> Void
     ) {
         let alert = UIAlertController(
@@ -180,7 +180,7 @@ private extension GamePlayViewController {
         present(alert, animated: true)
     }
 
-    func showPlayerInfoAlert(_ player: GamePlayView.State.PlayerItem) {
+    func showPlayerInfoAlert(_ player: GameView.State.PlayerItem) {
         let alert = UIAlertController(
             title: player.displayName,
             message: "TODO: description",
@@ -300,7 +300,7 @@ extension GamePlayViewController: PlayerCollectionViewLayoutDelegate {
     }
 }
 
-private extension GamePlayView.State {
+private extension GameView.State {
     var topDiscardImage: UIImage? {
         guard let topDiscard else {
             return nil
