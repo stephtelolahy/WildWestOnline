@@ -35,12 +35,12 @@ public struct GameView: View {
 
 #Preview {
     GameView {
-        .init(initial: .sample)
+        .init(initial: .preview)
     }
 }
 
 private extension GameView.State {
-    static var previewState: Self {Self {
+    static var preview: Self {
         let player1 = GameView.State.PlayerItem(
             id: "p1",
             imageName: .willyTheKid,
