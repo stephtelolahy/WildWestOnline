@@ -28,14 +28,6 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "AppTests",
-        "name" : "AppTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
         "identifier" : "GamePlayTests",
         "name" : "GamePlayTests"
       }

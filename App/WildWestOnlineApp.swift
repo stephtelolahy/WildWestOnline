@@ -23,7 +23,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AppView {
+            ContentView {
                 createStore()
             }
             .environment(\.colorScheme, .light)
@@ -32,7 +32,7 @@ struct WildWestOnlineApp: App {
     }
 }
 
-struct AppView: View {
+struct ContentView: View {
     @StateObject private var store: Store<AppState, Any>
 
     public init(store: @escaping () -> Store<AppState, Any>) {
@@ -77,7 +77,7 @@ struct AppView: View {
 }
 
 #Preview {
-    AppView {
+    ContentView {
         Store(initial: .sample)
     }
 }
@@ -91,7 +91,6 @@ private extension AppState {
         )
     }
 }
-
 
 private func createStore() -> Store<AppState, Any> {
     let settingsService = SettingsRepository()
