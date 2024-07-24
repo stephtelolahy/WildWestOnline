@@ -40,7 +40,7 @@ public struct GameView: View {
 }
 
 private extension GameView.State {
-    static var sample: Self {
+    static var previewState: Self {Self {
         let player1 = GameView.State.PlayerItem(
             id: "p1",
             imageName: .willyTheKid,

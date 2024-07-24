@@ -83,7 +83,7 @@ struct ContentView: View {
 }
 
 private extension AppState {
-    static var sample: Self {
+    static var previewState: Self {Self {
         .init(
             screens: [.home],
             settings: SettingsState.makeBuilder().build(),

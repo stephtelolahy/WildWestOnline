@@ -127,7 +127,7 @@ public struct SettingsView: View {
 }
 
 private extension SettingsView.State {
-    static var sample: Self {
+    static var previewState: Self {Self {
         .init(
             playersCount: 5,
             speedIndex: 0,
