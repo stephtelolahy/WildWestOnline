@@ -1,11 +1,11 @@
 //
-//  ConfigState.swift
+//  GameConfig.swift
 //  
 //
 //  Created by Hugues Telolahy on 11/07/2024.
 //
 
-public struct ConfigState: Codable, Equatable {
+public struct GameConfig: Codable, Equatable {
     /// Wait delay between two visible actions
     public var waitDelayMilliseconds: Int
 

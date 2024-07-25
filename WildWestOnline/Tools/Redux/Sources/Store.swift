@@ -32,7 +32,10 @@ public class Store<State, Action>: ObservableObject {
     public func dispatch(_ action: Action) {
         do {
             let newState = try reducer(state, action)
-            middlewares.forEach { middleware in
+            state = newState
+            event.send(action)
+
+            for middleware in middlewares {
                 Future<Action, Never>.create(from: middleware, state: newState, action: action)
                     .compactMap { $0 }
                     .subscribe(on: middlewareSerialQueue)
@@ -40,8 +43,6 @@ public class Store<State, Action>: ObservableObject {
                     .sink(receiveValue: dispatch)
                     .store(in: &subscriptions)
             }
-            state = newState
-            event.send(action)
         } catch {
             self.error.send(error)
         }
@@ -55,7 +56,7 @@ public typealias SelectorReducer<InputState, OutputState, Action> = (InputState,
 
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
-/// Handle each action received action, to execute side-effects in response, and eventually dispatch more actions
+/// handle each action received action, to execute side-effects in response, and eventually dispatch more actions
 public typealias Middleware<State, Action> = (State, Action) async -> Action?
 
 /// Namespace for Middlewares

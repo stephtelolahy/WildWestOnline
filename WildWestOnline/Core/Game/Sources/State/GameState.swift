@@ -21,7 +21,7 @@ public struct GameState: Codable, Equatable {
     public let cards: [String: Card]
 
     /// Configuration
-    public var config: ConfigState
+    public var config: GameConfig
 }
 
 // MARK: - Convenience
