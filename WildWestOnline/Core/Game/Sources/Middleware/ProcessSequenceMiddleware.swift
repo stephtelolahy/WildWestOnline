@@ -10,12 +10,8 @@ import Foundation
 import Redux
 
 extension Middlewares {
-    static func processSequence() -> Middleware<GameState> {
+    static func processSequence() -> Middleware<GameState, GameAction> {
         { state, action in
-            guard let action = action as? GameAction else {
-                return nil
-            }
-
             switch action {
             case .setGameOver,
                     .chooseOne,
@@ -23,12 +19,12 @@ extension Middlewares {
                 return nil
 
             default:
-                guard let nextAction = state.sequence.first else {
+                guard let nextAction = state.sequence.queue.first else {
                     return nil
                 }
 
                 let waitDelay = if nextAction.isRenderable {
-                    state.waitDelayMilliseconds
+                    state.config.waitDelayMilliseconds
                 } else {
                     0
                 }

@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class SuzyLafayetteTests: XCTestCase {
-    func test_SuzyLafayette_havingNoHandCards_shouldDrawACard() {
+    func test_SuzyLafayette_havingNoHandCards_shouldDrawACard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -30,7 +30,7 @@ final class SuzyLafayetteTests: XCTestCase {
         ])
     }
 
-    func test_SuzyLafayette_havingSomeHandCards_shouldDoNothing() {
+    func test_SuzyLafayette_havingSomeHandCards_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -41,7 +41,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

@@ -6,17 +6,19 @@
 //
 
 import AppCore
+import GameCore
 import Redux
 import SettingsCore
-import Splash
+import SplashUI
 import XCTest
 
 final class SplashViewStateTests: XCTestCase {
-    func test_splashStateProjection() {
+    func test_splashStateProjection() throws {
         // Given
         let appState = AppState(
             screens: [.splash],
-            settings: SettingsState.makeBuilder().build()
+            settings: SettingsState.makeBuilder().build(),
+            inventory: Inventory.makeBuilder().build()
         )
 
         // When

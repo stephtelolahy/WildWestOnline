@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class NextTurnOnEliminatedTests: XCTestCase {
-    func test_beingEliminated_currentTurn_shouldNextTurn() {
+    func test_beingEliminated_currentTurn_shouldNextTurn() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
@@ -22,7 +22,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p3")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -31,7 +31,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
         ])
     }
 
-    func test_beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() {
+    func test_beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -50,7 +50,7 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

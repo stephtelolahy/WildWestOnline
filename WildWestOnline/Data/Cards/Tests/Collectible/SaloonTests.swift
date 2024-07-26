@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class SaloonTests: XCTestCase {
-    func test_playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() {
+    func test_playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -29,7 +29,7 @@ final class SaloonTests: XCTestCase {
 
         // When
         let action = GameAction.play(.saloon, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -40,7 +40,7 @@ final class SaloonTests: XCTestCase {
         ])
     }
 
-    func test_playSaloon_withoutPlayerDamaged_shouldThrowError() {
+    func test_playSaloon_withoutPlayerDamaged_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -55,10 +55,10 @@ final class SaloonTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.saloon, player: "p1")
-        let (_, error) = awaitAction(action, state: state)
-
         // Then
-        XCTAssertEqual(error, .noPlayer(.damaged))
+        let action = GameAction.play(.saloon, player: "p1")
+        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
+            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.damaged))
+        }
     }
 }

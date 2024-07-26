@@ -6,15 +6,13 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import AppCore
 import Redux
-import SettingsCore
 import SwiftUI
 
 public struct SettingsView: View {
-    @StateObject private var store: Store<State>
+    @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State>) {
+    public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -29,7 +27,7 @@ public struct SettingsView: View {
             .toolbar {
                 Button("Done") {
                     withAnimation {
-                        store.dispatch(AppAction.close)
+                        store.dispatch(.didTapCloseButton)
                     }
                 }
             }
@@ -54,7 +52,7 @@ public struct SettingsView: View {
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
                     get: { store.state.playersCount },
-                    set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
+                    set: { store.dispatch(.didChangePlayersCount($0)) }
                 ).animation(),
                 in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
@@ -71,8 +69,7 @@ public struct SettingsView: View {
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
-                        let action = SettingsAction.updateWaitDelayMilliseconds(option.value)
-                        store.dispatch(action)
+                        store.dispatch(.didChangeWaitDelay(option.value))
                     }
                 ),
                 label: Text(
@@ -91,7 +88,7 @@ public struct SettingsView: View {
             Image(systemName: "record.circle")
             Toggle(isOn: Binding<Bool>(
                 get: { store.state.simulation },
-                set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
+                set: { _ in store.dispatch(.didToggleSimulation) }
             ).animation()) {
                 Text("Simulation")
             }
@@ -108,8 +105,7 @@ public struct SettingsView: View {
                     },
                     set: { index in
                         let figure = store.state.figureOptions[index]
-                        let action = SettingsAction.updatePreferredFigure(figure)
-                        store.dispatch(action)
+                        store.dispatch(.didChangePreferredFigure(figure))
                     }
                 ),
                 label: Text(
@@ -126,12 +122,12 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        Store(initial: .sample)
+        .init(initial: .preview)
     }
 }
 
 private extension SettingsView.State {
-    static var sample: Self {
+    static var preview: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,

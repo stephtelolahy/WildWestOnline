@@ -5,12 +5,12 @@
 //  Created by Stephano Hugues TELOLAHY on 29/05/2024.
 //
 
-import CardsRepository
+import CardsData
 import GameCore
 import XCTest
 
 final class SlabTheKillerTests: XCTestCase {
-    func test_slabTheKiller_shouldRequireTwoMissesToCounterHisBang() {
+    func test_slabTheKiller_shouldRequireTwoMissesToCounterHisBang() throws {
         // Given
         let state = Setup.buildGame(figures: [.slabTheKiller], deck: [], cards: Cards.all)
 
@@ -36,7 +36,7 @@ final class SlabTheKillerTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed1, .missed2])
+        let result = try awaitAction(action, state: state, choose: ["p2", .missed1, .missed2])
 
         // Then
         XCTAssertEqual(
@@ -73,7 +73,7 @@ final class SlabTheKillerTests: XCTestCase {
 
         // When
         let action = GameAction.play(.bang, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", .missed])
+        let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(

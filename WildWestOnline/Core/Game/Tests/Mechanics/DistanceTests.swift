@@ -9,7 +9,7 @@
 import XCTest
 
 final class DistanceTests: XCTestCase {
-    func test_distance_withoutEquipement_shouldBeTheLowestValue() {
+    func test_distance_withoutEquipement_shouldBeTheLowestValue() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -37,7 +37,7 @@ final class DistanceTests: XCTestCase {
         XCTAssertEqual(state.playersAt(2, from: "p5"), ["p1", "p2", "p3", "p4"])
     }
 
-    func test_distance_withScope_shouldDecrementDistanceToOthers() {
+    func test_distance_withScope_shouldDecrementDistanceToOthers() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -66,7 +66,7 @@ final class DistanceTests: XCTestCase {
         XCTAssertEqual(state.playersAt(2, from: "p5"), ["p1", "p2", "p3", "p4"])
     }
 
-    func test_distance_withRemoteness_shouldIncrementDistanceFromOthers() {
+    func test_distance_withRemoteness_shouldIncrementDistanceFromOthers() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {

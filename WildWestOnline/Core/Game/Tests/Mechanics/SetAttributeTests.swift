@@ -17,7 +17,7 @@ final class SetAttributeTests: XCTestCase {
 
         // When
         let action = GameAction.setAttribute(.magnifying, value: 1, player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.player("p1").attributes[.magnifying], 1)
@@ -33,7 +33,7 @@ final class SetAttributeTests: XCTestCase {
 
         // When
         let action = GameAction.removeAttribute(.magnifying, player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
         XCTAssertNil(result.player("p1").attributes[.magnifying])

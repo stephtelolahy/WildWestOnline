@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class IndiansTests: XCTestCase {
-    func test_playIndians_threePlayers_shouldAllowEachPlayerToCounterOrPass() {
+    func test_playIndians_threePlayers_shouldAllowEachPlayerToCounterOrPass() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -23,7 +23,7 @@ final class IndiansTests: XCTestCase {
 
         // When
         let action = GameAction.play(.indians, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.bang])
+        let result = try awaitAction(action, state: state, choose: [.bang])
 
         // Then
         XCTAssertEqual(result, [
@@ -36,7 +36,7 @@ final class IndiansTests: XCTestCase {
         ])
     }
 
-    func test_playIndians_twoPlayers_shouldAllowEachPlayerToCounter() {
+    func test_playIndians_twoPlayers_shouldAllowEachPlayerToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -49,7 +49,7 @@ final class IndiansTests: XCTestCase {
 
         // When
         let action = GameAction.play(.indians, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.bang])
+        let result = try awaitAction(action, state: state, choose: [.bang])
 
         // Then
         XCTAssertEqual(result, [

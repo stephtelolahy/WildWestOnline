@@ -5,12 +5,10 @@
 //  Created by Hugues Telolahy on 06/04/2023.
 //
 
-import Redux
-
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
-public indirect enum GameAction: Action, Codable, Equatable {
-    // MARK: - Renderable actions
+public indirect enum GameAction: Codable, Equatable {
+    // MARK: - Renderable
 
     /// Play a card
     case play(String, player: String)
@@ -93,31 +91,26 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// End game
     case setGameOver(winner: String)
 
-    // MARK: - Invisible actions
+    // MARK: - Invisible
 
     /// Resolve an effect
     case effect(CardEffect, ctx: EffectContext)
 
     /// Push actions
     case group([Self])
-
-    /// Cancel action
-    case cancel(Self)
-
-    /// Counter shoot effect by reducing required misses
-    case counterShoot(Self)
 }
 
 // MARK: - Convenience
 
 public extension GameAction {
+    static let nothing: Self = .group([])
+}
+
+public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
-        case .effect,
-                .group,
-                .cancel,
-                .counterShoot:
+        case .effect, .group:
             false
 
         default:

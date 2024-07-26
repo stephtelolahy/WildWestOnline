@@ -15,24 +15,24 @@ let package = Package(
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
-        .library(name: "Utils", targets: ["Utils"]),
+        .library(name: "Serialization", targets: ["Serialization"]),
         .library(name: "Theme", targets: ["Theme"]),
 
         // Core
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
+        .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
 
-        // Repository
-        .library(name: "CardsRepository", targets: ["CardsRepository"]),
-        .library(name: "SettingsRepository", targets: ["SettingsRepository"]),
+        // Data
+        .library(name: "CardsData", targets: ["CardsData"]),
+        .library(name: "SettingsData", targets: ["SettingsData"]),
 
         // UI
-        .library(name: "Splash", targets: ["Splash"]),
-        .library(name: "Home", targets: ["Home"]),
-        .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "GamePlay", targets: ["GamePlay"]),
-        .library(name: "App", targets: ["App"])
+        .library(name: "SplashUI", targets: ["SplashUI"]),
+        .library(name: "HomeUI", targets: ["HomeUI"]),
+        .library(name: "SettingsUI", targets: ["SettingsUI"]),
+        .library(name: "GameUI", targets: ["GameUI"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -43,29 +43,29 @@ let package = Package(
         .target(
             name: "Redux",
             dependencies: [],
-            path: "Tools/Redux/Sources"
+            path: "Utilities/Redux/Sources"
         ),
         .testTarget(
             name: "ReduxTests",
             dependencies: [
                 "Redux"
             ],
-            path: "Tools/Redux/Tests"
+            path: "Utilities/Redux/Tests"
         ),
         .target(
-            name: "Utils",
+            name: "Serialization",
             dependencies: [],
-            path: "Tools/Utils/Sources",
+            path: "Utilities/Serialization/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "UtilsTests",
+            name: "SerializationTests",
             dependencies: [
-                "Utils"
+                "Serialization"
             ],
-            path: "Tools/Utils/Tests"
+            path: "Utilities/Serialization/Tests"
         ),
         .target(
             name: "GameCore",
@@ -87,7 +87,7 @@ let package = Package(
         .target(
             name: "SettingsCore",
             dependencies: [
-                "GameCore"
+                "Redux"
             ],
             path: "Core/Settings/Sources",
             plugins: [
@@ -102,10 +102,28 @@ let package = Package(
             path: "Core/Settings/Tests"
         ),
         .target(
+            name: "NavigationCore",
+            dependencies: [
+                "Redux"
+            ],
+            path: "Core/Navigation/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "NavigationCoreTests",
+            dependencies: [
+                "NavigationCore"
+            ],
+            path: "Core/Navigation/Tests"
+        ),
+        .target(
             name: "AppCore",
             dependencies: [
                 "GameCore",
-                "SettingsCore"
+                "SettingsCore",
+                "NavigationCore"
             ],
             path: "Core/App/Sources",
             plugins: [
@@ -122,13 +140,13 @@ let package = Package(
         .target(
             name: "Theme",
             dependencies: [],
-            path: "Tools/Theme/sources",
+            path: "Utilities/Theme/sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .target(
-            name: "Splash",
+            name: "SplashUI",
             dependencies: [
                 "AppCore",
                 "Theme"
@@ -139,14 +157,14 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "SplashTests",
+            name: "SplashUITests",
             dependencies: [
-                "Splash"
+                "SplashUI"
             ],
             path: "UI/Splash/Tests"
         ),
         .target(
-            name: "Home",
+            name: "HomeUI",
             dependencies: [
                 "AppCore",
                 "Theme"
@@ -157,14 +175,14 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "HomeTests",
+            name: "HomeUITests",
             dependencies: [
-                "Home"
+                "HomeUI"
             ],
             path: "UI/Home/Tests"
         ),
         .target(
-            name: "Settings",
+            name: "SettingsUI",
             dependencies: [
                 "AppCore",
                 "Theme"
@@ -175,33 +193,33 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "SettingsTests",
+            name: "SettingsUITests",
             dependencies: [
-                "Settings"
+                "SettingsUI"
             ],
             path: "UI/Settings/Tests"
         ),
         .target(
-            name: "GamePlay",
+            name: "GameUI",
             dependencies: [
                 "AppCore",
                 "Theme",
-                "CardsRepository"
+                "CardsData"
             ],
-            path: "UI/GamePlay/Sources",
+            path: "UI/Game/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "GamePlayTests",
+            name: "GameUITests",
             dependencies: [
-                "GamePlay"
+                "GameUI"
             ],
-            path: "UI/GamePlay/Tests"
+            path: "UI/Game/Tests"
         ),
         .target(
-            name: "CardsRepository",
+            name: "CardsData",
             dependencies: [
                 "GameCore"
             ],
@@ -211,54 +229,32 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "CardsRepositoryTests",
+            name: "CardsDataTests",
             dependencies: [
-                "CardsRepository"
+                "CardsData"
             ],
             path: "Data/Cards/Tests"
         ),
         .target(
-            name: "SettingsRepository",
+            name: "SettingsData",
             dependencies: [
                 "SettingsCore",
-                "Utils"
+                "Serialization"
             ],
             path: "Data/Settings/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
-        .target(
-            name: "App",
-            dependencies: [
-                "Splash",
-                "Home",
-                "Settings",
-                "GamePlay",
-                "CardsRepository",
-                "SettingsRepository"
-            ],
-            path: "UI/App/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintPlugin")
-            ]
-        ),
-        .testTarget(
-            name: "AppTests",
-            dependencies: [
-                "App"
-            ],
-            path: "UI/App/Tests"
-        ),
         .binaryTarget(
             name: "SwiftLintBinary",
-            path: "Tools/SwiftLintBinary.artifactbundle"
+            path: "Utilities/SwiftLintBinary.artifactbundle"
         ),
         .plugin(
             name: "SwiftLintPlugin",
             capability: .buildTool(),
             dependencies: ["SwiftLintBinary"],
-            path: "Tools/SwiftLintPlugin/Sources"
+            path: "Utilities/SwiftLintPlugin/Sources"
         )
     ]
 )

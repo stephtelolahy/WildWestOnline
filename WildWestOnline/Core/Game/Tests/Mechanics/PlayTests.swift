@@ -9,7 +9,7 @@
 import XCTest
 
 final class PlayTests: XCTestCase {
-    func test_play_withNotPlayableCard_shouldThrowError() {
+    func test_play_withNotPlayableCard_shouldThrowError() throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -18,14 +18,14 @@ final class PlayTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play("c1", player: "p1")
-        let result = GameState.reducer(state, action)
-
         // Then
-        XCTAssertEqual(result.error, .cardNotPlayable("c1"))
+        let action = GameAction.play("c1", player: "p1")
+        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
+            XCTAssertEqual(error as? SequenceState.Error, .cardNotPlayable("c1"))
+        }
     }
 
-    func test_play_withPlayableCard_shouldApplyEffects() {
+    func test_play_withPlayableCard_shouldApplyEffects() throws {
         // Given
         let card1 = Card.makeBuilder(name: "c1")
             .withRule {
@@ -42,10 +42,10 @@ final class PlayTests: XCTestCase {
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sequence, [
+        XCTAssertEqual(result.sequence.queue, [
             .effect(.nothing, ctx: .init(sourceEvent: action, sourceActor: "p1", sourceCard: "c1"))
         ])
     }

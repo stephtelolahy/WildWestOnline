@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class MustangTests: XCTestCase {
-    func test_playMustang_shouldEquipAndSetAttribute() {
+    func test_playMustang_shouldEquipAndSetAttribute() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class MustangTests: XCTestCase {
 
         // When
         let action = GameAction.play(.mustang, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

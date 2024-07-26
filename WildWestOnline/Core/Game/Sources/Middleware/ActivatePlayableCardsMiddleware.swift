@@ -9,19 +9,20 @@
 import Redux
 
 extension Middlewares {
-    static func activatePlayableCards() -> Middleware<GameState> {
+    static func activatePlayableCards() -> Middleware<GameState, GameAction> {
         { state, _ in
-            guard state.sequence.isEmpty,
-                  state.winner == nil,
-                  state.chooseOne.isEmpty,
-                  state.active.isEmpty,
-                  let player = state.turn else {
+            guard state.sequence.queue.isEmpty,
+                  state.sequence.winner == nil,
+                  state.sequence.chooseOne.isEmpty,
+                  state.sequence.active.isEmpty,
+                  let player = state.round.turn else {
                 return nil
             }
 
             var activeCards: [String] = []
             let playerObj = state.player(player)
-            for card in playerObj.activableCards
+            let activableCards = playerObj.abilities + state.field.hand.get(player)
+            for card in activableCards
             where GameAction.validatePlay(card: card, player: player, state: state) {
                 activeCards.append(card)
             }
@@ -33,11 +34,5 @@ extension Middlewares {
 
             return GameAction.activate(activeCards, player: player)
         }
-    }
-}
-
-private extension Player {
-    var activableCards: [String] {
-        abilities + hand
     }
 }

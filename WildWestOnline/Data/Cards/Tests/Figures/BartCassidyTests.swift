@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class BartCassidyTests: XCTestCase {
-    func test_BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() {
+    func test_BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -30,7 +30,7 @@ final class BartCassidyTests: XCTestCase {
         ])
     }
 
-    func test_BartCassidyBeingDamaged_SeveralLifePoints_shouldDrawCards() {
+    func test_BartCassidyBeingDamaged_SeveralLifePoints_shouldDrawCards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -42,7 +42,7 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -52,7 +52,7 @@ final class BartCassidyTests: XCTestCase {
         ])
     }
 
-    func test_BartCassidyBeingDamaged_Lethal_shouldDoNothing() {
+    func test_BartCassidyBeingDamaged_Lethal_shouldDoNothing() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -64,7 +64,7 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

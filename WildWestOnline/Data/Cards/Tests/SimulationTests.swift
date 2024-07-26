@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 06/06/2023.
 //
 
-import CardsRepository
+import CardsData
 import Combine
 import GameCore
 import Redux
@@ -40,16 +40,16 @@ final class SimulationTests: XCTestCase {
     ) {
         // Given
         let inventory = CardsRepository().inventory
-        var game = Setup.createGame(
+        var game = Setup.buildGame(
             playersCount: playersCount,
             inventory: inventory,
             preferredFigure: preferredFigure
         )
-        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        game.config.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
         let stateWrapper = ClassWrapper(game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = Store<GameState>(
+        let sut = Store<GameState, GameAction>(
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
@@ -60,49 +60,33 @@ final class SimulationTests: XCTestCase {
         )
 
         let cancellable = sut.$state.sink { state in
-            if state.winner != nil {
+            if state.sequence.winner != nil {
                 expectation.fulfill()
-            }
-
-            if let error = state.error {
-                XCTFail("Unexpected error \(error)")
             }
         }
 
         // When
-        let sheriff = game.playOrder[0]
+        let sheriff = game.round.playOrder[0]
         sut.dispatch(GameAction.startTurn(player: sheriff))
 
         // Then
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
-        XCTAssertNotNil(sut.state.winner, "Expected game over")
+        XCTAssertNotNil(sut.state.sequence.winner, "Expected game over")
     }
 }
 
 /// Middleare reproducting state according to received event
 private extension Middlewares {
-    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState> {
+    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState, GameAction> {
         { state, action in
-            DispatchQueue.main.async {
-                let resultState = GameState.reducer(prevState.value, action)
-                prevState.value = resultState
-                if !resultState.isEqualIgnoringSequence(to: state) {
-                    assertionFailure("🚨 Inconsistent state after applying \(action)")
-                }
-            }
+            let resultState = try! GameState.reducer(prevState.value, action)
+            prevState.value = resultState
+            assert(resultState.players == state.players, "🚨 Inconsistent state after applying \(action)")
+            assert(resultState.field == state.field, "🚨 Inconsistent state after applying \(action)")
+            assert(resultState.round == state.round, "🚨 Inconsistent state after applying \(action)")
+            assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
             return nil
         }
-    }
-}
-
-private extension GameState {
-    func isEqualIgnoringSequence(to anotherState: GameState) -> Bool {
-        var state = self
-        state.sequence = []
-        var anotherState = anotherState
-        anotherState.sequence = []
-
-        return state == anotherState
     }
 }

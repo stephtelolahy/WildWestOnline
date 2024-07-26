@@ -6,12 +6,28 @@
 //  Created by Hugues Telolahy on 15/04/2023.
 //
 import AppCore
+import NavigationCore
 
 public extension HomeView {
     struct State: Equatable {
     }
 
+    enum Action {
+        case didTapPlayButton
+        case didTapSettingsButton
+    }
+
     static let deriveState: (AppState) -> State? = { _ in
-        .init()
+            .init()
+    }
+
+    static let embedAction: (Action, AppState) -> Any = { action, _ in
+        switch action {
+        case .didTapPlayButton:
+            GameSetupAction.start
+
+        case .didTapSettingsButton:
+            NavigationAction.navigate(.settings)
+        }
     }
 }

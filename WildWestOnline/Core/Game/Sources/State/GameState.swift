@@ -1,59 +1,27 @@
 import Foundation
+import Redux
 
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
-    /// All players
-    public var players: [String: Player]
+    /// Players
+    public var players: PlayersState
 
-    /// Playing order
-    public var playOrder: [String]
+    /// Card locations
+    public var field: FieldState
 
-    /// Initial order
-    public let startOrder: [String]
+    /// Round
+    public var round: RoundState
 
-    /// Current turn's player
-    public var turn: String?
-
-    /// Current turn's number of times a card was played
-    public var playedThisTurn: [String: Int]
-
-    /// Deck
-    public var deck: [String]
-
-    /// Discard pile
-    public var discard: [String]
-
-    /// Cards shop
-    public var arena: [String]
-
-    /// Game over
-    public var winner: String?
-
-    /// Occurred error
-    public var error: GameError?
-
-    /// Last occurred renderable event
-    public var event: GameAction?
-
-    /// Pending action by player
-    public var chooseOne: [String: ChooseOne]
-
-    /// Playable cards by player
-    public var active: [String: [String]]
-
-    /// Play mode by player
-    public var playMode: [String: PlayMode]
-
-    /// Queued effects
-    public var sequence: [GameAction]
+    /// Play sequence
+    public var sequence: SequenceState
 
     /// All cards reference by cardName
     public let cards: [String: Card]
 
-    /// Wait delay between two visible actions
-    public var waitDelayMilliseconds: Int
+    /// Configuration
+    public var config: GameConfig
 }
 
 // MARK: - Convenience
@@ -61,9 +29,153 @@ public struct GameState: Codable, Equatable {
 public extension GameState {
     /// Getting player with given identifier
     func player(_ id: String) -> Player {
-        guard let player = players[id] else {
-            fatalError("player not found \(id)")
+        players.get(id)
+    }
+}
+
+// MARK: - Reducer
+
+public extension GameState {
+    static let reducer: Reducer<Self, GameAction> = { state, action in
+            .init(
+                players: try PlayersState.reducer(state.players, action),
+                field: try FieldState.reducer(state.field, action),
+                round: try RoundState.reducer(state.round, action),
+                sequence: try SequenceState.reducer(state, action),
+                cards: state.cards,
+                config: state.config
+            )
+    }
+}
+
+// MARK: - Builder
+
+public extension GameState {
+    class Builder {
+        private var players: [String: Player] = [:]
+        private var hand: [String: [String]] = [:]
+        private var inPlay: [String: [String]] = [:]
+        private var playOrder: [String] = []
+        private var turn: String?
+        private var playedThisTurn: [String: Int] = [:]
+        private var deck: [String] = []
+        private var discard: [String] = []
+        private var arena: [String] = []
+        private var winner: String?
+        private var chooseOne: [String: ChooseOne] = [:]
+        private var active: [String: [String]] = [:]
+        private var queue: [GameAction] = []
+        private var playMode: [String: PlayMode] = [:]
+        private var cards: [String: Card] = [:]
+        private var waitDelayMilliseconds: Int = 0
+
+        public func build() -> GameState {
+            .init(
+                players: players,
+                field: .init(
+                    deck: deck,
+                    discard: discard,
+                    arena: arena,
+                    hand: hand,
+                    inPlay: inPlay
+                ),
+                round: .init(
+                    startOrder: playOrder,
+                    playOrder: playOrder,
+                    turn: turn
+                ),
+                sequence: .init(
+                    queue: queue,
+                    chooseOne: chooseOne,
+                    active: active,
+                    played: playedThisTurn,
+                    winner: winner
+                ),
+                cards: cards,
+                config: .init(
+                    waitDelayMilliseconds: waitDelayMilliseconds,
+                    playMode: playMode
+                )
+            )
         }
-        return player
+
+        public func withTurn(_ value: String) -> Self {
+            turn = value
+            return self
+        }
+
+        public func withDeck(_ value: [String]) -> Self {
+            deck = value
+            return self
+        }
+
+        public func withDiscard(_ value: [String]) -> Self {
+            discard = value
+            return self
+        }
+
+        public func withArena(_ value: [String]) -> Self {
+            arena = value
+            return self
+        }
+
+        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
+            playedThisTurn = value
+            return self
+        }
+
+        public func withWinner(_ value: String) -> Self {
+            winner = value
+            return self
+        }
+
+        public func withCards(_ value: [String: Card]) -> Self {
+            cards = value
+            return self
+        }
+
+        public func withExtraCards(_ cards: [String: Card]) -> Self {
+            self.cards.merge(cards) { _, new in new }
+            return self
+        }
+
+        public func withChooseOne(_ type: ChoiceType, options: [String], player: String) -> Self {
+            chooseOne = [player: ChooseOne(type: type, options: options)]
+            return self
+        }
+
+        public func withActive(_ cards: [String], player: String) -> Self {
+            active = [player: cards]
+            return self
+        }
+
+        public func withSequence(_ value: [GameAction]) -> Self {
+            queue = value
+            return self
+        }
+
+        public func withPlayModes(_ value: [String: PlayMode]) -> Self {
+            playMode = value
+            return self
+        }
+
+        public func withPlayer(_ id: String, builderFunc: (Player.Builder) -> Player.Builder = { $0 }) -> Self {
+            let builder = Player.makeBuilder().withId(id)
+            _ = builderFunc(builder)
+            players[id] = builder.build()
+            hand[id] = builder.buildHand()
+            inPlay[id] = builder.buildInPlay()
+            playOrder.append(id)
+            return self
+        }
+
+        public func withWaitDelayMilliseconds(_ value: Int) -> Self {
+            waitDelayMilliseconds = value
+            return self
+        }
+    }
+
+    static func makeBuilder() -> Builder {
+        Builder()
     }
 }

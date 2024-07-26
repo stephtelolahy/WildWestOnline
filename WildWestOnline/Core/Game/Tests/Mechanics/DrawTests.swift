@@ -18,10 +18,10 @@ final class DrawTests: XCTestCase {
 
         // When
         let action = GameAction.draw
-        let result = GameState.reducer(state, action)
+        let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.discard, ["c2", "c1"])
-        XCTAssertEqual(result.deck, ["c3"])
+        XCTAssertEqual(result.field.discard, ["c2", "c1"])
+        XCTAssertEqual(result.field.deck, ["c3"])
     }
 }

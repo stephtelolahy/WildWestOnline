@@ -9,7 +9,7 @@ import Redux
 
 /// Game loop features
 public extension Middlewares {
-    static func updateGame() -> Middleware<GameState> {
+    static func updateGame() -> Middleware<GameState, GameAction> {
         chain([
             checkGameOver(),
             triggerCardEffects(),

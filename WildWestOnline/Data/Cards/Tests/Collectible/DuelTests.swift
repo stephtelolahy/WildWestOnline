@@ -23,10 +23,10 @@ final class DuelTests: XCTestCase {
             .build()
     }
 
-    func test_playDuel_withTargetPassing_shouldDamage() {
+    func test_playDuel_withTargetPassing_shouldDamage() throws {
         // When
         let action = GameAction.play(.duel, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", .pass])
+        let result = try awaitAction(action, state: state, choose: ["p2", .pass])
 
         // Then
         XCTAssertEqual(result, [
@@ -40,10 +40,10 @@ final class DuelTests: XCTestCase {
         ])
     }
 
-    func test_playDuel_withTargetDiscardingBang_shouldDamageOffender() {
+    func test_playDuel_withTargetDiscardingBang_shouldDamageOffender() throws {
         // When
         let action = GameAction.play(.duel, player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", .bang2, .pass])
+        let result = try awaitAction(action, state: state, choose: ["p2", .bang2, .pass])
 
         // Then
         XCTAssertEqual(result, [

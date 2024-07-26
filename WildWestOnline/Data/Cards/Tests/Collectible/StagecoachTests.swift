@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class StagecoachTests: XCTestCase {
-    func test_plaStagecoach_shouldDraw2Cards() {
+    func test_plaStagecoach_shouldDraw2Cards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,7 +20,7 @@ final class StagecoachTests: XCTestCase {
 
         // When
         let action = GameAction.play(.stagecoach, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

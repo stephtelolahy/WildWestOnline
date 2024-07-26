@@ -5,12 +5,12 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import CardsRepository
+import CardsData
 import GameCore
 import XCTest
 
 final class WillyTheKidTests: XCTestCase {
-    func test_WillyTheKid_shouldHaveUnlimitedBang() {
+    func test_WillyTheKid_shouldHaveUnlimitedBang() throws {
         // Given
         let state = Setup.buildGame(figures: [.willyTheKid], deck: [], cards: Cards.all)
 

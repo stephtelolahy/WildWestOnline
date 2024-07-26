@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DynamiteTests: XCTestCase {
-    func test_playDynamite_shouldEquip() {
+    func test_playDynamite_shouldEquip() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -19,7 +19,7 @@ final class DynamiteTests: XCTestCase {
 
         // When
         let action = GameAction.play(.dynamite, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -28,7 +28,7 @@ final class DynamiteTests: XCTestCase {
         ])
     }
 
-    func test_triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() {
+    func test_triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -42,7 +42,7 @@ final class DynamiteTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -54,7 +54,7 @@ final class DynamiteTests: XCTestCase {
         ])
     }
 
-    func test_triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() {
+    func test_triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -68,7 +68,7 @@ final class DynamiteTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -81,7 +81,7 @@ final class DynamiteTests: XCTestCase {
         ])
     }
 
-    func test_triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() {
+    func test_triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -107,7 +107,7 @@ final class DynamiteTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

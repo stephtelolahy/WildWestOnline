@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 13/11/2023.
 //
 
-import CardsRepository
+import CardsData
 import GameCore
 import XCTest
 
@@ -39,7 +39,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
@@ -71,7 +71,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state, choose: [.pass])
+        let result = try awaitAction(action, state: state, choose: [.pass])
 
         // Then
         XCTAssertEqual(result, [
@@ -95,7 +95,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

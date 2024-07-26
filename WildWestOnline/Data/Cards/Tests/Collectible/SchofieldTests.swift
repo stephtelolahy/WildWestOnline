@@ -21,7 +21,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.play(.schofield, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -44,7 +44,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.play(.schofield, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -69,7 +69,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.discardInPlay(.schofield, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -88,7 +88,7 @@ final class SchofieldTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand(.schofield, player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

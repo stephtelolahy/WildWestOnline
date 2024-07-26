@@ -9,19 +9,15 @@
 import Redux
 
 extension Middlewares {
-    static func triggerCardEffects() -> Middleware<GameState> {
+    static func triggerCardEffects() -> Middleware<GameState, GameAction> {
         { state, action in
-            guard let action = action as? GameAction else {
-                return nil
-            }
-
             var triggered: [GameAction] = []
 
             // active players
-            for player in state.playOrder {
+            for player in state.round.playOrder {
                 let playerObj = state.player(player)
-                let cards = playerObj.triggerableCardsOfActivePlayer
-                for card in cards {
+                let triggerableCards = state.field.inPlay.getOrEmpty(player) + playerObj.abilities
+                for card in triggerableCards {
                     let actions = state.triggeredEffects(by: card, player: player, event: action)
                     triggered.append(contentsOf: actions)
                 }
@@ -30,8 +26,8 @@ extension Middlewares {
             // just eliminated player
             if case let .eliminate(player) = action {
                 let playerObj = state.player(player)
-                let cards = playerObj.triggerableCardsOfEliminatedPlayer
-                for card in cards {
+                let triggerableCards = playerObj.abilities
+                for card in triggerableCards {
                     let actions = state.triggeredEffects(by: card, player: player, event: action)
                     triggered.append(contentsOf: actions)
                 }
@@ -74,23 +70,13 @@ private extension GameState {
             let ctx = EffectContext(
                 sourceEvent: event,
                 sourceActor: player,
-                sourceCard: card,
-                linkedToShoot: state.linkedToShoot(event: event)
+                sourceCard: card
             )
 
             actions.append(.effect(rule.effect, ctx: ctx))
         }
 
         return actions
-    }
-
-    func linkedToShoot(event: GameAction) -> String? {
-        guard case let .effect(cardEffect, ctx) = event,
-              case .shoot = cardEffect else {
-            return nil
-        }
-
-        return ctx.resolvingTarget
     }
 
     func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {
@@ -104,15 +90,5 @@ private extension GameState {
             }
             return cardObj1.priority < cardObj2.priority
         }
-    }
-}
-
-private extension Player {
-    var triggerableCardsOfActivePlayer: [String] {
-        inPlay + abilities
-    }
-
-    var triggerableCardsOfEliminatedPlayer: [String] {
-        Array(abilities)
     }
 }

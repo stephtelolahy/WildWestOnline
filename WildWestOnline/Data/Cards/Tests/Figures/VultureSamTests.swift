@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class VultureSamTests: XCTestCase {
-    func test_VultureSam_anotherPlayerEliminated_shouldDrawItsCard() {
+    func test_VultureSam_anotherPlayerEliminated_shouldDrawItsCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -25,7 +25,7 @@ final class VultureSamTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p2")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

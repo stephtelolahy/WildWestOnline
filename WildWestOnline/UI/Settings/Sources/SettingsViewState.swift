@@ -7,6 +7,8 @@
 //
 // swiftlint:disable nesting no_magic_numbers
 import AppCore
+import NavigationCore
+import SettingsCore
 
 public extension SettingsView {
     struct State: Equatable {
@@ -29,21 +31,43 @@ public extension SettingsView {
                 .init(label: "Fast", value: 0)
             ]
         }
-
-        public let gamePlayOptions: [String] = [
-            "UIKit",
-            "SwiftUI"
-        ]
     }
 
-    static let deriveState: (AppState) -> State?  = { state in
+    enum Action {
+        case didTapCloseButton
+        case didChangePlayersCount(Int)
+        case didChangeWaitDelay(Int)
+        case didToggleSimulation
+        case didChangePreferredFigure(String)
+    }
+
+    static let deriveState: (AppState) -> State? = { state in
             .init(
                 playersCount: state.settings.playersCount,
                 speedIndex: State.indexOfSpeed(state.settings.waitDelayMilliseconds),
                 simulation: state.settings.simulation,
-                figureOptions: state.settings.inventory.figures,
-                preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.settings.inventory.figures)
+                figureOptions: state.inventory.figures,
+                preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.inventory.figures)
             )
+    }
+
+    static let embedAction: (Action, AppState) -> Any = { action, _ in
+        switch action {
+        case .didTapCloseButton:
+            NavigationAction.close
+
+        case .didChangePlayersCount(let count):
+            SettingsAction.updatePlayersCount(count)
+
+        case .didChangeWaitDelay(let delay):
+            SettingsAction.updateWaitDelayMilliseconds(delay)
+
+        case .didToggleSimulation:
+            SettingsAction.toggleSimulation
+
+        case .didChangePreferredFigure(let figure):
+            SettingsAction.updatePreferredFigure(figure)
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class SetupTests: XCTestCase {
-    func test_setupDeck_shouldCreateCardsByCombiningNameAndValues() {
+    func test_setupDeck_shouldCreateCardsByCombiningNameAndValues() throws {
         // Given
         let cardSets: [String: [String]] = [
             "card1": ["val11", "val12"],
@@ -26,7 +26,7 @@ final class SetupTests: XCTestCase {
         XCTAssertTrue(deck.contains("card2-val22"))
     }
 
-    func test_setupGame_shouldCreatePlayer() {
+    func test_setupGame_shouldCreatePlayer() throws {
         // Given
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
@@ -45,21 +45,21 @@ final class SetupTests: XCTestCase {
         // Then
         // should create a game with given player number
         XCTAssertEqual(state.players.count, 2)
-        XCTAssertTrue(state.playOrder.contains(["p1", "p2"]))
-        XCTAssertTrue(state.startOrder.contains(["p1", "p2"]))
+        XCTAssertTrue(state.round.playOrder.contains(["p1", "p2"]))
+        XCTAssertTrue(state.round.startOrder.contains(["p1", "p2"]))
 
         // should set players to max health
         XCTAssertEqual(state.player("p1").health, 4)
         XCTAssertEqual(state.player("p2").health, 3)
 
         // should set players hand cards to health
-        XCTAssertEqual(state.player("p1").hand.count, 4)
-        XCTAssertEqual(state.player("p2").hand.count, 3)
-        XCTAssertEqual(state.deck.count, 73)
-        XCTAssertEqual(state.discard, [])
+        XCTAssertEqual(state.field.hand["p1"]?.count, 4)
+        XCTAssertEqual(state.field.hand["p2"]?.count, 3)
+        XCTAssertEqual(state.field.deck.count, 73)
+        XCTAssertEqual(state.field.discard, [])
 
         // should set undefined turn
-        XCTAssertNil(state.turn)
+        XCTAssertNil(state.round.turn)
 
         // should set figure attributes
         XCTAssertEqual(state.player("p1").abilities, ["p1"])

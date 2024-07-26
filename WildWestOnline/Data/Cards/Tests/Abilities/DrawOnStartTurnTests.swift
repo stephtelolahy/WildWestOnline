@@ -9,7 +9,7 @@ import GameCore
 import XCTest
 
 final class DrawOnStartTurnTests: XCTestCase {
-    func test_startTurn_with2StartTurnCards_shouldDraw2Cards() {
+    func test_startTurn_with2StartTurnCards_shouldDraw2Cards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,7 +21,7 @@ final class DrawOnStartTurnTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
@@ -31,7 +31,7 @@ final class DrawOnStartTurnTests: XCTestCase {
         ])
     }
 
-    func test_startTurn_with3StartTurnCards_shouldDraw3Cards() {
+    func test_startTurn_with3StartTurnCards_shouldDraw3Cards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -43,7 +43,7 @@ final class DrawOnStartTurnTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let (result, _) = awaitAction(action, state: state)
+        let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [

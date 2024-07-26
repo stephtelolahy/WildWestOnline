@@ -9,20 +9,20 @@
 import Redux
 
 extension Middlewares {
-    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
+    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState, GameAction> {
         { state, _ in
-            guard state.winner == nil else {
+            guard state.sequence.winner == nil else {
                 return nil
             }
 
-            if let active = state.active.first,
-               state.playMode[active.key] == .auto {
+            if let active = state.sequence.active.first,
+               state.config.playMode[active.key] == .auto {
                 let actions = active.value.map { GameAction.play($0, player: active.key) }
                 return strategy.evaluateBestMove(actions, state: state)
             }
 
-            if let chooseOne = state.chooseOne.first,
-               state.playMode[chooseOne.key] == .auto {
+            if let chooseOne = state.sequence.chooseOne.first,
+               state.config.playMode[chooseOne.key] == .auto {
                 let actions = chooseOne.value.options.map { GameAction.choose($0, player: chooseOne.key) }
                 return strategy.evaluateBestMove(actions, state: state)
             }
