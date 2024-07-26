@@ -78,13 +78,6 @@
     {
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "SettingsUICoreTests",
-        "name" : "SettingsUICoreTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
         "identifier" : "SettingsUITests",
         "name" : "SettingsUITests"
       }
@@ -94,6 +87,13 @@
         "containerPath" : "container:WildWestOnline",
         "identifier" : "SplashUITests",
         "name" : "SplashUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SettingsCoreTests",
+        "name" : "SettingsCoreTests"
       }
     }
   ],
