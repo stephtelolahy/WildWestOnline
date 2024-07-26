@@ -291,11 +291,7 @@ private extension SequenceState {
         sequence.played[cardName] = playedCount + 1
 
         // queue play effects
-        let ctx = EffectContext(
-            sourceEvent: event,
-            sourceActor: player,
-            sourceCard: card
-        )
+        let ctx = EffectContext(sourceEvent: event, sourceActor: player, sourceCard: card)
         let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
         sequence.queue.insert(contentsOf: children, at: 0)
 
