@@ -43,19 +43,19 @@ let package = Package(
         .target(
             name: "Redux",
             dependencies: [],
-            path: "Utils/Redux/Sources"
+            path: "Utilities/Redux/Sources"
         ),
         .testTarget(
             name: "ReduxTests",
             dependencies: [
                 "Redux"
             ],
-            path: "Utils/Redux/Tests"
+            path: "Utilities/Redux/Tests"
         ),
         .target(
             name: "Serialization",
             dependencies: [],
-            path: "Utils/Serialization/Sources",
+            path: "Utilities/Serialization/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -65,7 +65,7 @@ let package = Package(
             dependencies: [
                 "Serialization"
             ],
-            path: "Utils/Serialization/Tests"
+            path: "Utilities/Serialization/Tests"
         ),
         .target(
             name: "GameCore",
@@ -140,7 +140,7 @@ let package = Package(
         .target(
             name: "Theme",
             dependencies: [],
-            path: "Utils/Theme/sources",
+            path: "Utilities/Theme/sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -248,13 +248,13 @@ let package = Package(
         ),
         .binaryTarget(
             name: "SwiftLintBinary",
-            path: "Utils/SwiftLintBinary.artifactbundle"
+            path: "Utilities/SwiftLintBinary.artifactbundle"
         ),
         .plugin(
             name: "SwiftLintPlugin",
             capability: .buildTool(),
             dependencies: ["SwiftLintBinary"],
-            path: "Utils/SwiftLintPlugin/Sources"
+            path: "Utilities/SwiftLintPlugin/Sources"
         )
     ]
 )
