@@ -17,11 +17,11 @@ public enum GameAction: String, Codable {
     /// {player} draw top deck card
     case drawDeck
 
-    /// {player} discard his {card}
+    /// {player} discard a {card}
     case discard
 
-    /// {player} discard silently a played {card}
-    case discardPlayed
+    /// {player} discard silently a {card}
+    case discardSilently
 
     /// {actor} steal a {card} from {player}
     case steal

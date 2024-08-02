@@ -108,7 +108,7 @@ private extension Cards {
 
     static var discardOnPlayed: CardEffect {
         .init(
-            action: .discardPlayed,
+            action: .discardSilently,
             selectors: [
                 .player(.actor),
                 .card(.played)
