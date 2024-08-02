@@ -1,0 +1,92 @@
+//
+//  CardEffect.swift
+//
+//
+//  Created by Stephano Hugues TELOLAHY on 28/07/2024.
+//
+// swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name
+
+/// An effect is a tag which performs an action each time an event occurs.
+public struct CardEffect: Equatable, Codable {
+    public let when: PlayerEvent
+    public let action: GameAction
+    public let selectors: [Selector]?
+    public let until: PlayerEvent?
+
+    /// Selectors are used to specify which objects an aura or effect should affect.
+    /// Choice is performed by {actor}
+    public enum Selector: Equatable, Codable {
+        case `if`([StateCondition])
+        case `repeat`(Int)
+        case player(Player, conditions: [PlayerCondition]? = nil)
+        case card(Card)
+        case counterCard(Card, conditions: [CardCondition]? = nil)
+        case reverseCard(Card, conditions: [CardCondition]? = nil)
+        case amount(Amount)
+        case requiredMisses(Amount)
+        case expectDraw(String)
+        case ifDrawResult(Bool)
+
+        public enum Player: String, Codable {
+            case actor
+            case all
+            case others
+            case next
+            case any
+        }
+
+        public enum Card: String, Codable {
+            case played
+            case any
+            case anyChoosable
+        }
+
+        public enum StateCondition: String, Codable {
+            case playersAtLeast3
+            case cardPlayedLessThanBangLimitPerTurn
+        }
+
+        public enum PlayerCondition: String, Codable {
+            case damaged
+            case havingCard
+            case atDistance1
+            case atDistanceReachable
+        }
+
+        public enum CardCondition: String, Codable {
+            case handCardNamedBang
+        }
+
+        public enum Amount: Equatable, Codable {
+            case value(Int)
+            case numberOfPlayers
+            case requiredMissesForBang
+        }
+    }
+
+    public indirect enum PlayerEvent: String, Codable {
+        case cardPlayed
+        case shot
+        case turnStarted
+        case cardDiscarded
+    //    case cardUsed
+    //    case cardPlaced
+    //    case turnEnded
+    //    case characterDied
+    //    case characterHealed
+    //    case characterDamaged
+    //    case either(event1: Event, event2: Event)
+    }
+
+    public init(
+        when: PlayerEvent,
+        action: GameAction,
+        selectors: [Selector]? = nil,
+        until: PlayerEvent? = nil
+    ) {
+        self.when = when
+        self.action = action
+        self.selectors = selectors
+        self.until = until
+    }
+}
