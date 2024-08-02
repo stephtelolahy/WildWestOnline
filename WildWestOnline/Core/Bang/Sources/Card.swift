@@ -56,20 +56,20 @@ public enum Cards {
         ],
         "generalStore": [
             discardOnPlayed,
-            revealCardsAsPlayersCount,
+            revealCardsAsNumberOfPlayers,
             chooseCardAll
         ],
         "barrel": [
             equipment,
             drawOnShot,
-            counterShootOnSuccessfulDraw
+            counterShootIfDrawHearts
         ],
         "dynamite": [
             equipment,
             drawOnTurnStarted,
-            passInPlayOnSuccessfulDraw,
-            damage3OnFailedDraw,
-            discardOnFailedDraw
+            passInPlayIfNotDrawSpades,
+            damage3IfDrawSpades,
+            discardIfDrawSpades
         ],
         "schofield": [
             equipment,
@@ -241,7 +241,7 @@ private extension Cards {
         )
     }
 
-    static var revealCardsAsPlayersCount: CardEffect {
+    static var revealCardsAsNumberOfPlayers: CardEffect {
         .init(
             action: .reveal,
             selectors: [
@@ -278,18 +278,15 @@ private extension Cards {
     static var drawOnShot: CardEffect {
         .init(
             action: .draw,
-            selectors: [
-                .expectDraw("♥️")
-            ],
             when: .shot
         )
     }
 
-    static var counterShootOnSuccessfulDraw: CardEffect {
+    static var counterShootIfDrawHearts: CardEffect {
         .init(
             action: .counterShoot,
             selectors: [
-                .if(.drawSucceeded),
+                .if(.drawHearts),
                 .player(.actor)
             ],
             when: .shot
@@ -299,18 +296,15 @@ private extension Cards {
     static var drawOnTurnStarted: CardEffect {
         .init(
             action: .draw,
-            selectors: [
-                .expectDraw("(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)")
-            ],
             when: .turnStarted
         )
     }
 
-    static var passInPlayOnSuccessfulDraw: CardEffect {
+    static var passInPlayIfNotDrawSpades: CardEffect {
         .init(
             action: .passInPlay,
             selectors: [
-                .if(.drawSucceeded),
+                .if(.notDrawsSpades),
                 .player(.next),
                 .card(.played)
             ],
@@ -318,11 +312,11 @@ private extension Cards {
         )
     }
 
-    static var damage3OnFailedDraw: CardEffect {
+    static var damage3IfDrawSpades: CardEffect {
         .init(
             action: .damage,
             selectors: [
-                .if(.drawFailed),
+                .if(.drawsSpades),
                 .amount(.value(3)),
                 .player(.actor)
             ],
@@ -330,11 +324,11 @@ private extension Cards {
         )
     }
 
-    static var discardOnFailedDraw: CardEffect {
+    static var discardIfDrawSpades: CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .if(.drawFailed),
+                .if(.drawsSpades),
                 .player(.actor),
                 .card(.played)
             ],

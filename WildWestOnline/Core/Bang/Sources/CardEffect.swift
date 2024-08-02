@@ -20,11 +20,10 @@ public struct CardEffect: Equatable, Codable {
         case `repeat`(Int)
         case player(Player, conditions: [PlayerCondition]? = nil)
         case card(Card)
-        case counterCard(Card, conditions: [CardCondition]? = nil)
-        case reverseCard(Card, conditions: [CardCondition]? = nil)
         case amount(Amount)
         case requiredMisses(Amount)
-        case expectDraw(String)
+        case counterCard(Card, conditions: [CardCondition]? = nil)
+        case reverseCard(Card, conditions: [CardCondition]? = nil)
 
         public enum Player: String, Codable {
             case actor
@@ -43,8 +42,10 @@ public struct CardEffect: Equatable, Codable {
         public enum StateCondition: String, Codable {
             case playersAtLeast3
             case cardPlayedLessThanBangLimitPerTurn
-            case drawSucceeded
-            case drawFailed
+            case drawHearts
+            case notDrawHearts
+            case drawsSpades
+            case notDrawsSpades
         }
 
         public enum PlayerCondition: String, Codable {
