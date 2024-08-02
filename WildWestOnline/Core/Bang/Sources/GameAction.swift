@@ -53,7 +53,9 @@ public enum GameAction: String, Codable {
     /// {actor} sets unlimited bangs per turn
     case setUnlimitedBang
 
-//    case increaseMagnifying
-//    case increaseRemoteness
-//    case setTurn
+    /// {actor} decreases distance to others
+    case increaseMagnifying
+
+    /// {actor} increase distance from others
+    case increaseRemoteness
 }

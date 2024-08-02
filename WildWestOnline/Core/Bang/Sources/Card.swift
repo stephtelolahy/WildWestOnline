@@ -91,6 +91,14 @@ public enum Cards {
             equipment,
             weapon1,
             unlimitedBang
+        ],
+        "scope": [
+            equipment,
+            increaseMagnifying
+        ],
+        "mustang": [
+            equipment,
+            increaseRemoteness
         ]
     ]
 }
@@ -397,23 +405,26 @@ private extension Cards {
             until: .cardDiscarded
         )
     }
+
+    static var increaseMagnifying: CardEffect {
+        .init(
+            when: .cardPlayed,
+            action: .increaseMagnifying,
+            until: .cardDiscarded
+        )
+    }
+
+    static var increaseRemoteness: CardEffect {
+        .init(
+            when: .cardPlayed,
+            action: .increaseRemoteness,
+            until: .cardDiscarded
+        )
+    }
 }
 
 /*
  private extension Cards {
-     static var scope: Card {
-         Card.makeBuilder(name: .scope)
-             .withRule(equipement)
-             .withAttributes([.magnifying: 1])
-             .build()
-     }
-
-     static var mustang: Card {
-         Card.makeBuilder(name: .mustang)
-             .withRule(equipement)
-             .withAttributes([.remoteness: 1])
-             .build()
-     }
 
      // MARK: - Collectibles - Blue Handicap
 
