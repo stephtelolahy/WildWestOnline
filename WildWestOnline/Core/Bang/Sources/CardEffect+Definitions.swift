@@ -148,7 +148,7 @@ extension CardEffect {
         .init(
             action: .reveal,
             selectors: [
-                .amount(.numberOfPlayers)
+                .amount(.activePlayers)
             ],
             when: .cardPlayed
         )
@@ -362,6 +362,18 @@ extension CardEffect {
         )
     }
 
+    static var discardExcessHand: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .player(.actor),
+                .repeat(.excessHand),
+                .card(.any, conditions: [.handCard])
+            ],
+            when: .cardPlayed
+        )
+    }
+
     static var startTurnNext: CardEffect {
         .init(
             action: .startTurn,
@@ -372,42 +384,20 @@ extension CardEffect {
         )
     }
 
-    static var discardExcessHand: CardEffect {
+    static var drawOnStartTurn: CardEffect {
         .init(
-            action: .discard,
+            action: .drawDeck,
             selectors: [
                 .player(.actor),
-                .repeat(.numberOfExcessHand),
-                .card(.any, conditions: [.handCard])
+                .amount(.startTurnCards)
             ],
-            when: .cardPlayed
+            when: .turnStarted
         )
     }
 }
 
 /*
  private extension Cards {
-     static var discardExcessHandOnEndTurn: Card {
-         Card.makeBuilder(name: .discardExcessHandOnEndTurn)
-             .withRule {
-                 CardEffect.discard(.selectHand)
-                     .repeat(.excessHand)
-                     .on([.endTurn])
-             }
-             .build()
-     }
-
-     static var drawOnStartTurn: Card {
-         Card.makeBuilder(name: .drawOnStartTurn)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.drawDeck
-                     .repeat(.attr(.startTurnCards))
-                     .on([.startTurn])
-             }
-             .build()
-     }
-
      static var eliminateOnDamageLethal: Card {
          Card.makeBuilder(name: .eliminateOnDamageLethal)
              .withPriorityIndex(priorities)

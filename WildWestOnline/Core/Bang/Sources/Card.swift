@@ -109,6 +109,9 @@ public enum Cards {
             .endTurn,
             .discardExcessHand,
             .startTurnNext
+        ],
+        "drawOnStartTurn": [
+            .drawOnStartTurn
         ]
     ]
 }
