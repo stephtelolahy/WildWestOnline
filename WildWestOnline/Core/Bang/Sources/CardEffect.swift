@@ -17,9 +17,9 @@ public struct CardEffect: Equatable, Codable {
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
         case `if`(StateCondition)
-        case `repeat`(Int)
+        case `repeat`(Amount)
         case player(Player, conditions: [PlayerCondition]? = nil)
-        case card(Card)
+        case card(Card, conditions: [CardCondition]? = nil)
         case amount(Amount)
         case requiredMisses(Amount)
         case counterCard(Card, conditions: [CardCondition]? = nil)
@@ -57,12 +57,14 @@ public struct CardEffect: Equatable, Codable {
 
         public enum CardCondition: String, Codable {
             case handCardNamedBang
+            case handCard
         }
 
         public enum Amount: Equatable, Codable {
             case value(Int)
             case numberOfPlayers
             case requiredMissesForBang
+            case numberOfExcessHand
         }
     }
 
