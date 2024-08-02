@@ -4,7 +4,7 @@
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
-/// A card is just a collection of effects using `Tag system`
+/// A `card` is just a collection of effects using `Tag system`
 ///
 typealias Card = [CardEffect]
 

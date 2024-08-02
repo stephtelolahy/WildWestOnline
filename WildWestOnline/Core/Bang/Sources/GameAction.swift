@@ -44,13 +44,13 @@ public enum GameAction: String, Codable {
     /// Expose {amount} choosable cards from top deck
     case reveal
 
-    /// Draw expecting {regex}
+    /// Draw card(s) from deck by expecting {regex}
     case draw
 
-    /// Set weapon to {amount} to {actor}
+    /// {actor} sets weapon to {amount}
     case setWeapon
 
-    /// Set unlimited bangs per turn to {actor}
+    /// {actor} sets unlimited bangs per turn
     case setUnlimitedBang
 
 //    case increaseMagnifying
