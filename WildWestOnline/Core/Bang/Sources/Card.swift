@@ -4,9 +4,12 @@
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
-/// `Tag system`:  Implementing card as a collection of effects
+/// A card is just a collection of effects using `Tag system`
+///
+typealias Card = [CardEffect]
+
 public enum Cards {
-    static let all: [String: [CardEffect]] = [
+    static let all: [String: Card] = [
         "beer": [
             discardOnPlayed,
             heal1

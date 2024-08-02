@@ -5,7 +5,8 @@
 //  Created by Stephano Hugues TELOLAHY on 28/07/2024.
 //
 
-/// An action is some kind of change that happens to an object.
+/// An action is some kind of change
+/// Triggered by user or by the system, that causes any update to the game state
 public enum GameAction: String, Codable {
     /// {player} increase health by {amount}
     case heal

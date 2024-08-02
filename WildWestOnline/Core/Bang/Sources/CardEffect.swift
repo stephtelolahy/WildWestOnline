@@ -6,7 +6,7 @@
 //
 // swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name
 
-/// An effect is a tag which performs an action each time an event occurs.
+/// An `effect` is a tag which performs an action each time an event occurs.
 public struct CardEffect: Equatable, Codable {
     public let when: PlayerEvent
     public let action: GameAction
