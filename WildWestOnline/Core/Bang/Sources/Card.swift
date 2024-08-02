@@ -11,105 +11,105 @@ typealias Card = [CardEffect]
 public enum Cards {
     static let all: [String: Card] = [
         "beer": [
-            discardOnPlayed,
-            heal1
+            .discardOnPlayed,
+            .heal1
         ],
         "saloon": [
-            discardOnPlayed,
-            heal1All
+            .discardOnPlayed,
+            .heal1All
         ],
         "stagecoach": [
-            discardOnPlayed,
-            draw2Cards
+            .discardOnPlayed,
+            .draw2Cards
         ],
         "wellsFargo": [
-            discardOnPlayed,
-            draw3Cards
+            .discardOnPlayed,
+            .draw3Cards
         ],
         "catBalou": [
-            discardOnPlayed,
-            discardAnyOther
+            .discardOnPlayed,
+            .discardAnyOther
         ],
         "panic": [
-            discardOnPlayed,
-            stealAnyOtherAtDistanceOf1
+            .discardOnPlayed,
+            .stealAnyOtherAtDistanceOf1
         ],
         "bang": [
-            discardOnPlayed,
-            shootAnyReachable
+            .discardOnPlayed,
+            .shootAnyReachable
         ],
         "missed": [
-            discardOnPlayed,
-            counterShoot
+            .discardOnPlayed,
+            .counterShoot
         ],
         "gatling": [
-            discardOnPlayed,
-            shootOthers
+            .discardOnPlayed,
+            .shootOthers
         ],
         "indians": [
-            discardOnPlayed,
-            damageOthersCounterWithBang
+            .discardOnPlayed,
+            .damageOthersCounterWithBang
         ],
         "duel": [
-            discardOnPlayed,
-            damageAnyReverseWithBang
+            .discardOnPlayed,
+            .damageAnyReverseWithBang
         ],
         "generalStore": [
-            discardOnPlayed,
-            revealCardsAsNumberOfPlayers,
-            chooseCardAll
+            .discardOnPlayed,
+            .revealCardsAsNumberOfPlayers,
+            .chooseCardAll
         ],
         "barrel": [
-            equipment,
-            drawOnShot,
-            counterShootIfDrawHearts
+            .equipment,
+            .drawOnShot,
+            .counterShootIfDrawHearts
         ],
         "dynamite": [
-            equipment,
-            drawOnTurnStarted,
-            passInPlayIfNotDrawSpades,
-            damage3IfDrawSpades,
-            discardIfDrawSpades
+            .equipment,
+            .drawOnTurnStarted,
+            .passInPlayIfNotDrawSpades,
+            .damage3IfDrawSpades,
+            .discardIfDrawSpades
         ],
         "schofield": [
-            equipment,
-            weapon2
+            .equipment,
+            .weapon2
         ],
         "remington": [
-            equipment,
-            weapon3
+            .equipment,
+            .weapon3
         ],
         "revCarabine": [
-            equipment,
-            weapon4
+            .equipment,
+            .weapon4
         ],
         "winchester": [
-            equipment,
-            weapon5
+            .equipment,
+            .weapon5
         ],
         "volcanic": [
-            equipment,
-            weapon1,
-            unlimitedBang
+            .equipment,
+            .weapon1,
+            .unlimitedBang
         ],
         "scope": [
-            equipment,
-            increaseMagnifying
+            .equipment,
+            .increaseMagnifying
         ],
         "mustang": [
-            equipment,
-            increaseRemoteness
+            .equipment,
+            .increaseRemoteness
         ],
         "jail": [
-            handicap,
-            drawOnTurnStarted,
-            skipTurnIfNotDrawHearts,
-            discardOnTurnStarted
+            .handicap,
+            .drawOnTurnStarted,
+            .skipTurnIfNotDrawHearts,
+            .discardOnTurnStarted
         ]
     ]
 }
 
-private extension Cards {
+private extension CardEffect {
     // MARK: - Collectible - Action
 
     static var discardOnPlayed: CardEffect {
@@ -455,13 +455,12 @@ private extension Cards {
             when: .turnStarted
         )
     }
+
+    // MARK: - Abilities
 }
 
 /*
  private extension Cards {
-
-     // MARK: - Abilities
-
      static var endTurn: Card {
          Card.makeBuilder(name: .endTurn)
              .withRule {
