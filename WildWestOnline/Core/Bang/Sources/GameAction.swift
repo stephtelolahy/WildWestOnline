@@ -23,8 +23,11 @@ public enum GameAction: String, Codable {
     /// {player} discard silently a {card}
     case discardSilently
 
-    /// {actor} steal a {card} from {player}
+    /// {actor} steal a {card} from a {player}
     case steal
+
+    /// {actor} put a {card} on a {player}'s inPlay
+    case handicap
 
     /// {actor} shoot at {player} with {requiredMisses}
     case shoot
@@ -58,4 +61,7 @@ public enum GameAction: String, Codable {
 
     /// {actor} increase distance from others
     case increaseRemoteness
+
+    /// {actor} skip his turn
+    case skipTurn
 }

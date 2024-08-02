@@ -99,6 +99,12 @@ public enum Cards {
         "mustang": [
             equipment,
             increaseRemoteness
+        ],
+        "jail": [
+            handicap,
+            drawOnTurnStarted,
+            skipTurnIfNotDrawHearts,
+            discardOnTurnStarted
         ]
     ]
 }
@@ -415,42 +421,44 @@ private extension Cards {
             until: .cardDiscarded
         )
     }
+
+    // MARK: - Collectibles - Handicap
+
+    static var handicap: CardEffect {
+        .init(
+            action: .handicap,
+            selectors: [
+                .player(.any),
+                .card(.played)
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var skipTurnIfNotDrawHearts: CardEffect {
+        .init(
+            action: .skipTurn,
+            selectors: [
+                .if(.notDrawHearts)
+            ],
+            when: .turnStarted
+        )
+    }
+
+    static var discardOnTurnStarted: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .player(.actor),
+                .card(.played)
+            ],
+            when: .turnStarted
+        )
+    }
 }
 
 /*
  private extension Cards {
-
-     // MARK: - Collectibles - Blue Handicap
-
-     static var handicap: CardRule {
-         CardEffect.handicap
-             .target(.any)
-             .on([.play])
-     }
-
-     static var jail: Card {
-         Card.makeBuilder(name: .jail)
-             .withRule(handicap)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.draw
-                         .repeat(.attr(.flippedCards))
-                     CardEffect.luck(
-                         .drawn,
-                         regex: .regexEscapeFromJail,
-                         onSuccess: .discard(.played),
-                         onFailure: .group {
-                             CardEffect.cancelTurn
-                             CardEffect.discard(.played)
-                             CardEffect.startTurn.target(.next(.actor))
-                         }
-                     )
-                 }
-                 .on([.startTurn])
-             }
-             .build()
-     }
 
      // MARK: - Abilities
 
