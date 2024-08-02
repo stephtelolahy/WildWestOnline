@@ -108,157 +108,157 @@ private extension Cards {
 
     static var discardOnPlayed: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .discardPlayed,
             selectors: [
                 .player(.actor),
                 .card(.played)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var heal1: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .heal,
             selectors: [
-                .if([.playersAtLeast3]),
+                .if(.playersAtLeast3),
                 .amount(.value(1)),
                 .player(.actor)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var heal1All: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .heal,
             selectors: [
                 .amount(.value(1)),
                 .player(.all, conditions: [.damaged])
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var draw2Cards: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .drawDeck,
             selectors: [
                 .player(.actor),
                 .repeat(2)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var draw3Cards: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .drawDeck,
             selectors: [
                 .player(.actor),
                 .repeat(3)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var discardAnyOther: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .discard,
             selectors: [
                 .player(.any, conditions: [.havingCard]),
                 .card(.any)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var stealAnyOtherAtDistanceOf1: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .steal,
             selectors: [
                 .player(.any, conditions: [.atDistance1, .havingCard]),
                 .card(.any)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var shootAnyReachable: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .shoot,
             selectors: [
-                .if([.cardPlayedLessThanBangLimitPerTurn]),
+                .if(.cardPlayedLessThanBangLimitPerTurn),
                 .requiredMisses(.requiredMissesForBang),
                 .player(.any, conditions: [.atDistanceReachable])
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var counterShoot: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .counterShoot,
             selectors: [
                 .player(.actor)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var shootOthers: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .shoot,
             selectors: [
                 .requiredMisses(.value(1)),
                 .player(.others)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var damageOthersCounterWithBang: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .damage,
             selectors: [
                 .amount(.value(1)),
                 .player(.others),
                 .counterCard(.any, conditions: [.handCardNamedBang])
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var damageAnyReverseWithBang: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .damage,
             selectors: [
                 .amount(.value(1)),
                 .player(.any),
                 .reverseCard(.any, conditions: [.handCardNamedBang])
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var revealCardsAsPlayersCount: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .reveal,
             selectors: [
                 .amount(.numberOfPlayers)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var chooseCardAll: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .chooseCard,
             selectors: [
                 .player(.all),
                 .card(.anyChoosable)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
@@ -266,158 +266,158 @@ private extension Cards {
 
     static var equipment: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .equip,
             selectors: [
                 .player(.actor),
                 .card(.played)
-            ]
+            ],
+            when: .cardPlayed
         )
     }
 
     static var drawOnShot: CardEffect {
         .init(
-            when: .shot,
             action: .draw,
             selectors: [
                 .expectDraw("♥️")
-            ]
+            ],
+            when: .shot
         )
     }
 
     static var counterShootOnSuccessfulDraw: CardEffect {
         .init(
-            when: .shot,
             action: .counterShoot,
             selectors: [
-                .ifDrawResult(true),
+                .if(.drawSucceeded),
                 .player(.actor)
-            ]
+            ],
+            when: .shot
         )
     }
 
     static var drawOnTurnStarted: CardEffect {
         .init(
-            when: .turnStarted,
             action: .draw,
             selectors: [
                 .expectDraw("(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)")
-            ]
+            ],
+            when: .turnStarted
         )
     }
 
     static var passInPlayOnSuccessfulDraw: CardEffect {
         .init(
-            when: .turnStarted,
             action: .passInPlay,
             selectors: [
-                .ifDrawResult(true),
+                .if(.drawSucceeded),
                 .player(.next),
                 .card(.played)
-            ]
+            ],
+            when: .turnStarted
         )
     }
 
     static var damage3OnFailedDraw: CardEffect {
         .init(
-            when: .turnStarted,
             action: .damage,
             selectors: [
-                .ifDrawResult(false),
+                .if(.drawFailed),
                 .amount(.value(3)),
                 .player(.actor)
-            ]
+            ],
+            when: .turnStarted
         )
     }
 
     static var discardOnFailedDraw: CardEffect {
         .init(
-            when: .turnStarted,
             action: .discard,
             selectors: [
-                .ifDrawResult(false),
+                .if(.drawFailed),
                 .player(.actor),
                 .card(.played)
-            ]
+            ],
+            when: .turnStarted
         )
     }
 
     static var weapon2: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .setWeapon,
             selectors: [
                 .amount(.value(2)),
                 .player(.actor)
             ],
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var weapon3: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .setWeapon,
             selectors: [
                 .amount(.value(3))
             ],
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var weapon4: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .setWeapon,
             selectors: [
                 .amount(.value(4))
             ],
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var weapon5: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .setWeapon,
             selectors: [
                 .amount(.value(5))
             ],
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var weapon1: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .setWeapon,
             selectors: [
                 .amount(.value(1))
             ],
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var unlimitedBang: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .setUnlimitedBang,
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var increaseMagnifying: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .increaseMagnifying,
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
     static var increaseRemoteness: CardEffect {
         .init(
-            when: .cardPlayed,
             action: .increaseRemoteness,
+            when: .cardPlayed,
             until: .cardDiscarded
         )
     }

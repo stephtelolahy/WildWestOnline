@@ -4,19 +4,19 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 28/07/2024.
 //
-// swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name
+// swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name function_default_parameter_at_end
 
-/// An `effect` is a tag which performs an action each time an event occurs.
+/// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct CardEffect: Equatable, Codable {
-    public let when: PlayerEvent
     public let action: GameAction
     public let selectors: [Selector]?
+    public let when: PlayerEvent
     public let until: PlayerEvent?
 
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
-        case `if`([StateCondition])
+        case `if`(StateCondition)
         case `repeat`(Int)
         case player(Player, conditions: [PlayerCondition]? = nil)
         case card(Card)
@@ -25,7 +25,6 @@ public struct CardEffect: Equatable, Codable {
         case amount(Amount)
         case requiredMisses(Amount)
         case expectDraw(String)
-        case ifDrawResult(Bool)
 
         public enum Player: String, Codable {
             case actor
@@ -44,6 +43,8 @@ public struct CardEffect: Equatable, Codable {
         public enum StateCondition: String, Codable {
             case playersAtLeast3
             case cardPlayedLessThanBangLimitPerTurn
+            case drawSucceeded
+            case drawFailed
         }
 
         public enum PlayerCondition: String, Codable {
@@ -79,9 +80,9 @@ public struct CardEffect: Equatable, Codable {
     }
 
     public init(
-        when: PlayerEvent,
         action: GameAction,
         selectors: [Selector]? = nil,
+        when: PlayerEvent,
         until: PlayerEvent? = nil
     ) {
         self.when = when
