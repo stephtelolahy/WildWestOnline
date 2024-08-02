@@ -8,19 +8,19 @@
 /// An action is some kind of change
 /// Triggered by user or by the system, that causes any update to the game state
 public enum GameAction: String, Codable {
-    /// {player} increase health by {amount}
+    /// {player or actor} increase health by {amount}
     case heal
 
-    /// {player} decrease health by {amount}
+    /// {player or actor} decrease health by {amount}
     case damage
 
-    /// {player} draw top deck card
+    /// {player or actor} draw top deck card
     case drawDeck
 
-    /// {player} discard a {card}
+    /// {player or actor} discard a {card}
     case discard
 
-    /// {player} discard silently a {card}
+    /// {player or actor} discard silently a {card}
     case discardSilently
 
     /// {actor} steal a {card} from {player}
@@ -32,13 +32,13 @@ public enum GameAction: String, Codable {
     /// {actor} shoot at {player} with {requiredMisses}
     case shoot
 
-    /// {player} counter a shot applyed on himself
+    /// {player or actor} counter a shot applyed on himself
     case counterShoot
 
     /// {player} choose a {card} from choosable cards
     case chooseCard
 
-    /// {player} equip with his {card}
+    /// {actor} equip with his {card}
     case equip
 
     /// {actor} passes his {card} to {player}'s inPlay
@@ -70,4 +70,7 @@ public enum GameAction: String, Codable {
 
     /// {player} starts his turn
     case startTurn
+
+    /// {player} is eliminated
+    case eliminate
 }

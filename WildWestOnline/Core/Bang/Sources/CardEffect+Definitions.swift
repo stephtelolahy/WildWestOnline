@@ -13,7 +13,6 @@ extension CardEffect {
         .init(
             action: .discardSilently,
             selectors: [
-                .player(.actor),
                 .card(.played)
             ],
             when: .cardPlayed
@@ -25,8 +24,7 @@ extension CardEffect {
             action: .heal,
             selectors: [
                 .if(.playersAtLeast3),
-                .amount(.value(1)),
-                .player(.actor)
+                .amount(.value(1))
             ],
             when: .cardPlayed
         )
@@ -47,7 +45,6 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .player(.actor),
                 .repeat(.value(2))
             ],
             when: .cardPlayed
@@ -58,7 +55,6 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .player(.actor),
                 .repeat(.value(3))
             ],
             when: .cardPlayed
@@ -102,9 +98,6 @@ extension CardEffect {
     static var counterShoot: CardEffect {
         .init(
             action: .counterShoot,
-            selectors: [
-                .player(.actor)
-            ],
             when: .cardPlayed
         )
     }
@@ -171,7 +164,6 @@ extension CardEffect {
         .init(
             action: .equip,
             selectors: [
-                .player(.actor),
                 .card(.played)
             ],
             when: .cardPlayed
@@ -189,8 +181,7 @@ extension CardEffect {
         .init(
             action: .counterShoot,
             selectors: [
-                .if(.drawHearts),
-                .player(.actor)
+                .if(.drawHearts)
             ],
             when: .shot
         )
@@ -220,8 +211,7 @@ extension CardEffect {
             action: .damage,
             selectors: [
                 .if(.drawsSpades),
-                .amount(.value(3)),
-                .player(.actor)
+                .amount(.value(3))
             ],
             when: .turnStarted
         )
@@ -232,7 +222,6 @@ extension CardEffect {
             action: .discard,
             selectors: [
                 .if(.drawsSpades),
-                .player(.actor),
                 .card(.played)
             ],
             when: .turnStarted
@@ -243,8 +232,7 @@ extension CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
-                .amount(.value(2)),
-                .player(.actor)
+                .amount(.value(2))
             ],
             when: .cardPlayed,
             until: .cardDiscarded
@@ -346,7 +334,6 @@ extension CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .player(.actor),
                 .card(.played)
             ],
             when: .turnStarted
@@ -362,15 +349,14 @@ extension CardEffect {
         )
     }
 
-    static var discardExcessHand: CardEffect {
+    static var discardExcessHandOnEndTurn: CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .player(.actor),
                 .repeat(.excessHand),
                 .card(.any, conditions: [.handCard])
             ],
-            when: .cardPlayed
+            when: .turnEnded
         )
     }
 
@@ -388,26 +374,22 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .player(.actor),
                 .amount(.startTurnCards)
             ],
             when: .turnStarted
+        )
+    }
+
+    static var eliminateOnDamageLethal: CardEffect {
+        .init(
+            action: .eliminate,
+            when: .damagedLethal
         )
     }
 }
 
 /*
  private extension Cards {
-     static var eliminateOnDamageLethal: Card {
-         Card.makeBuilder(name: .eliminateOnDamageLethal)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.eliminate
-                     .on([.damageLethal])
-             }
-             .build()
-     }
-
      static var nextTurnOnEliminated: Card {
          Card.makeBuilder(name: .nextTurnOnEliminated)
              .withPriorityIndex(priorities)
