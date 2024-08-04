@@ -6,10 +6,12 @@
 //
 // swiftlint:disable no_magic_numbers file_length
 
+/// Defining card effects
+/// NAming = {action}_{arg1}_{arg2}_on{Event}
 extension CardEffect {
     // MARK: - Collectible - Action
 
-    static var discardOnPlayed: CardEffect {
+    static var discardSilently: CardEffect {
         .init(
             action: .discardSilently,
             selectors: [
@@ -19,7 +21,7 @@ extension CardEffect {
         )
     }
 
-    static var heal1: CardEffect {
+    static var heal_1: CardEffect {
         .init(
             action: .heal,
             selectors: [
@@ -30,7 +32,7 @@ extension CardEffect {
         )
     }
 
-    static var heal1All: CardEffect {
+    static var heal_1_all: CardEffect {
         .init(
             action: .heal,
             selectors: [
@@ -41,7 +43,7 @@ extension CardEffect {
         )
     }
 
-    static var draw2Cards: CardEffect {
+    static var drawDeck_2: CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
@@ -51,7 +53,7 @@ extension CardEffect {
         )
     }
 
-    static var draw3Cards: CardEffect {
+    static var drawDeck_3: CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
@@ -61,7 +63,7 @@ extension CardEffect {
         )
     }
 
-    static var discardAnyOther: CardEffect {
+    static var discard_any: CardEffect {
         .init(
             action: .discard,
             selectors: [
@@ -72,7 +74,7 @@ extension CardEffect {
         )
     }
 
-    static var stealAnyOtherAtDistanceOf1: CardEffect {
+    static var steal_any_atDistanceOf1: CardEffect {
         .init(
             action: .steal,
             selectors: [
@@ -83,7 +85,7 @@ extension CardEffect {
         )
     }
 
-    static var shootAnyReachable: CardEffect {
+    static var shoot_any_reachable: CardEffect {
         .init(
             action: .shoot,
             selectors: [
@@ -95,14 +97,14 @@ extension CardEffect {
         )
     }
 
-    static var counterShoot: CardEffect {
+    static var missed: CardEffect {
         .init(
-            action: .counterShoot,
+            action: .missed,
             when: .cardPlayed
         )
     }
 
-    static var shootOthers: CardEffect {
+    static var shoot_others: CardEffect {
         .init(
             action: .shoot,
             selectors: [
@@ -113,7 +115,7 @@ extension CardEffect {
         )
     }
 
-    static var damageOthersCounterWithBang: CardEffect {
+    static var damage_others_counterWithBang: CardEffect {
         .init(
             action: .damage,
             selectors: [
@@ -125,7 +127,7 @@ extension CardEffect {
         )
     }
 
-    static var damageAnyReverseWithBang: CardEffect {
+    static var damage_any_reverseWithBang: CardEffect {
         .init(
             action: .damage,
             selectors: [
@@ -137,7 +139,7 @@ extension CardEffect {
         )
     }
 
-    static var revealCardsAsNumberOfPlayers: CardEffect {
+    static var reveal_numberOfPlayers: CardEffect {
         .init(
             action: .reveal,
             selectors: [
@@ -147,7 +149,7 @@ extension CardEffect {
         )
     }
 
-    static var chooseCardAll: CardEffect {
+    static var chooseCard_all: CardEffect {
         .init(
             action: .chooseCard,
             selectors: [
@@ -160,7 +162,7 @@ extension CardEffect {
 
     // MARK: - Collectible - Equipment
 
-    static var equipment: CardEffect {
+    static var equip: CardEffect {
         .init(
             action: .equip,
             selectors: [
@@ -170,16 +172,16 @@ extension CardEffect {
         )
     }
 
-    static var drawOnShot: CardEffect {
+    static var draw_onShot: CardEffect {
         .init(
             action: .draw,
             when: .shot
         )
     }
 
-    static var counterShootIfDrawHearts: CardEffect {
+    static var missed_onShot: CardEffect {
         .init(
-            action: .counterShoot,
+            action: .missed,
             selectors: [
                 .if(.drawHearts)
             ],
@@ -187,14 +189,14 @@ extension CardEffect {
         )
     }
 
-    static var drawOnTurnStarted: CardEffect {
+    static var draw_onTurnStarted: CardEffect {
         .init(
             action: .draw,
             when: .turnStarted
         )
     }
 
-    static var passInPlayIfNotDrawSpades: CardEffect {
+    static var passInPlay_onTurnStarted: CardEffect {
         .init(
             action: .passInPlay,
             selectors: [
@@ -206,7 +208,7 @@ extension CardEffect {
         )
     }
 
-    static var damage3IfDrawSpades: CardEffect {
+    static var damage_3_onTurnStarted: CardEffect {
         .init(
             action: .damage,
             selectors: [
@@ -217,7 +219,7 @@ extension CardEffect {
         )
     }
 
-    static var discardIfDrawSpades: CardEffect {
+    static var discard_onTurnStarted_ifDrawSpades: CardEffect {
         .init(
             action: .discard,
             selectors: [
@@ -228,7 +230,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon2: CardEffect {
+    static var weapon_2: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -239,7 +241,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon3: CardEffect {
+    static var weapon_3: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -250,7 +252,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon4: CardEffect {
+    static var weapon_4: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -261,7 +263,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon5: CardEffect {
+    static var weapon_5: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -272,7 +274,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon1: CardEffect {
+    static var weapon_1: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -283,7 +285,7 @@ extension CardEffect {
         )
     }
 
-    static var unlimitedBang: CardEffect {
+    static var setUnlimitedBang: CardEffect {
         .init(
             action: .setUnlimitedBang,
             when: .cardPlayed,
@@ -320,7 +322,7 @@ extension CardEffect {
         )
     }
 
-    static var endTurnIfNotDrawHearts: CardEffect {
+    static var endTurn_onTurnStarted: CardEffect {
         .init(
             action: .endTurn,
             selectors: [
@@ -330,7 +332,7 @@ extension CardEffect {
         )
     }
 
-    static var discardOnTurnStarted: CardEffect {
+    static var discard_onTurnStarted: CardEffect {
         .init(
             action: .discard,
             selectors: [
@@ -349,7 +351,7 @@ extension CardEffect {
         )
     }
 
-    static var discardExcessHand: CardEffect {
+    static var discard_excessHand: CardEffect {
         .init(
             action: .discard,
             selectors: [
@@ -360,7 +362,7 @@ extension CardEffect {
         )
     }
 
-    static var startTurnNextOnTurnEnded: CardEffect {
+    static var startTurn_next_onTurnEnded: CardEffect {
         .init(
             action: .startTurn,
             selectors: [
@@ -370,7 +372,7 @@ extension CardEffect {
         )
     }
 
-    static var drawOnStartTurn: CardEffect {
+    static var drawDeck_onTurnStarted: CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
@@ -380,29 +382,28 @@ extension CardEffect {
         )
     }
 
-    static var eliminateOnDamageLethal: CardEffect {
+    static var eliminate_onDamageLethal: CardEffect {
         .init(
             action: .eliminate,
             when: .damagedLethal
         )
     }
 
-    static var nextTurnOnEliminated: CardEffect {
+    static var discard_all_onEliminated: CardEffect {
         .init(
-            action: .startTurn,
+            action: .discard,
             selectors: [
-                .if(.isYourTurn),
-                .player(.next)
+                .card(.all)
             ],
             when: .eliminated
         )
     }
 
-    static var discardAllCardsOnEliminated: CardEffect {
+    static var endTurn_onEliminated: CardEffect {
         .init(
-            action: .discard,
+            action: .endTurn,
             selectors: [
-                .card(.all)
+                .if(.isYourTurn)
             ],
             when: .eliminated
         )

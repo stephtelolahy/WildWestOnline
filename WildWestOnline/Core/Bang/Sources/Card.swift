@@ -10,117 +10,111 @@ typealias Card = [CardEffect]
 public enum Cards {
     static let all: [String: Card] = [
         "beer": [
-            .discardOnPlayed,
-            .heal1
+            .discardSilently,
+            .heal_1
         ],
         "saloon": [
-            .discardOnPlayed,
-            .heal1All
+            .discardSilently,
+            .heal_1_all
         ],
         "stagecoach": [
-            .discardOnPlayed,
-            .draw2Cards
+            .discardSilently,
+            .drawDeck_2
         ],
         "wellsFargo": [
-            .discardOnPlayed,
-            .draw3Cards
+            .discardSilently,
+            .drawDeck_3
         ],
         "catBalou": [
-            .discardOnPlayed,
-            .discardAnyOther
+            .discardSilently,
+            .discard_any
         ],
         "panic": [
-            .discardOnPlayed,
-            .stealAnyOtherAtDistanceOf1
+            .discardSilently,
+            .steal_any_atDistanceOf1
         ],
         "bang": [
-            .discardOnPlayed,
-            .shootAnyReachable
+            .discardSilently,
+            .shoot_any_reachable
         ],
         "missed": [
-            .discardOnPlayed,
-            .counterShoot
+            .discardSilently,
+            .missed
         ],
         "gatling": [
-            .discardOnPlayed,
-            .shootOthers
+            .discardSilently,
+            .shoot_others
         ],
         "indians": [
-            .discardOnPlayed,
-            .damageOthersCounterWithBang
+            .discardSilently,
+            .damage_others_counterWithBang
         ],
         "duel": [
-            .discardOnPlayed,
-            .damageAnyReverseWithBang
+            .discardSilently,
+            .damage_any_reverseWithBang
         ],
         "generalStore": [
-            .discardOnPlayed,
-            .revealCardsAsNumberOfPlayers,
-            .chooseCardAll
+            .discardSilently,
+            .reveal_numberOfPlayers,
+            .chooseCard_all
         ],
         "barrel": [
-            .equipment,
-            .drawOnShot,
-            .counterShootIfDrawHearts
+            .equip,
+            .draw_onShot,
+            .missed_onShot
         ],
         "dynamite": [
-            .equipment,
-            .drawOnTurnStarted,
-            .passInPlayIfNotDrawSpades,
-            .damage3IfDrawSpades,
-            .discardIfDrawSpades
+            .equip,
+            .draw_onTurnStarted,
+            .passInPlay_onTurnStarted,
+            .damage_3_onTurnStarted,
+            .discard_onTurnStarted_ifDrawSpades
         ],
         "schofield": [
-            .equipment,
-            .weapon2
+            .equip,
+            .weapon_2
         ],
         "remington": [
-            .equipment,
-            .weapon3
+            .equip,
+            .weapon_3
         ],
         "revCarabine": [
-            .equipment,
-            .weapon4
+            .equip,
+            .weapon_4
         ],
         "winchester": [
-            .equipment,
-            .weapon5
+            .equip,
+            .weapon_5
         ],
         "volcanic": [
-            .equipment,
-            .weapon1,
-            .unlimitedBang
+            .equip,
+            .weapon_1,
+            .setUnlimitedBang
         ],
         "scope": [
-            .equipment,
+            .equip,
             .increaseMagnifying
         ],
         "mustang": [
-            .equipment,
+            .equip,
             .increaseRemoteness
         ],
         "jail": [
             .handicap,
-            .drawOnTurnStarted,
-            .endTurnIfNotDrawHearts,
-            .discardOnTurnStarted
+            .draw_onTurnStarted,
+            .endTurn_onTurnStarted,
+            .discard_onTurnStarted
         ],
         "endTurn": [
             .endTurn,
-            .discardExcessHand
+            .discard_excessHand
         ],
-        "onEndTurn": [
-            .startTurnNextOnTurnEnded
-        ],
-        "onStartTurn": [
-            .drawOnStartTurn
-        ],
-        "onDamageLethal": [
-            .eliminateOnDamageLethal
-        ],
-        "onEliminated": [
-            .nextTurnOnEliminated,
-            .discardAllCardsOnEliminated
+        "default": [
+            .startTurn_next_onTurnEnded,
+            .drawDeck_onTurnStarted,
+            .eliminate_onDamageLethal,
+            .discard_all_onEliminated,
+            .endTurn_onEliminated,
         ]
     ]
 }

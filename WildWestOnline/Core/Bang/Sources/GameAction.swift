@@ -33,7 +33,7 @@ public enum GameAction: String, Codable {
     case shoot
 
     /// {player or actor} counter a shot applyed on himself
-    case counterShoot
+    case missed
 
     /// {player} choose a {card} from choosable cards
     case chooseCard
