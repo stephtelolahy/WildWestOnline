@@ -114,7 +114,7 @@ public enum Cards {
             .drawDeck_onTurnStarted,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
-            .endTurn_onEliminated,
+            .endTurn_onEliminated
         ]
     ]
 }

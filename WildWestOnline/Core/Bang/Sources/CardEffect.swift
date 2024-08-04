@@ -16,12 +16,12 @@ public struct CardEffect: Equatable, Codable {
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
-        case `if`(StateCondition)
-        case `repeat`(Number)
         case player(Player, conditions: [PlayerCondition]? = nil)
         case card(Card, conditions: [CardCondition]? = nil)
         case amount(Number)
         case requiredMisses(Number)
+        case `repeat`(Number)
+        case `if`(StateCondition)
         case counterCard(Card, conditions: [CardCondition]? = nil)
         case reverseCard(Card, conditions: [CardCondition]? = nil)
 
@@ -35,9 +35,9 @@ public struct CardEffect: Equatable, Codable {
 
         public enum Card: String, Codable {
             case played
+            case all
             case any
             case anyChoosable
-            case all
         }
 
         public enum StateCondition: String, Codable {
@@ -77,10 +77,8 @@ public struct CardEffect: Equatable, Codable {
         case turnStarted
         case turnEnded
         case cardDiscarded
-        case damaged
         case damagedLethal
         case eliminated
-    //    case either(event1: Event, event2: Event)
     }
 
     public init(

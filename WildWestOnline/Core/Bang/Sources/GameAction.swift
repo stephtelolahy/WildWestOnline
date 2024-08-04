@@ -44,10 +44,10 @@ public enum GameAction: String, Codable {
     /// {actor} passes his {card} to {player}'s inPlay
     case pass
 
-    /// Expose {amount} choosable cards from top deck
+    /// expose {amount} choosable cards from top deck
     case reveal
 
-    /// Draw card(s) from deck by expecting {regex}
+    /// draw card(s) from deck by expecting {regex}
     case draw
 
     /// {actor} sets weapon to {amount}
@@ -59,7 +59,7 @@ public enum GameAction: String, Codable {
     /// {actor} decreases distance to others
     case increaseMagnifying
 
-    /// {actor} increase distance from others
+    /// {actor} increases distance from others
     case increaseRemoteness
 
     /// {actor} ends his turn
@@ -68,6 +68,6 @@ public enum GameAction: String, Codable {
     /// {player} starts his turn
     case startTurn
 
-    /// {player} is eliminated
+    /// {player} get eliminated
     case eliminate
 }
