@@ -8,6 +8,10 @@
 /// An action is some kind of change
 /// Triggered by user or by the system, that causes any update to the game state
 public enum GameAction: String, Codable {
+
+    /// {actor} plays a {card}
+    case play
+
     /// {player or actor} increase health by {amount}
     case heal
 

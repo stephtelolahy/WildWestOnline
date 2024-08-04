@@ -23,6 +23,7 @@ public struct CardEffect: Equatable, Codable {
         case `if`(StateCondition)
         case counterCard(Card, conditions: [CardCondition]? = nil)
         case reverseCard(Card, conditions: [CardCondition]? = nil)
+        case activeCard(Card, conditions: [CardCondition]? = nil)
 
         public enum Player: String, Codable {
             case actor
@@ -59,6 +60,8 @@ public struct CardEffect: Equatable, Codable {
 
         public enum CardCondition: String, Codable {
             case handCardNamedBang
+            case handCardNamedMissed
+            case handCardNamedBeer
             case handCard
         }
 

@@ -418,21 +418,31 @@ extension CardEffect {
             when: .weaponPlayed
         )
     }
+
+    static var play_missed_onShot: CardEffect {
+        .init(
+            action: .play,
+            selectors: [
+                .activeCard(.any, conditions: [.handCardNamedMissed])
+            ],
+            when: .shot
+        )
+    }
+
+    static var play_beer_onDamagedLethal: CardEffect {
+        .init(
+            action: .play,
+            selectors: [
+                .if(.playersAtLeast3),
+                .activeCard(.any, conditions: [.handCardNamedBeer])
+            ],
+            when: .damagedLethal
+        )
+    }
 }
 
 /*
  private extension Cards {
-
-     static var playCounterCardsOnShot: Card {
-         Card.makeBuilder(name: .playCounterCardsOnShot)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.playCounterShootCards
-                     .repeat(.shootMissesRequired)
-                     .on([.shot])
-             }
-             .build()
-     }
 
      // MARK: - Figures
 

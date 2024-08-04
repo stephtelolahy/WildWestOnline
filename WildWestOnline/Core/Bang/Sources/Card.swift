@@ -115,7 +115,9 @@ public enum Cards {
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
             .endTurn_onEliminated,
-            .discard_previousWeapon_onWeaponPlayed
+            .discard_previousWeapon_onWeaponPlayed,
+            .play_missed_onShot,
+            .play_beer_onDamagedLethal
         ]
     ]
 }
