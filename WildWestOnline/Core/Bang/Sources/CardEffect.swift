@@ -19,7 +19,6 @@ public struct CardEffect: Equatable, Codable {
         case player(Player, conditions: [PlayerCondition]? = nil)
         case card(Card, conditions: [CardCondition]? = nil)
         case amount(Number)
-        case requiredMisses(Number)
         case `repeat`(Number)
         case `if`(StateCondition)
         case counterCard(Card, conditions: [CardCondition]? = nil)

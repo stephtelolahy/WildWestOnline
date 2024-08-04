@@ -29,7 +29,7 @@ public enum GameAction: String, Codable {
     /// {actor} put a {card} on {player}'s inPlay
     case handicap
 
-    /// {actor} shoot at {player} with {requiredMisses}
+    /// {actor} shoot at {player} with {amount} required misses
     case shoot
 
     /// {player or actor} counter a shot applyed on himself

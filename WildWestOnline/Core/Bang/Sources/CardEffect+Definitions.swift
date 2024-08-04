@@ -90,7 +90,7 @@ extension CardEffect {
             action: .shoot,
             selectors: [
                 .if(.cardPlayedLessThanBangLimitPerTurn),
-                .requiredMisses(.requiredMissesForBang),
+                .amount(.requiredMissesForBang),
                 .player(.any, conditions: [.atDistanceReachable])
             ],
             when: .cardPlayed
@@ -108,7 +108,7 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .requiredMisses(.value(1)),
+                .amount(.value(1)),
                 .player(.others)
             ],
             when: .cardPlayed
