@@ -107,16 +107,18 @@ public enum Cards {
         ],
         "endTurn": [
             .endTurn,
+            .discardExcessHand,
             .startTurnNext
         ],
-        "discardExcessHandOnEndTurn": [
-            .discardExcessHandOnEndTurn
-        ],
-        "drawOnStartTurn": [
+        "onStartTurn": [
             .drawOnStartTurn
         ],
-        "eliminateOnDamageLethal": [
+        "onDamageLethal": [
             .eliminateOnDamageLethal
+        ],
+        "onEliminated": [
+            .nextTurnOnEliminated,
+            .discardAllCardsOnEliminated
         ]
     ]
 }

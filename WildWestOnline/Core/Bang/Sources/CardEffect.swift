@@ -37,6 +37,7 @@ public struct CardEffect: Equatable, Codable {
             case played
             case any
             case anyChoosable
+            case all
         }
 
         public enum StateCondition: String, Codable {
@@ -46,6 +47,7 @@ public struct CardEffect: Equatable, Codable {
             case notDrawHearts
             case drawsSpades
             case notDrawsSpades
+            case isYourTurn
         }
 
         public enum PlayerCondition: String, Codable {
@@ -73,14 +75,10 @@ public struct CardEffect: Equatable, Codable {
         case cardPlayed
         case shot
         case turnStarted
-        case turnEnded
         case cardDiscarded
         case damaged
         case damagedLethal
-    //    case cardUsed
-    //    case cardPlaced
-    //    case characterDied
-    //    case characterHealed
+        case eliminated
     //    case either(event1: Event, event2: Event)
     }
 

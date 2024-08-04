@@ -349,14 +349,14 @@ extension CardEffect {
         )
     }
 
-    static var discardExcessHandOnEndTurn: CardEffect {
+    static var discardExcessHand: CardEffect {
         .init(
             action: .discard,
             selectors: [
                 .repeat(.excessHand),
                 .card(.any, conditions: [.handCard])
             ],
-            when: .turnEnded
+            when: .cardPlayed
         )
     }
 
@@ -386,30 +386,31 @@ extension CardEffect {
             when: .damagedLethal
         )
     }
+
+    static var nextTurnOnEliminated: CardEffect {
+        .init(
+            action: .startTurn,
+            selectors: [
+                .if(.isYourTurn),
+                .player(.next)
+            ],
+            when: .eliminated
+        )
+    }
+
+    static var discardAllCardsOnEliminated: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .card(.all)
+            ],
+            when: .eliminated
+        )
+    }
 }
 
 /*
  private extension Cards {
-     static var nextTurnOnEliminated: Card {
-         Card.makeBuilder(name: .nextTurnOnEliminated)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.startTurn
-                     .target(.next(.actor))
-                     .on([.eliminated, .isYourTurn])
-             }
-             .build()
-     }
-
-     static var discardCardsOnEliminated: Card {
-         Card.makeBuilder(name: .discardCardsOnEliminated)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.discard(.all)
-                     .on([.eliminated])
-             }
-             .build()
-     }
 
      static var discardPreviousWeaponOnPlayWeapon: Card {
          Card.makeBuilder(name: .discardPreviousWeaponOnPlayWeapon)
@@ -443,29 +444,6 @@ extension CardEffect {
      }
 
      // MARK: - Figures
-
-     static var defaultPlayer: Card.Figure {
-         Card.Figure(
-             attributes: [
-                 .startTurnCards: 2,
-                 .weapon: 1,
-                 .flippedCards: 1,
-                 .bangsPerTurn: 1,
-                 .requiredMissesForBang: 1
-             ],
-             abilities: [
-                 .endTurn,
-                 .discardExcessHandOnEndTurn,
-                 .drawOnStartTurn,
-                 .eliminateOnDamageLethal,
-                 .discardCardsOnEliminated,
-                 .nextTurnOnEliminated,
-                 .updateAttributesOnChangeInPlay,
-                 .discardPreviousWeaponOnPlayWeapon,
-                 .playCounterCardsOnShot
-             ]
-         )
-     }
 
      static var willyTheKid: Card {
          Card.makeBuilder(name: .willyTheKid)
