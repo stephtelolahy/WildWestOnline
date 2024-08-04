@@ -408,30 +408,20 @@ extension CardEffect {
             when: .eliminated
         )
     }
+
+    static var discard_previousWeapon_onWeaponPlayed: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .card(.previousWeapon)
+            ],
+            when: .weaponPlayed
+        )
+    }
 }
 
 /*
  private extension Cards {
-
-     static var discardPreviousWeaponOnPlayWeapon: Card {
-         Card.makeBuilder(name: .discardPreviousWeaponOnPlayWeapon)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.discard(.previousInPlay(.weapon))
-                     .on([.equipWeapon])
-             }
-             .build()
-     }
-
-     static var updateAttributesOnChangeInPlay: Card {
-         Card.makeBuilder(name: .updateAttributesOnChangeInPlay)
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.updateAttributes
-                     .on([.changeInPlay])
-             }
-             .build()
-     }
 
      static var playCounterCardsOnShot: Card {
          Card.makeBuilder(name: .playCounterCardsOnShot)

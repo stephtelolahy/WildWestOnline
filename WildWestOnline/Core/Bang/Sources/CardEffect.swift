@@ -35,6 +35,7 @@ public struct CardEffect: Equatable, Codable {
         public enum Card: String, Codable {
             case played
             case all
+            case previousWeapon
             case any
             case anyChoosable
         }
@@ -78,6 +79,7 @@ public struct CardEffect: Equatable, Codable {
         case cardDiscarded
         case damagedLethal
         case eliminated
+        case weaponPlayed
     }
 
     public init(
