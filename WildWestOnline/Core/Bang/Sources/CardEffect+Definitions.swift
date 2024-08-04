@@ -4,10 +4,10 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 02/08/2024.
 //
-// swiftlint:disable no_magic_numbers file_length
+// swiftlint:disable identifier_name no_magic_numbers file_length
 
 /// Defining card effects
-/// NAming = {action}_{arg1}_{arg2}_on{Event}
+/// NAming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
 extension CardEffect {
     // MARK: - Collectible - Action
 
@@ -21,7 +21,7 @@ extension CardEffect {
         )
     }
 
-    static var heal_1: CardEffect {
+    static var heal_1_ifPlayersAtLeast3: CardEffect {
         .init(
             action: .heal,
             selectors: [
@@ -139,7 +139,7 @@ extension CardEffect {
         )
     }
 
-    static var reveal_numberOfPlayers: CardEffect {
+    static var reveal_activePlayers: CardEffect {
         .init(
             action: .reveal,
             selectors: [
@@ -179,7 +179,7 @@ extension CardEffect {
         )
     }
 
-    static var missed_onShot: CardEffect {
+    static var missed_onShot_ifDrawHearts: CardEffect {
         .init(
             action: .missed,
             selectors: [
@@ -196,9 +196,9 @@ extension CardEffect {
         )
     }
 
-    static var passInPlay_onTurnStarted: CardEffect {
+    static var pass_next_onTurnStarted_ifNotDrawSpades: CardEffect {
         .init(
-            action: .passInPlay,
+            action: .pass,
             selectors: [
                 .if(.notDrawsSpades),
                 .player(.next),
@@ -208,7 +208,7 @@ extension CardEffect {
         )
     }
 
-    static var damage_3_onTurnStarted: CardEffect {
+    static var damage_3_onTurnStarted_ifDrawSpades: CardEffect {
         .init(
             action: .damage,
             selectors: [
@@ -230,7 +230,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon_2: CardEffect {
+    static var setWeapon_2: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -241,7 +241,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon_3: CardEffect {
+    static var setWeapon_3: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -252,7 +252,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon_4: CardEffect {
+    static var setWeapon_4: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -263,7 +263,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon_5: CardEffect {
+    static var setWeapon_5: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -274,7 +274,7 @@ extension CardEffect {
         )
     }
 
-    static var weapon_1: CardEffect {
+    static var setWeapon_1: CardEffect {
         .init(
             action: .setWeapon,
             selectors: [
@@ -322,7 +322,7 @@ extension CardEffect {
         )
     }
 
-    static var endTurn_onTurnStarted: CardEffect {
+    static var endTurn_onTurnStarted_ifNotDrawHearts: CardEffect {
         .init(
             action: .endTurn,
             selectors: [

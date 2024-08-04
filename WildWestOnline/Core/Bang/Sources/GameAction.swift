@@ -42,7 +42,7 @@ public enum GameAction: String, Codable {
     case equip
 
     /// {actor} passes his {card} to {player}'s inPlay
-    case passInPlay
+    case pass
 
     /// Expose {amount} choosable cards from top deck
     case reveal

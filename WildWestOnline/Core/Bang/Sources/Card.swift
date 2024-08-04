@@ -11,7 +11,7 @@ public enum Cards {
     static let all: [String: Card] = [
         "beer": [
             .discardSilently,
-            .heal_1
+            .heal_1_ifPlayersAtLeast3
         ],
         "saloon": [
             .discardSilently,
@@ -55,40 +55,40 @@ public enum Cards {
         ],
         "generalStore": [
             .discardSilently,
-            .reveal_numberOfPlayers,
+            .reveal_activePlayers,
             .chooseCard_all
         ],
         "barrel": [
             .equip,
             .draw_onShot,
-            .missed_onShot
+            .missed_onShot_ifDrawHearts
         ],
         "dynamite": [
             .equip,
             .draw_onTurnStarted,
-            .passInPlay_onTurnStarted,
-            .damage_3_onTurnStarted,
+            .pass_next_onTurnStarted_ifNotDrawSpades,
+            .damage_3_onTurnStarted_ifDrawSpades,
             .discard_onTurnStarted_ifDrawSpades
         ],
         "schofield": [
             .equip,
-            .weapon_2
+            .setWeapon_2
         ],
         "remington": [
             .equip,
-            .weapon_3
+            .setWeapon_3
         ],
         "revCarabine": [
             .equip,
-            .weapon_4
+            .setWeapon_4
         ],
         "winchester": [
             .equip,
-            .weapon_5
+            .setWeapon_5
         ],
         "volcanic": [
             .equip,
-            .weapon_1,
+            .setWeapon_1,
             .setUnlimitedBang
         ],
         "scope": [
@@ -102,7 +102,7 @@ public enum Cards {
         "jail": [
             .handicap,
             .draw_onTurnStarted,
-            .endTurn_onTurnStarted,
+            .endTurn_onTurnStarted_ifNotDrawHearts,
             .discard_onTurnStarted
         ],
         "endTurn": [
