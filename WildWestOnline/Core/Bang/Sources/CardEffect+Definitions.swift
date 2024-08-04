@@ -320,9 +320,9 @@ extension CardEffect {
         )
     }
 
-    static var skipTurnIfNotDrawHearts: CardEffect {
+    static var endTurnIfNotDrawHearts: CardEffect {
         .init(
-            action: .skipTurn,
+            action: .endTurn,
             selectors: [
                 .if(.notDrawHearts)
             ],
@@ -360,13 +360,13 @@ extension CardEffect {
         )
     }
 
-    static var startTurnNext: CardEffect {
+    static var startTurnNextOnTurnEnded: CardEffect {
         .init(
             action: .startTurn,
             selectors: [
                 .player(.next)
             ],
-            when: .cardPlayed
+            when: .turnEnded
         )
     }
 

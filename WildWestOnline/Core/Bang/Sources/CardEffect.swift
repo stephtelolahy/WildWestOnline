@@ -75,6 +75,7 @@ public struct CardEffect: Equatable, Codable {
         case cardPlayed
         case shot
         case turnStarted
+        case turnEnded
         case cardDiscarded
         case damaged
         case damagedLethal

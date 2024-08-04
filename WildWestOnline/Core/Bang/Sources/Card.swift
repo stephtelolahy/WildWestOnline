@@ -102,13 +102,15 @@ public enum Cards {
         "jail": [
             .handicap,
             .drawOnTurnStarted,
-            .skipTurnIfNotDrawHearts,
+            .endTurnIfNotDrawHearts,
             .discardOnTurnStarted
         ],
         "endTurn": [
             .endTurn,
-            .discardExcessHand,
-            .startTurnNext
+            .discardExcessHand
+        ],
+        "onEndTurn": [
+            .startTurnNextOnTurnEnded
         ],
         "onStartTurn": [
             .drawOnStartTurn

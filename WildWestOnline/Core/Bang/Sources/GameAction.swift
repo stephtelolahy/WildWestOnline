@@ -62,9 +62,6 @@ public enum GameAction: String, Codable {
     /// {actor} increase distance from others
     case increaseRemoteness
 
-    /// {actor} skip his turn
-    case skipTurn
-
     /// {actor} ends his turn
     case endTurn
 
