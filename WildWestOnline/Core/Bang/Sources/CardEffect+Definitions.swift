@@ -557,6 +557,17 @@ extension CardEffect {
             when: .turnStarted
         )
     }
+
+    static var steal_any_onTurnStarted:CardEffect {
+        .init(
+            action: .steal,
+            selectors: [
+                .player(.any()),
+                .card(.any())
+            ],
+            when: .turnStarted
+        )
+    }
 }
 
 /*
@@ -585,24 +596,4 @@ extension CardEffect {
              ])
              .build()
      }
-
-     static var pedroRamirez: Card {
-         Card.makeBuilder(name: .pedroRamirez)
-             .withPrototype(defaultPlayer)
-             .withPriorityIndex(priorities)
-             .withAttributes([.maxHealth: 4])
-             .withoutAbility(.drawOnStartTurn)
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.steal(.selectHand)
-                         .target(.any)
-                         .force(otherwise: .drawDeck)
-                     CardEffect.drawDeck
-                         .repeat(.add(-1, attr: .startTurnCards))
-                 }
-                 .on([.startTurn])
-             }
-             .build()
-     }
- }
  */

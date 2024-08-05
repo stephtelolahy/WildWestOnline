@@ -168,6 +168,10 @@ public enum Cards {
         "jesseJones": [
             .drawDiscard_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
+        ],
+        "pedroRamirez": [
+            .steal_any_onTurnStarted,
+            .drawDeck_startTurnCardsMinus1_onTurnStarted
         ]
     ]
 }
