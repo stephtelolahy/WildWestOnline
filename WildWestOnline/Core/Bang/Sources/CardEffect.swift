@@ -31,6 +31,7 @@ public struct CardEffect: Equatable, Codable {
             case others
             case next
             case offender
+            case eliminated
             case any
         }
 
@@ -87,6 +88,7 @@ public struct CardEffect: Equatable, Codable {
         case eliminated
         case weaponPlayed
         case handEmpty
+        case otherEliminated
     }
 
     public init(

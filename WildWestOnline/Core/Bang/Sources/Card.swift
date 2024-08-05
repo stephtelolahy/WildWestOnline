@@ -144,6 +144,9 @@ public enum Cards {
         "sidKetchum": [
             .discard_2_hand,
             .heal_1
+        ],
+        "vultureSam": [
+            .steal_all_onOtherEliminated
         ]
     ]
 }

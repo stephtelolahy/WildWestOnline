@@ -490,6 +490,17 @@ extension CardEffect {
             when: .cardPlayed
         )
     }
+
+    static var steal_all_onOtherEliminated: CardEffect {
+        .init(
+            action: .steal,
+            selectors: [
+                .player(.eliminated),
+                .card(.all)
+            ],
+            when: .otherEliminated
+        )
+    }
 }
 
 /*
@@ -516,19 +527,6 @@ extension CardEffect {
                  CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
                  CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
              ])
-             .build()
-     }
-
-     static var vultureSam: Card {
-         Card.makeBuilder(name: .vultureSam)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4])
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.steal(.all)
-                     .target(.eliminated)
-                     .on([.anotherEliminated])
-             }
              .build()
      }
 
