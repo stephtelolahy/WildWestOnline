@@ -18,12 +18,12 @@ public struct CardEffect: Equatable, Codable {
     public enum Selector: Equatable, Codable {
         case player(Player)
         case card(Card)
+        case cardOrIgnore(Card)
         case amount(Number)
         case `repeat`(Number)
         case `if`(StateCondition)
-        case counterCard(Card)
-        case reverseCard(Card)
-        case activeCard(Card)
+        case counterWith(Card)
+        case reverseWith(Card)
 
         public enum Player: Equatable, Codable {
             case actor

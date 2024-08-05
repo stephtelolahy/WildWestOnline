@@ -121,7 +121,7 @@ extension CardEffect {
             selectors: [
                 .amount(.value(1)),
                 .player(.others),
-                .counterCard(.any([.fromHand, .named("bang")]))
+                .counterWith(.any([.fromHand, .named("bang")]))
             ],
             when: .cardPlayed
         )
@@ -133,7 +133,7 @@ extension CardEffect {
             selectors: [
                 .amount(.value(1)),
                 .player(.any()),
-                .reverseCard(.any([.fromHand, .named("bang")]))
+                .reverseWith(.any([.fromHand, .named("bang")]))
             ],
             when: .cardPlayed
         )
@@ -426,7 +426,7 @@ extension CardEffect {
         .init(
             action: .play,
             selectors: [
-                .activeCard(.any([.fromHand, .action(.missed)]))
+                .cardOrIgnore(.any([.fromHand, .action(.missed)]))
             ],
             when: .shot
         )
@@ -437,7 +437,7 @@ extension CardEffect {
             action: .play,
             selectors: [
                 .if(.playersAtLeast(3)),
-                .activeCard(.any([.fromHand, .named("beer")]))
+                .cardOrIgnore(.any([.fromHand, .named("beer")]))
             ],
             when: .damagedLethal
         )
