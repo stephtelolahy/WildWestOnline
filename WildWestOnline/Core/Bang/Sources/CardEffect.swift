@@ -71,6 +71,7 @@ public struct CardEffect: Equatable, Codable {
             case requiredMissesForBang
             case excessHand
             case startTurnCards
+            case damage
         }
     }
 
@@ -80,6 +81,7 @@ public struct CardEffect: Equatable, Codable {
         case turnStarted
         case turnEnded
         case cardDiscarded
+        case damaged
         case damagedLethal
         case eliminated
         case weaponPlayed

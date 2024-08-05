@@ -131,6 +131,9 @@ public enum Cards {
         "jourdonnais": [
             .draw_onShot,
             .missed_onShot_ifDrawHearts
+        ],
+        "bartCassidy": [
+            .drawDeck_onDamaged
         ]
     ]
 }

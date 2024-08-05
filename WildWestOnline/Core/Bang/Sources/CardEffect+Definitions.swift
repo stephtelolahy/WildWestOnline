@@ -441,6 +441,16 @@ extension CardEffect {
     }
 
     // MARK: - Figures
+
+    static var drawDeck_onDamaged: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .repeat(.damage)
+            ],
+            when: .damaged
+        )
+    }
 }
 
 /*
