@@ -137,6 +137,9 @@ public enum Cards {
         ],
         "elGringo": [
             .steal_offender_onDamaged
+        ],
+        "suzyLafayette": [
+            .drawDeck_onHandEmpty
         ]
     ]
 }

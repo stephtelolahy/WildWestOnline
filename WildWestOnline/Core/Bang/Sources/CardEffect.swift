@@ -86,6 +86,7 @@ public struct CardEffect: Equatable, Codable {
         case damagedLethal
         case eliminated
         case weaponPlayed
+        case handEmpty
     }
 
     public init(

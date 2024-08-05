@@ -462,6 +462,13 @@ extension CardEffect {
             when: .damaged
         )
     }
+
+    static var drawDeck_onHandEmpty: CardEffect {
+        .init(
+            action: .drawDeck,
+            when: .handEmpty
+        )
+    }
 }
 
 /*
@@ -488,18 +495,6 @@ extension CardEffect {
                  CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
                  CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
              ])
-             .build()
-     }
-
-     static var suzyLafayette: Card {
-         Card.makeBuilder(name: .suzyLafayette)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4])
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.drawDeck
-                     .on([.handEmpty])
-             }
              .build()
      }
 
