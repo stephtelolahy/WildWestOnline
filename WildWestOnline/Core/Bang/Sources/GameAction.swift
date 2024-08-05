@@ -74,4 +74,7 @@ public enum GameAction: String, Codable {
 
     /// {player} get eliminated
     case eliminate
+
+    /// {actor} reveals last drawn card
+    case revealLastDraw
 }

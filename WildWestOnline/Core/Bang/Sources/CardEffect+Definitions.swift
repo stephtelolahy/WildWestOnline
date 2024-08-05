@@ -374,7 +374,7 @@ extension CardEffect {
         )
     }
 
-    static var drawDeck_onTurnStarted: CardEffect {
+    static var drawDeck_startTurnCards_onTurnStarted: CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
@@ -521,6 +521,23 @@ extension CardEffect {
                 .repeat(.attr(.startTurnCards))
             ],
             when: .cardPlayed
+        )
+    }
+
+    static var revealLastHand_onTurnStarted: CardEffect {
+        .init(
+            action: .revealLastDraw,
+            when: .turnStarted
+        )
+    }
+
+    static var drawDeck_1_onTurnStarted_IfDrawsRed: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .if(.draw("(♥️)|(♦️)"))
+            ],
+            when: .turnStarted
         )
     }
 }

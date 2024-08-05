@@ -120,45 +120,50 @@ public enum Cards {
         ],
         "willyTheKid": [
             .setUnlimitedBang,
-            .drawDeck_onTurnStarted
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "roseDoolan": [
             .increaseMagnifying,
-            .drawDeck_onTurnStarted
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "paulRegret": [
             .increaseRemoteness,
-            .drawDeck_onTurnStarted
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "jourdonnais": [
             .draw_onShot,
             .missed_onShot_ifDrawHearts,
-            .drawDeck_onTurnStarted
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "bartCassidy": [
             .drawDeck_onDamaged,
-            .drawDeck_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted,
         ],
         "elGringo": [
             .steal_offender_onDamaged,
-            .drawDeck_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted,
         ],
         "suzyLafayette": [
             .drawDeck_onHandEmpty,
-            .drawDeck_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted,
         ],
         "sidKetchum": [
             .discard_2_hand,
             .heal_1,
-            .drawDeck_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted,
         ],
         "vultureSam": [
             .steal_all_onOtherEliminated,
-            .drawDeck_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted,
         ],
         "kitCarlson": [
             .reveal_startTurnCardsPlus1,
             .chooseCard_startTurnCards
+        ],
+        "blackJack": [
+            .drawDeck_startTurnCards_onTurnStarted,
+            .revealLastHand_onTurnStarted,
+            .drawDeck_1_onTurnStarted_IfDrawsRed
         ]
     ]
 }
