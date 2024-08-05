@@ -439,54 +439,12 @@ extension CardEffect {
             when: .damagedLethal
         )
     }
+
+    // MARK: - Figures
 }
 
 /*
  private extension Cards {
-
-     // MARK: - Figures
-
-     static var willyTheKid: Card {
-         Card.makeBuilder(name: .willyTheKid)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4, .bangsPerTurn: 0])
-             .build()
-     }
-
-     static var roseDoolan: Card {
-         Card.makeBuilder(name: .roseDoolan)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4, .magnifying: 1])
-             .build()
-     }
-
-     static var paulRegret: Card {
-         Card.makeBuilder(name: .paulRegret)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 3, .remoteness: 1])
-             .build()
-     }
-
-     static var jourdonnais: Card {
-         Card.makeBuilder(name: .jourdonnais)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4])
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.draw
-                         .repeat(.attr(.flippedCards))
-                     CardEffect.luck(
-                         .drawn,
-                         regex: .regexSaveByBarrel,
-                         onSuccess: .counterShoot
-                     )
-                 }
-                 .on([.shot])
-             }
-             .build()
-     }
-
      static var slabTheKiller: Card {
          Card.makeBuilder(name: .slabTheKiller)
              .withPrototype(defaultPlayer)

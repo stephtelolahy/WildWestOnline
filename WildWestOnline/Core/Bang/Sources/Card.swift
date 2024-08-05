@@ -118,6 +118,19 @@ public enum Cards {
             .discard_previousWeapon_onWeaponPlayed,
             .play_missed_onShot,
             .play_beer_onDamagedLethal
+        ],
+        "willyTheKid": [
+            .setUnlimitedBang
+        ],
+        "roseDoolan": [
+            .increaseMagnifying
+        ],
+        "paulRegret": [
+            .increaseRemoteness
+        ],
+        "jourdonnais": [
+            .draw_onShot,
+            .missed_onShot_ifDrawHearts
         ]
     ]
 }
