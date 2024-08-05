@@ -140,6 +140,10 @@ public enum Cards {
         ],
         "suzyLafayette": [
             .drawDeck_onHandEmpty
+        ],
+        "sidKetchum": [
+            .discard_2_hand,
+            .heal_1
         ]
     ]
 }

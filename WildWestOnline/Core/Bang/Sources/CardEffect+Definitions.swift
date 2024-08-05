@@ -469,6 +469,27 @@ extension CardEffect {
             when: .handEmpty
         )
     }
+
+    static var discard_2_hand: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .repeat(.value(2)),
+                .card(.any, conditions: [.handCard])
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var heal_1: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .amount(.value(1))
+            ],
+            when: .cardPlayed
+        )
+    }
 }
 
 /*
@@ -507,21 +528,6 @@ extension CardEffect {
                  CardEffect.steal(.all)
                      .target(.eliminated)
                      .on([.anotherEliminated])
-             }
-             .build()
-     }
-
-     static var sidKetchum: Card {
-         Card.makeBuilder(name: .sidKetchum)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4])
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.discard(.selectHand)
-                         .repeat(2)
-                     CardEffect.heal(1)
-                 }
-                 .on([.play])
              }
              .build()
      }
