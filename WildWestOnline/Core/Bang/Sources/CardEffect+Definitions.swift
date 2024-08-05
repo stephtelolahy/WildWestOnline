@@ -1,6 +1,6 @@
 //
 //  CardEffects.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 02/08/2024.
 //
@@ -25,7 +25,7 @@ extension CardEffect {
         .init(
             action: .heal,
             selectors: [
-                .if(.playersAtLeast3),
+                .if(.playersAtLeast(3)),
                 .amount(.value(1))
             ],
             when: .cardPlayed
@@ -37,7 +37,7 @@ extension CardEffect {
             action: .heal,
             selectors: [
                 .amount(.value(1)),
-                .player(.all, conditions: [.damaged])
+                .player(.all)
             ],
             when: .cardPlayed
         )
@@ -67,8 +67,8 @@ extension CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .player(.any, conditions: [.havingCard]),
-                .card(.any)
+                .player(.any([.havingCard])),
+                .card(.any())
             ],
             when: .cardPlayed
         )
@@ -78,8 +78,8 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.any, conditions: [.atDistance1, .havingCard]),
-                .card(.any)
+                .player(.any([.atDistance(.value(1)), .havingCard])),
+                .card(.any())
             ],
             when: .cardPlayed
         )
@@ -89,9 +89,9 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .if(.cardPlayedLessThanBangLimitPerTurn),
-                .amount(.requiredMissesForBang),
-                .player(.any, conditions: [.atDistanceReachable])
+                .if(.cardPlayedLessThan(.attr(.bangLimitPerTurn))),
+                .amount(.attr(.requiredMissesForBang)),
+                .player(.any([.atDistance(.attr(.weapon))]))
             ],
             when: .cardPlayed
         )
@@ -121,7 +121,7 @@ extension CardEffect {
             selectors: [
                 .amount(.value(1)),
                 .player(.others),
-                .counterCard(.any, conditions: [.handCardNamedBang])
+                .counterCard(.any([.fromHand, .named("bang")]))
             ],
             when: .cardPlayed
         )
@@ -132,8 +132,8 @@ extension CardEffect {
             action: .damage,
             selectors: [
                 .amount(.value(1)),
-                .player(.any),
-                .reverseCard(.any, conditions: [.handCardNamedBang])
+                .player(.any()),
+                .reverseCard(.any([.fromHand, .named("bang")]))
             ],
             when: .cardPlayed
         )
@@ -183,7 +183,7 @@ extension CardEffect {
         .init(
             action: .missed,
             selectors: [
-                .if(.drawHearts)
+                .if(.draw("♥️"))
             ],
             when: .shot
         )
@@ -200,7 +200,7 @@ extension CardEffect {
         .init(
             action: .pass,
             selectors: [
-                .if(.notDrawsSpades),
+                .if(.notDraw("[2-9]♠️")),
                 .player(.next),
                 .card(.played)
             ],
@@ -212,7 +212,7 @@ extension CardEffect {
         .init(
             action: .damage,
             selectors: [
-                .if(.drawsSpades),
+                .if(.draw("[2-9]♠️")),
                 .amount(.value(3))
             ],
             when: .turnStarted
@@ -223,7 +223,7 @@ extension CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .if(.drawsSpades),
+                .if(.draw("[2-9]♠️")),
                 .card(.played)
             ],
             when: .turnStarted
@@ -315,7 +315,7 @@ extension CardEffect {
         .init(
             action: .handicap,
             selectors: [
-                .player(.any),
+                .player(.any()),
                 .card(.played)
             ],
             when: .cardPlayed
@@ -326,7 +326,7 @@ extension CardEffect {
         .init(
             action: .endTurn,
             selectors: [
-                .if(.notDrawHearts)
+                .if(.notDraw("♥️"))
             ],
             when: .turnStarted
         )
@@ -356,7 +356,7 @@ extension CardEffect {
             action: .discard,
             selectors: [
                 .repeat(.excessHand),
-                .card(.any, conditions: [.handCard])
+                .card(.any([.fromHand]))
             ],
             when: .cardPlayed
         )
@@ -376,7 +376,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .amount(.startTurnCards)
+                .amount(.attr(.startTurnCards))
             ],
             when: .turnStarted
         )
@@ -385,6 +385,9 @@ extension CardEffect {
     static var eliminate_onDamageLethal: CardEffect {
         .init(
             action: .eliminate,
+            selectors: [
+                .if(.noHealth)
+            ],
             when: .damagedLethal
         )
     }
@@ -403,7 +406,7 @@ extension CardEffect {
         .init(
             action: .endTurn,
             selectors: [
-                .if(.isYourTurn)
+                .if(.actorTurn)
             ],
             when: .eliminated
         )
@@ -423,7 +426,7 @@ extension CardEffect {
         .init(
             action: .play,
             selectors: [
-                .activeCard(.any, conditions: [.handCardNamedMissed])
+                .activeCard(.any([.fromHand, .action(.missed)]))
             ],
             when: .shot
         )
@@ -433,8 +436,8 @@ extension CardEffect {
         .init(
             action: .play,
             selectors: [
-                .if(.playersAtLeast3),
-                .activeCard(.any, conditions: [.handCardNamedBeer])
+                .if(.playersAtLeast(3)),
+                .activeCard(.any([.fromHand, .named("beer")]))
             ],
             when: .damagedLethal
         )
@@ -475,7 +478,7 @@ extension CardEffect {
             action: .discard,
             selectors: [
                 .repeat(.value(2)),
-                .card(.any, conditions: [.handCard])
+                .card(.any([.fromHand]))
             ],
             when: .cardPlayed
         )
