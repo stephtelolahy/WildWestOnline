@@ -540,6 +540,23 @@ extension CardEffect {
             when: .turnStarted
         )
     }
+
+    static var drawDiscard_onTurnStarted: CardEffect {
+        .init(
+              action: .drawDiscard,
+              when: .turnStarted
+        )
+    }
+
+    static var drawDeck_startTurnCardsMinus1_onTurnStarted: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .repeat(.add(-1, attr: .startTurnCards))
+            ],
+            when: .turnStarted
+        )
+    }
 }
 
 /*
@@ -569,24 +586,6 @@ extension CardEffect {
              .build()
      }
 
-     static var jesseJones: Card {
-         Card.makeBuilder(name: .jesseJones)
-             .withPrototype(defaultPlayer)
-             .withPriorityIndex(priorities)
-             .withAttributes([.maxHealth: 4])
-             .withoutAbility(.drawOnStartTurn)
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.drawDiscard
-                         .force(otherwise: .drawDeck)
-                     CardEffect.drawDeck
-                         .repeat(.add(-1, attr: .startTurnCards))
-                 }
-                 .on([.startTurn])
-             }
-             .build()
-     }
-
      static var pedroRamirez: Card {
          Card.makeBuilder(name: .pedroRamirez)
              .withPrototype(defaultPlayer)
@@ -603,37 +602,6 @@ extension CardEffect {
                  }
                  .on([.startTurn])
              }
-             .build()
-     }
-
-     static var custom: Card {
-         Card.makeBuilder(name: .custom)
-             .withPrototype(defaultPlayer)
-             .withAttributes([
-                     .maxHealth: 4,
-                     .startTurnCards: 3,
-                     .requiredMissesForBang: 2,
-                     .bangsPerTurn: 0,
-                     .magnifying: 1,
-                     .remoteness: 1,
-                     .flippedCards: 2
-             ])
-             .withAbilityToPlayCardAs([
-                 CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
-                 CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
-             ])
-             .withAbilities([
-                 .jourdonnais,
-                 .bartCassidy,
-                 .elGringo,
-                 .suzyLafayette,
-                 .vultureSam,
-                 .sidKetchum,
-                 .blackJack,
-                 .kitCarlson,
-                 .jesseJones,
-                 .pedroRamirez
-             ])
              .build()
      }
  }

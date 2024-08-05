@@ -77,4 +77,7 @@ public enum GameAction: String, Codable {
 
     /// {actor} reveals last drawn card
     case revealLastDraw
+
+    /// {acor} draws top discard pile
+    case drawDiscard
 }

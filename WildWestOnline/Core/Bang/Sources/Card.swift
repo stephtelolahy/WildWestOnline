@@ -137,24 +137,24 @@ public enum Cards {
         ],
         "bartCassidy": [
             .drawDeck_onDamaged,
-            .drawDeck_startTurnCards_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "elGringo": [
             .steal_offender_onDamaged,
-            .drawDeck_startTurnCards_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "suzyLafayette": [
             .drawDeck_onHandEmpty,
-            .drawDeck_startTurnCards_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "sidKetchum": [
             .discard_2_hand,
             .heal_1,
-            .drawDeck_startTurnCards_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "vultureSam": [
             .steal_all_onOtherEliminated,
-            .drawDeck_startTurnCards_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted
         ],
         "kitCarlson": [
             .reveal_startTurnCardsPlus1,
@@ -164,7 +164,10 @@ public enum Cards {
             .drawDeck_startTurnCards_onTurnStarted,
             .revealLastDraw_onTurnStarted,
             .drawDeck_1_onTurnStarted_IfDrawsRed
+        ],
+        "jesseJones": [
+            .drawDiscard_onTurnStarted,
+            .drawDeck_startTurnCardsMinus1_onTurnStarted
         ]
     ]
 }
- 
