@@ -162,8 +162,9 @@ public enum Cards {
         ],
         "blackJack": [
             .drawDeck_startTurnCards_onTurnStarted,
-            .revealLastHand_onTurnStarted,
+            .revealLastDraw_onTurnStarted,
             .drawDeck_1_onTurnStarted_IfDrawsRed
         ]
     ]
 }
+ 

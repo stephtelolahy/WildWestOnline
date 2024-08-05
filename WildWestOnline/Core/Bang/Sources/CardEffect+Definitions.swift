@@ -524,7 +524,7 @@ extension CardEffect {
         )
     }
 
-    static var revealLastHand_onTurnStarted: CardEffect {
+    static var revealLastDraw_onTurnStarted: CardEffect {
         .init(
             action: .revealLastDraw,
             when: .turnStarted
@@ -566,24 +566,6 @@ extension CardEffect {
                  CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
                  CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
              ])
-             .build()
-     }
-
-     static var blackJack: Card {
-         Card.makeBuilder(name: .blackJack)
-             .withPrototype(defaultPlayer)
-             .withPriorityIndex(priorities)
-             .withAttributes([.maxHealth: 4])
-             .withoutAbility(.drawOnStartTurn)
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.drawDeck
-                         .repeat(.attr(.startTurnCards))
-                     CardEffect.revealLastHand
-                     CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
-                 }
-                 .on([.startTurn])
-             }
              .build()
      }
 
