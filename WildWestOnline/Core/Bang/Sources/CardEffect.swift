@@ -30,6 +30,7 @@ public struct CardEffect: Equatable, Codable {
             case all
             case others
             case next
+            case offender
             case any
         }
 

@@ -451,6 +451,17 @@ extension CardEffect {
             when: .damaged
         )
     }
+
+    static var steal_offender_onDamaged: CardEffect {
+        .init(
+            action: .steal,
+            selectors: [
+                .player(.offender),
+                .repeat(.damage)
+            ],
+            when: .damaged
+        )
+    }
 }
 
 /*
@@ -477,33 +488,6 @@ extension CardEffect {
                  CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
                  CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
              ])
-             .build()
-     }
-
-     static var bartCassidy: Card {
-         Card.makeBuilder(name: .bartCassidy)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4])
-             .withPriorityIndex(priorities)
-             .withRule {
-                 CardEffect.drawDeck
-                     .repeat(.damage)
-                     .on([.damage])
-             }
-             .build()
-     }
-
-     static var elGringo: Card {
-         Card.makeBuilder(name: .elGringo)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 3])
-             .withRule {
-                 CardEffect.steal(.selectHand)
-                     .target(.offender)
-                     .ignoreError()
-                     .repeat(.damage)
-                     .on([.damage])
-             }
              .build()
      }
 
