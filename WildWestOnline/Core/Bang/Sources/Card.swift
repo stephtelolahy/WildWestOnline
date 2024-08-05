@@ -111,7 +111,6 @@ public enum Cards {
         ],
         "default": [
             .startTurn_next_onTurnEnded,
-            .drawDeck_onTurnStarted,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
             .endTurn_onEliminated,
@@ -120,33 +119,46 @@ public enum Cards {
             .play_beer_onDamagedLethal
         ],
         "willyTheKid": [
-            .setUnlimitedBang
+            .setUnlimitedBang,
+            .drawDeck_onTurnStarted
         ],
         "roseDoolan": [
-            .increaseMagnifying
+            .increaseMagnifying,
+            .drawDeck_onTurnStarted
         ],
         "paulRegret": [
-            .increaseRemoteness
+            .increaseRemoteness,
+            .drawDeck_onTurnStarted
         ],
         "jourdonnais": [
             .draw_onShot,
-            .missed_onShot_ifDrawHearts
+            .missed_onShot_ifDrawHearts,
+            .drawDeck_onTurnStarted
         ],
         "bartCassidy": [
-            .drawDeck_onDamaged
+            .drawDeck_onDamaged,
+            .drawDeck_onTurnStarted,
         ],
         "elGringo": [
-            .steal_offender_onDamaged
+            .steal_offender_onDamaged,
+            .drawDeck_onTurnStarted,
         ],
         "suzyLafayette": [
-            .drawDeck_onHandEmpty
+            .drawDeck_onHandEmpty,
+            .drawDeck_onTurnStarted,
         ],
         "sidKetchum": [
             .discard_2_hand,
-            .heal_1
+            .heal_1,
+            .drawDeck_onTurnStarted,
         ],
         "vultureSam": [
-            .steal_all_onOtherEliminated
+            .steal_all_onOtherEliminated,
+            .drawDeck_onTurnStarted,
+        ],
+        "kitCarlson": [
+            .reveal_startTurnCardsPlus1,
+            .chooseCard_startTurnCards
         ]
     ]
 }

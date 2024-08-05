@@ -7,7 +7,9 @@
 // swiftlint:disable identifier_name no_magic_numbers file_length
 
 /// Defining card effects
-/// NAming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
+/// Naming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
+///
+/// ⚠️ Before dispatching resolved action, verify initial event is still confirmed as state
 extension CardEffect {
     // MARK: - Collectible - Action
 
@@ -385,9 +387,6 @@ extension CardEffect {
     static var eliminate_onDamageLethal: CardEffect {
         .init(
             action: .eliminate,
-            selectors: [
-                .if(.noHealth)
-            ],
             when: .damagedLethal
         )
     }
@@ -504,6 +503,26 @@ extension CardEffect {
             when: .otherEliminated
         )
     }
+
+    static var reveal_startTurnCardsPlus1: CardEffect {
+        .init(
+            action: .reveal,
+            selectors: [
+                .amount(.add(1, attr: .startTurnCards))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var chooseCard_startTurnCards: CardEffect {
+        .init(
+            action: .chooseCard,
+            selectors: [
+                .repeat(.attr(.startTurnCards))
+            ],
+            when: .cardPlayed
+        )
+    }
 }
 
 /*
@@ -545,23 +564,6 @@ extension CardEffect {
                          .repeat(.attr(.startTurnCards))
                      CardEffect.revealLastHand
                      CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
-                 }
-                 .on([.startTurn])
-             }
-             .build()
-     }
-
-     static var kitCarlson: Card {
-         Card.makeBuilder(name: .kitCarlson)
-             .withPrototype(defaultPlayer)
-             .withPriorityIndex(priorities)
-             .withAttributes([.maxHealth: 4])
-             .withoutAbility(.drawOnStartTurn)
-             .withRule {
-                 CardEffect.group {
-                     CardEffect.drawDeck
-                         .repeat(.add(1, attr: .startTurnCards))
-                     CardEffect.putBack(among: .add(1, attr: .startTurnCards))
                  }
                  .on([.startTurn])
              }

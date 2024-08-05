@@ -20,6 +20,7 @@ public struct CardEffect: Equatable, Codable {
         case card(Card)
         case cardOrIgnore(Card)
         case amount(Number)
+
         case `repeat`(Number)
         case `if`(StateCondition)
         case counterWith(Card)
@@ -59,6 +60,7 @@ public struct CardEffect: Equatable, Codable {
             case excessHand
             case damage
             case attr(PlayerAttribute)
+            case add(Int, attr: PlayerAttribute)
             case value(Int)
         }
 
@@ -68,7 +70,6 @@ public struct CardEffect: Equatable, Codable {
             case draw(String)
             case notDraw(String)
             case actorTurn
-            case noHealth
         }
     }
 
