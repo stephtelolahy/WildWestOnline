@@ -108,4 +108,6 @@ public enum PlayerAttribute: String, Codable {
     case startTurnCards
     case bangLimitPerTurn
     case weapon
+    case magnifying
+    case remoteness
 }

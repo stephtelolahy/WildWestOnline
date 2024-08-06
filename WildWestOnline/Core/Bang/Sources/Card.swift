@@ -72,32 +72,32 @@ public enum Cards {
         ],
         "schofield": [
             .equip,
-            .setWeapon_2
+            .setAttribute_weapon_2
         ],
         "remington": [
             .equip,
-            .setWeapon_3
+            .setAttribute_weapon_3
         ],
         "revCarabine": [
             .equip,
-            .setWeapon_4
+            .setAttribute_weapon_4
         ],
         "winchester": [
             .equip,
-            .setWeapon_5
+            .setAttribute_weapon_5
         ],
         "volcanic": [
             .equip,
-            .setWeapon_1,
-            .setUnlimitedBang
+            .setAttribute_weapon_1,
+            .setAttribute_bangLimitPerTurn_0
         ],
         "scope": [
             .equip,
-            .increaseMagnifying
+            .incrementAttribute_magnifying
         ],
         "mustang": [
             .equip,
-            .increaseRemoteness
+            .incrementAttribute_remoteness
         ],
         "jail": [
             .handicap,
@@ -119,15 +119,15 @@ public enum Cards {
             .play_beer_onDamagedLethal
         ],
         "willyTheKid": [
-            .setUnlimitedBang,
+            .setAttribute_bangLimitPerTurn_0,
             .drawDeck_startTurnCards_onTurnStarted
         ],
         "roseDoolan": [
-            .increaseMagnifying,
+            .incrementAttribute_magnifying,
             .drawDeck_startTurnCards_onTurnStarted
         ],
         "paulRegret": [
-            .increaseRemoteness,
+            .incrementAttribute_remoteness,
             .drawDeck_startTurnCards_onTurnStarted
         ],
         "jourdonnais": [

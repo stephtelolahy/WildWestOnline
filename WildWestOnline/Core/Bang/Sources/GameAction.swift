@@ -73,16 +73,4 @@ public enum GameAction: String, Codable {
 
     /// {actor} increment his {attribute}
     case incrementAttribute
-
-    /// {actor} sets weapon to {amount}
-    case setWeapon
-
-    /// {actor} sets unlimited bangs per turn
-    case setUnlimitedBang
-
-    /// {actor} decreases distance to others
-    case increaseMagnifying
-
-    /// {actor} increases distance from others
-    case increaseRemoteness
 }

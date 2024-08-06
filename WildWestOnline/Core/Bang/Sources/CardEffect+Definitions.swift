@@ -232,10 +232,11 @@ extension CardEffect {
         )
     }
 
-    static var setWeapon_2: CardEffect {
+    static var setAttribute_weapon_2: CardEffect {
         .init(
-            action: .setWeapon,
+            action: .setAttribute,
             selectors: [
+                .attribute(.weapon),
                 .amount(.value(2))
             ],
             when: .cardPlayed,
@@ -243,10 +244,11 @@ extension CardEffect {
         )
     }
 
-    static var setWeapon_3: CardEffect {
+    static var setAttribute_weapon_3: CardEffect {
         .init(
-            action: .setWeapon,
+            action: .setAttribute,
             selectors: [
+                .attribute(.weapon),
                 .amount(.value(3))
             ],
             when: .cardPlayed,
@@ -254,10 +256,11 @@ extension CardEffect {
         )
     }
 
-    static var setWeapon_4: CardEffect {
+    static var setAttribute_weapon_4: CardEffect {
         .init(
-            action: .setWeapon,
+            action: .setAttribute,
             selectors: [
+                .attribute(.weapon),
                 .amount(.value(4))
             ],
             when: .cardPlayed,
@@ -265,10 +268,11 @@ extension CardEffect {
         )
     }
 
-    static var setWeapon_5: CardEffect {
+    static var setAttribute_weapon_5: CardEffect {
         .init(
-            action: .setWeapon,
+            action: .setAttribute,
             selectors: [
+                .attribute(.weapon),
                 .amount(.value(5))
             ],
             when: .cardPlayed,
@@ -276,10 +280,11 @@ extension CardEffect {
         )
     }
 
-    static var setWeapon_1: CardEffect {
+    static var setAttribute_weapon_1: CardEffect {
         .init(
-            action: .setWeapon,
+            action: .setAttribute,
             selectors: [
+                .attribute(.weapon),
                 .amount(.value(1))
             ],
             when: .cardPlayed,
@@ -287,25 +292,35 @@ extension CardEffect {
         )
     }
 
-    static var setUnlimitedBang: CardEffect {
+    static var setAttribute_bangLimitPerTurn_0: CardEffect {
         .init(
-            action: .setUnlimitedBang,
+            action: .setAttribute,
+            selectors: [
+                .attribute(.bangLimitPerTurn),
+                .amount(.value(0))
+            ],
             when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
-    static var increaseMagnifying: CardEffect {
+    static var incrementAttribute_magnifying: CardEffect {
         .init(
-            action: .increaseMagnifying,
+            action: .incrementAttribute,
+            selectors: [
+                .attribute(.magnifying)
+            ],
             when: .cardPlayed,
             until: .cardDiscarded
         )
     }
 
-    static var increaseRemoteness: CardEffect {
+    static var incrementAttribute_remoteness: CardEffect {
         .init(
-            action: .increaseRemoteness,
+            action: .incrementAttribute,
+            selectors: [
+                .attribute(.remoteness)
+            ],
             when: .cardPlayed,
             until: .cardDiscarded
         )
