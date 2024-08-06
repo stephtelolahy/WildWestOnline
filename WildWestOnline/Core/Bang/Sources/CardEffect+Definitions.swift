@@ -620,11 +620,11 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_flippedCards_2: CardEffect {
+    static var setAttribute_drawCards_2: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.flippedCards),
+                .attribute(.drawCards),
                 .amount(.value(2))
             ],
             when: .cardPlayed
@@ -642,11 +642,11 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_flippedCards_1: CardEffect {
+    static var setAttribute_drawCards_1: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.flippedCards),
+                .attribute(.drawCards),
                 .amount(.value(1))
             ],
             when: .permanent
@@ -741,3 +741,134 @@ extension CardEffect {
         )
     }
 }
+/*
+ {
+     "name": "elenaFuente",
+     "desc": "She may use any card in hand as Missed!.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 3,
+       "playAs": { "": "missed" }
+     }
+   },
+   {
+     "name": "seanMallory",
+     "desc": "He may hold in his hand up to 10 cards.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 3,
+       "handLimit": 10
+     }
+   },
+   {
+     "name": "tequilaJoe",
+     "desc": "Each time he plays a Beer, he regains 2 life points instead of 1.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["gain2HealthOnPlayBeer"]
+   },
+   {
+     "name": "pixiePete",
+     "desc": "During phase 1 of his turn, he draws 3 cards instead of 2.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 3,
+       "silentAbility": "startTurnDrawing2Cards"
+     },
+     "abilities": ["startTurnDrawing3Cards"]
+   },
+   {
+     "name": "billNoface",
+     "desc": "He draws 1 card, plus 1 card for each wound he has.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4,
+       "silentAbility": "startTurnDrawing2Cards"
+     },
+     "abilities": ["startTurnDrawing1CardPlusWound"]
+   },
+   {
+     "name": "gregDigger",
+     "desc": "Each time another player is eliminated, he regains 2 life points.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["gain2HealthOnOtherEliminated"]
+   },
+   {
+     "name": "herbHunter",
+     "desc": "Each time another player is eliminated, he draws 2 extra cards.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["draw2CardsOnOtherEliminated"]
+   },
+   {
+     "name": "mollyStark",
+     "desc": "Each time she uses a card from her hand out of turn, she draw a card.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["drawCardOnPlayHandOutOfTurn"]
+   },
+   {
+     "name": "joseDelgado",
+     "desc": "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["draw2CardsRequire1BlueCard"]
+   },
+   {
+     "name": "chuckWengam",
+     "desc": "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["draw2CardsRequire1Health"]
+   },
+   {
+     "name": "docHolyday",
+     "desc": "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4
+     },
+     "abilities": ["bangRequire2Cards"]
+   },
+   {
+     "name": "patBrennan",
+     "desc": "Instead of drawing normally, he may draw only one card in play in front of any one player.",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4,
+       "silentAbility": "startTurnDrawing2Cards"
+     },
+     "abilities": ["startTurnChoosingDrawInPlay"]
+   },
+   {
+     "name": "apacheKid",
+     "desc": "Cards of Diamond played by other players do not affect him",
+     "type": "figure",
+     "attributes": {
+       "bullets": 3,
+       "silentCard": "♦️"
+     }
+   },
+   {
+     "name": "belleStar",
+     "desc": "During her turn, cards in play in front of other players have no effect. ",
+     "type": "figure",
+     "attributes": {
+       "bullets": 4,
+       "silentInPlay": true
+     }
+   }
+ */

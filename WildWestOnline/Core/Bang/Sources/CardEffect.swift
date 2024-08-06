@@ -25,6 +25,7 @@ public struct CardEffect: Equatable, Codable {
         case amount(Number)
         /// determine attribute
         case attribute(PlayerAttribute)
+
         /// will apply effect x times
         case `repeat`(Number)
         /// must match given condition
@@ -110,12 +111,15 @@ public struct CardEffect: Equatable, Codable {
 
 public enum PlayerAttribute: String, Codable {
     case maxHealth
-    case flippedCards
-    case requiredMissesForBang
-    case startTurnCards
-    case bangLimitPerTurn
+    case drawCards
     case weapon
     case magnifying
     case remoteness
+    case handLimit
+
+    // ⚠️ attributes related to specific card
+    case startTurnCards
+    case requiredMissesForBang
+    case bangLimitPerTurn
     case playBangAsMissedAndViceVersa
 }

@@ -116,7 +116,7 @@ public enum Cards {
             .setAttribute_startTurnCards_2,
             .setAttribute_bangLimitPerTurn_1,
             .setAttribute_missesRequiredForBang_1,
-            .setAttribute_flippedCards_1,
+            .setAttribute_drawCards_1,
             .drawDeck_startTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
@@ -161,7 +161,7 @@ public enum Cards {
         ],
         "luckyDuke": [
             .setAttribute_maxHealth_4,
-            .setAttribute_flippedCards_2
+            .setAttribute_drawCards_2
         ],
         "calamityJanet": [
             .setAttribute_playBangAsMissedAndViceVersa_1
