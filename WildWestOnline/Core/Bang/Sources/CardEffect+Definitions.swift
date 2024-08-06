@@ -668,3 +668,33 @@ extension CardEffect {
              .build()
      }
  */
+
+extension CardEffect {
+    static var shoot_any_atDistanceOf1: CardEffect {
+        .init(
+            action: .shoot,
+            selectors: [
+                .player(.any([.atDistance(.value(1))]))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var drawDeck_1: CardEffect {
+        .init(
+            action: .drawDeck,
+            when: .cardPlayed
+        )
+    }
+
+    static var shoot_any_cost1HandCard: CardEffect {
+        .init(
+            action: .shoot,
+            selectors: [
+                .cost(.any([.fromHand])),
+                .player(.any())
+            ],
+            when: .cardPlayed
+        )
+    }
+}

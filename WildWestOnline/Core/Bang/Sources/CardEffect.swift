@@ -15,15 +15,25 @@ public struct CardEffect: Equatable, Codable {
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
+        /// determine targetted player
         case player(Player)
+        /// determine targetted card
         case card(Card)
+        /// determine a card or ignore effect
         case cardOrIgnore(Card)
+        /// determine amount
         case amount(Number)
+        /// determine attribute
         case attribute(PlayerAttribute)
-
+        /// will apply effect x times
         case `repeat`(Number)
+        /// must match given condition
         case `if`(StateCondition)
+        /// must discard a card
+        case cost(Card)
+        /// can counter effect by discarding a card
         case counterWith(Card)
+        /// can reverse effect by discarding a card
         case reverseWith(Card)
 
         public enum Player: Equatable, Codable {

@@ -9,6 +9,8 @@ typealias Card = [CardEffect]
 
 public enum Cards {
     static let all: [String: Card] = [
+        // MARK: - Bang
+
         "beer": [
             .discardSilently,
             .heal_1_ifPlayersAtLeast3
@@ -180,6 +182,22 @@ public enum Cards {
             // ⚠️ special startTurn
             .steal_any_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
+        ],
+
+        // MARK: - Dodge city
+
+        "punch": [
+            .discardSilently,
+            .shoot_any_atDistanceOf1
+        ],
+        "dodge": [
+            .discardSilently,
+            .missed,
+            .drawDeck_1
+        ],
+        "springfield": [
+            .discardSilently,
+            .shoot_any_cost1HandCard
         ]
     ]
 }
