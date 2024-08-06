@@ -7,9 +7,9 @@
 // swiftlint:disable identifier_name no_magic_numbers file_length
 
 /// Defining card effects
-/// Naming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
-///
+/// ℹ️ Naming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
 /// ⚠️ Before dispatching resolved action, verify initial event is still confirmed as state
+/// ⚠️ Each effect triggered by a single event are linked, the failure of the first induce the sskipping of next
 extension CardEffect {
     // MARK: - Collectible - Action
 
@@ -558,7 +558,7 @@ extension CardEffect {
         )
     }
 
-    static var steal_any_onTurnStarted:CardEffect {
+    static var steal_any_onTurnStarted: CardEffect {
         .init(
             action: .steal,
             selectors: [
@@ -568,23 +568,43 @@ extension CardEffect {
             when: .turnStarted
         )
     }
+
+    static var setAttribute_requiredMissesForBang_2: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.requiredMissesForBang),
+                .amount(.value(2))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var setAttribute_maxHealth_4: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.maxHealth),
+                .amount(.value(4))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var setAttribute_flippedCards_2: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.flippedCards),
+                .amount(.value(2))
+            ],
+            when: .cardPlayed
+        )
+    }
 }
 
 /*
  private extension Cards {
-     static var slabTheKiller: Card {
-         Card.makeBuilder(name: .slabTheKiller)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4, .requiredMissesForBang: 2])
-             .build()
-     }
-
-     static var luckyDuke: Card {
-         Card.makeBuilder(name: .luckyDuke)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4, .flippedCards: 2])
-             .build()
-     }
 
      static var calamityJanet: Card {
          Card.makeBuilder(name: .calamityJanet)

@@ -172,6 +172,16 @@ public enum Cards {
         "pedroRamirez": [
             .steal_any_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
+        ],
+        "slabTheKiller": [
+            .setAttribute_maxHealth_4,
+            .setAttribute_requiredMissesForBang_2,
+            .drawDeck_startTurnCards_onTurnStarted
+        ],
+        "luckyDuke": [
+            .setAttribute_maxHealth_4,
+            .setAttribute_flippedCards_2,
+            .drawDeck_startTurnCards_onTurnStarted
         ]
     ]
 }
