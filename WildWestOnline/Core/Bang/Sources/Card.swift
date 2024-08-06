@@ -110,6 +110,10 @@ public enum Cards {
             .discard_excessHand
         ],
         "default": [
+            .setAttribute_bangLimitPerTurn_1,
+            .setAttribute_missesRequiredForBang_1,
+            .setAttribute_flippedCards_1,
+            .setAttribute_weapon_1,
             .setAttribute_startTurnCards_2,
             .drawDeck_startTurnCards_onTurnStarted,
             .setAttribute_bangLimitPerTurn_1,
