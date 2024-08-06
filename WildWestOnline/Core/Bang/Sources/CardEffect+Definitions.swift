@@ -652,24 +652,20 @@ extension CardEffect {
             when: .permanent
         )
     }
-}
 
-/*
- private extension Cards {
+    static var setAttribute_playBangAsMissedAndViceVersa_1: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.playBangAsMissedAndViceVersa),
+                .amount(.value(1))
+            ],
+            when: .cardPlayed
+        )
+    }
 
-     static var calamityJanet: Card {
-         Card.makeBuilder(name: .calamityJanet)
-             .withPrototype(defaultPlayer)
-             .withAttributes([.maxHealth: 4])
-             .withAbilityToPlayCardAs([
-                 CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
-                 CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
-             ])
-             .build()
-     }
- */
+    // MARK: - Dodge city
 
-extension CardEffect {
     static var shoot_any_atDistanceOf1: CardEffect {
         .init(
             action: .shoot,
@@ -693,6 +689,53 @@ extension CardEffect {
             selectors: [
                 .cost(.any([.fromHand])),
                 .player(.any())
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var heal_2_cost1HandCard: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .cost(.any([.fromHand])),
+                .amount(.value(2))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var heal_any_1_cost1HandCard: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .cost(.any([.fromHand])),
+                .player(.any()),
+                .amount(.value(1))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var steal_any_cost1HandCard: CardEffect {
+        .init(
+            action: .steal,
+            selectors: [
+                .cost(.any([.fromHand])),
+                .player(.any()),
+                .card(.any())
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var discard_all_cost1HandCard: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .cost(.any([.fromHand])),
+                .player(.all),
+                .card(.any())
             ],
             when: .cardPlayed
         )

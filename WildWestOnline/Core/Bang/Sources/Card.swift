@@ -163,6 +163,9 @@ public enum Cards {
             .setAttribute_maxHealth_4,
             .setAttribute_flippedCards_2
         ],
+        "calamityJanet": [
+            .setAttribute_playBangAsMissedAndViceVersa_1
+        ],
         "kitCarlson": [
             // ⚠️ special startTurn
             .reveal_startTurnCardsPlus1,
@@ -198,6 +201,30 @@ public enum Cards {
         "springfield": [
             .discardSilently,
             .shoot_any_cost1HandCard
+        ],
+        "hideout": [
+            .equip,
+            .incrementAttribute_remoteness
+        ],
+        "binocular": [
+            .equip,
+            .incrementAttribute_magnifying
+        ],
+        "whisky": [
+            .discardSilently,
+            .heal_2_cost1HandCard
+        ],
+        "tequila": [
+            .discardSilently,
+            .heal_any_1_cost1HandCard
+        ],
+        "ragTime": [
+            .discardSilently,
+            .steal_any_cost1HandCard
+        ],
+        "brawl": [
+            .discardSilently,
+            .discard_all_cost1HandCard
         ]
     ]
 }

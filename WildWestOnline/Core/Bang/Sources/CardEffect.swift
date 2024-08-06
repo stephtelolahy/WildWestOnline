@@ -117,4 +117,5 @@ public enum PlayerAttribute: String, Codable {
     case weapon
     case magnifying
     case remoteness
+    case playBangAsMissedAndViceVersa
 }
