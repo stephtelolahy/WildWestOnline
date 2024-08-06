@@ -110,6 +110,9 @@ public enum Cards {
             .discard_excessHand
         ],
         "default": [
+            .setAttribute_startTurnCards_2,
+            .drawDeck_startTurnCards_onTurnStarted,
+            .setAttribute_bangLimitPerTurn_1,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
@@ -119,69 +122,61 @@ public enum Cards {
             .play_beer_onDamagedLethal
         ],
         "willyTheKid": [
-            .setAttribute_bangLimitPerTurn_0,
-            .drawDeck_startTurnCards_onTurnStarted
+            .setAttribute_bangLimitPerTurn_0
         ],
         "roseDoolan": [
-            .incrementAttribute_magnifying,
-            .drawDeck_startTurnCards_onTurnStarted
+            .incrementAttribute_magnifying
         ],
         "paulRegret": [
-            .incrementAttribute_remoteness,
-            .drawDeck_startTurnCards_onTurnStarted
+            .incrementAttribute_remoteness
         ],
         "jourdonnais": [
             .draw_onShot,
-            .missed_onShot_ifDrawHearts,
-            .drawDeck_startTurnCards_onTurnStarted
+            .missed_onShot_ifDrawHearts
         ],
         "bartCassidy": [
-            .drawDeck_onDamaged,
-            .drawDeck_startTurnCards_onTurnStarted
+            .drawDeck_onDamaged
         ],
         "elGringo": [
-            .steal_offender_onDamaged,
-            .drawDeck_startTurnCards_onTurnStarted
+            .steal_offender_onDamaged
         ],
         "suzyLafayette": [
-            .drawDeck_onHandEmpty,
-            .drawDeck_startTurnCards_onTurnStarted
+            .drawDeck_onHandEmpty
         ],
         "sidKetchum": [
             .discard_2_hand,
-            .heal_1,
-            .drawDeck_startTurnCards_onTurnStarted
+            .heal_1
         ],
         "vultureSam": [
-            .steal_all_onOtherEliminated,
-            .drawDeck_startTurnCards_onTurnStarted
+            .steal_all_onOtherEliminated
         ],
         "kitCarlson": [
+            // ⚠️ special startTurn
             .reveal_startTurnCardsPlus1,
             .chooseCard_startTurnCards
         ],
         "blackJack": [
-            .drawDeck_startTurnCards_onTurnStarted,
+            // ⚠️ special startTurn
             .revealLastDraw_onTurnStarted,
             .drawDeck_1_onTurnStarted_IfDrawsRed
         ],
         "jesseJones": [
+            // ⚠️ special startTurn
             .drawDiscard_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
         ],
         "pedroRamirez": [
+            // ⚠️ special startTurn
             .steal_any_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
         ],
         "slabTheKiller": [
             .setAttribute_maxHealth_4,
-            .setAttribute_requiredMissesForBang_2,
-            .drawDeck_startTurnCards_onTurnStarted
+            .setAttribute_requiredMissesForBang_2
         ],
         "luckyDuke": [
             .setAttribute_maxHealth_4,
-            .setAttribute_flippedCards_2,
-            .drawDeck_startTurnCards_onTurnStarted
+            .setAttribute_flippedCards_2
         ]
     ]
 }

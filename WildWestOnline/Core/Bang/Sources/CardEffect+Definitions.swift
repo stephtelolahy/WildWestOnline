@@ -298,6 +298,17 @@ extension CardEffect {
         )
     }
 
+    static var setAttribute_bangLimitPerTurn_1: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.bangLimitPerTurn),
+                .amount(.value(1))
+            ],
+            when: .permanent
+        )
+    }
+
     static var incrementAttribute_magnifying: CardEffect {
         .init(
             action: .incrementAttribute,
@@ -573,6 +584,17 @@ extension CardEffect {
                 .card(.any())
             ],
             when: .turnStarted
+        )
+    }
+
+    static var setAttribute_startTurnCards_2: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.startTurnCards),
+                .amount(.value(2))
+            ],
+            when: .cardPlayed
         )
     }
 
