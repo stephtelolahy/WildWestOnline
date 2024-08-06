@@ -110,12 +110,11 @@ public enum Cards {
             .discard_excessHand
         ],
         "default": [
-            .setAttribute_bangLimitPerTurn_1,
-            .setAttribute_missesRequiredForBang_1,
-            .setAttribute_flippedCards_1,
             .setAttribute_weapon_1,
             .setAttribute_startTurnCards_2,
             .setAttribute_bangLimitPerTurn_1,
+            .setAttribute_missesRequiredForBang_1,
+            .setAttribute_flippedCards_1,
             .drawDeck_startTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
@@ -154,6 +153,14 @@ public enum Cards {
         "vultureSam": [
             .steal_all_onOtherEliminated
         ],
+        "slabTheKiller": [
+            .setAttribute_maxHealth_4,
+            .setAttribute_requiredMissesForBang_2
+        ],
+        "luckyDuke": [
+            .setAttribute_maxHealth_4,
+            .setAttribute_flippedCards_2
+        ],
         "kitCarlson": [
             // ⚠️ special startTurn
             .reveal_startTurnCardsPlus1,
@@ -173,14 +180,6 @@ public enum Cards {
             // ⚠️ special startTurn
             .steal_any_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
-        ],
-        "slabTheKiller": [
-            .setAttribute_maxHealth_4,
-            .setAttribute_requiredMissesForBang_2
-        ],
-        "luckyDuke": [
-            .setAttribute_maxHealth_4,
-            .setAttribute_flippedCards_2
         ]
     ]
 }

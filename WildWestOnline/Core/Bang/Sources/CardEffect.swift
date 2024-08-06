@@ -64,12 +64,12 @@ public struct CardEffect: Equatable, Codable {
             case value(Int)
         }
 
-        public enum StateCondition: Equatable, Codable {
+        public indirect enum StateCondition: Equatable, Codable {
             case playersAtLeast(Int)
             case cardPlayedLessThan(Number)
             case draw(String)
-            case notDraw(String)
             case actorTurn
+            case not(Self)
         }
     }
 

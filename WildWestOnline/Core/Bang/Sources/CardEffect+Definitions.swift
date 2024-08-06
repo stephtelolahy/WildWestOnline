@@ -202,7 +202,7 @@ extension CardEffect {
         .init(
             action: .pass,
             selectors: [
-                .if(.notDraw("[2-9]♠️")),
+                .if(.not(.draw("[2-9]♠️"))),
                 .player(.next),
                 .card(.played)
             ],
@@ -346,7 +346,7 @@ extension CardEffect {
         .init(
             action: .endTurn,
             selectors: [
-                .if(.notDraw("♥️"))
+                .if(.not(.draw("♥️")))
             ],
             when: .turnStarted
         )
