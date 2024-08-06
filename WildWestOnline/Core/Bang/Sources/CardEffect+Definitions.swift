@@ -630,6 +630,28 @@ extension CardEffect {
             when: .cardPlayed
         )
     }
+
+    static var setAttribute_missesRequiredForBang_1: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.requiredMissesForBang),
+                .amount(.value(1))
+            ],
+            when: .permanent
+        )
+    }
+
+    static var setAttribute_flippedCards_1: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.flippedCards),
+                .amount(.value(1))
+            ],
+            when: .permanent
+        )
+    }
 }
 
 /*
