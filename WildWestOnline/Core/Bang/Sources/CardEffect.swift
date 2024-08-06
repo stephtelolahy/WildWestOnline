@@ -77,7 +77,7 @@ public struct CardEffect: Equatable, Codable {
 
         public indirect enum StateCondition: Equatable, Codable {
             case playersAtLeast(Int)
-            case cardPlayedLessThan(Number)
+            case playedLessThan(Number)
             case draw(String)
             case actorTurn
             case not(Self)

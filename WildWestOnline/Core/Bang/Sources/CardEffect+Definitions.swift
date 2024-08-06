@@ -91,7 +91,7 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .if(.cardPlayedLessThan(.attr(.bangLimitPerTurn))),
+                .if(.playedLessThan(.attr(.bangLimitPerTurn))),
                 .amount(.attr(.requiredMissesForBang)),
                 .player(.any([.atDistance(.attr(.weapon))]))
             ],
