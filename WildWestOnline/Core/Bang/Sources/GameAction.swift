@@ -17,7 +17,7 @@ public enum GameAction: String, Codable {
     /// {player or actor} decrease health by {amount}
     case damage
 
-    /// {player or actor} draw top deck card
+    /// {player or actor} draw the top deck card
     case drawDeck
 
     /// {player or actor} discard a {card}
@@ -32,7 +32,7 @@ public enum GameAction: String, Codable {
     /// {actor} put a {card} on {player}'s inPlay
     case handicap
 
-    /// {actor} shoot at {player} with {amount} required misses
+    /// {actor} shoot at {player} requiring {amount} misses
     case shoot
 
     /// {player or actor} counter a shot applyed on himself
@@ -41,7 +41,7 @@ public enum GameAction: String, Codable {
     /// {player} choose a {card} from choosable cards
     case chooseCard
 
-    /// {actor} equip with his {card}
+    /// {actor} equip with a {card}
     case equip
 
     /// {actor} passes his {card} to {player}'s inPlay
@@ -50,7 +50,7 @@ public enum GameAction: String, Codable {
     /// expose {amount} choosable cards from top deck
     case reveal
 
-    /// draw card(s) from deck by expecting {regex}
+    /// draw card(s) from deck by expecting some suits
     case draw
 
     /// {actor} ends his turn
@@ -62,15 +62,15 @@ public enum GameAction: String, Codable {
     /// {player} get eliminated
     case eliminate
 
-    /// {actor} reveals last drawn card
+    /// {actor} reveals his last drawn card
     case revealLastDraw
 
-    /// {acor} draws top discard pile
+    /// {actor} draws the last discarded card
     case drawDiscard
 
     /// {actor} set his {attribute} to {amount}
     case setAttribute
 
-    /// {actor} increment his {attribute}
+    /// {actor} increase his {attribute} by +1
     case incrementAttribute
 }

@@ -239,8 +239,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(2))
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -251,8 +250,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(3))
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -263,8 +261,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(4))
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -275,8 +272,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(5))
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -287,8 +283,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(1))
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -299,8 +294,7 @@ extension CardEffect {
                 .attribute(.bangLimitPerTurn),
                 .amount(.value(0))
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -310,8 +304,7 @@ extension CardEffect {
             selectors: [
                 .attribute(.magnifying)
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 
@@ -321,8 +314,7 @@ extension CardEffect {
             selectors: [
                 .attribute(.remoteness)
             ],
-            when: .cardPlayed,
-            until: .cardDiscarded
+            when: .permanent
         )
     }
 

@@ -11,7 +11,6 @@ public struct CardEffect: Equatable, Codable {
     public let action: GameAction
     public let selectors: [Selector]?
     public let when: PlayerEvent
-    public let until: PlayerEvent?
 
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
@@ -75,11 +74,11 @@ public struct CardEffect: Equatable, Codable {
     }
 
     public indirect enum PlayerEvent: String, Codable {
+        case permanent // applied when card is played and reversed when card is discarded
         case cardPlayed
         case shot
         case turnStarted
         case turnEnded
-        case cardDiscarded
         case damaged
         case damagedLethal
         case eliminated
@@ -91,13 +90,11 @@ public struct CardEffect: Equatable, Codable {
     public init(
         action: GameAction,
         selectors: [Selector]? = nil,
-        when: PlayerEvent,
-        until: PlayerEvent? = nil
+        when: PlayerEvent
     ) {
         self.when = when
         self.action = action
         self.selectors = selectors
-        self.until = until
     }
 }
 
