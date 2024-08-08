@@ -162,7 +162,7 @@ public enum Cards {
             .setAttribute_drawCards_2
         ],
         "calamityJanet": [
-            .setAttribute_playBangAsMissedAndViceVersa_1
+            .setAttribute_bangWithMissedAndViceVersa
         ],
         "kitCarlson": [
             // ⚠️ special startTurn
@@ -223,6 +223,9 @@ public enum Cards {
         "brawl": [
             .discardSilently,
             .discard_all_cost1HandCard
+        ],
+        "elenaFuente": [
+            .setAttribute_missedWithAnyCard
         ]
     ]
 }

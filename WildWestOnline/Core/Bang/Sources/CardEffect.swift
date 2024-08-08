@@ -87,7 +87,6 @@ public struct CardEffect: Equatable, Codable {
     }
 
     public indirect enum PlayerEvent: String, Codable {
-        case permanent // applied when card is played and reversed when card is discarded
         case cardPlayed
         case shot
         case turnStarted
@@ -123,5 +122,6 @@ public enum PlayerAttribute: String, Codable {
     case startTurn_cards
     case bang_additionalRequiredMisses
     case bang_limitPerTurn
-    case bang_playAsMissedAndViceVersa
+    case bang_withMissedAndViceVersa
+    case missed_withAnyCard
 }

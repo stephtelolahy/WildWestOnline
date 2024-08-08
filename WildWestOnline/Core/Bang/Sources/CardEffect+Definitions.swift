@@ -237,7 +237,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(2))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -248,7 +248,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(3))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -259,7 +259,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(4))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -270,7 +270,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(5))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -281,7 +281,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(1))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -292,7 +292,7 @@ extension CardEffect {
                 .attribute(.bang_limitPerTurn),
                 .amount(.value(0))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -303,7 +303,7 @@ extension CardEffect {
                 .attribute(.bang_limitPerTurn),
                 .amount(.value(1))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -313,7 +313,7 @@ extension CardEffect {
             selectors: [
                 .attribute(.magnifying)
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -323,7 +323,7 @@ extension CardEffect {
             selectors: [
                 .attribute(.remoteness)
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
@@ -626,16 +626,16 @@ extension CardEffect {
                 .attribute(.drawCards),
                 .amount(.value(1))
             ],
-            when: .permanent
+            when: .cardPlayed
         )
     }
 
-    static var setAttribute_playBangAsMissedAndViceVersa_1: CardEffect {
+    static var setAttribute_bangWithMissedAndViceVersa: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bang_playAsMissedAndViceVersa),
-                .amount(.value(1))
+                .attribute(.bang_withMissedAndViceVersa),
+                .amount(.value(0))
             ],
             when: .cardPlayed
         )
@@ -713,6 +713,17 @@ extension CardEffect {
                 .cost(.any([.fromHand])),
                 .player(.all),
                 .card(.any())
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var setAttribute_missedWithAnyCard: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.missed_withAnyCard),
+                .amount(.value(0))
             ],
             when: .cardPlayed
         )

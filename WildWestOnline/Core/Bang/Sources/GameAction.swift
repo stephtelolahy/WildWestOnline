@@ -70,6 +70,8 @@ public enum GameAction: String, Codable {
     /// {actor} draws the last discarded card
     case drawDiscard
 
+    // MARK: ``Reversible``applied when card is played and reversed when card is discarded
+
     /// {actor} set his {attribute} to {amount}
     case setAttribute
 
