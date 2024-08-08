@@ -9,7 +9,6 @@
 /// Defining card effects
 /// ℹ️ Naming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
 /// ⚠️ Before dispatching resolved action, verify initial event is still confirmed as state
-/// ⚠️ Each effect triggered by a single event are linked, the failure of the first induce the sskipping of next
 extension CardEffect {
     // MARK: - Collectible - Action
 
@@ -23,7 +22,7 @@ extension CardEffect {
         )
     }
 
-    static var heal_1_ifPlayersAtLeast3: CardEffect {
+    static var heal_ifPlayersAtLeast3: CardEffect {
         .init(
             action: .heal,
             selectors: [
@@ -34,7 +33,7 @@ extension CardEffect {
         )
     }
 
-    static var heal_1_all: CardEffect {
+    static var heal_all: CardEffect {
         .init(
             action: .heal,
             selectors: [
@@ -490,21 +489,11 @@ extension CardEffect {
         )
     }
 
-    static var discard_2_hand: CardEffect {
-        .init(
-            action: .discard,
-            selectors: [
-                .repeat(.value(2)),
-                .card(.any([.fromHand]))
-            ],
-            when: .cardPlayed
-        )
-    }
-
-    static var heal_1: CardEffect {
+    static var heal_cost2HandCards: CardEffect {
         .init(
             action: .heal,
             selectors: [
+                .cost(.any([.fromHand]), count: 2),
                 .amount(.value(1))
             ],
             when: .cardPlayed
@@ -549,7 +538,7 @@ extension CardEffect {
         )
     }
 
-    static var drawDeck_1_onTurnStarted_IfDrawsRed: CardEffect {
+    static var drawDeck_onTurnStarted_IfDrawsRed: CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
@@ -676,7 +665,7 @@ extension CardEffect {
         )
     }
 
-    static var drawDeck_1: CardEffect {
+    static var drawDeck: CardEffect {
         .init(
             action: .drawDeck,
             when: .cardPlayed
@@ -705,7 +694,7 @@ extension CardEffect {
         )
     }
 
-    static var heal_any_1_cost1HandCard: CardEffect {
+    static var heal_any_cost1HandCard: CardEffect {
         .init(
             action: .heal,
             selectors: [

@@ -13,11 +13,11 @@ public enum Cards {
 
         "beer": [
             .discardSilently,
-            .heal_1_ifPlayersAtLeast3
+            .heal_ifPlayersAtLeast3
         ],
         "saloon": [
             .discardSilently,
-            .heal_1_all
+            .heal_all
         ],
         "stagecoach": [
             .discardSilently,
@@ -107,7 +107,7 @@ public enum Cards {
             .endTurn_onTurnStarted_ifNotDrawHearts,
             .discard_onTurnStarted
         ],
-        "endTurn": [
+        "finishTurn": [
             .endTurn,
             .discard_excessHand
         ],
@@ -149,8 +149,7 @@ public enum Cards {
             .drawDeck_onHandEmpty
         ],
         "sidKetchum": [
-            .discard_2_hand,
-            .heal_1
+            .heal_cost2HandCards
         ],
         "vultureSam": [
             .steal_all_onOtherEliminated
@@ -174,7 +173,7 @@ public enum Cards {
         "blackJack": [
             // ⚠️ special startTurn
             .revealLastDraw_onTurnStarted,
-            .drawDeck_1_onTurnStarted_IfDrawsRed
+            .drawDeck_onTurnStarted_IfDrawsRed
         ],
         "jesseJones": [
             // ⚠️ special startTurn
@@ -196,7 +195,7 @@ public enum Cards {
         "dodge": [
             .discardSilently,
             .missed,
-            .drawDeck_1
+            .drawDeck
         ],
         "springfield": [
             .discardSilently,
@@ -216,7 +215,7 @@ public enum Cards {
         ],
         "tequila": [
             .discardSilently,
-            .heal_any_1_cost1HandCard
+            .heal_any_cost1HandCard
         ],
         "ragTime": [
             .discardSilently,
