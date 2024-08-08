@@ -115,7 +115,6 @@ public enum Cards {
             .setAttribute_weapon_1,
             .setAttribute_startTurnCards_2,
             .setAttribute_bangLimitPerTurn_1,
-            .setAttribute_missesRequiredForBang_1,
             .setAttribute_drawCards_1,
             .drawDeck_startTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
@@ -156,7 +155,7 @@ public enum Cards {
         ],
         "slabTheKiller": [
             .setAttribute_maxHealth_4,
-            .setAttribute_requiredMissesForBang_2
+            .setAttribute_bangAdditionalRequiredMisses_1
         ],
         "luckyDuke": [
             .setAttribute_maxHealth_4,
@@ -190,7 +189,7 @@ public enum Cards {
 
         "punch": [
             .discardSilently,
-            .shoot_any_atDistanceOf1
+            .shoot_atDistanceOf1
         ],
         "dodge": [
             .discardSilently,

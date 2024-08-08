@@ -90,8 +90,8 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .if(.playedLessThan(.attr(.bangLimitPerTurn))),
-                .amount(.attr(.requiredMissesForBang)),
+                .if(.playedLessThan(.attr(.bang_limitPerTurn))),
+                .additionalRequiredMisses(.attr(.bang_additionalRequiredMisses)),
                 .player(.any([.atDistance(.attr(.weapon))]))
             ],
             when: .cardPlayed
@@ -109,7 +109,6 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .amount(.value(1)),
                 .player(.others)
             ],
             when: .cardPlayed
@@ -290,7 +289,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangLimitPerTurn),
+                .attribute(.bang_limitPerTurn),
                 .amount(.value(0))
             ],
             when: .permanent
@@ -301,7 +300,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangLimitPerTurn),
+                .attribute(.bang_limitPerTurn),
                 .amount(.value(1))
             ],
             when: .permanent
@@ -395,7 +394,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .amount(.attr(.startTurnCards))
+                .amount(.attr(.startTurn_cards))
             ],
             when: .turnStarted
         )
@@ -515,7 +514,7 @@ extension CardEffect {
         .init(
             action: .reveal,
             selectors: [
-                .amount(.add(1, attr: .startTurnCards))
+                .amount(.add(1, attr: .startTurn_cards))
             ],
             when: .cardPlayed
         )
@@ -525,7 +524,7 @@ extension CardEffect {
         .init(
             action: .chooseCard,
             selectors: [
-                .repeat(.attr(.startTurnCards))
+                .repeat(.attr(.startTurn_cards))
             ],
             when: .cardPlayed
         )
@@ -559,7 +558,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .repeat(.add(-1, attr: .startTurnCards))
+                .repeat(.add(-1, attr: .startTurn_cards))
             ],
             when: .turnStarted
         )
@@ -569,7 +568,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.any()),
+                .player(.any([.havingCard])),
                 .card(.any())
             ],
             when: .turnStarted
@@ -580,19 +579,19 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurnCards),
+                .attribute(.startTurn_cards),
                 .amount(.value(2))
             ],
             when: .cardPlayed
         )
     }
 
-    static var setAttribute_requiredMissesForBang_2: CardEffect {
+    static var setAttribute_bangAdditionalRequiredMisses_1: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.requiredMissesForBang),
-                .amount(.value(2))
+                .attribute(.bang_additionalRequiredMisses),
+                .amount(.value(1))
             ],
             when: .cardPlayed
         )
@@ -620,17 +619,6 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_missesRequiredForBang_1: CardEffect {
-        .init(
-            action: .setAttribute,
-            selectors: [
-                .attribute(.requiredMissesForBang),
-                .amount(.value(1))
-            ],
-            when: .permanent
-        )
-    }
-
     static var setAttribute_drawCards_1: CardEffect {
         .init(
             action: .setAttribute,
@@ -646,7 +634,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.playBangAsMissedAndViceVersa),
+                .attribute(.bang_playAsMissedAndViceVersa),
                 .amount(.value(1))
             ],
             when: .cardPlayed
@@ -655,7 +643,7 @@ extension CardEffect {
 
     // MARK: - Dodge city
 
-    static var shoot_any_atDistanceOf1: CardEffect {
+    static var shoot_atDistanceOf1: CardEffect {
         .init(
             action: .shoot,
             selectors: [
@@ -711,7 +699,7 @@ extension CardEffect {
             action: .steal,
             selectors: [
                 .cost(.any([.fromHand])),
-                .player(.any()),
+                .player(.any([.havingCard])),
                 .card(.any())
             ],
             when: .cardPlayed

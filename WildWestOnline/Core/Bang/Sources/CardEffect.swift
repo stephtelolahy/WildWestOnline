@@ -21,10 +21,12 @@ public struct CardEffect: Equatable, Codable {
         case card(Card)
         /// determine a card or ignore effect
         case cardOrIgnore(Card)
+        /// determine affected attribute
+        case attribute(PlayerAttribute)
         /// determine amount
         case amount(Number)
-        /// determine attribute
-        case attribute(PlayerAttribute)
+        /// determine additional misses
+        case additionalRequiredMisses(Number)
 
         /// will apply effect x times
         case `repeat`(Number)
@@ -118,8 +120,8 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
 
     // ⚠️ attributes related to specific card
-    case startTurnCards
-    case requiredMissesForBang
-    case bangLimitPerTurn
-    case playBangAsMissedAndViceVersa
+    case startTurn_cards
+    case bang_additionalRequiredMisses
+    case bang_limitPerTurn
+    case bang_playAsMissedAndViceVersa
 }
