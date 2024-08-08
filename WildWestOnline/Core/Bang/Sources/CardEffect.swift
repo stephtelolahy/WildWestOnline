@@ -72,6 +72,7 @@ public struct CardEffect: Equatable, Codable {
             case activePlayers
             case excessHand
             case damage
+            case lastDamage // damage amount from last event
             case attr(PlayerAttribute)
             case add(Int, attr: PlayerAttribute)
             case value(Int)
@@ -94,9 +95,12 @@ public struct CardEffect: Equatable, Codable {
         case damaged
         case damagedLethal
         case eliminated
-        case weaponPlayed
         case handEmpty
         case otherEliminated
+
+        // ⚠️ related to specific card
+        case weaponPlayed
+        case beerPlayed
     }
 
     public init(
@@ -118,7 +122,7 @@ public enum PlayerAttribute: String, Codable {
     case remoteness
     case handLimit
 
-    // ⚠️ attributes related to specific card
+    // ⚠️ related to specific card
     case startTurn_cards
     case bang_additionalRequiredMisses
     case bang_limitPerTurn

@@ -226,6 +226,25 @@ public enum Cards {
         ],
         "elenaFuente": [
             .setAttribute_missedWithAnyCard
+        ],
+        "seanMallory": [
+            .setAttribute_handLimit_10
+        ],
+        "tequilaJoe": [
+            .heal_2_onBeerPlayed
+        ],
+        "pixiePete": [
+            .setAttribute_startTurnCards_3
+        ],
+        "billNoface": [
+            .setAttribute_startTurnCards_1,
+            .drawDeck_damage_onTurnStarted
+        ],
+        "gregDigger": [
+            .heal_2_onOtherEliminated
+        ],
+        "herbHunter": [
+            .drawDeck_2_onOtherEliminated
         ]
     ]
 }

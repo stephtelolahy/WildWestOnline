@@ -475,7 +475,7 @@ extension CardEffect {
             action: .steal,
             selectors: [
                 .player(.offender),
-                .repeat(.damage)
+                .repeat(.lastDamage)
             ],
             when: .damaged
         )
@@ -728,73 +728,81 @@ extension CardEffect {
             when: .cardPlayed
         )
     }
+
+    static var setAttribute_handLimit_10: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.handLimit),
+                .amount(.value(10))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var heal_2_onBeerPlayed: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .amount(.value(2))
+            ],
+            when: .beerPlayed
+        )
+    }
+
+    static var setAttribute_startTurnCards_3: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.startTurn_cards),
+                .amount(.value(3))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var setAttribute_startTurnCards_1: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.startTurn_cards),
+                .amount(.value(1))
+            ],
+            when: .cardPlayed
+        )
+    }
+
+    static var drawDeck_damage_onTurnStarted: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .repeat(.damage)
+            ],
+            when: .turnStarted
+        )
+    }
+
+    static var heal_2_onOtherEliminated: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .amount(.value(2))
+            ],
+            when: .otherEliminated
+        )
+    }
+
+    static var drawDeck_2_onOtherEliminated: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .repeat(.value(2))
+            ],
+            when: .otherEliminated
+        )
+    }
 }
 /*
- {
-     "name": "elenaFuente",
-     "desc": "She may use any card in hand as Missed!.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 3,
-       "playAs": { "": "missed" }
-     }
-   },
-   {
-     "name": "seanMallory",
-     "desc": "He may hold in his hand up to 10 cards.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 3,
-       "handLimit": 10
-     }
-   },
-   {
-     "name": "tequilaJoe",
-     "desc": "Each time he plays a Beer, he regains 2 life points instead of 1.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["gain2HealthOnPlayBeer"]
-   },
-   {
-     "name": "pixiePete",
-     "desc": "During phase 1 of his turn, he draws 3 cards instead of 2.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 3,
-       "silentAbility": "startTurnDrawing2Cards"
-     },
-     "abilities": ["startTurnDrawing3Cards"]
-   },
-   {
-     "name": "billNoface",
-     "desc": "He draws 1 card, plus 1 card for each wound he has.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4,
-       "silentAbility": "startTurnDrawing2Cards"
-     },
-     "abilities": ["startTurnDrawing1CardPlusWound"]
-   },
-   {
-     "name": "gregDigger",
-     "desc": "Each time another player is eliminated, he regains 2 life points.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["gain2HealthOnOtherEliminated"]
-   },
-   {
-     "name": "herbHunter",
-     "desc": "Each time another player is eliminated, he draws 2 extra cards.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["draw2CardsOnOtherEliminated"]
-   },
    {
      "name": "mollyStark",
      "desc": "Each time she uses a card from her hand out of turn, she draw a card.",
