@@ -181,7 +181,7 @@ public enum Cards {
         ],
         "pedroRamirez": [
             // ⚠️ special startTurn
-            .steal_any_onTurnStarted,
+            .steal_any_fromHand_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted
         ],
 
@@ -245,6 +245,32 @@ public enum Cards {
         ],
         "herbHunter": [
             .drawDeck_2_onOtherEliminated
+        ],
+        "mollyStark": [
+            .drawDeck_onPlayedCardOutOfTurn
+        ],
+        "joseDelgado": [
+            .drawDeck_2_costBlueHandCard
+        ],
+        "chuckWengam": [
+            .drawDeck_2_cost1LifePoint
+        ],
+        "docHolyday": [
+            // "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!."
+            .shoot_any_reachable_cost2HandCards
+        ],
+        "patBrennan": [
+            // "Instead of drawing normally, he may draw only one card in play in front of any one player."
+            // ⚠️ special startTurn
+            .steal_any_inPlay_onTurnStarted
+        ],
+        "apacheKid": [
+            // "Cards of Diamond played by other players do not affect him"
+            .setAttribute_silentDiamondsCard
+        ],
+        "belleStar": [
+            // "During her turn, cards in play in front of other players have no effect. "
+            .setAttribute_silentCardsInPlayDuringTurn
         ]
     ]
 }

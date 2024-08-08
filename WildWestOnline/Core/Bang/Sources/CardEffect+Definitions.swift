@@ -18,7 +18,7 @@ extension CardEffect {
             selectors: [
                 .card(.played)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -29,7 +29,7 @@ extension CardEffect {
                 .if(.playersAtLeast(3)),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -40,7 +40,7 @@ extension CardEffect {
                 .amount(.value(1)),
                 .player(.all)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -50,7 +50,7 @@ extension CardEffect {
             selectors: [
                 .repeat(.value(2))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -60,7 +60,7 @@ extension CardEffect {
             selectors: [
                 .repeat(.value(3))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -71,7 +71,7 @@ extension CardEffect {
                 .player(.any([.havingCard])),
                 .card(.any())
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -82,7 +82,7 @@ extension CardEffect {
                 .player(.any([.atDistance(.value(1)), .havingCard])),
                 .card(.any())
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -90,18 +90,18 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .if(.playedLessThan(.attr(.bang_limitPerTurn))),
-                .additionalRequiredMisses(.attr(.bang_additionalRequiredMisses)),
+                .if(.playedLessThan(.attr(.bangLimitPerTurn))),
+                .additionalRequiredMisses(.attr(.bangAdditionalRequiredMisses)),
                 .player(.any([.atDistance(.attr(.weapon))]))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
     static var missed: CardEffect {
         .init(
             action: .missed,
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -111,7 +111,7 @@ extension CardEffect {
             selectors: [
                 .player(.others)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -123,7 +123,7 @@ extension CardEffect {
                 .player(.others),
                 .counterWith(.any([.fromHand, .named("bang")]))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -135,7 +135,7 @@ extension CardEffect {
                 .player(.any()),
                 .reverseWith(.any([.fromHand, .named("bang")]))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -145,7 +145,7 @@ extension CardEffect {
             selectors: [
                 .amount(.activePlayers)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -156,7 +156,7 @@ extension CardEffect {
                 .player(.all),
                 .card(.anyChoosable)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -168,7 +168,7 @@ extension CardEffect {
             selectors: [
                 .card(.played)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -237,7 +237,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(2))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -248,7 +248,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(3))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -259,7 +259,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(4))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -270,7 +270,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(5))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -281,7 +281,7 @@ extension CardEffect {
                 .attribute(.weapon),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -289,10 +289,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bang_limitPerTurn),
+                .attribute(.bangLimitPerTurn),
                 .amount(.value(0))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -300,10 +300,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bang_limitPerTurn),
+                .attribute(.bangLimitPerTurn),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -313,7 +313,7 @@ extension CardEffect {
             selectors: [
                 .attribute(.magnifying)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -323,7 +323,7 @@ extension CardEffect {
             selectors: [
                 .attribute(.remoteness)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -336,7 +336,7 @@ extension CardEffect {
                 .player(.any()),
                 .card(.played)
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -365,7 +365,7 @@ extension CardEffect {
     static var endTurn: CardEffect {
         .init(
             action: .endTurn,
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -376,7 +376,7 @@ extension CardEffect {
                 .repeat(.excessHand),
                 .card(.any([.fromHand]))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -394,7 +394,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .amount(.attr(.startTurn_cards))
+                .amount(.attr(.startTurnCards))
             ],
             when: .turnStarted
         )
@@ -495,7 +495,7 @@ extension CardEffect {
                 .cost(.any([.fromHand]), count: 2),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -514,9 +514,9 @@ extension CardEffect {
         .init(
             action: .reveal,
             selectors: [
-                .amount(.add(1, attr: .startTurn_cards))
+                .amount(.add(1, attr: .startTurnCards))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -524,9 +524,9 @@ extension CardEffect {
         .init(
             action: .chooseCard,
             selectors: [
-                .repeat(.attr(.startTurn_cards))
+                .repeat(.attr(.startTurnCards))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -558,18 +558,18 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .repeat(.add(-1, attr: .startTurn_cards))
+                .repeat(.add(-1, attr: .startTurnCards))
             ],
             when: .turnStarted
         )
     }
 
-    static var steal_any_onTurnStarted: CardEffect {
+    static var steal_any_fromHand_onTurnStarted: CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.any([.havingCard])),
-                .card(.any())
+                .player(.any([.havingHandCard])),
+                .card(.any([.fromHand]))
             ],
             when: .turnStarted
         )
@@ -579,10 +579,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurn_cards),
+                .attribute(.startTurnCards),
                 .amount(.value(2))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -590,10 +590,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bang_additionalRequiredMisses),
+                .attribute(.bangAdditionalRequiredMisses),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -604,7 +604,7 @@ extension CardEffect {
                 .attribute(.maxHealth),
                 .amount(.value(4))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -615,7 +615,7 @@ extension CardEffect {
                 .attribute(.drawCards),
                 .amount(.value(2))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -626,7 +626,7 @@ extension CardEffect {
                 .attribute(.drawCards),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -634,10 +634,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bang_withMissedAndViceVersa),
+                .attribute(.bangWithMissedAndViceVersa),
                 .amount(.value(0))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -649,14 +649,14 @@ extension CardEffect {
             selectors: [
                 .player(.any([.atDistance(.value(1))]))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
     static var drawDeck: CardEffect {
         .init(
             action: .drawDeck,
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -667,7 +667,7 @@ extension CardEffect {
                 .cost(.any([.fromHand])),
                 .player(.any())
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -678,7 +678,7 @@ extension CardEffect {
                 .cost(.any([.fromHand])),
                 .amount(.value(2))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -690,7 +690,7 @@ extension CardEffect {
                 .player(.any()),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -702,7 +702,7 @@ extension CardEffect {
                 .player(.any([.havingCard])),
                 .card(.any())
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -714,7 +714,7 @@ extension CardEffect {
                 .player(.all),
                 .card(.any())
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -722,10 +722,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.missed_withAnyCard),
+                .attribute(.missedWithAnyCard),
                 .amount(.value(0))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -736,7 +736,7 @@ extension CardEffect {
                 .attribute(.handLimit),
                 .amount(.value(10))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -754,10 +754,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurn_cards),
+                .attribute(.startTurnCards),
                 .amount(.value(3))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -765,10 +765,10 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurn_cards),
+                .attribute(.startTurnCards),
                 .amount(.value(1))
             ],
-            when: .cardPlayed
+            when: .played
         )
     }
 
@@ -801,70 +801,81 @@ extension CardEffect {
             when: .otherEliminated
         )
     }
+
+    static var drawDeck_onPlayedCardOutOfTurn: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .if(.playedLessThan(.value(2)))
+            ],
+            when: .playedCardOutOfTurn
+        )
+    }
+
+    static var drawDeck_2_costBlueHandCard: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .cost(.any([.fromHand, .isBlue])),
+                .repeat(.value(2))
+            ],
+            when: .played
+        )
+    }
+
+    static var drawDeck_2_cost1LifePoint: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .looseLifePointOrIgnore,
+                .repeat(.value(2))
+            ],
+            when: .played
+        )
+    }
+
+    static var shoot_any_reachable_cost2HandCards: CardEffect {
+        .init(
+            action: .shoot,
+            selectors: [
+                .if(.playedLessThan(.value(1))),
+                .cost(.any([.fromHand]), count: 2),
+                .player(.any([.atDistance(.attr(.weapon))]))
+            ],
+            when: .played
+        )
+    }
+
+    static var steal_any_inPlay_onTurnStarted: CardEffect {
+        .init(
+            action: .steal,
+            selectors: [
+                .player(.any([.havingInPlayCard])),
+                .card(.any([.inPlay]))
+            ],
+            when: .turnStarted
+        )
+    }
+
+    static var setAttribute_silentDiamondsCard: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.silentDiamondsCard),
+                .amount(.value(0))
+            ],
+            when: .played
+        )
+    }
+
+    static var setAttribute_silentCardsInPlayDuringTurn: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.silentCardsInPlayDuringTurn),
+                .amount(.value(0))
+            ],
+            when: .played
+        )
+    }
 }
-/*
-   {
-     "name": "mollyStark",
-     "desc": "Each time she uses a card from her hand out of turn, she draw a card.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["drawCardOnPlayHandOutOfTurn"]
-   },
-   {
-     "name": "joseDelgado",
-     "desc": "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["draw2CardsRequire1BlueCard"]
-   },
-   {
-     "name": "chuckWengam",
-     "desc": "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["draw2CardsRequire1Health"]
-   },
-   {
-     "name": "docHolyday",
-     "desc": "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4
-     },
-     "abilities": ["bangRequire2Cards"]
-   },
-   {
-     "name": "patBrennan",
-     "desc": "Instead of drawing normally, he may draw only one card in play in front of any one player.",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4,
-       "silentAbility": "startTurnDrawing2Cards"
-     },
-     "abilities": ["startTurnChoosingDrawInPlay"]
-   },
-   {
-     "name": "apacheKid",
-     "desc": "Cards of Diamond played by other players do not affect him",
-     "type": "figure",
-     "attributes": {
-       "bullets": 3,
-       "silentCard": "♦️"
-     }
-   },
-   {
-     "name": "belleStar",
-     "desc": "During her turn, cards in play in front of other players have no effect. ",
-     "type": "figure",
-     "attributes": {
-       "bullets": 4,
-       "silentInPlay": true
-     }
-   }
- */

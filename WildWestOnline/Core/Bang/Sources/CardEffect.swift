@@ -19,7 +19,7 @@ public struct CardEffect: Equatable, Codable {
         case player(Player)
         /// determine targetted card
         case card(Card)
-        /// determine a card or ignore effect
+        /// choose a card or ignore effect
         case cardOrIgnore(Card)
         /// determine affected attribute
         case attribute(PlayerAttribute)
@@ -27,8 +27,10 @@ public struct CardEffect: Equatable, Codable {
         case amount(Number)
         /// determine additional misses
         case additionalRequiredMisses(Number)
+        /// choose to loose one life point or ignore effect
+        case looseLifePointOrIgnore
 
-        /// will apply effect x times
+        /// multiply effect x times
         case `repeat`(Number)
         /// must match given condition
         case `if`(StateCondition)
@@ -50,6 +52,8 @@ public struct CardEffect: Equatable, Codable {
 
             public enum Condition: Equatable, Codable {
                 case havingCard
+                case havingHandCard
+                case havingInPlayCard
                 case atDistance(Number)
             }
         }
@@ -63,7 +67,9 @@ public struct CardEffect: Equatable, Codable {
 
             public enum Condition: Equatable, Codable {
                 case fromHand
+                case inPlay
                 case named(String)
+                case isBlue
                 case action(GameAction)
             }
         }
@@ -88,7 +94,7 @@ public struct CardEffect: Equatable, Codable {
     }
 
     public indirect enum PlayerEvent: String, Codable {
-        case cardPlayed
+        case played
         case shot
         case turnStarted
         case turnEnded
@@ -97,6 +103,7 @@ public struct CardEffect: Equatable, Codable {
         case eliminated
         case handEmpty
         case otherEliminated
+        case playedCardOutOfTurn
 
         // ⚠️ related to specific card
         case weaponPlayed
@@ -123,9 +130,11 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
 
     // ⚠️ related to specific card
-    case startTurn_cards
-    case bang_additionalRequiredMisses
-    case bang_limitPerTurn
-    case bang_withMissedAndViceVersa
-    case missed_withAnyCard
+    case startTurnCards
+    case bangAdditionalRequiredMisses
+    case bangLimitPerTurn
+    case bangWithMissedAndViceVersa
+    case missedWithAnyCard
+    case silentDiamondsCard
+    case silentCardsInPlayDuringTurn
 }
