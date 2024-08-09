@@ -213,28 +213,28 @@ public enum Cards {
         ],
         "kitCarlson": [
             // "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."
-            // ⚠️ special startTurn
+            // ⚠️ override startTurn
             .reveal_startTurnCardsPlus1,
             .chooseCard_startTurnCards,
             .setAttribute_maxHealth_4
         ],
         "blackJack": [
             // "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it)."
-            // ⚠️ special startTurn
+            // ⚠️ override startTurn
             .revealLastDraw_onTurnStarted,
             .drawDeck_onTurnStarted_IfDrawsRed,
             .setAttribute_maxHealth_4
         ],
         "jesseJones": [
             // "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck."
-            // ⚠️ special startTurn
+            // ⚠️ override startTurn
             .drawDiscard_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted,
             .setAttribute_maxHealth_4
         ],
         "pedroRamirez": [
             // "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck."
-            // ⚠️ special startTurn
+            // ⚠️ override startTurn
             .steal_any_fromHand_onTurnStarted,
             .drawDeck_startTurnCardsMinus1_onTurnStarted,
             .setAttribute_maxHealth_4
@@ -243,89 +243,123 @@ public enum Cards {
         // MARK: - Dodge city
 
         "punch": [
+            // "Acts as a Bang! with a range of one."
             .brown,
             .shoot_atDistanceOf1
         ],
         "dodge": [
+            // "Acts as a Missed!, but allows the player to draw a card."
             .brown,
             .missed,
             .drawDeck
         ],
         "springfield": [
+            // "The player must discard one additional card, and then the card acts as a Bang! with unlimited range."
             .brown,
             .shoot_any_cost1HandCard
         ],
         "hideout": [
+            // "Others view you at distance +1"
             .equip,
             .incrementAttribute_remoteness
         ],
         "binocular": [
+            // "you view others at distance -1"
             .equip,
             .incrementAttribute_magnifying
         ],
         "whisky": [
+            // "The player must discard one additional card, to heal two health."
             .brown,
             .heal_2_cost1HandCard
         ],
         "tequila": [
+            // "The player must discard one additional card, to heal any player one health."
             .brown,
             .heal_any_cost1HandCard
         ],
         "ragTime": [
+            // "The player must discard one additional card to steal a card from any other player."
             .brown,
             .steal_any_cost1HandCard
         ],
         "brawl": [
+            // "The player must discard one additional card to cause all other players to discard one card."
             .brown,
             .discard_all_cost1HandCard
         ],
         "elenaFuente": [
-            .setAttribute_missedWithAnyCard
+            // "She may use any card in hand as Missed!."
+            .setAttribute_missedWithAnyCard,
+            .setAttribute_maxHealth_3
         ],
         "seanMallory": [
-            .setAttribute_handLimit_10
+            // "He may hold in his hand up to 10 cards."
+            .setAttribute_handLimit_10,
+            .setAttribute_maxHealth_3
         ],
         "tequilaJoe": [
-            .heal_2_onBeerPlayed
+            // "Each time he plays a Beer, he regains 2 life points instead of 1."
+            // ⚠️ override beer
+            .heal_2_onBeerPlayed,
+            .setAttribute_maxHealth_4
         ],
         "pixiePete": [
-            .setAttribute_startTurnCards_3
+            // "During phase 1 of his turn, he draws 3 cards instead of 2."
+            .setAttribute_startTurnCards_3,
+            .setAttribute_maxHealth_3
         ],
         "billNoface": [
+            // "He draws 1 card, plus 1 card for each wound he has."
             .setAttribute_startTurnCards_1,
-            .drawDeck_damage_onTurnStarted
+            .drawDeck_damage_onTurnStarted,
+            .setAttribute_maxHealth_4
         ],
         "gregDigger": [
-            .heal_2_onOtherEliminated
+            // "Each time another player is eliminated, he regains 2 life points."
+            .heal_2_onOtherEliminated,
+            .setAttribute_maxHealth_4
         ],
         "herbHunter": [
-            .drawDeck_2_onOtherEliminated
+            // "Each time another player is eliminated, he draws 2 extra cards."
+            .drawDeck_2_onOtherEliminated,
+            .setAttribute_maxHealth_4
         ],
         "mollyStark": [
-            .drawDeck_onPlayedCardOutOfTurn
+            // "Each time she uses a card from her hand out of turn, she draw a card."
+            .drawDeck_onPlayedCardOutOfTurn,
+            .setAttribute_maxHealth_4
         ],
         "joseDelgado": [
-            .drawDeck_2_costBlueHandCard
+            // "Twice in his turn, he may discard a blue card from the hand to draw 2 cards."
+            .drawDeck_2_costBlueHandCard,
+            .setAttribute_maxHealth_4
         ],
         "chuckWengam": [
-            .drawDeck_2_cost1LifePoint
+            // "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost."
+            .drawDeck_2_cost1LifePoint,
+            .setAttribute_maxHealth_4
         ],
         "docHolyday": [
             // "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!."
-            .shoot_any_reachable_cost2HandCards
+            .shoot_any_reachable_cost2HandCards,
+            .setAttribute_maxHealth_4
         ],
         "patBrennan": [
             // "Instead of drawing normally, he may draw only one card in play in front of any one player."
             // ⚠️ special startTurn
-            .steal_any_inPlay_onTurnStarted
+            .steal_any_inPlay_onTurnStarted,
+            .setAttribute_maxHealth_4
         ],
         "apacheKid": [
             // "Cards of Diamond played by other players do not affect him"
-            .setAttribute_silentDiamondsCard
+            .setAttribute_silentDiamondsCard,
+            .setAttribute_maxHealth_3
         ],
         "belleStar": [
             // "During her turn, cards in play in front of other players have no effect. "
-            .setAttribute_silentCardsInPlayDuringTurn
+            .setAttribute_silentCardsInPlayDuringTurn,
+            .setAttribute_maxHealth_4
         ]
     ]
 }

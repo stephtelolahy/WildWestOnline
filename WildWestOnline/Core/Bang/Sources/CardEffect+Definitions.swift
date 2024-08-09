@@ -710,7 +710,7 @@ extension CardEffect {
             action: .steal,
             selectors: [
                 .cost(.any([.fromHand])),
-                .target(.any([.havingCard])),
+                .target(.any()),
                 .card(.any())
             ],
             when: .played
@@ -827,6 +827,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
+                .if(.playedLessThan(.value(2))),
                 .cost(.any([.fromHand, .isBlue])),
                 .repeat(.value(2))
             ],
