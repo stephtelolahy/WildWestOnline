@@ -19,6 +19,7 @@ let package = Package(
         .library(name: "Theme", targets: ["Theme"]),
 
         // Core
+        .library(name: "BangCore", targets: ["BangCore"]),
         .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
@@ -66,6 +67,23 @@ let package = Package(
                 "Serialization"
             ],
             path: "Utilities/Serialization/Tests"
+        ),
+        .target(
+            name: "BangCore",
+            dependencies: [
+                "Redux"
+            ],
+            path: "Core/Bang/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "BangCoreTests",
+            dependencies: [
+                "BangCore"
+            ],
+            path: "Core/Bang/Tests"
         ),
         .target(
             name: "GameCore",

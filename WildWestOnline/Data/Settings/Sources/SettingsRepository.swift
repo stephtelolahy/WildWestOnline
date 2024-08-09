@@ -6,8 +6,8 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import SettingsCore
 import Serialization
+import SettingsCore
 
 public class SettingsRepository: SettingsService {
     public init() {}
