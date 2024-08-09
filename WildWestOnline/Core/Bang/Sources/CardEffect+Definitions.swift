@@ -7,12 +7,12 @@
 // swiftlint:disable identifier_name no_magic_numbers file_length
 
 /// Defining card effects
-/// ℹ️ Naming = {action}_{arg1}_{arg2}_on{Event}_if{Condition}
+/// ℹ️ Naming = {action}_{argValue}_on{Event}_if{Condition}
 /// ⚠️ Before dispatching resolved action, verify initial event is still confirmed as state
 extension CardEffect {
     // MARK: - Collectible - Action
 
-    static var discardSilently: CardEffect {
+    static var brown: CardEffect {
         .init(
             action: .discardSilently,
             selectors: [
@@ -37,8 +37,8 @@ extension CardEffect {
         .init(
             action: .heal,
             selectors: [
-                .amount(.value(1)),
-                .player(.all)
+                .target(.all),
+                .amount(.value(1))
             ],
             when: .played
         )
@@ -68,7 +68,7 @@ extension CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .player(.any([.havingCard])),
+                .target(.any([.havingCard])),
                 .card(.any())
             ],
             when: .played
@@ -79,7 +79,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.any([.atDistance(.value(1)), .havingCard])),
+                .target(.any([.atDistance(.value(1)), .havingCard])),
                 .card(.any())
             ],
             when: .played
@@ -92,7 +92,7 @@ extension CardEffect {
             selectors: [
                 .if(.playedLessThan(.attr(.bangLimitPerTurn))),
                 .additionalRequiredMisses(.attr(.bangAdditionalRequiredMisses)),
-                .player(.any([.atDistance(.attr(.weapon))]))
+                .target(.any([.atDistance(.attr(.weapon))]))
             ],
             when: .played
         )
@@ -109,7 +109,7 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .player(.others)
+                .target(.others)
             ],
             when: .played
         )
@@ -120,8 +120,8 @@ extension CardEffect {
             action: .damage,
             selectors: [
                 .amount(.value(1)),
-                .player(.others),
-                .counterWith(.any([.fromHand, .named("bang")]))
+                .target(.others),
+                .counterCost(.any([.fromHand, .named("bang")]))
             ],
             when: .played
         )
@@ -132,8 +132,8 @@ extension CardEffect {
             action: .damage,
             selectors: [
                 .amount(.value(1)),
-                .player(.any()),
-                .reverseWith(.any([.fromHand, .named("bang")]))
+                .target(.any()),
+                .reverseCost(.any([.fromHand, .named("bang")]))
             ],
             when: .played
         )
@@ -153,7 +153,7 @@ extension CardEffect {
         .init(
             action: .chooseCard,
             selectors: [
-                .player(.all),
+                .target(.all),
                 .card(.anyChoosable)
             ],
             when: .played
@@ -201,7 +201,7 @@ extension CardEffect {
             action: .pass,
             selectors: [
                 .if(.not(.draw("[2-9]♠️"))),
-                .player(.next),
+                .target(.next),
                 .card(.played)
             ],
             when: .turnStarted
@@ -333,7 +333,7 @@ extension CardEffect {
         .init(
             action: .handicap,
             selectors: [
-                .player(.any()),
+                .target(.any()),
                 .card(.played)
             ],
             when: .played
@@ -384,7 +384,7 @@ extension CardEffect {
         .init(
             action: .startTurn,
             selectors: [
-                .player(.next)
+                .target(.next)
             ],
             when: .turnEnded
         )
@@ -464,7 +464,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .repeat(.damage)
+                .repeat(.lastDamage)
             ],
             when: .damaged
         )
@@ -474,7 +474,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.offender),
+                .target(.offender),
                 .repeat(.lastDamage)
             ],
             when: .damaged
@@ -503,7 +503,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.eliminated),
+                .target(.eliminated),
                 .card(.all)
             ],
             when: .otherEliminated
@@ -568,7 +568,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.any([.havingHandCard])),
+                .target(.any([.havingHandCard])),
                 .card(.any([.fromHand]))
             ],
             when: .turnStarted
@@ -603,6 +603,17 @@ extension CardEffect {
             selectors: [
                 .attribute(.maxHealth),
                 .amount(.value(4))
+            ],
+            when: .played
+        )
+    }
+
+    static var setAttribute_maxHealth_3: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.maxHealth),
+                .amount(.value(3))
             ],
             when: .played
         )
@@ -647,7 +658,7 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .player(.any([.atDistance(.value(1))]))
+                .target(.any([.atDistance(.value(1))]))
             ],
             when: .played
         )
@@ -665,7 +676,7 @@ extension CardEffect {
             action: .shoot,
             selectors: [
                 .cost(.any([.fromHand])),
-                .player(.any())
+                .target(.any())
             ],
             when: .played
         )
@@ -687,7 +698,7 @@ extension CardEffect {
             action: .heal,
             selectors: [
                 .cost(.any([.fromHand])),
-                .player(.any()),
+                .target(.any()),
                 .amount(.value(1))
             ],
             when: .played
@@ -699,7 +710,7 @@ extension CardEffect {
             action: .steal,
             selectors: [
                 .cost(.any([.fromHand])),
-                .player(.any([.havingCard])),
+                .target(.any([.havingCard])),
                 .card(.any())
             ],
             when: .played
@@ -711,7 +722,7 @@ extension CardEffect {
             action: .discard,
             selectors: [
                 .cost(.any([.fromHand])),
-                .player(.all),
+                .target(.all),
                 .card(.any())
             ],
             when: .played
@@ -840,7 +851,7 @@ extension CardEffect {
             selectors: [
                 .if(.playedLessThan(.value(1))),
                 .cost(.any([.fromHand]), count: 2),
-                .player(.any([.atDistance(.attr(.weapon))]))
+                .target(.any([.atDistance(.attr(.weapon))]))
             ],
             when: .played
         )
@@ -850,7 +861,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .player(.any([.havingInPlayCard])),
+                .target(.any([.havingInPlayCard])),
                 .card(.any([.inPlay]))
             ],
             when: .turnStarted

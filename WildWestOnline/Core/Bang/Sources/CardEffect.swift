@@ -16,7 +16,7 @@ public struct CardEffect: Equatable, Codable {
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
         /// determine targetted player
-        case player(Player)
+        case target(Player)
         /// determine targetted card
         case card(Card)
         /// choose a card or ignore effect
@@ -36,10 +36,10 @@ public struct CardEffect: Equatable, Codable {
         case `if`(StateCondition)
         /// must discard card(s)
         case cost(Card, count: Int = 1)
-        /// can counter effect by discarding a card
-        case counterWith(Card)
-        /// can reverse effect by discarding a card
-        case reverseWith(Card)
+        /// can discard a card to counter the effect
+        case counterCost(Card)
+        /// can discard a card to reverse effect
+        case reverseCost(Card)
 
         public enum Player: Equatable, Codable {
             case actor

@@ -9,105 +9,9 @@ typealias Card = [CardEffect]
 
 public enum Cards {
     static let all: [String: Card] = [
-        // MARK: - Bang
+        // MARK: - Default
 
-        "beer": [
-            .discardSilently,
-            .heal_ifPlayersAtLeast3
-        ],
-        "saloon": [
-            .discardSilently,
-            .heal_all
-        ],
-        "stagecoach": [
-            .discardSilently,
-            .drawDeck_2
-        ],
-        "wellsFargo": [
-            .discardSilently,
-            .drawDeck_3
-        ],
-        "catBalou": [
-            .discardSilently,
-            .discard_any
-        ],
-        "panic": [
-            .discardSilently,
-            .steal_any_atDistanceOf1
-        ],
-        "bang": [
-            .discardSilently,
-            .shoot_any_reachable
-        ],
-        "missed": [
-            .discardSilently,
-            .missed
-        ],
-        "gatling": [
-            .discardSilently,
-            .shoot_others
-        ],
-        "indians": [
-            .discardSilently,
-            .damage_others_counterWithBang
-        ],
-        "duel": [
-            .discardSilently,
-            .damage_any_reverseWithBang
-        ],
-        "generalStore": [
-            .discardSilently,
-            .reveal_activePlayers,
-            .chooseCard_all
-        ],
-        "barrel": [
-            .equip,
-            .draw_onShot,
-            .missed_onShot_ifDrawHearts
-        ],
-        "dynamite": [
-            .equip,
-            .draw_onTurnStarted,
-            .pass_next_onTurnStarted_ifNotDrawSpades,
-            .damage_3_onTurnStarted_ifDrawSpades,
-            .discard_onTurnStarted_ifDrawSpades
-        ],
-        "schofield": [
-            .equip,
-            .setAttribute_weapon_2
-        ],
-        "remington": [
-            .equip,
-            .setAttribute_weapon_3
-        ],
-        "revCarabine": [
-            .equip,
-            .setAttribute_weapon_4
-        ],
-        "winchester": [
-            .equip,
-            .setAttribute_weapon_5
-        ],
-        "volcanic": [
-            .equip,
-            .setAttribute_weapon_1,
-            .setAttribute_bangLimitPerTurn_0
-        ],
-        "scope": [
-            .equip,
-            .incrementAttribute_magnifying
-        ],
-        "mustang": [
-            .equip,
-            .incrementAttribute_remoteness
-        ],
-        "jail": [
-            .handicap,
-            .draw_onTurnStarted,
-            .endTurn_onTurnStarted_ifNotDrawHearts,
-            .discard_onTurnStarted
-        ],
-        "finishTurn": [
+        "done": [
             .endTurn,
             .discard_excessHand
         ],
@@ -125,44 +29,187 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "willyTheKid": [
-            .setAttribute_bangLimitPerTurn_0
+
+        // MARK: - Bang
+
+        "beer": [
+            // "regain one life point. Beer has no effect if there are only 2 players left in the game."
+            .brown,
+            .heal_ifPlayersAtLeast3
         ],
-        "roseDoolan": [
-            .incrementAttribute_magnifying
+        "saloon": [
+            // "all players in play regain one life point."
+            .brown,
+            .heal_all
         ],
-        "paulRegret": [
-            .incrementAttribute_remoteness
+        "stagecoach": [
+            // "Draw two cards from the top of the deck."
+            .brown,
+            .drawDeck_2
         ],
-        "jourdonnais": [
+        "wellsFargo": [
+            // "Draw three cards from the top of the deck."
+            .brown,
+            .drawDeck_3
+        ],
+        "catBalou": [
+            // "Force “any one player” to “discard a card”, regardless of the distance."
+            .brown,
+            .discard_any
+        ],
+        "panic": [
+            // "Draw a card from a player at distance 1"
+            .brown,
+            .steal_any_atDistanceOf1
+        ],
+        "bang": [
+            // "reduce other players’s life points"
+            .brown,
+            .shoot_any_reachable
+        ],
+        "missed": [
+            // "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot."
+            .brown,
+            .missed
+        ],
+        "gatling": [
+            // "shoots to all the other players, regardless of the distance"
+            .brown,
+            .shoot_others
+        ],
+        "indians": [
+            // "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point."
+            .brown,
+            .damage_others_counterWithBang
+        ],
+        "duel": [
+            // "can challenge any other player. The first player failing to discard a BANG! card loses one life point."
+            .brown,
+            .damage_any_reverseWithBang
+        ],
+        "generalStore": [
+            // "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands."
+            .brown,
+            .reveal_activePlayers,
+            .chooseCard_all
+        ],
+        "barrel": [
+            // "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens."
+            .equip,
             .draw_onShot,
             .missed_onShot_ifDrawHearts
         ],
+        "dynamite": [
+            // "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
+            .equip,
+            .draw_onTurnStarted,
+            .pass_next_onTurnStarted_ifNotDrawSpades,
+            .damage_3_onTurnStarted_ifDrawSpades,
+            .discard_onTurnStarted_ifDrawSpades
+        ],
+        "schofield": [
+            // "can hit targets at a distance of 2."
+            .equip,
+            .setAttribute_weapon_2
+        ],
+        "remington": [
+            // "can hit targets at a distance of 3."
+            .equip,
+            .setAttribute_weapon_3
+        ],
+        "revCarabine": [
+            // "can hit targets at a distance of 4."
+            .equip,
+            .setAttribute_weapon_4
+        ],
+        "winchester": [
+            // "can hit targets at a distance of 5."
+            .equip,
+            .setAttribute_weapon_5
+        ],
+        "volcanic": [
+            // "can play any number of BANG! cards during your turn but limited to a distance of 1"
+            .equip,
+            .setAttribute_weapon_1,
+            .setAttribute_bangLimitPerTurn_0
+        ],
+        "scope": [
+            // "you see all the other players at a distance decreased by 1"
+            .equip,
+            .incrementAttribute_magnifying
+        ],
+        "mustang": [
+            // "the distance between other players and you is increased by 1"
+            .equip,
+            .incrementAttribute_remoteness
+        ],
+        "jail": [
+            // "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn"
+            .handicap,
+            .draw_onTurnStarted,
+            .endTurn_onTurnStarted_ifNotDrawHearts,
+            .discard_onTurnStarted
+        ],
+        "willyTheKid": [
+            // "he can play any number of BANG! cards during his turn."
+            .setAttribute_bangLimitPerTurn_0,
+            .setAttribute_maxHealth_4
+        ],
+        "roseDoolan": [
+            // "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1."
+            .incrementAttribute_magnifying,
+            .setAttribute_maxHealth_4
+        ],
+        "paulRegret": [
+            // "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him."
+            .incrementAttribute_remoteness,
+            .setAttribute_maxHealth_3
+        ],
+        "jourdonnais": [
+            // "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card."
+            .draw_onShot,
+            .missed_onShot_ifDrawHearts,
+            .setAttribute_maxHealth_4
+        ],
         "bartCassidy": [
-            .drawDeck_onDamaged
+            // "each time he loses a life point, he immediately draws a card from the deck."
+            .drawDeck_onDamaged,
+            .setAttribute_maxHealth_4
         ],
         "elGringo": [
-            .steal_offender_onDamaged
+            // "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player."
+            .steal_offender_onDamaged,
+            .setAttribute_maxHealth_3
         ],
         "suzyLafayette": [
-            .drawDeck_onHandEmpty
+            // "as soon as she has no cards in her hand, she draws a card from the draw pile."
+            .drawDeck_onHandEmpty,
+            .setAttribute_maxHealth_4
         ],
         "sidKetchum": [
-            .heal_cost2HandCards
+            // "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time. But remember: you cannot have more life points than your starting amount!"
+            .heal_cost2HandCards,
+            .setAttribute_maxHealth_4
         ],
         "vultureSam": [
-            .steal_all_onOtherEliminated
+            // "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand."
+            .steal_all_onOtherEliminated,
+            .setAttribute_maxHealth_4
         ],
         "slabTheKiller": [
-            .setAttribute_maxHealth_4,
-            .setAttribute_bangAdditionalRequiredMisses_1
+            // "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!."
+            .setAttribute_bangAdditionalRequiredMisses_1,
+            .setAttribute_maxHealth_4
         ],
         "luckyDuke": [
+            // "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards."
             .setAttribute_maxHealth_4,
             .setAttribute_drawCards_2
         ],
         "calamityJanet": [
-            .setAttribute_bangWithMissedAndViceVersa
+            // "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."
+            .setAttribute_bangWithMissedAndViceVersa,
+            .setAttribute_maxHealth_4
         ],
         "kitCarlson": [
             // ⚠️ special startTurn
@@ -188,16 +235,16 @@ public enum Cards {
         // MARK: - Dodge city
 
         "punch": [
-            .discardSilently,
+            .brown,
             .shoot_atDistanceOf1
         ],
         "dodge": [
-            .discardSilently,
+            .brown,
             .missed,
             .drawDeck
         ],
         "springfield": [
-            .discardSilently,
+            .brown,
             .shoot_any_cost1HandCard
         ],
         "hideout": [
@@ -209,19 +256,19 @@ public enum Cards {
             .incrementAttribute_magnifying
         ],
         "whisky": [
-            .discardSilently,
+            .brown,
             .heal_2_cost1HandCard
         ],
         "tequila": [
-            .discardSilently,
+            .brown,
             .heal_any_cost1HandCard
         ],
         "ragTime": [
-            .discardSilently,
+            .brown,
             .steal_any_cost1HandCard
         ],
         "brawl": [
-            .discardSilently,
+            .brown,
             .discard_all_cost1HandCard
         ],
         "elenaFuente": [
