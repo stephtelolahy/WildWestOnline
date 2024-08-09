@@ -19,16 +19,12 @@ public struct CardEffect: Equatable, Codable {
         case target(Player)
         /// determine targetted card
         case card(Card)
-        /// choose a card or ignore effect
-        case cardOrIgnore(Card)
         /// determine affected attribute
         case attribute(PlayerAttribute)
         /// determine amount
         case amount(Number)
-        /// determine additional misses
+        /// determine additional misses for `shoot`
         case additionalRequiredMisses(Number)
-        /// choose to loose one life point or ignore effect
-        case looseLifePointOrIgnore
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -36,10 +32,16 @@ public struct CardEffect: Equatable, Codable {
         case `if`(StateCondition)
         /// must discard card(s)
         case cost(Card, count: Int = 1)
+
         /// can discard a card to counter the effect
         case counterCost(Card)
         /// can discard a card to reverse effect
         case reverseCost(Card)
+
+        /// choose a card or skip effect
+        case cardOrSkip(Card)
+        /// choose to loose one life point or skip effect
+        case looseLifePointOrSkip
 
         public enum Player: Equatable, Codable {
             case actor
@@ -51,17 +53,15 @@ public struct CardEffect: Equatable, Codable {
             case any([Condition]? = nil)
 
             public enum Condition: Equatable, Codable {
-                case havingCard
-                case havingHandCard
-                case havingInPlayCard
                 case atDistance(Number)
+                case havingCard(Card.Condition? = nil)
             }
         }
 
         public enum Card: Equatable, Codable {
             case played
             case all
-            case previousWeapon
+            case inPlay(Condition)
             case anyChoosable
             case any([Condition]? = nil)
 
@@ -78,8 +78,8 @@ public struct CardEffect: Equatable, Codable {
         public enum Number: Equatable, Codable {
             case activePlayers
             case excessHand
-            case damage
-            case lastDamage // damage amount from last event
+            case damage // damage compared to maxHealth
+            case lastDamage // amount from last damage event
             case attr(PlayerAttribute)
             case add(Int, attr: PlayerAttribute)
             case value(Int)

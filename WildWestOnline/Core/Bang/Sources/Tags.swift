@@ -1,5 +1,5 @@
-//
-//  CardEffects.swift
+// swiftlint:disable:this file_name
+//  Tags.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 02/08/2024.
@@ -68,7 +68,7 @@ extension CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .target(.any([.havingCard])),
+                .target(.any([.havingCard()])),
                 .card(.any())
             ],
             when: .played
@@ -79,7 +79,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .target(.any([.atDistance(.value(1)), .havingCard])),
+                .target(.any([.atDistance(.value(1)), .havingCard()])),
                 .card(.any())
             ],
             when: .played
@@ -230,6 +230,17 @@ extension CardEffect {
         )
     }
 
+    static var setAttribute_weapon_1: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.weapon),
+                .amount(.value(1))
+            ],
+            when: .played
+        )
+    }
+
     static var setAttribute_weapon_2: CardEffect {
         .init(
             action: .setAttribute,
@@ -269,17 +280,6 @@ extension CardEffect {
             selectors: [
                 .attribute(.weapon),
                 .amount(.value(5))
-            ],
-            when: .played
-        )
-    }
-
-    static var setAttribute_weapon_1: CardEffect {
-        .init(
-            action: .setAttribute,
-            selectors: [
-                .attribute(.weapon),
-                .amount(.value(1))
             ],
             when: .played
         )
@@ -431,7 +431,7 @@ extension CardEffect {
         .init(
             action: .discard,
             selectors: [
-                .card(.previousWeapon)
+                .card(.inPlay(.attr(.weapon)))
             ],
             when: .cardPlayed(.attr(.weapon))
         )
@@ -441,7 +441,7 @@ extension CardEffect {
         .init(
             action: .play,
             selectors: [
-                .cardOrIgnore(.any([.fromHand, .action(.missed)]))
+                .cardOrSkip(.any([.fromHand, .action(.missed)]))
             ],
             when: .shot
         )
@@ -452,7 +452,7 @@ extension CardEffect {
             action: .play,
             selectors: [
                 .if(.playersAtLeast(3)),
-                .cardOrIgnore(.any([.fromHand, .named("beer")]))
+                .cardOrSkip(.any([.fromHand, .named("beer")]))
             ],
             when: .damagedLethal
         )
@@ -568,7 +568,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .target(.any([.havingHandCard])),
+                .target(.any([.havingCard(.fromHand)])),
                 .card(.any([.fromHand]))
             ],
             when: .turnStarted
@@ -836,7 +836,7 @@ extension CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .looseLifePointOrIgnore,
+                .looseLifePointOrSkip,
                 .repeat(.value(2))
             ],
             when: .played
@@ -859,7 +859,7 @@ extension CardEffect {
         .init(
             action: .steal,
             selectors: [
-                .target(.any([.havingInPlayCard])),
+                .target(.any([.havingCard(.inPlay)])),
                 .card(.any([.inPlay]))
             ],
             when: .turnStarted

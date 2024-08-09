@@ -8,8 +8,8 @@
 import AppCore
 import GameCore
 import Redux
-import SettingsUI
 import SettingsCore
+import SettingsUI
 import XCTest
 
 final class SetttingsViewStateTests: XCTestCase {
