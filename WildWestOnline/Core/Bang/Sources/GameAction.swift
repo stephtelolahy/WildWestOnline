@@ -17,7 +17,7 @@ public enum GameAction: String, Codable {
     /// {target or actor} decrease health by {amount}
     case damage
 
-    /// {target or actor} draw the top deck card
+    /// {actor} draw the top deck card
     case drawDeck
 
     /// {target or actor} discard a {card}
@@ -37,7 +37,7 @@ public enum GameAction: String, Codable {
     /// By default required misses is 1
     case shoot
 
-    /// {target or actor} counter a shot applied on himself
+    /// {actor} counter a shot applied on himself
     case missed
 
     /// {target} choose a {card} from choosable cards
@@ -52,7 +52,7 @@ public enum GameAction: String, Codable {
     /// expose {amount} choosable cards from top deck
     case reveal
 
-    /// draw card(s) from deck by expecting some suits
+    /// draw card(s) from deck. Next effects depend it
     case draw
 
     /// {actor} ends his turn
@@ -61,11 +61,11 @@ public enum GameAction: String, Codable {
     /// {target} starts his turn
     case startTurn
 
-    /// {target} gets eliminated
+    /// {actor} gets eliminated
     case eliminate
 
-    /// {actor} reveals his last drawn card
-    case revealLastDraw
+    /// {actor} shows his last drawn card
+    case showLastDraw
 
     /// {actor} draws the last discarded card
     case drawDiscard

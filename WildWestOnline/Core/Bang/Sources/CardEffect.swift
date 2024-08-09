@@ -71,6 +71,7 @@ public struct CardEffect: Equatable, Codable {
                 case named(String)
                 case isBlue
                 case action(GameAction)
+                case attr(PlayerAttribute)
             }
         }
 
@@ -93,7 +94,7 @@ public struct CardEffect: Equatable, Codable {
         }
     }
 
-    public indirect enum PlayerEvent: String, Codable {
+    public indirect enum PlayerEvent: Equatable, Codable {
         case played
         case shot
         case turnStarted
@@ -104,10 +105,7 @@ public struct CardEffect: Equatable, Codable {
         case handEmpty
         case otherEliminated
         case playedCardOutOfTurn
-
-        // ⚠️ related to specific card
-        case weaponPlayed
-        case beerPlayed
+        case cardPlayed(Selector.Card.Condition)
     }
 
     public init(

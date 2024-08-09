@@ -433,7 +433,7 @@ extension CardEffect {
             selectors: [
                 .card(.previousWeapon)
             ],
-            when: .weaponPlayed
+            when: .cardPlayed(.attr(.weapon))
         )
     }
 
@@ -530,9 +530,9 @@ extension CardEffect {
         )
     }
 
-    static var revealLastDraw_onTurnStarted: CardEffect {
+    static var showLastDraw_onTurnStarted: CardEffect {
         .init(
-            action: .revealLastDraw,
+            action: .showLastDraw,
             when: .turnStarted
         )
     }
@@ -751,13 +751,10 @@ extension CardEffect {
         )
     }
 
-    static var heal_2_onBeerPlayed: CardEffect {
+    static var heal_onBeerPlayed: CardEffect {
         .init(
             action: .heal,
-            selectors: [
-                .amount(.value(2))
-            ],
-            when: .beerPlayed
+            when: .cardPlayed(.named("beer"))
         )
     }
 

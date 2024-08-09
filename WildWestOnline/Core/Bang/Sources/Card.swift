@@ -221,7 +221,7 @@ public enum Cards {
         "blackJack": [
             // "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it)."
             // ⚠️ override startTurn
-            .revealLastDraw_onTurnStarted,
+            .showLastDraw_onTurnStarted,
             .drawDeck_onTurnStarted_IfDrawsRed,
             .setAttribute_maxHealth_4
         ],
@@ -300,8 +300,7 @@ public enum Cards {
         ],
         "tequilaJoe": [
             // "Each time he plays a Beer, he regains 2 life points instead of 1."
-            // ⚠️ override beer
-            .heal_2_onBeerPlayed,
+            .heal_onBeerPlayed,
             .setAttribute_maxHealth_4
         ],
         "pixiePete": [
