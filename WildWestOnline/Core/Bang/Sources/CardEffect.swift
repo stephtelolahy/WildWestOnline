@@ -21,12 +21,8 @@ public struct CardEffect: Equatable, Codable {
         case card(Card)
         /// determine affected attribute
         case attribute(PlayerAttribute, value: Int)
-        /// determine amount
-        case amount(Number)
-        /// determine required misses for `shoot`
-        case requiredMisses(Number)
-        /// determine shoot damage
-        case damage(Int)
+        /// determine other argument
+        case arg(ActionArg, value: Number)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -40,9 +36,9 @@ public struct CardEffect: Equatable, Codable {
         /// can discard a card to reverse effect
         case reverseCost(Card)
 
-        /// choose a card or skip effect
+        /// can choose a card or skip effect
         case cardOrSkip(Card)
-        /// choose to loose one life point or skip effect
+        /// can choose to loose one life point or skip effect
         case looseLifePointOrSkip
 
         public enum Player: Equatable, Codable {
@@ -77,6 +73,13 @@ public struct CardEffect: Equatable, Codable {
                 case action(GameAction)
                 case attr(PlayerAttribute)
             }
+        }
+
+        public enum ActionArg: String, Codable {
+            case healAmount
+            case damageAmount
+            case shootRequiredMisses
+            case revealCount
         }
 
         public enum Number: Equatable, Codable {
