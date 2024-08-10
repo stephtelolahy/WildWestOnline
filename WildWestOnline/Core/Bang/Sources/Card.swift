@@ -384,6 +384,14 @@ public enum Cards {
         "tomahawk": [
             // Bang at distance 2.
             .shoot_atDistanceOf2
+        ],
+        "aim": [
+            // Play with Bang card. If defending player doesn't miss, he loses 2 life points instead 2
+            // ⚠️ play with companion card
+        ],
+        "faning": [
+            // Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).
+            .shoot_reachableAndNeighbour
         ]
     ]
 }

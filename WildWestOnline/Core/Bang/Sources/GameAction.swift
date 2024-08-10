@@ -32,8 +32,9 @@ public enum GameAction: String, Codable {
     /// {actor} put a {card} on {target}'s inPlay
     case handicap
 
-    /// {actor} shoot at {target} with {requiredMisses}
+    /// {actor} shoot at {target} with {damage} and {requiredMisses}
     /// By default damage is 1
+    /// By default requiredMisses is 1
     case shoot
 
     /// {actor} counter a shot applied on himself

@@ -929,4 +929,16 @@ extension CardEffect {
             when: .played
         )
     }
+
+    static var shoot_reachableAndNeighbour: CardEffect {
+        .init(
+            action: .shoot,
+            selectors: [
+                .if(.playedLessThan(.attr(.bangLimitPerTurn))),
+                .target(.anyAndNeighbour([.atDistance(.attr(.weapon))])),
+                .requiredMisses(.attr(.bangRequiredMisses))
+            ],
+            when: .played
+        )
+    }
 }

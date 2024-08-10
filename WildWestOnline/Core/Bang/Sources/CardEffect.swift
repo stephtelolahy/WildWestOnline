@@ -25,6 +25,8 @@ public struct CardEffect: Equatable, Codable {
         case amount(Number)
         /// determine required misses for `shoot`
         case requiredMisses(Number)
+        /// determine shoot damage
+        case damage(Int)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -51,6 +53,7 @@ public struct CardEffect: Equatable, Codable {
             case offender
             case eliminated
             case any([Condition]? = nil)
+            case anyAndNeighbour([Condition]? = nil)
 
             public enum Condition: Equatable, Codable {
                 case atDistance(Number)
