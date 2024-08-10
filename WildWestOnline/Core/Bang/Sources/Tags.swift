@@ -486,8 +486,7 @@ extension CardEffect {
         .init(
             action: .heal,
             selectors: [
-                .cost(.any([.fromHand])),
-                .cost(.any([.fromHand])),
+                .cost(.any([.fromHand]), count: 2),
                 .amount(.value(1))
             ],
             when: .played
@@ -844,8 +843,7 @@ extension CardEffect {
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.value(1))),
-                .cost(.any([.fromHand])),
-                .cost(.any([.fromHand])),
+                .cost(.any([.fromHand]), count: 2),
                 .target(.any([.atDistance(.attr(.weapon))])),
                 .requiredMisses(.value(1))
             ],
@@ -937,6 +935,38 @@ extension CardEffect {
                 .if(.playedLessThan(.attr(.bangLimitPerTurn))),
                 .target(.anyAndNeighbour([.atDistance(.attr(.weapon))])),
                 .requiredMisses(.attr(.bangRequiredMisses))
+            ],
+            when: .played
+        )
+    }
+
+    static var play_onOtherDamaged: CardEffect {
+        .init(
+            action: .play,
+            selectors: [
+                .cardOrSkip(.any([.named("saved")]))
+            ],
+            when: .otherDamaged
+        )
+    }
+
+    static var heal_lastDamaged: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .target(.lastDamaged)
+            ],
+            when: .played
+        )
+    }
+
+    static var damage_others_counterWith2HandCards: CardEffect {
+        .init(
+            action: .damage,
+            selectors: [
+                .target(.others),
+                .counterCost(.any([.fromHand]), count: 2),
+                .amount(.value(1))
             ],
             when: .played
         )

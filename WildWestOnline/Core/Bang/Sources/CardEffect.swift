@@ -33,10 +33,10 @@ public struct CardEffect: Equatable, Codable {
         /// must match given condition
         case `if`(StateCondition)
         /// must discard cards
-        case cost(Card)
+        case cost(Card, count: Int = 1)
 
         /// can discard a card to counter the effect
-        case counterCost(Card)
+        case counterCost(Card, count: Int = 1)
         /// can discard a card to reverse effect
         case reverseCost(Card)
 
@@ -52,6 +52,7 @@ public struct CardEffect: Equatable, Codable {
             case next
             case offender
             case eliminated
+            case lastDamaged // target of last damage event
             case any([Condition]? = nil)
             case anyAndNeighbour([Condition]? = nil)
 
@@ -108,6 +109,7 @@ public struct CardEffect: Equatable, Codable {
         case eliminated
         case handEmpty
         case otherEliminated
+        case otherDamaged
         case playedCardOutOfTurn
         case cardPlayed(Selector.Card.Condition)
     }

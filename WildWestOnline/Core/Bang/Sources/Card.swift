@@ -1,6 +1,8 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
+// swiftlint:disable file_length
+
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects using `Tag system`
@@ -361,7 +363,7 @@ public enum Cards {
         ],
         "veraCuster": [
             // For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn
-            // ⚠️ TODO
+            // ⚠️ setup round abilities
         ],
 
         // MARK: - The Valley of Shadows
@@ -378,20 +380,35 @@ public enum Cards {
         ],
         "backfire": [
             // Count as MISSED!. Player who shot you, is now target of BANG!.
+            .brown,
             .missed,
             .shoot_reachable
         ],
         "tomahawk": [
             // Bang at distance 2.
+            .brown,
             .shoot_atDistanceOf2
         ],
         "aim": [
             // Play with Bang card. If defending player doesn't miss, he loses 2 life points instead 2
             // ⚠️ play with companion card
+            .brown
         ],
         "faning": [
             // Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).
+            .brown,
             .shoot_reachableAndNeighbour
+        ],
+        "saved": [
+            // Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).
+            .brown,
+            .play_onOtherDamaged,
+            .heal_lastDamaged
+        ],
+        "bandidos": [
+            // Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.
+            .brown,
+            .damage_others_counterWith2HandCards
         ]
     ]
 }
