@@ -21,7 +21,7 @@ public enum Cards {
             .setAttribute_bangRequiredMisses_1,
             .setAttribute_bangLimitPerTurn_1,
             .setAttribute_drawCards_1,
-            .drawDeck_startTurnCards_onTurnStarted,
+            .drawDeck_remainingStartTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
@@ -229,16 +229,13 @@ public enum Cards {
         ],
         "jesseJones": [
             // "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck."
-            // ⚠️ override startTurn
             .drawDiscard_onTurnStarted,
-            .drawDeck_startTurnCardsMinus1_onTurnStarted,
             .setAttribute_maxHealth_4
         ],
         "pedroRamirez": [
             // "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck."
             // ⚠️ override startTurn
             .steal_any_fromHand_onTurnStarted,
-            .drawDeck_startTurnCardsMinus1_onTurnStarted,
             .setAttribute_maxHealth_4
         ],
 
@@ -348,7 +345,7 @@ public enum Cards {
         ],
         "patBrennan": [
             // "Instead of drawing normally, he may draw only one card in play in front of any one player."
-            // ⚠️ special startTurn
+            // ⚠️ override startTurn
             .steal_any_inPlay_onTurnStarted,
             .setAttribute_maxHealth_4
         ],

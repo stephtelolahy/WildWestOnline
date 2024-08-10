@@ -109,7 +109,8 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .target(.others)
+                .target(.others),
+                .requiredMisses(.value(1))
             ],
             when: .played
         )
@@ -234,8 +235,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.weapon),
-                .amount(.value(1))
+                .attribute(.weapon, value: 1)
             ],
             when: .played
         )
@@ -245,8 +245,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.weapon),
-                .amount(.value(2))
+                .attribute(.weapon, value: 2)
             ],
             when: .played
         )
@@ -256,8 +255,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.weapon),
-                .amount(.value(3))
+                .attribute(.weapon, value: 3)
             ],
             when: .played
         )
@@ -267,8 +265,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.weapon),
-                .amount(.value(4))
+                .attribute(.weapon, value: 4)
             ],
             when: .played
         )
@@ -278,8 +275,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.weapon),
-                .amount(.value(5))
+                .attribute(.weapon, value: 5)
             ],
             when: .played
         )
@@ -289,8 +285,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangLimitPerTurn),
-                .amount(.value(0))
+                .attribute(.bangLimitPerTurn, value: 0)
             ],
             when: .played
         )
@@ -300,8 +295,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangLimitPerTurn),
-                .amount(.value(1))
+                .attribute(.bangLimitPerTurn, value: 1)
             ],
             when: .played
         )
@@ -311,7 +305,7 @@ extension CardEffect {
         .init(
             action: .incrementAttribute,
             selectors: [
-                .attribute(.magnifying)
+                .attribute(.magnifying, value: 1)
             ],
             when: .played
         )
@@ -321,7 +315,7 @@ extension CardEffect {
         .init(
             action: .incrementAttribute,
             selectors: [
-                .attribute(.remoteness)
+                .attribute(.remoteness, value: 1)
             ],
             when: .played
         )
@@ -390,11 +384,11 @@ extension CardEffect {
         )
     }
 
-    static var drawDeck_startTurnCards_onTurnStarted: CardEffect {
+    static var drawDeck_remainingStartTurnCards_onTurnStarted: CardEffect {
         .init(
             action: .drawDeck,
             selectors: [
-                .amount(.attr(.startTurnCards))
+                .amount(.remainingStartTurnCards)
             ],
             when: .turnStarted
         )
@@ -554,16 +548,6 @@ extension CardEffect {
         )
     }
 
-    static var drawDeck_startTurnCardsMinus1_onTurnStarted: CardEffect {
-        .init(
-            action: .drawDeck,
-            selectors: [
-                .repeat(.add(-1, attr: .startTurnCards))
-            ],
-            when: .turnStarted
-        )
-    }
-
     static var steal_any_fromHand_onTurnStarted: CardEffect {
         .init(
             action: .steal,
@@ -579,8 +563,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurnCards),
-                .amount(.value(2))
+                .attribute(.startTurnCards, value: 2)
             ],
             when: .played
         )
@@ -590,8 +573,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangRequiredMisses),
-                .amount(.value(1))
+                .attribute(.bangRequiredMisses, value: 1)
             ],
             when: .played
         )
@@ -601,8 +583,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangRequiredMisses),
-                .amount(.value(2))
+                .attribute(.bangRequiredMisses, value: 2)
             ],
             when: .played
         )
@@ -612,8 +593,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.maxHealth),
-                .amount(.value(4))
+                .attribute(.maxHealth, value: 4)
             ],
             when: .played
         )
@@ -623,8 +603,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.maxHealth),
-                .amount(.value(3))
+                .attribute(.maxHealth, value: 3)
             ],
             when: .played
         )
@@ -634,8 +613,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.drawCards),
-                .amount(.value(2))
+                .attribute(.drawCards, value: 2)
             ],
             when: .played
         )
@@ -645,8 +623,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.drawCards),
-                .amount(.value(1))
+                .attribute(.drawCards, value: 1)
             ],
             when: .played
         )
@@ -656,8 +633,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangWithMissed),
-                .amount(.value(0))
+                .attribute(.bangWithMissed, value: 0)
             ],
             when: .played
         )
@@ -667,8 +643,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.missedWithBang),
-                .amount(.value(0))
+                .attribute(.missedWithBang, value: 0)
             ],
             when: .played
         )
@@ -680,7 +655,8 @@ extension CardEffect {
         .init(
             action: .shoot,
             selectors: [
-                .target(.any([.atDistance(.value(1))]))
+                .target(.any([.atDistance(.value(1))])),
+                .requiredMisses(.value(1))
             ],
             when: .played
         )
@@ -698,7 +674,8 @@ extension CardEffect {
             action: .shoot,
             selectors: [
                 .cost(.any([.fromHand])),
-                .target(.any())
+                .target(.any()),
+                .requiredMisses(.value(1))
             ],
             when: .played
         )
@@ -755,8 +732,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.missedWithAny),
-                .amount(.value(0))
+                .attribute(.missedWithAny, value: 0)
             ],
             when: .played
         )
@@ -766,8 +742,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.handLimit),
-                .amount(.value(10))
+                .attribute(.handLimit, value: 10)
             ],
             when: .played
         )
@@ -784,8 +759,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurnCards),
-                .amount(.value(3))
+                .attribute(.startTurnCards, value: 3)
             ],
             when: .played
         )
@@ -795,8 +769,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.startTurnCards),
-                .amount(.value(1))
+                .attribute(.startTurnCards, value: 1)
             ],
             when: .played
         )
@@ -871,7 +844,8 @@ extension CardEffect {
             selectors: [
                 .if(.playedLessThan(.value(1))),
                 .cost(.any([.fromHand]), count: 2),
-                .target(.any([.atDistance(.attr(.weapon))]))
+                .target(.any([.atDistance(.attr(.weapon))])),
+                .requiredMisses(.value(1))
             ],
             when: .played
         )
@@ -892,8 +866,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.silentCardsDiamonds),
-                .amount(.value(0))
+                .attribute(.silentCardsDiamonds, value: 0)
             ],
             when: .played
         )
@@ -903,8 +876,7 @@ extension CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.silentCardsInPlayDuringTurn),
-                .amount(.value(0))
+                .attribute(.silentCardsInPlayDuringTurn, value: 0)
             ],
             when: .played
         )

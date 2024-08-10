@@ -34,7 +34,6 @@ public enum GameAction: String, Codable {
 
     /// {actor} shoot at {target} with {requiredMisses}
     /// By default damage is 1
-    /// By default required misses is 1
     case shoot
 
     /// {actor} counter a shot applied on himself
@@ -72,9 +71,9 @@ public enum GameAction: String, Codable {
 
     // MARK: ``Reversible``applied when card is played and reversed when card is discarded
 
-    /// {actor} set his {attribute} to {amount}
+    /// {actor} set his {attribute} to {value}
     case setAttribute
 
-    /// {actor} increase his {attribute} by +1
+    /// {actor} increase his {attribute} by {value}
     case incrementAttribute
 }

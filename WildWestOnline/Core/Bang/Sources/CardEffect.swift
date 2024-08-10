@@ -20,7 +20,7 @@ public struct CardEffect: Equatable, Codable {
         /// determine targetted card
         case card(Card)
         /// determine affected attribute
-        case attribute(PlayerAttribute)
+        case attribute(PlayerAttribute, value: Int)
         /// determine amount
         case amount(Number)
         /// determine required misses for `shoot`
@@ -80,6 +80,7 @@ public struct CardEffect: Equatable, Codable {
             case excessHand
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
+            case remainingStartTurnCards
             case attr(PlayerAttribute)
             case add(Int, attr: PlayerAttribute)
             case value(Int)
