@@ -971,4 +971,47 @@ extension CardEffect {
             when: .played
         )
     }
+
+    static var discard_others: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .target(.others),
+                .card(.any())
+            ],
+            when: .played
+        )
+    }
+
+    static var drawDiscard_2_ifDiscardedCardsNotAce: CardEffect {
+        .init(
+            action: .drawDiscard,
+            selectors: [
+                .if(.discardedCardsNotAce),
+                .repeat(.value(2))
+            ],
+            when: .played
+        )
+    }
+
+    static var setAttribute_bangWithAny: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.bangWithAny, value: 0)
+            ],
+            when: .played
+        )
+    }
+
+    static var discard_anyHand_onOtherBanged: CardEffect {
+        .init(
+            action: .discard,
+            selectors: [
+                .target(.lastDamaged),
+                .card(.any([.fromHand]))
+            ],
+            when: .otherBanged
+        )
+    }
 }

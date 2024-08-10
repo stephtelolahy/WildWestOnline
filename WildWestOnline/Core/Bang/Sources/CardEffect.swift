@@ -95,6 +95,7 @@ public struct CardEffect: Equatable, Codable {
             case playedLessThan(Number)
             case draw(String)
             case actorTurn
+            case discardedCardsNotAce
             case not(Self)
         }
     }
@@ -110,6 +111,7 @@ public struct CardEffect: Equatable, Codable {
         case handEmpty
         case otherEliminated
         case otherDamaged
+        case otherBanged // other is damaged by your "bang" card
         case playedCardOutOfTurn
         case cardPlayed(Selector.Card.Condition)
     }
@@ -138,6 +140,7 @@ public enum PlayerAttribute: String, Codable {
     case bangRequiredMisses
     case bangLimitPerTurn
     case bangWithMissed
+    case bangWithAny
     case missedWithBang
     case missedWithAny
     case silentCardsDiamonds

@@ -409,6 +409,23 @@ public enum Cards {
             // Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.
             .brown,
             .damage_others_counterWith2HandCards
+        ],
+        "Poker": [
+            // All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.
+            .brown,
+            .discard_others,
+            .drawDiscard_2_ifDiscardedCardsNotAce
+        ],
+        "Lemat": [
+            // gun, range 1: In your turn, you may use any card like BANG card.
+            .equip,
+            .setAttribute_weapon_1,
+            .setAttribute_bangWithAny
+        ],
+        "Shootgun": [
+            // gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.
+            .equip,
+            .discard_anyHand_onOtherBanged
         ]
     ]
 }
