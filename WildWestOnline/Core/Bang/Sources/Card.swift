@@ -209,7 +209,8 @@ public enum Cards {
         ],
         "calamityJanet": [
             // "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."
-            .setAttribute_bangWithMissedAndViceVersa,
+            .setAttribute_bangWithMissed,
+            .setAttribute_missedWithBang,
             .setAttribute_maxHealth_4
         ],
         "kitCarlson": [
@@ -291,7 +292,7 @@ public enum Cards {
         ],
         "elenaFuente": [
             // "She may use any card in hand as Missed!."
-            .setAttribute_missedWithAnyCard,
+            .setAttribute_missedWithAny,
             .setAttribute_maxHealth_3
         ],
         "seanMallory": [
@@ -353,7 +354,7 @@ public enum Cards {
         ],
         "apacheKid": [
             // "Cards of Diamond played by other players do not affect him"
-            .setAttribute_silentDiamondsCard,
+            .setAttribute_silentCardsDiamonds,
             .setAttribute_maxHealth_3
         ],
         "belleStar": [

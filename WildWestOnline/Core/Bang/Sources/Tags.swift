@@ -751,11 +751,11 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_missedWithAnyCard: CardEffect {
+    static var setAttribute_missedWithAny: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.missedWithAnyCard),
+                .attribute(.missedWithAny),
                 .amount(.value(0))
             ],
             when: .played
@@ -888,11 +888,11 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_silentDiamondsCard: CardEffect {
+    static var setAttribute_silentCardsDiamonds: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.silentDiamondsCard),
+                .attribute(.silentCardsDiamonds),
                 .amount(.value(0))
             ],
             when: .played
