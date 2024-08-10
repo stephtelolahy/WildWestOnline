@@ -149,3 +149,77 @@ public enum PlayerAttribute: String, Codable {
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
 }
+
+/// An action is some kind of change
+/// Triggered by user or by the system, that causes any update to the game state
+public enum GameAction: String, Codable {
+    /// {actor} plays a {card}
+    case play
+
+    /// {target or actor} increase health by {amount}
+    case heal
+
+    /// {target or actor} decrease health by {amount}
+    case damage
+
+    /// {actor} draw the top deck card
+    case drawDeck
+
+    /// {target or actor} discard a {card}
+    case discard
+
+    /// {actor} discard silently a {card}
+    case discardSilently
+
+    /// {actor} steal a {card} from {target}
+    case steal
+
+    /// {actor} put a {card} on {target}'s inPlay
+    case handicap
+
+    /// {actor} shoot at {target} with {damage} and {requiredMisses}
+    /// By default damage is 1
+    /// By default requiredMisses is 1
+    case shoot
+
+    /// {actor} counter a shot applied on himself
+    case missed
+
+    /// {target} choose a {card} from choosable cards
+    case chooseCard
+
+    /// {actor} equip with a {card}
+    case equip
+
+    /// {actor} passes his {card} to {target}'s inPlay
+    case pass
+
+    /// expose {amount} choosable cards from top deck
+    case reveal
+
+    /// draw cards from deck. Next effects depend it
+    case draw
+
+    /// {actor} ends his turn
+    case endTurn
+
+    /// {target} starts his turn
+    case startTurn
+
+    /// {actor} gets eliminated
+    case eliminate
+
+    /// {actor} shows his last drawn card
+    case showLastDraw
+
+    /// {actor} draws the last discarded card
+    case drawDiscard
+
+    // MARK: ``Reversible``applied when card is played and reversed when card is discarded
+
+    /// {actor} set his {attribute} to {value}
+    case setAttribute
+
+    /// {actor} increase his {attribute} by {value}
+    case incrementAttribute
+}
