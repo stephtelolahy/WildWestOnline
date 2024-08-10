@@ -23,14 +23,14 @@ public struct CardEffect: Equatable, Codable {
         case attribute(PlayerAttribute)
         /// determine amount
         case amount(Number)
-        /// determine additional misses for `shoot`
-        case additionalRequiredMisses(Number)
+        /// determine required misses for `shoot`
+        case requiredMisses(Number)
 
         /// multiply effect x times
         case `repeat`(Number)
         /// must match given condition
         case `if`(StateCondition)
-        /// must discard card(s)
+        /// must discard cards
         case cost(Card, count: Int = 1)
 
         /// can discard a card to counter the effect
@@ -129,10 +129,11 @@ public enum PlayerAttribute: String, Codable {
 
     // ⚠️ related to specific card
     case startTurnCards
-    case bangAdditionalRequiredMisses
+    case bangRequiredMisses
     case bangLimitPerTurn
-    case bangWithMissedAndViceVersa
-    case missedWithAnyCard
-    case silentDiamondsCard
+    case bangWithMissed
+    case missedWithBang
+    case missedWithAny
+    case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
 }

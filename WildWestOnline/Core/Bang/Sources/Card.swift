@@ -18,6 +18,7 @@ public enum Cards {
         "default": [
             .setAttribute_weapon_1,
             .setAttribute_startTurnCards_2,
+            .setAttribute_bangRequiredMisses_1,
             .setAttribute_bangLimitPerTurn_1,
             .setAttribute_drawCards_1,
             .drawDeck_startTurnCards_onTurnStarted,
@@ -198,7 +199,7 @@ public enum Cards {
         ],
         "slabTheKiller": [
             // "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!."
-            .setAttribute_bangAdditionalRequiredMisses_1,
+            .setAttribute_bangRequiredMisses_2,
             .setAttribute_maxHealth_4
         ],
         "luckyDuke": [

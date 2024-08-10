@@ -91,7 +91,7 @@ extension CardEffect {
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.attr(.bangLimitPerTurn))),
-                .additionalRequiredMisses(.attr(.bangAdditionalRequiredMisses)),
+                .requiredMisses(.attr(.bangRequiredMisses)),
                 .target(.any([.atDistance(.attr(.weapon))]))
             ],
             when: .played
@@ -586,12 +586,23 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_bangAdditionalRequiredMisses_1: CardEffect {
+    static var setAttribute_bangRequiredMisses_1: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangAdditionalRequiredMisses),
+                .attribute(.bangRequiredMisses),
                 .amount(.value(1))
+            ],
+            when: .played
+        )
+    }
+
+    static var setAttribute_bangRequiredMisses_2: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.bangRequiredMisses),
+                .amount(.value(2))
             ],
             when: .played
         )
@@ -641,11 +652,22 @@ extension CardEffect {
         )
     }
 
-    static var setAttribute_bangWithMissedAndViceVersa: CardEffect {
+    static var setAttribute_bangWithMissed: CardEffect {
         .init(
             action: .setAttribute,
             selectors: [
-                .attribute(.bangWithMissedAndViceVersa),
+                .attribute(.bangWithMissed),
+                .amount(.value(0))
+            ],
+            when: .played
+        )
+    }
+
+    static var setAttribute_missedWithBang: CardEffect {
+        .init(
+            action: .setAttribute,
+            selectors: [
+                .attribute(.missedWithBang),
                 .amount(.value(0))
             ],
             when: .played

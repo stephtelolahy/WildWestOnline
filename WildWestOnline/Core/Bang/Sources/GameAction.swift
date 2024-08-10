@@ -32,7 +32,7 @@ public enum GameAction: String, Codable {
     /// {actor} put a {card} on {target}'s inPlay
     case handicap
 
-    /// {actor} shoot at {target}
+    /// {actor} shoot at {target} with {requiredMisses}
     /// By default damage is 1
     /// By default required misses is 1
     case shoot
@@ -52,7 +52,7 @@ public enum GameAction: String, Codable {
     /// expose {amount} choosable cards from top deck
     case reveal
 
-    /// draw card(s) from deck. Next effects depend it
+    /// draw cards from deck. Next effects depend it
     case draw
 
     /// {actor} ends his turn
