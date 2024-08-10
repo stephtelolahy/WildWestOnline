@@ -61,12 +61,12 @@ public enum Cards {
         "panic": [
             // "Draw a card from a player at distance 1"
             .brown,
-            .steal_any_atDistanceOf1
+            .steal_atDistanceOf1
         ],
         "bang": [
             // "reduce other players’s life points"
             .brown,
-            .shoot_any_reachable
+            .shoot_reachable_bangLimitPerTurn
         ],
         "missed": [
             // "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot."
@@ -340,7 +340,7 @@ public enum Cards {
         ],
         "docHolyday": [
             // "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!."
-            .shoot_any_reachable_cost2HandCards,
+            .shoot_reachable_cost2HandCards,
             .setAttribute_maxHealth_4
         ],
         "patBrennan": [
@@ -358,6 +358,32 @@ public enum Cards {
             // "During her turn, cards in play in front of other players have no effect. "
             .setAttribute_silentCardsInPlayDuringTurn,
             .setAttribute_maxHealth_4
+        ],
+        "veraCuster": [
+            // For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn
+            // ⚠️ TODO
+        ],
+
+        // MARK: - The Valley of Shadows
+
+        "lastCall": [
+            // Refill 1 life point even in game last 2 players.
+            .brown,
+            .heal
+        ],
+        "tornado": [
+            // Each player discards a card from their hand (if possible), then draw 2 cards from the deck
+            .brown,
+            .drawDeck_all_2_cost1HandCard
+        ],
+        "backfire": [
+            // Count as MISSED!. Player who shot you, is now target of BANG!.
+            .missed,
+            .shoot_reachable
+        ],
+        "tomahawk": [
+            // Bang at distance 2.
+            .shoot_atDistanceOf2
         ]
     ]
 }

@@ -75,7 +75,7 @@ extension CardEffect {
         )
     }
 
-    static var steal_any_atDistanceOf1: CardEffect {
+    static var steal_atDistanceOf1: CardEffect {
         .init(
             action: .steal,
             selectors: [
@@ -86,13 +86,13 @@ extension CardEffect {
         )
     }
 
-    static var shoot_any_reachable: CardEffect {
+    static var shoot_reachable_bangLimitPerTurn: CardEffect {
         .init(
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.attr(.bangLimitPerTurn))),
-                .requiredMisses(.attr(.bangRequiredMisses)),
-                .target(.any([.atDistance(.attr(.weapon))]))
+                .target(.any([.atDistance(.attr(.weapon))])),
+                .requiredMisses(.attr(.bangRequiredMisses))
             ],
             when: .played
         )
@@ -486,7 +486,8 @@ extension CardEffect {
         .init(
             action: .heal,
             selectors: [
-                .cost(.any([.fromHand]), count: 2),
+                .cost(.any([.fromHand])),
+                .cost(.any([.fromHand])),
                 .amount(.value(1))
             ],
             when: .played
@@ -838,12 +839,13 @@ extension CardEffect {
         )
     }
 
-    static var shoot_any_reachable_cost2HandCards: CardEffect {
+    static var shoot_reachable_cost2HandCards: CardEffect {
         .init(
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.value(1))),
-                .cost(.any([.fromHand]), count: 2),
+                .cost(.any([.fromHand])),
+                .cost(.any([.fromHand])),
                 .target(.any([.atDistance(.attr(.weapon))])),
                 .requiredMisses(.value(1))
             ],
@@ -877,6 +879,52 @@ extension CardEffect {
             action: .setAttribute,
             selectors: [
                 .attribute(.silentCardsInPlayDuringTurn, value: 0)
+            ],
+            when: .played
+        )
+    }
+
+    // MARK: - The Valley of Shadows
+
+    static var heal: CardEffect {
+        .init(
+            action: .heal,
+            selectors: [
+                .amount(.value(1))
+            ],
+            when: .played
+        )
+    }
+
+    static var drawDeck_all_2_cost1HandCard: CardEffect {
+        .init(
+            action: .drawDeck,
+            selectors: [
+                .target(.all),
+                .cost(.any([.fromHand])),
+                .amount(.value(2))
+            ],
+            when: .played
+        )
+    }
+
+    static var shoot_reachable: CardEffect {
+        .init(
+            action: .shoot,
+            selectors: [
+                .target(.any([.atDistance(.attr(.weapon))])),
+                .requiredMisses(.value(1))
+            ],
+            when: .played
+        )
+    }
+
+    static var shoot_atDistanceOf2: CardEffect {
+        .init(
+            action: .shoot,
+            selectors: [
+                .target(.any([.atDistance(.value(2))])),
+                .requiredMisses(.value(1))
             ],
             when: .played
         )

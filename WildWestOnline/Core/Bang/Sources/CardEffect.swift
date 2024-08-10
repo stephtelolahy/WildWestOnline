@@ -31,7 +31,7 @@ public struct CardEffect: Equatable, Codable {
         /// must match given condition
         case `if`(StateCondition)
         /// must discard cards
-        case cost(Card, count: Int = 1)
+        case cost(Card)
 
         /// can discard a card to counter the effect
         case counterCost(Card)
