@@ -19,12 +19,13 @@ public struct Effect: Equatable, Codable {
         case target(Target)
         case chooseTarget([TargetCondition]? = nil)
 
-        /// determine targetted card
+        /// determine affected card
         case card(Card)
         case chooseCard(CardCondition? = nil)
 
         /// determine affected attribute
         case attribute(PlayerAttribute, value: Int)
+
         /// determine other argument
         case arg(ActionArg, value: Number)
 
@@ -34,17 +35,19 @@ public struct Effect: Equatable, Codable {
         /// must match given condition
         case `if`(StateCondition)
 
-        /// must discard hand cards
-        case mustDiscardHandCard(CardCondition? = nil, count: Int = 1)
+        /// must discard hand card
+        case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
 
         /// can discard hand card to counter the effect
-        case chooseCounterWithHandCard(CardCondition? = nil, count: Int = 1)
-        /// can discard hand card to reverse effect
-        case chooseReverseWithHandCard(CardCondition)
+        case chooseCounterHandCard(CardCondition? = nil, count: Int = 1)
 
-        /// can choose a card or skip effect
+        /// can discard hand card to reverse effect
+        case chooseReverseHandCard(CardCondition)
+
+        /// can choose a card or skip the effect
         case chooseCardOrSkip(CardCondition)
-        /// can choose to loose one life point or skip effect
+
+        /// can choose to loose one life point or skip the effect
         case chooseLooseLifePointOrSkip
 
         public enum Target: String, Codable {
@@ -60,32 +63,24 @@ public struct Effect: Equatable, Codable {
         public enum TargetCondition: Equatable, Codable {
             case atDistance(Number)
             case neighbourToTarget
-            case havingCard(Card.Condition? = nil)
+            case havingCard
+            case havingHandCard
+            case havingInPlayCard
         }
 
         public enum Card: Equatable, Codable {
             case played
             case all
-            case inPlay(Condition)
-
-            public enum Condition: Equatable, Codable {
-                case fromHand
-                case inPlay
-                case named(String)
-                case isBlue
-                case action(GameAction)
-                case attr(PlayerAttribute)
-            }
+            case inPlayWithAttr(PlayerAttribute)
         }
 
         public enum CardCondition: Equatable, Codable {
             case fromHand
             case inPlay
-            case named(String)
             case isBlue
+            case named(String)
             case action(GameAction)
-            case attr(PlayerAttribute)
-            case anyChoosable
+            case choosable
         }
 
         public enum ActionArg: String, Codable {
@@ -128,7 +123,8 @@ public struct Effect: Equatable, Codable {
         case otherEliminated
         case otherDamaged
         case playedCardOutOfTurn
-        case cardPlayed(Selector.Card.Condition)
+        case cardPlayedWithName(String)
+        case cardPlayedWithAttr(PlayerAttribute)
         case otherDamagedBy(String)
     }
 

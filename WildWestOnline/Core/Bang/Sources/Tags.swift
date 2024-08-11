@@ -69,7 +69,7 @@ extension Effect {
             when: .played,
             action: .discard,
             selectors: [
-                .chooseTarget([.havingCard()]),
+                .chooseTarget([.havingCard]),
                 .chooseCard()
             ]
         )
@@ -80,7 +80,7 @@ extension Effect {
             when: .played,
             action: .steal,
             selectors: [
-                .chooseTarget([.atDistance(.value(1)), .havingCard()]),
+                .chooseTarget([.atDistance(.value(1)), .havingCard]),
                 .chooseCard()
             ]
         )
@@ -121,7 +121,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .chooseCounterWithHandCard(.named("bang")),
+                .chooseCounterHandCard(.named("bang")),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -133,7 +133,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .chooseTarget(),
-                .chooseReverseWithHandCard(.named("bang")),
+                .chooseReverseHandCard(.named("bang")),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -155,7 +155,7 @@ extension Effect {
             action: .chooseCard,
             selectors: [
                 .target(.all),
-                .chooseCard(.anyChoosable)
+                .chooseCard(.choosable)
             ]
         )
     }
@@ -422,12 +422,10 @@ extension Effect {
 
     static var discard_previousWeapon_onWeaponPlayed: Effect {
         .init(
-            when: .cardPlayed(
-                .attr(.weapon)
-            ),
+            when: .cardPlayedWithAttr(.weapon),
             action: .discard,
             selectors: [
-                .card(.inPlay(.attr(.weapon)))
+                .card(.inPlayWithAttr(.weapon))
             ]
         )
     }
@@ -488,7 +486,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .mustDiscardHandCard(count: 2),
+                .chooseCostHandCard(count: 2),
                 .arg(.healAmount, value: .value(1))
             ]
         )
@@ -554,7 +552,7 @@ extension Effect {
             when: .turnStarted,
             action: .steal,
             selectors: [
-                .chooseTarget([.havingCard(.fromHand)]),
+                .chooseTarget([.havingHandCard]),
                 .chooseCard()
             ]
         )
@@ -674,7 +672,7 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .mustDiscardHandCard(),
+                .chooseCostHandCard(),
                 .chooseTarget()
             ]
         )
@@ -685,7 +683,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .mustDiscardHandCard(),
+                .chooseCostHandCard(),
                 .arg(.healAmount, value: .value(2))
             ]
         )
@@ -696,7 +694,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .mustDiscardHandCard(),
+                .chooseCostHandCard(),
                 .chooseTarget(),
                 .arg(.healAmount, value: .value(1))
             ]
@@ -708,7 +706,7 @@ extension Effect {
             when: .played,
             action: .steal,
             selectors: [
-                .mustDiscardHandCard(),
+                .chooseCostHandCard(),
                 .chooseTarget(),
                 .chooseCard()
             ]
@@ -720,7 +718,7 @@ extension Effect {
             when: .played,
             action: .discard,
             selectors: [
-                .mustDiscardHandCard(),
+                .chooseCostHandCard(),
                 .target(.all),
                 .chooseCard()
             ]
@@ -749,7 +747,7 @@ extension Effect {
 
     static var heal_onBeerPlayed: Effect {
         .init(
-            when: .cardPlayed(.named("beer")),
+            when: .cardPlayedWithName("beer"),
             action: .heal
         )
     }
@@ -820,7 +818,7 @@ extension Effect {
             action: .drawDeck,
             selectors: [
                 .if(.playedLessThan(.value(2))),
-                .mustDiscardHandCard(.isBlue),
+                .chooseCostHandCard(.isBlue),
                 .repeat(.value(2))
             ]
         )
@@ -843,7 +841,7 @@ extension Effect {
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.value(1))),
-                .mustDiscardHandCard(count: 2),
+                .chooseCostHandCard(count: 2),
                 .chooseTarget([.atDistance(.attr(.weapon))])
             ]
         )
@@ -854,7 +852,7 @@ extension Effect {
             when: .turnStarted,
             action: .steal,
             selectors: [
-                .chooseTarget([.havingCard(.inPlay)]),
+                .chooseTarget([.havingInPlayCard]),
                 .chooseCard(.inPlay)
             ]
         )
@@ -898,7 +896,7 @@ extension Effect {
             action: .drawDeck,
             selectors: [
                 .target(.all),
-                .mustDiscardHandCard(),
+                .chooseCostHandCard(),
                 .repeat(.value(2))
             ]
         )
@@ -960,7 +958,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .chooseCounterWithHandCard(count: 2),
+                .chooseCounterHandCard(count: 2),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -1011,7 +1009,7 @@ extension Effect {
 
     static var play_onBangPlayed: Effect {
         .init(
-            when: .cardPlayed(.named("bang")),
+            when: .cardPlayedWithName("bang"),
             action: .play,
             selectors: [
                 .chooseCardOrSkip(.named("aim"))
