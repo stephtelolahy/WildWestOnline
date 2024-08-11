@@ -108,6 +108,7 @@ public struct Effect: Equatable, Codable {
             case draw(String)
             case actorTurn
             case discardedCardsNotAce
+            case hasNoBlueCardsInPlay
             case not(Self)
         }
     }

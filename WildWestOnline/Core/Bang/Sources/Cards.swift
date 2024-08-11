@@ -410,35 +410,38 @@ public enum Cards {
             .brown,
             .damage_others_counterWith2HandCards
         ],
-        "Poker": [
+        "poker": [
             // All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.
             .brown,
             .discard_others,
             .drawDiscard_2_ifDiscardedCardsNotAce
         ],
-        "Lemat": [
+        "lemat": [
             // gun, range 1: In your turn, you may use any card like BANG card.
             .equip,
             .setAttribute_weapon_1,
             .setAttribute_playBangWithAny
         ],
-        "Shootgun": [
+        "shootgun": [
             // gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.
             .equip,
             .setAttribute_weapon_1,
             .discard_anyHand_onDamagingWithBang
         ],
-        "Bounty": [
+        "bounty": [
             // Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.
             .handicap,
             .drawDeck_offender_onDamagedWithBang
         ],
-        "Rattlesnake": [
+        "rattlesnake": [
             // Play in front any player. At beginnings of that player's turn, he draw: On Spade, he lose 1 life point, otherwise he does nothing.
             .handicap,
             .draw_onTurnStarted,
             .damage_onTurnStarted_ifDrawSpades
-
+        ],
+        "tucoFranziskaner": [
+            // During his draw phase, he draw 2 extra cards if he has no blue cards in play.
+            .drawDeck_2_onTurnStarted_ifHasNoBlueCardsInPlay
         ]
     ]
 }

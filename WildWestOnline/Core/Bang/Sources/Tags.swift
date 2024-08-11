@@ -1032,4 +1032,14 @@ extension Effect {
             ]
         )
     }
+
+    static var drawDeck_2_onTurnStarted_ifHasNoBlueCardsInPlay: Effect {
+        .init(
+            when: .turnStarted,
+            action: .drawDeck,
+            selectors: [
+                .if(.hasNoBlueCardsInPlay)
+            ]
+        )
+    }
 }
