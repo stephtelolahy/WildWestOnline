@@ -91,9 +91,10 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .if(.playedLessThan(.attr(.bangLimitPerTurn))),
-                .chooseTarget([.atDistance(.attr(.weapon))]),
-                .arg(.shootRequiredMisses, value: .attr(.bangRequiredMisses))
+                .effectAttribute(.bangLimitPerTurn, value: 1),
+                .if(.playedLessThan(.effectAttr(.bangLimitPerTurn))),
+                .chooseTarget([.atDistance(.playerAttr(.weapon))]),
+                .arg(.shootRequiredMisses, value: .playerAttr(.bangRequiredMisses))
             ]
         )
     }
@@ -233,9 +234,9 @@ extension Effect {
     static var setAttribute_weapon_1: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.weapon, value: 1)
+                .playerAttribute(.weapon, value: 1)
             ]
         )
     }
@@ -243,9 +244,9 @@ extension Effect {
     static var setAttribute_weapon_2: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.weapon, value: 2)
+                .playerAttribute(.weapon, value: 2)
             ]
         )
     }
@@ -253,9 +254,9 @@ extension Effect {
     static var setAttribute_weapon_3: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.weapon, value: 3)
+                .playerAttribute(.weapon, value: 3)
             ]
         )
     }
@@ -263,9 +264,9 @@ extension Effect {
     static var setAttribute_weapon_4: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.weapon, value: 4)
+                .playerAttribute(.weapon, value: 4)
             ]
         )
     }
@@ -273,29 +274,19 @@ extension Effect {
     static var setAttribute_weapon_5: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.weapon, value: 5)
+                .playerAttribute(.weapon, value: 5)
             ]
         )
     }
 
-    static var setAttribute_bangLimitPerTurn_0: Effect {
+    static var setEffectAttribute_bangLimitPerTurn_0: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.bangLimitPerTurn, value: 0)
-            ]
-        )
-    }
-
-    static var setAttribute_bangLimitPerTurn_1: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .attribute(.bangLimitPerTurn, value: 1)
+                .effectAttribute(.bangLimitPerTurn, value: 0)
             ]
         )
     }
@@ -303,9 +294,9 @@ extension Effect {
     static var incrementAttribute_magnifying: Effect {
         .init(
             when: .played,
-            action: .incrementAttribute,
+            action: .incrementPlayerAttribute,
             selectors: [
-                .attribute(.magnifying, value: 1)
+                .playerAttribute(.magnifying, value: 1)
             ]
         )
     }
@@ -313,9 +304,9 @@ extension Effect {
     static var incrementAttribute_remoteness: Effect {
         .init(
             when: .played,
-            action: .incrementAttribute,
+            action: .incrementPlayerAttribute,
             selectors: [
-                .attribute(.remoteness, value: 1)
+                .playerAttribute(.remoteness, value: 1)
             ]
         )
     }
@@ -518,7 +509,7 @@ extension Effect {
             when: .played,
             action: .chooseCard,
             selectors: [
-                .repeat(.attr(.startTurnCards))
+                .repeat(.playerAttr(.startTurnCards))
             ]
         )
     }
@@ -561,9 +552,9 @@ extension Effect {
     static var setAttribute_startTurnCards_2: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.startTurnCards, value: 2)
+                .playerAttribute(.startTurnCards, value: 2)
             ]
         )
     }
@@ -571,9 +562,9 @@ extension Effect {
     static var setAttribute_bangRequiredMisses_1: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.bangRequiredMisses, value: 1)
+                .playerAttribute(.bangRequiredMisses, value: 1)
             ]
         )
     }
@@ -581,9 +572,9 @@ extension Effect {
     static var setAttribute_bangRequiredMisses_2: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.bangRequiredMisses, value: 2)
+                .playerAttribute(.bangRequiredMisses, value: 2)
             ]
         )
     }
@@ -591,9 +582,9 @@ extension Effect {
     static var setAttribute_maxHealth_4: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.maxHealth, value: 4)
+                .playerAttribute(.maxHealth, value: 4)
             ]
         )
     }
@@ -601,9 +592,9 @@ extension Effect {
     static var setAttribute_maxHealth_3: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.maxHealth, value: 3)
+                .playerAttribute(.maxHealth, value: 3)
             ]
         )
     }
@@ -611,9 +602,9 @@ extension Effect {
     static var setAttribute_drawCards_2: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.drawCards, value: 2)
+                .playerAttribute(.drawCards, value: 2)
             ]
         )
     }
@@ -621,9 +612,9 @@ extension Effect {
     static var setAttribute_drawCards_1: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.drawCards, value: 1)
+                .playerAttribute(.drawCards, value: 1)
             ]
         )
     }
@@ -631,9 +622,9 @@ extension Effect {
     static var setAttribute_playBangWithMissed: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.playBangWithMissed, value: 0)
+                .playerAttribute(.playBangWithMissed, value: 0)
             ]
         )
     }
@@ -641,9 +632,9 @@ extension Effect {
     static var setAttribute_playMissedWithBang: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.playMissedWithBang, value: 0)
+                .playerAttribute(.playMissedWithBang, value: 0)
             ]
         )
     }
@@ -728,9 +719,9 @@ extension Effect {
     static var setAttribute_playMissedWithAny: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.playMissedWithAny, value: 0)
+                .playerAttribute(.playMissedWithAny, value: 0)
             ]
         )
     }
@@ -738,9 +729,9 @@ extension Effect {
     static var setAttribute_handLimit_10: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.handLimit, value: 10)
+                .playerAttribute(.handLimit, value: 10)
             ]
         )
     }
@@ -755,9 +746,9 @@ extension Effect {
     static var setAttribute_startTurnCards_3: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.startTurnCards, value: 3)
+                .playerAttribute(.startTurnCards, value: 3)
             ]
         )
     }
@@ -765,9 +756,9 @@ extension Effect {
     static var setAttribute_startTurnCards_1: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.startTurnCards, value: 1)
+                .playerAttribute(.startTurnCards, value: 1)
             ]
         )
     }
@@ -842,7 +833,7 @@ extension Effect {
             selectors: [
                 .if(.playedLessThan(.value(1))),
                 .chooseCostHandCard(count: 2),
-                .chooseTarget([.atDistance(.attr(.weapon))])
+                .chooseTarget([.atDistance(.playerAttr(.weapon))])
             ]
         )
     }
@@ -861,9 +852,9 @@ extension Effect {
     static var setAttribute_silentCardsDiamonds: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.silentCardsDiamonds, value: 0)
+                .playerAttribute(.silentCardsDiamonds, value: 0)
             ]
         )
     }
@@ -871,9 +862,9 @@ extension Effect {
     static var setAttribute_silentCardsInPlayDuringTurn: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.silentCardsInPlayDuringTurn, value: 0)
+                .playerAttribute(.silentCardsInPlayDuringTurn, value: 0)
             ]
         )
     }
@@ -907,7 +898,7 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .chooseTarget([.atDistance(.attr(.weapon))])
+                .chooseTarget([.atDistance(.playerAttr(.weapon))])
             ]
         )
     }
@@ -989,9 +980,9 @@ extension Effect {
     static var setAttribute_playBangWithAny: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.playBangWithAny, value: 0)
+                .playerAttribute(.playBangWithAny, value: 0)
             ]
         )
     }
@@ -1020,9 +1011,9 @@ extension Effect {
     static var setAttribute_bangDamage_2: Effect {
         .init(
             when: .played,
-            action: .setAttribute,
+            action: .setPlayerAttribute,
             selectors: [
-                .attribute(.bangDamage, value: 2)
+                .playerAttribute(.bangDamage, value: 2)
             ]
         )
     }

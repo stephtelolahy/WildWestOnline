@@ -22,7 +22,6 @@ public enum Cards {
             .setAttribute_weapon_1,
             .setAttribute_startTurnCards_2,
             .setAttribute_bangRequiredMisses_1,
-            .setAttribute_bangLimitPerTurn_1,
             .setAttribute_drawCards_1,
             .drawDeck_remainingStartTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
@@ -135,7 +134,7 @@ public enum Cards {
             // "can play any number of BANG! cards during your turn but limited to a distance of 1"
             .equip,
             .setAttribute_weapon_1,
-            .setAttribute_bangLimitPerTurn_0
+            .setEffectAttribute_bangLimitPerTurn_0
         ],
         "scope": [
             // "you see all the other players at a distance decreased by 1"
@@ -156,7 +155,7 @@ public enum Cards {
         ],
         "willyTheKid": [
             // "he can play any number of BANG! cards during his turn."
-            .setAttribute_bangLimitPerTurn_0,
+            .setEffectAttribute_bangLimitPerTurn_0,
             .setAttribute_maxHealth_4
         ],
         "roseDoolan": [

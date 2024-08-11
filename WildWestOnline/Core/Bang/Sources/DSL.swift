@@ -24,7 +24,8 @@ public struct Effect: Equatable, Codable {
         case chooseCard(CardCondition? = nil)
 
         /// determine affected attribute
-        case attribute(PlayerAttribute, value: Int)
+        case playerAttribute(PlayerAttribute, value: Int)
+        case effectAttribute(EffectAttribute, value: Int)
 
         /// determine other argument
         case arg(ActionArg, value: Number)
@@ -96,7 +97,8 @@ public struct Effect: Equatable, Codable {
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
             case remainingStartTurnCards
-            case attr(PlayerAttribute)
+            case playerAttr(PlayerAttribute)
+            case effectAttr(EffectAttribute)
             case add(Int, attr: PlayerAttribute)
             case value(Int)
         }
@@ -150,7 +152,6 @@ public enum PlayerAttribute: String, Codable {
     // ⚠️ related to specific card
     case startTurnCards
     case bangRequiredMisses
-    case bangLimitPerTurn
     case bangDamage
     case playBangWithMissed
     case playBangWithAny
@@ -158,6 +159,10 @@ public enum PlayerAttribute: String, Codable {
     case playMissedWithAny
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
+}
+
+public enum EffectAttribute: String, Codable {
+    case bangLimitPerTurn
 }
 
 /// An action is some kind of change
@@ -228,8 +233,8 @@ public enum GameAction: String, Codable {
     // MARK: ``Reversible``applied when card is played and reversed when card is discarded
 
     /// {actor} set his {attribute} to {value}
-    case setAttribute
+    case setPlayerAttribute
 
     /// {actor} increase his {attribute} by {value}
-    case incrementAttribute
+    case incrementPlayerAttribute
 }
