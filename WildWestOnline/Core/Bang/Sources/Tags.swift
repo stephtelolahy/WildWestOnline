@@ -69,7 +69,7 @@ extension Effect {
             when: .played,
             action: .discard,
             selectors: [
-                .target(.any([.havingCard()])),
+                .chooseTarget([.havingCard()]),
                 .card(.any())
             ]
         )
@@ -80,7 +80,7 @@ extension Effect {
             when: .played,
             action: .steal,
             selectors: [
-                .target(.any([.atDistance(.value(1)), .havingCard()])),
+                .chooseTarget([.atDistance(.value(1)), .havingCard()]),
                 .card(.any())
             ]
         )
@@ -92,7 +92,7 @@ extension Effect {
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.attr(.bangLimitPerTurn))),
-                .target(.any([.atDistance(.attr(.weapon))])),
+                .chooseTarget([.atDistance(.attr(.weapon))]),
                 .arg(.shootRequiredMisses, value: .attr(.bangRequiredMisses))
             ]
         )
@@ -132,7 +132,7 @@ extension Effect {
             when: .played,
             action: .damage,
             selectors: [
-                .target(.any()),
+                .chooseTarget(),
                 .reverseCost(.any([.fromHand, .named("bang")])),
                 .arg(.damageAmount, value: .value(1))
             ]
@@ -327,7 +327,7 @@ extension Effect {
             when: .played,
             action: .handicap,
             selectors: [
-                .target(.any()),
+                .chooseTarget(),
                 .card(.played)
             ]
         )
@@ -554,7 +554,7 @@ extension Effect {
             when: .turnStarted,
             action: .steal,
             selectors: [
-                .target(.any([.havingCard(.fromHand)])),
+                .chooseTarget([.havingCard(.fromHand)]),
                 .card(.any([.fromHand]))
             ]
         )
@@ -630,22 +630,22 @@ extension Effect {
         )
     }
 
-    static var setAttribute_bangWithMissed: Effect {
+    static var setAttribute_playBangWithMissed: Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
-                .attribute(.bangWithMissed, value: 0)
+                .attribute(.playBangWithMissed, value: 0)
             ]
         )
     }
 
-    static var setAttribute_missedWithBang: Effect {
+    static var setAttribute_playMissedWithBang: Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
-                .attribute(.missedWithBang, value: 0)
+                .attribute(.playMissedWithBang, value: 0)
             ]
         )
     }
@@ -657,7 +657,7 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .target(.any([.atDistance(.value(1))]))
+                .chooseTarget([.atDistance(.value(1))])
             ]
         )
     }
@@ -675,7 +675,7 @@ extension Effect {
             action: .shoot,
             selectors: [
                 .cost(.any([.fromHand])),
-                .target(.any())
+                .chooseTarget()
             ]
         )
     }
@@ -697,7 +697,7 @@ extension Effect {
             action: .heal,
             selectors: [
                 .cost(.any([.fromHand])),
-                .target(.any()),
+                .chooseTarget(),
                 .arg(.healAmount, value: .value(1))
             ]
         )
@@ -709,7 +709,7 @@ extension Effect {
             action: .steal,
             selectors: [
                 .cost(.any([.fromHand])),
-                .target(.any()),
+                .chooseTarget(),
                 .card(.any())
             ]
         )
@@ -727,12 +727,12 @@ extension Effect {
         )
     }
 
-    static var setAttribute_missedWithAny: Effect {
+    static var setAttribute_playMissedWithAny: Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
-                .attribute(.missedWithAny, value: 0)
+                .attribute(.playMissedWithAny, value: 0)
             ]
         )
     }
@@ -844,7 +844,7 @@ extension Effect {
             selectors: [
                 .if(.playedLessThan(.value(1))),
                 .cost(.any([.fromHand]), count: 2),
-                .target(.any([.atDistance(.attr(.weapon))]))
+                .chooseTarget([.atDistance(.attr(.weapon))])
             ]
         )
     }
@@ -854,7 +854,7 @@ extension Effect {
             when: .turnStarted,
             action: .steal,
             selectors: [
-                .target(.any([.havingCard(.inPlay)])),
+                .chooseTarget([.havingCard(.inPlay)]),
                 .card(.any([.inPlay]))
             ]
         )
@@ -909,7 +909,7 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .target(.any([.atDistance(.attr(.weapon))]))
+                .chooseTarget([.atDistance(.attr(.weapon))])
             ]
         )
     }
@@ -919,19 +919,17 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .target(.any([.atDistance(.value(2))]))
+                .chooseTarget([.atDistance(.value(2))])
             ]
         )
     }
 
-    static var shoot_reachableAndNeighbour: Effect {
+    static var shoot_neighbour: Effect {
         .init(
             when: .played,
             action: .shoot,
             selectors: [
-                .if(.playedLessThan(.attr(.bangLimitPerTurn))),
-                .target(.anyAndNeighbour([.atDistance(.attr(.weapon))])),
-                .arg(.shootRequiredMisses, value: .attr(.bangRequiredMisses))
+                .chooseTarget([.neighbourToTarget])
             ]
         )
     }
@@ -951,7 +949,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .target(.lastDamaged)
+                .target(.damaged)
             ]
         )
     }
@@ -990,12 +988,12 @@ extension Effect {
         )
     }
 
-    static var setAttribute_bangWithAny: Effect {
+    static var setAttribute_playBangWithAny: Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
-                .attribute(.bangWithAny, value: 0)
+                .attribute(.playBangWithAny, value: 0)
             ]
         )
     }
@@ -1005,7 +1003,7 @@ extension Effect {
             when: .otherDamagedBy("bang"),
             action: .discard,
             selectors: [
-                .target(.lastDamaged),
+                .target(.damaged),
                 .card(.any([.fromHand]))
             ]
         )

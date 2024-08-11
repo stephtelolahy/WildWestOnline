@@ -212,8 +212,8 @@ public enum Cards {
         ],
         "calamityJanet": [
             // "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."
-            .setAttribute_bangWithMissed,
-            .setAttribute_missedWithBang,
+            .setAttribute_playBangWithMissed,
+            .setAttribute_playMissedWithBang,
             .setAttribute_maxHealth_4
         ],
         "kitCarlson": [
@@ -292,7 +292,7 @@ public enum Cards {
         ],
         "elenaFuente": [
             // "She may use any card in hand as Missed!."
-            .setAttribute_missedWithAny,
+            .setAttribute_playMissedWithAny,
             .setAttribute_maxHealth_3
         ],
         "seanMallory": [
@@ -399,7 +399,8 @@ public enum Cards {
         "faning": [
             // Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).
             .brown,
-            .shoot_reachableAndNeighbour
+            .shoot_reachable_bangLimitPerTurn,
+            .shoot_neighbour
         ],
         "saved": [
             // Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).
@@ -422,7 +423,7 @@ public enum Cards {
             // gun, range 1: In your turn, you may use any card like BANG card.
             .equip,
             .setAttribute_weapon_1,
-            .setAttribute_bangWithAny
+            .setAttribute_playBangWithAny
         ],
         "Shootgun": [
             // gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.

@@ -16,7 +16,9 @@ public struct Effect: Equatable, Codable {
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
         /// determine targetted player
-        case target(Player)
+        case target(Target)
+        case chooseTarget([TargetCondition]? = nil)
+
         /// determine targetted card
         case card(Card)
         /// determine affected attribute
@@ -41,21 +43,20 @@ public struct Effect: Equatable, Codable {
         /// can choose to loose one life point or skip effect
         case looseLifePointOrSkip
 
-        public enum Player: Equatable, Codable {
+        public enum Target: String, Codable {
             case actor
             case all
             case others
             case next
             case offender
             case eliminated
-            case lastDamaged // target of last damage event
-            case any([Condition]? = nil)
-            case anyAndNeighbour([Condition]? = nil)
+            case damaged
+        }
 
-            public enum Condition: Equatable, Codable {
-                case atDistance(Number)
-                case havingCard(Card.Condition? = nil)
-            }
+        public enum TargetCondition: Equatable, Codable {
+            case atDistance(Number)
+            case neighbourToTarget
+            case havingCard(Card.Condition? = nil)
         }
 
         public enum Card: Equatable, Codable {
@@ -142,11 +143,11 @@ public enum PlayerAttribute: String, Codable {
     case startTurnCards
     case bangRequiredMisses
     case bangLimitPerTurn
-    case bangWithMissed
-    case bangWithAny
     case bangDamage
-    case missedWithBang
-    case missedWithAny
+    case playBangWithMissed
+    case playBangWithAny
+    case playMissedWithBang
+    case playMissedWithAny
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
 }
