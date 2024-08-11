@@ -442,6 +442,11 @@ public enum Cards {
         "tucoFranziskaner": [
             // During his draw phase, he draw 2 extra cards if he has no blue cards in play.
             .drawDeck_2_onTurnStarted_ifHasNoBlueCardsInPlay
+        ],
+        "coloradoBill": [
+            // Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.
+            .draw_onMissedBang,
+            .damage_target_onMissedBang_ifDrawSpades
         ]
     ]
 }

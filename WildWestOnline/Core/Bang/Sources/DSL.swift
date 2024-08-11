@@ -52,13 +52,14 @@ public struct Effect: Equatable, Codable {
         case chooseEventuallyLooseLifePoint
 
         public enum Target: String, Codable {
-            case actor
-            case all
-            case others
-            case next
-            case offender
-            case eliminated
-            case damaged
+            case actor      // who is playing the card
+            case all        // all players
+            case others     // other players
+            case next       // next player after actor
+            case offender   // actor of previous attack
+            case damaged    // just damaged player
+            case eliminated // just eliminated player
+            case targeted   // target of previous attack
         }
 
         public enum TargetCondition: Equatable, Codable {
@@ -129,6 +130,7 @@ public struct Effect: Equatable, Codable {
         case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
         case damagingWith(String)
+        case missed(String)
     }
 
     public init(

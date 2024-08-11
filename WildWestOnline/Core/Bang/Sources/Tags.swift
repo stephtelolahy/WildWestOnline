@@ -1042,4 +1042,23 @@ extension Effect {
             ]
         )
     }
+
+    static var draw_onMissedBang: Effect {
+        .init(
+            when: .missed("bang"),
+            action: .draw
+        )
+    }
+
+    static var damage_target_onMissedBang_ifDrawSpades: Effect {
+        .init(
+            when: .missed("bang"),
+            action: .damage,
+            selectors: [
+                .if(.draw("♠️")),
+                .target(.targeted),
+                .arg(.damageAmount, value: .value(1))
+            ]
+        )
+    }
 }
