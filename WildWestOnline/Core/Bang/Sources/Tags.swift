@@ -125,7 +125,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .chooseCounterHandCard(.named("bang")),
+                .chooseEventuallyCounterHandCard(.named("bang")),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -137,7 +137,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .chooseTarget(),
-                .chooseReverseHandCard(.named("bang")),
+                .chooseEventuallyReverseHandCard(.named("bang")),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -430,7 +430,7 @@ extension Effect {
             when: .shot,
             action: .play,
             selectors: [
-                .chooseCardOrSkip(.action(.missed))
+                .chooseEventuallyCard(.action(.missed))
             ]
         )
     }
@@ -441,7 +441,7 @@ extension Effect {
             action: .play,
             selectors: [
                 .if(.playersAtLeast(3)),
-                .chooseCardOrSkip(.named("beer"))
+                .chooseEventuallyCard(.named("beer"))
             ]
         )
     }
@@ -814,7 +814,7 @@ extension Effect {
             when: .played,
             action: .drawDeck,
             selectors: [
-                .chooseLooseLifePointOrSkip,
+                .chooseEventuallyLooseLifePoint,
                 .repeat(.value(2))
             ]
         )
@@ -922,7 +922,7 @@ extension Effect {
             when: .otherDamaged,
             action: .play,
             selectors: [
-                .chooseCardOrSkip(.named("saved"))
+                .chooseEventuallyCard(.named("saved"))
             ]
         )
     }
@@ -943,7 +943,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .chooseCounterHandCard(count: 2),
+                .chooseEventuallyCounterHandCard(count: 2),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -997,7 +997,7 @@ extension Effect {
             when: .cardPlayedWithName("bang"),
             action: .play,
             selectors: [
-                .chooseCardOrSkip(.named("aim"))
+                .chooseEventuallyCard(.named("aim"))
             ]
         )
     }

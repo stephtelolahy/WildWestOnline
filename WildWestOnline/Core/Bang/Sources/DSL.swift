@@ -40,16 +40,16 @@ public struct Effect: Equatable, Codable {
         case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
 
         /// can discard hand card to counter the effect
-        case chooseCounterHandCard(CardCondition? = nil, count: Int = 1)
+        case chooseEventuallyCounterHandCard(CardCondition? = nil, count: Int = 1)
 
         /// can discard hand card to reverse effect
-        case chooseReverseHandCard(CardCondition)
+        case chooseEventuallyReverseHandCard(CardCondition)
 
         /// can choose a card or skip the effect
-        case chooseCardOrSkip(CardCondition)
+        case chooseEventuallyCard(CardCondition)
 
         /// can choose to loose one life point or skip the effect
-        case chooseLooseLifePointOrSkip
+        case chooseEventuallyLooseLifePoint
 
         public enum Target: String, Codable {
             case actor
