@@ -1061,4 +1061,15 @@ extension Effect {
             ]
         )
     }
+
+    static var heal_onOtherPlayedBeer_cost1HandCard: Effect {
+        .init(
+            when: .otherPlayedCardWithName("beer"),
+            action: .heal,
+            selectors: [
+                .chooseCostHandCard(),
+                .arg(.healAmount, value: .value(1))
+            ]
+        )
+    }
 }

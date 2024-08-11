@@ -127,10 +127,12 @@ public struct Effect: Equatable, Codable {
         case otherEliminated
         case otherDamaged
         case playedCardOutOfTurn
+        /// actor plays a card with {name}
         case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
         case damagingWith(String)
         case missed(String)
+        case otherPlayedCardWithName(String)
     }
 
     public init(
