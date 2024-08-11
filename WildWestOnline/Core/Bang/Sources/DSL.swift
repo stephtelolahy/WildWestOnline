@@ -151,7 +151,6 @@ public enum PlayerAttribute: String, Codable {
 
     // ⚠️ related to specific card
     case startTurnCards
-    case bangRequiredMisses
     case bangDamage
     case playBangWithMissed
     case playBangWithAny
@@ -163,6 +162,7 @@ public enum PlayerAttribute: String, Codable {
 
 public enum EffectAttribute: String, Codable {
     case bangLimitPerTurn
+    case bangRequiredMisses
 }
 
 /// An action is some kind of change
@@ -233,8 +233,8 @@ public enum GameAction: String, Codable {
     // MARK: ``Reversible``applied when card is played and reversed when card is discarded
 
     /// {actor} set his {attribute} to {value}
-    case setPlayerAttribute
+    case setAttribute
 
     /// {actor} increase his {attribute} by {value}
-    case incrementPlayerAttribute
+    case incrementAttribute
 }
