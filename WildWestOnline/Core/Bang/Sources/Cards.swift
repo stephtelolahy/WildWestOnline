@@ -19,7 +19,7 @@ public enum Cards {
             .discard_excessHand
         ],
         "default": [
-            .setAttribute_weapon_1,
+            .setAttribute_weapon(1),
             .setAttribute_drawCards_1,
             .drawDeck_startTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
@@ -111,27 +111,27 @@ public enum Cards {
         "schofield": [
             // "can hit targets at a distance of 2."
             .equip,
-            .setAttribute_weapon_2
+            .setAttribute_weapon(2)
         ],
         "remington": [
             // "can hit targets at a distance of 3."
             .equip,
-            .setAttribute_weapon_3
+            .setAttribute_weapon(3)
         ],
         "revCarabine": [
             // "can hit targets at a distance of 4."
             .equip,
-            .setAttribute_weapon_4
+            .setAttribute_weapon(4)
         ],
         "winchester": [
             // "can hit targets at a distance of 5."
             .equip,
-            .setAttribute_weapon_5
+            .setAttribute_weapon(5)
         ],
         "volcanic": [
             // "can play any number of BANG! cards during your turn but limited to a distance of 1"
             .equip,
-            .setAttribute_weapon_1,
+            .setAttribute_weapon(1),
             .setAttribute_bangLimitPerTurn_0
         ],
         "scope": [
@@ -419,13 +419,13 @@ public enum Cards {
         "lemat": [
             // gun, range 1: In your turn, you may use any card like BANG card.
             .equip,
-            .setAttribute_weapon_1,
+            .setAttribute_weapon(1),
             .setAttribute_playBangWithAny
         ],
         "shootgun": [
             // gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.
             .equip,
-            .setAttribute_weapon_1,
+            .setAttribute_weapon(1),
             .discard_anyHand_onDamagingWithBang
         ],
         "bounty": [

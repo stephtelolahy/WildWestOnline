@@ -232,52 +232,12 @@ extension Effect {
         )
     }
 
-    static var setAttribute_weapon_1: Effect {
+    static func setAttribute_weapon(_ value: Int) -> Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.weapon, value: 1)
-            ]
-        )
-    }
-
-    static var setAttribute_weapon_2: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .playerAttribute(.weapon, value: 2)
-            ]
-        )
-    }
-
-    static var setAttribute_weapon_3: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .playerAttribute(.weapon, value: 3)
-            ]
-        )
-    }
-
-    static var setAttribute_weapon_4: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .playerAttribute(.weapon, value: 4)
-            ]
-        )
-    }
-
-    static var setAttribute_weapon_5: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .playerAttribute(.weapon, value: 5)
+                .playerAttribute(.weapon, value: value)
             ]
         )
     }
