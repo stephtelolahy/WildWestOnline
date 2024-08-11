@@ -1,7 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-// swiftlint:disable file_length
+// swiftlint:disable file_length no_magic_numbers
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
@@ -154,89 +154,89 @@ public enum Cards {
         "willyTheKid": [
             // "he can play any number of BANG! cards during his turn."
             .setAttribute_bangLimitPerTurn_0,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "roseDoolan": [
             // "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1."
             .incrementAttribute_magnifying,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "paulRegret": [
             // "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him."
             .incrementAttribute_remoteness,
-            .setAttribute_maxHealth_3
+            .setAttribute_maxHealth(3)
         ],
         "jourdonnais": [
             // "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card."
             .draw_onShot,
             .missed_onShot_ifDrawHearts,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "bartCassidy": [
             // "each time he loses a life point, he immediately draws a card from the deck."
             .drawDeck_onDamaged,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "elGringo": [
             // "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player."
             .steal_offender_onDamaged,
-            .setAttribute_maxHealth_3
+            .setAttribute_maxHealth(3)
         ],
         "suzyLafayette": [
             // "as soon as she has no cards in her hand, she draws a card from the draw pile."
             .drawDeck_onHandEmpty,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "sidKetchum": [
             // "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time. But remember: you cannot have more life points than your starting amount!"
             .heal_cost2HandCards,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "vultureSam": [
             // "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand."
             .steal_all_onOtherEliminated,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "slabTheKiller": [
             // "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!."
             .setAttribute_bangRequiredMisses_2,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "luckyDuke": [
             // "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards."
-            .setAttribute_maxHealth_4,
+            .setAttribute_maxHealth(4),
             .setAttribute_drawCards_2
         ],
         "calamityJanet": [
             // "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."
             .setAttribute_playBangWithMissed,
             .setAttribute_playMissedWithBang,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "kitCarlson": [
             // "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."
             .setAttribute_startTurnCards_0,
             .reveal_3_onTurnStarted,
             .chooseCard_2_onTurnStarted,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "blackJack": [
             // "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it)."
             // ⚠️ override startTurn
             .showLastDraw_onTurnStarted,
             .drawDeck_onTurnStarted_IfDrawsRed,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "jesseJones": [
             // "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck."
             .drawDiscard_onTurnStarted,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "pedroRamirez": [
             // "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck."
             // ⚠️ override startTurn
             .steal_any_fromHand_onTurnStarted,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
 
         // MARK: - Dodge city
@@ -290,74 +290,74 @@ public enum Cards {
         "elenaFuente": [
             // "She may use any card in hand as Missed!."
             .setAttribute_playMissedWithAny,
-            .setAttribute_maxHealth_3
+            .setAttribute_maxHealth(3)
         ],
         "seanMallory": [
             // "He may hold in his hand up to 10 cards."
             .setAttribute_handLimit_10,
-            .setAttribute_maxHealth_3
+            .setAttribute_maxHealth(3)
         ],
         "tequilaJoe": [
             // "Each time he plays a Beer, he regains 2 life points instead of 1."
             .heal_onBeerPlayed,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "pixiePete": [
             // "During phase 1 of his turn, he draws 3 cards instead of 2."
             .setAttribute_startTurnCards_3,
-            .setAttribute_maxHealth_3
+            .setAttribute_maxHealth(3)
         ],
         "billNoface": [
             // "He draws 1 card, plus 1 card for each wound he has."
             .setAttribute_startTurnCards_1,
             .drawDeck_damage_onTurnStarted,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "gregDigger": [
             // "Each time another player is eliminated, he regains 2 life points."
             .heal_2_onOtherEliminated,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "herbHunter": [
             // "Each time another player is eliminated, he draws 2 extra cards."
             .drawDeck_2_onOtherEliminated,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "mollyStark": [
             // "Each time she uses a card from her hand out of turn, she draw a card."
             .drawDeck_onPlayedCardOutOfTurn,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "joseDelgado": [
             // "Twice in his turn, he may discard a blue card from the hand to draw 2 cards."
             .drawDeck_2_costBlueHandCard,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "chuckWengam": [
             // "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost."
             .drawDeck_2_cost1LifePoint,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "docHolyday": [
             // "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!."
             .shoot_reachable_cost2HandCards,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "patBrennan": [
             // "Instead of drawing normally, he may draw only one card in play in front of any one player."
             // ⚠️ override startTurn
             .steal_any_inPlay_onTurnStarted,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "apacheKid": [
             // "Cards of Diamond played by other players do not affect him"
             .setAttribute_silentCardsDiamonds,
-            .setAttribute_maxHealth_3
+            .setAttribute_maxHealth(3)
         ],
         "belleStar": [
             // "During her turn, cards in play in front of other players have no effect. "
             .setAttribute_silentCardsInPlayDuringTurn,
-            .setAttribute_maxHealth_4
+            .setAttribute_maxHealth(4)
         ],
         "veraCuster": [
             // For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn
@@ -455,6 +455,11 @@ public enum Cards {
         "lemonadeJim": [
             // When another player plays BEER card, he may discard any card to refill 1 life point.
             .heal_onOtherPlayedBeer_cost1HandCard
+        ],
+        "henryBlock": [
+            // Any another player who discards or draw from Henry hand or in front him, is target of BANG.
+            .shoot_offender_onCardStolen,
+            .shoot_offender_onCardDiscarded
         ]
     ]
 }

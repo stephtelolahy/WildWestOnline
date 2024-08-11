@@ -127,6 +127,10 @@ public struct Effect: Equatable, Codable {
         case otherEliminated
         case otherDamaged
         case playedCardOutOfTurn
+        /// a player has stolen card of actor
+        case cardStolen
+        /// a player has discarded a card of actor
+        case cardDiscarded
         /// actor plays a card with {name}
         case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
@@ -176,16 +180,21 @@ public enum GameAction: String, Codable {
     /// {actor} plays a {card}
     case play
 
-    /// {target or actor} increase health by {amount}
+    /// {target} increase health by {amount}
+    /// By default target is {actor}
+    /// By default heal amount is 1
     case heal
 
-    /// {target or actor} decrease health by {amount}
+    /// {target} decrease health by {amount}
+    /// By default target is {actor}
+    /// By default damage amount is 1
     case damage
 
     /// {actor} draw the top deck card
     case drawDeck
 
-    /// {target or actor} discard a {card}
+    /// {target} discard a {card}
+    /// By default target is {actor}
     case discard
 
     /// {actor} discard silently a {card}

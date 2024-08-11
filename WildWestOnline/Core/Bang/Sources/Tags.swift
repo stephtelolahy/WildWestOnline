@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 02/08/2024.
 //
-// swiftlint:disable identifier_name no_magic_numbers file_length
+// swiftlint:disable identifier_name no_magic_numbers file_length type_contents_order
 
 /// Defining Tags
 /// ℹ️ Naming = {action}_{argValue}_on{Event}_if{Condition}
@@ -27,8 +27,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .if(.playersAtLeast(3)),
-                .arg(.healAmount, value: .value(1))
+                .if(.playersAtLeast(3))
             ]
         )
     }
@@ -38,8 +37,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .target(.all),
-                .arg(.healAmount, value: .value(1))
+                .target(.all)
             ]
         )
     }
@@ -481,8 +479,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .chooseCostHandCard(count: 2),
-                .arg(.healAmount, value: .value(1))
+                .chooseCostHandCard(count: 2)
             ]
         )
     }
@@ -563,22 +560,12 @@ extension Effect {
         )
     }
 
-    static var setAttribute_maxHealth_4: Effect {
+    static func setAttribute_maxHealth(_ value: Int) -> Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.maxHealth, value: 4)
-            ]
-        )
-    }
-
-    static var setAttribute_maxHealth_3: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .playerAttribute(.maxHealth, value: 3)
+                .playerAttribute(.maxHealth, value: value)
             ]
         )
     }
@@ -670,8 +657,7 @@ extension Effect {
             action: .heal,
             selectors: [
                 .chooseCostHandCard(),
-                .chooseTarget(),
-                .arg(.healAmount, value: .value(1))
+                .chooseTarget()
             ]
         )
     }
@@ -868,10 +854,7 @@ extension Effect {
     static var heal: Effect {
         .init(
             when: .played,
-            action: .heal,
-            selectors: [
-                .arg(.healAmount, value: .value(1))
-            ]
+            action: .heal
         )
     }
 
@@ -1067,8 +1050,27 @@ extension Effect {
             when: .otherPlayedCardWithName("beer"),
             action: .heal,
             selectors: [
-                .chooseCostHandCard(),
-                .arg(.healAmount, value: .value(1))
+                .chooseCostHandCard()
+            ]
+        )
+    }
+
+    static var shoot_offender_onCardStolen: Effect {
+        .init(
+            when: .cardStolen,
+            action: .shoot,
+            selectors: [
+                .target(.offender)
+            ]
+        )
+    }
+
+    static var shoot_offender_onCardDiscarded: Effect {
+        .init(
+            when: .cardDiscarded,
+            action: .shoot,
+            selectors: [
+                .target(.offender)
             ]
         )
     }
