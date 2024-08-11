@@ -391,9 +391,10 @@ public enum Cards {
             .shoot_atDistanceOf2
         ],
         "aim": [
-            // Play with Bang card. If defending player doesn't miss, he loses 2 life points instead 2
-            // ⚠️ play with companion card
-            .brown
+            // Play with Bang card. If defending player doesn't miss, he loses 2 life points instead
+            .brown,
+            .play_onBangPlayed,
+            .setAttribute_bangDamage_2
         ],
         "faning": [
             // Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).
@@ -426,7 +427,8 @@ public enum Cards {
         "Shootgun": [
             // gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.
             .equip,
-            .discard_anyHand_onOtherBanged
+            .setAttribute_weapon_1,
+            .discard_anyHand_onOtherDamagedByBang
         ]
     ]
 }

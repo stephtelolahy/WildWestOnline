@@ -1000,13 +1000,33 @@ extension Effect {
         )
     }
 
-    static var discard_anyHand_onOtherBanged: Effect {
+    static var discard_anyHand_onOtherDamagedByBang: Effect {
         .init(
-            when: .otherBanged,
+            when: .otherDamagedBy("bang"),
             action: .discard,
             selectors: [
                 .target(.lastDamaged),
                 .card(.any([.fromHand]))
+            ]
+        )
+    }
+
+    static var play_onBangPlayed: Effect {
+        .init(
+            when: .cardPlayed(.named("bang")),
+            action: .play,
+            selectors: [
+                .cardOrSkip(.any([.named("aim")]))
+            ]
+        )
+    }
+
+    static var setAttribute_bangDamage_2: Effect {
+        .init(
+            when: .played,
+            action: .setAttribute,
+            selectors: [
+                .attribute(.bangDamage, value: 2)
             ]
         )
     }

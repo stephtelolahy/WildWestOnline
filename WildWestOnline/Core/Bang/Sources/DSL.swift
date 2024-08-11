@@ -114,9 +114,9 @@ public struct Effect: Equatable, Codable {
         case handEmpty
         case otherEliminated
         case otherDamaged
-        case otherBanged // other is damaged by your "bang" card
         case playedCardOutOfTurn
         case cardPlayed(Selector.Card.Condition)
+        case otherDamagedBy(String)
     }
 
     public init(
@@ -144,6 +144,7 @@ public enum PlayerAttribute: String, Codable {
     case bangLimitPerTurn
     case bangWithMissed
     case bangWithAny
+    case bangDamage
     case missedWithBang
     case missedWithAny
     case silentCardsDiamonds
