@@ -151,7 +151,6 @@ public enum PlayerAttribute: String, Codable {
 
     // ⚠️ related to specific card
     case startTurnCards
-    case bangDamage
     case playBangWithMissed
     case playBangWithAny
     case playMissedWithBang
@@ -163,6 +162,7 @@ public enum PlayerAttribute: String, Codable {
 public enum EffectAttribute: String, Codable {
     case bangLimitPerTurn
     case bangRequiredMisses
+    case bangDamage
 }
 
 /// An action is some kind of change

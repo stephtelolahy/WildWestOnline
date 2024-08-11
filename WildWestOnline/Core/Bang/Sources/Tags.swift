@@ -93,9 +93,11 @@ extension Effect {
             selectors: [
                 .effectAttribute(.bangLimitPerTurn, value: 1),
                 .effectAttribute(.bangRequiredMisses, value: 1),
+                .effectAttribute(.bangDamage, value: 1),
                 .if(.playedLessThan(.effectAttr(.bangLimitPerTurn))),
                 .chooseTarget([.atDistance(.playerAttr(.weapon))]),
-                .arg(.shootRequiredMisses, value: .effectAttr(.bangRequiredMisses))
+                .arg(.shootRequiredMisses, value: .effectAttr(.bangRequiredMisses)),
+                .arg(.damageAmount, value: .effectAttr(.bangDamage))
             ]
         )
     }
@@ -1004,7 +1006,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.bangDamage, value: 2)
+                .effectAttribute(.bangDamage, value: 2)
             ]
         )
     }
