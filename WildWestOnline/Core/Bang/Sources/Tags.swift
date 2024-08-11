@@ -1046,4 +1046,16 @@ extension Effect {
             ]
         )
     }
+
+    static var shoot_others_oncePerTurn_costBangHandCard: Effect {
+        .init(
+            when: .played,
+            action: .shoot,
+            selectors: [
+                .if(.playedLessThan(.value(1))),
+                .chooseCostHandCard(.named("bang")),
+                .target(.others)
+            ]
+        )
+    }
 }

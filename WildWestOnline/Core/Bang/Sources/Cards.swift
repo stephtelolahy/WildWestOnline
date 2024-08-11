@@ -464,6 +464,10 @@ public enum Cards {
         "blackFlower": [
             // Once per turn, she can shoot an extra Bang! by discarding a Clubs card.
             .shoot_reachable_oncePerTurn_costClubsHandCard
+        ],
+        "derSpotBurstRinger": [
+            // Once per turn, he can play a Bang! card as Gatling.
+            .shoot_others_oncePerTurn_costBangHandCard
         ]
     ]
 }
