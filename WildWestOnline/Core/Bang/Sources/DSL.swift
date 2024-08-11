@@ -1,16 +1,16 @@
-//
-//  CardEffect.swift
+// swiftlint:disable:this file_name
+//  DSL.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 28/07/2024.
 //
-// swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name function_default_parameter_at_end
+// swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
-public struct CardEffect: Equatable, Codable {
+public struct Effect: Equatable, Codable {
+    public let when: PlayerEvent
     public let action: GameAction
     public let selectors: [Selector]?
-    public let when: PlayerEvent
 
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
@@ -120,9 +120,9 @@ public struct CardEffect: Equatable, Codable {
     }
 
     public init(
+        when: PlayerEvent,
         action: GameAction,
-        selectors: [Selector]? = nil,
-        when: PlayerEvent
+        selectors: [Selector]? = nil
     ) {
         self.when = when
         self.action = action

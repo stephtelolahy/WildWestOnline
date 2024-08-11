@@ -6,8 +6,9 @@
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects using `Tag system`
+/// Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 ///
-typealias Card = [CardEffect]
+typealias Card = [Effect]
 
 public enum Cards {
     static let all: [String: Card] = [
