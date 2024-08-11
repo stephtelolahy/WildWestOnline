@@ -460,6 +460,10 @@ public enum Cards {
             // Any another player who discards or draw from Henry hand or in front him, is target of BANG.
             .shoot_offender_onCardStolen,
             .shoot_offender_onCardDiscarded
+        ],
+        "blackFlower": [
+            // Once per turn, she can shoot an extra Bang! by discarding a Clubs card.
+            .shoot_reachable_oncePerTurn_costClubsHandCard
         ]
     ]
 }

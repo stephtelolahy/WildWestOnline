@@ -1034,4 +1034,16 @@ extension Effect {
             ]
         )
     }
+
+    static var shoot_reachable_oncePerTurn_costClubsHandCard: Effect {
+        .init(
+            when: .played,
+            action: .shoot,
+            selectors: [
+                .if(.playedLessThan(.value(1))),
+                .chooseCostHandCard(.regex("♣️")),
+                .chooseTarget([.atDistance(.playerAttr(.weapon))])
+            ]
+        )
+    }
 }

@@ -80,6 +80,7 @@ public struct Effect: Equatable, Codable {
             case fromHand
             case inPlay
             case isBlue
+            case regex(String)
             case named(String)
             case action(GameAction)
             case choosable
