@@ -21,6 +21,8 @@ public struct Effect: Equatable, Codable {
 
         /// determine targetted card
         case card(Card)
+        case chooseCard(CardCondition? = nil)
+
         /// determine affected attribute
         case attribute(PlayerAttribute, value: Int)
         /// determine other argument
@@ -28,18 +30,20 @@ public struct Effect: Equatable, Codable {
 
         /// multiply effect x times
         case `repeat`(Number)
+
         /// must match given condition
         case `if`(StateCondition)
-        /// must discard cards
-        case cost(Card, count: Int = 1)
 
-        /// can discard a card to counter the effect
-        case counterCost(Card, count: Int = 1)
-        /// can discard a card to reverse effect
-        case reverseCost(Card)
+        /// must discard hand cards
+        case costHandCard(CardCondition? = nil, count: Int = 1)
+
+        /// can discard hand card to counter the effect
+        case counterCost([CardCondition]? = nil, count: Int = 1)
+        /// can discard hand card to reverse effect
+        case reverseCost([CardCondition])
 
         /// can choose a card or skip effect
-        case cardOrSkip(Card)
+        case cardOrSkip([CardCondition])
         /// can choose to loose one life point or skip effect
         case looseLifePointOrSkip
 
@@ -64,7 +68,6 @@ public struct Effect: Equatable, Codable {
             case all
             case inPlay(Condition)
             case anyChoosable
-            case any([Condition]? = nil)
 
             public enum Condition: Equatable, Codable {
                 case fromHand
@@ -74,6 +77,15 @@ public struct Effect: Equatable, Codable {
                 case action(GameAction)
                 case attr(PlayerAttribute)
             }
+        }
+
+        public enum CardCondition: Equatable, Codable {
+            case fromHand
+            case inPlay
+            case named(String)
+            case isBlue
+            case action(GameAction)
+            case attr(PlayerAttribute)
         }
 
         public enum ActionArg: String, Codable {
