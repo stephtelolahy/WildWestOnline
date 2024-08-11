@@ -426,7 +426,12 @@ public enum Cards {
             // gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.
             .equip,
             .setAttribute_weapon_1,
-            .discard_anyHand_onOtherDamagedByBang
+            .discard_anyHand_onDamagingWithBang
+        ],
+        "Bounty": [
+            // Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.
+            .handicap,
+            .drawDeck_offender_onDamagedWithBang
         ]
     ]
 }

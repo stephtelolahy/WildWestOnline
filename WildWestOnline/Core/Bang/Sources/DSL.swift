@@ -118,6 +118,7 @@ public struct Effect: Equatable, Codable {
         case turnStarted
         case turnEnded
         case damaged
+        case damagedWith(String)
         case damagedLethal
         case eliminated
         case handEmpty
@@ -126,7 +127,7 @@ public struct Effect: Equatable, Codable {
         case playedCardOutOfTurn
         case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
-        case otherDamagedBy(String)
+        case damagingWith(String)
     }
 
     public init(

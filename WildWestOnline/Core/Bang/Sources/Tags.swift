@@ -981,9 +981,9 @@ extension Effect {
         )
     }
 
-    static var discard_anyHand_onOtherDamagedByBang: Effect {
+    static var discard_anyHand_onDamagingWithBang: Effect {
         .init(
-            when: .otherDamagedBy("bang"),
+            when: .damagingWith("bang"),
             action: .discard,
             selectors: [
                 .target(.damaged),
@@ -1008,6 +1008,16 @@ extension Effect {
             action: .setAttribute,
             selectors: [
                 .effectAttribute(.bangDamage, value: 2)
+            ]
+        )
+    }
+
+    static var drawDeck_offender_onDamagedWithBang: Effect {
+        .init(
+            when: .damagedWith("bang"),
+            action: .drawDeck,
+            selectors: [
+                .target(.offender)
             ]
         )
     }
