@@ -432,6 +432,13 @@ public enum Cards {
             // Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.
             .handicap,
             .drawDeck_offender_onDamagedWithBang
+        ],
+        "Rattlesnake": [
+            // Play in front any player. At beginnings of that player's turn, he draw: On Spade, he lose 1 life point, otherwise he does nothing.
+            .handicap,
+            .draw_onTurnStarted,
+            .damage_onTurnStarted_ifDrawSpades
+
         ]
     ]
 }

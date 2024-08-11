@@ -1021,4 +1021,15 @@ extension Effect {
             ]
         )
     }
+
+    static var damage_onTurnStarted_ifDrawSpades: Effect {
+        .init(
+            when: .turnStarted,
+            action: .damage,
+            selectors: [
+                .if(.draw("♠️")),
+                .arg(.damageAmount, value: .value(1))
+            ]
+        )
+    }
 }
