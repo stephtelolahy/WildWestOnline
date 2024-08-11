@@ -96,7 +96,6 @@ public struct Effect: Equatable, Codable {
             case excessHand
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
-            case remainingStartTurnCards
             case playerAttr(PlayerAttribute)
             case effectAttr(EffectAttribute)
             case add(Int, attr: PlayerAttribute)
@@ -150,7 +149,6 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
 
     // ⚠️ related to specific card
-    case startTurnCards
     case playBangWithMissed
     case playBangWithAny
     case playMissedWithBang
@@ -163,6 +161,7 @@ public enum EffectAttribute: String, Codable {
     case bangLimitPerTurn
     case bangRequiredMisses
     case bangDamage
+    case startTurnCards
 }
 
 /// An action is some kind of change

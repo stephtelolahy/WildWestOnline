@@ -377,12 +377,13 @@ extension Effect {
         )
     }
 
-    static var drawDeck_remainingStartTurnCards_onTurnStarted: Effect {
+    static var drawDeck_startTurnCards_onTurnStarted: Effect {
         .init(
             when: .turnStarted,
             action: .drawDeck,
             selectors: [
-                .repeat(.remainingStartTurnCards)
+                .effectAttribute(.startTurnCards, value: 2),
+                .repeat(.effectAttr(.startTurnCards))
             ]
         )
     }
@@ -497,22 +498,22 @@ extension Effect {
         )
     }
 
-    static var reveal_startTurnCardsPlus1: Effect {
+    static var reveal_3_onTurnStarted: Effect {
         .init(
-            when: .played,
+            when: .turnStarted,
             action: .reveal,
             selectors: [
-                .arg(.revealCount, value: .add(1, attr: .startTurnCards))
+                .arg(.revealCount, value: .value(3))
             ]
         )
     }
 
-    static var chooseCard_startTurnCards: Effect {
+    static var chooseCard_2_onTurnStarted: Effect {
         .init(
-            when: .played,
+            when: .turnStarted,
             action: .chooseCard,
             selectors: [
-                .repeat(.playerAttr(.startTurnCards))
+                .repeat(.value(3))
             ]
         )
     }
@@ -548,16 +549,6 @@ extension Effect {
             selectors: [
                 .chooseTarget([.havingHandCard]),
                 .chooseCard()
-            ]
-        )
-    }
-
-    static var setAttribute_startTurnCards_2: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .playerAttribute(.startTurnCards, value: 2)
             ]
         )
     }
@@ -741,7 +732,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.startTurnCards, value: 3)
+                .effectAttribute(.startTurnCards, value: 3)
             ]
         )
     }
@@ -751,7 +742,17 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.startTurnCards, value: 1)
+                .effectAttribute(.startTurnCards, value: 1)
+            ]
+        )
+    }
+
+    static var setAttribute_startTurnCards_0: Effect {
+        .init(
+            when: .played,
+            action: .setAttribute,
+            selectors: [
+                .effectAttribute(.startTurnCards, value: 0)
             ]
         )
     }

@@ -20,9 +20,8 @@ public enum Cards {
         ],
         "default": [
             .setAttribute_weapon_1,
-            .setAttribute_startTurnCards_2,
             .setAttribute_drawCards_1,
-            .drawDeck_remainingStartTurnCards_onTurnStarted,
+            .drawDeck_startTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
@@ -216,9 +215,9 @@ public enum Cards {
         ],
         "kitCarlson": [
             // "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."
-            // ⚠️ override startTurn
-            .reveal_startTurnCardsPlus1,
-            .chooseCard_startTurnCards,
+            .setAttribute_startTurnCards_0,
+            .reveal_3_onTurnStarted,
+            .chooseCard_2_onTurnStarted,
             .setAttribute_maxHealth_4
         ],
         "blackJack": [
