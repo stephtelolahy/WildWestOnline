@@ -35,17 +35,17 @@ public struct Effect: Equatable, Codable {
         case `if`(StateCondition)
 
         /// must discard hand cards
-        case costHandCard(CardCondition? = nil, count: Int = 1)
+        case mustDiscardHandCard(CardCondition? = nil, count: Int = 1)
 
         /// can discard hand card to counter the effect
-        case counterCost([CardCondition]? = nil, count: Int = 1)
+        case chooseCounterWithHandCard(CardCondition? = nil, count: Int = 1)
         /// can discard hand card to reverse effect
-        case reverseCost([CardCondition])
+        case chooseReverseWithHandCard(CardCondition)
 
         /// can choose a card or skip effect
-        case cardOrSkip([CardCondition])
+        case chooseCardOrSkip(CardCondition)
         /// can choose to loose one life point or skip effect
-        case looseLifePointOrSkip
+        case chooseLooseLifePointOrSkip
 
         public enum Target: String, Codable {
             case actor
@@ -67,7 +67,6 @@ public struct Effect: Equatable, Codable {
             case played
             case all
             case inPlay(Condition)
-            case anyChoosable
 
             public enum Condition: Equatable, Codable {
                 case fromHand
@@ -86,6 +85,7 @@ public struct Effect: Equatable, Codable {
             case isBlue
             case action(GameAction)
             case attr(PlayerAttribute)
+            case anyChoosable
         }
 
         public enum ActionArg: String, Codable {

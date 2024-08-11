@@ -121,7 +121,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .counterCost([.named("bang")]),
+                .chooseCounterWithHandCard(.named("bang")),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -133,7 +133,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .chooseTarget(),
-                .reverseCost([.named("bang")]),
+                .chooseReverseWithHandCard(.named("bang")),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -155,7 +155,7 @@ extension Effect {
             action: .chooseCard,
             selectors: [
                 .target(.all),
-                .card(.anyChoosable)
+                .chooseCard(.anyChoosable)
             ]
         )
     }
@@ -437,7 +437,7 @@ extension Effect {
             when: .shot,
             action: .play,
             selectors: [
-                .cardOrSkip([.action(.missed)])
+                .chooseCardOrSkip(.action(.missed))
             ]
         )
     }
@@ -448,7 +448,7 @@ extension Effect {
             action: .play,
             selectors: [
                 .if(.playersAtLeast(3)),
-                .cardOrSkip([.named("beer")])
+                .chooseCardOrSkip(.named("beer"))
             ]
         )
     }
@@ -488,7 +488,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .costHandCard(count: 2),
+                .mustDiscardHandCard(count: 2),
                 .arg(.healAmount, value: .value(1))
             ]
         )
@@ -674,7 +674,7 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .costHandCard(),
+                .mustDiscardHandCard(),
                 .chooseTarget()
             ]
         )
@@ -685,7 +685,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .costHandCard(),
+                .mustDiscardHandCard(),
                 .arg(.healAmount, value: .value(2))
             ]
         )
@@ -696,7 +696,7 @@ extension Effect {
             when: .played,
             action: .heal,
             selectors: [
-                .costHandCard(),
+                .mustDiscardHandCard(),
                 .chooseTarget(),
                 .arg(.healAmount, value: .value(1))
             ]
@@ -708,7 +708,7 @@ extension Effect {
             when: .played,
             action: .steal,
             selectors: [
-                .costHandCard(),
+                .mustDiscardHandCard(),
                 .chooseTarget(),
                 .chooseCard()
             ]
@@ -720,7 +720,7 @@ extension Effect {
             when: .played,
             action: .discard,
             selectors: [
-                .costHandCard(),
+                .mustDiscardHandCard(),
                 .target(.all),
                 .chooseCard()
             ]
@@ -820,7 +820,7 @@ extension Effect {
             action: .drawDeck,
             selectors: [
                 .if(.playedLessThan(.value(2))),
-                .costHandCard(.isBlue),
+                .mustDiscardHandCard(.isBlue),
                 .repeat(.value(2))
             ]
         )
@@ -831,7 +831,7 @@ extension Effect {
             when: .played,
             action: .drawDeck,
             selectors: [
-                .looseLifePointOrSkip,
+                .chooseLooseLifePointOrSkip,
                 .repeat(.value(2))
             ]
         )
@@ -843,7 +843,7 @@ extension Effect {
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.value(1))),
-                .costHandCard(count: 2),
+                .mustDiscardHandCard(count: 2),
                 .chooseTarget([.atDistance(.attr(.weapon))])
             ]
         )
@@ -898,7 +898,7 @@ extension Effect {
             action: .drawDeck,
             selectors: [
                 .target(.all),
-                .costHandCard(),
+                .mustDiscardHandCard(),
                 .repeat(.value(2))
             ]
         )
@@ -939,7 +939,7 @@ extension Effect {
             when: .otherDamaged,
             action: .play,
             selectors: [
-                .cardOrSkip([.named("saved")])
+                .chooseCardOrSkip(.named("saved"))
             ]
         )
     }
@@ -960,7 +960,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .counterCost(count: 2),
+                .chooseCounterWithHandCard(count: 2),
                 .arg(.damageAmount, value: .value(1))
             ]
         )
@@ -1014,7 +1014,7 @@ extension Effect {
             when: .cardPlayed(.named("bang")),
             action: .play,
             selectors: [
-                .cardOrSkip([.named("aim")])
+                .chooseCardOrSkip(.named("aim"))
             ]
         )
     }
