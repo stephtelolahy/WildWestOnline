@@ -1,7 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-// swiftlint:disable no_magic_numbers file_length
+// swiftlint:disable no_magic_numbers
 
 typealias Card = [Effect]
 
@@ -26,13 +26,6 @@ public enum Cards {
             .discard_previousWeapon_onWeaponPlayed,
             .play_missed_onShot,
             .play_beer_onDamagedLethal
-        ],
-        "jail": [
-            // "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn"
-            .handicap,
-            .draw_onTurnStarted,
-            .endTurn_onTurnStarted_ifNotDrawHearts,
-            .discard_onTurnStarted
         ],
         "barrel": [
             // "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens."

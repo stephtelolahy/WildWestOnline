@@ -162,26 +162,6 @@ extension Effect {
         )
     }
 
-    static var endTurn_onTurnStarted_ifNotDrawHearts: Effect {
-        .init(
-            when: .turnStarted,
-            action: .endTurn,
-            selectors: [
-                .if(.not(.draw("♥️")))
-            ]
-        )
-    }
-
-    static var discard_onTurnStarted: Effect {
-        .init(
-            when: .turnStarted,
-            action: .discard,
-            selectors: [
-                .card(.played)
-            ]
-        )
-    }
-
     // MARK: - Abilities
 
     static var endTurn: Effect {

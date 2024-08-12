@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/08/2024.
 //
 
-// swiftlint:disable no_magic_numbers line_length
+// swiftlint:disable no_magic_numbers line_length file_length
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
@@ -38,7 +38,9 @@ public enum Inventory {
         winchester,
         volcanic,
         scope,
-        mustang
+        mustang,
+        scope,
+        jail
     ]
 }
 
@@ -382,6 +384,34 @@ private extension Inventory {
                     action: .incrementAttribute,
                     selectors: [
                         .attr(.remoteness, value: 1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var jail: Card {
+        .init(
+            id: "jail",
+            desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
+            effects: [
+                .handicap,
+                .init(
+                    when: .turnStarted,
+                    action: .draw
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .endTurn,
+                    selectors: [
+                        .if(.not(.draw("♥️")))
+                    ]
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .discard,
+                    selectors: [
+                        .card(.played)
                     ]
                 )
             ]
