@@ -22,16 +22,6 @@ extension Effect {
         )
     }
 
-    static var heal_all: Effect {
-        .init(
-            when: .played,
-            action: .heal,
-            selectors: [
-                .target(.all)
-            ]
-        )
-    }
-
     static var drawDeck_2: Effect {
         .init(
             when: .played,

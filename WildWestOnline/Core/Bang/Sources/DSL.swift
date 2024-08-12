@@ -215,9 +215,6 @@ public enum GameAction: String, Codable {
     /// {actor} counter a shot applied on himself
     case missed
 
-    /// {target} choose a {card} from choosable cards
-    case chooseCard
-
     /// {actor} equip with a {card}
     case equip
 
@@ -227,8 +224,14 @@ public enum GameAction: String, Codable {
     /// expose {amount} choosable cards from top deck
     case reveal
 
+    /// {target} choose a {card} from choosable cards
+    case chooseCard
+
     /// draw cards from deck. Next effects depend it
     case draw
+
+    /// {actor} shows his last drawn card
+    case showLastDraw
 
     /// {actor} ends his turn
     case endTurn
@@ -238,9 +241,6 @@ public enum GameAction: String, Codable {
 
     /// {actor} gets eliminated
     case eliminate
-
-    /// {actor} shows his last drawn card
-    case showLastDraw
 
     /// {actor} draws the last discarded card
     case drawDiscard

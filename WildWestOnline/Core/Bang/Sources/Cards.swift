@@ -9,14 +9,15 @@
 /// Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 ///
 public enum Inventory {
-    public struct Card {
+    public struct Card: Equatable, Codable {
         public let id: String
         public let desc: String
         public let effects: [Effect]
     }
 
     static var cards: [Card] = [
-        beer
+        beer,
+        saloon
     ]
 }
 
@@ -32,6 +33,23 @@ extension Inventory {
                     action: .heal,
                     selectors: [
                         .if(.playersAtLeast(3))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var saloon: Card {
+        .init(
+            id: "saloon",
+            desc: "All players in play regain one life point.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .target(.all)
                     ]
                 )
             ]
@@ -65,11 +83,6 @@ public enum Cards {
         ],
 
         // MARK: - Bang
-        "saloon": [
-            // "all players in play regain one life point."
-            .brown,
-            .heal_all
-        ],
         "stagecoach": [
             // "Draw two cards from the top of the deck."
             .brown,
