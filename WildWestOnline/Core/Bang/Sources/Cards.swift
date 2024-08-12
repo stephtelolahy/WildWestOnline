@@ -27,12 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        
-        "willyTheKid": [
-            // "he can play any number of BANG! cards during his turn."
-            .setAttribute_bangLimitPerTurn_0,
-            .setAttribute_maxHealth(4)
-        ],
         "roseDoolan": [
             // "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1."
             .incrementAttribute_magnifying,

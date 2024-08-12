@@ -42,7 +42,8 @@ public enum Inventory {
         scope,
         jail,
         barrel,
-        dynamite
+        dynamite,
+        willyTheKid
     ]
 }
 
@@ -474,6 +475,29 @@ private extension Inventory {
                     selectors: [
                         .if(.draw("[2-9]♠️")),
                         .card(.played)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var willyTheKid: Card {
+        .init(
+            id: "willyTheKid",
+            desc: "he can play any number of BANG! cards during his turn.",
+            effects: [
+                .init(
+                    when: .played,
+                    action: .overrideArg,
+                    selectors: [
+                        .overrideArg(.limitPerTurn, value: 0, card: "bang")
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attr(.maxHealth, value: 4)
                     ]
                 )
             ]

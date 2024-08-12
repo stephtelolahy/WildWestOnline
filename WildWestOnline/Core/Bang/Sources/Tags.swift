@@ -85,16 +85,6 @@ extension Effect {
         )
     }
 
-    static var setAttribute_bangLimitPerTurn_0: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .overrideArg(.limitPerTurn, value: 0, card: "bang")
-            ]
-        )
-    }
-
     static var incrementAttribute_magnifying: Effect {
         .init(
             when: .played,
