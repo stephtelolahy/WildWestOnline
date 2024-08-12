@@ -54,7 +54,9 @@ public enum Inventory {
         jail,
         barrel,
         dynamite,
-        willyTheKid
+        willyTheKid,
+        roseDoolan,
+        paulRegret
     ]
 }
 
@@ -450,6 +452,24 @@ private extension Inventory {
             desc: "he can play any number of BANG! cards during his turn.",
             attributes: [.maxHealth: 4],
             overrides: ["bang": [.limitPerTurn: 0]]
+        )
+    }
+
+    static var roseDoolan: Card {
+        .init(
+            id: "roseDoolan",
+            desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
+            attributes: [.maxHealth: 4],
+            improvements: [.magnifying: 1]
+        )
+    }
+
+    static var paulRegret: Card {
+        .init(
+            id: "paulRegret",
+            desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
+            attributes: [.maxHealth: 3],
+            improvements: [.remoteness: 1]
         )
     }
 }

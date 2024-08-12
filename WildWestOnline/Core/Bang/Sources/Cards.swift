@@ -27,16 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "roseDoolan": [
-            // "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1."
-            .incrementAttribute_magnifying,
-            .setAttribute_maxHealth(4)
-        ],
-        "paulRegret": [
-            // "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him."
-            .incrementAttribute_remoteness,
-            .setAttribute_maxHealth(3)
-        ],
         "jourdonnais": [
             // "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card."
             .draw_onShot,
