@@ -22,16 +22,6 @@ extension Effect {
         )
     }
 
-    static var heal_ifPlayersAtLeast3: Effect {
-        .init(
-            when: .played,
-            action: .heal,
-            selectors: [
-                .if(.playersAtLeast(3))
-            ]
-        )
-    }
-
     static var heal_all: Effect {
         .init(
             when: .played,

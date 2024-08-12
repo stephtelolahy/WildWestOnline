@@ -8,6 +8,39 @@
 /// A `card` is just a collection of effects using `Tag system`
 /// Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 ///
+public enum Inventory {
+    public struct Card {
+        public let id: String
+        public let desc: String
+        public let effects: [Effect]
+    }
+
+    static var cards: [Card] = [
+        beer
+    ]
+}
+
+extension Inventory {
+    static var beer: Card {
+        .init(
+            id: "beer",
+            desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .if(.playersAtLeast(3))
+                    ]
+                )
+            ]
+        )
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 typealias Card = [Effect]
 
 public enum Cards {
@@ -32,12 +65,6 @@ public enum Cards {
         ],
 
         // MARK: - Bang
-
-        "beer": [
-            // "regain one life point. Beer has no effect if there are only 2 players left in the game."
-            .brown,
-            .heal_ifPlayersAtLeast3
-        ],
         "saloon": [
             // "all players in play regain one life point."
             .brown,
