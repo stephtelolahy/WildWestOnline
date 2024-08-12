@@ -83,7 +83,7 @@ public struct Effect: Equatable, Codable {
             case suits(String)
             case named(String)
             case action(GameAction)
-            case choosable
+            case revealed
         }
 
         public enum Number: Equatable, Codable {

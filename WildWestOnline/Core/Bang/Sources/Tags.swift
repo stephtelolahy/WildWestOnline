@@ -39,28 +39,6 @@ extension Effect {
 }
 
 extension Effect {
-    
-    static var reveal_activePlayers: Effect {
-        .init(
-            when: .played,
-            action: .reveal,
-            selectors: [
-                .arg(.revealAmount, value: .activePlayers)
-            ]
-        )
-    }
-
-    static var chooseCard_all: Effect {
-        .init(
-            when: .played,
-            action: .chooseCard,
-            selectors: [
-                .target(.all),
-                .chooseCard(.choosable)
-            ]
-        )
-    }
-
     // MARK: - Collectible - Equipment
 
     static var equip: Effect {

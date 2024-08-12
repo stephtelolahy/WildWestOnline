@@ -30,7 +30,8 @@ public enum Inventory {
         missed,
         gatling,
         indians,
-        duel
+        duel,
+        generalStore
     ]
 }
 
@@ -223,6 +224,31 @@ private extension Inventory {
                     selectors: [
                         .chooseTarget(),
                         .chooseEventuallyReverseHandCard(.named("bang"))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var generalStore: Card {
+        .init(
+            id: "generalStore",
+            desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .reveal,
+                    selectors: [
+                        .arg(.revealAmount, value: .activePlayers)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .chooseCard,
+                    selectors: [
+                        .target(.all),
+                        .chooseCard(.revealed)
                     ]
                 )
             ]
