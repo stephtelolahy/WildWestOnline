@@ -27,32 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "schofield": [
-            // "can hit targets at a distance of 2."
-            .equip,
-            .setAttribute_weapon(2)
-        ],
-        "remington": [
-            // "can hit targets at a distance of 3."
-            .equip,
-            .setAttribute_weapon(3)
-        ],
-        "revCarabine": [
-            // "can hit targets at a distance of 4."
-            .equip,
-            .setAttribute_weapon(4)
-        ],
-        "winchester": [
-            // "can hit targets at a distance of 5."
-            .equip,
-            .setAttribute_weapon(5)
-        ],
-        "volcanic": [
-            // "can play any number of BANG! cards during your turn but limited to a distance of 1"
-            .equip,
-            .setAttribute_weapon(1),
-            .setAttribute_bangLimitPerTurn_0
-        ],
         "scope": [
             // "you see all the other players at a distance decreased by 1"
             .equip,

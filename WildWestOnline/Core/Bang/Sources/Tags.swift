@@ -23,6 +23,16 @@ extension Effect {
         )
     }
 
+    static var equip: Effect {
+        .init(
+            when: .played,
+            action: .equip,
+            selectors: [
+                .card(.played)
+            ]
+        )
+    }
+
     static var shoot_reachable_bangLimitPerTurn: Effect {
         .init(
             when: .played,
@@ -40,16 +50,6 @@ extension Effect {
 
 extension Effect {
     // MARK: - Collectible - Equipment
-
-    static var equip: Effect {
-        .init(
-            when: .played,
-            action: .equip,
-            selectors: [
-                .card(.played)
-            ]
-        )
-    }
 
     static var draw_onShot: Effect {
         .init(

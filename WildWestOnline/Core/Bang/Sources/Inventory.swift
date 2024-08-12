@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/08/2024.
 //
 
-// swiftlint:disable no_magic_numbers
+// swiftlint:disable no_magic_numbers line_length
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
@@ -31,7 +31,12 @@ public enum Inventory {
         gatling,
         indians,
         duel,
-        generalStore
+        generalStore,
+        schofield,
+        remington,
+        revCarabine,
+        winchester,
+        volcanic
     ]
 }
 
@@ -249,6 +254,98 @@ private extension Inventory {
                     selectors: [
                         .target(.all),
                         .chooseCard(.revealed)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var schofield: Card {
+        .init(
+            id: "schofield",
+            desc: "can hit targets at a distance of 2.",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attr(.weapon, value: 2)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var remington: Card {
+        .init(
+            id: "remington",
+            desc: "can hit targets at a distance of 3.",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attr(.weapon, value: 3)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var revCarabine: Card {
+        .init(
+            id: "revCarabine",
+            desc: "can hit targets at a distance of 4.",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attr(.weapon, value: 4)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var winchester: Card {
+        .init(
+            id: "winchester",
+            desc: "can hit targets at a distance of 5.",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attr(.weapon, value: 5)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var volcanic: Card {
+        .init(
+            id: "volcanic",
+            desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .overrideArg,
+                    selectors: [
+                        .overrideArg(.limitPerTurn, value: 0, card: "bang")
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attr(.weapon, value: 1)
                     ]
                 )
             ]

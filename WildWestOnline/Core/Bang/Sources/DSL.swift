@@ -239,6 +239,9 @@ public enum GameAction: String, Codable {
     /// {actor} increase his {attribute} by {value}
     case incrementAttribute
 
+    /// {actor} override other {card}'s action {argument}
+    case overrideArg
+
     /// Arguments required for dispatching a specific action
     public enum Argument: String, Codable {
         case healAmount
