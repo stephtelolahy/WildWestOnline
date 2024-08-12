@@ -36,7 +36,9 @@ public enum Inventory {
         remington,
         revCarabine,
         winchester,
-        volcanic
+        volcanic,
+        scope,
+        mustang
     ]
 }
 
@@ -346,6 +348,40 @@ private extension Inventory {
                     action: .setAttribute,
                     selectors: [
                         .attr(.weapon, value: 1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var scope: Card {
+        .init(
+            id: "scope",
+            desc: "you see all the other players at a distance decreased by 1",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attr(.magnifying, value: 1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var mustang: Card {
+        .init(
+            id: "mustang",
+            desc: "the distance between other players and you is increased by 1",
+            effects: [
+                .equip,
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attr(.remoteness, value: 1)
                     ]
                 )
             ]

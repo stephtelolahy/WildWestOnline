@@ -27,16 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "scope": [
-            // "you see all the other players at a distance decreased by 1"
-            .equip,
-            .incrementAttribute_magnifying
-        ],
-        "mustang": [
-            // "the distance between other players and you is increased by 1"
-            .equip,
-            .incrementAttribute_remoteness
-        ],
         "jail": [
             // "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn"
             .handicap,
