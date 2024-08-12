@@ -29,7 +29,7 @@ public struct Effect: Equatable, Codable {
 
         /// determine action argument
         case arg(ActionArg, value: Number)
-        case overrideActionArg(ActionArg, value: Int, card: String)
+        case overrideArg(ActionArg, value: Int, card: String)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -92,6 +92,7 @@ public struct Effect: Equatable, Codable {
             case damageAmount
             case shootRequiredMisses
             case revealCount
+            case limitPerTurn
         }
 
         public enum Number: Equatable, Codable {
@@ -102,6 +103,7 @@ public struct Effect: Equatable, Codable {
             case playerAttr(PlayerAttribute)
             case effectAttr(EffectAttribute)
             case add(Int, attr: PlayerAttribute)
+            case arg(ActionArg)
             case value(Int)
         }
 
@@ -170,7 +172,6 @@ public enum PlayerAttribute: String, Codable {
 }
 
 public enum EffectAttribute: String, Codable {
-    case bangLimitPerTurn
     case startTurnCards
 }
 

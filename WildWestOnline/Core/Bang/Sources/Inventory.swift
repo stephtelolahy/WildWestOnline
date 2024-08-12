@@ -149,11 +149,11 @@ private extension Inventory {
                     when: .played,
                     action: .shoot,
                     selectors: [
-                        .effectAttribute(.bangLimitPerTurn, value: 1),
-                        .if(.playedLessThan(.effectAttr(.bangLimitPerTurn))),
-                        .chooseTarget([.atDistance(.playerAttr(.weapon))]),
+                        .arg(.limitPerTurn, value: .value(1)),
                         .arg(.shootRequiredMisses, value: .value(1)),
-                        .arg(.damageAmount, value: .value(1))
+                        .arg(.damageAmount, value: .value(1)),
+                        .if(.playedLessThan(.arg(.limitPerTurn))),
+                        .chooseTarget([.atDistance(.playerAttr(.weapon))])
                     ]
                 )
             ]

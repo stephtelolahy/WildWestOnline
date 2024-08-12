@@ -28,11 +28,11 @@ extension Effect {
             when: .played,
             action: .shoot,
             selectors: [
-                .effectAttribute(.bangLimitPerTurn, value: 1),
-                .if(.playedLessThan(.effectAttr(.bangLimitPerTurn))),
-                .chooseTarget([.atDistance(.playerAttr(.weapon))]),
+                .arg(.limitPerTurn, value: .value(1)),
                 .arg(.shootRequiredMisses, value: .value(1)),
-                .arg(.damageAmount, value: .value(1))
+                .arg(.damageAmount, value: .value(1)),
+                .if(.playedLessThan(.arg(.limitPerTurn))),
+                .chooseTarget([.atDistance(.playerAttr(.weapon))])
             ]
         )
     }
@@ -167,7 +167,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .effectAttribute(.bangLimitPerTurn, value: 0)
+                .overrideArg(.limitPerTurn, value: 0, card: "bang")
             ]
         )
     }
@@ -435,7 +435,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .overrideActionArg(.shootRequiredMisses, value: 2, card: "bang")
+                .overrideArg(.shootRequiredMisses, value: 2, card: "bang")
             ]
         )
     }
@@ -869,7 +869,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .overrideActionArg(.damageAmount, value: 2, card: "bang")
+                .overrideArg(.damageAmount, value: 2, card: "bang")
             ]
         )
     }
