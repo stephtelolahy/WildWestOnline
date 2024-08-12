@@ -94,20 +94,6 @@ public enum Cards {
             .reveal_activePlayers,
             .chooseCard_all
         ],
-        "barrel": [
-            // "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens."
-            .equip,
-            .draw_onShot,
-            .missed_onShot_ifDrawHearts
-        ],
-        "dynamite": [
-            // "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            .equip,
-            .draw_onTurnStarted,
-            .pass_next_onTurnStarted_ifNotDrawSpades,
-            .damage_3_onTurnStarted_ifDrawSpades,
-            .discard_onTurnStarted_ifDrawSpades
-        ],
         "schofield": [
             // "can hit targets at a distance of 2."
             .equip,
@@ -150,6 +136,20 @@ public enum Cards {
             .draw_onTurnStarted,
             .endTurn_onTurnStarted_ifNotDrawHearts,
             .discard_onTurnStarted
+        ],
+        "barrel": [
+            // "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens."
+            .equip,
+            .draw_onShot,
+            .missed_onShot_ifDrawHearts
+        ],
+        "dynamite": [
+            // "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
+            .equip,
+            .draw_onTurnStarted,
+            .pass_next_onTurnStarted_ifNotDrawSpades,
+            .damage_3_onTurnStarted_ifDrawSpades,
+            .discard_onTurnStarted_ifDrawSpades
         ],
         "willyTheKid": [
             // "he can play any number of BANG! cards during his turn."
@@ -468,6 +468,14 @@ public enum Cards {
         "derSpotBurstRinger": [
             // Once per turn, he can play a Bang! card as Gatling.
             .shoot_others_oncePerTurn_costBangHandCard
+        ],
+        "escape": [
+            // If you are target of card other than BANG! card, you may discard this card to avoid that card's effect.
+            // ⚠️ Counter a card effect
+        ],
+        "Ghost": [
+            // Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player.
+            // ⚠️ player without health
         ]
     ]
 }

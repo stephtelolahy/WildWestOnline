@@ -1041,7 +1041,7 @@ extension Effect {
             action: .shoot,
             selectors: [
                 .if(.playedLessThan(.value(1))),
-                .chooseCostHandCard(.regex("♣️")),
+                .chooseCostHandCard(.suits("♣️")),
                 .chooseTarget([.atDistance(.playerAttr(.weapon))])
             ]
         )
