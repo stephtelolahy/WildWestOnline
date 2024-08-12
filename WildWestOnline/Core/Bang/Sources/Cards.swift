@@ -27,12 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "barrel": [
-            // "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens."
-            .equip,
-            .draw_onShot,
-            .missed_onShot_ifDrawHearts
-        ],
         "dynamite": [
             // "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
             .equip,

@@ -40,7 +40,8 @@ public enum Inventory {
         scope,
         mustang,
         scope,
-        jail
+        jail,
+        barrel
     ]
 }
 
@@ -412,6 +413,27 @@ private extension Inventory {
                     action: .discard,
                     selectors: [
                         .card(.played)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var barrel: Card {
+        .init(
+            id: "barrel",
+            desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
+            effects: [
+                .equip,
+                .init(
+                    when: .shot,
+                    action: .draw
+                ),
+                .init(
+                    when: .shot,
+                    action: .missed,
+                    selectors: [
+                        .if(.draw("♥️"))
                     ]
                 )
             ]
