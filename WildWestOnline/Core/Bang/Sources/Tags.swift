@@ -8,7 +8,7 @@
 
 /// Defining Tags
 /// ℹ️ Naming = {action}_{argValue}_on{Event}_if{Condition}
-/// ⚠️ Before dispatching resolved action, verify initial event is still confirmed as state
+/// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
 extension Effect {
     // MARK: - Collectible - Action
 
@@ -123,8 +123,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .chooseEventuallyCounterHandCard(.named("bang")),
-                .arg(.damageAmount, value: .value(1))
+                .chooseEventuallyCounterHandCard(.named("bang"))
             ]
         )
     }
@@ -135,8 +134,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .chooseTarget(),
-                .chooseEventuallyReverseHandCard(.named("bang")),
-                .arg(.damageAmount, value: .value(1))
+                .chooseEventuallyReverseHandCard(.named("bang"))
             ]
         )
     }
@@ -886,8 +884,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .target(.others),
-                .chooseEventuallyCounterHandCard(count: 2),
-                .arg(.damageAmount, value: .value(1))
+                .chooseEventuallyCounterHandCard(count: 2)
             ]
         )
     }
@@ -970,8 +967,7 @@ extension Effect {
             when: .turnStarted,
             action: .damage,
             selectors: [
-                .if(.draw("♠️")),
-                .arg(.damageAmount, value: .value(1))
+                .if(.draw("♠️"))
             ]
         )
     }
@@ -999,8 +995,7 @@ extension Effect {
             action: .damage,
             selectors: [
                 .if(.draw("♠️")),
-                .target(.targeted),
-                .arg(.damageAmount, value: .value(1))
+                .target(.targeted)
             ]
         )
     }
