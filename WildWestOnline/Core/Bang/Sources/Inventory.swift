@@ -16,9 +16,17 @@ public enum Inventory {
     public struct Card: Equatable, Codable {
         public let id: String
         public let desc: String
+
+        /// set owner's {attribute} to {value}
         public var attributes: [PlayerAttribute: Int] = [:]
-        public var incrementAttributes: [PlayerAttribute: Int] = [:]
-        public var overrideArgs: [String: [GameAction.Argument: Int]] = [:]
+
+        /// increase owner's {attribute} by {value}
+        public var improvements: [PlayerAttribute: Int] = [:]
+
+        /// override other {card}'s action {argument}
+        public var overrides: [String: [GameAction.Argument: Int]] = [:]
+
+        /// actions that are triggered by this card when some {event} occurrs
         public var effects: [Effect] = []
     }
 
@@ -319,15 +327,9 @@ private extension Inventory {
             id: "volcanic",
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             attributes: [.weapon: 1],
+            overrides: ["bang": [.limitPerTurn: 0]],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .overrideArg,
-                    selectors: [
-                        .overrideArg(.limitPerTurn, value: 0, card: "bang")
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -336,15 +338,9 @@ private extension Inventory {
         .init(
             id: "scope",
             desc: "you see all the other players at a distance decreased by 1",
+            improvements: [.magnifying: 1],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .incrementAttribute,
-                    selectors: [
-                        .attr(.magnifying, value: 1)
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -353,15 +349,9 @@ private extension Inventory {
         .init(
             id: "mustang",
             desc: "the distance between other players and you is increased by 1",
+            improvements: [.remoteness: 1],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .incrementAttribute,
-                    selectors: [
-                        .attr(.remoteness, value: 1)
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -459,15 +449,7 @@ private extension Inventory {
             id: "willyTheKid",
             desc: "he can play any number of BANG! cards during his turn.",
             attributes: [.maxHealth: 4],
-            effects: [
-                .init(
-                    when: .played,
-                    action: .overrideArg,
-                    selectors: [
-                        .overrideArg(.limitPerTurn, value: 0, card: "bang")
-                    ]
-                )
-            ]
+            overrides: ["bang": [.limitPerTurn: 0]]
         )
     }
 }
