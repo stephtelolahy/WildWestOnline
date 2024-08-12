@@ -41,7 +41,8 @@ public enum Inventory {
         mustang,
         scope,
         jail,
-        barrel
+        barrel,
+        dynamite
     ]
 }
 
@@ -434,6 +435,45 @@ private extension Inventory {
                     action: .missed,
                     selectors: [
                         .if(.draw("♥️"))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var dynamite: Card {
+        .init(
+            id: "dynamite",
+            desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
+            effects: [
+                .equip,
+                .init(
+                    when: .turnStarted,
+                    action: .draw
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .pass,
+                    selectors: [
+                        .if(.not(.draw("[2-9]♠️"))),
+                        .card(.played),
+                        .target(.next)
+                    ]
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .damage,
+                    selectors: [
+                        .if(.draw("[2-9]♠️")),
+                        .arg(.damageAmount, value: .value(3))
+                    ]
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .discard,
+                    selectors: [
+                        .if(.draw("[2-9]♠️")),
+                        .card(.played)
                     ]
                 )
             ]

@@ -75,40 +75,6 @@ extension Effect {
         )
     }
 
-    static var pass_next_onTurnStarted_ifNotDrawSpades: Effect {
-        .init(
-            when: .turnStarted,
-            action: .pass,
-            selectors: [
-                .if(.not(.draw("[2-9]♠️"))),
-                .target(.next),
-                .card(.played)
-            ]
-        )
-    }
-
-    static var damage_3_onTurnStarted_ifDrawSpades: Effect {
-        .init(
-            when: .turnStarted,
-            action: .damage,
-            selectors: [
-                .if(.draw("[2-9]♠️")),
-                .arg(.damageAmount, value: .value(3))
-            ]
-        )
-    }
-
-    static var discard_onTurnStarted_ifDrawSpades: Effect {
-        .init(
-            when: .turnStarted,
-            action: .discard,
-            selectors: [
-                .if(.draw("[2-9]♠️")),
-                .card(.played)
-            ]
-        )
-    }
-
     static func setAttribute_weapon(_ value: Int) -> Effect {
         .init(
             when: .played,
