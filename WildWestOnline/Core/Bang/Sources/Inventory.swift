@@ -16,7 +16,10 @@ public enum Inventory {
     public struct Card: Equatable, Codable {
         public let id: String
         public let desc: String
-        public let effects: [Effect]
+        public var attributes: [PlayerAttribute: Int] = [:]
+        public var incrementAttributes: [PlayerAttribute: Int] = [:]
+        public var overrideArgs: [String: [GameAction.Argument: Int]] = [:]
+        public var effects: [Effect] = []
     }
 
     static var cards: [Card] = [
@@ -271,15 +274,9 @@ private extension Inventory {
         .init(
             id: "schofield",
             desc: "can hit targets at a distance of 2.",
+            attributes: [.weapon: 2],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .setAttribute,
-                    selectors: [
-                        .attr(.weapon, value: 2)
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -288,15 +285,9 @@ private extension Inventory {
         .init(
             id: "remington",
             desc: "can hit targets at a distance of 3.",
+            attributes: [.weapon: 3],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .setAttribute,
-                    selectors: [
-                        .attr(.weapon, value: 3)
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -305,15 +296,9 @@ private extension Inventory {
         .init(
             id: "revCarabine",
             desc: "can hit targets at a distance of 4.",
+            attributes: [.weapon: 4],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .setAttribute,
-                    selectors: [
-                        .attr(.weapon, value: 4)
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -322,15 +307,9 @@ private extension Inventory {
         .init(
             id: "winchester",
             desc: "can hit targets at a distance of 5.",
+            attributes: [.weapon: 5],
             effects: [
-                .equip,
-                .init(
-                    when: .played,
-                    action: .setAttribute,
-                    selectors: [
-                        .attr(.weapon, value: 5)
-                    ]
-                )
+                .equip
             ]
         )
     }
@@ -339,6 +318,7 @@ private extension Inventory {
         .init(
             id: "volcanic",
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
+            attributes: [.weapon: 1],
             effects: [
                 .equip,
                 .init(
@@ -346,13 +326,6 @@ private extension Inventory {
                     action: .overrideArg,
                     selectors: [
                         .overrideArg(.limitPerTurn, value: 0, card: "bang")
-                    ]
-                ),
-                .init(
-                    when: .played,
-                    action: .setAttribute,
-                    selectors: [
-                        .attr(.weapon, value: 1)
                     ]
                 )
             ]
@@ -485,19 +458,13 @@ private extension Inventory {
         .init(
             id: "willyTheKid",
             desc: "he can play any number of BANG! cards during his turn.",
+            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .played,
                     action: .overrideArg,
                     selectors: [
                         .overrideArg(.limitPerTurn, value: 0, card: "bang")
-                    ]
-                ),
-                .init(
-                    when: .played,
-                    action: .setAttribute,
-                    selectors: [
-                        .attr(.maxHealth, value: 4)
                     ]
                 )
             ]

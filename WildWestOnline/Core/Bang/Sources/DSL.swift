@@ -234,12 +234,15 @@ public enum GameAction: String, Codable {
     // MARK: ``Reversible``applied when card is played and reversed when card is discarded
 
     /// {actor} set his {attribute} to {value}
+    @available(*, deprecated, renamed: "attributes")
     case setAttribute
 
     /// {actor} increase his {attribute} by {value}
+    @available(*, deprecated, renamed: "improvements")
     case incrementAttribute
 
     /// {actor} override other {card}'s action {argument}
+    @available(*, deprecated, renamed: "overrides")
     case overrideArg
 
     /// Arguments required for dispatching a specific action
