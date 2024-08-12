@@ -239,11 +239,12 @@ public enum GameAction: String, Codable {
     /// {actor} increase his {attribute} by {value}
     case incrementAttribute
 
-    /// Arguments when dispatching action
+    /// Arguments required for dispatching a specific action
     public enum Argument: String, Codable {
-        case amount
         case healAmount
         case damageAmount
+        case repeatAmount
+        case revealAmount
         case shootRequiredMisses
         case limitPerTurn
     }
