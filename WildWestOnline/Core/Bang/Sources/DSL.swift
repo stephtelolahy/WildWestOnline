@@ -25,11 +25,10 @@ public struct Effect: Equatable, Codable {
 
         /// determine affected attribute
         case playerAttribute(PlayerAttribute, value: Int)
-        case effectAttribute(EffectAttribute, value: Int)
 
         /// determine action argument
-        case arg(ActionArg, value: Number)
-        case overrideArg(ActionArg, value: Int, card: String)
+        case arg(GameAction.Argument, value: Number)
+        case overrideArg(GameAction.Argument, value: Int, card: String)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -87,23 +86,14 @@ public struct Effect: Equatable, Codable {
             case choosable
         }
 
-        public enum ActionArg: String, Codable {
-            case healAmount
-            case damageAmount
-            case shootRequiredMisses
-            case revealCount
-            case limitPerTurn
-        }
-
         public enum Number: Equatable, Codable {
             case activePlayers
             case excessHand
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
             case playerAttr(PlayerAttribute)
-            case effectAttr(EffectAttribute)
             case add(Int, attr: PlayerAttribute)
-            case arg(ActionArg)
+            case arg(GameAction.Argument)
             case value(Int)
         }
 
@@ -169,10 +159,6 @@ public enum PlayerAttribute: String, Codable {
     case playMissedWithAny
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
-}
-
-public enum EffectAttribute: String, Codable {
-    case startTurnCards
 }
 
 /// An action is some kind of change
@@ -252,4 +238,13 @@ public enum GameAction: String, Codable {
 
     /// {actor} increase his {attribute} by {value}
     case incrementAttribute
+
+    /// Arguments when dispatching action
+    public enum Argument: String, Codable {
+        case amount
+        case healAmount
+        case damageAmount
+        case shootRequiredMisses
+        case limitPerTurn
+    }
 }

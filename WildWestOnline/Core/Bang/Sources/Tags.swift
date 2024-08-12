@@ -66,7 +66,7 @@ extension Effect {
             when: .played,
             action: .reveal,
             selectors: [
-                .arg(.revealCount, value: .activePlayers)
+                .arg(.amount, value: .activePlayers)
             ]
         )
     }
@@ -255,13 +255,13 @@ extension Effect {
         )
     }
 
-    static var drawDeck_startTurnCards_onTurnStarted: Effect {
+    static var drawDeck_2_onTurnStarted: Effect {
         .init(
             when: .turnStarted,
             action: .drawDeck,
             selectors: [
-                .effectAttribute(.startTurnCards, value: 2),
-                .repeat(.effectAttr(.startTurnCards))
+                .arg(.amount, value: .value(2)),
+                .repeat(.arg(.amount))
             ]
         )
     }
@@ -380,7 +380,7 @@ extension Effect {
             when: .turnStarted,
             action: .reveal,
             selectors: [
-                .arg(.revealCount, value: .value(3))
+                .arg(.amount, value: .value(3))
             ]
         )
     }
@@ -598,7 +598,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .effectAttribute(.startTurnCards, value: 3)
+                .overrideArg(.amount, value: 3, card: "startTurn")
             ]
         )
     }
@@ -608,7 +608,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .effectAttribute(.startTurnCards, value: 1)
+                .overrideArg(.amount, value: 1, card: "startTurn")
             ]
         )
     }
@@ -618,7 +618,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .effectAttribute(.startTurnCards, value: 0)
+                .overrideArg(.amount, value: 0, card: "startTurn")
             ]
         )
     }

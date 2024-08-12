@@ -13,10 +13,12 @@ public enum Cards {
             .endTurn,
             .discard_excessHand
         ],
+        "startTurn": [
+            .drawDeck_2_onTurnStarted
+        ],
         "default": [
             .setAttribute_weapon(1),
             .setAttribute_drawCards_1,
-            .drawDeck_startTurnCards_onTurnStarted,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
