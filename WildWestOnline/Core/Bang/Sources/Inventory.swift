@@ -56,7 +56,8 @@ public enum Inventory {
         dynamite,
         willyTheKid,
         roseDoolan,
-        paulRegret
+        paulRegret,
+        jourdonnais
     ]
 }
 
@@ -470,6 +471,27 @@ private extension Inventory {
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             attributes: [.maxHealth: 3],
             improvements: [.remoteness: 1]
+        )
+    }
+
+    static var jourdonnais: Card {
+        .init(
+            id: "jourdonnais",
+            desc: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .shot,
+                    action: .draw
+                ),
+                .init(
+                    when: .shot,
+                    action: .missed,
+                    selectors: [
+                        .if(.draw("♥️"))
+                    ]
+                )
+            ]
         )
     }
 }

@@ -58,16 +58,6 @@ extension Effect {
         )
     }
 
-    static var missed_onShot_ifDrawHearts: Effect {
-        .init(
-            when: .shot,
-            action: .missed,
-            selectors: [
-                .if(.draw("♥️"))
-            ]
-        )
-    }
-
     static var draw_onTurnStarted: Effect {
         .init(
             when: .turnStarted,

@@ -27,12 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "jourdonnais": [
-            // "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card."
-            .draw_onShot,
-            .missed_onShot_ifDrawHearts,
-            .setAttribute_maxHealth(4)
-        ],
         "bartCassidy": [
             // "each time he loses a life point, he immediately draws a card from the deck."
             .drawDeck_onDamaged,
