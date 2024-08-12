@@ -24,7 +24,8 @@ public enum Inventory {
         saloon,
         stagecoach,
         wellsFargo,
-        catBalou
+        catBalou,
+        panic
     ]
 }
 
@@ -108,6 +109,24 @@ extension Inventory {
                     action: .discard,
                     selectors: [
                         .chooseTarget([.havingCard]),
+                        .chooseCard()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var panic: Card {
+        .init(
+            id: "panic",
+            desc: "Draw a card from a player at distance 1",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .steal,
+                    selectors: [
+                        .chooseTarget([.atDistance(.value(1)), .havingCard]),
                         .chooseCard()
                     ]
                 )

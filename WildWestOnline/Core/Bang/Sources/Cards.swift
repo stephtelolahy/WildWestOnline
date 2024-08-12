@@ -27,11 +27,6 @@ public enum Cards {
         ],
 
         // MARK: - Bang
-        "panic": [
-            // "Draw a card from a player at distance 1"
-            .brown,
-            .steal_atDistanceOf1
-        ],
         "bang": [
             // "reduce other players’s life points"
             .brown,

@@ -22,17 +22,6 @@ extension Effect {
         )
     }
 
-    static var steal_atDistanceOf1: Effect {
-        .init(
-            when: .played,
-            action: .steal,
-            selectors: [
-                .chooseTarget([.atDistance(.value(1)), .havingCard]),
-                .chooseCard()
-            ]
-        )
-    }
-
     static var shoot_reachable_bangLimitPerTurn: Effect {
         .init(
             when: .played,
