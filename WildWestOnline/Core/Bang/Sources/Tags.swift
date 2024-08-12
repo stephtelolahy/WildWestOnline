@@ -22,26 +22,6 @@ extension Effect {
         )
     }
 
-    static var drawDeck_2: Effect {
-        .init(
-            when: .played,
-            action: .drawDeck,
-            selectors: [
-                .repeat(.value(2))
-            ]
-        )
-    }
-
-    static var drawDeck_3: Effect {
-        .init(
-            when: .played,
-            action: .drawDeck,
-            selectors: [
-                .repeat(.value(3))
-            ]
-        )
-    }
-
     static var discard_any: Effect {
         .init(
             when: .played,

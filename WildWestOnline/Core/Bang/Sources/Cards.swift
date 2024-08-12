@@ -1,63 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-// swiftlint:disable file_length no_magic_numbers
-
-/// We are working on a Card Definition Language that will allow people to create new cards,
-/// not currently in the game and see how they play.
-/// A `card` is just a collection of effects using `Tag system`
-/// Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
-///
-public enum Inventory {
-    public struct Card: Equatable, Codable {
-        public let id: String
-        public let desc: String
-        public let effects: [Effect]
-    }
-
-    static var cards: [Card] = [
-        beer,
-        saloon
-    ]
-}
-
-extension Inventory {
-    static var beer: Card {
-        .init(
-            id: "beer",
-            desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            effects: [
-                .brown,
-                .init(
-                    when: .played,
-                    action: .heal,
-                    selectors: [
-                        .if(.playersAtLeast(3))
-                    ]
-                )
-            ]
-        )
-    }
-
-    static var saloon: Card {
-        .init(
-            id: "saloon",
-            desc: "All players in play regain one life point.",
-            effects: [
-                .brown,
-                .init(
-                    when: .played,
-                    action: .heal,
-                    selectors: [
-                        .target(.all)
-                    ]
-                )
-            ]
-        )
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
+// swiftlint:disable no_magic_numbers file_length
 
 typealias Card = [Effect]
 
@@ -83,16 +27,6 @@ public enum Cards {
         ],
 
         // MARK: - Bang
-        "stagecoach": [
-            // "Draw two cards from the top of the deck."
-            .brown,
-            .drawDeck_2
-        ],
-        "wellsFargo": [
-            // "Draw three cards from the top of the deck."
-            .brown,
-            .drawDeck_3
-        ],
         "catBalou": [
             // "Force “any one player” to “discard a card”, regardless of the distance."
             .brown,
