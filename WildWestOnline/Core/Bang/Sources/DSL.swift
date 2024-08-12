@@ -24,7 +24,7 @@ public struct Effect: Equatable, Codable {
         case chooseCard(CardCondition? = nil)
 
         /// determine affected attribute
-        case playerAttribute(PlayerAttribute, value: Int)
+        case attr(PlayerAttribute, value: Int)
 
         /// determine action argument
         case arg(GameAction.Argument, value: Number)

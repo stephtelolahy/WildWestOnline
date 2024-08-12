@@ -39,17 +39,6 @@ extension Effect {
 }
 
 extension Effect {
-    static var damage_others_counterWithBang: Effect {
-        .init(
-            when: .played,
-            action: .damage,
-            selectors: [
-                .target(.others),
-                .chooseEventuallyCounterHandCard(.named("bang"))
-            ]
-        )
-    }
-
     static var damage_any_reverseWithBang: Effect {
         .init(
             when: .played,
@@ -157,7 +146,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.weapon, value: value)
+                .attr(.weapon, value: value)
             ]
         )
     }
@@ -177,7 +166,7 @@ extension Effect {
             when: .played,
             action: .incrementAttribute,
             selectors: [
-                .playerAttribute(.magnifying, value: 1)
+                .attr(.magnifying, value: 1)
             ]
         )
     }
@@ -187,7 +176,7 @@ extension Effect {
             when: .played,
             action: .incrementAttribute,
             selectors: [
-                .playerAttribute(.remoteness, value: 1)
+                .attr(.remoteness, value: 1)
             ]
         )
     }
@@ -445,7 +434,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.maxHealth, value: value)
+                .attr(.maxHealth, value: value)
             ]
         )
     }
@@ -455,7 +444,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.drawCards, value: 2)
+                .attr(.drawCards, value: 2)
             ]
         )
     }
@@ -465,7 +454,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.drawCards, value: 1)
+                .attr(.drawCards, value: 1)
             ]
         )
     }
@@ -475,7 +464,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.playBangWithMissed, value: 0)
+                .attr(.playBangWithMissed, value: 0)
             ]
         )
     }
@@ -485,7 +474,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.playMissedWithBang, value: 0)
+                .attr(.playMissedWithBang, value: 0)
             ]
         )
     }
@@ -571,7 +560,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.playMissedWithAny, value: 0)
+                .attr(.playMissedWithAny, value: 0)
             ]
         )
     }
@@ -581,7 +570,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.handLimit, value: 10)
+                .attr(.handLimit, value: 10)
             ]
         )
     }
@@ -714,7 +703,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.silentCardsDiamonds, value: 0)
+                .attr(.silentCardsDiamonds, value: 0)
             ]
         )
     }
@@ -724,7 +713,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.silentCardsInPlayDuringTurn, value: 0)
+                .attr(.silentCardsInPlayDuringTurn, value: 0)
             ]
         )
     }
@@ -838,7 +827,7 @@ extension Effect {
             when: .played,
             action: .setAttribute,
             selectors: [
-                .playerAttribute(.playBangWithAny, value: 0)
+                .attr(.playBangWithAny, value: 0)
             ]
         )
     }

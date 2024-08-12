@@ -150,10 +150,10 @@ private extension Inventory {
                     action: .shoot,
                     selectors: [
                         .arg(.limitPerTurn, value: .value(1)),
-                        .arg(.shootRequiredMisses, value: .value(1)),
-                        .arg(.damageAmount, value: .value(1)),
                         .if(.playedLessThan(.arg(.limitPerTurn))),
-                        .chooseTarget([.atDistance(.playerAttr(.weapon))])
+                        .chooseTarget([.atDistance(.playerAttr(.weapon))]),
+                        .arg(.shootRequiredMisses, value: .value(1)),
+                        .arg(.damageAmount, value: .value(1))
                     ]
                 )
             ]
@@ -185,6 +185,24 @@ private extension Inventory {
                     action: .shoot,
                     selectors: [
                         .target(.others)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var indians: Card {
+        .init(
+            id: "indians",
+            desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .damage,
+                    selectors: [
+                        .target(.others),
+                        .chooseEventuallyCounterHandCard(.named("bang"))
                     ]
                 )
             ]
