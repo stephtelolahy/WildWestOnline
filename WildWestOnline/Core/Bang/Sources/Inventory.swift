@@ -28,7 +28,9 @@ public enum Inventory {
         panic,
         bang,
         missed,
-        gatling
+        gatling,
+        indians,
+        duel
     ]
 }
 
@@ -203,6 +205,24 @@ private extension Inventory {
                     selectors: [
                         .target(.others),
                         .chooseEventuallyCounterHandCard(.named("bang"))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var duel: Card {
+        .init(
+            id: "duel",
+            desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .damage,
+                    selectors: [
+                        .chooseTarget(),
+                        .chooseEventuallyReverseHandCard(.named("bang"))
                     ]
                 )
             ]

@@ -27,11 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "duel": [
-            // "can challenge any other player. The first player failing to discard a BANG! card loses one life point."
-            .brown,
-            .damage_any_reverseWithBang
-        ],
         "generalStore": [
             // "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands."
             .brown,

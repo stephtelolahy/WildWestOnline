@@ -39,17 +39,7 @@ extension Effect {
 }
 
 extension Effect {
-    static var damage_any_reverseWithBang: Effect {
-        .init(
-            when: .played,
-            action: .damage,
-            selectors: [
-                .chooseTarget(),
-                .chooseEventuallyReverseHandCard(.named("bang"))
-            ]
-        )
-    }
-
+    
     static var reveal_activePlayers: Effect {
         .init(
             when: .played,
