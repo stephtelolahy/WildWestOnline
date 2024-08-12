@@ -25,12 +25,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-
-        "gatling": [
-            // "shoots to all the other players, regardless of the distance"
-            .brown,
-            .shoot_others
-        ],
         "indians": [
             // "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point."
             .brown,
@@ -335,7 +329,10 @@ public enum Cards {
         "backfire": [
             // Count as MISSED!. Player who shot you, is now target of BANG!.
             .brown,
-            .missed,
+            .init(
+                when: .played,
+                action: .missed
+            ),
             .shoot_reachable
         ],
         "tomahawk": [

@@ -41,16 +41,6 @@ extension Effect {
 }
 
 extension Effect {
-    static var shoot_others: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .target(.others)
-            ]
-        )
-    }
-
     static var damage_others_counterWithBang: Effect {
         .init(
             when: .played,

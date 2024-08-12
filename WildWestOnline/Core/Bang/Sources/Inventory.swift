@@ -27,7 +27,8 @@ public enum Inventory {
         catBalou,
         panic,
         bang,
-        missed
+        missed,
+        gatling
     ]
 }
 
@@ -170,6 +171,23 @@ private extension Inventory {
                 .init(
                     when: .played,
                     action: .missed
+                )
+            ]
+        )
+    }
+
+    static var gatling: Card {
+        .init(
+            id: "gatling",
+            desc: "shoots to all the other players, regardless of the distance",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .target(.others)
+                    ]
                 )
             ]
         )
