@@ -57,7 +57,11 @@ public enum Inventory {
         willyTheKid,
         roseDoolan,
         paulRegret,
-        jourdonnais
+        jourdonnais,
+        bartCassidy,
+        elGringo,
+        suzyLafayette,
+        sidKetchum
     ]
 }
 
@@ -489,6 +493,72 @@ private extension Inventory {
                     action: .missed,
                     selectors: [
                         .if(.draw("♥️"))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var bartCassidy: Card {
+        .init(
+            id: "bartCassidy",
+            desc: "each time he loses a life point, he immediately draws a card from the deck.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .damaged,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.lastDamage)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var elGringo: Card {
+        .init(
+            id: "elGringo",
+            desc: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
+            attributes: [.maxHealth: 3],
+            effects: [
+                .init(
+                    when: .damaged,
+                    action: .steal,
+                    selectors: [
+                        .target(.offender),
+                        .repeat(.lastDamage)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var suzyLafayette: Card {
+        .init(
+            id: "suzyLafayette",
+            desc: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .handEmpty,
+                    action: .drawDeck
+                )
+            ]
+        )
+    }
+
+    static var sidKetchum: Card {
+        .init(
+            id: "sidKetchum",
+            desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time. But remember: you cannot have more life points than your starting amount!",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .chooseCostHandCard(count: 2)
                     ]
                 )
             ]

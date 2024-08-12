@@ -27,26 +27,6 @@ public enum Cards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "bartCassidy": [
-            // "each time he loses a life point, he immediately draws a card from the deck."
-            .drawDeck_onDamaged,
-            .setAttribute_maxHealth(4)
-        ],
-        "elGringo": [
-            // "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player."
-            .steal_offender_onDamaged,
-            .setAttribute_maxHealth(3)
-        ],
-        "suzyLafayette": [
-            // "as soon as she has no cards in her hand, she draws a card from the draw pile."
-            .drawDeck_onHandEmpty,
-            .setAttribute_maxHealth(4)
-        ],
-        "sidKetchum": [
-            // "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time. But remember: you cannot have more life points than your starting amount!"
-            .heal_cost2HandCards,
-            .setAttribute_maxHealth(4)
-        ],
         "vultureSam": [
             // "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand."
             .steal_all_onOtherEliminated,

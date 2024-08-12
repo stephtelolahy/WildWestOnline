@@ -209,44 +209,6 @@ extension Effect {
 
     // MARK: - Figures
 
-    static var drawDeck_onDamaged: Effect {
-        .init(
-            when: .damaged,
-            action: .drawDeck,
-            selectors: [
-                .repeat(.lastDamage)
-            ]
-        )
-    }
-
-    static var steal_offender_onDamaged: Effect {
-        .init(
-            when: .damaged,
-            action: .steal,
-            selectors: [
-                .target(.offender),
-                .repeat(.lastDamage)
-            ]
-        )
-    }
-
-    static var drawDeck_onHandEmpty: Effect {
-        .init(
-            when: .handEmpty,
-            action: .drawDeck
-        )
-    }
-
-    static var heal_cost2HandCards: Effect {
-        .init(
-            when: .played,
-            action: .heal,
-            selectors: [
-                .chooseCostHandCard(count: 2)
-            ]
-        )
-    }
-
     static var steal_all_onOtherEliminated: Effect {
         .init(
             when: .otherEliminated,
