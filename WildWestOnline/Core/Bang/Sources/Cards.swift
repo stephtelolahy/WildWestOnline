@@ -27,11 +27,6 @@ public enum Cards {
         ],
 
         // MARK: - Bang
-        "bang": [
-            // "reduce other players’s life points"
-            .brown,
-            .shoot_reachable_bangLimitPerTurn
-        ],
         "missed": [
             // "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot."
             .brown,

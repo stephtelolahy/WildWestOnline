@@ -25,11 +25,12 @@ public enum Inventory {
         stagecoach,
         wellsFargo,
         catBalou,
-        panic
+        panic,
+        bang
     ]
 }
 
-extension Inventory {
+private extension Inventory {
     static var beer: Card {
         .init(
             id: "beer",
@@ -128,6 +129,29 @@ extension Inventory {
                     selectors: [
                         .chooseTarget([.atDistance(.value(1)), .havingCard]),
                         .chooseCard()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var bang: Card {
+        .init(
+            id: "bang",
+            desc: "reduce other players’s life points",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .effectAttribute(.bangLimitPerTurn, value: 1),
+                        .effectAttribute(.bangRequiredMisses, value: 1),
+                        .effectAttribute(.bangDamage, value: 1),
+                        .if(.playedLessThan(.effectAttr(.bangLimitPerTurn))),
+                        .chooseTarget([.atDistance(.playerAttr(.weapon))]),
+                        .arg(.shootRequiredMisses, value: .effectAttr(.bangRequiredMisses)),
+                        .arg(.damageAmount, value: .effectAttr(.bangDamage))
                     ]
                 )
             ]

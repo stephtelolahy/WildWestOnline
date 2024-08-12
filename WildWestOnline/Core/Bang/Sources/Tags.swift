@@ -9,9 +9,10 @@
 /// Defining Tags
 /// ℹ️ Naming = {action}_{argValue}_on{Event}_if{Condition}
 /// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
-extension Effect {
-    // MARK: - Collectible - Action
+///
+///
 
+extension Effect {
     static var brown: Effect {
         .init(
             when: .played,
@@ -37,6 +38,10 @@ extension Effect {
             ]
         )
     }
+}
+
+extension Effect {
+    // MARK: - Collectible - Action
 
     static var missed: Effect {
         .init(
