@@ -26,12 +26,6 @@ public enum Cards {
             .play_beer_onDamagedLethal
         ],
 
-        // MARK: - Bang
-        "missed": [
-            // "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot."
-            .brown,
-            .missed
-        ],
         "gatling": [
             // "shoots to all the other players, regardless of the distance"
             .brown,
@@ -208,7 +202,10 @@ public enum Cards {
         "dodge": [
             // "Acts as a Missed!, but allows the player to draw a card."
             .brown,
-            .missed,
+            .init(
+                when: .played,
+                action: .missed
+            ),
             .drawDeck
         ],
         "springfield": [

@@ -26,11 +26,14 @@ public enum Inventory {
         wellsFargo,
         catBalou,
         panic,
-        bang
+        bang,
+        missed
     ]
 }
 
 private extension Inventory {
+    // MARK: - Bang
+
     static var beer: Card {
         .init(
             id: "beer",
@@ -153,6 +156,20 @@ private extension Inventory {
                         .arg(.shootRequiredMisses, value: .effectAttr(.bangRequiredMisses)),
                         .arg(.damageAmount, value: .effectAttr(.bangDamage))
                     ]
+                )
+            ]
+        )
+    }
+
+    static var missed: Card {
+        .init(
+            id: "missed",
+            desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .missed
                 )
             ]
         )

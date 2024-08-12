@@ -41,15 +41,6 @@ extension Effect {
 }
 
 extension Effect {
-    // MARK: - Collectible - Action
-
-    static var missed: Effect {
-        .init(
-            when: .played,
-            action: .missed
-        )
-    }
-
     static var shoot_others: Effect {
         .init(
             when: .played,
