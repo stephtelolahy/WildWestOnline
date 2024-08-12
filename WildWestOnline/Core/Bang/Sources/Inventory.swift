@@ -23,7 +23,8 @@ public enum Inventory {
         beer,
         saloon,
         stagecoach,
-        wellsFargo
+        wellsFargo,
+        catBalou
     ]
 }
 
@@ -90,6 +91,24 @@ extension Inventory {
                     action: .drawDeck,
                     selectors: [
                         .repeat(.value(3))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var catBalou: Card {
+        .init(
+            id: "catBalou",
+            desc: "Force “any one player” to “discard a card”, regardless of the distance.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .discard,
+                    selectors: [
+                        .chooseTarget([.havingCard]),
+                        .chooseCard()
                     ]
                 )
             ]

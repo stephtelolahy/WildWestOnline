@@ -27,11 +27,6 @@ public enum Cards {
         ],
 
         // MARK: - Bang
-        "catBalou": [
-            // "Force “any one player” to “discard a card”, regardless of the distance."
-            .brown,
-            .discard_any
-        ],
         "panic": [
             // "Draw a card from a player at distance 1"
             .brown,

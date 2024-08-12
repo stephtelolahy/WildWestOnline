@@ -22,17 +22,6 @@ extension Effect {
         )
     }
 
-    static var discard_any: Effect {
-        .init(
-            when: .played,
-            action: .discard,
-            selectors: [
-                .chooseTarget([.havingCard]),
-                .chooseCard()
-            ]
-        )
-    }
-
     static var steal_atDistanceOf1: Effect {
         .init(
             when: .played,
