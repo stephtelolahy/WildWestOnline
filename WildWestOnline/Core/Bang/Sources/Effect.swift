@@ -87,7 +87,8 @@ public struct Effect: Equatable, Codable {
         }
 
         public enum TargetCondition: Equatable, Codable {
-            case atDistance(Number)
+            case atDistance(Int)
+            case atDistanceReachable
             case neighbourToTarget
             case havingCard
             case havingHandCard
@@ -150,9 +151,9 @@ public enum PlayerAttribute: String, Codable {
     case magnifying
     case remoteness
     case handLimit
+    case silentCardsDiamonds
+    case silentCardsInPlayDuringTurn
 
     // ⚠️ related to specific card
     case playBangWithAny
-    case silentCardsDiamonds
-    case silentCardsInPlayDuringTurn
 }

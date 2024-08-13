@@ -42,7 +42,7 @@ extension Effect {
                 .arg(.shootRequiredMisses, value: .value(1)),
                 .arg(.damageAmount, value: .value(1)),
                 .if(.playedLessThan(.arg(.limitPerTurn))),
-                .chooseTarget([.atDistance(.playerAttr(.weapon))])
+                .chooseTarget([.atDistanceReachable])
             ]
         )
     }
@@ -307,46 +307,6 @@ extension Effect {
     }
 
     // MARK: - The Valley of Shadows
-
-    static var heal: Effect {
-        .init(
-            when: .played,
-            action: .heal
-        )
-    }
-
-    static var drawDeck_all_2_cost1HandCard: Effect {
-        .init(
-            when: .played,
-            action: .drawDeck,
-            selectors: [
-                .target(.all),
-                .chooseCostHandCard(),
-                .repeat(.value(2))
-            ]
-        )
-    }
-
-    static var shoot_reachable: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .chooseTarget([.atDistance(.playerAttr(.weapon))])
-            ]
-        )
-    }
-
-    static var shoot_atDistanceOf2: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .chooseTarget([.atDistance(.value(2))])
-            ]
-        )
-    }
-
     static var shoot_neighbour: Effect {
         .init(
             when: .played,
@@ -536,7 +496,7 @@ extension Effect {
             selectors: [
                 .if(.playedLessThan(.value(1))),
                 .chooseCostHandCard(.suits("♣️")),
-                .chooseTarget([.atDistance(.playerAttr(.weapon))])
+                .chooseTarget([.atDistanceReachable])
             ]
         )
     }

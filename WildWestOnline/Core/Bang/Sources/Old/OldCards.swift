@@ -51,47 +51,12 @@ public enum OldCards {
             .steal_any_inPlay_onTurnStarted,
             .setAttribute_maxHealth(4)
         ],
-        "apacheKid": [
-            // "Cards of Diamond played by other players do not affect him"
-            .setAttribute_silentCardsDiamonds,
-            .setAttribute_maxHealth(3)
-        ],
-        "belleStar": [
-            // "During her turn, cards in play in front of other players have no effect. "
-            .setAttribute_silentCardsInPlayDuringTurn,
-            .setAttribute_maxHealth(4)
-        ],
         "veraCuster": [
             // For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn
             // ⚠️ setup round abilities
         ],
 
         // MARK: - The Valley of Shadows
-
-        "lastCall": [
-            // Refill 1 life point even in game last 2 players.
-            .brown,
-            .heal
-        ],
-        "tornado": [
-            // Each player discards a card from their hand (if possible), then draw 2 cards from the deck
-            .brown,
-            .drawDeck_all_2_cost1HandCard
-        ],
-        "backfire": [
-            // Count as MISSED!. Player who shot you, is now target of BANG!.
-            .brown,
-            .init(
-                when: .played,
-                action: .missed
-            ),
-            .shoot_reachable
-        ],
-        "tomahawk": [
-            // Bang at distance 2.
-            .brown,
-            .shoot_atDistanceOf2
-        ],
         "aim": [
             // Play with Bang card. If defending player doesn't miss, he loses 2 life points instead
             .brown,

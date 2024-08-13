@@ -65,7 +65,13 @@ public enum Cards {
         mollyStark,
         joseDelgado,
         chuckWengam,
-        docHolyday
+        docHolyday,
+        apacheKid,
+        belleStar,
+        lastCall,
+        tornado,
+        backfire,
+        tomahawk
     ]
 }
 
@@ -215,7 +221,7 @@ private extension Cards {
                     when: .played,
                     action: .steal,
                     selectors: [
-                        .chooseTarget([.atDistance(.value(1)), .havingCard]),
+                        .chooseTarget([.atDistance(1), .havingCard]),
                         .chooseCard()
                     ]
                 )
@@ -235,7 +241,7 @@ private extension Cards {
                     selectors: [
                         .arg(.limitPerTurn, value: .value(1)),
                         .if(.playedLessThan(.arg(.limitPerTurn))),
-                        .chooseTarget([.atDistance(.playerAttr(.weapon))]),
+                        .chooseTarget([.atDistanceReachable]),
                         .arg(.shootRequiredMisses, value: .value(1)),
                         .arg(.damageAmount, value: .value(1))
                     ]
@@ -678,7 +684,7 @@ private extension Cards {
                     when: .played,
                     action: .shoot,
                     selectors: [
-                        .chooseTarget([.atDistance(.value(1))])
+                        .chooseTarget([.atDistance(1)])
                     ]
                 )
             ]
@@ -967,7 +973,102 @@ private extension Cards {
                     selectors: [
                         .if(.playedLessThan(.value(1))),
                         .chooseCostHandCard(count: 2),
-                        .chooseTarget([.atDistance(.playerAttr(.weapon))])
+                        .chooseTarget([.atDistanceReachable])
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var apacheKid: Card {
+        .init(
+            id: "apacheKid",
+            desc: "Cards of Diamond played by other players do not affect him",
+            attributes: [
+                .silentCardsDiamonds: 0,
+                .maxHealth: 3
+            ]
+        )
+    }
+
+    static var belleStar: Card {
+        .init(
+            id: "belleStar",
+            desc: "During her turn, cards in play in front of other players have no effect. ",
+            attributes: [
+                .silentCardsInPlayDuringTurn: 0,
+                .maxHealth: 4
+            ]
+        )
+    }
+
+    // MARK: - The Valley of Shadows
+
+    static var lastCall: Card {
+        .init(
+            id: "lastCall",
+            desc: "Refill 1 life point even in game last 2 players.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .heal
+                )
+            ]
+        )
+    }
+
+    static var tornado: Card {
+        .init(
+            id: "tornado",
+            desc: "Each player discards a card from their hand (if possible), then draw 2 cards from the deck",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .drawDeck,
+                    selectors: [
+                        .target(.all),
+                        .chooseCostHandCard(),
+                        .repeat(.value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var backfire: Card {
+        .init(
+            id: "backfire",
+            desc: "Count as MISSED!. Player who shot you, is now target of BANG!.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .missed
+                ),
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .target(.offender)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var tomahawk: Card {
+        .init(
+            id: "tomahawk",
+            desc: "Bang at distance 2.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .chooseTarget([.atDistance(2)])
                     ]
                 )
             ]
