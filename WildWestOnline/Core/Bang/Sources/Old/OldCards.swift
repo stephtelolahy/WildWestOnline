@@ -57,12 +57,6 @@ public enum OldCards {
         ],
 
         // MARK: - The Valley of Shadows
-        "aim": [
-            // Play with Bang card. If defending player doesn't miss, he loses 2 life points instead
-            .brown,
-            .play_onBangPlayed,
-            .setAttribute_bangDamage_2
-        ],
         "faning": [
             // Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).
             .brown,

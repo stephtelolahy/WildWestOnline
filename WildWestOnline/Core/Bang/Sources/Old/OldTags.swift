@@ -13,26 +13,6 @@
 ///
 
 extension Effect {
-    static var brown: Effect {
-        .init(
-            when: .played,
-            action: .discardSilently,
-            selectors: [
-                .card(.played)
-            ]
-        )
-    }
-
-    static var equip: Effect {
-        .init(
-            when: .played,
-            action: .equip,
-            selectors: [
-                .card(.played)
-            ]
-        )
-    }
-
     static var shoot_reachable_bangLimitPerTurn: Effect {
         .init(
             when: .played,
@@ -46,9 +26,7 @@ extension Effect {
             ]
         )
     }
-}
 
-extension Effect {
     // MARK: - Collectible - Equipment
 
     static var draw_onShot: Effect {
@@ -72,28 +50,6 @@ extension Effect {
             selectors: [
                 .attr(.weapon, value: value)
             ]
-        )
-    }
-
-    // MARK: - Collectibles - Handicap
-
-    static var handicap: Effect {
-        .init(
-            when: .played,
-            action: .handicap,
-            selectors: [
-                .chooseTarget(),
-                .card(.played)
-            ]
-        )
-    }
-
-    // MARK: - Abilities
-
-    static var endTurn: Effect {
-        .init(
-            when: .played,
-            action: .endTurn
         )
     }
 
@@ -387,16 +343,6 @@ extension Effect {
             selectors: [
                 .target(.damaged),
                 .chooseCard(.fromHand)
-            ]
-        )
-    }
-
-    static var play_onBangPlayed: Effect {
-        .init(
-            when: .cardPlayedWithName("bang"),
-            action: .play,
-            selectors: [
-                .chooseEventuallyCard(.named("aim"))
             ]
         )
     }

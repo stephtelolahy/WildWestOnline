@@ -11,6 +11,7 @@ public enum Cards {
     static let all: [Card] = [
         defaultStartTurn,
         defaultEndTurn,
+
         beer,
         saloon,
         stagecoach,
@@ -46,6 +47,7 @@ public enum Cards {
         slabTheKiller,
         luckyDuke,
         calamityJanet,
+
         punch,
         dodge,
         springfield,
@@ -71,7 +73,8 @@ public enum Cards {
         lastCall,
         tornado,
         backfire,
-        tomahawk
+        tomahawk,
+        aim
     ]
 }
 
@@ -1071,6 +1074,58 @@ private extension Cards {
                         .chooseTarget([.atDistance(2)])
                     ]
                 )
+            ]
+        )
+    }
+
+    static var aim: Card {
+        .init(
+            id: "aim",
+            desc: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
+            // ⚠️ thos override apply to current play action
+            overrides: ["bang": [.damageAmount: 2]],
+            effects: [
+                .brown,
+                .init(
+                    when: .cardPlayedWithName("bang"),
+                    action: .play,
+                    selectors: [
+                        .chooseEventuallyCard(.named("aim"))
+                    ]
+                )
+            ]
+        )
+    }
+}
+
+extension Effect {
+    static var brown: Effect {
+        .init(
+            when: .played,
+            action: .discardSilently,
+            selectors: [
+                .card(.played)
+            ]
+        )
+    }
+
+    static var equip: Effect {
+        .init(
+            when: .played,
+            action: .equip,
+            selectors: [
+                .card(.played)
+            ]
+        )
+    }
+
+    static var handicap: Effect {
+        .init(
+            when: .played,
+            action: .handicap,
+            selectors: [
+                .chooseTarget(),
+                .card(.played)
             ]
         )
     }
