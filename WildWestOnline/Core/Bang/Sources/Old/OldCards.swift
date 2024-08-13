@@ -53,21 +53,6 @@ public enum OldCards {
         ],
 
         // MARK: - Dodge city
-        "elenaFuente": [
-            // "She may use any card in hand as Missed!."
-            .setAttribute_playMissedWithAny,
-            .setAttribute_maxHealth(3)
-        ],
-        "seanMallory": [
-            // "He may hold in his hand up to 10 cards."
-            .setAttribute_handLimit_10,
-            .setAttribute_maxHealth(3)
-        ],
-        "tequilaJoe": [
-            // "Each time he plays a Beer, he regains 2 life points instead of 1."
-            .heal_onBeerPlayed,
-            .setAttribute_maxHealth(4)
-        ],
         "pixiePete": [
             // "During phase 1 of his turn, he draws 3 cards instead of 2."
             .setAttribute_startTurnCards_3,

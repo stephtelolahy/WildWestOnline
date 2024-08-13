@@ -52,7 +52,10 @@ public enum Cards {
         whisky,
         tequila,
         ragTime,
-        brawl
+        brawl,
+        elenaFuente,
+        seanMallory,
+        tequilaJoe
     ]
 }
 
@@ -761,6 +764,35 @@ private extension Cards {
                     ]
                 )
             ]
+        )
+    }
+
+    static var elenaFuente: Card {
+        .init(
+            id: "elenaFuente",
+            desc: "She may use any card in hand as Missed!.",
+            attributes: [.maxHealth: 3],
+            playWith: ["missed": ""]
+        )
+    }
+
+    static var seanMallory: Card {
+        .init(
+            id: "seanMallory",
+            desc: "He may hold in his hand up to 10 cards.",
+            attributes: [
+                .handLimit: 10,
+                .maxHealth: 3
+            ]
+        )
+    }
+
+    static var tequilaJoe: Card {
+        .init(
+            id: "tequilaJoe",
+            desc: "Each time he plays a Beer, he regains 2 life points instead of 1.",
+            attributes: [.maxHealth: 4],
+            overrides: ["beer": [.healAmount: 2]]
         )
     }
 }

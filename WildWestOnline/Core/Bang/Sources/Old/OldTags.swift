@@ -255,15 +255,6 @@ extension Effect {
     }
 
     // MARK: - Dodge city
-    static var setAttribute_playMissedWithAny: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .attr(.playMissedWithAny, value: 0)
-            ]
-        )
-    }
 
     static var setAttribute_handLimit_10: Effect {
         .init(
@@ -272,13 +263,6 @@ extension Effect {
             selectors: [
                 .attr(.handLimit, value: 10)
             ]
-        )
-    }
-
-    static var heal_onBeerPlayed: Effect {
-        .init(
-            when: .cardPlayedWithName("beer"),
-            action: .heal
         )
     }
 

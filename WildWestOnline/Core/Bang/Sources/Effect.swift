@@ -28,8 +28,6 @@ public struct Effect: Equatable, Codable {
         case cardStolen
         /// a player has discarded a card of actor
         case cardDiscarded
-        /// actor plays a card with {name}
-        case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
         case damagingWith(String)
         case missed(String)
@@ -154,7 +152,6 @@ public enum PlayerAttribute: String, Codable {
 
     // ⚠️ related to specific card
     case playBangWithAny
-    case playMissedWithAny
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
 }
