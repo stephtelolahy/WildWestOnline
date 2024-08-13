@@ -5,8 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 13/08/2024.
 //
 
-/// An action is some kind of change
-/// Triggered by user or by the system, that causes any update to the game state
+/// An action is some kind of change triggered by user or by the system, that causes any update to the game state
 public enum Action: String, Codable {
     /// {actor} plays a {card}
     case play

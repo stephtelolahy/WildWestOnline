@@ -1,5 +1,4 @@
-// swiftlint:disable:this file_name
-//  DSL.swift
+//  Effect.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 28/07/2024.

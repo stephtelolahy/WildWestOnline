@@ -3,7 +3,7 @@ import XCTest
 
 final class BangTests: XCTestCase {
     func testExample() throws {
-        let result = try XCTUnwrap(Inventory.cards.prettyPrintedJSONString)
+        let result = try XCTUnwrap(Cards.all.prettyPrintedJSONString)
         print(result)
     }
 }
