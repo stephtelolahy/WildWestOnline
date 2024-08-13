@@ -44,21 +44,7 @@ public enum OldCards {
         ],
 
         // MARK: - Dodge city
-        "joseDelgado": [
-            // "Twice in his turn, he may discard a blue card from the hand to draw 2 cards."
-            .drawDeck_2_costBlueHandCard,
-            .setAttribute_maxHealth(4)
-        ],
-        "chuckWengam": [
-            // "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost."
-            .drawDeck_2_cost1LifePoint,
-            .setAttribute_maxHealth(4)
-        ],
-        "docHolyday": [
-            // "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!."
-            .shoot_reachable_cost2HandCards,
-            .setAttribute_maxHealth(4)
-        ],
+
         "patBrennan": [
             // "Instead of drawing normally, he may draw only one card in play in front of any one player."
             // ⚠️ override startTurn

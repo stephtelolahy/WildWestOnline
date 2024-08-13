@@ -274,40 +274,6 @@ extension Effect {
             ]
         )
     }
-    static var drawDeck_2_costBlueHandCard: Effect {
-        .init(
-            when: .played,
-            action: .drawDeck,
-            selectors: [
-                .if(.playedLessThan(.value(2))),
-                .chooseCostHandCard(.isBlue),
-                .repeat(.value(2))
-            ]
-        )
-    }
-
-    static var drawDeck_2_cost1LifePoint: Effect {
-        .init(
-            when: .played,
-            action: .drawDeck,
-            selectors: [
-                .chooseEventuallyCostLifePoint,
-                .repeat(.value(2))
-            ]
-        )
-    }
-
-    static var shoot_reachable_cost2HandCards: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .if(.playedLessThan(.value(1))),
-                .chooseCostHandCard(count: 2),
-                .chooseTarget([.atDistance(.playerAttr(.weapon))])
-            ]
-        )
-    }
 
     static var steal_any_inPlay_onTurnStarted: Effect {
         .init(

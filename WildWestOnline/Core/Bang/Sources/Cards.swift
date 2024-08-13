@@ -62,7 +62,10 @@ public enum Cards {
         billNoface,
         gregDigger,
         herbHunter,
-        mollyStark
+        mollyStark,
+        joseDelgado,
+        chuckWengam,
+        docHolyday
     ]
 }
 
@@ -909,6 +912,62 @@ private extension Cards {
                     action: .drawDeck,
                     selectors: [
                         .if(.playedLessThan(.value(2)))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var joseDelgado: Card {
+        .init(
+            id: "joseDelgado",
+            desc: "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .drawDeck,
+                    selectors: [
+                        .if(.playedLessThan(.value(2))),
+                        .chooseCostHandCard(.isBlue),
+                        .repeat(.value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var chuckWengam: Card {
+        .init(
+            id: "chuckWengam",
+            desc: "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .drawDeck,
+                    selectors: [
+                        .chooseEventuallyCostLifePoint,
+                        .repeat(.value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var docHolyday: Card {
+        .init(
+            id: "docHolyday",
+            desc: "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .if(.playedLessThan(.value(1))),
+                        .chooseCostHandCard(count: 2),
+                        .chooseTarget([.atDistance(.playerAttr(.weapon))])
                     ]
                 )
             ]
