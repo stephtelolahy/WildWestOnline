@@ -6,16 +6,7 @@
 public enum OldCards {
     static let all: [String: [Effect]] = [
         // MARK: - Default
-
-        "done": [
-            .endTurn,
-            .discard_excessHand
-        ],
-        "startTurn": [
-            .drawDeck_2_onTurnStarted
-        ],
         "default": [
-            .setAttribute_weapon(1),
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
@@ -53,11 +44,6 @@ public enum OldCards {
         ],
 
         // MARK: - Dodge city
-        "pixiePete": [
-            // "During phase 1 of his turn, he draws 3 cards instead of 2."
-            .setAttribute_startTurnCards_3,
-            .setAttribute_maxHealth(3)
-        ],
         "billNoface": [
             // "He draws 1 card, plus 1 card for each wound he has."
             .setAttribute_startTurnCards_1,

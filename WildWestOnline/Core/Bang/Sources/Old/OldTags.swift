@@ -97,17 +97,6 @@ extension Effect {
         )
     }
 
-    static var discard_excessHand: Effect {
-        .init(
-            when: .played,
-            action: .discard,
-            selectors: [
-                .repeat(.excessHand),
-                .chooseCard()
-            ]
-        )
-    }
-
     static var startTurn_next_onTurnEnded: Effect {
         .init(
             when: .turnEnded,
@@ -262,16 +251,6 @@ extension Effect {
             action: .setAttribute,
             selectors: [
                 .attr(.handLimit, value: 10)
-            ]
-        )
-    }
-
-    static var setAttribute_startTurnCards_3: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .overrideArg(.repeatAmount, value: 3, card: "startTurn")
             ]
         )
     }

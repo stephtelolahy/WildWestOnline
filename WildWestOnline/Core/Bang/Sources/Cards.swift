@@ -9,6 +9,8 @@
 
 public enum Cards {
     static let all: [Card] = [
+        defaultStartTurn,
+        defaultEndTurn,
         beer,
         saloon,
         stagecoach,
@@ -55,20 +57,55 @@ public enum Cards {
         brawl,
         elenaFuente,
         seanMallory,
-        tequilaJoe
+        tequilaJoe,
+        pixiePete
     ]
 }
 
 private extension Cards {
     // MARK: - Default
 
-    static var player: Card {
+    static var defaultAttributes: [PlayerAttribute: Int] {
+        [
+            .weapon: 1,
+            .drawCards: 1
+        ]
+    }
+
+    static var defaultStartTurn: Card {
         .init(
-            id: "",
+            id: "defaultStartTurn",
             desc: "",
-            attributes: [
-                .weapon: 1,
-                .flippedCardsOnDraw: 1
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .arg(.repeatAmount, value: .value(2)),
+                        .repeat(.arg(.repeatAmount))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultEndTurn: Card {
+        .init(
+            id: "defaultEndTurn",
+            desc: "",
+            effects: [
+                .init(
+                    when: .played,
+                    action: .endTurn
+                ),
+                .init(
+                    when: .played,
+                    action: .discard,
+                    selectors: [
+                        .repeat(.excessHand),
+                        .chooseCard()
+                    ]
+                )
             ]
         )
     }
@@ -605,7 +642,7 @@ private extension Cards {
             desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
             attributes: [
                 .maxHealth: 4,
-                .flippedCardsOnDraw: 2
+                .drawCards: 2
             ]
         )
     }
@@ -793,6 +830,15 @@ private extension Cards {
             desc: "Each time he plays a Beer, he regains 2 life points instead of 1.",
             attributes: [.maxHealth: 4],
             overrides: ["beer": [.healAmount: 2]]
+        )
+    }
+
+    static var pixiePete: Card {
+        .init(
+            id: "pixiePete",
+            desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
+            attributes: [.maxHealth: 3],
+            overrides: ["defaultStartTurn": [.repeatAmount: 3]]
         )
     }
 }

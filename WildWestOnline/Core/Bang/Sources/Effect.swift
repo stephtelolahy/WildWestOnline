@@ -28,6 +28,7 @@ public struct Effect: Equatable, Codable {
         case cardStolen
         /// a player has discarded a card of actor
         case cardDiscarded
+        case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
         case damagingWith(String)
         case missed(String)
@@ -144,7 +145,7 @@ public struct Effect: Equatable, Codable {
 
 public enum PlayerAttribute: String, Codable {
     case maxHealth
-    case flippedCardsOnDraw
+    case drawCards
     case weapon
     case magnifying
     case remoteness
