@@ -152,9 +152,7 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
 
     // ⚠️ related to specific card
-    case playBangWithMissed
     case playBangWithAny
-    case playMissedWithBang
     case playMissedWithAny
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn

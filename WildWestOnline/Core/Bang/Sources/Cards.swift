@@ -42,14 +42,15 @@ public enum Cards {
         sidKetchum,
         vultureSam,
         slabTheKiller,
-        luckyDuke
+        luckyDuke,
+        calamityJanet
     ]
 }
 
 private extension Cards {
     // MARK: - Default
 
-    static var `default`: Card {
+    static var player: Card {
         .init(
             id: "",
             desc: "",
@@ -593,6 +594,18 @@ private extension Cards {
             attributes: [
                 .maxHealth: 4,
                 .flippedCardsOnDraw: 2
+            ]
+        )
+    }
+
+    static var calamityJanet: Card {
+        .init(
+            id: "calamityJanet",
+            desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
+            attributes: [.maxHealth: 4],
+            playWith: [
+                "missed": "bang",
+                "bang": "missed"
             ]
         )
     }

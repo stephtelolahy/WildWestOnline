@@ -274,26 +274,6 @@ extension Effect {
         )
     }
 
-    static var setAttribute_playBangWithMissed: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .attr(.playBangWithMissed, value: 0)
-            ]
-        )
-    }
-
-    static var setAttribute_playMissedWithBang: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .attr(.playMissedWithBang, value: 0)
-            ]
-        )
-    }
-
     // MARK: - Dodge city
 
     static var shoot_atDistanceOf1: Effect {

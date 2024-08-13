@@ -24,12 +24,6 @@ public enum OldCards {
             .play_missed_onShot,
             .play_beer_onDamagedLethal
         ],
-        "calamityJanet": [
-            // "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."
-            .setAttribute_playBangWithMissed,
-            .setAttribute_playMissedWithBang,
-            .setAttribute_maxHealth(4)
-        ],
         "kitCarlson": [
             // "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."
             .setAttribute_startTurnCards_0,

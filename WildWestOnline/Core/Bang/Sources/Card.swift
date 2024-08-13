@@ -24,6 +24,9 @@ public struct Card: Equatable, Codable {
     /// override other {card}'s action {argument}
     public var overrides: [String: [Action.Argument: Int]] = [:]
 
+    /// can play a card {key} as with another card {value}
+    public var playWith: [String: String] = [:]
+
     /// actions that are triggered by this card when some {event} occurrs
     public var effects: [Effect] = []
 }
