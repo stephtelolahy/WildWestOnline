@@ -24,7 +24,7 @@ public enum Inventory {
         public var improvements: [PlayerAttribute: Int] = [:]
 
         /// override other {card}'s action {argument}
-        public var overrides: [String: [GameAction.Argument: Int]] = [:]
+        public var overrides: [String: [Action.Argument: Int]] = [:]
 
         /// actions that are triggered by this card when some {event} occurrs
         public var effects: [Effect] = []
