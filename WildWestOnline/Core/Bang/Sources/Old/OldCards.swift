@@ -26,6 +26,7 @@ public enum OldCards {
         ],
         "kitCarlson": [
             // "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."
+            // ⚠️ override startTurn
             .setAttribute_startTurnCards_0,
             .reveal_3_onTurnStarted,
             .chooseCard_2_onTurnStarted,
@@ -40,6 +41,7 @@ public enum OldCards {
         ],
         "jesseJones": [
             // "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck."
+            // ⚠️ override startTurn
             .drawDiscard_onTurnStarted,
             .setAttribute_maxHealth(4)
         ],
