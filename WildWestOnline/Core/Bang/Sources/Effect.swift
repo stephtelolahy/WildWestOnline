@@ -145,7 +145,7 @@ public struct Effect: Equatable, Codable {
 
 public enum PlayerAttribute: String, Codable {
     case maxHealth
-    case drawCards
+    case flippedCardsOnDraw
     case weapon
     case magnifying
     case remoteness

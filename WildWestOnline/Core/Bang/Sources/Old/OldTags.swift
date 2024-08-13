@@ -209,17 +209,6 @@ extension Effect {
 
     // MARK: - Figures
 
-    static var steal_all_onOtherEliminated: Effect {
-        .init(
-            when: .otherEliminated,
-            action: .steal,
-            selectors: [
-                .target(.eliminated),
-                .card(.all)
-            ]
-        )
-    }
-
     static var reveal_3_onTurnStarted: Effect {
         .init(
             when: .turnStarted,
@@ -275,42 +264,12 @@ extension Effect {
         )
     }
 
-    static var setAttribute_bangRequiredMisses_2: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .overrideArg(.shootRequiredMisses, value: 2, card: "bang")
-            ]
-        )
-    }
-
     static func setAttribute_maxHealth(_ value: Int) -> Effect {
         .init(
             when: .played,
             action: .setAttribute,
             selectors: [
                 .attr(.maxHealth, value: value)
-            ]
-        )
-    }
-
-    static var setAttribute_drawCards_2: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .attr(.drawCards, value: 2)
-            ]
-        )
-    }
-
-    static var setAttribute_drawCards_1: Effect {
-        .init(
-            when: .played,
-            action: .setAttribute,
-            selectors: [
-                .attr(.drawCards, value: 1)
             ]
         )
     }

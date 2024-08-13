@@ -16,7 +16,6 @@ public enum OldCards {
         ],
         "default": [
             .setAttribute_weapon(1),
-            .setAttribute_drawCards_1,
             .startTurn_next_onTurnEnded,
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
@@ -24,21 +23,6 @@ public enum OldCards {
             .discard_previousWeapon_onWeaponPlayed,
             .play_missed_onShot,
             .play_beer_onDamagedLethal
-        ],
-        "vultureSam": [
-            // "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand."
-            .steal_all_onOtherEliminated,
-            .setAttribute_maxHealth(4)
-        ],
-        "slabTheKiller": [
-            // "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!."
-            .setAttribute_bangRequiredMisses_2,
-            .setAttribute_maxHealth(4)
-        ],
-        "luckyDuke": [
-            // "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards."
-            .setAttribute_maxHealth(4),
-            .setAttribute_drawCards_2
         ],
         "calamityJanet": [
             // "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play)."

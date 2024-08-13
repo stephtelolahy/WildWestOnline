@@ -39,11 +39,27 @@ public enum Cards {
         bartCassidy,
         elGringo,
         suzyLafayette,
-        sidKetchum
+        sidKetchum,
+        vultureSam,
+        slabTheKiller,
+        luckyDuke
     ]
 }
 
 private extension Cards {
+    // MARK: - Default
+
+    static var `default`: Card {
+        .init(
+            id: "",
+            desc: "",
+            attributes: [
+                .weapon: 1,
+                .flippedCardsOnDraw: 1
+            ]
+        )
+    }
+
     // MARK: - Bang
 
     static var beer: Card {
@@ -529,7 +545,7 @@ private extension Cards {
     static var sidKetchum: Card {
         .init(
             id: "sidKetchum",
-            desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time. But remember: you cannot have more life points than your starting amount!",
+            desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
             attributes: [.maxHealth: 4],
             effects: [
                 .init(
@@ -539,6 +555,44 @@ private extension Cards {
                         .chooseCostHandCard(count: 2)
                     ]
                 )
+            ]
+        )
+    }
+
+    static var vultureSam: Card {
+        .init(
+            id: "vultureSam",
+            desc: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .otherEliminated,
+                    action: .steal,
+                    selectors: [
+                        .target(.eliminated),
+                        .card(.all)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var slabTheKiller: Card {
+        .init(
+            id: "slabTheKiller",
+            desc: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
+            attributes: [.maxHealth: 4],
+            overrides: ["bang": [.shootRequiredMisses: 2]]
+        )
+    }
+
+    static var luckyDuke: Card {
+        .init(
+            id: "luckyDuke",
+            desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
+            attributes: [
+                .maxHealth: 4,
+                .flippedCardsOnDraw: 2
             ]
         )
     }

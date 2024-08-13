@@ -56,7 +56,7 @@ public enum Action: String, Codable {
     /// {target} choose a {card} from choosable cards
     case chooseCard
 
-    /// draw cards from deck. Next effects depend it
+    /// draw {flippedCardsOnDraw} cards from deck. Next effects depend on it
     case draw
 
     /// {actor} shows his last drawn card
