@@ -53,21 +53,6 @@ public enum OldCards {
         ],
 
         // MARK: - Dodge city
-
-        "punch": [
-            // "Acts as a Bang! with a range of one."
-            .brown,
-            .shoot_atDistanceOf1
-        ],
-        "dodge": [
-            // "Acts as a Missed!, but allows the player to draw a card."
-            .brown,
-            .init(
-                when: .played,
-                action: .missed
-            ),
-            .drawDeck
-        ],
         "springfield": [
             // "The player must discard one additional card, and then the card acts as a Bang! with unlimited range."
             .brown,

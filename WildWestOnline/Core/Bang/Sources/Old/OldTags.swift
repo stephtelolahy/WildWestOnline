@@ -276,23 +276,6 @@ extension Effect {
 
     // MARK: - Dodge city
 
-    static var shoot_atDistanceOf1: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .chooseTarget([.atDistance(.value(1))])
-            ]
-        )
-    }
-
-    static var drawDeck: Effect {
-        .init(
-            when: .played,
-            action: .drawDeck
-        )
-    }
-
     static var shoot_any_cost1HandCard: Effect {
         .init(
             when: .played,
@@ -464,7 +447,7 @@ extension Effect {
             when: .played,
             action: .drawDeck,
             selectors: [
-                .chooseEventuallyLooseLifePoint,
+                .chooseEventuallyCostLifePoint,
                 .repeat(.value(2))
             ]
         )

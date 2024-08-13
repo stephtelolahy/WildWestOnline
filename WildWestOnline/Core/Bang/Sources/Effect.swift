@@ -47,11 +47,12 @@ public struct Effect: Equatable, Codable {
         case card(Card)
         case chooseCard(CardCondition? = nil)
 
-        /// determine affected attribute
+        @available(*, deprecated, renamed: "attributes")
         case attr(PlayerAttribute, value: Int)
 
-        /// determine action argument
+        /// determine other action arguments
         case arg(Action.Argument, value: Number)
+        @available(*, deprecated, renamed: "overrides")
         case overrideArg(Action.Argument, value: Int, card: String)
 
         /// multiply effect x times
@@ -73,7 +74,7 @@ public struct Effect: Equatable, Codable {
         case chooseEventuallyCard(CardCondition)
 
         /// can choose to loose one life point or skip the effect
-        case chooseEventuallyLooseLifePoint
+        case chooseEventuallyCostLifePoint
 
         public enum Target: String, Codable {
             case actor      // who is playing the card

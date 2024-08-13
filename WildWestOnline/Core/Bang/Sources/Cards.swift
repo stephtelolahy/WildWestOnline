@@ -43,7 +43,9 @@ public enum Cards {
         vultureSam,
         slabTheKiller,
         luckyDuke,
-        calamityJanet
+        calamityJanet,
+        punch,
+        dodge
     ]
 }
 
@@ -606,6 +608,43 @@ private extension Cards {
             playWith: [
                 "missed": "bang",
                 "bang": "missed"
+            ]
+        )
+    }
+
+    // MARK: - Dodge city
+
+    static var punch: Card {
+        .init(
+            id: "punch",
+            desc: "Acts as a Bang! with a range of one.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .chooseTarget([.atDistance(.value(1))])
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var dodge: Card {
+        .init(
+            id: "dodge",
+            desc: "Acts as a Missed!, but allows the player to draw a card.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .missed
+                ),
+                .init(
+                    when: .played,
+                    action: .drawDeck
+                )
             ]
         )
     }
