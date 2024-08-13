@@ -58,7 +58,11 @@ public enum Cards {
         elenaFuente,
         seanMallory,
         tequilaJoe,
-        pixiePete
+        pixiePete,
+        billNoface,
+        gregDigger,
+        herbHunter,
+        mollyStark
     ]
 }
 
@@ -75,7 +79,7 @@ private extension Cards {
     static var defaultStartTurn: Card {
         .init(
             id: "defaultStartTurn",
-            desc: "",
+            desc: "Draw two cards at the beginning of your turn",
             effects: [
                 .init(
                     when: .turnStarted,
@@ -92,7 +96,7 @@ private extension Cards {
     static var defaultEndTurn: Card {
         .init(
             id: "defaultEndTurn",
-            desc: "",
+            desc: "At the end of your turn, you must discard from your hand any cards exceeding your hand-size limit.",
             effects: [
                 .init(
                     when: .played,
@@ -839,6 +843,75 @@ private extension Cards {
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
             attributes: [.maxHealth: 3],
             overrides: ["defaultStartTurn": [.repeatAmount: 3]]
+        )
+    }
+
+    static var billNoface: Card {
+        .init(
+            id: "billNoface",
+            desc: "He draws 1 card, plus 1 card for each wound he has.",
+            attributes: [.maxHealth: 4],
+            overrides: ["defaultStartTurn": [.repeatAmount: 1]],
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.damage)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var gregDigger: Card {
+        .init(
+            id: "gregDigger",
+            desc: "Each time another player is eliminated, he regains 2 life points.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .otherEliminated,
+                    action: .heal,
+                    selectors: [
+                        .arg(.healAmount, value: .value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var herbHunter: Card {
+        .init(
+            id: "herbHunter",
+            desc: "Each time another player is eliminated, he draws 2 extra cards.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .otherEliminated,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var mollyStark: Card {
+        .init(
+            id: "mollyStark",
+            desc: "Each time she uses a card from her hand out of turn, she draw a card.",
+            attributes: [.maxHealth: 4],
+            effects: [
+                .init(
+                    when: .playedCardOutOfTurn,
+                    action: .drawDeck,
+                    selectors: [
+                        .if(.playedLessThan(.value(2)))
+                    ]
+                )
+            ]
         )
     }
 }

@@ -44,27 +44,6 @@ public enum OldCards {
         ],
 
         // MARK: - Dodge city
-        "billNoface": [
-            // "He draws 1 card, plus 1 card for each wound he has."
-            .setAttribute_startTurnCards_1,
-            .drawDeck_damage_onTurnStarted,
-            .setAttribute_maxHealth(4)
-        ],
-        "gregDigger": [
-            // "Each time another player is eliminated, he regains 2 life points."
-            .heal_2_onOtherEliminated,
-            .setAttribute_maxHealth(4)
-        ],
-        "herbHunter": [
-            // "Each time another player is eliminated, he draws 2 extra cards."
-            .drawDeck_2_onOtherEliminated,
-            .setAttribute_maxHealth(4)
-        ],
-        "mollyStark": [
-            // "Each time she uses a card from her hand out of turn, she draw a card."
-            .drawDeck_onPlayedCardOutOfTurn,
-            .setAttribute_maxHealth(4)
-        ],
         "joseDelgado": [
             // "Twice in his turn, he may discard a blue card from the hand to draw 2 cards."
             .drawDeck_2_costBlueHandCard,

@@ -274,47 +274,6 @@ extension Effect {
             ]
         )
     }
-
-    static var drawDeck_damage_onTurnStarted: Effect {
-        .init(
-            when: .turnStarted,
-            action: .drawDeck,
-            selectors: [
-                .repeat(.damage)
-            ]
-        )
-    }
-
-    static var heal_2_onOtherEliminated: Effect {
-        .init(
-            when: .otherEliminated,
-            action: .heal,
-            selectors: [
-                .arg(.healAmount, value: .value(2))
-            ]
-        )
-    }
-
-    static var drawDeck_2_onOtherEliminated: Effect {
-        .init(
-            when: .otherEliminated,
-            action: .drawDeck,
-            selectors: [
-                .repeat(.value(2))
-            ]
-        )
-    }
-
-    static var drawDeck_onPlayedCardOutOfTurn: Effect {
-        .init(
-            when: .playedCardOutOfTurn,
-            action: .drawDeck,
-            selectors: [
-                .if(.playedLessThan(.value(2)))
-            ]
-        )
-    }
-
     static var drawDeck_2_costBlueHandCard: Effect {
         .init(
             when: .played,
