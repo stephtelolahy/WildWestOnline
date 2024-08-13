@@ -53,41 +53,6 @@ public enum OldCards {
         ],
 
         // MARK: - Dodge city
-        "springfield": [
-            // "The player must discard one additional card, and then the card acts as a Bang! with unlimited range."
-            .brown,
-            .shoot_any_cost1HandCard
-        ],
-        "hideout": [
-            // "Others view you at distance +1"
-            .equip,
-            .incrementAttribute_remoteness
-        ],
-        "binocular": [
-            // "you view others at distance -1"
-            .equip,
-            .incrementAttribute_magnifying
-        ],
-        "whisky": [
-            // "The player must discard one additional card, to heal two health."
-            .brown,
-            .heal_2_cost1HandCard
-        ],
-        "tequila": [
-            // "The player must discard one additional card, to heal any player one health."
-            .brown,
-            .heal_any_cost1HandCard
-        ],
-        "ragTime": [
-            // "The player must discard one additional card to steal a card from any other player."
-            .brown,
-            .steal_any_cost1HandCard
-        ],
-        "brawl": [
-            // "The player must discard one additional card to cause all other players to discard one card."
-            .brown,
-            .discard_all_cost1HandCard
-        ],
         "elenaFuente": [
             // "She may use any card in hand as Missed!."
             .setAttribute_playMissedWithAny,

@@ -75,26 +75,6 @@ extension Effect {
         )
     }
 
-    static var incrementAttribute_magnifying: Effect {
-        .init(
-            when: .played,
-            action: .incrementAttribute,
-            selectors: [
-                .attr(.magnifying, value: 1)
-            ]
-        )
-    }
-
-    static var incrementAttribute_remoteness: Effect {
-        .init(
-            when: .played,
-            action: .incrementAttribute,
-            selectors: [
-                .attr(.remoteness, value: 1)
-            ]
-        )
-    }
-
     // MARK: - Collectibles - Handicap
 
     static var handicap: Effect {
@@ -275,64 +255,6 @@ extension Effect {
     }
 
     // MARK: - Dodge city
-
-    static var shoot_any_cost1HandCard: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .chooseCostHandCard(),
-                .chooseTarget()
-            ]
-        )
-    }
-
-    static var heal_2_cost1HandCard: Effect {
-        .init(
-            when: .played,
-            action: .heal,
-            selectors: [
-                .chooseCostHandCard(),
-                .arg(.healAmount, value: .value(2))
-            ]
-        )
-    }
-
-    static var heal_any_cost1HandCard: Effect {
-        .init(
-            when: .played,
-            action: .heal,
-            selectors: [
-                .chooseCostHandCard(),
-                .chooseTarget()
-            ]
-        )
-    }
-
-    static var steal_any_cost1HandCard: Effect {
-        .init(
-            when: .played,
-            action: .steal,
-            selectors: [
-                .chooseCostHandCard(),
-                .chooseTarget(),
-                .chooseCard()
-            ]
-        )
-    }
-
-    static var discard_all_cost1HandCard: Effect {
-        .init(
-            when: .played,
-            action: .discard,
-            selectors: [
-                .chooseCostHandCard(),
-                .target(.all),
-                .chooseCard()
-            ]
-        )
-    }
-
     static var setAttribute_playMissedWithAny: Effect {
         .init(
             when: .played,

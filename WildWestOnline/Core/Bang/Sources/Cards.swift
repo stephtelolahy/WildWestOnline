@@ -45,7 +45,14 @@ public enum Cards {
         luckyDuke,
         calamityJanet,
         punch,
-        dodge
+        dodge,
+        springfield,
+        hideout,
+        binocular,
+        whisky,
+        tequila,
+        ragTime,
+        brawl
     ]
 }
 
@@ -644,6 +651,114 @@ private extension Cards {
                 .init(
                     when: .played,
                     action: .drawDeck
+                )
+            ]
+        )
+    }
+
+    static var springfield: Card {
+        .init(
+            id: "springfield",
+            desc: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .chooseCostHandCard(),
+                        .chooseTarget()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var hideout: Card {
+        .init(
+            id: "hideout",
+            desc: "Others view you at distance +1",
+            improvements: [.remoteness: 1]
+        )
+    }
+
+    static var binocular: Card {
+        .init(
+            id: "binocular",
+            desc: "you view others at distance -1",
+            improvements: [.magnifying: 1]
+        )
+    }
+
+    static var whisky: Card {
+        .init(
+            id: "whisky",
+            desc: "The player must discard one additional card, to heal two health.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .chooseCostHandCard(),
+                        .arg(.healAmount, value: .value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var tequila: Card {
+        .init(
+            id: "tequila",
+            desc: "The player must discard one additional card, to heal any player one health.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .chooseCostHandCard(),
+                        .chooseTarget()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var ragTime: Card {
+        .init(
+            id: "ragTime",
+            desc: "The player must discard one additional card to steal a card from any other player.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .steal,
+                    selectors: [
+                        .chooseCostHandCard(),
+                        .chooseTarget(),
+                        .chooseCard()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var brawl: Card {
+        .init(
+            id: "brawl",
+            desc: "The player must discard one additional card to cause all other players to discard one card.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .discard,
+                    selectors: [
+                        .chooseCostHandCard(),
+                        .target(.all),
+                        .chooseCard()
+                    ]
                 )
             ]
         )
