@@ -46,6 +46,10 @@ public enum Cards {
         slabTheKiller,
         luckyDuke,
         calamityJanet,
+        kitCarlson,
+        blackJack,
+        jesseJones,
+        pedroRamirez,
 
         punch,
         dodge,
@@ -69,6 +73,8 @@ public enum Cards {
         docHolyday,
         apacheKid,
         belleStar,
+        patBrennan,
+        veraCuster,
 
         lastCall,
         tornado,
@@ -83,12 +89,15 @@ public enum Cards {
         shootgun,
         bounty,
         rattlesnake,
+        escape,
+        ghost,
         coloradoBill,
         evelynShebang,
         lemonadeJim,
         henryBlock,
         blackFlower,
-        derSpotBurstRinger
+        derSpotBurstRinger,
+        tucoFranziskaner
     ]
 }
 
@@ -670,6 +679,105 @@ private extension Cards {
         )
     }
 
+    static var kitCarlson: Card {
+        .init(
+            id: "kitCarlson",
+            desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
+            attributes: [.maxHealth: 4],
+            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .reveal,
+                    selectors: [
+                        .arg(.revealAmount, value: .value(3))
+                    ]
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .chooseCard,
+                    selectors: [
+                        .repeat(.value(3))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var blackJack: Card {
+        .init(
+            id: "blackJack",
+            desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
+            attributes: [.maxHealth: 4],
+            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .arg(.repeatAmount, value: .value(2)),
+                        .repeat(.arg(.repeatAmount))
+                    ]
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .showLastDraw
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .if(.draw("(♥️)|(♦️)"))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var jesseJones: Card {
+        .init(
+            id: "jesseJones",
+            desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
+            attributes: [.maxHealth: 4],
+            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .drawDiscard
+                ),
+                // ⚠️ handle fallback
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck
+                )
+            ]
+        )
+    }
+
+    static var pedroRamirez: Card {
+        .init(
+            id: "pedroRamirez",
+            desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
+            attributes: [.maxHealth: 4],
+            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .steal,
+                    selectors: [
+                        .chooseTarget([.havingHandCard]),
+                        .chooseCard()
+                    ]
+                ),
+                // ⚠️ handle fallback
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck
+                )
+            ]
+        )
+    }
+
     // MARK: - Dodge city
 
     static var punch: Card {
@@ -1001,6 +1109,35 @@ private extension Cards {
         )
     }
 
+    static var patBrennan: Card {
+        .init(
+            id: "patBrennan",
+            desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
+            attributes: [.maxHealth: 4],
+            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .steal,
+                    selectors: [
+                        .chooseTarget([.havingInPlayCard]),
+                        .chooseCard(.inPlay)
+                    ]
+                )
+                // ⚠️ handle fallback
+            ]
+        )
+    }
+
+    static var veraCuster: Card {
+        .init(
+            id: "veraCuster",
+            desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
+            attributes: [.maxHealth: 3]
+            // ⚠️ setup round abilities
+        )
+    }
+
     // MARK: - The Valley of Shadows
 
     static var lastCall: Card {
@@ -1255,6 +1392,22 @@ private extension Cards {
         )
     }
 
+    static var escape: Card {
+        .init(
+            id: "escape",
+            desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect."
+            // ⚠️ Counter a card effect
+        )
+    }
+
+    static var ghost: Card {
+        .init(
+            id: "ghost",
+            desc: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player."
+            // ⚠️ player without health
+        )
+    }
+
     static var coloradoBill: Card {
         .init(
             id: "coloradoBill",
@@ -1353,6 +1506,23 @@ private extension Cards {
                         .if(.playedLessThan(.value(1))),
                         .chooseCostHandCard(.named("bang")),
                         .target(.others)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var tucoFranziskaner: Card {
+        .init(
+            id: "tucoFranziskaner",
+            desc: "During his draw phase, he draw 2 extra cards if he has no blue cards in play.",
+            effects: [
+                .init(
+                    when: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .if(.hasNoBlueCardsInPlay),
+                        .repeat(.value(2))
                     ]
                 )
             ]
