@@ -70,13 +70,20 @@ public enum Cards {
         docHolyday,
         apacheKid,
         belleStar,
+
         lastCall,
         tornado,
         backfire,
         tomahawk,
         aim,
         faning,
-        saved
+        saved,
+        bandidos,
+        poker,
+        lemat,
+        shootgun,
+        bounty,
+        rattlesnake
     ]
 }
 
@@ -1144,6 +1151,120 @@ private extension Cards {
                     selectors: [
                         .if(.targetHealthIs1),
                         .repeat(.value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var bandidos: Card {
+        .init(
+            id: "bandidos",
+            desc: "Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .damage,
+                    selectors: [
+                        .target(.others),
+                        .chooseEventuallyCounterHandCard(count: 2)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var poker: Card {
+        // ⚠️ Fine drawing from discard
+        .init(
+            id: "poker",
+            desc: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .discard,
+                    selectors: [
+                        .target(.others),
+                        .chooseCard()
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .drawDiscard,
+                    selectors: [
+                        .if(.discardedCardsNotAce),
+                        .repeat(.value(2))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var lemat: Card {
+        .init(
+            id: "lemat",
+            desc: "gun, range 1: In your turn, you may use any card like BANG card.",
+            attributes: [.weapon: 1],
+            playWith: ["bang": ""],
+            effects: [
+                .equip
+            ]
+        )
+    }
+
+    static var shootgun: Card {
+        .init(
+            id: "shootgun",
+            desc: "gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.",
+            attributes: [.weapon: 1],
+            effects: [
+                .equip,
+                .init(
+                    when: .damagingWith("bang"),
+                    action: .discard,
+                    selectors: [
+                        .target(.damaged),
+                        .chooseCard(.fromHand)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var bounty: Card {
+        .init(
+            id: "bounty",
+            desc: "Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.",
+            effects: [
+                .handicap,
+                .init(
+                    when: .damagedWith("bang"),
+                    action: .drawDeck,
+                    selectors: [
+                        .target(.offender)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var rattlesnake: Card {
+        .init(
+            id: "rattlesnake",
+            desc: "Play in front any player. At beginnings of that player's turn, he draw: On Spade, he lose 1 life point, otherwise he does nothing.",
+            effects: [
+                .handicap,
+                .init(
+                    when: .turnStarted,
+                    action: .draw
+                ),
+                .init(
+                    when: .turnStarted,
+                    action: .damage,
+                    selectors: [
+                        .if(.draw("♠️"))
                     ]
                 )
             ]

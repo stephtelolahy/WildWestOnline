@@ -151,7 +151,4 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
-
-    // ⚠️ related to specific card
-    case playBangWithAny
 }
