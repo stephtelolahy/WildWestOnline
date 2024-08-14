@@ -21,6 +21,7 @@ public enum Action: String, Codable {
     case damage
 
     /// {actor} draw the top deck card
+    /// When a {card} is specified, this allow to draw a specific card
     case drawDeck
 
     /// {target} discard a {card}
@@ -50,9 +51,6 @@ public enum Action: String, Codable {
     /// expose {amount} choosable cards from top deck
     case reveal
 
-    /// {target} choose a {card} from choosable cards
-    case chooseCard
-
     /// draw {drawCards} cards from deck. Next effects depend on it
     case draw
 
@@ -69,6 +67,7 @@ public enum Action: String, Codable {
     case eliminate
 
     /// {actor} draws the last discarded card
+    /// When a {card} is specified, this allow to draw a specific card
     case drawDiscard
 
     /// Arguments required for dispatching a specific action

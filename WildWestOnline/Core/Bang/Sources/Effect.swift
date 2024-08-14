@@ -102,6 +102,7 @@ public struct Effect: Equatable, Codable {
             case named(String)
             case action(Action)
             case revealed
+            case discarded
         }
 
         public enum Number: Equatable, Codable {

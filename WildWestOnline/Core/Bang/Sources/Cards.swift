@@ -457,7 +457,7 @@ private extension Cards {
                 ),
                 .init(
                     when: .played,
-                    action: .chooseCard,
+                    action: .drawDeck,
                     selectors: [
                         .target(.all),
                         .chooseCard(.revealed)
@@ -813,7 +813,7 @@ private extension Cards {
                 ),
                 .init(
                     when: .turnStarted,
-                    action: .chooseCard,
+                    action: .drawDeck,
                     selectors: [
                         .repeat(.value(3))
                     ]
@@ -853,7 +853,7 @@ private extension Cards {
     }
 
     static var jesseJones: Card {
-        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
+        // ⚠️ TODO: choose to override default effect
         .init(
             id: "jesseJones",
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
@@ -873,7 +873,7 @@ private extension Cards {
     }
 
     static var pedroRamirez: Card {
-        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
+        // ⚠️ TODO: choose to override default effect
         .init(
             id: "pedroRamirez",
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
@@ -990,6 +990,7 @@ private extension Cards {
         .init(
             id: "tequila",
             desc: "The player must discard one additional card, to heal any player one health.",
+            attributes: [.maxHealth: 4],
             effects: [
                 .brown,
                 .init(
@@ -1228,7 +1229,7 @@ private extension Cards {
     }
 
     static var patBrennan: Card {
-        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
+        // ⚠️ TODO: choose to override default effect
         .init(
             id: "patBrennan",
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
@@ -1248,11 +1249,11 @@ private extension Cards {
     }
 
     static var veraCuster: Card {
+        // ⚠️ TODO: set abilities for a round
         .init(
             id: "veraCuster",
             desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
             attributes: [.maxHealth: 3]
-            // ⚠️ setup round abilities
         )
     }
 
@@ -1315,7 +1316,7 @@ private extension Cards {
     static var tomahawk: Card {
         .init(
             id: "tomahawk",
-            desc: "Bang at distance 2.",
+            desc: "Bang at distance 2. But it can be used at distance 1",
             effects: [
                 .brown,
                 .init(
@@ -1342,7 +1343,7 @@ private extension Cards {
     }
 
     static var faning: Card {
-        // ⚠️ played as "bang"
+        // ⚠️ TODO: play this as another card
         .init(
             id: "faning",
             desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
@@ -1415,7 +1416,6 @@ private extension Cards {
     }
 
     static var poker: Card {
-        // ⚠️ Fine drawing from discard
         .init(
             id: "poker",
             desc: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
@@ -1434,7 +1434,8 @@ private extension Cards {
                     action: .drawDiscard,
                     selectors: [
                         .if(.discardedCardsNotAce),
-                        .repeat(.value(2))
+                        .repeat(.value(2)),
+                        .chooseCard(.discarded)
                     ]
                 )
             ]
@@ -1511,18 +1512,18 @@ private extension Cards {
     }
 
     static var escape: Card {
+        // ⚠️ TODO: Counter any effect
         .init(
             id: "escape",
             desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect."
-            // ⚠️ Counter a card effect
         )
     }
 
     static var ghost: Card {
+        // ⚠️ TODO: player without health
         .init(
             id: "ghost",
             desc: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player."
-            // ⚠️ player without health
         )
     }
 
@@ -1548,7 +1549,7 @@ private extension Cards {
     }
 
     static var evelynShebang: Card {
-        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
+        // ⚠️ TODO: choose to override default effect
         .init(
             id: "evelynShebang",
             desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance."
