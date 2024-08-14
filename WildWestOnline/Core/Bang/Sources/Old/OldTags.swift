@@ -13,19 +13,6 @@
 ///
 
 extension Effect {
-    static var shoot_reachable_bangLimitPerTurn: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .arg(.limitPerTurn, value: .value(1)),
-                .arg(.shootRequiredMisses, value: .value(1)),
-                .arg(.damageAmount, value: .value(1)),
-                .if(.playedLessThan(.arg(.limitPerTurn))),
-                .chooseTarget([.atDistanceReachable])
-            ]
-        )
-    }
 
     // MARK: - Collectible - Equipment
 
@@ -107,27 +94,6 @@ extension Effect {
             action: .discard,
             selectors: [
                 .card(.inPlayWithAttr(.weapon))
-            ]
-        )
-    }
-
-    static var play_missed_onShot: Effect {
-        .init(
-            when: .shot,
-            action: .play,
-            selectors: [
-                .chooseEventuallyCard(.action(.missed))
-            ]
-        )
-    }
-
-    static var play_beer_onDamagedLethal: Effect {
-        .init(
-            when: .damagedLethal,
-            action: .play,
-            selectors: [
-                .if(.playersAtLeast(3)),
-                .chooseEventuallyCard(.named("beer"))
             ]
         )
     }
@@ -263,35 +229,6 @@ extension Effect {
     }
 
     // MARK: - The Valley of Shadows
-    static var shoot_neighbour: Effect {
-        .init(
-            when: .played,
-            action: .shoot,
-            selectors: [
-                .chooseTarget([.neighbourToTarget])
-            ]
-        )
-    }
-
-    static var play_onOtherDamaged: Effect {
-        .init(
-            when: .otherDamaged,
-            action: .play,
-            selectors: [
-                .chooseEventuallyCard(.named("saved"))
-            ]
-        )
-    }
-
-    static var heal_lastDamaged: Effect {
-        .init(
-            when: .played,
-            action: .heal,
-            selectors: [
-                .target(.damaged)
-            ]
-        )
-    }
 
     static var damage_others_counterWith2HandCards: Effect {
         .init(

@@ -69,9 +69,6 @@ public struct Effect: Equatable, Codable {
         /// can discard hand card to reverse effect
         case chooseEventuallyReverseHandCard(CardCondition)
 
-        /// can choose a card or skip the effect
-        case chooseEventuallyCard(CardCondition)
-
         /// can choose to loose one life point or skip the effect
         case chooseEventuallyCostLifePoint
 
@@ -129,6 +126,7 @@ public struct Effect: Equatable, Codable {
             case actorTurn
             case discardedCardsNotAce
             case hasNoBlueCardsInPlay
+            case targetHealthIs1
             case not(Self)
         }
     }

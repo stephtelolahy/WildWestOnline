@@ -10,7 +10,8 @@
 /// A `card` is just a collection of attributes and effects
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 /// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
-/// 
+/// ℹ️ All effects of the same source share the resolved arguments
+///
 public struct Card: Equatable, Codable {
     public let id: String
     public let desc: String
@@ -26,6 +27,9 @@ public struct Card: Equatable, Codable {
 
     /// can play a card {key} as with another card {value}
     public var playWith: [String: String] = [:]
+
+    /// can choose to play this card when an {event} occurs
+    public var canPlay: Effect.PlayerEvent? = nil
 
     /// actions that are triggered by this card when some {event} occurrs
     public var effects: [Effect] = []

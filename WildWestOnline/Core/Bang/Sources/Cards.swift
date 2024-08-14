@@ -74,7 +74,9 @@ public enum Cards {
         tornado,
         backfire,
         tomahawk,
-        aim
+        aim,
+        faning,
+        saved
     ]
 }
 
@@ -132,6 +134,7 @@ private extension Cards {
         .init(
             id: "beer",
             desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
+            canPlay: .damagedLethal,
             effects: [
                 .brown,
                 .init(
@@ -257,6 +260,7 @@ private extension Cards {
         .init(
             id: "missed",
             desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
+            canPlay: .shot,
             effects: [
                 .brown,
                 .init(
@@ -698,6 +702,7 @@ private extension Cards {
         .init(
             id: "dodge",
             desc: "Acts as a Missed!, but allows the player to draw a card.",
+            canPlay: .shot,
             effects: [
                 .brown,
                 .init(
@@ -1082,15 +1087,63 @@ private extension Cards {
         .init(
             id: "aim",
             desc: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
-            // ⚠️ thos override apply to current play action
             overrides: ["bang": [.damageAmount: 2]],
+            canPlay: .cardPlayedWithName("bang"),
+            effects: [
+                .brown
+            ]
+        )
+    }
+
+    static var faning: Card {
+        // ⚠️ played as "bang"
+        .init(
+            id: "faning",
+            desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
             effects: [
                 .brown,
                 .init(
-                    when: .cardPlayedWithName("bang"),
-                    action: .play,
+                    when: .played,
+                    action: .shoot,
                     selectors: [
-                        .chooseEventuallyCard(.named("aim"))
+                        .arg(.limitPerTurn, value: .value(1)),
+                        .if(.playedLessThan(.arg(.limitPerTurn))),
+                        .chooseTarget([.atDistanceReachable]),
+                        .arg(.shootRequiredMisses, value: .value(1)),
+                        .arg(.damageAmount, value: .value(1))
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .chooseTarget([.neighbourToTarget])
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var saved: Card {
+        .init(
+            id: "saved",
+            desc: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
+            canPlay: .otherDamaged,
+            effects: [
+                .brown,
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .target(.damaged)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .drawDeck,
+                    selectors: [
+                        .if(.targetHealthIs1),
+                        .repeat(.value(2))
                     ]
                 )
             ]

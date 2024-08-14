@@ -11,9 +11,7 @@ public enum OldCards {
             .eliminate_onDamageLethal,
             .discard_all_onEliminated,
             .endTurn_onEliminated,
-            .discard_previousWeapon_onWeaponPlayed,
-            .play_missed_onShot,
-            .play_beer_onDamagedLethal
+            .discard_previousWeapon_onWeaponPlayed
         ],
         "kitCarlson": [
             // "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down."
@@ -57,18 +55,7 @@ public enum OldCards {
         ],
 
         // MARK: - The Valley of Shadows
-        "faning": [
-            // Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).
-            .brown,
-            .shoot_reachable_bangLimitPerTurn,
-            .shoot_neighbour
-        ],
-        "saved": [
-            // Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).
-            .brown,
-            .play_onOtherDamaged,
-            .heal_lastDamaged
-        ],
+
         "bandidos": [
             // Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.
             .brown,
