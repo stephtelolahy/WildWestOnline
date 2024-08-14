@@ -16,6 +16,7 @@ public enum Cards {
         defaultDiscardAllCardsOnEliminated,
         defaultEndTurnOnEliminated,
         defaultDiscardPreviousWeaponOnPlayed,
+        defaultDiscardBeerOnDamagedLethal,
 
         beer,
         saloon,
@@ -136,8 +137,8 @@ private extension Cards {
 
     static var defaultDiscardExcessHandOnTurnEnded: Card {
         .init(
-            id: "",
-            desc: "",
+            id: "defaultDiscardExcessHandOnTurnEnded",
+            desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             effects: [
                 .init(
                     when: .played,
@@ -151,26 +152,10 @@ private extension Cards {
         )
     }
 
-    static var defaultStartTurnNextOnTurnEnded: Card {
-        .init(
-            id: "",
-            desc: "",
-            effects: [
-                .init(
-                    when: .turnEnded,
-                    action: .startTurn,
-                    selectors: [
-                        .target(.next)
-                    ]
-                )
-            ]
-        )
-    }
-
     static var defaultEliminateOnDamageLethal: Card {
         .init(
-            id: "",
-            desc: "",
+            id: "defaultEliminateOnDamageLethal",
+            desc: "When you lose your last life point, you are eliminated and your game is over",
             effects: [
                 .init(
                     when: .damagedLethal,
@@ -182,7 +167,7 @@ private extension Cards {
 
     static var defaultDiscardAllCardsOnEliminated: Card {
         .init(
-            id: "",
+            id: "defaultDiscardAllCardsOnEliminated",
             desc: "",
             effects: [
                 .init(
@@ -198,7 +183,7 @@ private extension Cards {
 
     static var defaultEndTurnOnEliminated: Card {
         .init(
-            id: "",
+            id: "defaultEndTurnOnEliminated",
             desc: "",
             effects: [
                 .init(
@@ -212,9 +197,25 @@ private extension Cards {
         )
     }
 
+    static var defaultStartTurnNextOnTurnEnded: Card {
+        .init(
+            id: "defaultStartTurnNextOnTurnEnded",
+            desc: "",
+            effects: [
+                .init(
+                    when: .turnEnded,
+                    action: .startTurn,
+                    selectors: [
+                        .target(.next)
+                    ]
+                )
+            ]
+        )
+    }
+
     static var defaultDiscardPreviousWeaponOnPlayed: Card {
         .init(
-            id: "",
+            id: "defaultDiscardPreviousWeaponOnPlayed",
             desc: "",
             effects: [
                 .init(
@@ -228,13 +229,30 @@ private extension Cards {
         )
     }
 
+    static var defaultDiscardBeerOnDamagedLethal: Card {
+        .init(
+            id: "defaultDiscardBeerOnDamagedLethal",
+            desc: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
+            canPlay: .damagedLethal,
+            effects: [
+                .init(
+                    when: .played,
+                    action: .heal,
+                    selectors: [
+                        .if(.playersAtLeast(3)),
+                        .chooseCostHandCard(.named("beer"))
+                    ]
+                )
+            ]
+        )
+    }
+
     // MARK: - Bang
 
     static var beer: Card {
         .init(
             id: "beer",
             desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            canPlay: .damagedLethal,
             effects: [
                 .brown,
                 .init(
@@ -835,6 +853,7 @@ private extension Cards {
     }
 
     static var jesseJones: Card {
+        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
         .init(
             id: "jesseJones",
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
@@ -845,7 +864,6 @@ private extension Cards {
                     when: .turnStarted,
                     action: .drawDiscard
                 ),
-                // ⚠️ handle fallback
                 .init(
                     when: .turnStarted,
                     action: .drawDeck
@@ -855,6 +873,7 @@ private extension Cards {
     }
 
     static var pedroRamirez: Card {
+        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
         .init(
             id: "pedroRamirez",
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
@@ -869,7 +888,6 @@ private extension Cards {
                         .chooseCard()
                     ]
                 ),
-                // ⚠️ handle fallback
                 .init(
                     when: .turnStarted,
                     action: .drawDeck
@@ -1210,6 +1228,7 @@ private extension Cards {
     }
 
     static var patBrennan: Card {
+        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
         .init(
             id: "patBrennan",
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
@@ -1224,7 +1243,6 @@ private extension Cards {
                         .chooseCard(.inPlay)
                     ]
                 )
-                // ⚠️ handle fallback
             ]
         )
     }
@@ -1530,10 +1548,10 @@ private extension Cards {
     }
 
     static var evelynShebang: Card {
+        // ⚠️ TODO: choose defaultDraw2CardsOnTurnStarted or custom effect
         .init(
             id: "evelynShebang",
             desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance."
-            // ⚠️ override startTurn
         )
     }
 
@@ -1541,9 +1559,10 @@ private extension Cards {
         .init(
             id: "lemonadeJim",
             desc: "When another player plays BEER card, he may discard any card to refill 1 life point.",
+            canPlay: .otherPlayedCardWithName("beer"),
             effects: [
                 .init(
-                    when: .otherPlayedCardWithName("beer"),
+                    when: .played,
                     action: .heal,
                     selectors: [
                         .chooseCostHandCard()
