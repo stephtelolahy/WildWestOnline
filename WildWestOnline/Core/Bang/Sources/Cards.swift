@@ -10,7 +10,6 @@
 public enum Cards {
     static let all: [Card] = [
         defaultStartTurn,
-        defaultEndTurn,
 
         beer,
         saloon,
@@ -85,7 +84,11 @@ public enum Cards {
         bounty,
         rattlesnake,
         coloradoBill,
-        evelynShebang
+        evelynShebang,
+        lemonadeJim,
+        henryBlock,
+        blackFlower,
+        derSpotBurstRinger
     ]
 }
 
@@ -110,27 +113,6 @@ private extension Cards {
                     selectors: [
                         .arg(.repeatAmount, value: .value(2)),
                         .repeat(.arg(.repeatAmount))
-                    ]
-                )
-            ]
-        )
-    }
-
-    static var defaultEndTurn: Card {
-        .init(
-            id: "defaultEndTurn",
-            desc: "At the end of your turn, you must discard from your hand any cards exceeding your hand-size limit.",
-            effects: [
-                .init(
-                    when: .played,
-                    action: .endTurn
-                ),
-                .init(
-                    when: .played,
-                    action: .discard,
-                    selectors: [
-                        .repeat(.excessHand),
-                        .chooseCard()
                     ]
                 )
             ]
@@ -1299,6 +1281,81 @@ private extension Cards {
             id: "evelynShebang",
             desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance."
             // ⚠️ override startTurn
+        )
+    }
+
+    static var lemonadeJim: Card {
+        .init(
+            id: "lemonadeJim",
+            desc: "When another player plays BEER card, he may discard any card to refill 1 life point.",
+            effects: [
+                .init(
+                    when: .otherPlayedCardWithName("beer"),
+                    action: .heal,
+                    selectors: [
+                        .chooseCostHandCard()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var henryBlock: Card {
+        .init(
+            id: "henryBlock",
+            desc: "Any another player who discards or draw from Henry hand or in front him, is target of BANG.",
+            effects: [
+                .init(
+                    when: .cardStolen,
+                    action: .shoot,
+                    selectors: [
+                        .target(.offender)
+                    ]
+                ),
+                .init(
+                    when: .cardDiscarded,
+                    action: .shoot,
+                    selectors: [
+                        .target(.offender)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var blackFlower: Card {
+        .init(
+            id: "blackFlower",
+            desc: "Once per turn, she can shoot an extra Bang! by discarding a Clubs card.",
+            effects: [
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .if(.playedLessThan(.value(1))),
+                        .chooseCostHandCard(.suits("♣️")),
+                        .chooseTarget([.atDistanceReachable])
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var derSpotBurstRinger: Card {
+        .init(
+            id: "derSpotBurstRinger",
+            desc: "Once per turn, he can play a Bang! card as Gatling.",
+            effects: [
+                .init(
+                    when: .played,
+                    action: .shoot,
+                    selectors: [
+                        .if(.playedLessThan(.value(1))),
+                        .chooseCostHandCard(.named("bang")),
+                        .target(.others)
+                    ]
+                )
+            ]
         )
     }
 }
