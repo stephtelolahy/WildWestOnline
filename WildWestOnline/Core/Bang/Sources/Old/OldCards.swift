@@ -56,18 +56,11 @@ public enum OldCards {
 
         // MARK: - The Valley of Shadows
         "tucoFranziskaner": [
+            // ⚠️ override startTurn
             // During his draw phase, he draw 2 extra cards if he has no blue cards in play.
             .drawDeck_2_onTurnStarted_ifHasNoBlueCardsInPlay
         ],
-        "coloradoBill": [
-            // Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.
-            .draw_onMissedBang,
-            .damage_target_onMissedBang_ifDrawSpades
-        ],
-        "evelynShebang": [
-            // She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.
-            // ⚠️ Ask choice
-        ],
+
         "lemonadeJim": [
             // When another player plays BEER card, he may discard any card to refill 1 life point.
             .heal_onOtherPlayedBeer_cost1HandCard

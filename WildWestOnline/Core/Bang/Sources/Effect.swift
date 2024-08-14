@@ -31,7 +31,8 @@ public struct Effect: Equatable, Codable {
         case cardPlayedWithName(String)
         case cardPlayedWithAttr(PlayerAttribute)
         case damagingWith(String)
-        case missed(String)
+        /// a targeted player has missed his shoot card
+        case targetedHasMissed(String)
         case otherPlayedCardWithName(String)
     }
 

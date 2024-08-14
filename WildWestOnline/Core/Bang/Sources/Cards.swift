@@ -83,7 +83,9 @@ public enum Cards {
         lemat,
         shootgun,
         bounty,
-        rattlesnake
+        rattlesnake,
+        coloradoBill,
+        evelynShebang
     ]
 }
 
@@ -1268,6 +1270,35 @@ private extension Cards {
                     ]
                 )
             ]
+        )
+    }
+
+    static var coloradoBill: Card {
+        .init(
+            id: "coloradoBill",
+            desc: "Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.",
+            effects: [
+                .init(
+                    when: .targetedHasMissed("bang"),
+                    action: .draw
+                ),
+                .init(
+                    when: .targetedHasMissed("bang"),
+                    action: .damage,
+                    selectors: [
+                        .if(.draw("♠️")),
+                        .target(.targeted)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var evelynShebang: Card {
+        .init(
+            id: "evelynShebang",
+            desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance."
+            // ⚠️ override startTurn
         )
     }
 }
