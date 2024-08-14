@@ -9,7 +9,13 @@
 
 public enum Cards {
     static let all: [Card] = [
-        defaultStartTurn,
+        defaultDraw2CardsOnTurnStarted,
+        defaultDiscardExcessHandOnTurnEnded,
+        defaultStartTurnNextOnTurnEnded,
+        defaultEliminateOnDamageLethal,
+        defaultDiscardAllCardsOnEliminated,
+        defaultEndTurnOnEliminated,
+        defaultDiscardPreviousWeaponOnPlayed,
 
         beer,
         saloon,
@@ -111,9 +117,9 @@ private extension Cards {
         ]
     }
 
-    static var defaultStartTurn: Card {
+    static var defaultDraw2CardsOnTurnStarted: Card {
         .init(
-            id: "defaultStartTurn",
+            id: "defaultDraw2CardsOnTurnStarted",
             desc: "Draw two cards at the beginning of your turn",
             effects: [
                 .init(
@@ -122,6 +128,100 @@ private extension Cards {
                     selectors: [
                         .arg(.repeatAmount, value: .value(2)),
                         .repeat(.arg(.repeatAmount))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultDiscardExcessHandOnTurnEnded: Card {
+        .init(
+            id: "",
+            desc: "",
+            effects: [
+                .init(
+                    when: .played,
+                    action: .discard,
+                    selectors: [
+                        .repeat(.excessHand),
+                        .chooseCard()
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultStartTurnNextOnTurnEnded: Card {
+        .init(
+            id: "",
+            desc: "",
+            effects: [
+                .init(
+                    when: .turnEnded,
+                    action: .startTurn,
+                    selectors: [
+                        .target(.next)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultEliminateOnDamageLethal: Card {
+        .init(
+            id: "",
+            desc: "",
+            effects: [
+                .init(
+                    when: .damagedLethal,
+                    action: .eliminate
+                )
+            ]
+        )
+    }
+
+    static var defaultDiscardAllCardsOnEliminated: Card {
+        .init(
+            id: "",
+            desc: "",
+            effects: [
+                .init(
+                    when: .eliminated,
+                    action: .discard,
+                    selectors: [
+                        .card(.all)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultEndTurnOnEliminated: Card {
+        .init(
+            id: "",
+            desc: "",
+            effects: [
+                .init(
+                    when: .eliminated,
+                    action: .endTurn,
+                    selectors: [
+                        .if(.actorTurn)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultDiscardPreviousWeaponOnPlayed: Card {
+        .init(
+            id: "",
+            desc: "",
+            effects: [
+                .init(
+                    when: .cardPlayedWithAttr(.weapon),
+                    action: .discard,
+                    selectors: [
+                        .card(.inPlayWithAttr(.weapon))
                     ]
                 )
             ]
@@ -684,7 +784,7 @@ private extension Cards {
             id: "kitCarlson",
             desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
             attributes: [.maxHealth: 4],
-            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -709,7 +809,7 @@ private extension Cards {
             id: "blackJack",
             desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
             attributes: [.maxHealth: 4],
-            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -739,7 +839,7 @@ private extension Cards {
             id: "jesseJones",
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
             attributes: [.maxHealth: 4],
-            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -759,7 +859,7 @@ private extension Cards {
             id: "pedroRamirez",
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
             attributes: [.maxHealth: 4],
-            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -958,7 +1058,7 @@ private extension Cards {
             id: "pixiePete",
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
             attributes: [.maxHealth: 3],
-            overrides: ["defaultStartTurn": [.repeatAmount: 3]]
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 3]]
         )
     }
 
@@ -967,7 +1067,7 @@ private extension Cards {
             id: "billNoface",
             desc: "He draws 1 card, plus 1 card for each wound he has.",
             attributes: [.maxHealth: 4],
-            overrides: ["defaultStartTurn": [.repeatAmount: 1]],
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 1]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -1114,7 +1214,7 @@ private extension Cards {
             id: "patBrennan",
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
             attributes: [.maxHealth: 4],
-            overrides: ["defaultStartTurn": [.repeatAmount: 0]],
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,

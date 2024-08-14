@@ -29,7 +29,7 @@ public struct Card: Equatable, Codable {
     public var playWith: [String: String] = [:]
 
     /// can choose to play this card when an {event} occurs
-    public var canPlay: Effect.PlayerEvent? = nil
+    public var canPlay: Effect.PlayerEvent?
 
     /// actions that are triggered by this card when some {event} occurrs
     public var effects: [Effect] = []
