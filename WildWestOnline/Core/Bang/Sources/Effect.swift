@@ -47,13 +47,8 @@ public struct Effect: Equatable, Codable {
         case card(Card)
         case chooseCard(CardCondition? = nil)
 
-        @available(*, deprecated, renamed: "attributes")
-        case attr(PlayerAttribute, value: Int)
-
         /// determine other action arguments
         case arg(Action.Argument, value: Number)
-        @available(*, deprecated, renamed: "overrides")
-        case overrideArg(Action.Argument, value: Int, card: String)
 
         /// multiply effect x times
         case `repeat`(Number)

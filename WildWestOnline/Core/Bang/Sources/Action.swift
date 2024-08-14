@@ -47,16 +47,13 @@ public enum Action: String, Codable {
     /// {actor} equip with a {card}
     case equip
 
-    /// {actor} passes his {card} to {target}'s inPlay
-    case pass
-
     /// expose {amount} choosable cards from top deck
     case reveal
 
     /// {target} choose a {card} from choosable cards
     case chooseCard
 
-    /// draw {flippedCardsOnDraw} cards from deck. Next effects depend on it
+    /// draw {drawCards} cards from deck. Next effects depend on it
     case draw
 
     /// {actor} shows his last drawn card
@@ -73,20 +70,6 @@ public enum Action: String, Codable {
 
     /// {actor} draws the last discarded card
     case drawDiscard
-
-    // MARK: ``Reversible``applied when card is played and reversed when card is discarded
-
-    /// {actor} set his {attribute} to {value}
-    @available(*, deprecated, renamed: "attributes")
-    case setAttribute
-
-    /// {actor} increase his {attribute} by {value}
-    @available(*, deprecated, renamed: "improvements")
-    case incrementAttribute
-
-    /// {actor} override other {card}'s action {argument}
-    @available(*, deprecated, renamed: "overrides")
-    case overrideArg
 
     /// Arguments required for dispatching a specific action
     public enum Argument: String, Codable {

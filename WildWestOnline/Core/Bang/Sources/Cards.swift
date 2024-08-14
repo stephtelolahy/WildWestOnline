@@ -588,7 +588,7 @@ private extension Cards {
                 ),
                 .init(
                     when: .turnStarted,
-                    action: .pass,
+                    action: .handicap,
                     selectors: [
                         .if(.not(.draw("[2-9]♠️"))),
                         .card(.played),
