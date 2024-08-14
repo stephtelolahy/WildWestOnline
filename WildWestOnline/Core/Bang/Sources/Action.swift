@@ -70,6 +70,12 @@ public enum Action: String, Codable {
     /// When a {card} is specified, this allow to draw a specific card
     case drawDiscard
 
+    /// set {actor}'s {attribute} to {value}
+    case setAttribute
+
+    /// increment {actor}'s {attribute} to {value}
+    case incrementAttribute
+
     /// Arguments required for dispatching a specific action
     public enum Argument: String, Codable {
         case healAmount

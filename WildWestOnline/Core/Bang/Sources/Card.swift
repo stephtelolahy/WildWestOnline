@@ -17,15 +17,17 @@ public struct Card: Equatable, Codable {
     public let desc: String
 
     /// set owner's {attribute} to {value}
+    @available(*, deprecated, renamed: "setAttribute")
     public var attributes: [PlayerAttribute: Int] = [:]
 
     /// increase owner's {attribute} by {value}
+    @available(*, deprecated, renamed: "increaseAttribute")
     public var improvements: [PlayerAttribute: Int] = [:]
 
     /// override other {card}'s action {argument}
     public var overrides: [String: [Action.Argument: Int]] = [:]
 
-    /// ability to play a card {key} with another card {value}
+    /// allow to play a card {key} with another card {value}
     public var playWith: [String: String] = [:]
 
     /// can choose to play this card when an {event} occurs
