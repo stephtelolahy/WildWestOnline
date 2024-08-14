@@ -34,6 +34,9 @@ public enum Action: String, Codable {
     /// {actor} steal a {card} from {target}
     case steal
 
+    /// {actor} put a {card} is self's inPlay
+    case equip
+
     /// {actor} put a {card} on {target}'s inPlay
     case handicap
 
@@ -44,9 +47,6 @@ public enum Action: String, Codable {
 
     /// {actor} counter a shot applied on himself
     case missed
-
-    /// {actor} equip with a {card}
-    case equip
 
     /// expose {amount} choosable cards from top deck
     case reveal
