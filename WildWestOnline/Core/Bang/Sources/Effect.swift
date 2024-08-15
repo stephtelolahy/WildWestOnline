@@ -59,13 +59,13 @@ public struct Effect: Equatable, Codable {
         /// must match given condition
         case `if`(StateCondition)
 
-        /// must discard hand card
+        /// must `discard` hand card
         case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
 
-        /// can discard hand card to counter the effect
+        /// can `discard` hand card to counter the effect
         case chooseEventuallyCounterHandCard(CardCondition? = nil, count: Int = 1)
 
-        /// can discard hand card to reverse effect
+        /// can `discard` hand card to reverse effect
         case chooseEventuallyReverseHandCard(CardCondition)
 
         /// can choose to loose one life point or skip the effect
