@@ -471,9 +471,15 @@ private extension Cards {
         .init(
             id: "schofield",
             desc: "can hit targets at a distance of 2.",
-            attributes: [.weapon: 2],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 2])
+                    ]
+                )
             ]
         )
     }
@@ -482,9 +488,15 @@ private extension Cards {
         .init(
             id: "remington",
             desc: "can hit targets at a distance of 3.",
-            attributes: [.weapon: 3],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 3])
+                    ]
+                )
             ]
         )
     }
@@ -493,9 +505,15 @@ private extension Cards {
         .init(
             id: "revCarabine",
             desc: "can hit targets at a distance of 4.",
-            attributes: [.weapon: 4],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 4])
+                    ]
+                )
             ]
         )
     }
@@ -504,9 +522,15 @@ private extension Cards {
         .init(
             id: "winchester",
             desc: "can hit targets at a distance of 5.",
-            attributes: [.weapon: 5],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 5])
+                    ]
+                )
             ]
         )
     }
@@ -515,10 +539,16 @@ private extension Cards {
         .init(
             id: "volcanic",
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            attributes: [.weapon: 1],
             overrides: ["bang": [.limitPerTurn: 0]],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 1])
+                    ]
+                )
             ]
         )
     }
@@ -649,8 +679,16 @@ private extension Cards {
         .init(
             id: "willyTheKid",
             desc: "he can play any number of BANG! cards during his turn.",
-            attributes: [.maxHealth: 4],
-            overrides: ["bang": [.limitPerTurn: 0]]
+            overrides: ["bang": [.limitPerTurn: 0]],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
+                )
+            ]
         )
     }
 
@@ -658,13 +696,19 @@ private extension Cards {
         .init(
             id: "roseDoolan",
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .played,
                     action: .incrementAttribute,
                     selectors: [
                         .attribute([.magnifying: 1])
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -675,13 +719,19 @@ private extension Cards {
         .init(
             id: "paulRegret",
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            attributes: [.maxHealth: 3],
             effects: [
                 .init(
                     when: .played,
                     action: .incrementAttribute,
                     selectors: [
                         .attribute([.remoteness: 1])
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 3])
                     ]
                 )
             ]
@@ -692,7 +742,6 @@ private extension Cards {
         .init(
             id: "jourdonnais",
             desc: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .shot,
@@ -704,6 +753,13 @@ private extension Cards {
                     selectors: [
                         .if(.draw("♥️"))
                     ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
                 )
             ]
         )
@@ -713,13 +769,19 @@ private extension Cards {
         .init(
             id: "bartCassidy",
             desc: "each time he loses a life point, he immediately draws a card from the deck.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .damaged,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.lastDamage)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -730,7 +792,6 @@ private extension Cards {
         .init(
             id: "elGringo",
             desc: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
-            attributes: [.maxHealth: 3],
             effects: [
                 .init(
                     when: .damaged,
@@ -738,6 +799,13 @@ private extension Cards {
                     selectors: [
                         .target(.offender),
                         .repeat(.lastDamage)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 3])
                     ]
                 )
             ]
@@ -748,11 +816,17 @@ private extension Cards {
         .init(
             id: "suzyLafayette",
             desc: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .handEmpty,
                     action: .drawDeck
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
                 )
             ]
         )
@@ -762,13 +836,19 @@ private extension Cards {
         .init(
             id: "sidKetchum",
             desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .played,
                     action: .heal,
                     selectors: [
                         .chooseCostHandCard(count: 2)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -779,7 +859,6 @@ private extension Cards {
         .init(
             id: "vultureSam",
             desc: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .otherEliminated,
@@ -787,6 +866,13 @@ private extension Cards {
                     selectors: [
                         .target(.eliminated),
                         .card(.all)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -797,8 +883,16 @@ private extension Cards {
         .init(
             id: "slabTheKiller",
             desc: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
-            attributes: [.maxHealth: 4],
-            overrides: ["bang": [.shootRequiredMisses: 2]]
+            overrides: ["bang": [.shootRequiredMisses: 2]],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
+                )
+            ]
         )
     }
 
@@ -806,9 +900,17 @@ private extension Cards {
         .init(
             id: "luckyDuke",
             desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
-            attributes: [
-                .maxHealth: 4,
-                .drawCards: 2
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([
+                            .maxHealth: 4,
+                            .drawCards: 2
+                        ])
+                    ]
+                )
             ]
         )
     }
@@ -817,10 +919,18 @@ private extension Cards {
         .init(
             id: "calamityJanet",
             desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
-            attributes: [.maxHealth: 4],
             playWith: [
                 "missed": "bang",
                 "bang": "missed"
+            ],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
+                )
             ]
         )
     }
@@ -829,7 +939,6 @@ private extension Cards {
         .init(
             id: "kitCarlson",
             desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
-            attributes: [.maxHealth: 4],
             overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
@@ -845,6 +954,13 @@ private extension Cards {
                     selectors: [
                         .repeat(.value(3))
                     ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
                 )
             ]
         )
@@ -854,7 +970,6 @@ private extension Cards {
         .init(
             id: "blackJack",
             desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
-            attributes: [.maxHealth: 4],
             overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
@@ -875,6 +990,13 @@ private extension Cards {
                     selectors: [
                         .if(.draw("(♥️)|(♦️)"))
                     ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
                 )
             ]
         )
@@ -885,7 +1007,6 @@ private extension Cards {
         .init(
             id: "jesseJones",
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
-            attributes: [.maxHealth: 4],
             overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
@@ -895,6 +1016,13 @@ private extension Cards {
                 .init(
                     when: .turnStarted,
                     action: .drawDeck
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
                 )
             ]
         )
@@ -905,7 +1033,6 @@ private extension Cards {
         .init(
             id: "pedroRamirez",
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
-            attributes: [.maxHealth: 4],
             overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
@@ -919,6 +1046,13 @@ private extension Cards {
                 .init(
                     when: .turnStarted,
                     action: .drawDeck
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
                 )
             ]
         )
@@ -1034,7 +1168,6 @@ private extension Cards {
         .init(
             id: "tequila",
             desc: "The player must discard one additional card, to heal any player one health.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .brown,
                 .init(
@@ -1043,6 +1176,13 @@ private extension Cards {
                     selectors: [
                         .chooseCostHandCard(),
                         .chooseTarget()
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1091,8 +1231,16 @@ private extension Cards {
         .init(
             id: "elenaFuente",
             desc: "She may use any card in hand as Missed!.",
-            attributes: [.maxHealth: 3],
-            playWith: ["missed": ""]
+            playWith: ["missed": ""],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 3])
+                    ]
+                )
+            ]
         )
     }
 
@@ -1100,9 +1248,17 @@ private extension Cards {
         .init(
             id: "seanMallory",
             desc: "He may hold in his hand up to 10 cards.",
-            attributes: [
-                .handLimit: 10,
-                .maxHealth: 3
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([
+                            .handLimit: 10,
+                            .maxHealth: 3
+                        ])
+                    ]
+                )
             ]
         )
     }
@@ -1111,8 +1267,16 @@ private extension Cards {
         .init(
             id: "tequilaJoe",
             desc: "Each time he plays a Beer, he regains 2 life points instead of 1.",
-            attributes: [.maxHealth: 4],
-            overrides: ["beer": [.healAmount: 2]]
+            overrides: ["beer": [.healAmount: 2]],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
+                    ]
+                )
+            ]
         )
     }
 
@@ -1120,8 +1284,16 @@ private extension Cards {
         .init(
             id: "pixiePete",
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
-            attributes: [.maxHealth: 3],
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 3]]
+            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 3]],
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 3])
+                    ]
+                )
+            ]
         )
     }
 
@@ -1129,7 +1301,6 @@ private extension Cards {
         .init(
             id: "billNoface",
             desc: "He draws 1 card, plus 1 card for each wound he has.",
-            attributes: [.maxHealth: 4],
             overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 1]],
             effects: [
                 .init(
@@ -1137,6 +1308,13 @@ private extension Cards {
                     action: .drawDeck,
                     selectors: [
                         .repeat(.damage)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1147,13 +1325,19 @@ private extension Cards {
         .init(
             id: "gregDigger",
             desc: "Each time another player is eliminated, he regains 2 life points.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .otherEliminated,
                     action: .heal,
                     selectors: [
                         .arg(.healAmount, value: .value(2))
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1164,13 +1348,19 @@ private extension Cards {
         .init(
             id: "herbHunter",
             desc: "Each time another player is eliminated, he draws 2 extra cards.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .otherEliminated,
                     action: .drawDeck,
                     selectors: [
                         .repeat(.value(2))
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1181,13 +1371,19 @@ private extension Cards {
         .init(
             id: "mollyStark",
             desc: "Each time she uses a card from her hand out of turn, she draw a card.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .playedCardOutOfTurn,
                     action: .drawDeck,
                     selectors: [
                         .if(.playedLessThan(.value(2)))
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1198,7 +1394,6 @@ private extension Cards {
         .init(
             id: "joseDelgado",
             desc: "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .played,
@@ -1207,6 +1402,13 @@ private extension Cards {
                         .if(.playedLessThan(.value(2))),
                         .chooseCostHandCard(.isBlue),
                         .repeat(.value(2))
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1217,7 +1419,6 @@ private extension Cards {
         .init(
             id: "chuckWengam",
             desc: "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .played,
@@ -1225,6 +1426,13 @@ private extension Cards {
                     selectors: [
                         .chooseEventuallyCostLifePoint,
                         .repeat(.value(2))
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1235,7 +1443,6 @@ private extension Cards {
         .init(
             id: "docHolyday",
             desc: "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
-            attributes: [.maxHealth: 4],
             effects: [
                 .init(
                     when: .played,
@@ -1244,6 +1451,13 @@ private extension Cards {
                         .if(.playedLessThan(.value(1))),
                         .chooseCostHandCard(count: 2),
                         .chooseTarget([.atDistanceReachable])
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1254,9 +1468,17 @@ private extension Cards {
         .init(
             id: "apacheKid",
             desc: "Cards of Diamond played by other players do not affect him",
-            attributes: [
-                .silentCardsDiamonds: 0,
-                .maxHealth: 3
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([
+                            .silentCardsDiamonds: 0,
+                            .maxHealth: 3
+                        ])
+                    ]
+                )
             ]
         )
     }
@@ -1265,9 +1487,17 @@ private extension Cards {
         .init(
             id: "belleStar",
             desc: "During her turn, cards in play in front of other players have no effect. ",
-            attributes: [
-                .silentCardsInPlayDuringTurn: 0,
-                .maxHealth: 4
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([
+                            .silentCardsInPlayDuringTurn: 0,
+                            .maxHealth: 4
+                        ])
+                    ]
+                )
             ]
         )
     }
@@ -1277,7 +1507,6 @@ private extension Cards {
         .init(
             id: "patBrennan",
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
-            attributes: [.maxHealth: 4],
             overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
@@ -1286,6 +1515,13 @@ private extension Cards {
                     selectors: [
                         .chooseTarget([.havingInPlayCard]),
                         .chooseCard(.inPlay)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 4])
                     ]
                 )
             ]
@@ -1297,7 +1533,15 @@ private extension Cards {
         .init(
             id: "veraCuster",
             desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
-            attributes: [.maxHealth: 3]
+            effects: [
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.maxHealth: 3])
+                    ]
+                )
+            ]
         )
     }
 
@@ -1490,10 +1734,16 @@ private extension Cards {
         .init(
             id: "lemat",
             desc: "gun, range 1: In your turn, you may use any card like BANG card.",
-            attributes: [.weapon: 1],
             playWith: ["bang": ""],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 1])
+                    ]
+                )
             ]
         )
     }
@@ -1502,7 +1752,6 @@ private extension Cards {
         .init(
             id: "shootgun",
             desc: "gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.",
-            attributes: [.weapon: 1],
             effects: [
                 .equip,
                 .init(
@@ -1511,6 +1760,13 @@ private extension Cards {
                     selectors: [
                         .target(.damaged),
                         .chooseCard(.fromHand)
+                    ]
+                ),
+                .init(
+                    when: .played,
+                    action: .setAttribute,
+                    selectors: [
+                        .attribute([.weapon: 1])
                     ]
                 )
             ]
