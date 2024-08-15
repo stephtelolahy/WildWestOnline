@@ -7,7 +7,7 @@
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
-/// A `card` is just a collection of attributes and effects
+/// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 /// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
 /// ℹ️ All effects of the same source share the resolved arguments
