@@ -13,18 +13,22 @@
 /// ℹ️ All effects of the same source share the resolved arguments
 ///
 public struct Card: Equatable, Codable {
+    /// Unique identifier
     public let id: String
+
+    /// Description
     public let desc: String
 
-    /// override another {card}'s action {argument}
-    public var overrides: [String: [Action.Argument: Int]] = [:]
+    /// Actions that are triggered by this card an {event} occurrs
+    public var effects: [Effect] = []
 
-    /// allow to play a card {key} with another card {value}
-    public var playWith: [String: String] = [:]
-
-    /// allow to play this card when an {event} occurs
+    /// Allow to play this card only when an {event} occurs
+    /// By default cards are playable during player's turn
     public var canPlay: Effect.PlayerEvent?
 
-    /// actions that are triggered by this card an {event} occurrs
-    public var effects: [Effect] = []
+    /// Ability to override another {card}'s action {argument}
+    public var abilityToUpdateCard: [String: [Action.Argument: Int]] = [:]
+
+    /// Ability to play a card {key} with another card {value}
+    public var abilityToPlayCardWith: [String: String] = [:]
 }

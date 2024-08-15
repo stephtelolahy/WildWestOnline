@@ -233,7 +233,6 @@ private extension Cards {
         .init(
             id: "defaultDiscardBeerOnDamagedLethal",
             desc: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
-            canPlay: .damagedLethal,
             effects: [
                 .init(
                     when: .played,
@@ -243,7 +242,8 @@ private extension Cards {
                         .chooseCostHandCard(.named("beer"))
                     ]
                 )
-            ]
+            ],
+            canPlay: .damagedLethal
         )
     }
 
@@ -378,14 +378,14 @@ private extension Cards {
         .init(
             id: "missed",
             desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            canPlay: .shot,
             effects: [
                 .brown,
                 .init(
                     when: .played,
                     action: .missed
                 )
-            ]
+            ],
+            canPlay: .shot
         )
     }
 
@@ -539,7 +539,6 @@ private extension Cards {
         .init(
             id: "volcanic",
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            overrides: ["bang": [.limitPerTurn: 0]],
             effects: [
                 .equip,
                 .init(
@@ -549,7 +548,8 @@ private extension Cards {
                         .attribute([.weapon: 1])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["bang": [.limitPerTurn: 0]]
         )
     }
 
@@ -679,7 +679,6 @@ private extension Cards {
         .init(
             id: "willyTheKid",
             desc: "he can play any number of BANG! cards during his turn.",
-            overrides: ["bang": [.limitPerTurn: 0]],
             effects: [
                 .init(
                     when: .played,
@@ -688,7 +687,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["bang": [.limitPerTurn: 0]]
         )
     }
 
@@ -883,7 +883,6 @@ private extension Cards {
         .init(
             id: "slabTheKiller",
             desc: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
-            overrides: ["bang": [.shootRequiredMisses: 2]],
             effects: [
                 .init(
                     when: .played,
@@ -892,7 +891,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["bang": [.shootRequiredMisses: 2]]
         )
     }
 
@@ -919,10 +919,6 @@ private extension Cards {
         .init(
             id: "calamityJanet",
             desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
-            playWith: [
-                "missed": "bang",
-                "bang": "missed"
-            ],
             effects: [
                 .init(
                     when: .played,
@@ -931,6 +927,10 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
+            ],
+            abilityToPlayCardWith: [
+                "missed": "bang",
+                "bang": "missed"
             ]
         )
     }
@@ -939,7 +939,6 @@ private extension Cards {
         .init(
             id: "kitCarlson",
             desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -962,7 +961,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
         )
     }
 
@@ -970,7 +970,6 @@ private extension Cards {
         .init(
             id: "blackJack",
             desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -998,7 +997,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
         )
     }
 
@@ -1007,7 +1007,6 @@ private extension Cards {
         .init(
             id: "jesseJones",
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -1024,7 +1023,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
         )
     }
 
@@ -1033,7 +1033,6 @@ private extension Cards {
         .init(
             id: "pedroRamirez",
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -1054,7 +1053,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
         )
     }
 
@@ -1081,7 +1081,6 @@ private extension Cards {
         .init(
             id: "dodge",
             desc: "Acts as a Missed!, but allows the player to draw a card.",
-            canPlay: .shot,
             effects: [
                 .brown,
                 .init(
@@ -1092,7 +1091,8 @@ private extension Cards {
                     when: .played,
                     action: .drawDeck
                 )
-            ]
+            ],
+            canPlay: .shot
         )
     }
 
@@ -1231,7 +1231,6 @@ private extension Cards {
         .init(
             id: "elenaFuente",
             desc: "She may use any card in hand as Missed!.",
-            playWith: ["missed": ""],
             effects: [
                 .init(
                     when: .played,
@@ -1240,7 +1239,8 @@ private extension Cards {
                         .attribute([.maxHealth: 3])
                     ]
                 )
-            ]
+            ],
+            abilityToPlayCardWith: ["missed": ""]
         )
     }
 
@@ -1267,7 +1267,6 @@ private extension Cards {
         .init(
             id: "tequilaJoe",
             desc: "Each time he plays a Beer, he regains 2 life points instead of 1.",
-            overrides: ["beer": [.healAmount: 2]],
             effects: [
                 .init(
                     when: .played,
@@ -1276,7 +1275,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["beer": [.healAmount: 2]]
         )
     }
 
@@ -1284,7 +1284,6 @@ private extension Cards {
         .init(
             id: "pixiePete",
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 3]],
             effects: [
                 .init(
                     when: .played,
@@ -1293,7 +1292,8 @@ private extension Cards {
                         .attribute([.maxHealth: 3])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 3]]
         )
     }
 
@@ -1301,7 +1301,6 @@ private extension Cards {
         .init(
             id: "billNoface",
             desc: "He draws 1 card, plus 1 card for each wound he has.",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 1]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -1317,7 +1316,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 1]]
         )
     }
 
@@ -1507,7 +1507,6 @@ private extension Cards {
         .init(
             id: "patBrennan",
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
-            overrides: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]],
             effects: [
                 .init(
                     when: .turnStarted,
@@ -1524,7 +1523,8 @@ private extension Cards {
                         .attribute([.maxHealth: 4])
                     ]
                 )
-            ]
+            ],
+            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
         )
     }
 
@@ -1622,11 +1622,11 @@ private extension Cards {
         .init(
             id: "aim",
             desc: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
-            overrides: ["bang": [.damageAmount: 2]],
-            canPlay: .cardPlayedWithName("bang"),
             effects: [
                 .brown
-            ]
+            ],
+            canPlay: .cardPlayedWithName("bang"),
+            abilityToUpdateCard: ["bang": [.damageAmount: 2]]
         )
     }
 
@@ -1663,7 +1663,6 @@ private extension Cards {
         .init(
             id: "saved",
             desc: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
-            canPlay: .otherDamaged,
             effects: [
                 .brown,
                 .init(
@@ -1681,7 +1680,8 @@ private extension Cards {
                         .repeat(.value(2))
                     ]
                 )
-            ]
+            ],
+            canPlay: .otherDamaged
         )
     }
 
@@ -1734,7 +1734,6 @@ private extension Cards {
         .init(
             id: "lemat",
             desc: "gun, range 1: In your turn, you may use any card like BANG card.",
-            playWith: ["bang": ""],
             effects: [
                 .equip,
                 .init(
@@ -1744,7 +1743,8 @@ private extension Cards {
                         .attribute([.weapon: 1])
                     ]
                 )
-            ]
+            ],
+            abilityToPlayCardWith: ["bang": ""]
         )
     }
 
@@ -1860,7 +1860,6 @@ private extension Cards {
         .init(
             id: "lemonadeJim",
             desc: "When another player plays BEER card, he may discard any card to refill 1 life point.",
-            canPlay: .otherPlayedCardWithName("beer"),
             effects: [
                 .init(
                     when: .played,
@@ -1869,7 +1868,8 @@ private extension Cards {
                         .chooseCostHandCard()
                     ]
                 )
-            ]
+            ],
+            canPlay: .otherPlayedCardWithName("beer")
         )
     }
 
