@@ -527,9 +527,15 @@ private extension Cards {
         .init(
             id: "scope",
             desc: "you see all the other players at a distance decreased by 1",
-            improvements: [.magnifying: 1],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attribute([.magnifying: 1])
+                    ]
+                )
             ]
         )
     }
@@ -538,9 +544,15 @@ private extension Cards {
         .init(
             id: "mustang",
             desc: "the distance between other players and you is increased by 1",
-            improvements: [.remoteness: 1],
             effects: [
-                .equip
+                .equip,
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attribute([.remoteness: 1])
+                    ]
+                )
             ]
         )
     }
@@ -647,7 +659,15 @@ private extension Cards {
             id: "roseDoolan",
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
             attributes: [.maxHealth: 4],
-            improvements: [.magnifying: 1]
+            effects: [
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attribute([.magnifying: 1])
+                    ]
+                )
+            ]
         )
     }
 
@@ -656,7 +676,15 @@ private extension Cards {
             id: "paulRegret",
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             attributes: [.maxHealth: 3],
-            improvements: [.remoteness: 1]
+            effects: [
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attribute([.remoteness: 1])
+                    ]
+                )
+            ]
         )
     }
 
@@ -956,7 +984,15 @@ private extension Cards {
         .init(
             id: "hideout",
             desc: "Others view you at distance +1",
-            improvements: [.remoteness: 1]
+            effects: [
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attribute([.remoteness: 1])
+                    ]
+                )
+            ]
         )
     }
 
@@ -964,7 +1000,15 @@ private extension Cards {
         .init(
             id: "binocular",
             desc: "you view others at distance -1",
-            improvements: [.magnifying: 1]
+            effects: [
+                .init(
+                    when: .played,
+                    action: .incrementAttribute,
+                    selectors: [
+                        .attribute([.magnifying: 1])
+                    ]
+                )
+            ]
         )
     }
 

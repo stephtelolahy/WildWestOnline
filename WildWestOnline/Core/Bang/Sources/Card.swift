@@ -20,10 +20,6 @@ public struct Card: Equatable, Codable {
     @available(*, deprecated, renamed: "setAttribute")
     public var attributes: [PlayerAttribute: Int] = [:]
 
-    /// increase owner's {attribute} by {value}
-    @available(*, deprecated, renamed: "increaseAttribute")
-    public var improvements: [PlayerAttribute: Int] = [:]
-
     /// override other {card}'s action {argument}
     public var overrides: [String: [Action.Argument: Int]] = [:]
 

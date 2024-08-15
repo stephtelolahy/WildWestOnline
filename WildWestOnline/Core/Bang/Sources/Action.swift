@@ -10,6 +10,9 @@ public enum Action: String, Codable {
     /// {actor} plays a {card}
     case play
 
+    /// {actor} chooses an {option}
+    case choose
+
     /// {target} increase health by {amount}
     /// By default target is {actor}
     /// By default heal amount is 1
