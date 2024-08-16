@@ -27,7 +27,7 @@ public struct Card: Equatable, Codable {
     public var canPlay: Effect.PlayReq?
 
     /// Ability to override another {card}'s action {argument}
-    public var abilityToUpdateCard: [String: [ActionArgument: Int]] = [:]
+    public var abilityToUpdateCard: [String: [Effect.ActionArgument: Int]] = [:]
 
     /// Ability to play a card {key} with another card {value}
     public var abilityToPlayCardWith: [String: String] = [:]
