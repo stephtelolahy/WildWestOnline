@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 16/08/2024.
 //
+// swiftlint:disable type_contents_order identifier_name nesting discouraged_optional_collection
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
@@ -37,7 +38,7 @@ public struct CardV2: Equatable, Codable {
         desc: String,
         effects: [Effect] = [],
         canPlay: Effect.PlayReq? = nil,
-        abilityToUpdateCard: [String: [Effect.ActionArgument : Int]] = [:],
+        abilityToUpdateCard: [String: [Effect.ActionArgument: Int]] = [:],
         abilityToPlayCardWith: [String: String] = [:]
     ) {
         self.name = name

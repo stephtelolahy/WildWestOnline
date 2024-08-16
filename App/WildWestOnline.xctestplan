@@ -41,6 +41,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "NavigationCoreTests",
@@ -48,6 +49,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "CardsDataTests",
@@ -55,6 +57,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "SerializationTests",
@@ -62,6 +65,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "GameUITests",
@@ -69,6 +73,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "HomeUITests",
@@ -76,6 +81,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "SettingsUITests",
@@ -83,6 +89,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "SplashUITests",
@@ -90,6 +97,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
         "identifier" : "SettingsCoreTests",
