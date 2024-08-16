@@ -121,7 +121,7 @@ private extension CardsV2 {
 
     static var defaultDraw2CardsOnTurnStarted: CardV2 {
         .init(
-            name: "defaultDraw2CardsOnTurnStarted",
+            name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
             effects: [
                 .init(
@@ -138,7 +138,7 @@ private extension CardsV2 {
 
     static var defaultDiscardExcessHandOnTurnEnded: CardV2 {
         .init(
-            name: "defaultDiscardExcessHandOnTurnEnded",
+            name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             effects: [
                 .init(
@@ -155,7 +155,7 @@ private extension CardsV2 {
 
     static var defaultEliminateOnDamageLethal: CardV2 {
         .init(
-            name: "defaultEliminateOnDamageLethal",
+            name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
             effects: [
                 .init(
@@ -168,7 +168,7 @@ private extension CardsV2 {
 
     static var defaultDiscardAllCardsOnEliminated: CardV2 {
         .init(
-            name: "defaultDiscardAllCardsOnEliminated",
+            name: .defaultDiscardAllCardsOnEliminated,
             desc: "",
             effects: [
                 .init(
@@ -184,7 +184,7 @@ private extension CardsV2 {
 
     static var defaultEndTurnOnEliminated: CardV2 {
         .init(
-            name: "defaultEndTurnOnEliminated",
+            name: .defaultEndTurnOnEliminated,
             desc: "",
             effects: [
                 .init(
@@ -200,7 +200,7 @@ private extension CardsV2 {
 
     static var defaultStartTurnNextOnTurnEnded: CardV2 {
         .init(
-            name: "defaultStartTurnNextOnTurnEnded",
+            name: .defaultStartTurnNextOnTurnEnded,
             desc: "",
             effects: [
                 .init(
@@ -216,7 +216,7 @@ private extension CardsV2 {
 
     static var defaultDiscardPreviousWeaponOnPlayed: CardV2 {
         .init(
-            name: "defaultDiscardPreviousWeaponOnPlayed",
+            name: .defaultDiscardPreviousWeaponOnPlayed,
             desc: "",
             effects: [
                 .init(
@@ -232,7 +232,7 @@ private extension CardsV2 {
 
     static var defaultDiscardBeerOnDamagedLethal: CardV2 {
         .init(
-            name: "defaultDiscardBeerOnDamagedLethal",
+            name: .defaultDiscardBeerOnDamagedLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
             effects: [
                 .init(
@@ -240,7 +240,7 @@ private extension CardsV2 {
                     action: .heal,
                     selectors: [
                         .if(.playersAtLeast(3)),
-                        .chooseCostHandCard(.named("beer"))
+                        .chooseCostHandCard(.named(.beer))
                     ]
                 )
             ],
@@ -252,7 +252,7 @@ private extension CardsV2 {
 
     static var beer: CardV2 {
         .init(
-            name: "beer",
+            name: .beer,
             desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
             effects: [
                 .brown,
@@ -269,7 +269,7 @@ private extension CardsV2 {
 
     static var saloon: CardV2 {
         .init(
-            name: "saloon",
+            name: .saloon,
             desc: "All players in play regain one life point.",
             effects: [
                 .brown,
@@ -286,7 +286,7 @@ private extension CardsV2 {
 
     static var stagecoach: CardV2 {
         .init(
-            name: "stagecoach",
+            name: .stagecoach,
             desc: "Draw two cards from the top of the deck.",
             effects: [
                 .brown,
@@ -303,7 +303,7 @@ private extension CardsV2 {
 
     static var wellsFargo: CardV2 {
         .init(
-            name: "wellsFargo",
+            name: .wellsFargo,
             desc: "Draw three cards from the top of the deck.",
             effects: [
                 .brown,
@@ -320,7 +320,7 @@ private extension CardsV2 {
 
     static var catBalou: CardV2 {
         .init(
-            name: "catBalou",
+            name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
             effects: [
                 .brown,
@@ -338,7 +338,7 @@ private extension CardsV2 {
 
     static var panic: CardV2 {
         .init(
-            name: "panic",
+            name: .panic,
             desc: "Draw a card from a player at distance 1",
             effects: [
                 .brown,
@@ -356,7 +356,7 @@ private extension CardsV2 {
 
     static var bang: CardV2 {
         .init(
-            name: "bang",
+            name: .bang,
             desc: "reduce other players’s life points",
             effects: [
                 .brown,
@@ -377,7 +377,7 @@ private extension CardsV2 {
 
     static var missed: CardV2 {
         .init(
-            name: "missed",
+            name: .missed,
             desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             effects: [
                 .brown,
@@ -392,7 +392,7 @@ private extension CardsV2 {
 
     static var gatling: CardV2 {
         .init(
-            name: "gatling",
+            name: .gatling,
             desc: "shoots to all the other players, regardless of the distance",
             effects: [
                 .brown,
@@ -409,7 +409,7 @@ private extension CardsV2 {
 
     static var indians: CardV2 {
         .init(
-            name: "indians",
+            name: .indians,
             desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
             effects: [
                 .brown,
@@ -418,7 +418,7 @@ private extension CardsV2 {
                     action: .damage,
                     selectors: [
                         .target(.others),
-                        .chooseEventuallyCounterHandCard(.named("bang"))
+                        .chooseEventuallyCounterHandCard(.named(.bang))
                     ]
                 )
             ]
@@ -427,7 +427,7 @@ private extension CardsV2 {
 
     static var duel: CardV2 {
         .init(
-            name: "duel",
+            name: .duel,
             desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             effects: [
                 .brown,
@@ -436,7 +436,7 @@ private extension CardsV2 {
                     action: .damage,
                     selectors: [
                         .chooseTarget(),
-                        .chooseEventuallyReverseHandCard(.named("bang"))
+                        .chooseEventuallyReverseHandCard(.named(.bang))
                     ]
                 )
             ]
@@ -445,7 +445,7 @@ private extension CardsV2 {
 
     static var generalStore: CardV2 {
         .init(
-            name: "generalStore",
+            name: .generalStore,
             desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
             effects: [
                 .brown,
@@ -470,7 +470,7 @@ private extension CardsV2 {
 
     static var schofield: CardV2 {
         .init(
-            name: "schofield",
+            name: .schofield,
             desc: "can hit targets at a distance of 2.",
             effects: [
                 .equip,
@@ -487,7 +487,7 @@ private extension CardsV2 {
 
     static var remington: CardV2 {
         .init(
-            name: "remington",
+            name: .remington,
             desc: "can hit targets at a distance of 3.",
             effects: [
                 .equip,
@@ -504,7 +504,7 @@ private extension CardsV2 {
 
     static var revCarabine: CardV2 {
         .init(
-            name: "revCarabine",
+            name: .revCarabine,
             desc: "can hit targets at a distance of 4.",
             effects: [
                 .equip,
@@ -521,7 +521,7 @@ private extension CardsV2 {
 
     static var winchester: CardV2 {
         .init(
-            name: "winchester",
+            name: .winchester,
             desc: "can hit targets at a distance of 5.",
             effects: [
                 .equip,
@@ -538,7 +538,7 @@ private extension CardsV2 {
 
     static var volcanic: CardV2 {
         .init(
-            name: "volcanic",
+            name: .volcanic,
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: [
                 .equip,
@@ -550,13 +550,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["bang": [.limitPerTurn: 0]]
+            abilityToUpdateCard: [.bang: [.limitPerTurn: 0]]
         )
     }
 
     static var scope: CardV2 {
         .init(
-            name: "scope",
+            name: .scope,
             desc: "you see all the other players at a distance decreased by 1",
             effects: [
                 .equip,
@@ -573,7 +573,7 @@ private extension CardsV2 {
 
     static var mustang: CardV2 {
         .init(
-            name: "mustang",
+            name: .mustang,
             desc: "the distance between other players and you is increased by 1",
             effects: [
                 .equip,
@@ -590,7 +590,7 @@ private extension CardsV2 {
 
     static var jail: CardV2 {
         .init(
-            name: "jail",
+            name: .jail,
             desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
             effects: [
                 .handicap,
@@ -618,7 +618,7 @@ private extension CardsV2 {
 
     static var barrel: CardV2 {
         .init(
-            name: "barrel",
+            name: .barrel,
             desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
             effects: [
                 .equip,
@@ -639,7 +639,7 @@ private extension CardsV2 {
 
     static var dynamite: CardV2 {
         .init(
-            name: "dynamite",
+            name: .dynamite,
             desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
             effects: [
                 .equip,
@@ -678,7 +678,7 @@ private extension CardsV2 {
 
     static var willyTheKid: CardV2 {
         .init(
-            name: "willyTheKid",
+            name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
             effects: [
                 .init(
@@ -689,13 +689,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["bang": [.limitPerTurn: 0]]
+            abilityToUpdateCard: [.bang: [.limitPerTurn: 0]]
         )
     }
 
     static var roseDoolan: CardV2 {
         .init(
-            name: "roseDoolan",
+            name: .roseDoolan,
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
             effects: [
                 .init(
@@ -718,7 +718,7 @@ private extension CardsV2 {
 
     static var paulRegret: CardV2 {
         .init(
-            name: "paulRegret",
+            name: .paulRegret,
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             effects: [
                 .init(
@@ -741,7 +741,7 @@ private extension CardsV2 {
 
     static var jourdonnais: CardV2 {
         .init(
-            name: "jourdonnais",
+            name: .jourdonnais,
             desc: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
             effects: [
                 .init(
@@ -768,7 +768,7 @@ private extension CardsV2 {
 
     static var bartCassidy: CardV2 {
         .init(
-            name: "bartCassidy",
+            name: .bartCassidy,
             desc: "each time he loses a life point, he immediately draws a card from the deck.",
             effects: [
                 .init(
@@ -791,7 +791,7 @@ private extension CardsV2 {
 
     static var elGringo: CardV2 {
         .init(
-            name: "elGringo",
+            name: .elGringo,
             desc: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
             effects: [
                 .init(
@@ -815,7 +815,7 @@ private extension CardsV2 {
 
     static var suzyLafayette: CardV2 {
         .init(
-            name: "suzyLafayette",
+            name: .suzyLafayette,
             desc: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
             effects: [
                 .init(
@@ -835,7 +835,7 @@ private extension CardsV2 {
 
     static var sidKetchum: CardV2 {
         .init(
-            name: "sidKetchum",
+            name: .sidKetchum,
             desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
             effects: [
                 .init(
@@ -858,7 +858,7 @@ private extension CardsV2 {
 
     static var vultureSam: CardV2 {
         .init(
-            name: "vultureSam",
+            name: .vultureSam,
             desc: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
             effects: [
                 .init(
@@ -882,7 +882,7 @@ private extension CardsV2 {
 
     static var slabTheKiller: CardV2 {
         .init(
-            name: "slabTheKiller",
+            name: .slabTheKiller,
             desc: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
             effects: [
                 .init(
@@ -893,13 +893,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["bang": [.shootRequiredMisses: 2]]
+            abilityToUpdateCard: [.bang: [.shootRequiredMisses: 2]]
         )
     }
 
     static var luckyDuke: CardV2 {
         .init(
-            name: "luckyDuke",
+            name: .luckyDuke,
             desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
             effects: [
                 .init(
@@ -918,7 +918,7 @@ private extension CardsV2 {
 
     static var calamityJanet: CardV2 {
         .init(
-            name: "calamityJanet",
+            name: .calamityJanet,
             desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
             effects: [
                 .init(
@@ -930,15 +930,15 @@ private extension CardsV2 {
                 )
             ],
             abilityToPlayCardWith: [
-                "missed": "bang",
-                "bang": "missed"
+                .missed: .bang,
+                .bang: .missed
             ]
         )
     }
 
     static var kitCarlson: CardV2 {
         .init(
-            name: "kitCarlson",
+            name: .kitCarlson,
             desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
             effects: [
                 .init(
@@ -963,13 +963,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
         )
     }
 
     static var blackJack: CardV2 {
         .init(
-            name: "blackJack",
+            name: .blackJack,
             desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
             effects: [
                 .init(
@@ -999,14 +999,14 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
         )
     }
 
     static var jesseJones: CardV2 {
         // ⚠️ TODO: choose to override default effect
         .init(
-            name: "jesseJones",
+            name: .jesseJones,
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
             effects: [
                 .init(
@@ -1025,14 +1025,14 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
         )
     }
 
     static var pedroRamirez: CardV2 {
         // ⚠️ TODO: choose to override default effect
         .init(
-            name: "pedroRamirez",
+            name: .pedroRamirez,
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
             effects: [
                 .init(
@@ -1055,7 +1055,7 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
         )
     }
 
@@ -1063,7 +1063,7 @@ private extension CardsV2 {
 
     static var punch: CardV2 {
         .init(
-            name: "punch",
+            name: .punch,
             desc: "Acts as a Bang! with a range of one.",
             effects: [
                 .brown,
@@ -1080,7 +1080,7 @@ private extension CardsV2 {
 
     static var dodge: CardV2 {
         .init(
-            name: "dodge",
+            name: .dodge,
             desc: "Acts as a Missed!, but allows the player to draw a card.",
             effects: [
                 .brown,
@@ -1099,7 +1099,7 @@ private extension CardsV2 {
 
     static var springfield: CardV2 {
         .init(
-            name: "springfield",
+            name: .springfield,
             desc: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
             effects: [
                 .brown,
@@ -1117,7 +1117,7 @@ private extension CardsV2 {
 
     static var hideout: CardV2 {
         .init(
-            name: "hideout",
+            name: .hideout,
             desc: "Others view you at distance +1",
             effects: [
                 .init(
@@ -1133,7 +1133,7 @@ private extension CardsV2 {
 
     static var binocular: CardV2 {
         .init(
-            name: "binocular",
+            name: .binocular,
             desc: "you view others at distance -1",
             effects: [
                 .init(
@@ -1149,7 +1149,7 @@ private extension CardsV2 {
 
     static var whisky: CardV2 {
         .init(
-            name: "whisky",
+            name: .whisky,
             desc: "The player must discard one additional card, to heal two health.",
             effects: [
                 .brown,
@@ -1167,7 +1167,7 @@ private extension CardsV2 {
 
     static var tequila: CardV2 {
         .init(
-            name: "tequila",
+            name: .tequila,
             desc: "The player must discard one additional card, to heal any player one health.",
             effects: [
                 .brown,
@@ -1192,7 +1192,7 @@ private extension CardsV2 {
 
     static var ragTime: CardV2 {
         .init(
-            name: "ragTime",
+            name: .ragTime,
             desc: "The player must discard one additional card to steal a card from any other player.",
             effects: [
                 .brown,
@@ -1211,7 +1211,7 @@ private extension CardsV2 {
 
     static var brawl: CardV2 {
         .init(
-            name: "brawl",
+            name: .brawl,
             desc: "The player must discard one additional card to cause all other players to discard one card.",
             effects: [
                 .brown,
@@ -1230,7 +1230,7 @@ private extension CardsV2 {
 
     static var elenaFuente: CardV2 {
         .init(
-            name: "elenaFuente",
+            name: .elenaFuente,
             desc: "She may use any card in hand as Missed!.",
             effects: [
                 .init(
@@ -1241,13 +1241,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToPlayCardWith: ["missed": ""]
+            abilityToPlayCardWith: [.missed: ""]
         )
     }
 
     static var seanMallory: CardV2 {
         .init(
-            name: "seanMallory",
+            name: .seanMallory,
             desc: "He may hold in his hand up to 10 cards.",
             effects: [
                 .init(
@@ -1266,7 +1266,7 @@ private extension CardsV2 {
 
     static var tequilaJoe: CardV2 {
         .init(
-            name: "tequilaJoe",
+            name: .tequilaJoe,
             desc: "Each time he plays a Beer, he regains 2 life points instead of 1.",
             effects: [
                 .init(
@@ -1277,13 +1277,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["beer": [.healAmount: 2]]
+            abilityToUpdateCard: [.beer: [.healAmount: 2]]
         )
     }
 
     static var pixiePete: CardV2 {
         .init(
-            name: "pixiePete",
+            name: .pixiePete,
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
             effects: [
                 .init(
@@ -1294,13 +1294,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 3]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 3]]
         )
     }
 
     static var billNoface: CardV2 {
         .init(
-            name: "billNoface",
+            name: .billNoface,
             desc: "He draws 1 card, plus 1 card for each wound he has.",
             effects: [
                 .init(
@@ -1318,13 +1318,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 1]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 1]]
         )
     }
 
     static var gregDigger: CardV2 {
         .init(
-            name: "gregDigger",
+            name: .gregDigger,
             desc: "Each time another player is eliminated, he regains 2 life points.",
             effects: [
                 .init(
@@ -1347,7 +1347,7 @@ private extension CardsV2 {
 
     static var herbHunter: CardV2 {
         .init(
-            name: "herbHunter",
+            name: .herbHunter,
             desc: "Each time another player is eliminated, he draws 2 extra cards.",
             effects: [
                 .init(
@@ -1370,7 +1370,7 @@ private extension CardsV2 {
 
     static var mollyStark: CardV2 {
         .init(
-            name: "mollyStark",
+            name: .mollyStark,
             desc: "Each time she uses a card from her hand out of turn, she draw a card.",
             effects: [
                 .init(
@@ -1393,7 +1393,7 @@ private extension CardsV2 {
 
     static var joseDelgado: CardV2 {
         .init(
-            name: "joseDelgado",
+            name: .joseDelgado,
             desc: "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
             effects: [
                 .init(
@@ -1418,7 +1418,7 @@ private extension CardsV2 {
 
     static var chuckWengam: CardV2 {
         .init(
-            name: "chuckWengam",
+            name: .chuckWengam,
             desc: "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
             effects: [
                 .init(
@@ -1442,7 +1442,7 @@ private extension CardsV2 {
 
     static var docHolyday: CardV2 {
         .init(
-            name: "docHolyday",
+            name: .docHolyday,
             desc: "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
             effects: [
                 .init(
@@ -1467,7 +1467,7 @@ private extension CardsV2 {
 
     static var apacheKid: CardV2 {
         .init(
-            name: "apacheKid",
+            name: .apacheKid,
             desc: "Cards of Diamond played by other players do not affect him",
             effects: [
                 .init(
@@ -1486,7 +1486,7 @@ private extension CardsV2 {
 
     static var belleStar: CardV2 {
         .init(
-            name: "belleStar",
+            name: .belleStar,
             desc: "During her turn, cards in play in front of other players have no effect. ",
             effects: [
                 .init(
@@ -1506,7 +1506,7 @@ private extension CardsV2 {
     static var patBrennan: CardV2 {
         // ⚠️ TODO: choose to override default effect
         .init(
-            name: "patBrennan",
+            name: .patBrennan,
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
             effects: [
                 .init(
@@ -1525,14 +1525,14 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToUpdateCard: ["defaultDraw2CardsOnTurnStarted": [.repeatAmount: 0]]
+            abilityToUpdateCard: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
         )
     }
 
     static var veraCuster: CardV2 {
         // ⚠️ TODO: set abilities for a round
         .init(
-            name: "veraCuster",
+            name: .veraCuster,
             desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
             effects: [
                 .init(
@@ -1550,7 +1550,7 @@ private extension CardsV2 {
 
     static var lastCall: CardV2 {
         .init(
-            name: "lastCall",
+            name: .lastCall,
             desc: "Refill 1 life point even in game last 2 players.",
             effects: [
                 .brown,
@@ -1564,7 +1564,7 @@ private extension CardsV2 {
 
     static var tornado: CardV2 {
         .init(
-            name: "tornado",
+            name: .tornado,
             desc: "Each player discards a card from their hand (if possible), then draw 2 cards from the deck",
             effects: [
                 .brown,
@@ -1583,7 +1583,7 @@ private extension CardsV2 {
 
     static var backfire: CardV2 {
         .init(
-            name: "backfire",
+            name: .backfire,
             desc: "Count as MISSED!. Player who shot you, is now target of BANG!.",
             effects: [
                 .brown,
@@ -1604,7 +1604,7 @@ private extension CardsV2 {
 
     static var tomahawk: CardV2 {
         .init(
-            name: "tomahawk",
+            name: .tomahawk,
             desc: "Bang at distance 2. But it can be used at distance 1",
             effects: [
                 .brown,
@@ -1621,20 +1621,20 @@ private extension CardsV2 {
 
     static var aim: CardV2 {
         .init(
-            name: "aim",
+            name: .aim,
             desc: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
             effects: [
                 .brown
             ],
-            canPlay: .playedCardWithName("bang"),
-            abilityToUpdateCard: ["bang": [.damageAmount: 2]]
+            canPlay: .playedCardWithName(.bang),
+            abilityToUpdateCard: [.bang: [.damageAmount: 2]]
         )
     }
 
     static var faning: CardV2 {
         // ⚠️ TODO: play this as another card
         .init(
-            name: "faning",
+            name: .faning,
             desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
             effects: [
                 .brown,
@@ -1662,7 +1662,7 @@ private extension CardsV2 {
 
     static var saved: CardV2 {
         .init(
-            name: "saved",
+            name: .saved,
             desc: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
             effects: [
                 .brown,
@@ -1688,7 +1688,7 @@ private extension CardsV2 {
 
     static var bandidos: CardV2 {
         .init(
-            name: "bandidos",
+            name: .bandidos,
             desc: "Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.",
             effects: [
                 .brown,
@@ -1706,7 +1706,7 @@ private extension CardsV2 {
 
     static var poker: CardV2 {
         .init(
-            name: "poker",
+            name: .poker,
             desc: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
             effects: [
                 .brown,
@@ -1733,7 +1733,7 @@ private extension CardsV2 {
 
     static var lemat: CardV2 {
         .init(
-            name: "lemat",
+            name: .lemat,
             desc: "gun, range 1: In your turn, you may use any card like BANG card.",
             effects: [
                 .equip,
@@ -1745,18 +1745,18 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            abilityToPlayCardWith: ["bang": ""]
+            abilityToPlayCardWith: [.bang: ""]
         )
     }
 
     static var shootgun: CardV2 {
         .init(
-            name: "shootgun",
+            name: .shootgun,
             desc: "gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.",
             effects: [
                 .equip,
                 .init(
-                    when: .otherDamagedByYourCard("bang"),
+                    when: .otherDamagedByYourCard(.bang),
                     action: .discard,
                     selectors: [
                         .target(.damaged),
@@ -1776,12 +1776,12 @@ private extension CardsV2 {
 
     static var bounty: CardV2 {
         .init(
-            name: "bounty",
+            name: .bounty,
             desc: "Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.",
             effects: [
                 .handicap,
                 .init(
-                    when: .damagedByCard("bang"),
+                    when: .damagedByCard(.bang),
                     action: .drawDeck,
                     selectors: [
                         .target(.offender)
@@ -1793,7 +1793,7 @@ private extension CardsV2 {
 
     static var rattlesnake: CardV2 {
         .init(
-            name: "rattlesnake",
+            name: .rattlesnake,
             desc: "Play in front any player. At beginnings of that player's turn, he draw: On Spade, he lose 1 life point, otherwise he does nothing.",
             effects: [
                 .handicap,
@@ -1815,7 +1815,7 @@ private extension CardsV2 {
     static var escape: CardV2 {
         // ⚠️ TODO: Counter any effect
         .init(
-            name: "escape",
+            name: .escape,
             desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect."
         )
     }
@@ -1823,22 +1823,22 @@ private extension CardsV2 {
     static var ghost: CardV2 {
         // ⚠️ TODO: player without health
         .init(
-            name: "ghost",
+            name: .ghost,
             desc: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player."
         )
     }
 
     static var coloradoBill: CardV2 {
         .init(
-            name: "coloradoBill",
+            name: .coloradoBill,
             desc: "Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.",
             effects: [
                 .init(
-                    when: .otherMissedYourShoot("bang"),
+                    when: .otherMissedYourShoot(.bang),
                     action: .draw
                 ),
                 .init(
-                    when: .otherMissedYourShoot("bang"),
+                    when: .otherMissedYourShoot(.bang),
                     action: .damage,
                     selectors: [
                         .if(.draw("♠️")),
@@ -1852,14 +1852,14 @@ private extension CardsV2 {
     static var evelynShebang: CardV2 {
         // ⚠️ TODO: choose to override default effect
         .init(
-            name: "evelynShebang",
+            name: .evelynShebang,
             desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance."
         )
     }
 
     static var lemonadeJim: CardV2 {
         .init(
-            name: "lemonadeJim",
+            name: .lemonadeJim,
             desc: "When another player plays BEER card, he may discard any card to refill 1 life point.",
             effects: [
                 .init(
@@ -1870,13 +1870,13 @@ private extension CardsV2 {
                     ]
                 )
             ],
-            canPlay: .otherPlayedCard("beer")
+            canPlay: .otherPlayedCard(.beer)
         )
     }
 
     static var henryBlock: CardV2 {
         .init(
-            name: "henryBlock",
+            name: .henryBlock,
             desc: "Any another player who discards or draw from Henry hand or in front him, is target of BANG.",
             effects: [
                 .init(
@@ -1899,7 +1899,7 @@ private extension CardsV2 {
 
     static var blackFlower: CardV2 {
         .init(
-            name: "blackFlower",
+            name: .blackFlower,
             desc: "Once per turn, she can shoot an extra Bang! by discarding a Clubs card.",
             effects: [
                 .init(
@@ -1917,7 +1917,7 @@ private extension CardsV2 {
 
     static var derSpotBurstRinger: CardV2 {
         .init(
-            name: "derSpotBurstRinger",
+            name: .derSpotBurstRinger,
             desc: "Once per turn, he can play a Bang! card as Gatling.",
             effects: [
                 .init(
@@ -1925,7 +1925,7 @@ private extension CardsV2 {
                     action: .shoot,
                     selectors: [
                         .if(.playedLessThan(.value(1))),
-                        .chooseCostHandCard(.named("bang")),
+                        .chooseCostHandCard(.named(.bang)),
                         .target(.others)
                     ]
                 )
@@ -1935,7 +1935,7 @@ private extension CardsV2 {
 
     static var tucoFranziskaner: CardV2 {
         .init(
-            name: "tucoFranziskaner",
+            name: .tucoFranziskaner,
             desc: "During his draw phase, he draw 2 extra cards if he has no blue cards in play.",
             effects: [
                 .init(
