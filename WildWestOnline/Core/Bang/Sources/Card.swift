@@ -13,8 +13,8 @@
 /// ℹ️ All effects of the same source share the resolved arguments
 ///
 public struct Card: Equatable, Codable {
-    /// Unique identifier
-    public let id: String
+    /// Unique name
+    public let name: String
 
     /// Description
     public let desc: String
