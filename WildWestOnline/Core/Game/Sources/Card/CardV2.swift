@@ -1,9 +1,53 @@
-//  Effect.swift
 //
+//  CardV2.swift
+//  
 //
-//  Created by Stephano Hugues TELOLAHY on 28/07/2024.
+//  Created by Hugues Telolahy on 16/08/2024.
 //
-// swiftlint:disable type_contents_order discouraged_optional_collection nesting identifier_name
+
+/// We are working on a Card Definition Language that will allow people to create new cards,
+/// not currently in the game and see how they play.
+/// A `card` is just a collection of effects and attributes
+/// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
+/// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
+/// ℹ️ All effects of the same source share the resolved arguments
+///
+public struct CardV2: Equatable, Codable {
+    /// Unique name
+    public let name: String
+
+    /// Description
+    public let desc: String
+
+    /// Actions that are triggered by this card an {event} occurrs
+    public let effects: [Effect]
+
+    /// Allow to play this card only when an {event} occurs
+    /// By default cards are playable during player's turn
+    public let canPlay: Effect.PlayReq?
+
+    /// Ability to override another {card}'s action {argument}
+    public let abilityToUpdateCard: [String: [Effect.ActionArgument: Int]]
+
+    /// Ability to play a card {key} with another card {value}
+    public let abilityToPlayCardWith: [String: String]
+
+    public init(
+        name: String,
+        desc: String,
+        effects: [Effect] = [],
+        canPlay: Effect.PlayReq? = nil,
+        abilityToUpdateCard: [String: [Effect.ActionArgument : Int]] = [:],
+        abilityToPlayCardWith: [String: String] = [:]
+    ) {
+        self.name = name
+        self.desc = desc
+        self.effects = effects
+        self.canPlay = canPlay
+        self.abilityToUpdateCard = abilityToUpdateCard
+        self.abilityToPlayCardWith = abilityToPlayCardWith
+    }
+}
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct Effect: Equatable, Codable {
@@ -208,6 +252,16 @@ public struct Effect: Equatable, Codable {
             case targetHealthIs1
             case not(Self)
         }
+    }
+
+    public init(
+        when: PlayReq,
+        action: ActionType,
+        selectors: [Selector]? = nil
+    ) {
+        self.when = when
+        self.action = action
+        self.selectors = selectors
     }
 }
 
