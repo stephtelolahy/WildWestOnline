@@ -21,15 +21,13 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        NavigationView {
-            ZStack {
-                theme.backgroundView.edgesIgnoringSafeArea(.all)
-                VStack {
-                    Spacer()
-                    contentView
-                    Spacer()
-                    footerView
-                }
+        ZStack {
+            theme.backgroundView.edgesIgnoringSafeArea(.all)
+            VStack {
+                Spacer()
+                contentView
+                Spacer()
+                footerView
             }
         }
     }
