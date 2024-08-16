@@ -7,33 +7,33 @@
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct Effect: Equatable, Codable {
-    public let when: PlayerEvent
-    public let action: Action
+    public let when: PlayReq
+    public let action: ActionType
     public let selectors: [Selector]?
 
-    public indirect enum PlayerEvent: Equatable, Codable {
+    public indirect enum PlayReq: Equatable, Codable {
+        // events on actor
         case played
+        case playedCardOutOfTurn
+        case playedCardWithName(String)
+        case playedCardWithAttr(PlayerAttribute)
         case shot
         case turnStarted
         case turnEnded
         case damaged
-        case damagedWith(String)
+        case damagedByCard(String)
         case damagedLethal
         case eliminated
+        case cardStolen
+        case cardDiscarded
         case handEmpty
+
+        // events on another player
         case otherEliminated
         case otherDamaged
-        case playedCardOutOfTurn
-        /// a player has stolen card of actor
-        case cardStolen
-        /// a player has discarded a card of actor
-        case cardDiscarded
-        case cardPlayedWithName(String)
-        case cardPlayedWithAttr(PlayerAttribute)
-        case damagingWith(String)
-        /// a targeted player has missed his shoot card
-        case targetedHasMissed(String)
-        case otherPlayedCardWithName(String)
+        case otherDamagedByYourCard(String)
+        case otherMissedYourShoot(String)
+        case otherPlayedCard(String)
     }
 
     /// Selectors are used to specify which objects an aura or effect should affect.
@@ -51,7 +51,7 @@ public struct Effect: Equatable, Codable {
         case attribute([PlayerAttribute: Int])
 
         /// determine other arguments
-        case arg(Action.Argument, value: Number)
+        case arg(ActionArgument, value: Number)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -103,7 +103,7 @@ public struct Effect: Equatable, Codable {
             case isBlue
             case suits(String)
             case named(String)
-            case action(Action)
+            case action(ActionType)
             case revealed
             case discarded
         }
@@ -115,7 +115,7 @@ public struct Effect: Equatable, Codable {
             case lastDamage // amount from last damage event
             case playerAttr(PlayerAttribute)
             case add(Int, attr: PlayerAttribute)
-            case arg(Action.Argument)
+            case arg(ActionArgument)
             case value(Int)
         }
 
@@ -132,8 +132,8 @@ public struct Effect: Equatable, Codable {
     }
 
     public init(
-        when: PlayerEvent,
-        action: Action,
+        when: PlayReq,
+        action: ActionType,
         selectors: [Selector]? = nil
     ) {
         self.when = when

@@ -24,10 +24,10 @@ public struct Card: Equatable, Codable {
 
     /// Allow to play this card only when an {event} occurs
     /// By default cards are playable during player's turn
-    public var canPlay: Effect.PlayerEvent?
+    public var canPlay: Effect.PlayReq?
 
     /// Ability to override another {card}'s action {argument}
-    public var abilityToUpdateCard: [String: [Action.Argument: Int]] = [:]
+    public var abilityToUpdateCard: [String: [ActionArgument: Int]] = [:]
 
     /// Ability to play a card {key} with another card {value}
     public var abilityToPlayCardWith: [String: String] = [:]

@@ -219,7 +219,7 @@ private extension Cards {
             desc: "",
             effects: [
                 .init(
-                    when: .cardPlayedWithAttr(.weapon),
+                    when: .playedCardWithAttr(.weapon),
                     action: .discard,
                     selectors: [
                         .card(.inPlayWithAttr(.weapon))
@@ -1625,7 +1625,7 @@ private extension Cards {
             effects: [
                 .brown
             ],
-            canPlay: .cardPlayedWithName("bang"),
+            canPlay: .playedCardWithName("bang"),
             abilityToUpdateCard: ["bang": [.damageAmount: 2]]
         )
     }
@@ -1755,7 +1755,7 @@ private extension Cards {
             effects: [
                 .equip,
                 .init(
-                    when: .damagingWith("bang"),
+                    when: .otherDamagedByYourCard("bang"),
                     action: .discard,
                     selectors: [
                         .target(.damaged),
@@ -1780,7 +1780,7 @@ private extension Cards {
             effects: [
                 .handicap,
                 .init(
-                    when: .damagedWith("bang"),
+                    when: .damagedByCard("bang"),
                     action: .drawDeck,
                     selectors: [
                         .target(.offender)
@@ -1833,11 +1833,11 @@ private extension Cards {
             desc: "Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.",
             effects: [
                 .init(
-                    when: .targetedHasMissed("bang"),
+                    when: .otherMissedYourShoot("bang"),
                     action: .draw
                 ),
                 .init(
-                    when: .targetedHasMissed("bang"),
+                    when: .otherMissedYourShoot("bang"),
                     action: .damage,
                     selectors: [
                         .if(.draw("♠️")),
@@ -1869,7 +1869,7 @@ private extension Cards {
                     ]
                 )
             ],
-            canPlay: .otherPlayedCardWithName("beer")
+            canPlay: .otherPlayedCard("beer")
         )
     }
 
