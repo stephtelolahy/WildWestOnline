@@ -9,7 +9,7 @@
 public struct Effect: Equatable, Codable {
     public let when: PlayReq
     public let action: ActionType
-    public let selectors: [Selector]?
+    public var selectors: [Selector]?
 
     public indirect enum PlayReq: Equatable, Codable {
         // events on actor
@@ -129,16 +129,6 @@ public struct Effect: Equatable, Codable {
             case targetHealthIs1
             case not(Self)
         }
-    }
-
-    public init(
-        when: PlayReq,
-        action: ActionType,
-        selectors: [Selector]? = nil
-    ) {
-        self.when = when
-        self.action = action
-        self.selectors = selectors
     }
 }
 
