@@ -27,7 +27,6 @@ public extension SettingsView {
 
             static let all: [Self] = [
                 .init(label: "Normal", value: 500),
-                .init(label: "Slow", value: 1000),
                 .init(label: "Fast", value: 0)
             ]
         }

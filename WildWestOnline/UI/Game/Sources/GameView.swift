@@ -22,12 +22,10 @@ public struct GameView: View {
     }
 
     public var body: some View {
-        NavigationView {
-            ZStack {
-                theme.backgroundView.edgesIgnoringSafeArea(.all)
-                UIViewControllerRepresentableBuilder {
-                    GamePlayViewController(store: store)
-                }
+        ZStack {
+            theme.backgroundView.edgesIgnoringSafeArea(.all)
+            UIViewControllerRepresentableBuilder {
+                GamePlayViewController(store: store)
             }
         }
     }

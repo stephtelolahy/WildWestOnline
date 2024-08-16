@@ -21,7 +21,7 @@ extension XCTestCase {
     ) throws -> [GameAction] {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
-        let choicesWrapper = ClassWrapper(choose)
+        let choicesWrapper = ChoiceWrapper(value: choose)
         let store = Store<GameState, GameAction>(
             initial: state,
             reducer: GameState.reducer,
@@ -65,7 +65,7 @@ extension XCTestCase {
 }
 
 private extension Middlewares {
-    static func choosingAgent(_ choices: ClassWrapper<[String]>) -> Middleware<GameState, GameAction> {
+    static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState, GameAction> {
         { state, _ in
             guard let chooseOne = state.sequence.chooseOne.first else {
                 return nil
@@ -78,5 +78,13 @@ private extension Middlewares {
             let option = choices.value.removeFirst()
             return GameAction.choose(option, player: chooseOne.key)
         }
+    }
+}
+
+private class ChoiceWrapper {
+    var value: [String]
+
+    init(value: [String]) {
+        self.value = value
     }
 }

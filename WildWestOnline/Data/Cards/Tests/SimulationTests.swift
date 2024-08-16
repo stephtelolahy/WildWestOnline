@@ -46,7 +46,7 @@ final class SimulationTests: XCTestCase {
             preferredFigure: preferredFigure
         )
         game.config.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
-        let stateWrapper = ClassWrapper(game)
+        let stateWrapper = StateWrapper(value: game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
         let sut = Store<GameState, GameAction>(
@@ -78,7 +78,7 @@ final class SimulationTests: XCTestCase {
 
 /// Middleare reproducting state according to received event
 private extension Middlewares {
-    static func stateReproducer(_ prevState: ClassWrapper<GameState>) -> Middleware<GameState, GameAction> {
+    static func stateReproducer(_ prevState: StateWrapper) -> Middleware<GameState, GameAction> {
         { state, action in
             let resultState = try! GameState.reducer(prevState.value, action)
             prevState.value = resultState
@@ -88,5 +88,13 @@ private extension Middlewares {
             assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
             return nil
         }
+    }
+}
+
+private class StateWrapper {
+    var value: GameState
+
+    init(value: GameState) {
+        self.value = value
     }
 }
