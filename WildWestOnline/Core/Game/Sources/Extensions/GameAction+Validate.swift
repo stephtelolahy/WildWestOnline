@@ -62,7 +62,7 @@ extension GameAction {
 //        print("⚙️ validate: \(self) ...")
         switch self {
         case .chooseOne,
-             .setGameOver:
+             .endGame:
             return
 
         default:

@@ -17,7 +17,7 @@ extension Middlewares {
             }
 
             let winner = state.round.playOrder.first ?? ""
-            return GameAction.setGameOver(winner: winner)
+            return GameAction.endGame(winner: winner)
         }
     }
 }

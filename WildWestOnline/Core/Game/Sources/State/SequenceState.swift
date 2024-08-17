@@ -115,7 +115,7 @@ public extension SequenceState {
         case .prepareChoose:
             try chooseReducer(state.sequence, action)
 
-        case .setGameOver:
+        case .endGame:
             try setGameOverReducer(state.sequence, action)
 
         case .startTurn:
@@ -225,7 +225,7 @@ private extension SequenceState {
     }
 
     static let setGameOverReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .setGameOver(winner) = action else {
+        guard case let .endGame(winner) = action else {
             fatalError("unexpected")
         }
 

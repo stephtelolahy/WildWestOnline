@@ -13,7 +13,7 @@ extension Middlewares {
     static func processSequence() -> Middleware<GameState, GameAction> {
         { state, action in
             switch action {
-            case .setGameOver,
+            case .endGame,
                     .chooseOne,
                     .activate:
                 return nil

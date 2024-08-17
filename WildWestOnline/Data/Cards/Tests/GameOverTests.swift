@@ -23,7 +23,7 @@ final class GameOverTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .eliminate(player: "p2"),
-            .setGameOver(winner: "p1")
+            .endGame(winner: "p1")
         ])
     }
 

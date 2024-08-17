@@ -23,9 +23,6 @@ public indirect enum GameAction: Codable, Equatable {
     /// Spell character ability
     case playAbility(String, player: String)
 
-    /// Pass inPlay card on target's inPlay
-    case passInPlay(String, target: String, player: String)
-
     // MARK: - Renderable
 
     /// Restore player's health, limited to maxHealth
@@ -40,11 +37,8 @@ public indirect enum GameAction: Codable, Equatable {
     /// Draw specific deck card
     case drawDeckCard(String, player: String)
 
-    /// Discard a player's hand card
-    case discardHand(String, player: String)
-
-    /// Discard a player's inPlay card
-    case discardInPlay(String, player: String)
+    /// Draw top discard
+    case drawDiscard(player: String)
 
     /// Draw card from other player's hand
     case stealHand(String, target: String, player: String)
@@ -52,10 +46,16 @@ public indirect enum GameAction: Codable, Equatable {
     /// Draw card from other player's inPlay
     case stealInPlay(String, target: String, player: String)
 
-    /// Draw top discard
-    case drawDiscard(player: String)
+    /// Discard a player's hand card
+    case discardHand(String, player: String)
 
-    /// Reveal hand card
+    /// Discard a player's inPlay card
+    case discardInPlay(String, player: String)
+
+    /// Pass inPlay card on target's inPlay
+    case passInPlay(String, target: String, player: String)
+
+    /// Show hand card
     case showHand(String, player: String)
 
     /// Draw a card from deck and put to arena
@@ -83,7 +83,7 @@ public indirect enum GameAction: Codable, Equatable {
     case activate([String], player: String)
 
     /// End game
-    case setGameOver(winner: String)
+    case endGame(winner: String)
 
     // MARK: - Invisible
 

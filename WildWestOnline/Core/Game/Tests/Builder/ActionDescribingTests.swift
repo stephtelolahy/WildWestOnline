@@ -149,7 +149,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingGameOver() {
         XCTAssertEqual(
-            String(describing: GameAction.setGameOver(winner: "p1")),
+            String(describing: GameAction.endGame(winner: "p1")),
             "🎉 p1"
         )
     }
