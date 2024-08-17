@@ -19,12 +19,12 @@ final class StagecoachTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.stagecoach, player: "p1")
+        let action = GameAction.preparePlay(.stagecoach, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.stagecoach, player: "p1"),
+            .preparePlay(.stagecoach, player: "p1"),
             .discardPlayed(.stagecoach, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

@@ -11,7 +11,7 @@ struct EffectRepeat: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         let number = try times.resolve(state: state, ctx: ctx)
-        let children: [GameAction] = Array(repeating: .effect(effect, ctx: ctx), count: number)
+        let children: [GameAction] = Array(repeating: .prepareEffect(effect, ctx: ctx), count: number)
         return .push(children)
     }
 }

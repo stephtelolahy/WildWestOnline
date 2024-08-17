@@ -22,15 +22,15 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
+            .preparePlay(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -48,15 +48,15 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.missed, player: "p1")
+        let action = GameAction.preparePlay(.missed, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.missed, player: "p1"),
+            .preparePlay(.missed, player: "p1"),
             .discardPlayed(.missed, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -76,18 +76,18 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .bang])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
+            .preparePlay(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.bang, .pass], player: "p2"),
-            .choose(.bang, player: "p2"),
-            .play(.bang, player: "p2"),
+            .prepareChoose(.bang, player: "p2"),
+            .preparePlay(.bang, player: "p2"),
             .discardPlayed(.bang, player: "p2")
         ])
     }
@@ -107,18 +107,18 @@ final class CalamityJanetTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
+            .preparePlay(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),
-            .choose(.missed, player: "p2"),
-            .play(.missed, player: "p2"),
+            .prepareChoose(.missed, player: "p2"),
+            .preparePlay(.missed, player: "p2"),
             .discardPlayed(.missed, player: "p2")
         ])
     }

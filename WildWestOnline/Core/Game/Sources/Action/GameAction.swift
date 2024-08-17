@@ -10,9 +10,6 @@
 public indirect enum GameAction: Codable, Equatable {
     // MARK: - Renderable
 
-    /// Play a card
-    case play(String, player: String)
-
     /// Restore player's health, limited to maxHealth
     case heal(Int, player: String)
 
@@ -82,9 +79,6 @@ public indirect enum GameAction: Codable, Equatable {
     /// Expose a choice
     case chooseOne(ChoiceType, options: [String], player: String)
 
-    /// Choose an option
-    case choose(String, player: String)
-
     /// Expose active cards
     case activate([String], player: String)
 
@@ -93,8 +87,14 @@ public indirect enum GameAction: Codable, Equatable {
 
     // MARK: - Invisible
 
+    /// Prepare to play a card
+    case preparePlay(String, player: String)
+
+    /// Choose an option
+    case prepareChoose(String, player: String)
+
     /// Resolve an effect
-    case effect(CardEffect, ctx: EffectContext)
+    case prepareEffect(CardEffect, ctx: EffectContext)
 
     /// Push actions
     case group([Self])
@@ -110,7 +110,7 @@ public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
-        case .effect, .group:
+        case .prepareEffect, .group:
             false
 
         default:

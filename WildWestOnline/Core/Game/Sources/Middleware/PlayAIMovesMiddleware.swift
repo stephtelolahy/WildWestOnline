@@ -17,13 +17,13 @@ extension Middlewares {
 
             if let active = state.sequence.active.first,
                state.config.playMode[active.key] == .auto {
-                let actions = active.value.map { GameAction.play($0, player: active.key) }
+                let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
                 return strategy.evaluateBestMove(actions, state: state)
             }
 
             if let chooseOne = state.sequence.chooseOne.first,
                state.config.playMode[chooseOne.key] == .auto {
-                let actions = chooseOne.value.options.map { GameAction.choose($0, player: chooseOne.key) }
+                let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
                 return strategy.evaluateBestMove(actions, state: state)
             }
 
@@ -67,10 +67,10 @@ public struct AgressiveStrategy: AIStrategy {
 private extension GameAction {
     var playedCard: String {
         switch self {
-        case .play(let card, _):
+        case .preparePlay(let card, _):
             card
 
-        case .choose(let card, _):
+        case .prepareChoose(let card, _):
             card
 
         default:

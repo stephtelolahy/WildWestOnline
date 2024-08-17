@@ -25,37 +25,37 @@ final class DuelTests: XCTestCase {
 
     func test_playDuel_withTargetPassing_shouldDamage() throws {
         // When
-        let action = GameAction.play(.duel, player: "p1")
+        let action = GameAction.preparePlay(.duel, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .pass])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.duel, player: "p1"),
+            .preparePlay(.duel, player: "p1"),
             .discardPlayed(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang2, .pass], player: "p2"),
-            .choose(.pass, player: "p2"),
+            .prepareChoose(.pass, player: "p2"),
             .damage(1, player: "p2")
         ])
     }
 
     func test_playDuel_withTargetDiscardingBang_shouldDamageOffender() throws {
         // When
-        let action = GameAction.play(.duel, player: "p1")
+        let action = GameAction.preparePlay(.duel, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .bang2, .pass])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.duel, player: "p1"),
+            .preparePlay(.duel, player: "p1"),
             .discardPlayed(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang2, .pass], player: "p2"),
-            .choose(.bang2, player: "p2"),
+            .prepareChoose(.bang2, player: "p2"),
             .discardHand(.bang2, player: "p2"),
             .chooseOne(.cardToDiscard, options: [.bang1, .pass], player: "p1"),
-            .choose(.pass, player: "p1"),
+            .prepareChoose(.pass, player: "p1"),
             .damage(1, player: "p1")
         ])
     }

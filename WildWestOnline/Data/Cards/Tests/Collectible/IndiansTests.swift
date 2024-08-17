@@ -22,15 +22,15 @@ final class IndiansTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.indians, player: "p1")
+        let action = GameAction.preparePlay(.indians, player: "p1")
         let result = try awaitAction(action, state: state, choose: [.bang])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.indians, player: "p1"),
+            .preparePlay(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang, .pass], player: "p2"),
-            .choose(.bang, player: "p2"),
+            .prepareChoose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2"),
             .damage(1, player: "p3")
         ])
@@ -48,15 +48,15 @@ final class IndiansTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.indians, player: "p1")
+        let action = GameAction.preparePlay(.indians, player: "p1")
         let result = try awaitAction(action, state: state, choose: [.bang])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.indians, player: "p1"),
+            .preparePlay(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang, .pass], player: "p2"),
-            .choose(.bang, player: "p2"),
+            .prepareChoose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2")
         ])
     }

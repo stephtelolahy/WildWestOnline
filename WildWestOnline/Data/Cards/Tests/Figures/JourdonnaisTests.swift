@@ -24,15 +24,15 @@ final class JourdonnaisTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
+            .preparePlay(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .draw
         ])
     }

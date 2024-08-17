@@ -19,12 +19,12 @@ final class ScopeTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.scope, player: "p1")
+        let action = GameAction.preparePlay(.scope, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.scope, player: "p1"),
+            .preparePlay(.scope, player: "p1"),
             .equip(.scope, player: "p1"),
             .setAttribute(.magnifying, value: 1, player: "p1")
         ])

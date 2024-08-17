@@ -21,21 +21,21 @@ final class GeneralStoreTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.generalStore, player: "p1")
+        let action = GameAction.preparePlay(.generalStore, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.generalStore, player: "p1"),
+            .preparePlay(.generalStore, player: "p1"),
             .discardPlayed(.generalStore, player: "p1"),
             .discover,
             .discover,
             .discover,
             .chooseOne(.cardToDraw, options: ["c1", "c2", "c3"], player: "p1"),
-            .choose("c1", player: "p1"),
+            .prepareChoose("c1", player: "p1"),
             .drawArena("c1", player: "p1"),
             .chooseOne(.cardToDraw, options: ["c2", "c3"], player: "p2"),
-            .choose("c2", player: "p2"),
+            .prepareChoose("c2", player: "p2"),
             .drawArena("c2", player: "p2"),
             .drawArena("c3", player: "p3")
         ])

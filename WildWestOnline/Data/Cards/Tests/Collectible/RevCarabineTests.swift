@@ -20,12 +20,12 @@ final class RevCarabineTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.revCarabine, player: "p1")
+        let action = GameAction.preparePlay(.revCarabine, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.revCarabine, player: "p1"),
+            .preparePlay(.revCarabine, player: "p1"),
             .equip(.revCarabine, player: "p1"),
             .setAttribute(.weapon, value: 4, player: "p1")
         ])

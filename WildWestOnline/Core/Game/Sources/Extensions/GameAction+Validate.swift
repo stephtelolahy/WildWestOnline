@@ -11,7 +11,7 @@ extension GameAction {
         player: String,
         state: GameState
     ) -> Bool {
-        let action = GameAction.play(card, player: player)
+        let action = GameAction.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
 //            print("🟢 validatePlay: \(action)")
@@ -52,7 +52,7 @@ extension GameAction {
         }
 
         let chooseOne = GameAction.chooseOne(type, options: validOptions, player: chooser)
-        let match = GameAction.effect(.matchAction(actions), ctx: ctx)
+        let match = GameAction.prepareEffect(.matchAction(actions), ctx: ctx)
         return [chooseOne, match]
     }
 }

@@ -27,12 +27,12 @@ final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.volcanic, player: "p1")
+        let action = GameAction.preparePlay(.volcanic, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.volcanic, player: "p1"),
+            .preparePlay(.volcanic, player: "p1"),
             .equip(.volcanic, player: "p1"),
             .discardInPlay(.schofield, player: "p1"),
             .setAttribute(.bangsPerTurn, value: 0, player: "p1"),

@@ -24,7 +24,7 @@ struct EffectPlayCounterShootCards: EffectResolver {
         }
 
         var actions = counterCards.reduce(into: [String: GameAction]()) {
-            $0[$1] = .play($1, player: ctx.sourceActor)
+            $0[$1] = .preparePlay($1, player: ctx.sourceActor)
         }
 
         actions[.pass] = .nothing

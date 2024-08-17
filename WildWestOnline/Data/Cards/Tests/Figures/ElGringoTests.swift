@@ -24,18 +24,18 @@ final class ElGringoTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p2")
+        let action = GameAction.preparePlay(.bang, player: "p2")
         let result = try awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p2"),
+            .preparePlay(.bang, player: "p2"),
             .discardPlayed(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
-            .choose("p1", player: "p2"),
+            .prepareChoose("p1", player: "p2"),
             .damage(1, player: "p1"),
             .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
-            .choose("hiddenHand-0", player: "p1"),
+            .prepareChoose("hiddenHand-0", player: "p1"),
             .drawHand("c2", target: "p2", player: "p1")
         ])
     }
@@ -55,15 +55,15 @@ final class ElGringoTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p2")
+        let action = GameAction.preparePlay(.bang, player: "p2")
         let result = try awaitAction(action, state: state, choose: ["p1"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p2"),
+            .preparePlay(.bang, player: "p2"),
             .discardPlayed(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
-            .choose("p1", player: "p2"),
+            .prepareChoose("p1", player: "p2"),
             .damage(1, player: "p1")
         ])
     }

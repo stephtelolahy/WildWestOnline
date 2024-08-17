@@ -13,7 +13,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingPlay() {
         XCTAssertEqual(
-            String(describing: GameAction.play("c1", player: "p1")),
+            String(describing: GameAction.preparePlay("c1", player: "p1")),
             "✅ p1 c1"
         )
     }
@@ -179,7 +179,7 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.choose("c1", player: "p1")),
+            String(describing: GameAction.prepareChoose("c1", player: "p1")),
             "👉 p1 c1"
         )
     }
@@ -193,12 +193,12 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingEffect() {
         XCTAssertEqual(
-            String(describing: GameAction.effect(.discover, ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))),
+            String(describing: GameAction.prepareEffect(.discover, ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))),
             "➡️ discover"
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.effect(.damage(3), ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))),
+            String(describing: GameAction.prepareEffect(.damage(3), ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))),
             "➡️ damage(3)"
         )
     }

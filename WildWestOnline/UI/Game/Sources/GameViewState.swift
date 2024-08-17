@@ -102,14 +102,14 @@ public extension GameView {
                 fatalError("unexpected")
             }
 
-            return GameAction.play(card, player: controlledId)
+            return GameAction.preparePlay(card, player: controlledId)
 
         case .didChooseOption(let option):
             guard let controlledId = game.controlledPlayerId else {
                 fatalError("unexpected")
             }
 
-            return GameAction.choose(option, player: controlledId)
+            return GameAction.prepareChoose(option, player: controlledId)
         }
     }
 }

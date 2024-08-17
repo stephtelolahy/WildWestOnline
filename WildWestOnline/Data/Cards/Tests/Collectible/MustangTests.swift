@@ -19,12 +19,12 @@ final class MustangTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.mustang, player: "p1")
+        let action = GameAction.preparePlay(.mustang, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.mustang, player: "p1"),
+            .preparePlay(.mustang, player: "p1"),
             .equip(.mustang, player: "p1"),
             .setAttribute(.remoteness, value: 1, player: "p1")
         ])

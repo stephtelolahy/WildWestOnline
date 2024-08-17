@@ -76,7 +76,7 @@ private extension Middlewares {
             }
 
             let option = choices.value.removeFirst()
-            return GameAction.choose(option, player: chooseOne.key)
+            return GameAction.prepareChoose(option, player: chooseOne.key)
         }
     }
 }

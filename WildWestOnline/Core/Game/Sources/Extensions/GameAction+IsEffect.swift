@@ -7,7 +7,7 @@
 
 extension GameAction {
     func isEffectTriggeredBy(_ player: String) -> Bool {
-        if case let .effect(_, ctx) = self,
+        if case let .prepareEffect(_, ctx) = self,
            ctx.sourceActor == player {
             true
         } else {
@@ -16,7 +16,7 @@ extension GameAction {
     }
 
     func isEffectOfStartTurn(ignoredCard: String) -> Bool {
-        if case let .effect(_, ctx) = self,
+        if case let .prepareEffect(_, ctx) = self,
            case .startTurn = ctx.sourceEvent,
            ctx.sourceCard != ignoredCard {
             true
@@ -26,7 +26,7 @@ extension GameAction {
     }
 
     func isEffectOfShoot(_ target: String) -> Bool {
-        if case let .effect(effect, ctx: effectCtx) = self,
+        if case let .prepareEffect(effect, ctx: effectCtx) = self,
            case .prepareShoot = effect,
             effectCtx.resolvingTarget == target {
             return true
@@ -36,7 +36,7 @@ extension GameAction {
     }
 
     public func isEffectTargeting(_ player: String) -> Bool {
-        if case .effect(_, let ctx) = self,
+        if case .prepareEffect(_, let ctx) = self,
            ctx.resolvingTarget == player {
             return true
         } else {

@@ -12,7 +12,7 @@ struct EffectCounterShoot: EffectResolver {
         }
 
         let shootAction = state.sequence.queue[index]
-        guard case .effect(let cardEffect, let effectCtx) = shootAction,
+        guard case .prepareEffect(let cardEffect, let effectCtx) = shootAction,
               case .prepareShoot(let missesRequired) = cardEffect else {
             fatalError("unexpected action to counter")
         }
@@ -23,7 +23,7 @@ struct EffectCounterShoot: EffectResolver {
             return .cancel([shootAction])
         } else {
             let remainingMisses = ArgNum.exact(misses - 1)
-            let updatedAction = GameAction.effect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
+            let updatedAction = GameAction.prepareEffect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
             return .replace(index, with: updatedAction)
         }
     }

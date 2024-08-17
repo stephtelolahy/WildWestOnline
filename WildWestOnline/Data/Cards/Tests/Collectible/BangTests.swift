@@ -20,15 +20,15 @@ final class BangTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
+            .preparePlay(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -46,7 +46,7 @@ final class BangTests: XCTestCase {
 
         // When
         // Assert
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             XCTAssertEqual(error as? PlayReq.Error, .noReq(.isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))))
         }
@@ -64,15 +64,15 @@ final class BangTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Assert
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
+            .preparePlay(.bang, player: "p1"),
             .discardPlayed(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
+            .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -91,7 +91,7 @@ final class BangTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.selectReachable))
         }
