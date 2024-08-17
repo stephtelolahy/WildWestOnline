@@ -27,7 +27,7 @@ final class JailTests: XCTestCase {
             .preparePlay(.jail, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .prepareChoose("p2", player: "p1"),
-            .handicap(.jail, target: "p2", player: "p1")
+            .playHandicap(.jail, target: "p2", player: "p1")
         ])
     }
 

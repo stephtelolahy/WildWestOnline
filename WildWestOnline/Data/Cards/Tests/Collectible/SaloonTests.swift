@@ -34,7 +34,7 @@ final class SaloonTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.saloon, player: "p1"),
-            .discardPlayed(.saloon, player: "p1"),
+            .playBrown(.saloon, player: "p1"),
             .heal(1, player: "p2"),
             .heal(1, player: "p3")
         ])

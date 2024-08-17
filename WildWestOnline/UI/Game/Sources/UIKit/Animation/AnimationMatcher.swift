@@ -43,13 +43,13 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .putBack(_, player):
                 .move(card: .hidden, from: .hand(player), to: .deck)
 
-        case let .revealHand(card, player):
+        case let .showHand(card, player):
                 .reveal(card: .id(card), from: .hand(player), to: .hand(player))
 
-        case let .drawHand(_, target, player):
+        case let .stealHand(_, target, player):
                 .move(card: .hidden, from: .hand(target), to: .hand(player))
 
-        case let .drawInPlay(card, target, player):
+        case let .stealInPlay(card, target, player):
                 .move(card: .id(card), from: .inPlay(target), to: .hand(player))
 
         case let .drawArena(card, player):
@@ -58,10 +58,10 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .drawDiscard(player):
                 .move(card: .topDiscard, from: .discard, to: .hand(player))
 
-        case let .equip(card, player):
+        case let .playEquipment(card, player):
                 .move(card: .id(card), from: .hand(player), to: .inPlay(player))
 
-        case let .handicap(card, target, player):
+        case let .playHandicap(card, target, player):
                 .move(card: .id(card), from: .hand(player), to: .inPlay(target))
 
         case let .passInPlay(card, target, player):
@@ -70,7 +70,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .discardHand(card, player):
                 .move(card: .id(card), from: .hand(player), to: .discard)
 
-        case let .discardPlayed(card, player):
+        case let .playBrown(card, player):
                 .move(card: .id(card), from: .hand(player), to: .discard)
 
         case let .discardInPlay(card, player):

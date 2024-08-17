@@ -30,13 +30,13 @@ final class ElGringoTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.bang, player: "p2"),
-            .discardPlayed(.bang, player: "p2"),
+            .playBrown(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .prepareChoose("p1", player: "p2"),
             .damage(1, player: "p1"),
             .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
             .prepareChoose("hiddenHand-0", player: "p1"),
-            .drawHand("c2", target: "p2", player: "p1")
+            .stealHand("c2", target: "p2", player: "p1")
         ])
     }
 
@@ -61,7 +61,7 @@ final class ElGringoTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.bang, player: "p2"),
-            .discardPlayed(.bang, player: "p2"),
+            .playBrown(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .prepareChoose("p1", player: "p2"),
             .damage(1, player: "p1")

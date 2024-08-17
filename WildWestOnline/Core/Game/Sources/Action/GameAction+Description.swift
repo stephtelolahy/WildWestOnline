@@ -11,10 +11,10 @@ extension GameAction: CustomStringConvertible {
         case let .preparePlay(card, player):
             "✅ \(player) \(card)"
 
-        case let .equip(card, player):
+        case let .playEquipment(card, player):
             "💼 \(player) \(card)"
 
-        case let .handicap(card, target, player):
+        case let .playHandicap(card, target, player):
             "🚫 \(player) \(card) \(target)"
 
         case let .heal(amount, player):
@@ -32,10 +32,10 @@ extension GameAction: CustomStringConvertible {
         case let .drawArena(card, player):
             "💰 \(player) \(card)"
 
-        case let .drawHand(card, target, player):
+        case let .stealHand(card, target, player):
             "‼️ \(player) \(card) \(target)"
 
-        case let .drawInPlay(card, target, player):
+        case let .stealInPlay(card, target, player):
             "‼️ \(player) \(card) \(target)"
 
         case let .discardHand(card, player):
@@ -47,10 +47,10 @@ extension GameAction: CustomStringConvertible {
         case let .discardInPlay(card, player):
             "❌ \(player) \(card)"
 
-        case let .discardPlayed(card, player: player):
+        case let .playBrown(card, player: player):
             "❌ \(player) \(card)"
 
-        case let .revealHand(card, player):
+        case let .showHand(card, player):
             "🎲 \(player) \(card)"
 
         case let .passInPlay(card, target, player):
@@ -94,6 +94,9 @@ extension GameAction: CustomStringConvertible {
 
         case let .group(actions):
             "➡️ group \(actions)"
+
+        default:
+            fatalError("unexpected")
         }
     }
 }

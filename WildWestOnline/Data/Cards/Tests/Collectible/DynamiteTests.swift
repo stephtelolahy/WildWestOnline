@@ -24,7 +24,7 @@ final class DynamiteTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.dynamite, player: "p1"),
-            .equip(.dynamite, player: "p1")
+            .playEquipment(.dynamite, player: "p1")
         ])
     }
 

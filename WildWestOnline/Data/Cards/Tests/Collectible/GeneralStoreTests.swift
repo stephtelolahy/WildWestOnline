@@ -27,7 +27,7 @@ final class GeneralStoreTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.generalStore, player: "p1"),
-            .discardPlayed(.generalStore, player: "p1"),
+            .playBrown(.generalStore, player: "p1"),
             .discover,
             .discover,
             .discover,

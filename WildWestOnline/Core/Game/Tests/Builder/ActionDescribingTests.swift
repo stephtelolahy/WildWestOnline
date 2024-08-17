@@ -20,14 +20,14 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingEquip() {
         XCTAssertEqual(
-            String(describing: GameAction.equip("c1", player: "p1")),
+            String(describing: GameAction.playEquipment("c1", player: "p1")),
             "💼 p1 c1"
         )
     }
 
     func test_DescribingHandicap() {
         XCTAssertEqual(
-            String(describing: GameAction.handicap("c1", target: "p2", player: "p1")),
+            String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")),
             "🚫 p1 c1 p2"
         )
     }
@@ -73,12 +73,12 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.drawHand("c1", target: "p2", player: "p1")),
+            String(describing: GameAction.stealHand("c1", target: "p2", player: "p1")),
             "‼️ p1 c1 p2"
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.drawInPlay("c1", target: "p2", player: "p1")),
+            String(describing: GameAction.stealInPlay("c1", target: "p2", player: "p1")),
             "‼️ p1 c1 p2"
         )
     }
@@ -95,7 +95,7 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.discardPlayed("c1", player: "p1")),
+            String(describing: GameAction.playBrown("c1", player: "p1")),
             "❌ p1 c1"
         )
     }
@@ -109,7 +109,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingRevealHand() {
         XCTAssertEqual(
-            String(describing: GameAction.revealHand("c1", player: "p1")),
+            String(describing: GameAction.showHand("c1", player: "p1")),
             "🎲 p1 c1"
         )
     }

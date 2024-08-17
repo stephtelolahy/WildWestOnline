@@ -26,7 +26,7 @@ final class RevCarabineTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.revCarabine, player: "p1"),
-            .equip(.revCarabine, player: "p1"),
+            .playEquipment(.revCarabine, player: "p1"),
             .setAttribute(.weapon, value: 4, player: "p1")
         ])
     }

@@ -66,13 +66,13 @@ private extension CardEffect {
             EffectDiscard(card: card, chooser: chooser)
 
         case .discardPlayed:
-            EffectJust { .discardPlayed($0.sourceCard, player: $0.sourceActor) }
+            EffectJust { .playBrown($0.sourceCard, player: $0.sourceActor) }
 
         case .equip:
-            EffectJust { .equip($0.sourceCard, player: $0.sourceActor) }
+            EffectJust { .playEquipment($0.sourceCard, player: $0.sourceActor) }
 
         case .handicap:
-            EffectJust { .handicap($0.sourceCard, target: $0.getTarget(), player: $0.sourceActor) }
+            EffectJust { .playHandicap($0.sourceCard, target: $0.getTarget(), player: $0.sourceActor) }
 
         case let .putBack(among):
             EffectPutBack(among: among)

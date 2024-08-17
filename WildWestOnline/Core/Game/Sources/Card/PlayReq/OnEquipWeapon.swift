@@ -7,7 +7,7 @@
 
 struct OnEquipWeapon: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        guard case let .equip(playedCard, player) = ctx.event,
+        guard case let .playEquipment(playedCard, player) = ctx.event,
               player == ctx.actor else {
             return false
         }

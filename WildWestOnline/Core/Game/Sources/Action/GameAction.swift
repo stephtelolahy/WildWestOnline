@@ -8,6 +8,24 @@
 /// Game action
 /// Triggered by user or by the system, that causes any update to the game state
 public indirect enum GameAction: Codable, Equatable {
+
+    // MARK: - Playing card
+
+    /// Discard just played hand card
+    case playBrown(String, player: String)
+
+    /// Put an equipment card on player's inPlay
+    case playEquipment(String, player: String)
+
+    /// Put hand card on target's inPlay
+    case playHandicap(String, target: String, player: String)
+
+    /// Spell character ability
+    case playAbility(String, player: String)
+
+    /// Pass inPlay card on target's inPlay
+    case passInPlay(String, target: String, player: String)
+
     // MARK: - Renderable
 
     /// Restore player's health, limited to maxHealth
@@ -19,17 +37,8 @@ public indirect enum GameAction: Codable, Equatable {
     /// Draw top deck card
     case drawDeck(player: String)
 
-    /// Draw card from other player's hand
-    case drawHand(String, target: String, player: String)
-
-    /// Draw card from other player's inPlay
-    case drawInPlay(String, target: String, player: String)
-
-    /// Draw cards from arena
-    case drawArena(String, player: String)
-
-    /// Draw top discard
-    case drawDiscard(player: String)
+    /// Draw specific deck card
+    case drawDeckCard(String, player: String)
 
     /// Discard a player's hand card
     case discardHand(String, player: String)
@@ -37,23 +46,17 @@ public indirect enum GameAction: Codable, Equatable {
     /// Discard a player's inPlay card
     case discardInPlay(String, player: String)
 
-    /// Discard just played hand card
-    case discardPlayed(String, player: String)
+    /// Draw card from other player's hand
+    case stealHand(String, target: String, player: String)
 
-    /// Put an equipment card on player's inPlay
-    case equip(String, player: String)
+    /// Draw card from other player's inPlay
+    case stealInPlay(String, target: String, player: String)
 
-    /// Put hand card on target's inPlay
-    case handicap(String, target: String, player: String)
-
-    /// Pass inPlay card on target's inPlay
-    case passInPlay(String, target: String, player: String)
-
-    /// Put back hand card to deck
-    case putBack(String, player: String)
+    /// Draw top discard
+    case drawDiscard(player: String)
 
     /// Reveal hand card
-    case revealHand(String, player: String)
+    case showHand(String, player: String)
 
     /// Draw a card from deck and put to arena
     case discover
@@ -72,9 +75,6 @@ public indirect enum GameAction: Codable, Equatable {
 
     /// Set player attribute
     case setAttribute(String, value: Int, player: String)
-
-    /// Remove player attribute
-    case removeAttribute(String, player: String)
 
     /// Expose a choice
     case chooseOne(ChoiceType, options: [String], player: String)
@@ -96,8 +96,25 @@ public indirect enum GameAction: Codable, Equatable {
     /// Resolve an effect
     case prepareEffect(CardEffect, ctx: EffectContext)
 
+    // MARK: - Deprecated
+
+    /// Draw cards from arena
+    @available(*, deprecated, renamed: "drawDeckCard")
+    case drawArena(String, player: String)
+
+    /// Put back hand card to deck
+    @available(*, deprecated, renamed: "drawDeckCard")
+    case putBack(String, player: String)
+
+    /// Remove player attribute
+    @available(*, deprecated, renamed: "setAttribute")
+    case removeAttribute(String, player: String)
+
     /// Push actions
+    @available(*, deprecated, renamed: "remove")
     case group([Self])
+
+
 }
 
 // MARK: - Convenience

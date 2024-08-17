@@ -19,7 +19,7 @@ final class DrawInPlayTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.drawInPlay("c21", target: "p2", player: "p1")
+        let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then

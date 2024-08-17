@@ -26,7 +26,7 @@ final class BangTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
@@ -70,7 +70,7 @@ final class BangTests: XCTestCase {
         // Assert
         XCTAssertEqual(result, [
             .preparePlay(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")

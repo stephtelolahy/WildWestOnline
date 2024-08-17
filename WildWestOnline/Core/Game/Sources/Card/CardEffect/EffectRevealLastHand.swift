@@ -13,7 +13,7 @@ struct EffectRevealLastHand: EffectResolver {
             fatalError("missing drawn card")
         }
 
-        let children: [GameAction] = [.revealHand(lastHandCard, player: player)]
+        let children: [GameAction] = [.showHand(lastHandCard, player: player)]
         return .push(children)
     }
 }

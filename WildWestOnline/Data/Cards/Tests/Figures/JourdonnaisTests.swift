@@ -30,7 +30,7 @@ final class JourdonnaisTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .prepareChoose("p2", player: "p1"),
             .draw

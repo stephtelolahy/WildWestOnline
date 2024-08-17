@@ -40,7 +40,7 @@ final class BlackJackTests: XCTestCase {
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
-            .revealHand("c2-8♥️", player: "p1"),
+            .showHand("c2-8♥️", player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
@@ -64,7 +64,7 @@ final class BlackJackTests: XCTestCase {
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
-            .revealHand("c2-A♠️", player: "p1")
+            .showHand("c2-A♠️", player: "p1")
         ])
     }
 }

@@ -28,7 +28,7 @@ final class BeerTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.beer, player: "p1"),
-            .discardPlayed(.beer, player: "p1"),
+            .playBrown(.beer, player: "p1"),
             .heal(1, player: "p1")
         ])
     }

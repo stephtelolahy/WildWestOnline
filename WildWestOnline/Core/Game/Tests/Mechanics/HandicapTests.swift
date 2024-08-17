@@ -19,7 +19,7 @@ final class HandicapTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.handicap("c1", target: "p2", player: "p1")
+        let action = GameAction.playHandicap("c1", target: "p2", player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then
@@ -42,7 +42,7 @@ final class HandicapTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.handicap("c-1", target: "p2", player: "p1")
+        let action = GameAction.playHandicap("c-1", target: "p2", player: "p1")
         XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
             XCTAssertEqual(error as? FieldState.Error, .cardAlreadyInPlay("c"))
         }

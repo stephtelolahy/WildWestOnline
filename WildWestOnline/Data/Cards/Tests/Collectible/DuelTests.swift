@@ -31,7 +31,7 @@ final class DuelTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.duel, player: "p1"),
-            .discardPlayed(.duel, player: "p1"),
+            .playBrown(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
             .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang2, .pass], player: "p2"),
@@ -48,7 +48,7 @@ final class DuelTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .preparePlay(.duel, player: "p1"),
-            .discardPlayed(.duel, player: "p1"),
+            .playBrown(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
             .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang2, .pass], player: "p2"),

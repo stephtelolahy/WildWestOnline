@@ -19,7 +19,7 @@ final class DrawHandTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.drawHand("c21", target: "p2", player: "p1")
+        let action = GameAction.stealHand("c21", target: "p2", player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then

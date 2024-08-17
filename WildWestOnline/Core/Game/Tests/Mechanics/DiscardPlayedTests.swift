@@ -18,7 +18,7 @@ final class DiscardPlayedTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.discardPlayed("c1", player: "p1")
+        let action = GameAction.playBrown("c1", player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then

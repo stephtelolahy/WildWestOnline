@@ -7,12 +7,12 @@
 
 struct OnChangeInPlay: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
-        if case let .equip(_, player) = ctx.event,
+        if case let .playEquipment(_, player) = ctx.event,
            player == ctx.actor {
             return true
         }
 
-        if case let .handicap(_, target, _) = ctx.event,
+        if case let .playHandicap(_, target, _) = ctx.event,
            target == ctx.actor {
             return true
         }
@@ -22,7 +22,7 @@ struct OnChangeInPlay: PlayReqMatcher {
             return true
         }
 
-        if case let .drawInPlay(_, target, _) = ctx.event,
+        if case let .stealInPlay(_, target, _) = ctx.event,
            target == ctx.actor {
             return true
         }
