@@ -9,7 +9,7 @@
 /// Triggered by user or by the system, that causes any update to the game state
 public indirect enum GameAction: Codable, Equatable {
 
-    // MARK: - Playing card
+    // MARK: - Renderable
 
     /// Discard just played hand card
     case playBrown(String, player: String)
@@ -22,8 +22,6 @@ public indirect enum GameAction: Codable, Equatable {
 
     /// Spell character ability
     case playAbility(String, player: String)
-
-    // MARK: - Renderable
 
     /// Restore player's health, limited to maxHealth
     case heal(Int, player: String)
