@@ -55,14 +55,14 @@ public indirect enum GameAction: Codable, Equatable {
     /// Pass inPlay card on target's inPlay
     case passInPlay(String, target: String, player: String)
 
-    /// Show hand card
-    case showHand(String, player: String)
-
-    /// Draw a card from deck and put to arena
+    /// Discover deck card
     case discover
 
-    /// Reveal top deck card and put to discard
+    /// Flip top deck card and put to discard
     case draw
+
+    /// Show hand card
+    case showHand(String, player: String)
 
     /// Start turn
     case startTurn(player: String)
@@ -76,27 +76,28 @@ public indirect enum GameAction: Codable, Equatable {
     /// Set player attribute
     case setAttribute(String, value: Int, player: String)
 
-    /// Expose a choice
-    case chooseOne(ChoiceType, options: [String], player: String)
+    /// End game
+    case endGame(winner: String)
 
     /// Expose active cards
     case activate([String], player: String)
 
-    /// End game
-    case endGame(winner: String)
-
     // MARK: - Invisible
 
-    /// Prepare to play a card
+    /// Move to play a card
     case preparePlay(String, player: String)
 
-    /// Choose an option
+    /// Move to choose an option
     case prepareChoose(String, player: String)
 
     /// Resolve an effect
     case prepareEffect(CardEffect, ctx: EffectContext)
 
     // MARK: - Deprecated
+
+    /// Expose a choice
+    @available(*, deprecated, renamed: "sequence")
+    case chooseOne(ChoiceType, options: [String], player: String)
 
     /// Draw cards from arena
     @available(*, deprecated, renamed: "drawDeckCard")
@@ -113,8 +114,6 @@ public indirect enum GameAction: Codable, Equatable {
     /// Push actions
     @available(*, deprecated, renamed: "remove")
     case group([Self])
-
-
 }
 
 // MARK: - Convenience
