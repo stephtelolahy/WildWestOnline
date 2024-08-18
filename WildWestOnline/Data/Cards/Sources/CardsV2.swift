@@ -451,9 +451,9 @@ private extension CardsV2 {
                 .brown,
                 .init(
                     when: .played,
-                    action: .reveal,
+                    action: .discover,
                     selectors: [
-                        .arg(.revealAmount, value: .activePlayers)
+                        .arg(.discoverAmount, value: .activePlayers)
                     ]
                 ),
                 .init(
@@ -461,7 +461,7 @@ private extension CardsV2 {
                     action: .drawDeck,
                     selectors: [
                         .target(.all),
-                        .chooseCard(.revealed)
+                        .chooseCard(.discovered)
                     ]
                 )
             ]
@@ -943,9 +943,9 @@ private extension CardsV2 {
             effects: [
                 .init(
                     when: .turnStarted,
-                    action: .reveal,
+                    action: .discover,
                     selectors: [
-                        .arg(.revealAmount, value: .value(3))
+                        .arg(.discoverAmount, value: .value(3))
                     ]
                 ),
                 .init(

@@ -122,7 +122,7 @@ public struct Effect: Equatable, Codable {
         case missed
 
         /// expose {amount} choosable cards from top deck
-        case reveal
+        case discover
 
         /// draw {drawCards} cards from deck. Next effects depend on it
         case draw
@@ -155,7 +155,7 @@ public struct Effect: Equatable, Codable {
         case healAmount
         case damageAmount
         case repeatAmount
-        case revealAmount
+        case discoverAmount
         case shootRequiredMisses
         case limitPerTurn
     }
@@ -228,7 +228,7 @@ public struct Effect: Equatable, Codable {
             case suits(String)
             case named(String)
             case action(ActionType)
-            case revealed
+            case discovered
             case discarded
         }
 
