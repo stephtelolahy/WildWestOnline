@@ -123,7 +123,10 @@ public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
-        case .prepareEffect, .group:
+        case .preparePlay,
+             .prepareChoose,
+             .prepareEffect,
+             .group:
             false
 
         default:

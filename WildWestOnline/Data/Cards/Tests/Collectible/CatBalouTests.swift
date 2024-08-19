@@ -9,22 +9,6 @@ import GameCore
 import XCTest
 
 final class CatBalouTests: XCTestCase {
-    func test_playingCatBalou_noPlayerAllowed_shouldThrowError() throws {
-        // Given
-        let state = GameState.makeBuilderWithCards()
-            .withPlayer("p1") {
-                $0.withHand([.catBalou])
-            }
-            .build()
-
-        // When
-        // Then
-        let action = GameAction.preparePlay(.catBalou, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.selectAny))
-        }
-    }
-
     func test_playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -42,12 +26,9 @@ final class CatBalouTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.catBalou, player: "p1"),
             .playBrown(.catBalou, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: ["hiddenHand-0"], player: "p1"),
-            .prepareChoose("hiddenHand-0", player: "p1"),
             .discardHand("c21", player: "p2")
         ])
     }
@@ -69,12 +50,9 @@ final class CatBalouTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.catBalou, player: "p1"),
             .playBrown(.catBalou, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c21", "c22"], player: "p1"),
-            .prepareChoose("c22", player: "p1"),
             .discardInPlay("c22", player: "p2")
         ])
     }
@@ -97,13 +75,26 @@ final class CatBalouTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.catBalou, player: "p1"),
             .playBrown(.catBalou, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c22", "c23", "hiddenHand-0"], player: "p1"),
-            .prepareChoose("c23", player: "p1"),
             .discardInPlay("c23", player: "p2")
         ])
+    }
+
+    func test_playingCatBalou_noPlayerAllowed_shouldThrowError() throws {
+        // Given
+        let state = GameState.makeBuilderWithCards()
+            .withPlayer("p1") {
+                $0.withHand([.catBalou])
+            }
+            .build()
+
+        // When
+        // Then
+        let action = GameAction.preparePlay(.catBalou, player: "p1")
+        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
+            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.selectAny))
+        }
     }
 }

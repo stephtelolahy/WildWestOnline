@@ -26,16 +26,13 @@ final class GeneralStoreTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.generalStore, player: "p1"),
             .playBrown(.generalStore, player: "p1"),
             .discover,
             .discover,
             .discover,
             .chooseOne(.cardToDraw, options: ["c1", "c2", "c3"], player: "p1"),
-            .prepareChoose("c1", player: "p1"),
             .drawArena("c1", player: "p1"),
             .chooseOne(.cardToDraw, options: ["c2", "c3"], player: "p2"),
-            .prepareChoose("c2", player: "p2"),
             .drawArena("c2", player: "p2"),
             .drawArena("c3", player: "p3")
         ])

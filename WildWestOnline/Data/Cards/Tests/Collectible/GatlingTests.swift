@@ -25,7 +25,6 @@ final class GatlingTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.gatling, player: "p1"),
             .playBrown(.gatling, player: "p1"),
             .damage(1, player: "p2"),
             .damage(1, player: "p3")
@@ -47,7 +46,6 @@ final class GatlingTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.gatling, player: "p1"),
             .playBrown(.gatling, player: "p1"),
             .damage(1, player: "p2")
         ])

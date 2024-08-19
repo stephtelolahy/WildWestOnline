@@ -25,7 +25,6 @@ final class WinchesterTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.winchester, player: "p1"),
             .playEquipment(.winchester, player: "p1"),
             .setAttribute(.weapon, value: 5, player: "p1")
         ])

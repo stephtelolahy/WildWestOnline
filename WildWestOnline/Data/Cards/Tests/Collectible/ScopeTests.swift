@@ -24,7 +24,6 @@ final class ScopeTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.scope, player: "p1"),
             .playEquipment(.scope, player: "p1"),
             .setAttribute(.magnifying, value: 1, player: "p1")
         ])

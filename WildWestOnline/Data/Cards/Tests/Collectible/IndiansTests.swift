@@ -27,10 +27,8 @@ final class IndiansTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.indians, player: "p1"),
             .playBrown(.indians, player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang, .pass], player: "p2"),
-            .prepareChoose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2"),
             .damage(1, player: "p3")
         ])
@@ -53,10 +51,8 @@ final class IndiansTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.indians, player: "p1"),
             .playBrown(.indians, player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang, .pass], player: "p2"),
-            .prepareChoose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2")
         ])
     }

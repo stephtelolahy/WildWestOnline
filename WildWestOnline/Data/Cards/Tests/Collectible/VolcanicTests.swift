@@ -24,7 +24,6 @@ final class VolcanicTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.volcanic, player: "p1"),
             .playEquipment(.volcanic, player: "p1"),
             .setAttribute(.bangsPerTurn, value: 0, player: "p1")
         ])
