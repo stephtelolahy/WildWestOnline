@@ -27,10 +27,8 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.bang, player: "p1"),
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -53,10 +51,8 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.missed, player: "p1"),
             .playBrown(.missed, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
@@ -81,13 +77,9 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.bang, player: "p1"),
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.bang, .pass], player: "p2"),
-            .prepareChoose(.bang, player: "p2"),
-            .preparePlay(.bang, player: "p2"),
             .playBrown(.bang, player: "p2")
         ])
     }
@@ -112,13 +104,9 @@ final class CalamityJanetTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result, [
-            .preparePlay(.bang, player: "p1"),
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .prepareChoose("p2", player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),
-            .prepareChoose(.missed, player: "p2"),
-            .preparePlay(.missed, player: "p2"),
             .playBrown(.missed, player: "p2")
         ])
     }

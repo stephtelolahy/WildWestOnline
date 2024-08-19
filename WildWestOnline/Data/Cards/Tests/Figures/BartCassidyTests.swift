@@ -30,7 +30,7 @@ final class BartCassidyTests: XCTestCase {
         ])
     }
 
-    func test_BartCassidyBeingDamaged_SeveralLifePoints_shouldDrawCards() throws {
+    func test_BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
