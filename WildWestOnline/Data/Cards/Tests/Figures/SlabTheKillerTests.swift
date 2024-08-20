@@ -42,17 +42,11 @@ final class SlabTheKillerTests: XCTestCase {
         XCTAssertEqual(
             result,
             [
-                .preparePlay(.bang, player: "p1"),
                 .playBrown(.bang, player: "p1"),
                 .chooseOne(.target, options: ["p2"], player: "p1"),
-                .prepareChoose("p2", player: "p1"),
                 .chooseOne(.cardToPlayCounter, options: [.missed1, .missed2, .pass], player: "p2"),
-                .prepareChoose(.missed1, player: "p2"),
-                .preparePlay(.missed1, player: "p2"),
                 .playBrown(.missed1, player: "p2"),
                 .chooseOne(.cardToPlayCounter, options: [.missed2, .pass], player: "p2"),
-                .prepareChoose(.missed2, player: "p2"),
-                .preparePlay(.missed2, player: "p2"),
                 .playBrown(.missed2, player: "p2")
             ]
         )
@@ -79,13 +73,9 @@ final class SlabTheKillerTests: XCTestCase {
         XCTAssertEqual(
             result,
             [
-                .preparePlay(.bang, player: "p1"),
                 .playBrown(.bang, player: "p1"),
                 .chooseOne(.target, options: ["p2"], player: "p1"),
-                .prepareChoose("p2", player: "p1"),
                 .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),
-                .prepareChoose(.missed, player: "p2"),
-                .preparePlay(.missed, player: "p2"),
                 .playBrown(.missed, player: "p2"),
                 .damage(1, player: "p2")
             ]

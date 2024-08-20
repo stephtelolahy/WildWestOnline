@@ -343,6 +343,7 @@ private extension Cards {
 
     static var endTurn: Card {
         Card.makeBuilder(name: .endTurn)
+            .withRule(abilityRule)
             .withRule {
                 CardEffect.group {
                     CardEffect.endTurn
