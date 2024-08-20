@@ -11,24 +11,38 @@ import XCTest
 final class ActionDescribingTests: XCTestCase {
     // MARK: - Player event
 
-    func test_DescribingPlay() {
+    func test_DescribingPreparePlay() {
         XCTAssertEqual(
             String(describing: GameAction.preparePlay("c1", player: "p1")),
-            "✅ p1 c1"
+            "➡️ p1 c1"
         )
     }
 
-    func test_DescribingEquip() {
+    func test_DescribingPlayBrown() {
+        XCTAssertEqual(
+            String(describing: GameAction.playBrown("c1", player: "p1")),
+            "🟤 p1 c1"
+        )
+    }
+
+    func test_DescribingPlayAbility() {
+        XCTAssertEqual(
+            String(describing: GameAction.playAbility("c1", player: "p1")),
+            "🟡 p1 c1"
+        )
+    }
+
+    func test_DescribingPlayEquipment() {
         XCTAssertEqual(
             String(describing: GameAction.playEquipment("c1", player: "p1")),
-            "💼 p1 c1"
+            "🔵 p1 c1"
         )
     }
 
-    func test_DescribingHandicap() {
+    func test_DescribingPlayHandicap() {
         XCTAssertEqual(
             String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")),
-            "🚫 p1 c1 p2"
+            "🟣 p1 c1 p2"
         )
     }
 
@@ -63,11 +77,6 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.drawArena("c1", player: "p1")),
-            "💰 p1 c1"
-        )
-
-        XCTAssertEqual(
             String(describing: GameAction.drawDiscard(player: "p1")),
             "💰 p1"
         )
@@ -91,11 +100,6 @@ final class ActionDescribingTests: XCTestCase {
 
         XCTAssertEqual(
             String(describing: GameAction.discardInPlay("c1", player: "p1")),
-            "❌ p1 c1"
-        )
-
-        XCTAssertEqual(
-            String(describing: GameAction.playBrown("c1", player: "p1")),
             "❌ p1 c1"
         )
     }
@@ -177,11 +181,6 @@ final class ActionDescribingTests: XCTestCase {
             String(describing: GameAction.chooseOne(.cardToDraw, options: ["c1", "c2"], player: "p1")),
             "❓ p1 c1 c2"
         )
-
-        XCTAssertEqual(
-            String(describing: GameAction.prepareChoose("c1", player: "p1")),
-            "👉 p1 c1"
-        )
     }
 
     func test_DescribingActivate() {
@@ -206,7 +205,14 @@ final class ActionDescribingTests: XCTestCase {
     func test_DescribingGroup() {
         XCTAssertEqual(
             String(describing: GameAction.group([.draw])),
-            "➡️ group [🎲]"
+            "➡️ [🎲]"
+        )
+    }
+
+    func test_DescribingPrepareChoose() {
+        XCTAssertEqual(
+            String(describing: GameAction.prepareChoose("c1", player: "p1")),
+            "➡️ p1 c1"
         )
     }
 }

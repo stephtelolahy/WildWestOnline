@@ -37,6 +37,15 @@ struct AnimationMatcher: AnimationMatcherProtocol {
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func animation(on event: GameAction) -> EventAnimation? {
         switch event {
+        case let .playBrown(card, player):
+                .move(card: .id(card), from: .hand(player), to: .discard)
+
+        case let .playEquipment(card, player):
+                .move(card: .id(card), from: .hand(player), to: .inPlay(player))
+
+        case let .playHandicap(card, target, player):
+                .move(card: .id(card), from: .hand(player), to: .inPlay(target))
+
         case let .drawDeck(player):
                 .move(card: .hidden, from: .deck, to: .hand(player))
 
@@ -58,19 +67,10 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .drawDiscard(player):
                 .move(card: .topDiscard, from: .discard, to: .hand(player))
 
-        case let .playEquipment(card, player):
-                .move(card: .id(card), from: .hand(player), to: .inPlay(player))
-
-        case let .playHandicap(card, target, player):
-                .move(card: .id(card), from: .hand(player), to: .inPlay(target))
-
         case let .passInPlay(card, target, player):
                 .move(card: .id(card), from: .inPlay(player), to: .inPlay(target))
 
         case let .discardHand(card, player):
-                .move(card: .id(card), from: .hand(player), to: .discard)
-
-        case let .playBrown(card, player):
                 .move(card: .id(card), from: .hand(player), to: .discard)
 
         case let .discardInPlay(card, player):
