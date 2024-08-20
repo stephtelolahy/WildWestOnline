@@ -121,6 +121,9 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
+
+        case .playAbility:
+            EffectJust { .playAbility($0.sourceCard, player: $0.sourceActor) }
         }
     }
 }

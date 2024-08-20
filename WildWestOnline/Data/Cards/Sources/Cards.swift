@@ -580,10 +580,16 @@ private extension Cards {
             .build()
     }
 
+    static var abilityRule: CardRule {
+        CardEffect.playAbility
+            .on([.play])
+    }
+
     static var sidKetchum: Card {
         Card.makeBuilder(name: .sidKetchum)
             .withPrototype(defaultPlayer)
             .withAttributes([.maxHealth: 4])
+            .withRule(abilityRule)
             .withRule {
                 CardEffect.group {
                     CardEffect.discard(.selectHand)

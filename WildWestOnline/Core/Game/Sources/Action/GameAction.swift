@@ -79,6 +79,9 @@ public indirect enum GameAction: Codable, Equatable {
     /// Expose active cards
     case activate([String], player: String)
 
+    /// Expose a choice
+    case chooseOne(ChoiceType, options: [String], player: String)
+
     // MARK: - Invisible
 
     /// Move to play a card
@@ -91,10 +94,6 @@ public indirect enum GameAction: Codable, Equatable {
     case prepareEffect(CardEffect, ctx: EffectContext)
 
     // MARK: - Deprecated
-
-    /// Expose a choice
-    @available(*, deprecated, renamed: "sequence")
-    case chooseOne(ChoiceType, options: [String], player: String)
 
     /// Draw cards from arena
     @available(*, deprecated, renamed: "drawDeckCard")
