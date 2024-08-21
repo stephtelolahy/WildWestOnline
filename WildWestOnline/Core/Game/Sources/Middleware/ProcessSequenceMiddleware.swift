@@ -23,14 +23,11 @@ extension Middlewares {
                     return nil
                 }
 
-                let waitDelay = if nextAction.isRenderable {
-                    state.config.waitDelayMilliseconds
-                } else {
-                    0
+                if action.isRenderable {
+                    let milliToNanoSeconds = 1_000_000
+                    let waitDelay = state.config.waitDelayMilliseconds
+                    try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
                 }
-
-                let milliToNanoSeconds = 1_000_000
-                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
 
                 return nextAction
             }
