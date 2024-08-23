@@ -18,13 +18,25 @@ extension Middlewares {
             if let active = state.sequence.active.first,
                state.config.playMode[active.key] == .auto {
                 let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
-                return strategy.evaluateBestMove(actions, state: state)
+                let move = strategy.evaluateBestMove(actions, state: state)
+
+                let milliToNanoSeconds = 1_000_000
+                let waitDelay = state.config.waitDelayMilliseconds
+                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
+
+                return move
             }
 
             if let chooseOne = state.sequence.chooseOne.first,
                state.config.playMode[chooseOne.key] == .auto {
                 let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
-                return strategy.evaluateBestMove(actions, state: state)
+                let move = strategy.evaluateBestMove(actions, state: state)
+
+                let milliToNanoSeconds = 1_000_000
+                let waitDelay = state.config.waitDelayMilliseconds
+                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
+
+                return move
             }
 
             return nil

@@ -23,6 +23,7 @@ extension Middlewares {
                     return nil
                 }
 
+                // emit effect after delay if current action is renderable
                 if action.isRenderable {
                     let milliToNanoSeconds = 1_000_000
                     let waitDelay = state.config.waitDelayMilliseconds
