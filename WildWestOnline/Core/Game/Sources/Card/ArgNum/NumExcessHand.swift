@@ -7,7 +7,7 @@
 
 struct NumExcessHand: ArgNumResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> Int {
-        let handCount = state.field.hand.getOrEmpty(ctx.sourceActor).count
+        let handCount = state.field.hand.get(ctx.sourceActor).count
         let handlLimit = state.player(ctx.sourceActor).handLimitAtEndOfTurn
         return max(handCount - handlLimit, 0)
     }

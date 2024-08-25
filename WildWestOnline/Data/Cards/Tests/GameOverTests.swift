@@ -23,7 +23,7 @@ final class GameOverTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .eliminate(player: "p2"),
-            .setGameOver(winner: "p1")
+            .endGame(winner: "p1")
         ])
     }
 
@@ -53,7 +53,7 @@ final class GameOverTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.play("c1", player: "p1")
+        let action = GameAction.preparePlay("c1", player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             XCTAssertEqual(error as? SequenceState.Error, .gameIsOver)
         }

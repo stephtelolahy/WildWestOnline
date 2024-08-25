@@ -17,14 +17,26 @@ extension Middlewares {
 
             if let active = state.sequence.active.first,
                state.config.playMode[active.key] == .auto {
-                let actions = active.value.map { GameAction.play($0, player: active.key) }
-                return strategy.evaluateBestMove(actions, state: state)
+                let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
+                let move = strategy.evaluateBestMove(actions, state: state)
+
+                let milliToNanoSeconds = 1_000_000
+                let waitDelay = state.config.waitDelayMilliseconds
+                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
+
+                return move
             }
 
             if let chooseOne = state.sequence.chooseOne.first,
                state.config.playMode[chooseOne.key] == .auto {
-                let actions = chooseOne.value.options.map { GameAction.choose($0, player: chooseOne.key) }
-                return strategy.evaluateBestMove(actions, state: state)
+                let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
+                let move = strategy.evaluateBestMove(actions, state: state)
+
+                let milliToNanoSeconds = 1_000_000
+                let waitDelay = state.config.waitDelayMilliseconds
+                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
+
+                return move
             }
 
             return nil
@@ -67,10 +79,10 @@ public struct AgressiveStrategy: AIStrategy {
 private extension GameAction {
     var playedCard: String {
         switch self {
-        case .play(let card, _):
+        case .preparePlay(let card, _):
             card
 
-        case .choose(let card, _):
+        case .prepareChoose(let card, _):
             card
 
         default:

@@ -20,13 +20,12 @@ final class RemingtonTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.remington, player: "p1")
+        let action = GameAction.preparePlay(.remington, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.remington, player: "p1"),
-            .equip(.remington, player: "p1"),
+            .playEquipment(.remington, player: "p1"),
             .setAttribute(.weapon, value: 3, player: "p1")
         ])
     }

@@ -28,13 +28,12 @@ final class SaloonTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.saloon, player: "p1")
+        let action = GameAction.preparePlay(.saloon, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.saloon, player: "p1"),
-            .discardPlayed(.saloon, player: "p1"),
+            .playBrown(.saloon, player: "p1"),
             .heal(1, player: "p2"),
             .heal(1, player: "p3")
         ])
@@ -56,7 +55,7 @@ final class SaloonTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.play(.saloon, player: "p1")
+        let action = GameAction.preparePlay(.saloon, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.damaged))
         }

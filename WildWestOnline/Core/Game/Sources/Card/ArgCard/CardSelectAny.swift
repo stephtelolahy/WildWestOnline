@@ -11,11 +11,11 @@ struct CardSelectAny: ArgCardResolver {
         let chooser = ctx.resolvingChooser ?? owner
         var options: [CardArgOption] = []
 
-        let inPlayCards = state.field.inPlay.getOrEmpty(owner)
+        let inPlayCards = state.field.inPlay.get(owner)
         let inPlayOptions = inPlayCards.toCardOptions()
         options.append(contentsOf: inPlayOptions)
 
-        let handCards = state.field.hand.getOrEmpty(owner)
+        let handCards = state.field.hand.get(owner)
         if chooser != owner {
             let handOptions = handCards.indices.map {
                 CardArgOption(id: handCards[$0], label: "\(String.hiddenHand)-\($0)")

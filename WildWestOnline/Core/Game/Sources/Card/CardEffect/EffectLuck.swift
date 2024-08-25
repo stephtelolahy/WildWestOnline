@@ -21,7 +21,7 @@ struct EffectLuck: EffectResolver {
         let drawnCards: [String]
         switch card {
         case .drawnHand:
-            let handlCards = state.field.hand.getOrEmpty(player)
+            let handlCards = state.field.hand.get(player)
             guard let lastHandCard = handlCards.last else {
                 fatalError("missing drawn card")
             }
@@ -46,10 +46,10 @@ struct EffectLuck: EffectResolver {
 
         let matched = drawnCards.contains { $0.matches(regex: regex) }
         if matched {
-            result.append(.effect(onSuccess, ctx: ctx))
+            result.append(.prepareEffect(onSuccess, ctx: ctx))
         } else {
             if let onFailure {
-                result.append(.effect(onFailure, ctx: ctx))
+                result.append(.prepareEffect(onFailure, ctx: ctx))
             }
         }
 

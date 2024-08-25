@@ -20,13 +20,12 @@ final class WellsFargoTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.wellsFargo, player: "p1")
+        let action = GameAction.preparePlay(.wellsFargo, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.wellsFargo, player: "p1"),
-            .discardPlayed(.wellsFargo, player: "p1"),
+            .playBrown(.wellsFargo, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

@@ -20,13 +20,12 @@ final class GatlingTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.gatling, player: "p1")
+        let action = GameAction.preparePlay(.gatling, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.gatling, player: "p1"),
-            .discardPlayed(.gatling, player: "p1"),
+            .playBrown(.gatling, player: "p1"),
             .damage(1, player: "p2"),
             .damage(1, player: "p3")
         ])
@@ -42,13 +41,12 @@ final class GatlingTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.gatling, player: "p1")
+        let action = GameAction.preparePlay(.gatling, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.gatling, player: "p1"),
-            .discardPlayed(.gatling, player: "p1"),
+            .playBrown(.gatling, player: "p1"),
             .damage(1, player: "p2")
         ])
     }

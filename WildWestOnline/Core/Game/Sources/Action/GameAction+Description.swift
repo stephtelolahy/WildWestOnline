@@ -8,14 +8,17 @@
 extension GameAction: CustomStringConvertible {
     public var description: String {
         switch self {
-        case let .play(card, player):
-            "✅ \(player) \(card)"
+        case let .playBrown(card, player):
+            "🟤 \(player) \(card)"
 
-        case let .equip(card, player):
-            "💼 \(player) \(card)"
+        case let .playAbility(card, player):
+            "🟡 \(player) \(card)"
 
-        case let .handicap(card, target, player):
-            "🚫 \(player) \(card) \(target)"
+        case let .playEquipment(card, player):
+            "🔵 \(player) \(card)"
+
+        case let .playHandicap(card, target, player):
+            "🟣 \(player) \(card) \(target)"
 
         case let .heal(amount, player):
             "\(String(repeating: "❤️", count: amount)) \(player)"
@@ -32,10 +35,10 @@ extension GameAction: CustomStringConvertible {
         case let .drawArena(card, player):
             "💰 \(player) \(card)"
 
-        case let .drawHand(card, target, player):
+        case let .stealHand(card, target, player):
             "‼️ \(player) \(card) \(target)"
 
-        case let .drawInPlay(card, target, player):
+        case let .stealInPlay(card, target, player):
             "‼️ \(player) \(card) \(target)"
 
         case let .discardHand(card, player):
@@ -47,10 +50,7 @@ extension GameAction: CustomStringConvertible {
         case let .discardInPlay(card, player):
             "❌ \(player) \(card)"
 
-        case let .discardPlayed(card, player: player):
-            "❌ \(player) \(card)"
-
-        case let .revealHand(card, player):
+        case let .showHand(card, player):
             "🎲 \(player) \(card)"
 
         case let .passInPlay(card, target, player):
@@ -77,23 +77,29 @@ extension GameAction: CustomStringConvertible {
         case let .removeAttribute(key, player):
             "😕 \(player) \(key)"
 
-        case let .setGameOver(winner):
+        case let .endGame(winner):
             "🎉 \(winner)"
 
         case let .chooseOne(_, options, player):
             "❓ \(player) \(options.joined(separator: " "))"
 
-        case let .choose(option, player):
-            "👉 \(player) \(option)"
-
         case let .activate(cards, player):
             "❔ \(player) \(cards.joined(separator: " "))"
 
-        case let .effect(effect, _):
+        case let .preparePlay(card, player):
+            "➡️ \(player) \(card)"
+
+        case let .prepareChoose(option, player):
+            "➡️ \(player) \(option)"
+
+        case let .prepareEffect(effect, _):
             "➡️ \(effect)"
 
         case let .group(actions):
-            "➡️ group \(actions)"
+            "➡️ \(actions)"
+
+        default:
+            fatalError("unexpected")
         }
     }
 }

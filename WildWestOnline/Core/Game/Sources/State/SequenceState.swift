@@ -49,7 +49,7 @@ public extension EffectContext {
     /// Shot player triggering this effect
     /// The cancelation of the shoot results in the cancelation of the effect
     var sourceShoot: String? {
-        guard case let .effect(cardEffect, ctx) = sourceEvent,
+        guard case let .prepareEffect(cardEffect, ctx) = sourceEvent,
               case .shoot = cardEffect else {
             return nil
         }
@@ -112,10 +112,10 @@ public extension SequenceState {
         case .chooseOne:
             try chooseOneReducer(state.sequence, action)
 
-        case .choose:
+        case .prepareChoose:
             try chooseReducer(state.sequence, action)
 
-        case .setGameOver:
+        case .endGame:
             try setGameOverReducer(state.sequence, action)
 
         case .startTurn:
@@ -127,10 +127,10 @@ public extension SequenceState {
         case .group:
             try groupReducer(state.sequence, action)
 
-        case .play:
+        case .preparePlay:
             try playReducer(state, action)
 
-        case .effect:
+        case .prepareEffect:
             try effectReducer(state, action)
 
         default:
@@ -150,7 +150,7 @@ private extension SequenceState {
 
         // Pending choice
         if let chooseOne = state.chooseOne.first {
-            guard case let .choose(option, player) = action,
+            guard case let .prepareChoose(option, player) = action,
                   player == chooseOne.key,
                   chooseOne.value.options.contains(option) else {
                 throw Error.unwaitedAction
@@ -162,7 +162,7 @@ private extension SequenceState {
 
         // Active cards
         if let active = state.active.first {
-            guard case let .play(card, player) = action,
+            guard case let .preparePlay(card, player) = action,
                   player == active.key,
                   active.value.contains(card) else {
                 throw Error.unwaitedAction
@@ -205,19 +205,19 @@ private extension SequenceState {
     }
 
     static let chooseReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .choose(option, player) = action else {
+        guard case let .prepareChoose(option, player) = action else {
             fatalError("unexpected")
         }
 
         guard let nextAction = state.queue.first,
-              case let .effect(cardEffect, ctx) = nextAction,
+              case let .prepareEffect(cardEffect, ctx) = nextAction,
               case .matchAction = cardEffect else {
             fatalError("Next action should be an effect.matchAction")
         }
 
         var updatedContext = ctx
         updatedContext.resolvingOption = option
-        let updatedAction = GameAction.effect(cardEffect, ctx: updatedContext)
+        let updatedAction = GameAction.prepareEffect(cardEffect, ctx: updatedContext)
         var state = state
         state.queue[0] = updatedAction
 
@@ -225,7 +225,7 @@ private extension SequenceState {
     }
 
     static let setGameOverReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .setGameOver(winner) = action else {
+        guard case let .endGame(winner) = action else {
             fatalError("unexpected")
         }
 
@@ -255,13 +255,13 @@ private extension SequenceState {
     }
 
     static let playReducer: SelectorReducer<GameState, Self, GameAction> = { state, action in
-        guard case let .play(card, player) = action else {
+        guard case let .preparePlay(card, player) = action else {
             fatalError("unexpected")
         }
 
         // <resolve card alias>
         var cardName = card.extractName()
-        let event = GameAction.play(card, player: player)
+        let event = GameAction.preparePlay(card, player: player)
         let playReqContext = PlayReqContext(actor: player, event: event)
         if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: playReqContext) {
             cardName = alias
@@ -292,14 +292,14 @@ private extension SequenceState {
 
         // queue play effects
         let ctx = EffectContext(sourceEvent: event, sourceActor: player, sourceCard: card)
-        let children: [GameAction] = playRules.map { .effect($0.effect, ctx: ctx) }
+        let children: [GameAction] = playRules.map { .prepareEffect($0.effect, ctx: ctx) }
         sequence.queue.insert(contentsOf: children, at: 0)
 
         return sequence
     }
 
     static let effectReducer: SelectorReducer<GameState, Self, GameAction> = { state, action in
-        guard case let .effect(effect, ctx) = action else {
+        guard case let .prepareEffect(effect, ctx) = action else {
             fatalError("unexpected")
         }
 
@@ -344,7 +344,7 @@ private extension SequenceState {
     }
 
     mutating func removeEffectsLinkedTo(_ action: GameAction) {
-        if case let .effect(effect, effectCtx) = action,
+        if case let .prepareEffect(effect, effectCtx) = action,
            case .prepareShoot = effect,
            let target = effectCtx.resolvingTarget {
             removeEffectsLinkedToShoot(target)
@@ -353,7 +353,7 @@ private extension SequenceState {
 
     mutating func removeEffectsLinkedToShoot(_ target: String) {
         queue.removeAll { item in
-            if case let .effect(_, ctx) = item,
+            if case let .prepareEffect(_, ctx) = item,
                ctx.sourceShoot == target {
                 return true
             } else {

@@ -35,25 +35,19 @@ final class SlabTheKillerTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed1, .missed2])
 
         // Then
         XCTAssertEqual(
             result,
             [
-                .play(.bang, player: "p1"),
-                .discardPlayed(.bang, player: "p1"),
+                .playBrown(.bang, player: "p1"),
                 .chooseOne(.target, options: ["p2"], player: "p1"),
-                .choose("p2", player: "p1"),
                 .chooseOne(.cardToPlayCounter, options: [.missed1, .missed2, .pass], player: "p2"),
-                .choose(.missed1, player: "p2"),
-                .play(.missed1, player: "p2"),
-                .discardPlayed(.missed1, player: "p2"),
+                .playBrown(.missed1, player: "p2"),
                 .chooseOne(.cardToPlayCounter, options: [.missed2, .pass], player: "p2"),
-                .choose(.missed2, player: "p2"),
-                .play(.missed2, player: "p2"),
-                .discardPlayed(.missed2, player: "p2")
+                .playBrown(.missed2, player: "p2")
             ]
         )
     }
@@ -72,21 +66,17 @@ final class SlabTheKillerTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(
             result,
             [
-                .play(.bang, player: "p1"),
-                .discardPlayed(.bang, player: "p1"),
+                .playBrown(.bang, player: "p1"),
                 .chooseOne(.target, options: ["p2"], player: "p1"),
-                .choose("p2", player: "p1"),
                 .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),
-                .choose(.missed, player: "p2"),
-                .play(.missed, player: "p2"),
-                .discardPlayed(.missed, player: "p2"),
+                .playBrown(.missed, player: "p2"),
                 .damage(1, player: "p2")
             ]
         )

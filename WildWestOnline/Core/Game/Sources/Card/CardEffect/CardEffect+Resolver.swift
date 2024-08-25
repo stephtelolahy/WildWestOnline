@@ -33,7 +33,7 @@ private extension CardEffect {
             EffectJust { .damage(amount, player: $0.targetOrActor()) }
 
         case let .shoot(missesRequired):
-            EffectJust { .effect(.prepareShoot(missesRequired: missesRequired), ctx: $0) }
+            EffectJust { .prepareEffect(.prepareShoot(missesRequired: missesRequired), ctx: $0) }
 
         case .prepareShoot:
             EffectJust { .damage(1, player: $0.targetOrActor()) }
@@ -66,13 +66,13 @@ private extension CardEffect {
             EffectDiscard(card: card, chooser: chooser)
 
         case .discardPlayed:
-            EffectJust { .discardPlayed($0.sourceCard, player: $0.sourceActor) }
+            EffectJust { .playBrown($0.sourceCard, player: $0.sourceActor) }
 
         case .equip:
-            EffectJust { .equip($0.sourceCard, player: $0.sourceActor) }
+            EffectJust { .playEquipment($0.sourceCard, player: $0.sourceActor) }
 
         case .handicap:
-            EffectJust { .handicap($0.sourceCard, target: $0.getTarget(), player: $0.sourceActor) }
+            EffectJust { .playHandicap($0.sourceCard, target: $0.getTarget(), player: $0.sourceActor) }
 
         case let .putBack(among):
             EffectPutBack(among: among)
@@ -121,6 +121,9 @@ private extension CardEffect {
 
         case .counterShoot:
             EffectCounterShoot()
+
+        case .playAbility:
+            EffectJust { .playAbility($0.sourceCard, player: $0.sourceActor) }
         }
     }
 }

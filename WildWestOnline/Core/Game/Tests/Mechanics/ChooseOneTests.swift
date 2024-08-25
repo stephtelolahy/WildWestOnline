@@ -16,11 +16,11 @@ final class ChooseOneTests: XCTestCase {
                 $0.withHand(["c1", "c2", "c3"])
             }
             .withChooseOne(.cardToDraw, options: ["c1", "c2"], player: "p1")
-            .withSequence([.effect(.matchAction([:]), ctx: .init(sourceEvent: .draw, sourceActor: "p1", sourceCard: "c0"))])
+            .withSequence([.prepareEffect(.matchAction([:]), ctx: .init(sourceEvent: .draw, sourceActor: "p1", sourceCard: "c0"))])
             .build()
 
         // When
-        let action = GameAction.choose("c1", player: "p1")
+        let action = GameAction.prepareChoose("c1", player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then
@@ -38,7 +38,7 @@ final class ChooseOneTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.choose("c3", player: "p1")
+        let action = GameAction.prepareChoose("c3", player: "p1")
         XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
             XCTAssertEqual(error as? SequenceState.Error, .unwaitedAction)
         }

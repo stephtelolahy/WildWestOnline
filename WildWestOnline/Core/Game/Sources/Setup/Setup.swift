@@ -35,6 +35,7 @@ public enum Setup {
         var deck = deck
         var players: [String: Player] = [:]
         var hand: [String: [String]] = [:]
+        var inPlay: [String: [String]] = [:]
 
         for figure in figures {
             let id = figure
@@ -47,6 +48,7 @@ public enum Setup {
                     nil
                 }
             }
+            inPlay[id] = []
         }
 
         return GameState(
@@ -56,7 +58,7 @@ public enum Setup {
                 discard: [],
                 arena: [],
                 hand: hand,
-                inPlay: [:]
+                inPlay: inPlay
             ),
             round: .init(
                 startOrder: figures,

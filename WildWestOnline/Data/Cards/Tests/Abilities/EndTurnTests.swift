@@ -20,12 +20,12 @@ final class EndTurnTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.endTurn, player: "p1")
+        let action = GameAction.preparePlay(.endTurn, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.endTurn, player: "p1"),
+            .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
@@ -45,12 +45,12 @@ final class EndTurnTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.endTurn, player: "p1")
+        let action = GameAction.preparePlay(.endTurn, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.endTurn, player: "p1"),
+            .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
@@ -69,15 +69,14 @@ final class EndTurnTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.endTurn, player: "p1")
+        let action = GameAction.preparePlay(.endTurn, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.endTurn, player: "p1"),
+            .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
-            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
             .startTurn(player: "p2")
         ])
@@ -96,18 +95,16 @@ final class EndTurnTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.endTurn, player: "p1")
+        let action = GameAction.preparePlay(.endTurn, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1", "c3"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.endTurn, player: "p1"),
+            .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
-            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c2", "c3"], player: "p1"),
-            .choose("c3", player: "p1"),
             .discardHand("c3", player: "p1"),
             .startTurn(player: "p2")
         ])

@@ -44,8 +44,8 @@ public class Store<State, Action>: ObservableObject {
     public func dispatch(_ action: Action) {
         do {
             let newState = try reducer(state, action)
-            state = newState
             event.send(action)
+            state = newState
 
             for middleware in middlewares {
                 Future<Action?, Never> { promise in

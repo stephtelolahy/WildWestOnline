@@ -22,13 +22,12 @@ final class BeerTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.beer, player: "p1")
+        let action = GameAction.preparePlay(.beer, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.beer, player: "p1"),
-            .discardPlayed(.beer, player: "p1"),
+            .playBrown(.beer, player: "p1"),
             .heal(1, player: "p1")
         ])
     }
@@ -47,7 +46,7 @@ final class BeerTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.play(.beer, player: "p1")
+        let action = GameAction.preparePlay(.beer, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             XCTAssertEqual(error as? PlayersState.Error, .playerAlreadyMaxHealth("p1"))
         }
@@ -66,7 +65,7 @@ final class BeerTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.play(.beer, player: "p1")
+        let action = GameAction.preparePlay(.beer, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             XCTAssertEqual(error as? PlayReq.Error, .noReq(.isPlayersAtLeast(3)))
         }

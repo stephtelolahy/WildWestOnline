@@ -183,7 +183,7 @@ private extension GamePlayViewController {
     func showPlayerInfoAlert(_ player: GameView.State.PlayerItem) {
         let alert = UIAlertController(
             title: player.displayName,
-            message: "TODO: description",
+            message: "Description",
             preferredStyle: .alert
         )
         alert.addAction(

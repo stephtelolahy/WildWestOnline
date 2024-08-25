@@ -17,11 +17,11 @@ struct EffectSteal: EffectResolver {
         var contextWithChooser = ctx
         contextWithChooser.resolvingChooser = toPlayerId
         let children = try card.resolve(.cardToSteal, state: state, ctx: contextWithChooser) {
-            if state.field.hand.getOrEmpty(fromPlayerId).contains($0) {
-                return .drawHand($0, target: fromPlayerId, player: toPlayerId)
+            if state.field.hand.get(fromPlayerId).contains($0) {
+                return .stealHand($0, target: fromPlayerId, player: toPlayerId)
             }
-            if state.field.inPlay.getOrEmpty(fromPlayerId).contains($0) {
-                return .drawInPlay($0, target: fromPlayerId, player: toPlayerId)
+            if state.field.inPlay.get(fromPlayerId).contains($0) {
+                return .stealInPlay($0, target: fromPlayerId, player: toPlayerId)
             }
             fatalError("card not found \($0)")
         }

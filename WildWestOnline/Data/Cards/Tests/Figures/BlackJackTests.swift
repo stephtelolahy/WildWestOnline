@@ -10,17 +10,6 @@ import GameCore
 import XCTest
 
 final class BlackJackTests: XCTestCase {
-    func test_blackJack_shouldHaveSpecialStartTurn() throws {
-        // Given
-        let state = Setup.buildGame(figures: [.blackJack], deck: [], cards: Cards.all)
-
-        // When
-        let player = state.player(.blackJack)
-
-        // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
-    }
-
     func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -40,7 +29,7 @@ final class BlackJackTests: XCTestCase {
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
-            .revealHand("c2-8♥️", player: "p1"),
+            .showHand("c2-8♥️", player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
@@ -64,7 +53,7 @@ final class BlackJackTests: XCTestCase {
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
-            .revealHand("c2-A♠️", player: "p1")
+            .showHand("c2-A♠️", player: "p1")
         ])
     }
 }

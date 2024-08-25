@@ -10,17 +10,6 @@ import GameCore
 import XCTest
 
 final class JesseJonesTests: XCTestCase {
-    func test_jesseJones_shouldHaveSpecialStartTurn() throws {
-        // Given
-        let state = Setup.buildGame(figures: [.jesseJones], deck: [], cards: Cards.all)
-
-        // When
-        let player = state.player(.jesseJones)
-
-        // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
-    }
-
     func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()

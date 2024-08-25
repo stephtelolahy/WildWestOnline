@@ -30,8 +30,8 @@ final class VultureSamTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .eliminate(player: "p2"),
-            .drawInPlay("c2", target: "p2", player: "p1"),
-            .drawHand("c1", target: "p2", player: "p1")
+            .stealInPlay("c2", target: "p2", player: "p1"),
+            .stealHand("c1", target: "p2", player: "p1")
         ])
     }
 }

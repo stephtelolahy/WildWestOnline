@@ -20,13 +20,12 @@ final class WinchesterTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.winchester, player: "p1")
+        let action = GameAction.preparePlay(.winchester, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.winchester, player: "p1"),
-            .equip(.winchester, player: "p1"),
+            .playEquipment(.winchester, player: "p1"),
             .setAttribute(.weapon, value: 5, player: "p1")
         ])
     }

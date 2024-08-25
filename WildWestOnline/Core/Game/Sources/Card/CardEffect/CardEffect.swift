@@ -112,6 +112,9 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Runs the action matching `EffectContext.chosenOption`
     case matchAction([String: GameAction])
+
+    /// Play ability
+    case playAbility
 }
 
 public extension CardEffect {

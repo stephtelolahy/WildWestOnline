@@ -10,17 +10,6 @@ import GameCore
 import XCTest
 
 final class KitCarlsonTests: XCTestCase {
-    func test_kitCarlson_shouldHaveSpecialStartTurn() throws {
-        // Given
-        let state = Setup.buildGame(figures: [.kitCarlson], deck: [], cards: Cards.all)
-
-        // When
-        let player = state.player(.kitCarlson)
-
-        // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
-    }
-
     func test_kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -43,7 +32,6 @@ final class KitCarlsonTests: XCTestCase {
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .chooseOne(.cardToPutBack, options: ["c1", "c2", "c3"], player: "p1"),
-            .choose("c2", player: "p1"),
             .putBack("c2", player: "p1")
         ])
     }
@@ -70,7 +58,6 @@ final class KitCarlsonTests: XCTestCase {
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .chooseOne(.cardToPutBack, options: ["c1", "c2", "c3"], player: "p1"),
-            .choose("c2", player: "p1"),
             .putBack("c2", player: "p1")
         ])
     }

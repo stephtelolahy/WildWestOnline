@@ -18,13 +18,12 @@ final class BarrelTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.barrel, player: "p1")
+        let action = GameAction.preparePlay(.barrel, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.barrel, player: "p1"),
-            .equip(.barrel, player: "p1")
+            .playEquipment(.barrel, player: "p1")
         ])
     }
 
@@ -43,15 +42,13 @@ final class BarrelTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
             .draw
         ])
     }
@@ -71,15 +68,13 @@ final class BarrelTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
             .draw,
             .damage(1, player: "p2")
         ])
@@ -100,15 +95,13 @@ final class BarrelTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
             .draw,
             .draw
         ])
@@ -129,15 +122,13 @@ final class BarrelTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
             .draw,
             .draw,
             .damage(1, player: "p2")
@@ -161,15 +152,13 @@ final class BarrelTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
             .draw
         ])
     }

@@ -18,7 +18,7 @@ final class EquipTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.equip("c1", player: "p1")
+        let action = GameAction.playEquipment("c1", player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then
@@ -39,7 +39,7 @@ final class EquipTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.equip("c-1", player: "p1")
+        let action = GameAction.playEquipment("c-1", player: "p1")
         XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
             XCTAssertEqual(error as? FieldState.Error, .cardAlreadyInPlay("c"))
         }

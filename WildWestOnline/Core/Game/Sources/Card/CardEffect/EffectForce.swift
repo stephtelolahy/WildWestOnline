@@ -16,7 +16,7 @@ struct EffectForce: EffectResolver {
 
             switch children {
             case .nothing:
-                return .push([.effect(otherwise, ctx: ctx)])
+                return .push([.prepareEffect(otherwise, ctx: ctx)])
 
             case .push(let children):
                 return try resolvePushChildren(children, state: state, ctx: ctx)
@@ -25,7 +25,7 @@ struct EffectForce: EffectResolver {
                 fatalError("unexpected")
             }
         } catch {
-            return .push([.effect(otherwise, ctx: ctx)])
+            return .push([.prepareEffect(otherwise, ctx: ctx)])
         }
     }
 
@@ -35,7 +35,7 @@ struct EffectForce: EffectResolver {
         ctx: EffectContext
     ) throws -> EffectOutput {
         if children.isEmpty {
-            return .push([.effect(otherwise, ctx: ctx)])
+            return .push([.prepareEffect(otherwise, ctx: ctx)])
         } else if children.count == 1 {
             let action = children[0]
             switch action {
@@ -50,17 +50,17 @@ struct EffectForce: EffectResolver {
             }
         } else if children.count == 2 {
             if case .chooseOne(let type, var options, let player) = children[0],
-               case let .effect(childEffect, childCtx) = children[1],
+               case let .prepareEffect(childEffect, childCtx) = children[1],
                case var .matchAction(actions) = childEffect {
                 options.append(.pass)
-                actions[.pass] = .effect(otherwise, ctx: childCtx)
+                actions[.pass] = .prepareEffect(otherwise, ctx: childCtx)
 
                 let chooseOne = GameAction.chooseOne(
                     type,
                     options: options,
                     player: player
                 )
-                let match = GameAction.effect(
+                let match = GameAction.prepareEffect(
                     .matchAction(actions),
                     ctx: childCtx
                 )

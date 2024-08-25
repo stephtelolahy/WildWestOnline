@@ -20,13 +20,12 @@ final class SchofieldTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.schofield, player: "p1")
+        let action = GameAction.preparePlay(.schofield, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.schofield, player: "p1"),
-            .equip(.schofield, player: "p1"),
+            .playEquipment(.schofield, player: "p1"),
             .setAttribute(.weapon, value: 2, player: "p1")
         ])
     }
@@ -43,13 +42,12 @@ final class SchofieldTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.schofield, player: "p1")
+        let action = GameAction.preparePlay(.schofield, player: "p1")
         let result = try awaitAction(action, state: state)
 
         // Then
         XCTAssertEqual(result, [
-            .play(.schofield, player: "p1"),
-            .equip(.schofield, player: "p1"),
+            .playEquipment(.schofield, player: "p1"),
             .discardInPlay(.remington, player: "p1"),
             .setAttribute(.weapon, value: 2, player: "p1")
         ])

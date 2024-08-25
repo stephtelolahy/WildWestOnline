@@ -19,15 +19,13 @@ final class JailTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.play(.jail, player: "p1")
+        let action = GameAction.preparePlay(.jail, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
         XCTAssertEqual(result, [
-            .play(.jail, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
-            .choose("p2", player: "p1"),
-            .handicap(.jail, target: "p2", player: "p1")
+            .playHandicap(.jail, target: "p2", player: "p1")
         ])
     }
 

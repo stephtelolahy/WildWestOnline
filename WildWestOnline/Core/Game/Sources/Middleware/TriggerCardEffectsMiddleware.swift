@@ -16,7 +16,7 @@ extension Middlewares {
             // active players
             for player in state.round.playOrder {
                 let playerObj = state.player(player)
-                let triggerableCards = state.field.inPlay.getOrEmpty(player) + playerObj.abilities
+                let triggerableCards = state.field.inPlay.get(player) + playerObj.abilities
                 for card in triggerableCards {
                     let actions = state.triggeredEffects(by: card, player: player, event: action)
                     triggered.append(contentsOf: actions)
@@ -73,7 +73,7 @@ private extension GameState {
                 sourceCard: card
             )
 
-            actions.append(.effect(rule.effect, ctx: ctx))
+            actions.append(.prepareEffect(rule.effect, ctx: ctx))
         }
 
         return actions
@@ -82,8 +82,8 @@ private extension GameState {
     func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {
         let state = self
         return actions.sorted { action1, action2 in
-            guard case let .effect(_, ctx1) = action1,
-                  case let .effect(_, ctx2) = action2,
+            guard case let .prepareEffect(_, ctx1) = action1,
+                  case let .prepareEffect(_, ctx2) = action2,
                   let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
                   let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
                 fatalError("invalid triggered effect")
