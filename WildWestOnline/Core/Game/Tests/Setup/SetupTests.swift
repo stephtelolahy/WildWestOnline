@@ -68,5 +68,9 @@ final class SetupTests: XCTestCase {
         XCTAssertEqual(state.player("p2").abilities, ["p2"])
         XCTAssertEqual(state.player("p2").attributes[.remoteness], 1)
         XCTAssertEqual(state.player("p2").attributes[.maxHealth], 3)
+
+        // should initialize inPlay field
+        XCTAssertNotNil(state.field.inPlay["p1"])
+        XCTAssertNotNil(state.field.inPlay["p2"])
     }
 }
