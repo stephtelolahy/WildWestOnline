@@ -120,8 +120,8 @@ private extension GameState {
             let playerObj = player(playerId)
             let health = max(0, playerObj.health)
             let maxHealth = playerObj.attributes[.maxHealth] ?? 0
-            let handCount = field.hand.getOrEmpty(playerId).count
-            let equipment = field.inPlay.getOrEmpty(playerId)
+            let handCount = field.hand.get(playerId).count
+            let equipment = field.inPlay.get(playerId)
             let isTurn = playerId == round.turn
             let isEliminated = !round.playOrder.contains(playerId)
             let isTargeted = sequence.queue.contains { $0.isEffectTargeting(playerId) }
@@ -171,7 +171,7 @@ private extension GameState {
 
         let activeCards = sequence.active[playerId] ?? []
 
-        let hand = field.hand.getOrEmpty(playerId).map { card in
+        let hand = field.hand.get(playerId).map { card in
             GameView.State.HandCard(
                 card: card,
                 active: activeCards.contains(card)

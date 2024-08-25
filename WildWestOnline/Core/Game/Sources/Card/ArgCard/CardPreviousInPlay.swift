@@ -11,7 +11,7 @@ struct CardPreviousInPlay: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         let owner = ctx.targetOrActor()
         var matchedCards: [String] = []
-        let inPlayCards = state.field.inPlay.getOrEmpty(owner)
+        let inPlayCards = state.field.inPlay.get(owner)
         for card in inPlayCards {
             let cardName = card.extractName()
             if let cardObj = state.cards[cardName],

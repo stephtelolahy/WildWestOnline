@@ -10,7 +10,7 @@ struct EffectPlayCounterShootCards: EffectResolver {
         let actor = ctx.sourceActor
         let playReqContext = PlayReqContext(actor: ctx.sourceActor, event: ctx.sourceEvent)
 
-        let counterCards = state.field.hand.getOrEmpty(actor).filter {
+        let counterCards = state.field.hand.get(actor).filter {
             Self.isCounterShootCard(
                 $0,
                 player: ctx.sourceActor,
