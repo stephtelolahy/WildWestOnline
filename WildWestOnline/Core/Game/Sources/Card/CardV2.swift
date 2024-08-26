@@ -238,7 +238,6 @@ public struct Effect: Equatable, Codable {
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
             case playerAttr(PlayerAttribute)
-            case add(Int, attr: PlayerAttribute)
             case arg(ActionArgument)
             case value(Int)
         }
