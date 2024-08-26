@@ -52,8 +52,8 @@ public indirect enum GameAction: Codable, Equatable {
     /// Pass inPlay card on target's inPlay
     case passInPlay(String, target: String, player: String)
 
-    /// Discover deck card
-    case discover
+    /// Discover deck cards
+    case discoverDeck([String])
 
     /// Flip top deck card and put to discard
     case draw
@@ -94,6 +94,10 @@ public indirect enum GameAction: Codable, Equatable {
     case prepareEffect(CardEffect, ctx: EffectContext)
 
     // MARK: - Deprecated
+
+    /// Discover deck card
+    @available(*, deprecated, renamed: "discoverDeck")
+    case discover
 
     /// Draw cards from arena
     @available(*, deprecated, renamed: "drawDeckCard")
