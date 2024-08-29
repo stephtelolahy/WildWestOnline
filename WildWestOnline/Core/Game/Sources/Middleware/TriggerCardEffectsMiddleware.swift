@@ -37,13 +37,11 @@ extension Middlewares {
             triggered = state.sortedByPriority(triggered)
 
             // return triggered effect(s)
-            if triggered.isEmpty {
+            guard triggered.isNotEmpty else {
                 return nil
-            } else if triggered.count == 1 {
-                return triggered[0]
-            } else {
-                return GameAction.group(triggered)
             }
+
+            return .queue(triggered)
         }
     }
 }

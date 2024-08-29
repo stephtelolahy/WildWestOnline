@@ -71,7 +71,7 @@ struct EffectChallenge: EffectResolver {
                     ctx: contextWithReversedTarget
                 )
                 actions = actions.mapValues {
-                    GameAction.group([$0, reversedChallenge])
+                    GameAction.queue([$0, reversedChallenge])
                 }
 
                 options.append(.pass)

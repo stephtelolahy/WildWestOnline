@@ -204,7 +204,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingGroup() {
         XCTAssertEqual(
-            String(describing: GameAction.group([.draw])),
+            String(describing: GameAction.queue([.draw])),
             "➡️ [🎲]"
         )
     }

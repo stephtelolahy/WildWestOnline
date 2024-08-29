@@ -92,7 +92,7 @@ extension GameAction: CustomStringConvertible {
         case let .prepareEffect(effect, _):
             "➡️ \(effect)"
 
-        case let .group(actions):
+        case let .queue(actions):
             "➡️ \(actions)"
 
         default:

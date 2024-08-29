@@ -93,6 +93,9 @@ public indirect enum GameAction: Codable, Equatable {
     /// Resolve an effect
     case prepareEffect(CardEffect, ctx: EffectContext)
 
+    /// Queue actions
+    case queue([Self])
+
     // MARK: - Deprecated
 
     /// Discover deck card
@@ -106,16 +109,12 @@ public indirect enum GameAction: Codable, Equatable {
     /// Put back hand card to deck
     @available(*, deprecated, renamed: "drawDeckCard")
     case putBack(String, player: String)
-
-    /// Push actions
-    @available(*, deprecated, message: "remove")
-    case group([Self])
 }
 
 // MARK: - Convenience
 
 public extension GameAction {
-    static let nothing: Self = .group([])
+    static let nothing: Self = .queue([])
 }
 
 public extension GameAction {
@@ -125,7 +124,7 @@ public extension GameAction {
         case .preparePlay,
              .prepareChoose,
              .prepareEffect,
-             .group:
+             .queue:
             false
 
         default:
