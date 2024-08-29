@@ -32,7 +32,7 @@ final class SetAttributeTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.removeAttribute(.magnifying, player: "p1")
+        let action = GameAction.setAttribute(.magnifying, value: nil, player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then

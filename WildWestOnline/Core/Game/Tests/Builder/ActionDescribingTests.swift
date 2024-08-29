@@ -146,8 +146,8 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.removeAttribute(.magnifying, player: "p1")),
-            "😕 p1 magnifying"
+            String(describing: GameAction.setAttribute(.magnifying, value: nil, player: "p1")),
+            "😎 p1 magnifying /"
         )
     }
 

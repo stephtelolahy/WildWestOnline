@@ -1,6 +1,6 @@
 //
 //  CardV2.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 16/08/2024.
 //
@@ -27,26 +27,36 @@ public struct CardV2: Equatable, Codable {
     /// By default cards are playable during player's turn
     public let canPlay: Effect.PlayReq?
 
-    /// Ability to override another {card}'s action {argument}
-    public let abilityToUpdateCard: [String: [Effect.ActionArgument: Int]]
+    /// Passive ability to set player attributes
+    public let setAttribute: [PlayerAttribute: Int]
 
-    /// Ability to play a card {key} with another card {value}
-    public let abilityToPlayCardWith: [String: String]
+    /// Passive ability to increment player attributes
+    public let incrementAttribute: [PlayerAttribute: Int]
+
+    /// Passive ability to override another {card}'s action {argument}
+    public let setCardArgument: [String: [Effect.ActionArgument: Int]]
+
+    /// Passive ability to play a card {key} with another card {value}
+    public let playCardWith: [String: String]
 
     public init(
         name: String,
         desc: String,
         effects: [Effect] = [],
         canPlay: Effect.PlayReq? = nil,
-        abilityToUpdateCard: [String: [Effect.ActionArgument: Int]] = [:],
-        abilityToPlayCardWith: [String: String] = [:]
+        setAttribute: [PlayerAttribute: Int] = [:],
+        incrementAttribute: [PlayerAttribute: Int] = [:],
+        setCardArgument: [String: [Effect.ActionArgument: Int]] = [:],
+        playCardWith: [String: String] = [:]
     ) {
         self.name = name
         self.desc = desc
         self.effects = effects
         self.canPlay = canPlay
-        self.abilityToUpdateCard = abilityToUpdateCard
-        self.abilityToPlayCardWith = abilityToPlayCardWith
+        self.setAttribute = setAttribute
+        self.incrementAttribute = incrementAttribute
+        self.setCardArgument = setCardArgument
+        self.playCardWith = playCardWith
     }
 }
 
@@ -142,12 +152,6 @@ public struct Effect: Equatable, Codable {
         /// {actor} draws the last discarded card
         /// When a {card} is specified, this allow to draw a specific card
         case drawDiscard
-
-        /// set {actor}'s {attribute} to {value}
-        case setAttribute
-
-        /// increment {actor}'s {attribute} to {value}
-        case incrementAttribute
     }
 
     /// Arguments required for dispatching a specific action
@@ -170,9 +174,6 @@ public struct Effect: Equatable, Codable {
         /// determine affected card
         case card(Card)
         case chooseCard(CardCondition? = nil)
-
-        /// determine affected attribute
-        case attribute([PlayerAttribute: Int])
 
         /// determine other arguments
         case arg(ActionArgument, value: Number)

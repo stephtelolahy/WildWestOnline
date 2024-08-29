@@ -71,7 +71,7 @@ public indirect enum GameAction: Codable, Equatable {
     case eliminate(player: String)
 
     /// Set player attribute
-    case setAttribute(String, value: Int, player: String)
+    case setAttribute(String, value: Int?, player: String)
 
     /// End game
     case endGame(winner: String)
@@ -107,12 +107,8 @@ public indirect enum GameAction: Codable, Equatable {
     @available(*, deprecated, renamed: "drawDeckCard")
     case putBack(String, player: String)
 
-    /// Remove player attribute
-    @available(*, deprecated, renamed: "setAttribute")
-    case removeAttribute(String, player: String)
-
     /// Push actions
-    @available(*, deprecated, renamed: "remove")
+    @available(*, deprecated, message: "remove")
     case group([Self])
 }
 
