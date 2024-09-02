@@ -52,9 +52,6 @@ public indirect enum GameAction: Codable, Equatable {
     /// Pass inPlay card on target's inPlay
     case passInPlay(String, target: String, player: String)
 
-    /// Discover deck cards
-    case discoverDeck([String])
-
     /// Flip top deck card and put to discard
     case draw
 

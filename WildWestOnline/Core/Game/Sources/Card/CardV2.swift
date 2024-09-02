@@ -62,34 +62,9 @@ public struct CardV2: Equatable, Codable {
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct Effect: Equatable, Codable {
-    public let when: PlayReq
     public let action: ActionType
     public var selectors: [Selector]?
-
-    public indirect enum PlayReq: Equatable, Codable {
-        // events on actor
-        case played
-        case playedCardOutOfTurn
-        case playedCardWithName(String)
-        case playedCardWithAttr(PlayerAttribute)
-        case shot
-        case turnStarted
-        case turnEnded
-        case damaged
-        case damagedByCard(String)
-        case damagedLethal
-        case eliminated
-        case cardStolen
-        case cardDiscarded
-        case handEmpty
-
-        // events on another player
-        case otherEliminated
-        case otherDamaged
-        case otherDamagedByYourCard(String)
-        case otherMissedYourShoot(String)
-        case otherPlayedCard(String)
-    }
+    public let when: PlayReq
 
     /// An action is some kind of change triggered by user or by the system, that causes any update to the game state
     public enum ActionType: String, Codable {
@@ -255,14 +230,39 @@ public struct Effect: Equatable, Codable {
         }
     }
 
+    public indirect enum PlayReq: Equatable, Codable {
+        // events on actor
+        case played
+        case playedCardOutOfTurn
+        case playedCardWithName(String)
+        case playedCardWithAttr(PlayerAttribute)
+        case shot
+        case turnStarted
+        case turnEnded
+        case damaged
+        case damagedByCard(String)
+        case damagedLethal
+        case eliminated
+        case cardStolen
+        case cardDiscarded
+        case handEmpty
+
+        // events on another player
+        case otherEliminated
+        case otherDamaged
+        case otherDamagedByYourCard(String)
+        case otherMissedYourShoot(String)
+        case otherPlayedCard(String)
+    }
+
     public init(
-        when: PlayReq,
         action: ActionType,
-        selectors: [Selector]? = nil
+        selectors: [Selector]? = nil,
+        when: PlayReq = .played
     ) {
-        self.when = when
         self.action = action
         self.selectors = selectors
+        self.when = when
     }
 }
 
