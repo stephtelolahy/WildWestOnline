@@ -20,42 +20,43 @@ public struct CardV2: Equatable, Codable {
     /// Description
     public let desc: String
 
-    /// Actions that are triggered by this card an {event} occurrs
-    public let effects: [Effect]
-
     /// Allow to play this card only when an {event} occurs
     /// By default cards are playable during player's turn
     public let canPlay: Effect.PlayReq?
 
+    /// Actions that are triggered by this card an {event} occurrs
+    public let effects: [Effect]
+
     /// Passive ability to set player attributes
-    public let setAttribute: [PlayerAttribute: Int]
+    public let setPlayerAttribute: [PlayerAttribute: Int]
 
     /// Passive ability to increment player attributes
-    public let incrementAttribute: [PlayerAttribute: Int]
+    public let incPlayerAttribute: [PlayerAttribute: Int]
 
-    /// Passive ability to override another {card}'s action {argument}
-    public let setCardArgument: [String: [Effect.ActionArgument: Int]]
+    /// Passive ability to set another {card}'s attributes
+    public let setCardAttribute: [String: [CardAttribute: Int]]
 
     /// Passive ability to play a card {key} with another card {value}
+    @available(*, deprecated, renamed: "setAttribute")
     public let playCardWith: [String: String]
 
     public init(
         name: String,
         desc: String,
-        effects: [Effect] = [],
         canPlay: Effect.PlayReq? = nil,
-        setAttribute: [PlayerAttribute: Int] = [:],
-        incrementAttribute: [PlayerAttribute: Int] = [:],
-        setCardArgument: [String: [Effect.ActionArgument: Int]] = [:],
+        effects: [Effect] = [],
+        setPlayerAttribute: [PlayerAttribute: Int] = [:],
+        incPlayerAttribute: [PlayerAttribute: Int] = [:],
+        setCardAttribute: [String: [CardAttribute: Int]] = [:],
         playCardWith: [String: String] = [:]
     ) {
         self.name = name
         self.desc = desc
-        self.effects = effects
         self.canPlay = canPlay
-        self.setAttribute = setAttribute
-        self.incrementAttribute = incrementAttribute
-        self.setCardArgument = setCardArgument
+        self.effects = effects
+        self.setPlayerAttribute = setPlayerAttribute
+        self.incPlayerAttribute = incPlayerAttribute
+        self.setCardAttribute = setCardAttribute
         self.playCardWith = playCardWith
     }
 }
@@ -129,16 +130,6 @@ public struct Effect: Equatable, Codable {
         case drawDiscard
     }
 
-    /// Arguments required for dispatching a specific action
-    public enum ActionArgument: String, Codable {
-        case healAmount
-        case damageAmount
-        case repeatAmount
-        case discoverAmount
-        case shootRequiredMisses
-        case limitPerTurn
-    }
-
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
@@ -151,7 +142,7 @@ public struct Effect: Equatable, Codable {
         case chooseCard(CardCondition? = nil)
 
         /// determine other arguments
-        case arg(ActionArgument, value: Number)
+        case arg(CardAttribute, value: Number)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -214,7 +205,7 @@ public struct Effect: Equatable, Codable {
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
             case playerAttr(PlayerAttribute)
-            case arg(ActionArgument)
+            case arg(CardAttribute)
             case value(Int)
         }
 
@@ -230,6 +221,7 @@ public struct Effect: Equatable, Codable {
         }
     }
 
+    /// Triggering events for effects
     public indirect enum PlayReq: Equatable, Codable {
         // events on actor
         case played
@@ -275,4 +267,13 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
+}
+
+public enum CardAttribute: String, Codable {
+    case healAmount
+    case damageAmount
+    case repeatAmount
+    case discoverAmount
+    case shootRequiredMisses
+    case limitPerTurn
 }
