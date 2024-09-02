@@ -189,7 +189,7 @@ private extension CardsV2 {
                 .init(
                     action: .endTurn,
                     selectors: [
-                        .if(.actorTurn)
+                        .verify(.actorTurn)
                     ],
                     when: .eliminated
                 )
@@ -238,7 +238,7 @@ private extension CardsV2 {
                 .init(
                     action: .heal,
                     selectors: [
-                        .if(.playersAtLeast(3)),
+                        .verify(.playersAtLeast(3)),
                         .chooseCostHandCard(.named(.beer))
                     ],
                     when: .played
@@ -258,7 +258,7 @@ private extension CardsV2 {
                 .init(
                     action: .heal,
                     selectors: [
-                        .if(.playersAtLeast(3))
+                        .verify(.playersAtLeast(3))
                     ]
                 )
             ]
@@ -357,7 +357,7 @@ private extension CardsV2 {
                     action: .shoot,
                     selectors: [
                         .arg(.limitPerTurn, value: .value(1)),
-                        .if(.playedLessThan(.arg(.limitPerTurn))),
+                        .verify(.playedLessThan(.arg(.limitPerTurn))),
                         .chooseTarget([.atDistanceReachable]),
                         .arg(.shootRequiredMisses, value: .value(1)),
                         .arg(.damageAmount, value: .value(1))
@@ -531,7 +531,7 @@ private extension CardsV2 {
                 .init(
                     action: .endTurn,
                     selectors: [
-                        .if(.not(.draw("♥️")))
+                        .verify(.not(.draw("♥️")))
                     ],
                     when: .turnStarted
                 ),
@@ -559,7 +559,7 @@ private extension CardsV2 {
                 .init(
                     action: .missed,
                     selectors: [
-                        .if(.draw("♥️"))
+                        .verify(.draw("♥️"))
                     ],
                     when: .shot
                 )
@@ -580,7 +580,7 @@ private extension CardsV2 {
                 .init(
                     action: .handicap,
                     selectors: [
-                        .if(.not(.draw("[2-9]♠️"))),
+                        .verify(.not(.draw("[2-9]♠️"))),
                         .card(.played),
                         .target(.next)
                     ],
@@ -589,7 +589,7 @@ private extension CardsV2 {
                 .init(
                     action: .damage,
                     selectors: [
-                        .if(.draw("[2-9]♠️")),
+                        .verify(.draw("[2-9]♠️")),
                         .arg(.damageAmount, value: .value(3))
                     ],
                     when: .turnStarted
@@ -597,7 +597,7 @@ private extension CardsV2 {
                 .init(
                     action: .discard,
                     selectors: [
-                        .if(.draw("[2-9]♠️")),
+                        .verify(.draw("[2-9]♠️")),
                         .card(.played)
                     ],
                     when: .turnStarted
@@ -645,7 +645,7 @@ private extension CardsV2 {
                 .init(
                     action: .missed,
                     selectors: [
-                        .if(.draw("♥️"))
+                        .verify(.draw("♥️"))
                     ],
                     when: .shot
                 )
@@ -808,7 +808,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .if(.draw("(♥️)|(♦️)"))
+                        .verify(.draw("(♥️)|(♦️)"))
                     ],
                     when: .turnStarted
                 )
@@ -1096,7 +1096,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .if(.playedLessThan(.value(2)))
+                        .verify(.playedLessThan(.value(2)))
                     ],
                     when: .playedCardOutOfTurn
                 )
@@ -1113,7 +1113,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .if(.playedLessThan(.value(2))),
+                        .verify(.playedLessThan(.value(2))),
                         .chooseCostHandCard(.isBlue),
                         .repeat(.value(2))
                     ]
@@ -1148,7 +1148,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .if(.playedLessThan(.value(1))),
+                        .verify(.playedLessThan(.value(1))),
                         .chooseCostHandCard(count: 2),
                         .chooseTarget([.atDistanceReachable])
                     ]
@@ -1294,7 +1294,7 @@ private extension CardsV2 {
                     action: .shoot,
                     selectors: [
                         .arg(.limitPerTurn, value: .value(1)),
-                        .if(.playedLessThan(.arg(.limitPerTurn))),
+                        .verify(.playedLessThan(.arg(.limitPerTurn))),
                         .chooseTarget([.atDistanceReachable]),
                         .arg(.shootRequiredMisses, value: .value(1)),
                         .arg(.damageAmount, value: .value(1))
@@ -1326,7 +1326,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .if(.targetHealthIs1),
+                        .verify(.targetHealthIs1),
                         .repeat(.value(2))
                     ]
                 )
@@ -1367,7 +1367,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDiscard,
                     selectors: [
-                        .if(.discardedCardsNotAce),
+                        .verify(.discardedCardsNotAce),
                         .repeat(.value(2)),
                         .chooseCard(.discarded)
                     ]
@@ -1434,7 +1434,7 @@ private extension CardsV2 {
                 .init(
                     action: .damage,
                     selectors: [
-                        .if(.draw("♠️"))
+                        .verify(.draw("♠️"))
                     ],
                     when: .turnStarted
                 )
@@ -1470,7 +1470,7 @@ private extension CardsV2 {
                 .init(
                     action: .damage,
                     selectors: [
-                        .if(.draw("♠️")),
+                        .verify(.draw("♠️")),
                         .target(.targeted)
                     ],
                     when: .otherMissedYourShoot(.bang)
@@ -1534,7 +1534,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .if(.playedLessThan(.value(1))),
+                        .verify(.playedLessThan(.value(1))),
                         .chooseCostHandCard(.suits("♣️")),
                         .chooseTarget([.atDistanceReachable])
                     ]
@@ -1551,7 +1551,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .if(.playedLessThan(.value(1))),
+                        .verify(.playedLessThan(.value(1))),
                         .chooseCostHandCard(.named(.bang)),
                         .target(.others)
                     ]
@@ -1568,7 +1568,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .if(.hasNoBlueCardsInPlay),
+                        .verify(.hasNoBlueCardsInPlay),
                         .repeat(.value(2))
                     ],
                     when: .turnStarted

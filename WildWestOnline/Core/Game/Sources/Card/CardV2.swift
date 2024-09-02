@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 16/08/2024.
 //
-// swiftlint:disable type_contents_order identifier_name nesting discouraged_optional_collection
+// swiftlint:disable type_contents_order nesting discouraged_optional_collection
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
@@ -24,7 +24,7 @@ public struct CardV2: Equatable, Codable {
     /// By default cards are playable during player's turn
     public let canPlay: Effect.PlayReq?
 
-    /// Actions that are triggered by this card an {event} occurrs
+    /// Actions that are triggered by this card
     public let effects: [Effect]
 
     /// Passive ability to set player attributes
@@ -148,7 +148,7 @@ public struct Effect: Equatable, Codable {
         case `repeat`(Number)
 
         /// must match given condition
-        case `if`(StateCondition)
+        case verify(StateCondition)
 
         /// must `discard` hand card
         case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
