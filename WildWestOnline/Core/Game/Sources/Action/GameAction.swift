@@ -52,9 +52,6 @@ public indirect enum GameAction: Codable, Equatable {
     /// Pass inPlay card on target's inPlay
     case passInPlay(String, target: String, player: String)
 
-    /// Discover deck card
-    case discover
-
     /// Flip top deck card and put to discard
     case draw
 
@@ -71,7 +68,7 @@ public indirect enum GameAction: Codable, Equatable {
     case eliminate(player: String)
 
     /// Set player attribute
-    case setAttribute(String, value: Int, player: String)
+    case setAttribute(String, value: Int?, player: String)
 
     /// End game
     case endGame(winner: String)
@@ -84,16 +81,23 @@ public indirect enum GameAction: Codable, Equatable {
 
     // MARK: - Invisible
 
-    /// Move to play a card
+    /// Move: play a card
     case preparePlay(String, player: String)
 
-    /// Move to choose an option
+    /// Move: choose an option
     case prepareChoose(String, player: String)
 
     /// Resolve an effect
     case prepareEffect(CardEffect, ctx: EffectContext)
 
+    /// Queue actions
+    case queue([Self])
+
     // MARK: - Deprecated
+
+    /// Discover deck card
+    @available(*, deprecated, renamed: "discoverDeck")
+    case discover
 
     /// Draw cards from arena
     @available(*, deprecated, renamed: "drawDeckCard")
@@ -102,20 +106,12 @@ public indirect enum GameAction: Codable, Equatable {
     /// Put back hand card to deck
     @available(*, deprecated, renamed: "drawDeckCard")
     case putBack(String, player: String)
-
-    /// Remove player attribute
-    @available(*, deprecated, renamed: "setAttribute")
-    case removeAttribute(String, player: String)
-
-    /// Push actions
-    @available(*, deprecated, renamed: "remove")
-    case group([Self])
 }
 
 // MARK: - Convenience
 
 public extension GameAction {
-    static let nothing: Self = .group([])
+    static let nothing: Self = .queue([])
 }
 
 public extension GameAction {
@@ -125,7 +121,7 @@ public extension GameAction {
         case .preparePlay,
              .prepareChoose,
              .prepareEffect,
-             .group:
+             .queue:
             false
 
         default:

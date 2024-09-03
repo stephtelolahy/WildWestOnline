@@ -25,11 +25,7 @@ struct EffectUpdateAttributes: EffectResolver {
 
             let actualValue = playerObj.attributes[key]
             if actualValue != expectedValue {
-                if let expectedValue {
-                    children.append(.setAttribute(key, value: expectedValue, player: player))
-                } else {
-                    children.append(.removeAttribute(key, player: player))
-                }
+                children.append(.setAttribute(key, value: expectedValue, player: player))
             }
         }
 

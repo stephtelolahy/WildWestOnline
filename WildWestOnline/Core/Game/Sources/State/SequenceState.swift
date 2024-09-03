@@ -65,6 +65,7 @@ public struct ChooseOne: Codable, Equatable {
 }
 
 /// ChooseOne context
+@available(*, deprecated, renamed: "ActionType")
 public enum ChoiceType: String, Codable, Equatable {
     case target
     case cardToDraw
@@ -124,8 +125,8 @@ public extension SequenceState {
         case .eliminate:
             try eliminateReducer(state.sequence, action)
 
-        case .group:
-            try groupReducer(state.sequence, action)
+        case .queue:
+            try queueReducer(state.sequence, action)
 
         case .preparePlay:
             try playReducer(state, action)
@@ -324,8 +325,8 @@ private extension SequenceState {
         return sequence
     }
 
-    static let groupReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .group(children) = action else {
+    static let queueReducer: Reducer<Self, GameAction> = { state, action in
+        guard case let .queue(children) = action else {
             fatalError("unexpected")
         }
 

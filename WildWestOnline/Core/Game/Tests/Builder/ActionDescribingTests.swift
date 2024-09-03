@@ -146,8 +146,8 @@ final class ActionDescribingTests: XCTestCase {
         )
 
         XCTAssertEqual(
-            String(describing: GameAction.removeAttribute(.magnifying, player: "p1")),
-            "😕 p1 magnifying"
+            String(describing: GameAction.setAttribute(.magnifying, value: nil, player: "p1")),
+            "😎 p1 magnifying /"
         )
     }
 
@@ -204,7 +204,7 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingGroup() {
         XCTAssertEqual(
-            String(describing: GameAction.group([.draw])),
+            String(describing: GameAction.queue([.draw])),
             "➡️ [🎲]"
         )
     }

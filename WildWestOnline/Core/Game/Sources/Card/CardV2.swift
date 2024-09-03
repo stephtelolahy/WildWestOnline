@@ -1,10 +1,10 @@
 //
 //  CardV2.swift
-//  
+//
 //
 //  Created by Hugues Telolahy on 16/08/2024.
 //
-// swiftlint:disable type_contents_order identifier_name nesting discouraged_optional_collection
+// swiftlint:disable type_contents_order nesting discouraged_optional_collection
 
 /// We are working on a Card Definition Language that will allow people to create new cards,
 /// not currently in the game and see how they play.
@@ -20,66 +20,41 @@ public struct CardV2: Equatable, Codable {
     /// Description
     public let desc: String
 
-    /// Actions that are triggered by this card an {event} occurrs
-    public let effects: [Effect]
+    /// Passive ability to set player attributes
+    public let setPlayerAttribute: [PlayerAttribute: Int]
+
+    /// Passive ability to set some {card}'s attributes
+    public let setCardAttribute: [String: [CardAttribute: Int]]
 
     /// Allow to play this card only when an {event} occurs
     /// By default cards are playable during player's turn
     public let canPlay: Effect.PlayReq?
 
-    /// Ability to override another {card}'s action {argument}
-    public let abilityToUpdateCard: [String: [Effect.ActionArgument: Int]]
-
-    /// Ability to play a card {key} with another card {value}
-    public let abilityToPlayCardWith: [String: String]
+    /// Triggered action when a event occurred
+    public let effects: [Effect]
 
     public init(
         name: String,
         desc: String,
-        effects: [Effect] = [],
+        setPlayerAttribute: [PlayerAttribute: Int] = [:],
+        setCardAttribute: [String: [CardAttribute: Int]] = [:],
         canPlay: Effect.PlayReq? = nil,
-        abilityToUpdateCard: [String: [Effect.ActionArgument: Int]] = [:],
-        abilityToPlayCardWith: [String: String] = [:]
+        effects: [Effect] = []
     ) {
         self.name = name
         self.desc = desc
-        self.effects = effects
+        self.setPlayerAttribute = setPlayerAttribute
+        self.setCardAttribute = setCardAttribute
         self.canPlay = canPlay
-        self.abilityToUpdateCard = abilityToUpdateCard
-        self.abilityToPlayCardWith = abilityToPlayCardWith
+        self.effects = effects
     }
 }
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct Effect: Equatable, Codable {
-    public let when: PlayReq
     public let action: ActionType
     public var selectors: [Selector]?
-
-    public indirect enum PlayReq: Equatable, Codable {
-        // events on actor
-        case played
-        case playedCardOutOfTurn
-        case playedCardWithName(String)
-        case playedCardWithAttr(PlayerAttribute)
-        case shot
-        case turnStarted
-        case turnEnded
-        case damaged
-        case damagedByCard(String)
-        case damagedLethal
-        case eliminated
-        case cardStolen
-        case cardDiscarded
-        case handEmpty
-
-        // events on another player
-        case otherEliminated
-        case otherDamaged
-        case otherDamagedByYourCard(String)
-        case otherMissedYourShoot(String)
-        case otherPlayedCard(String)
-    }
+    public let when: PlayReq
 
     /// An action is some kind of change triggered by user or by the system, that causes any update to the game state
     public enum ActionType: String, Codable {
@@ -143,21 +118,8 @@ public struct Effect: Equatable, Codable {
         /// When a {card} is specified, this allow to draw a specific card
         case drawDiscard
 
-        /// set {actor}'s {attribute} to {value}
-        case setAttribute
-
-        /// increment {actor}'s {attribute} to {value}
-        case incrementAttribute
-    }
-
-    /// Arguments required for dispatching a specific action
-    public enum ActionArgument: String, Codable {
-        case healAmount
-        case damageAmount
-        case repeatAmount
-        case discoverAmount
-        case shootRequiredMisses
-        case limitPerTurn
+        /// Counter card effect targetting self
+        case counter
     }
 
     /// Selectors are used to specify which objects an aura or effect should affect.
@@ -171,17 +133,14 @@ public struct Effect: Equatable, Codable {
         case card(Card)
         case chooseCard(CardCondition? = nil)
 
-        /// determine affected attribute
-        case attribute([PlayerAttribute: Int])
-
         /// determine other arguments
-        case arg(ActionArgument, value: Number)
+        case set(CardAttribute, value: Number)
 
         /// multiply effect x times
         case `repeat`(Number)
 
         /// must match given condition
-        case `if`(StateCondition)
+        case verify(StateCondition)
 
         /// must `discard` hand card
         case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
@@ -235,17 +194,14 @@ public struct Effect: Equatable, Codable {
         public enum Number: Equatable, Codable {
             case activePlayers
             case excessHand
-            case damage // damage compared to maxHealth
-            case lastDamage // amount from last damage event
-            case playerAttr(PlayerAttribute)
-            case add(Int, attr: PlayerAttribute)
-            case arg(ActionArgument)
+            case wound
+            case damage
             case value(Int)
         }
 
         public indirect enum StateCondition: Equatable, Codable {
             case playersAtLeast(Int)
-            case playedLessThan(Number)
+            case limitPerTurn(Int)
             case draw(String)
             case actorTurn
             case discardedCardsNotAce
@@ -255,14 +211,41 @@ public struct Effect: Equatable, Codable {
         }
     }
 
+    /// Triggering events for effects
+    public indirect enum PlayReq: Equatable, Codable {
+        // events on actor
+        case played
+        case playedCardOutOfTurn
+        case playedCardWithName(String)
+        case playedCardWithAttr(PlayerAttribute)
+        case shot
+        case turnStarted
+        case turnEnded
+        case damaged
+        case damagedByCard(String)
+        case damagedLethal
+        case eliminated
+        case cardStolen
+        case cardDiscarded
+        case handEmpty
+        case targetedWithCardOthertThan(String)
+
+        // events on another player
+        case otherEliminated
+        case otherDamaged
+        case otherDamagedByYourCard(String)
+        case otherMissedYourShoot(String)
+        case otherPlayedCard(String)
+    }
+
     public init(
-        when: PlayReq,
         action: ActionType,
-        selectors: [Selector]? = nil
+        selectors: [Selector]? = nil,
+        when: PlayReq = .played
     ) {
-        self.when = when
         self.action = action
         self.selectors = selectors
+        self.when = when
     }
 }
 
@@ -270,9 +253,23 @@ public enum PlayerAttribute: String, Codable {
     case maxHealth
     case drawCards
     case weapon
-    case magnifying
-    case remoteness
     case handLimit
-    case silentCardsDiamonds
-    case silentCardsInPlayDuringTurn
+    case additionalMagnifying
+    case additionalRemoteness
+    case ghost // player cannot be killed but leave the game immediately after his turn
+}
+
+public enum CardAttribute: String, Codable {
+    case healAmount
+    case damageAmount
+    case discoverAmount
+    case shootRequiredMisses
+    case playableAsBang
+    case playableAsMissed
+    case labeledAsBang
+    case eventuallySilent
+    case silent
+    case playedByOtherHasNoEffect
+    case inPlayOfOtherHasNoEffect
+    case ignoreLimitPerTurn
 }

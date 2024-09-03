@@ -46,7 +46,7 @@ final class ScopeTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [
             .discardInPlay(.scope, player: "p1"),
-            .removeAttribute(.magnifying, player: "p1")
+            .setAttribute(.magnifying, value: nil, player: "p1")
         ])
     }
 }

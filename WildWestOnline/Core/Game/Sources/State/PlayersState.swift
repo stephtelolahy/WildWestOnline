@@ -43,9 +43,6 @@ public extension PlayersState {
         case .setAttribute:
             try setAttributeReducer(state, action)
 
-        case .removeAttribute:
-            try removeAttributeReducer(state, action)
-
         default:
             state
         }
@@ -90,16 +87,6 @@ private extension PlayersState {
 
         var state = state
         state[keyPath: \Self[player]]?.setValue(value, forAttribute: key)
-        return state
-    }
-
-    static let removeAttributeReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .removeAttribute(key, player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state[keyPath: \Self[player]]?.setValue(nil, forAttribute: key)
         return state
     }
 }
