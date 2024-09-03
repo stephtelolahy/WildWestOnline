@@ -20,18 +20,18 @@ public struct CardV2: Equatable, Codable {
     /// Description
     public let desc: String
 
+    /// Passive ability to set player attributes
+    public let setPlayerAttribute: [PlayerAttribute: Int]
+
+    /// Passive ability to set some {card}'s attributes
+    public let setCardAttribute: [String: [CardAttribute: Int]]
+
     /// Allow to play this card only when an {event} occurs
     /// By default cards are playable during player's turn
     public let canPlay: Effect.PlayReq?
 
     /// Triggered action when a event occurred
     public let effects: [Effect]
-
-    /// Passive ability to set player attributes
-    public let setPlayerAttribute: [PlayerAttribute: Int]
-
-    /// Passive ability to set some {card}'s attributes
-    public let setCardAttribute: [String: [CardAttribute: Int]]
 
     public init(
         name: String,
@@ -43,10 +43,10 @@ public struct CardV2: Equatable, Codable {
     ) {
         self.name = name
         self.desc = desc
-        self.canPlay = canPlay
-        self.effects = effects
         self.setPlayerAttribute = setPlayerAttribute
         self.setCardAttribute = setCardAttribute
+        self.canPlay = canPlay
+        self.effects = effects
     }
 }
 
@@ -131,8 +131,7 @@ public struct Effect: Equatable, Codable {
         case chooseCard(CardCondition? = nil)
 
         /// determine other arguments
-        @available(*, deprecated, renamed: "attribute")
-        case arg(CardAttribute, value: Number)
+        case set(CardAttribute, value: Number)
 
         /// multiply effect x times
         case `repeat`(Number)
@@ -192,16 +191,14 @@ public struct Effect: Equatable, Codable {
         public enum Number: Equatable, Codable {
             case activePlayers
             case excessHand
-            case damage // damage compared to maxHealth
-            case lastDamage // amount from last damage event
-            case playerAttr(PlayerAttribute)
-            case cardAttr(CardAttribute)
+            case wound
+            case damage
             case value(Int)
         }
 
         public indirect enum StateCondition: Equatable, Codable {
             case playersAtLeast(Int)
-            case limitPerTurn(Number)
+            case limitPerTurn(Int)
             case draw(String)
             case actorTurn
             case discardedCardsNotAce

@@ -355,7 +355,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.limitPerTurn(.value(1))),
+                        .verify(.limitPerTurn(1)),
                         .chooseTarget([.atDistanceReachable])
                     ]
                 )
@@ -436,7 +436,7 @@ private extension CardsV2 {
                 .init(
                     action: .discover,
                     selectors: [
-                        .arg(.discoverAmount, value: .activePlayers)
+                        .set(.discoverAmount, value: .activePlayers)
                     ]
                 ),
                 .init(
@@ -586,7 +586,7 @@ private extension CardsV2 {
                     action: .damage,
                     selectors: [
                         .verify(.draw("[2-9]♠️")),
-                        .arg(.damageAmount, value: .value(3))
+                        .set(.damageAmount, value: .value(3))
                     ],
                     when: .turnStarted
                 ),
@@ -656,7 +656,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.lastDamage)
+                        .repeat(.damage)
                     ],
                     when: .damaged
                 )
@@ -674,7 +674,7 @@ private extension CardsV2 {
                     action: .steal,
                     selectors: [
                         .target(.offender),
-                        .repeat(.lastDamage)
+                        .repeat(.damage)
                     ],
                     when: .damaged
                 )
@@ -768,7 +768,7 @@ private extension CardsV2 {
                 .init(
                     action: .discover,
                     selectors: [
-                        .arg(.discoverAmount, value: .value(3))
+                        .set(.discoverAmount, value: .value(3))
                     ],
                     when: .turnStarted
                 ),
@@ -934,7 +934,7 @@ private extension CardsV2 {
                     action: .heal,
                     selectors: [
                         .chooseCostHandCard(),
-                        .arg(.healAmount, value: .value(2))
+                        .set(.healAmount, value: .value(2))
                     ]
                 )
             ]
@@ -1051,7 +1051,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .repeat(.damage)
+                        .repeat(.wound)
                     ],
                     when: .turnStarted
                 )
@@ -1069,7 +1069,7 @@ private extension CardsV2 {
                 .init(
                     action: .heal,
                     selectors: [
-                        .arg(.healAmount, value: .value(2))
+                        .set(.healAmount, value: .value(2))
                     ],
                     when: .otherEliminated
                 )
@@ -1103,7 +1103,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .verify(.limitPerTurn(.value(2)))
+                        .verify(.limitPerTurn(2))
                     ],
                     when: .playedCardOutOfTurn
                 )
@@ -1120,7 +1120,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .verify(.limitPerTurn(.value(2))),
+                        .verify(.limitPerTurn(2)),
                         .chooseCostHandCard(.isBlue),
                         .repeat(.value(2))
                     ]
@@ -1155,7 +1155,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.limitPerTurn(.value(1))),
+                        .verify(.limitPerTurn(1)),
                         .chooseCostHandCard(count: 2),
                         .chooseTarget([.atDistanceReachable])
                     ]
@@ -1203,7 +1203,7 @@ private extension CardsV2 {
     }
 
     static var veraCuster: CardV2 {
-        // ⚠️ TODO: set abilities for a round
+        // ⚠️ TODO: choose temporary ability
         .init(
             name: .veraCuster,
             desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
@@ -1292,7 +1292,7 @@ private extension CardsV2 {
     }
 
     static var faning: CardV2 {
-        // ⚠️ TODO: count this as another card
+        // ⚠️ TODO: count play as another card
         .init(
             name: .faning,
             desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
@@ -1301,7 +1301,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.limitPerTurn(.value(1))),
+                        .verify(.limitPerTurn(1)),
                         .chooseTarget([.atDistanceReachable])
                     ]
                 ),
@@ -1549,7 +1549,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.limitPerTurn(.value(1))),
+                        .verify(.limitPerTurn(1)),
                         .chooseCostHandCard(.suits("♣️")),
                         .chooseTarget([.atDistanceReachable])
                     ]
@@ -1566,7 +1566,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.limitPerTurn(.value(1))),
+                        .verify(.limitPerTurn(1)),
                         .chooseCostHandCard(.named(.bang)),
                         .target(.others)
                     ]
