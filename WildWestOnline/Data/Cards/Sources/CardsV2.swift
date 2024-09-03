@@ -239,8 +239,7 @@ private extension CardsV2 {
                     selectors: [
                         .verify(.playersAtLeast(3)),
                         .chooseCostHandCard(.named(.beer))
-                    ],
-                    when: .played
+                    ]
                 )
             ]
         )
