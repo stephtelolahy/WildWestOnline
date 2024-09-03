@@ -255,6 +255,7 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
     case additionalMagnifying
     case additionalRemoteness
+    case ghost
 }
 
 public enum CardAttribute: String, Codable {

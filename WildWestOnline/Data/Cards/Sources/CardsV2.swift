@@ -1456,10 +1456,10 @@ private extension CardsV2 {
     }
 
     static var ghost: CardV2 {
-        // ⚠️ TODO: player without health
         .init(
             name: .ghost,
-            desc: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player."
+            desc: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player.",
+            setPlayerAttribute: [.ghost: 0]
         )
     }
 
