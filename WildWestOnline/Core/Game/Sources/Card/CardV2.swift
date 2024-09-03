@@ -201,7 +201,7 @@ public struct Effect: Equatable, Codable {
 
         public indirect enum StateCondition: Equatable, Codable {
             case playersAtLeast(Int)
-            case playedLessThan(Number)
+            case limitPerTurn(Number)
             case draw(String)
             case actorTurn
             case discardedCardsNotAce
@@ -252,15 +252,9 @@ public enum PlayerAttribute: String, Codable {
     case maxHealth
     case drawCards
     case weapon
-    case magnifying
-    case remoteness
     case handLimit
-
     case additionalMagnifying
     case additionalRemoteness
-
-    case silentCardsDiamonds
-    case silentCardsInPlayDuringTurn
 }
 
 public enum CardAttribute: String, Codable {
@@ -268,11 +262,11 @@ public enum CardAttribute: String, Codable {
     case damageAmount
     case discoverAmount
     case shootRequiredMisses
-    case limitPerTurn
-
     case playableAsBang
     case playableAsMissed
-
     case eventuallySilent
     case silent
+    case playedByOtherHasNoEffect
+    case inPlayOfOtherHasNoEffect
+    case ignoreLimitPerTurn
 }

@@ -355,11 +355,8 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .arg(.limitPerTurn, value: .value(1)),
-                        .verify(.playedLessThan(.cardAttr(.limitPerTurn))),
-                        .chooseTarget([.atDistanceReachable]),
-                        .arg(.shootRequiredMisses, value: .value(1)),
-                        .arg(.damageAmount, value: .value(1))
+                        .verify(.limitPerTurn(.value(1))),
+                        .chooseTarget([.atDistanceReachable])
                     ]
                 )
             ]
@@ -495,7 +492,7 @@ private extension CardsV2 {
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             effects: [.equip],
             setPlayerAttribute: [.weapon: 1],
-            setCardAttribute: [.bang: [.limitPerTurn: 0]]
+            setCardAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
         )
     }
 
@@ -610,7 +607,7 @@ private extension CardsV2 {
             name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.bang: [.limitPerTurn: 0]]
+            setCardAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
         )
     }
 
@@ -1106,7 +1103,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .verify(.playedLessThan(.value(2)))
+                        .verify(.limitPerTurn(.value(2)))
                     ],
                     when: .playedCardOutOfTurn
                 )
@@ -1123,7 +1120,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .verify(.playedLessThan(.value(2))),
+                        .verify(.limitPerTurn(.value(2))),
                         .chooseCostHandCard(.isBlue),
                         .repeat(.value(2))
                     ]
@@ -1158,7 +1155,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.playedLessThan(.value(1))),
+                        .verify(.limitPerTurn(.value(1))),
                         .chooseCostHandCard(count: 2),
                         .chooseTarget([.atDistanceReachable])
                     ]
@@ -1172,7 +1169,8 @@ private extension CardsV2 {
         .init(
             name: .apacheKid,
             desc: "Cards of Diamond played by other players do not affect him",
-            setPlayerAttribute: [.maxHealth: 4, .silentCardsDiamonds: 0]
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: ["♦️": [.playedByOtherHasNoEffect: 0]]
         )
     }
 
@@ -1180,7 +1178,8 @@ private extension CardsV2 {
         .init(
             name: .belleStar,
             desc: "During her turn, cards in play in front of other players have no effect. ",
-            setPlayerAttribute: [.maxHealth: 4, .silentCardsInPlayDuringTurn: 0]
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: ["": [.inPlayOfOtherHasNoEffect: 0]]
         )
     }
 
@@ -1302,11 +1301,8 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .arg(.limitPerTurn, value: .value(1)),
-                        .verify(.playedLessThan(.cardAttr(.limitPerTurn))),
-                        .chooseTarget([.atDistanceReachable]),
-                        .arg(.shootRequiredMisses, value: .value(1)),
-                        .arg(.damageAmount, value: .value(1))
+                        .verify(.limitPerTurn(.value(1))),
+                        .chooseTarget([.atDistanceReachable])
                     ]
                 ),
                 .init(
@@ -1553,7 +1549,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.playedLessThan(.value(1))),
+                        .verify(.limitPerTurn(.value(1))),
                         .chooseCostHandCard(.suits("♣️")),
                         .chooseTarget([.atDistanceReachable])
                     ]
@@ -1570,7 +1566,7 @@ private extension CardsV2 {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.playedLessThan(.value(1))),
+                        .verify(.limitPerTurn(.value(1))),
                         .chooseCostHandCard(.named(.bang)),
                         .target(.others)
                     ]
