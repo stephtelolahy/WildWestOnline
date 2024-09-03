@@ -30,12 +30,8 @@ public struct CardV2: Equatable, Codable {
     /// Passive ability to set player attributes
     public let setPlayerAttribute: [PlayerAttribute: Int]
 
-    /// Passive ability to set another {card}'s attributes
+    /// Passive ability to set {card}'s attributes
     public let setCardAttribute: [String: [CardAttribute: Int]]
-
-    /// Passive ability to play a card {key} with another card {value}
-    @available(*, deprecated, renamed: "setAttribute")
-    public let playCardWith: [String: String]
 
     public init(
         name: String,
@@ -43,8 +39,7 @@ public struct CardV2: Equatable, Codable {
         canPlay: Effect.PlayReq? = nil,
         effects: [Effect] = [],
         setPlayerAttribute: [PlayerAttribute: Int] = [:],
-        setCardAttribute: [String: [CardAttribute: Int]] = [:],
-        playCardWith: [String: String] = [:]
+        setCardAttribute: [String: [CardAttribute: Int]] = [:]
     ) {
         self.name = name
         self.desc = desc
@@ -52,7 +47,6 @@ public struct CardV2: Equatable, Codable {
         self.effects = effects
         self.setPlayerAttribute = setPlayerAttribute
         self.setCardAttribute = setCardAttribute
-        self.playCardWith = playCardWith
     }
 }
 
@@ -274,4 +268,7 @@ public enum CardAttribute: String, Codable {
     case discoverAmount
     case shootRequiredMisses
     case limitPerTurn
+
+    case playableAsBang
+    case playableAsMissed
 }

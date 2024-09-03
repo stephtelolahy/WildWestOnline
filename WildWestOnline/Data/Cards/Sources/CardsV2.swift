@@ -757,7 +757,10 @@ private extension CardsV2 {
             name: .calamityJanet,
             desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
             setPlayerAttribute: [.maxHealth: 4],
-            playCardWith: [.missed: .bang, .bang: .missed]
+            setCardAttribute: [
+                "missed": [.playableAsBang: 0],
+                "bang": [.playableAsMissed: 0]
+            ]
         )
     }
 
@@ -1004,7 +1007,7 @@ private extension CardsV2 {
             name: .elenaFuente,
             desc: "She may use any card in hand as Missed!.",
             setPlayerAttribute: [.maxHealth: 3],
-            playCardWith: [.missed: ""]
+            setCardAttribute: ["": [.playableAsMissed: 0]]
         )
     }
 
@@ -1379,7 +1382,7 @@ private extension CardsV2 {
             name: .lemat,
             desc: "gun, range 1: In your turn, you may use any card like BANG card.",
             setPlayerAttribute: [.weapon: 1],
-            playCardWith: [.bang: ""]
+            setCardAttribute: ["": [.playableAsBang: 0]]
         )
     }
 
