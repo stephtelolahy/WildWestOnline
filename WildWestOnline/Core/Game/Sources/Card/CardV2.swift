@@ -36,10 +36,10 @@ public struct CardV2: Equatable, Codable {
     public init(
         name: String,
         desc: String,
-        canPlay: Effect.PlayReq? = nil,
-        effects: [Effect] = [],
         setPlayerAttribute: [PlayerAttribute: Int] = [:],
-        setCardAttribute: [String: [CardAttribute: Int]] = [:]
+        setCardAttribute: [String: [CardAttribute: Int]] = [:],
+        canPlay: Effect.PlayReq? = nil,
+        effects: [Effect] = []
     ) {
         self.name = name
         self.desc = desc

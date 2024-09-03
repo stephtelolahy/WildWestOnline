@@ -454,8 +454,8 @@ private extension CardsV2 {
         .init(
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
-            effects: [.equip],
-            setPlayerAttribute: [.weapon: 2]
+            setPlayerAttribute: [.weapon: 2],
+            effects: [.equip]
         )
     }
 
@@ -463,8 +463,8 @@ private extension CardsV2 {
         .init(
             name: .remington,
             desc: "can hit targets at a distance of 3.",
-            effects: [.equip],
-            setPlayerAttribute: [.weapon: 3]
+            setPlayerAttribute: [.weapon: 3],
+            effects: [.equip]
         )
     }
 
@@ -472,8 +472,8 @@ private extension CardsV2 {
         .init(
             name: .revCarabine,
             desc: "can hit targets at a distance of 4.",
-            effects: [.equip],
-            setPlayerAttribute: [.weapon: 4]
+            setPlayerAttribute: [.weapon: 4],
+            effects: [.equip]
         )
     }
 
@@ -481,8 +481,8 @@ private extension CardsV2 {
         .init(
             name: .winchester,
             desc: "can hit targets at a distance of 5.",
-            effects: [.equip],
-            setPlayerAttribute: [.weapon: 5]
+            setPlayerAttribute: [.weapon: 5],
+            effects: [.equip]
         )
     }
 
@@ -490,9 +490,9 @@ private extension CardsV2 {
         .init(
             name: .volcanic,
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            effects: [.equip],
             setPlayerAttribute: [.weapon: 1],
-            setCardAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
+            setCardAttribute: [.bang: [.ignoreLimitPerTurn: 0]],
+            effects: [.equip]
         )
     }
 
@@ -500,8 +500,8 @@ private extension CardsV2 {
         .init(
             name: .scope,
             desc: "you see all the other players at a distance decreased by 1",
-            effects: [.equip],
-            setPlayerAttribute: [.additionalMagnifying: 1]
+            setPlayerAttribute: [.additionalMagnifying: 1],
+            effects: [.equip]
         )
     }
 
@@ -509,8 +509,8 @@ private extension CardsV2 {
         .init(
             name: .mustang,
             desc: "the distance between other players and you is increased by 1",
-            effects: [.equip],
-            setPlayerAttribute: [.additionalRemoteness: 1]
+            setPlayerAttribute: [.additionalRemoteness: 1],
+            effects: [.equip]
         )
     }
 
@@ -631,6 +631,7 @@ private extension CardsV2 {
         .init(
             name: .jourdonnais,
             desc: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .draw,
@@ -643,8 +644,7 @@ private extension CardsV2 {
                     ],
                     when: .shot
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -652,6 +652,7 @@ private extension CardsV2 {
         .init(
             name: .bartCassidy,
             desc: "each time he loses a life point, he immediately draws a card from the deck.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -660,8 +661,7 @@ private extension CardsV2 {
                     ],
                     when: .damaged
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -669,6 +669,7 @@ private extension CardsV2 {
         .init(
             name: .elGringo,
             desc: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
+            setPlayerAttribute: [.maxHealth: 3],
             effects: [
                 .init(
                     action: .steal,
@@ -678,8 +679,7 @@ private extension CardsV2 {
                     ],
                     when: .damaged
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 3]
+            ]
         )
     }
 
@@ -687,13 +687,13 @@ private extension CardsV2 {
         .init(
             name: .suzyLafayette,
             desc: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .drawDeck,
                     when: .handEmpty
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -701,6 +701,7 @@ private extension CardsV2 {
         .init(
             name: .sidKetchum,
             desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .heal,
@@ -708,8 +709,7 @@ private extension CardsV2 {
                         .chooseCostHandCard(count: 2)
                     ]
                 ),
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -717,6 +717,7 @@ private extension CardsV2 {
         .init(
             name: .vultureSam,
             desc: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .steal,
@@ -726,8 +727,7 @@ private extension CardsV2 {
                     ],
                     when: .otherEliminated
                 ),
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -764,6 +764,8 @@ private extension CardsV2 {
         .init(
             name: .kitCarlson,
             desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
             effects: [
                 .init(
                     action: .discover,
@@ -779,9 +781,7 @@ private extension CardsV2 {
                     ],
                     when: .turnStarted
                 ),
-            ],
-            setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
+            ]
         )
     }
 
@@ -789,6 +789,8 @@ private extension CardsV2 {
         .init(
             name: .blackJack,
             desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -808,9 +810,7 @@ private extension CardsV2 {
                     ],
                     when: .turnStarted
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
+            ]
         )
     }
 
@@ -818,6 +818,8 @@ private extension CardsV2 {
         .init(
             name: .jesseJones,
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
             effects: [
                 .init(
                     action: .drawDiscard,
@@ -827,9 +829,7 @@ private extension CardsV2 {
                     action: .drawDeck,
                     when: .turnStarted
                 ),
-            ],
-            setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
+            ]
         )
     }
 
@@ -837,6 +837,8 @@ private extension CardsV2 {
         .init(
             name: .pedroRamirez,
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
             effects: [
                 .init(
                     action: .steal,
@@ -850,9 +852,7 @@ private extension CardsV2 {
                     action: .drawDeck,
                     when: .turnStarted
                 ),
-            ],
-            setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
+            ]
         )
     }
 
@@ -945,6 +945,7 @@ private extension CardsV2 {
         .init(
             name: .tequila,
             desc: "The player must discard one additional card, to heal any player one health.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .brown,
                 .init(
@@ -954,8 +955,7 @@ private extension CardsV2 {
                         .chooseTarget()
                     ]
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1025,6 +1025,8 @@ private extension CardsV2 {
         .init(
             name: .pixiePete,
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
+            setPlayerAttribute: [.maxHealth: 3],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -1033,9 +1035,7 @@ private extension CardsV2 {
                     ],
                     when: .turnStarted
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 3],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
+            ]
         )
     }
 
@@ -1043,6 +1043,8 @@ private extension CardsV2 {
         .init(
             name: .billNoface,
             desc: "He draws 1 card, plus 1 card for each wound he has.",
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -1055,9 +1057,7 @@ private extension CardsV2 {
                     ],
                     when: .turnStarted
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
+            ]
         )
     }
 
@@ -1065,6 +1065,7 @@ private extension CardsV2 {
         .init(
             name: .gregDigger,
             desc: "Each time another player is eliminated, he regains 2 life points.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .heal,
@@ -1073,8 +1074,7 @@ private extension CardsV2 {
                     ],
                     when: .otherEliminated
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1082,6 +1082,7 @@ private extension CardsV2 {
         .init(
             name: .herbHunter,
             desc: "Each time another player is eliminated, he draws 2 extra cards.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -1090,8 +1091,7 @@ private extension CardsV2 {
                     ],
                     when: .otherEliminated
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1099,6 +1099,7 @@ private extension CardsV2 {
         .init(
             name: .mollyStark,
             desc: "Each time she uses a card from her hand out of turn, she draw a card.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -1107,8 +1108,7 @@ private extension CardsV2 {
                     ],
                     when: .playedCardOutOfTurn
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1116,6 +1116,7 @@ private extension CardsV2 {
         .init(
             name: .joseDelgado,
             desc: "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -1125,8 +1126,7 @@ private extension CardsV2 {
                         .repeat(.value(2))
                     ]
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1134,6 +1134,7 @@ private extension CardsV2 {
         .init(
             name: .chuckWengam,
             desc: "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .drawDeck,
@@ -1142,8 +1143,7 @@ private extension CardsV2 {
                         .repeat(.value(2))
                     ]
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1151,6 +1151,7 @@ private extension CardsV2 {
         .init(
             name: .docHolyday,
             desc: "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
+            setPlayerAttribute: [.maxHealth: 4],
             effects: [
                 .init(
                     action: .shoot,
@@ -1160,8 +1161,7 @@ private extension CardsV2 {
                         .chooseTarget([.atDistanceReachable])
                     ]
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4]
+            ]
         )
     }
 
@@ -1187,6 +1187,8 @@ private extension CardsV2 {
         .init(
             name: .patBrennan,
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
+            setPlayerAttribute: [.maxHealth: 4],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
             effects: [
                 .init(
                     action: .steal,
@@ -1196,9 +1198,7 @@ private extension CardsV2 {
                     ],
                     when: .turnStarted
                 )
-            ],
-            setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
+            ]
         )
     }
 
@@ -1283,11 +1283,11 @@ private extension CardsV2 {
         .init(
             name: .aim,
             desc: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
+            setCardAttribute: [.bang: [.damageAmount: 2]],
             canPlay: .playedCardWithName(.bang),
             effects: [
                 .brown
-            ],
-            setCardAttribute: [.bang: [.damageAmount: 2]]
+            ]
         )
     }
 
@@ -1394,6 +1394,7 @@ private extension CardsV2 {
         .init(
             name: .shootgun,
             desc: "gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.",
+            setPlayerAttribute: [.weapon: 1],
             effects: [
                 .equip,
                 .init(
@@ -1404,8 +1405,7 @@ private extension CardsV2 {
                     ],
                     when: .otherDamagedByYourCard(.bang)
                 )
-            ],
-            setPlayerAttribute: [.weapon: 1]
+            ]
         )
     }
 
@@ -1488,17 +1488,17 @@ private extension CardsV2 {
         .init(
             name: .evelynShebang,
             desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
             effects: [
                 .init(
-                    action: .shoot, 
+                    action: .shoot,
                     selectors: [
                         .repeat(.value(2)),
                         .chooseTarget([.atDistanceReachable])
                     ],
                     when: .turnStarted
                 )
-            ],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
+            ]
         )
     }
 

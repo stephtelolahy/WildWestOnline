@@ -81,10 +81,10 @@ public indirect enum GameAction: Codable, Equatable {
 
     // MARK: - Invisible
 
-    /// Move to play a card
+    /// Move: play a card
     case preparePlay(String, player: String)
 
-    /// Move to choose an option
+    /// Move: choose an option
     case prepareChoose(String, player: String)
 
     /// Resolve an effect
