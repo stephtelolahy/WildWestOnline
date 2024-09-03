@@ -24,13 +24,13 @@ public struct CardV2: Equatable, Codable {
     /// By default cards are playable during player's turn
     public let canPlay: Effect.PlayReq?
 
-    /// Actions that are triggered by this card
+    /// Triggered action when a event occurred
     public let effects: [Effect]
 
     /// Passive ability to set player attributes
     public let setPlayerAttribute: [PlayerAttribute: Int]
 
-    /// Passive ability to set {card}'s attributes
+    /// Passive ability to set some {card}'s attributes
     public let setCardAttribute: [String: [CardAttribute: Int]]
 
     public init(
@@ -131,6 +131,7 @@ public struct Effect: Equatable, Codable {
         case chooseCard(CardCondition? = nil)
 
         /// determine other arguments
+        @available(*, deprecated, renamed: "attribute")
         case arg(CardAttribute, value: Number)
 
         /// multiply effect x times
@@ -194,7 +195,7 @@ public struct Effect: Equatable, Codable {
             case damage // damage compared to maxHealth
             case lastDamage // amount from last damage event
             case playerAttr(PlayerAttribute)
-            case arg(CardAttribute)
+            case cardAttr(CardAttribute)
             case value(Int)
         }
 
@@ -254,9 +255,9 @@ public enum PlayerAttribute: String, Codable {
     case magnifying
     case remoteness
     case handLimit
+
     case silentCardsDiamonds
     case silentCardsInPlayDuringTurn
-
     case additionalMagnifying
     case additionalRemoteness
 }

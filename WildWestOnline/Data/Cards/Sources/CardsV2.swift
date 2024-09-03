@@ -128,7 +128,7 @@ private extension CardsV2 {
                     action: .drawDeck,
                     selectors: [
                         .arg(.repeatAmount, value: .value(2)),
-                        .repeat(.arg(.repeatAmount))
+                        .repeat(.cardAttr(.repeatAmount))
                     ],
                     when: .turnStarted
                 )
@@ -357,7 +357,7 @@ private extension CardsV2 {
                     action: .shoot,
                     selectors: [
                         .arg(.limitPerTurn, value: .value(1)),
-                        .verify(.playedLessThan(.arg(.limitPerTurn))),
+                        .verify(.playedLessThan(.cardAttr(.limitPerTurn))),
                         .chooseTarget([.atDistanceReachable]),
                         .arg(.shootRequiredMisses, value: .value(1)),
                         .arg(.damageAmount, value: .value(1))
@@ -798,7 +798,7 @@ private extension CardsV2 {
                     action: .drawDeck,
                     selectors: [
                         .arg(.repeatAmount, value: .value(2)),
-                        .repeat(.arg(.repeatAmount))
+                        .repeat(.cardAttr(.repeatAmount))
                     ],
                     when: .turnStarted
                 ),
@@ -1295,7 +1295,7 @@ private extension CardsV2 {
                     action: .shoot,
                     selectors: [
                         .arg(.limitPerTurn, value: .value(1)),
-                        .verify(.playedLessThan(.arg(.limitPerTurn))),
+                        .verify(.playedLessThan(.cardAttr(.limitPerTurn))),
                         .chooseTarget([.atDistanceReachable]),
                         .arg(.shootRequiredMisses, value: .value(1)),
                         .arg(.damageAmount, value: .value(1))
