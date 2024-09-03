@@ -1294,10 +1294,10 @@ private extension CardsV2 {
     }
 
     static var faning: CardV2 {
-        // ⚠️ TODO: count as another card
         .init(
             name: .faning,
             desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
+            setCardAttribute: ["faning": [.labeledAsBang: 0]],
             effects: [
                 .brown,
                 .init(

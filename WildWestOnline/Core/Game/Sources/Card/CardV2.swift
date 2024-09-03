@@ -266,6 +266,7 @@ public enum CardAttribute: String, Codable {
     case shootRequiredMisses
     case playableAsBang
     case playableAsMissed
+    case labeledAsBang
     case eventuallySilent
     case silent
     case playedByOtherHasNoEffect
