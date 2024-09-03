@@ -256,20 +256,23 @@ public enum PlayerAttribute: String, Codable {
     case remoteness
     case handLimit
 
-    case silentCardsDiamonds
-    case silentCardsInPlayDuringTurn
     case additionalMagnifying
     case additionalRemoteness
+
+    case silentCardsDiamonds
+    case silentCardsInPlayDuringTurn
 }
 
 public enum CardAttribute: String, Codable {
     case healAmount
     case damageAmount
-    case repeatAmount
     case discoverAmount
     case shootRequiredMisses
     case limitPerTurn
 
     case playableAsBang
     case playableAsMissed
+
+    case eventuallySilent
+    case silent
 }

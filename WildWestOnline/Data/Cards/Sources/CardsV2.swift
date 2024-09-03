@@ -127,8 +127,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .arg(.repeatAmount, value: .value(2)),
-                        .repeat(.cardAttr(.repeatAmount))
+                        .repeat(.value(2))
                     ],
                     when: .turnStarted
                 )
@@ -785,7 +784,7 @@ private extension CardsV2 {
                 ),
             ],
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
         )
     }
 
@@ -797,8 +796,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     selectors: [
-                        .arg(.repeatAmount, value: .value(2)),
-                        .repeat(.cardAttr(.repeatAmount))
+                        .repeat(.value(2))
                     ],
                     when: .turnStarted
                 ),
@@ -815,12 +813,11 @@ private extension CardsV2 {
                 )
             ],
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
         )
     }
 
     static var jesseJones: CardV2 {
-        // ⚠️ TODO: choose to override default effect
         .init(
             name: .jesseJones,
             desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
@@ -835,12 +832,11 @@ private extension CardsV2 {
                 ),
             ],
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
         )
     }
 
     static var pedroRamirez: CardV2 {
-        // ⚠️ TODO: choose to override default effect
         .init(
             name: .pedroRamirez,
             desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
@@ -859,7 +855,7 @@ private extension CardsV2 {
                 ),
             ],
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
         )
     }
 
@@ -1032,8 +1028,17 @@ private extension CardsV2 {
         .init(
             name: .pixiePete,
             desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
+            effects: [
+                .init(
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.value(3))
+                    ],
+                    when: .turnStarted
+                )
+            ],
             setPlayerAttribute: [.maxHealth: 3],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 3]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
         )
     }
 
@@ -1044,6 +1049,10 @@ private extension CardsV2 {
             effects: [
                 .init(
                     action: .drawDeck,
+                    when: .turnStarted
+                ),
+                .init(
+                    action: .drawDeck,
                     selectors: [
                         .repeat(.damage)
                     ],
@@ -1051,7 +1060,7 @@ private extension CardsV2 {
                 )
             ],
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 1]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]]
         )
     }
 
@@ -1176,7 +1185,6 @@ private extension CardsV2 {
     }
 
     static var patBrennan: CardV2 {
-        // ⚠️ TODO: choose to override default effect
         .init(
             name: .patBrennan,
             desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
@@ -1191,7 +1199,7 @@ private extension CardsV2 {
                 )
             ],
             setPlayerAttribute: [.maxHealth: 4],
-            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.repeatAmount: 0]]
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
         )
     }
 
@@ -1285,7 +1293,7 @@ private extension CardsV2 {
     }
 
     static var faning: CardV2 {
-        // ⚠️ TODO: play this as another card
+        // ⚠️ TODO: count this as another card
         .init(
             name: .faning,
             desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
@@ -1444,7 +1452,7 @@ private extension CardsV2 {
     }
 
     static var escape: CardV2 {
-        // ⚠️ TODO: Counter any effect
+        // ⚠️ TODO: counter any effect
         .init(
             name: .escape,
             desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect."
@@ -1481,10 +1489,20 @@ private extension CardsV2 {
     }
 
     static var evelynShebang: CardV2 {
-        // ⚠️ TODO: choose to override default effect
         .init(
             name: .evelynShebang,
-            desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance."
+            desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
+            effects: [
+                .init(
+                    action: .shoot, 
+                    selectors: [
+                        .repeat(.value(2)),
+                        .chooseTarget([.atDistanceReachable])
+                    ],
+                    when: .turnStarted
+                )
+            ],
+            setCardAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]]
         )
     }
 
