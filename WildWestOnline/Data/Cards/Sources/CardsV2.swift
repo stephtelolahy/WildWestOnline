@@ -505,7 +505,7 @@ private extension CardsV2 {
             name: .scope,
             desc: "you see all the other players at a distance decreased by 1",
             effects: [.equip],
-            incPlayerAttribute: [.magnifying: 1]
+            setPlayerAttribute: [.additionalMagnifying: 1]
         )
     }
 
@@ -514,7 +514,7 @@ private extension CardsV2 {
             name: .mustang,
             desc: "the distance between other players and you is increased by 1",
             effects: [.equip],
-            incPlayerAttribute: [.remoteness: 1]
+            setPlayerAttribute: [.additionalRemoteness: 1]
         )
     }
 
@@ -619,8 +619,7 @@ private extension CardsV2 {
         .init(
             name: .roseDoolan,
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            setPlayerAttribute: [.maxHealth: 4],
-            incPlayerAttribute: [.magnifying: 1]
+            setPlayerAttribute: [.maxHealth: 4, .additionalMagnifying: 1]
         )
     }
 
@@ -628,8 +627,7 @@ private extension CardsV2 {
         .init(
             name: .paulRegret,
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            setPlayerAttribute: [.maxHealth: 3],
-            incPlayerAttribute: [.remoteness: 1]
+            setPlayerAttribute: [.maxHealth: 3, .additionalRemoteness: 1]
         )
     }
 
@@ -918,7 +916,7 @@ private extension CardsV2 {
         .init(
             name: .hideout,
             desc: "Others view you at distance +1",
-            incPlayerAttribute: [.remoteness: 1]
+            setPlayerAttribute: [.additionalRemoteness: 1]
         )
     }
 
@@ -926,7 +924,7 @@ private extension CardsV2 {
         .init(
             name: .binocular,
             desc: "you view others at distance -1",
-            incPlayerAttribute: [.magnifying: 1]
+            setPlayerAttribute: [.additionalMagnifying: 1]
         )
     }
 
