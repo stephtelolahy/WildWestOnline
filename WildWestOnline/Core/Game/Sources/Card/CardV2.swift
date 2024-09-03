@@ -117,6 +117,9 @@ public struct Effect: Equatable, Codable {
         /// {actor} draws the last discarded card
         /// When a {card} is specified, this allow to draw a specific card
         case drawDiscard
+
+        /// Counter card effect targetting self
+        case counter
     }
 
     /// Selectors are used to specify which objects an aura or effect should affect.
@@ -225,6 +228,7 @@ public struct Effect: Equatable, Codable {
         case cardStolen
         case cardDiscarded
         case handEmpty
+        case targetedWithCardOthertThan(String)
 
         // events on another player
         case otherEliminated
@@ -252,7 +256,7 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
     case additionalMagnifying
     case additionalRemoteness
-    case ghost
+    case ghost // player cannot be killed but leave the game immediately after his turn
 }
 
 public enum CardAttribute: String, Codable {

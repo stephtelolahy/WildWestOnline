@@ -9,6 +9,9 @@
 import GameCore
 
 public enum CardsV2 {
+    /// BANG! THE BULLET
+    /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
+    ///
     static let all: [CardV2] = [
         defaultDraw2CardsOnTurnStarted,
         defaultDiscardExcessHandOnTurnEnded,
@@ -1202,7 +1205,7 @@ private extension CardsV2 {
     }
 
     static var veraCuster: CardV2 {
-        // ⚠️ TODO: choose temporary ability
+        // ⚠️ TODO: set round ability
         .init(
             name: .veraCuster,
             desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
@@ -1291,7 +1294,7 @@ private extension CardsV2 {
     }
 
     static var faning: CardV2 {
-        // ⚠️ TODO: count play as another card
+        // ⚠️ TODO: count as another card
         .init(
             name: .faning,
             desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
@@ -1447,10 +1450,15 @@ private extension CardsV2 {
     }
 
     static var escape: CardV2 {
-        // ⚠️ TODO: counter any effect
         .init(
             name: .escape,
-            desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect."
+            desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect.",
+            effects: [
+                .init(
+                    action: .counter,
+                    when: .targetedWithCardOthertThan(.bang)
+                )
+            ]
         )
     }
 
