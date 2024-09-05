@@ -64,12 +64,6 @@ public struct Effect: Equatable, Codable {
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable {
-        /// apply effect x times
-        case `repeat`(Number)
-
-        /// must match given condition
-        case verify(StateCondition)
-
         /// set targetted player
         case setTarget(Target)
 
@@ -93,6 +87,12 @@ public struct Effect: Equatable, Codable {
 
         /// can `discard` hand card to reverse effect
         case chooseEventuallyReverseHandCard(CardCondition)
+
+        /// apply effect x times
+        case `repeat`(Number)
+
+        /// must match given condition
+        case verify(StateCondition)
 
         public enum Target: String, Codable {
             case actor      // who is playing the card
@@ -196,10 +196,11 @@ public enum PlayerAttribute: String, Codable {
     case handLimit
     case magnifying
     case remoteness
-    case ghost // player cannot be killed but leave the game immediately after his turn
+
+    /// player cannot be killed but leave the game immediately after his turn
+    case ghost
 }
 
-/// An action is some kind of change triggered by user or by the system, that causes any update to the game state
 public enum ActionType: String, Codable {
     /// {target} increase health by {amount}
     /// By default target is {actor}
