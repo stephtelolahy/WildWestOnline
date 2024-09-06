@@ -147,7 +147,7 @@ private extension CardsV2 {
                     action: .discard,
                     selectors: [
                         .repeat(.excessHand),
-                        .chooseCard()
+                        .chooseCard(.fromHand)
                     ]
                 )
             ]
