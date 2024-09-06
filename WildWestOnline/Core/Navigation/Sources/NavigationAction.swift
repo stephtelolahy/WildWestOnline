@@ -6,6 +6,8 @@
 //
 
 public enum NavigationAction {
-    case navigate(Screen)
-    case close
+    case push(Page)
+    case pop
+    case present(Sheet)
+    case dismiss
 }

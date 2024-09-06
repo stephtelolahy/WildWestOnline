@@ -53,7 +53,7 @@ public extension SettingsView {
     static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didTapCloseButton:
-            NavigationAction.close
+            NavigationAction.dismiss
 
         case .didChangePlayersCount(let count):
             SettingsAction.updatePlayersCount(count)

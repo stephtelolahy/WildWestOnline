@@ -7,13 +7,9 @@
 import AppCore
 import CardsData
 import GameCore
-import GameUI
-import HomeUI
 import Redux
-import SettingsUI
 import SettingsCore
 import SettingsData
-import SplashUI
 import SwiftUI
 import Theme
 
@@ -23,72 +19,12 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView {
+            CoordinatorView {
                 createStore()
             }
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
-    }
-}
-
-struct ContentView: View {
-    @StateObject private var store: Store<AppState, Any>
-
-    public init(store: @escaping () -> Store<AppState, Any>) {
-        // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view.
-        _store = StateObject(wrappedValue: store())
-    }
-
-    var body: some View {
-        Group {
-            switch store.state.screens.last {
-            case .splash:
-                SplashView {
-                    store.projection(SplashView.deriveState, SplashView.embedAction)
-                }
-
-            case .home:
-                HomeView {
-                    store.projection(HomeView.deriveState, HomeView.embedAction)
-                }
-
-            case .game:
-                GameView {
-                    store.projection(GameView.deriveState, GameView.embedAction)
-                }
-
-            default:
-                EmptyView()
-            }
-        }
-        .sheet(isPresented: Binding<Bool>(
-            get: { store.state.screens.last == .settings },
-            set: { _ in }
-        ), onDismiss: {
-        }, content: {
-            SettingsView {
-                store.projection(SettingsView.deriveState, SettingsView.embedAction)
-            }
-        })
-        .foregroundColor(.primary)
-    }
-}
-
-#Preview {
-    ContentView {
-        Store(initial: .preview)
-    }
-}
-
-private extension AppState {
-    static var preview: Self {
-        .init(
-            screens: [.home],
-            settings: SettingsState.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build()
-        )
     }
 }
 
@@ -104,7 +40,7 @@ private func createStore() -> Store<AppState, Any> {
         .build()
 
     let initialState = AppState(
-        screens: [.splash],
+        navigation: .init(path: [.splash]),
         settings: settings,
         inventory: cardsService.inventory
     )

@@ -23,7 +23,7 @@ public extension SplashView {
     static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didAppear:
-            NavigationAction.navigate(.home)
+            NavigationAction.push(.home)
         }
     }
 }
