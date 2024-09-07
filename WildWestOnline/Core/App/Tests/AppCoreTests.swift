@@ -15,7 +15,7 @@ final class AppCoreTests: XCTestCase {
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
         let state = AppState(
-            screens: [.home],
+            navigation: .init(path: [.home]),
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
@@ -25,14 +25,14 @@ final class AppCoreTests: XCTestCase {
         let result = try AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.screens, [.home, .game])
+        XCTAssertEqual(result.navigation.path, [.home, .game])
         XCTAssertNotNil(result.game)
     }
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
         // Given
         let state = AppState(
-            screens: [.home, .game],
+            navigation: .init(path: [.home, .game]),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
@@ -43,7 +43,7 @@ final class AppCoreTests: XCTestCase {
         let result = try AppState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.screens, [.home])
+        XCTAssertEqual(result.navigation.path, [.home])
         XCTAssertNil(result.game)
     }
 }

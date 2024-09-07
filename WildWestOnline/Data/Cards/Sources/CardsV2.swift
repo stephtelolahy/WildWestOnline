@@ -712,7 +712,7 @@ private extension CardsV2 {
                     selectors: [
                         .chooseCostHandCard(count: 2)
                     ]
-                ),
+                )
             ]
         )
     }
@@ -730,7 +730,7 @@ private extension CardsV2 {
                         .setCard(.all)
                     ],
                     when: .otherEliminated
-                ),
+                )
             ]
         )
     }
@@ -784,7 +784,7 @@ private extension CardsV2 {
                         .repeat(.value(3))
                     ],
                     when: .turnStarted
-                ),
+                )
             ]
         )
     }
@@ -832,7 +832,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     when: .turnStarted
-                ),
+                )
             ]
         )
     }
@@ -855,7 +855,7 @@ private extension CardsV2 {
                 .init(
                     action: .drawDeck,
                     when: .turnStarted
-                ),
+                )
             ]
         )
     }
