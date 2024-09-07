@@ -8,24 +8,21 @@ import Redux
 
 public struct NavigationState: Equatable, Codable {
     public var path: [Page]
-    public var sheet: Sheet?
+    public var sheet: Page?
 
     public init(
         path: [Page] = [],
-        sheet: Sheet? = nil
+        sheet: Page? = nil
     ) {
         self.path = path
         self.sheet = sheet
     }
 }
 
-public enum Page: String, Hashable, Codable {
+public enum Page: String, Identifiable, Codable {
     case splash
     case home
     case game
-}
-
-public enum Sheet: String, Identifiable, Codable {
     case settings
 
     public var id: String {

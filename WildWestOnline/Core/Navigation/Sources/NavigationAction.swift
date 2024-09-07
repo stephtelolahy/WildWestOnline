@@ -8,6 +8,6 @@
 public enum NavigationAction {
     case push(Page)
     case pop
-    case present(Sheet)
+    case present(Page)
     case dismiss
 }

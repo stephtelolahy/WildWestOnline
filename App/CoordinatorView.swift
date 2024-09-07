@@ -36,11 +36,11 @@ struct CoordinatorView: View {
                     build(page: page)
                         .navigationBarHidden(true)
                 }
-                .sheet(item: Binding<Sheet?>(
+                .sheet(item: Binding<Page?>(
                     get: { store.state.navigation.sheet },
                     set: { _ in }
-                )) { sheet in
-                    build(sheet: sheet)
+                )) { page in
+                    build(page: page)
                 }
         }
         .foregroundColor(.primary)
@@ -65,12 +65,7 @@ private extension CoordinatorView {
             GameView {
                 store.projection(GameView.deriveState, GameView.embedAction)
             }
-        }
-    }
 
-    @ViewBuilder
-    func build(sheet: Sheet) -> some View {
-        switch sheet {
         case .settings:
             SettingsView {
                 store.projection(SettingsView.deriveState, SettingsView.embedAction)
