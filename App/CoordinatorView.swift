@@ -67,8 +67,8 @@ private extension CoordinatorView {
             }
 
         case .settings:
-            SettingsView {
-                store.projection(SettingsView.deriveState, SettingsView.embedAction)
+            SettingsCoordinatorView {
+                SettingsCoordinator(store: store)
             }
         }
     }

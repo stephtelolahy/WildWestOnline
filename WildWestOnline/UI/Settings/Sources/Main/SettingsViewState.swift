@@ -18,8 +18,7 @@ public extension SettingsView {
         public let playersCount: Int
         public let speedIndex: Int
         public let simulation: Bool
-        public let figureOptions: [String]
-        public let preferredFigureIndex: Int
+        public let preferredFigure: String?
 
         public struct SpeedOption: Equatable {
             let label: String
@@ -37,7 +36,6 @@ public extension SettingsView {
         case didChangePlayersCount(Int)
         case didChangeWaitDelay(Int)
         case didToggleSimulation
-        case didChangePreferredFigure(String)
     }
 
     static let deriveState: (AppState) -> State? = { state in
@@ -45,8 +43,7 @@ public extension SettingsView {
                 playersCount: state.settings.playersCount,
                 speedIndex: State.indexOfSpeed(state.settings.waitDelayMilliseconds),
                 simulation: state.settings.simulation,
-                figureOptions: state.inventory.figures,
-                preferredFigureIndex: State.indexOfFigure(state.settings.preferredFigure, in: state.inventory.figures)
+                preferredFigure: state.settings.preferredFigure
             )
     }
 
@@ -63,9 +60,6 @@ public extension SettingsView {
 
         case .didToggleSimulation:
             SettingsAction.toggleSimulation
-
-        case .didChangePreferredFigure(let figure):
-            SettingsAction.updatePreferredFigure(figure)
         }
     }
 }
@@ -73,14 +67,5 @@ public extension SettingsView {
 private extension SettingsView.State {
     static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
         SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
-    }
-
-    static func indexOfFigure(_ figure: String?, in figures: [String]) -> Int {
-        guard let figure,
-              let index = figures.firstIndex(of: figure) else {
-            return -1
-        }
-
-        return index
     }
 }

@@ -37,9 +37,12 @@ public class SettingsCoordinator: ObservableObject {
             SettingsView {
                 self.store.projection(SettingsView.deriveState, SettingsView.embedAction)
             }
+            .environmentObject(self)
 
         case .figures:
-            FiguresView()
+            FiguresView {
+                self.store.projection(FiguresView.deriveState, FiguresView.embedAction)
+            }
         }
     }
 }

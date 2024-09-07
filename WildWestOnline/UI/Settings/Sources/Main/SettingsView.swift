@@ -11,6 +11,7 @@ import SwiftUI
 
 public struct SettingsView: View {
     @StateObject private var store: Store<State, Action>
+    @EnvironmentObject private var coordinator: SettingsCoordinator
 
     public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
@@ -19,16 +20,14 @@ public struct SettingsView: View {
     }
 
     public var body: some View {
-        NavigationView {
-            Form {
-                preferencesSection
-            }
-            .navigationTitle("Settings")
-            .toolbar {
-                Button("Done") {
-                    withAnimation {
-                        store.dispatch(.didTapCloseButton)
-                    }
+        Form {
+            preferencesSection
+        }
+        .navigationTitle("Settings")
+        .toolbar {
+            Button("Done") {
+                withAnimation {
+                    store.dispatch(.didTapCloseButton)
                 }
             }
         }
@@ -96,27 +95,16 @@ public struct SettingsView: View {
     }
 
     private var figureView: some View {
-        HStack {
-            Image(systemName: "star")
-            Picker(
-                selection: Binding<Int>(
-                    get: {
-                        store.state.preferredFigureIndex
-                    },
-                    set: { index in
-                        let figure = store.state.figureOptions[index]
-                        store.dispatch(.didChangePreferredFigure(figure))
-                    }
-                ),
-                label: Text(
-                    "Preferred figure"
-                )
-            ) {
-                ForEach(0..<(store.state.figureOptions.count), id: \.self) {
-                    Text(store.state.figureOptions[$0])
-                }
+        Button(action: {
+            coordinator.push(page: .figures)
+        }, label: {
+            HStack {
+                Image(systemName: "lanyardcard.fill")
+                Text("Preferred figure")
+                Spacer()
+                Text(store.state.preferredFigure ?? "")
             }
-        }
+        })
     }
 }
 
@@ -132,8 +120,7 @@ private extension SettingsView.State {
             playersCount: 5,
             speedIndex: 0,
             simulation: false,
-            figureOptions: ["Figure1", "Figure2", "Figure3"],
-            preferredFigureIndex: -1
+            preferredFigure: "Figure1"
         )
     }
 }
