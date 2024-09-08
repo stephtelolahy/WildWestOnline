@@ -30,6 +30,8 @@ public struct HomeView: View {
                 footerView
             }
         }
+        .foregroundColor(.primary)
+        .navigationBarHidden(true)
     }
 
     private var contentView: some View {

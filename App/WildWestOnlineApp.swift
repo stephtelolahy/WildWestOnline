@@ -19,7 +19,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CoordinatorView {
+            AppCoordinatorView {
                 AppCoordinator(globalStore: createAppStore())
             }
             .environment(\.colorScheme, .light)

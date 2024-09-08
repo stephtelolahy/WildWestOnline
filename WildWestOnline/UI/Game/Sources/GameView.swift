@@ -28,6 +28,8 @@ public struct GameView: View {
                 GamePlayViewController(store: store)
             }
         }
+        .foregroundColor(.primary)
+        .navigationBarHidden(true)
     }
 }
 

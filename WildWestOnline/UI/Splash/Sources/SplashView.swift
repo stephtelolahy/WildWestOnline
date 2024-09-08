@@ -26,6 +26,7 @@ public struct SplashView: View {
                 .font(.callout)
                 .foregroundStyle(.red)
         }
+        .navigationBarHidden(true)
         .onAppear {
             let waitDelaySeconds = 2.0
             DispatchQueue.main.asyncAfter(deadline: .now() + waitDelaySeconds) {

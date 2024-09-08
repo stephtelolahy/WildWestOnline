@@ -1,5 +1,5 @@
 //
-//  CoordinatorView.swift
+//  AppCoordinatorView.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 07/09/2024.
@@ -9,7 +9,7 @@ import NavigationCore
 
 /// `CoordinatorView` is a SwiftUI view that will be set as the entry point of the application.
 /// This view will connect the navigation state with ``NavigationStack``
-struct CoordinatorView: View {
+struct AppCoordinatorView: View {
     @StateObject private var coordinator: AppCoordinator
 
     init(coordinator: @escaping () -> AppCoordinator) {
@@ -23,12 +23,10 @@ struct CoordinatorView: View {
             EmptyView()
                 .navigationDestination(for: Page.self) { page in
                     coordinator.build(page: page)
-                        .navigationBarHidden(true)
                 }
                 .sheet(item: $coordinator.sheet) { page in
                     coordinator.build(page: page)
                 }
         }
-        .foregroundColor(.primary)
     }
 }

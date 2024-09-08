@@ -17,7 +17,7 @@ import Redux
 import Combine
 
 /// The `ObservableObject driving a `CoordinatorView`
-final class AppCoordinator: ObservableObject, @unchecked Sendable {
+final class AppCoordinator: ObservableObject {
     @Published var path: [Page] = []
     @Published var sheet: Page?
     private let store: Store<AppState, Any>
