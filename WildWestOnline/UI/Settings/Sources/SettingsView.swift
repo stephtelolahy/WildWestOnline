@@ -11,7 +11,6 @@ import SwiftUI
 
 public struct SettingsView: View {
     @StateObject private var store: Store<State, Action>
-    @EnvironmentObject private var coordinator: SettingsCoordinator
 
     public init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
@@ -96,7 +95,7 @@ public struct SettingsView: View {
 
     private var figureView: some View {
         Button(action: {
-            coordinator.push(page: .figures)
+            store.dispatch(.didTapFigures)
         }, label: {
             HStack {
                 Image(systemName: "lanyardcard.fill")

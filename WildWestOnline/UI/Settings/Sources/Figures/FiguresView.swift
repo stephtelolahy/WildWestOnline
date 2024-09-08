@@ -8,7 +8,7 @@
 import Redux
 import SwiftUI
 
-struct FiguresView: View {
+public struct FiguresView: View {
     @StateObject private var store: Store<State, Action>
 
     public init(store: @escaping () -> Store<State, Action>) {
@@ -17,7 +17,7 @@ struct FiguresView: View {
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         List {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {

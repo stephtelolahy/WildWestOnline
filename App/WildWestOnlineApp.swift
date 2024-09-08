@@ -10,18 +10,28 @@ import GameCore
 import Redux
 import SettingsCore
 import SettingsData
+import NavigationCore
 import SwiftUI
 import Theme
 
 @main
 struct WildWestOnlineApp: App {
     @Environment(\.theme) private var theme
+    @StateObject private var store = createAppStore()
 
     var body: some Scene {
         WindowGroup {
-            AppCoordinatorView {
-                AppCoordinator(globalStore: createAppStore())
-            }
+            CoordinatorView(
+                pathBinding: .init(
+                    get: { store.state.navigation.path },
+                    set: { _ in }
+                ),
+                sheetBinding: .init(
+                    get: { store.state.navigation.sheet },
+                    set: { _ in }
+                ),
+                viewFactory: AppViewFactory(store: store)
+            )
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }

@@ -7,11 +7,11 @@
 import AppCore
 import SettingsCore
 
-extension FiguresView {
+public extension FiguresView {
     struct State: Equatable {
         public let figures: [Figure]
 
-        struct Figure: Equatable {
+        public struct Figure: Equatable {
             let name: String
             let isFavorite: Bool
         }

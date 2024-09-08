@@ -9,13 +9,16 @@ import Redux
 public struct NavigationState: Equatable, Codable {
     public var path: [Page]
     public var sheet: Page?
+    public var settingsPath: [Page]
 
     public init(
         path: [Page] = [],
-        sheet: Page? = nil
+        sheet: Page? = nil,
+        settingsPath: [Page] = []
     ) {
         self.path = path
         self.sheet = sheet
+        self.settingsPath = settingsPath
     }
 }
 
@@ -23,7 +26,10 @@ public enum Page: String, Identifiable, Codable {
     case splash
     case home
     case game
+
     case settings
+    case settingsMain
+    case settingsFigure
 
     public var id: String {
         self.rawValue

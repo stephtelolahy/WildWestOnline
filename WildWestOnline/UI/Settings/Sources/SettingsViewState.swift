@@ -36,6 +36,7 @@ public extension SettingsView {
         case didChangePlayersCount(Int)
         case didChangeWaitDelay(Int)
         case didToggleSimulation
+        case didTapFigures
     }
 
     static let deriveState: (AppState) -> State? = { state in
@@ -60,6 +61,9 @@ public extension SettingsView {
 
         case .didToggleSimulation:
             SettingsAction.toggleSimulation
+
+        case .didTapFigures:
+            NavigationAction.push(.settingsFigure)
         }
     }
 }
