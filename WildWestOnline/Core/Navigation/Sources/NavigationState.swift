@@ -7,34 +7,33 @@
 import Redux
 
 public struct NavigationState: Equatable, Codable {
+    public var root: Page
     public var path: [Page]
     public var sheet: Page?
-    public var settingsPath: [Page]
 
     public init(
+        root: Page = .splash,
         path: [Page] = [],
-        sheet: Page? = nil,
-        settingsPath: [Page] = []
+        sheet: Page? = nil
     ) {
+        self.root = root
         self.path = path
         self.sheet = sheet
-        self.settingsPath = settingsPath
     }
 }
 
-public enum Page: String, Identifiable, Codable {
-    case dummy
-
+public indirect enum Page: Identifiable, Equatable, Codable {
     case splash
     case home
     case game
 
-    case settings
     case settingsMain
     case settingsFigure
 
+    case stack(root: Self, path: [Self] = [])
+
     public var id: String {
-        self.rawValue
+        String(describing: self)
     }
 }
 
@@ -43,12 +42,11 @@ public extension NavigationState {
         var state = state
         switch action {
         case .push(let page):
-            if case .splash = state.path.last {
-                state.path = []
-            }
+            assert(state.sheet == nil, "TODO")
             state.path.append(page)
 
         case .pop:
+            assert(state.sheet == nil, "TODO")
             state.path.removeLast()
 
         case .present(let sheet):
