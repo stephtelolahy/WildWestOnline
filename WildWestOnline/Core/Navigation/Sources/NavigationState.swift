@@ -23,6 +23,8 @@ public struct NavigationState: Equatable, Codable {
 }
 
 public enum Page: String, Identifiable, Codable {
+    case dummy
+
     case splash
     case home
     case game

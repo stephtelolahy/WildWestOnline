@@ -26,7 +26,7 @@ struct WildWestOnlineApp: App {
     var body: some Scene {
         WindowGroup {
             CoordinatorView(
-                root: .splash,
+                root: .dummy,
                 pathBinding: .init(
                     get: { store.state.navigation.path },
                     set: { _ in }
@@ -55,7 +55,7 @@ private func createAppStore() -> Store<AppState, Any> {
         .build()
 
     let initialState = AppState(
-        navigation: .init(path: []),
+        navigation: .init(path: [.splash]),
         settings: settings,
         inventory: cardsService.inventory
     )
@@ -92,6 +92,9 @@ struct AppViewFactory: @preconcurrency ViewFactory {
     @MainActor @ViewBuilder
     private func buildSomeView(page: Page) -> some View {
         switch page {
+        case .dummy:
+            EmptyView()
+
         case .splash:
             SplashView { [self] in
                 store.projection(SplashView.deriveState, SplashView.embedAction)
