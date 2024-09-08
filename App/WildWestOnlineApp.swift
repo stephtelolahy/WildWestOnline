@@ -20,7 +20,7 @@ struct WildWestOnlineApp: App {
     var body: some Scene {
         WindowGroup {
             CoordinatorView {
-                createStore()
+                AppCoordinator(globalStore: createAppStore())
             }
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
@@ -28,7 +28,7 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private func createStore() -> Store<AppState, Any> {
+private func createAppStore() -> Store<AppState, Any> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
