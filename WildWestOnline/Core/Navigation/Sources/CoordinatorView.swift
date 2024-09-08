@@ -1,3 +1,4 @@
+// swiftlint:disable type_contents_order
 //
 //  CoordinatorView.swift
 //  WildWestOnline
@@ -11,9 +12,11 @@ import SwiftUI
 public struct CoordinatorView: View {
     @Binding private var path: [Page]
     @Binding private var sheet: Page?
+    private let root: Page
     private let viewFactory: ViewFactory
 
     public init(
+        root: Page,
         pathBinding: Binding<[Page]>,
         sheetBinding: Binding<Page?>,
         viewFactory: ViewFactory
@@ -21,11 +24,12 @@ public struct CoordinatorView: View {
         _path = pathBinding
         _sheet = sheetBinding
         self.viewFactory = viewFactory
+        self.root = root
     }
 
     public var body: some View {
         NavigationStack(path: $path) {
-            EmptyView()
+            viewFactory.build(page: root)
                 .navigationDestination(for: Page.self) { page in
                     viewFactory.build(page: page)
                 }
