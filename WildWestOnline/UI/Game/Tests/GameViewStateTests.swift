@@ -20,7 +20,7 @@ final class GameViewStateTests: XCTestCase {
             .withTurn("p1")
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
@@ -50,7 +50,7 @@ final class GameViewStateTests: XCTestCase {
             .withTurn("p1")
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
@@ -101,7 +101,7 @@ final class GameViewStateTests: XCTestCase {
             .withActive([.bang, .endTurn], player: "p1")
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
@@ -127,7 +127,7 @@ final class GameViewStateTests: XCTestCase {
             .withPlayModes(["p1": .manual])
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game

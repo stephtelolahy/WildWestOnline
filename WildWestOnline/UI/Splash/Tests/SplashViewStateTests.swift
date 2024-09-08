@@ -16,7 +16,7 @@ final class SplashViewStateTests: XCTestCase {
     func test_splashStateProjection() throws {
         // Given
         let appState = AppState(
-            screens: [.splash],
+            navigation: .init(path: [.splash]),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )

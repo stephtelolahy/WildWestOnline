@@ -16,7 +16,7 @@ final class HomeViewStateTests: XCTestCase {
     func test_HomeStateProjection() throws {
         // Given
         let appState = AppState(
-            screens: [.home],
+            navigation: .init(path: [.home]),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )
