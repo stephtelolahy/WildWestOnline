@@ -51,7 +51,8 @@ public extension SettingsView {
     static let embedAction: (Action, AppState) -> Any = { action, _ in
         switch action {
         case .didTapCloseButton:
-            NavigationAction.dismiss
+//            NavigationAction.dismiss
+            fatalError()
 
         case .didChangePlayersCount(let count):
             SettingsAction.updatePlayersCount(count)
@@ -63,7 +64,8 @@ public extension SettingsView {
             SettingsAction.toggleSimulation
 
         case .didTapFigures:
-            NavigationAction.push(.settingsFigure)
+//            NavigationAction.push(.settingsFigure)
+            fatalError()
         }
     }
 }

@@ -35,8 +35,8 @@ public extension AppState {
     static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
         switch action {
-        case let action as NavigationAction:
-            state.navigation = try NavigationState.reducer(state.navigation, action)
+        case let action as RootNavigationAction:
+            state.navigation.root = try RootNavigationState.reducer(state.navigation.root, action)
 
         case let action as GameSetupAction:
             state = try gameSetupReducer(state, action)
@@ -74,7 +74,7 @@ private extension AppState {
         var state = state
         state.game = createGame(settings: state.settings, inventory: state.inventory)
         // TODO: should emit navigation action through middleware
-        state.navigation.path.append(.game)
+        state.navigation.root.path.append(.game)
         return state
     }
 
@@ -85,7 +85,7 @@ private extension AppState {
 
         var state = state
         // TODO: should emit navigation action through middleware
-        state.navigation.path.removeLast()
+        state.navigation.root.path.removeLast()
         state.game = nil
         return state
     }

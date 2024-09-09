@@ -27,7 +27,7 @@ public extension HomeView {
             GameSetupAction.start
 
         case .didTapSettingsButton:
-            NavigationAction.present(.settings)
+            RootNavigationAction.push(.settings)
         }
     }
 }
