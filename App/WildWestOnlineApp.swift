@@ -27,8 +27,8 @@ struct WildWestOnlineApp: App {
         WindowGroup {
             CoordinatorView(viewFactory: AppViewFactory(store: store), store: {
                 store.projection(
-                    WildWestOnlineApp.deriveState,
-                    WildWestOnlineApp.embedAction
+                    CoordinatorView.deriveNavigationState,
+                    CoordinatorView.embedNavigationAction
                 )
             })
             .environment(\.colorScheme, .light)
@@ -37,13 +37,13 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private extension WildWestOnlineApp {
-    static let deriveState: (AppState) -> NavigationState? = { state in
+private extension CoordinatorView {
+    static let deriveNavigationState: (AppState) -> NavigationState? = { state in
         state.navigation
     }
 
-    static let embedAction: (CoordinatorView.Action, AppState) -> Any = { action, _ in
-        NavigationAction.dismiss
+    static let embedNavigationAction: (CoordinatorView.Action, AppState) -> Any = { _, _ in
+        fatalError()
     }
 }
 

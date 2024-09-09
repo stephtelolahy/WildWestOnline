@@ -27,11 +27,11 @@ public enum Page: Identifiable, Hashable, Equatable, Codable {
     case home
     case game
 
-    case settingsMain
-    case settingsFigure
-
     @available(*, deprecated, renamed: "stack")
     case settings
+
+    case settingsMain
+    case settingsFigure
 
     public var id: String {
         String(describing: self)
