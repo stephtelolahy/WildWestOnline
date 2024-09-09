@@ -22,15 +22,13 @@ public struct NavigationState: Equatable, Codable {
     }
 }
 
-public indirect enum Page: Identifiable, Equatable, Codable {
+public enum Page: Identifiable, Hashable, Equatable, Codable {
     case splash
     case home
     case game
 
     case settingsMain
     case settingsFigure
-
-    case stack(root: Self, path: [Self] = [])
 
     public var id: String {
         String(describing: self)

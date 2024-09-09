@@ -26,7 +26,7 @@ struct WildWestOnlineApp: App {
     var body: some Scene {
         WindowGroup {
             CoordinatorView(
-                root: .dummy,
+                root: store.state.navigation.root,
                 pathBinding: .init(
                     get: { store.state.navigation.path },
                     set: { _ in }
@@ -81,7 +81,7 @@ private func createAppStore() -> Store<AppState, Any> {
     )
 }
 
-struct AppViewFactory: @preconcurrency ViewFactory {
+@preconcurrency struct AppViewFactory: ViewFactory {
     let store: Store<AppState, Any>
 
     @MainActor
@@ -92,9 +92,6 @@ struct AppViewFactory: @preconcurrency ViewFactory {
     @MainActor @ViewBuilder
     private func buildSomeView(page: Page) -> some View {
         switch page {
-        case .dummy:
-            EmptyView()
-
         case .splash:
             SplashView { [self] in
                 store.projection(SplashView.deriveState, SplashView.embedAction)
@@ -110,19 +107,19 @@ struct AppViewFactory: @preconcurrency ViewFactory {
                 store.projection(GameView.deriveState, GameView.embedAction)
             }
 
-        case .settings:
-            CoordinatorView(
-                root: .settingsMain,
-                pathBinding: .init(
-                    get: { store.state.navigation.settingsPath },
-                    set: { _ in }
-                ),
-                sheetBinding: .init(
-                    get: { nil },
-                    set: { _ in }
-                ),
-                viewFactory: self
-            )
+//        case .settings:
+//            CoordinatorView(
+//                root: .settingsMain,
+//                pathBinding: .init(
+//                    get: { store.state.navigation.settingsPath },
+//                    set: { _ in }
+//                ),
+//                sheetBinding: .init(
+//                    get: { nil },
+//                    set: { _ in }
+//                ),
+//                viewFactory: self
+//            )
 
         case .settingsMain:
             SettingsView { [self] in
@@ -133,6 +130,9 @@ struct AppViewFactory: @preconcurrency ViewFactory {
             FiguresView { [self] in
                 store.projection(FiguresView.deriveState, FiguresView.embedAction)
             }
+
+        case let .stack(root, path):
+            fatalError()
         }
     }
 }
