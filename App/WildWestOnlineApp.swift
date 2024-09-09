@@ -25,18 +25,12 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CoordinatorView(
-                root: store.state.navigation.root,
-                pathBinding: .init(
-                    get: { store.state.navigation.path },
-                    set: { _ in }
-                ),
-                sheetBinding: .init(
-                    get: { store.state.navigation.sheet },
-                    set: { _ in }
-                ),
-                viewFactory: AppViewFactory(store: store)
-            )
+            CoordinatorView(viewFactory: AppViewFactory(store: store) {
+                store.projection(
+                    derivetate;:,
+                    <#T##embedAction: (LocalAction, AppState) -> Any##(LocalAction, AppState) -> Any#>
+                )
+            }
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
@@ -107,19 +101,19 @@ private func createAppStore() -> Store<AppState, Any> {
                 store.projection(GameView.deriveState, GameView.embedAction)
             }
 
-//        case .settings:
-//            CoordinatorView(
-//                root: .settingsMain,
-//                pathBinding: .init(
-//                    get: { store.state.navigation.settingsPath },
-//                    set: { _ in }
-//                ),
-//                sheetBinding: .init(
-//                    get: { nil },
-//                    set: { _ in }
-//                ),
-//                viewFactory: self
-//            )
+            //        case .settings:
+            //            CoordinatorView(
+            //                root: .settingsMain,
+            //                pathBinding: .init(
+            //                    get: { store.state.navigation.settingsPath },
+            //                    set: { _ in }
+            //                ),
+            //                sheetBinding: .init(
+            //                    get: { nil },
+            //                    set: { _ in }
+            //                ),
+            //                viewFactory: self
+            //            )
 
         case .settingsMain:
             SettingsView { [self] in
@@ -130,10 +124,6 @@ private func createAppStore() -> Store<AppState, Any> {
             FiguresView { [self] in
                 store.projection(FiguresView.deriveState, FiguresView.embedAction)
             }
-
-        case let .stack(root, path):
-            fatalError()
         }
     }
 }
-

@@ -15,8 +15,8 @@ public struct CoordinatorView: View {
     private let viewFactory: ViewFactory
 
     public init(
-        store: @escaping () -> Store<NavigationState, Action>,
-        viewFactory: ViewFactory
+        viewFactory: ViewFactory,
+        store: @escaping () -> Store<NavigationState, Action>
     ) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
