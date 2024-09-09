@@ -25,15 +25,25 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CoordinatorView(viewFactory: AppViewFactory(store: store) {
+            CoordinatorView(viewFactory: AppViewFactory(store: store), store: {
                 store.projection(
-                    derivetate;:,
-                    <#T##embedAction: (LocalAction, AppState) -> Any##(LocalAction, AppState) -> Any#>
+                    WildWestOnlineApp.deriveState,
+                    WildWestOnlineApp.embedAction
                 )
-            }
+            })
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
+    }
+}
+
+private extension WildWestOnlineApp {
+    static let deriveState: (AppState) -> NavigationState? = { state in
+        state.navigation
+    }
+
+    static let embedAction: (CoordinatorView.Action, AppState) -> Any = { action, _ in
+        NavigationAction.dismiss
     }
 }
 
@@ -101,7 +111,8 @@ private func createAppStore() -> Store<AppState, Any> {
                 store.projection(GameView.deriveState, GameView.embedAction)
             }
 
-            //        case .settings:
+        case .settings:
+            fatalError()
             //            CoordinatorView(
             //                root: .settingsMain,
             //                pathBinding: .init(

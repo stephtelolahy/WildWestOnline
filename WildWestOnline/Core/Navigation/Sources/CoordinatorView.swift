@@ -56,5 +56,7 @@ public protocol ViewFactory {
 }
 
 public extension CoordinatorView {
-    struct Action {}
+    struct Action {
+        public init() {}
+    }
 }
