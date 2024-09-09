@@ -85,7 +85,7 @@ private func createAppStore() -> Store<AppState, Any> {
     )
 }
 
-@preconcurrency struct AppViewFactory: ViewFactory {
+struct AppViewFactory: @preconcurrency ViewFactory {
     let store: Store<AppState, Any>
 
     @MainActor
