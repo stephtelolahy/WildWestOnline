@@ -7,6 +7,7 @@
 //
 import AppCore
 import NavigationCore
+import Redux
 
 public extension HomeView {
     struct State: Equatable {
@@ -17,17 +18,21 @@ public extension HomeView {
         case didTapSettingsButton
     }
 
-    static let deriveState: (AppState) -> State? = { _ in
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
             .init()
-    }
+        }
 
-    static let embedAction: (Action, AppState) -> Any = { action, _ in
-        switch action {
-        case .didTapPlayButton:
-            GameSetupAction.start
+        public func embedAction(_ action: Action, _ state: AppState) -> Any {
+            switch action {
+            case .didTapPlayButton:
+                GameSetupAction.start
 
-        case .didTapSettingsButton:
-            RootNavigationAction.present(.settings)
+            case .didTapSettingsButton:
+                RootNavigationAction.present(.settings)
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 import AppCore
 import SettingsCore
+import Redux
 
 public extension FiguresView {
     struct State: Equatable {
@@ -21,7 +22,10 @@ public extension FiguresView {
         case didChangePreferredFigure(String)
     }
 
-    static let deriveState: (AppState) -> State? = { state in
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
             .init(
                 figures: state.inventory.figures.map {
                     .init(
@@ -30,12 +34,13 @@ public extension FiguresView {
                     )
                 }
             )
-    }
+        }
 
-    static let embedAction: (Action, AppState) -> Any = { action, _ in
-        switch action {
-        case .didChangePreferredFigure(let figure):
-            SettingsAction.updatePreferredFigure(figure)
+        public func embedAction(_ action: Action, _ state: AppState) -> Any {
+            switch action {
+            case .didChangePreferredFigure(let figure):
+                SettingsAction.updatePreferredFigure(figure)
+            }
         }
     }
 }

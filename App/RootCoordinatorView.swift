@@ -58,7 +58,7 @@ extension RootCoordinatorView {
 
         @MainActor func start() -> some View {
             SplashView {
-                store.projection(SplashView.deriveState, SplashView.embedAction)
+                store.projection(using: SplashView.Connector())
             }
         }
 
@@ -66,25 +66,32 @@ extension RootCoordinatorView {
             switch destination {
             case .home:
                 HomeView {
-                    store.projection(HomeView.deriveState, HomeView.embedAction)
+                    store.projection(using: HomeView.Connector())
                 }
 
             case .game:
                 GameView {
-                    store.projection(GameView.deriveState, GameView.embedAction)
+                    store.projection(using: GameView.Connector())
                 }
 
             case .settings:
                 SettingsCoordinatorView(
                     store: {
-                        store.projection(
-                            { $0.navigation.settings },
-                            { action,_ in action }
-                        )
+                        store.projection(using: SettingsCoordinatorView.Connector())
                     },
                     coordinator: .init(store: store)
                 )
             }
+        }
+    }
+
+    struct Connector: Redux.Connector {
+        func deriveState(_ state: AppState) -> RootNavigationState? {
+            state.navigation.root
+        }
+
+        func embedAction(_ action: RootNavigationAction, _ state: AppState) -> Any {
+            action
         }
     }
 }

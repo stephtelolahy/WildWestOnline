@@ -56,7 +56,7 @@ extension SettingsCoordinatorView {
 
         @MainActor func start() -> some View {
             SettingsView {
-                store.projection(SettingsView.deriveState, SettingsView.embedAction)
+                store.projection(using: SettingsView.Connector())
             }
         }
 
@@ -64,9 +64,19 @@ extension SettingsCoordinatorView {
             switch destination {
             case .figures:
                 FiguresView {
-                    store.projection(FiguresView.deriveState, FiguresView.embedAction)
+                    store.projection(using: FiguresView.Connector())
                 }
             }
+        }
+    }
+
+    struct Connector: Redux.Connector {
+        func deriveState(_ state: AppState) -> SettingsNavigationState? {
+            state.navigation.settings
+        }
+
+        func embedAction(_ action: SettingsNavigationAction, _ state: AppState) -> Any {
+            action
         }
     }
 }

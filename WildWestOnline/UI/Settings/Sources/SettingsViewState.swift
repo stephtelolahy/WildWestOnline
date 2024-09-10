@@ -9,6 +9,7 @@
 import AppCore
 import NavigationCore
 import SettingsCore
+import Redux
 
 public extension SettingsView {
     struct State: Equatable {
@@ -39,31 +40,35 @@ public extension SettingsView {
         case didTapFigures
     }
 
-    static let deriveState: (AppState) -> State? = { state in
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
             .init(
                 playersCount: state.settings.playersCount,
-                speedIndex: State.indexOfSpeed(state.settings.waitDelayMilliseconds),
+                speedIndex: SettingsView.State.indexOfSpeed(state.settings.waitDelayMilliseconds),
                 simulation: state.settings.simulation,
                 preferredFigure: state.settings.preferredFigure
             )
-    }
+        }
 
-    static let embedAction: (Action, AppState) -> Any = { action, _ in
-        switch action {
-        case .didTapCloseButton:
-            RootNavigationAction.dismiss
+        public func embedAction(_ action: Action, _ state: AppState) -> Any {
+            switch action {
+            case .didTapCloseButton:
+                RootNavigationAction.dismiss
 
-        case .didChangePlayersCount(let count):
-            SettingsAction.updatePlayersCount(count)
+            case .didChangePlayersCount(let count):
+                SettingsAction.updatePlayersCount(count)
 
-        case .didChangeWaitDelay(let delay):
-            SettingsAction.updateWaitDelayMilliseconds(delay)
+            case .didChangeWaitDelay(let delay):
+                SettingsAction.updateWaitDelayMilliseconds(delay)
 
-        case .didToggleSimulation:
-            SettingsAction.toggleSimulation
+            case .didToggleSimulation:
+                SettingsAction.toggleSimulation
 
-        case .didTapFigures:
-            SettingsNavigationAction.push(.figures)
+            case .didTapFigures:
+                SettingsNavigationAction.push(.figures)
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ import AppCore
 import Foundation
 import GameCore
 import NavigationCore
+import Redux
 
 public extension GameView {
     struct State: Equatable {
@@ -67,49 +68,53 @@ public extension GameView {
         case didChooseOption(String)
     }
 
-    static let deriveState: (AppState) -> State? = { state in
-        guard let game = state.game else {
-            return nil
+    struct Connector: Redux.Connector {
+        public init() {}
+
+        public func deriveState(_ state: AppState) -> State? {
+            guard let game = state.game else {
+                return nil
+            }
+
+            return .init(
+                players: game.playerItems,
+                message: game.message,
+                chooseOne: game.chooseOne,
+                handCards: game.handCards,
+                topDiscard: game.field.discard.first,
+                topDeck: game.field.deck.first,
+                animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
+                startOrder: game.round.startOrder,
+                deckCount: game.field.deck.count
+            )
         }
 
-        return .init(
-            players: game.playerItems,
-            message: game.message,
-            chooseOne: game.chooseOne,
-            handCards: game.handCards,
-            topDiscard: game.field.discard.first,
-            topDeck: game.field.deck.first,
-            animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
-            startOrder: game.round.startOrder,
-            deckCount: game.field.deck.count
-        )
-    }
-
-    static let embedAction: (Action, AppState) -> Any = { action, state in
-        guard let game = state.game else {
-            fatalError("unexpected")
-        }
-
-        switch action {
-        case .didAppear:
-            return GameAction.startTurn(player: game.startingPlayerId)
-
-        case .didTapCloseButton:
-            return GameSetupAction.quit
-
-        case .didPlayCard(let card):
-            guard let controlledId = game.controlledPlayerId else {
+        public func embedAction(_ action: Action, _ state: AppState) -> Any {
+            guard let game = state.game else {
                 fatalError("unexpected")
             }
 
-            return GameAction.preparePlay(card, player: controlledId)
+            switch action {
+            case .didAppear:
+                return GameAction.startTurn(player: game.startingPlayerId)
 
-        case .didChooseOption(let option):
-            guard let controlledId = game.controlledPlayerId else {
-                fatalError("unexpected")
+            case .didTapCloseButton:
+                return GameSetupAction.quit
+
+            case .didPlayCard(let card):
+                guard let controlledId = game.controlledPlayerId else {
+                    fatalError("unexpected")
+                }
+
+                return GameAction.preparePlay(card, player: controlledId)
+
+            case .didChooseOption(let option):
+                guard let controlledId = game.controlledPlayerId else {
+                    fatalError("unexpected")
+                }
+
+                return GameAction.prepareChoose(option, player: controlledId)
             }
-
-            return GameAction.prepareChoose(option, player: controlledId)
         }
     }
 }

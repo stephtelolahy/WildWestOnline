@@ -7,6 +7,7 @@
 //
 import AppCore
 import NavigationCore
+import Redux
 
 public extension SplashView {
     struct State: Equatable {
@@ -16,14 +17,18 @@ public extension SplashView {
         case didAppear
     }
 
-    static let deriveState: (AppState) -> State? = { _ in
-            .init()
-    }
+    struct Connector: Redux.Connector {
+        public init() {}
 
-    static let embedAction: (Action, AppState) -> Any = { action, _ in
-        switch action {
-        case .didAppear:
-            RootNavigationAction.push(.home)
+        public func deriveState(_ state: AppState) -> State? {
+            .init()
+        }
+
+        public func embedAction(_ action: Action, _ state: AppState) -> Any {
+            switch action {
+            case .didAppear:
+                RootNavigationAction.push(.home)
+            }
         }
     }
 }
