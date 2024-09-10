@@ -25,7 +25,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(
+            RootCoordinatorView(
                 store: {
                     store.projection(
                         { $0.navigation.root },

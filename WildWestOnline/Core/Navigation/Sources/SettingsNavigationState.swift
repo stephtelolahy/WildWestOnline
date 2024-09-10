@@ -1,16 +1,15 @@
 //
-//  RootNavigationState.swift
+//  SettingsNavigationState.swift
 //  WildWestOnline
 //
-//  Created by Stephano Hugues TELOLAHY on 09/09/2024.
+//  Created by Hugues Stephano TELOLAHY on 10/09/2024.
 //
+
 import Redux
 
-public struct RootNavigationState: Equatable, Codable {
+public struct SettingsNavigationState: Equatable, Codable {
     public enum Destination: String, Identifiable, Codable {
-        case home
-        case game
-        case settings
+        case figures
 
         public var id: String {
             self.rawValue
@@ -26,15 +25,13 @@ public struct RootNavigationState: Equatable, Codable {
     }
 }
 
-public enum RootNavigationAction {
-    case push(RootNavigationState.Destination)
+public enum SettingsNavigationAction {
+    case push(SettingsNavigationState.Destination)
     case pop
-    case present(RootNavigationState.Destination)
-    case dismiss
 }
 
-public extension RootNavigationState {
-    static let reducer: Reducer<Self, RootNavigationAction> = { state, action in
+public extension SettingsNavigationState {
+    static let reducer: Reducer<Self, SettingsNavigationAction> = { state, action in
         var state = state
         switch action {
         case .push(let page):
@@ -42,12 +39,6 @@ public extension RootNavigationState {
 
         case .pop:
             state.path.removeLast()
-
-        case .present(let page):
-            state.sheet = page
-
-        case .dismiss:
-            state.sheet = nil
         }
 
         return state

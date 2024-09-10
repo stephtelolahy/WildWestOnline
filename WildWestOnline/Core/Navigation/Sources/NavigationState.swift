@@ -8,10 +8,13 @@ import Redux
 
 public struct NavigationState: Equatable, Codable {
     public var root: RootNavigationState
+    public var settings: SettingsNavigationState
 
     public init(
-        root: RootNavigationState = .init(path: [])
+        root: RootNavigationState = .init(path: []),
+        settings: SettingsNavigationState = .init(path: [])
     ) {
         self.root = root
+        self.settings = settings
     }
 }
