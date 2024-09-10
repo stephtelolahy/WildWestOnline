@@ -38,6 +38,9 @@ public extension AppState {
         case let action as RootNavigationAction:
             state.navigation.root = try RootNavigationState.reducer(state.navigation.root, action)
 
+        case let action as SettingsNavigationAction:
+            state.navigation.settings = try SettingsNavigationState.reducer(state.navigation.settings, action)
+
         case let action as GameSetupAction:
             state = try gameSetupReducer(state, action)
 

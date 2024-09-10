@@ -79,7 +79,7 @@ extension RootCoordinatorView {
                     store: {
                         store.projection(
                             { $0.navigation.settings },
-                            { _,_ in fatalError() }
+                            { action,_ in action }
                         )
                     },
                     coordinator: .init(store: store)

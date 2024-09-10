@@ -28,6 +28,7 @@ public struct SettingsNavigationState: Equatable, Codable {
 public enum SettingsNavigationAction {
     case push(SettingsNavigationState.Destination)
     case pop
+    case setPath([SettingsNavigationState.Destination])
 }
 
 public extension SettingsNavigationState {
@@ -39,6 +40,9 @@ public extension SettingsNavigationState {
 
         case .pop:
             state.path.removeLast()
+
+        case .setPath(let path):
+            state.path = path
         }
 
         return state

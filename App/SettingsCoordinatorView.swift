@@ -38,7 +38,7 @@ struct SettingsCoordinatorView: View {
     private var pathBinding: Binding<[SettingsNavigationState.Destination]> {
         .init(
             get: { store.state.path },
-            set: { _ in }
+            set: { store.dispatch(.setPath($0)) }
         )
     }
 
