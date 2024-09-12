@@ -11,7 +11,7 @@ import Redux
 public struct FiguresViewConnector: Connector {
     public init() {}
 
-    public func deriveState(_ state: AppState) -> State? {
+    public func deriveState(_ state: AppState) -> FiguresView.State? {
         .init(
             figures: state.inventory.figures.map {
                 .init(
@@ -22,7 +22,7 @@ public struct FiguresViewConnector: Connector {
         )
     }
 
-    public func embedAction(_ action: Action, _ state: AppState) -> Any {
+    public func embedAction(_ action: FiguresView.Action, _ state: AppState) -> Any {
         switch action {
         case .didChangePreferredFigure(let figure):
             SettingsAction.updatePreferredFigure(figure)

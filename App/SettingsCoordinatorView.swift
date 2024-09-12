@@ -64,7 +64,7 @@ extension SettingsCoordinatorView {
             switch destination {
             case .figures:
                 FiguresView {
-                    store.projection(using: FiguresView.Connector())
+                    store.projection(using: FiguresViewConnector())
                 }
             }
         }

@@ -66,7 +66,7 @@ extension RootCoordinatorView {
             switch destination {
             case .home:
                 HomeView {
-                    store.projection(using: HomeView.Connector())
+                    store.projection(using: HomeViewConnector())
                 }
 
             case .game:

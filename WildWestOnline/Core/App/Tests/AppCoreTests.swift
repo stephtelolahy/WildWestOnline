@@ -15,7 +15,7 @@ final class AppCoreTests: XCTestCase {
     func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
         // Given
         let state = AppState(
-            navigation: .init(),
+            navigation: .init(root: .init(path: [.home])),
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )

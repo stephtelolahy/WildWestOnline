@@ -10,22 +10,20 @@ import Redux
 import AppCore
 import NavigationCore
 
-public extension HomeView {
-    struct Connector: Redux.Connector {
-        public init() {}
+public struct HomeViewConnector: Connector {
+    public init() {}
 
-        public func deriveState(_ state: AppState) -> State? {
-            .init()
-        }
+    public func deriveState(_ state: AppState) -> HomeView.State? {
+        .init()
+    }
 
-        public func embedAction(_ action: Action, _ state: AppState) -> Any {
-            switch action {
-            case .didTapPlayButton:
-                GameSetupAction.start
+    public func embedAction(_ action: HomeView.Action, _ state: AppState) -> Any {
+        switch action {
+        case .didTapPlayButton:
+            GameSetupAction.start
 
-            case .didTapSettingsButton:
-                RootNavigationAction.present(.settings)
-            }
+        case .didTapSettingsButton:
+            RootNavigationAction.present(.settings)
         }
     }
 }
