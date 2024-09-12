@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		153B705F2C8F9C0B004C531B /* ViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B705E2C8F9C0B004C531B /* ViewCoordinator.swift */; };
-		153B70632C8F9DB3004C531B /* RootCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B70622C8F9DB3004C531B /* RootCoordinatorView.swift */; };
+		153B70632C8F9DB3004C531B /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B70622C8F9DB3004C531B /* RootCoordinator.swift */; };
 		153E2F5B2C50C4A1003E9F54 /* CardsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5A2C50C4A1003E9F54 /* CardsData */; };
 		153E2F5D2C50C4A1003E9F54 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5C2C50C4A1003E9F54 /* SettingsData */; };
 		153E2F5F2C50C6DE003E9F54 /* GameUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5E2C50C6DE003E9F54 /* GameUI */; };
@@ -17,19 +16,18 @@
 		153E2F652C50C6DE003E9F54 /* SplashUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F642C50C6DE003E9F54 /* SplashUI */; };
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
-		F33E3DAC2C902602005B3B84 /* SettingsCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33E3DAB2C902602005B3B84 /* SettingsCoordinatorView.swift */; };
+		F33E3DAC2C902602005B3B84 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33E3DAB2C902602005B3B84 /* SettingsCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		153B705E2C8F9C0B004C531B /* ViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCoordinator.swift; sourceTree = "<group>"; };
-		153B70622C8F9DB3004C531B /* RootCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinatorView.swift; sourceTree = "<group>"; };
+		153B70622C8F9DB3004C531B /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildWestOnlineApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildWestOnline.entitlements; sourceTree = "<group>"; };
 		269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WildWestOnline.xctestplan; sourceTree = "<group>"; };
 		26DD32B829F3D646002E0F93 /* WildWestOnline */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WildWestOnline; sourceTree = "<group>"; };
-		F33E3DAB2C902602005B3B84 /* SettingsCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorView.swift; sourceTree = "<group>"; };
+		F33E3DAB2C902602005B3B84 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		F37D85E02A0438EE00C3A754 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,9 +52,8 @@
 			isa = PBXGroup;
 			children = (
 				2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */,
-				153B70622C8F9DB3004C531B /* RootCoordinatorView.swift */,
-				F33E3DAB2C902602005B3B84 /* SettingsCoordinatorView.swift */,
-				153B705E2C8F9C0B004C531B /* ViewCoordinator.swift */,
+				153B70622C8F9DB3004C531B /* RootCoordinator.swift */,
+				F33E3DAB2C902602005B3B84 /* SettingsCoordinator.swift */,
 				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
 				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
 				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
@@ -168,10 +165,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F33E3DAC2C902602005B3B84 /* SettingsCoordinatorView.swift in Sources */,
-				153B70632C8F9DB3004C531B /* RootCoordinatorView.swift in Sources */,
+				F33E3DAC2C902602005B3B84 /* SettingsCoordinator.swift in Sources */,
+				153B70632C8F9DB3004C531B /* RootCoordinator.swift in Sources */,
 				2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */,
-				153B705F2C8F9C0B004C531B /* ViewCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

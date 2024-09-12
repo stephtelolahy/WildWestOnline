@@ -25,11 +25,13 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootCoordinatorView(
+            CoordinatorView(
                 store: {
                     store.projection(using: RootCoordinatorViewConnector())
                 },
-                coordinator: .init(store: store))
+                startView: { RootCoordinator(store: store).startView() },
+                destinationView: { RootCoordinator(store: store).view(for: $0) }
+            )
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
