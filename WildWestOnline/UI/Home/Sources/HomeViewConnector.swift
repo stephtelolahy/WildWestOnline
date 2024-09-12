@@ -23,7 +23,7 @@ public struct HomeViewConnector: Connector {
             GameSetupAction.start
 
         case .didTapSettingsButton:
-            RootNavigationAction.present(.settings)
+            NavigationAction<RootDestination>.present(.settings)
         }
     }
 }

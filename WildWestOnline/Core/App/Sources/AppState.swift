@@ -35,11 +35,11 @@ public extension AppState {
     static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
         switch action {
-        case let action as RootNavigationAction:
-            state.navigation.root = try RootNavigationState.reducer(state.navigation.root, action)
+        case let action as NavigationAction<RootDestination>:
+            state.navigation = try NavigationState.rootReducer(state.navigation, action)
 
-        case let action as SettingsNavigationAction:
-            state.navigation.settings = try SettingsNavigationState.reducer(state.navigation.settings, action)
+        case let action as NavigationAction<SettingsDestination>:
+            state.navigation = try NavigationState.settingsReducer(state.navigation, action)
 
         case let action as GameSetupAction:
             state = try gameSetupReducer(state, action)

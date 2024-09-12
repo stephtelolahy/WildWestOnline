@@ -12,11 +12,11 @@ import NavigationCore
 import SettingsUI
 
 struct SettingsCoordinatorView: View {
-    @StateObject private var store: Store<SettingsNavigationState, SettingsNavigationAction>
+    @StateObject private var store: Store<NavigationStackState<SettingsDestination>, NavigationAction<SettingsDestination>>
     private let coordinator: Coordinator
 
     init(
-        store: @escaping () -> Store<SettingsNavigationState, SettingsNavigationAction>,
+        store: @escaping () -> Store<NavigationStackState<SettingsDestination>, NavigationAction<SettingsDestination>>,
         coordinator: Coordinator
     ) {
         _store = StateObject(wrappedValue: store())
@@ -26,7 +26,7 @@ struct SettingsCoordinatorView: View {
     var body: some View {
         NavigationStack(path: pathBinding) {
             coordinator.start()
-                .navigationDestination(for: SettingsNavigationState.Destination.self) { destination in
+                .navigationDestination(for: SettingsDestination.self) { destination in
                     coordinator.view(for: destination)
                 }
                 .sheet(item: sheetBinding) { destination in
@@ -35,14 +35,14 @@ struct SettingsCoordinatorView: View {
         }
     }
 
-    private var pathBinding: Binding<[SettingsNavigationState.Destination]> {
+    private var pathBinding: Binding<[SettingsDestination]> {
         .init(
             get: { store.state.path },
             set: { store.dispatch(.setPath($0)) }
         )
     }
 
-    private var sheetBinding: Binding<SettingsNavigationState.Destination?> {
+    private var sheetBinding: Binding<SettingsDestination?> {
         .init(
             get: { store.state.sheet },
             set: { _ in }
@@ -60,7 +60,7 @@ extension SettingsCoordinatorView {
             }
         }
 
-        @MainActor func view(for destination: SettingsNavigationState.Destination) -> some View {
+        @MainActor func view(for destination: SettingsDestination) -> some View {
             switch destination {
             case .figures:
                 FiguresView {
@@ -72,11 +72,11 @@ extension SettingsCoordinatorView {
 }
 
 struct SettingsNavViewConnector: Connector {
-    func deriveState(_ state: AppState) -> SettingsNavigationState? {
+    func deriveState(_ state: AppState) -> NavigationStackState<SettingsDestination>? {
         state.navigation.settings
     }
 
-    func embedAction(_ action: SettingsNavigationAction, _ state: AppState) -> Any {
+    func embedAction(_ action: NavigationAction<SettingsDestination>, _ state: AppState) -> Any {
         action
     }
 }

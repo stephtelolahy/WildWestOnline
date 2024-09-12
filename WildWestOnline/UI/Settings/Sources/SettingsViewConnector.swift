@@ -26,7 +26,7 @@ public struct SettingsViewConnector: Connector {
     public func embedAction(_ action: SettingsView.Action, _ state: AppState) -> Any {
         switch action {
         case .didTapCloseButton:
-            RootNavigationAction.dismiss
+            NavigationAction<RootDestination>.dismiss
 
         case .didChangePlayersCount(let count):
             SettingsAction.updatePlayersCount(count)
@@ -38,7 +38,7 @@ public struct SettingsViewConnector: Connector {
             SettingsAction.toggleSimulation
 
         case .didTapFigures:
-            SettingsNavigationAction.push(.figures)
+            NavigationAction<SettingsDestination>.push(.figures)
         }
     }
 }

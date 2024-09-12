@@ -14,11 +14,11 @@ import HomeUI
 import GameUI
 
 struct RootCoordinatorView: View {
-    @StateObject private var store: Store<RootNavigationState, RootNavigationAction>
+    @StateObject private var store: Store<NavigationStackState<RootDestination>, NavigationAction<RootDestination>>
     private let coordinator: Coordinator
 
     init(
-        store: @escaping () -> Store<RootNavigationState, RootNavigationAction>,
+        store: @escaping () -> Store<NavigationStackState<RootDestination>, NavigationAction<RootDestination>>,
         coordinator: Coordinator
     ) {
         _store = StateObject(wrappedValue: store())
@@ -28,7 +28,7 @@ struct RootCoordinatorView: View {
     var body: some View {
         NavigationStack(path: pathBinding) {
             coordinator.start()
-                .navigationDestination(for: RootNavigationState.Destination.self) { destination in
+                .navigationDestination(for: RootDestination.self) { destination in
                     coordinator.view(for: destination)
                 }
                 .sheet(item: sheetBinding) { destination in
@@ -37,14 +37,14 @@ struct RootCoordinatorView: View {
         }
     }
 
-    private var pathBinding: Binding<[RootNavigationState.Destination]> {
+    private var pathBinding: Binding<[RootDestination]> {
         .init(
             get: { store.state.path },
             set: { _ in }
         )
     }
 
-    private var sheetBinding: Binding<RootNavigationState.Destination?> {
+    private var sheetBinding: Binding<RootDestination?> {
         .init(
             get: { store.state.sheet },
             set: { _ in }
@@ -62,7 +62,7 @@ extension RootCoordinatorView {
             }
         }
 
-        @MainActor func view(for destination: RootNavigationState.Destination) -> some View {
+        @MainActor func view(for destination: RootDestination) -> some View {
             switch destination {
             case .home:
                 HomeView {
@@ -87,11 +87,11 @@ extension RootCoordinatorView {
 }
 
 struct RootViewConnector: Connector {
-    func deriveState(_ state: AppState) -> RootNavigationState? {
+    func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
         state.navigation.root
     }
 
-    func embedAction(_ action: RootNavigationAction, _ state: AppState) -> Any {
+    func embedAction(_ action: NavigationAction<RootDestination>, _ state: AppState) -> Any {
         action
     }
 }
