@@ -77,21 +77,21 @@ extension RootCoordinatorView {
             case .settings:
                 SettingsCoordinatorView(
                     store: {
-                        store.projection(using: SettingsCoordinatorView.Connector())
+                        store.projection(using: SettingsNavViewConnector())
                     },
                     coordinator: .init(store: store)
                 )
             }
         }
     }
+}
 
-    struct Connector: Redux.Connector {
-        func deriveState(_ state: AppState) -> RootNavigationState? {
-            state.navigation.root
-        }
+struct RootViewConnector: Connector {
+    func deriveState(_ state: AppState) -> RootNavigationState? {
+        state.navigation.root
+    }
 
-        func embedAction(_ action: RootNavigationAction, _ state: AppState) -> Any {
-            action
-        }
+    func embedAction(_ action: RootNavigationAction, _ state: AppState) -> Any {
+        action
     }
 }

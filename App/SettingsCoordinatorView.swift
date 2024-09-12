@@ -69,14 +69,14 @@ extension SettingsCoordinatorView {
             }
         }
     }
+}
 
-    struct Connector: Redux.Connector {
-        func deriveState(_ state: AppState) -> SettingsNavigationState? {
-            state.navigation.settings
-        }
+struct SettingsNavViewConnector: Connector {
+    func deriveState(_ state: AppState) -> SettingsNavigationState? {
+        state.navigation.settings
+    }
 
-        func embedAction(_ action: SettingsNavigationAction, _ state: AppState) -> Any {
-            action
-        }
+    func embedAction(_ action: SettingsNavigationAction, _ state: AppState) -> Any {
+        action
     }
 }
