@@ -54,23 +54,3 @@ public struct FiguresView: View {
         ]))
     }
 }
-
-struct FigureRow: View {
-    var figure: FiguresView.State.Figure
-
-    var body: some View {
-        HStack {
-            Image(systemName: "lanyardcard")
-            Text(figure.name)
-
-            Spacer()
-
-            if figure.isFavorite {
-                Image(systemName: "star.fill")
-                    .foregroundColor(.yellow)
-                    .padding()
-            }
-
-        }
-    }
-}

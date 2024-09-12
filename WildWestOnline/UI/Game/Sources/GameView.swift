@@ -88,12 +88,12 @@ public struct GameView: View {
 
 #Preview {
     GameView {
-        .init(initial: .preview)
+        .init(initial: .mockedData)
     }
 }
 
 private extension GameView.State {
-    static var preview: Self {
+    static var mockedData: Self {
         let player1 = GameView.State.PlayerItem(
             id: "p1",
             imageName: "willyTheKid",

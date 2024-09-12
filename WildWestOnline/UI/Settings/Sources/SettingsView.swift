@@ -137,12 +137,12 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView {
-        .init(initial: .preview)
+        .init(initial: .mockedData)
     }
 }
 
 private extension SettingsView.State {
-    static var preview: Self {
+    static var mockedData: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,
