@@ -1,6 +1,6 @@
 // swiftlint:disable:this file_name
 //
-//  SettingsViewState.swift
+//  SettingsViewConnector.swift
 //
 //
 //  Created by Hugues Telolahy on 09/12/2023.
@@ -12,34 +12,6 @@ import SettingsCore
 import Redux
 
 public extension SettingsView {
-    struct State: Equatable {
-        public let minPlayersCount = 2
-        public let maxPlayersCount = 7
-        public let speedOptions: [SpeedOption] = SpeedOption.all
-        public let playersCount: Int
-        public let speedIndex: Int
-        public let simulation: Bool
-        public let preferredFigure: String?
-
-        public struct SpeedOption: Equatable {
-            let label: String
-            let value: Int
-
-            static let all: [Self] = [
-                .init(label: "Normal", value: 500),
-                .init(label: "Fast", value: 0)
-            ]
-        }
-    }
-
-    enum Action {
-        case didTapCloseButton
-        case didChangePlayersCount(Int)
-        case didChangeWaitDelay(Int)
-        case didToggleSimulation
-        case didTapFigures
-    }
-
     struct Connector: Redux.Connector {
         public init() {}
 

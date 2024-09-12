@@ -9,6 +9,19 @@ import Redux
 import SwiftUI
 
 public struct FiguresView: View {
+    public struct State: Equatable {
+        public let figures: [Figure]
+
+        public struct Figure: Equatable {
+            let name: String
+            let isFavorite: Bool
+        }
+    }
+
+    public enum Action {
+        case didChangePreferredFigure(String)
+    }
+
     @StateObject private var store: Store<State, Action>
 
     public init(store: @escaping () -> Store<State, Action>) {

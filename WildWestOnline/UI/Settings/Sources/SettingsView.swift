@@ -10,6 +10,34 @@ import Redux
 import SwiftUI
 
 public struct SettingsView: View {
+    public struct State: Equatable {
+        public let minPlayersCount = 2
+        public let maxPlayersCount = 7
+        public let speedOptions: [SpeedOption] = SpeedOption.all
+        public let playersCount: Int
+        public let speedIndex: Int
+        public let simulation: Bool
+        public let preferredFigure: String?
+
+        public struct SpeedOption: Equatable {
+            let label: String
+            let value: Int
+
+            static let all: [Self] = [
+                .init(label: "Normal", value: 500),
+                .init(label: "Fast", value: 0)
+            ]
+        }
+    }
+
+    public enum Action {
+        case didTapCloseButton
+        case didChangePlayersCount(Int)
+        case didChangeWaitDelay(Int)
+        case didToggleSimulation
+        case didTapFigures
+    }
+
     @StateObject private var store: Store<State, Action>
 
     public init(store: @escaping () -> Store<State, Action>) {

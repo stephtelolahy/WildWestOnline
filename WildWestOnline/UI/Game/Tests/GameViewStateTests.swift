@@ -14,6 +14,8 @@ import SettingsCore
 import XCTest
 
 final class GameViewStateTests: XCTestCase {
+    private let sut = GameView.Connector()
+
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
@@ -27,7 +29,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -57,7 +59,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -108,7 +110,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.handCards, [
@@ -134,13 +136,13 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(
             result.chooseOne,
             GameView.State.ChooseOne(
-                choiceType: .cardToDraw,
+                choiceType: ChoiceType.cardToDraw.rawValue,
                 options: [.missed, .bang]
             )
         )

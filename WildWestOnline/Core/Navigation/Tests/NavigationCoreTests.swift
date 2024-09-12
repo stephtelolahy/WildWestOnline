@@ -10,11 +10,11 @@ import XCTest
 final class NavigationCoreTests: XCTestCase {
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let state = NavigationState(path: [])
+        let state = RootNavigationState(path: [])
 
         // When
-        let action = NavigationAction.push(.home)
-        let result = try NavigationState.reducer(state, action)
+        let action = RootNavigationAction.push(.home)
+        let result = try RootNavigationState.reducer(state, action)
 
         // Then
         XCTAssertEqual(result.path, [.home])

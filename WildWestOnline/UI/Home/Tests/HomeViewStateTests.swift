@@ -13,16 +13,18 @@ import SettingsCore
 import XCTest
 
 final class HomeViewStateTests: XCTestCase {
+    private let sut = HomeView.Connector()
+
     func test_HomeStateProjection() throws {
         // Given
         let appState = AppState(
-            navigation: .init(path: [.home]),
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )
 
         // When
         // Then
-        XCTAssertNotNil(HomeView.deriveState(appState))
+        XCTAssertNotNil(sut.deriveState(appState))
     }
 }
