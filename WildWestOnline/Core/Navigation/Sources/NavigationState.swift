@@ -19,38 +19,34 @@ public struct NavigationState: Equatable, Codable {
     }
 }
 
-public protocol Destination: Identifiable, Equatable, Codable {}
+public enum RootDestination: String, Destination {
+    case home
+    case game
+    case settings
 
-public struct NavigationStackState<T: Destination>: Equatable, Codable {
-    public var path: [T]
-    public var sheet: T?
-
-    public init(path: [T], sheet: T? = nil) {
-        self.path = path
-        self.sheet = sheet
+    public var id: String {
+        self.rawValue
     }
 }
 
-public enum NavigationAction<T: Destination> {
-    case push(T)
-    case pop
-    case setPath([T])
-    case present(T)
-    case dismiss
+public enum SettingsDestination: String, Destination {
+    case figures
+
+    public var id: String {
+        self.rawValue
+    }
 }
 
 public extension NavigationState {
     static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
-        switch action {
-        case let action as NavigationAction<RootDestination>:
-            state = try NavigationState.rootReducer(state, action)
 
-        case let action as NavigationAction<SettingsDestination>:
-            state = try NavigationState.settingsReducer(state, action)
+        if let action = action as? NavigationAction<RootDestination> {
+            state.root = try stackReducer(state.root, action)
+        }
 
-        default:
-            break
+        if let action = action as? NavigationAction<SettingsDestination> {
+            state.settings = try stackReducer(state.settings, action)
         }
 
         return state
