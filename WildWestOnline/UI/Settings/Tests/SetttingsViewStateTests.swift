@@ -13,7 +13,7 @@ import SettingsUI
 import XCTest
 
 final class SetttingsViewStateTests: XCTestCase {
-    private let sut = SettingsView.Connector()
+    private let sut = SettingsViewConnector()
 
     func test_SettingsStateProjection() throws {
         // Given

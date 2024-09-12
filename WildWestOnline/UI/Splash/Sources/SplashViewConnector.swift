@@ -9,19 +9,17 @@ import Redux
 import AppCore
 import NavigationCore
 
-public extension SplashView {
-    struct Connector: Redux.Connector {
-        public init() {}
+public struct SplashViewConnector: Connector {
+    public init() {}
 
-        public func deriveState(_ state: AppState) -> State? {
-            .init()
-        }
+    public func deriveState(_ state: AppState) -> SplashView.State? {
+        .init()
+    }
 
-        public func embedAction(_ action: Action, _ state: AppState) -> Any {
-            switch action {
-            case .didAppear:
-                RootNavigationAction.push(.home)
-            }
+    public func embedAction(_ action: SplashView.Action, _ state: AppState) -> Any {
+        switch action {
+        case .didAppear:
+            RootNavigationAction.push(.home)
         }
     }
 }

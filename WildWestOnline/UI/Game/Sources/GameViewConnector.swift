@@ -12,54 +12,52 @@ import AppCore
 import GameCore
 import NavigationCore
 
-public extension GameView {
-    struct Connector: Redux.Connector {
-        public init() {}
+public struct GameViewConnector: Connector {
+    public init() {}
 
-        public func deriveState(_ state: AppState) -> State? {
-            guard let game = state.game else {
-                return nil
-            }
-
-            return .init(
-                players: game.playerItems,
-                message: game.message,
-                chooseOne: game.chooseOne,
-                handCards: game.handCards,
-                topDiscard: game.field.discard.first,
-                topDeck: game.field.deck.first,
-                animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
-                startOrder: game.round.startOrder,
-                deckCount: game.field.deck.count
-            )
+    public func deriveState(_ state: AppState) -> GameView.State? {
+        guard let game = state.game else {
+            return nil
         }
 
-        public func embedAction(_ action: Action, _ state: AppState) -> Any {
-            guard let game = state.game else {
+        return .init(
+            players: game.playerItems,
+            message: game.message,
+            chooseOne: game.chooseOne,
+            handCards: game.handCards,
+            topDiscard: game.field.discard.first,
+            topDeck: game.field.deck.first,
+            animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
+            startOrder: game.round.startOrder,
+            deckCount: game.field.deck.count
+        )
+    }
+
+    public func embedAction(_ action: GameView.Action, _ state: AppState) -> Any {
+        guard let game = state.game else {
+            fatalError("unexpected")
+        }
+
+        switch action {
+        case .didAppear:
+            return GameAction.startTurn(player: game.startingPlayerId)
+
+        case .didTapCloseButton:
+            return GameSetupAction.quit
+
+        case .didPlayCard(let card):
+            guard let controlledId = game.controlledPlayerId else {
                 fatalError("unexpected")
             }
 
-            switch action {
-            case .didAppear:
-                return GameAction.startTurn(player: game.startingPlayerId)
+            return GameAction.preparePlay(card, player: controlledId)
 
-            case .didTapCloseButton:
-                return GameSetupAction.quit
-
-            case .didPlayCard(let card):
-                guard let controlledId = game.controlledPlayerId else {
-                    fatalError("unexpected")
-                }
-
-                return GameAction.preparePlay(card, player: controlledId)
-
-            case .didChooseOption(let option):
-                guard let controlledId = game.controlledPlayerId else {
-                    fatalError("unexpected")
-                }
-
-                return GameAction.prepareChoose(option, player: controlledId)
+        case .didChooseOption(let option):
+            guard let controlledId = game.controlledPlayerId else {
+                fatalError("unexpected")
             }
+
+            return GameAction.prepareChoose(option, player: controlledId)
         }
     }
 }

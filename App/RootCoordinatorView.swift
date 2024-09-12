@@ -58,7 +58,7 @@ extension RootCoordinatorView {
 
         @MainActor func start() -> some View {
             SplashView {
-                store.projection(using: SplashView.Connector())
+                store.projection(using: SplashViewConnector())
             }
         }
 
@@ -71,7 +71,7 @@ extension RootCoordinatorView {
 
             case .game:
                 GameView {
-                    store.projection(using: GameView.Connector())
+                    store.projection(using: GameViewConnector())
                 }
 
             case .settings:

@@ -56,7 +56,7 @@ extension SettingsCoordinatorView {
 
         @MainActor func start() -> some View {
             SettingsView {
-                store.projection(using: SettingsView.Connector())
+                store.projection(using: SettingsViewConnector())
             }
         }
 

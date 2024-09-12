@@ -14,7 +14,7 @@ import XCTest
 
 final class SplashViewStateTests: XCTestCase {
 
-    private let sut = SplashView.Connector()
+    private let sut = SplashViewConnector()
 
     func test_splashStateProjection() throws {
         // Given
