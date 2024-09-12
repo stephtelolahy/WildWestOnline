@@ -6,11 +6,19 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import Redux
 import SwiftUI
 import Theme
+import Redux
 
 public struct HomeView: View {
+    public struct State: Equatable {
+    }
+
+    public enum Action {
+        case didTapPlayButton
+        case didTapSettingsButton
+    }
+
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Action>
 

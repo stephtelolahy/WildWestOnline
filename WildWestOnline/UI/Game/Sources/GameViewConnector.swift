@@ -1,73 +1,18 @@
 // swiftlint:disable:this file_name
 //
-//  GameViewState.swift
-//  
+//  GameViewConnector.swift
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 24/03/2024.
 //
 // swiftlint:disable nesting
 
+import Redux
 import AppCore
-import Foundation
 import GameCore
 import NavigationCore
-import Redux
 
 public extension GameView {
-    struct State: Equatable {
-        public let players: [PlayerItem]
-        public let message: String
-        public let chooseOne: ChooseOne?
-        public let handCards: [HandCard]
-        public let topDiscard: String?
-        public let topDeck: String?
-        public let animationDelay: TimeInterval
-        public let startOrder: [String]
-        public let deckCount: Int
-
-        public struct PlayerItem: Equatable {
-            public let id: String
-            public let imageName: String
-            public let displayName: String
-            public let health: Int
-            public let maxHealth: Int
-            public let handCount: Int
-            public let inPlay: [String]
-            public let isTurn: Bool
-            public let isTargeted: Bool
-            public let isEliminated: Bool
-            public let role: String?
-            public let userPhotoUrl: String?
-        }
-
-        public struct HandCard: Equatable {
-            public let card: String
-            public let active: Bool
-
-            public init(card: String, active: Bool) {
-                self.card = card
-                self.active = active
-            }
-        }
-
-        public struct ChooseOne: Equatable {
-            public let choiceType: ChoiceType
-            public let options: [String]
-
-            public init(choiceType: ChoiceType, options: [String]) {
-                self.choiceType = choiceType
-                self.options = options
-            }
-        }
-    }
-
-    enum Action {
-        case didAppear
-        case didTapCloseButton
-        case didPlayCard(String)
-        case didChooseOption(String)
-    }
-
     struct Connector: Redux.Connector {
         public init() {}
 
@@ -163,7 +108,7 @@ private extension GameState {
         }
 
         return .init(
-            choiceType: chooseOne.type,
+            choiceType: chooseOne.type.rawValue,
             options: chooseOne.options
         )
     }

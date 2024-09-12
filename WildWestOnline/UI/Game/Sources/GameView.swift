@@ -6,12 +6,65 @@
 //
 // swiftlint:disable type_contents_order no_magic_numbers
 
-import CardsData
-import Redux
 import SwiftUI
 import Theme
+import Redux
 
 public struct GameView: View {
+    public struct State: Equatable {
+        public let players: [PlayerItem]
+        public let message: String
+        public let chooseOne: ChooseOne?
+        public let handCards: [HandCard]
+        public let topDiscard: String?
+        public let topDeck: String?
+        public let animationDelay: TimeInterval
+        public let startOrder: [String]
+        public let deckCount: Int
+
+        public struct PlayerItem: Equatable {
+            public let id: String
+            public let imageName: String
+            public let displayName: String
+            public let health: Int
+            public let maxHealth: Int
+            public let handCount: Int
+            public let inPlay: [String]
+            public let isTurn: Bool
+            public let isTargeted: Bool
+            public let isEliminated: Bool
+            public let role: String?
+            public let userPhotoUrl: String?
+        }
+
+        public struct HandCard: Equatable {
+            public let card: String
+            public let active: Bool
+
+            public init(card: String, active: Bool) {
+                self.card = card
+                self.active = active
+            }
+        }
+
+        public struct ChooseOne: Equatable {
+            public let choiceType: String
+            public let options: [String]
+
+            public init(choiceType: String, options: [String]) {
+                self.choiceType = choiceType
+                self.options = options
+            }
+        }
+    }
+
+    public enum Action {
+        case didAppear
+        case didTapCloseButton
+        case didPlayCard(String)
+        case didChooseOption(String)
+    }
+
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Action>
 
@@ -43,12 +96,12 @@ private extension GameView.State {
     static var preview: Self {
         let player1 = GameView.State.PlayerItem(
             id: "p1",
-            imageName: .willyTheKid,
-            displayName: .willyTheKid,
+            imageName: "willyTheKid",
+            displayName: "willyTheKid",
             health: 2,
             maxHealth: 4,
             handCount: 5,
-            inPlay: [.scope, .jail],
+            inPlay: ["scope", "jail"],
             isTurn: true,
             isTargeted: false,
             isEliminated: false,
@@ -58,12 +111,12 @@ private extension GameView.State {
 
         let player2 = GameView.State.PlayerItem(
             id: "p2",
-            imageName: .calamityJanet,
-            displayName: .calamityJanet,
+            imageName: "calamityJanet",
+            displayName: "calamityJanet",
             health: 1,
             maxHealth: 4,
             handCount: 0,
-            inPlay: [.scope, .jail],
+            inPlay: ["scope", "jail"],
             isTurn: false,
             isTargeted: false,
             isEliminated: false,
@@ -76,11 +129,11 @@ private extension GameView.State {
             message: "P1's turn",
             chooseOne: nil,
             handCards: [
-                .init(card: "\(String.mustang)-2♥️", active: false),
-                .init(card: .gatling, active: true),
-                .init(card: .endTurn, active: true)
+                .init(card: "mustang-2♥️", active: false),
+                .init(card: "gatling-4♣️", active: true),
+                .init(card: "endTurn", active: true)
             ],
-            topDiscard: .bang,
+            topDiscard: "bang-A♦️",
             topDeck: nil,
             animationDelay: 1000,
             startOrder: [],

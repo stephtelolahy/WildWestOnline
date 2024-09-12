@@ -6,10 +6,17 @@
 //
 // swiftlint:disable type_contents_order
 
-import Redux
 import SwiftUI
+import Redux
 
 public struct SplashView: View {
+    public struct State: Equatable {
+    }
+
+    public enum Action {
+        case didAppear
+    }
+    
     @StateObject private var store: Store<State, Action>
 
     public init(store: @escaping () -> Store<State, Action>) {
@@ -28,8 +35,7 @@ public struct SplashView: View {
         }
         .navigationBarHidden(true)
         .onAppear {
-            let waitDelaySeconds = 2.0
-            DispatchQueue.main.asyncAfter(deadline: .now() + waitDelaySeconds) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 store.dispatch(.didAppear)
             }
         }

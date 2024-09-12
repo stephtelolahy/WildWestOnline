@@ -1,22 +1,16 @@
 // swiftlint:disable:this file_name
 //
-//  SplashViewState.swift
+//  HomeViewConnector.swift
 //
 //
-//  Created by Hugues Telolahy on 01/12/2023.
+//  Created by Hugues Telolahy on 15/04/2023.
 //
+
+import Redux
 import AppCore
 import NavigationCore
-import Redux
 
-public extension SplashView {
-    struct State: Equatable {
-    }
-
-    enum Action {
-        case didAppear
-    }
-
+public extension HomeView {
     struct Connector: Redux.Connector {
         public init() {}
 
@@ -26,8 +20,11 @@ public extension SplashView {
 
         public func embedAction(_ action: Action, _ state: AppState) -> Any {
             switch action {
-            case .didAppear:
-                RootNavigationAction.push(.home)
+            case .didTapPlayButton:
+                GameSetupAction.start
+
+            case .didTapSettingsButton:
+                RootNavigationAction.present(.settings)
             }
         }
     }
