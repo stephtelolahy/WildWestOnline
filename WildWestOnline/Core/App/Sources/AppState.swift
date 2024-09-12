@@ -34,24 +34,18 @@ public struct AppState: Codable, Equatable {
 public extension AppState {
     static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
-        switch action {
-        case let action as NavigationAction<RootDestination>:
-            state.navigation = try NavigationState.rootReducer(state.navigation, action)
+        state.navigation = try NavigationState.reducer(state.navigation, action)
 
-        case let action as NavigationAction<SettingsDestination>:
-            state.navigation = try NavigationState.settingsReducer(state.navigation, action)
-
-        case let action as GameSetupAction:
-            state = try gameSetupReducer(state, action)
-
-        case let action as SettingsAction:
+        if let action = action as? SettingsAction {
             state.settings = try SettingsState.reducer(state.settings, action)
+        }
 
-        case let action as GameAction:
+        if let action = action as? GameSetupAction {
+            state = try gameSetupReducer(state, action)
+        }
+
+        if let action = action as? GameAction {
             state.game = try state.game.flatMap { try GameState.reducer($0, action) }
-
-        default:
-            break
         }
 
         return state

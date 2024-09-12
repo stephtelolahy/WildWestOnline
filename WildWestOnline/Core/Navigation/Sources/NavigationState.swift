@@ -40,62 +40,19 @@ public enum NavigationAction<T: Destination> {
 }
 
 public extension NavigationState {
-    static let rootReducer: Reducer<Self, NavigationAction<RootDestination>> = { state, action in
+    static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
         switch action {
-        case .push(let page):
-            state.root.path.append(page)
+        case let action as NavigationAction<RootDestination>:
+            state = try NavigationState.rootReducer(state, action)
 
-        case .pop:
-            state.root.path.removeLast()
-
-        case .setPath(let path):
-            state.root.path = path
-
-        case .present(let page):
-            state.root.sheet = page
-
-        case .dismiss:
-            state.root.sheet = nil
-        }
-
-        return state
-    }
-
-    static let settingsReducer: Reducer<Self, NavigationAction<SettingsDestination>> = { state, action in
-        var state = state
-        switch action {
-        case .push(let page):
-            state.settings.path.append(page)
-
-        case .pop:
-            state.settings.path.removeLast()
-
-        case .setPath(let path):
-            state.settings.path = path
+        case let action as NavigationAction<SettingsDestination>:
+            state = try NavigationState.settingsReducer(state, action)
 
         default:
-            fatalError()
+            break
         }
 
         return state
-    }
-}
-
-public enum RootDestination: String, Destination {
-    case home
-    case game
-    case settings
-
-    public var id: String {
-        self.rawValue
-    }
-}
-
-public enum SettingsDestination: String, Destination {
-    case figures
-
-    public var id: String {
-        self.rawValue
     }
 }

@@ -10,38 +10,37 @@ import XCTest
 final class NavigationCoreTests: XCTestCase {
     func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
         // Given
-        let state = RootNavigationState(path: [])
+        let state = NavigationState()
 
         // When
-        let action = RootNavigationAction.push(.home)
-        let result = try RootNavigationState.reducer(state, action)
-
-        // Then
-        XCTAssertEqual(result.path, [.home])
-    }
-/*
-    func test_showingSettings_shouldDisplaySettings() throws {
-        // Given
-        let state = NavigationState(path: [.home])
-
-        // When
-        let action = NavigationAction.present(.settings)
+        let action = NavigationAction<RootDestination>.push(.home)
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sheet, .settings)
+        XCTAssertEqual(result.root.path, [.home])
+    }
+
+    func test_showingSettings_shouldDisplaySettings() throws {
+        // Given
+        let state = NavigationState(root: .init(path: [.home]))
+
+        // When
+        let action = NavigationAction<RootDestination>.present(.settings)
+        let result = try NavigationState.reducer(state, action)
+
+        // Then
+        XCTAssertEqual(result.root.sheet, .settings)
     }
 
     func test_closingSettings_shouldRemoveSettings() throws {
         // Given
-        let state = NavigationState(path: [.home], sheet: .settings)
+        let state = NavigationState(root: .init(path: [.home], sheet: .settings))
 
         // When
-        let action = NavigationAction.dismiss
+        let action = NavigationAction<RootDestination>.dismiss
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.sheet)
+        XCTAssertNil(result.root.sheet)
     }
- */
 }
