@@ -77,7 +77,7 @@ extension RootCoordinatorView {
             case .settings:
                 SettingsCoordinatorView(
                     store: {
-                        store.projection(using: SettingsNavViewConnector())
+                        store.projection(using: SettingsCoordinatorViewConnector())
                     },
                     coordinator: .init(store: store)
                 )
@@ -86,7 +86,7 @@ extension RootCoordinatorView {
     }
 }
 
-struct RootViewConnector: Connector {
+struct RootCoordinatorViewConnector: Connector {
     func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
         state.navigation.root
     }

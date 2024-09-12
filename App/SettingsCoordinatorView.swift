@@ -71,7 +71,7 @@ extension SettingsCoordinatorView {
     }
 }
 
-struct SettingsNavViewConnector: Connector {
+struct SettingsCoordinatorViewConnector: Connector {
     func deriveState(_ state: AppState) -> NavigationStackState<SettingsDestination>? {
         state.navigation.settings
     }

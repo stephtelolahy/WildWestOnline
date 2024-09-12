@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import NavigationCore
 
 public protocol ViewCoordinator {
-    associatedtype NavigationDestination: Identifiable
+    associatedtype T: Destination
+    associatedtype RootContent
     associatedtype ViewContent
-    associatedtype NavigationContent
 
-    @ViewBuilder func start() -> ViewContent
-    @ViewBuilder func view(for destination: NavigationDestination) -> NavigationContent
+    @ViewBuilder func start() -> RootContent
+    @ViewBuilder func view(for destination: T) -> ViewContent
 }

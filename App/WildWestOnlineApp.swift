@@ -27,7 +27,7 @@ struct WildWestOnlineApp: App {
         WindowGroup {
             RootCoordinatorView(
                 store: {
-                    store.projection(using: RootViewConnector())
+                    store.projection(using: RootCoordinatorViewConnector())
                 },
                 coordinator: .init(store: store))
             .environment(\.colorScheme, .light)
