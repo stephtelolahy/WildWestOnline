@@ -13,7 +13,11 @@ import GameCore
 import NavigationCore
 
 public struct GameViewConnector: Connector {
-    public init() {}
+    private let controlledPlayerId: String
+
+    public init(controlledPlayerId: String) {
+        self.controlledPlayerId = controlledPlayerId
+    }
 
     public func deriveState(_ state: AppState) -> GameView.State? {
         guard let game = state.game else {
@@ -33,31 +37,20 @@ public struct GameViewConnector: Connector {
         )
     }
 
-    public func embedAction(_ action: GameView.Action, _ state: AppState) -> Any {
-        guard let game = state.game else {
-            fatalError("unexpected")
-        }
-
+    public func embedAction(_ action: GameView.Action) -> Any {
         switch action {
         case .didAppear:
-            return GameAction.startTurn(player: game.startingPlayerId)
+            // TODO: create start game action
+            GameAction.startTurn(player: controlledPlayerId)
 
         case .didTapCloseButton:
-            return GameSetupAction.quit
+            GameSetupAction.quit
 
         case .didPlayCard(let card):
-            guard let controlledId = game.controlledPlayerId else {
-                fatalError("unexpected")
-            }
-
-            return GameAction.preparePlay(card, player: controlledId)
+            GameAction.preparePlay(card, player: controlledPlayerId)
 
         case .didChooseOption(let option):
-            guard let controlledId = game.controlledPlayerId else {
-                fatalError("unexpected")
-            }
-
-            return GameAction.prepareChoose(option, player: controlledId)
+            GameAction.prepareChoose(option, player: controlledPlayerId)
         }
     }
 }

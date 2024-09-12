@@ -71,7 +71,7 @@ extension RootCoordinatorView {
 
             case .game:
                 GameView {
-                    store.projection(using: GameViewConnector())
+                    store.projection(using: GameViewConnector(controlledPlayerId: store.state.game!.round.startOrder.first!))
                 }
 
             case .settings:
@@ -91,7 +91,7 @@ struct RootViewConnector: Connector {
         state.navigation.root
     }
 
-    func embedAction(_ action: NavigationAction<RootDestination>, _ state: AppState) -> Any {
+    func embedAction(_ action: NavigationAction<RootDestination>) -> Any {
         action
     }
 }

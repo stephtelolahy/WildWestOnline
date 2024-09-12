@@ -12,7 +12,7 @@ public protocol Connector {
     associatedtype ViewAction
 
     func deriveState(_ state: State) -> ViewState?
-    func embedAction(_ action: ViewAction, _ state: State) -> Action
+    func embedAction(_ action: ViewAction) -> Action
 }
 
 public extension Store {

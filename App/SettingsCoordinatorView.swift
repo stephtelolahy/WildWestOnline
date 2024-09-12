@@ -76,7 +76,7 @@ struct SettingsNavViewConnector: Connector {
         state.navigation.settings
     }
 
-    func embedAction(_ action: NavigationAction<SettingsDestination>, _ state: AppState) -> Any {
+    func embedAction(_ action: NavigationAction<SettingsDestination>) -> Any {
         action
     }
 }

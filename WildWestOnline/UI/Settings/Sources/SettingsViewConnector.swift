@@ -23,7 +23,7 @@ public struct SettingsViewConnector: Connector {
         )
     }
 
-    public func embedAction(_ action: SettingsView.Action, _ state: AppState) -> Any {
+    public func embedAction(_ action: SettingsView.Action) -> Any {
         switch action {
         case .didTapCloseButton:
             NavigationAction<RootDestination>.dismiss

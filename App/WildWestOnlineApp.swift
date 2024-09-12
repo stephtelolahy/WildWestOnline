@@ -61,13 +61,13 @@ private func createAppStore() -> Store<AppState, Any> {
                 Middlewares.updateGame(),
                 deriveState: { $0.game },
                 deriveAction: { $0 as? GameAction },
-                embedAction: { action, _ in action }
+                embedAction: { $0 }
             ),
             Middlewares.lift(
                 Middlewares.saveSettings(with: settingsService),
                 deriveState: { $0.settings },
                 deriveAction: { $0 as? SettingsAction },
-                embedAction: { action, _ in action }
+                embedAction: { $0 }
             ),
             Middlewares.logger()
         ]

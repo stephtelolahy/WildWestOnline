@@ -17,7 +17,7 @@ public struct HomeViewConnector: Connector {
         .init()
     }
 
-    public func embedAction(_ action: HomeView.Action, _ state: AppState) -> Any {
+    public func embedAction(_ action: HomeView.Action) -> Any {
         switch action {
         case .didTapPlayButton:
             GameSetupAction.start

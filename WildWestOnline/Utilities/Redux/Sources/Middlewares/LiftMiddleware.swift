@@ -23,19 +23,16 @@ public extension Middlewares {
         _ partMiddleware: @escaping Middleware<LocalState, LocalAction>,
         deriveState: @escaping (GlobalState) -> LocalState?,
         deriveAction: @escaping (GlobalAction) -> LocalAction?,
-        embedAction: @escaping (LocalAction, GlobalState) -> GlobalAction
+        embedAction: @escaping (LocalAction) -> GlobalAction
     ) -> Middleware<GlobalState, GlobalAction> {
         { state, action in
             guard let localState = deriveState(state),
-                  let localAction = deriveAction(action) else {
+                  let localAction = deriveAction(action),
+                  let outputLocalAction = await partMiddleware(localState, localAction) else {
                 return nil
             }
 
-            guard let outputLocalAction = await partMiddleware(localState, localAction) else {
-                return nil
-            }
-
-            return embedAction(outputLocalAction, state)
+            return embedAction(outputLocalAction)
         }
     }
 }

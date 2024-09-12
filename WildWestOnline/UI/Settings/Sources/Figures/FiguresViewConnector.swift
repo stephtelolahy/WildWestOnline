@@ -22,7 +22,7 @@ public struct FiguresViewConnector: Connector {
         )
     }
 
-    public func embedAction(_ action: FiguresView.Action, _ state: AppState) -> Any {
+    public func embedAction(_ action: FiguresView.Action) -> Any {
         switch action {
         case .didChangePreferredFigure(let figure):
             SettingsAction.updatePreferredFigure(figure)

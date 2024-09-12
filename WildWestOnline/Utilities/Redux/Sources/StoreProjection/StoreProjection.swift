@@ -20,12 +20,12 @@ private class StoreProjection<
 >: Store<LocalState, LocalAction> {
     private let globalStore: Store<GlobalState, GlobalAction>
     private let deriveState: (GlobalState) -> LocalState?
-    private let embedAction: (LocalAction, GlobalState) -> GlobalAction
+    private let embedAction: (LocalAction) -> GlobalAction
 
     init(
         globalStore: Store<GlobalState, GlobalAction>,
         deriveState: @escaping (GlobalState) -> LocalState?,
-        embedAction: @escaping (LocalAction, GlobalState) -> GlobalAction
+        embedAction: @escaping (LocalAction) -> GlobalAction
     ) {
         guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
@@ -46,8 +46,7 @@ private class StoreProjection<
     }
 
     override func dispatch(_ action: LocalAction) {
-        let globalAction = embedAction(action, globalStore.state)
-        globalStore.dispatch(globalAction)
+        globalStore.dispatch(embedAction(action))
     }
 }
 
@@ -55,7 +54,7 @@ extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
     func projection<LocalState: Equatable, LocalAction>(
         _ deriveState: @escaping (State) -> LocalState?,
-        _ embedAction: @escaping (LocalAction, State) -> Action
+        _ embedAction: @escaping (LocalAction) -> Action
     ) -> Store<LocalState, LocalAction> {
         StoreProjection(
             globalStore: self,
