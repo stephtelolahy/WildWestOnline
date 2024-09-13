@@ -71,39 +71,31 @@ private func createAppStore() -> Store<AppState, Any> {
 
 private enum RootViewAssembly {
     @MainActor static func buildRootView(_ store: Store<AppState, Any>) -> some View {
-        CoordinatorView(
+        NavigationStackView(
             store: {
                 store.projection(using: RootCoordinatorViewConnector())
             },
-            coordinator: RootCoordinator(store: store)
+            root: {
+                SplashViewAssembly.buildSplashView(store)
+            },
+            destination:  { destination in
+                let content = switch destination {
+                case .home:
+                    HomeViewAssembly.buildHomeView(store)
+                    .eraseToAnyView()
+
+                case .game:
+                    GameViewAssembly.buildGameView(store)
+                    .eraseToAnyView()
+
+                case .settings:
+                    SettingsAssembly.buildSettingsNavigationView(store)
+                    .eraseToAnyView()
+                }
+
+                content.eraseToAnyView()
+            }
         )
-    }
-}
-
-private struct RootCoordinator: @preconcurrency Coordinator {
-    let store: Store<AppState, Any>
-
-    @MainActor func startView() -> AnyView {
-        SplashViewAssembly.buildSplashView(store)
-        .eraseToAnyView()
-    }
-
-    @MainActor func view(for destination: RootDestination) -> AnyView {
-        let content = switch destination {
-        case .home:
-            HomeViewAssembly.buildHomeView(store)
-            .eraseToAnyView()
-
-        case .game:
-            GameViewAssembly.buildGameView(store)
-            .eraseToAnyView()
-
-        case .settings:
-            SettingsAssembly.buildSettingsNavigationView(store)
-            .eraseToAnyView()
-        }
-
-        return content.eraseToAnyView()
     }
 }
 
