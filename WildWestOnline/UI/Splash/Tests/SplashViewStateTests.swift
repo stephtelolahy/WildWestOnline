@@ -9,20 +9,23 @@ import AppCore
 import GameCore
 import Redux
 import SettingsCore
-import SplashUI
+@testable import SplashUI
 import XCTest
 
 final class SplashViewStateTests: XCTestCase {
+
+    private let sut = SplashViewConnector()
+
     func test_splashStateProjection() throws {
         // Given
         let appState = AppState(
-            screens: [.splash],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )
 
         // When
         // Then
-        XCTAssertNotNil(SplashView.deriveState(appState))
+        XCTAssertNotNil(sut.deriveState(appState))
     }
 }

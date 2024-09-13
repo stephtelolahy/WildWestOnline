@@ -9,26 +9,52 @@
 import Redux
 import SwiftUI
 
-public struct SettingsView: View {
+struct SettingsView: View {
+    struct State: Equatable {
+        let minPlayersCount = 2
+        let maxPlayersCount = 7
+        let speedOptions: [SpeedOption] = SpeedOption.all
+        let playersCount: Int
+        let speedIndex: Int
+        let simulation: Bool
+        let preferredFigure: String?
+
+        struct SpeedOption: Equatable {
+            let label: String
+            let value: Int
+
+            static let all: [Self] = [
+                .init(label: "Normal", value: 500),
+                .init(label: "Fast", value: 0)
+            ]
+        }
+    }
+
+    enum Action {
+        case didTapCloseButton
+        case didChangePlayersCount(Int)
+        case didChangeWaitDelay(Int)
+        case didToggleSimulation
+        case didTapFigures
+    }
+
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
-        NavigationView {
-            Form {
-                preferencesSection
-            }
-            .navigationTitle("Settings")
-            .toolbar {
-                Button("Done") {
-                    withAnimation {
-                        store.dispatch(.didTapCloseButton)
-                    }
+    var body: some View {
+        Form {
+            preferencesSection
+        }
+        .navigationTitle("Settings")
+        .toolbar {
+            Button("Done") {
+                withAnimation {
+                    store.dispatch(.didTapCloseButton)
                 }
             }
         }
@@ -96,44 +122,32 @@ public struct SettingsView: View {
     }
 
     private var figureView: some View {
-        HStack {
-            Image(systemName: "star")
-            Picker(
-                selection: Binding<Int>(
-                    get: {
-                        store.state.preferredFigureIndex
-                    },
-                    set: { index in
-                        let figure = store.state.figureOptions[index]
-                        store.dispatch(.didChangePreferredFigure(figure))
-                    }
-                ),
-                label: Text(
-                    "Preferred figure"
-                )
-            ) {
-                ForEach(0..<(store.state.figureOptions.count), id: \.self) {
-                    Text(store.state.figureOptions[$0])
-                }
+        Button(action: {
+            store.dispatch(.didTapFigures)
+        }, label: {
+            HStack {
+                Image(systemName: "lanyardcard.fill")
+                Text("Preferred figure")
+                Spacer()
+                Text(store.state.preferredFigure ?? "")
             }
-        }
+        })
     }
 }
 
 #Preview {
     SettingsView {
-        .init(initial: .preview)
+        .init(initial: .mockedData)
     }
 }
 
 private extension SettingsView.State {
-    static var preview: Self {
+    static var mockedData: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,
             simulation: false,
-            figureOptions: ["Figure1", "Figure2", "Figure3"],
-            preferredFigureIndex: -1
+            preferredFigure: "Figure1"
         )
     }
 }

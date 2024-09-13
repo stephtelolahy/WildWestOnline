@@ -151,7 +151,7 @@ private extension GamePlayViewController {
         completion: @escaping (String) -> Void
     ) {
         let alert = UIAlertController(
-            title: "Choose \(data.choiceType.rawValue)",
+            title: "Choose \(data.choiceType)",
             message: nil,
             preferredStyle: .actionSheet
         )

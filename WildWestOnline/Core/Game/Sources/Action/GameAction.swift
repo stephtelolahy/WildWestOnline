@@ -104,7 +104,7 @@ public indirect enum GameAction: Codable, Equatable {
     case drawArena(String, player: String)
 
     /// Put back hand card to deck
-    @available(*, deprecated, renamed: "drawDeckCard")
+    @available(*, deprecated, renamed: "undiscover")
     case putBack(String, player: String)
 }
 

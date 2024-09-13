@@ -13,18 +13,18 @@ import SettingsCore
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable {
-    public var screens: ScreenState
+    public var navigation: NavigationState
     public var settings: SettingsState
     public let inventory: Inventory
     public var game: GameState?
 
     public init(
-        screens: ScreenState,
+        navigation: NavigationState,
         settings: SettingsState,
         inventory: Inventory,
         game: GameState? = nil
     ) {
-        self.screens = screens
+        self.navigation = navigation
         self.settings = settings
         self.inventory = inventory
         self.game = game
@@ -34,21 +34,18 @@ public struct AppState: Codable, Equatable {
 public extension AppState {
     static let reducer: Reducer<Self, Any> = { state, action in
         var state = state
-        switch action {
-        case let action as NavigationAction:
-            state.screens = try ScreenState.reducer(state.screens, action)
+        state.navigation = try NavigationState.reducer(state.navigation, action)
 
-        case let action as GameSetupAction:
-            state = try gameSetupReducer(state, action)
-
-        case let action as SettingsAction:
+        if let action = action as? SettingsAction {
             state.settings = try SettingsState.reducer(state.settings, action)
+        }
 
-        case let action as GameAction:
+        if let action = action as? GameSetupAction {
+            state = try gameSetupReducer(state, action)
+        }
+
+        if let action = action as? GameAction {
             state.game = try state.game.flatMap { try GameState.reducer($0, action) }
-
-        default:
-            break
         }
 
         return state
@@ -73,7 +70,8 @@ private extension AppState {
 
         var state = state
         state.game = createGame(settings: state.settings, inventory: state.inventory)
-        state.screens.append(.game)
+        // TODO: should emit navigation action through middleware
+        state.navigation.root.path.append(.game)
         return state
     }
 
@@ -83,7 +81,8 @@ private extension AppState {
         }
 
         var state = state
-        state.screens.removeLast()
+        // TODO: should emit navigation action through middleware
+        state.navigation.root.path.removeLast()
         state.game = nil
         return state
     }

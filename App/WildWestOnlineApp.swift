@@ -7,15 +7,16 @@
 import AppCore
 import CardsData
 import GameCore
-import GameUI
-import HomeUI
 import Redux
-import SettingsUI
 import SettingsCore
 import SettingsData
-import SplashUI
+import NavigationCore
 import SwiftUI
 import Theme
+import SplashUI
+import SettingsUI
+import HomeUI
+import GameUI
 
 @main
 struct WildWestOnlineApp: App {
@@ -23,76 +24,14 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView {
-                createStore()
-            }
+            RootViewAssembly.buildRootView(createAppStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
     }
 }
 
-struct ContentView: View {
-    @StateObject private var store: Store<AppState, Any>
-
-    public init(store: @escaping () -> Store<AppState, Any>) {
-        // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view.
-        _store = StateObject(wrappedValue: store())
-    }
-
-    var body: some View {
-        Group {
-            switch store.state.screens.last {
-            case .splash:
-                SplashView {
-                    store.projection(SplashView.deriveState, SplashView.embedAction)
-                }
-
-            case .home:
-                HomeView {
-                    store.projection(HomeView.deriveState, HomeView.embedAction)
-                }
-
-            case .game:
-                GameView {
-                    store.projection(GameView.deriveState, GameView.embedAction)
-                }
-
-            default:
-                EmptyView()
-            }
-        }
-        .sheet(isPresented: Binding<Bool>(
-            get: { store.state.screens.last == .settings },
-            set: { _ in }
-        ), onDismiss: {
-        }, content: {
-            SettingsView {
-                store.projection(SettingsView.deriveState, SettingsView.embedAction)
-            }
-        })
-        .foregroundColor(.primary)
-    }
-}
-
-#Preview {
-    ContentView {
-        Store(initial: .preview)
-    }
-}
-
-private extension AppState {
-    static var preview: Self {
-        .init(
-            screens: [.home],
-            settings: SettingsState.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build()
-        )
-    }
-}
-
-private func createStore() -> Store<AppState, Any> {
+private func createAppStore() -> Store<AppState, Any> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
@@ -104,7 +43,7 @@ private func createStore() -> Store<AppState, Any> {
         .build()
 
     let initialState = AppState(
-        screens: [.splash],
+        navigation: .init(),
         settings: settings,
         inventory: cardsService.inventory
     )
@@ -117,15 +56,63 @@ private func createStore() -> Store<AppState, Any> {
                 Middlewares.updateGame(),
                 deriveState: { $0.game },
                 deriveAction: { $0 as? GameAction },
-                embedAction: { action, _ in action }
+                embedAction: { $0 }
             ),
             Middlewares.lift(
                 Middlewares.saveSettings(with: settingsService),
                 deriveState: { $0.settings },
                 deriveAction: { $0 as? SettingsAction },
-                embedAction: { action, _ in action }
+                embedAction: { $0 }
             ),
             Middlewares.logger()
         ]
     )
+}
+
+private enum RootViewAssembly {
+    @MainActor static func buildRootView(_ store: Store<AppState, Any>) -> some View {
+        CoordinatorView(
+            store: {
+                store.projection(using: RootCoordinatorViewConnector())
+            },
+            coordinator: RootCoordinator(store: store)
+        )
+    }
+}
+
+private struct RootCoordinator: @preconcurrency Coordinator {
+    let store: Store<AppState, Any>
+
+    @MainActor func startView() -> AnyView {
+        SplashViewAssembly.buildSplashView(store)
+        .eraseToAnyView()
+    }
+
+    @MainActor func view(for destination: RootDestination) -> AnyView {
+        let content = switch destination {
+        case .home:
+            HomeViewAssembly.buildHomeView(store)
+            .eraseToAnyView()
+
+        case .game:
+            GameViewAssembly.buildGameView(store)
+            .eraseToAnyView()
+
+        case .settings:
+            SettingsAssembly.buildSettingsNavigationView(store)
+            .eraseToAnyView()
+        }
+
+        return content.eraseToAnyView()
+    }
+}
+
+private struct RootCoordinatorViewConnector: Connector {
+    func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
+        state.navigation.root
+    }
+
+    func embedAction(_ action: NavigationAction<RootDestination>) -> Any {
+        action
+    }
 }

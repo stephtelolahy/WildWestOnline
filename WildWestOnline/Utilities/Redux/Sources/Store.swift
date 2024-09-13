@@ -48,12 +48,9 @@ public class Store<State, Action>: ObservableObject {
             state = newState
 
             for middleware in middlewares {
-                Future<Action?, Never> { promise in
-                    Task {
-                        let output = await middleware(newState, action)
-                        promise(.success(output))
-                    }
-                }
+                Future<Action?, Never>(operation: {
+                    await middleware(newState, action)
+                })
                 .compactMap { $0 }
                 .subscribe(on: middlewareSerialQueue)
                 .receive(on: RunLoop.main)
@@ -62,6 +59,17 @@ public class Store<State, Action>: ObservableObject {
             }
         } catch {
             self.error.send(error)
+        }
+    }
+}
+
+private extension Future where Failure == Never {
+    convenience init(operation: @escaping () async -> Output) {
+        self.init { promise in
+            Task {
+                let output = await operation()
+                promise(.success(output))
+            }
         }
     }
 }

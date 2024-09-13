@@ -6,21 +6,29 @@
 //
 // swiftlint:disable no_magic_numbers type_contents_order
 
-import Redux
 import SwiftUI
 import Theme
+import Redux
 
-public struct HomeView: View {
+struct HomeView: View {
+    struct State: Equatable {
+    }
+
+    enum Action {
+        case didTapPlayButton
+        case didTapSettingsButton
+    }
+
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             VStack {
@@ -30,6 +38,8 @@ public struct HomeView: View {
                 footerView
             }
         }
+        .foregroundColor(.primary)
+        .navigationBarHidden(true)
     }
 
     private var contentView: some View {

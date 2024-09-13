@@ -65,7 +65,6 @@ public struct ChooseOne: Codable, Equatable {
 }
 
 /// ChooseOne context
-@available(*, deprecated, renamed: "ActionType")
 public enum ChoiceType: String, Codable, Equatable {
     case target
     case cardToDraw

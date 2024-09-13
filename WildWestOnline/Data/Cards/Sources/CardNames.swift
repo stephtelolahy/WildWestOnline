@@ -128,6 +128,4 @@ public extension String {
     static let blackFlower = "blackFlower"
     static let derSpotBurstRinger = "derSpotBurstRinger"
     static let tucoFranziskaner = "tucoFranziskaner"
-
-
 }

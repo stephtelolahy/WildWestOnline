@@ -8,26 +8,28 @@
 import AppCore
 import CardsData
 import GameCore
-import GameUI
+@testable import GameUI
 import Redux
 import SettingsCore
 import XCTest
 
 final class GameViewStateTests: XCTestCase {
+    private let sut = GameViewConnector(controlledPlayerId: "p1")
+
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
             .withTurn("p1")
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -50,14 +52,14 @@ final class GameViewStateTests: XCTestCase {
             .withTurn("p1")
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -101,14 +103,14 @@ final class GameViewStateTests: XCTestCase {
             .withActive([.bang, .endTurn], player: "p1")
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(result.handCards, [
@@ -127,20 +129,20 @@ final class GameViewStateTests: XCTestCase {
             .withPlayModes(["p1": .manual])
             .build()
         let appState = AppState(
-            screens: [],
+            navigation: .init(),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
         // When
-        let result = try XCTUnwrap(GameView.deriveState(appState))
+        let result = try XCTUnwrap(sut.deriveState(appState))
 
         // Then
         XCTAssertEqual(
             result.chooseOne,
             GameView.State.ChooseOne(
-                choiceType: .cardToDraw,
+                choiceType: ChoiceType.cardToDraw.rawValue,
                 options: [.missed, .bang]
             )
         )
