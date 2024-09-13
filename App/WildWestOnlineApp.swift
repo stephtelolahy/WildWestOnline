@@ -13,10 +13,6 @@ import SettingsData
 import NavigationCore
 import SwiftUI
 import Theme
-import SplashUI
-import SettingsUI
-import HomeUI
-import GameUI
 
 @main
 struct WildWestOnlineApp: App {
@@ -24,7 +20,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootViewAssembly.buildRootView(createAppStore())
+            RootView(store: createAppStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
@@ -67,44 +63,4 @@ private func createAppStore() -> Store<AppState, Any> {
             Middlewares.logger()
         ]
     )
-}
-
-private enum RootViewAssembly {
-    @MainActor static func buildRootView(_ store: Store<AppState, Any>) -> some View {
-        NavigationStackView(
-            store: {
-                store.projection(using: RootCoordinatorViewConnector())
-            },
-            root: {
-                SplashViewAssembly.buildSplashView(store)
-            },
-            destination:  { destination in
-                let content = switch destination {
-                case .home:
-                    HomeViewAssembly.buildHomeView(store)
-                    .eraseToAnyView()
-
-                case .game:
-                    GameViewAssembly.buildGameView(store)
-                    .eraseToAnyView()
-
-                case .settings:
-                    SettingsAssembly.buildSettingsNavigationView(store)
-                    .eraseToAnyView()
-                }
-
-                content.eraseToAnyView()
-            }
-        )
-    }
-}
-
-private struct RootCoordinatorViewConnector: Connector {
-    func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
-        state.navigation.root
-    }
-
-    func embedAction(_ action: NavigationAction<RootDestination>) -> Any {
-        action
-    }
 }

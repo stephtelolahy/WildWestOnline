@@ -47,13 +47,6 @@ public struct NavigationStackView<T: Destination, Root: View, DestinationView: V
     }
 }
 
-public protocol Coordinator<T> {
-    associatedtype T: Destination
-
-    func startView() -> AnyView
-    func view(for destination: T) -> AnyView
-}
-
 public extension View {
     func eraseToAnyView() -> AnyView {
         AnyView(self)
