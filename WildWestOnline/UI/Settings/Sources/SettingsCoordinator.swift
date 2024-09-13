@@ -10,7 +10,7 @@ import Redux
 import AppCore
 import NavigationCore
 
-struct SettingsCoordinator {
+struct SettingsCoordinator: Coordinator {
     let store: Store<AppState, Any>
 
     func startView() -> AnyView {

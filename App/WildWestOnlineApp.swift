@@ -75,13 +75,12 @@ private enum RootViewAssembly {
             store: {
                 store.projection(using: RootCoordinatorViewConnector())
             },
-            startView: RootCoordinator(store: store).startView,
-            destinationView: RootCoordinator(store: store).view(for:)
+            coordinator: RootCoordinator(store: store)
         )
     }
 }
 
-private struct RootCoordinator {
+private struct RootCoordinator: @preconcurrency Coordinator {
     let store: Store<AppState, Any>
 
     @MainActor func startView() -> AnyView {

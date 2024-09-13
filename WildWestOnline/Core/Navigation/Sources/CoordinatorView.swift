@@ -11,27 +11,24 @@ import Redux
 
 public struct CoordinatorView<T: Destination>: View {
     @StateObject private var store: Store<NavigationStackState<T>, NavigationAction<T>>
-    private let startView: () -> AnyView
-    private let destinationView: (T) -> AnyView
+    private let coordinator: any Coordinator<T>
 
     public init(
         store: @escaping () -> Store<NavigationStackState<T>, NavigationAction<T>>,
-        startView: @escaping () -> AnyView,
-        destinationView: @escaping (T) -> AnyView
+        coordinator: any Coordinator<T>
     ) {
         _store = StateObject(wrappedValue: store())
-        self.startView = startView
-        self.destinationView = destinationView
+        self.coordinator = coordinator
     }
 
     public var body: some View {
         NavigationStack(path: pathBinding) {
-            startView()
+            coordinator.startView()
                 .navigationDestination(for: T.self) { destination in
-                    destinationView(destination)
+                    coordinator.view(for: destination)
                 }
                 .sheet(item: sheetBinding) { destination in
-                    destinationView(destination)
+                    coordinator.view(for: destination)
                 }
         }
     }
@@ -49,6 +46,13 @@ public struct CoordinatorView<T: Destination>: View {
             set: { _ in }
         )
     }
+}
+
+public protocol Coordinator<T> {
+    associatedtype T: Destination
+
+    func startView() -> AnyView
+    func view(for destination: T) -> AnyView
 }
 
 public extension View {

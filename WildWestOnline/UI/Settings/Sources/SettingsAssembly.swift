@@ -15,8 +15,7 @@ public enum SettingsAssembly {
             store: {
                 store.projection(using: SettingsCoordinatorViewConnector())
             },
-            startView: SettingsCoordinator(store: store).startView,
-            destinationView: SettingsCoordinator(store: store).view(for:)
+            coordinator: SettingsCoordinator(store: store)
         )
     }
 }
