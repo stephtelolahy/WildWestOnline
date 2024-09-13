@@ -12,8 +12,6 @@ import Redux
 
 public enum HomeViewAssembly {
     public static func buildHomeView(_ store: Store<AppState, Any>) -> some View {
-        HomeView {
-            store.projection(using: HomeViewConnector())
-        }
+        HomeView(store: store.projection(using: HomeViewConnector()))
     }
 }
