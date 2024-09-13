@@ -7,7 +7,7 @@
 
 import AppCore
 import GameCore
-import HomeUI
+@testable import HomeUI
 import Redux
 import SettingsCore
 import XCTest

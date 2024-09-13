@@ -8,29 +8,29 @@
 import Redux
 import SwiftUI
 
-public struct FiguresView: View {
-    public struct State: Equatable {
-        public let figures: [Figure]
+struct FiguresView: View {
+    struct State: Equatable {
+        let figures: [Figure]
 
-        public struct Figure: Equatable {
+        struct Figure: Equatable {
             let name: String
             let isFavorite: Bool
         }
     }
 
-    public enum Action {
+    enum Action {
         case didChangePreferredFigure(String)
     }
 
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         List {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {

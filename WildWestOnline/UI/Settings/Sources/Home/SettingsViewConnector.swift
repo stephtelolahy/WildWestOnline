@@ -11,10 +11,8 @@ import NavigationCore
 import SettingsCore
 import Redux
 
-public struct SettingsViewConnector: Connector {
-    public init() {}
-
-    public func deriveState(_ state: AppState) -> SettingsView.State? {
+struct SettingsViewConnector: Connector {
+    func deriveState(_ state: AppState) -> SettingsView.State? {
         .init(
             playersCount: state.settings.playersCount,
             speedIndex: SettingsView.State.indexOfSpeed(state.settings.waitDelayMilliseconds),
@@ -23,7 +21,7 @@ public struct SettingsViewConnector: Connector {
         )
     }
 
-    public func embedAction(_ action: SettingsView.Action) -> Any {
+    func embedAction(_ action: SettingsView.Action) -> Any {
         switch action {
         case .didTapCloseButton:
             NavigationAction<RootDestination>.dismiss

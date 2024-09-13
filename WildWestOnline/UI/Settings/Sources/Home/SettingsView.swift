@@ -9,17 +9,17 @@
 import Redux
 import SwiftUI
 
-public struct SettingsView: View {
-    public struct State: Equatable {
-        public let minPlayersCount = 2
-        public let maxPlayersCount = 7
-        public let speedOptions: [SpeedOption] = SpeedOption.all
-        public let playersCount: Int
-        public let speedIndex: Int
-        public let simulation: Bool
-        public let preferredFigure: String?
+struct SettingsView: View {
+    struct State: Equatable {
+        let minPlayersCount = 2
+        let maxPlayersCount = 7
+        let speedOptions: [SpeedOption] = SpeedOption.all
+        let playersCount: Int
+        let speedIndex: Int
+        let simulation: Bool
+        let preferredFigure: String?
 
-        public struct SpeedOption: Equatable {
+        struct SpeedOption: Equatable {
             let label: String
             let value: Int
 
@@ -30,7 +30,7 @@ public struct SettingsView: View {
         }
     }
 
-    public enum Action {
+    enum Action {
         case didTapCloseButton
         case didChangePlayersCount(Int)
         case didChangeWaitDelay(Int)
@@ -40,13 +40,13 @@ public struct SettingsView: View {
 
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         Form {
             preferencesSection
         }

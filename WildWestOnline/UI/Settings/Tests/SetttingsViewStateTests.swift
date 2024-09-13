@@ -9,7 +9,7 @@ import AppCore
 import GameCore
 import Redux
 import SettingsCore
-import SettingsUI
+@testable import SettingsUI
 import XCTest
 
 final class SetttingsViewStateTests: XCTestCase {

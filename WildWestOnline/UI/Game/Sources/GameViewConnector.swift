@@ -12,14 +12,14 @@ import AppCore
 import GameCore
 import NavigationCore
 
-public struct GameViewConnector: Connector {
+struct GameViewConnector: Connector {
     private let controlledPlayerId: String
 
-    public init(controlledPlayerId: String) {
+    init(controlledPlayerId: String) {
         self.controlledPlayerId = controlledPlayerId
     }
 
-    public func deriveState(_ state: AppState) -> GameView.State? {
+    func deriveState(_ state: AppState) -> GameView.State? {
         guard let game = state.game else {
             return nil
         }
@@ -37,7 +37,7 @@ public struct GameViewConnector: Connector {
         )
     }
 
-    public func embedAction(_ action: GameView.Action) -> Any {
+    func embedAction(_ action: GameView.Action) -> Any {
         switch action {
         case .didAppear:
             // TODO: create start game action

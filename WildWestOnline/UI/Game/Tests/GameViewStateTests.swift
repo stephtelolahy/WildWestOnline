@@ -8,7 +8,7 @@
 import AppCore
 import CardsData
 import GameCore
-import GameUI
+@testable import GameUI
 import Redux
 import SettingsCore
 import XCTest

@@ -9,23 +9,23 @@
 import SwiftUI
 import Redux
 
-public struct SplashView: View {
-    public struct State: Equatable {
+struct SplashView: View {
+    struct State: Equatable {
     }
 
-    public enum Action {
+    enum Action {
         case didAppear
     }
     
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()

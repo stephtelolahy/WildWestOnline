@@ -21,17 +21,10 @@ import GameUI
 @main
 struct WildWestOnlineApp: App {
     @Environment(\.theme) private var theme
-    @StateObject private var store = createAppStore()
 
     var body: some Scene {
         WindowGroup {
-            CoordinatorView(
-                store: {
-                    store.projection(using: RootCoordinatorViewConnector())
-                },
-                startView: { RootCoordinator(store: store).startView() },
-                destinationView: { RootCoordinator(store: store).view(for: $0) }
-            )
+            RootViewAssembly.buildRootView(createAppStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
@@ -74,4 +67,53 @@ private func createAppStore() -> Store<AppState, Any> {
             Middlewares.logger()
         ]
     )
+}
+
+enum RootViewAssembly {
+    @MainActor static func buildRootView(_ store: Store<AppState, Any>) -> some View {
+        CoordinatorView(
+            store: {
+                store.projection(using: RootCoordinatorViewConnector())
+            },
+            startView: RootCoordinator(store: store).startView,
+            destinationView: RootCoordinator(store: store).view(for:)
+        )
+    }
+}
+
+struct RootCoordinator {
+    let store: Store<AppState, Any>
+
+    @MainActor func startView() -> AnyView {
+        SplashViewAssembly.buildSplashView(store)
+        .eraseToAnyView()
+    }
+
+    @MainActor func view(for destination: RootDestination) -> AnyView {
+        let content = switch destination {
+        case .home:
+            HomeViewAssembly.buildHomeView(store)
+            .eraseToAnyView()
+
+        case .game:
+            GameViewAssembly.buildGameView(store)
+            .eraseToAnyView()
+
+        case .settings:
+            SettingsAssembly.buildSettingsNavigationView(store)
+            .eraseToAnyView()
+        }
+
+        return content.eraseToAnyView()
+    }
+}
+
+struct RootCoordinatorViewConnector: Connector {
+    func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
+        state.navigation.root
+    }
+
+    func embedAction(_ action: NavigationAction<RootDestination>) -> Any {
+        action
+    }
 }

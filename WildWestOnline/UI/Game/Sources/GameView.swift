@@ -10,55 +10,55 @@ import SwiftUI
 import Theme
 import Redux
 
-public struct GameView: View {
-    public struct State: Equatable {
-        public let players: [PlayerItem]
-        public let message: String
-        public let chooseOne: ChooseOne?
-        public let handCards: [HandCard]
-        public let topDiscard: String?
-        public let topDeck: String?
-        public let animationDelay: TimeInterval
-        public let startOrder: [String]
-        public let deckCount: Int
+struct GameView: View {
+    struct State: Equatable {
+        let players: [PlayerItem]
+        let message: String
+        let chooseOne: ChooseOne?
+        let handCards: [HandCard]
+        let topDiscard: String?
+        let topDeck: String?
+        let animationDelay: TimeInterval
+        let startOrder: [String]
+        let deckCount: Int
 
-        public struct PlayerItem: Equatable {
-            public let id: String
-            public let imageName: String
-            public let displayName: String
-            public let health: Int
-            public let maxHealth: Int
-            public let handCount: Int
-            public let inPlay: [String]
-            public let isTurn: Bool
-            public let isTargeted: Bool
-            public let isEliminated: Bool
-            public let role: String?
-            public let userPhotoUrl: String?
+        struct PlayerItem: Equatable {
+            let id: String
+            let imageName: String
+            let displayName: String
+            let health: Int
+            let maxHealth: Int
+            let handCount: Int
+            let inPlay: [String]
+            let isTurn: Bool
+            let isTargeted: Bool
+            let isEliminated: Bool
+            let role: String?
+            let userPhotoUrl: String?
         }
 
-        public struct HandCard: Equatable {
-            public let card: String
-            public let active: Bool
+        struct HandCard: Equatable {
+            let card: String
+            let active: Bool
 
-            public init(card: String, active: Bool) {
+            init(card: String, active: Bool) {
                 self.card = card
                 self.active = active
             }
         }
 
-        public struct ChooseOne: Equatable {
-            public let choiceType: String
-            public let options: [String]
+        struct ChooseOne: Equatable {
+            let choiceType: String
+            let options: [String]
 
-            public init(choiceType: String, options: [String]) {
+            init(choiceType: String, options: [String]) {
                 self.choiceType = choiceType
                 self.options = options
             }
         }
     }
 
-    public enum Action {
+    enum Action {
         case didAppear
         case didTapCloseButton
         case didPlayCard(String)
@@ -68,13 +68,13 @@ public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             UIViewControllerRepresentableBuilder {

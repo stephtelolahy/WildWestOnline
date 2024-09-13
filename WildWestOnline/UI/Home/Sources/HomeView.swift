@@ -10,11 +10,11 @@ import SwiftUI
 import Theme
 import Redux
 
-public struct HomeView: View {
-    public struct State: Equatable {
+struct HomeView: View {
+    struct State: Equatable {
     }
 
-    public enum Action {
+    enum Action {
         case didTapPlayButton
         case didTapSettingsButton
     }
@@ -22,13 +22,13 @@ public struct HomeView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Action>
 
-    public init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State, Action>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             VStack {

@@ -9,7 +9,7 @@ import AppCore
 import GameCore
 import Redux
 import SettingsCore
-import SplashUI
+@testable import SplashUI
 import XCTest
 
 final class SplashViewStateTests: XCTestCase {
