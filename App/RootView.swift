@@ -24,7 +24,7 @@ struct RootView: View {
     var body: some View {
         NavigationStackView(
             store: {
-                store.projection(using: RootCoordinatorViewConnector())
+                store.projection(using: RootViewConnector())
             },
             root: {
                 SplashViewAssembly.buildSplashView(store)
@@ -64,7 +64,7 @@ private extension AppState {
     }
 }
 
-private struct RootCoordinatorViewConnector: Connector {
+private struct RootViewConnector: Connector {
     func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
         state.navigation.root
     }
