@@ -69,7 +69,7 @@ private func createAppStore() -> Store<AppState, Any> {
     )
 }
 
-enum RootViewAssembly {
+private enum RootViewAssembly {
     @MainActor static func buildRootView(_ store: Store<AppState, Any>) -> some View {
         CoordinatorView(
             store: {
@@ -81,7 +81,7 @@ enum RootViewAssembly {
     }
 }
 
-struct RootCoordinator {
+private struct RootCoordinator {
     let store: Store<AppState, Any>
 
     @MainActor func startView() -> AnyView {
@@ -108,7 +108,7 @@ struct RootCoordinator {
     }
 }
 
-struct RootCoordinatorViewConnector: Connector {
+private struct RootCoordinatorViewConnector: Connector {
     func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
         state.navigation.root
     }
