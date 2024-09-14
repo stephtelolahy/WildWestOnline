@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  HomeViewConnector.swift
 //
@@ -21,7 +20,7 @@ struct HomeViewConnector: Connector {
             GameSetupAction.start
 
         case .didTapSettingsButton:
-            NavigationAction<RootDestination>.present(.settings)
+            NavigationStackAction<RootDestination>.present(.settings)
         }
     }
 }

@@ -17,7 +17,7 @@ struct SplashViewConnector: Connector {
     func embedAction(_ action: SplashView.Action) -> Any {
         switch action {
         case .didAppear:
-            NavigationAction<RootDestination>.push(.home)
+            NavigationStackAction<RootDestination>.push(.home)
         }
     }
 }

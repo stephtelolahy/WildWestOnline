@@ -39,7 +39,7 @@ private struct SettingsNavigationConnector: Connector {
         state.navigation.settings
     }
 
-    func embedAction(_ action: NavigationAction<SettingsDestination>) -> Any {
+    func embedAction(_ action: NavigationStackAction<SettingsDestination>) -> Any {
         action
     }
 }

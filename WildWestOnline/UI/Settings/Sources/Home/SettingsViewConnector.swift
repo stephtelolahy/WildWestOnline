@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  SettingsViewConnector.swift
 //
@@ -24,7 +23,7 @@ struct SettingsViewConnector: Connector {
     func embedAction(_ action: SettingsView.Action) -> Any {
         switch action {
         case .didTapCloseButton:
-            NavigationAction<RootDestination>.dismiss
+            NavigationStackAction<RootDestination>.dismiss
 
         case .didChangePlayersCount(let count):
             SettingsAction.updatePlayersCount(count)
@@ -36,7 +35,7 @@ struct SettingsViewConnector: Connector {
             SettingsAction.toggleSimulation
 
         case .didTapFigures:
-            NavigationAction<SettingsDestination>.push(.figures)
+            NavigationStackAction<SettingsDestination>.push(.figures)
         }
     }
 }

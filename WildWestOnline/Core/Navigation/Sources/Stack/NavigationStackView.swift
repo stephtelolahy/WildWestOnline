@@ -4,19 +4,19 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 09/09/2024.
 //
-// swiftlint:disable type_contents_order type_name
+// swiftlint:disable type_contents_order
 
 import Redux
 import SwiftUI
 
-public struct NavigationStackView<T: Destination, Root: View, DestinationView: View>: View {
-    @StateObject private var store: Store<NavigationStackState<T>, NavigationAction<T>>
-    private let root: () -> Root
+public struct NavigationStackView<T: Destination, RootView: View, DestinationView: View>: View {
+    @StateObject private var store: Store<NavigationStackState<T>>
+    private let root: () -> RootView
     private let destination: (T) -> DestinationView
 
     public init(
-        store: @escaping () -> Store<NavigationStackState<T>, NavigationAction<T>>,
-        @ViewBuilder root: @escaping () -> Root,
+        store: @escaping () -> Store<NavigationStackState<T>>,
+        @ViewBuilder root: @escaping () -> RootView,
         @ViewBuilder destination: @escaping (T) -> DestinationView
     ) {
         _store = StateObject(wrappedValue: store())
@@ -28,7 +28,7 @@ public struct NavigationStackView<T: Destination, Root: View, DestinationView: V
         NavigationStack(
             path: Binding<[T]>(
                 get: { store.state.path },
-                set: { store.dispatch(.setPath($0)) }
+                set: { store.dispatch(NavigationStackAction<T>.setPath($0)) }
             )
         ) {
             root()

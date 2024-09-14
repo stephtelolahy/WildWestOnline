@@ -69,7 +69,7 @@ private struct RootViewConnector: Connector {
         state.navigation.root
     }
 
-    func embedAction(_ action: NavigationAction<RootDestination>) -> Any {
+    func embedAction(_ action: NavigationStackAction<RootDestination>) -> Any {
         action
     }
 }
