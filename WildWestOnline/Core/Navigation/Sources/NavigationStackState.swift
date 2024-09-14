@@ -25,23 +25,24 @@ public enum NavigationAction<T: Destination> {
     case dismiss
 }
 
-public extension NavigationStackState {
-    mutating func reducer(action: NavigationAction<T>) {
-        switch action {
-        case .push(let page):
-            path.append(page)
+func stackReducer<T: Destination>(_ state: NavigationStackState<T>, _ action: NavigationAction<T>) throws -> NavigationStackState<T> {
+    var state = state
+    switch action {
+    case .push(let page):
+        state.path.append(page)
 
-        case .pop:
-            path.removeLast()
+    case .pop:
+        state.path.removeLast()
 
-        case .setPath(let newPath):
-            path = newPath
+    case .setPath(let path):
+        state.path = path
 
-        case .present(let page):
-            sheet = page
+    case .present(let page):
+        state.sheet = page
 
-        case .dismiss:
-            sheet = nil
-        }
+    case .dismiss:
+        state.sheet = nil
     }
+
+    return state
 }

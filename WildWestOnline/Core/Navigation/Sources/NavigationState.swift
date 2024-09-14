@@ -42,11 +42,11 @@ public extension NavigationState {
         var state = state
 
         if let action = action as? NavigationAction<RootDestination> {
-            state.root.reducer(action: action)
+            state.root = try stackReducer(state.root, action)
         }
 
         if let action = action as? NavigationAction<SettingsDestination> {
-            state.settings.reducer(action: action)
+            state.settings = try stackReducer(state.settings, action)
         }
 
         return state
