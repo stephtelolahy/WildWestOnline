@@ -28,6 +28,8 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
 - **Option**: a choice that have to be taken by player when resolving sequence
 
+![](Docs/metamodel.png)
+
 ### Event solving
 
 - The engine is event driven
