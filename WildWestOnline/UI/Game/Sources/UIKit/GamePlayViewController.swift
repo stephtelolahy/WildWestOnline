@@ -44,7 +44,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Init
 
-    init(store: Store<GameView.State, GameView.Action>) {
+    init(store: Store<GameView.State>) {
         self.store = store
         super.init(nibName: "GamePlayViewController", bundle: .module)
     }

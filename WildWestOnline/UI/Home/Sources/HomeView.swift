@@ -19,8 +19,10 @@ public struct HomeView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 
-    init(store: Store<State>) {
-        _store = StateObject(wrappedValue: store)
+    public init(store: @escaping () -> Store<State>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view.
+        _store = StateObject(wrappedValue: store())
     }
 
     public var body: some View {

@@ -58,13 +58,6 @@ struct GameView: View {
         }
     }
 
-    enum Action {
-        case didAppear
-        case didTapCloseButton
-        case didPlayCard(String)
-        case didChooseOption(String)
-    }
-
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 

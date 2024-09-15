@@ -7,8 +7,9 @@
 
 import Redux
 import SwiftUI
+import SettingsCore
 
-struct FiguresView: View {
+struct SettingsFiguresView: View {
     struct State: Equatable {
         let figures: [Figure]
 
@@ -16,10 +17,6 @@ struct FiguresView: View {
             let name: String
             let isFavorite: Bool
         }
-    }
-
-    enum Action {
-        case didChangePreferredFigure(String)
     }
 
     @StateObject private var store: Store<State>
@@ -34,7 +31,7 @@ struct FiguresView: View {
         List {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
-                    store.dispatch(.didChangePreferredFigure(figure.name))
+                    store.dispatch(SettingsAction.updatePreferredFigure(figure.name))
                 }, label: {
                     FigureRow(figure: figure)
                 })
@@ -46,7 +43,7 @@ struct FiguresView: View {
 }
 
 #Preview {
-    FiguresView {
+    SettingsFiguresView {
         .init(initial: .init(figures: [
             .init(name: "Figure1", isFavorite: false),
             .init(name: "Figure2", isFavorite: false),

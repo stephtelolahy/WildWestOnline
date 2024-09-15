@@ -17,8 +17,10 @@ import GameUI
 struct RootView: View {
     @StateObject private var store: Store<AppState, Any>
 
-    init(store: Store<AppState, Any>) {
-        _store = StateObject(wrappedValue: store)
+    init(store: @escaping () -> Store<AppState>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view.
+        _store = StateObject(wrappedValue: store())
     }
 
     var body: some View {
