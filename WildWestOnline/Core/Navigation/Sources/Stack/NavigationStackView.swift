@@ -19,6 +19,8 @@ public struct NavigationStackView<T: Destination, RootView: View, DestinationVie
         @ViewBuilder root: @escaping () -> RootView,
         @ViewBuilder destination: @escaping (T) -> DestinationView
     ) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
         self.root = root
         self.destination = destination
