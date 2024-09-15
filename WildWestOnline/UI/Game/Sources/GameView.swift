@@ -21,7 +21,7 @@ public struct GameView: View {
         let animationDelay: TimeInterval
         let startOrder: [String]
         let deckCount: Int
-        let controlledPlayer: String
+        let controlledPlayer: String?
         let startPlayer: String
 
         struct PlayerItem: Equatable {

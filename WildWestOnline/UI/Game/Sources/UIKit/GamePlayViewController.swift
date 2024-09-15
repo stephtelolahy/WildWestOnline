@@ -126,14 +126,15 @@ private extension GamePlayViewController {
 
         if let chooseOne = state.chooseOne {
             showChooseOneAlert(chooseOne) { [weak self] option in
-                guard let self else {
+                guard let self,
+                      let player = store.state.controlledPlayer else {
                     return
                 }
 
                 self.store.dispatch(
                     GameAction.prepareChoose(
                         option,
-                        player: self.store.state.controlledPlayer
+                        player: player
                     )
                 )
             }
@@ -296,14 +297,15 @@ extension GamePlayViewController: UICollectionViewDelegate {
 
     private func handCollectionViewDidSelectItem(at indexPath: IndexPath) {
         let item = store.state.handCards[indexPath.row]
-        guard item.active else {
+        guard item.active,
+              let player = store.state.controlledPlayer else {
             return
         }
 
         store.dispatch(
             GameAction.preparePlay(
                 item.card,
-                player: store.state.controlledPlayer
+                player: player
             )
         )
     }

@@ -70,7 +70,8 @@ private extension GameState {
     }
 
     var chooseOne: GameView.State.ChooseOne? {
-        guard let chooseOne = sequence.chooseOne[controlledPlayerId] else {
+        guard let controlledPlayer = controlledPlayerId,
+              let chooseOne = sequence.chooseOne[controlledPlayer] else {
             return  nil
         }
 
@@ -113,12 +114,8 @@ private extension GameState {
         round.playOrder.first!
     }
 
-    var controlledPlayerId: String {
-        guard let playerId = playMode.keys.first(where: { playMode[$0] == .manual }) else {
-            fatalError("unsupported")
-        }
-
-        return playerId
+    var controlledPlayerId: String? {
+        playMode.keys.first(where: { playMode[$0] == .manual })
     }
 
     var startPlayerId: String {
