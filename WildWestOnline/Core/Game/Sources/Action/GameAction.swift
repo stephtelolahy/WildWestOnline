@@ -97,7 +97,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     // MARK: - Deprecated
 
     /// Discover deck card
-    @available(*, deprecated, renamed: "discoverDeck")
+    @available(*, deprecated, renamed: "discover")
     case discover
 
     /// Draw cards from arena
