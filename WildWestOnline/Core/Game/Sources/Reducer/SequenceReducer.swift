@@ -35,10 +35,10 @@ public extension SequenceState {
             state.sequence = try queueReducer(state.sequence, action)
 
         case GameAction.preparePlay:
-            state = try playReducer(state, action)
+            state.sequence = try playReducer(state, action).sequence
 
         case GameAction.prepareEffect:
-            state = try effectReducer(state, action)
+            state.sequence = try effectReducer(state, action).sequence
 
         default:
             break

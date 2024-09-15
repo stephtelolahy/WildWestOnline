@@ -124,7 +124,7 @@ opt_in_rules:
   - single_test_class
   # - sorted_enum_cases
   - sorted_first_last
-  - sorted_imports
+  # - sorted_imports
   - static_operator
   - strict_fileprivate
   - strong_iboutlet

@@ -22,7 +22,7 @@ extension XCTestCase {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
         let choicesWrapper = ChoiceWrapper(value: choose)
-        let store = Store<GameState, GameAction>(
+        let store = Store<GameState>(
             initial: state,
             reducer: GameState.reducer,
             middlewares: [
