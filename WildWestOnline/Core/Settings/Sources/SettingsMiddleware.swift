@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  SettingsMiddleware.swift
 //
@@ -9,20 +8,23 @@
 import Redux
 
 public extension Middlewares {
-    static func saveSettings(with service: SettingsService) -> Middleware<SettingsState, SettingsAction> {
+    static func saveSettings(service: SettingsService) -> Middleware<SettingsState> {
         { state, action in
             switch action {
-            case let .updatePlayersCount(value):
+            case SettingsAction.updatePlayersCount(let value):
                 service.setPlayersCount(value)
 
-            case let .updateWaitDelayMilliseconds(delay):
+            case SettingsAction.updateWaitDelayMilliseconds(let delay):
                 service.setWaitDelayMilliseconds(delay)
 
-            case .toggleSimulation:
+            case SettingsAction.toggleSimulation:
                 service.setSimulationEnabled(state.simulation)
 
-            case let .updatePreferredFigure(value):
+            case SettingsAction.updatePreferredFigure(let value):
                 service.setPreferredFigure(value)
+
+            default:
+                break
             }
 
             return nil

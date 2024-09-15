@@ -1,5 +1,5 @@
 //
-//  SettingsView.swift
+//  SettingsRootView.swift
 //
 //
 //  Created by Hugues Telolahy on 08/12/2023.
@@ -8,8 +8,11 @@
 
 import Redux
 import SwiftUI
+import AppCore
+import NavigationCore
+import SettingsCore
 
-struct SettingsView: View {
+struct SettingsRootView: View {
     struct State: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
@@ -30,17 +33,9 @@ struct SettingsView: View {
         }
     }
 
-    enum Action {
-        case didTapCloseButton
-        case didChangePlayersCount(Int)
-        case didChangeWaitDelay(Int)
-        case didToggleSimulation
-        case didTapFigures
-    }
+    @StateObject private var store: Store<State>
 
-    @StateObject private var store: Store<State, Action>
-
-    init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -54,7 +49,7 @@ struct SettingsView: View {
         .toolbar {
             Button("Done") {
                 withAnimation {
-                    store.dispatch(.didTapCloseButton)
+                    store.dispatch(NavigationStackAction<RootDestination>.dismiss)
                 }
             }
         }
@@ -78,7 +73,7 @@ struct SettingsView: View {
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
                     get: { store.state.playersCount },
-                    set: { store.dispatch(.didChangePlayersCount($0)) }
+                    set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
                 ).animation(),
                 in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
@@ -95,7 +90,7 @@ struct SettingsView: View {
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
-                        store.dispatch(.didChangeWaitDelay(option.value))
+                        store.dispatch(SettingsAction.updateWaitDelayMilliseconds(option.value))
                     }
                 ),
                 label: Text(
@@ -114,7 +109,7 @@ struct SettingsView: View {
             Image(systemName: "record.circle")
             Toggle(isOn: Binding<Bool>(
                 get: { store.state.simulation },
-                set: { _ in store.dispatch(.didToggleSimulation) }
+                set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
             ).animation()) {
                 Text("Simulation")
             }
@@ -123,7 +118,7 @@ struct SettingsView: View {
 
     private var figureView: some View {
         Button(action: {
-            store.dispatch(.didTapFigures)
+            store.dispatch(NavigationStackAction<SettingsDestination>.push(.figures))
         }, label: {
             HStack {
                 Image(systemName: "lanyardcard.fill")
@@ -136,12 +131,12 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView {
+    SettingsRootView {
         .init(initial: .mockedData)
     }
 }
 
-private extension SettingsView.State {
+private extension SettingsRootView.State {
     static var mockedData: Self {
         .init(
             playersCount: 5,

@@ -73,10 +73,8 @@ public enum Setup {
                 winner: nil
             ),
             cards: cards,
-            config: .init(
-                waitDelayMilliseconds: 0,
-                playMode: [:]
-            )
+            waitDelayMilliseconds: 0,
+            playMode: [:]
         )
     }
 

@@ -4,9 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 24/06/2024.
 //
-
 import Foundation
-import Redux
 
 public typealias PlayersState = [String: Player]
 
@@ -28,72 +26,6 @@ public extension PlayersState {
     enum Error: Swift.Error, Equatable {
         /// Expected player to be damaged
         case playerAlreadyMaxHealth(String)
-    }
-}
-
-public extension PlayersState {
-    static let reducer: Reducer<Self, GameAction> = { state, action in
-        switch action {
-        case .heal:
-            try healReducer(state, action)
-
-        case .damage:
-            try damageReducer(state, action)
-
-        case .setAttribute:
-            try setAttributeReducer(state, action)
-
-        default:
-            state
-        }
-    }
-}
-
-private extension PlayersState {
-    static let healReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .heal(amount, player) = action else {
-            fatalError("unexpected")
-        }
-        var playerObj = state.get(player)
-        let maxHealth = playerObj.attributes.get(.maxHealth)
-
-        guard playerObj.health < maxHealth else {
-            throw Error.playerAlreadyMaxHealth(player)
-        }
-
-        playerObj.health = Swift.min(playerObj.health + amount, maxHealth)
-
-        var state = state
-        state[player] = playerObj
-        return state
-    }
-
-    static let damageReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .damage(amount, player) = action else {
-            fatalError("unexpected")
-        }
-        var playerObj = state.get(player)
-        playerObj.health -= amount
-
-        var state = state
-        state[player] = playerObj
-        return state
-    }
-
-    static let setAttributeReducer: Reducer<Self, GameAction> = { state, action in
-        guard case let .setAttribute(key, value, player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state[keyPath: \Self[player]]?.setValue(value, forAttribute: key)
-        return state
-    }
-}
-
-extension Player {
-    mutating func setValue(_ value: Int?, forAttribute key: String) {
-        attributes[key] = value
     }
 }
 

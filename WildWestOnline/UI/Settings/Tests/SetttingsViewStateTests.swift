@@ -13,8 +13,6 @@ import SettingsCore
 import XCTest
 
 final class SetttingsViewStateTests: XCTestCase {
-    private let sut = SettingsViewConnector()
-
     func test_SettingsStateProjection() throws {
         // Given
         let appState = AppState(
@@ -24,7 +22,7 @@ final class SetttingsViewStateTests: XCTestCase {
         )
 
         // When
-        let settingsState = try XCTUnwrap(sut.deriveState(appState))
+        let settingsState = try XCTUnwrap(SettingsRootView.presenter(appState))
 
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)

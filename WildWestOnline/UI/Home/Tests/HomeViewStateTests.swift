@@ -13,8 +13,6 @@ import SettingsCore
 import XCTest
 
 final class HomeViewStateTests: XCTestCase {
-    private let sut = HomeViewConnector()
-
     func test_HomeStateProjection() throws {
         // Given
         let appState = AppState(
@@ -25,6 +23,6 @@ final class HomeViewStateTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(sut.deriveState(appState))
+        XCTAssertNotNil(HomeView.presenter(appState))
     }
 }

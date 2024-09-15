@@ -22,7 +22,7 @@ extension XCTestCase {
         let expectation = XCTestExpectation(description: "Awaiting game idle")
         expectation.isInverted = true
         let choicesWrapper = ChoiceWrapper(value: choose)
-        let store = Store<GameState, GameAction>(
+        let store = Store<GameState>(
             initial: state,
             reducer: GameState.reducer,
             middlewares: [
@@ -65,7 +65,7 @@ extension XCTestCase {
 }
 
 private extension Middlewares {
-    static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState, GameAction> {
+    static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState> {
         { state, _ in
             guard let chooseOne = state.sequence.chooseOne.first else {
                 return nil

@@ -13,7 +13,7 @@ final class NavigationCoreTests: XCTestCase {
         let state = NavigationState()
 
         // When
-        let action = NavigationAction<RootDestination>.push(.home)
+        let action = NavigationStackAction<RootDestination>.push(.home)
         let result = try NavigationState.reducer(state, action)
 
         // Then
@@ -25,7 +25,7 @@ final class NavigationCoreTests: XCTestCase {
         let state = NavigationState(root: .init(path: [.home]))
 
         // When
-        let action = NavigationAction<RootDestination>.present(.settings)
+        let action = NavigationStackAction<RootDestination>.present(.settings)
         let result = try NavigationState.reducer(state, action)
 
         // Then
@@ -37,7 +37,7 @@ final class NavigationCoreTests: XCTestCase {
         let state = NavigationState(root: .init(path: [.home], sheet: .settings))
 
         // When
-        let action = NavigationAction<RootDestination>.dismiss
+        let action = NavigationStackAction<RootDestination>.dismiss
         let result = try NavigationState.reducer(state, action)
 
         // Then

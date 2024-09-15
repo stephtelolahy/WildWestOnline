@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  FigureRow.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 12/09/2024.
@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct FigureRow: View {
-    var figure: FiguresView.State.Figure
+    var figure: SettingsFiguresView.State.Figure
 
     var body: some View {
         HStack {

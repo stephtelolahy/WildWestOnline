@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  UpdateGameMiddleware.swift
 //
@@ -9,7 +8,7 @@ import Redux
 
 /// Game loop features
 public extension Middlewares {
-    static func updateGame() -> Middleware<GameState, GameAction> {
+    static func updateGame() -> Middleware<GameState> {
         chain([
             checkGameOver(),
             triggerCardEffects(),

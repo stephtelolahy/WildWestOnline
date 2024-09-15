@@ -8,24 +8,22 @@
 
 import SwiftUI
 import Redux
+import AppCore
+import NavigationCore
 
-struct SplashView: View {
-    struct State: Equatable {
+public struct SplashView: View {
+    public struct State: Equatable {
     }
 
-    enum Action {
-        case didAppear
-    }
-    
-    @StateObject private var store: Store<State, Action>
+    @StateObject private var store: Store<State>
 
-    init(store: @escaping () -> Store<State, Action>) {
+    public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
@@ -36,7 +34,7 @@ struct SplashView: View {
         .navigationBarHidden(true)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                store.dispatch(.didAppear)
+                store.dispatch(NavigationStackAction<RootDestination>.push(.home))
             }
         }
     }

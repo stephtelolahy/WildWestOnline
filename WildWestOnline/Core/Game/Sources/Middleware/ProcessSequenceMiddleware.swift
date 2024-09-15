@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  ProcessSequenceMiddleware.swift
 //
@@ -10,12 +9,16 @@ import Foundation
 import Redux
 
 extension Middlewares {
-    static func processSequence() -> Middleware<GameState, GameAction> {
+    static func processSequence() -> Middleware<GameState> {
         { state, action in
+            guard let action = action as? GameAction else {
+                return nil
+            }
+
             switch action {
             case .endGame,
-                    .chooseOne,
-                    .activate:
+                 .chooseOne,
+                 .activate:
                 return nil
 
             default:
@@ -26,7 +29,7 @@ extension Middlewares {
                 // emit effect after delay if current action is renderable
                 if action.isRenderable {
                     let milliToNanoSeconds = 1_000_000
-                    let waitDelay = state.config.waitDelayMilliseconds
+                    let waitDelay = state.waitDelayMilliseconds
                     try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
                 }
 

@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  ActivatePlayableCardsMiddleware.swift
 //
@@ -9,7 +8,7 @@
 import Redux
 
 extension Middlewares {
-    static func activatePlayableCards() -> Middleware<GameState, GameAction> {
+    static func activatePlayableCards() -> Middleware<GameState> {
         { state, _ in
             guard state.sequence.queue.isEmpty,
                   state.sequence.winner == nil,

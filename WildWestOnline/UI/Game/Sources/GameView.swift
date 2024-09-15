@@ -10,8 +10,8 @@ import SwiftUI
 import Theme
 import Redux
 
-struct GameView: View {
-    struct State: Equatable {
+public struct GameView: View {
+    public struct State: Equatable {
         let players: [PlayerItem]
         let message: String
         let chooseOne: ChooseOne?
@@ -21,6 +21,8 @@ struct GameView: View {
         let animationDelay: TimeInterval
         let startOrder: [String]
         let deckCount: Int
+        let controlledPlayer: String?
+        let startPlayer: String
 
         struct PlayerItem: Equatable {
             let id: String
@@ -58,23 +60,16 @@ struct GameView: View {
         }
     }
 
-    enum Action {
-        case didAppear
-        case didTapCloseButton
-        case didPlayCard(String)
-        case didChooseOption(String)
-    }
-
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<State, Action>
+    @StateObject private var store: Store<State>
 
-    init(store: @escaping () -> Store<State, Action>) {
+    public init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             UIViewControllerRepresentableBuilder {
@@ -137,7 +132,9 @@ private extension GameView.State {
             topDeck: nil,
             animationDelay: 1000,
             startOrder: [],
-            deckCount: 12
+            deckCount: 12,
+            controlledPlayer: "p1",
+            startPlayer: "p1"
         )
     }
 }

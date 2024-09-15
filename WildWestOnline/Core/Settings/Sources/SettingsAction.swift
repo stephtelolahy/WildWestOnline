@@ -4,7 +4,9 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/06/2024.
 //
-public enum SettingsAction {
+import Redux
+
+public enum SettingsAction: Action {
     case updatePlayersCount(Int)
     case updateWaitDelayMilliseconds(Int)
     case toggleSimulation

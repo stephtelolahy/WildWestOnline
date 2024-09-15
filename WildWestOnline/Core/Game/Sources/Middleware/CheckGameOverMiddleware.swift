@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  CheckGameOverMiddleware.swift
 //  
@@ -9,9 +8,9 @@
 import Redux
 
 extension Middlewares {
-    static func checkGameOver() -> Middleware<GameState, GameAction> {
+    static func checkGameOver() -> Middleware<GameState> {
         { state, action in
-            guard case .eliminate = action,
+            guard case GameAction.eliminate = action,
                   state.round.playOrder.count <= 1 else {
                 return nil
             }

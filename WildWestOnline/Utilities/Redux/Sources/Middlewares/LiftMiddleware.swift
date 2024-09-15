@@ -1,4 +1,3 @@
-// swiftlint:disable:this file_name
 //
 //  LiftMiddleware.swift
 //
@@ -14,25 +13,16 @@
 /// passing as parameter the keyPath from whole to part.
 ///
 public extension Middlewares {
-    static func lift<
-        LocalState: Equatable,
-        LocalAction,
-        GlobalState,
-        GlobalAction
-    >(
-        _ partMiddleware: @escaping Middleware<LocalState, LocalAction>,
-        deriveState: @escaping (GlobalState) -> LocalState?,
-        deriveAction: @escaping (GlobalAction) -> LocalAction?,
-        embedAction: @escaping (LocalAction) -> GlobalAction
-    ) -> Middleware<GlobalState, GlobalAction> {
+    static func lift<LocalState: Equatable, GlobalState>(
+        _ partMiddleware: @escaping Middleware<LocalState>,
+        deriveState: @escaping (GlobalState) -> LocalState?
+    ) -> Middleware<GlobalState> {
         { state, action in
-            guard let localState = deriveState(state),
-                  let localAction = deriveAction(action),
-                  let outputLocalAction = await partMiddleware(localState, localAction) else {
+            guard let localState = deriveState(state) else {
                 return nil
             }
 
-            return embedAction(outputLocalAction)
+            return await partMiddleware(localState, action)
         }
     }
 }
