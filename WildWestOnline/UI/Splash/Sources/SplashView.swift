@@ -9,6 +9,7 @@
 import SwiftUI
 import Redux
 import AppCore
+import NavigationCore
 
 public struct SplashView: View {
     public struct State: Equatable {
@@ -33,7 +34,7 @@ public struct SplashView: View {
         .navigationBarHidden(true)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                store.dispatch(.didAppear)
+                store.dispatch(NavigationStackAction<RootDestination>.push(.home))
             }
         }
     }

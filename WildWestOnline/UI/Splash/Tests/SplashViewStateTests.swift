@@ -13,9 +13,6 @@ import SettingsCore
 import XCTest
 
 final class SplashViewStateTests: XCTestCase {
-
-    private let sut = SplashViewConnector()
-
     func test_splashStateProjection() throws {
         // Given
         let appState = AppState(
@@ -26,6 +23,6 @@ final class SplashViewStateTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(sut.deriveState(appState))
+        XCTAssertNotNil(SplashView.presenter(appState))
     }
 }
