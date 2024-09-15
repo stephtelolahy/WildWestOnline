@@ -7,6 +7,9 @@
 
 import Combine
 
+/// A function to extract ViewState from global AppState
+public typealias Presenter<GlobalState, LocalState: Equatable> = (GlobalState) -> LocalState?
+
 /// An app should have a single real Store, holding a single source-of-truth.
 /// However, we can "derive" this store to small subsets, called store projections,
 /// that will handle a smaller part of the state,

@@ -22,9 +22,9 @@ struct FiguresView: View {
         case didChangePreferredFigure(String)
     }
 
-    @StateObject private var store: Store<State, Action>
+    @StateObject private var store: Store<State>
 
-    init(store: @escaping () -> Store<State, Action>) {
+    init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
