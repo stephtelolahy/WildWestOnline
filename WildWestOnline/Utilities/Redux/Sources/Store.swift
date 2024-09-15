@@ -27,12 +27,12 @@ public class Store<State>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var event: PassthroughSubject<Any, Never>
     public internal(set) var error: PassthroughSubject<Error, Never>
-    
+
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions: Set<AnyCancellable> = []
     private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
-    
+
     public init(
         initial state: State,
         reducer: @escaping Reducer<State> = { state, _ in state },
@@ -44,13 +44,13 @@ public class Store<State>: ObservableObject {
         self.event = .init()
         self.error = .init()
     }
-    
+
     public func dispatch(_ action: Action) {
         do {
             let newState = try reducer(state, action)
             event.send(action)
             state = newState
-            
+
             for middleware in middlewares {
                 Future<Action?, Never>(operation: {
                     await middleware(newState, action)
@@ -64,6 +64,38 @@ public class Store<State>: ObservableObject {
         } catch {
             self.error.send(error)
         }
+    }
+
+    public func dispatch(_ thunk: Thunk) {
+        thunk(
+            .init(
+                dispatch: { [weak self] action in
+                    self?.dispatch(action)
+                },
+                getState: { [weak self] in
+                    self?.state
+                }
+            )
+        )
+    }
+}
+
+/// The word "thunk" is a programming term that means "a piece of code that does some delayed work".
+/// Rather than execute some logic now, we can write a function body or code that can be used to perform the work later.
+/// ``Thunks`` are a pattern of writing functions with logic inside that can interact with the store later
+///
+public typealias Thunk = (ThunkArgument) -> Void
+
+public struct ThunkArgument {
+    public let dispatch: (Action) -> Void
+    public let getState: () -> Any?
+
+    public init(
+        dispatch: @escaping (Action) -> Void,
+        getState: @escaping () -> Any?
+    ) {
+        self.dispatch = dispatch
+        self.getState = getState
     }
 }
 

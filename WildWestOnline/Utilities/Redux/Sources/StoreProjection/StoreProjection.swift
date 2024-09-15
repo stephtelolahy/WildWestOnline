@@ -43,6 +43,19 @@ private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalSt
     override func dispatch(_ action: Action) {
         globalStore.dispatch(action)
     }
+
+    override func dispatch(_ thunk: (ThunkArgument) -> Void) {
+        thunk(
+            .init(
+                dispatch: { [weak self] action in
+                    self?.globalStore.dispatch(action)
+                },
+                getState: { [weak self] in
+                    self?.globalStore.state
+                }
+            )
+        )
+    }
 }
 
 public extension Store {

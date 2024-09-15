@@ -19,10 +19,12 @@ final class AppCoreTests: XCTestCase {
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
+        let sut = Store<AppState>(initial: state, reducer: AppState.reducer)
 
         // When
         let action = GameSetupAction.start
-        let result = try AppState.reducer(state, action)
+        sut.dispatch(action)
+        let result = sut.state
 
         // Then
         XCTAssertEqual(result.navigation.root.path, [.home, .game])
@@ -37,10 +39,12 @@ final class AppCoreTests: XCTestCase {
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
+        let sut = Store<AppState>(initial: state, reducer: AppState.reducer)
 
         // When
         let action = GameSetupAction.quit
-        let result = try AppState.reducer(state, action)
+        sut.dispatch(action)
+        let result = sut.state
 
         // Then
         XCTAssertEqual(result.navigation.root.path, [.home])
