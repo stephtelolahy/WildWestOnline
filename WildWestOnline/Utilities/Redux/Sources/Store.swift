@@ -84,9 +84,9 @@ public class Store<State>: ObservableObject {
 /// Rather than execute some logic now, we can write a function body or code that can be used to perform the work later.
 /// ``Thunks`` are a pattern of writing functions with logic inside that can interact with the store later
 ///
-public typealias Thunk = (ThunkArg) -> Void
+public typealias Thunk = (ThunkArgument) -> Void
 
-public struct ThunkArg {
+public struct ThunkArgument {
     public let dispatch: (Action) -> Void
     public let getState: () -> Any?
 

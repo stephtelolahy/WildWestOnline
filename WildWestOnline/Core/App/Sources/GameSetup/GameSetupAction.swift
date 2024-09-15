@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/06/2024.
 //
-// swiftlint:disable prefer_self_in_static_references
 
 import Redux
 import GameCore
@@ -14,8 +13,10 @@ import NavigationCore
 public enum GameSetupAction: Action {
     case setGame(GameState)
     case unsetGame
+}
 
-    public static let start: Thunk = { arg in
+public extension GameSetupAction {
+    static let start: Thunk = { arg in
         guard let state = arg.getState() as? AppState else {
             fatalError("unexpected")
         }
@@ -29,7 +30,7 @@ public enum GameSetupAction: Action {
         arg.dispatch(NavigationStackAction<RootDestination>.push(.game))
     }
 
-    public static let quit: Thunk = { arg in
+    static let quit: Thunk = { arg in
         arg.dispatch(NavigationStackAction<RootDestination>.pop)
         arg.dispatch(GameSetupAction.unsetGame)
     }
