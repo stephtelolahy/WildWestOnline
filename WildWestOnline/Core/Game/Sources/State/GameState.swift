@@ -1,6 +1,3 @@
-import Foundation
-import Redux
-
 /// All aspects of game state
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
@@ -20,8 +17,19 @@ public struct GameState: Codable, Equatable {
     /// All cards reference by cardName
     public let cards: [String: Card]
 
-    /// Configuration
-    public var config: GameConfig
+    /// Wait delay between two visible actions
+    public var waitDelayMilliseconds: Int
+
+    /// Play mode by player
+    public var playMode: [String: PlayMode]
+}
+
+public enum PlayMode: Equatable, Codable {
+    /// Player is controller by user
+    case manual
+
+    /// Player is controlled by AI agent
+    case auto
 }
 
 // MARK: - Convenience
@@ -30,21 +38,6 @@ public extension GameState {
     /// Getting player with given identifier
     func player(_ id: String) -> Player {
         players.get(id)
-    }
-}
-
-// MARK: - Reducer
-
-public extension GameState {
-    static let reducer: Reducer<Self, GameAction> = { state, action in
-            .init(
-                players: try PlayersState.reducer(state.players, action),
-                field: try FieldState.reducer(state.field, action),
-                round: try RoundState.reducer(state.round, action),
-                sequence: try SequenceState.reducer(state, action),
-                cards: state.cards,
-                config: state.config
-            )
     }
 }
 
@@ -92,10 +85,8 @@ public extension GameState {
                     winner: winner
                 ),
                 cards: cards,
-                config: .init(
-                    waitDelayMilliseconds: waitDelayMilliseconds,
-                    playMode: playMode
-                )
+                waitDelayMilliseconds: waitDelayMilliseconds,
+                playMode: playMode
             )
         }
 

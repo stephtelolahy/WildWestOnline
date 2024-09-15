@@ -65,7 +65,7 @@ extension XCTestCase {
 }
 
 private extension Middlewares {
-    static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState, GameAction> {
+    static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState> {
         { state, _ in
             guard let chooseOne = state.sequence.chooseOne.first else {
                 return nil

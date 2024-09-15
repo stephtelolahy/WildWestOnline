@@ -29,7 +29,7 @@ final class PlayTests: XCTestCase {
         // Given
         let card1 = Card.makeBuilder(name: "c1")
             .withRule {
-                CardEffect.nothing
+                CardEffect.drawDeck
                     .on([.play])
             }
             .build()
@@ -38,6 +38,7 @@ final class PlayTests: XCTestCase {
                 $0.withAbilities(["c1"])
             }
             .withCards(["c1": card1])
+            .withDeck(["c2"])
             .build()
 
         // When
@@ -46,7 +47,7 @@ final class PlayTests: XCTestCase {
 
         // Then
         XCTAssertEqual(result.sequence.queue, [
-            .prepareEffect(.nothing, ctx: .init(sourceEvent: action, sourceActor: "p1", sourceCard: "c1"))
+            .prepareEffect(.drawDeck, ctx: .init(sourceEvent: action, sourceActor: "p1", sourceCard: "c1"))
         ])
     }
 }

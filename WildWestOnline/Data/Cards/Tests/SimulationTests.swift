@@ -80,7 +80,7 @@ final class SimulationTests: XCTestCase {
 
 /// Middleare reproducting state according to received event
 private extension Middlewares {
-    static func stateReproducer(_ prevState: StateWrapper) -> Middleware<GameState, GameAction> {
+    static func stateReproducer(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
             let resultState = try! GameState.reducer(prevState.value, action)
             prevState.value = resultState

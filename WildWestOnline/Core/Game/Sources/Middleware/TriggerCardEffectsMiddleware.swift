@@ -8,8 +8,12 @@
 import Redux
 
 extension Middlewares {
-    static func triggerCardEffects() -> Middleware<GameState, GameAction> {
+    static func triggerCardEffects() -> Middleware<GameState> {
         { state, action in
+            guard let action = action as? GameAction else {
+                return nil
+            }
+
             var triggered: [GameAction] = []
 
             // active players
@@ -35,12 +39,12 @@ extension Middlewares {
             // sort triggered by priority
             triggered = state.sortedByPriority(triggered)
 
-            // return triggered effect(s)
+            // return triggered effects
             guard triggered.isNotEmpty else {
                 return nil
             }
 
-            return .queue(triggered)
+            return GameAction.queue(triggered)
         }
     }
 }

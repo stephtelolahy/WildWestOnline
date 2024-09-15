@@ -8,31 +8,31 @@
 import Redux
 
 extension Middlewares {
-    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState, GameAction> {
+    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
         { state, _ in
             guard state.sequence.winner == nil else {
                 return nil
             }
 
             if let active = state.sequence.active.first,
-               state.config.playMode[active.key] == .auto {
+               state.playMode[active.key] == .auto {
                 let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
                 let milliToNanoSeconds = 1_000_000
-                let waitDelay = state.config.waitDelayMilliseconds
+                let waitDelay = state.waitDelayMilliseconds
                 try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
 
                 return move
             }
 
             if let chooseOne = state.sequence.chooseOne.first,
-               state.config.playMode[chooseOne.key] == .auto {
+               state.playMode[chooseOne.key] == .auto {
                 let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
                 let milliToNanoSeconds = 1_000_000
-                let waitDelay = state.config.waitDelayMilliseconds
+                let waitDelay = state.waitDelayMilliseconds
                 try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
 
                 return move
