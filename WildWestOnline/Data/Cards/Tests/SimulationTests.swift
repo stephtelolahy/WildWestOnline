@@ -46,11 +46,11 @@ final class SimulationTests: XCTestCase {
             inventory: inventory,
             preferredFigure: preferredFigure
         )
-        game.config.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        game.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
         let stateWrapper = StateWrapper(value: game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = Store<GameState, GameAction>(
+        let sut = Store<GameState>(
             initial: game,
             reducer: GameState.reducer,
             middlewares: [
