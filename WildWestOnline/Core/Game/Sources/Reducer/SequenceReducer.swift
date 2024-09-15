@@ -216,19 +216,20 @@ private extension SequenceState {
             fatalError("unexpected")
         }
 
-        var sequence = state.sequence
+        var state = state
+
         let output = try effect.resolve(state: state, ctx: ctx)
         switch output {
         case let .push(children):
-            sequence.queue.insert(contentsOf: children, at: 0)
+            state.sequence.queue.insert(contentsOf: children, at: 0)
 
         case let .cancel(actions):
             for action in actions {
-                sequence.cancel(action)
+                state.sequence.cancel(action)
             }
 
         case let .replace(index, updatedAction):
-            sequence.queue[index] = updatedAction
+            state.sequence.queue[index] = updatedAction
 
         case .nothing:
             break
