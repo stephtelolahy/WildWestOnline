@@ -20,7 +20,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(store: createAppStore())
+            MainView(store: createAppStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
@@ -50,15 +50,11 @@ private func createAppStore() -> Store<AppState> {
         middlewares: [
             Middlewares.lift(
                 Middlewares.updateGame(),
-                deriveState: { $0.game },
-                deriveAction: { $0 as? GameAction },
-                embedAction: { $0 }
+                deriveState: { $0.game }
             ),
             Middlewares.lift(
-                Middlewares.saveSettings(with: settingsService),
-                deriveState: { $0.settings },
-                deriveAction: { $0 as? SettingsAction },
-                embedAction: { $0 }
+                Middlewares.saveSettings(service: settingsService),
+                deriveState: { $0.settings }
             ),
             Middlewares.logger()
         ]

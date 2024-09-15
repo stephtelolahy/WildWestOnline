@@ -8,7 +8,7 @@
 import Redux
 
 public extension Middlewares {
-    static func saveSettings(with service: SettingsService) -> Middleware<SettingsState> {
+    static func saveSettings(service: SettingsService) -> Middleware<SettingsState> {
         { state, action in
             switch action {
             case SettingsAction.updatePlayersCount(let value):

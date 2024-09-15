@@ -1,5 +1,5 @@
 //
-//  RootView.swift
+//  MainView.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 13/09/2024.
@@ -14,36 +14,36 @@ import SettingsUI
 import HomeUI
 import GameUI
 
-struct RootView: View {
-    @StateObject private var store: Store<AppState>
-
-    init(store: @escaping () -> Store<AppState>) {
-        // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view.
-        _store = StateObject(wrappedValue: store())
-    }
+struct MainView: View {
+    let store: Store<AppState>
 
     var body: some View {
         NavigationStackView(
             store: {
-                store.projection(using: RootViewConnector())
+                store.projection(MainView.presenter)
             },
             root: {
-                SplashViewAssembly.buildSplashView(store)
+                SplashView {
+                    store.projection(SplashView.presenter)
+                }
             },
             destination:  { destination in
                 let content = switch destination {
                 case .home:
-                    HomeViewAssembly.buildHomeView(store)
+                    HomeView {
+                        store.projection(HomeView.presenter)
+                    }
                     .eraseToAnyView()
 
                 case .game:
-                    GameViewAssembly.buildGameView(store)
+                    GameView {
+                        store.projection(GameView.presenter)
+                    }
                     .eraseToAnyView()
-
+                    
                 case .settings:
-                    SettingsAssembly.buildSettingsNavigationView(store)
-                    .eraseToAnyView()
+                    SettingsStackView(store: store)
+                        .eraseToAnyView()
                 }
 
                 content.eraseToAnyView()
@@ -53,7 +53,7 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(store: .init(initial: .mockedData))
+    MainView(store: .init(initial: .mockedData))
 }
 
 private extension AppState {
@@ -66,12 +66,8 @@ private extension AppState {
     }
 }
 
-private struct RootViewConnector: Connector {
-    func deriveState(_ state: AppState) -> NavigationStackState<RootDestination>? {
+private extension MainView {
+    static let presenter: Presenter<AppState, NavigationStackState<RootDestination>> = { state in
         state.navigation.root
-    }
-
-    func embedAction(_ action: NavigationStackAction<RootDestination>) -> Any {
-        action
     }
 }
