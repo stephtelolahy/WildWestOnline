@@ -36,7 +36,14 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 
 ![](Docs/eventresolving.png)
 
-### Architecture
+#### Modular Architecture
+
+The project is composed of SwiftPackage products with the following structure. 
+
+![](Docs/modular.png)
+
+
+### Redux Architecture
 
 Redux architecture is meant to protect changes in an application’s state. It forces you to define clearly what state should be set when a specific action is dispatched.
 
@@ -49,25 +56,9 @@ Redux architecture is meant to protect changes in an application’s state. It f
 
 ![](Docs/redux.png)
 
-
 #### Store projection
 The app should have a single real Store, holding a single source-of-truth. 
 However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each screen. So we can map back-and-forth to the original store types.
-
-#### Clean+Redux Principles
-- App = ∑ View(ViewState, ViewAction)
-- ViewState = derive(AppState)
-- ViewAction = extract(AppAction)
-- AppState = ∑ State
-- State = Reducer(State, Action)
-- Action = Middleware(State, Action, Service)
-
-#### Project structure
-
-The project is composed of SwiftPackage products with the following structure. 
-
-![](Docs/project_structure.png)
-
 
 ### Sequence diagram
 
