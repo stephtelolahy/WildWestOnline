@@ -15,7 +15,7 @@ import HomeUI
 import GameUI
 
 struct RootView: View {
-    @StateObject private var store: Store<AppState, Any>
+    @StateObject private var store: Store<AppState>
 
     init(store: @escaping () -> Store<AppState>) {
         // SwiftUI ensures that the following initialization uses the

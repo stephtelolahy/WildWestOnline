@@ -7,6 +7,7 @@
 // swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
 
 import Combine
+import AppCore
 import GameCore
 import Redux
 import UIKit
@@ -21,7 +22,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Data
 
-    private var store: Store<GameView.State, GameView.Action>
+    private var store: Store<GameView.State>
     private var subscriptions: Set<AnyCancellable> = []
     private var events: [String] = []
 
@@ -64,13 +65,13 @@ class GamePlayViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        store.dispatch(.didAppear)
+        store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
     }
 
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
-        store.dispatch(.didTapCloseButton)
+        store.dispatch(GameSetupAction.quit)
     }
 }
 
@@ -125,7 +126,16 @@ private extension GamePlayViewController {
 
         if let chooseOne = state.chooseOne {
             showChooseOneAlert(chooseOne) { [weak self] option in
-                self?.store.dispatch(.didChooseOption(option))
+                guard let self else {
+                    return
+                }
+
+                self.store.dispatch(
+                    GameAction.prepareChoose(
+                        option,
+                        player: self.store.state.controlledPlayer
+                    )
+                )
             }
         }
     }
@@ -290,7 +300,12 @@ extension GamePlayViewController: UICollectionViewDelegate {
             return
         }
 
-        store.dispatch(.didPlayCard(item.card))
+        store.dispatch(
+            GameAction.preparePlay(
+                item.card,
+                player: store.state.controlledPlayer
+            )
+        )
     }
 }
 

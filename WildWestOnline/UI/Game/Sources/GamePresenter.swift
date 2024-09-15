@@ -1,24 +1,17 @@
 //
-//  GameViewConnector.swift
+//  GamePresenter.swift
+//  WildWestOnline
 //
+//  Created by Stephano Hugues TELOLAHY on 15/09/2024.
 //
-//  Created by Stephano Hugues TELOLAHY on 24/03/2024.
-//
-// swiftlint:disable nesting
 
+import SwiftUI
 import Redux
 import AppCore
 import GameCore
-import NavigationCore
 
-struct GameViewConnector: Connector {
-    private let controlledPlayerId: String
-
-    init(controlledPlayerId: String) {
-        self.controlledPlayerId = controlledPlayerId
-    }
-
-    func deriveState(_ state: AppState) -> GameView.State? {
+public extension GameView {
+    static let presenter: Presenter<AppState, State> = { state in
         guard let game = state.game else {
             return nil
         }
@@ -30,27 +23,12 @@ struct GameViewConnector: Connector {
             handCards: game.handCards,
             topDiscard: game.field.discard.first,
             topDeck: game.field.deck.first,
-            animationDelay: Double(game.config.waitDelayMilliseconds) / 1000.0,
+            animationDelay: Double(game.waitDelayMilliseconds) / 1000.0,
             startOrder: game.round.startOrder,
-            deckCount: game.field.deck.count
+            deckCount: game.field.deck.count,
+            controlledPlayer: game.controlledPlayerId,
+            startPlayer: game.startPlayerId
         )
-    }
-
-    func embedAction(_ action: GameView.Action) -> Any {
-        switch action {
-        case .didAppear:
-            // TODO: create start game action
-            GameAction.startTurn(player: controlledPlayerId)
-
-        case .didTapCloseButton:
-            GameSetupAction.quit
-
-        case .didPlayCard(let card):
-            GameAction.preparePlay(card, player: controlledPlayerId)
-
-        case .didChooseOption(let option):
-            GameAction.prepareChoose(option, player: controlledPlayerId)
-        }
     }
 }
 
@@ -92,8 +70,7 @@ private extension GameState {
     }
 
     var chooseOne: GameView.State.ChooseOne? {
-        guard let controlledId = controlledPlayerId,
-              let chooseOne = sequence.chooseOne[controlledId] else {
+        guard let chooseOne = sequence.chooseOne[controlledPlayerId] else {
             return  nil
         }
 
@@ -104,7 +81,7 @@ private extension GameState {
     }
 
     var handCards: [GameView.State.HandCard] {
-        guard let playerId = players.first(where: { config.playMode[$0.key] == .manual })?.key,
+        guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
         }
@@ -136,7 +113,19 @@ private extension GameState {
         round.playOrder.first!
     }
 
-    var controlledPlayerId: String? {
-        round.startOrder.first(where: { config.playMode[$0] == .manual })
+    var controlledPlayerId: String {
+        guard let playerId = playMode.keys.first(where: { playMode[$0] == .manual }) else {
+            fatalError("unsupported")
+        }
+
+        return playerId
+    }
+
+    var startPlayerId: String {
+        guard let playerId = round.startOrder.first else {
+            fatalError("unsupported")
+        }
+
+        return playerId
     }
 }

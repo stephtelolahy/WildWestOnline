@@ -27,7 +27,7 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private func createAppStore() -> Store<AppState, Any> {
+private func createAppStore() -> Store<AppState> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 
@@ -44,7 +44,7 @@ private func createAppStore() -> Store<AppState, Any> {
         inventory: cardsService.inventory
     )
 
-    return Store<AppState, Any>(
+    return Store<AppState>(
         initial: initialState,
         reducer: AppState.reducer,
         middlewares: [

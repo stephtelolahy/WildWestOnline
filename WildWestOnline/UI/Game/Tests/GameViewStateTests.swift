@@ -14,12 +14,12 @@ import SettingsCore
 import XCTest
 
 final class GameViewStateTests: XCTestCase {
-    private let sut = GameViewConnector(controlledPlayerId: "p1")
-
     func test_state_shouldDisplayCurrentTurnPlayer() throws {
         // Given
         let game = GameState.makeBuilder()
             .withTurn("p1")
+            .withPlayModes(["p1": .manual])
+            .withPlayer("p1")
             .build()
         let appState = AppState(
             navigation: .init(),
@@ -29,7 +29,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(appState))
+        let result = try XCTUnwrap(GameView.presenter(appState))
 
         // Then
         XCTAssertEqual(result.message, "P1's turn")
@@ -59,7 +59,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(appState))
+        let result = try XCTUnwrap(GameView.presenter(appState))
 
         // Then
         XCTAssertEqual(result.players.count, 2)
@@ -110,7 +110,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(appState))
+        let result = try XCTUnwrap(GameView.presenter(appState))
 
         // Then
         XCTAssertEqual(result.handCards, [
@@ -136,7 +136,7 @@ final class GameViewStateTests: XCTestCase {
         )
 
         // When
-        let result = try XCTUnwrap(sut.deriveState(appState))
+        let result = try XCTUnwrap(GameView.presenter(appState))
 
         // Then
         XCTAssertEqual(
