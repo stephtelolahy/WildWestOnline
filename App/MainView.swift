@@ -67,7 +67,7 @@ private extension AppState {
 }
 
 private extension MainView {
-    static let presenter: Presenter<AppState, NavigationStackState<RootDestination>> = { state in
-        state.navigation.root
+    static let presenter: Presenter<AppState, NavigationStackState<MainDestination>> = { state in
+        state.navigation.main
     }
 }

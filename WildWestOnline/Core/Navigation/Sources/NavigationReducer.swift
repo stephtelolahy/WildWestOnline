@@ -11,8 +11,8 @@ public extension NavigationState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
 
-        if let action = action as? NavigationStackAction<RootDestination> {
-            state.root = try stackReducer(state.root, action)
+        if let action = action as? NavigationStackAction<MainDestination> {
+            state.main = try stackReducer(state.main, action)
         }
 
         if let action = action as? NavigationStackAction<SettingsDestination> {

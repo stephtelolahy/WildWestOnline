@@ -57,7 +57,7 @@ public struct HomeView: View {
                 }
                 mainButton("menu.settings.button") {
                     withAnimation {
-                        store.dispatch(NavigationStackAction<RootDestination>.present(.settings))
+                        store.dispatch(NavigationStackAction<MainDestination>.present(.settings))
                     }
                 }
             }

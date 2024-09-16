@@ -34,7 +34,7 @@ public struct SplashView: View {
         .navigationBarHidden(true)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                store.dispatch(NavigationStackAction<RootDestination>.push(.home))
+                store.dispatch(NavigationStackAction<MainDestination>.push(.home))
             }
         }
     }

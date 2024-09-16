@@ -49,7 +49,7 @@ struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 withAnimation {
-                    store.dispatch(NavigationStackAction<RootDestination>.dismiss)
+                    store.dispatch(NavigationStackAction<MainDestination>.dismiss)
                 }
             }
         }
