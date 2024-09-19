@@ -10,20 +10,17 @@ import Redux
 public extension NavigationState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-
-        if let action = action as? NavigationStackAction<RootDestination> {
-            state.root = try stackReducer(state.root, action)
-        }
-
-        if let action = action as? NavigationStackAction<SettingsDestination> {
-            state.settings = try stackReducer(state.settings, action)
-        }
-
+        state.main = try stackReducer(state.main, action)
+        state.settings = try stackReducer(state.settings, action)
         return state
     }
 }
 
-private func stackReducer<T: Destination>(_ state: NavigationStackState<T>, _ action: NavigationStackAction<T>) throws -> NavigationStackState<T> {
+private func stackReducer<T: Destination>(_ state: NavigationStackState<T>, _ action: Action) throws -> NavigationStackState<T> {
+    guard let action = action as? NavigationStackAction<T> else {
+        return state
+    }
+
     var state = state
     switch action {
     case .push(let page):

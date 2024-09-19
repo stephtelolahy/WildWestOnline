@@ -27,7 +27,7 @@ final class AppCoreTests: XCTestCase {
         let result = sut.state
 
         // Then
-        XCTAssertEqual(result.navigation.root.path, [.home, .game])
+        XCTAssertEqual(result.navigation.main.path, [.home, .game])
         XCTAssertNotNil(result.game)
     }
 
@@ -47,7 +47,7 @@ final class AppCoreTests: XCTestCase {
         let result = sut.state
 
         // Then
-        XCTAssertEqual(result.navigation.root.path, [.home])
+        XCTAssertEqual(result.navigation.main.path, [.home])
         XCTAssertNil(result.game)
     }
 }

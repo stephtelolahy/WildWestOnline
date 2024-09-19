@@ -22,7 +22,7 @@ final class SetttingsViewStateTests: XCTestCase {
         )
 
         // When
-        let settingsState = try XCTUnwrap(SettingsRootView.presenter(appState))
+        let settingsState = try XCTUnwrap(SettingsHomeView.presenter(appState))
 
         // Then
         XCTAssertEqual(settingsState.playersCount, 3)

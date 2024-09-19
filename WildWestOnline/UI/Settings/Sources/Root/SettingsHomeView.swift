@@ -1,5 +1,5 @@
 //
-//  SettingsRootView.swift
+//  SettingsHomeView.swift
 //
 //
 //  Created by Hugues Telolahy on 08/12/2023.
@@ -8,11 +8,10 @@
 
 import Redux
 import SwiftUI
-import AppCore
 import NavigationCore
 import SettingsCore
 
-struct SettingsRootView: View {
+struct SettingsHomeView: View {
     struct State: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
@@ -49,7 +48,7 @@ struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 withAnimation {
-                    store.dispatch(NavigationStackAction<RootDestination>.dismiss)
+                    store.dispatch(NavigationStackAction<MainDestination>.dismiss)
                 }
             }
         }
@@ -131,12 +130,12 @@ struct SettingsRootView: View {
 }
 
 #Preview {
-    SettingsRootView {
+    SettingsHomeView {
         .init(initial: .mockedData)
     }
 }
 
-private extension SettingsRootView.State {
+private extension SettingsHomeView.State {
     static var mockedData: Self {
         .init(
             playersCount: 5,

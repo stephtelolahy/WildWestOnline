@@ -12,20 +12,20 @@ import Redux
 import AppCore
 import NavigationCore
 
-public struct HomeView: View {
-    public struct State: Equatable {
+struct HomeView: View {
+    struct State: Equatable {
     }
 
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 
-    public init(store: @escaping () -> Store<State>) {
+    init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             VStack {
@@ -57,7 +57,7 @@ public struct HomeView: View {
                 }
                 mainButton("menu.settings.button") {
                     withAnimation {
-                        store.dispatch(NavigationStackAction<RootDestination>.present(.settings))
+                        store.dispatch(NavigationStackAction<MainDestination>.present(.settings))
                     }
                 }
             }

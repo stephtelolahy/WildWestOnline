@@ -20,14 +20,15 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView(store: createAppStore())
+            MainCoordinator()
+                .environmentObject(appStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
     }
 }
 
-private func createAppStore() -> Store<AppState> {
+private func appStore() -> Store<AppState> {
     let settingsService = SettingsRepository()
     let cardsService = CardsRepository()
 

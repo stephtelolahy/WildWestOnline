@@ -27,11 +27,11 @@ public extension GameSetupAction {
         )
 
         arg.dispatch(GameSetupAction.setGame(newGame))
-        arg.dispatch(NavigationStackAction<RootDestination>.push(.game))
+        arg.dispatch(NavigationStackAction<MainDestination>.push(.game))
     }
 
     static let quit: Thunk = { arg in
-        arg.dispatch(NavigationStackAction<RootDestination>.pop)
+        arg.dispatch(NavigationStackAction<MainDestination>.pop)
         arg.dispatch(GameSetupAction.unsetGame)
     }
 }

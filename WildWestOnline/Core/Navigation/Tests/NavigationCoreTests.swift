@@ -13,11 +13,11 @@ final class NavigationCoreTests: XCTestCase {
         let state = NavigationState()
 
         // When
-        let action = NavigationStackAction<RootDestination>.push(.home)
+        let action = NavigationStackAction<MainDestination>.push(.home)
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.root.path, [.home])
+        XCTAssertEqual(result.main.path, [.home])
     }
 
     func test_showingSettings_shouldDisplaySettings() throws {
@@ -25,11 +25,11 @@ final class NavigationCoreTests: XCTestCase {
         let state = NavigationState(root: .init(path: [.home]))
 
         // When
-        let action = NavigationStackAction<RootDestination>.present(.settings)
+        let action = NavigationStackAction<MainDestination>.present(.settings)
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.root.sheet, .settings)
+        XCTAssertEqual(result.main.sheet, .settings)
     }
 
     func test_closingSettings_shouldRemoveSettings() throws {
@@ -37,10 +37,10 @@ final class NavigationCoreTests: XCTestCase {
         let state = NavigationState(root: .init(path: [.home], sheet: .settings))
 
         // When
-        let action = NavigationStackAction<RootDestination>.dismiss
+        let action = NavigationStackAction<MainDestination>.dismiss
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.root.sheet)
+        XCTAssertNil(result.main.sheet)
     }
 }

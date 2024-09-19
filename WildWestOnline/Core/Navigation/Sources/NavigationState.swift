@@ -5,19 +5,19 @@
 //  Created by Stephano Hugues TELOLAHY on 07/09/2024.
 //
 public struct NavigationState: Equatable, Codable {
-    public var root: NavigationStackState<RootDestination>
+    public var main: NavigationStackState<MainDestination>
     public var settings: NavigationStackState<SettingsDestination>
 
     public init(
-        root: NavigationStackState<RootDestination> = .init(path: []),
+        root: NavigationStackState<MainDestination> = .init(path: []),
         settings: NavigationStackState<SettingsDestination> = .init(path: [])
     ) {
-        self.root = root
+        self.main = root
         self.settings = settings
     }
 }
 
-public enum RootDestination: String, Destination {
+public enum MainDestination: String, Destination {
     case home
     case game
     case settings
