@@ -1,8 +1,8 @@
 //
-//  GamePresenter.swift
+//  GameViewBuilder.swift
 //  WildWestOnline
 //
-//  Created by Stephano Hugues TELOLAHY on 15/09/2024.
+//  Created by Hugues Stephano TELOLAHY on 19/09/2024.
 //
 
 import SwiftUI
@@ -10,7 +10,19 @@ import Redux
 import AppCore
 import GameCore
 
-public extension GameView {
+public struct GameViewBuilder: View {
+    @EnvironmentObject private var store: Store<AppState>
+
+    public init() {}
+
+    public var body: some View {
+        GameView {
+            store.projection(GameView.presenter)
+        }
+    }
+}
+
+extension GameView {
     static let presenter: Presenter<AppState, State> = { state in
         guard let game = state.game else {
             return nil
@@ -126,3 +138,4 @@ private extension GameState {
         return playerId
     }
 }
+

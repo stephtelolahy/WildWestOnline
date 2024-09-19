@@ -10,8 +10,8 @@ import SwiftUI
 import Theme
 import Redux
 
-public struct GameView: View {
-    public struct State: Equatable {
+struct GameView: View {
+    struct State: Equatable {
         let players: [PlayerItem]
         let message: String
         let chooseOne: ChooseOne?
@@ -63,13 +63,13 @@ public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State>
 
-    public init(store: @escaping () -> Store<State>) {
+    init(store: @escaping () -> Store<State>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             UIViewControllerRepresentableBuilder {
