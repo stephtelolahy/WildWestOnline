@@ -6,34 +6,39 @@
 //
 
 import Foundation
+import Combine
 import Redux
 
 extension Middlewares {
     static func processSequence() -> Middleware<GameState> {
         { state, action in
             guard let action = action as? GameAction else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
             switch action {
             case .endGame,
                  .chooseOne,
                  .activate:
-                return nil
+                return Empty().eraseToAnyPublisher()
 
             default:
                 guard let nextAction = state.sequence.queue.first else {
-                    return nil
+                    return Empty().eraseToAnyPublisher()
                 }
 
                 // emit effect after delay if current action is renderable
                 if action.isRenderable {
-                    let milliToNanoSeconds = 1_000_000
-                    let waitDelay = state.waitDelayMilliseconds
-                    try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
+                    let milliToSeconds = 0.0001
+                    let waitDelay = state.waitDelaySeconds
+                    let delaySeconds: TimeInterval = Double(state.waitDelaySeconds) * milliToSeconds
+
+                    return Just(nextAction)
+                        .delay(for: .seconds(delaySeconds), scheduler: RunLoop.main)
+                        .eraseToAnyPublisher()
                 }
 
-                return nextAction
+                return Just(nextAction).eraseToAnyPublisher()
             }
         }
     }

@@ -18,7 +18,7 @@ public struct GameState: Codable, Equatable {
     public let cards: [String: Card]
 
     /// Wait delay between two visible actions
-    public var waitDelayMilliseconds: Int
+    public var waitDelaySeconds: Double
 
     /// Play mode by player
     public var playMode: [String: PlayMode]
@@ -60,7 +60,7 @@ public extension GameState {
         private var queue: [GameAction] = []
         private var playMode: [String: PlayMode] = [:]
         private var cards: [String: Card] = [:]
-        private var waitDelayMilliseconds: Int = 0
+        private var waitDelaySeconds: Double = 0
 
         public func build() -> GameState {
             .init(
@@ -85,7 +85,7 @@ public extension GameState {
                     winner: winner
                 ),
                 cards: cards,
-                waitDelayMilliseconds: waitDelayMilliseconds,
+                waitDelaySeconds: waitDelaySeconds,
                 playMode: playMode
             )
         }
@@ -160,8 +160,8 @@ public extension GameState {
             return self
         }
 
-        public func withWaitDelayMilliseconds(_ value: Int) -> Self {
-            waitDelayMilliseconds = value
+        public func withWaitDelaySeconds(_ value: Double) -> Self {
+            waitDelaySeconds = value
             return self
         }
     }

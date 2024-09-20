@@ -5,6 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
 
+import Combine
 import Redux
 
 extension Middlewares {
@@ -15,7 +16,7 @@ extension Middlewares {
                   state.sequence.chooseOne.isEmpty,
                   state.sequence.active.isEmpty,
                   let player = state.round.turn else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
             var activeCards: [String] = []
@@ -28,10 +29,10 @@ extension Middlewares {
 
             // Ignore empty
             guard activeCards.isNotEmpty else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
-            return GameAction.activate(activeCards, player: player)
+            return Just(GameAction.activate(activeCards, player: player)).eraseToAnyPublisher()
         }
     }
 }

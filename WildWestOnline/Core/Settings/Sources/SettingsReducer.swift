@@ -13,8 +13,8 @@ public extension SettingsState {
         case SettingsAction.updatePlayersCount(let value):
             state.playersCount = value
 
-        case SettingsAction.updateWaitDelayMilliseconds(let value):
-            state.waitDelayMilliseconds = value
+        case SettingsAction.updateWaitDelaySeconds(let value):
+            state.waitDelaySeconds = value
 
         case SettingsAction.toggleSimulation:
             state.simulation.toggle()

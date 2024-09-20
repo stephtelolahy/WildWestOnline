@@ -19,10 +19,14 @@ final class AppCoreTests: XCTestCase {
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
-        let sut = Store<AppState>(initial: state, reducer: AppState.reducer)
+        let sut = Store<AppState>(
+            initial: state,
+            reducer: AppState.reducer,
+            middlewares: [Middlewares.gameSetup()]
+        )
 
         // When
-        let action = GameSetupAction.start
+        let action = GameSetupAction.startGame
         sut.dispatch(action)
         let result = sut.state
 
@@ -39,10 +43,14 @@ final class AppCoreTests: XCTestCase {
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
-        let sut = Store<AppState>(initial: state, reducer: AppState.reducer)
+        let sut = Store<AppState>(
+            initial: state,
+            reducer: AppState.reducer,
+            middlewares: [Middlewares.gameSetup()]
+        )
 
         // When
-        let action = GameSetupAction.quit
+        let action = GameSetupAction.quitGame
         sut.dispatch(action)
         let result = sut.state
 

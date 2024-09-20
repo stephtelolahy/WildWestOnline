@@ -5,6 +5,7 @@ import SwiftUI
 
 /// ``Action`` is a plain object that describes what happened.
 /// To change something in the state, you need to dispatch an action.
+/// Common protocol to which all actions conform.
 ///
 public protocol Action {}
 
@@ -14,7 +15,7 @@ public typealias Reducer<State> = (State, Action) throws -> State
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
 /// handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-public typealias Middleware<State> = (State, Action) async -> Action?
+public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>
 
 /// Namespace for Middlewares
 public enum Middlewares {}
@@ -31,7 +32,7 @@ public class Store<State>: ObservableObject {
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
     private var subscriptions: Set<AnyCancellable> = []
-    private let middlewareSerialQueue = DispatchQueue(label: "store.middleware-\(UUID())")
+    private let queue = DispatchQueue(label: "redux.store-\(UUID())")
 
     public init(
         initial state: State,
@@ -51,61 +52,15 @@ public class Store<State>: ObservableObject {
             event.send(action)
             state = newState
 
-            for middleware in middlewares {
-                Future<Action?, Never>(operation: {
-                    await middleware(newState, action)
-                })
-                .compactMap { $0 }
-                .subscribe(on: middlewareSerialQueue)
-                .receive(on: RunLoop.main)
-                .sink(receiveValue: dispatch)
-                .store(in: &subscriptions)
+            middlewares.forEach { middleware in
+                middleware(newState, action)
+                    .subscribe(on: queue)
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: dispatch)
+                    .store(in: &subscriptions)
             }
         } catch {
             self.error.send(error)
-        }
-    }
-
-    public func dispatch(_ thunk: Thunk) {
-        thunk(
-            .init(
-                dispatch: { [weak self] action in
-                    self?.dispatch(action)
-                },
-                getState: { [weak self] in
-                    self?.state
-                }
-            )
-        )
-    }
-}
-
-/// The word "thunk" is a programming term that means "a piece of code that does some delayed work".
-/// Rather than execute some logic now, we can write a function body or code that can be used to perform the work later.
-/// ``Thunks`` are a pattern of writing functions with logic inside that can interact with the store later
-///
-public typealias Thunk = (ThunkArgument) -> Void
-
-public struct ThunkArgument {
-    public let dispatch: (Action) -> Void
-    public let getState: () -> Any?
-
-    public init(
-        dispatch: @escaping (Action) -> Void,
-        getState: @escaping () -> Any?
-    ) {
-        self.dispatch = dispatch
-        self.getState = getState
-    }
-}
-
-private extension Future where Failure == Never {
-    convenience init(operation: @escaping () async -> Output) {
-        self.init { promise in
-            Task {
-                let output = await operation()
-                promise(.success(output))
-            }
         }
     }
 }

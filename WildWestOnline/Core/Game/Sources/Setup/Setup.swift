@@ -73,7 +73,7 @@ public enum Setup {
                 winner: nil
             ),
             cards: cards,
-            waitDelayMilliseconds: 0,
+            waitDelaySeconds: 0,
             playMode: [:]
         )
     }

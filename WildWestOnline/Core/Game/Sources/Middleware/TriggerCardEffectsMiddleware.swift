@@ -5,13 +5,14 @@
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
 
+import Combine
 import Redux
 
 extension Middlewares {
     static func triggerCardEffects() -> Middleware<GameState> {
         { state, action in
             guard let action = action as? GameAction else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
             var triggered: [GameAction] = []
@@ -41,10 +42,10 @@ extension Middlewares {
 
             // return triggered effects
             guard triggered.isNotEmpty else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
-            return GameAction.queue(triggered)
+            return Just(GameAction.queue(triggered)).eraseToAnyPublisher()
         }
     }
 }

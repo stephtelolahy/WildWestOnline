@@ -8,7 +8,7 @@ import Redux
 
 public enum SettingsAction: Action {
     case updatePlayersCount(Int)
-    case updateWaitDelayMilliseconds(Int)
+    case updateWaitDelaySeconds(Double)
     case toggleSimulation
     case updatePreferredFigure(String?)
 }

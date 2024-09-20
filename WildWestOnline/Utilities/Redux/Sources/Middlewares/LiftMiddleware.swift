@@ -5,6 +5,8 @@
 //  Created by Hugues Telolahy on 27/11/2023.
 //
 
+import Combine
+
 /// This is a container that lifts a sub-state middleware to a global state middleware.
 /// Internally you find the middleware responsible for handling events and actions for a sub-state (`Part`),
 /// while this outer class will be able to compose with global state (`Whole`) in your `Store`.
@@ -19,10 +21,10 @@ public extension Middlewares {
     ) -> Middleware<GlobalState> {
         { state, action in
             guard let localState = deriveState(state) else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
-            return await partMiddleware(localState, action)
+            return partMiddleware(localState, action)
         }
     }
 }

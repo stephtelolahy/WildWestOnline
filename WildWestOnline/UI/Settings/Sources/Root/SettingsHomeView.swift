@@ -23,10 +23,10 @@ struct SettingsHomeView: View {
 
         struct SpeedOption: Equatable {
             let label: String
-            let value: Int
+            let value: Double
 
             static let all: [Self] = [
-                .init(label: "Normal", value: 500),
+                .init(label: "Normal", value: 0.5),
                 .init(label: "Fast", value: 0)
             ]
         }
@@ -89,7 +89,7 @@ struct SettingsHomeView: View {
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
-                        store.dispatch(SettingsAction.updateWaitDelayMilliseconds(option.value))
+                        store.dispatch(SettingsAction.updateWaitDelaySeconds(option.value))
                     }
                 ),
                 label: Text(
