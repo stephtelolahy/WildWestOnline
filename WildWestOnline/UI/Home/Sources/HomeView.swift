@@ -93,7 +93,3 @@ struct HomeView: View {
         .init(initial: .init())
     }
 }
-
-private func toto() async {
-    print("hello world")
-}

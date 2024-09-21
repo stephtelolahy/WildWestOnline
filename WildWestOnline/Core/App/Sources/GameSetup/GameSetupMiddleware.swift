@@ -29,7 +29,7 @@ public extension Middlewares {
             case GameSetupAction.quitGame:
                 return [
                     GameSetupAction.unsetGame,
-                    GameSetupAction.unsetGame
+                    NavigationStackAction<MainDestination>.pop
                 ].publisher.eraseToAnyPublisher()
 
             default:

@@ -25,14 +25,17 @@ final class AppCoreTests: XCTestCase {
             middlewares: [Middlewares.gameSetup()]
         )
 
+        let expectation = XCTestExpectation(description: "Awaiting store idle")
+        expectation.isInverted = true
+
         // When
         let action = GameSetupAction.startGame
         sut.dispatch(action)
-        let result = sut.state
 
         // Then
-        XCTAssertEqual(result.navigation.main.path, [.home, .game])
-        XCTAssertNotNil(result.game)
+        wait(for: [expectation], timeout: 0.1)
+        XCTAssertEqual(sut.state.navigation.main.path, [.home, .game])
+        XCTAssertNotNil(sut.state.game)
     }
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
@@ -49,13 +52,16 @@ final class AppCoreTests: XCTestCase {
             middlewares: [Middlewares.gameSetup()]
         )
 
+        let expectation = XCTestExpectation(description: "Awaiting store idle")
+        expectation.isInverted = true
+
         // When
         let action = GameSetupAction.quitGame
         sut.dispatch(action)
-        let result = sut.state
 
         // Then
-        XCTAssertEqual(result.navigation.main.path, [.home])
-        XCTAssertNil(result.game)
+        wait(for: [expectation], timeout: 0.1)
+        XCTAssertEqual(sut.state.navigation.main.path, [.home])
+        XCTAssertNil(sut.state.game)
     }
 }
