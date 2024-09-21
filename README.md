@@ -64,6 +64,10 @@ However, we can "derive" this store to small subsets, called store projections, 
 
 ![](Docs/view_hierrarchy.png)
 
+#### Threading
+
+![](Docs/threading.png)
+
 ### Sequence diagram
 
 Online gameplay uses shared database
