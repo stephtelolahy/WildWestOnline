@@ -191,7 +191,6 @@ public struct Effect: Equatable, Codable {
 
 public enum PlayerAttribute: String, Codable {
     case maxHealth
-    case drawCards
     case weapon
     case handLimit
     case magnifying
@@ -270,6 +269,7 @@ public enum ActionAttribute: String, Codable {
     case healAmount
     case damageAmount
     case discoverAmount
+    case drawAmount
     case shootRequiredMisses
     case playableAsBang
     case playableAsMissed

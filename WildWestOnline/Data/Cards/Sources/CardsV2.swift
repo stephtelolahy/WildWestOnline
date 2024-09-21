@@ -13,6 +13,7 @@ public enum CardsV2 {
     /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
     ///
     static let all: [CardV2] = [
+        defaultPlayerAttributes,
         defaultDraw2CardsOnTurnStarted,
         defaultDiscardExcessHandOnTurnEnded,
         defaultStartTurnNextOnTurnEnded,
@@ -115,11 +116,12 @@ public enum CardsV2 {
 private extension CardsV2 {
     // MARK: - Default
 
-    static var defaultAttributes: [PlayerAttribute: Int] {
-        [
-            .weapon: 1,
-            .drawCards: 1
-        ]
+    static var defaultPlayerAttributes: CardV2 {
+        .init(
+            name: .defaultPlayerAttributes,
+            desc: "Player default attributes",
+            setPlayerAttribute: [.weapon: 1]
+        )
     }
 
     static var defaultDraw2CardsOnTurnStarted: CardV2 {
@@ -748,7 +750,8 @@ private extension CardsV2 {
         .init(
             name: .luckyDuke,
             desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
-            setPlayerAttribute: [.maxHealth: 4, .drawCards: 2]
+            setPlayerAttribute: [.maxHealth: 4],
+            setActionAttribute: ["": [.drawAmount: 2]]
         )
     }
 

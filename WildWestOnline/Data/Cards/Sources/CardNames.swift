@@ -67,6 +67,7 @@ public extension String {
 
     // MARK: - AbilitiesV2
 
+    static let defaultPlayerAttributes = "defaultPlayerAttributes"
     static let defaultDraw2CardsOnTurnStarted = "defaultDraw2CardsOnTurnStarted"
     static let defaultDiscardExcessHandOnTurnEnded = "defaultDiscardExcessHandOnTurnEnded"
     static let defaultStartTurnNextOnTurnEnded = "defaultStartTurnNextOnTurnEnded"
