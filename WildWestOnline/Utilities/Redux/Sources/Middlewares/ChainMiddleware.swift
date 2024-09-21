@@ -15,8 +15,10 @@ import Combine
 public extension Middlewares {
     static func chain<State>(_ middlewares: [Middleware<State>]) -> Middleware<State> {
         { state, action in
-            // TODO: chain middlewares
-            Empty().eraseToAnyPublisher()
+            Publishers
+                .MergeMany(middlewares.map { $0(state, action) })
+                .first()
+                .eraseToAnyPublisher()
         }
     }
 }
