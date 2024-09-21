@@ -25,7 +25,7 @@ extension SettingsHomeView {
     static let presenter: Presenter<AppState, State> = { state in
             .init(
                 playersCount: state.settings.playersCount,
-                speedIndex: SettingsHomeView.State.indexOfSpeed(state.settings.waitDelayMilliseconds),
+                speedIndex: SettingsHomeView.State.indexOfSpeed(state.settings.waitDelaySeconds),
                 simulation: state.settings.simulation,
                 preferredFigure: state.settings.preferredFigure
             )
@@ -33,7 +33,7 @@ extension SettingsHomeView {
 }
 
 private extension SettingsHomeView.State {
-    static func indexOfSpeed(_ delayMilliseconds: Int) -> Int {
-        SpeedOption.all.firstIndex { $0.value == delayMilliseconds } ?? 0
+    static func indexOfSpeed(_ delaySeconds: Double) -> Int {
+        SpeedOption.all.firstIndex { $0.value == delaySeconds } ?? 0
     }
 }

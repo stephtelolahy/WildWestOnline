@@ -34,7 +34,7 @@ private func appStore() -> Store<AppState> {
 
     let settings = SettingsState.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
-        .withWaitDelayMilliseconds(settingsService.waitDelayMilliseconds())
+        .withWaitDelaySeconds(settingsService.waitDelaySeconds())
         .withSimulation(settingsService.isSimulationEnabled())
         .withPreferredFigure(settingsService.preferredFigure())
         .build()
@@ -56,6 +56,10 @@ private func appStore() -> Store<AppState> {
             Middlewares.lift(
                 Middlewares.saveSettings(service: settingsService),
                 deriveState: { $0.settings }
+            ),
+            Middlewares.lift(
+                Middlewares.gameSetup(),
+                deriveState: { $0 }
             ),
             Middlewares.logger()
         ]

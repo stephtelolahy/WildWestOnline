@@ -58,9 +58,15 @@ Redux architecture is meant to protect changes in an application’s state. It f
 
 ![](Docs/redux.png)
 
+#### Threading
+
+![](Docs/threading.png)
+
 #### Store projection
 The app should have a single real Store, holding a single source-of-truth. 
 However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each screen. So we can map back-and-forth to the original store types.
+
+![](Docs/view_hierrarchy.png)
 
 ### Sequence diagram
 

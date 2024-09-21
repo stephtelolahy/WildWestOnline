@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 31/12/2023.
 //
 
+import Combine
 import Redux
 
 extension Middlewares {
@@ -12,11 +13,11 @@ extension Middlewares {
         { state, action in
             guard case GameAction.eliminate = action,
                   state.round.playOrder.count <= 1 else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
             let winner = state.round.playOrder.first ?? ""
-            return GameAction.endGame(winner: winner)
+            return Just(GameAction.endGame(winner: winner)).eraseToAnyPublisher()
         }
     }
 }

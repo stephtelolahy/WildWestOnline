@@ -35,13 +35,13 @@ final class SettingsCoreTests: XCTestCase {
 
     func test_updateWaitDelay() throws {
         // Given
-        let state = SettingsState.makeBuilder().withWaitDelayMilliseconds(0).build()
+        let state = SettingsState.makeBuilder().withWaitDelaySeconds(0).build()
 
         // When
-        let action = SettingsAction.updateWaitDelayMilliseconds(500)
+        let action = SettingsAction.updateWaitDelaySeconds(500)
         let result = try SettingsState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.waitDelayMilliseconds, 500)
+        XCTAssertEqual(result.waitDelaySeconds, 500)
     }
 }

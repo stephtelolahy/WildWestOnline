@@ -5,13 +5,15 @@
 //
 // swiftlint:disable force_unwrapping
 
+import Combine
 import Redux
+import Foundation
 
 extension Middlewares {
     static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
         { state, _ in
             guard state.sequence.winner == nil else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
             if let active = state.sequence.active.first,
@@ -19,11 +21,9 @@ extension Middlewares {
                 let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
-                let milliToNanoSeconds = 1_000_000
-                let waitDelay = state.waitDelayMilliseconds
-                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
-
-                return move
+                return Just(move)
+                    .delay(for: .seconds(state.waitDelaySeconds), scheduler: RunLoop.main)
+                    .eraseToAnyPublisher()
             }
 
             if let chooseOne = state.sequence.chooseOne.first,
@@ -31,14 +31,12 @@ extension Middlewares {
                 let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
-                let milliToNanoSeconds = 1_000_000
-                let waitDelay = state.waitDelayMilliseconds
-                try? await Task.sleep(nanoseconds: UInt64(waitDelay * milliToNanoSeconds))
-
-                return move
+                return Just(move)
+                    .delay(for: .seconds(state.waitDelaySeconds), scheduler: RunLoop.main)
+                    .eraseToAnyPublisher()
             }
 
-            return nil
+            return Empty().eraseToAnyPublisher()
         }
     }
 }

@@ -68,7 +68,7 @@ private extension Middlewares {
     static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState> {
         { state, _ in
             guard let chooseOne = state.sequence.chooseOne.first else {
-                return nil
+                return Empty().eraseToAnyPublisher()
             }
 
             guard !choices.value.isEmpty else {
@@ -76,7 +76,7 @@ private extension Middlewares {
             }
 
             let option = choices.value.removeFirst()
-            return GameAction.prepareChoose(option, player: chooseOne.key)
+            return Just(GameAction.prepareChoose(option, player: chooseOne.key)).eraseToAnyPublisher()
         }
     }
 }

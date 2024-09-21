@@ -19,16 +19,23 @@ final class AppCoreTests: XCTestCase {
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
-        let sut = Store<AppState>(initial: state, reducer: AppState.reducer)
+        let sut = Store<AppState>(
+            initial: state,
+            reducer: AppState.reducer,
+            middlewares: [Middlewares.gameSetup()]
+        )
+
+        let expectation = XCTestExpectation(description: "Awaiting store idle")
+        expectation.isInverted = true
 
         // When
-        let action = GameSetupAction.start
+        let action = GameSetupAction.startGame
         sut.dispatch(action)
-        let result = sut.state
 
         // Then
-        XCTAssertEqual(result.navigation.main.path, [.home, .game])
-        XCTAssertNotNil(result.game)
+        wait(for: [expectation], timeout: 0.1)
+        XCTAssertEqual(sut.state.navigation.main.path, [.home, .game])
+        XCTAssertNotNil(sut.state.game)
     }
 
     func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
@@ -39,15 +46,22 @@ final class AppCoreTests: XCTestCase {
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
-        let sut = Store<AppState>(initial: state, reducer: AppState.reducer)
+        let sut = Store<AppState>(
+            initial: state,
+            reducer: AppState.reducer,
+            middlewares: [Middlewares.gameSetup()]
+        )
+
+        let expectation = XCTestExpectation(description: "Awaiting store idle")
+        expectation.isInverted = true
 
         // When
-        let action = GameSetupAction.quit
+        let action = GameSetupAction.quitGame
         sut.dispatch(action)
-        let result = sut.state
 
         // Then
-        XCTAssertEqual(result.navigation.main.path, [.home])
-        XCTAssertNil(result.game)
+        wait(for: [expectation], timeout: 0.1)
+        XCTAssertEqual(sut.state.navigation.main.path, [.home])
+        XCTAssertNil(sut.state.game)
     }
 }

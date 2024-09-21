@@ -36,9 +36,8 @@ final class SimulationTests: XCTestCase {
     private func simulateGame(
         playersCount: Int,
         preferredFigure: String? = nil,
-        timeout: TimeInterval = 30.0
+        timeout: TimeInterval = 5.0
     ) {
-        /*
         // Given
         let inventory = CardsRepository().inventory
         var game = Setup.buildGame(
@@ -74,7 +73,6 @@ final class SimulationTests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
         XCTAssertNotNil(sut.state.sequence.winner, "Expected game over")
-         */
     }
 }
 
@@ -88,7 +86,7 @@ private extension Middlewares {
             assert(resultState.field == state.field, "🚨 Inconsistent state after applying \(action)")
             assert(resultState.round == state.round, "🚨 Inconsistent state after applying \(action)")
             assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
-            return nil
+            return Empty().eraseToAnyPublisher()
         }
     }
 }

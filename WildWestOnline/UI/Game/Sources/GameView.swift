@@ -130,7 +130,7 @@ private extension GameView.State {
             ],
             topDiscard: "bang-A♦️",
             topDeck: nil,
-            animationDelay: 1000,
+            animationDelay: 1,
             startOrder: [],
             deckCount: 12,
             controlledPlayer: "p1",

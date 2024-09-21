@@ -7,9 +7,6 @@
 
 import Combine
 
-/// A function to extract ViewState from global AppState
-public typealias Presenter<GlobalState, LocalState: Equatable> = (GlobalState) -> LocalState?
-
 /// An app should have a single real Store, holding a single source-of-truth.
 /// However, we can "derive" this store to small subsets, called store projections,
 /// that will handle a smaller part of the state,
@@ -43,19 +40,6 @@ private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalSt
     override func dispatch(_ action: Action) {
         globalStore.dispatch(action)
     }
-
-    override func dispatch(_ thunk: (ThunkArgument) -> Void) {
-        thunk(
-            .init(
-                dispatch: { [weak self] action in
-                    self?.globalStore.dispatch(action)
-                },
-                getState: { [weak self] in
-                    self?.globalStore.state
-                }
-            )
-        )
-    }
 }
 
 public extension Store {
@@ -67,3 +51,6 @@ public extension Store {
         )
     }
 }
+
+/// A function to extract ViewState from global AppState
+public typealias Presenter<GlobalState, LocalState: Equatable> = (GlobalState) -> LocalState?

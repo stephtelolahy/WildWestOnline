@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 27/11/2023.
 //
+import Combine
 
 /// The `ChainMiddleware` is a container of inner middlewares
 /// that are chained together in the order as they were composed.
@@ -14,13 +15,10 @@
 public extension Middlewares {
     static func chain<State>(_ middlewares: [Middleware<State>]) -> Middleware<State> {
         { state, action in
-            for middleware in middlewares {
-                if let response = await middleware(state, action) {
-                    return response
-                }
-            }
-
-            return nil
+            Publishers
+                .MergeMany(middlewares.map { $0(state, action) })
+                .first()
+                .eraseToAnyPublisher()
         }
     }
 }
