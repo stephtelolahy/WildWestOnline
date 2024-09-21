@@ -12,7 +12,11 @@ import XCTest
 final class LuckyDukeTests: XCTestCase {
     func test_LuckyDuke_shouldHaveTwoFlippedCards() throws {
         // Given
-        let state = Setup.buildGame(figures: [.luckyDuke], deck: [], cards: Cards.all)
+        let state = Setup.buildGame(
+            figures: [.luckyDuke],
+            deck: [],
+            cards: CardsRepository().inventory.cards
+        )
 
         // When
         let player = state.player(.luckyDuke)

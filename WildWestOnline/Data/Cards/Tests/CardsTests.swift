@@ -11,7 +11,7 @@ import XCTest
 final class CardsTests: XCTestCase {
     // Given
     // When
-    private let cards = Cards.all
+    private let cards = CardsRepository().inventory.cards
 
     func test_inventory_shouldContainCollectibleCards() throws {
         // Then

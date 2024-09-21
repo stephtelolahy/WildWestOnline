@@ -12,7 +12,11 @@ import XCTest
 final class SlabTheKillerTests: XCTestCase {
     func test_slabTheKiller_shouldRequireTwoMissesToCounterHisBang() throws {
         // Given
-        let state = Setup.buildGame(figures: [.slabTheKiller], deck: [], cards: Cards.all)
+        let state = Setup.buildGame(
+            figures: [.slabTheKiller],
+            deck: [],
+            cards: CardsRepository().inventory.cards
+        )
 
         // When
         let player = state.player(.slabTheKiller)

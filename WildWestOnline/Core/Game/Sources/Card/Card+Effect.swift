@@ -1,64 +1,14 @@
 //
-//  CardV2.swift
+//  Card+Effect.swift
+//  WildWestOnline
 //
+//  Created by Stephano Hugues TELOLAHY on 21/09/2024.
 //
-//  Created by Hugues Telolahy on 16/08/2024.
-//
-// swiftlint:disable type_contents_order nesting discouraged_optional_collection
-
-/// We are working on a Card Definition Language that will allow people to create new cards,
-/// not currently in the game and see how they play.
-/// A `card` is just a collection of effects and attributes
-/// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
-/// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
-/// ℹ️ All effects of the same source share the resolved arguments
-///
-public struct CardV2: Equatable, Codable {
-    /// Unique name
-    public let name: String
-
-    /// Description
-    public let desc: String
-
-    /// Passive ability to set player attributes
-    public let setPlayerAttribute: [PlayerAttribute: Int]
-
-    /// Passive ability to increment player attributes
-    public let increasePlayerAttribute: [PlayerAttribute: Int]
-
-    /// Passive ability to set some {card}'s action attributes
-    public let setActionAttribute: [String: [ActionAttribute: Int]]
-
-    /// Allow to play this card only when an {event} occurs
-    /// By default cards are playable during player's turn
-    public let canPlay: Effect.PlayReq?
-
-    /// Triggered action when a event occurred
-    public let effects: [Effect]
-
-    public init(
-        name: String,
-        desc: String,
-        setPlayerAttribute: [PlayerAttribute: Int] = [:],
-        increasePlayerAttribute: [PlayerAttribute: Int] = [:],
-        setActionAttribute: [String: [ActionAttribute: Int]] = [:],
-        canPlay: Effect.PlayReq? = nil,
-        effects: [Effect] = []
-    ) {
-        self.name = name
-        self.desc = desc
-        self.setPlayerAttribute = setPlayerAttribute
-        self.setActionAttribute = setActionAttribute
-        self.increasePlayerAttribute = increasePlayerAttribute
-        self.canPlay = canPlay
-        self.effects = effects
-    }
-}
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct Effect: Equatable, Codable {
     public let action: ActionType
-    public var selectors: [Selector]?
+    public var selectors: [Selector]
     public let when: PlayReq
 
     /// Selectors are used to specify which objects an aura or effect should affect.
@@ -180,7 +130,7 @@ public struct Effect: Equatable, Codable {
 
     public init(
         action: ActionType,
-        selectors: [Selector]? = nil,
+        selectors: [Selector] = [],
         when: PlayReq = .played
     ) {
         self.action = action

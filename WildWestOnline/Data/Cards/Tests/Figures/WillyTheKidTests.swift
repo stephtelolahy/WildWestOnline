@@ -12,7 +12,11 @@ import XCTest
 final class WillyTheKidTests: XCTestCase {
     func test_WillyTheKid_shouldHaveUnlimitedBang() throws {
         // Given
-        let state = Setup.buildGame(figures: [.willyTheKid], deck: [], cards: Cards.all)
+        let state = Setup.buildGame(
+            figures: [.willyTheKid],
+            deck: [],
+            cards: CardsRepository().inventory.cards
+        )
 
         // When
         let player = state.player(.willyTheKid)

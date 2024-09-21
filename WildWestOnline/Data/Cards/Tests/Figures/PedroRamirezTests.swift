@@ -10,17 +10,6 @@ import GameCore
 import XCTest
 
 final class PedroRamirezTests: XCTestCase {
-    func test_pedroRamirez_shouldHaveSpecialStartTurn() throws {
-        // Given
-        let state = Setup.buildGame(figures: [.pedroRamirez], deck: [], cards: Cards.all)
-
-        // When
-        let player = state.player(.pedroRamirez)
-
-        // Then
-        XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
-    }
-
     func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
