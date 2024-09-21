@@ -29,12 +29,8 @@ extension Middlewares {
 
                 // emit effect after delay if current action is renderable
                 if action.isRenderable {
-                    let milliToSeconds = 0.0001
-                    let waitDelay = state.waitDelaySeconds
-                    let delaySeconds: TimeInterval = Double(state.waitDelaySeconds) * milliToSeconds
-
                     return Just(nextAction)
-                        .delay(for: .seconds(delaySeconds), scheduler: RunLoop.main)
+                        .delay(for: .seconds(state.waitDelaySeconds), scheduler: RunLoop.main)
                         .eraseToAnyPublisher()
                 }
 

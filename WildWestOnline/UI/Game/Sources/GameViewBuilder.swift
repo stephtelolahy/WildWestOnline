@@ -35,7 +35,7 @@ extension GameView {
             handCards: game.handCards,
             topDiscard: game.field.discard.first,
             topDeck: game.field.deck.first,
-            animationDelay: Double(game.waitDelaySeconds) / 1000.0,
+            animationDelay: game.waitDelaySeconds,
             startOrder: game.round.startOrder,
             deckCount: game.field.deck.count,
             controlledPlayer: game.controlledPlayerId,

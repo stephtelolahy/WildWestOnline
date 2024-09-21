@@ -21,12 +21,8 @@ extension Middlewares {
                 let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
-                let milliToSeconds = 0.0001
-                let waitDelay = state.waitDelaySeconds
-                let delaySeconds: TimeInterval = Double(state.waitDelaySeconds) * milliToSeconds
-
                 return Just(move)
-                    .delay(for: .seconds(delaySeconds), scheduler: RunLoop.main)
+                    .delay(for: .seconds(state.waitDelaySeconds), scheduler: RunLoop.main)
                     .eraseToAnyPublisher()
             }
 
@@ -35,12 +31,8 @@ extension Middlewares {
                 let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
-                let milliToSeconds = 0.0001
-                let waitDelay = state.waitDelaySeconds
-                let delaySeconds: TimeInterval = Double(state.waitDelaySeconds) * milliToSeconds
-
                 return Just(move)
-                    .delay(for: .seconds(delaySeconds), scheduler: RunLoop.main)
+                    .delay(for: .seconds(state.waitDelaySeconds), scheduler: RunLoop.main)
                     .eraseToAnyPublisher()
             }
 
