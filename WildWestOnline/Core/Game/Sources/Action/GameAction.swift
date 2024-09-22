@@ -54,7 +54,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case draw
 
     /// Show hand card
-    case showHand(String, player: String)
+    case showLastHand(String, player: String)
 
     /// Discover top N deck cards
     case discover(Int)
@@ -73,6 +73,8 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Eliminate
     case eliminate(player: String)
+
+    // MARK: - To spec
 
     /// Set player attribute
     case setAttribute(PlayerAttribute, value: Int?, player: String)

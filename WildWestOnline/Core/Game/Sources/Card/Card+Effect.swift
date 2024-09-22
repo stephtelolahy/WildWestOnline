@@ -157,6 +157,15 @@ public enum PlayerAttribute: String, Codable, CaseIterable {
 }
 
 public enum ActionType: String, Codable {
+    /// {actor} discard silently a {card}
+    case playBrown
+
+    /// {actor} put a {card} is self's inPlay
+    case playEquipment
+
+    /// {actor} put a {card} on {target}'s inPlay
+    case playHandicap
+
     /// {target} increase health by {amount}
     /// By default target is {actor}
     /// By default heal amount is 1
@@ -171,21 +180,45 @@ public enum ActionType: String, Codable {
     /// When a {card} is specified, this allow to draw a specific card
     case drawDeck
 
-    /// {target} discard a {card}
-    /// By default target is {actor}
-    case discard
-
-    /// {actor} discard silently a {card}
-    case discardSilently
+    /// {actor} draws the last discarded card
+    /// When a {card} is specified, this allow to draw a specific card
+    case drawDiscard
 
     /// {actor} steal a {card} from {target}
     case steal
 
-    /// {actor} put a {card} is self's inPlay
-    case equip
+    /// {target} discard a {card}
+    /// By default target is {actor}
+    case discard
 
-    /// {actor} put a {card} on {target}'s inPlay
-    case handicap
+    /// {actor} pass inPlay {card} on {target}'s inPlay
+    case passInPlay
+
+    /// draw {drawCards} cards from deck. Next effects depend on it
+    case draw
+
+    /// {actor} shows his last drawn card
+    case showLastHand
+
+    /// expose {amount} choosable cards from top deck
+    case discover
+
+    /// draw discovered deck {card}
+    case drawDiscovered
+
+    /// hide discovered cards
+    case undiscover
+
+    /// {target} starts his turn
+    case startTurn
+
+    /// {actor} ends his turn
+    case endTurn
+
+    /// {actor} gets eliminated
+    case eliminate
+
+    // MARK: - To spec
 
     /// {actor} shoot at {target} with {damage} and {requiredMisses}
     /// By default damage is 1
@@ -194,28 +227,6 @@ public enum ActionType: String, Codable {
 
     /// {actor} counter a shot applied on himself
     case missed
-
-    /// expose {amount} choosable cards from top deck
-    case discover
-
-    /// draw {drawCards} cards from deck. Next effects depend on it
-    case draw
-
-    /// {actor} shows his last drawn card
-    case showLastDraw
-
-    /// {actor} ends his turn
-    case endTurn
-
-    /// {target} starts his turn
-    case startTurn
-
-    /// {actor} gets eliminated
-    case eliminate
-
-    /// {actor} draws the last discarded card
-    /// When a {card} is specified, this allow to draw a specific card
-    case drawDiscard
 
     /// Counter card effect targetting self
     case counter

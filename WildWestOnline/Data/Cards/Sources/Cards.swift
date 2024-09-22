@@ -442,7 +442,7 @@ private extension Cards {
                     ]
                 ),
                 .init(
-                    action: .drawDeck,
+                    action: .drawDiscovered,
                     selectors: [
                         .setTarget(.all),
                         .chooseCard(.discovered)
@@ -576,7 +576,7 @@ private extension Cards {
                     when: .turnStarted
                 ),
                 .init(
-                    action: .handicap,
+                    action: .passInPlay,
                     selectors: [
                         .verify(.not(.draw("[2-9]♠️"))),
                         .setCard(.played),
@@ -805,7 +805,7 @@ private extension Cards {
                     when: .turnStarted
                 ),
                 .init(
-                    action: .showLastDraw,
+                    action: .showLastHand,
                     when: .turnStarted
                 ),
                 .init(
@@ -1608,7 +1608,7 @@ private extension Cards {
 extension Effect {
     static var brown: Effect {
         .init(
-            action: .discardSilently,
+            action: .playBrown,
             selectors: [
                 .setCard(.played)
             ]
@@ -1617,7 +1617,7 @@ extension Effect {
 
     static var equip: Effect {
         .init(
-            action: .equip,
+            action: .playEquipment,
             selectors: [
                 .setCard(.played)
             ]
@@ -1626,7 +1626,7 @@ extension Effect {
 
     static var handicap: Effect {
         .init(
-            action: .handicap,
+            action: .playHandicap,
             selectors: [
                 .chooseTarget(),
                 .setCard(.played)
