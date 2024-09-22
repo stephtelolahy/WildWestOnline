@@ -113,8 +113,8 @@ final class ActionDescribingTests: XCTestCase {
 
     func test_DescribingRevealHand() {
         XCTAssertEqual(
-            String(describing: GameAction.showLastHand("c1", player: "p1")),
-            "🎲 p1 c1"
+            String(describing: GameAction.showLastHand(player: "p1")),
+            "🎲 p1"
         )
     }
 

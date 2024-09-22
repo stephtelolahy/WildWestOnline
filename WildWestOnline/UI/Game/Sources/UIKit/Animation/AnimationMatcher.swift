@@ -49,11 +49,8 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .drawDeck(player):
                 .move(card: .hidden, from: .deck, to: .hand(player))
 
-        case let .putBack(_, player):
-                .move(card: .hidden, from: .hand(player), to: .deck)
-
-        case let .showHand(card, player):
-                .reveal(card: .id(card), from: .hand(player), to: .hand(player))
+        case let .showLastHand(player):
+                .reveal(card: .hidden, from: .hand(player), to: .hand(player))
 
         case let .stealHand(_, target, player):
                 .move(card: .hidden, from: .hand(target), to: .hand(player))
@@ -61,7 +58,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .stealInPlay(card, target, player):
                 .move(card: .id(card), from: .inPlay(target), to: .hand(player))
 
-        case let .drawArena(card, player):
+        case let .drawDiscovered(card, player):
                 .move(card: .id(card), from: .discovered, to: .hand(player))
 
         case let .drawDiscard(player):

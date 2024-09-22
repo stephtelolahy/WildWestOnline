@@ -47,8 +47,8 @@ extension GameAction: CustomStringConvertible {
         case let .discardInPlay(card, player):
             "❌ \(player) \(card)"
 
-        case let .showLastHand(card, player):
-            "🎲 \(player) \(card)"
+        case let .showLastHand(player):
+            "🎲 \(player)"
 
         case let .passInPlay(card, target, player):
             "🧨 \(player) \(target) \(card)"

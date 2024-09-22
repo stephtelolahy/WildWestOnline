@@ -54,7 +54,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case draw
 
     /// Show hand card
-    case showLastHand(String, player: String)
+    case showLastHand(player: String)
 
     /// Discover top N deck cards
     case discover(Int)
