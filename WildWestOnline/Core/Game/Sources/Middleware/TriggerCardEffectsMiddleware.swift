@@ -81,7 +81,7 @@ private extension GameState {
 
         return actions
          */
-        fatalError()
+        []
     }
 
     /*

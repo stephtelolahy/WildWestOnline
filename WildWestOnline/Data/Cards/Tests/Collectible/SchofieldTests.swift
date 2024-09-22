@@ -62,7 +62,7 @@ final class SchofieldTests: XCTestCase {
                     .withAttributes([.weapon: 2])
                     .withFigure("f1")
             }
-            .withExtraCards(["f1": Card.makeBuilder(name: "f1").withAttributes([.weapon: 1]).build()])
+            .withExtraCards(["f1": Card(name: "f1", setPlayerAttribute: [.weapon: 1])])
             .build()
 
         // When

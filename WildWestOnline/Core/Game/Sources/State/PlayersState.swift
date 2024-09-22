@@ -15,7 +15,7 @@ public struct Player: Equatable, Codable {
     /// Current attributes
     public var attributes: [PlayerAttribute: Int]
 
-    /// Inner abilities
+    /// Build-in cards
     public let abilities: Set<String>
 
     /// Figure name. Determining initial attributes
