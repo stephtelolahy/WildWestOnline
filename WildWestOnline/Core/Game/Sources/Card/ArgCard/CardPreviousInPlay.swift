@@ -9,6 +9,7 @@ struct CardPreviousInPlay: ArgCardResolver {
     let key: String
 
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
+        /*
         let owner = ctx.targetOrActor()
         var matchedCards: [String] = []
         let inPlayCards = state.field.inPlay.get(owner)
@@ -26,5 +27,7 @@ struct CardPreviousInPlay: ArgCardResolver {
         }
 
         return .identified(matchedCards.dropLast())
+         */
+        fatalError()
     }
 }

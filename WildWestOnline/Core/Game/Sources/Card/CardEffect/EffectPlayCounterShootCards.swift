@@ -50,6 +50,7 @@ private extension EffectPlayCounterShootCards {
         state: GameState,
         ctx: PlayReqContext
     ) -> Bool {
+        /*
         var cardName = card.extractName()
 
         // <resolve card alias>
@@ -70,5 +71,7 @@ private extension EffectPlayCounterShootCards {
                 return false
             }
         }
+         */
+        fatalError()
     }
 }

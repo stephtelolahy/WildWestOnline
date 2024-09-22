@@ -168,6 +168,7 @@ private extension SequenceState {
     }
 
     static let playReducer: Reducer<GameState> = { state, action in
+        /*
         guard case let GameAction.preparePlay(card, player) = action else {
             fatalError("unexpected")
         }
@@ -208,6 +209,7 @@ private extension SequenceState {
         let children: [GameAction] = playRules.map { .prepareEffect($0.effect, ctx: ctx) }
         state.sequence.queue.insert(contentsOf: children, at: 0)
 
+         */
         return state
     }
 

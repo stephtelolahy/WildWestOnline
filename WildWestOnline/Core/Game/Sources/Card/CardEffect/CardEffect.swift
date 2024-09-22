@@ -8,6 +8,7 @@
 /// Effect that can be applied to a player or a group of players
 /// By default it applies to `EffectContext.actor`
 /// Could set specific target(s) with `EffectContext.target`
+@available(*, deprecated, renamed: "Effect")
 public indirect enum CardEffect: Codable, Equatable {
     // MARK: - Actions
 
@@ -146,10 +147,6 @@ public extension CardEffect {
 
     func ignoreError() -> Self {
         .ignoreError(self)
-    }
-
-    func on(_ playReqs: [PlayReq]) -> CardRule {
-        .init(effect: self, playReqs: playReqs)
     }
 }
 

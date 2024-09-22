@@ -1,6 +1,6 @@
 //
 //  Card.swift
-//  
+//
 //
 //  Created by Stephano Hugues TELOLAHY on 22/07/2024.
 //
@@ -33,43 +33,16 @@ public struct Card: Codable, Equatable {
     /// Triggered action when a event occurred
     public let effects: [Effect]
 
-    // MARK: - Deprecated
-
-    /// Attributes
-    @available(*, deprecated, renamed: "setPlayerAttribute")
-    public let attributes: [String: Int]
-
-    /// Abilities: included actions from another card
-    @available(*, deprecated, message: "remove")
-    public let abilities: Set<String>
-
-    /// Ability to play card X as Y
-    @available(*, deprecated, message: "remove")
-    public let abilityToPlayCardAs: [CardAlias]
-
-    /// Effect priority
-    @available(*, deprecated, message: "remove")
-    public let priority: Int
-
-    /// Actions that can be performed with the card
-    @available(*, deprecated, message: "remove")
-    public let rules: [CardRule]
-
     // MARK: - Constructor
 
     public init(
         name: String,
-        desc: String,
+        desc: String = "",
         setPlayerAttribute: [PlayerAttribute: Int] = [:],
         increasePlayerAttribute: [PlayerAttribute: Int] = [:],
         setActionAttribute: [String: [ActionAttribute: Int]] = [:],
         canPlay: Effect.PlayReq? = nil,
-        effects: [Effect] = [],
-        attributes: [String: Int] = [:],
-        abilities: Set<String> = [],
-        abilityToPlayCardAs: [CardAlias] = [],
-        priority: Int = 0,
-        rules: [CardRule] = []
+        effects: [Effect] = []
     ) {
         self.name = name
         self.desc = desc
@@ -78,10 +51,5 @@ public struct Card: Codable, Equatable {
         self.increasePlayerAttribute = increasePlayerAttribute
         self.canPlay = canPlay
         self.effects = effects
-        self.attributes = attributes
-        self.abilities = Set(abilities)
-        self.abilityToPlayCardAs = abilityToPlayCardAs
-        self.priority = priority
-        self.rules = rules
     }
 }

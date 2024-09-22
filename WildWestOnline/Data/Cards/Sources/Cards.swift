@@ -174,7 +174,6 @@ private extension Cards {
     static var defaultDiscardAllCardsOnEliminated: Card {
         .init(
             name: .defaultDiscardAllCardsOnEliminated,
-            desc: "",
             effects: [
                 .init(
                     action: .discard,
@@ -190,7 +189,6 @@ private extension Cards {
     static var defaultEndTurnOnEliminated: Card {
         .init(
             name: .defaultEndTurnOnEliminated,
-            desc: "",
             effects: [
                 .init(
                     action: .endTurn,
@@ -206,7 +204,6 @@ private extension Cards {
     static var defaultStartTurnNextOnTurnEnded: Card {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
-            desc: "",
             effects: [
                 .init(
                     action: .startTurn,
@@ -222,7 +219,6 @@ private extension Cards {
     static var defaultDiscardPreviousWeaponOnPlayed: Card {
         .init(
             name: .defaultDiscardPreviousWeaponOnPlayed,
-            desc: "",
             effects: [
                 .init(
                     action: .discard,

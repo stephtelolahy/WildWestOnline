@@ -102,7 +102,7 @@ private extension Setup {
         return .init(
             health: health,
             attributes: figureObj.setPlayerAttribute,
-            abilities: figureObj.abilities.union([figure]),
+            abilities: [figure],
             figure: figure
         )
     }

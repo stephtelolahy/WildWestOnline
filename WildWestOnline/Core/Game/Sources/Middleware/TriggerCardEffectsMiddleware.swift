@@ -38,7 +38,7 @@ extension Middlewares {
             }
 
             // sort triggered by priority
-            triggered = state.sortedByPriority(triggered)
+//            triggered = state.sortedByPriority(triggered)
 
             // return triggered effects
             guard triggered.isNotEmpty else {
@@ -56,6 +56,7 @@ private extension GameState {
         player: String,
         event: GameAction
     ) -> [GameAction] {
+        /*
         let state = self
         let cardName = card.extractName()
         guard let cardObj = state.cards[cardName] else {
@@ -79,8 +80,11 @@ private extension GameState {
         }
 
         return actions
+         */
+        fatalError()
     }
 
+    /*
     func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {
         let state = self
         return actions.sorted { action1, action2 in
@@ -93,4 +97,5 @@ private extension GameState {
             return cardObj1.priority < cardObj2.priority
         }
     }
+     */
 }

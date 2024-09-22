@@ -7,6 +7,7 @@
 
 extension GameState {
     func aliasWhenPlayingCard(_ card: String, player: String, ctx: PlayReqContext) -> String? {
+        /*
         let state = self
         let playerObj = state.player(player)
         let figure = playerObj.figure
@@ -19,5 +20,7 @@ extension GameState {
         }
 
         return matched.effectCard
+         */
+        fatalError()
     }
 }
