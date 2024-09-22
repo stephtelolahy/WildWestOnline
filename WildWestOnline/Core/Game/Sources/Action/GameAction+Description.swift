@@ -29,11 +29,11 @@ extension GameAction: CustomStringConvertible {
         case let .drawDeck(player):
             "💰 \(player)"
 
+        case let .drawDiscovered(card, player):
+            "💰 \(player) \(card)"
+
         case let .drawDiscard(player):
             "💰 \(player)"
-
-        case let .drawArena(card, player):
-            "💰 \(player) \(card)"
 
         case let .stealHand(card, target, player):
             "‼️ \(player) \(card) \(target)"
@@ -42,9 +42,6 @@ extension GameAction: CustomStringConvertible {
             "‼️ \(player) \(card) \(target)"
 
         case let .discardHand(card, player):
-            "❌ \(player) \(card)"
-
-        case let .putBack(card, player):
             "❌ \(player) \(card)"
 
         case let .discardInPlay(card, player):
@@ -56,8 +53,8 @@ extension GameAction: CustomStringConvertible {
         case let .passInPlay(card, target, player):
             "🧨 \(player) \(target) \(card)"
 
-        case .discover:
-            "🎁"
+        case let .discover(amount):
+            "🎁 \(amount)"
 
         case .draw:
             "🎲"

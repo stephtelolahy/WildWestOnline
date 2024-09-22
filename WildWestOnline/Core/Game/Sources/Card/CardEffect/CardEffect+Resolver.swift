@@ -42,7 +42,7 @@ private extension CardEffect {
             EffectJust { .drawDeck(player: $0.targetOrActor()) }
 
         case .discover:
-            EffectJust { _ in .discover }
+            EffectJust { _ in .discover(1) }
 
         case .draw:
             EffectJust { _ in .draw }
@@ -55,9 +55,6 @@ private extension CardEffect {
 
         case .eliminate:
             EffectJust { .eliminate(player: $0.targetOrActor()) }
-
-        case .drawArena:
-            EffectDrawArena()
 
         case .drawDiscard:
             EffectJust { .drawDiscard(player: $0.targetOrActor()) }
@@ -73,9 +70,6 @@ private extension CardEffect {
 
         case .handicap:
             EffectJust { .playHandicap($0.sourceCard, target: $0.getTarget(), player: $0.sourceActor) }
-
-        case let .putBack(among):
-            EffectPutBack(among: among)
 
         case .revealLastHand:
             EffectRevealLastHand()

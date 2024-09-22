@@ -12,8 +12,8 @@ public struct FieldState: Equatable, Codable {
     /// Discard pile
     public var discard: [String]
 
-    /// Cards shop
-    public var arena: [String]
+    /// Discovered cards
+    public var discovered: [String]
 
     /// Hand cards
     public var hand: [String: [String]]

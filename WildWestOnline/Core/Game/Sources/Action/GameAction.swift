@@ -32,9 +32,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw top deck card
     case drawDeck(player: String)
 
-    /// Draw specific deck card
-    case drawDeckCard(String, player: String)
-
     /// Draw top discard
     case drawDiscard(player: String)
 
@@ -58,6 +55,15 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Show hand card
     case showHand(String, player: String)
+
+    /// Discover top N deck cards
+    case discover(Int)
+
+    /// Draw discovered deck card
+    case drawDiscovered(String, player: String)
+
+    /// Hide discovered cards
+    case undiscover
 
     /// Start turn
     case startTurn(player: String)
@@ -93,20 +99,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Queue actions
     case queue([Self])
-
-    // MARK: - Deprecated
-
-    /// Discover deck card
-    @available(*, deprecated, renamed: "discover")
-    case discover
-
-    /// Draw cards from arena
-    @available(*, deprecated, renamed: "drawDeckCard")
-    case drawArena(String, player: String)
-
-    /// Put back hand card to deck
-    @available(*, deprecated, renamed: "undiscover")
-    case putBack(String, player: String)
 }
 
 // MARK: - Convenience

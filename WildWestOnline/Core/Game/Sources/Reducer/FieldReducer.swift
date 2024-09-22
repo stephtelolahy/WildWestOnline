@@ -17,8 +17,8 @@ public extension FieldState {
         case GameAction.playHandicap:
             try handicapReducer(state, action)
 
-        case GameAction.putBack:
-            try putBackReducer(state, action)
+        case GameAction.undiscover:
+            try undiscoverReducer(state, action)
 
         case GameAction.drawDeck:
             try drawDeckReducer(state, action)
@@ -26,8 +26,8 @@ public extension FieldState {
         case GameAction.discardHand:
             try discardHandReducer(state, action)
 
-        case GameAction.drawArena:
-            try drawArenaReducer(state, action)
+        case GameAction.drawDiscovered:
+            try drawDiscoveredReducer(state, action)
 
         case GameAction.drawDiscard:
             try drawDiscardReducer(state, action)
@@ -100,14 +100,13 @@ private extension FieldState {
         return state
     }
 
-    static let putBackReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.putBack(card, player) = action else {
+    static let undiscoverReducer: Reducer<Self> = { state, action in
+        guard case GameAction.undiscover = action else {
             fatalError("unexpected")
         }
 
         var state = state
-        state[keyPath: \Self.hand[player]]?.remove(card)
-        state.deck.insert(card, at: 0)
+        state.discovered = []
         return state
     }
 
@@ -133,13 +132,23 @@ private extension FieldState {
         return state
     }
 
-    static let drawArenaReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.drawArena(card, player) = action else {
+    static let drawDiscoveredReducer: Reducer<Self> = { state, action in
+        guard case let GameAction.drawDiscovered(card, player) = action else {
             fatalError("unexpected")
         }
 
         var state = state
-        state.arena.remove(card)
+
+        guard let deckIndex = state.deck.firstIndex(of: card) else {
+            fatalError("card \(card) not found in deck")
+        }
+
+        guard let discoverIndex = state.discovered.firstIndex(of: card) else {
+            fatalError("card \(card) not found in discovered")
+        }
+
+        state.deck.remove(at: deckIndex)
+        state.discovered.remove(at: discoverIndex)
         state[keyPath: \Self.hand[player]]?.append(card)
         return state
     }
@@ -178,13 +187,17 @@ private extension FieldState {
     }
 
     static let discoverReducer: Reducer<Self> = { state, action in
-        guard case GameAction.discover = action else {
+        guard case let GameAction.discover(amount) = action else {
             fatalError("unexpected")
         }
 
         var state = state
-        let card = try state.popDeck()
-        state.arena.append(card)
+        if state.deck.count < amount {
+            try state.resetDeck()
+        }
+
+        state.discovered = Array(state.deck.prefix(amount))
+
         return state
     }
 
@@ -238,17 +251,21 @@ private extension FieldState {
     /// As soon as the draw pile is empty, shuffle the discard pile to create a new playing deck.
     mutating func popDeck() throws -> String {
         if deck.isEmpty {
-            let minDiscardedCards = 2
-            guard discard.count >= minDiscardedCards else {
-                throw Error.deckIsEmpty
-            }
-
-            let cards = discard
-            discard = Array(cards.prefix(1))
-            deck = Array(cards.dropFirst())
+            try resetDeck()
         }
 
         return deck.remove(at: 0)
+    }
+
+    mutating func resetDeck() throws {
+        let minDiscardedCards = 2
+        guard discard.count >= minDiscardedCards else {
+            throw Error.deckIsEmpty
+        }
+
+        let cards = discard
+        discard = Array(cards.prefix(1))
+        deck = Array(cards.dropFirst())
     }
 
     mutating func popDiscard() throws -> String {

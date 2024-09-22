@@ -31,9 +31,6 @@ public indirect enum CardEffect: Codable, Equatable {
     /// - `chooser` is the player that chooses card, by default `EffectContext.target`
     case discard(ArgCard, chooser: ArgPlayer? = nil)
 
-    /// Put  back on top deck a hand card among last N
-    case putBack(among: ArgNum)
-
     /// Reveal last hand card
     case revealLastHand
 
@@ -54,9 +51,6 @@ public indirect enum CardEffect: Codable, Equatable {
 
     /// Put played card in target's inPlay
     case handicap
-
-    /// Draw  cards from arena
-    case drawArena
 
     /// Draw top discard
     case drawDiscard

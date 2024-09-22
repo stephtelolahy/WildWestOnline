@@ -340,7 +340,7 @@ extension GamePlayViewController: AnimationRendererConfiguration {
         case .discard:
             return discardImageView.superview!.convert(discardImageView.center, to: view)
 
-        case .arena:
+        case .discovered:
             return deckImageView.superview!.convert(deckImageView.center, to: view)
 
         case .hand(let playerId):

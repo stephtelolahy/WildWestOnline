@@ -4,6 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 21/09/2024.
 //
+// swiftlint:disable type_contents_order nesting
 
 /// An `effect` is a tag which performs an `action` each time an `event` occurs.
 public struct Effect: Equatable, Codable {

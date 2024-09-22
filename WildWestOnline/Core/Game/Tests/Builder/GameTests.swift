@@ -22,10 +22,10 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.field.discard.count, 0)
     }
 
-    func test_buildGame_byDefault_shouldNotHaveArena() throws {
+    func test_buildGame_byDefault_shouldNotHaveDiscovered() throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.field.arena, [])
+        XCTAssertEqual(sut.field.discovered, [])
     }
 
     func test_buildGame_byDefault_shouldNotBeOver() throws {
@@ -68,15 +68,15 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(sut.field.discard.count, 2)
     }
 
-    func test_buildGame_withArena_shouldHaveArena() throws {
+    func test_buildGame_withDiscovered_shouldHaveDiscovered() throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
-            .withArena(["c1", "c2"])
+            .withDiscovered(["c1", "c2"])
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.arena, ["c1", "c2"])
+        XCTAssertEqual(sut.field.discovered, ["c1", "c2"])
     }
 
     func test_buildGame_withGameOver_shouldBeOver() throws {
@@ -122,11 +122,11 @@ final class GameTests: XCTestCase {
             .withDeck(["c1", "c2"])
             .withPlayedThisTurn(["bang": 1])
             .withDiscard(["c3", "c4"])
-            .withArena(["c5", "c6"])
+            .withDiscovered(["c5", "c6"])
             .withWinner("p1")
             .withCards(["name": Card(name: "name")])
             .withChooseOne(.cardToDraw, options: [], player: "p1")
-            .withSequence([.discover])
+            .withSequence([.discover(1)])
             .withPlayer("p1") {
                 $0.withHealth(3)
             }
@@ -144,11 +144,11 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(state.field.deck, ["c1", "c2"])
         XCTAssertEqual(state.sequence.played["bang"], 1)
         XCTAssertEqual(state.field.discard, ["c3", "c4"])
-        XCTAssertEqual(state.field.arena, ["c5", "c6"])
+        XCTAssertEqual(state.field.discovered, ["c5", "c6"])
         XCTAssertEqual(state.sequence.winner, "p1")
         XCTAssertNotNil(state.cards["name"])
         XCTAssertNotNil(state.sequence.chooseOne["p1"])
-        XCTAssertEqual(state.sequence.queue, [.discover])
+        XCTAssertEqual(state.sequence.queue, [.discover(1)])
         XCTAssertEqual(state.round.playOrder, ["p1", "p2"])
 
         XCTAssertNotNil(state.players["p1"])

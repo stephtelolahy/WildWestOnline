@@ -53,7 +53,7 @@ public extension GameState {
         private var playedThisTurn: [String: Int] = [:]
         private var deck: [String] = []
         private var discard: [String] = []
-        private var arena: [String] = []
+        private var discovered: [String] = []
         private var winner: String?
         private var chooseOne: [String: ChooseOne] = [:]
         private var active: [String: [String]] = [:]
@@ -68,7 +68,7 @@ public extension GameState {
                 field: .init(
                     deck: deck,
                     discard: discard,
-                    arena: arena,
+                    discovered: discovered,
                     hand: hand,
                     inPlay: inPlay
                 ),
@@ -105,8 +105,8 @@ public extension GameState {
             return self
         }
 
-        public func withArena(_ value: [String]) -> Self {
-            arena = value
+        public func withDiscovered(_ value: [String]) -> Self {
+            discovered = value
             return self
         }
 

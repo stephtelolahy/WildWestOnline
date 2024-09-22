@@ -56,7 +56,7 @@ public enum Setup {
             field: .init(
                 deck: deck,
                 discard: [],
-                arena: [],
+                discovered: [],
                 hand: hand,
                 inPlay: inPlay
             ),
