@@ -49,7 +49,7 @@ public extension Inventory {
         public func  withSample() -> Self {
             figures = (1...16).map { "c\($0)" }
             cardSets = [:]
-            let sampleCard = Card(name: "", setPlayerAttribute: [.maxHealth: 4])
+            let sampleCard = Card(name: "", playerAttributes: [.maxHealth: 4])
             cards = Dictionary(
                 uniqueKeysWithValues: (1...100).map { "c\($0)" }.map { ($0, sampleCard) }
             )

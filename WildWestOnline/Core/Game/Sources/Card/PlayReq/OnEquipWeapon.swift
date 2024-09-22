@@ -14,7 +14,7 @@ struct OnEquipWeapon: PlayReqMatcher {
 
         let cardName = playedCard.extractName()
         guard let cardObj = state.cards[cardName],
-              cardObj.setPlayerAttribute.keys.contains(.weapon) else {
+              cardObj.playerAttributes.keys.contains(.weapon) else {
             return false
         }
 

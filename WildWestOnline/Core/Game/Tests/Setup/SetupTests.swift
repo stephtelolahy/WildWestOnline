@@ -31,8 +31,8 @@ final class SetupTests: XCTestCase {
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
         let cards: [String: Card] = [
-            "p1": Card(name: "p1", setPlayerAttribute: [.maxHealth: 4, .magnifying: 1]),
-            "p2": Card(name: "p2", setPlayerAttribute: [.maxHealth: 3, .remoteness: 1])
+            "p1": Card(name: "p1", playerAttributes: [.maxHealth: 4, .magnifying: 1]),
+            "p2": Card(name: "p2", playerAttributes: [.maxHealth: 3, .remoteness: 1])
         ]
 
         // When

@@ -18,13 +18,13 @@ public struct Card: Codable, Equatable {
     public let desc: String
 
     /// Passive ability to set player attributes
-    public let setPlayerAttribute: [PlayerAttribute: Int]
+    public let playerAttributes: [PlayerAttribute: Int]
 
     /// Passive ability to increment player attributes
-    public let increasePlayerAttribute: [PlayerAttribute: Int]
+    public let increasedPlayerAttributes: [PlayerAttribute: Int]
 
     /// Passive ability to set some {card}'s action attributes
-    public let setActionAttribute: [String: [ActionAttribute: Int]]
+    public let actionAttributes: [String: [ActionAttribute: Int]]
 
     /// Allow to play this card only when an {event} occurs
     /// By default cards are playable during player's turn
@@ -38,17 +38,17 @@ public struct Card: Codable, Equatable {
     public init(
         name: String,
         desc: String = "",
-        setPlayerAttribute: [PlayerAttribute: Int] = [:],
-        increasePlayerAttribute: [PlayerAttribute: Int] = [:],
-        setActionAttribute: [String: [ActionAttribute: Int]] = [:],
+        playerAttributes: [PlayerAttribute: Int] = [:],
+        increasedPlayerAttributes: [PlayerAttribute: Int] = [:],
+        actionAttributes: [String: [ActionAttribute: Int]] = [:],
         canPlay: Effect.PlayReq? = nil,
         effects: [Effect] = []
     ) {
         self.name = name
         self.desc = desc
-        self.setPlayerAttribute = setPlayerAttribute
-        self.setActionAttribute = setActionAttribute
-        self.increasePlayerAttribute = increasePlayerAttribute
+        self.playerAttributes = playerAttributes
+        self.increasedPlayerAttributes = increasedPlayerAttributes
+        self.actionAttributes = actionAttributes
         self.canPlay = canPlay
         self.effects = effects
     }
