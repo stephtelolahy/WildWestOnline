@@ -17,7 +17,7 @@ enum CardsOld {
         catBalou,
         panic,
         generalStore,
-        bang,
+//        bang,
         missed,
         gatling,
         indians,
@@ -34,7 +34,7 @@ enum CardsOld {
         mustang,
         endTurn,
         discardExcessHandOnEndTurn,
-        drawOnStartTurn,
+//        drawOnStartTurn,
         eliminateOnDamageLethal,
         nextTurnOnEliminated,
         discardCardsOnEliminated,
@@ -53,10 +53,10 @@ enum CardsOld {
         suzyLafayette,
         vultureSam,
         sidKetchum,
-        blackJack,
-        kitCarlson,
-        jesseJones,
-        pedroRamirez,
+//        blackJack,
+//        kitCarlson,
+//        jesseJones,
+//        pedroRamirez,
         custom
     ].reduce(into: [:]) { result, card in
         result[card.name] = card
@@ -151,16 +151,16 @@ private extension CardsOld {
             .build()
     }
 
-    static var bang: Card {
-        Card.makeBuilder(name: .bang)
-            .withRule(brown)
-            .withRule {
-                CardEffect.shoot(missesRequired: .attr(.missesRequiredForBang))
-                    .target(.selectReachable)
-                    .on([.play, .isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))])
-            }
-            .build()
-    }
+//    static var bang: Card {
+//        Card.makeBuilder(name: .bang)
+//            .withRule(brown)
+//            .withRule {
+//                CardEffect.shoot(missesRequired: .attr(.missesRequiredForBang))
+//                    .target(.selectReachable)
+//                    .on([.play, .isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))])
+//            }
+//            .build()
+//    }
 
     static var missed: Card {
         Card.makeBuilder(name: .missed)
@@ -366,16 +366,16 @@ private extension CardsOld {
             .build()
     }
 
-    static var drawOnStartTurn: Card {
-        Card.makeBuilder(name: .drawOnStartTurn)
-            .withPriorityIndex(priorities)
-            .withRule {
-                CardEffect.drawDeck
-                    .repeat(.attr(.startTurnCards))
-                    .on([.startTurn])
-            }
-            .build()
-    }
+//    static var drawOnStartTurn: Card {
+//        Card.makeBuilder(name: .drawOnStartTurn)
+//            .withPriorityIndex(priorities)
+//            .withRule {
+//                CardEffect.drawDeck
+//                    .repeat(.attr(.startTurnCards))
+//                    .on([.startTurn])
+//            }
+//            .build()
+//    }
 
     static var eliminateOnDamageLethal: Card {
         Card.makeBuilder(name: .eliminateOnDamageLethal)
@@ -603,77 +603,77 @@ private extension CardsOld {
             .build()
     }
 
-    static var blackJack: Card {
-        Card.makeBuilder(name: .blackJack)
-            .withPrototype(defaultPlayer)
-            .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnStartTurn)
-            .withRule {
-                CardEffect.group {
-                    CardEffect.drawDeck
-                        .repeat(.attr(.startTurnCards))
-                    CardEffect.revealLastHand
-                    CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
-                }
-                .on([.startTurn])
-            }
-            .build()
-    }
+//    static var blackJack: Card {
+//        Card.makeBuilder(name: .blackJack)
+//            .withPrototype(defaultPlayer)
+//            .withPriorityIndex(priorities)
+//            .withAttributes([.maxHealth: 4])
+//            .withoutAbility(.drawOnStartTurn)
+//            .withRule {
+//                CardEffect.group {
+//                    CardEffect.drawDeck
+//                        .repeat(.attr(.startTurnCards))
+//                    CardEffect.revealLastHand
+//                    CardEffect.luck(.drawnHand, regex: .regexDrawAnotherCard, onSuccess: .drawDeck)
+//                }
+//                .on([.startTurn])
+//            }
+//            .build()
+//    }
 
-    static var kitCarlson: Card {
-        Card.makeBuilder(name: .kitCarlson)
-            .withPrototype(defaultPlayer)
-            .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnStartTurn)
-            .withRule {
-                CardEffect.group {
-                    CardEffect.drawDeck
-                        .repeat(.add(1, attr: .startTurnCards))
-                    CardEffect.putBack(among: .add(1, attr: .startTurnCards))
-                }
-                .on([.startTurn])
-            }
-            .build()
-    }
+//    static var kitCarlson: Card {
+//        Card.makeBuilder(name: .kitCarlson)
+//            .withPrototype(defaultPlayer)
+//            .withPriorityIndex(priorities)
+//            .withAttributes([.maxHealth: 4])
+//            .withoutAbility(.drawOnStartTurn)
+//            .withRule {
+//                CardEffect.group {
+//                    CardEffect.drawDeck
+//                        .repeat(.add(1, attr: .startTurnCards))
+//                    CardEffect.putBack(among: .add(1, attr: .startTurnCards))
+//                }
+//                .on([.startTurn])
+//            }
+//            .build()
+//    }
 
-    static var jesseJones: Card {
-        Card.makeBuilder(name: .jesseJones)
-            .withPrototype(defaultPlayer)
-            .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnStartTurn)
-            .withRule {
-                CardEffect.group {
-                    CardEffect.drawDiscard
-                        .force(otherwise: .drawDeck)
-                    CardEffect.drawDeck
-                        .repeat(.add(-1, attr: .startTurnCards))
-                }
-                .on([.startTurn])
-            }
-            .build()
-    }
+//    static var jesseJones: Card {
+//        Card.makeBuilder(name: .jesseJones)
+//            .withPrototype(defaultPlayer)
+//            .withPriorityIndex(priorities)
+//            .withAttributes([.maxHealth: 4])
+//            .withoutAbility(.drawOnStartTurn)
+//            .withRule {
+//                CardEffect.group {
+//                    CardEffect.drawDiscard
+//                        .force(otherwise: .drawDeck)
+//                    CardEffect.drawDeck
+//                        .repeat(.add(-1, attr: .startTurnCards))
+//                }
+//                .on([.startTurn])
+//            }
+//            .build()
+//    }
 
-    static var pedroRamirez: Card {
-        Card.makeBuilder(name: .pedroRamirez)
-            .withPrototype(defaultPlayer)
-            .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
-            .withoutAbility(.drawOnStartTurn)
-            .withRule {
-                CardEffect.group {
-                    CardEffect.steal(.selectHand)
-                        .target(.selectAny)
-                        .force(otherwise: .drawDeck)
-                    CardEffect.drawDeck
-                        .repeat(.add(-1, attr: .startTurnCards))
-                }
-                .on([.startTurn])
-            }
-            .build()
-    }
+//    static var pedroRamirez: Card {
+//        Card.makeBuilder(name: .pedroRamirez)
+//            .withPrototype(defaultPlayer)
+//            .withPriorityIndex(priorities)
+//            .withAttributes([.maxHealth: 4])
+//            .withoutAbility(.drawOnStartTurn)
+//            .withRule {
+//                CardEffect.group {
+//                    CardEffect.steal(.selectHand)
+//                        .target(.selectAny)
+//                        .force(otherwise: .drawDeck)
+//                    CardEffect.drawDeck
+//                        .repeat(.add(-1, attr: .startTurnCards))
+//                }
+//                .on([.startTurn])
+//            }
+//            .build()
+//    }
 
     static var custom: Card {
         Card.makeBuilder(name: .custom)

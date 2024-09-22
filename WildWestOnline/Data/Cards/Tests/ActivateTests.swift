@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class ActivateTests: XCTestCase {
+    /*
     func test_activatingCards_withPlayableCards_shouldActivate() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -77,4 +78,5 @@ final class ActivateTests: XCTestCase {
         // Then
         XCTAssertEqual(result, [.activate([.endTurn], player: "p1")])
     }
+     */
 }

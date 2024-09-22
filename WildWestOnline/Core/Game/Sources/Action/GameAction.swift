@@ -69,7 +69,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case eliminate(player: String)
 
     /// Set player attribute
-    case setAttribute(String, value: Int?, player: String)
+    case setAttribute(PlayerAttribute, value: Int?, player: String)
 
     /// End game
     case endGame(winner: String)

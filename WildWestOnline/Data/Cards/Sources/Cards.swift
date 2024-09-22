@@ -12,7 +12,7 @@ public enum Cards {
     /// BANG! THE BULLET
     /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
     ///
-    static let all: [Card] = [
+    static let all: [String: Card] = [
         defaultPlayerAttributes,
         defaultDraw2CardsOnTurnStarted,
         defaultDiscardExcessHandOnTurnEnded,
@@ -110,7 +110,9 @@ public enum Cards {
         blackFlower,
         derSpotBurstRinger,
         tucoFranziskaner
-    ]
+    ].reduce(into: [:]) { result, card in
+        result[card.name] = card
+    }
 }
 
 private extension Cards {

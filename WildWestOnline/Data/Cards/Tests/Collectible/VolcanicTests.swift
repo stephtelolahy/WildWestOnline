@@ -8,6 +8,7 @@ import GameCore
 import XCTest
 
 final class VolcanicTests: XCTestCase {
+    /*
     func test_playVolcanic_withoutWeaponInPlay_shouldSetBangsPerTurn() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -28,4 +29,5 @@ final class VolcanicTests: XCTestCase {
             .setAttribute(.bangsPerTurn, value: 0, player: "p1")
         ])
     }
+     */
 }

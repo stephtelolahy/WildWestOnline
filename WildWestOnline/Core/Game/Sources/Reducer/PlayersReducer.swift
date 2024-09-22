@@ -68,7 +68,7 @@ private extension PlayersState {
 }
 
 extension Player {
-    mutating func setValue(_ value: Int?, forAttribute key: String) {
+    mutating func setValue(_ value: Int?, forAttribute key: PlayerAttribute) {
         attributes[key] = value
     }
 }

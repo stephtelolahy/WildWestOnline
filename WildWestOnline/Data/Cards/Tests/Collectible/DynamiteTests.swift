@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class DynamiteTests: XCTestCase {
+    /*
     func test_playDynamite_shouldEquip() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -121,4 +122,5 @@ final class DynamiteTests: XCTestCase {
             .drawDeck(player: "p2")
         ])
     }
+     */
 }

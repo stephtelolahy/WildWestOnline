@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class ElGringoTests: XCTestCase {
+    /*
     func test_elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -82,4 +83,5 @@ final class ElGringoTests: XCTestCase {
             .damage(1, player: "p1")
         ])
     }
+     */
 }

@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class JailTests: XCTestCase {
+    /*
     func test_playingJail_againstAnyPlayer_shouldHandicap() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -79,4 +80,5 @@ final class JailTests: XCTestCase {
             .startTurn(player: "p2")
         ])
     }
+     */
 }

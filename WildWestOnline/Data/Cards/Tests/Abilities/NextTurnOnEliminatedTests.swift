@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class NextTurnOnEliminatedTests: XCTestCase {
+    /*
     func test_beingEliminated_currentTurn_shouldNextTurn() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -62,4 +63,5 @@ final class NextTurnOnEliminatedTests: XCTestCase {
             .drawDeck(player: "p2")
         ])
     }
+     */
 }

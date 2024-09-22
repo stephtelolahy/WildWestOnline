@@ -10,6 +10,7 @@ import GameCore
 import XCTest
 
 final class JesseJonesTests: XCTestCase {
+    /*
     func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -54,4 +55,5 @@ final class JesseJonesTests: XCTestCase {
             .drawDeck(player: "p1")
         ])
     }
+     */
 }

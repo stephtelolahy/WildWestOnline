@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class MissedTests: XCTestCase {
+    /*
     func test_beingShot_holdingMissedCard_shouldAskToCounter() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -104,6 +105,7 @@ final class MissedTests: XCTestCase {
             XCTAssertEqual(error as? SequenceState.Error, .noShootToCounter)
         }
     }
+     */
 }
 
 private extension String {

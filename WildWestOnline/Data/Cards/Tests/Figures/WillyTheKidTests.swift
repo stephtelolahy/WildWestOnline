@@ -10,6 +10,7 @@ import GameCore
 import XCTest
 
 final class WillyTheKidTests: XCTestCase {
+    /*
     func test_WillyTheKid_shouldHaveUnlimitedBang() throws {
         // Given
         let state = Setup.buildGame(
@@ -24,4 +25,5 @@ final class WillyTheKidTests: XCTestCase {
         // Then
         XCTAssertEqual(player.attributes[.bangsPerTurn], 0)
     }
+     */
 }

@@ -13,7 +13,7 @@ public struct Player: Equatable, Codable {
     public var health: Int
 
     /// Current attributes
-    public var attributes: [String: Int]
+    public var attributes: [PlayerAttribute: Int]
 
     /// Inner abilities
     public let abilities: Set<String>
@@ -34,7 +34,7 @@ public extension Player {
         private var id: String = UUID().uuidString
         private var figure: String = ""
         private var abilities: Set<String> = []
-        private var attributes: [String: Int] = [:]
+        private var attributes: [PlayerAttribute: Int] = [:]
         private var health: Int = 0
         private var hand: [String] = []
         private var inPlay: [String] = []
@@ -71,7 +71,7 @@ public extension Player {
             return self
         }
 
-        public func withAttributes(_ value: [String: Int]) -> Self {
+        public func withAttributes(_ value: [PlayerAttribute: Int]) -> Self {
             attributes = value
             return self
         }

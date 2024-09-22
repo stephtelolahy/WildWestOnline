@@ -139,12 +139,17 @@ public struct Effect: Equatable, Codable {
     }
 }
 
-public enum PlayerAttribute: String, Codable {
+public enum PlayerAttribute: String, Codable, CaseIterable {
     case maxHealth
     case weapon
-    case handLimit
     case magnifying
     case remoteness
+
+    /// maximum hand cards at end of turn
+    case handLimit
+
+    /// flipped cards on draw
+    case flippedCards
 
     /// player cannot be killed but leave the game immediately after his turn
     case ghost

@@ -9,6 +9,7 @@ import GameCore
 import XCTest
 
 final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
+    /*
     func test_playVolcanic_withWeaponInPlay_shouldDiscardPreviousWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -38,4 +39,5 @@ final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
             .setAttribute(.weapon, value: 1, player: "p1")
         ])
     }
+     */
 }

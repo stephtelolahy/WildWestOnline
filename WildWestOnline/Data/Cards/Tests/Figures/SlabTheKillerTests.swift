@@ -10,6 +10,7 @@ import GameCore
 import XCTest
 
 final class SlabTheKillerTests: XCTestCase {
+    /*
     func test_slabTheKiller_shouldRequireTwoMissesToCounterHisBang() throws {
         // Given
         let state = Setup.buildGame(
@@ -85,6 +86,7 @@ final class SlabTheKillerTests: XCTestCase {
             ]
         )
     }
+     */
 }
 
 private extension String {

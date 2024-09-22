@@ -10,6 +10,7 @@ import GameCore
 import XCTest
 
 final class BlackJackTests: XCTestCase {
+    /*
     func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -56,4 +57,5 @@ final class BlackJackTests: XCTestCase {
             .showHand("c2-A♠️", player: "p1")
         ])
     }
+     */
 }

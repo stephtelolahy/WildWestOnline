@@ -17,13 +17,13 @@ public enum ArgNum: Codable, Equatable {
     case excessHand
 
     /// Player attribute value
-    case attr(String)
+    case attr(PlayerAttribute)
 
     /// Number of lost life points in triggering damage action
     case damage
 
     /// Player attributed by adding some value
-    case add(Int, attr: String)
+    case add(Int, attr: PlayerAttribute)
 
     /// Misses required for shoot effect
     case shootMissesRequired
