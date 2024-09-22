@@ -1,14 +1,19 @@
 //
-//  PlayTests.swift
-//  
+//  PreparePlayTest.swift
+//  WildWestOnline
 //
-//  Created by Hugues Telolahy on 05/01/2024.
+//  Created by Stephano Hugues TELOLAHY on 22/09/2024.
 //
 
-@testable import GameCore
-import XCTest
+import Testing
 
-final class PlayTests: XCTestCase {
+struct PreparePlayTest {
+
+    @Test func preparePlay() async throws {
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+        Issue.record("unimplemented")
+    }
+
     /*
     func test_play_withNotPlayableCard_shouldThrowError() throws {
         // Given

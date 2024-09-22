@@ -8,7 +8,7 @@
 import GameCore
 import XCTest
 
-final class HandicapTests: XCTestCase {
+final class PlayHandicapTests: XCTestCase {
     func test_handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() throws {
         // Given
         let state = GameState.makeBuilder()

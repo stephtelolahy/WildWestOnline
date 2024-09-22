@@ -1,5 +1,5 @@
 //
-//  ActivateTests.swift
+//  ActivatePlayableCardsOnIdleTests.swift
 //
 //
 //  Created by Hugues Telolahy on 05/06/2023.
@@ -8,7 +8,7 @@
 import GameCore
 import XCTest
 
-final class ActivateTests: XCTestCase {
+final class ActivatePlayableCardsOnIdleTests: XCTestCase {
     /*
     func test_activatingCards_withPlayableCards_shouldActivate() throws {
         // Given
