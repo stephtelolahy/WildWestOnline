@@ -6,9 +6,18 @@
 //
 
 import Testing
+import GameCore
 
 struct QueueTest {
     @Test func queue() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+        // Given
+        let state = GameState.makeBuilder().build()
+
+        // When
+        let action = GameAction.queue([.draw])
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.sequence.queue == [.draw])
     }
 }
