@@ -174,44 +174,66 @@ private extension SequenceState {
         }
 
         var cardName = card.extractName()
-        let event = GameAction.preparePlay(card, player: player)
-        let playReqContext = PlayReqContext(actor: player, event: event)
         /*
-        // <resolve card alias>
-        if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: playReqContext) {
-            cardName = alias
-        }
-        // </resolve card alias>
-        */
+         let playReqContext = PlayReqContext(actor: player, event: event)
+         // <resolve card alias>
+         if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: playReqContext) {
+         cardName = alias
+         }
+         // </resolve card alias>
+         */
 
         guard let cardObj = state.cards[cardName] else {
             throw SequenceState.Error.cardNotPlayable(card)
         }
-        /*
-        let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
-        guard playRules.isNotEmpty else {
+
+        let effects = cardObj.effects.filter { $0.when == .played }
+        guard effects.isNotEmpty else {
             throw SequenceState.Error.cardNotPlayable(card)
         }
 
-        // verify requirements
-        for playRule in playRules {
-            for playReq in playRule.playReqs where playReq != .play {
-                try playReq.throwingMatch(state: state, ctx: playReqContext)
-            }
-        }
-
-        var state = state
-
-        // increment play counter
-        let playedCount = state.sequence.played[cardName] ?? 0
-        state.sequence.played[cardName] = playedCount + 1
+        /*
+         let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
+         guard playRules.isNotEmpty else {
+         throw SequenceState.Error.cardNotPlayable(card)
+         }
+         
+         // verify requirements
+         for playRule in playRules {
+         for playReq in playRule.playReqs where playReq != .play {
+         try playReq.throwingMatch(state: state, ctx: playReqContext)
+         }
+         }
+         
+         var state = state
+         
+         // increment play counter
+         let playedCount = state.sequence.played[cardName] ?? 0
+         state.sequence.played[cardName] = playedCount + 1
+         
+         // queue play effects
+         let ctx = EffectContext(sourceEvent: event, sourceActor: player, sourceCard: card)
+         let children: [GameAction] = playRules.map { .prepareEffect($0.effect, ctx: ctx) }
+         state.sequence.queue.insert(contentsOf: children, at: 0)
+         
+         */
 
         // queue play effects
-        let ctx = EffectContext(sourceEvent: event, sourceActor: player, sourceCard: card)
-        let children: [GameAction] = playRules.map { .prepareEffect($0.effect, ctx: ctx) }
+        var state = state
+        let children: [GameAction] = effects.map {
+            .prepareEffect(
+                .init(
+                    action: $0.action,
+                    event: .preparePlay(card, player: player),
+                    card: card,
+                    actor: player,
+                    selectors: $0.selectors,
+                    attr: [:]
+                )
+            )
+        }
         state.sequence.queue.insert(contentsOf: children, at: 0)
 
-         */
         return state
     }
 

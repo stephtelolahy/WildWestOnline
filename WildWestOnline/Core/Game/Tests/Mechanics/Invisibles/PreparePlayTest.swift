@@ -12,9 +12,8 @@ struct PreparePlayTest {
     @Test func play_withNotPlayableCard_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
-            .withPlayer("p1") {
-                $0.withHand(["c1"])
-            }
+            .withPlayer("p1")
+            .withCards(["c1": Card(name: "c1")])
             .build()
 
         // When
@@ -27,18 +26,21 @@ struct PreparePlayTest {
 
     @Test func play_withPlayableCard_shouldApplyEffects() async throws {
         // Given
-        let card1 = Card(
-            name: "c1",
-            effects: [
-                .init(
-                    action: .drawDeck,
-                    selectors: [.verify(.actorTurn)]
-                )
-            ]
-        )
         let state = GameState.makeBuilder()
             .withPlayer("p1")
-            .withCards(["c1": card1])
+            .withCards(
+                [
+                    "c1": Card(
+                        name: "c1",
+                        effects: [
+                            .init(
+                                action: .drawDeck,
+                                selectors: [.verify(.actorTurn)]
+                            )
+                        ]
+                    )
+                ]
+            )
             .build()
 
         // When
