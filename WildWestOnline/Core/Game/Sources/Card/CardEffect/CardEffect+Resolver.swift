@@ -15,7 +15,7 @@ enum EffectOutput {
     case cancel([GameAction])
     case replace(_ index: Int, with: GameAction)
 }
-
+/*
 extension CardEffect {
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         try resolver().resolve(state: state, ctx: ctx)
@@ -121,3 +121,4 @@ private extension CardEffect {
         }
     }
 }
+*/

@@ -14,6 +14,7 @@ struct EffectLuck: EffectResolver {
     let onFailure: CardEffect?
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         var result: [GameAction] = []
         let player = ctx.sourceActor
         let playerObj = state.player(player)
@@ -54,5 +55,7 @@ struct EffectLuck: EffectResolver {
         }
 
         return .push(result)
+         */
+        fatalError()
     }
 }

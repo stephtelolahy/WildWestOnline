@@ -6,14 +6,9 @@
 //
 
 import Testing
+@testable import GameCore
 
 struct PreparePlayTest {
-    @Test func preparePlay() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
-    }
-
-    /*
     @Test func play_withNotPlayableCard_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -25,25 +20,25 @@ struct PreparePlayTest {
         // When
         // Then
         let action = GameAction.preparePlay("c1", player: "p1")
-        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-            #expect(error as? SequenceState.Error == .cardNotPlayable("c1"))
+        #expect(throws: SequenceState.Error.cardNotPlayable("c1")) {
+            try GameState.reducer(state, action)
         }
     }
 
     @Test func play_withPlayableCard_shouldApplyEffects() async throws {
         // Given
-        let card1 = Card(name: "c1")
-            .withRule {
-                CardEffect.drawDeck
-                    .on([.play])
-            }
-            .build()
+        let card1 = Card(
+            name: "c1",
+            effects: [
+                .init(
+                    action: .drawDeck,
+                    selectors: [.verify(.actorTurn)]
+                )
+            ]
+        )
         let state = GameState.makeBuilder()
-            .withPlayer("p1") {
-                $0.withAbilities(["c1"])
-            }
+            .withPlayer("p1")
             .withCards(["c1": card1])
-            .withDeck(["c2"])
             .build()
 
         // When
@@ -51,9 +46,19 @@ struct PreparePlayTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sequence.queue, [
-            .prepareEffect(.drawDeck, ctx: .init(sourceEvent: action, sourceActor: "p1", sourceCard: "c1"))
-        ])
+        #expect(
+            result.sequence.queue == [
+                GameAction.prepareEffect(
+                    .init(
+                        action: .drawDeck,
+                        event: action,
+                        card: "c1",
+                        actor: "p1",
+                        selectors: [.verify(.actorTurn)],
+                        attr: [:]
+                    )
+                )
+            ]
+        )
     }
-     */
 }

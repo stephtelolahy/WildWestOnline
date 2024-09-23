@@ -10,6 +10,7 @@ struct EffectTarget: EffectResolver {
     let effect: CardEffect
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         let children = try target.resolve(state: state, ctx: ctx) {
             var contextWithTarget = ctx
             contextWithTarget.resolvingTarget = $0
@@ -17,5 +18,7 @@ struct EffectTarget: EffectResolver {
         }
 
         return .push(children)
+         */
+        fatalError()
     }
 }

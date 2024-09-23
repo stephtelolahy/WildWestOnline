@@ -97,7 +97,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case prepareChoose(String, player: String)
 
     /// Resolve an effect
-    case prepareEffect(CardEffect, ctx: EffectContext)
+    case prepareEffect(ResolvingEffect)
 
     /// Queue actions
     case queue([Self])
@@ -123,4 +123,16 @@ public extension GameAction {
             true
         }
     }
+}
+
+/// Resolving an effect's {action} that was triggered on an {event}
+/// Effect is enabled by a {card} owned by {actor} when
+/// As soon as all {selectors} are resolved, the effect can then be converted to a valid `GameAction`
+public struct ResolvingEffect: Equatable, Codable {
+    public let action: ActionType
+    public let event: GameAction
+    public let card: String
+    public let actor: String
+    public var selectors: [Effect.Selector]
+    public var attr: [ActionAttribute: String]
 }

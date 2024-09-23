@@ -7,6 +7,7 @@
 
 struct EffectCounterShoot: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         guard let index = state.sequence.queue.firstIndex(where: { $0.isEffectOfShoot(ctx.sourceActor) }) else {
             throw SequenceState.Error.noShootToCounter
         }
@@ -26,5 +27,7 @@ struct EffectCounterShoot: EffectResolver {
             let updatedAction = GameAction.prepareEffect(.prepareShoot(missesRequired: remainingMisses), ctx: effectCtx)
             return .replace(index, with: updatedAction)
         }
+         */
+        fatalError()
     }
 }

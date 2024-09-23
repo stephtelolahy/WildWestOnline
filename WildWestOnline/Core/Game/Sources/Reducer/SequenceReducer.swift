@@ -118,6 +118,7 @@ private extension SequenceState {
     }
 
     static let chooseReducer: Reducer<Self> = { state, action in
+        /*
         guard case let GameAction.prepareChoose(option, player) = action else {
             fatalError("unexpected")
         }
@@ -133,7 +134,7 @@ private extension SequenceState {
         let updatedAction = GameAction.prepareEffect(cardEffect, ctx: updatedContext)
         var state = state
         state.queue[0] = updatedAction
-
+         */
         return state
     }
 
@@ -168,24 +169,25 @@ private extension SequenceState {
     }
 
     static let playReducer: Reducer<GameState> = { state, action in
-        /*
         guard case let GameAction.preparePlay(card, player) = action else {
             fatalError("unexpected")
         }
 
-        // <resolve card alias>
         var cardName = card.extractName()
         let event = GameAction.preparePlay(card, player: player)
         let playReqContext = PlayReqContext(actor: player, event: event)
+        /*
+        // <resolve card alias>
         if let alias = state.aliasWhenPlayingCard(card, player: player, ctx: playReqContext) {
             cardName = alias
         }
         // </resolve card alias>
+        */
 
         guard let cardObj = state.cards[cardName] else {
             throw SequenceState.Error.cardNotPlayable(card)
         }
-
+        /*
         let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
         guard playRules.isNotEmpty else {
             throw SequenceState.Error.cardNotPlayable(card)
@@ -210,10 +212,11 @@ private extension SequenceState {
         state.sequence.queue.insert(contentsOf: children, at: 0)
 
          */
-        state
+        return state
     }
 
     static let effectReducer: Reducer<GameState> = { state, action in
+        /*
         guard case let GameAction.prepareEffect(effect, ctx) = action else {
             fatalError("unexpected")
         }
@@ -237,6 +240,7 @@ private extension SequenceState {
             break
         }
 
+         */
         return state
     }
 
@@ -250,7 +254,7 @@ private extension SequenceState {
         return state
     }
 }
-
+/*
 private extension SequenceState {
     mutating func cancel(_ action: GameAction) {
         if let index = queue.firstIndex(of: action) {
@@ -278,3 +282,4 @@ private extension SequenceState {
         }
     }
 }
+*/

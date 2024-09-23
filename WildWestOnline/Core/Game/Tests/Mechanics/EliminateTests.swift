@@ -25,6 +25,7 @@ struct EliminateTests {
     }
 
     @Test func eliminatePlayer_shouldRemoveSequence() async throws {
+        /*
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -37,5 +38,7 @@ struct EliminateTests {
 
         // Then
         #expect(result.sequence.queue.isEmpty)
+         */
+        Issue.record("unimplemented")
     }
 }

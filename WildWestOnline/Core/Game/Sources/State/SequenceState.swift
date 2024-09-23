@@ -47,12 +47,15 @@ public extension EffectContext {
     /// Shot player triggering this effect
     /// The cancelation of the shoot results in the cancelation of the effect
     var sourceShoot: String? {
+        /*
         guard case let .prepareEffect(cardEffect, ctx) = sourceEvent,
               case .shoot = cardEffect else {
             return nil
         }
 
         return ctx.resolvingTarget
+         */
+        nil
     }
 }
 

@@ -11,6 +11,7 @@ struct EffectChallenge: EffectResolver {
     let otherwise: CardEffect
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         guard case let .id(challengerId) = challenger else {
             let children = try challenger.resolve(state: state, ctx: ctx) {
                 .prepareEffect(
@@ -92,5 +93,7 @@ struct EffectChallenge: EffectResolver {
         } else {
             fatalError("unexpected")
         }
+         */
+        fatalError()
     }
 }

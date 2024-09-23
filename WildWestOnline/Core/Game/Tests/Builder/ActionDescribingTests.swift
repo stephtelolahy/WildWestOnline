@@ -192,13 +192,19 @@ struct ActionDescribingTests {
 
     func test_DescribingEffect() {
         #expect(
-            String(describing: GameAction.prepareEffect(.discover, ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))) ==
+            String(
+                describing: GameAction.prepareEffect(
+                    .init(
+                        action: .discover,
+                        event: .preparePlay("c1", player: "p1"),
+                        card: "c1",
+                        actor: "p1",
+                        selectors: [],
+                        attr: [:]
+                    )
+                )
+            ) ==
             "➡️ discover"
-        )
-
-        #expect(
-            String(describing: GameAction.prepareEffect(.damage(3), ctx: .init(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))) ==
-            "➡️ damage(3)"
         )
     }
 

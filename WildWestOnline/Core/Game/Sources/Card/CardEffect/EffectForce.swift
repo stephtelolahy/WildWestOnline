@@ -10,6 +10,7 @@ struct EffectForce: EffectResolver {
     let otherwise: CardEffect
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         do {
             let children = try effect.resolve(state: state, ctx: ctx)
 
@@ -26,8 +27,10 @@ struct EffectForce: EffectResolver {
         } catch {
             return .push([.prepareEffect(otherwise, ctx: ctx)])
         }
+         */
+        fatalError()
     }
-
+/*
     private func resolvePushChildren(
         _ children: [GameAction],
         state: GameState,
@@ -71,4 +74,5 @@ struct EffectForce: EffectResolver {
             fatalError("unexpected")
         }
     }
+ */
 }

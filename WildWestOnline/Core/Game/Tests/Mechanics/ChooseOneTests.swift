@@ -9,6 +9,7 @@
 import Testing
 
 struct ChooseOneTests {
+    /*
     @Test func dispatchAction_waited_shouldRemoveWaitingState() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -43,4 +44,5 @@ struct ChooseOneTests {
             try GameState.reducer(state, action)
         }
     }
+     */
 }

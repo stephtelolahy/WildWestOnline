@@ -50,10 +50,12 @@ extension GameAction {
         guard !validOptions.isEmpty else {
             return []
         }
-
+/*
         let chooseOne = GameAction.chooseOne(type, options: validOptions, player: chooser)
         let match = GameAction.prepareEffect(.matchAction(actions), ctx: ctx)
         return [chooseOne, match]
+ */
+        fatalError()
     }
 }
 

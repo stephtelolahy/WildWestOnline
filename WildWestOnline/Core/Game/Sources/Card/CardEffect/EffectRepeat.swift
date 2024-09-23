@@ -10,8 +10,11 @@ struct EffectRepeat: EffectResolver {
     let times: ArgNum
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         let number = try times.resolve(state: state, ctx: ctx)
         let children: [GameAction] = Array(repeating: .prepareEffect(effect, ctx: ctx), count: number)
         return .push(children)
+         */
+        fatalError()
     }
 }
