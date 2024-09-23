@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class StartTurnTests: XCTestCase {
-    func test_startTurn_shouldSetAttribute() throws {
+struct StartTurnTests {
+    @Test func startTurn_shouldSetAttribute() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayedThisTurn(["card1": 1, "card2": 1])
@@ -20,10 +20,10 @@ final class StartTurnTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.round.turn, "p1")
+        #expect(result.round.turn == "p1")
     }
 
-    func test_startTurn_shouldResetPlayCounters() throws {
+    @Test func startTurn_shouldResetPlayCounters() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayedThisTurn(["card1": 1, "card2": 1])
@@ -34,6 +34,6 @@ final class StartTurnTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sequence.played, [:])
+        #expect(result.sequence.played.isEmpty)
     }
 }

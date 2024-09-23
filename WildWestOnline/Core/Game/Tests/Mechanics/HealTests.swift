@@ -6,9 +6,9 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class HealTests: XCTestCase {
+struct HealTests {
     private var state: GameState {
         GameState.makeBuilder()
             .withPlayer("p1") {
@@ -18,34 +18,34 @@ final class HealTests: XCTestCase {
             .build()
     }
 
-    func test_heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() throws {
+    @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
         // When
         let action = GameAction.heal(1, player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 3)
+        #expect(result.player("p1").health == 3)
     }
 
-    func test_heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() throws {
+    @Test func heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() async throws {
         // When
         let action = GameAction.heal(2, player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 4)
+        #expect(result.player("p1").health == 4)
     }
 
-    func test_heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() throws {
+    @Test func heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() async throws {
         // When
         let action = GameAction.heal(3, player: "p1")
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 4)
+        #expect(result.player("p1").health == 4)
     }
 
-    func test_heal_alreadyMaxHealth_shouldThrowError() throws {
+    @Test func heal_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -57,8 +57,8 @@ final class HealTests: XCTestCase {
         // When
         // Then
         let action = GameAction.heal(1, player: "p1")
-        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-            XCTAssertEqual(error as? PlayersState.Error, .playerAlreadyMaxHealth("p1"))
+        #expect(throws: PlayersState.Error.playerAlreadyMaxHealth("p1")) {
+            try GameState.reducer(state, action)
         }
     }
 }

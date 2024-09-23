@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class UndiscoverTests: XCTestCase {
-    func test_undiscover_shouldHideCards() throws {
+struct UndiscoverTests {
+    @Test func undiscover_shouldHideCards() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withDiscovered(["c2"])
@@ -21,7 +21,7 @@ final class UndiscoverTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.discovered, [])
-        XCTAssertEqual(result.field.deck, ["c2"])
+        #expect(result.field.discovered.isEmpty)
+        #expect(result.field.deck == ["c2"])
     }
 }

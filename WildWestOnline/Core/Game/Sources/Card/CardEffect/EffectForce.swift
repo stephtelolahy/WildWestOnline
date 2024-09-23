@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 13/05/2023.
 //
-// swiftlint:disable no_magic_numbers
 
 struct EffectForce: EffectResolver {
     let effect: CardEffect

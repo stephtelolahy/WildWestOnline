@@ -7,22 +7,22 @@
 
 import Foundation
 import GameCore
-import XCTest
+import Testing
 
-final class PlayerTests: XCTestCase {
-    func test_buildPlayer_byDefault_shouldHaveEmptyFigure() throws {
+struct PlayerTests {
+    @Test func buildPlayer_byDefault_shouldHaveEmptyFigure() async throws {
         let sut = Player.makeBuilder()
             .build()
-        XCTAssertEqual(sut.figure, "")
+        #expect(sut.figure.isEmpty)
     }
 
-    func test_buildPlayer_byDefault_shouldNotHaveAttributes() throws {
+    @Test func buildPlayer_byDefault_shouldNotHaveAttributes() async throws {
         let sut = Player.makeBuilder()
             .build()
-        XCTAssertEqual(sut.attributes, [:])
+        #expect(sut.attributes.isEmpty)
     }
 
-    func test_buildPlayer_withHand_shouldHaveHandCards() throws {
+    @Test func buildPlayer_withHand_shouldHaveHandCards() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -32,10 +32,10 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.hand["p1"], ["c1", "c2"])
+        #expect(sut.field.hand["p1"] == ["c1", "c2"])
     }
 
-    func test_buildPlayer_withInPlay_shouldHaveInPlayCards() throws {
+    @Test func buildPlayer_withInPlay_shouldHaveInPlayCards() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -45,10 +45,10 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.inPlay["p1"], ["c1", "c2"])
+        #expect(sut.field.inPlay["p1"] == ["c1", "c2"])
     }
 
-    func test_buildPlayer_withAttributes_shouldHaveAttributes() throws {
+    @Test func buildPlayer_withAttributes_shouldHaveAttributes() async throws {
         // Given
         // When
         let sut = Player.makeBuilder()
@@ -56,6 +56,6 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.attributes[.remoteness], 1)
+        #expect(sut.attributes[.remoteness] == 1)
     }
 }

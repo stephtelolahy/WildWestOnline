@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 08/12/2023.
 //
-// swiftlint:disable no_magic_numbers type_contents_order
+// swiftlint:disable type_contents_order
 
 import Redux
 import SwiftUI

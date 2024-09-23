@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DamageTests: XCTestCase {
-    func test_damage_with1LifePoint_shouldReduceHealthBy1() throws {
+struct DamageTests {
+    @Test func damage_with1LifePoint_shouldReduceHealthBy1() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -22,10 +22,10 @@ final class DamageTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 1)
+        #expect(result.player("p1").health == 1)
     }
 
-    func test_damage_with2LifePoints_shouldReduceHealthBy2() throws {
+    @Test func damage_with2LifePoints_shouldReduceHealthBy2() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -38,6 +38,6 @@ final class DamageTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 0)
+        #expect(result.player("p1").health == 0)
     }
 }

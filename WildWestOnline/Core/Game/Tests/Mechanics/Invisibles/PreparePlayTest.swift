@@ -8,14 +8,13 @@
 import Testing
 
 struct PreparePlayTest {
-
     @Test func preparePlay() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.
         Issue.record("unimplemented")
     }
 
     /*
-    func test_play_withNotPlayableCard_shouldThrowError() throws {
+    @Test func play_withNotPlayableCard_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -27,11 +26,11 @@ struct PreparePlayTest {
         // Then
         let action = GameAction.preparePlay("c1", player: "p1")
         XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-            XCTAssertEqual(error as? SequenceState.Error, .cardNotPlayable("c1"))
+            #expect(error as? SequenceState.Error == .cardNotPlayable("c1"))
         }
     }
 
-    func test_play_withPlayableCard_shouldApplyEffects() throws {
+    @Test func play_withPlayableCard_shouldApplyEffects() async throws {
         // Given
         let card1 = Card(name: "c1")
             .withRule {

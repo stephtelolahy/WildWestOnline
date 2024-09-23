@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DrawTests: XCTestCase {
-    func test_draw_shouldMoveCardFromDeckToDiscard() throws {
+struct DrawTests {
+    @Test func draw_shouldMoveCardFromDeckToDiscard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withDeck(["c2", "c3"])
@@ -21,7 +21,7 @@ final class DrawTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.discard, ["c2", "c1"])
-        XCTAssertEqual(result.field.deck, ["c3"])
+        #expect(result.field.discard == ["c2", "c1"])
+        #expect(result.field.deck == ["c3"])
     }
 }

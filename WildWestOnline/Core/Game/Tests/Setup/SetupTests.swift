@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SetupTests: XCTestCase {
-    func test_setupDeck_shouldCreateCardsByCombiningNameAndValues() throws {
+struct SetupTests {
+    @Test func setupDeck_shouldCreateCardsByCombiningNameAndValues() async throws {
         // Given
         let cardSets: [String: [String]] = [
             "card1": ["val11", "val12"],
@@ -20,13 +20,13 @@ final class SetupTests: XCTestCase {
         let deck = Setup.buildDeck(cardSets: cardSets)
 
         // Then
-        XCTAssertTrue(deck.contains("card1-val11"))
-        XCTAssertTrue(deck.contains("card1-val12"))
-        XCTAssertTrue(deck.contains("card2-val21"))
-        XCTAssertTrue(deck.contains("card2-val22"))
+        #expect(deck.contains("card1-val11"))
+        #expect(deck.contains("card1-val12"))
+        #expect(deck.contains("card2-val21"))
+        #expect(deck.contains("card2-val22"))
     }
 
-    func test_setupGame_shouldCreatePlayer() throws {
+    @Test func setupGame_shouldCreatePlayer() async throws {
         // Given
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
@@ -44,33 +44,33 @@ final class SetupTests: XCTestCase {
 
         // Then
         // should create a game with given player number
-        XCTAssertEqual(state.players.count, 2)
-        XCTAssertTrue(state.round.playOrder.contains(["p1", "p2"]))
-        XCTAssertTrue(state.round.startOrder.contains(["p1", "p2"]))
+        #expect(state.players.count == 2)
+        #expect(state.round.playOrder.contains(["p1", "p2"]))
+        #expect(state.round.startOrder.contains(["p1", "p2"]))
 
         // should set players to max health
-        XCTAssertEqual(state.player("p1").health, 4)
-        XCTAssertEqual(state.player("p2").health, 3)
+        #expect(state.player("p1").health == 4)
+        #expect(state.player("p2").health == 3)
 
         // should set players hand cards to health
-        XCTAssertEqual(state.field.hand["p1"]?.count, 4)
-        XCTAssertEqual(state.field.hand["p2"]?.count, 3)
-        XCTAssertEqual(state.field.deck.count, 73)
-        XCTAssertEqual(state.field.discard, [])
+        #expect(state.field.hand["p1"]?.count == 4)
+        #expect(state.field.hand["p2"]?.count == 3)
+        #expect(state.field.deck.count == 73)
+        #expect(state.field.discard.isEmpty)
 
         // should set undefined turn
-        XCTAssertNil(state.round.turn)
+        #expect(state.round.turn == nil)
 
         // should set figure attributes
-        XCTAssertEqual(state.player("p1").abilities, ["p1"])
-        XCTAssertEqual(state.player("p1").attributes[.magnifying], 1)
-        XCTAssertEqual(state.player("p1").attributes[.maxHealth], 4)
-        XCTAssertEqual(state.player("p2").abilities, ["p2"])
-        XCTAssertEqual(state.player("p2").attributes[.remoteness], 1)
-        XCTAssertEqual(state.player("p2").attributes[.maxHealth], 3)
+        #expect(state.player("p1").abilities == ["p1"])
+        #expect(state.player("p1").attributes[.magnifying] == 1)
+        #expect(state.player("p1").attributes[.maxHealth] == 4)
+        #expect(state.player("p2").abilities == ["p2"])
+        #expect(state.player("p2").attributes[.remoteness] == 1)
+        #expect(state.player("p2").attributes[.maxHealth] == 3)
 
         // should initialize inPlay field
-        XCTAssertNotNil(state.field.inPlay["p1"])
-        XCTAssertNotNil(state.field.inPlay["p2"])
+        #expect(state.field.inPlay["p1"] != nil)
+        #expect(state.field.inPlay["p2"] != nil)
     }
 }

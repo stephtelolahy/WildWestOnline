@@ -6,10 +6,10 @@
 //
 
 @testable import GameCore
-import XCTest
+import Testing
 
-final class ChooseOneTests: XCTestCase {
-    func test_dispatchAction_waited_shouldRemoveWaitingState() throws {
+struct ChooseOneTests {
+    @Test func dispatchAction_waited_shouldRemoveWaitingState() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -24,10 +24,10 @@ final class ChooseOneTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sequence.chooseOne, [:])
+        #expect(result.sequence.chooseOne.isEmpty)
     }
 
-    func test_dispatchAction_nonWaited_shouldThrowError() throws {
+    @Test func dispatchAction_nonWaited_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -39,8 +39,8 @@ final class ChooseOneTests: XCTestCase {
         // When
         // Then
         let action = GameAction.prepareChoose("c3", player: "p1")
-        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-            XCTAssertEqual(error as? SequenceState.Error, .unwaitedAction)
+        #expect(throws: SequenceState.Error.unwaitedAction) {
+            try GameState.reducer(state, action)
         }
     }
 }

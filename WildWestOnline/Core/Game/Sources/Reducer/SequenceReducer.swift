@@ -210,7 +210,7 @@ private extension SequenceState {
         state.sequence.queue.insert(contentsOf: children, at: 0)
 
          */
-        return state
+        state
     }
 
     static let effectReducer: Reducer<GameState> = { state, action in

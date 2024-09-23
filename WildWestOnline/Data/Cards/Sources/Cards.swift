@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 12/08/2024.
 //
 
-// swiftlint:disable no_magic_numbers line_length file_length
+// swiftlint:disable line_length file_length
 import GameCore
 
 public enum Cards {

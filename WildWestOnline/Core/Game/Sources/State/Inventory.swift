@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 20/07/2024.
 //
-// swiftlint:disable no_magic_numbers
 
 public struct Inventory: Codable, Equatable {
     public let cards: [String: Card]

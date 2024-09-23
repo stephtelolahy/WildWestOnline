@@ -7,46 +7,46 @@
 
 import Foundation
 import GameCore
-import XCTest
+import Testing
 
-final class GameTests: XCTestCase {
-    func test_buildGame_byDefault_shouldHaveEmptyDeck() throws {
+struct GameTests {
+    @Test func buildGame_byDefault_shouldHaveEmptyDeck() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.field.deck.count, 0)
+        #expect(sut.field.deck.isEmpty)
     }
 
-    func test_buildGame_byDefault_shouldHaveEmptyDiscard() throws {
+    @Test func buildGame_byDefault_shouldHaveEmptyDiscard() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.field.discard.count, 0)
+        #expect(sut.field.discard.isEmpty)
     }
 
-    func test_buildGame_byDefault_shouldNotHaveDiscovered() throws {
+    @Test func buildGame_byDefault_shouldNotHaveDiscovered() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.field.discovered, [])
+        #expect(sut.field.discovered.isEmpty)
     }
 
-    func test_buildGame_byDefault_shouldNotBeOver() throws {
+    @Test func buildGame_byDefault_shouldNotBeOver() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertNil(sut.sequence.winner)
+        #expect(sut.sequence.winner == nil)
     }
 
-    func test_buildGame_byDefault_shouldNotHaveTurn() throws {
+    @Test func buildGame_byDefault_shouldNotHaveTurn() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertNil(sut.round.turn)
+        #expect(sut.round.turn == nil)
     }
 
-    func test_buildGame_byDefault_shouldNotHavePlayers() throws {
+    @Test func buildGame_byDefault_shouldNotHavePlayers() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        XCTAssertEqual(sut.players, [:])
+        #expect(sut.players.isEmpty)
     }
 
-    func test_buildGame_withDeck_shouldHaveDeck() throws {
+    @Test func buildGame_withDeck_shouldHaveDeck() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -54,10 +54,10 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.deck.count, 2)
+        #expect(sut.field.deck.count == 2)
     }
 
-    func test_buildGame_withDiscard_shouldHaveDiscard() throws {
+    @Test func buildGame_withDiscard_shouldHaveDiscard() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -65,10 +65,10 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.discard.count, 2)
+        #expect(sut.field.discard.count == 2)
     }
 
-    func test_buildGame_withDiscovered_shouldHaveDiscovered() throws {
+    @Test func buildGame_withDiscovered_shouldHaveDiscovered() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -76,10 +76,10 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.discovered, ["c1", "c2"])
+        #expect(sut.field.discovered == ["c1", "c2"])
     }
 
-    func test_buildGame_withGameOver_shouldBeOver() throws {
+    @Test func buildGame_withGameOver_shouldBeOver() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -87,10 +87,10 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.sequence.winner, "p1")
+        #expect(sut.sequence.winner == "p1")
     }
 
-    func test_buildGame_withTurn_shouldHaveTurn() throws {
+    @Test func buildGame_withTurn_shouldHaveTurn() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -98,10 +98,10 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.round.turn, "p1")
+        #expect(sut.round.turn == "p1")
     }
 
-    func test_buildGame_withSequence_shouldHaveSequence() throws {
+    @Test func buildGame_withSequence_shouldHaveSequence() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -109,12 +109,12 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.sequence.queue, [
+        #expect(sut.sequence.queue == [
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_buildGame_withMultipleAttributes_shouldHaveAttributes() throws {
+    @Test func buildGame_withMultipleAttributes_shouldHaveAttributes() async throws {
         // Given
         // When
         let state = GameState.makeBuilder()
@@ -140,28 +140,28 @@ final class GameTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(state.round.turn, "p1")
-        XCTAssertEqual(state.field.deck, ["c1", "c2"])
-        XCTAssertEqual(state.sequence.played["bang"], 1)
-        XCTAssertEqual(state.field.discard, ["c3", "c4"])
-        XCTAssertEqual(state.field.discovered, ["c5", "c6"])
-        XCTAssertEqual(state.sequence.winner, "p1")
-        XCTAssertNotNil(state.cards["name"])
-        XCTAssertNotNil(state.sequence.chooseOne["p1"])
-        XCTAssertEqual(state.sequence.queue, [.discover(1)])
-        XCTAssertEqual(state.round.playOrder, ["p1", "p2"])
+        #expect(state.round.turn == "p1")
+        #expect(state.field.deck == ["c1", "c2"])
+        #expect(state.sequence.played["bang"] == 1)
+        #expect(state.field.discard == ["c3", "c4"])
+        #expect(state.field.discovered == ["c5", "c6"])
+        #expect(state.sequence.winner == "p1")
+        #expect(state.cards["name"] != nil)
+        #expect(state.sequence.chooseOne["p1"] != nil)
+        #expect(state.sequence.queue == [.discover(1)])
+        #expect(state.round.playOrder == ["p1", "p2"])
 
-        XCTAssertNotNil(state.players["p1"])
-        XCTAssertEqual(state.player("p1").health, 3)
-        XCTAssertEqual(state.player("p1").attributes, [:])
-        XCTAssertEqual(state.field.hand["p1"], [])
-        XCTAssertEqual(state.field.inPlay["p1"], [])
+        #expect(state.players["p1"] != nil)
+        #expect(state.player("p1").health == 3)
+        #expect(state.player("p1").attributes.isEmpty)
+        #expect(state.field.hand["p1"]!.isEmpty)
+        #expect(state.field.inPlay["p1"]!.isEmpty)
 
-        XCTAssertNotNil(state.players["p2"])
-        XCTAssertEqual(state.player("p2").health, 4)
-        XCTAssertEqual(state.player("p2").attributes[.weapon], 2)
-        XCTAssertEqual(state.player("p2").abilities, ["a1"])
-        XCTAssertEqual(state.field.hand["p2"], ["c21", "c22"])
-        XCTAssertEqual(state.field.inPlay["p2"], ["c23", "c24"])
+        #expect(state.players["p2"] != nil)
+        #expect(state.player("p2").health == 4)
+        #expect(state.player("p2").attributes[.weapon] == 2)
+        #expect(state.player("p2").abilities == ["a1"])
+        #expect(state.field.hand["p2"] == ["c21", "c22"])
+        #expect(state.field.inPlay["p2"] == ["c23", "c24"])
     }
 }

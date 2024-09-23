@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SetAttributeTests: XCTestCase {
-    func test_setAttribute_shouldSetValue() throws {
+struct SetAttributeTests {
+    @Test func setAttribute_shouldSetValue() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -20,10 +20,10 @@ final class SetAttributeTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").attributes[.magnifying], 1)
+        #expect(result.player("p1").attributes[.magnifying] == 1)
     }
 
-    func test_removeAttribute_shouldRemoveValue() throws {
+    @Test func removeAttribute_shouldRemoveValue() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -36,6 +36,6 @@ final class SetAttributeTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.player("p1").attributes[.magnifying])
+        #expect(result.player("p1").attributes[.magnifying] == nil)
     }
 }

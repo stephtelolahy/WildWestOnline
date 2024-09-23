@@ -57,7 +57,6 @@ public struct AgressiveStrategy: AIStrategy {
     public init() {}
 
     public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
-        // swiftlint:disable no_magic_numbers
         let cardsValue: [String: Int] = [
             "bang": 3,
             "duel": 3,

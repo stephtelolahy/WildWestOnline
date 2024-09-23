@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DrawDeckTests: XCTestCase {
-    func test_drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() throws {
+struct DrawDeckTests {
+    @Test func drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -21,11 +21,11 @@ final class DrawDeckTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.hand["p1"], ["c1"])
-        XCTAssertEqual(result.field.deck, ["c2"])
+        #expect(result.field.hand["p1"] == ["c1"])
+        #expect(result.field.deck == ["c2"])
     }
 
-    func test_drawDeck_whitEmptyDeckAndEnoughDiscardPile_shouldResetDeck() throws {
+    @Test func drawDeck_whitEmptyDeckAndEnoughDiscardPile_shouldResetDeck() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -37,12 +37,12 @@ final class DrawDeckTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.deck, ["c3", "c4"])
-        XCTAssertEqual(result.field.discard, ["c1"])
-        XCTAssertEqual(result.field.hand["p1"], ["c2"])
+        #expect(result.field.deck == ["c3", "c4"])
+        #expect(result.field.discard == ["c1"])
+        #expect(result.field.hand["p1"] == ["c2"])
     }
 
-    func test_drawDeck_whitEmptyDeckAndNotEnoughDiscardPile_shouldThrowError() throws {
+    @Test func drawDeck_whitEmptyDeckAndNotEnoughDiscardPile_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -51,8 +51,8 @@ final class DrawDeckTests: XCTestCase {
         // When
         // Then
         let action = GameAction.drawDeck(player: "p1")
-        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-            XCTAssertEqual(error as? FieldState.Error, .deckIsEmpty)
+        #expect(throws: FieldState.Error.deckIsEmpty) {
+            try GameState.reducer(state, action)
         }
     }
 }

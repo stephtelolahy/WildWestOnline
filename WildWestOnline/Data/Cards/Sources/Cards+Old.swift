@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 12/04/2023.
 //
-// swiftlint:disable no_magic_numbers file_length
+// swiftlint:disable file_length
 import GameCore
 /*
 @available(*, deprecated, message: "use new cards")

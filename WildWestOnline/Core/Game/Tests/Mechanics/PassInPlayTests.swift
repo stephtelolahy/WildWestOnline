@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class PassInPlayTests: XCTestCase {
-    func test_passInPlay_shouldRemoveCardFromInPlay() throws {
+struct PassInPlayTests {
+    @Test func passInPlay_shouldRemoveCardFromInPlay() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -23,7 +23,7 @@ final class PassInPlayTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.inPlay["p1"], ["c2"])
-        XCTAssertEqual(result.field.inPlay["p2"], ["c1"])
+        #expect(result.field.inPlay["p1"] == ["c2"])
+        #expect(result.field.inPlay["p2"] == ["c1"])
     }
 }

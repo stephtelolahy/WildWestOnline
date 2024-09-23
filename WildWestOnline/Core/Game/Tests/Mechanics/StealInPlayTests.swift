@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class StealInPlayTests: XCTestCase {
-    func test_stealInPlay_shouldRemoveCardFromTargetInPlay() throws {
+struct StealInPlayTests {
+    @Test func stealInPlay_shouldRemoveCardFromTargetInPlay() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -23,7 +23,7 @@ final class StealInPlayTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.hand["p1"], ["c21"])
-        XCTAssertEqual(result.field.inPlay["p2"], ["c22"])
+        #expect(result.field.hand["p1"] == ["c21"])
+        #expect(result.field.inPlay["p2"] == ["c22"])
     }
 }

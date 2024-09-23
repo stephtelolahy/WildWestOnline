@@ -85,7 +85,7 @@ opt_in_rules:
   - nimble_operator
   # - no_extension_access_modifier
   # - no_grouping_extension
-  - no_magic_numbers
+  # - no_magic_numbers
   # - non_overridable_class_declaration
   - nslocalizedstring_key
   - nslocalizedstring_require_bundle

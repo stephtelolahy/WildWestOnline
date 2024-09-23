@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DrawDiscoveredTests: XCTestCase {
-    func test_drawingDiscovered_shouldDrawCard() throws {
+struct DrawDiscoveredTests {
+    @Test func drawingDiscovered_shouldDrawCard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -22,8 +22,8 @@ final class DrawDiscoveredTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.hand["p1"], ["c2"])
-        XCTAssertEqual(result.field.discovered, ["c1"])
-        XCTAssertEqual(result.field.deck, ["c1"])
+        #expect(result.field.hand["p1"] == ["c2"])
+        #expect(result.field.discovered == ["c1"])
+        #expect(result.field.deck == ["c1"])
     }
 }
