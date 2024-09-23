@@ -6,12 +6,18 @@
 //
 
 import Testing
+import GameCore
 
 struct EndGameTest {
-
     @Test func endGame() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
-    }
+        // Given
+        let state = GameState.makeBuilder().build()
 
+        // When
+        let action = GameAction.endGame(winner: "p1")
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.sequence.winner == "p1")
+    }
 }

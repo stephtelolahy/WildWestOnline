@@ -6,27 +6,24 @@
 //
 
 import Testing
+import GameCore
 
 struct PlayBrownTest {
-    @Test func playBrown() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
+    @Test("play brown card should remove from hand")
+    func playBrown() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+            }
+            .build()
+
+        // When
+        let action = GameAction.playBrown("c1", player: "p1")
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.field.hand["p1"] == ["c2"])
+        #expect(result.field.discard == ["c1"])
     }
-    /*
-     func test_discardPlayed_shouldRemoveCardFromHand() throws {
-         // Given
-         let state = GameState.makeBuilder()
-             .withPlayer("p1") {
-                 $0.withHand(["c1", "c2"])
-             }
-             .build()
-
-         // When
-         let action = GameAction.playBrown("c1", player: "p1")
-         let result = try GameState.reducer(state, action)
-
-         // Then
-         XCTAssertEqual(result.field.hand["p1"], ["c2"])
-         
-     */
 }

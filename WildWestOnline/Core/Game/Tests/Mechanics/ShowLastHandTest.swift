@@ -6,11 +6,23 @@
 //
 
 import Testing
+import GameCore
 
 struct ShowLastHandTest {
-    @Test func showLastHand() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
-    }
+    @Test("show last hand should do nothing")
+    func showLastHand() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+            }
+            .build()
 
+        // When
+        let action = GameAction.showLastHand(player: "p1")
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result == state)
+    }
 }

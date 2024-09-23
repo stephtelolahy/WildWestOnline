@@ -6,12 +6,20 @@
 //
 
 import Testing
+import GameCore
 
 struct EndTurnTest {
-
     @Test func endTurn() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
-    }
+        // Given
+        let state = GameState.makeBuilder()
+            .withTurn("p1")
+            .build()
 
+        // When
+        let action = GameAction.endTurn(player: "p1")
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.round.turn == nil)
+    }
 }

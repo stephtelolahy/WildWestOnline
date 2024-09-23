@@ -6,11 +6,18 @@
 //
 
 import Testing
+import GameCore
 
 struct ActivateTest {
-
     @Test func activate() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
+        // Given
+        let state = GameState.makeBuilder().build()
+
+        // When
+        let action = GameAction.activate(["c1", "c2"], player: "p1")
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.sequence.active == ["p1": ["c1", "c2"]])
     }
 }

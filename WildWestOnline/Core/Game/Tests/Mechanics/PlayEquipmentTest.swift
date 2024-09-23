@@ -6,47 +6,42 @@
 //
 
 import Testing
+import GameCore
 
 struct PlayEquipmentTest {
-    @Test func playEquipment() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-        Issue.record("unimplemented")
+    @Test func playEquipment_withCardNotInPlay_shouldPutCardInPlay() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+            }
+            .build()
+
+        // When
+        let action = GameAction.playEquipment("c1", player: "p1")
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.field.hand["p1"] == ["c2"])
+        #expect(result.field.inPlay["p1"] == ["c1"])
+        #expect(result.field.discard.isEmpty)
     }
-    /*
-     func test_equip_withCardNotInPlay_shouldPutCardInPlay() throws {
-         // Given
-         let state = GameState.makeBuilder()
-             .withPlayer("p1") {
-                 $0.withHand(["c1", "c2"])
-             }
-             .build()
 
-         // When
-         let action = GameAction.playEquipment("c1", player: "p1")
-         let result = try GameState.reducer(state, action)
+    @Test func equip_withCardAlreadyInPlay_shouldThrowError() async throws {
+        // Given
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c-1"])
+                    .withInPlay(["c-2"])
+            }
+            .build()
 
-         // Then
-         XCTAssertEqual(result.field.hand["p1"], ["c2"])
-         XCTAssertEqual(result.field.inPlay["p1"], ["c1"])
-         XCTAssertEqual(result.field.discard.count, 0)
-     }
-
-     func test_equip_withCardAlreadyInPlay_shouldThrowError() throws {
-         // Given
-         // Given
-         let state = GameState.makeBuilder()
-             .withPlayer("p1") {
-                 $0.withHand(["c-1"])
-                     .withInPlay(["c-2"])
-             }
-             .build()
-
-         // When
-         // Then
-         let action = GameAction.playEquipment("c-1", player: "p1")
-         XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-             XCTAssertEqual(error as? FieldState.Error, .cardAlreadyInPlay("c"))
-         }
-     }
-     */
+        // When
+        // Then
+        let action = GameAction.playEquipment("c-1", player: "p1")
+        #expect(throws: FieldState.Error.cardAlreadyInPlay("c")) {
+            try GameState.reducer(state, action)
+        }
+    }
 }
