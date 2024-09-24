@@ -7,15 +7,12 @@
 
 extension GameAction {
     func isEffectTriggeredBy(_ player: String) -> Bool {
-        /*
-        if case let .prepareEffect(_, ctx) = self,
-           ctx.sourceActor == player {
+        if case let .prepareEffect(effect) = self,
+           effect.actor == player {
             true
         } else {
             false
         }
-         */
-        false
     }
 
     func isEffectOfStartTurn(ignoredCard: String) -> Bool {

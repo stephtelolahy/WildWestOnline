@@ -25,11 +25,23 @@ struct EliminateTests {
     }
 
     @Test func eliminatePlayer_shouldRemoveSequence() async throws {
-        /*
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
-            .withSequence([.prepareEffect(.drawDeck, ctx: EffectContext(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))])
+            .withSequence(
+                [
+                    GameAction.prepareEffect(
+                        .init(
+                            action: .drawDeck,
+                            event: .playAbility("c1", player: "p1"),
+                            card: "c1",
+                            actor: "p1",
+                            selectors: [],
+                            attr: [:]
+                        )
+                    )
+                ]
+            )
             .build()
 
         // When
@@ -38,7 +50,5 @@ struct EliminateTests {
 
         // Then
         #expect(result.sequence.queue.isEmpty)
-         */
-        Issue.record("unimplemented")
     }
 }

@@ -247,3 +247,7 @@ public enum ActionAttribute: String, Codable {
     case inPlayOfOtherHasNoEffect
     case ignoreLimitPerTurn
 }
+
+public enum CardAttribute: Codable, Equatable {
+    case setMaxHealth(Int)
+}
