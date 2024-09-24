@@ -193,29 +193,10 @@ private extension SequenceState {
         }
 
         /*
-         let playRules = cardObj.rules.filter { $0.playReqs.contains(.play) }
-         guard playRules.isNotEmpty else {
-         throw SequenceState.Error.cardNotPlayable(card)
-         }
-         
-         // verify requirements
-         for playRule in playRules {
-         for playReq in playRule.playReqs where playReq != .play {
-         try playReq.throwingMatch(state: state, ctx: playReqContext)
-         }
-         }
-         
-         var state = state
-         
+         TODO:
          // increment play counter
          let playedCount = state.sequence.played[cardName] ?? 0
          state.sequence.played[cardName] = playedCount + 1
-         
-         // queue play effects
-         let ctx = EffectContext(sourceEvent: event, sourceActor: player, sourceCard: card)
-         let children: [GameAction] = playRules.map { .prepareEffect($0.effect, ctx: ctx) }
-         state.sequence.queue.insert(contentsOf: children, at: 0)
-         
          */
 
         // queue play effects
@@ -227,8 +208,7 @@ private extension SequenceState {
                     card: card,
                     actor: player,
                     event: .preparePlay(card, player: player),
-                    selectors: $0.selectors,
-                    attr: [:]
+                    selectors: $0.selectors
                 )
             )
         }
@@ -243,7 +223,13 @@ private extension SequenceState {
         }
 
         var state = state
-        state.sequence.queue.insert(effect.toAction(), at: 0)
+        if effect.selectors.isEmpty {
+            let resolved = try effect.toAction()
+            state.sequence.queue.insert(resolved, at: 0)
+        } else {
+            let children = try effect.toChildren(state: state).map(GameAction.prepareEffect)
+            state.sequence.queue.insert(contentsOf: children, at: 0)
+        }
         return state
     }
 
@@ -288,7 +274,7 @@ private extension SequenceState {
 */
 
 private extension ResolvingEffect {
-    func toAction() -> GameAction {
+    func toAction() throws -> GameAction {
         switch action {
         case .playBrown:
                 .playBrown(card, player: actor)
@@ -299,5 +285,27 @@ private extension ResolvingEffect {
         default:
                 .queue([])
         }
+    }
+
+    func toChildren(state: GameState) throws -> [Self] {
+        var effect = self
+        let selector = effect.selectors.remove(at: 0)
+
+        switch selector {
+        case .repeat(let times):
+            let number = try times.resolve(state: state, ctx: self)
+            return Array(repeating: effect, count: number)
+
+        default:
+            return []
+        }
+
+        return [effect]
+    }
+}
+
+private extension Effect.Selector.Number {
+    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+        2
     }
 }
