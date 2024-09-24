@@ -27,6 +27,27 @@ struct PrepareEffectTest {
         // Then
         #expect(result.sequence.queue.first == .playBrown("c1", player: "p1"))
     }
+
+    @Test func prepareEffect_drawDeck() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1")
+            .withDeck(["c1"])
+            .build()
+
+        // When
+        let action = GameAction.prepareEffect(
+            .init(
+                action: .drawDeck,
+                card: "cx",
+                actor: "p1"
+            )
+        )
+        let result = try GameState.reducer(state, action)
+
+        // Then
+        #expect(result.sequence.queue.first == .drawDeck(player: "p1"))
+    }
     /*
      /// {actor} put a {card} is self's inPlay
      case playEquipment
@@ -43,10 +64,6 @@ struct PrepareEffectTest {
      /// By default target is {actor}
      /// By default damage amount is 1
      case damage
-
-     /// {actor} draw the top deck card
-     /// When a {card} is specified, this allow to draw a specific card
-     case drawDeck
 
      /// {actor} draws the last discarded card
      /// When a {card} is specified, this allow to draw a specific card

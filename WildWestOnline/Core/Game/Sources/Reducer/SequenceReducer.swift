@@ -293,6 +293,9 @@ private extension ResolvingEffect {
         case .playBrown:
                 .playBrown(card, player: actor)
 
+        case .drawDeck:
+                .drawDeck(player: actor)
+
         default:
             fatalError("unimplemented")
         }
