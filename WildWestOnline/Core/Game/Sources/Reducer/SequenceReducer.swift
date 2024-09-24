@@ -238,31 +238,12 @@ private extension SequenceState {
     }
 
     static let prepareEffectReducer: Reducer<GameState> = { state, action in
-        /*
-        guard case let GameAction.prepareEffect(effect, ctx) = action else {
+        guard case let GameAction.prepareEffect(effect) = action else {
             fatalError("unexpected")
         }
 
         var state = state
-
-        let output = try effect.resolve(state: state, ctx: ctx)
-        switch output {
-        case let .push(children):
-            state.sequence.queue.insert(contentsOf: children, at: 0)
-
-        case let .cancel(actions):
-            for action in actions {
-                state.sequence.cancel(action)
-            }
-
-        case let .replace(index, updatedAction):
-            state.sequence.queue[index] = updatedAction
-
-        case .nothing:
-            break
-        }
-
-         */
+        state.sequence.queue.insert(effect.toAction(), at: 0)
         return state
     }
 
@@ -305,3 +286,15 @@ private extension SequenceState {
     }
 }
 */
+
+private extension ResolvingEffect {
+    func toAction() -> GameAction {
+        switch action {
+        case .playBrown:
+                .playBrown(card, player: actor)
+
+        default:
+            fatalError("unimplemented")
+        }
+    }
+}
