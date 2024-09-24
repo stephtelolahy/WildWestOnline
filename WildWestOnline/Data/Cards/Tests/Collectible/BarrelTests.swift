@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class BarrelTests: XCTestCase {
+struct BarrelTests {
     /*
-    func test_playingBarrel_shouldEquip() throws {
+    @Test func playingBarrel_shouldEquip() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,15 +20,15 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.barrel, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.barrel, player: "p1")
         ])
     }
 
-    func test_triggeringBarrel_oneFlippedCard_isHearts_shouldCancelShot() throws {
+    @Test func triggeringBarrel_oneFlippedCard_isHearts_shouldCancelShot() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -44,17 +44,17 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw
         ])
     }
 
-    func test_triggeringBarrel_oneFlippedCard_isSpades_shouldApplyDamage() throws {
+    @Test func triggeringBarrel_oneFlippedCard_isSpades_shouldApplyDamage() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -70,10 +70,10 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw,
@@ -81,7 +81,7 @@ final class BarrelTests: XCTestCase {
         ])
     }
 
-    func test_triggeringBarrel_twoFlippedCards_oneIsHearts_shouldCancelShot() throws {
+    @Test func triggeringBarrel_twoFlippedCards_oneIsHearts_shouldCancelShot() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -97,10 +97,10 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw,
@@ -108,7 +108,7 @@ final class BarrelTests: XCTestCase {
         ])
     }
 
-    func test_triggeringBarrel_twoFlippedCards_noneIsHearts_shouldApplyDamage() throws {
+    @Test func triggeringBarrel_twoFlippedCards_noneIsHearts_shouldApplyDamage() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -124,10 +124,10 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw,
@@ -136,7 +136,7 @@ final class BarrelTests: XCTestCase {
         ])
     }
 
-    func test_triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() throws {
+    @Test func triggeringBarrel_flippedCardIsHearts_holdingMissedCards_shouldNotAskToCounter() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -154,10 +154,10 @@ final class BarrelTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw

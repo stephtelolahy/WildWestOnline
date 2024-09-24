@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class CalamityJanetTests: XCTestCase {
+struct CalamityJanetTests {
     /*
-    func test_calamityJanetPlayingBang_shouldPlayAsBang() throws {
+    @Test func calamityJanetPlayingBang_shouldPlayAsBang() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -24,17 +24,17 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
     }
 
-    func test_calamityJanetPlayingMissed_shouldPlayAsBang() throws {
+    @Test func calamityJanetPlayingMissed_shouldPlayAsBang() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -48,17 +48,17 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.missed, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.missed, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
     }
 
-    func test_calamityJanetBeingShot_holdingBang_shouldAskToCounter() throws {
+    @Test func calamityJanetBeingShot_holdingBang_shouldAskToCounter() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -74,10 +74,10 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .bang])
+        let result = try await dispatch(action, state: state, choose: ["p2", .bang])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.bang, .pass], player: "p2"),
@@ -85,7 +85,7 @@ final class CalamityJanetTests: XCTestCase {
         ])
     }
 
-    func test_calamityJanetBeingShot_holdingMissed_shouldAskToCounter() throws {
+    @Test func calamityJanetBeingShot_holdingMissed_shouldAskToCounter() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -101,10 +101,10 @@ final class CalamityJanetTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .missed])
+        let result = try await dispatch(action, state: state, choose: ["p2", .missed])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),

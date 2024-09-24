@@ -7,10 +7,10 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class LuckyDukeTests: XCTestCase {
-    func test_LuckyDuke_shouldHaveTwoFlippedCards() throws {
+struct LuckyDukeTests {
+    @Test func LuckyDuke_shouldHaveTwoFlippedCards() async throws {
         // Given
         let state = Setup.buildGame(
             figures: [.luckyDuke],
@@ -22,6 +22,6 @@ final class LuckyDukeTests: XCTestCase {
         let player = state.player(.luckyDuke)
 
         // Then
-        XCTAssertEqual(player.attributes[.flippedCards], 2)
+        #expect(player.attributes[.flippedCards] == 2)
     }
 }

@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class GatlingTests: XCTestCase {
-    func test_playGatling_withThreePlayers_shouldDamageEachPlayer() throws {
+struct GatlingTests {
+    @Test func playGatling_withThreePlayers_shouldDamageEachPlayer() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,17 +21,17 @@ final class GatlingTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.gatling, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.gatling, player: "p1"),
             .damage(1, player: "p2"),
             .damage(1, player: "p3")
         ])
     }
 
-    func test_playGatling_withTwoPlayers_shouldDamageEachPlayer() throws {
+    @Test func playGatling_withTwoPlayers_shouldDamageEachPlayer() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -42,10 +42,10 @@ final class GatlingTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.gatling, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.gatling, player: "p1"),
             .damage(1, player: "p2")
         ])

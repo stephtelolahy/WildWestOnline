@@ -5,11 +5,11 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 import GameCore
-import XCTest
+import Testing
 
-final class VolcanicTests: XCTestCase {
+struct VolcanicTests {
     /*
-    func test_playVolcanic_withoutWeaponInPlay_shouldSetBangsPerTurn() throws {
+    @Test func playVolcanic_withoutWeaponInPlay_shouldSetBangsPerTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,10 +21,10 @@ final class VolcanicTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.volcanic, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.volcanic, player: "p1"),
             .setAttribute(.bangsPerTurn, value: 0, player: "p1")
         ])

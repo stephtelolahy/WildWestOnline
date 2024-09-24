@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class MissedTests: XCTestCase {
+struct MissedTests {
     /*
-    func test_beingShot_holdingMissedCard_shouldAskToCounter() throws {
+    @Test func beingShot_holdingMissedCard_shouldAskToCounter() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -25,7 +25,7 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .missed])
+        let result = try await dispatch(action, state: state, choose: ["p2", .missed])
 
         // Then
         XCTAssertEqual(
@@ -39,7 +39,7 @@ final class MissedTests: XCTestCase {
         )
     }
 
-    func test_beingShot_withoutMissedCard_shouldNotAskToCounter() throws {
+    @Test func beingShot_withoutMissedCard_shouldNotAskToCounter() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -53,17 +53,17 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
     }
 
-    func test_beingShot_holdingMissedCards_shouldAskToCounter() throws {
+    @Test func beingShot_holdingMissedCards_shouldAskToCounter() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -78,10 +78,10 @@ final class MissedTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .missed2])
+        let result = try await dispatch(action, state: state, choose: ["p2", .missed2])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.missed1, .missed2, .pass], player: "p2"),
@@ -89,7 +89,7 @@ final class MissedTests: XCTestCase {
         ])
     }
 
-    func test_playMissed_withoutBeingShoot_shouldThrowError() throws {
+    @Test func playMissed_withoutBeingShoot_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -102,7 +102,7 @@ final class MissedTests: XCTestCase {
         // Then
         let action = GameAction.preparePlay(.missed, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? SequenceState.Error, .noShootToCounter)
+            #expect(error as? SequenceState.Error == .noShootToCounter)
         }
     }
      */

@@ -6,67 +6,67 @@
 //
 
 import CardsData
-import XCTest
+import Testing
 
-final class CardsTests: XCTestCase {
+struct CardsTests {
     // Given
     // When
     private let cards = CardsRepository().inventory.cards
 
-    func test_inventory_shouldContainCollectibleCards() throws {
+    @Test func inventory_shouldContainCollectibleCards() async throws {
         // Then
-        XCTAssertNotNil(cards[.beer])
-        XCTAssertNotNil(cards[.saloon])
-        XCTAssertNotNil(cards[.stagecoach])
-        XCTAssertNotNil(cards[.wellsFargo])
-        XCTAssertNotNil(cards[.catBalou])
-        XCTAssertNotNil(cards[.panic])
-        XCTAssertNotNil(cards[.generalStore])
-        XCTAssertNotNil(cards[.bang])
-        XCTAssertNotNil(cards[.missed])
-        XCTAssertNotNil(cards[.gatling])
-        XCTAssertNotNil(cards[.indians])
-        XCTAssertNotNil(cards[.duel])
-        XCTAssertNotNil(cards[.barrel])
-        XCTAssertNotNil(cards[.dynamite])
-        XCTAssertNotNil(cards[.jail])
-        XCTAssertNotNil(cards[.mustang])
-        XCTAssertNotNil(cards[.remington])
-        XCTAssertNotNil(cards[.revCarabine])
-        XCTAssertNotNil(cards[.schofield])
-        XCTAssertNotNil(cards[.scope])
-        XCTAssertNotNil(cards[.volcanic])
-        XCTAssertNotNil(cards[.winchester])
+        #expect(cards[.beer] != nil)
+        #expect(cards[.saloon] != nil)
+        #expect(cards[.stagecoach] != nil)
+        #expect(cards[.wellsFargo] != nil)
+        #expect(cards[.catBalou] != nil)
+        #expect(cards[.panic] != nil)
+        #expect(cards[.generalStore] != nil)
+        #expect(cards[.bang] != nil)
+        #expect(cards[.missed] != nil)
+        #expect(cards[.gatling] != nil)
+        #expect(cards[.indians] != nil)
+        #expect(cards[.duel] != nil)
+        #expect(cards[.barrel] != nil)
+        #expect(cards[.dynamite] != nil)
+        #expect(cards[.jail] != nil)
+        #expect(cards[.mustang] != nil)
+        #expect(cards[.remington] != nil)
+        #expect(cards[.revCarabine] != nil)
+        #expect(cards[.schofield] != nil)
+        #expect(cards[.scope] != nil)
+        #expect(cards[.volcanic] != nil)
+        #expect(cards[.winchester] != nil)
     }
 
-    func test_inventory_shouldContainAbilities() throws {
+    @Test func inventory_shouldContainAbilities() async throws {
         // Then
-        XCTAssertNotNil(cards[.endTurn])
-        XCTAssertNotNil(cards[.drawOnStartTurn])
-        XCTAssertNotNil(cards[.eliminateOnDamageLethal])
-        XCTAssertNotNil(cards[.discardCardsOnEliminated])
-        XCTAssertNotNil(cards[.nextTurnOnEliminated])
-        XCTAssertNotNil(cards[.discardPreviousWeaponOnPlayWeapon])
-        XCTAssertNotNil(cards[.updateAttributesOnChangeInPlay])
+        #expect(cards[.endTurn] != nil)
+        #expect(cards[.drawOnStartTurn] != nil)
+        #expect(cards[.eliminateOnDamageLethal] != nil)
+        #expect(cards[.discardCardsOnEliminated] != nil)
+        #expect(cards[.nextTurnOnEliminated] != nil)
+        #expect(cards[.discardPreviousWeaponOnPlayWeapon] != nil)
+        #expect(cards[.updateAttributesOnChangeInPlay] != nil)
     }
 
-    func test_inventory_shouldContainFigures() throws {
+    @Test func inventory_shouldContainFigures() async throws {
         // Then
-        XCTAssertNotNil(cards[.willyTheKid])
-        XCTAssertNotNil(cards[.roseDoolan])
-        XCTAssertNotNil(cards[.paulRegret])
-        XCTAssertNotNil(cards[.jourdonnais])
-        XCTAssertNotNil(cards[.slabTheKiller])
-        XCTAssertNotNil(cards[.luckyDuke])
-        XCTAssertNotNil(cards[.calamityJanet])
-        XCTAssertNotNil(cards[.bartCassidy])
-        XCTAssertNotNil(cards[.elGringo])
-        XCTAssertNotNil(cards[.suzyLafayette])
-        XCTAssertNotNil(cards[.vultureSam])
-        XCTAssertNotNil(cards[.sidKetchum])
-        XCTAssertNotNil(cards[.blackJack])
-        XCTAssertNotNil(cards[.kitCarlson])
-        XCTAssertNotNil(cards[.jesseJones])
-        XCTAssertNotNil(cards[.pedroRamirez])
+        #expect(cards[.willyTheKid] != nil)
+        #expect(cards[.roseDoolan] != nil)
+        #expect(cards[.paulRegret] != nil)
+        #expect(cards[.jourdonnais] != nil)
+        #expect(cards[.slabTheKiller] != nil)
+        #expect(cards[.luckyDuke] != nil)
+        #expect(cards[.calamityJanet] != nil)
+        #expect(cards[.bartCassidy] != nil)
+        #expect(cards[.elGringo] != nil)
+        #expect(cards[.suzyLafayette] != nil)
+        #expect(cards[.vultureSam] != nil)
+        #expect(cards[.sidKetchum] != nil)
+        #expect(cards[.blackJack] != nil)
+        #expect(cards[.kitCarlson] != nil)
+        #expect(cards[.jesseJones] != nil)
+        #expect(cards[.pedroRamirez] != nil)
     }
 }

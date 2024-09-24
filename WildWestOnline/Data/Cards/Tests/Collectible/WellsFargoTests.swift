@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class WellsFargoTests: XCTestCase {
-    func test_playWellsFargo_shouldDraw3Cards() throws {
+struct WellsFargoTests {
+    @Test func playWellsFargo_shouldDraw3Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,10 +21,10 @@ final class WellsFargoTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.wellsFargo, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.wellsFargo, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),

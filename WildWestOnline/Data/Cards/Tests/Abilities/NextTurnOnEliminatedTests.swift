@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class NextTurnOnEliminatedTests: XCTestCase {
+struct NextTurnOnEliminatedTests {
     /*
-    func test_beingEliminated_currentTurn_shouldNextTurn() throws {
+    @Test func beingEliminated_currentTurn_shouldNextTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
@@ -23,16 +23,16 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p3")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .eliminate(player: "p3"),
             .startTurn(player: "p1")
         ])
     }
 
-    func test_beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() throws {
+    @Test func beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -51,10 +51,10 @@ final class NextTurnOnEliminatedTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .eliminate(player: "p1"),
             .discardInPlay("c12", player: "p1"),
             .discardHand("c11", player: "p1"),

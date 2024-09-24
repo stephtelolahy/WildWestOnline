@@ -81,16 +81,16 @@ extension GameAction: CustomStringConvertible {
             "❔ \(player) \(cards.joined(separator: " "))"
 
         case let .preparePlay(card, player):
-            "➡️ \(player) \(card) ..."
+            "➡️ \(player) \(card)"
 
         case let .prepareChoose(option, player):
-            "➡️ \(player) \(option) ..."
+            "➡️ \(player) \(option)"
 
         case let .prepareEffect(effect):
-            "➡️ \(effect.actor) \(effect.action.rawValue) ..."
+            "➡️ \(effect.actor) \(effect.action.rawValue)"
 
         case let .queue(actions):
-            "➡️ \(actions) ..."
+            "➡️ \(actions)"
 
         default:
             fatalError("unexpected")

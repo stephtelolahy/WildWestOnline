@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
+struct DiscardPreviousWeaponOnPlayWeaponTests {
     /*
-    func test_playVolcanic_withWeaponInPlay_shouldDiscardPreviousWeapon() throws {
+    @Test func playVolcanic_withWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -29,10 +29,10 @@ final class DiscardPreviousWeaponOnPlayWeaponTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.volcanic, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.volcanic, player: "p1"),
             .discardInPlay(.schofield, player: "p1"),
             .setAttribute(.bangsPerTurn, value: 0, player: "p1"),

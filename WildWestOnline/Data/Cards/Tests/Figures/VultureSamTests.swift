@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class VultureSamTests: XCTestCase {
-    func test_VultureSam_anotherPlayerEliminated_shouldDrawItsCard() throws {
+struct VultureSamTests {
+    @Test func VultureSam_anotherPlayerEliminated_shouldDrawItsCard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -25,10 +25,10 @@ final class VultureSamTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p2")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .eliminate(player: "p2"),
             .stealInPlay("c2", target: "p2", player: "p1"),
             .stealHand("c1", target: "p2", player: "p1")

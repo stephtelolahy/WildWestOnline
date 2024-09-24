@@ -7,11 +7,11 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class BlackJackTests: XCTestCase {
+struct BlackJackTests {
     /*
-    func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
+    @Test func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -23,10 +23,10 @@ final class BlackJackTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
@@ -35,7 +35,7 @@ final class BlackJackTests: XCTestCase {
         ])
     }
 
-    func test_blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() throws {
+    @Test func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -47,10 +47,10 @@ final class BlackJackTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),

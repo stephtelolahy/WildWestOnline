@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class MustangTests: XCTestCase {
-    func test_playMustang_shouldEquipAndSetAttribute() throws {
+struct MustangTests {
+    @Test func playMustang_shouldEquipAndSetAttribute() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,10 +20,10 @@ final class MustangTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.mustang, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.mustang, player: "p1"),
             .setAttribute(.remoteness, value: 1, player: "p1")
         ])

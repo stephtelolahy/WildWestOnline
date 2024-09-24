@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class JourdonnaisTests: XCTestCase {
+struct JourdonnaisTests {
     /*
-    func test_JourdonnaisBeingShot_flippedCardIsHearts_shouldCancelShot() throws {
+    @Test func JourdonnaisBeingShot_flippedCardIsHearts_shouldCancelShot() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -26,10 +26,10 @@ final class JourdonnaisTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw

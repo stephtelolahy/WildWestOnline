@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class WinchesterTests: XCTestCase {
-    func test_playWinchester_shouldEquipAndSetAttribute() throws {
+struct WinchesterTests {
+    @Test func playWinchester_shouldEquipAndSetAttribute() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,10 +21,10 @@ final class WinchesterTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.winchester, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.winchester, player: "p1"),
             .setAttribute(.weapon, value: 5, player: "p1")
         ])

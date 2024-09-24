@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class GameOverTests: XCTestCase {
-    func test_game_withOnePlayerLast_shouldBeOver() throws {
+struct GameOverTests {
+    @Test func game_withOnePlayerLast_shouldBeOver() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
@@ -18,16 +18,16 @@ final class GameOverTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p2")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .eliminate(player: "p2"),
             .endGame(winner: "p1")
         ])
     }
 
-    func test_game_with2Players_shouldNotBeOver() throws {
+    @Test func game_with2Players_shouldNotBeOver() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1")
@@ -37,15 +37,15 @@ final class GameOverTests: XCTestCase {
 
         // When
         let action = GameAction.eliminate(player: "p3")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .eliminate(player: "p3")
         ])
     }
 
-    func test_dispatchAction_withGameOver_shouldThrowError() throws {
+    @Test func dispatchAction_withGameOver_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withWinner("p1")
@@ -54,8 +54,8 @@ final class GameOverTests: XCTestCase {
         // When
         // Then
         let action = GameAction.preparePlay("c1", player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? SequenceState.Error, .gameIsOver)
+        await #expect(throws: SequenceState.Error.gameIsOver) {
+            try await dispatch(action, state: state)
         }
     }
 }

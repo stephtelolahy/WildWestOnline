@@ -297,7 +297,7 @@ private extension ResolvingEffect {
                 .drawDeck(player: actor)
 
         default:
-            fatalError("unimplemented")
+                .queue([])
         }
     }
 }

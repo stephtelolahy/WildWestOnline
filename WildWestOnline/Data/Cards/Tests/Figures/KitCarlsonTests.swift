@@ -7,11 +7,11 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class KitCarlsonTests: XCTestCase {
+struct KitCarlsonTests {
     /*
-    func test_kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() throws {
+    @Test func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -24,10 +24,10 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c2"])
+        let result = try await dispatch(action, state: state, choose: ["c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
@@ -37,7 +37,7 @@ final class KitCarlsonTests: XCTestCase {
         ])
     }
 
-    func test_kitCarlsonStartTurn_withoutEnoughDeckCards_shouldChooseDeckCards() throws {
+    @Test func kitCarlsonStartTurn_withoutEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -50,10 +50,10 @@ final class KitCarlsonTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c2"])
+        let result = try await dispatch(action, state: state, choose: ["c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),

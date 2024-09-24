@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class ScopeTests: XCTestCase {
-    func test_playScope_shouldEquipAndSetAttribute() throws {
+struct ScopeTests {
+    @Test func playScope_shouldEquipAndSetAttribute() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,16 +20,16 @@ final class ScopeTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.scope, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.scope, player: "p1"),
             .setAttribute(.magnifying, value: 1, player: "p1")
         ])
     }
 
-    func test_discardScope_shouldRemoveAttribute() throws {
+    @Test func discardScope_shouldRemoveAttribute() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -41,10 +41,10 @@ final class ScopeTests: XCTestCase {
 
         // When
         let action = GameAction.discardInPlay(.scope, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .discardInPlay(.scope, player: "p1"),
             .setAttribute(.magnifying, value: nil, player: "p1")
         ])

@@ -7,11 +7,11 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class SlabTheKillerTests: XCTestCase {
+struct SlabTheKillerTests {
     /*
-    func test_slabTheKiller_shouldRequireTwoMissesToCounterHisBang() throws {
+    @Test func slabTheKiller_shouldRequireTwoMissesToCounterHisBang() async throws {
         // Given
         let state = Setup.buildGame(
             figures: [.slabTheKiller],
@@ -23,10 +23,10 @@ final class SlabTheKillerTests: XCTestCase {
         let player = state.player(.slabTheKiller)
 
         // Then
-        XCTAssertEqual(player.attributes[.missesRequiredForBang], 2)
+        #expect(player.attributes[.missesRequiredForBang] == 2)
     }
 
-    func test_slabTheKillerPlayingBang_shouldRequiresTwoMisses() throws {
+    @Test func slabTheKillerPlayingBang_shouldRequiresTwoMisses() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -41,10 +41,10 @@ final class SlabTheKillerTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .missed1, .missed2])
+        let result = try await dispatch(action, state: state, choose: ["p2", .missed1, .missed2])
 
         // Then
-        XCTAssertEqual(
+        #expect(
             result,
             [
                 .playBrown(.bang, player: "p1"),
@@ -57,7 +57,7 @@ final class SlabTheKillerTests: XCTestCase {
         )
     }
 
-    func test_slabTheKillerPlayingBang_withOneCounter_shouldDamage() throws {
+    @Test func slabTheKillerPlayingBang_withOneCounter_shouldDamage() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -72,10 +72,10 @@ final class SlabTheKillerTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .missed])
+        let result = try await dispatch(action, state: state, choose: ["p2", .missed])
 
         // Then
-        XCTAssertEqual(
+        #expect(
             result,
             [
                 .playBrown(.bang, player: "p1"),

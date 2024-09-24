@@ -10,10 +10,10 @@ import GameCore
 @testable import HomeUI
 import Redux
 import SettingsCore
-import XCTest
+import Testing
 
-final class HomeViewStateTests: XCTestCase {
-    func test_HomeStateProjection() throws {
+struct HomeViewStateTests {
+    @Test func HomeStateProjection() throws {
         // Given
         let appState = AppState(
             navigation: .init(),
@@ -23,6 +23,6 @@ final class HomeViewStateTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(HomeView.presenter(appState))
+        #expect(HomeView.presenter(appState) != nil)
     }
 }

@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DrawOnStartTurnTests: XCTestCase {
+struct DrawOnStartTurnTests {
     /*
-    func test_startTurn_with2StartTurnCards_shouldDraw2Cards() throws {
+    @Test func startTurn_with2StartTurnCards_shouldDraw2Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -22,17 +22,17 @@ final class DrawOnStartTurnTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_startTurn_with3StartTurnCards_shouldDraw3Cards() throws {
+    @Test func startTurn_with3StartTurnCards_shouldDraw3Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -44,10 +44,10 @@ final class DrawOnStartTurnTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),

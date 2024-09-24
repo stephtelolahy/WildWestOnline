@@ -7,10 +7,10 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class RoseDoolanTests: XCTestCase {
-    func test_RoseDoolan_shouldDecrementDistanceToOthers() throws {
+struct RoseDoolanTests {
+    @Test func RoseDoolan_shouldDecrementDistanceToOthers() async throws {
         // Given
         let state = Setup.buildGame(
             figures: [.roseDoolan],
@@ -22,6 +22,6 @@ final class RoseDoolanTests: XCTestCase {
         let player = state.player(.roseDoolan)
 
         // Then
-        XCTAssertEqual(player.attributes[.magnifying], 1)
+        #expect(player.attributes[.magnifying] == 1)
     }
 }

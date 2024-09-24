@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class GeneralStoreTests: XCTestCase {
-    func test_playingGeneralStore_threePlayers_shouldAllowEachPlayerToChooseACard() throws {
+struct GeneralStoreTests {
+    @Test func playingGeneralStore_threePlayers_shouldAllowEachPlayerToChooseACard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -22,10 +22,10 @@ final class GeneralStoreTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.generalStore, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
+        let result = try await dispatch(action, state: state, choose: ["c1", "c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.generalStore, player: "p1"),
             .discover(3),
             .chooseOne(.cardToDraw, options: ["c1", "c2", "c3"], player: "p1"),

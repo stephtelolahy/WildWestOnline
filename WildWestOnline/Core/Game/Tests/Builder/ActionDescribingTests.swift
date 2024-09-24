@@ -11,42 +11,42 @@ import Testing
 struct ActionDescribingTests {
     // MARK: - Player event
 
-    func test_DescribingPreparePlay() {
+    @Test func describingPreparePlay() async throws {
         #expect(
             String(describing: GameAction.preparePlay("c1", player: "p1")) ==
             "➡️ p1 c1"
         )
     }
 
-    func test_DescribingPlayBrown() {
+    @Test func describingPlayBrown() async throws {
         #expect(
             String(describing: GameAction.playBrown("c1", player: "p1")) ==
             "🟤 p1 c1"
         )
     }
 
-    func test_DescribingPlayAbility() {
+    @Test func describingPlayAbility() async throws {
         #expect(
             String(describing: GameAction.playAbility("c1", player: "p1")) ==
             "🟡 p1 c1"
         )
     }
 
-    func test_DescribingPlayEquipment() {
+    @Test func describingPlayEquipment() async throws {
         #expect(
             String(describing: GameAction.playEquipment("c1", player: "p1")) ==
             "🔵 p1 c1"
         )
     }
 
-    func test_DescribingPlayHandicap() {
+    @Test func describingPlayHandicap() async throws {
         #expect(
             String(describing: GameAction.playHandicap("c1", target: "p2", player: "p1")) ==
             "🟣 p1 c1 p2"
         )
     }
 
-    func test_DescribingHeal() {
+    @Test func describingHeal() async throws {
         #expect(
             String(describing: GameAction.heal(1, player: "p1")) ==
             "❤️ p1"
@@ -58,7 +58,7 @@ struct ActionDescribingTests {
         )
     }
 
-    func test_DescribingDamage() {
+    @Test func describingDamage() async throws {
         #expect(
             String(describing: GameAction.damage(1, player: "p1")) ==
             "🥵 p1"
@@ -70,7 +70,7 @@ struct ActionDescribingTests {
         )
     }
 
-    func test_DescribingDrawCard() {
+    @Test func describingDrawCard() async throws {
         #expect(
             String(describing: GameAction.drawDeck(player: "p1")) ==
             "💰 p1"
@@ -92,7 +92,7 @@ struct ActionDescribingTests {
         )
     }
 
-    func test_DescribingDiscard() {
+    @Test func describingDiscard() async throws {
         #expect(
             String(describing: GameAction.discardHand("c1", player: "p1")) ==
             "❌ p1 c1"
@@ -104,42 +104,42 @@ struct ActionDescribingTests {
         )
     }
 
-    func test_DescribingPassInPlay() {
+    @Test func describingPassInPlay() async throws {
         #expect(
             String(describing: GameAction.passInPlay("c1", target: "p2", player: "p1")) ==
             "🧨 p1 p2 c1"
         )
     }
 
-    func test_DescribingRevealHand() {
+    @Test func describingRevealHand() async throws {
         #expect(
             String(describing: GameAction.showLastHand(player: "p1")) ==
             "🎲 p1"
         )
     }
 
-    func test_DescribingStartTurn() {
+    @Test func describingStartTurn() async throws {
         #expect(
             String(describing: GameAction.startTurn(player: "p1")) ==
             "🔥 p1"
         )
     }
 
-    func test_DescribingEndTurn() {
+    @Test func describingEndTurn() async throws {
         #expect(
             String(describing: GameAction.endTurn(player: "p1")) ==
             "💤 p1"
         )
     }
 
-    func test_DescribingEliminate() {
+    @Test func describingEliminate() async throws {
         #expect(
             String(describing: GameAction.eliminate(player: "p1")) ==
             "☠️ p1"
         )
     }
 
-    func test_DescribingSetAttribute() {
+    @Test func describingSetAttribute() async throws {
         #expect(
             String(describing: GameAction.setAttribute(.magnifying, value: 1, player: "p1")) ==
             "😎 p1 magnifying 1"
@@ -151,7 +151,7 @@ struct ActionDescribingTests {
         )
     }
 
-    func test_DescribingGameOver() {
+    @Test func describingGameOver() async throws {
         #expect(
             String(describing: GameAction.endGame(winner: "p1")) ==
             "🎉 p1"
@@ -160,14 +160,14 @@ struct ActionDescribingTests {
 
     // MARK: - Game event
 
-    func test_DescribingDiscover() {
+    @Test func describingDiscover() async throws {
         #expect(
             String(describing: GameAction.discover(3)) ==
             "🎁 3"
         )
     }
 
-    func test_DescribingDraw() {
+    @Test func describingDraw() async throws {
         #expect(
             String(describing: GameAction.draw) ==
             "🎲"
@@ -176,21 +176,21 @@ struct ActionDescribingTests {
 
     // MARK: - Choice event
 
-    func test_DescribingChooseOne() {
+    @Test func describingChooseOne() async throws {
         #expect(
             String(describing: GameAction.chooseOne(.cardToDraw, options: ["c1", "c2"], player: "p1")) ==
             "❓ p1 c1 c2"
         )
     }
 
-    func test_DescribingActivate() {
+    @Test func describingActivate() async throws {
         #expect(
             String(describing: GameAction.activate(["c1", "c2"], player: "p1")) ==
             "❔ p1 c1 c2"
         )
     }
 
-    func test_DescribingEffect() {
+    @Test func describingEffect() async throws {
         #expect(
             String(
                 describing: GameAction.prepareEffect(
@@ -205,14 +205,14 @@ struct ActionDescribingTests {
         )
     }
 
-    func test_DescribingGroup() {
+    @Test func describingGroup() async throws {
         #expect(
             String(describing: GameAction.queue([.draw])) ==
             "➡️ [🎲]"
         )
     }
 
-    func test_DescribingPrepareChoose() {
+    @Test func describingPrepareChoose() async throws {
         #expect(
             String(describing: GameAction.prepareChoose("c1", player: "p1")) ==
             "➡️ p1 c1"

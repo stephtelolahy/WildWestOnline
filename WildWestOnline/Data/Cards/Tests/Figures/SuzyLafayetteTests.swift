@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SuzyLafayetteTests: XCTestCase {
-    func test_SuzyLafayette_havingNoHandCards_shouldDrawACard() throws {
+struct SuzyLafayetteTests {
+    @Test func SuzyLafayette_havingNoHandCards_shouldDrawACard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,16 +21,16 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .discardHand("c1", player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_SuzyLafayette_havingSomeHandCards_shouldDoNothing() throws {
+    @Test func SuzyLafayette_havingSomeHandCards_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -41,10 +41,10 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .discardHand("c1", player: "p1")
         ])
     }

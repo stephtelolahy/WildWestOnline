@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class JailTests: XCTestCase {
+struct JailTests {
     /*
-    func test_playingJail_againstAnyPlayer_shouldHandicap() throws {
+    @Test func playingJail_againstAnyPlayer_shouldHandicap() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,16 +21,16 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.jail, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .playHandicap(.jail, target: "p2", player: "p1")
         ])
     }
 
-    func test_triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() throws {
+    @Test func triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -44,10 +44,10 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .draw,
             .discardInPlay(.jail, player: "p1"),
@@ -56,7 +56,7 @@ final class JailTests: XCTestCase {
         ])
     }
 
-    func test_triggeringJail_flippedCardIsSpades_shouldSkipTurn() throws {
+    @Test func triggeringJail_flippedCardIsSpades_shouldSkipTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -70,10 +70,10 @@ final class JailTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .draw,
             .discardInPlay(.jail, player: "p1"),

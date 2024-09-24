@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class ActivatePlayableCardsOnIdleTests: XCTestCase {
+struct ActivatePlayableCardsOnIdleTests {
     /*
-    func test_activatingCards_withPlayableCards_shouldActivate() throws {
+    @Test func activatingCards_withPlayableCards_shouldActivate() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -26,15 +26,15 @@ final class ActivatePlayableCardsOnIdleTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .activate([.saloon, .gatling], player: "p1")
         ])
     }
 
-    func test_activatingCards_withoutPlayableCards_shouldDoNothing() throws {
+    @Test func activatingCards_withoutPlayableCards_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -49,13 +49,13 @@ final class ActivatePlayableCardsOnIdleTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [])
+        #expect(result == [])
     }
 
-    func test_activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() throws {
+    @Test func activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -73,10 +73,10 @@ final class ActivatePlayableCardsOnIdleTests: XCTestCase {
 
         // When
         let action = GameAction.nothing
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [.activate([.endTurn], player: "p1")])
+        #expect(result == [.activate([.endTurn], player: "p1")])
     }
      */
 }

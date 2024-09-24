@@ -7,11 +7,11 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class JesseJonesTests: XCTestCase {
+struct JesseJonesTests {
     /*
-    func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
+    @Test func jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -24,17 +24,17 @@ final class JesseJonesTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDiscard(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() throws {
+    @Test func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -46,10 +46,10 @@ final class JesseJonesTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

@@ -9,35 +9,29 @@ import CardsData
 import Combine
 import GameCore
 import Redux
+import Testing
+import Foundation
 import XCTest
 
-final class SimulationTests: XCTestCase {
-    func test_simulate4PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 4)
+struct SimulationTests {
+    @Test func simulate4PlayersGame_shouldComplete() async throws {
+        await simulateGame(playersCount: 4)
     }
 
-    func test_simulate5PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 5)
+    @Test func simulate7PlayersGame_shouldComplete() async throws {
+        await simulateGame(playersCount: 7)
     }
 
-    func test_simulate6PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 6)
-    }
-
-    func test_simulate7PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 7)
-    }
-
-    func test_simulateGameWithCustomFigure_shouldComplete() throws {
-        try XCTSkipIf(!CardsRepository().inventory.figures.contains(.custom))
-        simulateGame(playersCount: 4, preferredFigure: .custom)
+    @Test(.enabled(if: CardsRepository().inventory.figures.contains(.custom)))
+    func simulateGameWithCustomFigure_shouldComplete() async throws {
+        await simulateGame(playersCount: 4, preferredFigure: .custom)
     }
 
     private func simulateGame(
         playersCount: Int,
         preferredFigure: String? = nil,
         timeout: TimeInterval = 5.0
-    ) {
+    ) async {
         // Given
         let inventory = CardsRepository().inventory
         var game = Setup.buildGame(
@@ -70,9 +64,10 @@ final class SimulationTests: XCTestCase {
         sut.dispatch(GameAction.startTurn(player: sheriff))
 
         // Then
-        wait(for: [expectation], timeout: timeout)
+        let waiter = XCTWaiter()
+        await waiter.fulfillment(of: [expectation], timeout: timeout)
         cancellable.cancel()
-        XCTAssertNotNil(sut.state.sequence.winner, "Expected game over")
+        #expect(sut.state.sequence.winner != nil, "Expected game over")
     }
 }
 

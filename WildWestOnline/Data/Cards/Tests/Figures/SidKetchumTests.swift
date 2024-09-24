@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SidKetchumTests: XCTestCase {
-    func test_playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() throws {
+struct SidKetchumTests {
+    @Test func playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -22,10 +22,10 @@ final class SidKetchumTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
+        let result = try await dispatch(action, state: state, choose: ["c1", "c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.sidKetchum, player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2"], player: "p1"),
             .discardHand("c1", player: "p1"),
@@ -35,7 +35,7 @@ final class SidKetchumTests: XCTestCase {
         ])
     }
 
-    func test_playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() throws {
+    @Test func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -48,10 +48,10 @@ final class SidKetchumTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
+        let result = try await dispatch(action, state: state, choose: ["c1", "c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.sidKetchum, player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
             .discardHand("c1", player: "p1"),
@@ -61,7 +61,7 @@ final class SidKetchumTests: XCTestCase {
         ])
     }
 
-    func test_playing_SidKetchum_withoutCard_shouldThrowError() throws {
+    @Test func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -74,12 +74,12 @@ final class SidKetchumTests: XCTestCase {
         // When
         // Then
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgCard.Error, .noCard(.selectHand))
+        await #expect(throws: ArgCard.Error.noCard(.selectHand)) {
+            try await dispatch(action, state: state)
         }
     }
 
-    func test_playing_SidKetchum_alreadyMaxHealth_shouldThrowError() throws {
+    @Test func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -93,8 +93,8 @@ final class SidKetchumTests: XCTestCase {
         // When
         // Then
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? PlayersState.Error, .playerAlreadyMaxHealth("p1"))
+        await #expect(throws: PlayersState.Error.playerAlreadyMaxHealth("p1")) {
+            try await dispatch(action, state: state)
         }
     }
 }

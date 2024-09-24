@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class StagecoachTests: XCTestCase {
-    func test_plaStagecoach_shouldDraw2Cards() throws {
+struct StagecoachTests {
+    @Test func plaStagecoach_shouldDraw2Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -20,10 +20,10 @@ final class StagecoachTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.stagecoach, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.stagecoach, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

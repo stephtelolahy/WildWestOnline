@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SaloonTests: XCTestCase {
-    func test_playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() throws {
+struct SaloonTests {
+    @Test func playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -29,17 +29,17 @@ final class SaloonTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.saloon, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.saloon, player: "p1"),
             .heal(1, player: "p2"),
             .heal(1, player: "p3")
         ])
     }
 
-    func test_playSaloon_withoutPlayerDamaged_shouldThrowError() throws {
+    @Test func playSaloon_withoutPlayerDamaged_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -56,8 +56,8 @@ final class SaloonTests: XCTestCase {
         // When
         // Then
         let action = GameAction.preparePlay(.saloon, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.damaged))
+        await #expect(throws: ArgPlayer.Error.noPlayer(.damaged)) {
+            try await dispatch(action, state: state)
         }
     }
 }

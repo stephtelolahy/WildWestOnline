@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class RemingtonTests: XCTestCase {
-    func test_playRemington_shouldEquipAndSetWeapon() throws {
+struct RemingtonTests {
+    @Test func playRemington_shouldEquipAndSetWeapon() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,10 +21,10 @@ final class RemingtonTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.remington, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.remington, player: "p1"),
             .setAttribute(.weapon, value: 3, player: "p1")
         ])

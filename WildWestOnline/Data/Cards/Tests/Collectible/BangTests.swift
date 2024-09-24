@@ -6,11 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class BangTests: XCTestCase {
+struct BangTests {
     /*
-    func test_playingBang_shouldDamageBy1() throws {
+    @Test func playingBang_shouldDamageBy1() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -22,17 +22,17 @@ final class BangTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
     }
 
-    func test_playingBang_reachedLimitPerTurn_shouldThrowError() throws {
+    @Test func playingBang_reachedLimitPerTurn_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -47,11 +47,11 @@ final class BangTests: XCTestCase {
         // Assert
         let action = GameAction.preparePlay(.bang, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? PlayReq.Error, .noReq(.isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))))
+            #expect(error as? PlayReq.Error == .noReq(.isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))))
         }
     }
 
-    func test_playingBang_noLimitPerTurn_shouldAllowMultipleBang() throws {
+    @Test func playingBang_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -64,17 +64,17 @@ final class BangTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2"])
+        let result = try await dispatch(action, state: state, choose: ["p2"])
 
         // Assert
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
     }
 
-    func test_playingBang_noPlayerReachable_shouldThrowError() throws {
+    @Test func playingBang_noPlayerReachable_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -90,7 +90,7 @@ final class BangTests: XCTestCase {
         // Then
         let action = GameAction.preparePlay(.bang, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.selectReachable))
+            #expect(error as? ArgPlayer.Error == .noPlayer(.selectReachable))
         }
     }
      */

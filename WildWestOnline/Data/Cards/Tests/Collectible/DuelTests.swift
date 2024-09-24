@@ -6,9 +6,9 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DuelTests: XCTestCase {
+struct DuelTests {
     // Given
     private var state: GameState {
         GameState.makeBuilderWithCards()
@@ -23,13 +23,13 @@ final class DuelTests: XCTestCase {
             .build()
     }
 
-    func test_playDuel_withTargetPassing_shouldDamage() throws {
+    @Test func playDuel_withTargetPassing_shouldDamage() async throws {
         // When
         let action = GameAction.preparePlay(.duel, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .pass])
+        let result = try await dispatch(action, state: state, choose: ["p2", .pass])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang2, .pass], player: "p2"),
@@ -37,13 +37,13 @@ final class DuelTests: XCTestCase {
         ])
     }
 
-    func test_playDuel_withTargetDiscardingBang_shouldDamageOffender() throws {
+    @Test func playDuel_withTargetDiscardingBang_shouldDamageOffender() async throws {
         // When
         let action = GameAction.preparePlay(.duel, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", .bang2, .pass])
+        let result = try await dispatch(action, state: state, choose: ["p2", .bang2, .pass])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.duel, player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", "p4"], player: "p1"),
             .chooseOne(.cardToDiscard, options: [.bang2, .pass], player: "p2"),

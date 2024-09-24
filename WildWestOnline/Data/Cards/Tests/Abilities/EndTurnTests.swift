@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class EndTurnTests: XCTestCase {
-    func test_endingTurn_noExcessCards_shouldDoNothing() throws {
+struct EndTurnTests {
+    @Test func endingTurn_noExcessCards_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,17 +21,17 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
     }
 
-    func test_endingTurn_customHandLimit_shouldDoNothing() throws {
+    @Test func endingTurn_customHandLimit_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -46,17 +46,17 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
     }
 
-    func test_endingTurn_oneExcessCard_shouldDiscardAHandCard() throws {
+    @Test func endingTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -70,10 +70,10 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1"])
+        let result = try await dispatch(action, state: state, choose: ["c1"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
@@ -82,7 +82,7 @@ final class EndTurnTests: XCTestCase {
         ])
     }
 
-    func test_endingTurn_twoExcessCard_shouldDiscardTwoHandCards() throws {
+    @Test func endingTurn_twoExcessCard_shouldDiscardTwoHandCards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -96,10 +96,10 @@ final class EndTurnTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1", "c3"])
+        let result = try await dispatch(action, state: state, choose: ["c1", "c3"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.endTurn, player: "p1"),
             .endTurn(player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
