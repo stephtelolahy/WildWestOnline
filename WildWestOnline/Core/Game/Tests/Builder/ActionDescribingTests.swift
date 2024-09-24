@@ -196,11 +196,8 @@ struct ActionDescribingTests {
                 describing: GameAction.prepareEffect(
                     .init(
                         action: .discover,
-                        event: .preparePlay("c1", player: "p1"),
                         card: "c1",
-                        actor: "p1",
-                        selectors: [],
-                        attr: [:]
+                        actor: "p1"
                     )
                 )
             ) ==

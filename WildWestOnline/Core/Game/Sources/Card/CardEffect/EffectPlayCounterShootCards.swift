@@ -7,6 +7,7 @@
 
 struct EffectPlayCounterShootCards: EffectResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         let actor = ctx.sourceActor
         let playReqContext = PlayReqContext(actor: ctx.sourceActor, event: ctx.sourceEvent)
 
@@ -40,6 +41,8 @@ struct EffectPlayCounterShootCards: EffectResolver {
         )
 
         return .push(children)
+         */
+        fatalError()
     }
 }
 

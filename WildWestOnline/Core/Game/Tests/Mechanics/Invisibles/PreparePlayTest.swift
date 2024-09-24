@@ -53,9 +53,9 @@ struct PreparePlayTest {
                 GameAction.prepareEffect(
                     .init(
                         action: .drawDeck,
-                        event: action,
                         card: "c1",
                         actor: "p1",
+                        event: .preparePlay("c1", player: "p1"),
                         selectors: [.verify(.actorTurn)],
                         attr: [:]
                     )

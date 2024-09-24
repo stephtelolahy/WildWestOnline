@@ -10,6 +10,7 @@ struct IsCardPlayedLessThan: PlayReqMatcher {
     let playedMaxTimes: ArgNum
 
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
+        /*
         let numContext = EffectContext(
             sourceEvent: .nothing,
             sourceActor: ctx.actor,
@@ -25,5 +26,7 @@ struct IsCardPlayedLessThan: PlayReqMatcher {
 
         let playedTimes = state.sequence.played[cardName] ?? 0
         return playedTimes < maxNumber
+         */
+        false
     }
 }

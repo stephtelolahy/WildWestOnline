@@ -106,10 +106,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 // MARK: - Convenience
 
 public extension GameAction {
-    static let nothing: Self = .queue([])
-}
-
-public extension GameAction {
     /// Checking if action is renderable
     var isRenderable: Bool {
         switch self {
@@ -130,9 +126,9 @@ public extension GameAction {
 /// As soon as all {selectors} are resolved, the effect can then be converted to a valid `GameAction`
 public struct ResolvingEffect: Equatable, Codable {
     public let action: ActionType
-    public let event: GameAction
     public let card: String
     public let actor: String
-    public var selectors: [Effect.Selector]
-    public var attr: [ActionAttribute: String]
+    public var event: GameAction?
+    public var selectors: [Effect.Selector] = []
+    public var attr: [ActionAttribute: String] = [:]
 }
