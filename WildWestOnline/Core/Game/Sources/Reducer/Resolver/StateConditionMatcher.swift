@@ -9,10 +9,10 @@ protocol StateConditionMatcher {
     func match(state: GameState) -> Bool
 }
 
-public extension Effect.Selector.StateCondition {
+public extension TriggeredAbility.Selector.StateCondition {
     public enum Error: Swift.Error, Equatable {
         /// Not matching requirement
-        case noReq(Effect.Selector.StateCondition)
+        case noReq(TriggeredAbility.Selector.StateCondition)
     }
 
     func resolve(state: GameState) throws {

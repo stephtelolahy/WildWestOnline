@@ -9,7 +9,7 @@ protocol SelectorResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect]
 }
 
-extension Effect.Selector {
+extension TriggeredAbility.Selector {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
         try resolver.resolve(state: state, ctx: ctx)
     }
@@ -41,7 +41,7 @@ extension Effect.Selector {
 }
 
 struct RepeatResolver: SelectorResolver {
-    let times: Effect.Selector.Number
+    let times: TriggeredAbility.Selector.Number
 
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
         let number = try times.resolve(state: state, ctx: ctx)
@@ -50,7 +50,7 @@ struct RepeatResolver: SelectorResolver {
 }
 
 struct VerifyResolver: SelectorResolver {
-    let stateCondition: Effect.Selector.StateCondition
+    let stateCondition: TriggeredAbility.Selector.StateCondition
 
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
         try stateCondition.resolve(state: state)

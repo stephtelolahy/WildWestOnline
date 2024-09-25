@@ -201,7 +201,7 @@ struct ActionDescribingTests {
                     )
                 )
             ) ==
-            "➡️ discover"
+            "➡️ p1 discover"
         )
     }
 

@@ -9,7 +9,7 @@ private protocol NumberResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int
 }
 
-extension Effect.Selector.Number {
+extension TriggeredAbility.Selector.Number {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
         try resolver.resolve(state: state, ctx: ctx)
     }

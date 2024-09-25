@@ -187,7 +187,7 @@ private extension SequenceState {
             throw SequenceState.Error.cardNotPlayable(card)
         }
 
-        let effects = cardObj.effects.filter { $0.when == .played }
+        let effects = cardObj.triggered.filter { $0.when == .played }
         guard effects.isNotEmpty else {
             throw SequenceState.Error.cardNotPlayable(card)
         }

@@ -32,7 +32,7 @@ struct PreparePlayTest {
                 [
                     "c1": Card(
                         name: "c1",
-                        effects: [
+                        triggered: [
                             .init(
                                 action: .drawDeck,
                                 selectors: [.verify(.actorTurn)]

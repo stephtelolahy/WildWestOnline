@@ -98,10 +98,17 @@ private extension Setup {
             fatalError("Missing figure named \(figure)")
         }
 
-        let health = figureObj.playerAttributes.get(.maxHealth)
+        var maxHealth = 0
+        for ability in figureObj.passive {
+            if case .setMaxHealth(let value) = ability {
+                maxHealth = value
+                break
+            }
+        }
+
         return .init(
-            health: health,
-            attributes: figureObj.playerAttributes,
+            health: maxHealth,
+            attributes: [:],
             abilities: [figure],
             figure: figure
         )

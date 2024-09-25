@@ -1605,14 +1605,14 @@ private extension Cards {
     }
 }
 
-extension Effect {
-    static var brown: Effect {
+extension TriggeredAbility {
+    static var brown: TriggeredAbility {
         .init(
             action: .playBrown
         )
     }
 
-    static var equip: Effect {
+    static var equip: TriggeredAbility {
         .init(
             action: .playEquipment,
             selectors: [
@@ -1621,7 +1621,7 @@ extension Effect {
         )
     }
 
-    static var handicap: Effect {
+    static var handicap: TriggeredAbility {
         .init(
             action: .playHandicap,
             selectors: [
