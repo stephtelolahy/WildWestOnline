@@ -5,18 +5,16 @@
 //  Created by Hugues Stephano TELOLAHY on 25/09/2024.
 //
 
-extension Effect.Selector.Number {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        try resolver.resolve(state: state, ctx: ctx)
-    }
-}
-
 private protocol NumberResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int
 }
 
-private extension Effect.Selector.Number {
-    var resolver: NumberResolver {
+extension Effect.Selector.Number {
+    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+        try resolver.resolve(state: state, ctx: ctx)
+    }
+
+    private var resolver: NumberResolver {
         switch self {
         case .activePlayers: NumActivePlayers()
         case .excessHand: NumExcessHand()
