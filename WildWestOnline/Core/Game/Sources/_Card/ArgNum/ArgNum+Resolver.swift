@@ -18,26 +18,17 @@ extension ArgNum {
 private extension ArgNum {
     func resolver() -> ArgNumResolver {
         switch self {
-        case let .exact(number):
-            NumExact(number: number)
-
-        case .activePlayers:
-            NumActivePlayers()
-
-        case .excessHand:
-            NumExcessHand()
-
         case let .attr(key):
             NumPlayerAttr(key: key)
 
         case let .add(amount, key):
             NumPlayerAddAttr(amount: amount, key: key)
 
-        case .damage:
-            NumDamage()
-
         case .shootMissesRequired:
             NumShootMissesRequired()
+
+        default:
+            fatalError()
         }
     }
 }
