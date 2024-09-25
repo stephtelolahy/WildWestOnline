@@ -1608,10 +1608,7 @@ private extension Cards {
 extension Effect {
     static var brown: Effect {
         .init(
-            action: .playBrown,
-            selectors: [
-                .setCard(.played)
-            ]
+            action: .playBrown
         )
     }
 

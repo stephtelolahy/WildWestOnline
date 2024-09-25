@@ -223,13 +223,8 @@ private extension SequenceState {
         }
 
         var state = state
-        if effect.selectors.isEmpty {
-            let resolved = try effect.toAction()
-            state.sequence.queue.insert(resolved, at: 0)
-        } else {
-            let children = try effect.toChildren(state: state).map(GameAction.prepareEffect)
-            state.sequence.queue.insert(contentsOf: children, at: 0)
-        }
+        let children = try effect.resolve(state: state)
+        state.sequence.queue.insert(contentsOf: children, at: 0)
         return state
     }
 
@@ -272,40 +267,3 @@ private extension SequenceState {
     }
 }
 */
-
-private extension ResolvingEffect {
-    func toAction() throws -> GameAction {
-        switch action {
-        case .playBrown:
-                .playBrown(card, player: actor)
-
-        case .drawDeck:
-                .drawDeck(player: actor)
-
-        default:
-                .queue([])
-        }
-    }
-
-    func toChildren(state: GameState) throws -> [Self] {
-        var effect = self
-        let selector = effect.selectors.remove(at: 0)
-
-        switch selector {
-        case .repeat(let times):
-            let number = try times.resolve(state: state, ctx: self)
-            return Array(repeating: effect, count: number)
-
-        default:
-            return []
-        }
-
-        return [effect]
-    }
-}
-
-private extension Effect.Selector.Number {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        2
-    }
-}
