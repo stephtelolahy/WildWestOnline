@@ -275,4 +275,5 @@ public enum ActionAttribute: String, Codable {
 
 public enum PassiveAbility: Codable, Equatable {
     case setMaxHealth(Int)
+    case setWeapon(Int)
 }

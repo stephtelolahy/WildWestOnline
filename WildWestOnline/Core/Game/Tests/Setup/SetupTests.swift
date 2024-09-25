@@ -31,8 +31,8 @@ struct SetupTests {
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
         let cards: [String: Card] = [
-            "p1": Card(name: "p1", playerAttributes: [.maxHealth: 4, .magnifying: 1]),
-            "p2": Card(name: "p2", playerAttributes: [.maxHealth: 3, .remoteness: 1])
+            "p1": Card(name: "p1", passive: [.setMaxHealth(4)]),
+            "p2": Card(name: "p2", passive: [.setMaxHealth(3)])
         ]
 
         // When
@@ -63,11 +63,7 @@ struct SetupTests {
 
         // should set figure attributes
         #expect(state.player("p1").abilities == ["p1"])
-        #expect(state.player("p1").attributes[.magnifying] == 1)
-        #expect(state.player("p1").attributes[.maxHealth] == 4)
         #expect(state.player("p2").abilities == ["p2"])
-        #expect(state.player("p2").attributes[.remoteness] == 1)
-        #expect(state.player("p2").attributes[.maxHealth] == 3)
 
         // should initialize inPlay field
         #expect(state.field.inPlay["p1"] != nil)

@@ -62,7 +62,7 @@ struct SchofieldTests {
                     .withAttributes([.weapon: 2])
                     .withFigure("f1")
             }
-            .withExtraCards(["f1": Card(name: "f1", playerAttributes: [.weapon: 1])])
+            .withExtraCards(["f1": Card(name: "f1", passive: [.setWeapon(1)])])
             .build()
 
         // When
