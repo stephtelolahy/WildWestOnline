@@ -66,7 +66,7 @@ struct BeerTests {
         // When
         // Then
         let action = GameAction.preparePlay(.beer, player: "p1")
-        await #expect(throws: PlayReq.Error.noReq(.isPlayersAtLeast(3))) {
+        await #expect(throws: Effect.Selector.StateCondition.Error.noReq(.playersAtLeast(3))) {
             try await dispatch(action, state: state)
         }
     }

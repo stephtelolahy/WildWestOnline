@@ -35,7 +35,7 @@ extension Effect.Selector {
         case .repeat(let times):
             RepeatResolver(times: times)
         case .verify(let stateCondition):
-            fatalError()
+            VerifyResolver(stateCondition: stateCondition)
         }
     }
 }
@@ -46,5 +46,14 @@ struct RepeatResolver: SelectorResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
         let number = try times.resolve(state: state, ctx: ctx)
         return Array(repeating: ctx, count: number)
+    }
+}
+
+struct VerifyResolver: SelectorResolver {
+    let stateCondition: Effect.Selector.StateCondition
+
+    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+        try stateCondition.resolve(state: state)
+        return [ctx]
     }
 }
