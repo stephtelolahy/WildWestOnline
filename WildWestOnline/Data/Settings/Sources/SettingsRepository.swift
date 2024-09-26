@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
-// swiftlint:disable type_contents_order
 
 import Serialization
 import SettingsCore

@@ -10,6 +10,7 @@ struct EffectDiscard: EffectResolver {
     let chooser: ArgPlayer?
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         let player = ctx.targetOrActor()
         var contextWithChooser = ctx
         if let chooser {
@@ -26,5 +27,7 @@ struct EffectDiscard: EffectResolver {
         }
 
         return .push(children)
+         */
+        fatalError()
     }
 }

@@ -41,7 +41,7 @@ struct NumActivePlayers: NumberResolver {
 
 struct NumExcessHand: NumberResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        let handCount = state.field.hand.get(ctx.actor).count
+        let handCount = state.player(ctx.actor).hand.count
         let handlLimit = state.player(ctx.actor).handLimitAtEndOfTurn
         return max(handCount - handlLimit, 0)
     }

@@ -7,6 +7,7 @@
 
 struct CardSelectHand: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
+        /*
         let owner = ctx.targetOrActor()
         let chooser = ctx.resolvingChooser ?? owner
         let options: [CardArgOption]
@@ -24,5 +25,7 @@ struct CardSelectHand: ArgCardResolver {
         }
 
         return .selectable(options)
+         */
+        fatalError()
     }
 }

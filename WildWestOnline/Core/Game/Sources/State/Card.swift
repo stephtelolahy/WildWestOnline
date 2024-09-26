@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 22/07/2024.
 //
-// swiftlint:disable type_contents_order nesting
+// swiftlint:disable nesting
 
 /// We are working on a Card Definition Language
 /// that will allow people to create new cards,

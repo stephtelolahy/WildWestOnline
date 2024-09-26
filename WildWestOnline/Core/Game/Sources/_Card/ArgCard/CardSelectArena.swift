@@ -7,11 +7,14 @@
 
 struct CardSelectArena: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
+        /*
         let cards = state.field.discovered
         if cards.count == 1 {
             return .identified(cards)
         } else {
             return .selectable(cards.toCardOptions())
         }
+         */
+        fatalError()
     }
 }

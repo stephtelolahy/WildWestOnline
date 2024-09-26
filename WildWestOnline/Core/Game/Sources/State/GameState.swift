@@ -54,10 +54,6 @@ public extension GameState {
                 deck: deck,
                 discard: discard,
                 discovered: discovered,
-                field: .init(
-                    hand: hand,
-                    inPlay: inPlay
-                ),
                 round: .init(
                     startOrder: playOrder,
                     playOrder: playOrder,

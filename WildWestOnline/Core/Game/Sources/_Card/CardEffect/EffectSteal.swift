@@ -9,6 +9,7 @@ struct EffectSteal: EffectResolver {
     let card: ArgCard
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
+        /*
         guard let fromPlayerId = ctx.resolvingTarget else {
             fatalError("undefined target")
         }
@@ -27,5 +28,7 @@ struct EffectSteal: EffectResolver {
         }
 
         return .push(children)
+         */
+        fatalError()
     }
 }

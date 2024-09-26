@@ -22,9 +22,9 @@ struct PlayEquipmentTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c2"])
-        #expect(result.field.inPlay["p1"] == ["c1"])
-        #expect(result.field.discard.isEmpty)
+        #expect(result.player("p1").hand == ["c2"])
+        #expect(result.player("p1").inPlay == ["c1"])
+        #expect(result.discard.isEmpty)
     }
 
     @Test func equip_withCardAlreadyInPlay_shouldThrowError() async throws {
@@ -40,7 +40,7 @@ struct PlayEquipmentTest {
         // When
         // Then
         let action = GameAction.playEquipment("c-1", player: "p1")
-        #expect(throws: FieldState.Error.cardAlreadyInPlay("c")) {
+        #expect(throws: GameState.Error.cardAlreadyInPlay("c")) {
             try GameState.reducer(state, action)
         }
     }

@@ -53,13 +53,9 @@ public enum Setup {
 
         return GameState(
             players: players,
-            field: .init(
-                deck: deck,
-                discard: [],
-                discovered: [],
-                hand: hand,
-                inPlay: inPlay
-            ),
+            deck: deck,
+            discard: [],
+            discovered: [],
             round: .init(
                 startOrder: figures,
                 playOrder: figures,
@@ -110,7 +106,9 @@ private extension Setup {
             health: maxHealth,
             attributes: [:],
             abilities: [figure],
-            figure: figure
+            figure: figure,
+            hand: [],
+            inPlay: []
         )
     }
 }

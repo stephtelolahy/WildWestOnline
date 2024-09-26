@@ -23,10 +23,10 @@ struct PlayHandicapTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c2"])
-        #expect(result.field.inPlay["p2"] == ["c1"])
-        #expect(result.field.inPlay["p1"]!.isEmpty)
-        #expect(result.field.discard.isEmpty)
+        #expect(result.player("p1").hand == ["c2"])
+        #expect(result.player("p2").inPlay == ["c1"])
+        #expect(result.player("p1").inPlay.isEmpty)
+        #expect(result.discard.isEmpty)
     }
 
     @Test func handicap_withCardAlreadyInPlay_shouldThrowError() async throws {
@@ -43,7 +43,7 @@ struct PlayHandicapTests {
         // When
         // Then
         let action = GameAction.playHandicap("c-1", target: "p2", player: "p1")
-        #expect(throws: FieldState.Error.cardAlreadyInPlay("c")) {
+        #expect(throws: GameState.Error.cardAlreadyInPlay("c")) {
             try GameState.reducer(state, action)
         }
     }

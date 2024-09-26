@@ -7,6 +7,7 @@
 
 struct OnHandEmpty: PlayReqMatcher {
     func match(state: GameState, ctx: PlayReqContext) -> Bool {
+        /*
         if case let .playBrown(_, player) = ctx.event,
            player == ctx.actor,
            state.field.hand.isEmpty(ctx.actor) {
@@ -36,7 +37,7 @@ struct OnHandEmpty: PlayReqMatcher {
            state.field.hand.get(ctx.actor).isEmpty {
             return true
         }
-
+*/
         return false
     }
 }

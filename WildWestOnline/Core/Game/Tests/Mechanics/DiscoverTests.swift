@@ -20,8 +20,8 @@ struct DiscoverTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.discovered == ["c1", "c2"])
-        #expect(result.field.deck == ["c1", "c2", "c3"])
+        #expect(result.discovered == ["c1", "c2"])
+        #expect(result.deck == ["c1", "c2", "c3"])
     }
 
     @Test func discover_emptyDeck_shouldResetDeck() async throws {
@@ -36,8 +36,8 @@ struct DiscoverTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.discovered == ["c2"])
-        #expect(result.field.deck == ["c2"])
-        #expect(result.field.discard == ["c1"])
+        #expect(result.discovered == ["c2"])
+        #expect(result.deck == ["c2"])
+        #expect(result.discard == ["c1"])
     }
 }

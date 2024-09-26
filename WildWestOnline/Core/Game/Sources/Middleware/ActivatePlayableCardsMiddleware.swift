@@ -21,7 +21,7 @@ extension Middlewares {
 
             var activeCards: [String] = []
             let playerObj = state.player(player)
-            let activableCards = playerObj.abilities + state.field.hand.get(player)
+            let activableCards = playerObj.abilities + playerObj.hand
             for card in activableCards
             where GameAction.validatePlay(card: card, player: player, state: state) {
                 activeCards.append(card)

@@ -22,7 +22,7 @@ public extension GameState {
     }
 }
 
-extension GameState {
+public extension GameState {
     enum Error: Swift.Error, Equatable {
         /// Already having same card in play
         case cardAlreadyInPlay(String)
@@ -42,8 +42,8 @@ extension GameAction {
 
     private var reducer: GameReducer {
         switch self {
-        case .playBrown(let string, let player):
-            fatalError()
+        case .playBrown(let card, let player):
+            PlayBrownReducer(card: card, player: player)
         case .playEquipment(let card, let player):
             PlayEquipmentReducer(card: card, player: player)
         case .playHandicap(let card, let target, let player):
@@ -62,14 +62,14 @@ extension GameAction {
             StealHandReducer(card: card, target: target, player: player)
         case .stealInPlay(let card, let target, let player):
             StealInPlayReducer(card: card, target: target, player: player)
-        case .discardHand(let string, let player):
-            fatalError()
+        case .discardHand(let card, let player):
+            DiscardHandReducer(card: card, player: player)
         case .discardInPlay(let string, let player):
             fatalError()
-        case .passInPlay(let string, let target, let player):
-            fatalError()
+        case .passInPlay(let card, let target, let player):
+            PassInPlayReducer(card: card, target: target, player: player)
         case .draw:
-            fatalError()
+            DrawReducer()
         case .showLastHand(let player):
             fatalError()
         case .discover(let amount):
@@ -142,6 +142,15 @@ struct PlayHandicapReducer: GameReducer {
         state[keyPath: \.players[player]!.hand].remove(card)
         state[keyPath: \.players[target]!.inPlay].append(card)
 
+        return state
+    }
+}
+
+struct DrawReducer: GameReducer {
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        let card = try state.popDeck()
+        state.discard.insert(card, at: 0)
         return state
     }
 }
@@ -235,6 +244,55 @@ struct DrawDiscardReducer: GameReducer {
         var state = state
         let card = try state.popDiscard()
         state[keyPath: \.players[player]!.hand].append(card)
+        return state
+    }
+}
+
+struct PassInPlayReducer: GameReducer {
+    let card: String
+    let target: String
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state[keyPath: \.players[player]!.inPlay].remove(card)
+        state[keyPath: \.players[target]!.inPlay].append(card)
+        return state
+    }
+}
+
+struct DiscardHandReducer: GameReducer {
+    let card: String
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state[keyPath: \.players[player]!.hand].remove(card)
+        state.discard.insert(card, at: 0)
+        return state
+    }
+}
+
+struct DiscardInPlayReducer: GameReducer {
+    let card: String
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state[keyPath: \.players[player]!.inPlay].remove(card)
+        state.discard.insert(card, at: 0)
+        return state
+    }
+}
+
+struct PlayBrownReducer: GameReducer {
+    let card: String
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state[keyPath: \.players[player]!.hand].remove(card)
+        state.discard.insert(card, at: 0)
         return state
     }
 }

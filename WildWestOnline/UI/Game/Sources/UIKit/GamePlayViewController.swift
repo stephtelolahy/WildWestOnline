@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable type_contents_order force_unwrapping
+// swiftlint:disable force_unwrapping
 
 import Combine
 import AppCore
