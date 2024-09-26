@@ -4,6 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 15/09/2024.
 //
+// swiftlint:disable vertical_whitespace_between_cases
 
 import Redux
 
@@ -65,7 +66,7 @@ extension GameAction {
         case .draw:
             DrawReducer()
         case .showLastHand(let player):
-            fatalError()
+            TODOReducer()
         case .discover(let amount):
             DiscoverReducer(amount: amount)
         case .drawDiscovered(let card, let player):
@@ -75,23 +76,23 @@ extension GameAction {
         case .startTurn(let player):
             StartTurnReducer(player: player)
         case .endTurn(let player):
-            fatalError()
+            EndTurnReducer(player: player)
         case .eliminate(let player):
-            fatalError()
+            EliminateReducer(player: player)
         case .endGame(let winner):
-            fatalError()
+            TODOReducer()
         case .activate(let array, let player):
-            fatalError()
+            TODOReducer()
         case .chooseOne(let choiceType, let options, let player):
-            fatalError()
-        case .preparePlay(let string, let player):
-            fatalError()
-        case .prepareChoose(let string, let player):
-            fatalError()
+            TODOReducer()
+        case .preparePlay(let card, let player):
+            TODOReducer()
+        case .prepareChoose(let card, let player):
+            TODOReducer()
         case .prepareEffect(let resolvingEffect):
-            fatalError()
+            TODOReducer()
         case .queue(let array):
-            fatalError()
+            TODOReducer()
         }
     }
 }
@@ -337,6 +338,34 @@ struct StartTurnReducer: GameReducer {
         var state = state
         state.turn = player
         return state
+    }
+}
+
+struct EndTurnReducer: GameReducer {
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.turn = nil
+        return state
+    }
+}
+
+struct EliminateReducer: GameReducer {
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.playOrder.removeAll { $0 == player }
+        state.sequence.queue.removeAll { $0.isEffectTriggeredBy(player) }
+        return state
+    }
+}
+
+@available(*, deprecated, message: "Unimplemented")
+struct TODOReducer: GameReducer {
+    func reduce(state: GameState) throws -> GameState {
+        state
     }
 }
 

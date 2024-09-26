@@ -34,21 +34,17 @@ public enum Setup {
     ) -> GameState {
         var deck = deck
         var players: [String: Player] = [:]
-        var hand: [String: [String]] = [:]
-        var inPlay: [String: [String]] = [:]
 
         for figure in figures {
             let id = figure
-            let player = buildPlayer(figure: figure, cards: cards)
-            players[id] = player
-            hand[id] = Array(1...player.health).compactMap { _ in
+            var player = buildPlayer(figure: figure, cards: cards)
+            player.hand = Array(1...player.health).compactMap { _ in
                 if deck.isNotEmpty {
                     deck.removeFirst()
                 } else {
                     nil
                 }
             }
-            inPlay[id] = []
         }
 
         return GameState(

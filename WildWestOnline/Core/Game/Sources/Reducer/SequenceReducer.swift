@@ -27,10 +27,7 @@ public extension SequenceState {
 
         case GameAction.startTurn:
             state.sequence = try startTurnReducer(state.sequence, action)
-
-        case GameAction.eliminate:
-            state.sequence = try eliminateReducer(state.sequence, action)
-
+            
         case GameAction.queue:
             state.sequence = try queueReducer(state.sequence, action)
 
@@ -155,16 +152,6 @@ private extension SequenceState {
 
         var state = state
         state.played = [:]
-        return state
-    }
-
-    static let eliminateReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.eliminate(player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state.queue.removeAll { $0.isEffectTriggeredBy(player) }
         return state
     }
 
