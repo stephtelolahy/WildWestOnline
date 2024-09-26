@@ -9,17 +9,12 @@ import Foundation
 public typealias PlayersState = [String: Player]
 
 public struct Player: Equatable, Codable {
-    /// Life points
     public var health: Int
-
-    /// Current attributes
     public var attributes: [PlayerAttribute: Int]
-
-    /// Build-in cards
     public let abilities: Set<String>
-
-    /// Figure name. Determining initial attributes
     public let figure: String
+    public var hand: [String]
+    public var inPlay: [String]
 }
 
 public extension PlayersState {
@@ -44,7 +39,9 @@ public extension Player {
                 health: health,
                 attributes: attributes,
                 abilities: abilities,
-                figure: figure
+                figure: figure,
+                hand: hand,
+                inPlay: inPlay
             )
         }
 

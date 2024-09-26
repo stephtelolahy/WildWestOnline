@@ -5,7 +5,7 @@
 //  Created by Hugues Stephano TELOLAHY on 25/09/2024.
 //
 
-private protocol NumberResolver {
+protocol NumberResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int
 }
 

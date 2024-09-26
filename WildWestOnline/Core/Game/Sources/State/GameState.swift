@@ -2,33 +2,19 @@
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
-    /// Players
     public var players: PlayersState
-
-    /// Card locations
-    public var field: FieldState
-
-    /// Round
+    public var deck: [String]
+    public var discard: [String]
+    public var discovered: [String]
     public var round: RoundState
-
-    /// Play sequence
     public var sequence: SequenceState
-
-    /// All cards reference by cardName
     public let cards: [String: Card]
-
-    /// Wait delay between two visible actions
     public var waitDelaySeconds: Double
-
-    /// Play mode by player
     public var playMode: [String: PlayMode]
 }
 
 public enum PlayMode: Equatable, Codable {
-    /// Player is controller by user
     case manual
-
-    /// Player is controlled by AI agent
     case auto
 }
 
@@ -65,10 +51,10 @@ public extension GameState {
         public func build() -> GameState {
             .init(
                 players: players,
+                deck: deck,
+                discard: discard,
+                discovered: discovered,
                 field: .init(
-                    deck: deck,
-                    discard: discard,
-                    discovered: discovered,
                     hand: hand,
                     inPlay: inPlay
                 ),
