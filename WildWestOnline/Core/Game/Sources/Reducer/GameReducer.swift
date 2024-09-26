@@ -10,7 +10,6 @@ import Redux
 public extension GameState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-        state.round = try RoundState.reducer(state.round, action)
         state.sequence = try SequenceState.reducer(state, action).sequence
 
         if let action = action as? GameAction {
@@ -59,8 +58,8 @@ extension GameAction {
             StealInPlayReducer(card: card, target: target, player: player)
         case .discardHand(let card, let player):
             DiscardHandReducer(card: card, player: player)
-        case .discardInPlay(let string, let player):
-            fatalError()
+        case .discardInPlay(let card, let player):
+            DiscardInPlayReducer(card: card, player: player)
         case .passInPlay(let card, let target, let player):
             PassInPlayReducer(card: card, target: target, player: player)
         case .draw:
@@ -74,7 +73,7 @@ extension GameAction {
         case .undiscover:
             UndiscoverReducer()
         case .startTurn(let player):
-            fatalError()
+            StartTurnReducer(player: player)
         case .endTurn(let player):
             fatalError()
         case .eliminate(let player):
@@ -327,6 +326,16 @@ struct DamageReducer: GameReducer {
 
         var state = state
         state.players[player] = playerObj
+        return state
+    }
+}
+
+struct StartTurnReducer: GameReducer {
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.turn = player
         return state
     }
 }

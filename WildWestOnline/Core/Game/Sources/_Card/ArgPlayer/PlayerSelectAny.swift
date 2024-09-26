@@ -7,7 +7,7 @@
 
 struct PlayerSelectAny: ArgPlayerResolver {
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
-        let others = state.round.playOrder
+        let others = state.playOrder
             .starting(with: ctx.sourceActor)
             .dropFirst()
         return .selectable(Array(others))

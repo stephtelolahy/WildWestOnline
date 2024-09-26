@@ -52,16 +52,14 @@ public enum Setup {
         }
 
         return GameState(
-            cards: cards,
             players: players,
+            cards: cards,
             deck: deck,
             discard: [],
             discovered: [],
-            round: .init(
-                startOrder: figures,
-                playOrder: figures,
-                turn: nil
-            ),
+            startOrder: figures,
+            playOrder: figures,
+            turn: nil,
             sequence: .init(
                 queue: [],
                 chooseOne: [:],

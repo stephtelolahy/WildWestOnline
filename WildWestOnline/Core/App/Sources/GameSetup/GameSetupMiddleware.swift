@@ -47,8 +47,8 @@ private extension AppState {
             preferredFigure: settings.preferredFigure
         )
 
-        let manualPlayer: String? = settings.simulation ? nil : game.round.playOrder[0]
-        game.playMode = game.round.startOrder.reduce(into: [:]) {
+        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
+        game.playMode = game.startOrder.reduce(into: [:]) {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
 

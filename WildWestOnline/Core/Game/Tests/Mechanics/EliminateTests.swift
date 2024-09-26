@@ -21,7 +21,7 @@ struct EliminateTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.round.playOrder == ["p2"])
+        #expect(result.playOrder == ["p2"])
     }
 
     @Test func eliminatePlayer_shouldRemoveSequence() async throws {

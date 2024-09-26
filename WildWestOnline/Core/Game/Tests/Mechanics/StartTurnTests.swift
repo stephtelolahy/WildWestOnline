@@ -20,7 +20,7 @@ struct StartTurnTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.round.turn == "p1")
+        #expect(result.turn == "p1")
     }
 
     @Test func startTurn_shouldResetPlayCounters() async throws {

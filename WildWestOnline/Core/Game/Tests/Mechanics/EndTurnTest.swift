@@ -20,6 +20,6 @@ struct EndTurnTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.round.turn == nil)
+        #expect(result.turn == nil)
     }
 }

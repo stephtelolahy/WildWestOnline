@@ -36,7 +36,7 @@ extension GameView {
             topDiscard: game.discard.first,
             topDeck: game.deck.first,
             animationDelay: game.waitDelaySeconds,
-            startOrder: game.round.startOrder,
+            startOrder: game.startOrder,
             deckCount: game.deck.count,
             controlledPlayer: game.controlledPlayerId,
             startPlayer: game.startPlayerId
@@ -46,7 +46,7 @@ extension GameView {
 
 private extension GameState {
     var playerItems: [GameView.State.PlayerItem] {
-        self.round.startOrder.map { playerId in
+        self.startOrder.map { playerId in
             let playerObj = player(playerId)
             let health = max(0, playerObj.health)
             let maxHealth = playerObj.attributes[.maxHealth] ?? 0

@@ -35,7 +35,7 @@ struct NumExact: NumberResolver {
 
 struct NumActivePlayers: NumberResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        state.round.playOrder.count
+        state.playOrder.count
     }
 }
 

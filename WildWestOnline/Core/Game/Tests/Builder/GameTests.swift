@@ -37,7 +37,7 @@ struct GameTests {
     @Test func buildGame_byDefault_shouldNotHaveTurn() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        #expect(sut.round.turn == nil)
+        #expect(sut.turn == nil)
     }
 
     @Test func buildGame_byDefault_shouldNotHavePlayers() async throws {
@@ -98,7 +98,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(sut.round.turn == "p1")
+        #expect(sut.turn == "p1")
     }
 
     @Test func buildGame_withSequence_shouldHaveSequence() async throws {
@@ -140,7 +140,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(state.round.turn == "p1")
+        #expect(state.turn == "p1")
         #expect(state.deck == ["c1", "c2"])
         #expect(state.sequence.played["bang"] == 1)
         #expect(state.discard == ["c3", "c4"])
@@ -149,7 +149,7 @@ struct GameTests {
         #expect(state.cards["name"] != nil)
         #expect(state.sequence.chooseOne["p1"] != nil)
         #expect(state.sequence.queue == [.discover(1)])
-        #expect(state.round.playOrder == ["p1", "p2"])
+        #expect(state.playOrder == ["p1", "p2"])
 
         #expect(state.players["p1"] != nil)
         #expect(state.player("p1").health == 3)

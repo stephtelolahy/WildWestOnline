@@ -10,8 +10,8 @@ struct PlayerNext: ArgPlayerResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> PlayerArgOutput {
         let pivotId = try pivot.resolveUnique(state: state, ctx: ctx)
-        guard let next = state.round.startOrder
-            .filter({ state.round.playOrder.contains($0) || $0 == pivotId })
+        guard let next = state.startOrder
+            .filter({ state.playOrder.contains($0) || $0 == pivotId })
             .element(after: pivotId) else {
             return .identified([])
         }

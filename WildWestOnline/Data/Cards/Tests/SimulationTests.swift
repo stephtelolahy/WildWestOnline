@@ -39,7 +39,7 @@ struct SimulationTests {
             inventory: inventory,
             preferredFigure: preferredFigure
         )
-        game.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
         let stateWrapper = StateWrapper(value: game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
@@ -60,7 +60,7 @@ struct SimulationTests {
         }
 
         // When
-        let sheriff = game.round.playOrder[0]
+        let sheriff = game.playOrder[0]
         sut.dispatch(GameAction.startTurn(player: sheriff))
 
         // Then
@@ -76,11 +76,9 @@ private extension Middlewares {
     static func stateReproducer(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
             let resultState = try! GameState.reducer(prevState.value, action)
+            assert(resultState == state, "🚨 Inconsistent state after applying \(action)")
+
             prevState.value = resultState
-            assert(resultState.players == state.players, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.field == state.field, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.round == state.round, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
             return Empty().eraseToAnyPublisher()
         }
     }

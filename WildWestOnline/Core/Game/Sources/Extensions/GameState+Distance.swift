@@ -12,19 +12,19 @@ extension GameState {
     /// When a character is eliminated, he is no longer counted when evaluating the distance:
     /// some players will get "closer" when someone is eliminated.
     func playersAt(_ range: Int, from player: String) -> [String] {
-        round.playOrder
+        playOrder
             .filter { $0 != player }
             .filter { distance(from: player, to: $0) <= range }
     }
 
     private func distance(from playerId: String, to other: String) -> Int {
-        guard let pIndex = round.playOrder.firstIndex(of: playerId),
-              let oIndex = round.playOrder.firstIndex(of: other),
+        guard let pIndex = playOrder.firstIndex(of: playerId),
+              let oIndex = playOrder.firstIndex(of: other),
               pIndex != oIndex else {
             return 0
         }
 
-        let pCount = round.playOrder.count
+        let pCount = playOrder.count
         let rightDistance = (oIndex > pIndex) ? (oIndex - pIndex) : (oIndex + pCount - pIndex)
         let leftDistance = (pIndex > oIndex) ? (pIndex - oIndex) : (pIndex + pCount - oIndex)
         var distance = min(rightDistance, leftDistance)

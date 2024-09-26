@@ -2,12 +2,14 @@
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
-    public let cards: [String: Card]
     public var players: [String: Player]
+    public let cards: [String: Card]
     public var deck: [String]
     public var discard: [String]
     public var discovered: [String]
-    public var round: RoundState
+    public let startOrder: [String]
+    public var playOrder: [String]
+    public var turn: String?
     public var sequence: SequenceState
     public var waitDelaySeconds: Double
     public var playMode: [String: PlayMode]
@@ -50,16 +52,14 @@ public extension GameState {
 
         public func build() -> GameState {
             .init(
-                cards: cards,
                 players: players,
+                cards: cards,
                 deck: deck,
                 discard: discard,
                 discovered: discovered,
-                round: .init(
-                    startOrder: playOrder,
-                    playOrder: playOrder,
-                    turn: turn
-                ),
+                startOrder: playOrder,
+                playOrder: playOrder,
+                turn: turn,
                 sequence: .init(
                     queue: queue,
                     chooseOne: chooseOne,

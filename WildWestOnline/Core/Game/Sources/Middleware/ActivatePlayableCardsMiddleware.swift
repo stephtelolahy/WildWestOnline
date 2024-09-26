@@ -15,7 +15,7 @@ extension Middlewares {
                   state.sequence.winner == nil,
                   state.sequence.chooseOne.isEmpty,
                   state.sequence.active.isEmpty,
-                  let player = state.round.turn else {
+                  let player = state.turn else {
                 return Empty().eraseToAnyPublisher()
             }
 

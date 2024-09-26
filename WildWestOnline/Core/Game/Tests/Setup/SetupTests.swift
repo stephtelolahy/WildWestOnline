@@ -45,8 +45,8 @@ struct SetupTests {
         // Then
         // should create a game with given player number
         #expect(state.players.count == 2)
-        #expect(state.round.playOrder.contains(["p1", "p2"]))
-        #expect(state.round.startOrder.contains(["p1", "p2"]))
+        #expect(state.playOrder.contains(["p1", "p2"]))
+        #expect(state.startOrder.contains(["p1", "p2"]))
 
         // should set players to max health
         #expect(state.player("p1").health == 4)
@@ -59,7 +59,7 @@ struct SetupTests {
         #expect(state.discard.isEmpty)
 
         // should set undefined turn
-        #expect(state.round.turn == nil)
+        #expect(state.turn == nil)
 
         // should set figure attributes
         #expect(state.player("p1").abilities == ["p1"])
