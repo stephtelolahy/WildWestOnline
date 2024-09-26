@@ -13,7 +13,7 @@ struct HealTests {
         GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .build()
     }
@@ -50,7 +50,7 @@ struct HealTests {
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(4)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .build()
 

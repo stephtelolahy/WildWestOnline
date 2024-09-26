@@ -43,12 +43,12 @@ extension GameAction {
             PlayEquipmentReducer(card: card, player: player)
         case .playHandicap(let card, let target, let player):
             PlayHandicapReducer(card: card, player: player, target: target)
-        case .playAbility(let string, let player):
-            fatalError()
-        case .heal(let int, let player):
-            fatalError()
-        case .damage(let int, let player):
-            fatalError()
+        case .playAbility(let card, let player):
+            PlayAbilityReducer(card: card, player: player)
+        case .heal(let amount, let player):
+            HealReducer(amount: amount, player: player)
+        case .damage(let amount, let player):
+            DamageReducer(amount: amount, player: player)
         case .drawDeck(let player):
             DrawDeckReducer(player: player)
         case .drawDiscard(let player):
@@ -78,8 +78,6 @@ extension GameAction {
         case .endTurn(let player):
             fatalError()
         case .eliminate(let player):
-            fatalError()
-        case .setAttribute(let playerAttribute, let value, let player):
             fatalError()
         case .endGame(let winner):
             fatalError()
@@ -288,6 +286,47 @@ struct PlayBrownReducer: GameReducer {
         var state = state
         state[keyPath: \.players[player]!.hand].remove(card)
         state.discard.insert(card, at: 0)
+        return state
+    }
+}
+
+struct PlayAbilityReducer: GameReducer {
+    let card: String
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        state
+    }
+}
+
+struct HealReducer: GameReducer {
+    let amount: Int
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var playerObj = state.player(player)
+        let maxHealth = playerObj.maxHealth
+        guard playerObj.health < maxHealth else {
+            throw GameState.Error.playerAlreadyMaxHealth(player)
+        }
+
+        playerObj.health = Swift.min(playerObj.health + amount, maxHealth)
+        var state = state
+        state.players[player] = playerObj
+        return state
+    }
+}
+
+struct DamageReducer: GameReducer {
+    let amount: Int
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var playerObj = state.player(player)
+        playerObj.health -= amount
+
+        var state = state
+        state.players[player] = playerObj
         return state
     }
 }

@@ -10,18 +10,6 @@ import GameCore
 import Testing
 
 struct PlayerTests {
-    @Test func buildPlayer_byDefault_shouldHaveEmptyFigure() async throws {
-        let sut = Player.makeBuilder()
-            .build()
-        #expect(sut.figure.isEmpty)
-    }
-
-    @Test func buildPlayer_byDefault_shouldNotHaveAttributes() async throws {
-        let sut = Player.makeBuilder()
-            .build()
-        #expect(sut.attributes.isEmpty)
-    }
-
     @Test func buildPlayer_withHand_shouldHaveHandCards() async throws {
         // Given
         // When
@@ -46,16 +34,5 @@ struct PlayerTests {
 
         // Then
         #expect(sut.player("p1").inPlay == ["c1", "c2"])
-    }
-
-    @Test func buildPlayer_withAttributes_shouldHaveAttributes() async throws {
-        // Given
-        // When
-        let sut = Player.makeBuilder()
-            .withAttributes([.remoteness: 1])
-            .build()
-
-        // Then
-        #expect(sut.attributes[.remoteness] == 1)
     }
 }

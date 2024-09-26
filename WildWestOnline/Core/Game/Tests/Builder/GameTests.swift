@@ -132,7 +132,7 @@ struct GameTests {
             }
             .withPlayer("p2") {
                 $0.withHealth(4)
-                    .withAttributes([.weapon: 2])
+                    .withWeapon(2)
                     .withAbilities(["a1"])
                     .withHand(["c21", "c22"])
                     .withInPlay(["c23", "c24"])
@@ -153,13 +153,12 @@ struct GameTests {
 
         #expect(state.players["p1"] != nil)
         #expect(state.player("p1").health == 3)
-        #expect(state.player("p1").attributes.isEmpty)
         #expect(state.player("p1").hand.isEmpty)
         #expect(state.player("p1").inPlay.isEmpty)
 
         #expect(state.players["p2"] != nil)
         #expect(state.player("p2").health == 4)
-        #expect(state.player("p2").attributes[.weapon] == 2)
+        #expect(state.player("p2").weapon == 2)
         #expect(state.player("p2").abilities == ["a1"])
         #expect(state.player("p2").hand == ["c21", "c22"])
         #expect(state.player("p2").inPlay == ["c23", "c24"])

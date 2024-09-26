@@ -139,18 +139,6 @@ struct ActionDescribingTests {
         )
     }
 
-    @Test func describingSetAttribute() async throws {
-        #expect(
-            String(describing: GameAction.setAttribute(.magnifying, value: 1, player: "p1")) ==
-            "😎 p1 magnifying 1"
-        )
-
-        #expect(
-            String(describing: GameAction.setAttribute(.magnifying, value: nil, player: "p1")) ==
-            "😎 p1 magnifying /"
-        )
-    }
-
     @Test func describingGameOver() async throws {
         #expect(
             String(describing: GameAction.endGame(winner: "p1")) ==

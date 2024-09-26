@@ -76,9 +76,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     // MARK: - To spec
 
-    /// Set player attribute
-    case setAttribute(PlayerAttribute, value: Int?, player: String)
-
     /// End game
     case endGame(winner: String)
 

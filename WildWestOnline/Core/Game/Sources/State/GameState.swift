@@ -133,11 +133,9 @@ public extension GameState {
         }
 
         public func withPlayer(_ id: String, builderFunc: (Player.Builder) -> Player.Builder = { $0 }) -> Self {
-            let builder = Player.makeBuilder().withId(id)
+            let builder = Player.makeBuilder()
             _ = builderFunc(builder)
             players[id] = builder.build()
-            hand[id] = builder.buildHand()
-            inPlay[id] = builder.buildInPlay()
             playOrder.append(id)
             return self
         }

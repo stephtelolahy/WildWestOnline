@@ -103,12 +103,16 @@ private extension Setup {
         }
 
         return .init(
-            health: maxHealth,
-            attributes: [:],
-            abilities: [figure],
             figure: figure,
+            abilities: [figure],
             hand: [],
-            inPlay: []
+            inPlay: [],
+            health: maxHealth,
+            maxHealth: maxHealth,
+            weapon: 1,
+            handLimit: 0,
+            magnifying: 0,
+            remoteness: 0
         )
     }
 }

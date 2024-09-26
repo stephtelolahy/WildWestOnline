@@ -41,7 +41,7 @@ struct DistanceTests {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
-                $0.withAttributes([.magnifying: 1])
+                $0.withMagnifying(1)
             }
             .withPlayer("p2")
             .withPlayer("p3")
@@ -70,7 +70,7 @@ struct DistanceTests {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
-                $0.withAttributes([.remoteness: 1])
+                $0.withRemoteness(1)
             }
             .withPlayer("p2")
             .withPlayer("p3")

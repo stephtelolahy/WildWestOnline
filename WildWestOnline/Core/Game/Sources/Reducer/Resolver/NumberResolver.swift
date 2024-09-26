@@ -49,7 +49,7 @@ struct NumExcessHand: NumberResolver {
 
 struct NumWound: NumberResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        let maxHealth = state.player(ctx.actor).attributes.get(.maxHealth)
+        let maxHealth = state.player(ctx.actor).maxHealth
         let health = state.player(ctx.actor).health
         return maxHealth - health
     }
@@ -67,6 +67,6 @@ struct NumDamage: NumberResolver {
 
 private extension Player {
     var handLimitAtEndOfTurn: Int {
-        attributes[.handLimit] ?? health
+        handLimit ?? health
     }
 }
