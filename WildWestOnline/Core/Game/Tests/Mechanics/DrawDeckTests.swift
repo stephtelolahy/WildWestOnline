@@ -21,8 +21,8 @@ struct DrawDeckTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c1"])
-        #expect(result.field.deck == ["c2"])
+        #expect(result.player("p1").hand == ["c1"])
+        #expect(result.deck == ["c2"])
     }
 
     @Test func drawDeck_whitEmptyDeckAndEnoughDiscardPile_shouldResetDeck() async throws {
@@ -37,9 +37,9 @@ struct DrawDeckTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.deck == ["c3", "c4"])
-        #expect(result.field.discard == ["c1"])
-        #expect(result.field.hand["p1"] == ["c2"])
+        #expect(result.deck == ["c3", "c4"])
+        #expect(result.discard == ["c1"])
+        #expect(result.player("p1").hand == ["c2"])
     }
 
     @Test func drawDeck_whitEmptyDeckAndNotEnoughDiscardPile_shouldThrowError() async throws {
@@ -51,7 +51,7 @@ struct DrawDeckTests {
         // When
         // Then
         let action = GameAction.drawDeck(player: "p1")
-        #expect(throws: FieldState.Error.deckIsEmpty) {
+        #expect(throws: GameState.Error.deckIsEmpty) {
             try GameState.reducer(state, action)
         }
     }

@@ -10,7 +10,6 @@ import Redux
 public extension GameState {
     static let reducer: Reducer<Self> = { state, action in
         var state = state
-        state.players = try PlayersState.reducer(state.players, action)
         state.round = try RoundState.reducer(state.round, action)
         state.sequence = try SequenceState.reducer(state, action).sequence
 
@@ -24,14 +23,10 @@ public extension GameState {
 
 public extension GameState {
     enum Error: Swift.Error, Equatable {
-        /// Already having same card in play
         case cardAlreadyInPlay(String)
-
-        /// Expected non empty deck
         case deckIsEmpty
-
-        /// Expected non empty discard pile
         case discardIsEmpty
+        case playerAlreadyMaxHealth(String)
     }
 }
 

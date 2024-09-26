@@ -22,8 +22,8 @@ struct DrawDiscoveredTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c2"])
-        #expect(result.field.discovered == ["c1"])
-        #expect(result.field.deck == ["c1"])
+        #expect(result.player("p1").hand == ["c2"])
+        #expect(result.discovered == ["c1"])
+        #expect(result.deck == ["c1"])
     }
 }

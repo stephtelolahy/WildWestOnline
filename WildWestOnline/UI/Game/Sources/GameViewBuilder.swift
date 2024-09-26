@@ -33,11 +33,11 @@ extension GameView {
             message: game.message,
             chooseOne: game.chooseOne,
             handCards: game.handCards,
-            topDiscard: game.field.discard.first,
-            topDeck: game.field.deck.first,
+            topDiscard: game.discard.first,
+            topDeck: game.deck.first,
             animationDelay: game.waitDelaySeconds,
             startOrder: game.round.startOrder,
-            deckCount: game.field.deck.count,
+            deckCount: game.deck.count,
             controlledPlayer: game.controlledPlayerId,
             startPlayer: game.startPlayerId
         )

@@ -52,6 +52,7 @@ public enum Setup {
         }
 
         return GameState(
+            cards: cards,
             players: players,
             deck: deck,
             discard: [],
@@ -68,7 +69,6 @@ public enum Setup {
                 played: [:],
                 winner: nil
             ),
-            cards: cards,
             waitDelaySeconds: 0,
             playMode: [:]
         )

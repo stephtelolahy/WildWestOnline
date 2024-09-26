@@ -53,10 +53,10 @@ struct SetupTests {
         #expect(state.player("p2").health == 3)
 
         // should set players hand cards to health
-        #expect(state.field.hand["p1"]?.count == 4)
-        #expect(state.field.hand["p2"]?.count == 3)
-        #expect(state.field.deck.count == 73)
-        #expect(state.field.discard.isEmpty)
+        #expect(state.player("p1").hand.count == 4)
+        #expect(state.player("p2").hand.count == 3)
+        #expect(state.deck.count == 73)
+        #expect(state.discard.isEmpty)
 
         // should set undefined turn
         #expect(state.round.turn == nil)
@@ -64,9 +64,5 @@ struct SetupTests {
         // should set figure attributes
         #expect(state.player("p1").abilities == ["p1"])
         #expect(state.player("p2").abilities == ["p2"])
-
-        // should initialize inPlay field
-        #expect(state.field.inPlay["p1"] != nil)
-        #expect(state.field.inPlay["p2"] != nil)
     }
 }

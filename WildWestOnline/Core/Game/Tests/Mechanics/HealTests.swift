@@ -57,7 +57,7 @@ struct HealTests {
         // When
         // Then
         let action = GameAction.heal(1, player: "p1")
-        #expect(throws: PlayersState.Error.playerAlreadyMaxHealth("p1")) {
+        #expect(throws: GameState.Error.playerAlreadyMaxHealth("p1")) {
             try GameState.reducer(state, action)
         }
     }

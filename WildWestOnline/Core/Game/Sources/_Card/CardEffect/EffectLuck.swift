@@ -38,11 +38,11 @@ struct EffectLuck: EffectResolver {
                 fatalError("invalid flippedCards \(flippedCards)")
             }
 
-            guard state.field.discard.count >= flippedCards else {
+            guard state.discard.count >= flippedCards else {
                 fatalError("missing drawn card")
             }
 
-            drawnCards = Array(state.field.discard.prefix(flippedCards))
+            drawnCards = Array(state.discard.prefix(flippedCards))
         }
 
         let matched = drawnCards.contains { $0.matches(regex: regex) }

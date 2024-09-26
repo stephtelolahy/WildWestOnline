@@ -23,7 +23,7 @@ struct PlayBrownTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c2"])
-        #expect(result.field.discard == ["c1"])
+        #expect(result.player("p1").hand == ["c2"])
+        #expect(result.discard == ["c1"])
     }
 }

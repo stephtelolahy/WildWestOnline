@@ -32,7 +32,7 @@ struct PlayerTests {
             .build()
 
         // Then
-        #expect(sut.field.hand["p1"] == ["c1", "c2"])
+        #expect(sut.player("p1").hand == ["c1", "c2"])
     }
 
     @Test func buildPlayer_withInPlay_shouldHaveInPlayCards() async throws {
@@ -45,7 +45,7 @@ struct PlayerTests {
             .build()
 
         // Then
-        #expect(sut.field.inPlay["p1"] == ["c1", "c2"])
+        #expect(sut.player("p1").inPlay == ["c1", "c2"])
     }
 
     @Test func buildPlayer_withAttributes_shouldHaveAttributes() async throws {

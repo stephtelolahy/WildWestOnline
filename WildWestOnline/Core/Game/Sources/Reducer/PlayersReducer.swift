@@ -6,7 +6,7 @@
 //
 
 import Redux
-
+/*
 public extension PlayersState {
     static let reducer: Reducer<Self> = { state, action in
         switch action {
@@ -72,3 +72,4 @@ extension Player {
         attributes[key] = value
     }
 }
+*/

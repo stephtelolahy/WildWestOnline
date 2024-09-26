@@ -13,19 +13,19 @@ struct GameTests {
     @Test func buildGame_byDefault_shouldHaveEmptyDeck() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        #expect(sut.field.deck.isEmpty)
+        #expect(sut.deck.isEmpty)
     }
 
     @Test func buildGame_byDefault_shouldHaveEmptyDiscard() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        #expect(sut.field.discard.isEmpty)
+        #expect(sut.discard.isEmpty)
     }
 
     @Test func buildGame_byDefault_shouldNotHaveDiscovered() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        #expect(sut.field.discovered.isEmpty)
+        #expect(sut.discovered.isEmpty)
     }
 
     @Test func buildGame_byDefault_shouldNotBeOver() async throws {
@@ -54,7 +54,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(sut.field.deck.count == 2)
+        #expect(sut.deck.count == 2)
     }
 
     @Test func buildGame_withDiscard_shouldHaveDiscard() async throws {
@@ -65,7 +65,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(sut.field.discard.count == 2)
+        #expect(sut.discard.count == 2)
     }
 
     @Test func buildGame_withDiscovered_shouldHaveDiscovered() async throws {
@@ -76,7 +76,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(sut.field.discovered == ["c1", "c2"])
+        #expect(sut.discovered == ["c1", "c2"])
     }
 
     @Test func buildGame_withGameOver_shouldBeOver() async throws {
@@ -141,10 +141,10 @@ struct GameTests {
 
         // Then
         #expect(state.round.turn == "p1")
-        #expect(state.field.deck == ["c1", "c2"])
+        #expect(state.deck == ["c1", "c2"])
         #expect(state.sequence.played["bang"] == 1)
-        #expect(state.field.discard == ["c3", "c4"])
-        #expect(state.field.discovered == ["c5", "c6"])
+        #expect(state.discard == ["c3", "c4"])
+        #expect(state.discovered == ["c5", "c6"])
         #expect(state.sequence.winner == "p1")
         #expect(state.cards["name"] != nil)
         #expect(state.sequence.chooseOne["p1"] != nil)
@@ -154,14 +154,14 @@ struct GameTests {
         #expect(state.players["p1"] != nil)
         #expect(state.player("p1").health == 3)
         #expect(state.player("p1").attributes.isEmpty)
-        #expect(state.field.hand["p1"]!.isEmpty)
-        #expect(state.field.inPlay["p1"]!.isEmpty)
+        #expect(state.player("p1").hand.isEmpty)
+        #expect(state.player("p1").inPlay.isEmpty)
 
         #expect(state.players["p2"] != nil)
         #expect(state.player("p2").health == 4)
         #expect(state.player("p2").attributes[.weapon] == 2)
         #expect(state.player("p2").abilities == ["a1"])
-        #expect(state.field.hand["p2"] == ["c21", "c22"])
-        #expect(state.field.inPlay["p2"] == ["c23", "c24"])
+        #expect(state.player("p2").hand == ["c21", "c22"])
+        #expect(state.player("p2").inPlay == ["c23", "c24"])
     }
 }

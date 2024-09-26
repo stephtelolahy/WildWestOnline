@@ -21,7 +21,7 @@ struct UndiscoverTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.discovered.isEmpty)
-        #expect(result.field.deck == ["c2"])
+        #expect(result.discovered.isEmpty)
+        #expect(result.deck == ["c2"])
     }
 }

@@ -21,8 +21,8 @@ struct DrawDiscardTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c1"])
-        #expect(result.field.discard == ["c2"])
+        #expect(result.player("p1").hand == ["c1"])
+        #expect(result.discard == ["c2"])
     }
 
     @Test func drawDiscard_whitEmptyDiscard_shouldThrowError() async throws {
@@ -34,7 +34,7 @@ struct DrawDiscardTests {
         // When
         // Then
         let action = GameAction.drawDiscard(player: "p1")
-        #expect(throws: FieldState.Error.discardIsEmpty) {
+        #expect(throws: GameState.Error.discardIsEmpty) {
             try GameState.reducer(state, action)
         }
     }

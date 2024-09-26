@@ -1,12 +1,10 @@
 //
-//  PlayersState.swift
+//  Player.swift
+//  WildWestOnline
 //
-//
-//  Created by Hugues Stephano TELOLAHY on 24/06/2024.
+//  Created by Stephano Hugues TELOLAHY on 26/09/2024.
 //
 import Foundation
-
-public typealias PlayersState = [String: Player]
 
 public struct Player: Equatable, Codable {
     public var health: Int
@@ -15,13 +13,6 @@ public struct Player: Equatable, Codable {
     public let figure: String
     public var hand: [String]
     public var inPlay: [String]
-}
-
-public extension PlayersState {
-    enum Error: Swift.Error, Equatable {
-        /// Expected player to be damaged
-        case playerAlreadyMaxHealth(String)
-    }
 }
 
 public extension Player {

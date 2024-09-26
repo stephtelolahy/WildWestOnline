@@ -23,7 +23,7 @@ struct PassInPlayTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.inPlay["p1"] == ["c2"])
-        #expect(result.field.inPlay["p2"] == ["c1"])
+        #expect(result.player("p1").inPlay == ["c2"])
+        #expect(result.player("p2").inPlay == ["c1"])
     }
 }

@@ -23,7 +23,7 @@ struct StealHandTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.hand["p1"] == ["c21"])
-        #expect(result.field.hand["p2"] == ["c22"])
+        #expect(result.player("p1").hand == ["c21"])
+        #expect(result.player("p2").hand == ["c22"])
     }
 }

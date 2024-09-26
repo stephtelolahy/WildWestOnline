@@ -21,7 +21,7 @@ struct DrawTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.field.discard == ["c2", "c1"])
-        #expect(result.field.deck == ["c3"])
+        #expect(result.discard == ["c2", "c1"])
+        #expect(result.deck == ["c3"])
     }
 }

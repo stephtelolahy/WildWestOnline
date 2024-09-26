@@ -8,7 +8,7 @@
 struct CardSelectArena: ArgCardResolver {
     func resolve(state: GameState, ctx: EffectContext) -> CardArgOutput {
         /*
-        let cards = state.field.discovered
+        let cards = state.discovered
         if cards.count == 1 {
             return .identified(cards)
         } else {
