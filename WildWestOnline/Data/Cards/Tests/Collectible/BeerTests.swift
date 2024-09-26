@@ -15,7 +15,7 @@ struct BeerTests {
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2")
             .withPlayer("p3")
@@ -38,7 +38,7 @@ struct BeerTests {
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(3)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2")
             .withPlayer("p3")
@@ -58,7 +58,7 @@ struct BeerTests {
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2")
             .build()

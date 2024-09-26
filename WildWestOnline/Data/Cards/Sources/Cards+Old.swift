@@ -488,7 +488,7 @@ private extension CardsOld {
     static var jourdonnais: Card {
         Card.makeBuilder(name: .jourdonnais)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.group {
@@ -522,7 +522,7 @@ private extension CardsOld {
     static var calamityJanet: Card {
         Card.makeBuilder(name: .calamityJanet)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withAbilityToPlayCardAs([
                 CardAlias(playedRegex: .missed, as: .bang, playReqs: [.isYourTurn]),
                 CardAlias(playedRegex: .bang, as: .missed, playReqs: [.isNot(.isYourTurn)])
@@ -533,7 +533,7 @@ private extension CardsOld {
     static var bartCassidy: Card {
         Card.makeBuilder(name: .bartCassidy)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.drawDeck
@@ -546,7 +546,7 @@ private extension CardsOld {
     static var elGringo: Card {
         Card.makeBuilder(name: .elGringo)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 3])
+            .withMaxHealth(3)
             .withRule {
                 CardEffect.steal(.selectHand)
                     .target(.offender)
@@ -560,7 +560,7 @@ private extension CardsOld {
     static var suzyLafayette: Card {
         Card.makeBuilder(name: .suzyLafayette)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.drawDeck
@@ -572,7 +572,7 @@ private extension CardsOld {
     static var vultureSam: Card {
         Card.makeBuilder(name: .vultureSam)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withPriorityIndex(priorities)
             .withRule {
                 CardEffect.steal(.all)
@@ -590,7 +590,7 @@ private extension CardsOld {
     static var sidKetchum: Card {
         Card.makeBuilder(name: .sidKetchum)
             .withPrototype(defaultPlayer)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withRule(abilityRule)
             .withRule {
                 CardEffect.group {
@@ -607,7 +607,7 @@ private extension CardsOld {
         Card.makeBuilder(name: .blackJack)
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
@@ -625,7 +625,7 @@ private extension CardsOld {
         Card.makeBuilder(name: .kitCarlson)
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
@@ -642,7 +642,7 @@ private extension CardsOld {
         Card.makeBuilder(name: .jesseJones)
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {
@@ -660,7 +660,7 @@ private extension CardsOld {
         Card.makeBuilder(name: .pedroRamirez)
             .withPrototype(defaultPlayer)
             .withPriorityIndex(priorities)
-            .withAttributes([.maxHealth: 4])
+            .withMaxHealth(4)
             .withoutAbility(.drawOnStartTurn)
             .withRule {
                 CardEffect.group {

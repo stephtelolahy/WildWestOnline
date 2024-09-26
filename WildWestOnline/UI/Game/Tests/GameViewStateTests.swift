@@ -41,12 +41,12 @@ struct GameViewStateTests {
             .withPlayer("p1") {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2") {
                 $0.withFigure(.bartCassidy)
                     .withHealth(3)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayModes(["p1": .manual])
             .withTurn("p1")
@@ -93,7 +93,7 @@ struct GameViewStateTests {
             .withPlayer("p1") {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
                     .withAbilities([.endTurn, .willyTheKid])
                     .withHand([.bang, .gatling])
                     .withInPlay([.saloon, .barrel])

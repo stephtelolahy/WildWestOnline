@@ -15,11 +15,11 @@ struct ActivatePlayableCardsOnIdleTests {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon, .gatling])
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
                     .withHealth(2)
             }
             .withPlayer("p2") {
-                $0.withAttributes([.maxHealth: 4])
+                $0.withMaxHealth(4)
             }
             .withTurn("p1")
             .build()
@@ -39,7 +39,7 @@ struct ActivatePlayableCardsOnIdleTests {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer, .missed])
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
                     .withHealth(4)
             }
             .withPlayer("p2")
@@ -60,7 +60,7 @@ struct ActivatePlayableCardsOnIdleTests {
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand((1...10).map { "\(String.beer)-\($0)" })
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
                     .withAbilities([.endTurn])
                     .withHealth(1)
             }

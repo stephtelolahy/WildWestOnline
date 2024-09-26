@@ -15,15 +15,15 @@ struct SaloonTests {
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayer("p2") {
                 $0.withHealth(2)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayer("p3") {
                 $0.withHealth(3)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .build()
 
@@ -45,11 +45,11 @@ struct SaloonTests {
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayer("p2") {
                 $0.withHealth(3)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .build()
 
