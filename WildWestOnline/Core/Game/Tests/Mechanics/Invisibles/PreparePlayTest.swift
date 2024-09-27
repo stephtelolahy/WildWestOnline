@@ -19,7 +19,7 @@ struct PreparePlayTest {
         // When
         // Then
         let action = GameAction.preparePlay("c1", player: "p1")
-        #expect(throws: SequenceState.Error.cardNotPlayable("c1")) {
+        #expect(throws: GameState.Error.cardNotPlayable("c1")) {
             try GameState.reducer(state, action)
         }
     }
@@ -49,7 +49,7 @@ struct PreparePlayTest {
 
         // Then
         #expect(
-            result.sequence.queue == [
+            result.queue == [
                 GameAction.prepareEffect(
                     .init(
                         action: .drawDeck,

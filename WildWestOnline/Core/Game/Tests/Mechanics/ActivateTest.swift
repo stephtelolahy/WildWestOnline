@@ -18,6 +18,6 @@ struct ActivateTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.active == ["p1": ["c1", "c2"]])
+        #expect(result.active == ["p1": ["c1", "c2"]])
     }
 }

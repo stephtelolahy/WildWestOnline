@@ -12,11 +12,11 @@ import Foundation
 extension Middlewares {
     static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
         { state, _ in
-            guard state.sequence.winner == nil else {
+            guard state.winner == nil else {
                 return Empty().eraseToAnyPublisher()
             }
 
-            if let active = state.sequence.active.first,
+            if let active = state.active.first,
                state.playMode[active.key] == .auto {
                 let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
@@ -26,7 +26,7 @@ extension Middlewares {
                     .eraseToAnyPublisher()
             }
 
-            if let chooseOne = state.sequence.chooseOne.first,
+            if let chooseOne = state.chooseOne.first,
                state.playMode[chooseOne.key] == .auto {
                 let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)

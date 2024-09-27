@@ -6,91 +6,7 @@
 //
 
 import Redux
-
-public extension SequenceState {
-    static let reducer: Reducer<GameState> = { state, action in
-        var state = state
-        state.sequence = try prepareReducer(state.sequence, action)
-
-        switch action {
-        case GameAction.activate:
-            state.sequence = try activateReducer(state.sequence, action)
-
-        case GameAction.chooseOne:
-            state.sequence = try chooseOneReducer(state.sequence, action)
-
-        case GameAction.prepareChoose:
-            state.sequence = try prepareChooseReducer(state.sequence, action)
-
-        case GameAction.endGame:
-            state.sequence = try endGameReducer(state.sequence, action)
-
-        case GameAction.startTurn:
-            state.sequence = try startTurnReducer(state.sequence, action)
-            
-        case GameAction.queue:
-            state.sequence = try queueReducer(state.sequence, action)
-
-        case GameAction.preparePlay:
-            state.sequence = try preparePlayReducer(state, action).sequence
-
-        case GameAction.prepareEffect:
-            state.sequence = try prepareEffectReducer(state, action).sequence
-
-        default:
-            break
-        }
-
-        return state
-    }
-}
-
-private extension SequenceState {
-    static let prepareReducer: Reducer<Self> = { state, action in
-        guard let action = action as? GameAction else {
-            return state
-        }
-
-        // Game is over
-        if state.winner != nil {
-            throw Error.gameIsOver
-        }
-
-        var state = state
-
-        // Pending choice
-        if let chooseOne = state.chooseOne.first {
-            guard case let GameAction.prepareChoose(option, player) = action,
-                  player == chooseOne.key,
-                  chooseOne.value.options.contains(option) else {
-                throw Error.unwaitedAction
-            }
-
-            state.chooseOne.removeValue(forKey: chooseOne.key)
-            return state
-        }
-
-        // Active cards
-        if let active = state.active.first {
-            guard case let GameAction.preparePlay(card, player) = action,
-                  player == active.key,
-                  active.value.contains(card) else {
-                throw Error.unwaitedAction
-            }
-
-            state.active.removeValue(forKey: active.key)
-            return state
-        }
-
-        // Resolving sequence
-        if state.queue.isNotEmpty,
-           state.queue.first == action {
-            state.queue.removeFirst()
-        }
-
-        return state
-    }
-
+/*
     static let activateReducer: Reducer<Self> = { state, action in
         guard case let GameAction.activate(cards, player) = action else {
             fatalError("unexpected")
@@ -182,8 +98,8 @@ private extension SequenceState {
         /*
          TODO:
          // increment play counter
-         let playedCount = state.sequence.played[cardName] ?? 0
-         state.sequence.played[cardName] = playedCount + 1
+         let playedCount = state.played[cardName] ?? 0
+         state.played[cardName] = playedCount + 1
          */
 
         // queue play effects
@@ -199,7 +115,7 @@ private extension SequenceState {
                 )
             )
         }
-        state.sequence.queue.insert(contentsOf: children, at: 0)
+        state.queue.insert(contentsOf: children, at: 0)
 
         return state
     }
@@ -211,7 +127,7 @@ private extension SequenceState {
 
         var state = state
         let children = try effect.resolve(state: state)
-        state.sequence.queue.insert(contentsOf: children, at: 0)
+        state.queue.insert(contentsOf: children, at: 0)
         return state
     }
 
@@ -225,7 +141,7 @@ private extension SequenceState {
         return state
     }
 }
-/*
+
 private extension SequenceState {
     mutating func cancel(_ action: GameAction) {
         if let index = queue.firstIndex(of: action) {

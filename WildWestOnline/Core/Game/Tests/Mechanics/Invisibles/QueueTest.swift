@@ -18,6 +18,6 @@ struct QueueTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.queue == [.draw])
+        #expect(result.queue == [.draw])
     }
 }

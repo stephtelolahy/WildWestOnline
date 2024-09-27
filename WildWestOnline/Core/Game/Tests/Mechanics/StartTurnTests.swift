@@ -12,7 +12,6 @@ struct StartTurnTests {
     @Test func startTurn_shouldSetAttribute() async throws {
         // Given
         let state = GameState.makeBuilder()
-            .withPlayedThisTurn(["card1": 1, "card2": 1])
             .build()
 
         // When
@@ -26,7 +25,7 @@ struct StartTurnTests {
     @Test func startTurn_shouldResetPlayCounters() async throws {
         // Given
         let state = GameState.makeBuilder()
-            .withPlayedThisTurn(["card1": 1, "card2": 1])
+            .withTurnPlayedBang(2)
             .build()
 
         // When
@@ -34,6 +33,6 @@ struct StartTurnTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.played.isEmpty)
+        #expect(result.turnPlayedBang == 0)
     }
 }

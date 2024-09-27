@@ -4,19 +4,19 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 15/09/2024.
 //
-// swiftlint:disable vertical_whitespace_between_cases
+// swiftlint:disable vertical_whitespace_between_cases file_length
 
 import Redux
 
 public extension GameState {
     static let reducer: Reducer<Self> = { state, action in
-        var state = state
-        state.sequence = try SequenceState.reducer(state, action).sequence
-
-        if let action = action as? GameAction {
-            state = try action.reduce(state: state)
+        guard let action = action as? GameAction else {
+            return state
         }
 
+        var state = state
+        state = try PrepareReducer(action: action).reduce(state: state)
+        state = try action.reduce(state: state)
         return state
     }
 }
@@ -27,6 +27,10 @@ public extension GameState {
         case deckIsEmpty
         case discardIsEmpty
         case playerAlreadyMaxHealth(String)
+        case gameIsOver
+        case unwaitedAction
+        case cardNotPlayable(String)
+        case noShootToCounter
     }
 }
 
@@ -99,6 +103,51 @@ extension GameAction {
 
 protocol GameReducer {
     func reduce(state: GameState) throws -> GameState
+}
+
+struct PrepareReducer: GameReducer {
+    let action: GameAction
+
+    func reduce(state: GameState) throws -> GameState {
+        // Game is over
+        if state.winner != nil {
+            throw GameState.Error.gameIsOver
+        }
+
+        var state = state
+
+        // Pending choice
+        if let chooseOne = state.chooseOne.first {
+            guard case let GameAction.prepareChoose(option, player) = action,
+                  player == chooseOne.key,
+                  chooseOne.value.options.contains(option) else {
+                throw GameState.Error.unwaitedAction
+            }
+
+            state.chooseOne.removeValue(forKey: chooseOne.key)
+            return state
+        }
+
+        // Active cards
+        if let active = state.active.first {
+            guard case let GameAction.preparePlay(card, player) = action,
+                  player == active.key,
+                  active.value.contains(card) else {
+                throw GameState.Error.unwaitedAction
+            }
+
+            state.active.removeValue(forKey: active.key)
+            return state
+        }
+
+        // Resolving sequence
+        if state.queue.isNotEmpty,
+           state.queue.first == action {
+            state.queue.removeFirst()
+        }
+
+        return state
+    }
 }
 
 struct PlayEquipmentReducer: GameReducer {
@@ -357,7 +406,7 @@ struct EliminateReducer: GameReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         state.playOrder.removeAll { $0 == player }
-        state.sequence.queue.removeAll { $0.isEffectTriggeredBy(player) }
+        state.queue.removeAll { $0.isEffectTriggeredBy(player) }
         return state
     }
 }

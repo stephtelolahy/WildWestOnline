@@ -11,10 +11,10 @@ import Redux
 extension Middlewares {
     static func activatePlayableCards() -> Middleware<GameState> {
         { state, _ in
-            guard state.sequence.queue.isEmpty,
-                  state.sequence.winner == nil,
-                  state.sequence.chooseOne.isEmpty,
-                  state.sequence.active.isEmpty,
+            guard state.queue.isEmpty,
+                  state.winner == nil,
+                  state.chooseOne.isEmpty,
+                  state.active.isEmpty,
                   let player = state.turn else {
                 return Empty().eraseToAnyPublisher()
             }

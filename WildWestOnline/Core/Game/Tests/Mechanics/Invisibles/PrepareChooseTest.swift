@@ -18,6 +18,6 @@ struct PrepareChooseTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.chooseOne == ["p1": .init(type: .cardToDraw, options: ["c1", "c2"])])
+        #expect(result.chooseOne == ["p1": .init(type: .cardToDraw, options: ["c1", "c2"])])
     }
 }

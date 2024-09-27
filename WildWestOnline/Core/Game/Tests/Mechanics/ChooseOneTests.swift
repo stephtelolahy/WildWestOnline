@@ -25,7 +25,7 @@ struct ChooseOneTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.chooseOne.isEmpty)
+        #expect(result.chooseOne.isEmpty)
     }
 
     @Test func dispatchAction_nonWaited_shouldThrowError() async throws {

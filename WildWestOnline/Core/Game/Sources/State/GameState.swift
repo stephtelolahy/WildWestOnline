@@ -10,7 +10,11 @@ public struct GameState: Codable, Equatable {
     public let startOrder: [String]
     public var playOrder: [String]
     public var turn: String?
-    public var sequence: SequenceState
+    public var turnPlayedBang: Int
+    public var queue: [GameAction]
+    public var chooseOne: [String: ChooseOne]
+    public var active: [String: [String]]
+    public var winner: String?
     public var waitDelaySeconds: Double
     public var playMode: [String: PlayMode]
 }
@@ -19,6 +23,21 @@ public enum PlayMode: Equatable, Codable {
     case manual
     case auto
 }
+
+/// Choice request
+public struct ChooseOne: Codable, Equatable {
+    public let type: ChoiceType
+    public let options: [String]
+}
+
+public extension String {
+    /// Hidden hand card
+    static let hiddenHand = "hiddenHand"
+
+    /// Pass when asked to do an action
+    static let pass = "pass"
+}
+
 
 // MARK: - Convenience
 
@@ -38,7 +57,6 @@ public extension GameState {
         private var inPlay: [String: [String]] = [:]
         private var playOrder: [String] = []
         private var turn: String?
-        private var playedThisTurn: [String: Int] = [:]
         private var deck: [String] = []
         private var discard: [String] = []
         private var discovered: [String] = []
@@ -46,6 +64,7 @@ public extension GameState {
         private var chooseOne: [String: ChooseOne] = [:]
         private var active: [String: [String]] = [:]
         private var queue: [GameAction] = []
+        private var turnPlayedBang: Int = 0
         private var playMode: [String: PlayMode] = [:]
         private var cards: [String: Card] = [:]
         private var waitDelaySeconds: Double = 0
@@ -60,13 +79,11 @@ public extension GameState {
                 startOrder: playOrder,
                 playOrder: playOrder,
                 turn: turn,
-                sequence: .init(
-                    queue: queue,
-                    chooseOne: chooseOne,
-                    active: active,
-                    played: playedThisTurn,
-                    winner: winner
-                ),
+                turnPlayedBang: turnPlayedBang,
+                queue: queue,
+                chooseOne: chooseOne,
+                active: active,
+                winner: winner,
                 waitDelaySeconds: waitDelaySeconds,
                 playMode: playMode
             )
@@ -92,8 +109,8 @@ public extension GameState {
             return self
         }
 
-        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
-            playedThisTurn = value
+        public func withTurnPlayedBang(_ value: Int) -> Self {
+            turnPlayedBang = value
             return self
         }
 

@@ -54,7 +54,7 @@ struct SimulationTests {
         )
 
         let cancellable = sut.$state.sink { state in
-            if state.sequence.winner != nil {
+            if state.winner != nil {
                 expectation.fulfill()
             }
         }
@@ -67,7 +67,7 @@ struct SimulationTests {
         let waiter = XCTWaiter()
         await waiter.fulfillment(of: [expectation], timeout: timeout)
         cancellable.cancel()
-        #expect(sut.state.sequence.winner != nil, "Expected game over")
+        #expect(sut.state.winner != nil, "Expected game over")
     }
 }
 

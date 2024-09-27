@@ -58,8 +58,8 @@ func dispatch(
         throw ocurredError
     }
 
-    #expect(store.state.sequence.queue.isEmpty, "Game must be idle")
-    #expect(store.state.sequence.chooseOne.isEmpty, "Game must be idle")
+    #expect(store.state.queue.isEmpty, "Game must be idle")
+    #expect(store.state.chooseOne.isEmpty, "Game must be idle")
     #expect(choicesWrapper.value.isEmpty, "Choices must be empty")
 
     return ocurredEvents
@@ -76,7 +76,7 @@ private class ChoiceWrapper {
 private extension Middlewares {
     static func choosingAgent(_ choices: ChoiceWrapper) -> Middleware<GameState> {
         { state, _ in
-            guard let chooseOne = state.sequence.chooseOne.first else {
+            guard let chooseOne = state.chooseOne.first else {
                 return Empty().eraseToAnyPublisher()
             }
             

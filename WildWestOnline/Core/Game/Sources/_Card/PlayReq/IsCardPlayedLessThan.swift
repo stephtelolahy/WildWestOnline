@@ -24,7 +24,7 @@ struct IsCardPlayedLessThan: PlayReqMatcher {
             return true
         }
 
-        let playedTimes = state.sequence.played[cardName] ?? 0
+        let playedTimes = state.played[cardName] ?? 0
         return playedTimes < maxNumber
          */
         false

@@ -18,6 +18,6 @@ struct EndGameTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.winner == "p1")
+        #expect(result.winner == "p1")
     }
 }

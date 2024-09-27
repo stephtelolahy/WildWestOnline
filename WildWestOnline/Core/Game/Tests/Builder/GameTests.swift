@@ -31,7 +31,7 @@ struct GameTests {
     @Test func buildGame_byDefault_shouldNotBeOver() async throws {
         let sut = GameState.makeBuilder()
             .build()
-        #expect(sut.sequence.winner == nil)
+        #expect(sut.winner == nil)
     }
 
     @Test func buildGame_byDefault_shouldNotHaveTurn() async throws {
@@ -87,7 +87,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(sut.sequence.winner == "p1")
+        #expect(sut.winner == "p1")
     }
 
     @Test func buildGame_withTurn_shouldHaveTurn() async throws {
@@ -109,7 +109,7 @@ struct GameTests {
             .build()
 
         // Then
-        #expect(sut.sequence.queue == [
+        #expect(sut.queue == [
             .drawDeck(player: "p1")
         ])
     }
@@ -120,7 +120,7 @@ struct GameTests {
         let state = GameState.makeBuilder()
             .withTurn("p1")
             .withDeck(["c1", "c2"])
-            .withPlayedThisTurn(["bang": 1])
+            .withTurnPlayedBang(1)
             .withDiscard(["c3", "c4"])
             .withDiscovered(["c5", "c6"])
             .withWinner("p1")
@@ -142,13 +142,13 @@ struct GameTests {
         // Then
         #expect(state.turn == "p1")
         #expect(state.deck == ["c1", "c2"])
-        #expect(state.sequence.played["bang"] == 1)
+        #expect(state.turnPlayedBang == 1)
         #expect(state.discard == ["c3", "c4"])
         #expect(state.discovered == ["c5", "c6"])
-        #expect(state.sequence.winner == "p1")
+        #expect(state.winner == "p1")
         #expect(state.cards["name"] != nil)
-        #expect(state.sequence.chooseOne["p1"] != nil)
-        #expect(state.sequence.queue == [.discover(1)])
+        #expect(state.chooseOne["p1"] != nil)
+        #expect(state.queue == [.discover(1)])
         #expect(state.playOrder == ["p1", "p2"])
 
         #expect(state.players["p1"] != nil)

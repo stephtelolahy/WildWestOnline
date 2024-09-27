@@ -46,6 +46,6 @@ struct EliminateTests {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.queue.isEmpty)
+        #expect(result.queue.isEmpty)
     }
 }

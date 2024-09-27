@@ -56,13 +56,11 @@ public enum Setup {
             startOrder: figures,
             playOrder: figures,
             turn: nil,
-            sequence: .init(
-                queue: [],
-                chooseOne: [:],
-                active: [:],
-                played: [:],
-                winner: nil
-            ),
+            turnPlayedBang: 0,
+            queue: [],
+            chooseOne: [:],
+            active: [:],
+            winner: nil,
             waitDelaySeconds: 0,
             playMode: [:]
         )

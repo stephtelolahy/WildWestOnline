@@ -25,7 +25,7 @@ struct PrepareEffectTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.queue.first == .playBrown("c1", player: "p1"))
+        #expect(result.queue.first == .playBrown("c1", player: "p1"))
     }
 
     @Test func prepareEffect_drawDeck() async throws {
@@ -46,7 +46,7 @@ struct PrepareEffectTest {
         let result = try GameState.reducer(state, action)
 
         // Then
-        #expect(result.sequence.queue.first == .drawDeck(player: "p1"))
+        #expect(result.queue.first == .drawDeck(player: "p1"))
     }
     /*
      /// {actor} put a {card} is self's inPlay
