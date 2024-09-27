@@ -53,3 +53,33 @@ extension GameAction {
         false
     }
 }
+
+extension GameState {
+    /*
+    mutating func cancel(_ action: GameAction) {
+        if let index = queue.firstIndex(of: action) {
+            queue.remove(at: index)
+            removeEffectsLinkedTo(action)
+        }
+    }
+
+    mutating func removeEffectsLinkedTo(_ action: GameAction) {
+        if case let .prepareEffect(effect, effectCtx) = action,
+           case .prepareShoot = effect,
+           let target = effectCtx.resolvingTarget {
+            removeEffectsLinkedToShoot(target)
+        }
+    }
+
+    mutating func removeEffectsLinkedToShoot(_ target: String) {
+        queue.removeAll { item in
+            if case let .prepareEffect(_, ctx) = item,
+               ctx.sourceShoot == target {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+ */
+}

@@ -69,8 +69,8 @@ extension GameAction {
             PassInPlayReducer(card: card, target: target, player: player)
         case .draw:
             DrawReducer()
-        case .showLastHand(let player):
-            TODOReducer()
+        case .showLastHand:
+            DummyReducer()
         case .discover(let amount):
             DiscoverReducer(amount: amount)
         case .drawDiscovered(let card, let player):
@@ -90,11 +90,11 @@ extension GameAction {
         case .chooseOne(let choiceType, let options, let player):
             ChooseOneReducer(choiceType: choiceType, options: options, player: player)
         case .preparePlay(let card, let player):
-            TODOReducer()
-        case .prepareChoose(let card, let player):
-            TODOReducer()
-        case .prepareEffect(let resolvingEffect):
-            TODOReducer()
+            PreparePlayReducer(card: card, player: player)
+        case .prepareChoose(let option, let player):
+            PrepareChooseReducer(option: option, player: player)
+        case .prepareEffect(let effect):
+            PrepareEffectReducer(effect: effect)
         case .queue(let actions):
             QueueReducer(actions: actions)
         }
@@ -194,6 +194,12 @@ struct DrawReducer: GameReducer {
         let card = try state.popDeck()
         state.discard.insert(card, at: 0)
         return state
+    }
+}
+
+struct DummyReducer: GameReducer {
+    func reduce(state: GameState) throws -> GameState {
+        state
     }
 }
 
@@ -458,8 +464,54 @@ struct EndGameReducer: GameReducer {
     }
 }
 
-@available(*, deprecated, message: "Unimplemented")
-struct TODOReducer: GameReducer {
+struct PreparePlayReducer: GameReducer {
+    let card: String
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var cardName = card.extractName()
+        guard let cardObj = state.cards[cardName] else {
+            throw GameState.Error.cardNotPlayable(card)
+        }
+
+        let effects = cardObj.triggered.filter { $0.when == .played }
+        guard effects.isNotEmpty else {
+            throw GameState.Error.cardNotPlayable(card)
+        }
+
+        var state = state
+        let children: [GameAction] = effects.map {
+            .prepareEffect(
+                .init(
+                    action: $0.action,
+                    card: card,
+                    actor: player,
+                    event: .preparePlay(card, player: player),
+                    selectors: $0.selectors
+                )
+            )
+        }
+        state.queue.insert(contentsOf: children, at: 0)
+
+        return state
+    }
+}
+
+struct PrepareEffectReducer: GameReducer {
+    let effect: ResolvingEffect
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        let children = try effect.resolve(state: state)
+        state.queue.insert(contentsOf: children, at: 0)
+        return state
+    }
+}
+
+struct PrepareChooseReducer: GameReducer {
+    let option: String
+    let player: String
+
     func reduce(state: GameState) throws -> GameState {
         state
     }
