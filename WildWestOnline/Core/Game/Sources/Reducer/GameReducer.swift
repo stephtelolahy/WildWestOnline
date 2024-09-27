@@ -84,19 +84,19 @@ extension GameAction {
         case .eliminate(let player):
             EliminateReducer(player: player)
         case .endGame(let winner):
-            TODOReducer()
-        case .activate(let array, let player):
-            TODOReducer()
+            EndGameReducer(winner: winner)
+        case .activate(let cards, let player):
+            ActivateReducer(cards: cards, player: player)
         case .chooseOne(let choiceType, let options, let player):
-            TODOReducer()
+            ChooseOneReducer(choiceType: choiceType, options: options, player: player)
         case .preparePlay(let card, let player):
             TODOReducer()
         case .prepareChoose(let card, let player):
             TODOReducer()
         case .prepareEffect(let resolvingEffect):
             TODOReducer()
-        case .queue(let array):
-            TODOReducer()
+        case .queue(let actions):
+            QueueReducer(actions: actions)
         }
     }
 }
@@ -386,6 +386,7 @@ struct StartTurnReducer: GameReducer {
     func reduce(state: GameState) throws -> GameState {
         var state = state
         state.turn = player
+        state.turnPlayedBang = 0
         return state
     }
 }
@@ -407,6 +408,52 @@ struct EliminateReducer: GameReducer {
         var state = state
         state.playOrder.removeAll { $0 == player }
         state.queue.removeAll { $0.isEffectTriggeredBy(player) }
+        return state
+    }
+}
+
+struct QueueReducer: GameReducer {
+    let actions: [GameAction]
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.queue.insert(contentsOf: actions, at: 0)
+        return state
+    }
+}
+
+struct ActivateReducer: GameReducer {
+    let cards: [String]
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.active[player] = cards
+        return state
+    }
+}
+
+struct ChooseOneReducer: GameReducer {
+    let choiceType: ChoiceType
+    let options: [String]
+    let player: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.chooseOne[player] = ChooseOne(
+            type: choiceType,
+            options: options
+        )
+        return state
+    }
+}
+
+struct EndGameReducer: GameReducer {
+    let winner: String
+
+    func reduce(state: GameState) throws -> GameState {
+        var state = state
+        state.winner = winner
         return state
     }
 }

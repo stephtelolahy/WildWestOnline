@@ -45,6 +45,7 @@ public enum Setup {
                     nil
                 }
             }
+            players[id] = player
         }
 
         return GameState(

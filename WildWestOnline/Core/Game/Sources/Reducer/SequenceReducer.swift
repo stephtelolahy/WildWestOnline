@@ -7,29 +7,6 @@
 
 import Redux
 /*
-    static let activateReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.activate(cards, player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state.active[player] = cards
-        return state
-    }
-
-    static let chooseOneReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.chooseOne(type, options, player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state.chooseOne[player] = ChooseOne(
-            type: type,
-            options: options
-        )
-        return state
-    }
-
     static let prepareChooseReducer: Reducer<Self> = { state, action in
         /*
         guard case let GameAction.prepareChoose(option, player) = action else {
@@ -48,26 +25,6 @@ import Redux
         var state = state
         state.queue[0] = updatedAction
          */
-        return state
-    }
-
-    static let endGameReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.endGame(winner) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state.winner = winner
-        return state
-    }
-
-    static let startTurnReducer: Reducer<Self> = { state, action in
-        guard case let GameAction.startTurn(player) = action else {
-            fatalError("unexpected")
-        }
-
-        var state = state
-        state.played = [:]
         return state
     }
 
