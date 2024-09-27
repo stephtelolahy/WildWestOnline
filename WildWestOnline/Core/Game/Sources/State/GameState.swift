@@ -24,20 +24,16 @@ public enum PlayMode: Equatable, Codable {
     case auto
 }
 
-/// Choice request
 public struct ChooseOne: Codable, Equatable {
     public let type: ChoiceType
     public let options: [String]
 }
 
+/// ChooseOne options
 public extension String {
-    /// Hidden hand card
     static let hiddenHand = "hiddenHand"
-
-    /// Pass when asked to do an action
     static let pass = "pass"
 }
-
 
 // MARK: - Convenience
 

@@ -4,8 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 26/09/2024.
 //
-import Foundation
-
 public struct Player: Equatable, Codable {
     public let figure: String
     public var abilities: [String]
