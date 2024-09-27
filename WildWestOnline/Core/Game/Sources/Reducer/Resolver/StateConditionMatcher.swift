@@ -10,7 +10,7 @@ protocol StateConditionMatcher {
 }
 
 public extension TriggeredAbility.Selector.StateCondition {
-    public enum Error: Swift.Error, Equatable {
+    enum Error: Swift.Error, Equatable {
         /// Not matching requirement
         case noReq(TriggeredAbility.Selector.StateCondition)
     }
