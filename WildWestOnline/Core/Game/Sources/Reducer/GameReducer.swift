@@ -502,8 +502,18 @@ struct PrepareEffectReducer: GameReducer {
 
     func reduce(state: GameState) throws -> GameState {
         var state = state
-        let children = try effect.resolve(state: state)
-        state.queue.insert(contentsOf: children, at: 0)
+        if effect.selectors.isEmpty {
+            let resolved = try effect.action.resolve(effect)
+            state.queue.insert(resolved, at: 0)
+        } else {
+            var effect = effect
+            let selector = effect.selectors.remove(at: 0)
+            let resolved = try selector
+                .resolve(state: state, ctx: effect)
+                .map(GameAction.prepareEffect)
+            state.queue.insert(contentsOf: resolved, at: 0)
+        }
+
         return state
     }
 }
