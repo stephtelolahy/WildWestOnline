@@ -105,7 +105,8 @@ private extension Setup {
             weapon: 1,
             handLimit: 0,
             magnifying: 0,
-            remoteness: 0
+            remoteness: 0,
+            flippedCards: 1
         )
     }
 }

@@ -93,7 +93,7 @@ struct SidKetchumTests {
         // When
         // Then
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
-        await #expect(throws: PlayersState.Error.playerAlreadyMaxHealth("p1")) {
+        await #expect(throws: GameState.Error.playerAlreadyMaxHealth("p1")) {
             try await dispatch(action, state: state)
         }
     }

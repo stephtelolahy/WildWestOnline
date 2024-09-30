@@ -97,6 +97,12 @@ extension GameAction {
             PrepareEffectReducer(effect: effect)
         case .queue(let actions):
             QueueReducer(actions: actions)
+        case .setMaginifying(let value, let player):
+            fatalError()
+        case .setWeapon(let value, let player):
+            fatalError()
+        case .setRemoteness(let value, let player):
+            fatalError()
         }
     }
 }

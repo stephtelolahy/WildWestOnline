@@ -38,7 +38,7 @@ struct EndTurnTests {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)
                     .withAbilities([.endTurn])
-                    .withAttributes([.handLimit: 10])
+                    .withHandLimit(10)
             }
             .withPlayer("p2")
             .withTurn("p1")

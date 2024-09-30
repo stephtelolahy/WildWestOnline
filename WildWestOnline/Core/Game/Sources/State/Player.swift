@@ -15,6 +15,7 @@ public struct Player: Equatable, Codable {
     public var handLimit: Int
     public var magnifying: Int
     public var remoteness: Int
+    public var flippedCards: Int
 }
 
 public extension Player {
@@ -29,6 +30,7 @@ public extension Player {
         private var handLimit: Int = 0
         private var magnifying: Int = 0
         private var remoteness: Int = 0
+        private var flippedCards: Int = 0
 
         public func build() -> Player {
             .init(
@@ -41,7 +43,8 @@ public extension Player {
                 weapon: weapon,
                 handLimit: handLimit,
                 magnifying: magnifying,
-                remoteness: remoteness
+                remoteness: remoteness,
+                flippedCards: flippedCards
             )
         }
 

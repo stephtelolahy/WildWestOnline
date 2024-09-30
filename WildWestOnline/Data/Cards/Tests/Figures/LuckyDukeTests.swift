@@ -22,6 +22,6 @@ struct LuckyDukeTests {
         let player = state.player(.luckyDuke)
 
         // Then
-        #expect(player.attributes[.flippedCards] == 2)
+        #expect(player.flippedCards == 2)
     }
 }

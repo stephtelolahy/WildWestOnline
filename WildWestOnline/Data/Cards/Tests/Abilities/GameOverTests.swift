@@ -54,7 +54,7 @@ struct GameOverTests {
         // When
         // Then
         let action = GameAction.preparePlay("c1", player: "p1")
-        await #expect(throws: SequenceState.Error.gameIsOver) {
+        await #expect(throws: GameState.Error.gameIsOver) {
             try await dispatch(action, state: state)
         }
     }

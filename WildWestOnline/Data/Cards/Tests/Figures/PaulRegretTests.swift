@@ -22,6 +22,6 @@ struct PaulRegretTests {
         let player = state.player(.paulRegret)
 
         // Then
-        #expect(player.attributes[.remoteness] == 1)
+        #expect(player.remoteness == 1)
     }
 }

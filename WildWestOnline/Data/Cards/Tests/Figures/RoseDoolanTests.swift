@@ -22,6 +22,6 @@ struct RoseDoolanTests {
         let player = state.player(.roseDoolan)
 
         // Then
-        #expect(player.attributes[.magnifying] == 1)
+        #expect(player.magnifying == 1)
     }
 }

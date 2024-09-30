@@ -25,7 +25,7 @@ struct ScopeTests {
         // Then
         #expect(result == [
             .playEquipment(.scope, player: "p1"),
-            .setAttribute(.magnifying, value: 1, player: "p1")
+            .setMaginifying(1, player: "p1")
         ])
     }
 
@@ -35,7 +35,7 @@ struct ScopeTests {
             .withPlayer("p1") {
                 $0.withInPlay([.scope])
                     .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.magnifying: 1])
+                    .withMagnifying(1)
             }
             .build()
 
@@ -46,7 +46,7 @@ struct ScopeTests {
         // Then
         #expect(result == [
             .discardInPlay(.scope, player: "p1"),
-            .setAttribute(.magnifying, value: nil, player: "p1")
+            .setMaginifying(0, player: "p1")
         ])
     }
 }

@@ -25,7 +25,7 @@ struct MustangTests {
         // Then
         #expect(result == [
             .playEquipment(.mustang, player: "p1"),
-            .setAttribute(.remoteness, value: 1, player: "p1")
+            .setRemoteness(1, player: "p1")
         ])
     }
 }

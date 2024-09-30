@@ -31,7 +31,7 @@ extension GameView {
         return .init(
             players: game.playerItems,
             message: game.message,
-            chooseOne: game.chooseOne,
+            chooseOne: game.viewChooseOne,
             handCards: game.handCards,
             topDiscard: game.discard.first,
             topDeck: game.deck.first,
@@ -49,12 +49,12 @@ private extension GameState {
         self.startOrder.map { playerId in
             let playerObj = player(playerId)
             let health = max(0, playerObj.health)
-            let maxHealth = playerObj.attributes[.maxHealth] ?? 0
-            let handCount = field.hand.get(playerId).count
-            let equipment = field.inPlay.get(playerId)
-            let isTurn = playerId == round.turn
-            let isEliminated = !round.playOrder.contains(playerId)
-            let isTargeted = sequence.queue.contains { $0.isEffectTargeting(playerId) }
+            let maxHealth = playerObj.maxHealth
+            let handCount = playerObj.hand.count
+            let equipment = playerObj.inPlay
+            let isTurn = playerId == turn
+            let isEliminated = !playOrder.contains(playerId)
+            let isTargeted = queue.contains { $0.isEffectTargeting(playerId) }
 
             return .init(
                 id: playerId,
@@ -74,16 +74,16 @@ private extension GameState {
     }
 
     var message: String {
-        if let turn = round.turn {
+        if let turn = turn {
             "\(turn.uppercased())'s turn"
         } else {
             "-"
         }
     }
 
-    var chooseOne: GameView.State.ChooseOne? {
+    var viewChooseOne: GameView.State.ChooseOne? {
         guard let controlledPlayer = controlledPlayerId,
-              let chooseOne = sequence.chooseOne[controlledPlayer] else {
+              let chooseOne = chooseOne[controlledPlayer] else {
             return  nil
         }
 
@@ -99,9 +99,9 @@ private extension GameState {
             return []
         }
 
-        let activeCards = sequence.active[playerId] ?? []
+        let activeCards = active[playerId] ?? []
 
-        let hand = field.hand.get(playerId).map { card in
+        let hand = playerObj.hand.map { card in
             GameView.State.HandCard(
                 card: card,
                 active: activeCards.contains(card)
@@ -123,7 +123,7 @@ private extension GameState {
     }
 
     var startingPlayerId: String {
-        round.playOrder.first!
+        playOrder.first!
     }
 
     var controlledPlayerId: String? {
@@ -131,11 +131,10 @@ private extension GameState {
     }
 
     var startPlayerId: String {
-        guard let playerId = round.startOrder.first else {
+        guard let playerId = startOrder.first else {
             fatalError("unsupported")
         }
 
         return playerId
     }
 }
-

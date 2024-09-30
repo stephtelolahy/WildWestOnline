@@ -15,7 +15,7 @@ struct WinchesterTests {
             .withPlayer("p1") {
                 $0.withHand([.winchester])
                     .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.weapon: 1])
+                    .withWeapon(1)
             }
             .build()
 
@@ -26,7 +26,8 @@ struct WinchesterTests {
         // Then
         #expect(result == [
             .playEquipment(.winchester, player: "p1"),
-            .setAttribute(.weapon, value: 5, player: "p1")
+            .setWeapon(5, player: "p1"),
+            .setWeapon(5, player: "p1")
         ])
     }
 }

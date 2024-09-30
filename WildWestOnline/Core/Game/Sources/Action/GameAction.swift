@@ -74,6 +74,11 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Eliminate
     case eliminate(player: String)
 
+    /// Set attribute
+    case setWeapon(Int, player: String)
+    case setMaginifying(Int, player: String)
+    case setRemoteness(Int, player: String)
+
     // MARK: - To spec
 
     /// End game

@@ -15,7 +15,7 @@ struct SchofieldTests {
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.weapon: 1])
+                    .withWeapon(1)
             }
             .build()
 
@@ -26,7 +26,7 @@ struct SchofieldTests {
         // Then
         #expect(result == [
             .playEquipment(.schofield, player: "p1"),
-            .setAttribute(.weapon, value: 2, player: "p1")
+            .setWeapon(2, player: "p1")
         ])
     }
 
@@ -37,7 +37,7 @@ struct SchofieldTests {
                 $0.withHand([.schofield])
                     .withInPlay([.remington])
                     .withAbilities([.updateAttributesOnChangeInPlay, .discardPreviousWeaponOnPlayWeapon])
-                    .withAttributes([.weapon: 3])
+                    .withWeapon(3)
             }
             .build()
 
@@ -49,7 +49,7 @@ struct SchofieldTests {
         #expect(result == [
             .playEquipment(.schofield, player: "p1"),
             .discardInPlay(.remington, player: "p1"),
-            .setAttribute(.weapon, value: 2, player: "p1")
+            .setWeapon(2, player: "p1")
         ])
     }
 
@@ -59,7 +59,7 @@ struct SchofieldTests {
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
                     .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.weapon: 2])
+                    .withWeapon(2)
                     .withFigure("f1")
             }
             .withExtraCards(["f1": Card(name: "f1", passive: [.setWeapon(1)])])
@@ -72,7 +72,7 @@ struct SchofieldTests {
         // Then
         #expect(result == [
             .discardInPlay(.schofield, player: "p1"),
-            .setAttribute(.weapon, value: 1, player: "p1")
+            .setWeapon(1, player: "p1")
         ])
     }
 
