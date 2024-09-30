@@ -74,7 +74,8 @@ private extension ActionType {
 
     struct HealResolver: Resolver {
         func resolve(_ effect: ResolvingEffect) throws -> GameAction {
-            .heal(1, player: effect.actor)
+            let target = effect.target ?? effect.actor
+            return .heal(1, player: target)
         }
     }
 }

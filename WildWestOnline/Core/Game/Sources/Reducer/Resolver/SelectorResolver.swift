@@ -71,5 +71,4 @@ private extension TriggeredAbility.Selector {
             }
         }
     }
-
 }
