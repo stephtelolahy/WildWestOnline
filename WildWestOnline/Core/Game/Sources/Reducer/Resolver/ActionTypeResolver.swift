@@ -5,16 +5,18 @@
 //  Created by Stephano Hugues TELOLAHY on 25/09/2024.
 //
 
-protocol ActionTypeResolver {
-    func resolve(_ effect: ResolvingEffect) throws -> GameAction
-}
-
 extension ActionType {
     func resolve(_ effect: ResolvingEffect) throws -> GameAction {
         try resolver.resolve(effect)
     }
+}
 
-    private var resolver: ActionTypeResolver {
+private extension ActionType {
+    protocol Resolver {
+        func resolve(_ effect: ResolvingEffect) throws -> GameAction
+    }
+
+    var resolver: Resolver {
         switch self {
         case .playBrown: PlayBrownResolver()
         case .playEquipment:
@@ -57,22 +59,23 @@ extension ActionType {
             fatalError()
         }
     }
-}
 
-struct PlayBrownResolver: ActionTypeResolver {
-    func resolve(_ effect: ResolvingEffect) throws -> GameAction {
-        .playBrown(effect.card, player: effect.actor)
+    struct PlayBrownResolver: Resolver {
+        func resolve(_ effect: ResolvingEffect) throws -> GameAction {
+            .playBrown(effect.card, player: effect.actor)
+        }
+    }
+
+    struct DrawDeckResolver: Resolver {
+        func resolve(_ effect: ResolvingEffect) throws -> GameAction {
+            .drawDeck(player: effect.actor)
+        }
+    }
+
+    struct HealResolver: Resolver {
+        func resolve(_ effect: ResolvingEffect) throws -> GameAction {
+            .heal(1, player: effect.actor)
+        }
     }
 }
 
-struct DrawDeckResolver: ActionTypeResolver {
-    func resolve(_ effect: ResolvingEffect) throws -> GameAction {
-        .drawDeck(player: effect.actor)
-    }
-}
-
-struct HealResolver: ActionTypeResolver {
-    func resolve(_ effect: ResolvingEffect) throws -> GameAction {
-        .heal(1, player: effect.actor)
-    }
-}

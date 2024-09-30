@@ -5,16 +5,18 @@
 //  Created by Stephano Hugues TELOLAHY on 25/09/2024.
 //
 
-protocol SelectorResolver {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect]
-}
-
 extension TriggeredAbility.Selector {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
         try resolver.resolve(state: state, ctx: ctx)
     }
+}
 
-    private var resolver: SelectorResolver {
+private extension TriggeredAbility.Selector {
+    protocol Resolver {
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect]
+    }
+
+    var resolver: Resolver {
         switch self {
         case .setTarget(let target):
             SetTargetResolver(target: target)
@@ -38,35 +40,36 @@ extension TriggeredAbility.Selector {
             VerifyResolver(stateCondition: stateCondition)
         }
     }
-}
 
-struct RepeatResolver: SelectorResolver {
-    let times: TriggeredAbility.Selector.Number
+    struct RepeatResolver: Resolver {
+        let times: TriggeredAbility.Selector.Number
 
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
-        let number = try times.resolve(state: state, ctx: ctx)
-        return Array(repeating: ctx, count: number)
-    }
-}
-
-struct VerifyResolver: SelectorResolver {
-    let stateCondition: TriggeredAbility.Selector.StateCondition
-
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
-        try stateCondition.resolve(state: state)
-        return [ctx]
-    }
-}
-
-struct SetTargetResolver: SelectorResolver {
-    let target: TriggeredAbility.Selector.Target
-
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
-        let targets = try target.resolve(state: state, ctx: ctx)
-        return targets.map { aTarget in
-            var copy = ctx
-            copy.target = aTarget
-            return copy
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+            let number = try times.resolve(state: state, ctx: ctx)
+            return Array(repeating: ctx, count: number)
         }
     }
+
+    struct VerifyResolver: Resolver {
+        let stateCondition: TriggeredAbility.Selector.StateCondition
+
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+            try stateCondition.resolve(state: state)
+            return [ctx]
+        }
+    }
+
+    struct SetTargetResolver: Resolver {
+        let target: TriggeredAbility.Selector.Target
+
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+            let targets = try target.resolve(state: state, ctx: ctx)
+            return targets.map { aTarget in
+                var copy = ctx
+                copy.target = aTarget
+                return copy
+            }
+        }
+    }
+
 }
