@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct StagecoachTests {
-    @Test func plaStagecoach_shouldDraw2Cards() async throws {
+    @Test func play_shouldDraw2Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {

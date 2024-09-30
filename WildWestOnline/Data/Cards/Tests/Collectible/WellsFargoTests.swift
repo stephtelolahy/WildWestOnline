@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct WellsFargoTests {
-    @Test func playWellsFargo_shouldDraw3Cards() async throws {
+    @Test func play_shouldDraw3Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {

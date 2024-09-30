@@ -25,8 +25,8 @@ public enum Cards {
 //
 //        beer,
 //        saloon,
-//        stagecoach,
-//        wellsFargo,
+        stagecoach,
+        wellsFargo,
 //        catBalou,
 //        panic,
 //        bang,
@@ -281,12 +281,12 @@ private extension Cards {
             ]
         )
     }
-
+*/
     static var stagecoach: Card {
         .init(
             name: .stagecoach,
             desc: "Draw two cards from the top of the deck.",
-            effects: [
+            triggered: [
                 .brown,
                 .init(
                     action: .drawDeck,
@@ -302,7 +302,7 @@ private extension Cards {
         .init(
             name: .wellsFargo,
             desc: "Draw three cards from the top of the deck.",
-            effects: [
+            triggered: [
                 .brown,
                 .init(
                     action: .drawDeck,
@@ -313,7 +313,7 @@ private extension Cards {
             ]
         )
     }
-
+    /*
     static var catBalou: Card {
         .init(
             name: .catBalou,
