@@ -125,6 +125,10 @@ public struct TriggeredAbility: Equatable, Codable {
             case targetHealthIs1
             case not(Self)
         }
+
+        public enum Error: Swift.Error, Equatable {
+            case noPlayer(Target)
+        }
     }
 
     /// Triggering events for effects

@@ -132,5 +132,5 @@ public struct ResolvingEffect: Equatable, Codable {
     public let actor: String
     public var event: GameAction?
     public var selectors: [TriggeredAbility.Selector] = []
-    public var attr: [ActionAttribute: String] = [:]
+    public var target: String?
 }

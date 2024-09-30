@@ -23,8 +23,8 @@ public enum Cards {
 //        defaultDiscardPreviousWeaponOnPlayed,
 //        defaultDiscardBeerOnDamagedLethal,
 //
-//        beer,
-//        saloon,
+        beer,
+        saloon,
         stagecoach,
         wellsFargo,
 //        catBalou,
@@ -249,12 +249,12 @@ private extension Cards {
     }
 
     // MARK: - Bang
-
+*/
     static var beer: Card {
         .init(
             name: .beer,
             desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            effects: [
+            triggered: [
                 .brown,
                 .init(
                     action: .heal,
@@ -270,18 +270,18 @@ private extension Cards {
         .init(
             name: .saloon,
             desc: "All players in play regain one life point.",
-            effects: [
+            triggered: [
                 .brown,
                 .init(
                     action: .heal,
                     selectors: [
-                        .setTarget(.all)
+                        .setTarget(.damaged)
                     ]
                 )
             ]
         )
     }
-*/
+
     static var stagecoach: Card {
         .init(
             name: .stagecoach,

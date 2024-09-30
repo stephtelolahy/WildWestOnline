@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct BeerTests {
-    @Test func playingBeer_beingDamaged_shouldHealOneLifePoint() async throws {
+    @Test func play_beingDamaged_shouldHealOneLifePoint() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -32,7 +32,7 @@ struct BeerTests {
         ])
     }
     
-    @Test func playingBeer_alreadyMaxHealth_shouldThrowError() async throws {
+    @Test func play_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -52,7 +52,7 @@ struct BeerTests {
         }
     }
     
-    @Test func playingBeer_twoPlayersLeft_shouldThrowError() async throws {
+    @Test func play_twoPlayersLeft_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {

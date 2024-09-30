@@ -17,7 +17,7 @@ extension TriggeredAbility.Selector {
     private var resolver: SelectorResolver {
         switch self {
         case .setTarget(let target):
-            fatalError()
+            SetTargetResolver(target: target)
         case .setCard(let card):
             fatalError()
         case .setAttribute(let actionAttribute, let value):
@@ -55,5 +55,18 @@ struct VerifyResolver: SelectorResolver {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
         try stateCondition.resolve(state: state)
         return [ctx]
+    }
+}
+
+struct SetTargetResolver: SelectorResolver {
+    let target: TriggeredAbility.Selector.Target
+
+    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+        let targets = try target.resolve(state: state, ctx: ctx)
+        return targets.map { aTarget in
+            var copy = ctx
+            copy.target = aTarget
+            return copy
+        }
     }
 }

@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct SaloonTests {
-    @Test func playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
+    @Test func play_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -39,7 +39,7 @@ struct SaloonTests {
         ])
     }
 
-    @Test func playSaloon_withoutPlayerDamaged_shouldThrowError() async throws {
+    @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -56,7 +56,7 @@ struct SaloonTests {
         // When
         // Then
         let action = GameAction.preparePlay(.saloon, player: "p1")
-        await #expect(throws: ArgPlayer.Error.noPlayer(.damaged)) {
+        await #expect(throws: TriggeredAbility.Selector.Error.noPlayer(.damaged)) {
             try await dispatch(action, state: state)
         }
     }
