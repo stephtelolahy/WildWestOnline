@@ -10,14 +10,14 @@ import Redux
 import Foundation
 
 extension Middlewares {
-    static func playAIMoves(strategy: AIStrategy) -> Middleware<GameState> {
+    static func playAIMoves() -> Middleware<GameState> {
         { state, _ in
             guard state.winner == nil else {
                 return Empty().eraseToAnyPublisher()
             }
 
             if let active = state.active.first,
-               state.playMode[active.key] == .auto {
+               case .auto(let strategy) = state.playMode[active.key] {
                 let actions = active.value.map { GameAction.preparePlay($0, player: active.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
@@ -27,7 +27,7 @@ extension Middlewares {
             }
 
             if let chooseOne = state.chooseOne.first,
-               state.playMode[chooseOne.key] == .auto {
+               case .auto(let strategy) = state.playMode[chooseOne.key] {
                 let actions = chooseOne.value.options.map { GameAction.prepareChoose($0, player: chooseOne.key) }
                 let move = strategy.evaluateBestMove(actions, state: state)
 
@@ -41,34 +41,49 @@ extension Middlewares {
     }
 }
 
-public protocol AIStrategy {
-    func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction
-}
-
-public struct RandomStrategy: AIStrategy {
-    public init() {}
-
-    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
-        actions.randomElement()!
+private extension AIStrategy {
+    func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+        evaluator.evaluateBestMove(actions, state: state)
     }
-}
 
-public struct AgressiveStrategy: AIStrategy {
-    public init() {}
+    protocol Evaluator {
+        func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction
+    }
 
-    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
-        let cardsValue: [String: Int] = [
-            "bang": 3,
-            "duel": 3,
-            "gatling": 3,
-            "endTurn": -1
-        ]
+    var evaluator: Evaluator {
+        switch self {
+        case .random:
+            RandomStrategy()
+        case .agressive:
+            AgressiveStrategy()
+        }
+    }
 
-        return actions.shuffled().min { action1, action2 in
-            let value1 = cardsValue[action1.playedCard] ?? 0
-            let value2 = cardsValue[action2.playedCard] ?? 0
-            return value1 > value2
-        }!
+    struct RandomStrategy: Evaluator {
+        public init() {}
+
+        public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+            actions.randomElement()!
+        }
+    }
+
+    struct AgressiveStrategy: Evaluator {
+        public init() {}
+
+        public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+            let cardsValue: [String: Int] = [
+                "bang": 3,
+                "duel": 3,
+                "gatling": 3,
+                "endTurn": -1
+            ]
+
+            return actions.shuffled().min { action1, action2 in
+                let value1 = cardsValue[action1.playedCard] ?? 0
+                let value2 = cardsValue[action2.playedCard] ?? 0
+                return value1 > value2
+            }!
+        }
     }
 }
 

@@ -49,7 +49,7 @@ private extension AppState {
 
         let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
         game.playMode = game.startOrder.reduce(into: [:]) {
-            $0[$1] = $1 == manualPlayer ? .manual : .auto
+            $0[$1] = $1 == manualPlayer ? .manual : .auto(.agressive)
         }
 
         game.waitDelaySeconds = settings.waitDelaySeconds

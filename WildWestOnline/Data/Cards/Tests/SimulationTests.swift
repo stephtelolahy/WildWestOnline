@@ -39,7 +39,7 @@ struct SimulationTests {
             inventory: inventory,
             preferredFigure: preferredFigure
         )
-        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto(.random) }
         let stateWrapper = StateWrapper(value: game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")

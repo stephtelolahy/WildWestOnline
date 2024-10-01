@@ -21,7 +21,12 @@ public struct GameState: Codable, Equatable {
 
 public enum PlayMode: Equatable, Codable {
     case manual
-    case auto
+    case auto(AIStrategy)
+}
+
+public enum AIStrategy: String, Equatable, Codable {
+    case random
+    case agressive
 }
 
 public struct ChooseOne: Codable, Equatable {
