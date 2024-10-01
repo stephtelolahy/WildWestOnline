@@ -56,8 +56,7 @@ struct PreparePlayTest {
                         card: "c1",
                         actor: "p1",
                         event: .preparePlay("c1", player: "p1"),
-                        selectors: [.verify(.actorTurn)],
-                        attr: [:]
+                        selectors: [.verify(.actorTurn)]
                     )
                 )
             ]
