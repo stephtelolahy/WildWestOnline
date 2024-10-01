@@ -1,20 +1,22 @@
 //
-//  NumberResolver.swift
+//  Resolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stephano TELOLAHY on 25/09/2024.
 //
 
-protocol NumberResolver {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int
-}
-
 extension TriggeredAbility.Selector.Number {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
         try resolver.resolve(state: state, ctx: ctx)
     }
+}
 
-    private var resolver: NumberResolver {
+private extension TriggeredAbility.Selector.Number {
+    protocol Resolver {
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int
+    }
+
+    var resolver: Resolver {
         switch self {
         case .activePlayers: NumActivePlayers()
         case .excessHand: NumExcessHand()
@@ -23,45 +25,45 @@ extension TriggeredAbility.Selector.Number {
         case .value(let number): NumExact(number: number)
         }
     }
-}
 
-struct NumExact: NumberResolver {
-    let number: Int
+    struct NumExact: Resolver {
+        let number: Int
 
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        number
-    }
-}
-
-struct NumActivePlayers: NumberResolver {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        state.playOrder.count
-    }
-}
-
-struct NumExcessHand: NumberResolver {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        let handCount = state.player(ctx.actor).hand.count
-        let handlLimit = state.player(ctx.actor).handLimitAtEndOfTurn
-        return max(handCount - handlLimit, 0)
-    }
-}
-
-struct NumWound: NumberResolver {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        let maxHealth = state.player(ctx.actor).maxHealth
-        let health = state.player(ctx.actor).health
-        return maxHealth - health
-    }
-}
-
-struct NumDamage: NumberResolver {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
-        guard case let .damage(amount, player) = ctx.event, player == ctx.actor else {
-            fatalError("unexpected")
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+            number
         }
+    }
 
-        return amount
+    struct NumActivePlayers: Resolver {
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+            state.playOrder.count
+        }
+    }
+
+    struct NumExcessHand: Resolver {
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+            let handCount = state.player(ctx.actor).hand.count
+            let handlLimit = state.player(ctx.actor).handLimitAtEndOfTurn
+            return max(handCount - handlLimit, 0)
+        }
+    }
+
+    struct NumWound: Resolver {
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+            let maxHealth = state.player(ctx.actor).maxHealth
+            let health = state.player(ctx.actor).health
+            return maxHealth - health
+        }
+    }
+
+    struct NumDamage: Resolver {
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> Int {
+            guard case let .damage(amount, player) = ctx.event, player == ctx.actor else {
+                fatalError("unexpected")
+            }
+
+            return amount
+        }
     }
 }
 
