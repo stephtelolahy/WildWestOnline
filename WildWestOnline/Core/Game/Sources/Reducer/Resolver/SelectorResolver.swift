@@ -24,8 +24,8 @@ private extension TriggeredAbility.Selector {
             fatalError()
         case .setAttribute(let actionAttribute, let value):
             fatalError()
-        case .chooseTarget(let array):
-            fatalError()
+        case .chooseTarget(let conditions):
+            ChooseTargetResolver(conditions:  conditions)
         case .chooseCard(let cardCondition):
             fatalError()
         case .chooseCostHandCard(let cardCondition, let count):
@@ -70,5 +70,21 @@ private extension TriggeredAbility.Selector {
                 return copy
             }
         }
+    }
+
+    struct ChooseTargetResolver: Resolver {
+        let conditions: [TargetCondition]
+
+        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+            let targets = state.playOrder
+                .starting(with: ctx.actor)
+                .filter { $0. }
+        }
+    }
+}
+
+private extension Selecor.TargetCondition {
+    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [String] {
+
     }
 }

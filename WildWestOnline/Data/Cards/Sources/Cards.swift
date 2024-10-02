@@ -27,7 +27,7 @@ public enum Cards {
         saloon,
         stagecoach,
         wellsFargo,
-//        catBalou,
+        catBalou,
 //        panic,
 //        bang,
 //        missed,
@@ -313,12 +313,12 @@ private extension Cards {
             ]
         )
     }
-    /*
+
     static var catBalou: Card {
         .init(
             name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
-            effects: [
+            triggered: [
                 .brown,
                 .init(
                     action: .discard,
@@ -330,7 +330,7 @@ private extension Cards {
             ]
         )
     }
-
+    /*
     static var panic: Card {
         .init(
             name: .panic,
