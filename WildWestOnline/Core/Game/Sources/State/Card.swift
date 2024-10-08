@@ -31,11 +31,91 @@ public struct Card: Codable, Equatable {
     }
 }
 
-/// An `effect` is a tag which performs an `action` each time an `event` occurs.
+public enum PassiveAbility: Codable, Equatable {
+    case setMaxHealth(Int)
+    case setWeapon(Int)
+}
+
 public struct TriggeredAbility: Equatable, Codable {
     public let action: ActionType
     public var selectors: [Selector]
     public let when: PlayReq
+
+    public enum ActionType: String, Codable {
+        /// {actor} discard silently a {card}
+        case playBrown
+
+        /// {actor} put a {card} is self's inPlay
+        case playEquipment
+
+        /// {actor} put a {card} on {target}'s inPlay
+        case playHandicap
+
+        /// {target} increase health by {amount}
+        /// By default target is {actor}
+        /// By default heal amount is 1
+        case heal
+
+        /// {target} decrease health by {amount}
+        /// By default target is {actor}
+        /// By default damage amount is 1
+        case damage
+
+        /// {actor} draw the top deck card
+        /// When a {card} is specified, this allow to draw a specific card
+        case drawDeck
+
+        /// {actor} draws the last discarded card
+        /// When a {card} is specified, this allow to draw a specific card
+        case drawDiscard
+
+        /// {actor} steal a {card} from {target}
+        case steal
+
+        /// {target} discard a {card}
+        /// By default target is {actor}
+        case discard
+
+        /// {actor} pass inPlay {card} on {target}'s inPlay
+        case passInPlay
+
+        /// draw {drawCards} cards from deck. Next effects depend on it
+        case draw
+
+        /// {actor} shows his last drawn card
+        case showLastHand
+
+        /// expose {amount} choosable cards from top deck
+        case discover
+
+        /// draw discovered deck {card}
+        case drawDiscovered
+
+        /// hide discovered cards
+        case undiscover
+
+        /// {target} starts his turn
+        case startTurn
+
+        /// {actor} ends his turn
+        case endTurn
+
+        /// {actor} gets eliminated
+        case eliminate
+
+        // MARK: - To spec
+
+        /// {actor} shoot at {target} with {damage} and {requiredMisses}
+        /// By default damage is 1
+        /// By default requiredMisses is 1
+        case shoot
+
+        /// {actor} counter a shot applied on himself
+        case missed
+
+        /// Counter card effect targetting self
+        case counter
+    }
 
     /// Selectors are used to specify which objects an aura or effect should affect.
     /// Choice is performed by {actor}
@@ -50,7 +130,7 @@ public struct TriggeredAbility: Equatable, Codable {
         case setAttribute(ActionAttribute, value: Number)
 
         /// choose targeted player
-        case chooseTarget([TargetCondition]? = nil)
+        case chooseTarget([TargetCondition] = [])
 
         /// choose used card
         case chooseCard(CardCondition? = nil)
@@ -131,7 +211,6 @@ public struct TriggeredAbility: Equatable, Codable {
         }
     }
 
-    /// Triggering events for effects
     public indirect enum PlayReq: Equatable, Codable {
         // events on actor
         case played
@@ -169,6 +248,7 @@ public struct TriggeredAbility: Equatable, Codable {
     }
 }
 
+@available(*, deprecated, message: "replace with player property")
 public enum PlayerAttribute: String, Codable, CaseIterable {
     case maxHealth
     case weapon
@@ -185,82 +265,7 @@ public enum PlayerAttribute: String, Codable, CaseIterable {
     case ghost
 }
 
-public enum ActionType: String, Codable {
-    /// {actor} discard silently a {card}
-    case playBrown
-
-    /// {actor} put a {card} is self's inPlay
-    case playEquipment
-
-    /// {actor} put a {card} on {target}'s inPlay
-    case playHandicap
-
-    /// {target} increase health by {amount}
-    /// By default target is {actor}
-    /// By default heal amount is 1
-    case heal
-
-    /// {target} decrease health by {amount}
-    /// By default target is {actor}
-    /// By default damage amount is 1
-    case damage
-
-    /// {actor} draw the top deck card
-    /// When a {card} is specified, this allow to draw a specific card
-    case drawDeck
-
-    /// {actor} draws the last discarded card
-    /// When a {card} is specified, this allow to draw a specific card
-    case drawDiscard
-
-    /// {actor} steal a {card} from {target}
-    case steal
-
-    /// {target} discard a {card}
-    /// By default target is {actor}
-    case discard
-
-    /// {actor} pass inPlay {card} on {target}'s inPlay
-    case passInPlay
-
-    /// draw {drawCards} cards from deck. Next effects depend on it
-    case draw
-
-    /// {actor} shows his last drawn card
-    case showLastHand
-
-    /// expose {amount} choosable cards from top deck
-    case discover
-
-    /// draw discovered deck {card}
-    case drawDiscovered
-
-    /// hide discovered cards
-    case undiscover
-
-    /// {target} starts his turn
-    case startTurn
-
-    /// {actor} ends his turn
-    case endTurn
-
-    /// {actor} gets eliminated
-    case eliminate
-
-    // MARK: - To spec
-
-    /// {actor} shoot at {target} with {damage} and {requiredMisses}
-    /// By default damage is 1
-    /// By default requiredMisses is 1
-    case shoot
-
-    /// {actor} counter a shot applied on himself
-    case missed
-
-    /// Counter card effect targetting self
-    case counter
-}
-
+@available(*, deprecated, message: "replace with player property")
 public enum ActionAttribute: String, Codable {
     case healAmount
     case damageAmount
@@ -275,9 +280,4 @@ public enum ActionAttribute: String, Codable {
     case playedByOtherHasNoEffect
     case inPlayOfOtherHasNoEffect
     case ignoreLimitPerTurn
-}
-
-public enum PassiveAbility: Codable, Equatable {
-    case setMaxHealth(Int)
-    case setWeapon(Int)
 }

@@ -127,7 +127,7 @@ public extension GameAction {
 /// Effect is enabled by a {card} owned by {actor} when
 /// As soon as all {selectors} are resolved, the effect can then be converted to a valid `GameAction`
 public struct ResolvingEffect: Equatable, Codable {
-    public let action: ActionType
+    public let action: TriggeredAbility.ActionType
     public let card: String
     public let actor: String
     public var event: GameAction?

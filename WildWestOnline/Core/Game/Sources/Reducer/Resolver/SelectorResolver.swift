@@ -78,13 +78,13 @@ private extension TriggeredAbility.Selector {
         func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
             let targets = state.playOrder
                 .starting(with: ctx.actor)
-                .filter { $0. }
+            fatalError()
         }
     }
 }
 
-private extension Selecor.TargetCondition {
+private extension TriggeredAbility.Selector.TargetCondition {
     func resolve(state: GameState, ctx: ResolvingEffect) throws -> [String] {
-
+        fatalError()
     }
 }

@@ -5,13 +5,13 @@
 //  Created by Stephano Hugues TELOLAHY on 25/09/2024.
 //
 
-extension ActionType {
+extension TriggeredAbility.ActionType {
     func resolve(_ effect: ResolvingEffect) throws -> GameAction {
         try resolver.resolve(effect)
     }
 }
 
-private extension ActionType {
+private extension TriggeredAbility.ActionType {
     protocol Resolver {
         func resolve(_ effect: ResolvingEffect) throws -> GameAction
     }
