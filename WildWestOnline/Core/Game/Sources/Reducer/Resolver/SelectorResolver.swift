@@ -6,14 +6,14 @@
 //
 
 extension TriggeredAbility.Selector {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+    func resolve(state: GameState, ctx: PendingEffect) throws -> [PendingEffect] {
         try resolver.resolve(state: state, ctx: ctx)
     }
 }
 
 private extension TriggeredAbility.Selector {
     protocol Resolver {
-        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect]
+        func resolve(state: GameState, ctx: PendingEffect) throws -> [PendingEffect]
     }
 
     var resolver: Resolver {
@@ -44,7 +44,7 @@ private extension TriggeredAbility.Selector {
     struct RepeatResolver: Resolver {
         let times: TriggeredAbility.Selector.Number
 
-        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+        func resolve(state: GameState, ctx: PendingEffect) throws -> [PendingEffect] {
             let number = try times.resolve(state: state, ctx: ctx)
             return Array(repeating: ctx, count: number)
         }
@@ -53,7 +53,7 @@ private extension TriggeredAbility.Selector {
     struct VerifyResolver: Resolver {
         let stateCondition: TriggeredAbility.Selector.StateCondition
 
-        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+        func resolve(state: GameState, ctx: PendingEffect) throws -> [PendingEffect] {
             try stateCondition.resolve(state: state)
             return [ctx]
         }
@@ -62,7 +62,7 @@ private extension TriggeredAbility.Selector {
     struct SetTargetResolver: Resolver {
         let target: TriggeredAbility.Selector.Target
 
-        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
+        func resolve(state: GameState, ctx: PendingEffect) throws -> [PendingEffect] {
             let targets = try target.resolve(state: state, ctx: ctx)
             return targets.map { aTarget in
                 var copy = ctx
@@ -75,16 +75,17 @@ private extension TriggeredAbility.Selector {
     struct ChooseTargetResolver: Resolver {
         let conditions: [TargetCondition]
 
-        func resolve(state: GameState, ctx: ResolvingEffect) throws -> [ResolvingEffect] {
-            let targets = state.playOrder
-                .starting(with: ctx.actor)
+        func resolve(state: GameState, ctx: PendingEffect) throws -> [PendingEffect] {
+//            let targets = state.playOrder
+//                .starting(with: ctx.actor)
             fatalError()
+            // TODO: ask for user to choose a target using Middleware
         }
     }
 }
 
 private extension TriggeredAbility.Selector.TargetCondition {
-    func resolve(state: GameState, ctx: ResolvingEffect) throws -> [String] {
+    func resolve(state: GameState, ctx: PendingEffect) throws -> [String] {
         fatalError()
     }
 }

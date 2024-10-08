@@ -145,7 +145,7 @@ private extension GameAction {
                 return state
             }
 
-            // Resolving sequence
+            // Resolve sequence
             if state.queue.isNotEmpty,
                state.queue.first == action {
                 state.queue.removeFirst()
@@ -503,7 +503,7 @@ private extension GameAction {
     }
 
     struct PrepareEffectReducer: GameReducer {
-        let effect: ResolvingEffect
+        let effect: PendingEffect
 
         func reduce(state: GameState) throws -> GameState {
             var state = state
