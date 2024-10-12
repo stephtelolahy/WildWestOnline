@@ -88,6 +88,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case activate([String], player: String)
 
     /// Expose a choice
+    @available(*, deprecated, message: "use chooser middleware")
     case chooseOne(ChoiceType, options: [String], player: String)
 
     // MARK: - Invisible
@@ -96,6 +97,7 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case preparePlay(String, player: String)
 
     /// Move: choose an option
+    @available(*, deprecated, message: "use chooser middleware")
     case prepareChoose(String, player: String)
 
     /// Resolve an effect
