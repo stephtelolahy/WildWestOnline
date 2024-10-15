@@ -7,17 +7,21 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class PaulRegretTests: XCTestCase {
-    func test_PaulRegret_shouldIncrementDistanceFromOthers() throws {
+struct PaulRegretTests {
+    @Test func PaulRegret_shouldIncrementDistanceFromOthers() async throws {
         // Given
-        let state = Setup.buildGame(figures: [.paulRegret], deck: [], cards: Cards.all)
+        let state = Setup.buildGame(
+            figures: [.paulRegret],
+            deck: [],
+            cards: CardsRepository().inventory.cards
+        )
 
         // When
         let player = state.player(.paulRegret)
 
         // Then
-        XCTAssertEqual(player.attributes[.remoteness], 1)
+        #expect(player.remoteness == 1)
     }
 }

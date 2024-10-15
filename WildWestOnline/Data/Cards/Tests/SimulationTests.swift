@@ -9,35 +9,29 @@ import CardsData
 import Combine
 import GameCore
 import Redux
+import Testing
+import Foundation
 import XCTest
 
-final class SimulationTests: XCTestCase {
-    func test_simulate4PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 4)
+struct SimulationTests {
+    @Test func simulate4PlayersGame_shouldComplete() async throws {
+        await simulateGame(playersCount: 4)
     }
 
-    func test_simulate5PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 5)
+    @Test func simulate7PlayersGame_shouldComplete() async throws {
+        await simulateGame(playersCount: 7)
     }
 
-    func test_simulate6PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 6)
-    }
-
-    func test_simulate7PlayersGame_shouldComplete() throws {
-        simulateGame(playersCount: 7)
-    }
-
-    func test_simulateGameWithCustomFigure_shouldComplete() throws {
-        try XCTSkipIf(!CardsRepository().inventory.figures.contains(.custom))
-        simulateGame(playersCount: 4, preferredFigure: .custom)
+    @Test(.enabled(if: CardsRepository().inventory.figures.contains(.custom)))
+    func simulateGameWithCustomFigure_shouldComplete() async throws {
+        await simulateGame(playersCount: 4, preferredFigure: .custom)
     }
 
     private func simulateGame(
         playersCount: Int,
         preferredFigure: String? = nil,
         timeout: TimeInterval = 5.0
-    ) {
+    ) async {
         // Given
         let inventory = CardsRepository().inventory
         var game = Setup.buildGame(
@@ -45,7 +39,7 @@ final class SimulationTests: XCTestCase {
             inventory: inventory,
             preferredFigure: preferredFigure
         )
-        game.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
+        game.playMode = game.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto(.random) }
         let stateWrapper = StateWrapper(value: game)
 
         let expectation = XCTestExpectation(description: "Awaiting game over")
@@ -60,19 +54,20 @@ final class SimulationTests: XCTestCase {
         )
 
         let cancellable = sut.$state.sink { state in
-            if state.sequence.winner != nil {
+            if state.winner != nil {
                 expectation.fulfill()
             }
         }
 
         // When
-        let sheriff = game.round.playOrder[0]
+        let sheriff = game.playOrder[0]
         sut.dispatch(GameAction.startTurn(player: sheriff))
 
         // Then
-        wait(for: [expectation], timeout: timeout)
+        let waiter = XCTWaiter()
+        await waiter.fulfillment(of: [expectation], timeout: timeout)
         cancellable.cancel()
-        XCTAssertNotNil(sut.state.sequence.winner, "Expected game over")
+        #expect(sut.state.winner != nil, "Expected game over")
     }
 }
 
@@ -81,11 +76,9 @@ private extension Middlewares {
     static func stateReproducer(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
             let resultState = try! GameState.reducer(prevState.value, action)
+            assert(resultState == state, "🚨 Inconsistent state after applying \(action)")
+
             prevState.value = resultState
-            assert(resultState.players == state.players, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.field == state.field, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.round == state.round, "🚨 Inconsistent state after applying \(action)")
-            assert(resultState.sequence == state.sequence, "🚨 Inconsistent state after applying \(action)")
             return Empty().eraseToAnyPublisher()
         }
     }

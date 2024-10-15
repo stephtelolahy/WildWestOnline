@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class EliminateOnDamageLethalTests: XCTestCase {
-    func test_beingDamaged_lethal_shouldBeEliminated() throws {
+struct EliminateOnDamageLethalTests {
+    @Test func beingDamaged_lethal_shouldBeEliminated() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -22,16 +22,16 @@ final class EliminateOnDamageLethalTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1"),
             .eliminate(player: "p1")
         ])
     }
 
-    func test_beingDamaged_nonLethal_shouldRemainActive() throws {
+    @Test func beingDamaged_nonLethal_shouldRemainActive() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -42,10 +42,10 @@ final class EliminateOnDamageLethalTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1")
         ])
     }

@@ -3,7 +3,6 @@
 //
 //  Created by Hugues Stephano Telolahy on 24/01/2020.
 //
-// swiftlint:disable no_magic_numbers
 
 import UIKit
 // import Kingfisher

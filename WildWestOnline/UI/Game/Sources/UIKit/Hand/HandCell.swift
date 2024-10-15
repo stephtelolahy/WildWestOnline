@@ -3,7 +3,6 @@
 //
 //  Created by Hugues Stephano Telolahy on 04/02/2020.
 //
-// swiftlint:disable no_magic_numbers
 
 import UIKit
 

@@ -12,11 +12,11 @@ extension Middlewares {
     static func checkGameOver() -> Middleware<GameState> {
         { state, action in
             guard case GameAction.eliminate = action,
-                  state.round.playOrder.count <= 1 else {
+                  state.playOrder.count <= 1 else {
                 return Empty().eraseToAnyPublisher()
             }
 
-            let winner = state.round.playOrder.first ?? ""
+            let winner = state.playOrder.first ?? ""
             return Just(GameAction.endGame(winner: winner)).eraseToAnyPublisher()
         }
     }
