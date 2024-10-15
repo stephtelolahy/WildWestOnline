@@ -33,7 +33,7 @@ private extension CardEffect {
             EffectJust { .damage(amount, player: $0.targetOrActor()) }
 
         case let .shoot(missesRequired):
-            EffectJust { .prepareEffect(.prepareShoot(missesRequired: missesRequired), ctx: $0) }
+            EffectJust { .prepareAction(.prepareShoot(missesRequired: missesRequired), ctx: $0) }
 
         case .prepareShoot:
             EffectJust { .damage(1, player: $0.targetOrActor()) }

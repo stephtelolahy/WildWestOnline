@@ -14,7 +14,7 @@ struct EffectTarget: EffectResolver {
         let children = try target.resolve(state: state, ctx: ctx) {
             var contextWithTarget = ctx
             contextWithTarget.resolvingTarget = $0
-            return GameAction.prepareEffect(effect, ctx: contextWithTarget)
+            return GameAction.prepareAction(effect, ctx: contextWithTarget)
         }
 
         return .push(children)

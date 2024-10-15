@@ -7,7 +7,7 @@
 
 extension GameAction {
     func isEffectTriggeredBy(_ player: String) -> Bool {
-        if case let .prepareEffect(effect) = self,
+        if case let .prepareAction(effect) = self,
            effect.actor == player {
             true
         } else {
@@ -17,7 +17,7 @@ extension GameAction {
 
     func isEffectOfStartTurn(ignoredCard: String) -> Bool {
         /*
-        if case let .prepareEffect(_, ctx) = self,
+        if case let .prepareAction(_, ctx) = self,
            case .startTurn = ctx.sourceEvent,
            ctx.sourceCard != ignoredCard {
             true
@@ -30,7 +30,7 @@ extension GameAction {
 
     func isEffectOfShoot(_ target: String) -> Bool {
         /*
-        if case let .prepareEffect(effect, ctx: effectCtx) = self,
+        if case let .prepareAction(effect, ctx: effectCtx) = self,
            case .prepareShoot = effect,
             effectCtx.resolvingTarget == target {
             return true
@@ -43,7 +43,7 @@ extension GameAction {
 
     public func isEffectTargeting(_ player: String) -> Bool {
         /*
-        if case .prepareEffect(_, let ctx) = self,
+        if case .prepareAction(_, let ctx) = self,
            ctx.resolvingTarget == player {
             return true
         } else {
@@ -64,7 +64,7 @@ extension GameState {
     }
 
     mutating func removeEffectsLinkedTo(_ action: GameAction) {
-        if case let .prepareEffect(effect, effectCtx) = action,
+        if case let .prepareAction(effect, effectCtx) = action,
            case .prepareShoot = effect,
            let target = effectCtx.resolvingTarget {
             removeEffectsLinkedToShoot(target)
@@ -73,7 +73,7 @@ extension GameState {
 
     mutating func removeEffectsLinkedToShoot(_ target: String) {
         queue.removeAll { item in
-            if case let .prepareEffect(_, ctx) = item,
+            if case let .prepareAction(_, ctx) = item,
                ctx.sourceShoot == target {
                 return true
             } else {

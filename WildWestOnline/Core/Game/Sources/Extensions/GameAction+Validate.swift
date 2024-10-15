@@ -52,7 +52,7 @@ extension GameAction {
         }
 /*
         let chooseOne = GameAction.chooseOne(type, options: validOptions, player: chooser)
-        let match = GameAction.prepareEffect(.matchAction(actions), ctx: ctx)
+        let match = GameAction.prepareAction(.matchAction(actions), ctx: ctx)
         return [chooseOne, match]
  */
         fatalError()

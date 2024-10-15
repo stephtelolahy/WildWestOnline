@@ -97,11 +97,10 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case preparePlay(String, player: String)
 
     /// Move: choose an option
-    @available(*, deprecated, message: "use chooser middleware")
     case prepareChoose(String, player: String)
 
-    /// Resolve an effect
-    case prepareEffect(PendingEffect)
+    /// Resolve a pending action
+    case prepareAction(PendingAction)
 
     /// Queue actions
     case queue([Self])
@@ -115,7 +114,7 @@ public extension GameAction {
         switch self {
         case .preparePlay,
              .prepareChoose,
-             .prepareEffect,
+             .prepareAction,
              .queue:
             false
 
@@ -125,10 +124,10 @@ public extension GameAction {
     }
 }
 
-/// `PendingEffect` is an {action} that was triggered when an {event} occurend
+/// `PendingAction` is an {action} that was triggered when an {event} occurend
 /// It is powered by a {card} owned by {actor}
 /// As soon as all {selectors} are resolved, the effect can then be converted to a valid `GameAction`
-public struct PendingEffect: Equatable, Codable {
+public struct PendingAction: Equatable, Codable {
     public let action: TriggeredAbility.ActionType
     public let card: String
     public let actor: String

@@ -17,7 +17,7 @@ struct ChooseOneTests {
                 $0.withHand(["c1", "c2", "c3"])
             }
             .withChooseOne(.cardToDraw, options: ["c1", "c2"], player: "p1")
-            .withSequence([.prepareEffect(.matchAction([:]), ctx: .init(sourceEvent: .draw, sourceActor: "p1", sourceCard: "c0"))])
+            .withSequence([.prepareAction(.matchAction([:]), ctx: .init(sourceEvent: .draw, sourceActor: "p1", sourceCard: "c0"))])
             .build()
 
         // When

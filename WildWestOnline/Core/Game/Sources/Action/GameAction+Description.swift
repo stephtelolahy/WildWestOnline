@@ -83,7 +83,7 @@ extension GameAction: CustomStringConvertible {
         case let .prepareChoose(option, player):
             "➡️ \(player) \(option)"
 
-        case let .prepareEffect(effect):
+        case let .prepareAction(effect):
             "➡️ \(effect.actor) \(effect.action.rawValue)"
 
         case let .queue(actions):

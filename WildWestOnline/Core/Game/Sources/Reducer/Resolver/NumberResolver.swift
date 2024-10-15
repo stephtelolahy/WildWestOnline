@@ -6,14 +6,14 @@
 //
 
 extension TriggeredAbility.Selector.Number {
-    func resolve(state: GameState, ctx: PendingEffect) throws -> Int {
+    func resolve(state: GameState, ctx: PendingAction) throws -> Int {
         try resolver.resolve(state: state, ctx: ctx)
     }
 }
 
 private extension TriggeredAbility.Selector.Number {
     protocol Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> Int
+        func resolve(state: GameState, ctx: PendingAction) throws -> Int
     }
 
     var resolver: Resolver {
@@ -29,19 +29,19 @@ private extension TriggeredAbility.Selector.Number {
     struct NumExact: Resolver {
         let number: Int
 
-        func resolve(state: GameState, ctx: PendingEffect) throws -> Int {
+        func resolve(state: GameState, ctx: PendingAction) throws -> Int {
             number
         }
     }
 
     struct NumActivePlayers: Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> Int {
+        func resolve(state: GameState, ctx: PendingAction) throws -> Int {
             state.playOrder.count
         }
     }
 
     struct NumExcessHand: Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> Int {
+        func resolve(state: GameState, ctx: PendingAction) throws -> Int {
             let handCount = state.player(ctx.actor).hand.count
             let handlLimit = state.player(ctx.actor).handLimitAtEndOfTurn
             return max(handCount - handlLimit, 0)
@@ -49,7 +49,7 @@ private extension TriggeredAbility.Selector.Number {
     }
 
     struct NumWound: Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> Int {
+        func resolve(state: GameState, ctx: PendingAction) throws -> Int {
             let maxHealth = state.player(ctx.actor).maxHealth
             let health = state.player(ctx.actor).health
             return maxHealth - health
@@ -57,7 +57,7 @@ private extension TriggeredAbility.Selector.Number {
     }
 
     struct NumDamage: Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> Int {
+        func resolve(state: GameState, ctx: PendingAction) throws -> Int {
             guard case let .damage(amount, player) = ctx.event, player == ctx.actor else {
                 fatalError("unexpected")
             }

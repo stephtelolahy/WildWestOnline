@@ -181,7 +181,7 @@ struct ActionDescribingTests {
     @Test func describingEffect() async throws {
         #expect(
             String(
-                describing: GameAction.prepareEffect(
+                describing: GameAction.prepareAction(
                     .init(
                         action: .discover,
                         card: "c1",

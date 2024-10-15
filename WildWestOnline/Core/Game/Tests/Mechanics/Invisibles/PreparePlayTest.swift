@@ -50,7 +50,7 @@ struct PreparePlayTest {
         // Then
         #expect(
             result.queue == [
-                GameAction.prepareEffect(
+                GameAction.prepareAction(
                     .init(
                         action: .drawDeck,
                         card: "c1",

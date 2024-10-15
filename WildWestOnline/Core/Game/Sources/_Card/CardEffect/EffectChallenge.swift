@@ -14,7 +14,7 @@ struct EffectChallenge: EffectResolver {
         /*
         guard case let .id(challengerId) = challenger else {
             let children = try challenger.resolve(state: state, ctx: ctx) {
-                .prepareEffect(
+                .prepareAction(
                     .challenge(
                         .id($0),
                         effect: effect,
@@ -31,7 +31,7 @@ struct EffectChallenge: EffectResolver {
 
             switch children {
             case .nothing:
-                return .push([.prepareEffect(otherwise, ctx: ctx)])
+                return .push([.prepareAction(otherwise, ctx: ctx)])
 
             case .push(let children):
                 return try resolvePushChildren(
@@ -45,7 +45,7 @@ struct EffectChallenge: EffectResolver {
                 fatalError("unexpected")
             }
         } catch {
-            return .push([.prepareEffect(otherwise, ctx: ctx)])
+            return .push([.prepareAction(otherwise, ctx: ctx)])
         }
     }
 
@@ -57,12 +57,12 @@ struct EffectChallenge: EffectResolver {
     ) throws -> EffectOutput {
         if children.count == 2 {
             if case .chooseOne(let type, var options, let player) = children[0],
-               case let .prepareEffect(childEffect, childCtx) = children[1],
+               case let .prepareAction(childEffect, childCtx) = children[1],
                case var .matchAction(actions) = childEffect {
                 var contextWithReversedTarget = ctx
                 let target = ctx.targetOrActor()
                 contextWithReversedTarget.resolvingTarget = challengerId
-                let reversedChallenge = GameAction.prepareEffect(
+                let reversedChallenge = GameAction.prepareAction(
                     .challenge(
                         .id(target),
                         effect: effect,
@@ -75,14 +75,14 @@ struct EffectChallenge: EffectResolver {
                 }
 
                 options.append(.pass)
-                actions[.pass] = .prepareEffect(otherwise, ctx: childCtx)
+                actions[.pass] = .prepareAction(otherwise, ctx: childCtx)
 
                 let chooseOne = GameAction.chooseOne(
                     type,
                     options: options,
                     player: player
                 )
-                let match = GameAction.prepareEffect(
+                let match = GameAction.prepareAction(
                     .matchAction(actions),
                     ctx: childCtx
                 )

@@ -10,7 +10,7 @@ struct EffectGroup: EffectResolver {
 
     func resolve(state: GameState, ctx: EffectContext) throws -> EffectOutput {
         /*
-        let children: [GameAction] = effects.map { .prepareEffect($0, ctx: ctx) }
+        let children: [GameAction] = effects.map { .prepareAction($0, ctx: ctx) }
         return .push(children)
          */
         fatalError()

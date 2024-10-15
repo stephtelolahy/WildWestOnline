@@ -6,14 +6,14 @@
 //
 
 extension TriggeredAbility.ActionType {
-    func resolve(_ effect: PendingEffect) throws -> GameAction {
+    func resolve(_ effect: PendingAction) throws -> GameAction {
         try resolver.resolve(effect)
     }
 }
 
 private extension TriggeredAbility.ActionType {
     protocol Resolver {
-        func resolve(_ effect: PendingEffect) throws -> GameAction
+        func resolve(_ effect: PendingAction) throws -> GameAction
     }
 
     var resolver: Resolver {
@@ -61,19 +61,19 @@ private extension TriggeredAbility.ActionType {
     }
 
     struct PlayBrownResolver: Resolver {
-        func resolve(_ effect: PendingEffect) throws -> GameAction {
+        func resolve(_ effect: PendingAction) throws -> GameAction {
             .playBrown(effect.card, player: effect.actor)
         }
     }
 
     struct DrawDeckResolver: Resolver {
-        func resolve(_ effect: PendingEffect) throws -> GameAction {
+        func resolve(_ effect: PendingAction) throws -> GameAction {
             .drawDeck(player: effect.actor)
         }
     }
 
     struct HealResolver: Resolver {
-        func resolve(_ effect: PendingEffect) throws -> GameAction {
+        func resolve(_ effect: PendingAction) throws -> GameAction {
             let target = effect.target ?? effect.actor
             return .heal(1, player: target)
         }

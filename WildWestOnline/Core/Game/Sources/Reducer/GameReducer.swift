@@ -97,7 +97,7 @@ private extension GameAction {
             PreparePlayReducer(card: card, player: player)
         case .prepareChoose(let option, let player):
             PrepareChooseReducer(option: option, player: player)
-        case .prepareEffect(let effect):
+        case .prepareAction(let effect):
             PrepareEffectReducer(effect: effect)
         case .queue(let actions):
             QueueReducer(actions: actions)
@@ -486,7 +486,7 @@ private extension GameAction {
 
             var state = state
             let children: [GameAction] = effects.map {
-                .prepareEffect(
+                .prepareAction(
                     .init(
                         action: $0.action,
                         card: card,
@@ -503,7 +503,7 @@ private extension GameAction {
     }
 
     struct PrepareEffectReducer: GameReducer {
-        let effect: PendingEffect
+        let effect: PendingAction
 
         func reduce(state: GameState) throws -> GameState {
             var state = state
@@ -515,7 +515,7 @@ private extension GameAction {
                 let selector = effect.selectors.remove(at: 0)
                 let resolved = try selector
                     .resolve(state: state, ctx: effect)
-                    .map(GameAction.prepareEffect)
+                    .map(GameAction.prepareAction)
                 state.queue.insert(contentsOf: resolved, at: 0)
             }
 

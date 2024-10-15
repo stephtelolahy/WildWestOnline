@@ -47,10 +47,10 @@ struct EffectLuck: EffectResolver {
 
         let matched = drawnCards.contains { $0.matches(regex: regex) }
         if matched {
-            result.append(.prepareEffect(onSuccess, ctx: ctx))
+            result.append(.prepareAction(onSuccess, ctx: ctx))
         } else {
             if let onFailure {
-                result.append(.prepareEffect(onFailure, ctx: ctx))
+                result.append(.prepareAction(onFailure, ctx: ctx))
             }
         }
 

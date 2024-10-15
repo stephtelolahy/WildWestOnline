@@ -6,7 +6,7 @@
 //
 
 extension TriggeredAbility.Selector.Target {
-    func resolve(state: GameState, ctx: PendingEffect) throws -> [String] {
+    func resolve(state: GameState, ctx: PendingAction) throws -> [String] {
         let targets = try resolver.resolve(state: state, ctx: ctx)
         guard targets.isNotEmpty else {
             throw TriggeredAbility.Selector.Error.noPlayer(self)
@@ -18,7 +18,7 @@ extension TriggeredAbility.Selector.Target {
 
 private extension TriggeredAbility.Selector.Target {
     protocol Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> [String]
+        func resolve(state: GameState, ctx: PendingAction) throws -> [String]
     }
 
     private var resolver: Resolver {
@@ -43,14 +43,14 @@ private extension TriggeredAbility.Selector.Target {
     }
 
     struct AllResolver: Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> [String] {
+        func resolve(state: GameState, ctx: PendingAction) throws -> [String] {
             state.playOrder
                 .starting(with: ctx.actor)
         }
     }
 
     struct DamagedResolver: Resolver {
-        func resolve(state: GameState, ctx: PendingEffect) throws -> [String] {
+        func resolve(state: GameState, ctx: PendingAction) throws -> [String] {
             state.playOrder
                 .starting(with: ctx.actor)
                 .filter { state.player($0).isDamaged }

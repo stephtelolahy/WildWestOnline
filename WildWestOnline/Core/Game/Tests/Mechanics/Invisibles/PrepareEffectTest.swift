@@ -15,7 +15,7 @@ struct PrepareEffectTest {
             .build()
 
         // When
-        let action = GameAction.prepareEffect(
+        let action = GameAction.prepareAction(
             .init(
                 action: .playBrown,
                 card: "c1",
@@ -36,7 +36,7 @@ struct PrepareEffectTest {
             .build()
 
         // When
-        let action = GameAction.prepareEffect(
+        let action = GameAction.prepareAction(
             .init(
                 action: .drawDeck,
                 card: "cx",

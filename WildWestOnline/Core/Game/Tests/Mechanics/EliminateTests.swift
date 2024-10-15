@@ -30,7 +30,7 @@ struct EliminateTests {
             .withPlayer("p1")
             .withSequence(
                 [
-                    GameAction.prepareEffect(
+                    GameAction.prepareAction(
                         .init(
                             action: .drawDeck,
                             card: "c1",
