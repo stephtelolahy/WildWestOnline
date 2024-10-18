@@ -140,3 +140,63 @@ public struct PendingChoice: Equatable, Codable {
     public let options: [String]
     public let children: [String: GameAction]
 }
+
+/*
+ struct PlayerAction {
+     let command: Command
+     let actor: String
+
+     enum Command {
+         // MARK: -Visible actions
+         case playBrown(String)
+         case playEquipment(String)
+         case playHandicap(String, target: String)
+         case playAbility(String)
+         case heal(Int)
+         case damage(Int)
+         case drawDeck
+         case drawDiscard
+         case stealHand(String, target: String)
+         case stealInPlay(String, target: String)
+         case discardHand(String)
+         case discardInPlay(String)
+         case passInPlay(String, target: String)
+         case draw
+         case showLastHand
+         case discover(Int)
+         case drawDiscovered(String)
+         case undiscover
+         case startTurn
+         case endTurn
+         case eliminate
+         case setWeapon(Int)
+         case setMaginifying(Int)
+         case setRemoteness(Int)
+         case win
+         case chooseOne(Any)
+         case activate([String])
+
+         // MARK: - Invisible moves
+         case preparePlay(String)
+         case prepareChoose(String)
+
+         // MARK: - System
+         case resolve(PendingAction)
+         case push([PlayerAction])
+     }
+ }
+
+ enum GameAction {
+     case heal(Int, player: String)
+ }
+
+ let action1 = GameAction.heal(1, player: "p1")
+ let action2 = PlayerAction(command: .heal(1), actor: "p1")
+
+
+ extension PlayerAction {
+     func execute(actor: String, in state: Any) {
+     }
+ }
+
+ */
