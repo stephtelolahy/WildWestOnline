@@ -10,6 +10,6 @@ import GameCore
 
 extension GameState {
     static func makeBuilderWithCards() -> Builder {
-        makeBuilder().withCards(Cards.all)
+        makeBuilder().withCards(CardsRepository().inventory.cards)
     }
 }

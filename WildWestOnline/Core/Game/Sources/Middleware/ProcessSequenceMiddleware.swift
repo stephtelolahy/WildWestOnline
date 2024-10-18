@@ -23,7 +23,7 @@ extension Middlewares {
                 return Empty().eraseToAnyPublisher()
 
             default:
-                guard let nextAction = state.sequence.queue.first else {
+                guard let nextAction = state.queue.first else {
                     return Empty().eraseToAnyPublisher()
                 }
 

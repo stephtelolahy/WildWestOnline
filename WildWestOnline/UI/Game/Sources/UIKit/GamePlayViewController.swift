@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable type_contents_order no_magic_numbers force_unwrapping
+// swiftlint:disable force_unwrapping
 
 import Combine
 import AppCore
@@ -340,7 +340,7 @@ extension GamePlayViewController: AnimationRendererConfiguration {
         case .discard:
             return discardImageView.superview!.convert(discardImageView.center, to: view)
 
-        case .arena:
+        case .discovered:
             return deckImageView.superview!.convert(deckImageView.center, to: view)
 
         case .hand(let playerId):

@@ -6,58 +6,58 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SaloonTests: XCTestCase {
-    func test_playSaloon_withSomePlayersDamaged_shouldHealOneLifePoint() throws {
+struct SaloonTests {
+    @Test func play_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayer("p2") {
                 $0.withHealth(2)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayer("p3") {
                 $0.withHealth(3)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .build()
 
         // When
         let action = GameAction.preparePlay(.saloon, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.saloon, player: "p1"),
             .heal(1, player: "p2"),
             .heal(1, player: "p3")
         ])
     }
 
-    func test_playSaloon_withoutPlayerDamaged_shouldThrowError() throws {
+    @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
-                    .withAttributes([.maxHealth: 4])
+                    .withMaxHealth(4)
             }
             .withPlayer("p2") {
                 $0.withHealth(3)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .build()
 
         // When
         // Then
         let action = GameAction.preparePlay(.saloon, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.damaged))
+        await #expect(throws: TriggeredAbility.Selector.Error.noPlayer(.damaged)) {
+            try await dispatch(action, state: state)
         }
     }
 }

@@ -34,45 +34,34 @@ public enum Setup {
     ) -> GameState {
         var deck = deck
         var players: [String: Player] = [:]
-        var hand: [String: [String]] = [:]
-        var inPlay: [String: [String]] = [:]
 
         for figure in figures {
             let id = figure
-            let player = buildPlayer(figure: figure, cards: cards)
-            players[id] = player
-            hand[id] = Array(1...player.health).compactMap { _ in
+            var player = buildPlayer(figure: figure, cards: cards)
+            player.hand = Array(1...player.health).compactMap { _ in
                 if deck.isNotEmpty {
                     deck.removeFirst()
                 } else {
                     nil
                 }
             }
-            inPlay[id] = []
+            players[id] = player
         }
 
         return GameState(
             players: players,
-            field: .init(
-                deck: deck,
-                discard: [],
-                arena: [],
-                hand: hand,
-                inPlay: inPlay
-            ),
-            round: .init(
-                startOrder: figures,
-                playOrder: figures,
-                turn: nil
-            ),
-            sequence: .init(
-                queue: [],
-                chooseOne: [:],
-                active: [:],
-                played: [:],
-                winner: nil
-            ),
             cards: cards,
+            deck: deck,
+            discard: [],
+            discovered: [],
+            startOrder: figures,
+            playOrder: figures,
+            turn: nil,
+            turnPlayedBang: 0,
+            queue: [],
+            chooseOne: [:],
+            active: [:],
+            winner: nil,
             waitDelaySeconds: 0,
             playMode: [:]
         )
@@ -98,12 +87,26 @@ private extension Setup {
             fatalError("Missing figure named \(figure)")
         }
 
-        let health = figureObj.attributes.get(.maxHealth)
+        var maxHealth = 0
+        for ability in figureObj.passive {
+            if case .setMaxHealth(let value) = ability {
+                maxHealth = value
+                break
+            }
+        }
+
         return .init(
-            health: health,
-            attributes: figureObj.attributes,
-            abilities: figureObj.abilities.union([figure]),
-            figure: figure
+            figure: figure,
+            abilities: [figure],
+            hand: [],
+            inPlay: [],
+            health: maxHealth,
+            maxHealth: maxHealth,
+            weapon: 1,
+            handLimit: 0,
+            magnifying: 0,
+            remoteness: 0,
+            flippedCards: 1
         )
     }
 }

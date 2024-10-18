@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-// swiftlint:disable no_magic_numbers type_contents_order
 
 import SwiftUI
 import Theme

@@ -6,37 +6,38 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DiscoverTests: XCTestCase {
-    func test_discover_withEmptyArena_shouldAddCardtoArena() throws {
+struct DiscoverTests {
+    @Test func discover_shouldAddCardToDiscovered() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withDeck(["c1", "c2", "c3"])
             .build()
 
         // When
-        let action = GameAction.discover
+        let action = GameAction.discover(2)
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.arena, ["c1"])
-        XCTAssertEqual(result.field.deck, ["c2", "c3"])
+        #expect(result.discovered == ["c1", "c2"])
+        #expect(result.deck == ["c1", "c2", "c3"])
     }
 
-    func test_discover_withNonEmptyArena_shouldAddCardtoArena() throws {
+    @Test func discover_emptyDeck_shouldResetDeck() async throws {
         // Given
         let state = GameState.makeBuilder()
-            .withDeck(["c2", "c3"])
-            .withArena(["c1"])
+            .withDeck([])
+            .withDiscard(["c1", "c2"])
             .build()
 
         // When
-        let action = GameAction.discover
+        let action = GameAction.discover(1)
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.arena, ["c1", "c2"])
-        XCTAssertEqual(result.field.deck, ["c3"])
+        #expect(result.discovered == ["c2"])
+        #expect(result.deck == ["c2"])
+        #expect(result.discard == ["c1"])
     }
 }

@@ -6,27 +6,27 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class RevCarabineTests: XCTestCase {
-    func test_playRevCarabine_shouldEquipAndSetWeapon() throws {
+struct RevCarabineTests {
+    @Test func playRevCarabine_shouldEquipAndSetWeapon() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.revCarabine])
                     .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.weapon: 1])
+                    .withWeapon(1)
             }
             .build()
 
         // When
         let action = GameAction.preparePlay(.revCarabine, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playEquipment(.revCarabine, player: "p1"),
-            .setAttribute(.weapon, value: 4, player: "p1")
+            .setWeapon(4, player: "p1")
         ])
     }
 }

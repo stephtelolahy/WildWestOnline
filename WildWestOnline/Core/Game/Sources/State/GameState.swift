@@ -2,34 +2,37 @@
 /// Game is turn based, cards have actions, cards have properties and cards have rules
 /// These state objects are passed around everywhere and maintained on both client and server seamlessly
 public struct GameState: Codable, Equatable {
-    /// Players
-    public var players: PlayersState
-
-    /// Card locations
-    public var field: FieldState
-
-    /// Round
-    public var round: RoundState
-
-    /// Play sequence
-    public var sequence: SequenceState
-
-    /// All cards reference by cardName
+    public var players: [String: Player]
     public let cards: [String: Card]
-
-    /// Wait delay between two visible actions
+    public var deck: [String]
+    public var discard: [String]
+    public var discovered: [String]
+    public let startOrder: [String]
+    public var playOrder: [String]
+    public var turn: String?
+    public var turnPlayedBang: Int
+    public var queue: [GameAction]
+    public var chooseOne: [String: PendingChoice]
+    public var active: [String: [String]]
+    public var winner: String?
     public var waitDelaySeconds: Double
-
-    /// Play mode by player
     public var playMode: [String: PlayMode]
 }
 
 public enum PlayMode: Equatable, Codable {
-    /// Player is controller by user
     case manual
+    case auto(AIStrategy)
+}
 
-    /// Player is controlled by AI agent
-    case auto
+public enum AIStrategy: String, Equatable, Codable {
+    case random
+    case agressive
+}
+
+/// ChooseOne options
+public extension String {
+    static let hiddenHand = "hiddenHand"
+    static let pass = "pass"
 }
 
 // MARK: - Convenience
@@ -46,18 +49,16 @@ public extension GameState {
 public extension GameState {
     class Builder {
         private var players: [String: Player] = [:]
-        private var hand: [String: [String]] = [:]
-        private var inPlay: [String: [String]] = [:]
         private var playOrder: [String] = []
         private var turn: String?
-        private var playedThisTurn: [String: Int] = [:]
         private var deck: [String] = []
         private var discard: [String] = []
-        private var arena: [String] = []
+        private var discovered: [String] = []
         private var winner: String?
-        private var chooseOne: [String: ChooseOne] = [:]
+        private var chooseOne: [String: PendingChoice] = [:]
         private var active: [String: [String]] = [:]
         private var queue: [GameAction] = []
+        private var turnPlayedBang: Int = 0
         private var playMode: [String: PlayMode] = [:]
         private var cards: [String: Card] = [:]
         private var waitDelaySeconds: Double = 0
@@ -65,26 +66,18 @@ public extension GameState {
         public func build() -> GameState {
             .init(
                 players: players,
-                field: .init(
-                    deck: deck,
-                    discard: discard,
-                    arena: arena,
-                    hand: hand,
-                    inPlay: inPlay
-                ),
-                round: .init(
-                    startOrder: playOrder,
-                    playOrder: playOrder,
-                    turn: turn
-                ),
-                sequence: .init(
-                    queue: queue,
-                    chooseOne: chooseOne,
-                    active: active,
-                    played: playedThisTurn,
-                    winner: winner
-                ),
                 cards: cards,
+                deck: deck,
+                discard: discard,
+                discovered: discovered,
+                startOrder: playOrder,
+                playOrder: playOrder,
+                turn: turn,
+                turnPlayedBang: turnPlayedBang,
+                queue: queue,
+                chooseOne: chooseOne,
+                active: active,
+                winner: winner,
                 waitDelaySeconds: waitDelaySeconds,
                 playMode: playMode
             )
@@ -105,13 +98,13 @@ public extension GameState {
             return self
         }
 
-        public func withArena(_ value: [String]) -> Self {
-            arena = value
+        public func withDiscovered(_ value: [String]) -> Self {
+            discovered = value
             return self
         }
 
-        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
-            playedThisTurn = value
+        public func withTurnPlayedBang(_ value: Int) -> Self {
+            turnPlayedBang = value
             return self
         }
 
@@ -130,8 +123,8 @@ public extension GameState {
             return self
         }
 
-        public func withChooseOne(_ type: ChoiceType, options: [String], player: String) -> Self {
-            chooseOne = [player: ChooseOne(type: type, options: options)]
+        public func withChooseOne(_ value: PendingChoice, player: String) -> Self {
+            chooseOne[player] = value
             return self
         }
 
@@ -151,11 +144,9 @@ public extension GameState {
         }
 
         public func withPlayer(_ id: String, builderFunc: (Player.Builder) -> Player.Builder = { $0 }) -> Self {
-            let builder = Player.makeBuilder().withId(id)
+            let builder = Player.makeBuilder()
             _ = builderFunc(builder)
             players[id] = builder.build()
-            hand[id] = builder.buildHand()
-            inPlay[id] = builder.buildInPlay()
             playOrder.append(id)
             return self
         }

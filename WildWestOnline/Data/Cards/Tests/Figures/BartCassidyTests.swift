@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class BartCassidyTests: XCTestCase {
-    func test_BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() throws {
+struct BartCassidyTests {
+    @Test func BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -21,16 +21,16 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() throws {
+    @Test func BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -42,17 +42,17 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(2, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    func test_BartCassidyBeingDamaged_Lethal_shouldDoNothing() throws {
+    @Test func BartCassidyBeingDamaged_Lethal_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -64,10 +64,10 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1")
         ])
     }

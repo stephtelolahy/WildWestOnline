@@ -32,9 +32,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Draw top deck card
     case drawDeck(player: String)
 
-    /// Draw specific deck card
-    case drawDeckCard(String, player: String)
-
     /// Draw top discard
     case drawDiscard(player: String)
 
@@ -57,7 +54,16 @@ public indirect enum GameAction: Action, Codable, Equatable {
     case draw
 
     /// Show hand card
-    case showHand(String, player: String)
+    case showLastHand(player: String)
+
+    /// Discover top N deck cards
+    case discover(Int)
+
+    /// Draw discovered deck card
+    case drawDiscovered(String, player: String)
+
+    /// Hide discovered cards
+    case undiscover
 
     /// Start turn
     case startTurn(player: String)
@@ -68,17 +74,18 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Eliminate
     case eliminate(player: String)
 
-    /// Set player attribute
-    case setAttribute(String, value: Int?, player: String)
+    /// Set attribute
+    case setWeapon(Int, player: String)
+    case setMaginifying(Int, player: String)
+    case setRemoteness(Int, player: String)
+
+    // MARK: - To spec
 
     /// End game
     case endGame(winner: String)
 
     /// Expose active cards
     case activate([String], player: String)
-
-    /// Expose a choice
-    case chooseOne(ChoiceType, options: [String], player: String)
 
     // MARK: - Invisible
 
@@ -88,32 +95,17 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Move: choose an option
     case prepareChoose(String, player: String)
 
-    /// Resolve an effect
-    case prepareEffect(CardEffect, ctx: EffectContext)
+    /// Resolve a pending action
+    case prepareAction(PendingAction)
 
     /// Queue actions
     case queue([Self])
 
-    // MARK: - Deprecated
-
-    /// Discover deck card
-    @available(*, deprecated, renamed: "discover")
-    case discover
-
-    /// Draw cards from arena
-    @available(*, deprecated, renamed: "drawDeckCard")
-    case drawArena(String, player: String)
-
-    /// Put back hand card to deck
-    @available(*, deprecated, renamed: "undiscover")
-    case putBack(String, player: String)
+    /// Expose a choice
+    case chooseOne(PendingChoice, player: String)
 }
 
 // MARK: - Convenience
-
-public extension GameAction {
-    static let nothing: Self = .queue([])
-}
 
 public extension GameAction {
     /// Checking if action is renderable
@@ -121,7 +113,7 @@ public extension GameAction {
         switch self {
         case .preparePlay,
              .prepareChoose,
-             .prepareEffect,
+             .prepareAction,
              .queue:
             false
 
@@ -130,3 +122,81 @@ public extension GameAction {
         }
     }
 }
+
+/// `PendingAction` is an {action} that was triggered when an {event} occurend
+/// It is powered by a {card} owned by {actor}
+/// As soon as all {selectors} are resolved, the effect can then be converted to a valid `GameAction`
+public struct PendingAction: Equatable, Codable {
+    public let action: TriggeredAbility.ActionType
+    public let card: String
+    public let actor: String
+    public var event: GameAction?
+    public var selectors: [TriggeredAbility.Selector] = []
+    public var target: String?
+}
+
+public struct PendingChoice: Equatable, Codable {
+    public let action: TriggeredAbility.ActionType
+    public let options: [String]
+    public let children: [String: GameAction]
+}
+
+/*
+ struct PlayerAction {
+     let command: Command
+     let actor: String
+
+     enum Command {
+         // MARK: -Visible actions
+         case playBrown(String)
+         case playEquipment(String)
+         case playHandicap(String, target: String)
+         case playAbility(String)
+         case heal(Int)
+         case damage(Int)
+         case drawDeck
+         case drawDiscard
+         case stealHand(String, target: String)
+         case stealInPlay(String, target: String)
+         case discardHand(String)
+         case discardInPlay(String)
+         case passInPlay(String, target: String)
+         case draw
+         case showLastHand
+         case discover(Int)
+         case drawDiscovered(String)
+         case undiscover
+         case startTurn
+         case endTurn
+         case eliminate
+         case setWeapon(Int)
+         case setMaginifying(Int)
+         case setRemoteness(Int)
+         case win
+         case chooseOne(Any)
+         case activate([String])
+
+         // MARK: - Invisible moves
+         case preparePlay(String)
+         case prepareChoose(String)
+
+         // MARK: - System
+         case resolve(PendingAction)
+         case push([PlayerAction])
+     }
+ }
+
+ enum GameAction {
+     case heal(Int, player: String)
+ }
+
+ let action1 = GameAction.heal(1, player: "p1")
+ let action2 = PlayerAction(command: .heal(1), actor: "p1")
+
+
+ extension PlayerAction {
+     func execute(actor: String, in state: Any) {
+     }
+ }
+
+ */

@@ -29,11 +29,11 @@ extension GameAction: CustomStringConvertible {
         case let .drawDeck(player):
             "💰 \(player)"
 
+        case let .drawDiscovered(card, player):
+            "💰 \(player) \(card)"
+
         case let .drawDiscard(player):
             "💰 \(player)"
-
-        case let .drawArena(card, player):
-            "💰 \(player) \(card)"
 
         case let .stealHand(card, target, player):
             "‼️ \(player) \(card) \(target)"
@@ -44,20 +44,17 @@ extension GameAction: CustomStringConvertible {
         case let .discardHand(card, player):
             "❌ \(player) \(card)"
 
-        case let .putBack(card, player):
-            "❌ \(player) \(card)"
-
         case let .discardInPlay(card, player):
             "❌ \(player) \(card)"
 
-        case let .showHand(card, player):
-            "🎲 \(player) \(card)"
+        case let .showLastHand(player):
+            "🎲 \(player)"
 
         case let .passInPlay(card, target, player):
             "🧨 \(player) \(target) \(card)"
 
-        case .discover:
-            "🎁"
+        case let .discover(amount):
+            "🎁 \(amount)"
 
         case .draw:
             "🎲"
@@ -71,14 +68,11 @@ extension GameAction: CustomStringConvertible {
         case let .eliminate(player):
             "☠️ \(player)"
 
-        case let .setAttribute(key, value, player):
-            "😎 \(player) \(key) \(value?.description ?? "/")"
-
         case let .endGame(winner):
             "🎉 \(winner)"
 
-        case let .chooseOne(_, options, player):
-            "❓ \(player) \(options.joined(separator: " "))"
+        case let .chooseOne(choice, player):
+            "❓ \(player) \(choice.options.joined(separator: " "))"
 
         case let .activate(cards, player):
             "❔ \(player) \(cards.joined(separator: " "))"
@@ -89,8 +83,8 @@ extension GameAction: CustomStringConvertible {
         case let .prepareChoose(option, player):
             "➡️ \(player) \(option)"
 
-        case let .prepareEffect(effect, _):
-            "➡️ \(effect)"
+        case let .prepareAction(effect):
+            "➡️ \(effect.actor) \(effect.action.rawValue)"
 
         case let .queue(actions):
             "➡️ \(actions)"
