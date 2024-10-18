@@ -71,8 +71,8 @@ extension GameAction: CustomStringConvertible {
         case let .endGame(winner):
             "🎉 \(winner)"
 
-        case let .chooseOne(_, options, player):
-            "❓ \(player) \(options.joined(separator: " "))"
+        case let .chooseOne(choice, player):
+            "❓ \(player) \(choice.options.joined(separator: " "))"
 
         case let .activate(cards, player):
             "❔ \(player) \(cards.joined(separator: " "))"

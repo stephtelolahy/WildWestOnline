@@ -87,10 +87,6 @@ public indirect enum GameAction: Action, Codable, Equatable {
     /// Expose active cards
     case activate([String], player: String)
 
-    /// Expose a choice
-    @available(*, deprecated, message: "use chooser middleware")
-    case chooseOne(ChoiceType, options: [String], player: String)
-
     // MARK: - Invisible
 
     /// Move: play a card
@@ -104,6 +100,9 @@ public indirect enum GameAction: Action, Codable, Equatable {
 
     /// Queue actions
     case queue([Self])
+
+    /// Expose a choice
+    case chooseOne(PendingChoice, player: String)
 }
 
 // MARK: - Convenience
@@ -134,4 +133,10 @@ public struct PendingAction: Equatable, Codable {
     public var event: GameAction?
     public var selectors: [TriggeredAbility.Selector] = []
     public var target: String?
+}
+
+public struct PendingChoice: Equatable, Codable {
+    public let action: TriggeredAbility.ActionType
+    public let options: [String]
+    public let children: [String: GameAction]
 }

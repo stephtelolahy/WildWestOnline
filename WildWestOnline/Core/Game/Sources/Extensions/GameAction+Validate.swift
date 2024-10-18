@@ -27,7 +27,6 @@ extension GameAction {
         _ options: [String],
         actions: [String: GameAction],
         chooser: String,
-        type: ChoiceType,
         state: GameState,
         ctx: EffectContext
     ) throws -> [GameAction] {

@@ -91,8 +91,8 @@ private extension GameAction {
             EndGameReducer(winner: winner)
         case .activate(let cards, let player):
             ActivateReducer(cards: cards, player: player)
-        case .chooseOne(let choiceType, let options, let player):
-            ChooseOneReducer(choiceType: choiceType, options: options, player: player)
+        case .chooseOne(let choice, let player):
+            ChooseOneReducer(choice: choice, player: player)
         case .preparePlay(let card, let player):
             PreparePlayReducer(card: card, player: player)
         case .prepareChoose(let option, let player):
@@ -445,16 +445,12 @@ private extension GameAction {
     }
 
     struct ChooseOneReducer: GameReducer {
-        let choiceType: ChoiceType
-        let options: [String]
+        let choice: PendingChoice
         let player: String
 
         func reduce(state: GameState) throws -> GameState {
             var state = state
-            state.chooseOne[player] = ChooseOne(
-                type: choiceType,
-                options: options
-            )
+            state.chooseOne[player] = choice
             return state
         }
     }

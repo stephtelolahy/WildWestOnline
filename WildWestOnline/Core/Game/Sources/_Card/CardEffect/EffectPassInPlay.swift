@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 27/06/2023.
 //
-
+/*
 struct EffectPassInPlay: EffectResolver {
     let card: ArgCard
     let toPlayer: ArgPlayer
@@ -18,3 +18,4 @@ struct EffectPassInPlay: EffectResolver {
         return .push(children)
     }
 }
+*/

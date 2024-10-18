@@ -6,6 +6,7 @@
 //
 
 /// Context data associated to an effect
+@available(*, deprecated, message: "use PendingAction")
 public struct EffectContext: Codable, Equatable {
     /// Occurred event triggering the effect
     let sourceEvent: GameAction
@@ -24,16 +25,4 @@ public struct EffectContext: Codable, Equatable {
 
     /// Chosen option while resolving effect
     var resolvingOption: String?
-}
-
-/// ChooseOne context
-@available(*, deprecated, renamed: "ActionType")
-public enum ChoiceType: String, Codable, Equatable {
-    case target
-    case cardToDraw
-    case cardToSteal
-    case cardToDiscard
-    case cardToPassInPlay
-    case cardToPutBack
-    case cardToPlayCounter
 }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import GameCore
+@testable import GameCore
 import Testing
 
 struct GameTests {
@@ -125,7 +125,7 @@ struct GameTests {
             .withDiscovered(["c5", "c6"])
             .withWinner("p1")
             .withCards(["name": Card(name: "name")])
-            .withChooseOne(.cardToDraw, options: [], player: "p1")
+            .withChooseOne(.init(action: .discard, options: [], children: [:]), player: "p1")
             .withSequence([.discover(1)])
             .withPlayer("p1") {
                 $0.withHealth(3)

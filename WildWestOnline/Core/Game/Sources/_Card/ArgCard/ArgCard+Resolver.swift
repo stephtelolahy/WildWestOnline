@@ -22,11 +22,12 @@ extension ArgCard {
     }
 
     func resolve(
-        _ type: ChoiceType,
         state: GameState,
         ctx: EffectContext,
         copy: @escaping (String) -> GameAction
     ) throws -> [GameAction] {
+        fatalError()
+        /*
         let resolved = resolve(state: state, ctx: ctx)
         switch resolved {
         case let .identified(cIds):
@@ -51,6 +52,7 @@ extension ArgCard {
                 ctx: ctx
             )
         }
+         */
     }
 }
 

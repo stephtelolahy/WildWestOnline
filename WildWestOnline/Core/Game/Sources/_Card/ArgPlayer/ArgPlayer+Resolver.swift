@@ -57,6 +57,8 @@ extension ArgPlayer {
         ctx: EffectContext,
         copy: @escaping (String) -> GameAction
     ) throws -> [GameAction] {
+        fatalError()
+        /*
         let resolved = try resolve(state: state, ctx: ctx)
         switch resolved {
         case let .identified(pIds):
@@ -75,7 +77,9 @@ extension ArgPlayer {
                 state: state,
                 ctx: ctx
             )
+
         }
+         */
     }
 }
 

@@ -166,7 +166,7 @@ struct ActionDescribingTests {
 
     @Test func describingChooseOne() async throws {
         #expect(
-            String(describing: GameAction.chooseOne(.cardToDraw, options: ["c1", "c2"], player: "p1")) ==
+            String(describing: GameAction.chooseOne(.init(action: .draw, options: ["c1", "c2"], children: [:]), player: "p1")) ==
             "❓ p1 c1 c2"
         )
     }
