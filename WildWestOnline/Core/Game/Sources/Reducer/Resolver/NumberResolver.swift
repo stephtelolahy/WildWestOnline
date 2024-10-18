@@ -69,6 +69,6 @@ private extension TriggeredAbility.Selector.Number {
 
 private extension Player {
     var handLimitAtEndOfTurn: Int {
-        handLimit ?? health
+        max(handLimit, health)
     }
 }

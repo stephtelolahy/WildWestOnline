@@ -135,7 +135,7 @@ public struct TriggeredAbility: Equatable, Codable {
         /// choose used card
         case chooseCard(CardCondition? = nil)
 
-        /// must `discard` hand card
+        /// choose a hand card to `discard`
         case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
 
         /// can `discard` hand card to counter the effect

@@ -76,10 +76,7 @@ private extension TriggeredAbility.Selector {
         let conditions: [TargetCondition]
 
         func resolve(state: GameState, ctx: PendingAction) throws -> [PendingAction] {
-//            let targets = state.playOrder
-//                .starting(with: ctx.actor)
             fatalError()
-            // TODO: ask for user to choose a target using Middleware
         }
     }
 }
