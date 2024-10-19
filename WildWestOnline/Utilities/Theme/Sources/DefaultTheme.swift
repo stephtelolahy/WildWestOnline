@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 24/07/2024.
 //
-// swiftlint:disable no_magic_numbers
 import SwiftUI
 
 struct DefaultTheme: AppTheme {

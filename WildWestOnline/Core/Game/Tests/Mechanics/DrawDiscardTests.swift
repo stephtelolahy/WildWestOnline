@@ -6,10 +6,10 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class DrawDiscardTests: XCTestCase {
-    func test_drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() throws {
+struct DrawDiscardTests {
+    @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -21,11 +21,11 @@ final class DrawDiscardTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.field.hand["p1"], ["c1"])
-        XCTAssertEqual(result.field.discard, ["c2"])
+        #expect(result.player("p1").hand == ["c1"])
+        #expect(result.discard == ["c2"])
     }
 
-    func test_drawDiscard_whitEmptyDiscard_shouldThrowError() throws {
+    @Test func drawDiscard_whitEmptyDiscard_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -34,8 +34,8 @@ final class DrawDiscardTests: XCTestCase {
         // When
         // Then
         let action = GameAction.drawDiscard(player: "p1")
-        XCTAssertThrowsError(try GameState.reducer(state, action)) { error in
-            XCTAssertEqual(error as? FieldState.Error, .discardIsEmpty)
+        #expect(throws: GameState.Error.discardIsEmpty) {
+            try GameState.reducer(state, action)
         }
     }
 }

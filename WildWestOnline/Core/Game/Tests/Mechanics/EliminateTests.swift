@@ -6,10 +6,10 @@
 //
 
 @testable import GameCore
-import XCTest
+import Testing
 
-final class EliminateTests: XCTestCase {
-    func test_eliminatePlayer_shouldRemoveFromPlayOrder() throws {
+struct EliminateTests {
+    @Test func eliminatePlayer_shouldRemoveFromPlayOrder() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -21,14 +21,24 @@ final class EliminateTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.round.playOrder, ["p2"])
+        #expect(result.playOrder == ["p2"])
     }
 
-    func test_eliminatePlayer_shouldRemoveSequence() throws {
+    @Test func eliminatePlayer_shouldRemoveSequence() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
-            .withSequence([.prepareEffect(.drawDeck, ctx: EffectContext(sourceEvent: .nothing, sourceActor: "p1", sourceCard: "c1"))])
+            .withSequence(
+                [
+                    GameAction.prepareAction(
+                        .init(
+                            action: .drawDeck,
+                            card: "c1",
+                            actor: "p1"
+                        )
+                    )
+                ]
+            )
             .build()
 
         // When
@@ -36,6 +46,6 @@ final class EliminateTests: XCTestCase {
         let result = try GameState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.sequence.queue, [])
+        #expect(result.queue.isEmpty)
     }
 }

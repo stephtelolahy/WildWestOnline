@@ -6,10 +6,10 @@
 //
 
 import SettingsCore
-import XCTest
+import Testing
 
-final class SettingsCoreTests: XCTestCase {
-    func test_updatePlayersCount() throws {
+struct SettingsCoreTests {
+    @Test func updatePlayersCount() async throws {
         // Given
         let state = SettingsState.makeBuilder().withPlayersCount(2).build()
 
@@ -18,10 +18,10 @@ final class SettingsCoreTests: XCTestCase {
         let result = try SettingsState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.playersCount, 5)
+        #expect(result.playersCount == 5)
     }
 
-    func test_toggleSimulation() throws {
+    @Test func toggleSimulation() async throws {
         // Given
         let state = SettingsState.makeBuilder().withSimulation(true).build()
 
@@ -30,10 +30,10 @@ final class SettingsCoreTests: XCTestCase {
         let result = try SettingsState.reducer(state, action)
 
         // Then
-        XCTAssertFalse(result.simulation)
+        #expect(!result.simulation)
     }
 
-    func test_updateWaitDelay() throws {
+    @Test func updateWaitDelay() async throws {
         // Given
         let state = SettingsState.makeBuilder().withWaitDelaySeconds(0).build()
 
@@ -42,6 +42,6 @@ final class SettingsCoreTests: XCTestCase {
         let result = try SettingsState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.waitDelaySeconds, 500)
+        #expect(result.waitDelaySeconds == 500)
     }
 }

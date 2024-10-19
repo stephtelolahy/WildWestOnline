@@ -3,7 +3,7 @@
 //
 //  Created by Hugues Stephano Telolahy on 04/04/2020.
 //
-// swiftlint:disable no_magic_numbers multiline_arguments_brackets
+// swiftlint:disable multiline_arguments_brackets
 
 import UIKit
 

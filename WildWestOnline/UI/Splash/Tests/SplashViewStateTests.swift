@@ -10,10 +10,10 @@ import GameCore
 import Redux
 import SettingsCore
 @testable import SplashUI
-import XCTest
+import Testing
 
-final class SplashViewStateTests: XCTestCase {
-    func test_splashStateProjection() throws {
+struct SplashViewStateTests {
+    @Test func splashStateProjection() async throws {
         // Given
         let appState = AppState(
             navigation: .init(),
@@ -23,6 +23,6 @@ final class SplashViewStateTests: XCTestCase {
 
         // When
         // Then
-        XCTAssertNotNil(SplashView.presenter(appState))
+        #expect(SplashView.presenter(appState) != nil)
     }
 }

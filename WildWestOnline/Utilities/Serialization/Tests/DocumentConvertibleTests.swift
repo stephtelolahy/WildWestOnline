@@ -6,26 +6,35 @@
 //
 
 import Serialization
-import XCTest
+import Testing
+import Foundation
 
-final class DocumentConvertibleTests: XCTestCase {
-    func test_EncodingToDocument() throws {
+struct DocumentConvertibleTests {
+    @Test func EncodingToDocument() async throws {
         let document: MyDocument = .init(name: "beer")
         let dictionary: [String: Any] = [
             "name": "beer"
         ]
-        XCTAssertEqual(document.dictionary, dictionary)
+        #expect(document.dictionary.isEqual(to: dictionary))
     }
 
-    func test_DecodingFromDocument() throws {
+    @Test func DecodingFromDocument() async throws {
         let document: MyDocument = .init(name: "beer")
         let dictionary: [String: Any] = [
             "name": "beer"
         ]
-        XCTAssertEqual(try MyDocument(dictionary: dictionary), document)
+        #expect(try MyDocument(dictionary: dictionary) == document)
     }
 }
 
 private struct MyDocument: Equatable, Codable, DocumentConvertible {
     let name: String
+}
+
+private extension Dictionary where Key == String, Value == Any {
+    func isEqual(to other: [String: Any]) -> Bool {
+        let lhs = self as NSDictionary
+        let rhs = other as NSDictionary
+        return lhs == rhs
+    }
 }

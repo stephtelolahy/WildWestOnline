@@ -6,68 +6,68 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class BeerTests: XCTestCase {
-    func test_playingBeer_beingDamaged_shouldHealOneLifePoint() throws {
+struct BeerTests {
+    @Test func play_beingDamaged_shouldHealOneLifePoint() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2")
             .withPlayer("p3")
             .build()
-
+        
         // When
         let action = GameAction.preparePlay(.beer, player: "p1")
-        let result = try awaitAction(action, state: state)
-
+        let result = try await dispatch(action, state: state)
+        
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.beer, player: "p1"),
             .heal(1, player: "p1")
         ])
     }
-
-    func test_playingBeer_alreadyMaxHealth_shouldThrowError() throws {
+    
+    @Test func play_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(3)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2")
             .withPlayer("p3")
             .build()
-
+        
         // When
         // Then
         let action = GameAction.preparePlay(.beer, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? PlayersState.Error, .playerAlreadyMaxHealth("p1"))
+        await #expect(throws: GameState.Error.playerAlreadyMaxHealth("p1")) {
+            try await dispatch(action, state: state)
         }
     }
-
-    func test_playingBeer_twoPlayersLeft_shouldThrowError() throws {
+    
+    @Test func play_twoPlayersLeft_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
-                    .withAttributes([.maxHealth: 3])
+                    .withMaxHealth(3)
             }
             .withPlayer("p2")
             .build()
-
+        
         // When
         // Then
         let action = GameAction.preparePlay(.beer, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? PlayReq.Error, .noReq(.isPlayersAtLeast(3)))
+        await #expect(throws: TriggeredAbility.Selector.StateCondition.Error.noReq(.playersAtLeast(3))) {
+            try await dispatch(action, state: state)
         }
     }
 }

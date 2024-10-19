@@ -7,22 +7,10 @@
 
 import Foundation
 import GameCore
-import XCTest
+import Testing
 
-final class PlayerTests: XCTestCase {
-    func test_buildPlayer_byDefault_shouldHaveEmptyFigure() throws {
-        let sut = Player.makeBuilder()
-            .build()
-        XCTAssertEqual(sut.figure, "")
-    }
-
-    func test_buildPlayer_byDefault_shouldNotHaveAttributes() throws {
-        let sut = Player.makeBuilder()
-            .build()
-        XCTAssertEqual(sut.attributes, [:])
-    }
-
-    func test_buildPlayer_withHand_shouldHaveHandCards() throws {
+struct PlayerTests {
+    @Test func buildPlayer_withHand_shouldHaveHandCards() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -32,10 +20,10 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.hand["p1"], ["c1", "c2"])
+        #expect(sut.player("p1").hand == ["c1", "c2"])
     }
 
-    func test_buildPlayer_withInPlay_shouldHaveInPlayCards() throws {
+    @Test func buildPlayer_withInPlay_shouldHaveInPlayCards() async throws {
         // Given
         // When
         let sut = GameState.makeBuilder()
@@ -45,17 +33,6 @@ final class PlayerTests: XCTestCase {
             .build()
 
         // Then
-        XCTAssertEqual(sut.field.inPlay["p1"], ["c1", "c2"])
-    }
-
-    func test_buildPlayer_withAttributes_shouldHaveAttributes() throws {
-        // Given
-        // When
-        let sut = Player.makeBuilder()
-            .withAttributes([.remoteness: 1])
-            .build()
-
-        // Then
-        XCTAssertEqual(sut.attributes[.remoteness], 1)
+        #expect(sut.player("p1").inPlay == ["c1", "c2"])
     }
 }

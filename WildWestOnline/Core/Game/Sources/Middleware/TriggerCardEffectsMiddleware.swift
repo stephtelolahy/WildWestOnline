@@ -18,9 +18,9 @@ extension Middlewares {
             var triggered: [GameAction] = []
 
             // active players
-            for player in state.round.playOrder {
+            for player in state.playOrder {
                 let playerObj = state.player(player)
-                let triggerableCards = state.field.inPlay.get(player) + playerObj.abilities
+                let triggerableCards = state.player(player).inPlay + playerObj.abilities
                 for card in triggerableCards {
                     let actions = state.triggeredEffects(by: card, player: player, event: action)
                     triggered.append(contentsOf: actions)
@@ -38,7 +38,7 @@ extension Middlewares {
             }
 
             // sort triggered by priority
-            triggered = state.sortedByPriority(triggered)
+//            triggered = state.sortedByPriority(triggered)
 
             // return triggered effects
             guard triggered.isNotEmpty else {
@@ -56,6 +56,7 @@ private extension GameState {
         player: String,
         event: GameAction
     ) -> [GameAction] {
+        /*
         let state = self
         let cardName = card.extractName()
         guard let cardObj = state.cards[cardName] else {
@@ -75,17 +76,20 @@ private extension GameState {
                 sourceCard: card
             )
 
-            actions.append(.prepareEffect(rule.effect, ctx: ctx))
+            actions.append(.prepareAction(rule.effect, ctx: ctx))
         }
 
         return actions
+         */
+        []
     }
 
+    /*
     func sortedByPriority(_ actions: [GameAction]) -> [GameAction] {
         let state = self
         return actions.sorted { action1, action2 in
-            guard case let .prepareEffect(_, ctx1) = action1,
-                  case let .prepareEffect(_, ctx2) = action2,
+            guard case let .prepareAction(_, ctx1) = action1,
+                  case let .prepareAction(_, ctx2) = action2,
                   let cardObj1 = state.cards[ctx1.sourceCard.extractName()],
                   let cardObj2 = state.cards[ctx2.sourceCard.extractName()] else {
                 fatalError("invalid triggered effect")
@@ -93,4 +97,5 @@ private extension GameState {
             return cardObj1.priority < cardObj2.priority
         }
     }
+     */
 }

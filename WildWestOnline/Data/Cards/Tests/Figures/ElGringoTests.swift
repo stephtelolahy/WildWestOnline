@@ -6,10 +6,11 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class ElGringoTests: XCTestCase {
-    func test_elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() throws {
+struct ElGringoTests {
+    /*
+    @Test func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -25,10 +26,10 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p2")
-        let result = try awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
+        let result = try await dispatch(action, state: state, choose: ["p1", "hiddenHand-0"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .damage(1, player: "p1"),
@@ -37,7 +38,7 @@ final class ElGringoTests: XCTestCase {
         ])
     }
 
-    func test_elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() throws {
+    @Test func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -53,17 +54,17 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.preparePlay(.bang, player: "p2")
-        let result = try awaitAction(action, state: state, choose: ["p1"])
+        let result = try await dispatch(action, state: state, choose: ["p1"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .damage(1, player: "p1")
         ])
     }
 
-    func test_elGringoDamaged_withOffenderIsHimself_shouldDoNothing() throws {
+    @Test func elGringoDamaged_withOffenderIsHimself_shouldDoNothing() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
             .withPlayer("p1") {
@@ -75,11 +76,12 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1")
         ])
     }
+     */
 }

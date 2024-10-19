@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 18/04/2024.
 //
-// swiftlint:disable function_parameter_count no_magic_numbers
+// swiftlint:disable function_parameter_count
 
 import UIKit
 

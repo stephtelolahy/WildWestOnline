@@ -50,10 +50,12 @@ extension GameAction {
         guard !validOptions.isEmpty else {
             return []
         }
-
+/*
         let chooseOne = GameAction.chooseOne(type, options: validOptions, player: chooser)
-        let match = GameAction.prepareEffect(.matchAction(actions), ctx: ctx)
+        let match = GameAction.prepareAction(.matchAction(actions), ctx: ctx)
         return [chooseOne, match]
+ */
+        fatalError()
     }
 }
 
@@ -67,8 +69,8 @@ extension GameAction {
 
         default:
             var newState = try GameState.reducer(state, self)
-            if newState.sequence.queue.isNotEmpty {
-                let next = newState.sequence.queue.removeFirst()
+            if newState.queue.isNotEmpty {
+                let next = newState.queue.removeFirst()
                 try next.validate(state: newState)
             }
         }

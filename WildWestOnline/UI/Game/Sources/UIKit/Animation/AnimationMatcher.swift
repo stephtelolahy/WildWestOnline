@@ -27,7 +27,7 @@ enum EventAnimation: Equatable {
     enum Location: Hashable, Equatable {
         case deck
         case discard
-        case arena
+        case discovered
         case hand(String)
         case inPlay(String)
     }
@@ -49,11 +49,8 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .drawDeck(player):
                 .move(card: .hidden, from: .deck, to: .hand(player))
 
-        case let .putBack(_, player):
-                .move(card: .hidden, from: .hand(player), to: .deck)
-
-        case let .showHand(card, player):
-                .reveal(card: .id(card), from: .hand(player), to: .hand(player))
+        case let .showLastHand(player):
+                .reveal(card: .hidden, from: .hand(player), to: .hand(player))
 
         case let .stealHand(_, target, player):
                 .move(card: .hidden, from: .hand(target), to: .hand(player))
@@ -61,8 +58,8 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         case let .stealInPlay(card, target, player):
                 .move(card: .id(card), from: .inPlay(target), to: .hand(player))
 
-        case let .drawArena(card, player):
-                .move(card: .id(card), from: .arena, to: .hand(player))
+        case let .drawDiscovered(card, player):
+                .move(card: .id(card), from: .discovered, to: .hand(player))
 
         case let .drawDiscard(player):
                 .move(card: .topDiscard, from: .discard, to: .hand(player))
@@ -77,7 +74,7 @@ struct AnimationMatcher: AnimationMatcherProtocol {
                 .move(card: .id(card), from: .inPlay(player), to: .discard)
 
         case .discover:
-                .reveal(card: .topDeck, from: .deck, to: .arena)
+                .reveal(card: .topDeck, from: .deck, to: .discovered)
 
         case .draw:
                 .reveal(card: .topDeck, from: .deck, to: .discard)

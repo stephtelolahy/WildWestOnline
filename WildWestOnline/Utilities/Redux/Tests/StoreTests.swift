@@ -6,16 +6,16 @@
 //
 
 import Redux
-import XCTest
+import Testing
 
-final class StoreTests: XCTestCase {
-    func test_createStore() throws {
+struct StoreTests {
+    @Test func createStore() async throws {
         // Given
         // When
         let store: Store<String> = Store(initial: "initial")
 
         // Then
-        XCTAssertNotNil(store)
-        XCTAssertEqual(store.state, "initial")
+        #expect(store != nil)
+        #expect(store.state == "initial")
     }
 }

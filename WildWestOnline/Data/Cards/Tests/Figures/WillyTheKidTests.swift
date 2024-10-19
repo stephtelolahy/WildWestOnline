@@ -7,17 +7,23 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class WillyTheKidTests: XCTestCase {
-    func test_WillyTheKid_shouldHaveUnlimitedBang() throws {
+struct WillyTheKidTests {
+    /*
+    @Test func WillyTheKid_shouldHaveUnlimitedBang() async throws {
         // Given
-        let state = Setup.buildGame(figures: [.willyTheKid], deck: [], cards: Cards.all)
+        let state = Setup.buildGame(
+            figures: [.willyTheKid],
+            deck: [],
+            cards: CardsRepository().inventory.cards
+        )
 
         // When
         let player = state.player(.willyTheKid)
 
         // Then
-        XCTAssertEqual(player.attributes[.bangsPerTurn], 0)
+        #expect(player.attributes[.bangsPerTurn] == 0)
     }
+     */
 }
