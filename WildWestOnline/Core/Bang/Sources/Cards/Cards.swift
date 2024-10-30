@@ -12,7 +12,8 @@ public enum Cards {
         [
             stagecoach,
             wellsFargo,
-            beer
+            beer,
+            saloon
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -60,6 +61,21 @@ private extension Cards {
                     action: .heal,
                     selectors: [
                         .setAmount(1)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var saloon: Card {
+        .init(
+            name: .saloon,
+            desc: "All players in play regain one life point.",
+            onPlay: [
+                .init(
+                    action: .heal,
+                    selectors: [
+                        .setTarget(.damaged)
                     ]
                 )
             ]

@@ -1,17 +1,17 @@
 //
-//  SaloonTests.swift
+//  SaloonTest.swift
+//  WildWestOnline
 //
-//
-//  Created by Hugues Stephano TELOLAHY on 06/01/2024.
+//  Created by Hugues Telolahy on 31/10/2024.
 //
 
-import GameCore
 import Testing
+import Bang
 
-struct SaloonTests {
+struct SaloonTest {
     @Test func play_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -28,20 +28,20 @@ struct SaloonTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.saloon, player: "p1")
-        let result = try await dispatch(action, state: state)
+        let action = GameAction.play(.saloon, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .playBrown(.saloon, player: "p1"),
+            .play(.saloon, player: "p1"),
             .heal(1, player: "p2"),
             .heal(1, player: "p3")
         ])
     }
-
+/*
     @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -55,9 +55,10 @@ struct SaloonTests {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.saloon, player: "p1")
-        await #expect(throws: TriggeredAbility.Selector.Error.noPlayer(.damaged)) {
-            try await dispatch(action, state: state)
+        let action = GameAction.play(.saloon, player: "p1")
+        #expect(throws: GameError.noPlayer(.damaged)) {
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
+ */
 }

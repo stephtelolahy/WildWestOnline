@@ -24,6 +24,7 @@ public struct GameAction: Action, Equatable, Codable {
         public let actor: String
         public var card: String?
         public var amount: Int?
+        public var target: String?
         public var selectors: [ActionSelector] = []
     }
 }

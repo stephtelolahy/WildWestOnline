@@ -18,10 +18,9 @@ private extension ActionSelector {
 
     var resolver: Resolver {
         switch self {
-        case .repeat(let number):
-            Repeat(number: number)
-        case .setAmount(let number):
-            SetAmount(number: number)
+        case .repeat(let number): Repeat(number: number)
+        case .setAmount(let number): SetAmount(number: number)
+        case .setTarget(let target): SetTarget(target: target)
         }
     }
 
@@ -44,5 +43,22 @@ private extension ActionSelector {
             pendingAction.payload.amount = number
             return [pendingAction]
         }
+    }
+
+    struct SetTarget: Resolver {
+        let target: ActionSelector.Target
+
+        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+            try target.resolve(state)
+                .map { pendingAction.withTarget($0) }
+        }
+    }
+}
+
+private extension GameAction {
+    func withTarget(_ target: String) -> Self {
+        var copy = self
+        copy.payload.target = target
+        return copy
     }
 }

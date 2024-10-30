@@ -44,9 +44,14 @@ public enum ActionSelector: Equatable, Codable {
     /// apply x times
     case `repeat`(Number)
     case setAmount(Int)
+    case setTarget(Target)
 
     public enum Number: Equatable, Codable {
         case value(Int)
+    }
+
+    public enum Target: String, Codable {
+        case damaged
     }
 }
 

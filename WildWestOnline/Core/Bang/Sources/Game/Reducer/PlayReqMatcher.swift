@@ -20,8 +20,7 @@ private extension PlayReq {
 
     var matcher: Matcher {
         switch self {
-        case .playersAtLeast(let amount):
-            PlayersAtLeast(amount: amount)
+        case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
         }
     }
 
