@@ -1,14 +1,15 @@
 //
-//  DrawDiscardTests.swift
+//  DrawDiscardTest.swift
+//  BangTests
 //
-//
-//  Created by Hugues Stephano TELOLAHY on 20/11/2023.
+//  Created by Hugues Telolahy on 27/10/2024.
 //
 
-import GameCore
 import Testing
+import Bang
 
-struct DrawDiscardTests {
+struct DrawDiscardTest {
+
     @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -18,10 +19,10 @@ struct DrawDiscardTests {
 
         // When
         let action = GameAction.drawDiscard(player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.player("p1").hand == ["c1"])
+        #expect(result.players.get("p1").hand == ["c1"])
         #expect(result.discard == ["c2"])
     }
 
@@ -34,8 +35,8 @@ struct DrawDiscardTests {
         // When
         // Then
         let action = GameAction.drawDiscard(player: "p1")
-        #expect(throws: GameState.Error.discardIsEmpty) {
-            try GameState.reducer(state, action)
+        #expect(throws: GameError.discardIsEmpty) {
+            try GameReducer().reduce(state, action)
         }
     }
 }

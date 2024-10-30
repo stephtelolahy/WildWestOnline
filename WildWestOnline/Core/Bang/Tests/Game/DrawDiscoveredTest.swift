@@ -1,14 +1,14 @@
 //
-//  DrawDiscoveredTests.swift
-//  
+//  DrawDiscoveredTest.swift
+//  BangTests
 //
-//  Created by Hugues Telolahy on 05/01/2024.
+//  Created by Hugues Telolahy on 27/10/2024.
 //
 
-import GameCore
 import Testing
+import Bang
 
-struct DrawDiscoveredTests {
+struct DrawDiscoveredTest {
     @Test func drawingDiscovered_shouldDrawCard() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -19,10 +19,10 @@ struct DrawDiscoveredTests {
 
         // When
         let action = GameAction.drawDiscovered("c2", player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.player("p1").hand == ["c2"])
+        #expect(result.players.get("p1").hand == ["c2"])
         #expect(result.discovered == ["c1"])
         #expect(result.deck == ["c1"])
     }

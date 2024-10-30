@@ -1,0 +1,39 @@
+//
+//  Card.swift
+//  Bang
+//
+//  Created by Hugues Telolahy on 28/10/2024.
+//
+
+public struct Card: Equatable, Codable {
+    public let name: String
+    public let desc: String
+    public let onPlay: [ActiveAbility]
+
+    public init(
+        name: String,
+        desc: String = "",
+        onPlay: [ActiveAbility] = []
+    ) {
+        self.name = name
+        self.desc = desc
+        self.onPlay = onPlay
+    }
+}
+
+/// Occurred action when card is played
+public struct ActiveAbility: Equatable, Codable {
+    public let action: GameAction.Kind
+    public let selectors: [ActionSelector]
+}
+
+/// Selectors are used to specify which objects an aura or effect should affect.
+/// Choice is performed by {actor}
+public enum ActionSelector: Equatable, Codable {
+    /// apply x times
+    case `repeat`(Number)
+
+    public enum Number: Equatable, Codable {
+        case value(Int)
+    }
+}

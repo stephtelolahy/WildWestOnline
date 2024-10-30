@@ -1,14 +1,15 @@
 //
-//  DrawSpec.swift
+//  DrawDeckTest.swift
+//  BangTests
 //
-//
-//  Created by Hugues Telolahy on 10/04/2023.
+//  Created by Hugues Telolahy on 27/10/2024.
 //
 
-import GameCore
 import Testing
+import Bang
 
-struct DrawDeckTests {
+struct DrawDeckTest {
+
     @Test func drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -18,10 +19,10 @@ struct DrawDeckTests {
 
         // When
         let action = GameAction.drawDeck(player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.player("p1").hand == ["c1"])
+        #expect(result.players.get("p1").hand == ["c1"])
         #expect(result.deck == ["c2"])
     }
 
@@ -34,12 +35,12 @@ struct DrawDeckTests {
 
         // When
         let action = GameAction.drawDeck(player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
         #expect(result.deck == ["c3", "c4"])
         #expect(result.discard == ["c1"])
-        #expect(result.player("p1").hand == ["c2"])
+        #expect(result.players.get("p1").hand == ["c2"])
     }
 
     @Test func drawDeck_whitEmptyDeckAndNotEnoughDiscardPile_shouldThrowError() async throws {
@@ -51,8 +52,8 @@ struct DrawDeckTests {
         // When
         // Then
         let action = GameAction.drawDeck(player: "p1")
-        #expect(throws: GameState.Error.deckIsEmpty) {
-            try GameState.reducer(state, action)
+        #expect(throws: GameError.deckIsEmpty) {
+            try GameReducer().reduce(state, action)
         }
     }
 }
