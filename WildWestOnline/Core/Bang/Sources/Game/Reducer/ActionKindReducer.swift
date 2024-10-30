@@ -23,7 +23,8 @@ private extension GameAction.Kind {
             .drawDiscard: DrawDiscard(),
             .drawDiscovered: DrawDiscovered(),
             .discover: Discover(),
-            .play: Play()
+            .play: Play(),
+            .heal: Heal()
         ]
 
         guard let result = dict[self] else {
@@ -121,6 +122,26 @@ private extension GameAction.Kind {
                 }
             state.queue.insert(contentsOf: onPlay, at: 0)
 
+            return state
+        }
+    }
+
+    struct Heal: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let amount = payload.amount else {
+                fatalError("Missing amount from payload")
+            }
+
+            let player = payload.actor
+            var playerObj = state.players.get(player)
+            let maxHealth = playerObj.maxHealth
+            guard playerObj.health < maxHealth else {
+                throw GameError.playerAlreadyMaxHealth(player)
+            }
+
+            playerObj.health = min(playerObj.health + amount, maxHealth)
+            var state = state
+            state.players[player] = playerObj
             return state
         }
     }

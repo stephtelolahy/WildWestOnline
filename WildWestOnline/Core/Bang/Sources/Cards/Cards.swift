@@ -11,7 +11,8 @@ public enum Cards {
     public static var all: [String: Card] {
         [
             stagecoach,
-            wellsFargo
+            wellsFargo,
+            beer
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -43,6 +44,22 @@ private extension Cards {
                     action: .drawDeck,
                     selectors: [
                         .repeat(.value(3))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var beer: Card {
+        .init(
+            name: .beer,
+            desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
+            canPlay: [.playersAtLeast(3)],
+            onPlay: [
+                .init(
+                    action: .heal,
+                    selectors: [
+                        .setAmount(1)
                     ]
                 )
             ]
