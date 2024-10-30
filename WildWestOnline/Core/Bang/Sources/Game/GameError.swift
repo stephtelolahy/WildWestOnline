@@ -10,4 +10,6 @@ public enum GameError: Error, Equatable, Codable {
     case discardIsEmpty
     case cardNotInDeck(String)
     case cardNotDiscovered(String)
+    case playerAlreadyMaxHealth(String)
+    case noReq(PlayReq)
 }

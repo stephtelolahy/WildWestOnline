@@ -1,5 +1,5 @@
 //
-//  Test.swift
+//  WellsFargoTest.swift
 //  Bang
 //
 //  Created by Hugues Telolahy on 30/10/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct Test {
+struct WellsFargoTest {
     @Test func play_shouldDraw3Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

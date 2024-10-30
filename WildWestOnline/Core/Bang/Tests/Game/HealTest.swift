@@ -1,14 +1,14 @@
 //
-//  HealTests.swift
+//  HealTest.swift
 //
 //
 //  Created by Hugues Telolahy on 06/01/2024.
 //
 
-import GameCore
 import Testing
+import Bang
 
-struct HealTests {
+struct HealTest {
     private var state: GameState {
         GameState.makeBuilder()
             .withPlayer("p1") {
@@ -21,28 +21,28 @@ struct HealTests {
     @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
         // When
         let action = GameAction.heal(1, player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.player("p1").health == 3)
+        #expect(result.players.get("p1").health == 3)
     }
 
     @Test func heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() async throws {
         // When
         let action = GameAction.heal(2, player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.player("p1").health == 4)
+        #expect(result.players.get("p1").health == 4)
     }
 
     @Test func heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() async throws {
         // When
         let action = GameAction.heal(3, player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.player("p1").health == 4)
+        #expect(result.players.get("p1").health == 4)
     }
 
     @Test func heal_alreadyMaxHealth_shouldThrowError() async throws {
@@ -57,8 +57,8 @@ struct HealTests {
         // When
         // Then
         let action = GameAction.heal(1, player: "p1")
-        #expect(throws: GameState.Error.playerAlreadyMaxHealth("p1")) {
-            try GameState.reducer(state, action)
+        #expect(throws: GameError.playerAlreadyMaxHealth("p1")) {
+            try GameReducer().reduce(state, action)
         }
     }
 }

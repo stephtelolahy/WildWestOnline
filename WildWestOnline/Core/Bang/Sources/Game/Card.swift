@@ -37,3 +37,7 @@ public enum ActionSelector: Equatable, Codable {
         case value(Int)
     }
 }
+
+public enum PlayReq: Equatable, Codable {
+    case playersAtLeast(Int)
+}

@@ -17,11 +17,13 @@ public struct GameAction: Action, Equatable, Codable {
         case drawDiscovered
         case discover
         case play
+        case heal
     }
 
     public struct Payload: Equatable, Codable {
         public let actor: String
         public var card: String?
+        public var amount: Int?
         public var selectors: [ActionSelector] = []
     }
 }
@@ -83,6 +85,17 @@ public extension GameAction {
             payload: .init(
                 actor: player,
                 card: card
+            )
+        )
+    }
+
+    /// Restore player's health, limited to maxHealth
+    static func heal(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .heal,
+            payload: .init(
+                actor: player,
+                amount: amount
             )
         )
     }

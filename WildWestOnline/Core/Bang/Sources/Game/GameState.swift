@@ -18,6 +18,8 @@ public struct GameState {
 }
 
 public struct Player: Equatable, Codable {
+    public var health: Int
+    public var maxHealth: Int
     public var hand: [String]
 }
 
@@ -76,12 +78,26 @@ public extension GameState {
 
 public extension Player {
     class Builder {
+        private var health: Int = 0
+        private var maxHealth: Int = 0
         private var hand: [String] = []
 
         public func build() -> Player {
             .init(
+                health: health,
+                maxHealth: maxHealth,
                 hand: hand
             )
+        }
+
+        public func withHealth(_ value: Int) -> Self {
+            health = value
+            return self
+        }
+
+        public func withMaxHealth(_ value: Int) -> Self {
+            maxHealth = value
+            return self
         }
 
         public func withHand(_ value: [String]) -> Self {
