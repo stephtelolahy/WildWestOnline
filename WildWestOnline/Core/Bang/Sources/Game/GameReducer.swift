@@ -20,7 +20,7 @@ public struct GameReducer {
             state.queue.remove(at: 0)
         }
 
-        if action.isPending {
+        if action.payload.selectors.isNotEmpty {
             var action = action
             let selector = action.payload.selectors.remove(at: 0)
             let children = try selector.resolve(action, state)

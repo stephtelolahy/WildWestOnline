@@ -35,7 +35,7 @@ func dispatchUntilCompleted(
 
     store.event.sink { event in
         if let gameAction = event as? GameAction,
-           !gameAction.isPending {
+           gameAction.payload.selectors.isEmpty {
             ocurredEvents.append(gameAction)
         }
     }

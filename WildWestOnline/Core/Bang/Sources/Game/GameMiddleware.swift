@@ -11,11 +11,11 @@ import Combine
 public extension Middlewares {
     static func updateGame() -> Middleware<GameState> {
         { state, _ in
-            guard !state.queue.isEmpty else {
-                return Empty().eraseToAnyPublisher()
+            if state.queue.isEmpty {
+                Empty().eraseToAnyPublisher()
+            } else {
+                Just(state.queue[0]).eraseToAnyPublisher()
             }
-
-            return Just(state.queue[0]).eraseToAnyPublisher()
         }
     }
 }

@@ -27,12 +27,6 @@ public struct GameAction: Action, Equatable, Codable {
 }
 
 public extension GameAction {
-    var isPending: Bool {
-        !payload.selectors.isEmpty
-    }
-}
-
-public extension GameAction {
     /// Draw top deck card and put to discard
     static var draw: Self {
         .init(
