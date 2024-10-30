@@ -19,7 +19,6 @@ public enum Cards {
 }
 
 private extension Cards {
-
     static var stagecoach: Card {
         .init(
             name: .stagecoach,

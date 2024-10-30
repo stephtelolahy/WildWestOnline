@@ -4,12 +4,13 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
+import Redux
 import Combine
 
 /// Game loop features
 public extension Middlewares {
     static func updateGame() -> Middleware<GameState> {
-        { state, action in
+        { state, _ in
             guard !state.queue.isEmpty else {
                 return Empty().eraseToAnyPublisher()
             }

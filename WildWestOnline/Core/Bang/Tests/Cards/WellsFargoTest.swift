@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct Test {
-
     @Test func play_shouldDraw3Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

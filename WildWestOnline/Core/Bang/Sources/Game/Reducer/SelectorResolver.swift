@@ -18,8 +18,8 @@ private extension ActionSelector {
 
     var resolver: Resolver {
         switch self {
-        case .repeat(let number): Repeat(number: number)
-
+        case .repeat(let number):
+            Repeat(number: number)
         }
     }
 

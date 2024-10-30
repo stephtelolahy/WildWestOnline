@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct DiscoverTest {
-
     @Test func discover_shouldAddCardToDiscovered() async throws {
         // Given
         let state = GameState.makeBuilder()

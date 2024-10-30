@@ -7,7 +7,7 @@
 
 extension GameAction.Kind {
     func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-        return try reducer.reduce(state, payload)
+        try reducer.reduce(state, payload)
     }
 }
 
@@ -106,7 +106,7 @@ private extension GameAction.Kind {
             }
 
             var state = state
-            state[keyPath: \.players[payload.actor]!.hand].removeAll(where: { $0 == card})
+            state[keyPath: \.players[payload.actor]!.hand].removeAll(where: { $0 == card })
             state.discard.insert(card, at: 0)
 
             let onPlay = cardObject.onPlay

@@ -56,7 +56,6 @@ private extension TriggeredAbility.Selector.Target {
                 .filter { state.player($0).isDamaged }
         }
     }
-
 }
 
 private extension Player {

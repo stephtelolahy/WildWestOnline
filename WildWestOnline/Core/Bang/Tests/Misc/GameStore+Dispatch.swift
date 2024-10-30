@@ -8,6 +8,7 @@ import Testing
 import XCTest
 import Combine
 import Bang
+import Redux
 
 func dispatchUntilCompleted(
     _ action: GameAction,

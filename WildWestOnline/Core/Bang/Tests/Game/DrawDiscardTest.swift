@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct DrawDiscardTest {
-
     @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
         // Given
         let state = GameState.makeBuilder()

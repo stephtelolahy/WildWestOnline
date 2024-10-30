@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct DrawTest {
-
     @Test func draw_shouldMoveCardFromDeckToDiscard() async throws {
         // Given
         let state = GameState.makeBuilder()

@@ -45,7 +45,7 @@ public extension GameState {
             deck = value
             return self
         }
-        
+
         public func withDiscard(_ value: [String]) -> Self {
             discard = value
             return self

@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct PlayTest {
-
     @Test("play brown card should remove from hand")
     func playBrown() async throws {
         // Given
@@ -28,5 +27,4 @@ struct PlayTest {
         #expect(result.players.get("p1").hand == ["c2"])
         #expect(result.discard == ["c1"])
     }
-
 }
