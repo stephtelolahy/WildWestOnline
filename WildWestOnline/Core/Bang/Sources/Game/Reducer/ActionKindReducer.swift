@@ -17,7 +17,7 @@ private extension GameAction.Kind {
     }
 
     var reducer: Reducer {
-        let dict : [GameAction.Kind: Reducer] = [
+        let dict: [GameAction.Kind: Reducer] = [
             .draw: Draw(),
             .drawDeck: DrawDeck(),
             .drawDiscard: DrawDiscard(),

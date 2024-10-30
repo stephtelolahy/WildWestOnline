@@ -38,11 +38,13 @@ func dispatchUntilCompleted(
            !gameAction.isPending {
             ocurredEvents.append(gameAction)
         }
-    }.store(in: &subscriptions)
+    }
+    .store(in: &subscriptions)
 
     store.error.sink { error in
         ocurredError = error
-    }.store(in: &subscriptions)
+    }
+    .store(in: &subscriptions)
 
     store.dispatch(action)
 
