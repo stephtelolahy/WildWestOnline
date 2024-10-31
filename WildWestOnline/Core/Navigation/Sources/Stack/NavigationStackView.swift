@@ -4,7 +4,6 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 09/09/2024.
 //
-// swiftlint:disable type_contents_order
 
 import Redux
 import SwiftUI

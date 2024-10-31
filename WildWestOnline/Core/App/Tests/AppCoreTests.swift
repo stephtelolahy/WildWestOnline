@@ -9,10 +9,11 @@ import AppCore
 import GameCore
 import Redux
 import SettingsCore
+import Testing
 import XCTest
 
-final class AppCoreTests: XCTestCase {
-    func test_app_whenStartedGame_shouldShowGameScreen_AndCreateGame() throws {
+struct AppCoreTests {
+    @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
         // Given
         let state = AppState(
             navigation: .init(root: .init(path: [.home])),
@@ -33,12 +34,13 @@ final class AppCoreTests: XCTestCase {
         sut.dispatch(action)
 
         // Then
-        wait(for: [expectation], timeout: 0.1)
-        XCTAssertEqual(sut.state.navigation.main.path, [.home, .game])
-        XCTAssertNotNil(sut.state.game)
+        let waiter = XCTWaiter()
+        await waiter.fulfillment(of: [expectation], timeout: 0.1)
+        #expect(sut.state.navigation.main.path == [.home, .game])
+        #expect(sut.state.game != nil)
     }
 
-    func test_app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() throws {
+    @Test func app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() async throws {
         // Given
         let state = AppState(
             navigation: .init(root: .init(path: [.home, .game])),
@@ -60,8 +62,9 @@ final class AppCoreTests: XCTestCase {
         sut.dispatch(action)
 
         // Then
-        wait(for: [expectation], timeout: 0.1)
-        XCTAssertEqual(sut.state.navigation.main.path, [.home])
-        XCTAssertNil(sut.state.game)
+        let waiter = XCTWaiter()
+        await waiter.fulfillment(of: [expectation], timeout: 0.1)
+        #expect(sut.state.navigation.main.path == [.home])
+        #expect(sut.state.game == nil)
     }
 }
