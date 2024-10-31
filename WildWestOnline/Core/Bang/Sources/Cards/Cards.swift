@@ -13,7 +13,8 @@ public enum Cards {
             stagecoach,
             wellsFargo,
             beer,
-            saloon
+            saloon,
+            catBalou
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -55,11 +56,11 @@ private extension Cards {
         .init(
             name: .beer,
             desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            canPlay: [.playersAtLeast(3)],
             onPlay: [
                 .init(
                     action: .heal,
                     selectors: [
+                        .verify(.playersAtLeast(3)),
                         .setAmount(.value(1))
                     ]
                 )
@@ -77,6 +78,22 @@ private extension Cards {
                     selectors: [
                         .setAmount(.value(1)),
                         .setTarget(.damaged)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var catBalou: Card {
+        .init(
+            name: .catBalou,
+            desc: "Force “any one player” to “discard a card”, regardless of the distance.",
+            onPlay: [
+                .init(
+                    action: .discard,
+                    selectors: [
+                        .chooseTarget([.havingCard]),
+                        .chooseCard()
                     ]
                 )
             ]

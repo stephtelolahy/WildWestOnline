@@ -8,18 +8,15 @@
 public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
-    public let canPlay: [PlayReq]
     public let onPlay: [ActiveAbility]
 
     public init(
         name: String,
         desc: String = "",
-        canPlay: [PlayReq] = [],
         onPlay: [ActiveAbility] = []
     ) {
         self.name = name
         self.desc = desc
-        self.canPlay = canPlay
         self.onPlay = onPlay
     }
 }
@@ -44,6 +41,9 @@ public enum ActionSelector: Equatable, Codable {
     case `repeat`(Number)
     case setAmount(Number)
     case setTarget(Target)
+    case chooseTarget([TargetCondition] = [])
+    case chooseCard([CardCondition] = [])
+    case verify(StateCondition)
 
     public enum Number: Equatable, Codable {
         case value(Int)
@@ -52,8 +52,16 @@ public enum ActionSelector: Equatable, Codable {
     public enum Target: String, Codable {
         case damaged
     }
-}
 
-public enum PlayReq: Equatable, Codable {
-    case playersAtLeast(Int)
+    public enum TargetCondition: String, Codable {
+        case havingCard
+    }
+
+    public enum CardCondition: String, Codable {
+        case fromHand
+    }
+
+    public enum StateCondition: Equatable, Codable {
+        case playersAtLeast(Int)
+    }
 }

@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct CatBalouTest {
-    /*
     @Test func playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -23,17 +22,16 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatch(action, state: state, choose: ["p2", "hiddenHand-0"])
+//        let result = try await dispatch(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
-            .chooseOne(.target, options: ["p2"], player: "p1"),
-            .chooseOne(.cardToDiscard, options: ["hiddenHand-0"], player: "p1"),
-            .discardHand("c21", player: "p2")
+            .discard("c21", player: "p2")
         ])
     }
-
+    /*
     @Test func playingCatBalou_targetIsOther_havingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

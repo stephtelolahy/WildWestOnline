@@ -107,10 +107,6 @@ private extension GameAction.Kind {
                 fatalError("Card \(card) not found")
             }
 
-            for playReq in cardObject.canPlay {
-                try playReq.match(state)
-            }
-
             var state = state
             state[keyPath: \.players[payload.actor]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
