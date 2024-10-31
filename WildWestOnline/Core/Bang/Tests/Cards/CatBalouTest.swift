@@ -72,8 +72,6 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
-//            .chooseOne(.target, options: ["p2"], player: "p1"),
-//            .chooseOne(.cardToDiscard, options: ["c22", "c23", "hiddenHand-0"], player: "p1"),
             .discard("c23", player: "p2")
         ])
     }
