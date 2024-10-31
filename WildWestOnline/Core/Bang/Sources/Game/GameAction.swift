@@ -11,13 +11,13 @@ public struct GameAction: Action, Equatable, Codable {
     public var payload: Payload
 
     public enum Kind: String, Codable {
+        case play
         case draw
         case drawDeck
         case drawDiscard
         case drawDiscovered
         case discover
         case discard
-        case play
         case heal
     }
 
@@ -30,6 +30,17 @@ public struct GameAction: Action, Equatable, Codable {
 }
 
 public extension GameAction {
+    /// Move: play a card
+    static func play(_ card: String, player: String) -> Self {
+        .init(
+            kind: .play,
+            payload: .init(
+                actor: player,
+                card: card
+            )
+        )
+    }
+
     /// Draw top deck card and put to discard
     static var draw: Self {
         .init(
@@ -75,17 +86,6 @@ public extension GameAction {
             kind: .discover,
             payload: .init(
                 actor: ""
-            )
-        )
-    }
-
-    /// Move: play a card
-    static func play(_ card: String, player: String) -> Self {
-        .init(
-            kind: .play,
-            payload: .init(
-                actor: player,
-                card: card
             )
         )
     }
