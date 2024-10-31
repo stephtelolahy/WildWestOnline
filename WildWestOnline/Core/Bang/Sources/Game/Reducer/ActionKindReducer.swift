@@ -24,7 +24,8 @@ private extension GameAction.Kind {
             .drawDiscovered: DrawDiscovered(),
             .discover: Discover(),
             .play: Play(),
-            .heal: Heal()
+            .heal: Heal(),
+            .discard: Discard()
         ]
 
         guard let result = dict[self] else {
@@ -146,6 +147,30 @@ private extension GameAction.Kind {
             playerObj.health = min(playerObj.health + amount, maxHealth)
             var state = state
             state.players[player] = playerObj
+            return state
+        }
+    }
+
+    struct Discard: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing card from payload")
+            }
+
+            var state = state
+            let player = payload.actor
+            let playerObj = state.players.get(player)
+
+            if playerObj.hand.contains(card) {
+                state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
+                state.discard.insert(card, at: 0)
+            } else if playerObj.inPlay.contains(card) {
+                state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
+                state.discard.insert(card, at: 0)
+            } else {
+                fatalError("Card \(card) not owned by \(player)")
+            }
+
             return state
         }
     }

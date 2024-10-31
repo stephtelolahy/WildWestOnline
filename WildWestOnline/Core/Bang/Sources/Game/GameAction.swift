@@ -16,6 +16,7 @@ public struct GameAction: Action, Equatable, Codable {
         case drawDiscard
         case drawDiscovered
         case discover
+        case discard
         case play
         case heal
     }
@@ -96,6 +97,17 @@ public extension GameAction {
             payload: .init(
                 actor: player,
                 amount: amount
+            )
+        )
+    }
+
+    /// Discard a player's hand or inPlay card
+    static func discard(_ card: String, player: String) -> Self {
+        .init(
+            kind: .discard,
+            payload: .init(
+                actor: player,
+                card: card
             )
         )
     }

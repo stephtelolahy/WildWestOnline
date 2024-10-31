@@ -22,6 +22,7 @@ public struct Player: Equatable, Codable {
     public var health: Int
     public var maxHealth: Int
     public var hand: [String]
+    public var inPlay: [String]
 }
 
 public extension GameState {
@@ -85,12 +86,14 @@ public extension Player {
         private var health: Int = 0
         private var maxHealth: Int = 0
         private var hand: [String] = []
+        private var inPlay: [String] = []
 
         public func build() -> Player {
             .init(
                 health: health,
                 maxHealth: maxHealth,
-                hand: hand
+                hand: hand,
+                inPlay: inPlay
             )
         }
 
@@ -106,6 +109,11 @@ public extension Player {
 
         public func withHand(_ value: [String]) -> Self {
             hand = value
+            return self
+        }
+
+        public func withInPlay(_ value: [String]) -> Self {
+            inPlay = value
             return self
         }
     }
