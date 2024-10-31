@@ -52,25 +52,19 @@ private extension AIStrategy {
 
     var evaluator: Evaluator {
         switch self {
-        case .random:
-            RandomStrategy()
-        case .agressive:
-            AgressiveStrategy()
+        case .random: RandomStrategy()
+        case .agressive: AgressiveStrategy()
         }
     }
 
     struct RandomStrategy: Evaluator {
-        public init() {}
-
-        public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+        func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
             actions.randomElement()!
         }
     }
 
     struct AgressiveStrategy: Evaluator {
-        public init() {}
-
-        public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+        func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
             let cardsValue: [String: Int] = [
                 "bang": 3,
                 "duel": 3,

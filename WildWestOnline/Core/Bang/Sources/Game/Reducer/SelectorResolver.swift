@@ -72,7 +72,7 @@ private extension ActionSelector {
             let possibleTargets = state.playOrder.starting(with: pendingAction.payload.actor)
                 .filter { player in
                     conditions.allSatisfy { condition in
-                        condition.match(player, state: state)
+                        condition.match(player, state: state, ctx: pendingAction.payload)
                     }
                 }
 
