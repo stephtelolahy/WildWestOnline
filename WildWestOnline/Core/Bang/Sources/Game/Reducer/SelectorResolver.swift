@@ -78,8 +78,7 @@ private extension ActionSelector {
                 fatalError("Unimplemented choice")
             }
 
-            var result = pendingAction
-            result.payload.actor = possibleTargets[0]
+            let result = pendingAction.withTarget(possibleTargets[0])
             return [result]
         }
     }

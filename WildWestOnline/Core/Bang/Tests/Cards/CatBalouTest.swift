@@ -60,8 +60,8 @@ struct CatBalouTest {
                 $0.withHand([.catBalou])
             }
             .withPlayer("p2") {
-                $0.withHand(["c21"])
-                    .withInPlay(["c22", "c23"])
+                $0.withHand(["c21", "c22"])
+                    .withInPlay(["c23", "c24"])
             }
             .build()
 
