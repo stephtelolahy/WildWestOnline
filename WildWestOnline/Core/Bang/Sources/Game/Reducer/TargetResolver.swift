@@ -7,13 +7,18 @@
 
 extension ActionSelector.Target {
     func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
-        try resolver.resolve(state, ctx: ctx)
+        let players = resolver.resolve(state, ctx: ctx)
+        guard players.isNotEmpty else {
+            throw .noPlayer(self)
+        }
+
+        return players
     }
 }
 
 private extension ActionSelector.Target {
     protocol Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String]
+        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String]
     }
 
     var resolver: Resolver {
@@ -23,7 +28,7 @@ private extension ActionSelector.Target {
     }
 
     struct Damaged: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.actor)
                 .filter { state.players.get($0).isDamaged }
