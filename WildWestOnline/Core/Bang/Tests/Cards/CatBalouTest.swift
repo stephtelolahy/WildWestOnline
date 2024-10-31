@@ -90,7 +90,7 @@ struct CatBalouTest {
         // When
         // Then
         let action = GameAction.play(.catBalou, player: "p1")
-        await #expect(throws: GameError.noChoosableTarget(.havingCard)) {
+        await #expect(throws: GameError.noChoosableTarget([.havingCard])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

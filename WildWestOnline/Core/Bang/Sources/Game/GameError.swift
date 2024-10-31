@@ -13,5 +13,5 @@ public enum GameError: Error, Equatable, Codable {
     case playerAlreadyMaxHealth(String)
     case noReq(ActionSelector.StateCondition)
     case noTarget(ActionSelector.Target)
-    case noChoosableTarget(ActionSelector.TargetCondition)
+    case noChoosableTarget([ActionSelector.TargetCondition])
 }

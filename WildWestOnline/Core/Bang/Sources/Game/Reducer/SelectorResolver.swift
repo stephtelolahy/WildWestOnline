@@ -69,9 +69,15 @@ private extension ActionSelector {
         let conditions: [ActionSelector.TargetCondition]
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let possibleTargets: [String] = Array(state.playOrder.starting(with: pendingAction.payload.actor).dropFirst())
+            let possibleTargets = state.playOrder.starting(with: pendingAction.payload.actor)
+                .filter { player in
+                    conditions.allSatisfy { condition in
+                        condition.match(player, state: state)
+                    }
+                }
+
             guard possibleTargets.isNotEmpty else {
-                fatalError("No matching target")
+                throw .noChoosableTarget(conditions)
             }
 
             guard possibleTargets.count == 1 else {
