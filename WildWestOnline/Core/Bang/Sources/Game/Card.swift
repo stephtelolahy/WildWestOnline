@@ -42,7 +42,7 @@ public enum ActionSelector: Equatable, Codable {
     case setAmount(Number)
     case setTarget(Target)
     case chooseTarget([TargetCondition] = [])
-    case chooseCard([CardCondition] = [])
+    case chooseCard
     case verify(StateCondition)
 
     public enum Number: Equatable, Codable {
@@ -55,9 +55,6 @@ public enum ActionSelector: Equatable, Codable {
 
     public enum TargetCondition: String, Codable {
         case havingCard
-    }
-
-    public struct CardCondition: Equatable, Codable {
     }
 
     public enum StateCondition: Equatable, Codable {

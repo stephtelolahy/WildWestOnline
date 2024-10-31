@@ -22,7 +22,7 @@ private extension ActionSelector {
         case .setAmount(let number): SetAmount(number: number)
         case .setTarget(let target): SetTarget(target: target)
         case .chooseTarget(let conditions): ChooseTarget(conditions: conditions)
-        case .chooseCard(let conditions): ChooseCard(conditions: conditions)
+        case .chooseCard: ChooseCard()
         case .verify(let condition): Verify(condition: condition)
         }
     }
@@ -90,13 +90,11 @@ private extension ActionSelector {
     }
 
     struct ChooseCard: Resolver {
-        let conditions: [ActionSelector.CardCondition]
-
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
             let playerObj = state.players.get(pendingAction.payload.actor)
             let possibleCards: [String] = playerObj.hand + playerObj.inPlay
             guard possibleCards.isNotEmpty else {
-                fatalError("No card matching \(conditions)")
+                fatalError("No card")
             }
 
             guard possibleCards.count == 1 else {

@@ -93,7 +93,7 @@ private extension Cards {
                     action: .discard,
                     selectors: [
                         .chooseTarget([.havingCard]),
-                        .chooseCard()
+                        .chooseCard
                     ]
                 )
             ]
