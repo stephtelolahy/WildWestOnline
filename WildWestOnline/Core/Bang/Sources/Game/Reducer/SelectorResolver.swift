@@ -69,7 +69,18 @@ private extension ActionSelector {
         let conditions: [ActionSelector.TargetCondition]
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            fatalError()
+            let possibleTargets: [String] = Array(state.playOrder.starting(with: pendingAction.payload.actor).dropFirst())
+            guard possibleTargets.isNotEmpty else {
+                fatalError("No matching target")
+            }
+
+            guard possibleTargets.count == 1 else {
+                fatalError("Unimplemented choice")
+            }
+
+            var result = pendingAction
+            result.payload.actor = possibleTargets[0]
+            return [result]
         }
     }
 
@@ -77,10 +88,21 @@ private extension ActionSelector {
         let conditions: [ActionSelector.CardCondition]
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            fatalError()
+            let playerObj = state.players.get(pendingAction.payload.actor)
+            let possibleCards: [String] = playerObj.hand + playerObj.inPlay
+            guard possibleCards.isNotEmpty else {
+                fatalError("No matching card")
+            }
+
+            guard possibleCards.count == 1 else {
+                fatalError("Unimplemented choice")
+            }
+
+            var result = pendingAction
+            result.payload.card = possibleCards[0]
+            return [result]
         }
     }
-
 }
 
 private extension GameAction {

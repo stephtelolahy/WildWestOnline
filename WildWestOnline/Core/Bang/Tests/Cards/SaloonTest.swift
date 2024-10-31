@@ -77,7 +77,7 @@ struct SaloonTest {
         // When
         // Then
         let action = GameAction.play(.saloon, player: "p1")
-        await #expect(throws: GameError.noPlayer(.damaged)) {
+        await #expect(throws: GameError.noTarget(.damaged)) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

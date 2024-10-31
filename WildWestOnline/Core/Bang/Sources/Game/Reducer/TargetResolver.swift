@@ -9,7 +9,7 @@ extension ActionSelector.Target {
     func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
         let players = resolver.resolve(state, ctx: ctx)
         guard players.isNotEmpty else {
-            throw .noPlayer(self)
+            throw .noTarget(self)
         }
 
         return players
