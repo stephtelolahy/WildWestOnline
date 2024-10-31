@@ -96,7 +96,7 @@ private extension ActionSelector {
             let playerObj = state.players.get(pendingAction.payload.actor)
             let possibleCards: [String] = playerObj.hand + playerObj.inPlay
             guard possibleCards.isNotEmpty else {
-                fatalError("No matching card")
+                fatalError("No card matching \(conditions)")
             }
 
             guard possibleCards.count == 1 else {

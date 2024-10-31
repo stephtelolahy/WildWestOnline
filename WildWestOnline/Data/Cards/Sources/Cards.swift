@@ -249,7 +249,7 @@ private extension Cards {
     }
 
     // MARK: - Bang
-*/
+
     static var beer: Card {
         .init(
             name: .beer,
@@ -330,7 +330,7 @@ private extension Cards {
             ]
         )
     }
-    /*
+
     static var panic: Card {
         .init(
             name: .panic,

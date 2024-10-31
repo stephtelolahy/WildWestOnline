@@ -9,7 +9,7 @@ public extension Dictionary {
     /// Getting non-optional value for given Key
     func get(_ key: Key) -> Value {
         guard let value = self[key] else {
-            fatalError("missing value for key \(key)")
+            fatalError("Missing value for key \(key)")
         }
 
         return value
