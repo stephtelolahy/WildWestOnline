@@ -6,14 +6,14 @@
 //
 
 extension ActionSelector.Number {
-    func resolve(_ state: GameState) throws(GameError) -> Int {
-        try resolver.resolve(state)
+    func resolve(_ state: GameState) -> Int {
+        resolver.resolve(state)
     }
 }
 
 private extension ActionSelector.Number {
     protocol Resolver {
-        func resolve(_ state: GameState) throws(GameError) -> Int
+        func resolve(_ state: GameState) -> Int
     }
 
     var resolver: Resolver {
@@ -25,7 +25,7 @@ private extension ActionSelector.Number {
     struct Value: Resolver {
         let rawValue: Int
 
-        func resolve(_ state: GameState) throws(GameError) -> Int {
+        func resolve(_ state: GameState) -> Int {
             rawValue
         }
     }
