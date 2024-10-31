@@ -21,8 +21,8 @@ private extension ActionSelector {
         case .repeat(let number): Repeat(number: number)
         case .setAmount(let number): SetAmount(number: number)
         case .setTarget(let target): SetTarget(target: target)
-        case .chooseCard(let conditions): fatalError()
-        case .chooseTarget(let conditions): fatalError()
+        case .chooseTarget(let conditions): ChooseTarget(conditions: conditions)
+        case .chooseCard(let conditions): ChooseCard(conditions: conditions)
         case .verify(let condition): Verify(condition: condition)
         }
     }
@@ -64,6 +64,23 @@ private extension ActionSelector {
             return [pendingAction]
         }
     }
+
+    struct ChooseTarget: Resolver {
+        let conditions: [ActionSelector.TargetCondition]
+
+        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+            fatalError()
+        }
+    }
+
+    struct ChooseCard: Resolver {
+        let conditions: [ActionSelector.CardCondition]
+
+        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+            fatalError()
+        }
+    }
+
 }
 
 private extension GameAction {

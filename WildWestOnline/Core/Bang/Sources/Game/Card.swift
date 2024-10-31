@@ -57,8 +57,7 @@ public enum ActionSelector: Equatable, Codable {
         case havingCard
     }
 
-    public enum CardCondition: String, Codable {
-        case fromHand
+    public struct CardCondition: Equatable, Codable {
     }
 
     public enum StateCondition: Equatable, Codable {
