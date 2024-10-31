@@ -49,7 +49,7 @@ private extension ActionSelector {
         let target: ActionSelector.Target
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            try target.resolve(state)
+            try target.resolve(state, ctx: pendingAction.payload)
                 .map { pendingAction.withTarget($0) }
         }
     }

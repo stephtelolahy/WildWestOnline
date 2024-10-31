@@ -38,7 +38,7 @@ struct SaloonTest {
             .heal(1, player: "p3")
         ])
     }
-/*
+
     @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -56,9 +56,8 @@ struct SaloonTest {
         // When
         // Then
         let action = GameAction.play(.saloon, player: "p1")
-        #expect(throws: GameError.noPlayer(.damaged)) {
+        await #expect(throws: GameError.noPlayer(.damaged)) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
- */
 }

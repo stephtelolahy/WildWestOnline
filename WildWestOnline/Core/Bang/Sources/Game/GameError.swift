@@ -12,4 +12,5 @@ public enum GameError: Error, Equatable, Codable {
     case cardNotDiscovered(String)
     case playerAlreadyMaxHealth(String)
     case noReq(PlayReq)
+    case noPlayer(ActionSelector.Target)
 }

@@ -14,6 +14,7 @@ public struct GameState {
     public var deck: [String]
     public var discard: [String]
     public var discovered: [String]
+    public var playOrder: [String]
     public var queue: [GameAction]
 }
 
@@ -30,6 +31,7 @@ public extension GameState {
         private var discard: [String] = []
         private var discovered: [String] = []
         private var cards: [String: Card] = [:]
+        private var playOrder: [String] = []
         private var queue: [GameAction] = []
 
         public func build() -> GameState {
@@ -39,6 +41,7 @@ public extension GameState {
                 deck: deck,
                 discard: discard,
                 discovered: discovered,
+                playOrder: playOrder,
                 queue: queue
             )
         }
@@ -62,6 +65,7 @@ public extension GameState {
             let builder = Player.makeBuilder()
             _ = builderFunc(builder)
             players[id] = builder.build()
+            playOrder.append(id)
             return self
         }
 

@@ -28,7 +28,7 @@ private extension PlayReq {
         let amount: Int
 
         func match(_ state: GameState) -> Bool {
-            state.players.count >= amount
+            state.playOrder.count >= amount
         }
     }
 }
