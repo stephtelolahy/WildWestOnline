@@ -57,7 +57,7 @@ private extension ActionSelector {
 private extension GameAction {
     func withTarget(_ target: String) -> Self {
         var copy = self
-        copy.payload.target = target
+        copy.payload.actor = target
         return copy
     }
 }
