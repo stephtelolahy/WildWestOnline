@@ -78,7 +78,7 @@ struct CatBalouTest {
         ])
     }
 
-    @Test func playingCatBalou_noPlayerAllowed_shouldThrowError() async throws {
+    @Test func playingCatBalou_noPlayerHavingCards_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -95,7 +95,7 @@ struct CatBalouTest {
         }
     }
 
-    @Test func playingCatBalou_selfHavingHandCards_shouldThrowError() async throws {
+    @Test func playingCatBalou_targetIsSelf_havingHandCards_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
