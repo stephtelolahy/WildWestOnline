@@ -41,9 +41,8 @@ public struct ActiveAbility: Equatable, Codable {
 /// Selectors are used to specify which objects an aura or effect should affect.
 /// Choice is performed by {actor}
 public enum ActionSelector: Equatable, Codable {
-    /// apply x times
     case `repeat`(Number)
-    case setAmount(Int)
+    case setAmount(Number)
     case setTarget(Target)
 
     public enum Number: Equatable, Codable {

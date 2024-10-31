@@ -28,19 +28,18 @@ private extension ActionSelector {
         let number: ActionSelector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            switch number {
-            case .value(let times):
-                Array(repeating: pendingAction, count: times)
-            }
+            let value = try number.resolve(state)
+            return Array(repeating: pendingAction, count: value)
         }
     }
 
     struct SetAmount: Resolver {
-        let number: Int
+        let number: ActionSelector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
             var pendingAction = pendingAction
-            pendingAction.payload.amount = number
+            let value = try number.resolve(state)
+            pendingAction.payload.amount = value
             return [pendingAction]
         }
     }
