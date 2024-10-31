@@ -20,6 +20,7 @@ let package = Package(
 
         // Core
         .library(name: "GameCore", targets: ["GameCore"]),
+        .library(name: "Bang", targets: ["Bang"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
@@ -83,6 +84,23 @@ let package = Package(
                 "GameCore"
             ],
             path: "Core/Game/Tests"
+        ),
+        .target(
+            name: "Bang",
+            dependencies: [
+                "Redux"
+            ],
+            path: "Core/Bang/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "BangTests",
+            dependencies: [
+                "Bang"
+            ],
+            path: "Core/Bang/Tests"
         ),
         .target(
             name: "SettingsCore",

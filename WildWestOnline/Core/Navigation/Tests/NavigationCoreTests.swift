@@ -5,10 +5,10 @@
 //  Created by Stephano Hugues TELOLAHY on 24/07/2024.
 //
 import NavigationCore
-import XCTest
+import Testing
 
-final class NavigationCoreTests: XCTestCase {
-    func test_app_whenCompletedSplash_shouldSetHomeScreen() throws {
+struct NavigationCoreTests {
+    @Test func app_whenCompletedSplash_shouldSetHomeScreen() async throws {
         // Given
         let state = NavigationState()
 
@@ -17,10 +17,10 @@ final class NavigationCoreTests: XCTestCase {
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.main.path, [.home])
+        #expect(result.main.path == [.home])
     }
 
-    func test_showingSettings_shouldDisplaySettings() throws {
+    @Test func showingSettings_shouldDisplaySettings() async throws {
         // Given
         let state = NavigationState(root: .init(path: [.home]))
 
@@ -29,10 +29,10 @@ final class NavigationCoreTests: XCTestCase {
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertEqual(result.main.sheet, .settings)
+        #expect(result.main.sheet == .settings)
     }
 
-    func test_closingSettings_shouldRemoveSettings() throws {
+    @Test func closingSettings_shouldRemoveSettings() async throws {
         // Given
         let state = NavigationState(root: .init(path: [.home], sheet: .settings))
 
@@ -41,6 +41,6 @@ final class NavigationCoreTests: XCTestCase {
         let result = try NavigationState.reducer(state, action)
 
         // Then
-        XCTAssertNil(result.main.sheet)
+        #expect(result.main.sheet == nil)
     }
 }

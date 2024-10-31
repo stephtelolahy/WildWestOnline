@@ -10,10 +10,10 @@ import GameCore
 import Redux
 import SettingsCore
 @testable import SettingsUI
-import XCTest
+import Testing
 
-final class SetttingsViewStateTests: XCTestCase {
-    func test_SettingsStateProjection() throws {
+struct SetttingsViewStateTests {
+    @Test func SettingsStateProjection() async throws {
         // Given
         let appState = AppState(
             navigation: .init(),
@@ -22,9 +22,9 @@ final class SetttingsViewStateTests: XCTestCase {
         )
 
         // When
-        let settingsState = try XCTUnwrap(SettingsHomeView.presenter(appState))
+        let settingsState = try #require(SettingsHomeView.presenter(appState))
 
         // Then
-        XCTAssertEqual(settingsState.playersCount, 3)
+        #expect(settingsState.playersCount == 3)
     }
 }
