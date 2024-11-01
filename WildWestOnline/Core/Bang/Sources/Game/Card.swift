@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
+// swiftlint:disable nesting
 
 public struct Card: Equatable, Codable {
     public let name: String
@@ -44,6 +45,7 @@ public enum ActionSelector: Equatable, Codable {
     case chooseTarget([TargetCondition] = [])
     case chooseCard
     case verify(StateCondition)
+    case chooseOne(ChooseOneDetails)
 
     public enum Number: Equatable, Codable {
         case value(Int)
@@ -59,6 +61,17 @@ public enum ActionSelector: Equatable, Codable {
 
     public enum StateCondition: Equatable, Codable {
         case playersAtLeast(Int)
+    }
+
+    public struct ChooseOneDetails: Equatable, Codable {
+        let itemType: ItemType
+        let options: [String]
+        let selection: String?
+
+        enum ItemType: String, Codable {
+            case target
+            case card
+        }
     }
 }
 
