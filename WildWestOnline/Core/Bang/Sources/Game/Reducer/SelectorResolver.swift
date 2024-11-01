@@ -76,7 +76,7 @@ private extension ActionSelector {
             } else if let selection = details.selection {
                 return try details.item.resolveSelection(selection, state: state, pendingAction: pendingAction)
             } else {
-                fatalError("Unexpected")
+                fatalError("Unexpected, waiting user choice")
             }
         }
     }
