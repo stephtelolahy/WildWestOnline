@@ -68,7 +68,18 @@ private extension ActionSelector {
         let details: ChooseOneDetails
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            try details.item.resolve(pendingAction, state)
+            if details.options.isEmpty {
+                var updatedAction = pendingAction
+                var updatedDetails = details
+                updatedDetails.options = try details.item.resolveOptions(state, ctx: pendingAction.payload)
+                let updatedSelector = ActionSelector.chooseOne(updatedDetails)
+                updatedAction.payload.selectors.insert(updatedSelector, at: 0)
+                return [updatedAction]
+            } else if let selection = details.selection {
+                return try details.item.resolveSelection(selection, state: state, pendingAction: pendingAction)
+            } else {
+                fatalError("Unexpected")
+            }
         }
     }
 }
@@ -77,6 +88,12 @@ extension GameAction {
     func withTarget(_ target: String) -> Self {
         var copy = self
         copy.payload.actor = target
+        return copy
+    }
+
+    func withCard(_ card: String) -> Self {
+        var copy = self
+        copy.payload.card = card
         return copy
     }
 }

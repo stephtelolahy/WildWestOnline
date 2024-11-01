@@ -18,12 +18,13 @@ private extension GameAction.Kind {
 
     var reducer: Reducer {
         let dict: [GameAction.Kind: Reducer] = [
+            .play: Play(),
+            .choose: Choose(),
             .draw: Draw(),
             .drawDeck: DrawDeck(),
             .drawDiscard: DrawDiscard(),
             .drawDiscovered: DrawDiscovered(),
             .discover: Discover(),
-            .play: Play(),
             .heal: Heal(),
             .discard: Discard()
         ]
@@ -166,6 +167,32 @@ private extension GameAction.Kind {
             } else {
                 fatalError("Card \(card) not owned by \(player)")
             }
+
+            return state
+        }
+    }
+
+    struct Choose: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let selection = payload.selection else {
+                fatalError("Missing selection from payload")
+            }
+
+            guard let nextAction = state.queue.first,
+                  let selector = nextAction.payload.selectors.first,
+                  case .chooseOne(let chooseOneDetails) = selector,
+                  chooseOneDetails.options.contains(selection),
+                  chooseOneDetails.selection == nil else {
+                fatalError("Unexpected choose action")
+            }
+
+            var state = state
+            var updatedAction = nextAction
+            var updatedDetails = chooseOneDetails
+            updatedDetails.selection = selection
+            let updatedSelector = ActionSelector.chooseOne(updatedDetails)
+            updatedAction.payload.selectors[0] = updatedSelector
+            state.queue[0] = updatedAction
 
             return state
         }

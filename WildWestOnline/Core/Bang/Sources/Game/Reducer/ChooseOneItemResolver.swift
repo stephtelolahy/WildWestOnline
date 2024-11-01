@@ -6,62 +6,64 @@
 //
 
 extension ActionSelector.ChooseOneDetails.Item {
-    func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-        try resolver.resolve(pendingAction, state)
+    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        try resolver.resolveOptions(state, ctx: ctx)
+    }
+
+    func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
+        try resolver.resolveSelection(selection, state: state, pendingAction: pendingAction)
     }
 }
 
 private extension ActionSelector.ChooseOneDetails.Item {
     protocol Resolver {
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction]
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String]
+        func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]
     }
 
     var resolver: Resolver {
         switch self {
-        case .target(let conditions): ChooseTarget(conditions: conditions)
-        case .card: ChooseCard()
+        case .target(let conditions): TargetResolver(conditions: conditions)
+        case .card: CardResolver()
         }
     }
 
-    struct ChooseTarget: Resolver {
+    struct TargetResolver: Resolver {
         let conditions: [ActionSelector.TargetCondition]
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let possibleTargets = state.playOrder.starting(with: pendingAction.payload.actor)
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            let result = state.playOrder.starting(with: ctx.actor)
                 .filter { player in
                     conditions.allSatisfy { condition in
-                        condition.match(player, state: state, ctx: pendingAction.payload)
+                        condition.match(player, state: state, ctx: ctx)
                     }
                 }
 
-            guard possibleTargets.isNotEmpty else {
+            guard result.isNotEmpty else {
                 throw .noChoosableTarget(conditions)
             }
 
-            guard possibleTargets.count == 1 else {
-                fatalError("Unimplemented choice")
-            }
+            return result
+        }
 
-            let result = pendingAction.withTarget(possibleTargets[0])
-            return [result]
+        func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
+            [pendingAction.withTarget(selection)]
         }
     }
 
-    struct ChooseCard: Resolver {
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let playerObj = state.players.get(pendingAction.payload.actor)
-            let possibleCards: [String] = playerObj.hand + playerObj.inPlay
-            guard possibleCards.isNotEmpty else {
+    struct CardResolver: Resolver {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            let playerObj = state.players.get(ctx.actor)
+            let result: [String] = playerObj.hand + playerObj.inPlay
+            guard result.isNotEmpty else {
                 fatalError("No card")
             }
 
-            guard possibleCards.count == 1 else {
-                fatalError("Unimplemented choice")
-            }
+            return result
+        }
 
-            var result = pendingAction
-            result.payload.card = possibleCards[0]
-            return [result]
+        func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
+            [pendingAction.withCard(selection)]
         }
     }
 }

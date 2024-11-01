@@ -19,6 +19,7 @@ public struct GameAction: Action, Equatable, Codable {
         case discover
         case discard
         case heal
+        case choose
     }
 
     public struct Payload: Equatable, Codable {
@@ -26,6 +27,7 @@ public struct GameAction: Action, Equatable, Codable {
         public var card: String?
         public var amount: Int?
         public var selectors: [ActionSelector] = []
+        public var selection: String?
     }
 }
 
@@ -37,6 +39,17 @@ public extension GameAction {
             payload: .init(
                 actor: player,
                 card: card
+            )
+        )
+    }
+
+    /// Move: choose an option
+    static func choose(_ selection: String) -> Self {
+        .init(
+            kind: .choose,
+            payload: .init(
+                actor: "",
+                selection: selection
             )
         )
     }
