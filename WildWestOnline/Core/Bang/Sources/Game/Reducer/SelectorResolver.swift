@@ -39,10 +39,8 @@ private extension ActionSelector {
         let number: ActionSelector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            var pendingAction = pendingAction
-            let value = number.resolve(state)
-            pendingAction.payload.amount = value
-            return [pendingAction]
+            let amount = number.resolve(state)
+            return [pendingAction.withAmount(amount)]
         }
     }
 
@@ -94,6 +92,12 @@ extension GameAction {
     func withCard(_ card: String) -> Self {
         var copy = self
         copy.payload.card = card
+        return copy
+    }
+
+    func withAmount(_ amount: Int) -> Self {
+        var copy = self
+        copy.payload.amount = amount
         return copy
     }
 }

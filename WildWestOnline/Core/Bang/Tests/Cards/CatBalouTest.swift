@@ -32,7 +32,7 @@ struct CatBalouTest {
             .discard("c21", player: "p2")
         ])
     }
-/*
+
     @Test func playingCatBalou_targetIsOther_havingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -51,6 +51,8 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
+            .choose("p2"),
+            .choose("c21"),
             .discard("c21", player: "p2")
         ])
     }
@@ -74,6 +76,8 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
+            .choose("p2"),
+            .choose("c23"),
             .discard("c23", player: "p2")
         ])
     }
@@ -111,5 +115,4 @@ struct CatBalouTest {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
- */
 }

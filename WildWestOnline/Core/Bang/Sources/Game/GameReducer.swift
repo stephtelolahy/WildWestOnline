@@ -27,7 +27,7 @@ public struct GameReducer {
             if case .chooseOne(let chooseOneDetails) = selector,
                chooseOneDetails.options.isNotEmpty,
                chooseOneDetails.selection == nil {
-                fatalError("Shoud skip, Waiting user choice")
+                fatalError("Unexpected, waiting user choice")
             }
 
             let children = try selector.resolve(action, state)
