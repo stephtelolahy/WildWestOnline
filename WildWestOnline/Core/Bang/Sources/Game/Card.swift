@@ -42,8 +42,6 @@ public enum ActionSelector: Equatable, Codable {
     case `repeat`(Number)
     case setAmount(Number)
     case setTarget(Target)
-    case chooseTarget([TargetCondition] = [])
-    case chooseCard
     case verify(StateCondition)
     case chooseOne(ChooseOneDetails)
 
@@ -55,23 +53,23 @@ public enum ActionSelector: Equatable, Codable {
         case damaged
     }
 
-    public enum TargetCondition: String, Codable {
-        case havingCard
-    }
-
     public enum StateCondition: Equatable, Codable {
         case playersAtLeast(Int)
     }
 
     public struct ChooseOneDetails: Equatable, Codable {
-        let itemType: ItemType
-        let options: [String]
-        let selection: String?
+        public let item: Item
+        public var options: [String] = []
+        public var selection: String?
 
-        enum ItemType: String, Codable {
-            case target
+        public enum Item: Equatable, Codable {
+            case target([TargetCondition] = [])
             case card
         }
+    }
+
+    public enum TargetCondition: String, Codable {
+        case havingCard
     }
 }
 

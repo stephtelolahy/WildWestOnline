@@ -93,8 +93,8 @@ private extension Cards {
                 .init(
                     action: .discard,
                     selectors: [
-                        .chooseTarget([.havingCard]),
-                        .chooseCard
+                        .chooseOne(.init(item: .target([.havingCard]))),
+                        .chooseOne(.init(item: .card))
                     ]
                 )
             ]
