@@ -9,7 +9,7 @@ import Combine
 
 /// Game loop features
 public extension Middlewares {
-    static func updateGame() -> Middleware<GameState> {
+    static func updateGame(choiceHandler: GameChoiceHandler) -> Middleware<GameState> {
         { state, _ in
             guard state.queue.isNotEmpty else {
                 return Empty().eraseToAnyPublisher()
@@ -22,7 +22,7 @@ public extension Middlewares {
                case .chooseOne(let chooseOneDetails) = selector,
                chooseOneDetails.options.isNotEmpty,
                chooseOneDetails.selection == nil {
-                let selection = chooseOneDetails.options[0]
+                let selection = choiceHandler.bestMove(options: chooseOneDetails.options)
                 let chooseAction = GameAction.choose(selection)
                 return Just(chooseAction).eraseToAnyPublisher()
             }
@@ -30,4 +30,8 @@ public extension Middlewares {
             return Just(nextAction).eraseToAnyPublisher()
         }
     }
+}
+
+public protocol GameChoiceHandler {
+    func bestMove(options: [String]) -> String
 }

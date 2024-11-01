@@ -24,7 +24,7 @@ func dispatchUntilCompleted(
         initial: state,
         reducer: GameReducer().reduce,
         middlewares: [
-            Middlewares.updateGame(),
+            Middlewares.updateGame(choiceHandler: StaticChoiceHandler()),
             Middlewares.logger()
         ]
     )
@@ -58,4 +58,10 @@ func dispatchUntilCompleted(
 
     #expect(store.state.queue.isEmpty, "Game must be idle")
     return ocurredEvents
+}
+
+private struct StaticChoiceHandler: GameChoiceHandler {
+    func bestMove(options: [String]) -> String {
+        options[0]
+    }
 }
