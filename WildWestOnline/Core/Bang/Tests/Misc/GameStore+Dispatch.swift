@@ -13,6 +13,7 @@ import Redux
 func dispatchUntilCompleted(
     _ action: GameAction,
     state: GameState,
+    expectedChoices: [Choice] = [],
     timeout: TimeInterval = 0.1,
     file: StaticString = #file,
     line: UInt = #line
@@ -20,11 +21,12 @@ func dispatchUntilCompleted(
     let expectation = XCTestExpectation(description: "Awaiting game idle")
     expectation.isInverted = true
 
+    let choiceHandler = StaticChoiceHandler(expectedChoices: expectedChoices)
     let store = Store<GameState>(
         initial: state,
         reducer: GameReducer().reduce,
         middlewares: [
-            Middlewares.updateGame(choiceHandler: StaticChoiceHandler()),
+            Middlewares.updateGame(choiceHandler: choiceHandler),
             Middlewares.logger()
         ]
     )
@@ -60,8 +62,21 @@ func dispatchUntilCompleted(
     return ocurredEvents
 }
 
-private struct StaticChoiceHandler: GameChoiceHandler {
+struct Choice {
+    let options: [String]
+    let selectionIndex: Int
+}
+
+private class StaticChoiceHandler: GameChoiceHandler {
+    private var expectedChoices: [Choice]
+
+    init(expectedChoices: [Choice]) {
+        self.expectedChoices = expectedChoices
+    }
+
     func bestMove(options: [String]) -> String {
-        options[0]
+        let choice = expectedChoices.remove(at: 0)
+        assert(choice.options == options)
+        return options[choice.selectionIndex]
     }
 }

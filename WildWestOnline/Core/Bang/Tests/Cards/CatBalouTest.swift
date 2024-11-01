@@ -22,7 +22,11 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["c21"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
@@ -46,7 +50,11 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["c21"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
@@ -71,7 +79,11 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["c21", "c22", "c23", "c24"], selectionIndex: 2)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
