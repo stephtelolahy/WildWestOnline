@@ -8,6 +8,9 @@
 import Testing
 import Bang
 
+// TODO: hide other hand cards
+// TODO: determine choose actor
+
 struct CatBalouTest {
     @Test func playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
         // Given
