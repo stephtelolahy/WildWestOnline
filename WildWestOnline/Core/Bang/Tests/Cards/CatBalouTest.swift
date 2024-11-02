@@ -8,8 +8,6 @@
 import Testing
 import Bang
 
-// TODO: determine choose actor
-
 struct CatBalouTest {
     @Test func playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
         // Given
@@ -33,8 +31,8 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
-            .choose("p2"),
-            .choose("hiddenHand-0"),
+            .choose("p2", player: "p1"),
+            .choose("hiddenHand-0", player: "p1"),
             .discard("c21", player: "p2")
         ])
     }
@@ -61,8 +59,8 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
-            .choose("p2"),
-            .choose("c21"),
+            .choose("p2", player: "p1"),
+            .choose("c21", player: "p1"),
             .discard("c21", player: "p2")
         ])
     }
@@ -90,8 +88,8 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
-            .choose("p2"),
-            .choose("c23"),
+            .choose("p2", player: "p1"),
+            .choose("c23", player: "p1"),
             .discard("c23", player: "p2")
         ])
     }

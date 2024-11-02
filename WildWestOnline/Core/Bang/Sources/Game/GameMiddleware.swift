@@ -22,7 +22,7 @@ public extension Middlewares {
                chooseOneDetails.options.isNotEmpty,
                chooseOneDetails.selection == nil {
                 let selection = choiceHandler.bestMove(options: chooseOneDetails.options.map(\.label))
-                let chooseAction = GameAction.choose(selection)
+                let chooseAction = GameAction.choose(selection, player: nextAction.payload.actor)
                 return Just(chooseAction).eraseToAnyPublisher()
             }
 

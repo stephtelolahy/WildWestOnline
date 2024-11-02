@@ -43,11 +43,11 @@ public extension GameAction {
     }
 
     /// Move: choose an option
-    static func choose(_ selection: String) -> Self {
+    static func choose(_ selection: String, player: String) -> Self {
         .init(
             kind: .choose,
             payload: .init(
-                actor: "",
+                actor: player,
                 selection: selection
             )
         )
