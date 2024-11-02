@@ -6,7 +6,7 @@
 //
 
 extension ActionSelector.ChooseOneDetails.Item {
-    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
@@ -17,7 +17,7 @@ extension ActionSelector.ChooseOneDetails.Item {
 
 private extension ActionSelector.ChooseOneDetails.Item {
     protocol Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String]
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option]
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]
     }
 
@@ -31,7 +31,7 @@ private extension ActionSelector.ChooseOneDetails.Item {
     struct TargetResolver: Resolver {
         let conditions: [ActionSelector.TargetCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
             let result = state.playOrder.starting(with: ctx.actor)
                 .filter { player in
                     conditions.allSatisfy { condition in
@@ -43,7 +43,7 @@ private extension ActionSelector.ChooseOneDetails.Item {
                 throw .noChoosableTarget(conditions)
             }
 
-            return result
+            return result.map { .init(value: $0, label: $0) }
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
@@ -52,9 +52,17 @@ private extension ActionSelector.ChooseOneDetails.Item {
     }
 
     struct CardResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
             let playerObj = state.players.get(ctx.actor)
-            let result: [String] = playerObj.hand + playerObj.inPlay
+            let result: [ActionSelector.ChooseOneDetails.Option] =
+            playerObj.hand.indices.map {
+                .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
+            }
+            +
+            playerObj.inPlay.indices.map {
+                .init(value: playerObj.inPlay[$0], label: playerObj.inPlay[$0])
+            }
+
             guard result.isNotEmpty else {
                 fatalError("No card")
             }

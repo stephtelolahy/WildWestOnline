@@ -61,7 +61,6 @@ public class Store<State>: ObservableObject {
             let newState = try reducer(state, action)
             event.send(action)
             state = newState
-            
             var hasEffect = false
             for middleware in middlewares {
                 if let publisher = middleware(newState, action) {

@@ -8,7 +8,6 @@
 import Testing
 import Bang
 
-// TODO: hide other hand cards
 // TODO: determine choose actor
 
 struct CatBalouTest {
@@ -27,7 +26,7 @@ struct CatBalouTest {
         let action = GameAction.play(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
-            .init(options: ["c21"], selectionIndex: 0)
+            .init(options: ["hiddenHand-0"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
@@ -35,7 +34,7 @@ struct CatBalouTest {
         #expect(result == [
             .play(.catBalou, player: "p1"),
             .choose("p2"),
-            .choose("c21"),
+            .choose("hiddenHand-0"),
             .discard("c21", player: "p2")
         ])
     }
@@ -84,7 +83,7 @@ struct CatBalouTest {
         let action = GameAction.play(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
-            .init(options: ["c21", "c22", "c23", "c24"], selectionIndex: 2)
+            .init(options: ["hiddenHand-0", "hiddenHand-1", "c23", "c24"], selectionIndex: 2)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 

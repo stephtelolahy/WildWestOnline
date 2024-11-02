@@ -6,6 +6,13 @@
 //
 // swiftlint:disable nesting
 
+/// We are working on a Card Definition Language that will allow people to create new cards,
+/// not currently in the game and see how they play.
+/// A `card` is just a collection of effects and attributes
+/// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
+/// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
+/// ℹ️ All effects of the same source share the resolved arguments
+///
 public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
@@ -59,12 +66,22 @@ public enum ActionSelector: Equatable, Codable {
 
     public struct ChooseOneDetails: Equatable, Codable {
         public let item: Item
-        public var options: [String] = []
+        public var options: [Option] = []
         public var selection: String?
 
         public enum Item: Equatable, Codable {
             case target([TargetCondition] = [])
             case card
+        }
+
+        public struct Option: Equatable, Codable {
+            public let value: String
+            public let label: String
+
+            public init(value: String, label: String) {
+                self.value = value
+                self.label = label
+            }
         }
     }
 
@@ -74,13 +91,6 @@ public enum ActionSelector: Equatable, Codable {
 }
 
 /*
- /// We are working on a Card Definition Language that will allow people to create new cards,
- /// not currently in the game and see how they play.
- /// A `card` is just a collection of effects and attributes
- /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
- /// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
- /// ℹ️ All effects of the same source share the resolved arguments
- ///
  public struct CardV2: Equatable, Codable {
      /// Unique name
      public let name: String

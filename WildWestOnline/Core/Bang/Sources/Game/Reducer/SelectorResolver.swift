@@ -73,8 +73,12 @@ private extension ActionSelector {
                 let updatedSelector = ActionSelector.chooseOne(updatedDetails)
                 updatedAction.payload.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
-            } else if let selection = details.selection {
-                return try details.item.resolveSelection(selection, state: state, pendingAction: pendingAction)
+            } else if let selectionLabel = details.selection {
+                guard let selectionValue = details.options.first(where: { $0.label == selectionLabel })?.value else {
+                    fatalError("Selection \(selectionLabel) not found in options")
+                }
+
+                return try details.item.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
             } else {
                 fatalError("Unexpected, waiting user choice")
             }

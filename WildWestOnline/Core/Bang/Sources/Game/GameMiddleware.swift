@@ -21,7 +21,7 @@ public extension Middlewares {
                case .chooseOne(let chooseOneDetails) = selector,
                chooseOneDetails.options.isNotEmpty,
                chooseOneDetails.selection == nil {
-                let selection = choiceHandler.bestMove(options: chooseOneDetails.options)
+                let selection = choiceHandler.bestMove(options: chooseOneDetails.options.map(\.label))
                 let chooseAction = GameAction.choose(selection)
                 return Just(chooseAction).eraseToAnyPublisher()
             }
