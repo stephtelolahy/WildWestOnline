@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-import Redux
 import Combine
 
 /// Game loop features
@@ -12,7 +11,7 @@ public extension Middlewares {
     static func updateGame(choiceHandler: GameChoiceHandler) -> Middleware<GameState> {
         { state, _ in
             guard state.queue.isNotEmpty else {
-                return Empty().eraseToAnyPublisher()
+                return nil
             }
 
             let nextAction = state.queue[0]

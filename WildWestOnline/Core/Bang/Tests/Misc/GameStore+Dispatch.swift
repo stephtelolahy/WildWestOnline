@@ -8,7 +8,6 @@ import Testing
 import XCTest
 import Combine
 import Bang
-import Redux
 
 func dispatchUntilCompleted(
     _ action: GameAction,
@@ -18,8 +17,7 @@ func dispatchUntilCompleted(
     file: StaticString = #file,
     line: UInt = #line
 ) async throws -> [GameAction] {
-    let expectation = XCTestExpectation(description: "Awaiting game idle")
-    expectation.isInverted = true
+    let expectation = XCTestExpectation(description: "Game idle")
 
     let choiceHandler = StaticChoiceHandler(expectedChoices: expectedChoices)
     let store = Store<GameState>(
@@ -29,7 +27,9 @@ func dispatchUntilCompleted(
             Middlewares.updateGame(choiceHandler: choiceHandler),
             Middlewares.logger()
         ]
-    )
+    ) {
+        expectation.fulfill()
+    }
 
     var subscriptions: Set<AnyCancellable> = []
     var ocurredEvents: [GameAction] = []

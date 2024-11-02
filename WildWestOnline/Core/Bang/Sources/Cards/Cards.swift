@@ -1199,7 +1199,6 @@ private extension Cards {
  }
 
  static var veraCuster: CardV2 {
-     // ⚠️ TODO: set round ability
      .init(
          name: .veraCuster,
          desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
