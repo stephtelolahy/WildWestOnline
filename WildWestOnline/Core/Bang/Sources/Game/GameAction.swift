@@ -22,6 +22,7 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public struct Payload: Equatable, Codable {
+        @EquatableNoop var sourceActor: String = ""
         public var actor: String
         public var card: String?
         public var amount: Int?

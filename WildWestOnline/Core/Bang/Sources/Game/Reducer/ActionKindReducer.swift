@@ -117,6 +117,7 @@ private extension GameAction.Kind {
                     GameAction(
                         kind: $0.action,
                         payload: .init(
+                            sourceActor: payload.actor,
                             actor: payload.actor,
                             selectors: $0.selectors
                         )
