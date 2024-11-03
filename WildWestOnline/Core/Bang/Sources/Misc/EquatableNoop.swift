@@ -18,10 +18,9 @@ public struct EquatableNoop<Value: Equatable>: Equatable, Codable {
     }
 
     public init(from decoder: any Decoder) throws {
-        fatalError()
+        fatalError("No implemented")
     }
 
     public func encode(to encoder: any Encoder) throws {
-        fatalError()
     }
 }

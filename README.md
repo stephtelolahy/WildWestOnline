@@ -2,6 +2,8 @@
 
 **Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game**
 
+[![Build and Test](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml/badge.svg)](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml)
+
 **Trading card games**: a form of competitive activity played according to rules. It is turn based, cards have properties and have rules.
 Currently, there is no good way to prototype trading card games and then be able to test the workings and the implications of rules in these games. 
 
