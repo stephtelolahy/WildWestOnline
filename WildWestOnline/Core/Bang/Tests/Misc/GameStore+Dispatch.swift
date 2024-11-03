@@ -75,8 +75,8 @@ private class StaticChoiceHandler: GameChoiceHandler {
     }
 
     func bestMove(options: [String]) -> String {
-        let choice = expectedChoices.remove(at: 0)
-        assert(choice.options == options)
-        return options[choice.selectionIndex]
+        let expectedChoice = expectedChoices.remove(at: 0)
+        assert(expectedChoice.options == options)
+        return options[expectedChoice.selectionIndex]
     }
 }

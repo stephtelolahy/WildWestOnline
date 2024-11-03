@@ -30,7 +30,7 @@ private extension ActionSelector.Target {
     struct Damaged: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
             state.playOrder
-                .starting(with: ctx.actor)
+                .starting(with: ctx.target)
                 .filter { state.players.get($0).isDamaged }
         }
     }

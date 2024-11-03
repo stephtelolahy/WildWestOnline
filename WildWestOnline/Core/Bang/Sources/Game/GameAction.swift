@@ -22,8 +22,8 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public struct Payload: Equatable, Codable {
-        @EquatableNoop var sourceActor: String = ""
-        public var actor: String
+        @EquatableNoop var actor: String = ""
+        public var target: String = ""
         public var card: String?
         public var amount: Int?
         public var selectors: [ActionSelector] = []
@@ -37,7 +37,7 @@ public extension GameAction {
         .init(
             kind: .play,
             payload: .init(
-                actor: player,
+                target: player,
                 card: card
             )
         )
@@ -48,7 +48,7 @@ public extension GameAction {
         .init(
             kind: .choose,
             payload: .init(
-                actor: player,
+                target: player,
                 selection: selection
             )
         )
@@ -58,9 +58,7 @@ public extension GameAction {
     static var draw: Self {
         .init(
             kind: .draw,
-            payload: .init(
-                actor: ""
-            )
+            payload: .init()
         )
     }
 
@@ -69,7 +67,7 @@ public extension GameAction {
         .init(
             kind: .drawDeck,
             payload: .init(
-                actor: player
+                target: player
             )
         )
     }
@@ -78,7 +76,7 @@ public extension GameAction {
     static func drawDiscard(player: String) -> Self {
         .init(
             kind: .drawDiscard,
-            payload: .init(actor: player)
+            payload: .init(target: player)
         )
     }
 
@@ -87,7 +85,7 @@ public extension GameAction {
         .init(
             kind: .drawDiscovered,
             payload: .init(
-                actor: player,
+                target: player,
                 card: card
             )
         )
@@ -97,9 +95,7 @@ public extension GameAction {
     static var discover: Self {
         .init(
             kind: .discover,
-            payload: .init(
-                actor: ""
-            )
+            payload: .init()
         )
     }
 
@@ -108,7 +104,7 @@ public extension GameAction {
         .init(
             kind: .heal,
             payload: .init(
-                actor: player,
+                target: player,
                 amount: amount
             )
         )
@@ -119,7 +115,7 @@ public extension GameAction {
         .init(
             kind: .discard,
             payload: .init(
-                actor: player,
+                target: player,
                 card: card
             )
         )

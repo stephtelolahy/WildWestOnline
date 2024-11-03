@@ -32,7 +32,9 @@ private extension ActionSelector.ChooseOneDetails.Item {
         let conditions: [ActionSelector.TargetCondition]
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
-            let result = state.playOrder.starting(with: ctx.actor)
+            let result = state.playOrder
+                .starting(with: ctx.actor)
+                .dropFirst()
                 .filter { player in
                     conditions.allSatisfy { condition in
                         condition.match(player, state: state, ctx: ctx)
@@ -53,7 +55,7 @@ private extension ActionSelector.ChooseOneDetails.Item {
 
     struct CardResolver: Resolver {
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
-            let playerObj = state.players.get(ctx.actor)
+            let playerObj = state.players.get(ctx.target)
             let result: [ActionSelector.ChooseOneDetails.Option] =
             playerObj.hand.indices.map {
                 .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")

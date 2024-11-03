@@ -111,11 +111,12 @@ struct CatBalouTest {
         }
     }
 
-    @Test func playingCatBalou_targetIsSelf_havingHandCards_shouldThrowError() async throws {
+    @Test func playingCatBalou_onlySelfHavingCards_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withHand([.catBalou, "c1", "c2"])
+                $0.withHand([.catBalou])
+                    .withInPlay(["cx"])
             }
             .withPlayer("p2")
             .build()

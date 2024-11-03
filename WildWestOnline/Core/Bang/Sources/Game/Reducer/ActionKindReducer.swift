@@ -49,7 +49,7 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             let card = try state.popDeck()
-            state[keyPath: \.players[payload.actor]!.hand].append(card)
+            state[keyPath: \.players[payload.target]!.hand].append(card)
             return state
         }
     }
@@ -58,7 +58,7 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             let card = try state.popDiscard()
-            state[keyPath: \.players[payload.actor]!.hand].append(card)
+            state[keyPath: \.players[payload.target]!.hand].append(card)
             return state
         }
     }
@@ -80,7 +80,7 @@ private extension GameAction.Kind {
             var state = state
             state.deck.remove(at: deckIndex)
             state.discovered.remove(at: discoverIndex)
-            state[keyPath: \.players[payload.actor]!.hand].append(card)
+            state[keyPath: \.players[payload.target]!.hand].append(card)
             return state
         }
     }
@@ -109,7 +109,7 @@ private extension GameAction.Kind {
             }
 
             var state = state
-            state[keyPath: \.players[payload.actor]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
             let onPlay = cardObject.onPlay
@@ -117,8 +117,8 @@ private extension GameAction.Kind {
                     GameAction(
                         kind: $0.action,
                         payload: .init(
-                            sourceActor: payload.actor,
-                            actor: payload.actor,
+                            actor: payload.target,
+                            target: payload.target,
                             selectors: $0.selectors
                         )
                     )
@@ -135,7 +135,7 @@ private extension GameAction.Kind {
                 fatalError("Missing amount from payload")
             }
 
-            let player = payload.actor
+            let player = payload.target
             var playerObj = state.players.get(player)
             let maxHealth = playerObj.maxHealth
             guard playerObj.health < maxHealth else {
@@ -156,7 +156,7 @@ private extension GameAction.Kind {
             }
 
             var state = state
-            let player = payload.actor
+            let player = payload.target
             let playerObj = state.players.get(player)
 
             if playerObj.hand.contains(card) {
