@@ -18,12 +18,13 @@ private extension GameAction.Kind {
 
     var reducer: Reducer {
         let dict: [GameAction.Kind: Reducer] = [
+            .play: Play(),
+            .choose: Choose(),
             .draw: Draw(),
             .drawDeck: DrawDeck(),
             .drawDiscard: DrawDiscard(),
             .drawDiscovered: DrawDiscovered(),
             .discover: Discover(),
-            .play: Play(),
             .heal: Heal(),
             .discard: Discard()
         ]
@@ -48,7 +49,7 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             let card = try state.popDeck()
-            state[keyPath: \.players[payload.actor]!.hand].append(card)
+            state[keyPath: \.players[payload.target]!.hand].append(card)
             return state
         }
     }
@@ -57,7 +58,7 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             let card = try state.popDiscard()
-            state[keyPath: \.players[payload.actor]!.hand].append(card)
+            state[keyPath: \.players[payload.target]!.hand].append(card)
             return state
         }
     }
@@ -79,7 +80,7 @@ private extension GameAction.Kind {
             var state = state
             state.deck.remove(at: deckIndex)
             state.discovered.remove(at: discoverIndex)
-            state[keyPath: \.players[payload.actor]!.hand].append(card)
+            state[keyPath: \.players[payload.target]!.hand].append(card)
             return state
         }
     }
@@ -108,7 +109,7 @@ private extension GameAction.Kind {
             }
 
             var state = state
-            state[keyPath: \.players[payload.actor]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
             let onPlay = cardObject.onPlay
@@ -116,7 +117,8 @@ private extension GameAction.Kind {
                     GameAction(
                         kind: $0.action,
                         payload: .init(
-                            actor: payload.actor,
+                            actor: payload.target,
+                            target: payload.target,
                             selectors: $0.selectors
                         )
                     )
@@ -133,7 +135,7 @@ private extension GameAction.Kind {
                 fatalError("Missing amount from payload")
             }
 
-            let player = payload.actor
+            let player = payload.target
             var playerObj = state.players.get(player)
             let maxHealth = playerObj.maxHealth
             guard playerObj.health < maxHealth else {
@@ -154,7 +156,7 @@ private extension GameAction.Kind {
             }
 
             var state = state
-            let player = payload.actor
+            let player = payload.target
             let playerObj = state.players.get(player)
 
             if playerObj.hand.contains(card) {
@@ -166,6 +168,32 @@ private extension GameAction.Kind {
             } else {
                 fatalError("Card \(card) not owned by \(player)")
             }
+
+            return state
+        }
+    }
+
+    struct Choose: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let selection = payload.selection else {
+                fatalError("Missing selection from payload")
+            }
+
+            guard let nextAction = state.queue.first,
+                  let selector = nextAction.payload.selectors.first,
+                  case .chooseOne(let chooseOneDetails) = selector,
+                  chooseOneDetails.options.map(\.label).contains(selection),
+                  chooseOneDetails.selection == nil else {
+                fatalError("Unexpected choose action")
+            }
+
+            var state = state
+            var updatedAction = nextAction
+            var updatedDetails = chooseOneDetails
+            updatedDetails.selection = selection
+            let updatedSelector = ActionSelector.chooseOne(updatedDetails)
+            updatedAction.payload.selectors[0] = updatedSelector
+            state.queue[0] = updatedAction
 
             return state
         }

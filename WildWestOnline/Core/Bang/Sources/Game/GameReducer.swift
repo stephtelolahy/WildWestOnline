@@ -4,7 +4,6 @@
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //
-import Redux
 
 public struct GameReducer {
     public init() {}
@@ -23,6 +22,13 @@ public struct GameReducer {
         if action.payload.selectors.isNotEmpty {
             var action = action
             let selector = action.payload.selectors.remove(at: 0)
+
+            if case .chooseOne(let chooseOneDetails) = selector,
+               chooseOneDetails.options.isNotEmpty,
+               chooseOneDetails.selection == nil {
+                fatalError("Unexpected, waiting user choice")
+            }
+
             let children = try selector.resolve(action, state)
             state.queue.insert(contentsOf: children, at: 0)
             return state

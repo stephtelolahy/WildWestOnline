@@ -22,11 +22,17 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["hiddenHand-0"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose("hiddenHand-0", player: "p1"),
             .discard("c21", player: "p2")
         ])
     }
@@ -44,11 +50,17 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["c21"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose("c21", player: "p1"),
             .discard("c21", player: "p2")
         ])
     }
@@ -67,11 +79,17 @@ struct CatBalouTest {
 
         // When
         let action = GameAction.play(.catBalou, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["hiddenHand-0", "hiddenHand-1", "c23", "c24"], selectionIndex: 2)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
             .play(.catBalou, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose("c23", player: "p1"),
             .discard("c23", player: "p2")
         ])
     }
@@ -93,11 +111,12 @@ struct CatBalouTest {
         }
     }
 
-    @Test func playingCatBalou_targetIsSelf_havingHandCards_shouldThrowError() async throws {
+    @Test func playingCatBalou_onlySelfHavingCards_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withHand([.catBalou, "c1", "c2"])
+                $0.withHand([.catBalou])
+                    .withInPlay(["cx"])
             }
             .withPlayer("p2")
             .build()

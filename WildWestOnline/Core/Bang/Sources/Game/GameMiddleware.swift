@@ -4,18 +4,33 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-import Redux
 import Combine
 
 /// Game loop features
 public extension Middlewares {
-    static func updateGame() -> Middleware<GameState> {
+    static func updateGame(choiceHandler: GameChoiceHandler) -> Middleware<GameState> {
         { state, _ in
-            if state.queue.isEmpty {
-                Empty().eraseToAnyPublisher()
-            } else {
-                Just(state.queue[0]).eraseToAnyPublisher()
+            guard state.queue.isNotEmpty else {
+                return nil
             }
+
+            let nextAction = state.queue[0]
+
+            // handle choice
+            if let selector = nextAction.payload.selectors.first,
+               case .chooseOne(let chooseOneDetails) = selector,
+               chooseOneDetails.options.isNotEmpty,
+               chooseOneDetails.selection == nil {
+                let selection = choiceHandler.bestMove(options: chooseOneDetails.options.map(\.label))
+                let chooseAction = GameAction.choose(selection, player: nextAction.payload.actor)
+                return Just(chooseAction).eraseToAnyPublisher()
+            }
+
+            return Just(nextAction).eraseToAnyPublisher()
         }
     }
+}
+
+public protocol GameChoiceHandler {
+    func bestMove(options: [String]) -> String
 }

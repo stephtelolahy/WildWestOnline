@@ -4,39 +4,61 @@
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //
-import Redux
 
 public struct GameAction: Action, Equatable, Codable {
     public let kind: Kind
     public var payload: Payload
 
     public enum Kind: String, Codable {
+        case play
         case draw
         case drawDeck
         case drawDiscard
         case drawDiscovered
         case discover
         case discard
-        case play
         case heal
+        case choose
     }
 
     public struct Payload: Equatable, Codable {
-        public var actor: String
+        @EquatableNoop var actor: String = ""
+        public var target: String = ""
         public var card: String?
         public var amount: Int?
         public var selectors: [ActionSelector] = []
+        public var selection: String?
     }
 }
 
 public extension GameAction {
+    /// Move: play a card
+    static func play(_ card: String, player: String) -> Self {
+        .init(
+            kind: .play,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Move: choose an option
+    static func choose(_ selection: String, player: String) -> Self {
+        .init(
+            kind: .choose,
+            payload: .init(
+                target: player,
+                selection: selection
+            )
+        )
+    }
+
     /// Draw top deck card and put to discard
     static var draw: Self {
         .init(
             kind: .draw,
-            payload: .init(
-                actor: ""
-            )
+            payload: .init()
         )
     }
 
@@ -45,7 +67,7 @@ public extension GameAction {
         .init(
             kind: .drawDeck,
             payload: .init(
-                actor: player
+                target: player
             )
         )
     }
@@ -54,7 +76,7 @@ public extension GameAction {
     static func drawDiscard(player: String) -> Self {
         .init(
             kind: .drawDiscard,
-            payload: .init(actor: player)
+            payload: .init(target: player)
         )
     }
 
@@ -63,7 +85,7 @@ public extension GameAction {
         .init(
             kind: .drawDiscovered,
             payload: .init(
-                actor: player,
+                target: player,
                 card: card
             )
         )
@@ -73,20 +95,7 @@ public extension GameAction {
     static var discover: Self {
         .init(
             kind: .discover,
-            payload: .init(
-                actor: ""
-            )
-        )
-    }
-
-    /// Move: play a card
-    static func play(_ card: String, player: String) -> Self {
-        .init(
-            kind: .play,
-            payload: .init(
-                actor: player,
-                card: card
-            )
+            payload: .init()
         )
     }
 
@@ -95,7 +104,7 @@ public extension GameAction {
         .init(
             kind: .heal,
             payload: .init(
-                actor: player,
+                target: player,
                 amount: amount
             )
         )
@@ -106,7 +115,7 @@ public extension GameAction {
         .init(
             kind: .discard,
             payload: .init(
-                actor: player,
+                target: player,
                 card: card
             )
         )

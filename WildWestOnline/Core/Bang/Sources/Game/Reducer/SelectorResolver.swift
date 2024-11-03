@@ -21,9 +21,8 @@ private extension ActionSelector {
         case .repeat(let number): Repeat(number: number)
         case .setAmount(let number): SetAmount(number: number)
         case .setTarget(let target): SetTarget(target: target)
-        case .chooseTarget(let conditions): ChooseTarget(conditions: conditions)
-        case .chooseCard: ChooseCard()
         case .verify(let condition): Verify(condition: condition)
+        case .chooseOne(let details): ChooseOne(details: details)
         }
     }
 
@@ -40,10 +39,8 @@ private extension ActionSelector {
         let number: ActionSelector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            var pendingAction = pendingAction
-            let value = number.resolve(state)
-            pendingAction.payload.amount = value
-            return [pendingAction]
+            let amount = number.resolve(state)
+            return [pendingAction.withAmount(amount)]
         }
     }
 
@@ -65,53 +62,46 @@ private extension ActionSelector {
         }
     }
 
-    struct ChooseTarget: Resolver {
-        let conditions: [ActionSelector.TargetCondition]
+    struct ChooseOne: Resolver {
+        let details: ChooseOneDetails
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let possibleTargets = state.playOrder.starting(with: pendingAction.payload.actor)
-                .filter { player in
-                    conditions.allSatisfy { condition in
-                        condition.match(player, state: state, ctx: pendingAction.payload)
-                    }
+            if details.options.isEmpty {
+                var updatedAction = pendingAction
+                var updatedDetails = details
+                updatedDetails.options = try details.item.resolveOptions(state, ctx: pendingAction.payload)
+                let updatedSelector = ActionSelector.chooseOne(updatedDetails)
+                updatedAction.payload.selectors.insert(updatedSelector, at: 0)
+                return [updatedAction]
+            } else if let selectionLabel = details.selection {
+                guard let selectionValue = details.options.first(where: { $0.label == selectionLabel })?.value else {
+                    fatalError("Selection \(selectionLabel) not found in options")
                 }
 
-            guard possibleTargets.isNotEmpty else {
-                throw .noChoosableTarget(conditions)
+                return try details.item.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
+            } else {
+                fatalError("Unexpected, waiting user choice")
             }
-
-            guard possibleTargets.count == 1 else {
-                fatalError("Unimplemented choice")
-            }
-
-            let result = pendingAction.withTarget(possibleTargets[0])
-            return [result]
-        }
-    }
-
-    struct ChooseCard: Resolver {
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let playerObj = state.players.get(pendingAction.payload.actor)
-            let possibleCards: [String] = playerObj.hand + playerObj.inPlay
-            guard possibleCards.isNotEmpty else {
-                fatalError("No card")
-            }
-
-            guard possibleCards.count == 1 else {
-                fatalError("Unimplemented choice")
-            }
-
-            var result = pendingAction
-            result.payload.card = possibleCards[0]
-            return [result]
         }
     }
 }
 
-private extension GameAction {
+extension GameAction {
     func withTarget(_ target: String) -> Self {
         var copy = self
-        copy.payload.actor = target
+        copy.payload.target = target
+        return copy
+    }
+
+    func withCard(_ card: String) -> Self {
+        var copy = self
+        copy.payload.card = card
+        return copy
+    }
+
+    func withAmount(_ amount: Int) -> Self {
+        var copy = self
+        copy.payload.amount = amount
         return copy
     }
 }
