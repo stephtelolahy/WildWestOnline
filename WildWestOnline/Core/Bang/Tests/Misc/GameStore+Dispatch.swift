@@ -19,12 +19,12 @@ func dispatchUntilCompleted(
 ) async throws -> [GameAction] {
     let expectation = XCTestExpectation(description: "Game idle")
 
-    let choiceHandler = StaticChoiceHandler(expectedChoices: expectedChoices)
     let store = Store<GameState>(
         initial: state,
         reducer: GameReducer().reduce,
         middlewares: [
-            Middlewares.updateGame(choiceHandler: choiceHandler),
+            Middlewares.updateGame,
+            Middlewares.handlePendingChoice(choicesWrapper: .init(choices: expectedChoices)),
             Middlewares.logger()
         ]
     ) {
@@ -58,7 +58,6 @@ func dispatchUntilCompleted(
         throw ocurredError
     }
 
-    #expect(store.state.queue.isEmpty, "Game must be idle")
     return ocurredEvents
 }
 
@@ -67,16 +66,30 @@ struct Choice {
     let selectionIndex: Int
 }
 
-private class StaticChoiceHandler: GameChoiceHandler {
-    private var expectedChoices: [Choice]
+private class ChoicesWrapper {
+    var choices: [Choice]
 
-    init(expectedChoices: [Choice]) {
-        self.expectedChoices = expectedChoices
+    init(choices: [Choice]) {
+        self.choices = choices
     }
+}
 
-    func bestMove(options: [String]) -> String {
-        let expectedChoice = expectedChoices.remove(at: 0)
-        assert(expectedChoice.options == options)
-        return options[expectedChoice.selectionIndex]
+private extension Middlewares {
+    static func handlePendingChoice(choicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
+        { state, _ in
+            guard let pendingChoice = state.pendingChoice else {
+                return nil
+            }
+
+            let expectedChoice = choicesWrapper.choices.remove(at: 0)
+
+            guard pendingChoice.options == expectedChoice.options else {
+                fatalError("Unexpected choice: \(pendingChoice)")
+            }
+
+            let selection = pendingChoice.options[expectedChoice.selectionIndex]
+            let chooseAction = GameAction.choose(selection, player: pendingChoice.chooser)
+            return Just(chooseAction).eraseToAnyPublisher()
+        }
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 
-extension Collection {
+public extension Collection {
     var isNotEmpty: Bool {
         !isEmpty
     }

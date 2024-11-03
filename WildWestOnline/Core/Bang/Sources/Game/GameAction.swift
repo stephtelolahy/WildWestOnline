@@ -22,12 +22,12 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public struct Payload: Equatable, Codable {
-        @EquatableNoop var actor: String = ""
+        @EquatableNoop public var actor: String = ""
         public var target: String = ""
         public var card: String?
         public var amount: Int?
-        public var selectors: [ActionSelector] = []
         public var selection: String?
+        public var selectors: [ActionSelector] = []
     }
 }
 

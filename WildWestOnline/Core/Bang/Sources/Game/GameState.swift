@@ -25,6 +25,28 @@ public struct Player: Equatable, Codable {
     public var inPlay: [String]
 }
 
+public struct PendingChoice {
+    public let chooser: String
+    public let options: [String]
+}
+
+public extension GameState {
+    var pendingChoice: PendingChoice? {
+        guard let nextAction = queue.first,
+           let selector = nextAction.payload.selectors.first,
+           case .chooseOne(let chooseOneDetails) = selector,
+           chooseOneDetails.options.isNotEmpty,
+           chooseOneDetails.selection == nil else {
+            return nil
+        }
+
+        return .init(
+            chooser: nextAction.payload.actor,
+            options: chooseOneDetails.options.map(\.label)
+        )
+    }
+}
+
 public extension GameState {
     class Builder {
         private var players: [String: Player] = [:]
