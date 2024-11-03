@@ -40,14 +40,14 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 
 ![](Docs/eventresolving.png)
 
-#### Modular Architecture
+### Modular Architecture
 
 The project is composed of SwiftPackage products with the following structure. 
 
 ![](Docs/modular.png)
 
 
-### Redux Architecture
+### Redux
 
 Redux architecture is meant to protect changes in an application’s state. It forces you to define clearly what state should be set when a specific action is dispatched.
 
