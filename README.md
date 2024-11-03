@@ -1,6 +1,6 @@
 # WildWestOnline
 
-[![Build and Test](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml/badge.svg)](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml)
+[![CI](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml/badge.svg)](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml)
 
 **Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game**
 
