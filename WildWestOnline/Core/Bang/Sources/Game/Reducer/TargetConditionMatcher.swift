@@ -19,6 +19,7 @@ private extension ActionSelector.TargetCondition {
     var matcher: Matcher {
         switch self {
         case .havingCard: HavingCard()
+        case .atDistance(let distance): AtDistance(distance: distance)
         }
     }
 
@@ -31,5 +32,32 @@ private extension ActionSelector.TargetCondition {
                 return playerObject.inPlay.isNotEmpty || playerObject.hand.isNotEmpty
             }
         }
+    }
+
+    struct AtDistance: Matcher {
+        let distance: Int
+
+        func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+            fatalError()
+        }
+    }
+}
+
+private extension GameState {
+    func distance(from playerId: String, to other: String) -> Int {
+        guard let pIndex = playOrder.firstIndex(of: playerId),
+              let oIndex = playOrder.firstIndex(of: other),
+              pIndex != oIndex else {
+            return 0
+        }
+
+        let pCount = playOrder.count
+        let rightDistance = (oIndex > pIndex) ? (oIndex - pIndex) : (oIndex + pCount - pIndex)
+        let leftDistance = (pIndex > oIndex) ? (pIndex - oIndex) : (pIndex + pCount - oIndex)
+        var distance = min(rightDistance, leftDistance)
+        distance -= players.get(playerId).magnifying
+        distance += players.get(other).remoteness
+
+        return distance
     }
 }

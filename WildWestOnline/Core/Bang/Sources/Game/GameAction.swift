@@ -19,6 +19,7 @@ public struct GameAction: Action, Equatable, Codable {
         case discard
         case heal
         case choose
+        case steal
     }
 
     public struct Payload: Equatable, Codable {

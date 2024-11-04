@@ -23,6 +23,8 @@ public struct Player: Equatable, Codable {
     public var maxHealth: Int
     public var hand: [String]
     public var inPlay: [String]
+    public var magnifying: Int
+    public var remoteness: Int
 }
 
 public struct PendingChoice {
@@ -109,13 +111,17 @@ public extension Player {
         private var maxHealth: Int = 0
         private var hand: [String] = []
         private var inPlay: [String] = []
+        private var magnifying: Int = 0
+        private var remoteness: Int = 0
 
         public func build() -> Player {
             .init(
                 health: health,
                 maxHealth: maxHealth,
                 hand: hand,
-                inPlay: inPlay
+                inPlay: inPlay,
+                magnifying: magnifying,
+                remoteness: remoteness
             )
         }
 

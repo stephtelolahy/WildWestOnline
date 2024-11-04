@@ -15,7 +15,8 @@ public enum Cards {
             wellsFargo,
             beer,
             saloon,
-            catBalou
+            catBalou,
+            panic
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -94,6 +95,22 @@ private extension Cards {
                     action: .discard,
                     selectors: [
                         .chooseOne(.init(element: .target([.havingCard]))),
+                        .chooseOne(.init(element: .card))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var panic: Card {
+        .init(
+            name: .panic,
+            desc: "Draw a card from a player at distance 1",
+            onPlay: [
+                .init(
+                    action: .steal,
+                    selectors: [
+                        .chooseOne(.init(element: .target([.atDistance(1), .havingCard]))),
                         .chooseOne(.init(element: .card))
                     ]
                 )
@@ -314,23 +331,6 @@ private extension Cards {
                  action: .discard,
                  selectors: [
                      .chooseTarget([.havingCard]),
-                     .chooseCard()
-                 ]
-             )
-         ]
-     )
- }
-
- static var panic: CardV2 {
-     .init(
-         name: .panic,
-         desc: "Draw a card from a player at distance 1",
-         effects: [
-             .brown,
-             .init(
-                 action: .steal,
-                 selectors: [
-                     .chooseTarget([.atDistance(1), .havingCard]),
                      .chooseCard()
                  ]
              )

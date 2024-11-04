@@ -1,17 +1,17 @@
 //
-//  PanicTests.swift
+//  PanicTest.swift
+//  WildWestOnline
 //
-//
-//  Created by Hugues Stephano TELOLAHY on 06/01/2024.
+//  Created by Hugues Stephano TELOLAHY on 04/11/2024.
 //
 
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class PanicTests: XCTestCase {
-    func test_playing_Panic_noPlayerAllowed_shouldThrowError() throws {
+struct PanicTest {
+    @Test func test_playing_Panic_noPlayerAllowed_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -19,15 +19,15 @@ final class PanicTests: XCTestCase {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.panic, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgPlayer.Error, .noPlayer(.selectAt(1)))
+        let action = GameAction.play(.panic, player: "p1")
+        await #expect(throws: GameError.noChoosableTarget([.atDistance(1), .havingCard])) {
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
-
-    func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() throws {
+/*
+    @Test func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -37,7 +37,7 @@ final class PanicTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.play(.panic, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
@@ -49,9 +49,9 @@ final class PanicTests: XCTestCase {
         ])
     }
 
-    func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() throws {
+    @Test func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -61,7 +61,7 @@ final class PanicTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.play(.panic, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", "c22"])
 
         // Then
@@ -73,9 +73,9 @@ final class PanicTests: XCTestCase {
         ])
     }
 
-    func test_playing_Panic_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() throws {
+    @Test func test_playing_Panic_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.panic])
             }
@@ -86,7 +86,7 @@ final class PanicTests: XCTestCase {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.play(.panic, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", "c23"])
 
         // Then
@@ -97,4 +97,5 @@ final class PanicTests: XCTestCase {
             .stealInPlay("c23", target: "p2", player: "p1")
         ])
     }
+ */
 }

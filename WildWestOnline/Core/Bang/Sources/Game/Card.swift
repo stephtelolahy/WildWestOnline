@@ -85,8 +85,9 @@ public enum ActionSelector: Equatable, Codable {
         }
     }
 
-    public enum TargetCondition: String, Codable {
+    public enum TargetCondition: Equatable, Codable {
         case havingCard
+        case atDistance(Int)
     }
 }
 
