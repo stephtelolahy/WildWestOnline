@@ -135,6 +135,16 @@ public extension Player {
             return self
         }
 
+        public func withMagnifying(_ value: Int) -> Self {
+            magnifying = value
+            return self
+        }
+
+        public func withRemoteness(_ value: Int) -> Self {
+            remoteness = value
+            return self
+        }
+
         public func withHand(_ value: [String]) -> Self {
             hand = value
             return self
