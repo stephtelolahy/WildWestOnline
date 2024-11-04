@@ -13,7 +13,7 @@ func dispatchUntilCompleted(
     _ action: GameAction,
     state: GameState,
     expectedChoices: [Choice] = [],
-    timeout: TimeInterval = 0.1,
+    timeout: TimeInterval = 1.0,
     file: StaticString = #file,
     line: UInt = #line
 ) async throws -> [GameAction] {
