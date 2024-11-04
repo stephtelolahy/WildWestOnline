@@ -69,7 +69,7 @@ private extension ActionSelector {
             if details.options.isEmpty {
                 var updatedAction = pendingAction
                 var updatedDetails = details
-                updatedDetails.options = try details.item.resolveOptions(state, ctx: pendingAction.payload)
+                updatedDetails.options = try details.element.resolveOptions(state, ctx: pendingAction.payload)
                 let updatedSelector = ActionSelector.chooseOne(updatedDetails)
                 updatedAction.payload.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
@@ -78,7 +78,7 @@ private extension ActionSelector {
                     fatalError("Selection \(selectionLabel) not found in options")
                 }
 
-                return try details.item.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
+                return try details.element.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
             } else {
                 fatalError("Unexpected, waiting user choice")
             }

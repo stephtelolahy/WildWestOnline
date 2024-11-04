@@ -1,11 +1,11 @@
 //
-//  ChooseOneItemResolver.swift
+//  ChooseOneElementResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 01/11/2024.
 //
 
-extension ActionSelector.ChooseOneDetails.Item {
+extension ActionSelector.ChooseOneDetails.Element {
     func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
         try resolver.resolveOptions(state, ctx: ctx)
     }
@@ -15,7 +15,7 @@ extension ActionSelector.ChooseOneDetails.Item {
     }
 }
 
-private extension ActionSelector.ChooseOneDetails.Item {
+private extension ActionSelector.ChooseOneDetails.Element {
     protocol Resolver {
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option]
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]

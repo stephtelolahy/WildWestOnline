@@ -65,11 +65,11 @@ public enum ActionSelector: Equatable, Codable {
     }
 
     public struct ChooseOneDetails: Equatable, Codable {
-        public let item: Item
+        public let element: Element
         public var options: [Option] = []
         public var selection: String?
 
-        public enum Item: Equatable, Codable {
+        public enum Element: Equatable, Codable {
             case target([TargetCondition] = [])
             case card
         }
