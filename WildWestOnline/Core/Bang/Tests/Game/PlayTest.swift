@@ -9,8 +9,7 @@ import Testing
 import Bang
 
 struct PlayTest {
-    @Test("play brown card should remove from hand")
-    func play_Brown_shouldPutInDiscard() async throws {
+    @Test func play_Brown_shouldPutInDiscard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
