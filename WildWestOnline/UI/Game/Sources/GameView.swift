@@ -41,21 +41,11 @@ struct GameView: View {
         struct HandCard: Equatable {
             let card: String
             let active: Bool
-
-            init(card: String, active: Bool) {
-                self.card = card
-                self.active = active
-            }
         }
 
         struct ChooseOne: Equatable {
             let choiceType: String
             let options: [String]
-
-            init(choiceType: String, options: [String]) {
-                self.choiceType = choiceType
-                self.options = options
-            }
         }
     }
 

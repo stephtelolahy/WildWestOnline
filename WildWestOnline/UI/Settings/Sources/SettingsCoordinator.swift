@@ -17,7 +17,7 @@ public struct SettingsCoordinator: View {
     public var body: some View {
         NavigationStackView<SettingsDestination, SettingsRootViewBuilder, AnyView>(
             store: {
-                store.projection(SettingsCoordinator.presenter)
+                store.projection(Self.presenter)
             },
             root: {
                 SettingsRootViewBuilder()

@@ -25,7 +25,7 @@ struct MainCoordinator: View {
             root: {
                 SplashViewBuilder()
             },
-            destination:  { destination in
+            destination: { destination in
                 switch destination {
                 case .home: HomeViewBuilder().eraseToAnyView()
                 case .game: GameViewBuilder().eraseToAnyView()

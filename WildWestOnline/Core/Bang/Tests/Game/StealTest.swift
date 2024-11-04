@@ -9,7 +9,6 @@ import Testing
 import Bang
 
 struct StealTest {
-
     @Test func test_drawHand_shouldRemoveCardFromTargetHand() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -24,10 +23,10 @@ struct StealTest {
         let result = try GameReducer().reduce(state, action)
 
         // Then
-        XCTAssertEqual(result.field.hand["p1"], ["c21"])
-        XCTAssertEqual(result.field.hand["p2"], ["c22"])
+        #expect(result.players.get("p1").hand == ["c21"])
+        #expect(result.players.get("p2").hand == ["c22"])
     }
-    
+
     @Test func test_drawInPlay_shouldRemoveCardFromTargetInPlay() async throws {
         // Given
         let state = GameState.makeBuilder()
@@ -42,8 +41,7 @@ struct StealTest {
         let result = try GameReducer().reduce(state, action)
 
         // Then
-        XCTAssertEqual(result.field.hand["p1"], ["c21"])
-        XCTAssertEqual(result.field.inPlay["p2"], ["c22"])
+        #expect(result.players.get("p1").hand == ["c21"])
+        #expect(result.players.get("p2").inPlay == ["c22"])
     }
-
 }

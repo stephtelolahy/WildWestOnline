@@ -26,7 +26,8 @@ private extension GameAction.Kind {
             .drawDiscovered: DrawDiscovered(),
             .discover: Discover(),
             .heal: Heal(),
-            .discard: Discard()
+            .discard: Discard(),
+            .steal: Steal()
         ]
 
         guard let result = dict[self] else {
@@ -194,6 +195,31 @@ private extension GameAction.Kind {
             let updatedSelector = ActionSelector.chooseOne(updatedDetails)
             updatedAction.payload.selectors[0] = updatedSelector
             state.queue[0] = updatedAction
+
+            return state
+        }
+    }
+
+    struct Steal: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing card from payload")
+            }
+
+            let actor = payload.actor
+            let target = payload.target
+            let targetObj = state.players.get(target)
+
+            var state = state
+            if targetObj.hand.contains(card) {
+                state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
+                state[keyPath: \.players[actor]!.hand].append(card)
+            } else if targetObj.inPlay.contains(card) {
+                state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
+                state[keyPath: \.players[actor]!.hand].append(card)
+            } else {
+                fatalError("Card \(card) not owned by \(target)")
+            }
 
             return state
         }

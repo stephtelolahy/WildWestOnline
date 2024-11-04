@@ -138,4 +138,3 @@ private extension GameState {
         return playerId
     }
 }
-
