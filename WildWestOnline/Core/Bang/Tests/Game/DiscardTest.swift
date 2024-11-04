@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct DiscardTest {
-    @Test func discardHand_shouldRemoveCardFromHand() async throws {
+    @Test func discard_shouldRemoveCardFromHand() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -26,7 +26,7 @@ struct DiscardTest {
         #expect(result.discard == ["c1"])
     }
 
-    @Test func discardInPlay_shouldRemoveCardFromInPlay() async throws {
+    @Test func discard_shouldRemoveCardFromInPlay() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {

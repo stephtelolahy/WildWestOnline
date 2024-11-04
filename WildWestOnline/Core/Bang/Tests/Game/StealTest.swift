@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct StealTest {
-    @Test func test_drawHand_shouldRemoveCardFromTargetHand() async throws {
+    @Test func steal_shouldRemoveCardFromTargetHand() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -27,7 +27,7 @@ struct StealTest {
         #expect(result.players.get("p2").hand == ["c22"])
     }
 
-    @Test func test_drawInPlay_shouldRemoveCardFromTargetInPlay() async throws {
+    @Test func steal_shouldRemoveCardFromTargetInPlay() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")

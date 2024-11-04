@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct CatBalouTest {
-    @Test func playingCatBalou_targetHavingHandCards_shouldChooseOneHandCard() async throws {
+    @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -37,7 +37,7 @@ struct CatBalouTest {
         ])
     }
 
-    @Test func playingCatBalou_targetHavingInPlayCards_shouldChooseOneInPlayCard() async throws {
+    @Test func play_targetHavingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -65,7 +65,7 @@ struct CatBalouTest {
         ])
     }
 
-    @Test func playingCatBalou_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
+    @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -81,7 +81,7 @@ struct CatBalouTest {
         let action = GameAction.play(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
-            .init(options: ["hiddenHand-0", "hiddenHand-1", "c23", "c24"], selectionIndex: 2)
+            .init(options: ["c23", "c24", "hiddenHand-0", "hiddenHand-1"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
@@ -94,7 +94,7 @@ struct CatBalouTest {
         ])
     }
 
-    @Test func playingCatBalou_noPlayerHavingCards_shouldThrowError() async throws {
+    @Test func play_noTarget_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {

@@ -10,7 +10,7 @@ import Bang
 
 struct PlayTest {
     @Test("play brown card should remove from hand")
-    func playBrown() async throws {
+    func play_Brown_shouldPutInDiscard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {

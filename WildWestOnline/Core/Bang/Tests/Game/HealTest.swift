@@ -9,16 +9,15 @@ import Testing
 import Bang
 
 struct HealTest {
-    private var state: GameState {
-        GameState.makeBuilder()
+    @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
+        // Given
+        let state = GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withMaxHealth(4)
             }
             .build()
-    }
 
-    @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
         // When
         let action = GameAction.heal(1, player: "p1")
         let result = try GameReducer().reduce(state, action)
@@ -28,6 +27,14 @@ struct HealTest {
     }
 
     @Test func heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHealth(2)
+                    .withMaxHealth(4)
+            }
+            .build()
+
         // When
         let action = GameAction.heal(2, player: "p1")
         let result = try GameReducer().reduce(state, action)
@@ -37,6 +44,14 @@ struct HealTest {
     }
 
     @Test func heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHealth(2)
+                    .withMaxHealth(4)
+            }
+            .build()
+
         // When
         let action = GameAction.heal(3, player: "p1")
         let result = try GameReducer().reduce(state, action)

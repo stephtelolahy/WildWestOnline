@@ -9,23 +9,7 @@ import Testing
 import Bang
 
 struct PanicTest {
-    @Test func test_playing_Panic_noPlayerAllowed_shouldThrowError() async throws {
-        // Given
-        let state = GameState.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.panic])
-            }
-            .build()
-
-        // When
-        // Then
-        let action = GameAction.play(.panic, player: "p1")
-        await #expect(throws: GameError.noChoosableTarget([.atDistance(1), .havingCard])) {
-            try await dispatchUntilCompleted(action, state: state)
-        }
-    }
-
-    @Test func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
+    @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -52,8 +36,8 @@ struct PanicTest {
             .steal("c21", target: "p2", player: "p1")
         ])
     }
-    /*
-    @Test func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() async throws {
+
+    @Test func play_targetHavingInPlayCards_shouldChooseInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -66,18 +50,22 @@ struct PanicTest {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", "c22"])
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["c21", "c22"], selectionIndex: 1)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
-        XCTAssertEqual(result, [
-            .playBrown(.panic, player: "p1"),
-            .chooseOne(.target, options: ["p2"], player: "p1"),
-            .chooseOne(.cardToSteal, options: ["c21", "c22"], player: "p1"),
-            .stealInPlay("c22", target: "p2", player: "p1")
+        #expect(result == [
+            .play(.panic, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose("c22", player: "p1"),
+            .steal("c22", target: "p2", player: "p1")
         ])
     }
 
-    @Test func test_playing_Panic_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() async throws {
+    @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -91,15 +79,34 @@ struct PanicTest {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", "c23"])
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["c22", "c23", "hiddenHand-0"], selectionIndex: 1)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
-        XCTAssertEqual(result, [
-            .playBrown(.panic, player: "p1"),
-            .chooseOne(.target, options: ["p2"], player: "p1"),
-            .chooseOne(.cardToSteal, options: ["c22", "c23", "hiddenHand-0"], player: "p1"),
-            .stealInPlay("c23", target: "p2", player: "p1")
+        #expect(result == [
+            .play(.panic, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose("c23", player: "p1"),
+            .steal("c23", target: "p2", player: "p1")
         ])
     }
- */
+
+    @Test func play_noTarget_shouldThrowError() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.panic])
+            }
+            .build()
+
+        // When
+        // Then
+        let action = GameAction.play(.panic, player: "p1")
+        await #expect(throws: GameError.noChoosableTarget([.atDistance(1), .havingCard])) {
+            try await dispatchUntilCompleted(action, state: state)
+        }
+    }
 }

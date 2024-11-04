@@ -57,12 +57,12 @@ private extension ActionSelector.ChooseOneDetails.Element {
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
             let playerObj = state.players.get(ctx.target)
             let result: [ActionSelector.ChooseOneDetails.Option] =
-            playerObj.hand.indices.map {
-                .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
-            }
-            +
             playerObj.inPlay.indices.map {
                 .init(value: playerObj.inPlay[$0], label: playerObj.inPlay[$0])
+            }
+            +
+            playerObj.hand.indices.map {
+                .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
             }
 
             guard result.isNotEmpty else {
