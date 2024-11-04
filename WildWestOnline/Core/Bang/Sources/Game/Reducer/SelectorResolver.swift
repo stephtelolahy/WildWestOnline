@@ -45,7 +45,7 @@ private extension ActionSelector {
     }
 
     struct SetTarget: Resolver {
-        let target: ActionSelector.Target
+        let target: ActionSelector.TargetGroup
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
             try target.resolve(state, ctx: pendingAction.payload)

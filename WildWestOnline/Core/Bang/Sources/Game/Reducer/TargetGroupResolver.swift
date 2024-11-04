@@ -1,11 +1,11 @@
 //
-//  TargetResolver.swift
+//  TargetGroupResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension ActionSelector.Target {
+extension ActionSelector.TargetGroup {
     func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
         let players = resolver.resolve(state, ctx: ctx)
         guard players.isNotEmpty else {
@@ -16,7 +16,7 @@ extension ActionSelector.Target {
     }
 }
 
-private extension ActionSelector.Target {
+private extension ActionSelector.TargetGroup {
     protocol Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String]
     }

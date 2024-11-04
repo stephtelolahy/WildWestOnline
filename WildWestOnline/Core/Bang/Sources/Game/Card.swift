@@ -48,7 +48,7 @@ public struct ActiveAbility: Equatable, Codable {
 public enum ActionSelector: Equatable, Codable {
     case `repeat`(Number)
     case setAmount(Number)
-    case setTarget(Target)
+    case setTarget(TargetGroup)
     case verify(StateCondition)
     case chooseOne(ChooseOneDetails)
 
@@ -56,7 +56,7 @@ public enum ActionSelector: Equatable, Codable {
         case value(Int)
     }
 
-    public enum Target: String, Codable {
+    public enum TargetGroup: String, Codable {
         case damaged
     }
 
