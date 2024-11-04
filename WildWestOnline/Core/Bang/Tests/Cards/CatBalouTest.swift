@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct CatBalouTest {
-    @Test func playingCatBalou_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
+    @Test func playingCatBalou_targetHavingHandCards_shouldChooseOneHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -37,7 +37,7 @@ struct CatBalouTest {
         ])
     }
 
-    @Test func playingCatBalou_targetIsOther_havingInPlayCards_shouldChooseOneInPlayCard() async throws {
+    @Test func playingCatBalou_targetHavingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -65,7 +65,7 @@ struct CatBalouTest {
         ])
     }
 
-    @Test func playingCatBalou_targetIsOther_havingHandAndInPlayCards_shouldChooseAnyCard() async throws {
+    @Test func playingCatBalou_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -95,23 +95,6 @@ struct CatBalouTest {
     }
 
     @Test func playingCatBalou_noPlayerHavingCards_shouldThrowError() async throws {
-        // Given
-        let state = GameState.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withHand([.catBalou])
-            }
-            .withPlayer("p2")
-            .build()
-
-        // When
-        // Then
-        let action = GameAction.play(.catBalou, player: "p1")
-        await #expect(throws: GameError.noChoosableTarget([.havingCard])) {
-            try await dispatchUntilCompleted(action, state: state)
-        }
-    }
-
-    @Test func playingCatBalou_onlySelfHavingCards_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
