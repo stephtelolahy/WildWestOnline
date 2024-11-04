@@ -38,7 +38,7 @@ private extension ActionSelector.TargetCondition {
         let distance: Int
 
         func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
-            fatalError()
+            state.distance(from: ctx.actor, to: player) <= distance
         }
     }
 }

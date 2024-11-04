@@ -121,4 +121,16 @@ public extension GameAction {
             )
         )
     }
+    
+    /// Draw card from other player's hand or inPlay
+    static func steal(_ card: String, target: String, player: String) -> Self {
+        .init(
+            kind: .steal,
+            payload: .init(
+                actor: player,
+                target: target,
+                card: card
+            )
+        )
+    }
 }

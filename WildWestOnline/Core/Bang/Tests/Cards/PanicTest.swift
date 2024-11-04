@@ -24,7 +24,7 @@ struct PanicTest {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
-/*
+
     @Test func test_playing_Panic_targetIsOther_havingHandCards_shouldChooseOneHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -38,17 +38,21 @@ struct PanicTest {
 
         // When
         let action = GameAction.play(.panic, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0),
+            .init(options: ["hiddenHand-0"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
-        XCTAssertEqual(result, [
-            .playBrown(.panic, player: "p1"),
-            .chooseOne(.target, options: ["p2"], player: "p1"),
-            .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
-            .stealHand("c21", target: "p2", player: "p1")
+        #expect(result == [
+            .play(.panic, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose("hiddenHand-0", player: "p1"),
+            .steal("c21", target: "p2", player: "p1")
         ])
     }
-
+    /*
     @Test func test_playing_Panic_targetIsOther_havingInPlayCards_shouldChooseInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
