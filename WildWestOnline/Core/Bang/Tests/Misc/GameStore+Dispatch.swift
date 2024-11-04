@@ -13,7 +13,6 @@ func dispatchUntilCompleted(
     _ action: GameAction,
     state: GameState,
     expectedChoices: [Choice] = [],
-    timeout: TimeInterval = 0.1,
     file: StaticString = #file,
     line: UInt = #line
 ) async throws -> [GameAction] {
@@ -51,7 +50,7 @@ func dispatchUntilCompleted(
     store.dispatch(action)
 
     let waiter = XCTWaiter()
-    await waiter.fulfillment(of: [expectation], timeout: timeout)
+    await waiter.fulfillment(of: [expectation])
     subscriptions.removeAll()
 
     if let ocurredError {

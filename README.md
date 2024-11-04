@@ -1,5 +1,7 @@
 # WildWestOnline
 
+[![CI](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml/badge.svg)](https://github.com/stephtelolahy/WildWestOnline/actions/workflows/ios.yml)
+
 **Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game**
 
 **Trading card games**: a form of competitive activity played according to rules. It is turn based, cards have properties and have rules.
@@ -38,14 +40,14 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 
 ![](Docs/eventresolving.png)
 
-#### Modular Architecture
+### Modular Architecture
 
 The project is composed of SwiftPackage products with the following structure. 
 
 ![](Docs/modular.png)
 
 
-### Redux Architecture
+### Redux
 
 Redux architecture is meant to protect changes in an application’s state. It forces you to define clearly what state should be set when a specific action is dispatched.
 
