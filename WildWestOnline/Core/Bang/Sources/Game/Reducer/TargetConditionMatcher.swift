@@ -46,8 +46,11 @@ private extension ActionSelector.TargetCondition {
 public extension GameState {
     func distance(from playerId: String, to other: String) -> Int {
         guard let pIndex = playOrder.firstIndex(of: playerId),
-              let oIndex = playOrder.firstIndex(of: other),
-              pIndex != oIndex else {
+              let oIndex = playOrder.firstIndex(of: other) else {
+            fatalError("missing player \(playerId) and \(other)")
+        }
+
+        guard pIndex != oIndex else {
             return 0
         }
 
