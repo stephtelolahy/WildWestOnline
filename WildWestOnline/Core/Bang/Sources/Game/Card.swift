@@ -68,7 +68,7 @@ public enum ActionSelector: Equatable, Codable {
 
     public struct ChooseOneDetails: Equatable, Codable {
         public let element: Element
-        public var options: [Option] = []
+        public var choice: Choice?
         public var selection: String?
 
         public enum Element: Equatable, Codable {
@@ -77,13 +77,13 @@ public enum ActionSelector: Equatable, Codable {
             case discovered // choose a discovered card
         }
 
-        public struct Option: Equatable, Codable {
-            public let value: String
-            public let label: String
+        public struct Choice: Equatable, Codable {
+            public let chooser: String
+            public let options: [Option]
 
-            public init(value: String, label: String) {
-                self.value = value
-                self.label = label
+            public struct Option: Equatable, Codable {
+                public let value: String
+                public let label: String
             }
         }
     }

@@ -6,7 +6,7 @@
 //
 
 extension ActionSelector.ChooseOneDetails.Element {
-    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
+    func resolveChoice(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
@@ -17,7 +17,7 @@ extension ActionSelector.ChooseOneDetails.Element {
 
 private extension ActionSelector.ChooseOneDetails.Element {
     protocol Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option]
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]
     }
 
@@ -32,7 +32,7 @@ private extension ActionSelector.ChooseOneDetails.Element {
     struct TargetResolver: Resolver {
         let conditions: [ActionSelector.TargetCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
             let result = state.playOrder
                 .starting(with: ctx.actor)
                 .dropFirst()
@@ -46,7 +46,10 @@ private extension ActionSelector.ChooseOneDetails.Element {
                 throw .noChoosableTarget(conditions)
             }
 
-            return result.map { .init(value: $0, label: $0) }
+            return .init(
+                chooser: ctx.actor,
+                options: result.map { .init(value: $0, label: $0) }
+            )
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
@@ -55,9 +58,9 @@ private extension ActionSelector.ChooseOneDetails.Element {
     }
 
     struct CardResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
             let playerObj = state.players.get(ctx.target)
-            let result: [ActionSelector.ChooseOneDetails.Option] =
+            let options: [ActionSelector.ChooseOneDetails.Choice.Option] =
             playerObj.inPlay.indices.map {
                 .init(value: playerObj.inPlay[$0], label: playerObj.inPlay[$0])
             }
@@ -66,11 +69,14 @@ private extension ActionSelector.ChooseOneDetails.Element {
                 .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
             }
 
-            guard result.isNotEmpty else {
+            guard options.isNotEmpty else {
                 fatalError("No card")
             }
 
-            return result
+            return .init(
+                chooser: ctx.actor,
+                options: options
+            )
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
@@ -79,12 +85,15 @@ private extension ActionSelector.ChooseOneDetails.Element {
     }
 
     struct DiscoveredResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
-            fatalError()
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
+            .init(
+                chooser: ctx.target,
+                options: state.discovered.map { .init(value: $0, label: $0) }
+            )
         }
-        
+
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            fatalError()
+            [pendingAction.withCard(selection)]
         }
     }
 }

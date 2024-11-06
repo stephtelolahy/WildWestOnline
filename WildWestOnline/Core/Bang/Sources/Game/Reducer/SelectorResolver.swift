@@ -66,15 +66,17 @@ private extension ActionSelector {
         let details: ChooseOneDetails
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            if details.options.isEmpty {
+            if details.choice == nil {
                 var updatedAction = pendingAction
                 var updatedDetails = details
-                updatedDetails.options = try details.element.resolveOptions(state, ctx: pendingAction.payload)
+                let choice = try details.element.resolveChoice(state, ctx: pendingAction.payload)
+                updatedDetails.choice = choice
                 let updatedSelector = ActionSelector.chooseOne(updatedDetails)
                 updatedAction.payload.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
-            } else if let selectionLabel = details.selection {
-                guard let selectionValue = details.options.first(where: { $0.label == selectionLabel })?.value else {
+            } else if let selectionLabel = details.selection,
+                      let choice = details.choice {
+                guard let selectionValue = choice.options.first(where: { $0.label == selectionLabel })?.value else {
                     fatalError("Selection \(selectionLabel) not found in options")
                 }
 

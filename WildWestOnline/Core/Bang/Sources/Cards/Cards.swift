@@ -131,7 +131,7 @@ private extension Cards {
                     ]
                 ),
                 .init(
-                    action: .drawDeck,
+                    action: .drawDiscovered,
                     selectors: [
                         .setTarget(.all),
                         .chooseOne(.init(element: .discovered))

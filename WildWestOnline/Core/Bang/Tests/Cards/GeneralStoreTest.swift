@@ -32,9 +32,9 @@ struct GeneralStoreTests {
         // Then
         #expect(result == [
             .play(.generalStore, player: "p1"),
-            .discover,
-            .discover,
-            .discover,
+            .discover(player: "p1"),
+            .discover(player: "p1"),
+            .discover(player: "p1"),
             .choose("c1", player: "p1"),
             .drawDiscovered("c1", player: "p1"),
             .choose("c2", player: "p2"),

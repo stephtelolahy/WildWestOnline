@@ -16,7 +16,7 @@ struct DiscoverTest {
             .build()
 
         // When
-        let action = GameAction.discover
+        let action = GameAction.discover(player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
@@ -32,7 +32,7 @@ struct DiscoverTest {
             .build()
 
         // When
-        let action = GameAction.discover
+        let action = GameAction.discover(player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
@@ -48,7 +48,7 @@ struct DiscoverTest {
             .build()
 
         // When
-        let action = GameAction.discover
+        let action = GameAction.discover(player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
@@ -64,7 +64,7 @@ struct DiscoverTest {
 
         // When
         // Then
-        let action = GameAction.discover
+        let action = GameAction.discover(player: "p1")
         #expect(throws: GameError.deckIsEmpty) {
             try GameReducer().reduce(state, action)
         }
@@ -79,7 +79,7 @@ struct DiscoverTest {
 
         // When
         // Then
-        let action = GameAction.discover
+        let action = GameAction.discover(player: "p1")
         #expect(throws: GameError.deckIsEmpty) {
             try GameReducer().reduce(state, action)
         }

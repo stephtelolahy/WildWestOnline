@@ -93,10 +93,10 @@ public extension GameAction {
     }
 
     /// Discover top deck cards
-    static var discover: Self {
+    static func discover(player: String) -> Self {
         .init(
             kind: .discover,
-            payload: .init()
+            payload: .init(target: player)
         )
     }
 

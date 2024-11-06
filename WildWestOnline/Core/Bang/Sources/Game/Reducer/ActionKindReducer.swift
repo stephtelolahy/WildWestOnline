@@ -183,7 +183,8 @@ private extension GameAction.Kind {
             guard let nextAction = state.queue.first,
                   let selector = nextAction.payload.selectors.first,
                   case .chooseOne(let chooseOneDetails) = selector,
-                  chooseOneDetails.options.map(\.label).contains(selection),
+                  let choice = chooseOneDetails.choice,
+                  choice.options.map(\.label).contains(selection),
                   chooseOneDetails.selection == nil else {
                 fatalError("Unexpected choose action")
             }

@@ -27,25 +27,17 @@ public struct Player: Equatable, Codable {
     public var remoteness: Int
 }
 
-public struct PendingChoice {
-    public let chooser: String
-    public let options: [String]
-}
-
 public extension GameState {
-    var pendingChoice: PendingChoice? {
+    var pendingChoice: ActionSelector.ChooseOneDetails.Choice? {
         guard let nextAction = queue.first,
-           let selector = nextAction.payload.selectors.first,
-           case .chooseOne(let chooseOneDetails) = selector,
-           chooseOneDetails.options.isNotEmpty,
-           chooseOneDetails.selection == nil else {
+              let selector = nextAction.payload.selectors.first,
+              case .chooseOne(let chooseOneDetails) = selector,
+              let choice = chooseOneDetails.choice,
+              chooseOneDetails.selection == nil else {
             return nil
         }
 
-        return .init(
-            chooser: nextAction.payload.actor,
-            options: chooseOneDetails.options.map(\.label)
-        )
+        return choice
     }
 }
 

@@ -24,7 +24,7 @@ public struct GameReducer {
             let selector = action.payload.selectors.remove(at: 0)
 
             if case .chooseOne(let chooseOneDetails) = selector,
-               chooseOneDetails.options.isNotEmpty,
+               chooseOneDetails.choice != nil,
                chooseOneDetails.selection == nil {
                 fatalError("Unexpected, waiting user choice")
             }
