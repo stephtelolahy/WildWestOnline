@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct DistanceTest {
-    @Test func test_distance_withoutEquipement_shouldBeTheLowestValue() async throws {
+    @Test func distance_withoutEquipement_shouldBeTheLowestValue() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1")
@@ -21,23 +21,33 @@ struct DistanceTest {
 
         // When
         // Then
-        #expect(state.playersAt(1, from: "p1") == ["p2", "p5"])
-        #expect(state.playersAt(2, from: "p1") == ["p2", "p3", "p4", "p5"])
+        #expect(state.distance(from: "p1", to: "p2") == 1)
+        #expect(state.distance(from: "p1", to: "p5") == 1)
+        #expect(state.distance(from: "p1", to: "p3") == 2)
+        #expect(state.distance(from: "p1", to: "p4") == 2)
 
-        #expect(state.playersAt(1, from: "p2") == ["p1", "p3"])
-        #expect(state.playersAt(2, from: "p2") == ["p1", "p3", "p4", "p5"])
+        #expect(state.distance(from: "p2", to: "p1") == 1)
+        #expect(state.distance(from: "p2", to: "p3") == 1)
+        #expect(state.distance(from: "p2", to: "p4") == 2)
+        #expect(state.distance(from: "p2", to: "p5") == 2)
 
-        #expect(state.playersAt(1, from: "p3") == ["p2", "p4"])
-        #expect(state.playersAt(2, from: "p3") == ["p1", "p2", "p4", "p5"])
+        #expect(state.distance(from: "p3", to: "p2") == 1)
+        #expect(state.distance(from: "p3", to: "p4") == 1)
+        #expect(state.distance(from: "p3", to: "p1") == 2)
+        #expect(state.distance(from: "p3", to: "p5") == 2)
 
-        #expect(state.playersAt(1, from: "p4") == ["p3", "p5"])
-        #expect(state.playersAt(2, from: "p4") == ["p1", "p2", "p3", "p5"])
+        #expect(state.distance(from: "p4", to: "p3") == 1)
+        #expect(state.distance(from: "p4", to: "p5") == 1)
+        #expect(state.distance(from: "p4", to: "p1") == 2)
+        #expect(state.distance(from: "p4", to: "p2") == 2)
 
-        #expect(state.playersAt(1, from: "p5") == ["p1", "p4"])
-        #expect(state.playersAt(2, from: "p5") == ["p1", "p2", "p3", "p4"])
+        #expect(state.distance(from: "p5", to: "p1") == 1)
+        #expect(state.distance(from: "p5", to: "p4") == 1)
+        #expect(state.distance(from: "p5", to: "p2") == 2)
+        #expect(state.distance(from: "p5", to: "p3") == 2)
     }
 
-    @Test func test_distance_withScope_shouldDecrementDistanceToOthers() async throws {
+    @Test func distance_withScope_shouldDecrementDistanceToOthers() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -51,22 +61,13 @@ struct DistanceTest {
 
         // When
         // Then
-        #expect(state.playersAt(1, from: "p1") == ["p2", "p3", "p4", "p5"])
-
-        #expect(state.playersAt(1, from: "p2") == ["p1", "p3"])
-        #expect(state.playersAt(2, from: "p2") == ["p1", "p3", "p4", "p5"])
-
-        #expect(state.playersAt(1, from: "p3") == ["p2", "p4"])
-        #expect(state.playersAt(2, from: "p3") == ["p1", "p2", "p4", "p5"])
-
-        #expect(state.playersAt(1, from: "p4") == ["p3", "p5"])
-        #expect(state.playersAt(2, from: "p4") == ["p1", "p2", "p3", "p5"])
-
-        #expect(state.playersAt(1, from: "p5") == ["p1", "p4"])
-        #expect(state.playersAt(2, from: "p5") == ["p1", "p2", "p3", "p4"])
+        #expect(state.distance(from: "p1", to: "p2") == 0)
+        #expect(state.distance(from: "p1", to: "p5") == 0)
+        #expect(state.distance(from: "p1", to: "p3") == 1)
+        #expect(state.distance(from: "p1", to: "p4") == 1)
     }
 
-    @Test func test_distance_withRemoteness_shouldIncrementDistanceFromOthers() async throws {
+    @Test func distance_withRemoteness_shouldIncrementDistanceFromOthers() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -80,26 +81,9 @@ struct DistanceTest {
 
         // When
         // Then
-        #expect(state.playersAt(1, from: "p2") == ["p3"])
-        #expect(state.playersAt(2, from: "p2") == ["p1", "p3", "p4", "p5"])
-
-        #expect(state.playersAt(1, from: "p3") == ["p2", "p4"])
-        #expect(state.playersAt(2, from: "p3") == ["p2", "p4", "p5"])
-        #expect(state.playersAt(3, from: "p3") == ["p1", "p2", "p4", "p5"])
-
-        #expect(state.playersAt(1, from: "p4") == ["p3", "p5"])
-        #expect(state.playersAt(2, from: "p4") == ["p2", "p3", "p5"])
-        #expect(state.playersAt(3, from: "p4") == ["p1", "p2", "p3", "p5"])
-
-        #expect(state.playersAt(1, from: "p5") == ["p4"])
-        #expect(state.playersAt(2, from: "p5") == ["p1", "p2", "p3", "p4"])
-    }
-}
-
-private extension GameState {
-    func playersAt(_ range: Int, from player: String) -> [String] {
-        playOrder
-            .filter { $0 != player }
-            .filter { distance(from: player, to: $0) <= range }
+        #expect(state.distance(from: "p2", to: "p1") == 2)
+        #expect(state.distance(from: "p5", to: "p1") == 2)
+        #expect(state.distance(from: "p3", to: "p1") == 3)
+        #expect(state.distance(from: "p4", to: "p1") == 3)
     }
 }
