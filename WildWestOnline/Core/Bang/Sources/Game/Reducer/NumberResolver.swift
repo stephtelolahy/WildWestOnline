@@ -19,6 +19,7 @@ private extension ActionSelector.Number {
     var resolver: Resolver {
         switch self {
         case .value(let rawValue): Value(rawValue: rawValue)
+        case .activePlayers: ActivePlayers()
         }
     }
 
@@ -27,6 +28,12 @@ private extension ActionSelector.Number {
 
         func resolve(_ state: GameState) -> Int {
             rawValue
+        }
+    }
+
+    struct ActivePlayers: Resolver {
+        func resolve(_ state: GameState) -> Int {
+            state.playOrder.count
         }
     }
 }

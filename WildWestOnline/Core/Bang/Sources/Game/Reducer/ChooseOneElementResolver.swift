@@ -25,6 +25,7 @@ private extension ActionSelector.ChooseOneDetails.Element {
         switch self {
         case .target(let conditions): TargetResolver(conditions: conditions)
         case .card: CardResolver()
+        case .discovered: DiscoveredResolver()
         }
     }
 
@@ -74,6 +75,16 @@ private extension ActionSelector.ChooseOneDetails.Element {
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
             [pendingAction.withCard(selection)]
+        }
+    }
+
+    struct DiscoveredResolver: Resolver {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [ActionSelector.ChooseOneDetails.Option] {
+            fatalError()
+        }
+        
+        func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
+            fatalError()
         }
     }
 }

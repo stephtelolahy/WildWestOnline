@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-// swiftlint:disable file_length
+// swiftlint:disable file_length line_length
 
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
@@ -16,7 +16,8 @@ public enum Cards {
             beer,
             saloon,
             catBalou,
-            panic
+            panic,
+            generalStore
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -112,6 +113,28 @@ private extension Cards {
                     selectors: [
                         .chooseOne(.init(element: .target([.atDistance(1), .havingCard]))),
                         .chooseOne(.init(element: .card))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var generalStore: Card {
+        .init(
+            name: .generalStore,
+            desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
+            onPlay: [
+                .init(
+                    action: .discover,
+                    selectors: [
+                        .repeat(.activePlayers)
+                    ]
+                ),
+                .init(
+                    action: .drawDeck,
+                    selectors: [
+                        .setTarget(.all),
+                        .chooseOne(.init(element: .discovered))
                     ]
                 )
             ]
@@ -257,87 +280,6 @@ private extension Cards {
 
  // MARK: - Bang
 
- static var beer: CardV2 {
-     .init(
-         name: .beer,
-         desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-         effects: [
-             .brown,
-             .init(
-                 action: .heal,
-                 selectors: [
-                     .verify(.playersAtLeast(3))
-                 ]
-             )
-         ]
-     )
- }
-
- static var saloon: CardV2 {
-     .init(
-         name: .saloon,
-         desc: "All players in play regain one life point.",
-         effects: [
-             .brown,
-             .init(
-                 action: .heal,
-                 selectors: [
-                     .setTarget(.all)
-                 ]
-             )
-         ]
-     )
- }
-
- static var stagecoach: CardV2 {
-     .init(
-         name: .stagecoach,
-         desc: "Draw two cards from the top of the deck.",
-         effects: [
-             .brown,
-             .init(
-                 action: .drawDeck,
-                 selectors: [
-                     .repeat(.value(2))
-                 ]
-             )
-         ]
-     )
- }
-
- static var wellsFargo: CardV2 {
-     .init(
-         name: .wellsFargo,
-         desc: "Draw three cards from the top of the deck.",
-         effects: [
-             .brown,
-             .init(
-                 action: .drawDeck,
-                 selectors: [
-                     .repeat(.value(3))
-                 ]
-             )
-         ]
-     )
- }
-
- static var catBalou: CardV2 {
-     .init(
-         name: .catBalou,
-         desc: "Force “any one player” to “discard a card”, regardless of the distance.",
-         effects: [
-             .brown,
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .chooseTarget([.havingCard]),
-                     .chooseCard()
-                 ]
-             )
-         ]
-     )
- }
-
  static var bang: CardV2 {
      .init(
          name: .bang,
@@ -413,29 +355,6 @@ private extension Cards {
                  selectors: [
                      .chooseTarget(),
                      .chooseEventuallyReverseHandCard(.named(.bang))
-                 ]
-             )
-         ]
-     )
- }
-
- static var generalStore: CardV2 {
-     .init(
-         name: .generalStore,
-         desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-         effects: [
-             .brown,
-             .init(
-                 action: .discover,
-                 selectors: [
-                     .setAttribute(.discoverAmount, value: .activePlayers)
-                 ]
-             ),
-             .init(
-                 action: .drawDeck,
-                 selectors: [
-                     .setTarget(.all),
-                     .chooseCard(.discovered)
                  ]
              )
          ]

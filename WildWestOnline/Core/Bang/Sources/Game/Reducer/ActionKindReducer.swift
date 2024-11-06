@@ -246,7 +246,7 @@ private extension GameState {
 
         let cards = discard
         discard = Array(cards.prefix(1))
-        deck = Array(cards.dropFirst())
+        deck.append(contentsOf: Array(cards.dropFirst()))
     }
 
     mutating func popDiscard() throws(GameError) -> String {

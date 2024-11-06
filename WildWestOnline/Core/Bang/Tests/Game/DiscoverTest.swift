@@ -69,4 +69,19 @@ struct DiscoverTest {
             try GameReducer().reduce(state, action)
         }
     }
+
+    @Test func discover_nonEmptyDeck_withoutEnoughCards_shouldThrowError() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withDiscovered(["c1"])
+            .withDeck(["c1"])
+            .build()
+
+        // When
+        // Then
+        let action = GameAction.discover
+        #expect(throws: GameError.deckIsEmpty) {
+            try GameReducer().reduce(state, action)
+        }
+    }
 }

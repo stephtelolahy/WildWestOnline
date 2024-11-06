@@ -54,10 +54,12 @@ public enum ActionSelector: Equatable, Codable {
 
     public enum Number: Equatable, Codable {
         case value(Int)
+        case activePlayers
     }
 
     public enum TargetGroup: String, Codable {
         case damaged
+        case all
     }
 
     public enum StateCondition: Equatable, Codable {
@@ -70,8 +72,9 @@ public enum ActionSelector: Equatable, Codable {
         public var selection: String?
 
         public enum Element: Equatable, Codable {
-            case target([TargetCondition] = [])
-            case card
+            case target([TargetCondition] = []) // choose a target
+            case card   // choose a target card
+            case discovered // choose a discovered card
         }
 
         public struct Option: Equatable, Codable {
