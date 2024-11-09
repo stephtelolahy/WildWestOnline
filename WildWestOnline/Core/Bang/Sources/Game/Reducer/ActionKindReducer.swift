@@ -230,13 +230,25 @@ private extension GameAction.Kind {
     
     struct Shoot: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            state
+            var state = state
+            let effect = GameAction.damage(1, player: payload.target)
+            state.queue.insert(effect, at: 0)
+            return state
         }
     }
     
     struct Damage: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            fatalError()
+            guard let amount = payload.amount else {
+                fatalError("Missing amount from payload")
+            }
+            
+            var playerObj = state.players.get(payload.target)
+            playerObj.health -= amount
+
+            var state = state
+            state.players[payload.target] = playerObj
+            return state
         }
     }
 }

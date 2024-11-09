@@ -5,11 +5,11 @@
 //  Created by Hugues Telolahy on 05/01/2024.
 //
 
-import GameCore
-import XCTest
+import Bang
+import Testing
 
-final class DamageTests: XCTestCase {
-    func test_damage_with1LifePoint_shouldReduceHealthBy1() throws {
+struct DamageTest {
+    func damage_with1LifePoint_shouldReduceHealthBy1() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -19,13 +19,13 @@ final class DamageTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 1)
+        #expect(result.players.get("p1").health == 1)
     }
 
-    func test_damage_with2LifePoints_shouldReduceHealthBy2() throws {
+    func damage_with2LifePoints_shouldReduceHealthBy2() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -35,9 +35,9 @@ final class DamageTests: XCTestCase {
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        let result = try GameState.reducer(state, action)
+        let result = try GameReducer().reduce(state, action)
 
         // Then
-        XCTAssertEqual(result.player("p1").health, 0)
+        #expect(result.players.get("p1").health == 0)
     }
 }
