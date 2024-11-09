@@ -16,6 +16,7 @@ public struct GameState {
     public var discovered: [String]
     public var playOrder: [String]
     public var queue: [GameAction]
+    public var playedThisTurn: [String: Int]
 }
 
 public struct Player: Equatable, Codable {
@@ -51,6 +52,7 @@ public extension GameState {
         private var cards: [String: Card] = [:]
         private var playOrder: [String] = []
         private var queue: [GameAction] = []
+        private var playedThisTurn: [String: Int] = [:]
 
         public func build() -> GameState {
             .init(
@@ -60,7 +62,8 @@ public extension GameState {
                 discard: discard,
                 discovered: discovered,
                 playOrder: playOrder,
-                queue: queue
+                queue: queue,
+                playedThisTurn: playedThisTurn
             )
         }
 
@@ -89,6 +92,11 @@ public extension GameState {
 
         public func withCards(_ value: [String: Card]) -> Self {
             cards = value
+            return self
+        }
+        
+        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
+            playedThisTurn = value
             return self
         }
     }

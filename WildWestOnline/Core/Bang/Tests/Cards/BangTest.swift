@@ -34,13 +34,13 @@ struct BangTest {
             .damage(1, player: "p2")
         ])
     }
-/*
-    func play_reachedLimitPerTurn_shouldThrowError() async throws {
+
+    @Test func play_reachedLimitPerTurn_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
-                    .withAttributes([.weapon: 1, .bangsPerTurn: 1])
+                    .withWeapon(1)
             }
             .withPlayer("p2")
             .withPlayedThisTurn([.bang: 1])
@@ -48,12 +48,12 @@ struct BangTest {
 
         // When
         // Assert
-        let action = GameAction.preparePlay(.bang, player: "p1")
-        XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? PlayReq.Error, .noReq(.isCardPlayedLessThan(.bang, .attr(.bangsPerTurn))))
+        let action = GameAction.play(.bang, player: "p1")
+        #expect(throws: GameError.noReq(.cardPlayedLessThan(1))) {
+            try GameReducer().reduce(state, action)
         }
     }
-
+    /*
     func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
         let state = GameState.makeBuilderWithCards()
