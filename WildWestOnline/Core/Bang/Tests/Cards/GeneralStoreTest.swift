@@ -24,8 +24,8 @@ struct GeneralStoreTests {
         let action = GameAction.play(.generalStore, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
-            .init(options: ["c2", "c3"], selectionIndex: 0),
-            .init(options: ["c3"], selectionIndex: 0)
+            .init(options: ["c2", "c3"], selectionIndex: 1),
+            .init(options: ["c2"], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
@@ -37,10 +37,10 @@ struct GeneralStoreTests {
             .discover(player: "p1"),
             .choose("c1", player: "p1"),
             .drawDiscovered("c1", player: "p1"),
-            .choose("c2", player: "p2"),
-            .drawDiscovered("c2", player: "p2"),
-            .choose("c3", player: "p3"),
-            .drawDiscovered("c3", player: "p3")
+            .choose("c3", player: "p2"),
+            .drawDiscovered("c3", player: "p2"),
+            .choose("c2", player: "p3"),
+            .drawDiscovered("c2", player: "p3")
         ])
     }
 }

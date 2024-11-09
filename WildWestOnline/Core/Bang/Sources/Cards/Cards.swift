@@ -17,7 +17,8 @@ public enum Cards {
             saloon,
             catBalou,
             panic,
-            generalStore
+            generalStore,
+            bang
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -135,6 +136,22 @@ private extension Cards {
                     selectors: [
                         .setTarget(.all),
                         .chooseOne(.init(element: .discovered))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var bang: Card {
+        .init(
+            name: .bang,
+            desc: "reduce other players’s life points",
+            onPlay: [
+                .init(
+                    action: .shoot,
+                    selectors: [
+                        .verify(.limitPerTurn(1)),
+                        .chooseOne(.init(element: .target([.reachable])))
                     ]
                 )
             ]
@@ -279,23 +296,6 @@ private extension Cards {
  }
 
  // MARK: - Bang
-
- static var bang: CardV2 {
-     .init(
-         name: .bang,
-         desc: "reduce other players’s life points",
-         effects: [
-             .brown,
-             .init(
-                 action: .shoot,
-                 selectors: [
-                     .verify(.limitPerTurn(1)),
-                     .chooseTarget([.atDistanceReachable])
-                 ]
-             )
-         ]
-     )
- }
 
  static var missed: CardV2 {
      .init(

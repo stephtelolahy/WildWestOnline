@@ -21,6 +21,7 @@ private extension ActionSelector.StateCondition {
     var matcher: Matcher {
         switch self {
         case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
+        case .limitPerTurn(let amount): LimitPerTurn(amount: amount)
         }
     }
 
@@ -29,6 +30,14 @@ private extension ActionSelector.StateCondition {
 
         func match(_ state: GameState) -> Bool {
             state.playOrder.count >= amount
+        }
+    }
+    
+    struct LimitPerTurn: Matcher {
+        let amount: Int
+
+        func match(_ state: GameState) -> Bool {
+            true
         }
     }
 }

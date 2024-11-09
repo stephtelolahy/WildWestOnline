@@ -5,11 +5,11 @@
 //  Created by Hugues Telolahy on 27/10/2024.
 //
 
-public struct GameAction: Action, Equatable, Codable {
+public struct GameAction: Action, Equatable, Codable, Sendable {
     public let kind: Kind
     public var payload: Payload
 
-    public enum Kind: String, Codable {
+    public enum Kind: String, Codable, Sendable {
         case play
         case draw
         case drawDeck
@@ -20,10 +20,12 @@ public struct GameAction: Action, Equatable, Codable {
         case heal
         case choose
         case steal
+        case shoot
+        case damage
     }
 
-    public struct Payload: Equatable, Codable {
-        @EquatableNoop public var actor: String = ""
+    public struct Payload: Equatable, Codable, Sendable {
+        @EquatableNoopString public var actor: String = ""
         public var target: String = ""
         public var card: String?
         public var amount: Int?
@@ -130,6 +132,28 @@ public extension GameAction {
                 actor: player,
                 target: target,
                 card: card
+            )
+        )
+    }
+
+    /// Shoot a player
+    static func shoot(_ target: String, player: String) -> Self {
+        .init(
+            kind: .shoot,
+            payload: .init(
+                actor: player,
+                target: target
+            )
+        )
+    }
+
+    /// Deals damage to a player, attempting to reduce its Health by the stated amount
+    static func damage(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .damage,
+            payload: .init(
+                target: player,
+                amount: amount
             )
         )
     }

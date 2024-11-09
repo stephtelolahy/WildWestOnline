@@ -27,7 +27,9 @@ private extension GameAction.Kind {
             .discover: Discover(),
             .heal: Heal(),
             .discard: Discard(),
-            .steal: Steal()
+            .steal: Steal(),
+            .shoot: Shoot(),
+            .damage: Damage()
         ]
 
         guard let result = dict[self] else {
@@ -223,6 +225,18 @@ private extension GameAction.Kind {
             }
 
             return state
+        }
+    }
+    
+    struct Shoot: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            state
+        }
+    }
+    
+    struct Damage: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            fatalError()
         }
     }
 }

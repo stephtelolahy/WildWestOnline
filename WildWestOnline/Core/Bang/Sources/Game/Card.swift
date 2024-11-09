@@ -45,52 +45,54 @@ public struct ActiveAbility: Equatable, Codable {
 
 /// Selectors are used to specify which objects an aura or effect should affect.
 /// Choice is performed by {actor}
-public enum ActionSelector: Equatable, Codable {
+public enum ActionSelector: Equatable, Codable, Sendable {
     case `repeat`(Number)
     case setAmount(Number)
     case setTarget(TargetGroup)
     case verify(StateCondition)
     case chooseOne(ChooseOneDetails)
 
-    public enum Number: Equatable, Codable {
+    public enum Number: Equatable, Codable, Sendable {
         case value(Int)
         case activePlayers
     }
 
-    public enum TargetGroup: String, Codable {
+    public enum TargetGroup: String, Codable, Sendable {
         case damaged
         case all
     }
 
-    public enum StateCondition: Equatable, Codable {
+    public enum StateCondition: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
+        case limitPerTurn(Int)
     }
 
-    public struct ChooseOneDetails: Equatable, Codable {
+    public struct ChooseOneDetails: Equatable, Codable, Sendable {
         public let element: Element
         public var choice: Choice?
         public var selection: String?
 
-        public enum Element: Equatable, Codable {
+        public enum Element: Equatable, Codable, Sendable {
             case target([TargetCondition] = []) // choose a target
-            case card   // choose a target card
+            case card   // choose a target's card
             case discovered // choose a discovered card
         }
 
-        public struct Choice: Equatable, Codable {
+        public struct Choice: Equatable, Codable, Sendable {
             public let chooser: String
             public let options: [Option]
 
-            public struct Option: Equatable, Codable {
+            public struct Option: Equatable, Codable, Sendable {
                 public let value: String
                 public let label: String
             }
         }
     }
 
-    public enum TargetCondition: Equatable, Codable {
+    public enum TargetCondition: Equatable, Codable, Sendable {
         case havingCard
         case atDistance(Int)
+        case reachable
     }
 }
 

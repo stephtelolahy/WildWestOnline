@@ -87,7 +87,7 @@ private extension Middlewares {
             }
 
             let selection = pendingChoice.options[expectedChoice.selectionIndex]
-            let chooseAction = GameAction.choose(selection.value, player: pendingChoice.chooser)
+            let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
             return Just(chooseAction).eraseToAnyPublisher()
         }
     }
