@@ -80,12 +80,12 @@ private extension Middlewares {
                 return nil
             }
 
-            let expectedChoice = choicesWrapper.choices.remove(at: 0)
-
-            guard pendingChoice.options.map(\.label) == expectedChoice.options else {
+            guard choicesWrapper.choices.isNotEmpty,
+                  pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
                 fatalError("Unexpected choice: \(pendingChoice)")
             }
 
+            let expectedChoice = choicesWrapper.choices.remove(at: 0)
             let selection = pendingChoice.options[expectedChoice.selectionIndex]
             let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
             return Just(chooseAction).eraseToAnyPublisher()

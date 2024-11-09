@@ -44,7 +44,7 @@ struct PlayTest {
         #expect(result.playedThisTurn["c1"] == 1)
     }
 
-    @Test func play_previouslyPlayed_shouldIncrementPlayedThisTurn() async throws {
+    @Test func play_secondTime_shouldIncrementPlayedThisTurn() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -60,5 +60,22 @@ struct PlayTest {
 
         // Then
         #expect(result.playedThisTurn["c1"] == 2)
+    }
+
+    @Test func play_shouldQueueEffectsOfMatchingCardName() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c-2❤️"])
+            }
+            .withCards(["c": Card(name: "c", onPlay: [.init(action: .drawDeck)])])
+            .build()
+
+        // When
+        let action = GameAction.play("c-2❤️", player: "p1")
+        let result = try GameReducer().reduce(state, action)
+
+        // Then
+        #expect(result.queue.count == 1)
     }
 }

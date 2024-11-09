@@ -60,11 +60,13 @@ private extension Cards {
         .init(
             name: .beer,
             desc: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
+            canPlay: [
+                .playersAtLeast(3)
+            ],
             onPlay: [
                 .init(
                     action: .heal,
                     selectors: [
-                        .verify(.playersAtLeast(3)),
                         .setAmount(.value(1))
                     ]
                 )
@@ -146,11 +148,13 @@ private extension Cards {
         .init(
             name: .bang,
             desc: "reduce other players’s life points",
+            canPlay: [
+                .playedThisTurnAtMost([.bang: 1])
+            ],
             onPlay: [
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.playedThisTurnAtMost([.bang: 1])),
                         .chooseOne(.init(element: .target([.reachable])))
                     ]
                 )

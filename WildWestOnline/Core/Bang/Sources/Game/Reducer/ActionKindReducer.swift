@@ -107,13 +107,17 @@ private extension GameAction.Kind {
                 fatalError("Missing payload parameter card")
             }
 
-            guard let cardObject = state.cards[card] else {
-                fatalError("Card \(card) not found")
+            let cardName = Card.extractName(from: card)
+
+            guard let cardObject = state.cards[cardName] else {
+                fatalError("Card \(cardName) not found")
+            }
+
+            for playReq in cardObject.canPlay {
+                try playReq.match(state)
             }
 
             var state = state
-            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
-            state.discard.insert(card, at: 0)
 
             let onPlay = cardObject.onPlay
                 .map {
@@ -128,8 +132,11 @@ private extension GameAction.Kind {
                 }
             state.queue.insert(contentsOf: onPlay, at: 0)
 
-            let playedThisTurn = state.playedThisTurn[card] ?? 0
-            state.playedThisTurn[card] = playedThisTurn + 1
+            let playedThisTurn = state.playedThisTurn[cardName] ?? 0
+            state.playedThisTurn[cardName] = playedThisTurn + 1
+
+            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
+            state.discard.insert(card, at: 0)
 
             return state
         }

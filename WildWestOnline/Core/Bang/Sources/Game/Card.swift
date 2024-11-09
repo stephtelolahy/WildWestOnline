@@ -16,15 +16,18 @@
 public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
+    public let canPlay: [PlayReq]
     public let onPlay: [ActiveAbility]
 
     public init(
         name: String,
         desc: String = "",
+        canPlay: [PlayReq] = [],
         onPlay: [ActiveAbility] = []
     ) {
         self.name = name
         self.desc = desc
+        self.canPlay = canPlay
         self.onPlay = onPlay
     }
 }
@@ -43,13 +46,18 @@ public struct ActiveAbility: Equatable, Codable {
     }
 }
 
+/// Required state conditions to play a card
+public enum PlayReq: Equatable, Codable, Sendable {
+    case playersAtLeast(Int)
+    case playedThisTurnAtMost([String: Int])
+}
+
 /// Selectors are used to specify which objects an aura or effect should affect.
 /// Choice is performed by {actor}
 public enum ActionSelector: Equatable, Codable, Sendable {
     case `repeat`(Number)
     case setAmount(Number)
     case setTarget(TargetGroup)
-    case verify(StateCondition)
     case chooseOne(ChooseOneDetails)
 
     public enum Number: Equatable, Codable, Sendable {
@@ -60,11 +68,6 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     public enum TargetGroup: String, Codable, Sendable {
         case damaged
         case all
-    }
-
-    public enum StateCondition: Equatable, Codable, Sendable {
-        case playersAtLeast(Int)
-        case playedThisTurnAtMost([String: Int])
     }
 
     public struct ChooseOneDetails: Equatable, Codable, Sendable {

@@ -21,7 +21,6 @@ private extension ActionSelector {
         case .repeat(let number): Repeat(number: number)
         case .setAmount(let number): SetAmount(number: number)
         case .setTarget(let target): SetTarget(target: target)
-        case .verify(let condition): Verify(condition: condition)
         case .chooseOne(let details): ChooseOne(details: details)
         }
     }
@@ -50,15 +49,6 @@ private extension ActionSelector {
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
             try target.resolve(state, ctx: pendingAction.payload)
                 .map { pendingAction.withTarget($0) }
-        }
-    }
-
-    struct Verify: Resolver {
-        let condition: ActionSelector.StateCondition
-
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            try condition.match(state)
-            return [pendingAction]
         }
     }
 

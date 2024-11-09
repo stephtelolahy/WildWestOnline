@@ -11,7 +11,7 @@ public enum GameError: Error, Equatable, Codable {
     case cardNotInDeck(String)
     case cardNotDiscovered(String)
     case playerAlreadyMaxHealth(String)
-    case noReq(ActionSelector.StateCondition)
+    case noReq(PlayReq)
     case noTarget(ActionSelector.TargetGroup)
     case noChoosableTarget([ActionSelector.TargetCondition])
 }

@@ -1,11 +1,11 @@
 //
-//  StateConditionMatcher.swift
+//  PlayReqMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 
-extension ActionSelector.StateCondition {
+extension PlayReq {
     func match(_ state: GameState) throws(GameError) {
         guard matcher.match(state) else {
             throw .noReq(self)
@@ -13,7 +13,7 @@ extension ActionSelector.StateCondition {
     }
 }
 
-private extension ActionSelector.StateCondition {
+private extension PlayReq {
     protocol Matcher {
         func match(_ state: GameState) -> Bool
     }
