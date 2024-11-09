@@ -37,8 +37,11 @@ private extension PlayReq {
         let limit: [String: Int]
 
         func match(_ state: GameState) -> Bool {
-            let card = limit.keys.first!
-            let limitPerTurn = limit[card]!
+            guard let card = limit.keys.first,
+                  let limitPerTurn = limit[card] else {
+                return false
+            }
+
             return state.playedThisTurn[card] ?? 0 < limitPerTurn
         }
     }

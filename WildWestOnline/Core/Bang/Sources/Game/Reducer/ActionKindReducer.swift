@@ -296,4 +296,3 @@ private extension GameState {
         return discard.remove(at: 0)
     }
 }
-

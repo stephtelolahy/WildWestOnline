@@ -33,7 +33,7 @@ public extension GameState {
     var pendingChoice: ActionSelector.ChooseOneResolved? {
         guard let nextAction = queue.first,
               let selector = nextAction.payload.selectors.first,
-              case let .chooseOne(element, resolved, selection) = selector,
+              case let .chooseOne(_, resolved, selection) = selector,
               let choice = resolved,
               selection == nil else {
             return nil
