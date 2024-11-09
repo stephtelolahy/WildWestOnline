@@ -21,7 +21,7 @@ private extension PlayReq {
     var matcher: Matcher {
         switch self {
         case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
-        case .playedThisTurnAtMost(let limit): PlayedBangThisTurnAtMost(limit: limit)
+        case .playedThisTurnAtMost(let limit): PlayedThisTurnAtMost(limit: limit)
         }
     }
 
@@ -33,7 +33,7 @@ private extension PlayReq {
         }
     }
 
-    struct PlayedBangThisTurnAtMost: Matcher {
+    struct PlayedThisTurnAtMost: Matcher {
         let limit: [String: Int]
 
         func match(_ state: GameState) -> Bool {
