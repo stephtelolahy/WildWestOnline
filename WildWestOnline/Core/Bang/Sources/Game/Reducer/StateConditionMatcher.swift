@@ -21,7 +21,7 @@ private extension ActionSelector.StateCondition {
     var matcher: Matcher {
         switch self {
         case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
-        case .cardPlayedLessThan(let amount): CardPlayedLessThan(amount: amount)
+        case .playedThisTurnAtMost(let limit): PlayedBangThisTurnAtMost(limit: limit)
         }
     }
 
@@ -32,12 +32,14 @@ private extension ActionSelector.StateCondition {
             state.playOrder.count >= amount
         }
     }
-    
-    struct CardPlayedLessThan: Matcher {
-        let amount: Int
+
+    struct PlayedBangThisTurnAtMost: Matcher {
+        let limit: [String: Int]
 
         func match(_ state: GameState) -> Bool {
-            true
+            let card = limit.keys.first!
+            let limitPerTurn = limit[card]!
+            return state.playedThisTurn[card] ?? 0 < limitPerTurn
         }
     }
 }

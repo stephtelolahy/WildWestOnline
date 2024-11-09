@@ -49,8 +49,8 @@ struct BangTest {
         // When
         // Assert
         let action = GameAction.play(.bang, player: "p1")
-        #expect(throws: GameError.noReq(.cardPlayedLessThan(1))) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.noReq(.playedThisTurnAtMost([.bang: 1]))) {
+            try await dispatchUntilCompleted(action, state: state)
         }
     }
     /*

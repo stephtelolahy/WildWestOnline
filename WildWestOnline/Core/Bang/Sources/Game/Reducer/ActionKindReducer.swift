@@ -128,6 +128,9 @@ private extension GameAction.Kind {
                 }
             state.queue.insert(contentsOf: onPlay, at: 0)
 
+            let playedThisTurn = state.playedThisTurn[card] ?? 0
+            state.playedThisTurn[card] = playedThisTurn + 1
+
             return state
         }
     }

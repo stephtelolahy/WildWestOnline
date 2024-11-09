@@ -46,10 +46,10 @@ public extension GameState {
 public extension GameState {
     class Builder {
         private var players: [String: Player] = [:]
+        private var cards: [String: Card] = [:]
         private var deck: [String] = []
         private var discard: [String] = []
         private var discovered: [String] = []
-        private var cards: [String: Card] = [:]
         private var playOrder: [String] = []
         private var queue: [GameAction] = []
         private var playedThisTurn: [String: Int] = [:]
@@ -94,7 +94,7 @@ public extension GameState {
             cards = value
             return self
         }
-        
+
         public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
             playedThisTurn = value
             return self

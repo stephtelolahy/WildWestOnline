@@ -64,7 +64,7 @@ public enum ActionSelector: Equatable, Codable, Sendable {
 
     public enum StateCondition: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
-        case cardPlayedLessThan(Int)
+        case playedThisTurnAtMost([String: Int])
     }
 
     public struct ChooseOneDetails: Equatable, Codable, Sendable {

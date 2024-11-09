@@ -150,7 +150,7 @@ private extension Cards {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .verify(.cardPlayedLessThan(1)),
+                        .verify(.playedThisTurnAtMost([.bang: 1])),
                         .chooseOne(.init(element: .target([.reachable])))
                     ]
                 )
