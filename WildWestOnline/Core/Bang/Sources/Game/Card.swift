@@ -58,7 +58,7 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     case `repeat`(Number)
     case setAmount(Number)
     case setTarget(TargetGroup)
-    case chooseOne(ChooseOneDetails)
+    case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
 
     public enum Number: Equatable, Codable, Sendable {
         case value(Int)
@@ -70,25 +70,22 @@ public enum ActionSelector: Equatable, Codable, Sendable {
         case all
     }
 
-    public struct ChooseOneDetails: Equatable, Codable, Sendable {
-        public let element: Element
-        public var choice: Choice?
-        public var selection: String?
+    public enum ChooseOneElement: Equatable, Codable, Sendable {
+        /// Choose a target
+        case target([TargetCondition] = [])
+        /// Choose a target's card
+        case card
+        /// choose a discovered card
+        case discovered
+    }
 
-        public enum Element: Equatable, Codable, Sendable {
-            case target([TargetCondition] = []) // choose a target
-            case card   // choose a target's card
-            case discovered // choose a discovered card
-        }
+    public struct ChooseOneResolved: Equatable, Codable, Sendable {
+        public let chooser: String
+        public let options: [Option]
 
-        public struct Choice: Equatable, Codable, Sendable {
-            public let chooser: String
-            public let options: [Option]
-
-            public struct Option: Equatable, Codable, Sendable {
-                public let value: String
-                public let label: String
-            }
+        public struct Option: Equatable, Codable, Sendable {
+            public let value: String
+            public let label: String
         }
     }
 

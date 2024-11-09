@@ -194,18 +194,16 @@ private extension GameAction.Kind {
 
             guard let nextAction = state.queue.first,
                   let selector = nextAction.payload.selectors.first,
-                  case .chooseOne(let chooseOneDetails) = selector,
-                  let choice = chooseOneDetails.choice,
+                  case let .chooseOne(element, resolved, prevSelection) = selector,
+                  let choice = resolved,
                   choice.options.map(\.label).contains(selection),
-                  chooseOneDetails.selection == nil else {
+                  prevSelection == nil else {
                 fatalError("Unexpected choose action")
             }
 
             var state = state
             var updatedAction = nextAction
-            var updatedDetails = chooseOneDetails
-            updatedDetails.selection = selection
-            let updatedSelector = ActionSelector.chooseOne(updatedDetails)
+            let updatedSelector = ActionSelector.chooseOne(element, resolved: resolved, selection: selection)
             updatedAction.payload.selectors[0] = updatedSelector
             state.queue[0] = updatedAction
 
@@ -237,7 +235,7 @@ private extension GameAction.Kind {
             return state
         }
     }
-    
+
     struct Shoot: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
@@ -253,13 +251,13 @@ private extension GameAction.Kind {
             return state
         }
     }
-    
+
     struct Damage: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let amount = payload.amount else {
                 fatalError("Missing payload parameter amount")
             }
-            
+
             var state = state
             state[keyPath: \.players[payload.target]!.health] -= amount
             return state
@@ -298,3 +296,4 @@ private extension GameState {
         return discard.remove(at: 0)
     }
 }
+

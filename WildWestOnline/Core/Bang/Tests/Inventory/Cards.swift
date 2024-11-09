@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 // swiftlint:disable file_length line_length
+import Bang
 
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
@@ -98,8 +99,8 @@ private extension Cards {
                 .init(
                     action: .discard,
                     selectors: [
-                        .chooseOne(.init(element: .target([.havingCard]))),
-                        .chooseOne(.init(element: .card))
+                        .chooseOne(.target([.havingCard])),
+                        .chooseOne(.card)
                     ]
                 )
             ]
@@ -114,8 +115,8 @@ private extension Cards {
                 .init(
                     action: .steal,
                     selectors: [
-                        .chooseOne(.init(element: .target([.atDistance(1), .havingCard]))),
-                        .chooseOne(.init(element: .card))
+                        .chooseOne(.target([.atDistance(1), .havingCard])),
+                        .chooseOne(.card)
                     ]
                 )
             ]
@@ -137,7 +138,7 @@ private extension Cards {
                     action: .drawDiscovered,
                     selectors: [
                         .setTarget(.all),
-                        .chooseOne(.init(element: .discovered))
+                        .chooseOne(.discovered)
                     ]
                 )
             ]
@@ -155,7 +156,7 @@ private extension Cards {
                 .init(
                     action: .shoot,
                     selectors: [
-                        .chooseOne(.init(element: .target([.reachable])))
+                        .chooseOne(.target([.reachable]))
                     ]
                 )
             ]

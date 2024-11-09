@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 01/11/2024.
 //
 
-extension ActionSelector.ChooseOneDetails.Element {
-    func resolveChoice(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
+extension ActionSelector.ChooseOneElement {
+    func resolveChoice(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
@@ -15,9 +15,9 @@ extension ActionSelector.ChooseOneDetails.Element {
     }
 }
 
-private extension ActionSelector.ChooseOneDetails.Element {
+private extension ActionSelector.ChooseOneElement {
     protocol Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]
     }
 
@@ -32,7 +32,7 @@ private extension ActionSelector.ChooseOneDetails.Element {
     struct TargetResolver: Resolver {
         let conditions: [ActionSelector.TargetCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
             let result = state.playOrder
                 .starting(with: ctx.actor)
                 .dropFirst()
@@ -58,9 +58,9 @@ private extension ActionSelector.ChooseOneDetails.Element {
     }
 
     struct CardResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
             let playerObj = state.players.get(ctx.target)
-            let options: [ActionSelector.ChooseOneDetails.Choice.Option] =
+            let options: [ActionSelector.ChooseOneResolved.Option] =
             playerObj.inPlay.indices.map {
                 .init(value: playerObj.inPlay[$0], label: playerObj.inPlay[$0])
             }
@@ -85,7 +85,7 @@ private extension ActionSelector.ChooseOneDetails.Element {
     }
 
     struct DiscoveredResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneDetails.Choice {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
             .init(
                 chooser: ctx.target,
                 options: state.discovered.map { .init(value: $0, label: $0) }

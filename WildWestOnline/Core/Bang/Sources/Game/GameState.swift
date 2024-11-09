@@ -30,12 +30,12 @@ public struct Player: Equatable, Codable {
 }
 
 public extension GameState {
-    var pendingChoice: ActionSelector.ChooseOneDetails.Choice? {
+    var pendingChoice: ActionSelector.ChooseOneResolved? {
         guard let nextAction = queue.first,
               let selector = nextAction.payload.selectors.first,
-              case .chooseOne(let chooseOneDetails) = selector,
-              let choice = chooseOneDetails.choice,
-              chooseOneDetails.selection == nil else {
+              case let .chooseOne(element, resolved, selection) = selector,
+              let choice = resolved,
+              selection == nil else {
             return nil
         }
 

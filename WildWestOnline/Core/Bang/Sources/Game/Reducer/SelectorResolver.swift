@@ -21,7 +21,7 @@ private extension ActionSelector {
         case .repeat(let number): Repeat(number: number)
         case .setAmount(let number): SetAmount(number: number)
         case .setTarget(let target): SetTarget(target: target)
-        case .chooseOne(let details): ChooseOne(details: details)
+        case .chooseOne(let element, let resolved, let selection): ChooseOne(element: element, resolved: resolved, selection: selection)
         }
     }
 
@@ -53,26 +53,29 @@ private extension ActionSelector {
     }
 
     struct ChooseOne: Resolver {
-        let details: ChooseOneDetails
+        let element: ChooseOneElement
+        let resolved: ChooseOneResolved?
+        let selection: String?
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            if details.choice == nil {
-                var updatedAction = pendingAction
-                var updatedDetails = details
-                let choice = try details.element.resolveChoice(state, ctx: pendingAction.payload)
-                updatedDetails.choice = choice
-                let updatedSelector = ActionSelector.chooseOne(updatedDetails)
-                updatedAction.payload.selectors.insert(updatedSelector, at: 0)
-                return [updatedAction]
-            } else if let selectionLabel = details.selection,
-                      let choice = details.choice {
-                guard let selectionValue = choice.options.first(where: { $0.label == selectionLabel })?.value else {
-                    fatalError("Selection \(selectionLabel) not found in options")
+            if let resolved {
+                // handle choice
+                guard let selection else {
+                    fatalError("Unexpected, waiting user choice")
                 }
 
-                return try details.element.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
+                guard let selectionValue = resolved.options.first(where: { $0.label == selection })?.value else {
+                    fatalError("Selection \(selection) not found in options")
+                }
+
+                return try element.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
             } else {
-                fatalError("Unexpected, waiting user choice")
+                // generate options
+                var updatedAction = pendingAction
+                let choice = try element.resolveChoice(state, ctx: pendingAction.payload)
+                let updatedSelector = ActionSelector.chooseOne(element, resolved: choice)
+                updatedAction.payload.selectors.insert(updatedSelector, at: 0)
+                return [updatedAction]
             }
         }
     }
