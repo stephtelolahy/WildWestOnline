@@ -20,7 +20,8 @@ public enum Cards {
             panic,
             generalStore,
             bang,
-            gatling
+            gatling,
+            missed
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -182,12 +183,7 @@ private extension Cards {
     static var missed: Card {
         .init(
             name: .missed,
-            desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            onPlay: [
-                .init(
-                    action: .counterShot
-                )
-            ]
+            desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot."
         )
     }
 }

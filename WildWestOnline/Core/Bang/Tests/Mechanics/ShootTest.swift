@@ -21,6 +21,9 @@ struct ShootTest {
         let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.queue.first == GameAction.damage(1, player: "p2"))
+        let pending = try #require(result.queue.first)
+        #expect(pending.kind == .damage)
+        #expect(pending.payload.target == "p2")
+        #expect(pending.payload.amount == 1)
     }
 }

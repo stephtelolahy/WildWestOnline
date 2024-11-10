@@ -22,7 +22,6 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case choose
         case steal
         case shoot
-        case counterShot
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -158,16 +157,4 @@ public extension GameAction {
             )
         )
     }
-
-    /// Counter a shot
-    static func counterShot(player: String) -> Self {
-        .init(
-            kind: .counterShot,
-            payload: .init(
-                target: player
-            )
-        )
-    }
-
-
 }

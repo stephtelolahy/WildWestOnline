@@ -29,8 +29,7 @@ private extension GameAction.Kind {
             .damage: Damage(),
             .discard: Discard(),
             .steal: Steal(),
-            .shoot: Shoot(),
-            .counterShot: CounterShot()
+            .shoot: Shoot()
         ]
 
         guard let result = dict[self] else {
@@ -112,6 +111,10 @@ private extension GameAction.Kind {
 
             guard let cardObject = state.cards[cardName] else {
                 fatalError("Card \(cardName) not found")
+            }
+
+            guard cardObject.onPlay.isNotEmpty else {
+                throw .cardNotPlayable(cardName)
             }
 
             for playReq in cardObject.canPlay {
@@ -245,8 +248,10 @@ private extension GameAction.Kind {
                 payload: .init(
                     actor: payload.actor,
                     target: payload.target,
-                    // TODO: set damage amount from payload
-                    amount: 1
+                    amount: 1, // TODO: set damage amount from payload
+                    selectors: [
+                        .chooseOne(.eventuallyCounterCard([.counterShot]))
+                    ]
                 )
             )
             state.queue.insert(effect, at: 0)
@@ -263,12 +268,6 @@ private extension GameAction.Kind {
             var state = state
             state[keyPath: \.players[payload.target]!.health] -= amount
             return state
-        }
-    }
-
-    struct CounterShot: Reducer {
-        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            fatalError()
         }
     }
 }

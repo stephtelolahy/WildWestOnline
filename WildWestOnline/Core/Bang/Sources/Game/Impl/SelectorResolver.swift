@@ -70,8 +70,11 @@ private extension ActionSelector {
                 return try element.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
             } else {
                 // generate options
+                guard let choice = try element.resolveOptions(state, ctx: pendingAction.payload) else {
+                    return [pendingAction]
+                }
+
                 var updatedAction = pendingAction
-                let choice = try element.resolveChoice(state, ctx: pendingAction.payload)
                 let updatedSelector = ActionSelector.chooseOne(element, resolved: choice)
                 updatedAction.payload.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]

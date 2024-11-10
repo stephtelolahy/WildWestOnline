@@ -6,7 +6,7 @@
 //
 
 extension ActionSelector.ChooseOneElement {
-    func resolveChoice(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
+    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
@@ -17,7 +17,7 @@ extension ActionSelector.ChooseOneElement {
 
 private extension ActionSelector.ChooseOneElement {
     protocol Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved?
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]
     }
 
@@ -26,13 +26,14 @@ private extension ActionSelector.ChooseOneElement {
         case .target(let conditions): TargetResolver(conditions: conditions)
         case .card: CardResolver()
         case .discovered: DiscoveredResolver()
+        case .eventuallyCounterCard(let conditions): EventuallyCounterCardResolver(conditions: conditions)
         }
     }
 
     struct TargetResolver: Resolver {
         let conditions: [ActionSelector.TargetCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
             let result = state.playOrder
                 .starting(with: ctx.actor)
                 .dropFirst()
@@ -58,7 +59,7 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct CardResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target)
             let options: [ActionSelector.ChooseOneResolved.Option] =
             playerObj.inPlay.indices.map {
@@ -85,7 +86,7 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct DiscoveredResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
             .init(
                 chooser: ctx.target,
                 options: state.discovered.map { .init(value: $0, label: $0) }
@@ -94,6 +95,37 @@ private extension ActionSelector.ChooseOneElement {
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
             [pendingAction.withCard(selection)]
+        }
+    }
+
+    struct EventuallyCounterCardResolver: Resolver {
+        let conditions: [ActionSelector.CardCondition]
+
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+            let counterCards = state.players.get(ctx.target).hand.filter { card in
+                conditions.allSatisfy { condition in
+                    condition.match(card, state: state, ctx: ctx)
+                }
+            }
+
+            guard counterCards.isNotEmpty else {
+                return nil
+            }
+
+            var options: [ActionSelector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
+            options.append(.init(value: "", label: "pass"))
+            return .init(
+                chooser: ctx.target,
+                options: options
+            )
+        }
+
+        func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
+            guard selection != "pass" else {
+                return [pendingAction]
+            }
+
+            return [GameAction.discard(selection, player: pendingAction.payload.target)]
         }
     }
 }

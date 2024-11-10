@@ -75,12 +75,14 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     }
 
     public enum ChooseOneElement: Equatable, Codable, Sendable {
-        /// Choose a target
+        /// Must choose a target
         case target([TargetCondition] = [])
-        /// Choose a target's card
+        /// Must choose a target's card
         case card
-        /// choose a discovered card
+        /// Must choose a discovered card
         case discovered
+        /// Can `discard` hand card to counter the effect
+        case eventuallyCounterCard([CardCondition] = [])
     }
 
     public struct ChooseOneResolved: Equatable, Codable, Sendable {
@@ -97,6 +99,10 @@ public enum ActionSelector: Equatable, Codable, Sendable {
         case havingCard
         case atDistance(Int)
         case reachable
+    }
+
+    public enum CardCondition: Equatable, Codable, Sendable {
+        case counterShot
     }
 }
 
@@ -152,20 +158,11 @@ public enum ActionSelector: Equatable, Codable, Sendable {
      /// Selectors are used to specify which objects an aura or effect should affect.
      /// Choice is performed by {actor}
      public enum Selector: Equatable, Codable {
-         /// set targetted player
-         case setTarget(Target)
-
          /// set affected card
          case setCard(Card)
 
          /// set action attributes
          case setAttribute(ActionAttribute, value: Number)
-
-         /// choose targeted player
-         case chooseTarget([TargetCondition]? = nil)
-
-         /// choose used card
-         case chooseCard(CardCondition? = nil)
 
          /// must `discard` hand card
          case chooseCostHandCard(CardCondition? = nil, count: Int = 1)

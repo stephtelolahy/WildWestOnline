@@ -14,4 +14,5 @@ public enum GameError: Error, Equatable, Codable {
     case noReq(PlayReq)
     case noTarget(ActionSelector.TargetGroup)
     case noChoosableTarget([ActionSelector.TargetCondition])
+    case cardNotPlayable(String)
 }

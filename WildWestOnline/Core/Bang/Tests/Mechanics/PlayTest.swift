@@ -15,7 +15,7 @@ struct PlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
-            .withCards(["c1": Card(name: "c1")])
+            .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .build()
 
         // When
@@ -33,7 +33,7 @@ struct PlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1")])
+            .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .build()
 
         // When
@@ -50,7 +50,7 @@ struct PlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1")])
+            .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .withPlayedThisTurn(["c1": 1])
             .build()
 
