@@ -80,9 +80,12 @@ private extension Middlewares {
                 return nil
             }
 
-            guard choicesWrapper.choices.isNotEmpty,
-                  pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
+            guard choicesWrapper.choices.isNotEmpty else {
                 fatalError("Unexpected choice: \(pendingChoice)")
+            }
+
+            guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
+                fatalError("Unexpected options: \(pendingChoice.options)")
             }
 
             let expectedChoice = choicesWrapper.choices.remove(at: 0)

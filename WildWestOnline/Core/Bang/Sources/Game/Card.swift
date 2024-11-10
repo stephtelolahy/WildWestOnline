@@ -18,17 +18,20 @@ public struct Card: Equatable, Codable {
     public let desc: String
     public let canPlay: [PlayReq]
     public let onPlay: [ActiveAbility]
+    public let counterShot: Bool
 
     public init(
         name: String,
         desc: String = "",
         canPlay: [PlayReq] = [],
-        onPlay: [ActiveAbility] = []
+        onPlay: [ActiveAbility] = [],
+        counterShot: Bool = false
     ) {
         self.name = name
         self.desc = desc
         self.canPlay = canPlay
         self.onPlay = onPlay
+        self.counterShot = counterShot
     }
 }
 
@@ -104,6 +107,15 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     public enum CardCondition: Equatable, Codable, Sendable {
         case counterShot
     }
+}
+
+/// ChooseOne options
+public extension String {
+    /// Hidden hand card
+    static let hiddenHand = "hiddenHand"
+
+    /// Pass when asked a counter card
+    static let pass = "pass"
 }
 
 /*

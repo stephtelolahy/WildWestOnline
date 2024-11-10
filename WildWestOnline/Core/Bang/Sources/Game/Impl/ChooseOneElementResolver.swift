@@ -113,7 +113,7 @@ private extension ActionSelector.ChooseOneElement {
             }
 
             var options: [ActionSelector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
-            options.append(.init(value: "", label: "pass"))
+            options.append(.init(value: "", label: .pass))
             return .init(
                 chooser: ctx.target,
                 options: options
@@ -121,11 +121,11 @@ private extension ActionSelector.ChooseOneElement {
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            guard selection != "pass" else {
-                return [pendingAction]
+            if selection == .pass {
+                [pendingAction]
+            } else {
+                [GameAction.discard(selection, player: pendingAction.payload.target)]
             }
-
-            return [GameAction.discard(selection, player: pendingAction.payload.target)]
         }
     }
 }

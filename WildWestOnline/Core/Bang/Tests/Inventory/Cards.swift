@@ -183,7 +183,8 @@ private extension Cards {
     static var missed: Card {
         .init(
             name: .missed,
-            desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot."
+            desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
+            counterShot: true
         )
     }
 }
