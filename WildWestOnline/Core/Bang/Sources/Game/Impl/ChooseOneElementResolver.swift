@@ -113,7 +113,7 @@ private extension ActionSelector.ChooseOneElement {
             }
 
             var options: [ActionSelector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
-            options.append(.init(value: "", label: .pass))
+            options.append(.init(value: .pass, label: .pass))
             return .init(
                 chooser: ctx.target,
                 options: options
