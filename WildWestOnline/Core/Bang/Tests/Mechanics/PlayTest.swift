@@ -78,4 +78,21 @@ struct PlayTest {
         // Then
         #expect(result.queue.count == 1)
     }
+
+    @Test func play_withoutEffects_shouldThrowError() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+            }
+            .withCards(["c1": Card(name: "c1")])
+            .build()
+
+        // When
+        // Assert
+        let action = GameAction.play("c1", player: "p1")
+        #expect(throws: GameError.cardNotPlayable("c1")) {
+            try GameReducer().reduce(state, action)
+        }
+    }
 }
