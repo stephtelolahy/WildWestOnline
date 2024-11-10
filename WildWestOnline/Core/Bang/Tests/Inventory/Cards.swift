@@ -68,7 +68,7 @@ private extension Cards {
                 .init(
                     action: .heal,
                     selectors: [
-                        .setAmount(.value(1))
+                        .setAmount(1)
                     ]
                 )
             ]
@@ -83,7 +83,7 @@ private extension Cards {
                 .init(
                     action: .heal,
                     selectors: [
-                        .setAmount(.value(1)),
+                        .setAmount(1),
                         .setTarget(.damaged)
                     ]
                 )

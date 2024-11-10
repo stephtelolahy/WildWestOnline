@@ -56,7 +56,7 @@ public enum PlayReq: Equatable, Codable, Sendable {
 /// Choice is performed by {actor}
 public enum ActionSelector: Equatable, Codable, Sendable {
     case `repeat`(Number)
-    case setAmount(Number)
+    case setAmount(Int)
     case setTarget(TargetGroup)
     case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
 

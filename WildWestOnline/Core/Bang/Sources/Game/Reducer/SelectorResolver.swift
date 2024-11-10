@@ -35,11 +35,10 @@ private extension ActionSelector {
     }
 
     struct SetAmount: Resolver {
-        let number: ActionSelector.Number
+        let number: Int
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let amount = number.resolve(state)
-            return [pendingAction.withAmount(amount)]
+            [pendingAction.withAmount(number)]
         }
     }
 
