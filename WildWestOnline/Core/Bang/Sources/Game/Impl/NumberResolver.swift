@@ -20,6 +20,7 @@ private extension ActionSelector.Number {
         switch self {
         case .value(let rawValue): Value(rawValue: rawValue)
         case .activePlayers: ActivePlayers()
+        case .excessHand: ExcessHand()
         }
     }
 
@@ -34,6 +35,12 @@ private extension ActionSelector.Number {
     struct ActivePlayers: Resolver {
         func resolve(_ state: GameState) -> Int {
             state.playOrder.count
+        }
+    }
+
+    struct ExcessHand: Resolver {
+        func resolve(_ state: GameState) -> Int {
+            fatalError()
         }
     }
 }

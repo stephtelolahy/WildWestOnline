@@ -13,7 +13,7 @@ struct DefaultEndTurnTest {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.defaultEndTurn])
+                $0.withAllAbilities()
             }
             .withPlayer("p2")
             .withTurn("p1")
@@ -30,31 +30,6 @@ struct DefaultEndTurnTest {
             .startTurn(player: "p2")
         ])
     }
-/*
-    @Test func endTurn_customHandLimit_shouldStartNextTurn() async throws {
-        // Given
-        let state = GameState.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
-                    .withHealth(1)
-                    .withAbilities([.endTurn])
-                    .withAttributes([.handLimit: 10])
-            }
-            .withPlayer("p2")
-            .withTurn("p1")
-            .build()
-
-        // When
-        let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state)
-
-        // Then
-        XCTAssertEqual(result, [
-            .playAbility(.endTurn, player: "p1"),
-            .endTurn(player: "p1"),
-            .startTurn(player: "p2")
-        ])
-    }
 
     @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
@@ -62,26 +37,29 @@ struct DefaultEndTurnTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
-                    .withAbilities([.endTurn, .discardExcessHandOnEndTurn])
+                    .withAllAbilities()
             }
             .withPlayer("p2")
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state, choose: ["c1"])
+        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let choices: [Choice] = [
+            .init(options: ["c1", "c2", "c3"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
-        XCTAssertEqual(result, [
-            .playAbility(.endTurn, player: "p1"),
+        #expect(result == [
+            .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
-            .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
-            .discardHand("c1", player: "p1"),
+            .choose("c1", player: "p1"),
+            .discard("c1", player: "p1"),
             .startTurn(player: "p2")
         ])
     }
-
+    /*
     @Test func endTurn_twoExcessCard_shouldDiscardTwoHandCards() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -109,5 +87,30 @@ struct DefaultEndTurnTest {
             .startTurn(player: "p2")
         ])
     }
+
+ @Test func endTurn_customHandLimit_shouldStartNextTurn() async throws {
+     // Given
+     let state = GameState.makeBuilderWithAllCards()
+         .withPlayer("p1") {
+             $0.withHand(["c1", "c2"])
+                 .withHealth(1)
+                 .withAbilities([.endTurn])
+                 .withAttributes([.handLimit: 10])
+         }
+         .withPlayer("p2")
+         .withTurn("p1")
+         .build()
+
+     // When
+     let action = GameAction.preparePlay(.endTurn, player: "p1")
+     let result = try awaitAction(action, state: state)
+
+     // Then
+     XCTAssertEqual(result, [
+         .playAbility(.endTurn, player: "p1"),
+         .endTurn(player: "p1"),
+         .startTurn(player: "p2")
+     ])
+ }
  */
 }

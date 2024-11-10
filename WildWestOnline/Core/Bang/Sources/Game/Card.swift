@@ -18,6 +18,7 @@ public struct Card: Equatable, Codable {
     public let desc: String
     public let canPlay: [PlayReq]
     public let onPlay: [ActiveEffect]
+    public let onTrigger: [TiggeredEffect]
     public let counterShot: Bool
 
     public init(
@@ -25,6 +26,7 @@ public struct Card: Equatable, Codable {
         desc: String = "",
         canPlay: [PlayReq] = [],
         onPlay: [ActiveEffect] = [],
+        onTrigger: [TiggeredEffect] = [],
         counterShot: Bool = false
     ) {
         self.name = name
@@ -32,6 +34,7 @@ public struct Card: Equatable, Codable {
         self.canPlay = canPlay
         self.onPlay = onPlay
         self.counterShot = counterShot
+        self.onTrigger = onTrigger
     }
 }
 
@@ -47,6 +50,28 @@ public struct ActiveEffect: Equatable, Codable {
         self.action = action
         self.selectors = selectors
     }
+}
+
+/// Occurred action when card is triggered
+public struct TiggeredEffect: Equatable, Codable {
+    public let when: EventReq
+    public let action: GameAction.Kind
+    public let selectors: [ActionSelector]
+
+    public init(
+        when: EventReq,
+        action: GameAction.Kind,
+        selectors: [ActionSelector] = []
+    ) {
+        self.when = when
+        self.action = action
+        self.selectors = selectors
+    }
+}
+
+/// Required event conditions to trigger a card
+public enum EventReq: Equatable, Codable, Sendable {
+    case turnEnded
 }
 
 /// Required state conditions to play a card
@@ -66,6 +91,7 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     public enum Number: Equatable, Codable, Sendable {
         case value(Int)
         case activePlayers
+        case excessHand
     }
 
     public enum TargetGroup: String, Codable, Sendable {
@@ -83,7 +109,7 @@ public enum ActionSelector: Equatable, Codable, Sendable {
         /// Must choose a target
         case target([TargetCondition] = [])
         /// Must choose a target's card
-        case card
+        case card([CardCondition] = [])
         /// Must choose a discovered card
         case discovered
         /// Can `discard` hand card to counter the effect
@@ -111,6 +137,7 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     public enum CardCondition: Equatable, Codable, Sendable {
         case counterShot
         case named(String)
+        case fromHand
     }
 }
 

@@ -13,6 +13,7 @@ public enum Cards {
     public static var all: [String: Card] {
         [
             defaultEndTurn,
+            defaultDiscardExcessHandOnTurnEnded,
             stagecoach,
             wellsFargo,
             beer,
@@ -41,8 +42,35 @@ private extension Cards {
             onPlay: [
                 .init(
                     action: .endTurn
-                ),
+                )
+            ]
+        )
+    }
+
+    static var defaultDiscardExcessHandOnTurnEnded: Card {
+        .init(
+            name: .defaultDiscardExcessHandOnTurnEnded,
+            desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
+            onTrigger: [
                 .init(
+                    when: .turnEnded,
+                    action: .discard,
+                    selectors: [
+                        .repeat(.excessHand),
+                        .chooseOne(.card([.fromHand]))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var defaultStartTurnNextOnTurnEnded: Card {
+        .init(
+            name: .defaultStartTurnNextOnTurnEnded,
+            desc: "TODO",
+            onTrigger: [
+                .init(
+                    when: .turnEnded,
                     action: .startTurn,
                     selectors: [
                         .setTarget(.next)
@@ -127,7 +155,7 @@ private extension Cards {
                     action: .discard,
                     selectors: [
                         .chooseOne(.target([.havingCard])),
-                        .chooseOne(.card)
+                        .chooseOne(.card())
                     ]
                 )
             ]
@@ -143,7 +171,7 @@ private extension Cards {
                     action: .steal,
                     selectors: [
                         .chooseOne(.target([.atDistance(1), .havingCard])),
-                        .chooseOne(.card)
+                        .chooseOne(.card())
                     ]
                 )
             ]
@@ -272,22 +300,6 @@ private extension Cards {
      )
  }
 
- static var defaultDiscardExcessHandOnTurnEnded: CardV2 {
-     .init(
-         name: .defaultDiscardExcessHandOnTurnEnded,
-         desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-         effects: [
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .repeat(.excessHand),
-                     .chooseCard(.fromHand)
-                 ]
-             )
-         ]
-     )
- }
-
  static var defaultEliminateOnDamageLethal: CardV2 {
      .init(
          name: .defaultEliminateOnDamageLethal,
@@ -328,22 +340,6 @@ private extension Cards {
                      .verify(.actorTurn)
                  ],
                  when: .eliminated
-             )
-         ]
-     )
- }
-
- static var defaultStartTurnNextOnTurnEnded: CardV2 {
-     .init(
-         name: .defaultStartTurnNextOnTurnEnded,
-         desc: "",
-         effects: [
-             .init(
-                 action: .startTurn,
-                 selectors: [
-                     .setTarget(.next)
-                 ],
-                 when: .turnEnded
              )
          ]
      )

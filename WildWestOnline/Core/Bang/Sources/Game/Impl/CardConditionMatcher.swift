@@ -20,6 +20,7 @@ private extension ActionSelector.CardCondition {
         switch self {
         case .counterShot: CounterShot()
         case .named(let name): Named(name: name)
+        case .fromHand: FromHand()
         }
     }
 
@@ -36,6 +37,12 @@ private extension ActionSelector.CardCondition {
 
         func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
             Card.extractName(from: card) == name
+        }
+    }
+
+    struct FromHand: Matcher {
+        func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+            fatalError()
         }
     }
 }
