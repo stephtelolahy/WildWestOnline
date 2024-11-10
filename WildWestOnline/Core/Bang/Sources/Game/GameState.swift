@@ -29,6 +29,7 @@ public struct Player: Equatable, Codable {
     public var remoteness: Int
     public var weapon: Int
     public var abilities: [String]
+    public var handLimit: Int
 }
 
 public extension GameState {
@@ -125,6 +126,7 @@ public extension Player {
         private var remoteness: Int = 0
         private var weapon: Int = 0
         private var abilities: [String] = []
+        private var handLimit: Int = 0
 
         public func build() -> Player {
             .init(
@@ -135,7 +137,8 @@ public extension Player {
                 magnifying: magnifying,
                 remoteness: remoteness,
                 weapon: weapon,
-                abilities: abilities
+                abilities: abilities,
+                handLimit: handLimit
             )
         }
 
@@ -176,6 +179,11 @@ public extension Player {
 
         public func withAbilities(_ value: [String]) -> Self {
             abilities = value
+            return self
+        }
+
+        public func withHandLimit(_ value: Int) -> Self {
+            handLimit = value
             return self
         }
     }
