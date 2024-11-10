@@ -12,6 +12,7 @@ import Bang
 public enum Cards {
     public static var all: [String: Card] {
         [
+            defaultEndTurn,
             stagecoach,
             wellsFargo,
             beer,
@@ -31,6 +32,28 @@ public enum Cards {
 }
 
 private extension Cards {
+    // MARK: - Defaults
+
+    static var defaultEndTurn: Card {
+        .init(
+            name: .defaultEndTurn,
+            desc: "TODO",
+            onPlay: [
+                .init(
+                    action: .endTurn
+                ),
+                .init(
+                    action: .startTurn,
+                    selectors: [
+                        .setTarget(.next)
+                    ]
+                )
+            ]
+        )
+    }
+
+    // MARK: - Collectible
+
     static var stagecoach: Card {
         .init(
             name: .stagecoach,
@@ -226,8 +249,6 @@ private extension Cards {
 }
 
 /*
- // MARK: - Default
-
  static var defaultAttributes: [PlayerAttribute: Int] {
      [
          .weapon: 1,

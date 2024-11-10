@@ -22,6 +22,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case choose
         case steal
         case shoot
+        case endTurn
+        case startTurn
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -154,6 +156,26 @@ public extension GameAction {
             payload: .init(
                 actor: player,
                 target: target
+            )
+        )
+    }
+
+    /// Start turn
+    static func startTurn(player: String) -> Self {
+        .init(
+            kind: .startTurn,
+            payload: .init(
+                target: player
+            )
+        )
+    }
+
+    /// End turn
+    static func endTurn(player: String) -> Self {
+        .init(
+            kind: .endTurn,
+            payload: .init(
+                target: player
             )
         )
     }

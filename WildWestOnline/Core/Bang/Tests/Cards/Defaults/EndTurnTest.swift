@@ -1,39 +1,39 @@
 //
-//  EndTurnTests.swift
+//  EndTurnTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class EndTurnTests: XCTestCase {
-    func test_endingTurn_noExcessCards_shouldDoNothing() throws {
+struct EndTurnTest {
+    @Test func endTurn_noExcessCards_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.endTurn])
+                $0.withAbilities([.defaultEndTurn])
             }
             .withPlayer("p2")
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameAction.preparePlay(.endTurn, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
-            .playAbility(.endTurn, player: "p1"),
+        #expect(result == [
+            .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])
     }
-
-    func test_endingTurn_customHandLimit_shouldDoNothing() throws {
+/*
+    @Test func endTurn_customHandLimit_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)
@@ -56,9 +56,9 @@ final class EndTurnTests: XCTestCase {
         ])
     }
 
-    func test_endingTurn_oneExcessCard_shouldDiscardAHandCard() throws {
+    @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
@@ -82,9 +82,9 @@ final class EndTurnTests: XCTestCase {
         ])
     }
 
-    func test_endingTurn_twoExcessCard_shouldDiscardTwoHandCards() throws {
+    @Test func endTurn_twoExcessCard_shouldDiscardTwoHandCards() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)
@@ -109,4 +109,5 @@ final class EndTurnTests: XCTestCase {
             .startTurn(player: "p2")
         ])
     }
+ */
 }

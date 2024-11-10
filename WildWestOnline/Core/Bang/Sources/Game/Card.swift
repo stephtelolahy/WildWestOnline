@@ -17,14 +17,14 @@ public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
     public let canPlay: [PlayReq]
-    public let onPlay: [ActiveAbility]
+    public let onPlay: [ActiveEffect]
     public let counterShot: Bool
 
     public init(
         name: String,
         desc: String = "",
         canPlay: [PlayReq] = [],
-        onPlay: [ActiveAbility] = [],
+        onPlay: [ActiveEffect] = [],
         counterShot: Bool = false
     ) {
         self.name = name
@@ -36,7 +36,7 @@ public struct Card: Equatable, Codable {
 }
 
 /// Occurred action when card is played
-public struct ActiveAbility: Equatable, Codable {
+public struct ActiveEffect: Equatable, Codable {
     public let action: GameAction.Kind
     public let selectors: [ActionSelector]
 
@@ -75,6 +75,8 @@ public enum ActionSelector: Equatable, Codable, Sendable {
         case damaged
         /// All other players
         case others
+        /// Next turn player
+        case next
     }
 
     public enum ChooseOneElement: Equatable, Codable, Sendable {

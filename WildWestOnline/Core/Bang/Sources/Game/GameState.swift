@@ -17,6 +17,7 @@ public struct GameState {
     public var playOrder: [String]
     public var queue: [GameAction]
     public var playedThisTurn: [String: Int]
+    public var turn: String?
 }
 
 public struct Player: Equatable, Codable {
@@ -27,6 +28,7 @@ public struct Player: Equatable, Codable {
     public var magnifying: Int
     public var remoteness: Int
     public var weapon: Int
+    public var abilities: [String]
 }
 
 public extension GameState {
@@ -53,6 +55,7 @@ public extension GameState {
         private var playOrder: [String] = []
         private var queue: [GameAction] = []
         private var playedThisTurn: [String: Int] = [:]
+        private var turn: String?
 
         public func build() -> GameState {
             .init(
@@ -63,7 +66,8 @@ public extension GameState {
                 discovered: discovered,
                 playOrder: playOrder,
                 queue: queue,
-                playedThisTurn: playedThisTurn
+                playedThisTurn: playedThisTurn,
+                turn: turn
             )
         }
 
@@ -99,6 +103,11 @@ public extension GameState {
             playedThisTurn = value
             return self
         }
+
+        public func withTurn(_ value: String) -> Self {
+            turn = value
+            return self
+        }
     }
 
     static func makeBuilder() -> Builder {
@@ -115,6 +124,7 @@ public extension Player {
         private var magnifying: Int = 0
         private var remoteness: Int = 0
         private var weapon: Int = 0
+        private var abilities: [String] = []
 
         public func build() -> Player {
             .init(
@@ -124,7 +134,8 @@ public extension Player {
                 inPlay: inPlay,
                 magnifying: magnifying,
                 remoteness: remoteness,
-                weapon: weapon
+                weapon: weapon,
+                abilities: abilities
             )
         }
 
@@ -160,6 +171,11 @@ public extension Player {
 
         public func withWeapon(_ value: Int) -> Self {
             weapon = value
+            return self
+        }
+
+        public func withAbilities(_ value: [String]) -> Self {
+            abilities = value
             return self
         }
     }

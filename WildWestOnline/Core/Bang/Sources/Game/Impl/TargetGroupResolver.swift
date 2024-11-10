@@ -26,6 +26,7 @@ private extension ActionSelector.TargetGroup {
         case .damaged: Damaged()
         case .active: Active()
         case .others: Others()
+        case .next: Next()
         }
     }
 
@@ -49,6 +50,12 @@ private extension ActionSelector.TargetGroup {
             state.playOrder
                 .starting(with: ctx.target)
                 .filter { $0 != ctx.target }
+        }
+    }
+
+    struct Next: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+            fatalError()
         }
     }
 }

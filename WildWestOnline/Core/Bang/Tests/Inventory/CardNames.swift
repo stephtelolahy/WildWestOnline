@@ -8,6 +8,9 @@
 /// Well known card names
 ///
 public extension String {
+    // MARK: - Defaults
+    static let defaultEndTurn = "endTurn"
+
     // MARK: - Bang
 
     static let bang = "bang"
