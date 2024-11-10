@@ -92,28 +92,28 @@ struct DefaultEndTurnTest {
         ])
     }
 
-         @Test func endTurn_customHandLimit_shouldStartNextTurn() async throws {
-             // Given
-             let state = GameState.makeBuilderWithAllCards()
-                 .withPlayer("p1") {
-                     $0.withHand(["c1", "c2"])
-                         .withHealth(1)
-                         .withHandLimit(10)
-                         .withAllAbilities()
-                 }
-                 .withPlayer("p2")
-                 .withTurn("p1")
-                 .build()
+    @Test func endTurn_customHandLimit_shouldStartNextTurn() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+                    .withHealth(1)
+                    .withHandLimit(10)
+                    .withAllAbilities()
+            }
+            .withPlayer("p2")
+            .withTurn("p1")
+            .build()
 
-             // When
-             let action = GameAction.play(.defaultEndTurn, player: "p1")
-             let result = try await dispatchUntilCompleted(action, state: state)
+        // When
+        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
-             // Then
-             #expect(result == [
-                 .play(.defaultEndTurn, player: "p1"),
-                 .endTurn(player: "p1"),
-                 .startTurn(player: "p2")
-             ])
-         }
+        // Then
+        #expect(result == [
+            .play(.defaultEndTurn, player: "p1"),
+            .endTurn(player: "p1"),
+            .startTurn(player: "p2")
+        ])
+    }
 }
