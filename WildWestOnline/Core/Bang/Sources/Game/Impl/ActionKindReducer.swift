@@ -26,10 +26,11 @@ private extension GameAction.Kind {
             .drawDiscovered: DrawDiscovered(),
             .discover: Discover(),
             .heal: Heal(),
+            .damage: Damage(),
             .discard: Discard(),
             .steal: Steal(),
             .shoot: Shoot(),
-            .damage: Damage()
+            .counterShot: CounterShot()
         ]
 
         guard let result = dict[self] else {
@@ -244,6 +245,7 @@ private extension GameAction.Kind {
                 payload: .init(
                     actor: payload.actor,
                     target: payload.target,
+                    // TODO: set damage amount from payload
                     amount: 1
                 )
             )
@@ -261,6 +263,12 @@ private extension GameAction.Kind {
             var state = state
             state[keyPath: \.players[payload.target]!.health] -= amount
             return state
+        }
+    }
+
+    struct CounterShot: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            fatalError()
         }
     }
 }

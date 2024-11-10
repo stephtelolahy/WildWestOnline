@@ -18,10 +18,11 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case discover
         case discard
         case heal
+        case damage
         case choose
         case steal
         case shoot
-        case damage
+        case counterShot
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -113,6 +114,17 @@ public extension GameAction {
         )
     }
 
+    /// Deals damage to a player, attempting to reduce its Health by the stated amount
+    static func damage(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .damage,
+            payload: .init(
+                target: player,
+                amount: amount
+            )
+        )
+    }
+
     /// Discard a player's hand or inPlay card
     static func discard(_ card: String, player: String) -> Self {
         .init(
@@ -147,14 +159,15 @@ public extension GameAction {
         )
     }
 
-    /// Deals damage to a player, attempting to reduce its Health by the stated amount
-    static func damage(_ amount: Int, player: String) -> Self {
+    /// Counter a shot
+    static func counterShot(player: String) -> Self {
         .init(
-            kind: .damage,
+            kind: .counterShot,
             payload: .init(
-                target: player,
-                amount: amount
+                target: player
             )
         )
     }
+
+
 }
