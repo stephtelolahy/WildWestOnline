@@ -7,7 +7,7 @@
 import Bang
 
 extension Player.Builder {
-    func withAllAbilities() -> Self {
+    func withDefaultAbilities() -> Self {
         self.withAbilities([
             .defaultEndTurn,
             .defaultDiscardExcessHandOnTurnEnded,

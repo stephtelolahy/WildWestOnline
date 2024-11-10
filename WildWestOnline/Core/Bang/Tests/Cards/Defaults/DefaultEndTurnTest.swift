@@ -13,7 +13,7 @@ struct DefaultEndTurnTest {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withAllAbilities()
+                $0.withDefaultAbilities()
             }
             .withPlayer("p2")
             .withTurn("p1")
@@ -37,7 +37,7 @@ struct DefaultEndTurnTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
-                    .withAllAbilities()
+                    .withDefaultAbilities()
             }
             .withPlayer("p2")
             .withTurn("p1")
@@ -66,7 +66,7 @@ struct DefaultEndTurnTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)
-                    .withAllAbilities()
+                    .withDefaultAbilities()
             }
             .withPlayer("p2")
             .withTurn("p1")
@@ -99,7 +99,7 @@ struct DefaultEndTurnTest {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)
                     .withHandLimit(10)
-                    .withAllAbilities()
+                    .withDefaultAbilities()
             }
             .withPlayer("p2")
             .withTurn("p1")

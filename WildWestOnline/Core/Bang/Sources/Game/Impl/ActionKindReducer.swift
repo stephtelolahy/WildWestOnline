@@ -141,8 +141,15 @@ private extension GameAction.Kind {
             let playedThisTurn = state.playedThisTurn[cardName] ?? 0
             state.playedThisTurn[cardName] = playedThisTurn + 1
 
-            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
-            state.discard.insert(card, at: 0)
+            let playerObj = state.players.get(payload.target)
+            if playerObj.hand.contains(card) {
+                state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
+                state.discard.insert(card, at: 0)
+            } else if playerObj.abilities.contains(card) {
+                // do nothing
+            } else {
+                fatalError("Unexpected play \(card)")
+            }
 
             return state
         }
