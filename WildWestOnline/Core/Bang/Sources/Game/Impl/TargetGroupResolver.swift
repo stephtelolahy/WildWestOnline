@@ -24,7 +24,8 @@ private extension ActionSelector.TargetGroup {
     var resolver: Resolver {
         switch self {
         case .damaged: Damaged()
-        case .all: All()
+        case .active: Active()
+        case .others: Others()
         }
     }
 
@@ -36,10 +37,18 @@ private extension ActionSelector.TargetGroup {
         }
     }
 
-    struct All: Resolver {
+    struct Active: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.target)
+        }
+    }
+
+    struct Others: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+            state.playOrder
+                .starting(with: ctx.target)
+                .filter { $0 != ctx.target }
         }
     }
 }

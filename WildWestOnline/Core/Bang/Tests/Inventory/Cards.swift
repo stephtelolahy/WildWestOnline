@@ -19,7 +19,8 @@ public enum Cards {
             catBalou,
             panic,
             generalStore,
-            bang
+            bang,
+            gatling
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -137,7 +138,7 @@ private extension Cards {
                 .init(
                     action: .drawDiscovered,
                     selectors: [
-                        .setTarget(.all),
+                        .setTarget(.active),
                         .chooseOne(.discovered)
                     ]
                 )
@@ -157,6 +158,21 @@ private extension Cards {
                     action: .shoot,
                     selectors: [
                         .chooseOne(.target([.reachable]))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var gatling: Card {
+        .init(
+            name: .gatling,
+            desc: "shoots to all the other players, regardless of the distance",
+            onPlay: [
+                .init(
+                    action: .shoot,
+                    selectors: [
+                        .setTarget(.others)
                     ]
                 )
             ]
@@ -311,22 +327,6 @@ private extension Cards {
              .brown,
              .init(
                  action: .missed
-             )
-         ]
-     )
- }
-
- static var gatling: CardV2 {
-     .init(
-         name: .gatling,
-         desc: "shoots to all the other players, regardless of the distance",
-         effects: [
-             .brown,
-             .init(
-                 action: .shoot,
-                 selectors: [
-                     .setTarget(.others)
-                 ]
              )
          ]
      )

@@ -66,8 +66,12 @@ public enum ActionSelector: Equatable, Codable, Sendable {
     }
 
     public enum TargetGroup: String, Codable, Sendable {
+        /// All active players
+        case active
+        /// All damaged players
         case damaged
-        case all
+        /// All other players
+        case others
     }
 
     public enum ChooseOneElement: Equatable, Codable, Sendable {
@@ -180,11 +184,8 @@ public enum ActionSelector: Equatable, Codable, Sendable {
 
          public enum Target: String, Codable {
              case actor      // who is playing the card
-             case all        // all players
-             case others     // other players
              case next       // next player after actor
              case offender   // actor of previous attack
-             case damaged    // just damaged player
              case eliminated // just eliminated player
              case targeted   // target of previous attack
          }
