@@ -22,7 +22,8 @@ public enum Cards {
             bang,
             gatling,
             missed,
-            indians
+            indians,
+            duel
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -205,6 +206,23 @@ private extension Cards {
             ]
         )
     }
+
+    static var duel: Card {
+        .init(
+            name: .duel,
+            desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
+            onPlay: [
+                .init(
+                    action: .damage,
+                    selectors: [
+                        .setAmount(1),
+                        .chooseOne(.target()),
+                        .chooseOne(.eventuallyReverseCard([.named(.bang)]))
+                    ]
+                )
+            ]
+        )
+    }
 }
 
 /*
@@ -344,23 +362,6 @@ private extension Cards {
  }
 
  // MARK: - Bang
-
- static var duel: CardV2 {
-     .init(
-         name: .duel,
-         desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-         effects: [
-             .brown,
-             .init(
-                 action: .damage,
-                 selectors: [
-                     .chooseTarget(),
-                     .chooseEventuallyReverseHandCard(.named(.bang))
-                 ]
-             )
-         ]
-     )
- }
 
  static var schofield: CardV2 {
      .init(

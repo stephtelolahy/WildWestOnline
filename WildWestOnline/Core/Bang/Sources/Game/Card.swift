@@ -86,6 +86,8 @@ public enum ActionSelector: Equatable, Codable, Sendable {
         case discovered
         /// Can `discard` hand card to counter the effect
         case eventuallyCounterCard([CardCondition] = [])
+        /// Can `discard` hand card to reverse the effect's target
+        case eventuallyReverseCard([CardCondition] = [])
     }
 
     public struct ChooseOneResolved: Equatable, Codable, Sendable {

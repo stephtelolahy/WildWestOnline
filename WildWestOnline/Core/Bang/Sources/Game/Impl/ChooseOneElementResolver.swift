@@ -27,6 +27,7 @@ private extension ActionSelector.ChooseOneElement {
         case .card: CardResolver()
         case .discovered: DiscoveredResolver()
         case .eventuallyCounterCard(let conditions): EventuallyCounterCardResolver(conditions: conditions)
+        case .eventuallyReverseCard(let conditions): EventuallyReverseCardResolver(conditions: conditions)
         }
     }
 
@@ -125,6 +126,45 @@ private extension ActionSelector.ChooseOneElement {
                 [pendingAction]
             } else {
                 [GameAction.discard(selection, player: pendingAction.payload.target)]
+            }
+        }
+    }
+
+    struct EventuallyReverseCardResolver: Resolver {
+        let conditions: [ActionSelector.CardCondition]
+
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+            let counterCards = state.players.get(ctx.target).hand.filter { card in
+                conditions.allSatisfy { condition in
+                    condition.match(card, state: state, ctx: ctx)
+                }
+            }
+
+            guard counterCards.isNotEmpty else {
+                return nil
+            }
+
+            var options: [ActionSelector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
+            options.append(.init(value: .pass, label: .pass))
+            return .init(
+                chooser: ctx.target,
+                options: options
+            )
+        }
+
+        func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
+            if selection == .pass {
+                return [pendingAction]
+            } else {
+                var reversedAction = pendingAction
+                let actor = pendingAction.payload.actor
+                reversedAction.payload.actor = pendingAction.payload.target
+                reversedAction.payload.target = actor
+                reversedAction.payload.selectors.insert(.chooseOne(.eventuallyReverseCard(conditions)), at: 0)
+                return [
+                    GameAction.discard(selection, player: pendingAction.payload.target),
+                    reversedAction
+                ]
             }
         }
     }
