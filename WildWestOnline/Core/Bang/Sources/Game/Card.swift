@@ -106,6 +106,7 @@ public enum ActionSelector: Equatable, Codable, Sendable {
 
     public enum CardCondition: Equatable, Codable, Sendable {
         case counterShot
+        case named(String)
     }
 }
 

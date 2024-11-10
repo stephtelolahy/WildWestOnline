@@ -19,6 +19,7 @@ private extension ActionSelector.CardCondition {
     var matcher: Matcher {
         switch self {
         case .counterShot: CounterShot()
+        case .named(let name): Named(name: name)
         }
     }
 
@@ -27,6 +28,14 @@ private extension ActionSelector.CardCondition {
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
             return cardObj.counterShot
+        }
+    }
+
+    struct Named: Matcher {
+        let name: String
+
+        func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+            Card.extractName(from: card) == name
         }
     }
 }

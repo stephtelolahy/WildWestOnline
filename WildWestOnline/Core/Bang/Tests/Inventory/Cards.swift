@@ -21,7 +21,8 @@ public enum Cards {
             generalStore,
             bang,
             gatling,
-            missed
+            missed,
+            indians
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -187,6 +188,23 @@ private extension Cards {
             counterShot: true
         )
     }
+
+    static var indians: Card {
+        .init(
+            name: .indians,
+            desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
+            onPlay: [
+                .init(
+                    action: .damage,
+                    selectors: [
+                        .setAmount(1),
+                        .setTarget(.others),
+                        .chooseOne(.eventuallyCounterCard([.named(.bang)]))
+                    ]
+                )
+            ]
+        )
+    }
 }
 
 /*
@@ -326,23 +344,6 @@ private extension Cards {
  }
 
  // MARK: - Bang
-
- static var indians: CardV2 {
-     .init(
-         name: .indians,
-         desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-         effects: [
-             .brown,
-             .init(
-                 action: .damage,
-                 selectors: [
-                     .setTarget(.others),
-                     .chooseEventuallyCounterHandCard(.named(.bang))
-                 ]
-             )
-         ]
-     )
- }
 
  static var duel: CardV2 {
      .init(
