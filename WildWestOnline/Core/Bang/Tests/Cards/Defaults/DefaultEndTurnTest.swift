@@ -1,5 +1,5 @@
 //
-//  EndTurnTest.swift
+//  DefaultEndTurnTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,8 +8,8 @@
 import Testing
 import Bang
 
-struct EndTurnTest {
-    @Test func endTurn_noExcessCards_shouldDoNothing() async throws {
+struct DefaultEndTurnTest {
+    @Test func endTurn_noExcessCards_shouldStartNextTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -31,7 +31,7 @@ struct EndTurnTest {
         ])
     }
 /*
-    @Test func endTurn_customHandLimit_shouldDoNothing() async throws {
+    @Test func endTurn_customHandLimit_shouldStartNextTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {

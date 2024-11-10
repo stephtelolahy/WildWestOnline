@@ -55,7 +55,8 @@ private extension ActionSelector.TargetGroup {
 
     struct Next: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
-            fatalError()
+            let next = state.playOrder.starting(with: ctx.target)[1]
+            return [next]
         }
     }
 }
