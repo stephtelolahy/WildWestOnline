@@ -10,11 +10,8 @@ import Combine
 public extension Middlewares {
     static var updateGame: Middleware<GameState> {
         { state, _ in
-            guard state.queue.isNotEmpty else {
-                return nil
-            }
-
-            guard state.pendingChoice == nil else {
+            guard state.queue.isNotEmpty,
+                  state.pendingChoice == nil else {
                 return nil
             }
 

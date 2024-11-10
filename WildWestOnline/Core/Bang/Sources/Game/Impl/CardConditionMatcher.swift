@@ -25,7 +25,7 @@ private extension ActionSelector.CardCondition {
     struct CounterShot: Matcher {
         func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
             // TODO: match a counterShot card
-            true
+            Card.extractName(from: card) == "missed"
         }
     }
 }
