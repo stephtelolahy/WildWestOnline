@@ -31,7 +31,7 @@ public struct GameReducer {
             state.queue.insert(contentsOf: children, at: 0)
             return state
         } else {
-            return try  action.kind.reduce(state, action.payload)
+            return try action.kind.reduce(state, action.payload)
         }
     }
 }
