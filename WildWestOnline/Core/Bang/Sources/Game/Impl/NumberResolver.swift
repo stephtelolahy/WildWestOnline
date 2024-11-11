@@ -40,7 +40,16 @@ private extension ActionSelector.Number {
 
     struct ExcessHand: Resolver {
         func resolve(_ state: GameState) -> Int {
-            fatalError()
+            // TODO: pass argument actor
+            let actor = "p1"
+            let playerObj = state.players.get(actor)
+            let handlLimit = if playerObj.handLimit > 0 {
+                playerObj.handLimit
+            } else {
+                playerObj.health
+            } 
+            let handCount = playerObj.hand.count
+            return max(handCount - handlLimit, 0)
         }
     }
 }
