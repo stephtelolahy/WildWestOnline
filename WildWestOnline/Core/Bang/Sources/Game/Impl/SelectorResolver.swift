@@ -29,7 +29,8 @@ private extension ActionSelector {
         let number: ActionSelector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let value = number.resolve(state)
+            let ctx = ActionSelector.Number.Context(actor: pendingAction.payload.actor)
+            let value = number.resolve(ctx: ctx, state: state)
             return Array(repeating: pendingAction, count: value)
         }
     }

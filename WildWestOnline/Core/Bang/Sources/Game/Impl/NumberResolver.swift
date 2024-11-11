@@ -6,14 +6,18 @@
 //
 
 extension ActionSelector.Number {
-    func resolve(_ state: GameState) -> Int {
-        resolver.resolve(state)
+    func resolve(ctx: Context, state: GameState) -> Int {
+        resolver.resolve(ctx: ctx, state: state)
+    }
+
+    struct Context {
+        let actor: String
     }
 }
 
 private extension ActionSelector.Number {
     protocol Resolver {
-        func resolve(_ state: GameState) -> Int
+        func resolve(ctx: Context, state: GameState) -> Int
     }
 
     var resolver: Resolver {
@@ -27,22 +31,20 @@ private extension ActionSelector.Number {
     struct Value: Resolver {
         let rawValue: Int
 
-        func resolve(_ state: GameState) -> Int {
+        func resolve(ctx: Context, state: GameState) -> Int {
             rawValue
         }
     }
 
     struct ActivePlayers: Resolver {
-        func resolve(_ state: GameState) -> Int {
+        func resolve(ctx: Context, state: GameState) -> Int {
             state.playOrder.count
         }
     }
 
     struct ExcessHand: Resolver {
-        func resolve(_ state: GameState) -> Int {
-            // TODO: pass argument actor
-            let actor = "p1"
-            let playerObj = state.players.get(actor)
+        func resolve(ctx: Context, state: GameState) -> Int {
+            let playerObj = state.players.get(ctx.actor)
             let handlLimit = if playerObj.handLimit > 0 {
                 playerObj.handLimit
             } else {

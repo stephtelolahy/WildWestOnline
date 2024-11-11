@@ -14,6 +14,7 @@ public enum Cards {
         [
             defaultEndTurn,
             defaultDiscardExcessHandOnTurnEnded,
+            defaultStartTurnNextOnTurnEnded,
             stagecoach,
             wellsFargo,
             beer,

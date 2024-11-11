@@ -69,7 +69,7 @@ private extension GameState {
     ) -> [GameAction] {
         let cardName = Card.extractName(from: card)
         guard let cardObj = cards[cardName] else {
-            return []
+            fatalError("Missing definition of \(cardName)")
         }
 
         let ctx = EventReq.MatchingContext(
