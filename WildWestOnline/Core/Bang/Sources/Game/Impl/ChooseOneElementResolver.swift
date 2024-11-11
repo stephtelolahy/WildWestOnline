@@ -38,11 +38,7 @@ private extension ActionSelector.ChooseOneElement {
             let result = state.playOrder
                 .starting(with: ctx.actor)
                 .dropFirst()
-                .filter { player in
-                    conditions.allSatisfy { condition in
-                        condition.match(player, state: state, ctx: ctx)
-                    }
-                }
+                .filter { conditions.match($0, state: state, ctx: ctx) }
 
             guard result.isNotEmpty else {
                 throw .noChoosableTarget(conditions)
@@ -65,19 +61,13 @@ private extension ActionSelector.ChooseOneElement {
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target)
             let options: [ActionSelector.ChooseOneResolved.Option] =
-            playerObj.inPlay.indices.map {
-                .init(value: playerObj.inPlay[$0], label: playerObj.inPlay[$0])
-            }
-            +
+            playerObj.inPlay.map { .init(value: $0, label: $0) } +
             playerObj.hand.indices.map {
-                if ctx.actor == ctx.target {
-                    .init(value: playerObj.hand[$0], label: playerObj.hand[$0])
-                } else {
-                    .init(value: playerObj.hand[$0], label: "\(String.hiddenHand)-\($0)")
-                }
+                let value = playerObj.hand[$0]
+                let label = ctx.actor == ctx.target ? value : "\(String.hiddenHand)-\($0)"
+                return .init(value: value, label: label)
             }
-
-            // TODO: match conditions on card
+            .filter { conditions.match($0.value, state: state, ctx: ctx) }
 
             guard options.isNotEmpty else {
                 fatalError("No card matching \(conditions)")
@@ -174,6 +164,22 @@ private extension ActionSelector.ChooseOneElement {
                     reversedAction
                 ]
             }
+        }
+    }
+}
+
+private extension Array where Element == ActionSelector.TargetCondition {
+    func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        allSatisfy {
+            $0.match(player, state: state, ctx: ctx)
+        }
+    }
+}
+
+private extension Array where Element == ActionSelector.CardCondition {
+    func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        allSatisfy {
+            $0.match(card, state: state, ctx: ctx)
         }
     }
 }
