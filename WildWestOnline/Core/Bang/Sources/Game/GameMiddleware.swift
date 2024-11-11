@@ -39,8 +39,6 @@ private extension GameState {
 
     func triggeredEffect(on event: GameAction) -> GameAction? {
         var triggered: [GameAction] = []
-
-        // active players
         for player in playOrder {
             let playerObj = players.get(player)
             let triggerableCards = playerObj.inPlay + playerObj.abilities
@@ -50,16 +48,20 @@ private extension GameState {
             }
         }
 
-        // return triggered effects
         guard triggered.isNotEmpty else {
             return nil
         }
 
-        guard triggered.count == 1 else {
-            fatalError("Unsupported")
+        if triggered.count == 1 {
+            return triggered[0]
+        } else {
+            return .init(
+                kind: .group,
+                payload: .init(
+                    children: triggered
+                )
+            )
         }
-
-        return triggered[0]
     }
 
     func triggeredEffects(

@@ -36,7 +36,7 @@ func dispatchUntilCompleted(
 
     store.event.sink { event in
         if let gameAction = event as? GameAction,
-           gameAction.payload.selectors.isEmpty {
+           gameAction.isRenderable {
             ocurredEvents.append(gameAction)
         }
     }
@@ -92,6 +92,15 @@ private extension Middlewares {
             let selection = pendingChoice.options[expectedChoice.selectionIndex]
             let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
             return Just(chooseAction).eraseToAnyPublisher()
+        }
+    }
+}
+
+private extension GameAction {
+    var isRenderable: Bool {
+        switch kind {
+        case .group: false
+        default: payload.selectors.isEmpty
         }
     }
 }

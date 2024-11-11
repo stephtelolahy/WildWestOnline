@@ -31,7 +31,8 @@ private extension GameAction.Kind {
             .steal: Steal(),
             .shoot: Shoot(),
             .endTurn: EndTurn(),
-            .startTurn: StartTurn()
+            .startTurn: StartTurn(),
+            .group: Group()
         ]
 
         guard let result = dict[self] else {
@@ -292,6 +293,14 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.turn = payload.target
+            return state
+        }
+    }
+
+    struct Group: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            state.queue.insert(contentsOf: payload.children, at: 0)
             return state
         }
     }

@@ -24,6 +24,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case shoot
         case endTurn
         case startTurn
+        case group
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -33,6 +34,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         public var amount: Int?
         public var selection: String?
         public var selectors: [ActionSelector] = []
+        public var children: [GameAction] = []
     }
 }
 

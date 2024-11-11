@@ -28,10 +28,6 @@ public struct GameReducer {
             let selector = action.payload.selectors.remove(at: 0)
             let children = try selector.resolve(action, state)
 
-            guard children.isNotEmpty else {
-                fatalError("No children when resolving \(selector)")
-            }
-
             state.queue.insert(contentsOf: children, at: 0)
             return state
         } else {
