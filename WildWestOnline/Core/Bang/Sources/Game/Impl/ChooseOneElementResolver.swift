@@ -24,7 +24,7 @@ private extension ActionSelector.ChooseOneElement {
     var resolver: Resolver {
         switch self {
         case .target(let conditions): TargetResolver(conditions: conditions)
-        case .card: CardResolver()
+        case .card(let conditions): CardResolver(conditions: conditions)
         case .discovered: DiscoveredResolver()
         case .eventuallyCounterCard(let conditions): EventuallyCounterCardResolver(conditions: conditions)
         case .eventuallyReverseCard(let conditions): EventuallyReverseCardResolver(conditions: conditions)
@@ -60,6 +60,8 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct CardResolver: Resolver {
+        let conditions: [ActionSelector.CardCondition]
+
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target)
             let options: [ActionSelector.ChooseOneResolved.Option] =
@@ -71,12 +73,14 @@ private extension ActionSelector.ChooseOneElement {
                 if ctx.actor == ctx.target {
                     .init(value: playerObj.hand[$0], label: playerObj.hand[$0])
                 } else {
-                    .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
+                    .init(value: playerObj.hand[$0], label: "\(String.hiddenHand)-\($0)")
                 }
             }
 
+            // TODO: match conditions on card
+
             guard options.isNotEmpty else {
-                fatalError("No card")
+                fatalError("No card matching \(conditions)")
             }
 
             return .init(
