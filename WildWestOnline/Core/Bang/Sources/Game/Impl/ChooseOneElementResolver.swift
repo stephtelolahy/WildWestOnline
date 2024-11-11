@@ -60,14 +60,16 @@ private extension ActionSelector.ChooseOneElement {
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target)
-            let options: [ActionSelector.ChooseOneResolved.Option] =
-            playerObj.inPlay.map { .init(value: $0, label: $0) } +
-            playerObj.hand.indices.map {
+            var options: [ActionSelector.ChooseOneResolved.Option] = []
+            options += playerObj.inPlay.map {
+                .init(value: $0, label: $0)
+            }
+            options += playerObj.hand.indices.map {
                 let value = playerObj.hand[$0]
                 let label = ctx.actor == ctx.target ? value : "\(String.hiddenHand)-\($0)"
                 return .init(value: value, label: label)
             }
-            .filter { conditions.match($0.value, state: state, ctx: ctx) }
+            options = options.filter { conditions.match($0.value, state: state, ctx: ctx) }
 
             guard options.isNotEmpty else {
                 fatalError("No card matching \(conditions)")
