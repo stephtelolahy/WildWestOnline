@@ -71,6 +71,7 @@ public struct TiggeredEffect: Equatable, Codable {
 
 /// Required event conditions to trigger a card
 public enum EventReq: Equatable, Codable, Sendable {
+    // TODO: use actionKind with some payload match
     case turnEnded
 }
 

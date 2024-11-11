@@ -42,7 +42,8 @@ private extension ActionSelector.CardCondition {
 
     struct FromHand: Matcher {
         func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
-            fatalError()
+            let playerObj = state.players.get(ctx.target)
+            return playerObj.hand.contains(card)
         }
     }
 }

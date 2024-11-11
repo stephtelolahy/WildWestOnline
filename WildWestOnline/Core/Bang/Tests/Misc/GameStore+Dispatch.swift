@@ -85,7 +85,7 @@ private extension Middlewares {
             }
 
             guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
-                fatalError("Unexpected options: \(pendingChoice.options)")
+                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
             }
 
             let expectedChoice = choicesWrapper.choices.remove(at: 0)
