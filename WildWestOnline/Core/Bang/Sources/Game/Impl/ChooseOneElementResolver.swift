@@ -68,7 +68,11 @@ private extension ActionSelector.ChooseOneElement {
             }
             +
             playerObj.hand.indices.map {
-                .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
+                if ctx.actor == ctx.target {
+                    .init(value: playerObj.hand[$0], label: playerObj.hand[$0])
+                } else {
+                    .init(value: playerObj.hand[$0], label: "hiddenHand-\($0)")
+                }
             }
 
             guard options.isNotEmpty else {

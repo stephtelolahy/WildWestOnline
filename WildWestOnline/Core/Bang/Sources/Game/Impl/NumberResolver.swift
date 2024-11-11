@@ -47,7 +47,8 @@ private extension ActionSelector.Number {
                 playerObj.handLimit
             } else {
                 playerObj.health
-            } 
+            }
+
             let handCount = playerObj.hand.count
             return max(handCount - handlLimit, 0)
         }
