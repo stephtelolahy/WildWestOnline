@@ -68,6 +68,12 @@ private extension GameState {
         player: String
     ) -> [GameAction] {
         let cardName = Card.extractName(from: card)
+
+        let testCardRegex = /^c[a-z0-9]/
+        guard cardName.ranges(of: testCardRegex).isEmpty else {
+            return []
+        }
+
         guard let cardObj = cards[cardName] else {
             fatalError("Missing definition of \(cardName)")
         }
