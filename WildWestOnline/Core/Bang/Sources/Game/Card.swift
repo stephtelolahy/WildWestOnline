@@ -156,47 +156,6 @@ public extension String {
 }
 
 /*
- public struct CardV2: Equatable, Codable {
-     /// Unique name
-     public let name: String
-
-     /// Description
-     public let desc: String
-
-     /// Passive ability to set player attributes
-     public let setPlayerAttribute: [PlayerAttribute: Int]
-
-     /// Passive ability to increment player attributes
-     public let increasePlayerAttribute: [PlayerAttribute: Int]
-
-     /// Passive ability to set some {card}'s action attributes
-     public let setActionAttribute: [String: [ActionAttribute: Int]]
-
-     /// Allow to play this card only when an {event} occurs
-     /// By default cards are playable during player's turn
-     public let canPlay: Effect.PlayReq?
-
-     /// Triggered action when a event occurred
-     public let effects: [Effect]
-
-     public init(
-         name: String,
-         desc: String,
-         setPlayerAttribute: [PlayerAttribute: Int] = [:],
-         increasePlayerAttribute: [PlayerAttribute: Int] = [:],
-         setActionAttribute: [String: [ActionAttribute: Int]] = [:],
-         canPlay: Effect.PlayReq? = nil,
-         effects: [Effect] = []
-     ) {
-         self.name = name
-         self.desc = desc
-         self.setPlayerAttribute = setPlayerAttribute
-         self.setActionAttribute = setActionAttribute
-         self.increasePlayerAttribute = increasePlayerAttribute
-         self.canPlay = canPlay
-         self.effects = effects
-     }
- }
 
  /// An `effect` is a tag which performs an `action` each time an `event` occurs.
  public struct Effect: Equatable, Codable {
@@ -308,27 +267,5 @@ public extension String {
          case otherMissedYourShoot(String)
          case otherPlayedCard(String)
      }
-
-     public init(
-         action: ActionType,
-         selectors: [Selector]? = nil,
-         when: PlayReq = .played
-     ) {
-         self.action = action
-         self.selectors = selectors
-         self.when = when
-     }
- }
-
- public enum PlayerAttribute: String, Codable {
-     case maxHealth
-     case drawCards
-     case weapon
-     case handLimit
-     case magnifying
-     case remoteness
-
-     /// player cannot be killed but leave the game immediately after his turn
-     case ghost
  }
  */
