@@ -54,12 +54,14 @@ private extension Cards {
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             onTrigger: [
                 .init(
-                    when: .turnEnded,
                     action: .discard,
                     selectors: [
                         .repeat(.excessHand),
                         .chooseOne(.card([.fromHand]))
-                    ]
+                    ],
+                    when: .init(
+                        kind: .endTurn
+                    )
                 )
             ]
         )
@@ -71,11 +73,13 @@ private extension Cards {
             desc: "TODO",
             onTrigger: [
                 .init(
-                    when: .turnEnded,
                     action: .startTurn,
                     selectors: [
                         .setTarget(.next)
-                    ]
+                    ],
+                    when: .init(
+                        kind: .endTurn
+                    )
                 )
             ]
         )

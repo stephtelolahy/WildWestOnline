@@ -100,3 +100,16 @@ private extension GameState {
             }
     }
 }
+
+private extension EventReq {
+    func match(_ ctx: MatchingContext, state: GameState) -> Bool {
+        ctx.event.kind == kind
+        && ctx.event.payload.target == ctx.actor
+    }
+
+    struct MatchingContext {
+        let event: GameAction
+        let card: String
+        let actor: String
+    }
+}

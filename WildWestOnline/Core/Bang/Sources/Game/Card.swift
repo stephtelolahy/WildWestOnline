@@ -54,25 +54,29 @@ public struct ActiveEffect: Equatable, Codable {
 
 /// Occurred action when card is triggered
 public struct TiggeredEffect: Equatable, Codable {
-    public let when: EventReq
     public let action: GameAction.Kind
     public let selectors: [ActionSelector]
+    public let when: EventReq
 
+    // swiftlint:disable:next function_default_parameter_at_end
     public init(
-        when: EventReq,
         action: GameAction.Kind,
-        selectors: [ActionSelector] = []
+        selectors: [ActionSelector] = [],
+        when: EventReq
     ) {
-        self.when = when
         self.action = action
         self.selectors = selectors
+        self.when = when
     }
 }
 
 /// Required event conditions to trigger a card
-public enum EventReq: Equatable, Codable, Sendable {
-    // TODO: use actionKind with some payload match
-    case turnEnded
+public struct EventReq: Equatable, Codable, Sendable {
+    public let kind: GameAction.Kind
+
+    public init(kind: GameAction.Kind) {
+        self.kind = kind
+    }
 }
 
 /// Required state conditions to play a card
