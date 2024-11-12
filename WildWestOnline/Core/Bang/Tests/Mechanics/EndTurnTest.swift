@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct EndTurnTest {
-    @Test func endTurn() async throws {
+    @Test func endTurn_shouldUnsetTurn() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withTurn("p1")

@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct StartTurnTest {
-    @Test func startTurn() async throws {
+    @Test func startTurn_shouldSetTurn() async throws {
         // Given
         let state = GameState.makeBuilder()
             .build()
@@ -20,5 +20,19 @@ struct StartTurnTest {
 
         // Then
         #expect(result.turn == "p1")
+    }
+
+    @Test func startTurn_shouldResetPlayCounters() async throws {
+        // Given
+        let state = GameState.makeBuilder()
+            .withPlayedThisTurn(["c1": 1, "c2": 1])
+            .build()
+
+        // When
+        let action = GameAction.startTurn(player: "p1")
+        let result = try GameReducer().reduce(state, action)
+
+        // Then
+        #expect(result.playedThisTurn == [:])
     }
 }
