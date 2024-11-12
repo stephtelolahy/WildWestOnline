@@ -103,6 +103,7 @@ struct DefaultEndTurnTest {
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
+                    .withHealth(3)
                     .withAbilities([
                         .defaultEndTurn,
                         .defaultDiscardExcessHandOnTurnEnded
