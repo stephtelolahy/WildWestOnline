@@ -34,55 +34,6 @@ struct DefaultEndTurnTest {
         ])
     }
 
-    @Test func endTurn_noExcessCards_shouldStartNextTurn() async throws {
-        // Given
-        let state = GameState.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withAbilities([
-                    .defaultEndTurn,
-                    .defaultDiscardExcessHandOnTurnEnded
-                ])
-            }
-            .withTurn("p1")
-            .build()
-
-        // When
-        let action = GameAction.play(.defaultEndTurn, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .play(.defaultEndTurn, player: "p1"),
-            .endTurn(player: "p1")
-        ])
-    }
-
-    @Test func endTurn_customHandLimit_shouldStartNextTurn() async throws {
-        // Given
-        let state = GameState.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
-                    .withHealth(1)
-                    .withHandLimit(10)
-                    .withAbilities([
-                        .defaultEndTurn,
-                        .defaultDiscardExcessHandOnTurnEnded
-                    ])
-            }
-            .withTurn("p1")
-            .build()
-
-        // When
-        let action = GameAction.play(.defaultEndTurn, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .play(.defaultEndTurn, player: "p1"),
-            .endTurn(player: "p1")
-        ])
-    }
-
     @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -144,6 +95,56 @@ struct DefaultEndTurnTest {
             .discard("c1", player: "p1"),
             .choose("c2", player: "p1"),
             .discard("c2", player: "p1")
+        ])
+    }
+
+    @Test func endTurn_noExcessCards_shouldDoNothing() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+                    .withAbilities([
+                        .defaultEndTurn,
+                        .defaultDiscardExcessHandOnTurnEnded
+                    ])
+            }
+            .withTurn("p1")
+            .build()
+
+        // When
+        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .play(.defaultEndTurn, player: "p1"),
+            .endTurn(player: "p1")
+        ])
+    }
+
+    @Test func endTurn_customHandLimit_shouldDoNothing() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand(["c1", "c2"])
+                    .withHealth(1)
+                    .withHandLimit(10)
+                    .withAbilities([
+                        .defaultEndTurn,
+                        .defaultDiscardExcessHandOnTurnEnded
+                    ])
+            }
+            .withTurn("p1")
+            .build()
+
+        // When
+        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .play(.defaultEndTurn, player: "p1"),
+            .endTurn(player: "p1")
         ])
     }
 }

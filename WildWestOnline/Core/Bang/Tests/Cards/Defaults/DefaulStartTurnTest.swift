@@ -1,5 +1,5 @@
 //
-//  DefaultDraw2CardsOnTurnStartedTest.swift
+//  DefaulStartTurnTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,8 +8,8 @@
 import Testing
 import Bang
 
-struct DefaultDraw2CardsOnTurnStartedTest {
-    @Test func startTurn_with2StartTurnCards_shouldDraw2Cards() async throws {
+struct DefaulStartTurnTest {
+    @Test func startTurn_shouldDraw2Cards() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
