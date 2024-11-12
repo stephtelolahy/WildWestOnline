@@ -13,7 +13,7 @@ struct DefaultDraw2CardsOnTurnStartedTest {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withDefaultAbilities()
+                $0.withAbilities([.defaultDraw2CardsOnTurnStarted])
             }
             .withDeck(["c1", "c2"])
             .build()

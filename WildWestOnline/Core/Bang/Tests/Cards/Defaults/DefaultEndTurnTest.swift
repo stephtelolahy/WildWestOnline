@@ -9,11 +9,14 @@ import Testing
 import Bang
 
 struct DefaultEndTurnTest {
-    @Test func endTurn_noExcessCards_shouldStartNextTurn() async throws {
+    @Test func endturn_shouldStartNextTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withDefaultAbilities()
+                $0.withAbilities([
+                    .defaultEndTurn,
+                    .defaultStartTurnNextOnTurnEnded
+                ])
             }
             .withPlayer("p2")
             .withTurn("p1")
@@ -28,6 +31,29 @@ struct DefaultEndTurnTest {
             .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
+        ])
+    }
+
+    @Test func endTurn_noExcessCards_shouldStartNextTurn() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withAbilities([
+                    .defaultEndTurn,
+                    .defaultDiscardExcessHandOnTurnEnded
+                ])
+            }
+            .withTurn("p1")
+            .build()
+
+        // When
+        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .play(.defaultEndTurn, player: "p1"),
+            .endTurn(player: "p1")
         ])
     }
 
@@ -38,9 +64,11 @@ struct DefaultEndTurnTest {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)
                     .withHandLimit(10)
-                    .withDefaultAbilities()
+                    .withAbilities([
+                        .defaultEndTurn,
+                        .defaultDiscardExcessHandOnTurnEnded
+                    ])
             }
-            .withPlayer("p2")
             .withTurn("p1")
             .build()
 
@@ -51,8 +79,7 @@ struct DefaultEndTurnTest {
         // Then
         #expect(result == [
             .play(.defaultEndTurn, player: "p1"),
-            .endTurn(player: "p1"),
-            .startTurn(player: "p2")
+            .endTurn(player: "p1")
         ])
     }
 
@@ -62,9 +89,11 @@ struct DefaultEndTurnTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
-                    .withDefaultAbilities()
+                    .withAbilities([
+                        .defaultEndTurn,
+                        .defaultDiscardExcessHandOnTurnEnded
+                    ])
             }
-            .withPlayer("p2")
             .withTurn("p1")
             .build()
 
@@ -80,8 +109,7 @@ struct DefaultEndTurnTest {
             .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
-            .discard("c1", player: "p1"),
-            .startTurn(player: "p2")
+            .discard("c1", player: "p1")
         ])
     }
 
@@ -92,9 +120,11 @@ struct DefaultEndTurnTest {
                 $0.withHand(["c1", "c2", "c3"])
                     .withInPlay(["cx"])
                     .withHealth(1)
-                    .withDefaultAbilities()
+                    .withAbilities([
+                        .defaultEndTurn,
+                        .defaultDiscardExcessHandOnTurnEnded
+                    ])
             }
-            .withPlayer("p2")
             .withTurn("p1")
             .build()
 
@@ -113,8 +143,7 @@ struct DefaultEndTurnTest {
             .choose("c1", player: "p1"),
             .discard("c1", player: "p1"),
             .choose("c2", player: "p1"),
-            .discard("c2", player: "p1"),
-            .startTurn(player: "p2")
+            .discard("c2", player: "p1")
         ])
     }
 }
