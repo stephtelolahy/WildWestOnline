@@ -15,6 +15,7 @@ public enum Cards {
             defaultEndTurn,
             defaultDiscardExcessHandOnTurnEnded,
             defaultStartTurnNextOnTurnEnded,
+            defaultDraw2CardsOnTurnStarted,
             stagecoach,
             wellsFargo,
             beer,
@@ -79,6 +80,24 @@ private extension Cards {
                     ],
                     when: .init(
                         kind: .endTurn
+                    )
+                )
+            ]
+        )
+    }
+
+    static var defaultDraw2CardsOnTurnStarted: Card {
+        .init(
+            name: .defaultDraw2CardsOnTurnStarted,
+            desc: "Draw two cards at the beginning of your turn",
+            onTrigger: [
+                .init(
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.value(2))
+                    ],
+                    when: .init(
+                        kind: .startTurn
                     )
                 )
             ]
@@ -287,22 +306,6 @@ private extension Cards {
          .weapon: 1,
          .drawCards: 1
      ]
- }
-
- static var defaultDraw2CardsOnTurnStarted: CardV2 {
-     .init(
-         name: .defaultDraw2CardsOnTurnStarted,
-         desc: "Draw two cards at the beginning of your turn",
-         effects: [
-             .init(
-                 action: .drawDeck,
-                 selectors: [
-                     .repeat(.value(2))
-                 ],
-                 when: .turnStarted
-             )
-         ]
-     )
  }
 
  static var defaultEliminateOnDamageLethal: CardV2 {

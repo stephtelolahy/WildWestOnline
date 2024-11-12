@@ -29,6 +29,8 @@ public struct Player: Equatable, Codable {
     public var remoteness: Int
     public var weapon: Int
     public var abilities: [String]
+
+    // TODO: define custom attributes as card
     public var handLimit: Int
 }
 

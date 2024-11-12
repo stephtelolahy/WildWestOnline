@@ -113,7 +113,7 @@ private extension GameAction.Kind {
             let cardName = Card.extractName(from: card)
 
             guard let cardObject = state.cards[cardName] else {
-                fatalError("Card \(cardName) not found")
+                fatalError("Missing definition of \(cardName)")
             }
 
             guard cardObject.onPlay.isNotEmpty else {

@@ -33,6 +33,6 @@ struct StartTurnTest {
         let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.playedThisTurn == [:])
+        #expect(result.playedThisTurn.isEmpty)
     }
 }

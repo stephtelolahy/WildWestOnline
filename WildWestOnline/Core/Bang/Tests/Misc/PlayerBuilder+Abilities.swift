@@ -11,7 +11,8 @@ extension Player.Builder {
         self.withAbilities([
             .defaultEndTurn,
             .defaultDiscardExcessHandOnTurnEnded,
-            .defaultStartTurnNextOnTurnEnded
+            .defaultStartTurnNextOnTurnEnded,
+            .defaultDraw2CardsOnTurnStarted
         ])
     }
 }
