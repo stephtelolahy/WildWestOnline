@@ -161,7 +161,7 @@ private extension GameAction.Kind {
             var playerObj = state.players.get(player)
             let maxHealth = playerObj.maxHealth
             guard playerObj.health < maxHealth else {
-                throw GameError.playerAlreadyMaxHealth(player)
+                throw .playerAlreadyMaxHealth(player)
             }
 
             playerObj.health = min(playerObj.health + amount, maxHealth)
@@ -326,7 +326,7 @@ private extension GameState {
     mutating func resetDeck() throws(GameError) {
         let minDiscardedCards = 2
         guard discard.count >= minDiscardedCards else {
-            throw .deckIsEmpty
+            throw .insufficientDeck
         }
 
         let cards = discard
@@ -336,7 +336,7 @@ private extension GameState {
 
     mutating func popDiscard() throws(GameError) -> String {
         if discard.isEmpty {
-            throw .discardIsEmpty
+            throw .insufficientDiscard
         }
 
         return discard.remove(at: 0)

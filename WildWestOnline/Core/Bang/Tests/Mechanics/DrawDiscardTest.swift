@@ -34,7 +34,7 @@ struct DrawDiscardTest {
         // When
         // Then
         let action = GameAction.drawDiscard(player: "p1")
-        #expect(throws: GameError.discardIsEmpty) {
+        #expect(throws: GameError.insufficientDiscard) {
             try GameReducer().reduce(state, action)
         }
     }

@@ -51,7 +51,7 @@ struct DrawDeckTest {
         // When
         // Then
         let action = GameAction.drawDeck(player: "p1")
-        #expect(throws: GameError.deckIsEmpty) {
+        #expect(throws: GameError.insufficientDeck) {
             try GameReducer().reduce(state, action)
         }
     }

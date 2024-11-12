@@ -103,10 +103,8 @@ private extension ActionSelector.ChooseOneElement {
         let conditions: [ActionSelector.CardCondition]
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
-            let counterCards = state.players.get(ctx.target).hand.filter { card in
-                conditions.allSatisfy { condition in
-                    condition.match(card, state: state, ctx: ctx)
-                }
+            let counterCards = state.players.get(ctx.target).hand.filter {
+                conditions.match($0, state: state, ctx: ctx)
             }
 
             guard counterCards.isNotEmpty else {
@@ -134,10 +132,8 @@ private extension ActionSelector.ChooseOneElement {
         let conditions: [ActionSelector.CardCondition]
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
-            let counterCards = state.players.get(ctx.target).hand.filter { card in
-                conditions.allSatisfy { condition in
-                    condition.match(card, state: state, ctx: ctx)
-                }
+            let counterCards = state.players.get(ctx.target).hand.filter {
+                conditions.match($0, state: state, ctx: ctx)
             }
 
             guard counterCards.isNotEmpty else {

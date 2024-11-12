@@ -65,7 +65,7 @@ struct DiscoverTest {
         // When
         // Then
         let action = GameAction.discover(player: "p1")
-        #expect(throws: GameError.deckIsEmpty) {
+        #expect(throws: GameError.insufficientDeck) {
             try GameReducer().reduce(state, action)
         }
     }
@@ -80,7 +80,7 @@ struct DiscoverTest {
         // When
         // Then
         let action = GameAction.discover(player: "p1")
-        #expect(throws: GameError.deckIsEmpty) {
+        #expect(throws: GameError.insufficientDeck) {
             try GameReducer().reduce(state, action)
         }
     }
