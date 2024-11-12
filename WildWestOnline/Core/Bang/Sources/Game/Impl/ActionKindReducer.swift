@@ -17,29 +17,24 @@ private extension GameAction.Kind {
     }
 
     var reducer: Reducer {
-        let dict: [GameAction.Kind: Reducer] = [
-            .play: Play(),
-            .choose: Choose(),
-            .draw: Draw(),
-            .drawDeck: DrawDeck(),
-            .drawDiscard: DrawDiscard(),
-            .drawDiscovered: DrawDiscovered(),
-            .discover: Discover(),
-            .heal: Heal(),
-            .damage: Damage(),
-            .discard: Discard(),
-            .steal: Steal(),
-            .shoot: Shoot(),
-            .endTurn: EndTurn(),
-            .startTurn: StartTurn(),
-            .group: Group()
-        ]
-
-        guard let result = dict[self] else {
-            fatalError("Missing reducer for \(self)")
+        switch self {
+        case .play: Play()
+        case .draw: Draw()
+        case .drawDeck: DrawDeck()
+        case .drawDiscard: DrawDiscard()
+        case .drawDiscovered: DrawDiscovered()
+        case .discover: Discover()
+        case .discard: Discard()
+        case .heal: Heal()
+        case .damage: Damage()
+        case .choose: Choose()
+        case .steal: Steal()
+        case .shoot: Shoot()
+        case .endTurn: EndTurn()
+        case .startTurn: StartTurn()
+        case .group: Group()
+        case .eliminate: Eliminate()
         }
-
-        return result
     }
 
     struct Draw: Reducer {
@@ -302,6 +297,15 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.queue.insert(contentsOf: payload.children, at: 0)
+            return state
+        }
+    }
+
+    struct Eliminate: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            state.playOrder.removeAll { $0 == payload.target }
+            state.queue.removeAll(where: { $0.payload.actor == payload.target })
             return state
         }
     }

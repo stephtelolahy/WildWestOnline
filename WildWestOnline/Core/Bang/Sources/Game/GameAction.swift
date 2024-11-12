@@ -25,16 +25,40 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case endTurn
         case startTurn
         case group
+        case eliminate
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        @EquatableNoop public var actor: String = ""
-        public var target: String = ""
+        @EquatableNoop public var actor: String
+        public var target: String
         public var card: String?
         public var amount: Int?
         public var selection: String?
-        public var selectors: [ActionSelector] = []
-        public var children: [GameAction] = []
+        public var selectors: [ActionSelector]
+        public var children: [GameAction]
+
+        public init(
+            actor: String = "",
+            target: String = "",
+            card: String? = nil,
+            amount: Int? = nil,
+            selection: String? = nil,
+            selectors: [ActionSelector] = [],
+            children: [GameAction] = []
+        ) {
+            self.actor = actor
+            self.target = target
+            self.card = card
+            self.amount = amount
+            self.selection = selection
+            self.selectors = selectors
+            self.children = children
+        }
+    }
+
+    public init(kind: Kind, payload: Payload) {
+        self.kind = kind
+        self.payload = payload
     }
 }
 
@@ -176,6 +200,16 @@ public extension GameAction {
     static func endTurn(player: String) -> Self {
         .init(
             kind: .endTurn,
+            payload: .init(
+                target: player
+            )
+        )
+    }
+
+    /// Eliminate
+    static func eliminate(player: String) -> Self {
+        .init(
+            kind: .eliminate,
             payload: .init(
                 target: player
             )
