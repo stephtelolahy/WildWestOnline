@@ -16,6 +16,7 @@ public enum Cards {
             defaultDiscardExcessHandOnTurnEnded,
             defaultStartTurnNextOnTurnEnded,
             defaultDraw2CardsOnTurnStarted,
+            defaultEliminateOnDamageLethal,
             stagecoach,
             wellsFargo,
             beer,
@@ -98,6 +99,21 @@ private extension Cards {
                     ],
                     when: .init(
                         kind: .startTurn
+                    )
+                )
+            ]
+        )
+    }
+
+    static var defaultEliminateOnDamageLethal: Card {
+        .init(
+            name: .defaultEliminateOnDamageLethal,
+            desc: "When you lose your last life point, you are eliminated and your game is over",
+            onTrigger: [
+                .init(
+                    action: .eliminate,
+                    when: .init(
+                        kind: .damage
                     )
                 )
             ]
@@ -306,19 +322,6 @@ private extension Cards {
          .weapon: 1,
          .drawCards: 1
      ]
- }
-
- static var defaultEliminateOnDamageLethal: CardV2 {
-     .init(
-         name: .defaultEliminateOnDamageLethal,
-         desc: "When you lose your last life point, you are eliminated and your game is over",
-         effects: [
-             .init(
-                 action: .eliminate,
-                 when: .damagedLethal
-             )
-         ]
-     )
  }
 
  static var defaultDiscardAllCardsOnEliminated: CardV2 {

@@ -305,7 +305,7 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.playOrder.removeAll { $0 == payload.target }
-            state.queue.removeAll(where: { $0.payload.actor == payload.target })
+            state.queue.removeAll { $0.payload.actor == payload.target }
             return state
         }
     }
