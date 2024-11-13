@@ -6,12 +6,11 @@
 //
 
 public enum GameError: Error, Equatable, Codable {
-    case deckIsEmpty
-    case discardIsEmpty
-    case cardNotInDeck(String)
-    case cardNotDiscovered(String)
+    case insufficientDeck
+    case insufficientDiscard
     case playerAlreadyMaxHealth(String)
-    case noReq(ActionSelector.StateCondition)
-    case noTarget(ActionSelector.Target)
-    case noChoosableTarget([ActionSelector.TargetCondition])
+    case noReq(Card.StateReq)
+    case noTarget(Card.Selector.TargetGroup)
+    case noChoosableTarget([Card.Selector.TargetCondition])
+    case cardNotPlayable(String)
 }

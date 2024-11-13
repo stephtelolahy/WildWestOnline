@@ -35,7 +35,6 @@ struct SettingsFiguresView: View {
                 }, label: {
                     FigureRow(figure: figure)
                 })
-
             }
         }
         .navigationTitle("Figures")

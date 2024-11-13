@@ -20,20 +20,18 @@ public struct GameReducer {
         }
 
         if action.payload.selectors.isNotEmpty {
-            var action = action
-            let selector = action.payload.selectors.remove(at: 0)
-
-            if case .chooseOne(let chooseOneDetails) = selector,
-               chooseOneDetails.options.isNotEmpty,
-               chooseOneDetails.selection == nil {
+            if state.pendingChoice != nil {
                 fatalError("Unexpected, waiting user choice")
             }
 
+            var action = action
+            let selector = action.payload.selectors.remove(at: 0)
             let children = try selector.resolve(action, state)
+
             state.queue.insert(contentsOf: children, at: 0)
             return state
         } else {
-            return try  action.kind.reduce(state, action.payload)
+            return try action.kind.reduce(state, action.payload)
         }
     }
 }

@@ -5,11 +5,11 @@
 //  Created by Hugues Telolahy on 27/10/2024.
 //
 
-public struct GameAction: Action, Equatable, Codable {
+public struct GameAction: Action, Equatable, Codable, Sendable {
     public let kind: Kind
     public var payload: Payload
 
-    public enum Kind: String, Codable {
+    public enum Kind: String, Codable, Sendable {
         case play
         case draw
         case drawDeck
@@ -18,16 +18,47 @@ public struct GameAction: Action, Equatable, Codable {
         case discover
         case discard
         case heal
+        case damage
         case choose
+        case steal
+        case shoot
+        case endTurn
+        case startTurn
+        case queue
+        case eliminate
     }
 
-    public struct Payload: Equatable, Codable {
-        @EquatableNoop public var actor: String = ""
-        public var target: String = ""
+    public struct Payload: Equatable, Codable, Sendable {
+        @EquatableNoop public var actor: String
+        public var target: String
         public var card: String?
         public var amount: Int?
         public var selection: String?
-        public var selectors: [ActionSelector] = []
+        public var selectors: [Card.Selector]
+        public var children: [GameAction]
+
+        public init(
+            actor: String = "",
+            target: String = "",
+            card: String? = nil,
+            amount: Int? = nil,
+            selection: String? = nil,
+            selectors: [Card.Selector] = [],
+            children: [GameAction] = []
+        ) {
+            self.actor = actor
+            self.target = target
+            self.card = card
+            self.amount = amount
+            self.selection = selection
+            self.selectors = selectors
+            self.children = children
+        }
+    }
+
+    public init(kind: Kind, payload: Payload) {
+        self.kind = kind
+        self.payload = payload
     }
 }
 
@@ -92,10 +123,10 @@ public extension GameAction {
     }
 
     /// Discover top deck cards
-    static var discover: Self {
+    static func discover(player: String) -> Self {
         .init(
             kind: .discover,
-            payload: .init()
+            payload: .init(target: player)
         )
     }
 
@@ -110,6 +141,17 @@ public extension GameAction {
         )
     }
 
+    /// Deals damage to a player, attempting to reduce its Health by the stated amount
+    static func damage(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .damage,
+            payload: .init(
+                target: player,
+                amount: amount
+            )
+        )
+    }
+
     /// Discard a player's hand or inPlay card
     static func discard(_ card: String, player: String) -> Self {
         .init(
@@ -117,6 +159,59 @@ public extension GameAction {
             payload: .init(
                 target: player,
                 card: card
+            )
+        )
+    }
+
+    /// Draw card from other player's hand or inPlay
+    static func steal(_ card: String, target: String, player: String) -> Self {
+        .init(
+            kind: .steal,
+            payload: .init(
+                actor: player,
+                target: target,
+                card: card
+            )
+        )
+    }
+
+    /// Shoot a player
+    static func shoot(_ target: String, player: String) -> Self {
+        .init(
+            kind: .shoot,
+            payload: .init(
+                actor: player,
+                target: target
+            )
+        )
+    }
+
+    /// Start turn
+    static func startTurn(player: String) -> Self {
+        .init(
+            kind: .startTurn,
+            payload: .init(
+                target: player
+            )
+        )
+    }
+
+    /// End turn
+    static func endTurn(player: String) -> Self {
+        .init(
+            kind: .endTurn,
+            payload: .init(
+                target: player
+            )
+        )
+    }
+
+    /// Eliminate
+    static func eliminate(player: String) -> Self {
+        .init(
+            kind: .eliminate,
+            payload: .init(
+                target: player
             )
         )
     }

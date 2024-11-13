@@ -16,6 +16,8 @@ public struct GameState {
     public var discovered: [String]
     public var playOrder: [String]
     public var queue: [GameAction]
+    public var playedThisTurn: [String: Int]
+    public var turn: String?
 }
 
 public struct Player: Equatable, Codable {
@@ -23,39 +25,38 @@ public struct Player: Equatable, Codable {
     public var maxHealth: Int
     public var hand: [String]
     public var inPlay: [String]
-}
-
-public struct PendingChoice {
-    public let chooser: String
-    public let options: [String]
+    public var magnifying: Int
+    public var remoteness: Int
+    public var weapon: Int
+    public var abilities: [String]
+    public var handLimit: Int
 }
 
 public extension GameState {
-    var pendingChoice: PendingChoice? {
+    var pendingChoice: Card.Selector.ChooseOneResolved? {
         guard let nextAction = queue.first,
-           let selector = nextAction.payload.selectors.first,
-           case .chooseOne(let chooseOneDetails) = selector,
-           chooseOneDetails.options.isNotEmpty,
-           chooseOneDetails.selection == nil else {
+              let selector = nextAction.payload.selectors.first,
+              case let .chooseOne(_, resolved, selection) = selector,
+              let choice = resolved,
+              selection == nil else {
             return nil
         }
 
-        return .init(
-            chooser: nextAction.payload.actor,
-            options: chooseOneDetails.options.map(\.label)
-        )
+        return choice
     }
 }
 
 public extension GameState {
     class Builder {
         private var players: [String: Player] = [:]
+        private var cards: [String: Card] = [:]
         private var deck: [String] = []
         private var discard: [String] = []
         private var discovered: [String] = []
-        private var cards: [String: Card] = [:]
         private var playOrder: [String] = []
         private var queue: [GameAction] = []
+        private var playedThisTurn: [String: Int] = [:]
+        private var turn: String?
 
         public func build() -> GameState {
             .init(
@@ -65,7 +66,9 @@ public extension GameState {
                 discard: discard,
                 discovered: discovered,
                 playOrder: playOrder,
-                queue: queue
+                queue: queue,
+                playedThisTurn: playedThisTurn,
+                turn: turn
             )
         }
 
@@ -96,6 +99,21 @@ public extension GameState {
             cards = value
             return self
         }
+
+        public func withPlayedThisTurn(_ value: [String: Int]) -> Self {
+            playedThisTurn = value
+            return self
+        }
+
+        public func withTurn(_ value: String) -> Self {
+            turn = value
+            return self
+        }
+
+        public func withQueue(_ value: [GameAction]) -> Self {
+            queue = value
+            return self
+        }
     }
 
     static func makeBuilder() -> Builder {
@@ -109,13 +127,23 @@ public extension Player {
         private var maxHealth: Int = 0
         private var hand: [String] = []
         private var inPlay: [String] = []
+        private var magnifying: Int = 0
+        private var remoteness: Int = 0
+        private var weapon: Int = 0
+        private var abilities: [String] = []
+        private var handLimit: Int = 0
 
         public func build() -> Player {
             .init(
                 health: health,
                 maxHealth: maxHealth,
                 hand: hand,
-                inPlay: inPlay
+                inPlay: inPlay,
+                magnifying: magnifying,
+                remoteness: remoteness,
+                weapon: weapon,
+                abilities: abilities,
+                handLimit: handLimit
             )
         }
 
@@ -129,6 +157,16 @@ public extension Player {
             return self
         }
 
+        public func withMagnifying(_ value: Int) -> Self {
+            magnifying = value
+            return self
+        }
+
+        public func withRemoteness(_ value: Int) -> Self {
+            remoteness = value
+            return self
+        }
+
         public func withHand(_ value: [String]) -> Self {
             hand = value
             return self
@@ -136,6 +174,21 @@ public extension Player {
 
         public func withInPlay(_ value: [String]) -> Self {
             inPlay = value
+            return self
+        }
+
+        public func withWeapon(_ value: Int) -> Self {
+            weapon = value
+            return self
+        }
+
+        public func withAbilities(_ value: [String]) -> Self {
+            abilities = value
+            return self
+        }
+
+        public func withHandLimit(_ value: Int) -> Self {
+            handLimit = value
             return self
         }
     }

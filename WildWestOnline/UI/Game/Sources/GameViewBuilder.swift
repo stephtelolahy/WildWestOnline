@@ -127,7 +127,7 @@ private extension GameState {
     }
 
     var controlledPlayerId: String? {
-        playMode.keys.first(where: { playMode[$0] == .manual })
+        playMode.keys.first { playMode[$0] == .manual }
     }
 
     var startPlayerId: String {
@@ -138,4 +138,3 @@ private extension GameState {
         return playerId
     }
 }
-

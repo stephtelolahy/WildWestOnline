@@ -6,14 +6,14 @@
 //
 
 @propertyWrapper
-public struct EquatableNoop<Value: Equatable>: Equatable, Codable {
-    public var wrappedValue: Value
+public struct EquatableNoop: Equatable, Codable, Sendable {
+    public var wrappedValue: String
 
-    public init(wrappedValue: Value) {
+    public init(wrappedValue: String) {
         self.wrappedValue = wrappedValue
     }
 
-    public static func == (lhs: EquatableNoop<Value>, rhs: EquatableNoop<Value>) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         true
     }
 

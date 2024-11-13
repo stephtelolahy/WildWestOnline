@@ -23,8 +23,7 @@ func dispatchUntilCompleted(
         reducer: GameReducer().reduce,
         middlewares: [
             Middlewares.updateGame,
-            Middlewares.handlePendingChoice(choicesWrapper: .init(choices: expectedChoices)),
-            Middlewares.logger()
+            Middlewares.handlePendingChoice(choicesWrapper: .init(choices: expectedChoices))
         ]
     ) {
         expectation.fulfill()
@@ -36,7 +35,7 @@ func dispatchUntilCompleted(
 
     store.event.sink { event in
         if let gameAction = event as? GameAction,
-           gameAction.payload.selectors.isEmpty {
+           gameAction.isRenderable {
             ocurredEvents.append(gameAction)
         }
     }
@@ -80,15 +79,24 @@ private extension Middlewares {
                 return nil
             }
 
-            let expectedChoice = choicesWrapper.choices.remove(at: 0)
-
-            guard pendingChoice.options == expectedChoice.options else {
+            guard choicesWrapper.choices.isNotEmpty else {
                 fatalError("Unexpected choice: \(pendingChoice)")
             }
 
+            guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
+                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
+            }
+
+            let expectedChoice = choicesWrapper.choices.remove(at: 0)
             let selection = pendingChoice.options[expectedChoice.selectionIndex]
-            let chooseAction = GameAction.choose(selection, player: pendingChoice.chooser)
+            let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
             return Just(chooseAction).eraseToAnyPublisher()
         }
+    }
+}
+
+private extension GameAction {
+    var isRenderable: Bool {
+        kind != .queue && payload.selectors.isEmpty
     }
 }

@@ -21,7 +21,6 @@ struct FigureRow: View {
                     .foregroundColor(.yellow)
                     .padding()
             }
-
         }
     }
 }

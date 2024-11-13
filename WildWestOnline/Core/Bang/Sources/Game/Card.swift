@@ -16,147 +16,141 @@
 public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
-    public let onPlay: [ActiveAbility]
+    public let canPlay: [StateReq]
+    public let onPlay: [Effect]
+    public let canTrigger: [EventReq]
+    public let onTrigger: [Effect]
+    public let counterShot: Bool
 
     public init(
         name: String,
         desc: String = "",
-        onPlay: [ActiveAbility] = []
+        canPlay: [StateReq] = [],
+        onPlay: [Effect] = [],
+        canTrigger: [EventReq] = [],
+        onTrigger: [Effect] = [],
+        counterShot: Bool = false
     ) {
         self.name = name
         self.desc = desc
+        self.canPlay = canPlay
         self.onPlay = onPlay
-    }
-}
-
-/// Occurred action when card is played
-public struct ActiveAbility: Equatable, Codable {
-    public let action: GameAction.Kind
-    public let selectors: [ActionSelector]
-
-    public init(
-        action: GameAction.Kind,
-        selectors: [ActionSelector] = []
-    ) {
-        self.action = action
-        self.selectors = selectors
-    }
-}
-
-/// Selectors are used to specify which objects an aura or effect should affect.
-/// Choice is performed by {actor}
-public enum ActionSelector: Equatable, Codable {
-    case `repeat`(Number)
-    case setAmount(Number)
-    case setTarget(Target)
-    case verify(StateCondition)
-    case chooseOne(ChooseOneDetails)
-
-    public enum Number: Equatable, Codable {
-        case value(Int)
+        self.counterShot = counterShot
+        self.canTrigger = canTrigger
+        self.onTrigger = onTrigger
     }
 
-    public enum Target: String, Codable {
-        case damaged
+    /// Occurred action when card is played
+    public struct Effect: Equatable, Codable {
+        public let action: GameAction.Kind
+        public let selectors: [Selector]
+
+        public init(
+            action: GameAction.Kind,
+            selectors: [Selector] = []
+        ) {
+            self.action = action
+            self.selectors = selectors
+        }
     }
 
-    public enum StateCondition: Equatable, Codable {
+    /// Required state conditions to play a card
+    public enum StateReq: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
+        case playedThisTurnAtMost([String: Int])
+        case isHealthZero
     }
 
-    public struct ChooseOneDetails: Equatable, Codable {
-        public let item: Item
-        public var options: [Option] = []
-        public var selection: String?
+    /// Required event conditions to trigger a card
+    public struct EventReq: Equatable, Codable, Sendable {
+        public let actionKind: GameAction.Kind
+        public let stateConditions: [StateReq]
 
-        public enum Item: Equatable, Codable {
-            case target([TargetCondition] = [])
-            case card
+        public init(
+            actionKind: GameAction.Kind,
+            stateConditions: [StateReq] = []
+        ) {
+            self.actionKind = actionKind
+            self.stateConditions = stateConditions
+        }
+    }
+
+    /// Selectors are used to specify which objects an aura or effect should affect.
+    /// Choice is performed by {actor}
+    public enum Selector: Equatable, Codable, Sendable {
+        case `repeat`(Number)
+        case setAmount(Int)
+        case setTarget(TargetGroup)
+        case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
+
+        public enum Number: Equatable, Codable, Sendable {
+            case value(Int)
+            case activePlayers
+            case excessHand
         }
 
-        public struct Option: Equatable, Codable {
-            public let value: String
-            public let label: String
+        public enum TargetGroup: String, Codable, Sendable {
+            /// All active players
+            case active
+            /// All damaged players
+            case damaged
+            /// All other players
+            case others
+            /// Next turn player
+            case next
+        }
 
-            public init(value: String, label: String) {
-                self.value = value
-                self.label = label
+        public enum ChooseOneElement: Equatable, Codable, Sendable {
+            /// Must choose a target
+            case target([TargetCondition] = [])
+            /// Must choose a target's card
+            case card([CardCondition] = [])
+            /// Must choose a discovered card
+            case discovered
+            /// Can `discard` hand card to counter the effect
+            case eventuallyCounterCard([CardCondition] = [])
+            /// Can `discard` hand card to reverse the effect's target
+            case eventuallyReverseCard([CardCondition] = [])
+        }
+
+        public struct ChooseOneResolved: Equatable, Codable, Sendable {
+            public let chooser: String
+            public let options: [Option]
+
+            public struct Option: Equatable, Codable, Sendable {
+                public let value: String
+                public let label: String
             }
         }
-    }
 
-    public enum TargetCondition: String, Codable {
-        case havingCard
+        public enum TargetCondition: Equatable, Codable, Sendable {
+            case havingCard
+            case atDistance(Int)
+            case reachable
+        }
+
+        public enum CardCondition: Equatable, Codable, Sendable {
+            case counterShot
+            case named(String)
+            case fromHand
+        }
     }
+}
+
+/// ChooseOne options
+public extension String {
+    /// Hidden hand card
+    static let hiddenHand = "hiddenHand"
+
+    /// Pass when asked a counter card
+    static let pass = "pass"
 }
 
 /*
- public struct CardV2: Equatable, Codable {
-     /// Unique name
-     public let name: String
-
-     /// Description
-     public let desc: String
-
-     /// Passive ability to set player attributes
-     public let setPlayerAttribute: [PlayerAttribute: Int]
-
-     /// Passive ability to increment player attributes
-     public let increasePlayerAttribute: [PlayerAttribute: Int]
-
-     /// Passive ability to set some {card}'s action attributes
-     public let setActionAttribute: [String: [ActionAttribute: Int]]
-
-     /// Allow to play this card only when an {event} occurs
-     /// By default cards are playable during player's turn
-     public let canPlay: Effect.PlayReq?
-
-     /// Triggered action when a event occurred
-     public let effects: [Effect]
-
-     public init(
-         name: String,
-         desc: String,
-         setPlayerAttribute: [PlayerAttribute: Int] = [:],
-         increasePlayerAttribute: [PlayerAttribute: Int] = [:],
-         setActionAttribute: [String: [ActionAttribute: Int]] = [:],
-         canPlay: Effect.PlayReq? = nil,
-         effects: [Effect] = []
-     ) {
-         self.name = name
-         self.desc = desc
-         self.setPlayerAttribute = setPlayerAttribute
-         self.setActionAttribute = setActionAttribute
-         self.increasePlayerAttribute = increasePlayerAttribute
-         self.canPlay = canPlay
-         self.effects = effects
-     }
- }
-
- /// An `effect` is a tag which performs an `action` each time an `event` occurs.
- public struct Effect: Equatable, Codable {
-     public let action: ActionType
-     public var selectors: [Selector]?
-     public let when: PlayReq
 
      /// Selectors are used to specify which objects an aura or effect should affect.
      /// Choice is performed by {actor}
      public enum Selector: Equatable, Codable {
-         /// set targetted player
-         case setTarget(Target)
-
-         /// set affected card
-         case setCard(Card)
-
-         /// set action attributes
-         case setAttribute(ActionAttribute, value: Number)
-
-         /// choose targeted player
-         case chooseTarget([TargetCondition]? = nil)
-
-         /// choose used card
-         case chooseCard(CardCondition? = nil)
-
          /// must `discard` hand card
          case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
 
@@ -170,15 +164,12 @@ public enum ActionSelector: Equatable, Codable {
          case `repeat`(Number)
 
          /// must match given condition
-         case verify(StateCondition)
+         case verify(Card.StateReq)
 
          public enum Target: String, Codable {
              case actor      // who is playing the card
-             case all        // all players
-             case others     // other players
              case next       // next player after actor
              case offender   // actor of previous attack
-             case damaged    // just damaged player
              case eliminated // just eliminated player
              case targeted   // target of previous attack
          }
@@ -217,7 +208,7 @@ public enum ActionSelector: Equatable, Codable {
              case value(Int)
          }
 
-         public indirect enum StateCondition: Equatable, Codable {
+         public indirect enum Card.StateReq: Equatable, Codable {
              case playersAtLeast(Int)
              case limitPerTurn(Int)
              case draw(String)
@@ -228,135 +219,5 @@ public enum ActionSelector: Equatable, Codable {
              case not(Self)
          }
      }
-
-     /// Triggering events for effects
-     public indirect enum PlayReq: Equatable, Codable {
-         // events on actor
-         case played
-         case playedCardOutOfTurn
-         case playedCardWithName(String)
-         case playedCardWithAttr(PlayerAttribute)
-         case shot
-         case turnStarted
-         case turnEnded
-         case damaged
-         case damagedByCard(String)
-         case damagedLethal
-         case eliminated
-         case cardStolen
-         case cardDiscarded
-         case handEmpty
-         case targetedWithCardOthertThan(String)
-
-         // events on another player
-         case otherEliminated
-         case otherDamaged
-         case otherDamagedByYourCard(String)
-         case otherMissedYourShoot(String)
-         case otherPlayedCard(String)
-     }
-
-     public init(
-         action: ActionType,
-         selectors: [Selector]? = nil,
-         when: PlayReq = .played
-     ) {
-         self.action = action
-         self.selectors = selectors
-         self.when = when
-     }
  }
-
- public enum PlayerAttribute: String, Codable {
-     case maxHealth
-     case drawCards
-     case weapon
-     case handLimit
-     case magnifying
-     case remoteness
-
-     /// player cannot be killed but leave the game immediately after his turn
-     case ghost
- }
-
- public enum ActionType: String, Codable {
-     /// {target} increase health by {amount}
-     /// By default target is {actor}
-     /// By default heal amount is 1
-     case heal
-
-     /// {target} decrease health by {amount}
-     /// By default target is {actor}
-     /// By default damage amount is 1
-     case damage
-
-     /// {actor} draw the top deck card
-     /// When a {card} is specified, this allow to draw a specific card
-     case drawDeck
-
-     /// {target} discard a {card}
-     /// By default target is {actor}
-     case discard
-
-     /// {actor} discard silently a {card}
-     case discardSilently
-
-     /// {actor} steal a {card} from {target}
-     case steal
-
-     /// {actor} put a {card} is self's inPlay
-     case equip
-
-     /// {actor} put a {card} on {target}'s inPlay
-     case handicap
-
-     /// {actor} shoot at {target} with {damage} and {requiredMisses}
-     /// By default damage is 1
-     /// By default requiredMisses is 1
-     case shoot
-
-     /// {actor} counter a shot applied on himself
-     case missed
-
-     /// expose {amount} choosable cards from top deck
-     case discover
-
-     /// draw {drawCards} cards from deck. Next effects depend on it
-     case draw
-
-     /// {actor} shows his last drawn card
-     case showLastDraw
-
-     /// {actor} ends his turn
-     case endTurn
-
-     /// {target} starts his turn
-     case startTurn
-
-     /// {actor} gets eliminated
-     case eliminate
-
-     /// {actor} draws the last discarded card
-     /// When a {card} is specified, this allow to draw a specific card
-     case drawDiscard
-
-     /// Counter card effect targetting self
-     case counter
- }
-
- public enum ActionAttribute: String, Codable {
-     case healAmount
-     case damageAmount
-     case discoverAmount
-     case shootRequiredMisses
-     case playableAsBang
-     case playableAsMissed
-     case labeledAsBang
-     case eventuallySilent
-     case silent
-     case playedByOtherHasNoEffect
-     case inPlayOfOtherHasNoEffect
-     case ignoreLimitPerTurn
- }
-
  */
