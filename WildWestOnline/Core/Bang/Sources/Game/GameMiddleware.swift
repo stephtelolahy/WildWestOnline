@@ -41,10 +41,11 @@ private extension GameState {
         var triggered: [GameAction] = []
         for player in playOrder {
             let playerObj = players.get(player)
-            let triggerableCards = playerObj.inPlay + playerObj.abilities
-            for card in triggerableCards {
-                let effects = triggeredEffects(on: event, by: card, player: player)
-                triggered.append(contentsOf: effects)
+            let cards = playerObj.inPlay + playerObj.abilities
+            for card in cards {
+                if let effects = triggeredEffects(on: event, by: card, player: player) {
+                    triggered.append(contentsOf: effects)
+                }
             }
         }
 
@@ -68,43 +69,50 @@ private extension GameState {
         on event: GameAction,
         by card: String,
         player: String
-    ) -> [GameAction] {
+    ) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
 
         let testCardRegex = /^c[a-z0-9]/
-        guard cardName.ranges(of: testCardRegex).isEmpty else {
-            return []
+        let isNotTestCard = cardName.ranges(of: testCardRegex).isEmpty
+        guard isNotTestCard else {
+            return nil
         }
 
         guard let cardObj = cards[cardName] else {
             fatalError("Missing definition of \(cardName)")
         }
 
-        let ctx = EventReq.MatchingContext(
+        guard cardObj.canTrigger.isNotEmpty else {
+            return nil
+        }
+
+        let ctx = ActionCondition.MatchingContext(
             event: event,
             card: card,
             actor: player
         )
+        guard cardObj.canTrigger.allSatisfy({ $0.match(ctx, state: self) }) else {
+            return nil
+        }
 
-        return cardObj.onTrigger
-            .filter { $0.when.match(ctx, state: self) }
-            .map {
-                GameAction(
-                    kind: $0.action,
-                    payload: .init(
-                        actor: player,
-                        target: player,
-                        selectors: $0.selectors
-                    )
+        return cardObj.onTrigger.map {
+            GameAction(
+                kind: $0.action,
+                payload: .init(
+                    actor: player,
+                    target: player,
+                    selectors: $0.selectors
                 )
-            }
+            )
+        }
     }
 }
 
-private extension EventReq {
+private extension ActionCondition {
     func match(_ ctx: MatchingContext, state: GameState) -> Bool {
         ctx.event.kind == kind
         && ctx.event.payload.target == ctx.actor
+        && stateConditions.allSatisfy { $0.match(actor: ctx.actor, state: state) }
     }
 
     struct MatchingContext {

@@ -17,16 +17,18 @@ public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
     public let canPlay: [StateCondition]
-    public let onPlay: [ActiveEffect]
-    public let onTrigger: [TiggeredEffect]
+    public let onPlay: [Effect]
+    public let canTrigger: [ActionCondition]
+    public let onTrigger: [Effect]
     public let counterShot: Bool
 
     public init(
         name: String,
         desc: String = "",
         canPlay: [StateCondition] = [],
-        onPlay: [ActiveEffect] = [],
-        onTrigger: [TiggeredEffect] = [],
+        onPlay: [Effect] = [],
+        canTrigger: [ActionCondition] = [],
+        onTrigger: [Effect] = [],
         counterShot: Bool = false
     ) {
         self.name = name
@@ -34,12 +36,13 @@ public struct Card: Equatable, Codable {
         self.canPlay = canPlay
         self.onPlay = onPlay
         self.counterShot = counterShot
+        self.canTrigger = canTrigger
         self.onTrigger = onTrigger
     }
 }
 
 /// Occurred action when card is played
-public struct ActiveEffect: Equatable, Codable {
+public struct Effect: Equatable, Codable {
     public let action: GameAction.Kind
     public let selectors: [ActionSelector]
 
@@ -52,37 +55,25 @@ public struct ActiveEffect: Equatable, Codable {
     }
 }
 
-/// Occurred action when card is triggered
-public struct TiggeredEffect: Equatable, Codable {
-    public let action: GameAction.Kind
-    public let selectors: [ActionSelector]
-    public let when: EventReq
-
-    // swiftlint:disable:next function_default_parameter_at_end
-    public init(
-        action: GameAction.Kind,
-        selectors: [ActionSelector] = [],
-        when: EventReq
-    ) {
-        self.action = action
-        self.selectors = selectors
-        self.when = when
-    }
-}
-
-/// Required event conditions to trigger a card
-public struct EventReq: Equatable, Codable, Sendable {
-    public let kind: GameAction.Kind
-
-    public init(kind: GameAction.Kind) {
-        self.kind = kind
-    }
-}
-
 /// Required state conditions to play a card
 public enum StateCondition: Equatable, Codable, Sendable {
     case playersAtLeast(Int)
     case playedThisTurnAtMost([String: Int])
+    case isHealthZero
+}
+
+/// Required event conditions to trigger a card
+public struct ActionCondition: Equatable, Codable, Sendable {
+    public let kind: GameAction.Kind
+    public let stateConditions: [StateCondition]
+
+    public init(
+        kind: GameAction.Kind,
+        stateConditions: [StateCondition] = []
+    ) {
+        self.kind = kind
+        self.stateConditions = stateConditions
+    }
 }
 
 /// Selectors are used to specify which objects an aura or effect should affect.

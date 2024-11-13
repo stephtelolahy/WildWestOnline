@@ -54,16 +54,18 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
+            canTrigger: [
+                .init(
+                    kind: .endTurn
+                )
+            ],
             onTrigger: [
                 .init(
                     action: .discard,
                     selectors: [
                         .repeat(.excessHand),
                         .chooseOne(.card([.fromHand]))
-                    ],
-                    when: .init(
-                        kind: .endTurn
-                    )
+                    ]
                 )
             ]
         )
@@ -73,15 +75,17 @@ private extension Cards {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
             desc: "TODO",
+            canTrigger: [
+                .init(
+                    kind: .endTurn
+                )
+            ],
             onTrigger: [
                 .init(
                     action: .startTurn,
                     selectors: [
                         .setTarget(.next)
-                    ],
-                    when: .init(
-                        kind: .endTurn
-                    )
+                    ]
                 )
             ]
         )
@@ -91,15 +95,17 @@ private extension Cards {
         .init(
             name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
+            canTrigger: [
+                .init(
+                    kind: .startTurn
+                )
+            ],
             onTrigger: [
                 .init(
                     action: .drawDeck,
                     selectors: [
                         .repeat(.value(2))
-                    ],
-                    when: .init(
-                        kind: .startTurn
-                    )
+                    ]
                 )
             ]
         )
@@ -109,12 +115,15 @@ private extension Cards {
         .init(
             name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
+            canTrigger: [
+                .init(
+                    kind: .damage,
+                    stateConditions: [.isHealthZero]
+                )
+            ],
             onTrigger: [
                 .init(
-                    action: .eliminate,
-                    when: .init(
-                        kind: .damage
-                    )
+                    action: .eliminate
                 )
             ]
         )

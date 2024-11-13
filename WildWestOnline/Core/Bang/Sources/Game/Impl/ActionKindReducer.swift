@@ -116,7 +116,9 @@ private extension GameAction.Kind {
             }
 
             for playReq in cardObject.canPlay {
-                try playReq.match(state)
+                guard playReq.match(actor: payload.target, state: state) else {
+                    throw .noReq(playReq)
+                }
             }
 
             var state = state
