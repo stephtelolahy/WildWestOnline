@@ -24,7 +24,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case shoot
         case endTurn
         case startTurn
-        case group
+        case queue
         case eliminate
     }
 

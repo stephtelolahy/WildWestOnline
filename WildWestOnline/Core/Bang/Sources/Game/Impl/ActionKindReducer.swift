@@ -32,7 +32,7 @@ private extension GameAction.Kind {
         case .shoot: Shoot()
         case .endTurn: EndTurn()
         case .startTurn: StartTurn()
-        case .group: Group()
+        case .queue: Queue()
         case .eliminate: Eliminate()
         }
     }
@@ -146,7 +146,7 @@ private extension GameAction.Kind {
             } else if playerObj.abilities.contains(card) {
                 // do nothing
             } else {
-                fatalError("Unexpected play \(card)")
+                fatalError("Unexpected \(payload.target) plays unowned \(card)")
             }
 
             return state
@@ -255,7 +255,7 @@ private extension GameAction.Kind {
                 payload: .init(
                     actor: payload.actor,
                     target: payload.target,
-                    amount: 1, // TODO: set damage amount from payload
+                    amount: 1,
                     selectors: [
                         .chooseOne(.eventuallyCounterCard([.counterShot]))
                     ]
@@ -295,7 +295,7 @@ private extension GameAction.Kind {
         }
     }
 
-    struct Group: Reducer {
+    struct Queue: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.queue.insert(contentsOf: payload.children, at: 0)

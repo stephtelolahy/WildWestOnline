@@ -97,9 +97,6 @@ private extension Middlewares {
 
 private extension GameAction {
     var isRenderable: Bool {
-        switch kind {
-        case .group: false
-        default: payload.selectors.isEmpty
-        }
+        kind != .queue && payload.selectors.isEmpty
     }
 }

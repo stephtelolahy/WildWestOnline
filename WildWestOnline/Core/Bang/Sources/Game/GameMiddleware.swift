@@ -58,7 +58,7 @@ private extension GameState {
             return triggered[0]
         } else {
             return .init(
-                kind: .group,
+                kind: .queue,
                 payload: .init(
                     children: triggered
                 )
@@ -87,10 +87,10 @@ private extension GameState {
             return nil
         }
 
-        guard cardObj.canTrigger.allSatisfy({
-            $0.match(event: event, actor: player, state: self)
-        }) else {
-            return nil
+        for stateReq in cardObj.canTrigger {
+            guard stateReq.match(event: event, actor: player, state: self) else {
+                return nil
+            }
         }
 
         return cardObj.onTrigger.map {

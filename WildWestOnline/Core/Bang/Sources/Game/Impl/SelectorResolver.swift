@@ -29,8 +29,7 @@ private extension Card.Selector {
         let number: Card.Selector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let ctx = Card.Selector.Number.Context(actor: pendingAction.payload.actor)
-            let value = number.resolve(ctx: ctx, state: state)
+            let value = number.resolve(actor: pendingAction.payload.actor, state: state)
             return Array(repeating: pendingAction, count: value)
         }
     }
