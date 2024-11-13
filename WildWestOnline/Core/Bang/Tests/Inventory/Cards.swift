@@ -56,7 +56,7 @@ private extension Cards {
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             canTrigger: [
                 .init(
-                    kind: .endTurn
+                    actionKind: .endTurn
                 )
             ],
             onTrigger: [
@@ -77,7 +77,7 @@ private extension Cards {
             desc: "TODO",
             canTrigger: [
                 .init(
-                    kind: .endTurn
+                    actionKind: .endTurn
                 )
             ],
             onTrigger: [
@@ -97,7 +97,7 @@ private extension Cards {
             desc: "Draw two cards at the beginning of your turn",
             canTrigger: [
                 .init(
-                    kind: .startTurn
+                    actionKind: .startTurn
                 )
             ],
             onTrigger: [
@@ -117,7 +117,7 @@ private extension Cards {
             desc: "When you lose your last life point, you are eliminated and your game is over",
             canTrigger: [
                 .init(
-                    kind: .damage,
+                    actionKind: .damage,
                     stateConditions: [.isHealthZero]
                 )
             ],

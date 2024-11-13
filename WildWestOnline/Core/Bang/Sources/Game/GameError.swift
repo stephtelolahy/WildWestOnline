@@ -9,8 +9,8 @@ public enum GameError: Error, Equatable, Codable {
     case insufficientDeck
     case insufficientDiscard
     case playerAlreadyMaxHealth(String)
-    case noReq(StateCondition)
-    case noTarget(ActionSelector.TargetGroup)
-    case noChoosableTarget([ActionSelector.TargetCondition])
+    case noReq(Card.StateReq)
+    case noTarget(Card.Selector.TargetGroup)
+    case noChoosableTarget([Card.Selector.TargetCondition])
     case cardNotPlayable(String)
 }

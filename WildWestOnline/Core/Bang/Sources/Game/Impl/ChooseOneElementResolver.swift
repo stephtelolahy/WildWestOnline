@@ -5,8 +5,8 @@
 //  Created by Hugues Telolahy on 01/11/2024.
 //
 
-extension ActionSelector.ChooseOneElement {
-    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+extension Card.Selector.ChooseOneElement {
+    func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
@@ -15,9 +15,9 @@ extension ActionSelector.ChooseOneElement {
     }
 }
 
-private extension ActionSelector.ChooseOneElement {
+private extension Card.Selector.ChooseOneElement {
     protocol Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved?
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved?
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction]
     }
 
@@ -32,9 +32,9 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct TargetResolver: Resolver {
-        let conditions: [ActionSelector.TargetCondition]
+        let conditions: [Card.Selector.TargetCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             let result = state.playOrder
                 .starting(with: ctx.actor)
                 .dropFirst()
@@ -56,11 +56,11 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct CardResolver: Resolver {
-        let conditions: [ActionSelector.CardCondition]
+        let conditions: [Card.Selector.CardCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target)
-            var options: [ActionSelector.ChooseOneResolved.Option] = []
+            var options: [Card.Selector.ChooseOneResolved.Option] = []
             options += playerObj.inPlay.map {
                 .init(value: $0, label: $0)
             }
@@ -87,7 +87,7 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct DiscoveredResolver: Resolver {
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             .init(
                 chooser: ctx.target,
                 options: state.discovered.map { .init(value: $0, label: $0) }
@@ -100,9 +100,9 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct EventuallyCounterCardResolver: Resolver {
-        let conditions: [ActionSelector.CardCondition]
+        let conditions: [Card.Selector.CardCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             let counterCards = state.players.get(ctx.target).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
@@ -111,7 +111,7 @@ private extension ActionSelector.ChooseOneElement {
                 return nil
             }
 
-            var options: [ActionSelector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
+            var options: [Card.Selector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
             options.append(.init(value: .pass, label: .pass))
             return .init(
                 chooser: ctx.target,
@@ -129,9 +129,9 @@ private extension ActionSelector.ChooseOneElement {
     }
 
     struct EventuallyReverseCardResolver: Resolver {
-        let conditions: [ActionSelector.CardCondition]
+        let conditions: [Card.Selector.CardCondition]
 
-        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> ActionSelector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             let counterCards = state.players.get(ctx.target).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
@@ -140,7 +140,7 @@ private extension ActionSelector.ChooseOneElement {
                 return nil
             }
 
-            var options: [ActionSelector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
+            var options: [Card.Selector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
             options.append(.init(value: .pass, label: .pass))
             return .init(
                 chooser: ctx.target,
@@ -166,7 +166,7 @@ private extension ActionSelector.ChooseOneElement {
     }
 }
 
-private extension Array where Element == ActionSelector.TargetCondition {
+private extension Array where Element == Card.Selector.TargetCondition {
     func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
         allSatisfy {
             $0.match(player, state: state, ctx: ctx)
@@ -174,7 +174,7 @@ private extension Array where Element == ActionSelector.TargetCondition {
     }
 }
 
-private extension Array where Element == ActionSelector.CardCondition {
+private extension Array where Element == Card.Selector.CardCondition {
     func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
         allSatisfy {
             $0.match(card, state: state, ctx: ctx)

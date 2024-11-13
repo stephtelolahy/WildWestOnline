@@ -1,17 +1,17 @@
 //
-//  StateConditionMatcher.swift
+//  StateReqMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 
-extension StateCondition {
+extension Card.StateReq {
     func match(actor: String, state: GameState) -> Bool {
         matcher.match(actor: actor, state: state)
     }
 }
 
-private extension StateCondition {
+private extension Card.StateReq {
     protocol Matcher {
         func match(actor: String, state: GameState) -> Bool
     }

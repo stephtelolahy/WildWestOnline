@@ -34,7 +34,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         public var card: String?
         public var amount: Int?
         public var selection: String?
-        public var selectors: [ActionSelector]
+        public var selectors: [Card.Selector]
         public var children: [GameAction]
 
         public init(
@@ -43,7 +43,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             card: String? = nil,
             amount: Int? = nil,
             selection: String? = nil,
-            selectors: [ActionSelector] = [],
+            selectors: [Card.Selector] = [],
             children: [GameAction] = []
         ) {
             self.actor = actor

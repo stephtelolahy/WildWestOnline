@@ -214,7 +214,7 @@ private extension GameAction.Kind {
 
             var state = state
             var updatedAction = nextAction
-            let updatedSelector = ActionSelector.chooseOne(element, resolved: resolved, selection: selection)
+            let updatedSelector = Card.Selector.chooseOne(element, resolved: resolved, selection: selection)
             updatedAction.payload.selectors[0] = updatedSelector
             state.queue[0] = updatedAction
 

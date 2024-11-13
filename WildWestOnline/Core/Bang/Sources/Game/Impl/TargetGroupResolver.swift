@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension ActionSelector.TargetGroup {
+extension Card.Selector.TargetGroup {
     func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
         let players = resolver.resolve(state, ctx: ctx)
         guard players.isNotEmpty else {
@@ -16,7 +16,7 @@ extension ActionSelector.TargetGroup {
     }
 }
 
-private extension ActionSelector.TargetGroup {
+private extension Card.Selector.TargetGroup {
     protocol Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String]
     }

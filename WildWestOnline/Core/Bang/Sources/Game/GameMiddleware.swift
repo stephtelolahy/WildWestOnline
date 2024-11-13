@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
+// swiftlint:disable discouraged_optional_collection
 import Combine
 
 /// Game loop features
@@ -105,9 +106,9 @@ private extension GameState {
     }
 }
 
-private extension ActionCondition {
+private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
-        event.kind == kind
+        event.kind == actionKind
         && event.payload.target == actor
         && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
     }

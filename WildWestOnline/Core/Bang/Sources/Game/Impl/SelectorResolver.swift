@@ -5,13 +5,13 @@
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 
-extension ActionSelector {
+extension Card.Selector {
     func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
         try resolver.resolve(pendingAction, state)
     }
 }
 
-private extension ActionSelector {
+private extension Card.Selector {
     protocol Resolver {
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction]
     }
@@ -26,10 +26,10 @@ private extension ActionSelector {
     }
 
     struct Repeat: Resolver {
-        let number: ActionSelector.Number
+        let number: Card.Selector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let ctx = ActionSelector.Number.Context(actor: pendingAction.payload.actor)
+            let ctx = Card.Selector.Number.Context(actor: pendingAction.payload.actor)
             let value = number.resolve(ctx: ctx, state: state)
             return Array(repeating: pendingAction, count: value)
         }
@@ -44,7 +44,7 @@ private extension ActionSelector {
     }
 
     struct SetTarget: Resolver {
-        let target: ActionSelector.TargetGroup
+        let target: Card.Selector.TargetGroup
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
             try target.resolve(state, ctx: pendingAction.payload)
@@ -76,7 +76,7 @@ private extension ActionSelector {
                 }
 
                 var updatedAction = pendingAction
-                let updatedSelector = ActionSelector.chooseOne(element, resolved: choice)
+                let updatedSelector = Card.Selector.chooseOne(element, resolved: choice)
                 updatedAction.payload.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
             }

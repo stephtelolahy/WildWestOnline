@@ -5,13 +5,13 @@
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension ActionSelector.TargetCondition {
+extension Card.Selector.TargetCondition {
     func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
         matcher.match(player, state: state, ctx: ctx)
     }
 }
 
-private extension ActionSelector.TargetCondition {
+private extension Card.Selector.TargetCondition {
     protocol Matcher {
         func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool
     }

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension ActionSelector.Number {
+extension Card.Selector.Number {
     func resolve(ctx: Context, state: GameState) -> Int {
         resolver.resolve(ctx: ctx, state: state)
     }
@@ -15,7 +15,7 @@ extension ActionSelector.Number {
     }
 }
 
-private extension ActionSelector.Number {
+private extension Card.Selector.Number {
     protocol Resolver {
         func resolve(ctx: Context, state: GameState) -> Int
     }
