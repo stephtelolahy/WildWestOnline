@@ -231,32 +231,5 @@ public extension String {
              case not(Self)
          }
      }
-
-     /// Triggering events for effects
-     public indirect enum PlayReq: Equatable, Codable {
-         // events on actor
-         case played
-         case playedCardOutOfTurn
-         case playedCardWithName(String)
-         case playedCardWithAttr(PlayerAttribute)
-         case shot
-         case turnStarted
-         case turnEnded
-         case damaged
-         case damagedByCard(String)
-         case damagedLethal
-         case eliminated
-         case cardStolen
-         case cardDiscarded
-         case handEmpty
-         case targetedWithCardOthertThan(String)
-
-         // events on another player
-         case otherEliminated
-         case otherDamaged
-         case otherDamagedByYourCard(String)
-         case otherMissedYourShoot(String)
-         case otherPlayedCard(String)
-     }
  }
  */

@@ -86,12 +86,9 @@ private extension GameState {
             return nil
         }
 
-        let ctx = ActionCondition.MatchingContext(
-            event: event,
-            card: card,
-            actor: player
-        )
-        guard cardObj.canTrigger.allSatisfy({ $0.match(ctx, state: self) }) else {
+        guard cardObj.canTrigger.allSatisfy({
+            $0.match(event: event, actor: player, state: self)
+        }) else {
             return nil
         }
 
@@ -109,15 +106,9 @@ private extension GameState {
 }
 
 private extension ActionCondition {
-    func match(_ ctx: MatchingContext, state: GameState) -> Bool {
-        ctx.event.kind == kind
-        && ctx.event.payload.target == ctx.actor
-        && stateConditions.allSatisfy { $0.match(actor: ctx.actor, state: state) }
-    }
-
-    struct MatchingContext {
-        let event: GameAction
-        let card: String
-        let actor: String
+    func match(event: GameAction, actor: String, state: GameState) -> Bool {
+        event.kind == kind
+        && event.payload.target == actor
+        && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
     }
 }
