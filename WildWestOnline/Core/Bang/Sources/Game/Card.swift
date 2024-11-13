@@ -16,7 +16,7 @@
 public struct Card: Equatable, Codable {
     public let name: String
     public let desc: String
-    public let canPlay: [PlayReq]
+    public let canPlay: [StateCondition]
     public let onPlay: [ActiveEffect]
     public let onTrigger: [TiggeredEffect]
     public let counterShot: Bool
@@ -24,7 +24,7 @@ public struct Card: Equatable, Codable {
     public init(
         name: String,
         desc: String = "",
-        canPlay: [PlayReq] = [],
+        canPlay: [StateCondition] = [],
         onPlay: [ActiveEffect] = [],
         onTrigger: [TiggeredEffect] = [],
         counterShot: Bool = false
@@ -80,7 +80,7 @@ public struct EventReq: Equatable, Codable, Sendable {
 }
 
 /// Required state conditions to play a card
-public enum PlayReq: Equatable, Codable, Sendable {
+public enum StateCondition: Equatable, Codable, Sendable {
     case playersAtLeast(Int)
     case playedThisTurnAtMost([String: Int])
 }
