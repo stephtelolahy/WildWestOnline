@@ -13,6 +13,10 @@ public struct GameReducer {
             return state
         }
 
+        guard !state.isOver else {
+            fatalError("Unexpected game is over")
+        }
+
         var state = state
 
         if action == state.queue.first {
@@ -21,7 +25,7 @@ public struct GameReducer {
 
         if action.payload.selectors.isNotEmpty {
             if state.pendingChoice != nil {
-                fatalError("Unexpected, waiting user choice")
+                fatalError("Unexpected waiting user choice")
             }
 
             var action = action

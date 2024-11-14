@@ -14,6 +14,7 @@ public extension String {
     static let defaultDraw2CardsOnTurnStarted = "defaultDraw2CardsOnTurnStarted"
     static let defaultStartTurnNextOnTurnEnded = "defaultStartTurnNextOnTurnEnded"
     static let defaultEliminateOnDamageLethal = "defaultEliminateOnDamageLethal"
+    static let defaultEndGameOnEliminated = "defaultEndGameOnEliminated"
 //    static let defaultDiscardAllCardsOnEliminated = "defaultDiscardAllCardsOnEliminated"
 //    static let defaultEndTurnOnEliminated = "defaultEndTurnOnEliminated"
 //    static let defaultDiscardPreviousWeaponOnPlayed = "defaultDiscardPreviousWeaponOnPlayed"

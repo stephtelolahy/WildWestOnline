@@ -17,6 +17,7 @@ public enum Cards {
             defaultStartTurnNextOnTurnEnded,
             defaultDraw2CardsOnTurnStarted,
             defaultEliminateOnDamageLethal,
+            defaultEndGameOnEliminated,
             stagecoach,
             wellsFargo,
             beer,
@@ -125,6 +126,22 @@ private extension Cards {
                 .init(
                     action: .eliminate
                 )
+            ]
+        )
+    }
+
+    static var defaultEndGameOnEliminated: Card {
+        .init(
+            name: .defaultEndGameOnEliminated,
+            desc: "TODO",
+            canTrigger: [
+                .init(
+                    actionKind: .eliminate,
+                    stateConditions: [.isOver]
+                )
+            ],
+            onTrigger: [
+                .init(action: .endGame)
             ]
         )
     }

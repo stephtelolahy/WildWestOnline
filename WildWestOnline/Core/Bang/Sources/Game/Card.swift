@@ -59,6 +59,7 @@ public struct Card: Equatable, Codable {
         case playersAtLeast(Int)
         case playedThisTurnAtMost([String: Int])
         case isHealthZero
+        case isOver
     }
 
     /// Required event conditions to trigger a card

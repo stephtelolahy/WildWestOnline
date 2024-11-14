@@ -15,6 +15,10 @@ public extension Middlewares {
                 return nil
             }
 
+            guard !state.isOver else {
+                return nil
+            }
+
             if let triggered = state.triggeredEffect(on: action) {
                 return Just(triggered).eraseToAnyPublisher()
             }
@@ -40,10 +44,14 @@ private extension GameState {
 
     func triggeredEffect(on event: GameAction) -> GameAction? {
         var triggered: [GameAction] = []
-        for player in playOrder {
+        var triggerablePlayers = playOrder
+        if event.kind == .eliminate {
+            triggerablePlayers.append(event.payload.target)
+        }
+        for player in triggerablePlayers {
             let playerObj = players.get(player)
-            let cards = playerObj.inPlay + playerObj.abilities
-            for card in cards {
+            let triggerableCards = playerObj.inPlay + playerObj.abilities
+            for card in triggerableCards {
                 if let effects = triggeredEffects(on: event, by: card, player: player) {
                     triggered.append(contentsOf: effects)
                 }
