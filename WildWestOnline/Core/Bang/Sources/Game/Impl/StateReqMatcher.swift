@@ -20,8 +20,8 @@ private extension Card.StateReq {
         switch self {
         case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
         case .playedThisTurnAtMost(let limit): PlayedThisTurnAtMost(limit: limit)
-        case .isHealthZero: IsHealthZero()
-        case .isOver: IsOver()
+        case .healthZero: HealthZero()
+        case .gameOver: GameOver()
         }
     }
 
@@ -46,13 +46,13 @@ private extension Card.StateReq {
         }
     }
 
-    struct IsHealthZero: Matcher {
+    struct HealthZero: Matcher {
         func match(actor: String, state: GameState) -> Bool {
             state.players.get(actor).health <= 0
         }
     }
 
-    struct IsOver: Matcher {
+    struct GameOver: Matcher {
         func match(actor: String, state: GameState) -> Bool {
             state.playOrder.count <= 1
         }

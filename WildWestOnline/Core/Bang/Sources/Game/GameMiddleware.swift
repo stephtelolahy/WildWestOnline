@@ -95,8 +95,8 @@ private extension GameState {
             return nil
         }
 
-        for stateReq in cardObj.canTrigger {
-            guard stateReq.match(event: event, actor: player, state: self) else {
+        for eventReq in cardObj.canTrigger {
+            guard eventReq.match(event: event, actor: player, state: self) else {
                 return nil
             }
         }

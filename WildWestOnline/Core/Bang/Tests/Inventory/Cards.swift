@@ -119,7 +119,7 @@ private extension Cards {
             canTrigger: [
                 .init(
                     actionKind: .damage,
-                    stateConditions: [.isHealthZero]
+                    stateConditions: [.healthZero]
                 )
             ],
             onTrigger: [
@@ -137,7 +137,7 @@ private extension Cards {
             canTrigger: [
                 .init(
                     actionKind: .eliminate,
-                    stateConditions: [.isOver]
+                    stateConditions: [.gameOver]
                 )
             ],
             onTrigger: [

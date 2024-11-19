@@ -58,8 +58,8 @@ public struct Card: Equatable, Codable {
     public enum StateReq: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
         case playedThisTurnAtMost([String: Int])
-        case isHealthZero
-        case isOver
+        case healthZero
+        case gameOver
     }
 
     /// Required event conditions to trigger a card

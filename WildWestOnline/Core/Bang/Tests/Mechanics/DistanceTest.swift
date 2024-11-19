@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+@testable import Bang
 
 struct DistanceTest {
     @Test func distance_withoutEquipement_shouldBeTheLowestValue() async throws {

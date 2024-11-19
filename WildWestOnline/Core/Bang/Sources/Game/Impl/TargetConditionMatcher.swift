@@ -50,7 +50,7 @@ private extension Card.Selector.TargetCondition {
     }
 }
 
-public extension GameState {
+extension GameState {
     func distance(from playerId: String, to other: String) -> Int {
         guard let pIndex = playOrder.firstIndex(of: playerId),
               let oIndex = playOrder.firstIndex(of: other) else {

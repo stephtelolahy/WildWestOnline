@@ -28,9 +28,9 @@ public struct GameReducer {
                 fatalError("Unexpected waiting user choice")
             }
 
-            var action = action
-            let selector = action.payload.selectors.remove(at: 0)
-            let children = try selector.resolve(action, state)
+            var pendingAction = action
+            let selector = pendingAction.payload.selectors.remove(at: 0)
+            let children = try selector.resolve(pendingAction, state)
 
             state.queue.insert(contentsOf: children, at: 0)
             return state
