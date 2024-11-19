@@ -82,6 +82,7 @@ public struct Card: Equatable, Codable {
         case `repeat`(Number)
         case setAmount(Int)
         case setTarget(TargetGroup)
+        case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
 
         public enum Number: Equatable, Codable, Sendable {
@@ -99,6 +100,10 @@ public struct Card: Equatable, Codable {
             case others
             /// Next turn player
             case next
+        }
+
+        public enum CardGroup: String, Codable, Sendable {
+            case all
         }
 
         public enum ChooseOneElement: Equatable, Codable, Sendable {

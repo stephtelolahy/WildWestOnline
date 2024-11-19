@@ -20,7 +20,8 @@ private extension Card.Selector {
         switch self {
         case .repeat(let number): Repeat(number: number)
         case .setAmount(let number): SetAmount(number: number)
-        case .setTarget(let target): SetTarget(target: target)
+        case .setTarget(let target): SetTarget(targetGroup: target)
+        case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let resolved, let selection): ChooseOne(element: element, resolved: resolved, selection: selection)
         }
     }
@@ -43,11 +44,20 @@ private extension Card.Selector {
     }
 
     struct SetTarget: Resolver {
-        let target: Card.Selector.TargetGroup
+        let targetGroup: Card.Selector.TargetGroup
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            try target.resolve(state, ctx: pendingAction.payload)
+            try targetGroup.resolve(state, ctx: pendingAction.payload)
                 .map { pendingAction.withTarget($0) }
+        }
+    }
+
+    struct SetCard: Resolver {
+        let cardGroup: Card.Selector.CardGroup
+
+        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+            try cardGroup.resolve(state, ctx: pendingAction.payload)
+                .map { pendingAction.withCard($0) }
         }
     }
 

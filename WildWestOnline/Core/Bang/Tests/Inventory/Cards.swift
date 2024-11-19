@@ -18,6 +18,7 @@ public enum Cards {
             defaultDraw2CardsOnTurnStarted,
             defaultEliminateOnDamageLethal,
             defaultEndGameOnEliminated,
+            defaultDiscardAllCardsOnEliminated,
             stagecoach,
             wellsFargo,
             beer,
@@ -142,6 +143,24 @@ private extension Cards {
             ],
             onTrigger: [
                 .init(action: .endGame)
+            ]
+        )
+    }
+
+    static var defaultDiscardAllCardsOnEliminated: Card {
+        .init(
+            name: .defaultDiscardAllCardsOnEliminated,
+            desc: "TODO",
+            canTrigger: [
+                .init(actionKind: .eliminate)
+            ],
+            onTrigger: [
+                .init(
+                    action: .discard,
+                    selectors: [
+                        .setCard(.all)
+                    ]
+                )
             ]
         )
     }
@@ -348,22 +367,6 @@ private extension Cards {
          .weapon: 1,
          .drawCards: 1
      ]
- }
-
- static var defaultDiscardAllCardsOnEliminated: CardV2 {
-     .init(
-         name: .defaultDiscardAllCardsOnEliminated,
-         desc: "",
-         effects: [
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .setCard(.all)
-                 ],
-                 when: .eliminated
-             )
-         ]
-     )
  }
 
  static var defaultEndTurnOnEliminated: CardV2 {
