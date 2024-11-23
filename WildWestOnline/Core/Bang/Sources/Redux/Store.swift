@@ -33,7 +33,7 @@ public enum Middlewares {}
 /// - and publish changes of the the current app `State` to possible subscribers.
 public class Store<State>: ObservableObject {
     @Published public internal(set) var state: State
-    public internal(set) var event: PassthroughSubject<Any, Never>
+    public internal(set) var event: PassthroughSubject<Action, Never>
     public internal(set) var error: PassthroughSubject<Error, Never>
 
     private let reducer: Reducer<State>

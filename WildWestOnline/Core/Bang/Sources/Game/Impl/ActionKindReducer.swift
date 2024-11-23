@@ -34,6 +34,7 @@ private extension GameAction.Kind {
         case .startTurn: StartTurn()
         case .queue: Queue()
         case .eliminate: Eliminate()
+        case .endGame: EndGame()
         }
     }
 
@@ -308,6 +309,14 @@ private extension GameAction.Kind {
             var state = state
             state.playOrder.removeAll { $0 == payload.target }
             state.queue.removeAll { $0.payload.actor == payload.target }
+            return state
+        }
+    }
+
+    struct EndGame: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            state.isOver = true
             return state
         }
     }
