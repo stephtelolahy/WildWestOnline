@@ -59,8 +59,8 @@ struct ActivatePlayableCardsTest {
             .withPlayer("p1") {
                 $0.withHand((1...10).map { "\(String.beer)-\($0)" })
                     .withMaxHealth(4)
-                    .withAbilities([.defaultEndTurn])
                     .withHealth(1)
+                    .withAbilities([.defaultEndTurn])
             }
             .withPlayer("p2") {
                 $0.withMaxHealth(2)

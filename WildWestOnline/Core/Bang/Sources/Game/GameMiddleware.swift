@@ -31,9 +31,9 @@ public extension Middlewares {
                 return Just(pending).eraseToAnyPublisher()
             }
 
-//            if let activate = state.activatePlayableCards() {
-//                return Just(activate).eraseToAnyPublisher()
-//            }
+            if let activate = state.activatePlayableCards() {
+                return Just(activate).eraseToAnyPublisher()
+            }
 
             return nil
         }
