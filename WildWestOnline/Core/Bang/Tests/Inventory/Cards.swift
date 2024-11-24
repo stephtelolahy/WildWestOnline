@@ -30,7 +30,9 @@ public enum Cards {
             gatling,
             missed,
             indians,
-            duel
+            duel,
+            willyTheKid,
+            roseDoolan
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -359,6 +361,28 @@ private extension Cards {
             ]
         )
     }
+
+    static var willyTheKid: Card {
+        .init(
+            name: .willyTheKid,
+            desc: "he can play any number of BANG! cards during his turn.",
+            passive: [
+                .init(action: .setMaxHealth, selectors: [.setAmount(4)])
+            ]
+//            setActionAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
+        )
+    }
+
+    static var roseDoolan: Card {
+        .init(
+            name: .roseDoolan,
+            desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
+            passive: [
+                .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
+                .init(action: .setMagnifying, selectors: [.setAmount(1)])
+            ]
+        )
+    }
 }
 
 /*
@@ -569,24 +593,6 @@ private extension Cards {
                  when: .turnStarted
              )
          ]
-     )
- }
-
- static var willyTheKid: CardV2 {
-     .init(
-         name: .willyTheKid,
-         desc: "he can play any number of BANG! cards during his turn.",
-         setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
-     )
- }
-
- static var roseDoolan: CardV2 {
-     .init(
-         name: .roseDoolan,
-         desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-         setPlayerAttribute: [.maxHealth: 4],
-         increasePlayerAttribute: [.magnifying: 1]
      )
  }
 
