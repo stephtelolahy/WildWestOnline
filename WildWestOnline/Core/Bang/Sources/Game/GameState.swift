@@ -15,6 +15,7 @@ public struct GameState {
     public var discard: [String]
     public var discovered: [String]
     public var playOrder: [String]
+    public var startOrder: [String]
     public var queue: [GameAction]
     public var playedThisTurn: [String: Int]
     public var turn: String?
@@ -55,6 +56,7 @@ public extension GameState {
         private var discard: [String] = []
         private var discovered: [String] = []
         private var playOrder: [String] = []
+        private var startOrder: [String] = []
         private var queue: [GameAction] = []
         private var playedThisTurn: [String: Int] = [:]
         private var turn: String?
@@ -68,6 +70,7 @@ public extension GameState {
                 discard: discard,
                 discovered: discovered,
                 playOrder: playOrder,
+                startOrder: startOrder,
                 queue: queue,
                 playedThisTurn: playedThisTurn,
                 turn: turn,
