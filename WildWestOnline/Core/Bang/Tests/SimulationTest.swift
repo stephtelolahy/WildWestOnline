@@ -7,6 +7,7 @@
 
 import Testing
 import Bang
+import XCTest
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
@@ -14,57 +15,57 @@ struct SimulationTest {
     }
 
     private func simulateGame(playersCount: Int) async throws {
-        /*
         // Given
-        let inventory = CardsRepository().inventory
-        var game = Setup.buildGame(
-            playersCount: playersCount,
-            inventory: inventory,
-            preferredFigure: preferredFigure
-        )
-        game.playMode = game.round.startOrder.reduce(into: [String: PlayMode]()) { $0[$1] = .auto }
-        let stateWrapper = StateWrapper(value: game)
+        let deck = Setup.buildDeck(cardSets: CardSets.bang).shuffled()
+        let figures = Array(Figures.bang.shuffled().prefix(playersCount))
+        let state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all)
 
-        let expectation = XCTestExpectation(description: "Awaiting game over")
-        let sut = Store<GameState>(
-            initial: game,
-            reducer: GameState.reducer,
+        let expectation = XCTestExpectation(description: "Game idle")
+        let store = Store<GameState>(
+            initial: state,
+            reducer: GameReducer().reduce,
             middlewares: [
-                Middlewares.updateGame(),
-                Middlewares.logger(),
-                Middlewares.stateReproducer(stateWrapper)
+                Middlewares.updateGame,
+                Middlewares.handlePendingChoice,
+                Middlewares.verifyState(StateWrapper(value: state))
             ]
-        )
-
-        let cancellable = sut.$state.sink { state in
-            if state.sequence.winner != nil {
-                expectation.fulfill()
-            }
+        ) {
+            expectation.fulfill()
         }
 
         // When
-        let sheriff = game.round.playOrder[0]
-        sut.dispatch(GameAction.startTurn(player: sheriff))
+        let startAction = GameAction.startTurn(player: state.playOrder[0])
+        store.dispatch(startAction)
 
         // Then
-        wait(for: [expectation], timeout: timeout)
-        cancellable.cancel()
-        XCTAssertNotNil(sut.state.sequence.winner, "Expected game over")
-        */
+        let waiter = XCTWaiter()
+        await waiter.fulfillment(of: [expectation])
+
+        #expect(store.state.isOver, "Expected game over")
     }
 }
 
-/// Middleare reproducting state according to received event
 private extension Middlewares {
-    static func stateReproducer(_ prevState: StateWrapper) -> Middleware<GameState> {
+    static var handlePendingChoice: Middleware<GameState> {
+        { state, _ in
+            guard let pendingChoice = state.pendingChoice else {
+                return nil
+            }
+
+            fatalError("Unhandled choice \(pendingChoice)")
+        }
+    }
+
+    /// Middleare reproducting state according to received event
+    static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
-            guard let resultState = try? GameReducer().reduce(prevState.value, action) else {
+            guard let nextState = try? GameReducer().reduce(prevState.value, action) else {
                 fatalError("Failed reducing \(action)")
             }
 
-            assert(resultState == state, "🚨 Inconsistent state after applying \(action)")
+            assert(nextState == state, "Inconsistent state after applying \(action)")
 
-            prevState.value = resultState
+            prevState.value = nextState
             return nil
         }
     }
