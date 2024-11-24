@@ -31,6 +31,7 @@ public enum Setup {
             startOrder: figures,
             queue: [],
             playedThisTurn: [:],
+            active: [:],
             isOver: false
         )
     }

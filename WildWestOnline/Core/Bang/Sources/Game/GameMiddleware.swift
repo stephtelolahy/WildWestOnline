@@ -15,7 +15,11 @@ public extension Middlewares {
                 return nil
             }
 
-            guard !state.isOver else {
+            if state.isOver {
+                return nil
+            }
+
+            if state.pendingChoice != nil {
                 return nil
             }
 
@@ -25,6 +29,10 @@ public extension Middlewares {
 
             if let pending = state.pendingEffect() {
                 return Just(pending).eraseToAnyPublisher()
+            }
+
+            if let activate = state.activatePlayableCards() {
+                return Just(activate).eraseToAnyPublisher()
             }
 
             return nil
@@ -40,6 +48,11 @@ private extension GameState {
         }
 
         return queue[0]
+    }
+
+    func activatePlayableCards() -> GameAction? {
+        precondition(active.isEmpty)
+        return nil
     }
 
     func triggeredEffect(on event: GameAction) -> GameAction? {

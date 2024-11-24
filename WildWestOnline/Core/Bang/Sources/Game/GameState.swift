@@ -19,6 +19,7 @@ public struct GameState: Equatable, Codable {
     public var queue: [GameAction]
     public var playedThisTurn: [String: Int]
     public var turn: String?
+    public var active: [String: [String]]
     public var isOver: Bool
 }
 
@@ -60,6 +61,7 @@ public extension GameState {
         private var queue: [GameAction] = []
         private var playedThisTurn: [String: Int] = [:]
         private var turn: String?
+        private var active: [String: [String]] = [:]
         private var isOver: Bool = false
 
         public func build() -> GameState {
@@ -74,6 +76,7 @@ public extension GameState {
                 queue: queue,
                 playedThisTurn: playedThisTurn,
                 turn: turn,
+                active: active,
                 isOver: isOver
             )
         }
