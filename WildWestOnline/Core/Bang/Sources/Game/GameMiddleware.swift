@@ -43,7 +43,25 @@ public extension Middlewares {
 private extension GameState {
     func activatePlayableCards() -> GameAction? {
         precondition(active.isEmpty)
-        return nil
+
+        guard let player = turn else {
+            return nil
+        }
+
+        var activeCards: [String] = []
+        let playerObj = players.get(player)
+        let activableCards = playerObj.abilities + players.get(player).hand
+        for card in activableCards
+        where GameAction.validatePlay(card: card, player: player, state: self) {
+            activeCards.append(card)
+        }
+
+        // Ignore empty
+        guard activeCards.isNotEmpty else {
+            fatalError("No activable card")
+        }
+
+        return GameAction.activate(activeCards, player: player)
     }
 
     func triggeredEffect(on event: GameAction) -> GameAction? {
@@ -123,5 +141,11 @@ private extension Card.EventReq {
         event.kind == actionKind
         && event.payload.target == actor
         && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
+    }
+}
+
+private extension GameAction {
+    static func validatePlay(card: String, player: String, state: GameState) -> Bool {
+        false
     }
 }

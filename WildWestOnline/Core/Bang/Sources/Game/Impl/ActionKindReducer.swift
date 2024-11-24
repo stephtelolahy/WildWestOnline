@@ -45,6 +45,8 @@ private extension GameAction.Kind {
             fatalError()
         case .setHandLimit:
             fatalError()
+        case .activate:
+            fatalError()
         }
     }
 
