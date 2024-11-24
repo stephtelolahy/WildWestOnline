@@ -31,9 +31,9 @@ public extension Middlewares {
                 return Just(pending).eraseToAnyPublisher()
             }
 
-            if let activate = state.activatePlayableCards() {
-                return Just(activate).eraseToAnyPublisher()
-            }
+//            if let activate = state.activatePlayableCards() {
+//                return Just(activate).eraseToAnyPublisher()
+//            }
 
             return nil
         }
@@ -42,23 +42,24 @@ public extension Middlewares {
 
 private extension GameState {
     func activatePlayableCards() -> GameAction? {
+        if active.isNotEmpty {
+            return nil
+        }
+
         precondition(active.isEmpty)
 
         guard let player = turn else {
             return nil
         }
 
-        var activeCards: [String] = []
         let playerObj = players.get(player)
-        let activableCards = playerObj.abilities + players.get(player).hand
-        for card in activableCards
-        where GameAction.validatePlay(card: card, player: player, state: self) {
-            activeCards.append(card)
-        }
+        let activeCards = (playerObj.abilities + players.get(player).hand)
+            .filter {
+                GameAction.validatePlay(card: $0, player: player, state: self)
+            }
 
-        // Ignore empty
         guard activeCards.isNotEmpty else {
-            fatalError("No activable card")
+            return nil
         }
 
         return GameAction.activate(activeCards, player: player)
@@ -146,6 +147,27 @@ private extension Card.EventReq {
 
 private extension GameAction {
     static func validatePlay(card: String, player: String, state: GameState) -> Bool {
-        false
+        let action = GameAction.play(card, player: player)
+        do {
+            try action.validate(state: state)
+            print("🟢 validatePlay: \(card)")
+            return true
+        } catch {
+            print("🛑 validatePlay: \(card)\tthrows: \(error)")
+            return false
+        }
+    }
+
+    func validate(state: GameState) throws {
+        print("⚙️ validate: \(self) ...")
+
+        var newState = try GameReducer().reduce(state, self)
+
+        if let choice = newState.pendingChoice {
+            fatalError("TODO validate all options path")
+        } else if newState.queue.isNotEmpty {
+            let next = newState.queue.removeFirst()
+            try next.validate(state: newState)
+        }
     }
 }

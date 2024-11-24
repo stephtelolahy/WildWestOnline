@@ -35,18 +35,12 @@ private extension GameAction.Kind {
         case .queue: Queue()
         case .eliminate: Eliminate()
         case .endGame: EndGame()
-        case .setMaxHealth:
-            fatalError()
-        case .setWeapon:
-            fatalError()
-        case .setMagnifying:
-            fatalError()
-        case .setRemoteness:
-            fatalError()
-        case .setHandLimit:
-            fatalError()
-        case .activate:
-            fatalError()
+        case .setMaxHealth: fatalError()
+        case .setWeapon: fatalError()
+        case .setMagnifying: fatalError()
+        case .setRemoteness: fatalError()
+        case .setHandLimit: fatalError()
+        case .activate: Activate()
         }
     }
 
@@ -329,6 +323,14 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.isOver = true
+            return state
+        }
+    }
+
+    struct Activate: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            state.active = [payload.target: payload.cards]
             return state
         }
     }

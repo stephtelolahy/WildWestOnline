@@ -23,6 +23,16 @@ public struct GameReducer {
             state.queue.remove(at: 0)
         }
 
+        if state.active.isNotEmpty {
+            guard action.kind == .play,
+                  let card = action.payload.card,
+                  state.active.contains(where: { $0.key == action.payload.target && $0.value.contains(card) }) else {
+                fatalError("Unexpected unwaited action \(action)")
+            }
+
+            state.active.removeValue(forKey: action.payload.target)
+        }
+
         if action.payload.selectors.isNotEmpty {
             if state.pendingChoice != nil {
                 fatalError("Unexpected waiting user choice")
