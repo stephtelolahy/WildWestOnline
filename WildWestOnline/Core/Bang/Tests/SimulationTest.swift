@@ -26,6 +26,7 @@ struct SimulationTest {
             initial: state,
             reducer: GameReducer().reduce,
             middlewares: [
+                Middlewares.logger(),
                 Middlewares.updateGame,
                 Middlewares.handlePendingChoice,
                 Middlewares.verifyState(StateWrapper(value: state))
@@ -49,13 +50,20 @@ struct SimulationTest {
 private extension Middlewares {
     static var handlePendingChoice: Middleware<GameState> {
         { state, _ in
-            guard let pendingChoice = state.pendingChoice,
-                  let selection = pendingChoice.options.randomElement() else {
-                return nil
+            if let pendingChoice = state.pendingChoice,
+               let selection = pendingChoice.options.randomElement() {
+                let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
+                return Just(chooseAction).eraseToAnyPublisher()
             }
 
-            let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
-            return Just(chooseAction).eraseToAnyPublisher()
+            if state.active.isNotEmpty,
+               let choice = state.active.first,
+               let selection = choice.value.randomElement() {
+                let playAction = GameAction.play(selection, player: choice.key)
+                return Just(playAction).eraseToAnyPublisher()
+            }
+
+            return nil
         }
     }
 
