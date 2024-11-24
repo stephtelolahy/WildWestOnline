@@ -84,11 +84,13 @@ private extension GameState {
     ) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
 
+        #if DEBUG
         let testCardRegex = /^c[a-z0-9]/
         let isNotTestCard = cardName.ranges(of: testCardRegex).isEmpty
         guard isNotTestCard else {
             return nil
         }
+        #endif
 
         guard let cardObj = cards[cardName] else {
             fatalError("Missing definition of \(cardName)")
