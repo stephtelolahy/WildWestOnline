@@ -23,6 +23,10 @@ public extension Middlewares {
                 return nil
             }
 
+            if state.active.isNotEmpty {
+                return nil
+            }
+
             if let triggered = state.triggeredEffect(on: action) {
                 return Just(triggered).eraseToAnyPublisher()
             }
@@ -41,30 +45,6 @@ public extension Middlewares {
 }
 
 private extension GameState {
-    func activatePlayableCards() -> GameAction? {
-        if active.isNotEmpty {
-            return nil
-        }
-
-        precondition(active.isEmpty)
-
-        guard let player = turn else {
-            return nil
-        }
-
-        let playerObj = players.get(player)
-        let activeCards = (playerObj.abilities + players.get(player).hand)
-            .filter {
-                GameAction.validatePlay(card: $0, player: player, state: self)
-            }
-
-        guard activeCards.isNotEmpty else {
-            return nil
-        }
-
-        return GameAction.activate(activeCards, player: player)
-    }
-
     func triggeredEffect(on event: GameAction) -> GameAction? {
         var triggered: [GameAction] = []
         var triggerablePlayers = playOrder
@@ -134,6 +114,24 @@ private extension GameState {
                 )
             )
         }
+    }
+
+    func activatePlayableCards() -> GameAction? {
+        guard let player = turn else {
+            return nil
+        }
+
+        let playerObj = players.get(player)
+        let activeCards = (playerObj.abilities + players.get(player).hand)
+            .filter {
+                GameAction.validatePlay(card: $0, player: player, state: self)
+            }
+
+        guard activeCards.isNotEmpty else {
+            return nil
+        }
+
+        return GameAction.activate(activeCards, player: player)
     }
 }
 

@@ -13,7 +13,7 @@ struct ActivatePlayableCardsTest {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withHand([.saloon, .gatling])
+                $0.withHand([.saloon, .gatling, .beer, .missed])
                     .withMaxHealth(4)
                     .withHealth(2)
             }
