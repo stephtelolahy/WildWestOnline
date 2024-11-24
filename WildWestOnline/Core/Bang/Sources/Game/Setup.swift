@@ -51,6 +51,7 @@ private extension Setup {
         let magnifying = figureObj.magnifying
         let remoteness = figureObj.remoteness
         let handLimit = figureObj.handLimit
+        // TODO: add figure abilities to player
         let abilities = [figure]
 
         let hand = Array(1...maxHealth).compactMap { _ in
