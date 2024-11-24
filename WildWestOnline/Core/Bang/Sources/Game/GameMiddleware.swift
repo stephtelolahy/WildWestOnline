@@ -160,11 +160,12 @@ private extension GameAction {
 
     func validate(state: GameState) throws {
         print("⚙️ validate: \(self) ...")
-
         var newState = try GameReducer().reduce(state, self)
-
         if let choice = newState.pendingChoice {
-            fatalError("TODO validate all options path")
+            for option in choice.options {
+                let next = GameAction.choose(option.label, player: choice.chooser)
+                try next.validate(state: newState)
+            }
         } else if newState.queue.isNotEmpty {
             let next = newState.queue.removeFirst()
             try next.validate(state: newState)
