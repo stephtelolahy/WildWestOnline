@@ -31,10 +31,21 @@ struct SetupTest {
         let deck = Array(1...80).map { "c\($0)" }
         let figures = ["p1", "p2"]
         let cards: [String: Card] = [
-            "p1": .init(name: "p1"),
-            "p2": .init(name: "p2")
-//            "p1": Card.makeBuilder(name: "p1").withAttributes([.maxHealth: 4, .magnifying: 1]).build(),
-//            "p2": Card.makeBuilder(name: "p2").withAttributes([.maxHealth: 3, .remoteness: 1]).build()
+            "p1": .init(
+                name: "p1",
+                passive: [
+                    .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
+                    .init(action: .setMagnifying, selectors: [.setAmount(1)]),
+                    .init(action: .setHandLimit, selectors: [.setAmount(10)])
+                ]
+            ),
+            "p2": .init(
+                name: "p2",
+                passive: [
+                    .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
+                    .init(action: .setRemoteness, selectors: [.setAmount(1)])
+                ]
+            )
         ]
 
         // When
@@ -70,9 +81,14 @@ struct SetupTest {
         #expect(state.players.get("p1").abilities == ["p1"])
         #expect(state.players.get("p1").magnifying == 1)
         #expect(state.players.get("p1").maxHealth == 4)
+        #expect(state.players.get("p1").weapon == 1)
+        #expect(state.players.get("p1").handLimit == 10)
+
         #expect(state.players.get("p2").abilities == ["p2"])
         #expect(state.players.get("p2").remoteness == 1)
         #expect(state.players.get("p2").maxHealth == 3)
+        #expect(state.players.get("p2").weapon == 1)
+        #expect(state.players.get("p2").handLimit == 0)
 
         // should initialize inPlay field
         #expect(state.players.get("p1").inPlay.isEmpty)

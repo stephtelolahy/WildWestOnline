@@ -7,13 +7,9 @@
 
 public enum Setup {
     public static func buildDeck(cardSets: [String: [String]]) -> [String] {
-        var result: [String] = []
-        for (key, values) in cardSets {
-            for value in values {
-                result.append("\(key)-\(value)")
-            }
+        cardSets.reduce(into: [String]()) { result, card in
+            result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
         }
-        return result
     }
 
     public static func buildGame(
@@ -22,14 +18,9 @@ public enum Setup {
         cards: [String: Card]
     ) -> GameState {
         var deck = deck
-        var players: [String: Player] = [:]
-
-        for figure in figures {
-            let id = figure
-            let player = buildPlayer(figure: figure, cards: cards, deck: &deck)
-            players[id] = player
+        let players = figures.reduce(into: [String: Player]()) { result, figure in
+            result[figure] = buildPlayer(figure: figure, cards: cards, deck: &deck)
         }
-
         return .init(
             players: players,
             cards: cards,
@@ -55,14 +46,13 @@ private extension Setup {
             fatalError("Missing figure named \(figure)")
         }
 
-        let health = 4
-        let weapon = 1
-        let magnifying = 0
-        let remoteness = 0
-        let handLimit = 0
+        let maxHealth = figureObj.maxHealth
+        let magnifying = figureObj.magnifying
+        let remoteness = figureObj.remoteness
+        let handLimit = figureObj.handLimit
         let abilities = [figure]
 
-        let hand = Array(1...health).compactMap { _ in
+        let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
                 deck.removeFirst()
             } else {
@@ -71,15 +61,65 @@ private extension Setup {
         }
 
         return .init(
-            health: health,
-            maxHealth: health,
+            health: maxHealth,
+            maxHealth: maxHealth,
             hand: hand,
             inPlay: [],
             magnifying: magnifying,
             remoteness: remoteness,
-            weapon: weapon,
+            weapon: 1,
             abilities: abilities,
             handLimit: handLimit
         )
+    }
+}
+
+private extension Card {
+    var maxHealth: Int {
+        for effect in passive {
+            if case .setMaxHealth = effect.action,
+               let selector = effect.selectors.first,
+               case .setAmount(let value) = selector {
+                return value
+            }
+        }
+
+        fatalError("unexpected")
+    }
+
+    var magnifying: Int {
+        for effect in passive {
+            if case .setMagnifying = effect.action,
+               let selector = effect.selectors.first,
+               case .setAmount(let value) = selector {
+                return value
+            }
+        }
+
+        return 0
+    }
+
+    var remoteness: Int {
+        for effect in passive {
+            if case .setRemoteness = effect.action,
+               let selector = effect.selectors.first,
+               case .setAmount(let value) = selector {
+                return value
+            }
+        }
+
+        return 0
+    }
+
+    var handLimit: Int {
+        for effect in passive {
+            if case .setHandLimit = effect.action,
+               let selector = effect.selectors.first,
+               case .setAmount(let value) = selector {
+                return value
+            }
+        }
+
+        return 0
     }
 }

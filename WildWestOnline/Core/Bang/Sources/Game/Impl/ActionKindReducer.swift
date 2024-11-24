@@ -35,6 +35,16 @@ private extension GameAction.Kind {
         case .queue: Queue()
         case .eliminate: Eliminate()
         case .endGame: EndGame()
+        case .setMaxHealth:
+            fatalError()
+        case .setWeapon:
+            fatalError()
+        case .setMagnifying:
+            fatalError()
+        case .setRemoteness:
+            fatalError()
+        case .setHandLimit:
+            fatalError()
         }
     }
 

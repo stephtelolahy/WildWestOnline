@@ -20,6 +20,7 @@ public struct Card: Equatable, Codable {
     public let onPlay: [Effect]
     public let canTrigger: [EventReq]
     public let onTrigger: [Effect]
+    public let passive: [Effect]
     public let counterShot: Bool
 
     public init(
@@ -29,6 +30,7 @@ public struct Card: Equatable, Codable {
         onPlay: [Effect] = [],
         canTrigger: [EventReq] = [],
         onTrigger: [Effect] = [],
+        passive: [Effect] = [],
         counterShot: Bool = false
     ) {
         self.name = name
@@ -38,6 +40,7 @@ public struct Card: Equatable, Codable {
         self.counterShot = counterShot
         self.canTrigger = canTrigger
         self.onTrigger = onTrigger
+        self.passive = passive
     }
 
     /// Occurred action when card is played

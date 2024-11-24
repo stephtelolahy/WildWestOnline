@@ -27,6 +27,11 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case queue
         case eliminate
         case endGame
+        case setMaxHealth
+        case setWeapon
+        case setMagnifying
+        case setRemoteness
+        case setHandLimit
     }
 
     public struct Payload: Equatable, Codable, Sendable {
