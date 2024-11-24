@@ -8,6 +8,7 @@
 import Testing
 import Bang
 import XCTest
+import Combine
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
@@ -48,11 +49,13 @@ struct SimulationTest {
 private extension Middlewares {
     static var handlePendingChoice: Middleware<GameState> {
         { state, _ in
-            guard let pendingChoice = state.pendingChoice else {
+            guard let pendingChoice = state.pendingChoice,
+                  let selection = pendingChoice.options.randomElement() else {
                 return nil
             }
 
-            fatalError("Unhandled choice \(pendingChoice)")
+            let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
+            return Just(chooseAction).eraseToAnyPublisher()
         }
     }
 
