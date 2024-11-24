@@ -27,7 +27,7 @@ public extension Middlewares {
                 return Just(triggered).eraseToAnyPublisher()
             }
 
-            if let pending = state.pendingEffect() {
+            if let pending = state.queue.first {
                 return Just(pending).eraseToAnyPublisher()
             }
 
@@ -41,15 +41,6 @@ public extension Middlewares {
 }
 
 private extension GameState {
-    func pendingEffect() -> GameAction? {
-        guard queue.isNotEmpty,
-              pendingChoice == nil else {
-            return nil
-        }
-
-        return queue[0]
-    }
-
     func activatePlayableCards() -> GameAction? {
         precondition(active.isEmpty)
         return nil
