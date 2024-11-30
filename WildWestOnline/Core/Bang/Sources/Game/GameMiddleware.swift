@@ -157,7 +157,6 @@ private extension GameAction {
     }
 
     func validate(state: GameState) throws {
-        print("⚙️ validate: \(self) ...")
         var newState = try GameReducer().reduce(state, self)
         if let choice = newState.pendingChoice {
             for option in choice.options {
