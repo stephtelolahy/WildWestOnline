@@ -15,11 +15,17 @@ public enum Setup {
     public static func buildGame(
         figures: [String],
         deck: [String],
-        cards: [String: Card]
+        cards: [String: Card],
+        defaultAbilities: [String]
     ) -> GameState {
         var deck = deck
         let players = figures.reduce(into: [String: Player]()) { result, figure in
-            result[figure] = buildPlayer(figure: figure, cards: cards, deck: &deck)
+            result[figure] = buildPlayer(
+                figure: figure,
+                cards: cards,
+                deck: &deck,
+                defaultAbilities: defaultAbilities
+            )
         }
         return .init(
             players: players,
@@ -41,7 +47,8 @@ private extension Setup {
     static func buildPlayer(
         figure: String,
         cards: [String: Card],
-        deck: inout [String]
+        deck: inout [String],
+        defaultAbilities: [String]
     ) -> Player {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
@@ -51,8 +58,7 @@ private extension Setup {
         let magnifying = figureObj.magnifying
         let remoteness = figureObj.remoteness
         let handLimit = figureObj.handLimit
-        // TODO: add figure abilities to player
-        let abilities = [figure]
+        let abilities = [figure] + defaultAbilities
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {

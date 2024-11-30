@@ -52,7 +52,8 @@ struct SetupTest {
         let state = Setup.buildGame(
             figures: figures,
             deck: deck,
-            cards: cards
+            cards: cards,
+            defaultAbilities: ["a1", "a2"]
         )
 
         // Then
@@ -78,13 +79,13 @@ struct SetupTest {
         #expect(state.turn == nil)
 
         // should set figure attributes
-        #expect(state.players.get("p1").abilities == ["p1"])
+        #expect(state.players.get("p1").abilities == ["p1", "a1", "a2"])
         #expect(state.players.get("p1").magnifying == 1)
         #expect(state.players.get("p1").maxHealth == 4)
         #expect(state.players.get("p1").weapon == 1)
         #expect(state.players.get("p1").handLimit == 10)
 
-        #expect(state.players.get("p2").abilities == ["p2"])
+        #expect(state.players.get("p2").abilities == ["p2", "a1", "a2"])
         #expect(state.players.get("p2").remoteness == 1)
         #expect(state.players.get("p2").maxHealth == 3)
         #expect(state.players.get("p2").weapon == 1)
