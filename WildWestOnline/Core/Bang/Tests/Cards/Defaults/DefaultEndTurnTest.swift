@@ -69,7 +69,6 @@ struct DefaultEndTurnTest {
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
-                    .withInPlay(["cx"])
                     .withHealth(1)
                     .withAbilities([
                         .defaultEndTurn,

@@ -47,14 +47,21 @@ public extension Middlewares {
 private extension GameState {
     func triggeredEffect(on event: GameAction) -> GameAction? {
         var triggered: [GameAction] = []
-        var triggerablePlayers = playOrder
-        if event.kind == .eliminate {
-            triggerablePlayers.append(event.payload.target)
-        }
-        for player in triggerablePlayers {
+
+        for player in playOrder {
             let playerObj = players.get(player)
             let triggerableCards = playerObj.inPlay + playerObj.abilities
             for card in triggerableCards {
+                if let effects = triggeredEffects(on: event, by: card, player: player) {
+                    triggered.append(contentsOf: effects)
+                }
+            }
+        }
+
+        if event.kind == .eliminate {
+            let player = event.payload.target
+            let playerObj = players.get(player)
+            for card in playerObj.abilities {
                 if let effects = triggeredEffects(on: event, by: card, player: player) {
                     triggered.append(contentsOf: effects)
                 }
@@ -83,15 +90,6 @@ private extension GameState {
         player: String
     ) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
-
-        #if DEBUG
-        let testCardRegex = /^c[a-z0-9]/
-        let isNotTestCard = cardName.ranges(of: testCardRegex).isEmpty
-        guard isNotTestCard else {
-            return nil
-        }
-        #endif
-
         guard let cardObj = cards[cardName] else {
             fatalError("Missing definition of \(cardName)")
         }

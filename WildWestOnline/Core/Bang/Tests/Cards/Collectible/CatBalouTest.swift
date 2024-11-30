@@ -40,6 +40,7 @@ struct CatBalouTest {
     @Test func play_targetHavingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
+            .withDummyCards(["c21"])
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -68,6 +69,7 @@ struct CatBalouTest {
     @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
+            .withDummyCards(["c23", "c24"])
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -99,7 +101,6 @@ struct CatBalouTest {
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
-                    .withInPlay(["cx"])
             }
             .withPlayer("p2")
             .build()

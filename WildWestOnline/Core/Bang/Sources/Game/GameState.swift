@@ -105,7 +105,9 @@ public extension GameState {
         }
 
         public func withCards(_ value: [String: Card]) -> Self {
-            cards = value
+            for (key, val) in value {
+                cards[key] = val
+            }
             return self
         }
 
