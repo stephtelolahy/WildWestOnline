@@ -8,16 +8,18 @@
 /// All aspects of game state
 /// These state objects are passed around everywhere
 /// and maintained on both client and server seamlessly
-public struct GameState {
+public struct GameState: Equatable, Codable {
     public var players: [String: Player]
     public var cards: [String: Card]
     public var deck: [String]
     public var discard: [String]
     public var discovered: [String]
     public var playOrder: [String]
+    public var startOrder: [String]
     public var queue: [GameAction]
     public var playedThisTurn: [String: Int]
     public var turn: String?
+    public var active: [String: [String]]
     public var isOver: Bool
 }
 
@@ -55,9 +57,11 @@ public extension GameState {
         private var discard: [String] = []
         private var discovered: [String] = []
         private var playOrder: [String] = []
+        private var startOrder: [String] = []
         private var queue: [GameAction] = []
         private var playedThisTurn: [String: Int] = [:]
         private var turn: String?
+        private var active: [String: [String]] = [:]
         private var isOver: Bool = false
 
         public func build() -> GameState {
@@ -68,9 +72,11 @@ public extension GameState {
                 discard: discard,
                 discovered: discovered,
                 playOrder: playOrder,
+                startOrder: startOrder,
                 queue: queue,
                 playedThisTurn: playedThisTurn,
                 turn: turn,
+                active: active,
                 isOver: isOver
             )
         }
@@ -99,7 +105,9 @@ public extension GameState {
         }
 
         public func withCards(_ value: [String: Card]) -> Self {
-            cards = value
+            for (key, val) in value {
+                cards[key] = val
+            }
             return self
         }
 

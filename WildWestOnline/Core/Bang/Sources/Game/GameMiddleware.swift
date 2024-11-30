@@ -15,7 +15,15 @@ public extension Middlewares {
                 return nil
             }
 
-            guard !state.isOver else {
+            if state.isOver {
+                return nil
+            }
+
+            if state.pendingChoice != nil {
+                return nil
+            }
+
+            if state.active.isNotEmpty {
                 return nil
             }
 
@@ -23,8 +31,12 @@ public extension Middlewares {
                 return Just(triggered).eraseToAnyPublisher()
             }
 
-            if let pending = state.pendingEffect() {
+            if let pending = state.queue.first {
                 return Just(pending).eraseToAnyPublisher()
+            }
+
+            if let activate = state.activatePlayableCards() {
+                return Just(activate).eraseToAnyPublisher()
             }
 
             return nil
@@ -33,25 +45,23 @@ public extension Middlewares {
 }
 
 private extension GameState {
-    func pendingEffect() -> GameAction? {
-        guard queue.isNotEmpty,
-              pendingChoice == nil else {
-            return nil
-        }
-
-        return queue[0]
-    }
-
     func triggeredEffect(on event: GameAction) -> GameAction? {
         var triggered: [GameAction] = []
-        var triggerablePlayers = playOrder
-        if event.kind == .eliminate {
-            triggerablePlayers.append(event.payload.target)
-        }
-        for player in triggerablePlayers {
+
+        for player in playOrder {
             let playerObj = players.get(player)
             let triggerableCards = playerObj.inPlay + playerObj.abilities
             for card in triggerableCards {
+                if let effects = triggeredEffects(on: event, by: card, player: player) {
+                    triggered.append(contentsOf: effects)
+                }
+            }
+        }
+
+        if event.kind == .eliminate {
+            let player = event.payload.target
+            let playerObj = players.get(player)
+            for card in playerObj.abilities {
                 if let effects = triggeredEffects(on: event, by: card, player: player) {
                     triggered.append(contentsOf: effects)
                 }
@@ -80,13 +90,6 @@ private extension GameState {
         player: String
     ) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
-
-        let testCardRegex = /^c[a-z0-9]/
-        let isNotTestCard = cardName.ranges(of: testCardRegex).isEmpty
-        guard isNotTestCard else {
-            return nil
-        }
-
         guard let cardObj = cards[cardName] else {
             fatalError("Missing definition of \(cardName)")
         }
@@ -112,6 +115,24 @@ private extension GameState {
             )
         }
     }
+
+    func activatePlayableCards() -> GameAction? {
+        guard let player = turn else {
+            return nil
+        }
+
+        let playerObj = players.get(player)
+        let activeCards = (playerObj.abilities + players.get(player).hand)
+            .filter {
+                GameAction.validatePlay(card: $0, player: player, state: self)
+            }
+
+        guard activeCards.isNotEmpty else {
+            return nil
+        }
+
+        return GameAction.activate(activeCards, player: player)
+    }
 }
 
 private extension Card.EventReq {
@@ -119,5 +140,32 @@ private extension Card.EventReq {
         event.kind == actionKind
         && event.payload.target == actor
         && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
+    }
+}
+
+private extension GameAction {
+    static func validatePlay(card: String, player: String, state: GameState) -> Bool {
+        let action = GameAction.play(card, player: player)
+        do {
+            try action.validate(state: state)
+            print("🟢 validatePlay: \(card)")
+            return true
+        } catch {
+            print("🛑 validatePlay: \(card)\tthrows: \(error)")
+            return false
+        }
+    }
+
+    func validate(state: GameState) throws {
+        var newState = try GameReducer().reduce(state, self)
+        if let choice = newState.pendingChoice {
+            for option in choice.options {
+                let next = GameAction.choose(option.label, player: choice.chooser)
+                try next.validate(state: newState)
+            }
+        } else if newState.queue.isNotEmpty {
+            let next = newState.queue.removeFirst()
+            try next.validate(state: newState)
+        }
     }
 }

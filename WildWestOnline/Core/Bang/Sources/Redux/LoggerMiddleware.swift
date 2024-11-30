@@ -10,7 +10,7 @@ import Combine
 public extension Middlewares {
     static func logger<State>() -> Middleware<State> {
         { _, action in
-            print(String(describing: action))
+            print("✅" + String(describing: action))
             return nil
         }
     }

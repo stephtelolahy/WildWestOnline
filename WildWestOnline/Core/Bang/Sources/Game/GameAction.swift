@@ -27,6 +27,12 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case queue
         case eliminate
         case endGame
+        case setMaxHealth
+        case setWeapon
+        case setMagnifying
+        case setRemoteness
+        case setHandLimit
+        case activate
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -37,6 +43,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         public var selection: String?
         public var selectors: [Card.Selector]
         public var children: [GameAction]
+        public var cards: [String]
 
         public init(
             actor: String = "",
@@ -45,7 +52,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             amount: Int? = nil,
             selection: String? = nil,
             selectors: [Card.Selector] = [],
-            children: [GameAction] = []
+            children: [GameAction] = [],
+            cards: [String] = []
         ) {
             self.actor = actor
             self.target = target
@@ -54,6 +62,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             self.selection = selection
             self.selectors = selectors
             self.children = children
+            self.cards = cards
         }
     }
 
@@ -224,6 +233,14 @@ public extension GameAction {
             payload: .init(
                 target: player
             )
+        )
+    }
+
+    /// Expose active cards
+    static func activate(_ cards: [String], player: String) -> Self {
+        .init(
+            kind: .activate,
+            payload: .init(target: player, cards: cards)
         )
     }
 }

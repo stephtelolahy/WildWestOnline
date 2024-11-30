@@ -11,3 +11,12 @@ extension GameState {
         makeBuilder().withCards(Cards.all)
     }
 }
+
+extension GameState.Builder {
+    func withDummyCards(_ names: [String]) -> Self {
+        let extraCards = names.reduce(into: [String: Card]()) { partialResult, element in
+            partialResult[element] = .init(name: element)
+        }
+        return withCards(extraCards)
+    }
+}

@@ -35,6 +35,12 @@ private extension GameAction.Kind {
         case .queue: Queue()
         case .eliminate: Eliminate()
         case .endGame: EndGame()
+        case .setMaxHealth: fatalError()
+        case .setWeapon: fatalError()
+        case .setMagnifying: fatalError()
+        case .setRemoteness: fatalError()
+        case .setHandLimit: fatalError()
+        case .activate: Activate()
         }
     }
 
@@ -109,7 +115,7 @@ private extension GameAction.Kind {
             let cardName = Card.extractName(from: card)
 
             guard let cardObject = state.cards[cardName] else {
-                fatalError("Missing definition of \(cardName)")
+                throw .cardNotPlayable(cardName)
             }
 
             guard cardObject.onPlay.isNotEmpty else {
@@ -317,6 +323,14 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.isOver = true
+            return state
+        }
+    }
+
+    struct Activate: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            state.active = [payload.target: payload.cards]
             return state
         }
     }
