@@ -75,32 +75,22 @@ private class ChoicesWrapper {
 private extension Middlewares {
     static func handlePendingChoice(choicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
         { state, _ in
-            Deferred {
-                Future<Action?, Never> { promise in
-                    let output = _handlePendingChoice(choicesWrapper: choicesWrapper, state: state)
-                    promise(.success(output))
-                }
+            guard let pendingChoice = state.pendingChoice else {
+                return nil
             }
-            .eraseToAnyPublisher()
-        }
-    }
 
-    private static func _handlePendingChoice(choicesWrapper: ChoicesWrapper, state: GameState) -> GameAction? {
-        guard let pendingChoice = state.pendingChoice else {
-            return nil
-        }
+            guard choicesWrapper.choices.isNotEmpty else {
+                fatalError("Unexpected choice: \(pendingChoice)")
+            }
 
-        guard choicesWrapper.choices.isNotEmpty else {
-            fatalError("Unexpected choice: \(pendingChoice)")
-        }
+            guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
+                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
+            }
 
-        guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
-            fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
+            let expectedChoice = choicesWrapper.choices.remove(at: 0)
+            let selection = pendingChoice.options[expectedChoice.selectionIndex]
+            return GameAction.choose(selection.label, player: pendingChoice.chooser)
         }
-
-        let expectedChoice = choicesWrapper.choices.remove(at: 0)
-        let selection = pendingChoice.options[expectedChoice.selectionIndex]
-        return GameAction.choose(selection.label, player: pendingChoice.chooser)
     }
 }
 

@@ -22,7 +22,7 @@ public typealias Reducer<State> = (State, Action) throws -> State
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
 /// handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action?, Never>
+public typealias Middleware<State> = (State, Action) -> Action?
 
 /// Namespace for Middlewares
 public enum Middlewares {}
@@ -76,10 +76,20 @@ public class Store<State>: ObservableObject {
         receivedEffects = []
 
         for middleware in middlewares {
-            middleware(newState, action)
+            Deferred {
+                Future<Action?, Never> { promise in
+                    let output = middleware(newState, action)
+                    promise(.success(output))
+                }
+            }
+            .eraseToAnyPublisher()
                 .subscribe(on: queue)
                 .receive(on: DispatchQueue.main)
-                .sink { [unowned self] newAction in
+                .sink { [weak self] newAction in
+                    guard let self else {
+                        return
+                    }
+
                     queuedEffects -= 1
                     receivedEffects.append(newAction)
 

@@ -12,46 +12,36 @@ import Foundation
 public extension Middlewares {
     static var updateGame: Middleware<GameState> {
         { state, action in
-            Deferred {
-                Future<Action?, Never> { promise in
-                    let output = _updateGame(action, state: state)
-                    promise(.success(output))
-                }
+            guard let action = action as? GameAction else {
+                return nil
             }
-            .eraseToAnyPublisher()
-        }
-    }
 
-    private static func _updateGame(_ action: Action, state: GameState) -> Action? {
-        guard let action = action as? GameAction else {
+            if state.isOver {
+                return nil
+            }
+
+            if state.pendingChoice != nil {
+                return nil
+            }
+
+            if state.active.isNotEmpty {
+                return nil
+            }
+
+            if let triggered = state.triggeredEffect(on: action) {
+                return triggered
+            }
+
+            if let pending = state.queue.first {
+                return pending
+            }
+
+            if let activate = state.activatePlayableCards() {
+                return activate
+            }
+
             return nil
         }
-
-        if state.isOver {
-            return nil
-        }
-
-        if state.pendingChoice != nil {
-            return nil
-        }
-
-        if state.active.isNotEmpty {
-            return nil
-        }
-
-        if let triggered = state.triggeredEffect(on: action) {
-            return triggered
-        }
-
-        if let pending = state.queue.first {
-            return pending
-        }
-
-        if let activate = state.activatePlayableCards() {
-            return activate
-        }
-
-        return nil
     }
 }
 
