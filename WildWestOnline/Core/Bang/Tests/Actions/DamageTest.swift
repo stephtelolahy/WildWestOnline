@@ -5,11 +5,11 @@
 //  Created by Hugues Telolahy on 05/01/2024.
 //
 
-import Bang
 import Testing
+import Bang
 
 struct DamageTest {
-    func damage_with1LifePoint_shouldReduceHealthBy1() async throws {
+    @Test func damage_with1LifePoint_shouldReduceHealthBy1() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -25,7 +25,7 @@ struct DamageTest {
         #expect(result.players.get("p1").health == 1)
     }
 
-    func damage_with2LifePoints_shouldReduceHealthBy2() async throws {
+    @Test func damage_with2LifePoints_shouldReduceHealthBy2() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {

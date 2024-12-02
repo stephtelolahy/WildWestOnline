@@ -26,11 +26,11 @@ private extension Card.Selector.TargetCondition {
 
     struct HavingCard: Matcher {
         func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
-            let playerObject = state.players.get(player)
+            let playerObj = state.players.get(player)
             if player == ctx.target {
-                return playerObject.inPlay.isNotEmpty
+                return playerObj.inPlay.isNotEmpty
             } else {
-                return playerObject.inPlay.isNotEmpty || playerObject.hand.isNotEmpty
+                return playerObj.inPlay.isNotEmpty || playerObj.hand.isNotEmpty
             }
         }
     }

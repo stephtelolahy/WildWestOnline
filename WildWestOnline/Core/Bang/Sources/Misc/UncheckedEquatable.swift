@@ -1,12 +1,12 @@
 //
-//  EquatableNoop.swift
+//  UncheckedEquatable.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 03/11/2024.
 //
 
 @propertyWrapper
-public struct EquatableNoop: Equatable, Codable, Sendable {
+public struct UncheckedEquatable: Equatable, Codable, Sendable {
     public var wrappedValue: String
 
     public init(wrappedValue: String) {
