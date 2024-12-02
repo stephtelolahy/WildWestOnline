@@ -33,7 +33,7 @@ func dispatchUntilCompleted(
     var ocurredEvents: [GameAction] = []
     var ocurredError: Error?
 
-    store.event.sink { event in
+    store.eventPublisher.sink { event in
         if let gameAction = event as? GameAction,
            gameAction.isRenderable {
             ocurredEvents.append(gameAction)
@@ -41,7 +41,7 @@ func dispatchUntilCompleted(
     }
     .store(in: &subscriptions)
 
-    store.error.sink { error in
+    store.errorPublisher.sink { error in
         ocurredError = error
     }
     .store(in: &subscriptions)
@@ -75,23 +75,32 @@ private class ChoicesWrapper {
 private extension Middlewares {
     static func handlePendingChoice(choicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
         { state, _ in
-            guard let pendingChoice = state.pendingChoice else {
-                return nil
+            Deferred {
+                Future<Action?, Never> { promise in
+                    let output = _handlePendingChoice(choicesWrapper: choicesWrapper, state: state)
+                    promise(.success(output))
+                }
             }
-
-            guard choicesWrapper.choices.isNotEmpty else {
-                fatalError("Unexpected choice: \(pendingChoice)")
-            }
-
-            guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
-                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
-            }
-
-            let expectedChoice = choicesWrapper.choices.remove(at: 0)
-            let selection = pendingChoice.options[expectedChoice.selectionIndex]
-            let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
-            return Just(chooseAction).eraseToAnyPublisher()
+            .eraseToAnyPublisher()
         }
+    }
+
+    private static func _handlePendingChoice(choicesWrapper: ChoicesWrapper, state: GameState) -> GameAction? {
+        guard let pendingChoice = state.pendingChoice else {
+            return nil
+        }
+
+        guard choicesWrapper.choices.isNotEmpty else {
+            fatalError("Unexpected choice: \(pendingChoice)")
+        }
+
+        guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
+            fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
+        }
+
+        let expectedChoice = choicesWrapper.choices.remove(at: 0)
+        let selection = pendingChoice.options[expectedChoice.selectionIndex]
+        return GameAction.choose(selection.label, player: pendingChoice.chooser)
     }
 }
 

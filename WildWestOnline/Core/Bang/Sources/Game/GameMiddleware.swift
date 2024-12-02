@@ -6,41 +6,52 @@
 //
 // swiftlint:disable discouraged_optional_collection
 import Combine
+import Foundation
 
 /// Game loop features
 public extension Middlewares {
     static var updateGame: Middleware<GameState> {
         { state, action in
-            guard let action = action as? GameAction else {
-                return nil
+            Deferred {
+                Future<Action?, Never> { promise in
+                    let output = _updateGame(action, state: state)
+                    promise(.success(output))
+                }
             }
+            .eraseToAnyPublisher()
+        }
+    }
 
-            if state.isOver {
-                return nil
-            }
-
-            if state.pendingChoice != nil {
-                return nil
-            }
-
-            if state.active.isNotEmpty {
-                return nil
-            }
-
-            if let triggered = state.triggeredEffect(on: action) {
-                return Just(triggered).eraseToAnyPublisher()
-            }
-
-            if let pending = state.queue.first {
-                return Just(pending).eraseToAnyPublisher()
-            }
-
-            if let activate = state.activatePlayableCards() {
-                return Just(activate).eraseToAnyPublisher()
-            }
-
+    private static func _updateGame(_ action: Action, state: GameState) -> Action? {
+        guard let action = action as? GameAction else {
             return nil
         }
+
+        if state.isOver {
+            return nil
+        }
+
+        if state.pendingChoice != nil {
+            return nil
+        }
+
+        if state.active.isNotEmpty {
+            return nil
+        }
+
+        if let triggered = state.triggeredEffect(on: action) {
+            return triggered
+        }
+
+        if let pending = state.queue.first {
+            return pending
+        }
+
+        if let activate = state.activatePlayableCards() {
+            return activate
+        }
+
+        return nil
     }
 }
 

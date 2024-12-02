@@ -14,7 +14,7 @@ import SwiftUI
 /// To change something in the state, you need to dispatch an action.
 /// Common protocol to which all actions conform.
 ///
-public protocol Action {}
+public protocol Action: Sendable {}
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 public typealias Reducer<State> = (State, Action) throws -> State
@@ -22,7 +22,7 @@ public typealias Reducer<State> = (State, Action) throws -> State
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
 /// handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action, Never>?
+public typealias Middleware<State> = (State, Action) -> AnyPublisher<Action?, Never>
 
 /// Namespace for Middlewares
 public enum Middlewares {}
@@ -33,13 +33,13 @@ public enum Middlewares {}
 /// - and publish changes of the the current app `State` to possible subscribers.
 public class Store<State>: ObservableObject {
     @Published public internal(set) var state: State
-    public internal(set) var event: PassthroughSubject<Action, Never>
-    public internal(set) var error: PassthroughSubject<Error, Never>
+    public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
+    public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
 
     private let reducer: Reducer<State>
     private let middlewares: [Middleware<State>]
-    private var subscriptions: Set<AnyCancellable> = []
-    private let queue = DispatchQueue(label: "redux.store-\(UUID())")
+    private var cancellables: Set<AnyCancellable> = []
+    private let queue = DispatchQueue(label: "store-\(UUID())")
     private var completion: (() -> Void)?
 
     public init(
@@ -51,33 +51,46 @@ public class Store<State>: ObservableObject {
         self.state = state
         self.reducer = reducer
         self.middlewares = middlewares
-        self.event = .init()
-        self.error = .init()
+        self.eventPublisher = .init()
+        self.errorPublisher = .init()
         self.completion = completion
     }
 
     public func dispatch(_ action: Action) {
         do {
             let newState = try reducer(state, action)
-            event.send(action)
+            eventPublisher.send(action)
             state = newState
-            var hasEffect = false
-            for middleware in middlewares {
-                if let publisher = middleware(newState, action) {
-                    hasEffect = true
-                    publisher
-                        .subscribe(on: queue)
-                        .receive(on: RunLoop.main)
-                        .sink(receiveValue: dispatch)
-                        .store(in: &subscriptions)
-                }
-            }
-            if !hasEffect {
-                completion?()
-            }
+            runSideEfects(action, newState: newState)
         } catch {
-            self.error.send(error)
+            errorPublisher.send(error)
             completion?()
+        }
+    }
+
+    private var pendingEffects = 0
+    private var nonEmptyEffects = 0
+
+    private func runSideEfects(_ action: Action, newState: State) {
+        pendingEffects = middlewares.count
+        nonEmptyEffects = 0
+        for middleware in middlewares {
+            middleware(newState, action)
+                .subscribe(on: queue)
+                .receive(on: RunLoop.main)
+                .sink { [unowned self] newAction in
+                    pendingEffects -= 1
+                    nonEmptyEffects += newAction != nil ? 1 : 0
+                    if pendingEffects == 0 && nonEmptyEffects == 0 {
+                        completion?()
+                        return
+                    }
+
+                    if let newAction {
+                        dispatch(newAction)
+                    }
+                }
+                .store(in: &cancellables)
         }
     }
 }

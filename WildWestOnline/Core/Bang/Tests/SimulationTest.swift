@@ -50,35 +50,52 @@ struct SimulationTest {
 private extension Middlewares {
     static var handlePendingChoice: Middleware<GameState> {
         { state, _ in
-            if let pendingChoice = state.pendingChoice,
-               let selection = pendingChoice.options.randomElement() {
-                let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
-                return Just(chooseAction).eraseToAnyPublisher()
+            Deferred {
+                Future<Action?, Never> { promise in
+                    let output = _handlePendingChoice(state: state)
+                    promise(.success(output))
+                }
             }
-
-            if state.active.isNotEmpty,
-               let choice = state.active.first,
-               let selection = choice.value.randomElement() {
-                let playAction = GameAction.play(selection, player: choice.key)
-                return Just(playAction).eraseToAnyPublisher()
-            }
-
-            return nil
+            .eraseToAnyPublisher()
         }
+    }
+
+    private static func _handlePendingChoice(state: GameState) -> Action? {
+        if let pendingChoice = state.pendingChoice,
+           let selection = pendingChoice.options.randomElement() {
+            return GameAction.choose(selection.label, player: pendingChoice.chooser)
+        }
+
+        if state.active.isNotEmpty,
+           let choice = state.active.first,
+           let selection = choice.value.randomElement() {
+            return GameAction.play(selection, player: choice.key)
+        }
+
+        return nil
     }
 
     /// Middleare reproducting state according to received event
     static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
-            guard let nextState = try? GameReducer().reduce(prevState.value, action) else {
-                fatalError("Failed reducing \(action)")
+            Deferred {
+                Future<Action?, Never> { promise in
+                    _verifyState(prevState, action: action, state: state)
+                    promise(.success(nil))
+                }
             }
-
-            assert(nextState == state, "Inconsistent state after applying \(action)")
-
-            prevState.value = nextState
-            return nil
+            .eraseToAnyPublisher()
         }
+    }
+
+    private static func _verifyState(_ prevState: StateWrapper, action: Action, state: GameState) {
+        guard let nextState = try? GameReducer().reduce(prevState.value, action) else {
+            fatalError("Failed reducing \(action)")
+        }
+
+        assert(nextState == state, "Inconsistent state after applying \(action)")
+
+        prevState.value = nextState
     }
 }
 
