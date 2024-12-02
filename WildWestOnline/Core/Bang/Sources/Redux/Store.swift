@@ -68,20 +68,22 @@ public class Store<State>: ObservableObject {
         }
     }
 
-    private var pendingEffects = 0
-    private var nonEmptyEffects = 0
+    private var queuedEffects = 0
+    private var receivedEffects: [Action?] = []
 
     private func runSideEfects(_ action: Action, newState: State) {
-        pendingEffects = middlewares.count
-        nonEmptyEffects = 0
+        queuedEffects = middlewares.count
+        receivedEffects = []
+
         for middleware in middlewares {
             middleware(newState, action)
                 .subscribe(on: queue)
                 .receive(on: RunLoop.main)
                 .sink { [unowned self] newAction in
-                    pendingEffects -= 1
-                    nonEmptyEffects += newAction != nil ? 1 : 0
-                    if pendingEffects == 0 && nonEmptyEffects == 0 {
+                    queuedEffects -= 1
+                    receivedEffects.append(newAction)
+
+                    if queuedEffects == 0 && receivedEffects.allSatisfy({ $0 == nil }) {
                         completion?()
                         return
                     }
