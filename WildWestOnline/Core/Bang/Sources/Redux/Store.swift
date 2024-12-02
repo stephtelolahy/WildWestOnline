@@ -78,7 +78,7 @@ public class Store<State>: ObservableObject {
         for middleware in middlewares {
             middleware(newState, action)
                 .subscribe(on: queue)
-                .receive(on: RunLoop.main)
+                .receive(on: DispatchQueue.main)
                 .sink { [unowned self] newAction in
                     queuedEffects -= 1
                     receivedEffects.append(newAction)
