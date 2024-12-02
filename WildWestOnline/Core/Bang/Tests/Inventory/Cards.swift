@@ -37,18 +37,6 @@ public enum Cards {
             result[card.name] = card
         }
     }
-
-    static var defaultAbilities: [String] {
-        [
-            .defaultEndTurn,
-            .defaultDiscardExcessHandOnTurnEnded,
-            .defaultDraw2CardsOnTurnStarted,
-            .defaultStartTurnNextOnTurnEnded,
-            .defaultEliminateOnDamageLethal,
-            .defaultEndGameOnEliminated,
-            .defaultDiscardAllCardsOnEliminated
-        ]
-    }
 }
 
 private extension Cards {
@@ -373,7 +361,6 @@ private extension Cards {
             ]
         )
     }
-
 
     static var willyTheKid: Card {
         .init(

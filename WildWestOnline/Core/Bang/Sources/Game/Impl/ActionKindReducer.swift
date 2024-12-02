@@ -113,16 +113,15 @@ private extension GameAction.Kind {
             }
 
             let cardName = Card.extractName(from: card)
+            guard let cardObj = state.cards[cardName] else {
+                fatalError("Missing definition of \(cardName)")
+            }
 
-            guard let cardObject = state.cards[cardName] else {
+            guard cardObj.onPlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
 
-            guard cardObject.onPlay.isNotEmpty else {
-                throw .cardNotPlayable(cardName)
-            }
-
-            for playReq in cardObject.canPlay {
+            for playReq in cardObj.canPlay {
                 guard playReq.match(actor: payload.target, state: state) else {
                     throw .noReq(playReq)
                 }
@@ -130,7 +129,7 @@ private extension GameAction.Kind {
 
             var state = state
 
-            let onPlay = cardObject.onPlay
+            let onPlay = cardObj.onPlay
                 .map {
                     GameAction(
                         kind: $0.action,
