@@ -50,7 +50,6 @@ struct SimulationTest {
 private extension Middlewares {
     static var handlePendingChoice: Middleware<GameState> {
         { state, _ in
-
             if let pendingChoice = state.pendingChoice,
                let selection = pendingChoice.options.randomElement() {
                 return GameAction.choose(selection.label, player: pendingChoice.chooser)
