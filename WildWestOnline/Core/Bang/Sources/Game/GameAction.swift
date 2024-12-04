@@ -36,7 +36,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        @UncheckedEquatable public var actor: String
+        @UncheckedEquatable var actor: String
+        @UncheckedEquatable var source: String
         public var target: String
         public var card: String?
         public var amount: Int?
@@ -47,6 +48,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
 
         public init(
             actor: String = "",
+            source: String = "",
             target: String = "",
             card: String? = nil,
             amount: Int? = nil,
@@ -56,6 +58,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             cards: [String] = []
         ) {
             self.actor = actor
+            self.source = source
             self.target = target
             self.card = card
             self.amount = amount
@@ -251,7 +254,7 @@ extension GameAction: CustomStringConvertible {
             return "..."
         }
 
-        return switch kind {
+        let desc = switch kind {
         case .play:
             "🟡 \(payload.target) \(payload.card!)"
 
@@ -261,9 +264,10 @@ extension GameAction: CustomStringConvertible {
         case .damage:
             "\(String(repeating: "🥵", count: payload.amount!)) \(payload.target)"
 
-        case .drawDeck,
-                .drawDiscard:
-            "💰 \(payload.target)"
+        case .drawDeck:
+            "💰drawDeck \(payload.target)"
+        case .drawDiscard:
+            "💰drawDiscard \(payload.target)"
 
         case .drawDiscovered:
             "💰 \(payload.target) \(payload.card!)"
@@ -307,5 +311,7 @@ extension GameAction: CustomStringConvertible {
         default:
             fatalError("unexpected")
         }
+
+        return "\(desc)  << \(payload.source)"
     }
 }

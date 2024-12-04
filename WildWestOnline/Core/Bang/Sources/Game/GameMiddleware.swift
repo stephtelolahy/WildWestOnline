@@ -110,6 +110,7 @@ private extension GameState {
                 kind: $0.action,
                 payload: .init(
                     actor: player,
+                    source: card,
                     target: player,
                     selectors: $0.selectors
                 )
