@@ -244,3 +244,68 @@ public extension GameAction {
         )
     }
 }
+
+extension GameAction: CustomStringConvertible {
+    public var description: String {
+        guard payload.selectors.isEmpty else {
+            return "..."
+        }
+
+        return switch kind {
+        case .play:
+            "🟡 \(payload.target) \(payload.card!)"
+
+        case .heal:
+            "\(String(repeating: "❤️", count: payload.amount!)) \(payload.target)"
+
+        case .damage:
+            "\(String(repeating: "🥵", count: payload.amount!)) \(payload.target)"
+
+        case .drawDeck,
+                .drawDiscard:
+            "💰 \(payload.target)"
+
+        case .drawDiscovered:
+            "💰 \(payload.target) \(payload.card!)"
+
+        case .steal:
+            "‼️ \(payload.actor) \(payload.card!) \(payload.target)"
+
+        case .discard:
+            "❌ \(payload.target) \(payload.card!)"
+
+        case .draw:
+            "🎲 \(payload.target)"
+
+        case .discover:
+            "🎁"
+
+        case .shoot:
+            "🔫 \(payload.target)"
+
+        case .startTurn:
+            "🔥 \(payload.target)"
+
+        case .endTurn:
+            "💤 \(payload.target)"
+
+        case .eliminate:
+            "☠️ \(payload.target)"
+
+        case .endGame:
+            "🎉"
+
+        case .choose:
+            "🎯 \(payload.target) \(payload.selection!)"
+
+        case .activate:
+            "🟢 \(payload.target) \(payload.cards.joined(separator: " "))"
+
+        case .queue:
+            "..."
+
+        default:
+            fatalError("unexpected")
+        }
+    }
+}

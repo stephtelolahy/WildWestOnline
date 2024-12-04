@@ -41,6 +41,8 @@ public class Store<State: Sendable>: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private let queue = DispatchQueue(label: "store-\(UUID())")
     private var completion: (() -> Void)?
+    private var subscribedEffects: Int = 0
+    private var completedEffects: Int = 0
 
     public init(
         initial state: State,
@@ -67,9 +69,6 @@ public class Store<State: Sendable>: ObservableObject {
             completion?()
         }
     }
-
-    private var subscribedEffects: Int = 0
-    private var completedEffects: Int = 0
 
     private func runSideEfects(_ action: Action, newState: State) {
         middlewares.forEach { middleware in
