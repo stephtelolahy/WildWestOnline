@@ -68,40 +68,20 @@ public class Store<State>: ObservableObject {
         }
     }
 
-    private var queuedEffects = 0
-    private var receivedEffects: [Action?] = []
-
     private func runSideEfects(_ action: Action, newState: State) {
-        queuedEffects = middlewares.count
-        receivedEffects = []
+        let effects = middlewares.compactMap { $0(newState, action) }
 
-        for middleware in middlewares {
-            Deferred {
-                Future<Action?, Never> { promise in
-                    let output = middleware(newState, action)
-                    promise(.success(output))
-                }
-            }
-            .eraseToAnyPublisher()
+        guard effects.isNotEmpty else {
+            completion?()
+            return
+        }
+
+        effects.forEach {
+            Just($0)
+                .eraseToAnyPublisher()
                 .subscribe(on: queue)
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] newAction in
-                    guard let self else {
-                        return
-                    }
-
-                    queuedEffects -= 1
-                    receivedEffects.append(newAction)
-
-                    if queuedEffects == 0 && receivedEffects.allSatisfy({ $0 == nil }) {
-                        completion?()
-                        return
-                    }
-
-                    if let newAction {
-                        dispatch(newAction)
-                    }
-                }
+                .sink(receiveValue: dispatch)
                 .store(in: &cancellables)
         }
     }
