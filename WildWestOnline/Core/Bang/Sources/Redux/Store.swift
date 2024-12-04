@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 import SwiftUI
-// swiftlint:disable private_subject
+// swiftlint:disable private_subject unowned_variable_capture
 
 /// ``Action`` is a plain object that describes what happened.
 /// To change something in the state, you need to dispatch an action.
@@ -22,7 +22,7 @@ public typealias Reducer<State> = (State, Action) throws -> State
 /// ``Middleware`` is a plugin, or a composition of several plugins,
 /// that are assigned to the app global  state pipeline in order to
 /// handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-public typealias Middleware<State> = (State, Action) -> Action?
+public typealias Middleware<State> = @Sendable (State, Action) -> Action?
 
 /// Namespace for Middlewares
 public enum Middlewares {}
@@ -31,7 +31,7 @@ public enum Middlewares {}
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-public class Store<State>: ObservableObject {
+public class Store<State: Sendable>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
     public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
@@ -68,28 +68,32 @@ public class Store<State>: ObservableObject {
         }
     }
 
-    private var subscribed: Int = 0
-    private var completed: Int = 0
+    private var subscribedEffects: Int = 0
+    private var completedEffects: Int = 0
 
     private func runSideEfects(_ action: Action, newState: State) {
-        middlewares.forEach {
-            let output = $0(newState, action)
-            subscribed += 1
-            Just(output)
-                .eraseToAnyPublisher()
-                .subscribe(on: queue)
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { [unowned self] _ in
-                    completed += 1
-                    if completed == subscribed {
-                        completion?()
-                    }
-                }, receiveValue: { [unowned self] value in
-                    if let value {
-                        dispatch(value)
-                    }
-                })
-                .store(in: &cancellables)
+        middlewares.forEach { middleware in
+            subscribedEffects += 1
+            Deferred {
+                Future<Action?, Never> { promise in
+                    let output = middleware(newState, action)
+                    promise(.success(output))
+                }
+            }
+            .eraseToAnyPublisher()
+            .subscribe(on: queue)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [unowned self] _ in
+                completedEffects += 1
+                if completedEffects == subscribedEffects {
+                    completion?()
+                }
+            }, receiveValue: { [unowned self] value in
+                if let value {
+                    dispatch(value)
+                }
+            })
+            .store(in: &cancellables)
         }
     }
 }
