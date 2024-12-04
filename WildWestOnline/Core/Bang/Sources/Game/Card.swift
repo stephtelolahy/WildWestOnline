@@ -13,7 +13,7 @@
 /// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
 /// ℹ️ All effects of the same source share the resolved arguments
 ///
-public struct Card: Equatable, Codable {
+public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let desc: String
     public let canPlay: [StateReq]
@@ -44,7 +44,7 @@ public struct Card: Equatable, Codable {
     }
 
     /// Occurred action when card is played
-    public struct Effect: Equatable, Codable {
+    public struct Effect: Equatable, Codable, Sendable {
         public let action: GameAction.Kind
         public let selectors: [Selector]
 

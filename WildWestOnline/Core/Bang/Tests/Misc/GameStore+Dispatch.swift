@@ -33,7 +33,7 @@ func dispatchUntilCompleted(
     var ocurredEvents: [GameAction] = []
     var ocurredError: Error?
 
-    store.event.sink { event in
+    store.eventPublisher.sink { event in
         if let gameAction = event as? GameAction,
            gameAction.isRenderable {
             ocurredEvents.append(gameAction)
@@ -41,7 +41,7 @@ func dispatchUntilCompleted(
     }
     .store(in: &subscriptions)
 
-    store.error.sink { error in
+    store.errorPublisher.sink { error in
         ocurredError = error
     }
     .store(in: &subscriptions)
@@ -64,7 +64,7 @@ struct Choice {
     let selectionIndex: Int
 }
 
-private class ChoicesWrapper {
+private final class ChoicesWrapper: @unchecked Sendable {
     var choices: [Choice]
 
     init(choices: [Choice]) {
@@ -89,8 +89,7 @@ private extension Middlewares {
 
             let expectedChoice = choicesWrapper.choices.remove(at: 0)
             let selection = pendingChoice.options[expectedChoice.selectionIndex]
-            let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
-            return Just(chooseAction).eraseToAnyPublisher()
+            return GameAction.choose(selection.label, player: pendingChoice.chooser)
         }
     }
 }

@@ -8,7 +8,7 @@
 public extension Middlewares {
     static func logger<State>() -> Middleware<State> {
         { _, action in
-            print("✅" + String(describing: action))
+            print(action)
             return nil
         }
     }

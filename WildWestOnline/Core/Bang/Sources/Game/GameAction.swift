@@ -36,7 +36,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        @UncheckedEquatable public var actor: String
+        @UncheckedEquatable var actor: String
+        @UncheckedEquatable var source: String
         public var target: String
         public var card: String?
         public var amount: Int?
@@ -47,6 +48,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
 
         public init(
             actor: String = "",
+            source: String = "",
             target: String = "",
             card: String? = nil,
             amount: Int? = nil,
@@ -56,6 +58,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             cards: [String] = []
         ) {
             self.actor = actor
+            self.source = source
             self.target = target
             self.card = card
             self.amount = amount
@@ -243,4 +246,63 @@ public extension GameAction {
             payload: .init(target: player, cards: cards)
         )
     }
+}
+
+extension GameAction: CustomStringConvertible {
+    public var description: String {
+        var parts: [String] = []
+        if payload.selectors.isEmpty {
+            parts.append(kind.emoji)
+        } else {
+            parts.append("..")
+        }
+        parts.append(payload.target)
+
+        if let card = payload.card {
+            parts.append(card)
+        }
+
+        if let selection = payload.selection {
+            parts.append(selection)
+        }
+
+        parts.append(contentsOf: payload.cards)
+
+        if let amount = payload.amount {
+            parts.append("x \(amount)")
+        }
+
+        if payload.source.isNotEmpty {
+            parts.append("<< \(payload.source):\(payload.actor)")
+        }
+
+        return parts.joined(separator: " ")
+    }
+}
+
+private extension GameAction.Kind {
+    var emoji: String {
+        Self.dict[self] ?? "⚠️\(rawValue)"
+    }
+
+    static let dict: [GameAction.Kind: String] = [
+        .play: "🟡",
+        .heal: "❤️",
+        .damage: "🥵",
+        .drawDeck: "💰",
+        .drawDiscard: "💰",
+        .drawDiscovered: "💰",
+        .steal: "‼️",
+        .discard: "❌",
+        .draw: "🎲",
+        .discover: "🎁",
+        .shoot: "🔫",
+        .startTurn: "🔥",
+        .endTurn: "💤",
+        .eliminate: "☠️",
+        .endGame: "🎉",
+        .choose: "🎯",
+        .activate: "🟢",
+        .queue: "➕"
+    ]
 }

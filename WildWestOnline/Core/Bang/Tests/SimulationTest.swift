@@ -52,15 +52,13 @@ private extension Middlewares {
         { state, _ in
             if let pendingChoice = state.pendingChoice,
                let selection = pendingChoice.options.randomElement() {
-                let chooseAction = GameAction.choose(selection.label, player: pendingChoice.chooser)
-                return Just(chooseAction).eraseToAnyPublisher()
+                return GameAction.choose(selection.label, player: pendingChoice.chooser)
             }
 
             if state.active.isNotEmpty,
                let choice = state.active.first,
                let selection = choice.value.randomElement() {
-                let playAction = GameAction.play(selection, player: choice.key)
-                return Just(playAction).eraseToAnyPublisher()
+                return GameAction.play(selection, player: choice.key)
             }
 
             return nil
@@ -82,7 +80,7 @@ private extension Middlewares {
     }
 }
 
-private class StateWrapper {
+private class StateWrapper: @unchecked Sendable {
     var value: GameState
 
     init(value: GameState) {

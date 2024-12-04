@@ -6,6 +6,7 @@
 //
 // swiftlint:disable discouraged_optional_collection
 import Combine
+import Foundation
 
 /// Game loop features
 public extension Middlewares {
@@ -28,15 +29,15 @@ public extension Middlewares {
             }
 
             if let triggered = state.triggeredEffect(on: action) {
-                return Just(triggered).eraseToAnyPublisher()
+                return triggered
             }
 
             if let pending = state.queue.first {
-                return Just(pending).eraseToAnyPublisher()
+                return pending
             }
 
             if let activate = state.activatePlayableCards() {
-                return Just(activate).eraseToAnyPublisher()
+                return activate
             }
 
             return nil
@@ -109,6 +110,7 @@ private extension GameState {
                 kind: $0.action,
                 payload: .init(
                     actor: player,
+                    source: card,
                     target: player,
                     selectors: $0.selectors
                 )
@@ -137,7 +139,8 @@ private extension GameState {
 
 private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
-        event.kind == actionKind
+        event.payload.selectors.isEmpty
+        && event.kind == actionKind
         && event.payload.target == actor
         && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
     }
