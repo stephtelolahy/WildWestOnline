@@ -68,20 +68,27 @@ public class Store<State>: ObservableObject {
         }
     }
 
+    private var subscribed: Int = 0
+    private var completed: Int = 0
+
     private func runSideEfects(_ action: Action, newState: State) {
-        let effects = middlewares.compactMap { $0(newState, action) }
-
-        guard effects.isNotEmpty else {
-            completion?()
-            return
-        }
-
-        effects.forEach {
-            Just($0)
+        middlewares.forEach {
+            let output = $0(newState, action)
+            subscribed += 1
+            Just(output)
                 .eraseToAnyPublisher()
                 .subscribe(on: queue)
                 .receive(on: DispatchQueue.main)
-                .sink(receiveValue: dispatch)
+                .sink(receiveCompletion: { [unowned self] _ in
+                    completed += 1
+                    if completed == subscribed {
+                        completion?()
+                    }
+                }, receiveValue: { [unowned self] value in
+                    if let value {
+                        dispatch(value)
+                    }
+                })
                 .store(in: &cancellables)
         }
     }
