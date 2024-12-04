@@ -250,68 +250,59 @@ public extension GameAction {
 
 extension GameAction: CustomStringConvertible {
     public var description: String {
-        guard payload.selectors.isEmpty else {
-            return ".. \(kind.rawValue) << \(payload.source)"
+        var parts: [String] = []
+        if payload.selectors.isEmpty {
+            parts.append(kind.emoji)
+        } else {
+            parts.append("..")
+        }
+        parts.append(payload.target)
+
+        if let card = payload.card {
+            parts.append(card)
         }
 
-        let desc = switch kind {
-        case .play:
-            "🟡 \(payload.target) \(payload.card!)"
-
-        case .heal:
-            "\(String(repeating: "❤️", count: payload.amount!)) \(payload.target)"
-
-        case .damage:
-            "\(String(repeating: "🥵", count: payload.amount!)) \(payload.target)"
-
-        case .drawDeck:
-            "💰 \(payload.target)"
-        case .drawDiscard:
-            "💰 \(payload.target)"
-
-        case .drawDiscovered:
-            "💰 \(payload.target) \(payload.card!)"
-
-        case .steal:
-            "‼️ \(payload.actor) \(payload.card!) \(payload.target)"
-
-        case .discard:
-            "❌ \(payload.target) \(payload.card!)"
-
-        case .draw:
-            "🎲 \(payload.target)"
-
-        case .discover:
-            "🎁"
-
-        case .shoot:
-            "🔫 \(payload.target)"
-
-        case .startTurn:
-            "🔥 \(payload.target)"
-
-        case .endTurn:
-            "💤 \(payload.target)"
-
-        case .eliminate:
-            "☠️ \(payload.target)"
-
-        case .endGame:
-            "🎉"
-
-        case .choose:
-            "🎯 \(payload.target) \(payload.selection!)"
-
-        case .activate:
-            "🟢 \(payload.target) \(payload.cards.joined(separator: " "))"
-
-        case .queue:
-            ".. queue"
-
-        default:
-            fatalError("unexpected")
+        if let selection = payload.selection {
+            parts.append(selection)
         }
 
-        return "\(desc)  << \(payload.source)"
+        parts.append(contentsOf: payload.cards)
+
+        if let amount = payload.amount {
+            parts.append("x \(amount)")
+        }
+
+        if payload.source.isNotEmpty {
+            parts.append("<< \(payload.source)")
+        }
+
+        return parts.joined(separator: " ")
     }
+}
+
+private extension GameAction.Kind {
+    var emoji: String {
+        Self.dict[self] ?? "⚠️\(rawValue)"
+    }
+
+    static let dict: [GameAction.Kind: String] = [
+        .play: "🟡",
+        .heal: "❤️",
+        .damage: "🥵",
+        .drawDeck: "💰",
+        .drawDiscard: "💰",
+        .drawDiscovered: "💰",
+        .steal: "‼️",
+        .discard: "❌",
+        .draw: "🎲",
+        .discover: "🎁",
+        .shoot: "🔫",
+        .startTurn: "🔥",
+        .endTurn: "💤",
+        .eliminate: "☠️",
+        .endGame: "🎉",
+        .choose: "🎯",
+        .activate: "🟢",
+        .queue: "➕"
+    ]
 }
