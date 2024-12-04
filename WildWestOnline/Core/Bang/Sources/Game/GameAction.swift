@@ -251,7 +251,7 @@ public extension GameAction {
 extension GameAction: CustomStringConvertible {
     public var description: String {
         guard payload.selectors.isEmpty else {
-            return "..."
+            return ".. \(kind.rawValue) << \(payload.source)"
         }
 
         let desc = switch kind {
@@ -265,9 +265,9 @@ extension GameAction: CustomStringConvertible {
             "\(String(repeating: "🥵", count: payload.amount!)) \(payload.target)"
 
         case .drawDeck:
-            "💰drawDeck \(payload.target)"
+            "💰 \(payload.target)"
         case .drawDiscard:
-            "💰drawDiscard \(payload.target)"
+            "💰 \(payload.target)"
 
         case .drawDiscovered:
             "💰 \(payload.target) \(payload.card!)"
@@ -306,7 +306,7 @@ extension GameAction: CustomStringConvertible {
             "🟢 \(payload.target) \(payload.cards.joined(separator: " "))"
 
         case .queue:
-            "..."
+            ".. queue"
 
         default:
             fatalError("unexpected")

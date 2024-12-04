@@ -139,7 +139,8 @@ private extension GameState {
 
 private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
-        event.kind == actionKind
+        event.payload.selectors.isEmpty
+        && event.kind == actionKind
         && event.payload.target == actor
         && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
     }
