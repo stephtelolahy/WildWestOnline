@@ -273,7 +273,7 @@ extension GameAction: CustomStringConvertible {
         }
 
         if payload.source.isNotEmpty {
-            parts.append("<< \(payload.source)")
+            parts.append("<< \(payload.source):\(payload.actor)")
         }
 
         return parts.joined(separator: " ")

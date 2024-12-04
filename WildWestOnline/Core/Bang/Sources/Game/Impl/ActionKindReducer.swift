@@ -135,6 +135,7 @@ private extension GameAction.Kind {
                         kind: $0.action,
                         payload: .init(
                             actor: payload.target,
+                            source: card,
                             target: payload.target,
                             selectors: $0.selectors
                         )
@@ -260,6 +261,7 @@ private extension GameAction.Kind {
                 kind: .damage,
                 payload: .init(
                     actor: payload.actor,
+                    source: payload.source,
                     target: payload.target,
                     amount: 1,
                     selectors: [
