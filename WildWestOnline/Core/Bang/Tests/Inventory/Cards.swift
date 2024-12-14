@@ -315,7 +315,7 @@ private extension Cards {
             name: .bang,
             desc: "reduce other players’s life points",
             canPlay: [
-                .playedThisTurnAtMost([.bang: 1])
+                .playLimitPerTurn([.bang: 1])
             ],
             onPlay: [
                 .init(

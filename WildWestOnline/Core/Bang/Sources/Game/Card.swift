@@ -60,7 +60,7 @@ public struct Card: Equatable, Codable, Sendable {
     /// Required state conditions to play a card
     public enum StateReq: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
-        case playedThisTurnAtMost([String: Int])
+        case playLimitPerTurn([String: Int])
         case healthZero
         case gameOver
         case currentTurn
@@ -155,79 +155,3 @@ public extension String {
     /// Pass when asked a counter card
     static let pass = "pass"
 }
-
-/*
-
-     /// Selectors are used to specify which objects an aura or effect should affect.
-     /// Choice is performed by {actor}
-     public enum Selector: Equatable, Codable {
-         /// must `discard` hand card
-         case chooseCostHandCard(CardCondition? = nil, count: Int = 1)
-
-         /// can `discard` hand card to counter the effect
-         case chooseEventuallyCounterHandCard(CardCondition? = nil, count: Int = 1)
-
-         /// can `discard` hand card to reverse effect
-         case chooseEventuallyReverseHandCard(CardCondition)
-
-         /// apply effect x times
-         case `repeat`(Number)
-
-         /// must match given condition
-         case verify(Card.StateReq)
-
-         public enum Target: String, Codable {
-             case actor      // who is playing the card
-             case next       // next player after actor
-             case offender   // actor of previous attack
-             case eliminated // just eliminated player
-             case targeted   // target of previous attack
-         }
-
-         public enum TargetCondition: Equatable, Codable {
-             case atDistance(Int)
-             case atDistanceReachable
-             case neighbourToTarget
-             case havingCard
-             case havingHandCard
-             case havingInPlayCard
-         }
-
-         public enum Card: Equatable, Codable {
-             case played
-             case all
-             case inPlayWithAttr(PlayerAttribute)
-         }
-
-         public enum CardCondition: Equatable, Codable {
-             case fromHand
-             case inPlay
-             case isBlue
-             case suits(String)
-             case named(String)
-             case action(ActionType)
-             case discovered
-             case discarded
-         }
-
-         public enum Number: Equatable, Codable {
-             case activePlayers
-             case excessHand
-             case wound
-             case damage
-             case value(Int)
-         }
-
-         public indirect enum Card.StateReq: Equatable, Codable {
-             case playersAtLeast(Int)
-             case limitPerTurn(Int)
-             case draw(String)
-             case actorTurn
-             case discardedCardsNotAce
-             case hasNoBlueCardsInPlay
-             case targetHealthIs1
-             case not(Self)
-         }
-     }
- }
- */
