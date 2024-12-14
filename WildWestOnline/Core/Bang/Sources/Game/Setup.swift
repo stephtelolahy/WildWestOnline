@@ -58,7 +58,7 @@ private extension Setup {
         let weapon = 1
         let magnifying = 0 + figureObj.increasedMagnifying
         let remoteness = 0 + figureObj.increasedRemoteness
-        let handLimit = 0 + figureObj.handLimit
+        let handLimit = figureObj.handLimit ?? 0
         let abilities = [figure] + defaultAbilities
         let playLimitPerTurn = figureObj.playlimitPerTurn
 
@@ -122,7 +122,7 @@ private extension Card {
         return 0
     }
 
-    var handLimit: Int {
+    var handLimit: Int? {
         for effect in passive {
             if case .setHandLimit = effect.action,
                let selector = effect.selectors.first,
@@ -131,7 +131,7 @@ private extension Card {
             }
         }
 
-        return 0
+        return nil
     }
 
     var playlimitPerTurn: [String: Int] {
