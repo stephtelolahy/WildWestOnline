@@ -39,7 +39,7 @@ private extension Card.StateReq {
 
         func match(actor: String, state: GameState) -> Bool {
             guard let card = limit.keys.first else {
-                fatalError("No card specified card in limit")
+                fatalError("No card specified in limit")
             }
 
             let playedThisTurn = state.playedThisTurn[card] ?? 0
