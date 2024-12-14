@@ -46,7 +46,7 @@ public extension String {
 //    static let winchester = "winchester"
     static let willyTheKid = "willyTheKid"
     static let roseDoolan = "roseDoolan"
-//    static let paulRegret = "paulRegret"
+    static let paulRegret = "paulRegret"
 //    static let jourdonnais = "jourdonnais"
 //    static let slabTheKiller = "slabTheKiller"
 //    static let luckyDuke = "luckyDuke"

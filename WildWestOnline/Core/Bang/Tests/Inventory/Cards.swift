@@ -33,7 +33,8 @@ public enum Cards {
             indians,
             duel,
             willyTheKid,
-            roseDoolan
+            roseDoolan,
+            paulRegret
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -405,16 +406,21 @@ private extension Cards {
             ]
         )
     }
+
+    static var paulRegret: Card {
+        .init(
+            name: .paulRegret,
+            desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
+            passive: [
+                .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
+                .init(action: .setRemoteness, selectors: [.setAmount(1)])
+            ]
+        )
+    }
+
 }
 
 /*
- static var defaultAttributes: [PlayerAttribute: Int] {
-     [
-         .weapon: 1,
-         .drawCards: 1
-     ]
- }
-
  static var defaultDiscardPreviousWeaponOnPlayed: CardV2 {
      .init(
          name: .defaultDiscardPreviousWeaponOnPlayed,
@@ -599,15 +605,6 @@ private extension Cards {
                  when: .turnStarted
              )
          ]
-     )
- }
-
- static var paulRegret: CardV2 {
-     .init(
-         name: .paulRegret,
-         desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-         setPlayerAttribute: [.maxHealth: 3],
-         increasePlayerAttribute: [.remoteness: 1]
      )
  }
 

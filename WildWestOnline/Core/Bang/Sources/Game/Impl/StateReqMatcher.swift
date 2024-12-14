@@ -43,7 +43,8 @@ private extension Card.StateReq {
                 return false
             }
 
-            return state.playedThisTurn[card] ?? 0 < limitPerTurn
+            let playedThisTurn = state.playedThisTurn[card] ?? 0
+            return playedThisTurn < limitPerTurn
         }
     }
 
