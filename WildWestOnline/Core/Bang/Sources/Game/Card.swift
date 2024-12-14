@@ -10,7 +10,6 @@
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
-/// ℹ️ Before dispatching resolved action, verify initial event is still confirmed as state
 /// ℹ️ All effects of the same source share the resolved arguments
 ///
 public struct Card: Equatable, Codable, Sendable {
@@ -18,7 +17,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let desc: String
     public let canPlay: [StateReq]
     public let onPlay: [Effect]
-    public let canTrigger: [EventReq]
+    public let shouldTrigger: [EventReq]
     public let onTrigger: [Effect]
     public let passive: [Effect]
     public let counterShot: Bool
@@ -28,7 +27,7 @@ public struct Card: Equatable, Codable, Sendable {
         desc: String = "",
         canPlay: [StateReq] = [],
         onPlay: [Effect] = [],
-        canTrigger: [EventReq] = [],
+        shouldTrigger: [EventReq] = [],
         onTrigger: [Effect] = [],
         passive: [Effect] = [],
         counterShot: Bool = false
@@ -38,7 +37,7 @@ public struct Card: Equatable, Codable, Sendable {
         self.canPlay = canPlay
         self.onPlay = onPlay
         self.counterShot = counterShot
-        self.canTrigger = canTrigger
+        self.shouldTrigger = shouldTrigger
         self.onTrigger = onTrigger
         self.passive = passive
     }
@@ -69,14 +68,14 @@ public struct Card: Equatable, Codable, Sendable {
     /// Required event conditions to trigger a card
     public struct EventReq: Equatable, Codable, Sendable {
         public let actionKind: GameAction.Kind
-        public let stateConditions: [StateReq]
+        public let stateReqs: [StateReq]
 
         public init(
             actionKind: GameAction.Kind,
-            stateConditions: [StateReq] = []
+            stateReqs: [StateReq] = []
         ) {
             self.actionKind = actionKind
-            self.stateConditions = stateConditions
+            self.stateReqs = stateReqs
         }
     }
 

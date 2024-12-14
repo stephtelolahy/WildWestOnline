@@ -96,11 +96,11 @@ private extension GameState {
             fatalError("Missing definition of \(cardName)")
         }
 
-        guard cardObj.canTrigger.isNotEmpty else {
+        guard cardObj.shouldTrigger.isNotEmpty else {
             return nil
         }
 
-        for eventReq in cardObj.canTrigger {
+        for eventReq in cardObj.shouldTrigger {
             guard eventReq.match(event: event, actor: player, state: self) else {
                 return nil
             }
@@ -143,7 +143,7 @@ private extension Card.EventReq {
         event.payload.selectors.isEmpty
         && event.kind == actionKind
         && event.payload.target == actor
-        && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
+        && stateReqs.allSatisfy { $0.match(actor: actor, state: state) }
     }
 }
 

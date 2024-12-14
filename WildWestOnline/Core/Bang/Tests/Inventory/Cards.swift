@@ -60,7 +60,7 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .endTurn
                 )
@@ -81,7 +81,7 @@ private extension Cards {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
             desc: "TODO",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .endTurn
                 )
@@ -101,7 +101,7 @@ private extension Cards {
         .init(
             name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .startTurn
                 )
@@ -121,10 +121,10 @@ private extension Cards {
         .init(
             name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .damage,
-                    stateConditions: [.healthZero]
+                    stateReqs: [.healthZero]
                 )
             ],
             onTrigger: [
@@ -139,10 +139,10 @@ private extension Cards {
         .init(
             name: .defaultEndGameOnEliminated,
             desc: "TODO",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .eliminate,
-                    stateConditions: [.gameOver]
+                    stateReqs: [.gameOver]
                 )
             ],
             onTrigger: [
@@ -155,7 +155,7 @@ private extension Cards {
         .init(
             name: .defaultDiscardAllCardsOnEliminated,
             desc: "TODO",
-            canTrigger: [
+            shouldTrigger: [
                 .init(actionKind: .eliminate)
             ],
             onTrigger: [
@@ -173,10 +173,10 @@ private extension Cards {
         .init(
             name: .defaultEndTurnOnEliminated,
             desc: "TODO",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .eliminate,
-                    stateConditions: [.currentTurn]
+                    stateReqs: [.currentTurn]
                 )
             ],
             onTrigger: [

@@ -9,8 +9,7 @@ import Testing
 import Bang
 
 struct WillyTheKidTests {
-    /*
-    @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
+    @Test(.disabled()) func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -36,5 +35,4 @@ struct WillyTheKidTests {
             .damage(1, player: "p2")
         ])
     }
-    */
 }

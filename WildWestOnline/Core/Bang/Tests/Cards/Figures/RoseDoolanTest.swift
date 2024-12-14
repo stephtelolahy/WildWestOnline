@@ -11,7 +11,12 @@ import Bang
 struct RoseDoolanTest {
     @Test func roseDoolan_shouldDecrementDistanceToOthers() async throws {
         // Given
-        let state = Setup.buildGame(figures: [.roseDoolan], deck: [], cards: Cards.all, defaultAbilities: [])
+        let state = Setup.buildGame(
+            figures: [.roseDoolan],
+            deck: [],
+            cards: Cards.all,
+            defaultAbilities: []
+        )
 
         // When
         let player = state.players.get(.roseDoolan)

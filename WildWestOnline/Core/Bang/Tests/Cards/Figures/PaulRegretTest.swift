@@ -11,7 +11,12 @@ import Bang
 struct PaulRegretTest {
     @Test func paulRegret_shouldIncrementDistanceFromOthers() async throws {
         // Given
-        let state = Setup.buildGame(figures: [.paulRegret], deck: [], cards: Cards.all, defaultAbilities: [])
+        let state = Setup.buildGame(
+            figures: [.paulRegret],
+            deck: [],
+            cards: Cards.all,
+            defaultAbilities: []
+        )
 
         // When
         let player = state.players.get(.paulRegret)
