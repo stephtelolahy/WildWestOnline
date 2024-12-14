@@ -32,10 +32,11 @@ public extension Middlewares {
                 return triggered
             }
 
-            if let pending = state.queue.first {
-                return pending
+            if let queued = state.queue.first {
+                return queued
             }
 
+            // TODO: maybe convert to triggered
             if let activate = state.activatePlayableCards() {
                 return activate
             }

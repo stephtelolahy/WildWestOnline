@@ -37,8 +37,8 @@ private extension GameAction.Kind {
         case .endGame: EndGame()
         case .setMaxHealth: fatalError()
         case .setWeapon: fatalError()
-        case .setMagnifying: fatalError()
-        case .setRemoteness: fatalError()
+        case .increaseMagnifying: fatalError()
+        case .increaseRemoteness: fatalError()
         case .setHandLimit: fatalError()
         case .activate: Activate()
         }

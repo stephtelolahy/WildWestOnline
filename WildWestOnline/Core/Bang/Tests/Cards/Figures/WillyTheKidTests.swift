@@ -5,22 +5,10 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import CardsData
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class WillyTheKidTests: XCTestCase {
-    func test_WillyTheKid_shouldHaveUnlimitedBang() throws {
-        // Given
-        let state = Setup.buildGame(figures: [.willyTheKid], deck: [], cards: Cards.all)
-
-        // When
-        let player = state.player(.willyTheKid)
-
-        // Then
-        XCTAssertEqual(player.attributes[.bangsPerTurn], 0)
-    }
-
+struct WillyTheKidTests {
     /*
     @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given

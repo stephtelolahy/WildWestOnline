@@ -29,8 +29,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case endGame
         case setMaxHealth
         case setWeapon
-        case setMagnifying
-        case setRemoteness
+        case increaseMagnifying
+        case increaseRemoteness
         case setHandLimit
         case activate
     }

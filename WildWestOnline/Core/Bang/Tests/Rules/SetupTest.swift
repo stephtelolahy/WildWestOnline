@@ -35,7 +35,7 @@ struct SetupTest {
                 name: "p1",
                 passive: [
                     .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                    .init(action: .setMagnifying, selectors: [.setAmount(1)]),
+                    .init(action: .increaseMagnifying, selectors: [.setAmount(1)]),
                     .init(action: .setHandLimit, selectors: [.setAmount(10)])
                 ]
             ),
@@ -43,7 +43,7 @@ struct SetupTest {
                 name: "p2",
                 passive: [
                     .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
-                    .init(action: .setRemoteness, selectors: [.setAmount(1)])
+                    .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
                 ]
             )
         ]

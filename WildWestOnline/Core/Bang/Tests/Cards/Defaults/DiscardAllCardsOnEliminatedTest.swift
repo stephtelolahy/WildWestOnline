@@ -1,5 +1,5 @@
 //
-//  DefaultDiscardCardsOnEliminatedTest.swift
+//  DiscardAllCardsOnEliminatedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct DefaultDiscardCardsOnEliminatedTest {
+struct DiscardAllCardsOnEliminatedTest {
     @Test func beingEliminated_havingCards_shouldDiscardAllCards() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

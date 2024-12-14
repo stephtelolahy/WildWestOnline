@@ -1,5 +1,5 @@
 //
-//  DefaultEndTurnOnEliminatedTest.swift
+//  EndTurnOnEliminatedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct DefaultEndTurnOnEliminatedTest {
+struct EndTurnOnEliminatedTest {
     @Test func beingEliminated_currentTurn_shouldNextTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

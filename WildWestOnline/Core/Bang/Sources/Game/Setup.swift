@@ -55,9 +55,10 @@ private extension Setup {
         }
 
         let maxHealth = figureObj.maxHealth
-        let magnifying = figureObj.magnifying
-        let remoteness = figureObj.remoteness
-        let handLimit = figureObj.handLimit
+        let weapon = 1
+        let magnifying = 0 + figureObj.increasedMagnifying
+        let remoteness = 0 + figureObj.increasedRemoteness
+        let handLimit = 0 + figureObj.handLimit
         let abilities = [figure] + defaultAbilities
 
         let hand = Array(1...maxHealth).compactMap { _ in
@@ -75,7 +76,7 @@ private extension Setup {
             inPlay: [],
             magnifying: magnifying,
             remoteness: remoteness,
-            weapon: 1,
+            weapon: weapon,
             abilities: abilities,
             handLimit: handLimit
         )
@@ -95,9 +96,9 @@ private extension Card {
         fatalError("unexpected")
     }
 
-    var magnifying: Int {
+    var increasedMagnifying: Int {
         for effect in passive {
-            if case .setMagnifying = effect.action,
+            if case .increaseMagnifying = effect.action,
                let selector = effect.selectors.first,
                case .setAmount(let value) = selector {
                 return value
@@ -107,9 +108,9 @@ private extension Card {
         return 0
     }
 
-    var remoteness: Int {
+    var increasedRemoteness: Int {
         for effect in passive {
-            if case .setRemoteness = effect.action,
+            if case .increaseRemoteness = effect.action,
                let selector = effect.selectors.first,
                case .setAmount(let value) = selector {
                 return value

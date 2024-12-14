@@ -391,8 +391,8 @@ private extension Cards {
             desc: "he can play any number of BANG! cards during his turn.",
             passive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(4)])
+                // setPlayLimitPerTurn: [.bang: 999]
             ]
-//            setActionAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
         )
     }
 
@@ -402,7 +402,7 @@ private extension Cards {
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
             passive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                .init(action: .setMagnifying, selectors: [.setAmount(1)])
+                .init(action: .increaseMagnifying, selectors: [.setAmount(1)])
             ]
         )
     }
@@ -413,11 +413,10 @@ private extension Cards {
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             passive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
-                .init(action: .setRemoteness, selectors: [.setAmount(1)])
+                .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
             ]
         )
     }
-
 }
 
 /*
