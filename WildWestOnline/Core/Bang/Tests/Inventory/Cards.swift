@@ -390,8 +390,8 @@ private extension Cards {
             name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
             passive: [
-                .init(action: .setMaxHealth, selectors: [.setAmount(4)])
-                // setPlayLimitPerTurn: [.bang: 999]
+                .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
+                .init(action: .setPlayLimitPerTurn, selectors: [.setAmountPerCard([.bang: .infinity])])
             ]
         )
     }

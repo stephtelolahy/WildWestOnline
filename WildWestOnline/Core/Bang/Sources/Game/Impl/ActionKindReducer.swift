@@ -40,6 +40,7 @@ private extension GameAction.Kind {
         case .increaseMagnifying: fatalError()
         case .increaseRemoteness: fatalError()
         case .setHandLimit: fatalError()
+        case .setPlayLimitPerTurn: fatalError()
         case .activate: Activate()
         }
     }

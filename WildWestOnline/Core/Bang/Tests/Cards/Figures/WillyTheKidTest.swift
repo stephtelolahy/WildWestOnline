@@ -1,5 +1,5 @@
 //
-//  WillyTheKidTests.swift
+//  WillyTheKidTest.swift
 //  
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,14 +8,30 @@
 import Testing
 import Bang
 
-struct WillyTheKidTests {
+struct WillyTheKidTest {
+    @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {
+        // Given
+        let state = Setup.buildGame(
+            figures: [.willyTheKid],
+            deck: [],
+            cards: Cards.all,
+            defaultAbilities: []
+        )
+
+        // When
+        let player = state.players.get(.willyTheKid)
+
+        // Then
+        #expect(player.playLimitPerTurn[.bang] == .infinity)
+    }
+
     @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
-                    .withPlayLimitPerTurn([.bang: 999])
+                    .withPlayLimitPerTurn([.bang: .infinity])
             }
             .withPlayer("p2")
             .withPlayedThisTurn([.bang: 1])

@@ -33,6 +33,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case increaseRemoteness
         case setHandLimit
         case activate
+        case setPlayLimitPerTurn
     }
 
     public struct Payload: Equatable, Codable, Sendable {

@@ -113,3 +113,7 @@ public extension String {
 //    static let derSpotBurstRinger = "derSpotBurstRinger"
 //    static let tucoFranziskaner = "tucoFranziskaner"
 }
+
+public extension Int {
+    static let infinity = 999
+}

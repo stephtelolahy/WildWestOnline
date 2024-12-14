@@ -84,6 +84,7 @@ public struct Card: Equatable, Codable, Sendable {
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setAmount(Int)
+        case setAmountPerCard([String: Int])
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)

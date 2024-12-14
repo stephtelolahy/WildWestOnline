@@ -60,7 +60,7 @@ private extension Setup {
         let remoteness = 0 + figureObj.increasedRemoteness
         let handLimit = 0 + figureObj.handLimit
         let abilities = [figure] + defaultAbilities
-        let playLimitPerTurn: [String: Int] = [:]
+        let playLimitPerTurn = figureObj.playlimitPerTurn
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -132,5 +132,17 @@ private extension Card {
         }
 
         return 0
+    }
+
+    var playlimitPerTurn: [String: Int] {
+        for effect in passive {
+            if case .setPlayLimitPerTurn = effect.action,
+               let selector = effect.selectors.first,
+               case .setAmountPerCard(let value) = selector {
+                return value
+            }
+        }
+
+        return [:]
     }
 }
