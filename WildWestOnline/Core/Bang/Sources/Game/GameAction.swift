@@ -19,20 +19,22 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case discard
         case heal
         case damage
-        case choose
         case steal
         case shoot
         case endTurn
         case startTurn
-        case queue
         case eliminate
         case endGame
+        case activate
+
+        // TODO: Test
+        case choose
+        case queue
         case setMaxHealth
         case setWeapon
         case increaseMagnifying
         case increaseRemoteness
         case setHandLimit
-        case activate
         case setPlayLimitPerTurn
     }
 
