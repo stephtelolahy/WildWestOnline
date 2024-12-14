@@ -10,7 +10,7 @@
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
-/// ℹ️ All effects of the same source share the resolved arguments
+/// ℹ️ All effects of  the same source share the resolved arguments
 ///
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
@@ -79,7 +79,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    /// Selectors are used to specify which objects an aura or effect should affect.
+    /// Selectors are used to specify which objects an effect should affect.
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
