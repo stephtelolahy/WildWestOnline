@@ -60,6 +60,7 @@ private extension Setup {
         let remoteness = 0 + figureObj.increasedRemoteness
         let handLimit = 0 + figureObj.handLimit
         let abilities = [figure] + defaultAbilities
+        let playLimitPerTurn: [String: Int] = [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -78,7 +79,8 @@ private extension Setup {
             remoteness: remoteness,
             weapon: weapon,
             abilities: abilities,
-            handLimit: handLimit
+            handLimit: handLimit,
+            playLimitPerTurn: playLimitPerTurn
         )
     }
 }

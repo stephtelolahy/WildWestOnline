@@ -251,11 +251,10 @@ public extension GameAction {
 extension GameAction: CustomStringConvertible {
     public var description: String {
         var parts: [String] = []
-        if payload.selectors.isEmpty {
-            parts.append(kind.emoji)
-        } else {
+        if payload.selectors.isNotEmpty {
             parts.append("..")
         }
+        parts.append(kind.emoji)
         parts.append(payload.target)
 
         if let card = payload.card {

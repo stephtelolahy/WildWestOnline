@@ -38,13 +38,21 @@ private extension Card.StateReq {
         let limit: [String: Int]
 
         func match(actor: String, state: GameState) -> Bool {
-            guard let card = limit.keys.first,
-                  let max = limit[card] else {
-                return false
+            guard let card = limit.keys.first else {
+                fatalError("No card specified card in limit")
             }
 
             let playedThisTurn = state.playedThisTurn[card] ?? 0
-            return playedThisTurn < max
+
+            if let actorLimit = state.players.get(actor).playLimitPerTurn[card] {
+                return playedThisTurn < actorLimit
+            }
+
+            if let requiredLimit = limit[card] {
+                return playedThisTurn < requiredLimit
+            }
+
+            return false
         }
     }
 

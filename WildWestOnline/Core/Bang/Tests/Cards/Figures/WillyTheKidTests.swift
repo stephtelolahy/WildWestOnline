@@ -9,12 +9,13 @@ import Testing
 import Bang
 
 struct WillyTheKidTests {
-    @Test(.disabled()) func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
+    @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
+                    .withPlayLimitPerTurn([.bang: 999])
             }
             .withPlayer("p2")
             .withPlayedThisTurn([.bang: 1])
