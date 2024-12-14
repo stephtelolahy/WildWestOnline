@@ -22,6 +22,7 @@ private extension Card.StateReq {
         case .playedThisTurnAtMost(let limit): PlayedThisTurnAtMost(limit: limit)
         case .healthZero: HealthZero()
         case .gameOver: GameOver()
+        case .currentTurn: CurrentTurn()
         }
     }
 
@@ -55,6 +56,12 @@ private extension Card.StateReq {
     struct GameOver: Matcher {
         func match(actor: String, state: GameState) -> Bool {
             state.playOrder.count <= 1
+        }
+    }
+
+    struct CurrentTurn: Matcher {
+        func match(actor: String, state: GameState) -> Bool {
+            state.turn == actor
         }
     }
 }

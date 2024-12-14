@@ -101,6 +101,7 @@ public extension GameState {
             _ = builderFunc(builder)
             players[id] = builder.build()
             playOrder.append(id)
+            startOrder.append(id)
             return self
         }
 

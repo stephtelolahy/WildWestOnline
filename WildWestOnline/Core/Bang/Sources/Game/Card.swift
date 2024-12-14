@@ -63,6 +63,7 @@ public struct Card: Equatable, Codable, Sendable {
         case playedThisTurnAtMost([String: Int])
         case healthZero
         case gameOver
+        case currentTurn
     }
 
     /// Required event conditions to trigger a card
