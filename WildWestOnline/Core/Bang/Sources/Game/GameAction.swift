@@ -249,6 +249,14 @@ public extension GameAction {
             payload: .init(target: player, cards: cards)
         )
     }
+
+    /// End game
+    static func setWeapon(_ weapon: Int, player: String) -> Self {
+        .init(
+            kind: .setWeapon,
+            payload: .init(target: player, amount: weapon)
+        )
+    }
 }
 
 extension GameAction: CustomStringConvertible {
