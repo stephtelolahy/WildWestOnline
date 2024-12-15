@@ -13,7 +13,7 @@ enum CardSets {
 //        .mustang: ["8♥️", "9♥️"],
 //        .remington: ["K♣️"],
 //        .revCarabine: ["A♣️"],
-//        .schofield: ["K♠️", "J♣️", "Q♣️"],
+        .schofield: ["K♠️", "J♣️", "Q♣️"],
 //        .scope: ["A♠️"],
 //        .volcanic: ["10♠️", "10♣️"],
 //        .winchester: ["8♠️"],
