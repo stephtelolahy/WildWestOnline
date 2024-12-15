@@ -108,6 +108,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum CardGroup: String, Codable, Sendable {
             case all
+            case played
         }
 
         public enum ChooseOneElement: Equatable, Codable, Sendable {

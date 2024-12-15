@@ -392,6 +392,7 @@ private extension Cards {
         .init(
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
+            onPlay: [.equipment],
             passive: [
                 .init(action: .setWeapon, selectors: [.setAmount(2)])
             ]
@@ -428,6 +429,15 @@ private extension Cards {
                 .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
                 .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
             ]
+        )
+    }
+}
+
+private extension Card.Effect {
+    static var equipment: Card.Effect {
+        .init(
+            action: .equip,
+            selectors: [.setCard(.played)]
         )
     }
 }

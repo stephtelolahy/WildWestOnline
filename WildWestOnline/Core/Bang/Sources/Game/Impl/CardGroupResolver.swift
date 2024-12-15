@@ -19,6 +19,7 @@ private extension Card.Selector.CardGroup {
     var resolver: Resolver {
         switch self {
         case .all: All()
+        case .played: Played()
         }
     }
 
@@ -26,6 +27,12 @@ private extension Card.Selector.CardGroup {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
             let playerObj = state.players.get(ctx.target)
             return playerObj.inPlay + playerObj.hand
+        }
+    }
+
+    struct Played: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            [ctx.source]
         }
     }
 }
