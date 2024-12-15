@@ -9,7 +9,7 @@ import Testing
 import Bang
 
 struct PlayTest {
-    @Test func play_shouldNotPutInDiscard() async throws {
+    @Test func play_shouldNotDiscard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {

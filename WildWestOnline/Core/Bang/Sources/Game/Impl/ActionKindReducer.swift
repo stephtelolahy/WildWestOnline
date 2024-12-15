@@ -36,7 +36,7 @@ private extension GameAction.Kind {
         case .eliminate: Eliminate()
         case .endGame: EndGame()
         case .activate: Activate()
-        case .discardPlayed: fatalError()
+        case .discardPlayed: DiscardPlayed()
         case .equip: fatalError()
         case .handicap: fatalError()
         case .setMaxHealth: fatalError()
@@ -150,15 +150,20 @@ private extension GameAction.Kind {
             let playedThisTurn = state.playedThisTurn[cardName] ?? 0
             state.playedThisTurn[cardName] = playedThisTurn + 1
 
-            let playerObj = state.players.get(payload.target)
-            if playerObj.hand.contains(card) {
-                state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
-                state.discard.insert(card, at: 0)
-            } else if playerObj.abilities.contains(card) {
-                // do nothing
-            } else {
-                fatalError("Unexpected \(payload.target) plays unowned \(card)")
+            return state
+        }
+    }
+
+    struct DiscardPlayed: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing payload parameter card")
             }
+
+            var state = state
+
+            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
+            state.discard.insert(card, at: 0)
 
             return state
         }
