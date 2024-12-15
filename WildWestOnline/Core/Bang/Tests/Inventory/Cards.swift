@@ -460,7 +460,9 @@ private extension Card.Effect {
     static var blueEquipment: Card.Effect {
         .init(
             action: .equip,
-            selectors: [.setCard(.played)]
+            selectors: [
+                .setCard(.played)
+            ]
         )
     }
 }
