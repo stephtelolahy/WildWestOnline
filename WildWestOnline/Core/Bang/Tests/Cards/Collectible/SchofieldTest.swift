@@ -75,23 +75,5 @@ struct SchofieldTest {
             .setAttribute(.weapon, value: 1, player: "p1")
         ])
     }
-
-    func test_discardingWeaponFromHand_shouldResetToDefaultWeapon() throws {
-        // Given
-        let state = GameState.makeBuilderWithCards()
-            .withPlayer("p1") {
-                $0.withHand([.schofield])
-            }
-            .build()
-
-        // When
-        let action = GameAction.discardHand(.schofield, player: "p1")
-        let result = try awaitAction(action, state: state)
-
-        // Then
-        XCTAssertEqual(result, [
-            .discardHand(.schofield, player: "p1")
-        ])
-    }
  */
 }

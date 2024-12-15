@@ -392,9 +392,12 @@ private extension Cards {
         .init(
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
-            onPlay: [.equipment],
-            passive: [
-                .init(action: .setWeapon, selectors: [.setAmount(2)])
+            onPlay: [
+                .equipment,
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(2)]
+                )
             ]
         )
     }
