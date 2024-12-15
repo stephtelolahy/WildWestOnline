@@ -32,6 +32,7 @@ public enum Cards {
             missed,
             indians,
             duel,
+            schofield,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -190,7 +191,7 @@ private extension Cards {
         )
     }
 
-    // MARK: - Collectible
+    // MARK: - Bang
 
     static var stagecoach: Card {
         .init(
@@ -385,6 +386,18 @@ private extension Cards {
         )
     }
 
+    // MARK: - Bang
+
+    static var schofield: Card {
+        .init(
+            name: .schofield,
+            desc: "can hit targets at a distance of 2.",
+            passive: [
+                .init(action: .setWeapon, selectors: [.setAmount(2)])
+            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -453,16 +466,7 @@ private extension Cards {
      )
  }
 
- // MARK: - Bang
 
- static var schofield: CardV2 {
-     .init(
-         name: .schofield,
-         desc: "can hit targets at a distance of 2.",
-         setPlayerAttribute: [.weapon: 2],
-         effects: [.equip]
-     )
- }
 
  static var remington: CardV2 {
      .init(

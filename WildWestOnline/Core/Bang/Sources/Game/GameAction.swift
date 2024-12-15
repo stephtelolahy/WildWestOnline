@@ -27,8 +27,6 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case endGame
         case activate
         case setWeapon
-
-        // TODO: Test
         case choose
         case queue
         case setMaxHealth

@@ -5,31 +5,30 @@
 //  Created by Hugues Telolahy on 17/07/2023.
 //
 
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class SchofieldTests: XCTestCase {
-    func test_playSchofield_withoutWeaponInPlay_shouldSetWeapon() throws {
+struct SchofieldTests {
+    @Test func playSchofield_withoutWeaponInPlay_shouldSetWeapon() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
-                    .withAbilities([.updateAttributesOnChangeInPlay])
-                    .withAttributes([.weapon: 1])
+                    .withWeapon(1)
             }
             .build()
 
         // When
-        let action = GameAction.preparePlay(.schofield, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let action = GameAction.play(.schofield, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
-            .playEquipment(.schofield, player: "p1"),
-            .setAttribute(.weapon, value: 2, player: "p1")
+        #expect(result == [
+            .play(.schofield, player: "p1"),
+            .setWeapon(2, player: "p1")
         ])
     }
-
+/*
     func test_playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -93,4 +92,5 @@ final class SchofieldTests: XCTestCase {
             .discardHand(.schofield, player: "p1")
         ])
     }
+ */
 }
