@@ -1,5 +1,5 @@
 //
-//  SchofieldTests.swift
+//  SchofieldTest.swift
 //
 //
 //  Created by Hugues Telolahy on 17/07/2023.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct SchofieldTests {
+struct SchofieldTest {
     @Test func playSchofield_withoutWeaponInPlay_shouldSetWeapon() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -25,6 +25,7 @@ struct SchofieldTests {
         // Then
         #expect(result == [
             .play(.schofield, player: "p1"),
+            .equip(.schofield, player: "p1"),
             .setWeapon(2, player: "p1")
         ])
     }

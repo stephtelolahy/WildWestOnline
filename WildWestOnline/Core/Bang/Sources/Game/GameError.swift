@@ -13,4 +13,5 @@ public enum GameError: Error, Equatable, Codable {
     case noTarget(Card.Selector.TargetGroup)
     case noChoosableTarget([Card.Selector.TargetCondition])
     case cardNotPlayable(String)
+    case cardAlreadyInPlay(String)
 }

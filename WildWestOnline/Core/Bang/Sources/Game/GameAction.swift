@@ -29,6 +29,9 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case setWeapon
         case choose
         case queue
+        case discardPlayed
+        case equip
+        case handicap
         case setMaxHealth
         case increaseMagnifying
         case increaseRemoteness
@@ -248,11 +251,45 @@ public extension GameAction {
         )
     }
 
-    /// End game
+    /// Set Weapon
     static func setWeapon(_ weapon: Int, player: String) -> Self {
         .init(
             kind: .setWeapon,
             payload: .init(target: player, amount: weapon)
+        )
+    }
+
+    /// Discard just played card
+    static func discardPlayed(_ card: String, player: String) -> Self {
+        .init(
+            kind: .discardPlayed,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Equip a card
+    static func equip(_ card: String, player: String) -> Self {
+        .init(
+            kind: .equip,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Handicap a target with a card
+    static func handicap(_ card: String, target: String, player: String) -> Self {
+        .init(
+            kind: .handicap,
+            payload: .init(
+                actor: player,
+                target: target,
+                card: card
+            )
         )
     }
 }

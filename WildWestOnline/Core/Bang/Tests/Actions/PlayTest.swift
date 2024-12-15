@@ -9,11 +9,11 @@ import Testing
 import Bang
 
 struct PlayTest {
-    @Test func play_Brown_shouldPutInDiscard() async throws {
+    @Test func play_shouldNotPutInDiscard() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
-                $0.withHand(["c1", "c2"])
+                $0.withHand(["c1"])
             }
             .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .build()
@@ -23,8 +23,8 @@ struct PlayTest {
         let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.players.get("p1").hand == ["c2"])
-        #expect(result.discard == ["c1"])
+        #expect(result.players.get("p1").hand == ["c1"])
+        #expect(result.discard.isEmpty)
     }
 
     @Test func play_firstTime_shouldSetPlayedThisTurn() async throws {
