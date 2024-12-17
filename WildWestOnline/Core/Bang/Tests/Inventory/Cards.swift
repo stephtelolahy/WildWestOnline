@@ -404,7 +404,12 @@ private extension Cards {
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
             onPlay: [
-                .blueEquipment,
+                .blueEquipment
+            ],
+            shouldTrigger: [
+                .init(actionKind: .equip)
+            ],
+            onTrigger: [
                 .init(
                     action: .setWeapon,
                     selectors: [.setAmount(2)]
