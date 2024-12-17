@@ -96,27 +96,25 @@ private extension GameState {
             fatalError("Missing definition of \(cardName)")
         }
 
-        guard cardObj.shouldTrigger.isNotEmpty else {
-            return nil
-        }
+        for rule in cardObj.rules {
+            guard rule.eventReqs.allSatisfy({ $0.match(event: event, actor: player, state: self) }) else {
+                continue
+            }
 
-        for eventReq in cardObj.shouldTrigger {
-            guard eventReq.match(event: event, actor: player, state: self) else {
-                return nil
+            return rule.effects.map {
+                GameAction(
+                    kind: $0.action,
+                    payload: .init(
+                        actor: player,
+                        source: card,
+                        target: player,
+                        selectors: $0.selectors
+                    )
+                )
             }
         }
 
-        return cardObj.onTrigger.map {
-            GameAction(
-                kind: $0.action,
-                payload: .init(
-                    actor: player,
-                    source: card,
-                    target: player,
-                    selectors: $0.selectors
-                )
-            )
-        }
+        return nil
     }
 
     func activatePlayableCards() -> GameAction? {

@@ -61,17 +61,19 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            shouldTrigger: [
+            rules: [
                 .init(
-                    actionKind: .endTurn
-                )
-            ],
-            onTrigger: [
-                .init(
-                    action: .discard,
-                    selectors: [
-                        .repeat(.excessHand),
-                        .chooseOne(.card([.fromHand]))
+                    eventReqs: [
+                        .init(actionKind: .endTurn)
+                    ],
+                    effects: [
+                        .init(
+                            action: .discard,
+                            selectors: [
+                                .repeat(.excessHand),
+                                .chooseOne(.card([.fromHand]))
+                            ]
+                        )
                     ]
                 )
             ]
@@ -82,16 +84,18 @@ private extension Cards {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
             desc: "TODO",
-            shouldTrigger: [
+            rules: [
                 .init(
-                    actionKind: .endTurn
-                )
-            ],
-            onTrigger: [
-                .init(
-                    action: .startTurn,
-                    selectors: [
-                        .setTarget(.next)
+                    eventReqs: [
+                        .init(actionKind: .endTurn)
+                    ],
+                    effects: [
+                        .init(
+                            action: .startTurn,
+                            selectors: [
+                                .setTarget(.next)
+                            ]
+                        )
                     ]
                 )
             ]
@@ -406,13 +410,17 @@ private extension Cards {
             onPlay: [
                 .blueEquipment
             ],
-            shouldTrigger: [
-                .init(actionKind: .equip)
-            ],
-            onTrigger: [
+            rules: [
                 .init(
-                    action: .setWeapon,
-                    selectors: [.setAmount(2)]
+                    eventReqs: [
+                        .init(actionKind: .equip)
+                    ],
+                    effects: [
+                        .init(
+                            action: .setWeapon,
+                            selectors: [.setAmount(2)]
+                        )
+                    ]
                 )
             ]
         )
