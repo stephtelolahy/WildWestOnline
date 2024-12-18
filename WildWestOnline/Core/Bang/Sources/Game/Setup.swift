@@ -87,62 +87,52 @@ private extension Setup {
 
 private extension Card {
     var maxHealth: Int {
-        for effect in onActive {
-            if case .setMaxHealth = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+        guard let effect = onActive.first(where: { $0.action == .setMaxHealth }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            fatalError("unexpected")
         }
 
-        fatalError("unexpected")
+        return value
     }
 
     var increasedMagnifying: Int {
-        for effect in onActive {
-            if case .increaseMagnifying = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+        guard let effect = onActive.first(where: { $0.action == .increaseMagnifying }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            return 0
         }
 
-        return 0
+        return value
     }
 
     var increasedRemoteness: Int {
-        for effect in onActive {
-            if case .increaseRemoteness = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+        guard let effect = onActive.first(where: { $0.action == .increaseRemoteness }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            return 0
         }
 
-        return 0
+        return value
     }
 
     var handLimit: Int? {
-        for effect in onActive {
-            if case .setHandLimit = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+        guard let effect = onActive.first(where: { $0.action == .setHandLimit }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            return nil
         }
 
-        return nil
+        return value
     }
 
     var playlimitPerTurn: [String: Int] {
-        for effect in onActive {
-            if case .setPlayLimitPerTurn = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmountPerCard(let value) = selector {
-                return value
-            }
+        guard let effect = onActive.first(where: { $0.action == .setPlayLimitPerTurn }),
+              let selector = effect.selectors.first,
+              case .setAmountPerCard(let value) = selector else {
+            return [:]
         }
 
-        return [:]
+        return value
     }
 }
