@@ -27,6 +27,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case endGame
         case activate
         case setWeapon
+        case resetWeapon
         case choose
         case queue
         case discardPlayed

@@ -396,14 +396,14 @@ private extension Cards {
             onPlay: [
                 .blueEquipment
             ],
-            shouldTrigger: [
-                .init(actionKind: .equip)
-            ],
-            onTrigger: [
+            onActive: [
                 .init(
                     action: .setWeapon,
                     selectors: [.setAmount(2)]
                 )
+            ],
+            onDeactive: [
+                .init(action: .resetWeapon)
             ]
         )
     }

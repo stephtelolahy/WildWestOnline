@@ -42,6 +42,7 @@ private extension GameAction.Kind {
         case .setMaxHealth: fatalError()
         case .setHandLimit: fatalError()
         case .setWeapon: SetWeapon()
+        case .resetWeapon: fatalError()
         case .increaseMagnifying: fatalError()
         case .increaseRemoteness: fatalError()
         case .setPlayLimitPerTurn: fatalError()
