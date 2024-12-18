@@ -81,24 +81,9 @@ private extension GameState {
                 fatalError("Missing payload parameter card")
             }
 
-            let cardName = Card.extractName(from: card)
-            guard let cardObj = cards[cardName] else {
-                fatalError("Missing definition of \(cardName)")
+            if let effects = activeEffects(card: card, player: player) {
+                triggered.append(contentsOf: effects)
             }
-
-            let effects = cardObj.onActive.map {
-                GameAction(
-                    kind: $0.action,
-                    payload: .init(
-                        actor: player,
-                        source: card,
-                        target: player,
-                        selectors: $0.selectors
-                    )
-                )
-            }
-
-            triggered.append(contentsOf: effects)
         }
 
         if triggered.isEmpty {
@@ -141,6 +126,29 @@ private extension GameState {
                 )
             )
         }
+    }
+
+    func activeEffects(card: String, player: String) -> [GameAction]? {
+        let cardName = Card.extractName(from: card)
+        guard let cardObj = cards[cardName] else {
+            fatalError("Missing definition of \(cardName)")
+        }
+
+        return cardObj.onActive.map {
+            GameAction(
+                kind: $0.action,
+                payload: .init(
+                    actor: player,
+                    source: card,
+                    target: player,
+                    selectors: $0.selectors
+                )
+            )
+        }
+    }
+
+    func deactiveEffects(card: String, player: String) -> [GameAction]? {
+        fatalError("deactiveEffects not implemented")
     }
 
     func activatePlayableCards() -> GameAction? {
