@@ -19,6 +19,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let onPlay: [Effect]
     public let onTrigger: [TriggerRule]
     public let onActive: [Effect]
+    public let onDeactive: [Effect]
     public let counterShot: Bool
 
     public init(
@@ -28,15 +29,17 @@ public struct Card: Equatable, Codable, Sendable {
         onPlay: [Effect] = [],
         onTrigger: [TriggerRule] = [],
         onActive: [Effect] = [],
+        onDeactive: [Effect] = [],
         counterShot: Bool = false
     ) {
         self.name = name
         self.desc = desc
         self.canPlay = canPlay
         self.onPlay = onPlay
-        self.counterShot = counterShot
         self.onTrigger = onTrigger
         self.onActive = onActive
+        self.onDeactive = onDeactive
+        self.counterShot = counterShot
     }
 
     /// Trigger rule
