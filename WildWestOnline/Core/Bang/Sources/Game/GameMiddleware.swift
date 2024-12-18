@@ -96,7 +96,7 @@ private extension GameState {
             fatalError("Missing definition of \(cardName)")
         }
 
-        guard let matchingRule = cardObj.rules.first(where: {
+        guard let matchingRule = cardObj.onTrigger.first(where: {
             $0.eventReq.match(event: event, actor: player, state: self)
         }) else {
             return nil

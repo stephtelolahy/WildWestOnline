@@ -61,7 +61,7 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(actionKind: .endTurn),
                     effects: [
@@ -82,7 +82,7 @@ private extension Cards {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
             desc: "TODO",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(actionKind: .endTurn),
                     effects: [
@@ -102,7 +102,7 @@ private extension Cards {
         .init(
             name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(actionKind: .startTurn),
                     effects: [
@@ -114,7 +114,6 @@ private extension Cards {
                         )
                     ]
                 )
-
             ]
         )
     }
@@ -123,7 +122,7 @@ private extension Cards {
         .init(
             name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(
                         actionKind: .damage,
@@ -141,7 +140,7 @@ private extension Cards {
         .init(
             name: .defaultEndGameOnEliminated,
             desc: "TODO",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(
                         actionKind: .eliminate,
@@ -159,7 +158,7 @@ private extension Cards {
         .init(
             name: .defaultDiscardAllCardsOnEliminated,
             desc: "TODO",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(actionKind: .eliminate),
                     effects: [
@@ -179,7 +178,7 @@ private extension Cards {
         .init(
             name: .defaultEndTurnOnEliminated,
             desc: "TODO",
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(
                         actionKind: .eliminate,
@@ -404,8 +403,6 @@ private extension Cards {
         )
     }
 
-    // MARK: - Bang
-
     static var schofield: Card {
         .init(
             name: .schofield,
@@ -413,7 +410,7 @@ private extension Cards {
             onPlay: [
                 .blueEquipment
             ],
-            rules: [
+            onTrigger: [
                 .init(
                     eventReq: .init(actionKind: .equip),
                     effects: [
@@ -431,7 +428,7 @@ private extension Cards {
         .init(
             name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
-            passive: [
+            onActive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
                 .init(action: .setPlayLimitPerTurn, selectors: [.setAmountPerCard([.bang: .infinity])])
             ]
@@ -442,7 +439,7 @@ private extension Cards {
         .init(
             name: .roseDoolan,
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            passive: [
+            onActive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
                 .init(action: .increaseMagnifying, selectors: [.setAmount(1)])
             ]
@@ -453,7 +450,7 @@ private extension Cards {
         .init(
             name: .paulRegret,
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            passive: [
+            onActive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
                 .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
             ]

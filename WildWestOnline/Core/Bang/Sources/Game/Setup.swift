@@ -87,7 +87,7 @@ private extension Setup {
 
 private extension Card {
     var maxHealth: Int {
-        for effect in passive {
+        for effect in onActive {
             if case .setMaxHealth = effect.action,
                let selector = effect.selectors.first,
                case .setAmount(let value) = selector {
@@ -99,7 +99,7 @@ private extension Card {
     }
 
     var increasedMagnifying: Int {
-        for effect in passive {
+        for effect in onActive {
             if case .increaseMagnifying = effect.action,
                let selector = effect.selectors.first,
                case .setAmount(let value) = selector {
@@ -111,7 +111,7 @@ private extension Card {
     }
 
     var increasedRemoteness: Int {
-        for effect in passive {
+        for effect in onActive {
             if case .increaseRemoteness = effect.action,
                let selector = effect.selectors.first,
                case .setAmount(let value) = selector {
@@ -123,7 +123,7 @@ private extension Card {
     }
 
     var handLimit: Int? {
-        for effect in passive {
+        for effect in onActive {
             if case .setHandLimit = effect.action,
                let selector = effect.selectors.first,
                case .setAmount(let value) = selector {
@@ -135,7 +135,7 @@ private extension Card {
     }
 
     var playlimitPerTurn: [String: Int] {
-        for effect in passive {
+        for effect in onActive {
             if case .setPlayLimitPerTurn = effect.action,
                let selector = effect.selectors.first,
                case .setAmountPerCard(let value) = selector {
