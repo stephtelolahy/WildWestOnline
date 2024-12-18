@@ -66,7 +66,7 @@ private extension Cards {
             ],
             onTrigger: [
                 .init(
-                    action: .discard,
+                    action: .discardHand,
                     selectors: [
                         .repeat(.excessHand),
                         .chooseOne(.card([.fromHand]))
@@ -153,9 +153,15 @@ private extension Cards {
             ],
             onTrigger: [
                 .init(
-                    action: .discard,
+                    action: .discardInPlay,
                     selectors: [
-                        .setCard(.all)
+                        .setCard(.allInPlay)
+                    ]
+                ),
+                .init(
+                    action: .discardHand,
+                    selectors: [
+                        .setCard(.allHand)
                     ]
                 )
             ]
@@ -403,7 +409,10 @@ private extension Cards {
                 )
             ],
             onDeactive: [
-                .init(action: .resetWeapon)
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(1)]
+                )
             ]
         )
     }

@@ -6,7 +6,7 @@
 //
 
 public struct GameAction: Action, Equatable, Codable, Sendable {
-    public let kind: Kind
+    public var kind: Kind
     public var payload: Payload
 
     public enum Kind: String, Codable, Sendable {
@@ -16,7 +16,10 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case drawDiscard
         case drawDiscovered
         case discover
+        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
         case discard
+        case discardHand
+        case discardInPlay
         case heal
         case damage
         case steal
@@ -27,7 +30,6 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case endGame
         case activate
         case setWeapon
-        case resetWeapon
         case choose
         case queue
         case discardPlayed
@@ -170,10 +172,21 @@ public extension GameAction {
         )
     }
 
-    /// Discard a player's hand or inPlay card
-    static func discard(_ card: String, player: String) -> Self {
+    /// Discard a player's hand card
+    static func discardHand(_ card: String, player: String) -> Self {
         .init(
-            kind: .discard,
+            kind: .discardHand,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Discard a player's inPlay card
+    static func discardInPlay(_ card: String, player: String) -> Self {
+        .init(
+            kind: .discardInPlay,
             payload: .init(
                 target: player,
                 card: card
@@ -260,14 +273,6 @@ public extension GameAction {
         )
     }
 
-    /// Reset Weapon
-    static func resetWeapon(player: String) -> Self {
-        .init(
-            kind: .resetWeapon,
-            payload: .init(target: player)
-        )
-    }
-
     /// Discard just played card
     static func discardPlayed(_ card: String, player: String) -> Self {
         .init(
@@ -347,7 +352,8 @@ private extension GameAction.Kind {
         .drawDiscard: "💰",
         .drawDiscovered: "💰",
         .steal: "‼️",
-        .discard: "❌",
+        .discardHand: "❌",
+        .discardInPlay: "❌",
         .draw: "🎲",
         .discover: "🎁",
         .shoot: "🔫",
@@ -360,7 +366,6 @@ private extension GameAction.Kind {
         .discardPlayed: "🟠",
         .equip: "🔵",
         .queue: "➕",
-        .setWeapon: "😎",
-        .resetWeapon: "😟",
+        .setWeapon: "😎"
     ]
 }

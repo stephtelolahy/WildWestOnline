@@ -25,7 +25,9 @@ private extension GameAction.Kind {
         case .drawDiscard: DrawDiscard()
         case .drawDiscovered: DrawDiscovered()
         case .discover: Discover()
-        case .discard: Discard()
+        case .discard: fatalError()
+        case .discardHand: DiscardHand()
+        case .discardInPlay: DiscardInPlay()
         case .heal: Heal()
         case .damage: Damage()
         case .choose: Choose()
@@ -43,7 +45,6 @@ private extension GameAction.Kind {
         case .setMaxHealth: fatalError()
         case .setHandLimit: fatalError()
         case .setWeapon: SetWeapon()
-        case .resetWeapon: ResetWeapon()
         case .increaseMagnifying: fatalError()
         case .increaseRemoteness: fatalError()
         case .setPlayLimitPerTurn: fatalError()
@@ -214,7 +215,7 @@ private extension GameAction.Kind {
         }
     }
 
-    struct Discard: Reducer {
+    struct DiscardHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
                 fatalError("Missing payload parameter card")
@@ -224,15 +225,33 @@ private extension GameAction.Kind {
             let player = payload.target
             let playerObj = state.players.get(player)
 
-            if playerObj.hand.contains(card) {
-                state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
-                state.discard.insert(card, at: 0)
-            } else if playerObj.inPlay.contains(card) {
-                state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
-                state.discard.insert(card, at: 0)
-            } else {
-                fatalError("Card \(card) not owned by \(player)")
+            guard playerObj.hand.contains(card) else {
+                fatalError("Card \(card) not in hand of \(player)")
             }
+
+            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
+            state.discard.insert(card, at: 0)
+
+            return state
+        }
+    }
+
+    struct DiscardInPlay: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            var state = state
+            let player = payload.target
+            let playerObj = state.players.get(player)
+
+            guard playerObj.inPlay.contains(card) else {
+                fatalError("Card \(card) not inPlay of \(player)")
+            }
+
+            state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
+            state.discard.insert(card, at: 0)
 
             return state
         }
@@ -379,18 +398,6 @@ private extension GameAction.Kind {
             let player = payload.target
             var playerObj = state.players.get(player)
             playerObj.weapon = weapon
-
-            var state = state
-            state.players[player] = playerObj
-            return state
-        }
-    }
-
-    struct ResetWeapon: Reducer {
-        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let player = payload.target
-            var playerObj = state.players.get(player)
-            playerObj.weapon = 1
 
             var state = state
             state.players[player] = playerObj

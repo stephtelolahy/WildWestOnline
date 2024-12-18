@@ -20,6 +20,8 @@ private extension Card.Selector.CardGroup {
         switch self {
         case .all: All()
         case .played: Played()
+        case .allHand: AllHand()
+        case .allInPlay: AllInPlay()
         }
     }
 
@@ -27,6 +29,18 @@ private extension Card.Selector.CardGroup {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
             let playerObj = state.players.get(ctx.target)
             return playerObj.inPlay + playerObj.hand
+        }
+    }
+
+    struct AllInPlay: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            state.players.get(ctx.target).inPlay
+        }
+    }
+
+    struct AllHand: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            state.players.get(ctx.target).hand
         }
     }
 

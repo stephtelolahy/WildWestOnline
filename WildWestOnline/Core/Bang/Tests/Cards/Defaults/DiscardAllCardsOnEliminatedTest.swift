@@ -29,8 +29,8 @@ struct DiscardAllCardsOnEliminatedTest {
         // Then
         #expect(result == [
             .eliminate(player: "p1"),
-            .discard("c2", player: "p1"),
-            .discard("c1", player: "p1")
+            .discardInPlay("c2", player: "p1"),
+            .discardHand("c1", player: "p1")
         ])
     }
 }

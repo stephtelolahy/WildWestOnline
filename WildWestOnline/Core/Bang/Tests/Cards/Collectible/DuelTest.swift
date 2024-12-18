@@ -58,9 +58,9 @@ struct DuelTests {
             .discardPlayed(.duel, player: "p1"),
             .choose("p2", player: "p1"),
             .choose(.bang2, player: "p2"),
-            .discard(.bang2, player: "p2"),
+            .discardHand(.bang2, player: "p2"),
             .choose(.bang1, player: "p1"),
-            .discard(.bang1, player: "p1"),
+            .discardHand(.bang1, player: "p1"),
             .damage(1, player: "p2")
         ])
     }

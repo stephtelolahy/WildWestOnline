@@ -35,7 +35,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
-            .discard("c1", player: "p1")
+            .discardHand("c1", player: "p1")
         ])
     }
 
@@ -66,9 +66,9 @@ struct DiscardExcessHandOnTurnEndedTest {
             .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
-            .discard("c1", player: "p1"),
+            .discardHand("c1", player: "p1"),
             .choose("c2", player: "p1"),
-            .discard("c2", player: "p1")
+            .discardHand("c2", player: "p1")
         ])
     }
 

@@ -111,6 +111,8 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum CardGroup: String, Codable, Sendable {
             case all
+            case allHand
+            case allInPlay
             case played
         }
 

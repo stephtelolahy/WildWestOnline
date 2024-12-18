@@ -86,12 +86,12 @@ private extension GameState {
             }
         }
 
-        if event.kind == .discard {
+        if event.kind == .discardInPlay {
             let player = event.payload.target
             guard let card = event.payload.card else {
                 fatalError("Missing payload parameter card")
             }
-            
+
             if let effects = deactiveEffects(card: card, player: player) {
                 triggered.append(contentsOf: effects)
             }

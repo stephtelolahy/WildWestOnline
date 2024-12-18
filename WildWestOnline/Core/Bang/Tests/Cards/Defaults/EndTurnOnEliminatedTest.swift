@@ -55,8 +55,8 @@ struct EndTurnOnEliminatedTest {
         // Then
         #expect(result == [
             .eliminate(player: "p1"),
-            .discard("c12", player: "p1"),
-            .discard("c11", player: "p1"),
+            .discardInPlay("c12", player: "p1"),
+            .discardHand("c11", player: "p1"),
             .startTurn(player: "p2"),
             .drawDeck(player: "p2"),
             .drawDeck(player: "p2")
