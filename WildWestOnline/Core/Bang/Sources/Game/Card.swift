@@ -17,7 +17,8 @@ public struct Card: Equatable, Codable, Sendable {
     public let desc: String
     public let canPlay: [StateReq]
     public let onPlay: [Effect]
-    public let onTrigger: [TriggerRule]
+    public let shouldTrigger: [EventReq]
+    public let onTrigger: [Effect]
     public let onActive: [Effect]
     public let onDeactive: [Effect]
     public let counterShot: Bool
@@ -27,7 +28,8 @@ public struct Card: Equatable, Codable, Sendable {
         desc: String = "",
         canPlay: [StateReq] = [],
         onPlay: [Effect] = [],
-        onTrigger: [TriggerRule] = [],
+        shouldTrigger: [EventReq] = [],
+        onTrigger: [Effect] = [],
         onActive: [Effect] = [],
         onDeactive: [Effect] = [],
         counterShot: Bool = false
@@ -36,21 +38,11 @@ public struct Card: Equatable, Codable, Sendable {
         self.desc = desc
         self.canPlay = canPlay
         self.onPlay = onPlay
+        self.shouldTrigger = shouldTrigger
         self.onTrigger = onTrigger
         self.onActive = onActive
         self.onDeactive = onDeactive
         self.counterShot = counterShot
-    }
-
-    /// Trigger rule
-    public struct TriggerRule: Equatable, Codable, Sendable {
-        public let eventReq: EventReq
-        public let effects: [Effect]
-
-        public init(eventReq: EventReq, effects: [Effect]) {
-            self.eventReq = eventReq
-            self.effects = effects
-        }
     }
 
     /// Occurred action when card is played

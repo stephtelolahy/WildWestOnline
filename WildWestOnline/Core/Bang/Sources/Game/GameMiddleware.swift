@@ -96,13 +96,12 @@ private extension GameState {
             fatalError("Missing definition of \(cardName)")
         }
 
-        guard let matchingRule = cardObj.onTrigger.first(where: {
-            $0.eventReq.match(event: event, actor: player, state: self)
-        }) else {
+        guard cardObj.shouldTrigger.isNotEmpty,
+              cardObj.shouldTrigger.contains(where: { $0.match(event: event, actor: player, state: self) }) else {
             return nil
         }
 
-        return matchingRule.effects.map {
+        return cardObj.onTrigger.map {
             GameAction(
                 kind: $0.action,
                 payload: .init(

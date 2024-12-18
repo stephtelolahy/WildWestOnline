@@ -61,17 +61,15 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
+            shouldTrigger: [
+                .init(actionKind: .endTurn)
+            ],
             onTrigger: [
                 .init(
-                    eventReq: .init(actionKind: .endTurn),
-                    effects: [
-                        .init(
-                            action: .discard,
-                            selectors: [
-                                .repeat(.excessHand),
-                                .chooseOne(.card([.fromHand]))
-                            ]
-                        )
+                    action: .discard,
+                    selectors: [
+                        .repeat(.excessHand),
+                        .chooseOne(.card([.fromHand]))
                     ]
                 )
             ]
@@ -82,16 +80,14 @@ private extension Cards {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
             desc: "TODO",
+            shouldTrigger: [
+                .init(actionKind: .endTurn)
+            ],
             onTrigger: [
                 .init(
-                    eventReq: .init(actionKind: .endTurn),
-                    effects: [
-                        .init(
-                            action: .startTurn,
-                            selectors: [
-                                .setTarget(.next)
-                            ]
-                        )
+                    action: .startTurn,
+                    selectors: [
+                        .setTarget(.next)
                     ]
                 )
             ]
@@ -102,16 +98,14 @@ private extension Cards {
         .init(
             name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
+            shouldTrigger: [
+                .init(actionKind: .startTurn)
+            ],
             onTrigger: [
                 .init(
-                    eventReq: .init(actionKind: .startTurn),
-                    effects: [
-                        .init(
-                            action: .drawDeck,
-                            selectors: [
-                                .repeat(.value(2))
-                            ]
-                        )
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.value(2))
                     ]
                 )
             ]
@@ -122,16 +116,14 @@ private extension Cards {
         .init(
             name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
-            onTrigger: [
+            shouldTrigger: [
                 .init(
-                    eventReq: .init(
-                        actionKind: .damage,
-                        stateReqs: [.healthZero]
-                    ),
-                    effects: [
-                        .init(action: .eliminate)
-                    ]
+                    actionKind: .damage,
+                    stateReqs: [.healthZero]
                 )
+            ],
+            onTrigger: [
+                .init(action: .eliminate)
             ]
         )
     }
@@ -140,16 +132,14 @@ private extension Cards {
         .init(
             name: .defaultEndGameOnEliminated,
             desc: "TODO",
-            onTrigger: [
+            shouldTrigger: [
                 .init(
-                    eventReq: .init(
-                        actionKind: .eliminate,
-                        stateReqs: [.gameOver]
-                    ),
-                    effects: [
-                        .init(action: .endGame)
-                    ]
+                    actionKind: .eliminate,
+                    stateReqs: [.gameOver]
                 )
+            ],
+            onTrigger: [
+                .init(action: .endGame)
             ]
         )
     }
@@ -158,16 +148,14 @@ private extension Cards {
         .init(
             name: .defaultDiscardAllCardsOnEliminated,
             desc: "TODO",
+            shouldTrigger: [
+                .init(actionKind: .eliminate)
+            ],
             onTrigger: [
                 .init(
-                    eventReq: .init(actionKind: .eliminate),
-                    effects: [
-                        .init(
-                            action: .discard,
-                            selectors: [
-                                .setCard(.all)
-                            ]
-                        )
+                    action: .discard,
+                    selectors: [
+                        .setCard(.all)
                     ]
                 )
             ]
@@ -178,19 +166,17 @@ private extension Cards {
         .init(
             name: .defaultEndTurnOnEliminated,
             desc: "TODO",
+            shouldTrigger: [
+                .init(
+                    actionKind: .eliminate,
+                    stateReqs: [.currentTurn]
+                )
+            ],
             onTrigger: [
                 .init(
-                    eventReq: .init(
-                        actionKind: .eliminate,
-                        stateReqs: [.currentTurn]
-                    ),
-                    effects: [
-                        .init(
-                            action: .startTurn,
-                            selectors: [
-                                .setTarget(.next)
-                            ]
-                        )
+                    action: .startTurn,
+                    selectors: [
+                        .setTarget(.next)
                     ]
                 )
             ]
@@ -410,15 +396,13 @@ private extension Cards {
             onPlay: [
                 .blueEquipment
             ],
+            shouldTrigger: [
+                .init(actionKind: .equip)
+            ],
             onTrigger: [
                 .init(
-                    eventReq: .init(actionKind: .equip),
-                    effects: [
-                        .init(
-                            action: .setWeapon,
-                            selectors: [.setAmount(2)]
-                        )
-                    ]
+                    action: .setWeapon,
+                    selectors: [.setAmount(2)]
                 )
             ]
         )
