@@ -48,6 +48,11 @@ public extension Middlewares {
 
 private extension GameState {
     func triggeredEffect(on event: GameAction) -> GameAction? {
+        // process only resolved event
+        guard event.payload.selectors.isEmpty else {
+            return nil
+        }
+
         var triggered: [GameAction] = []
 
         for player in playOrder {
@@ -70,11 +75,35 @@ private extension GameState {
             }
         }
 
-        guard triggered.isNotEmpty else {
-            return nil
+        if event.kind == .equip {
+            let player = event.payload.target
+            guard let card = event.payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            let cardName = Card.extractName(from: card)
+            guard let cardObj = cards[cardName] else {
+                fatalError("Missing definition of \(cardName)")
+            }
+
+            let effects = cardObj.onActive.map {
+                GameAction(
+                    kind: $0.action,
+                    payload: .init(
+                        actor: player,
+                        source: card,
+                        target: player,
+                        selectors: $0.selectors
+                    )
+                )
+            }
+
+            triggered.append(contentsOf: effects)
         }
 
-        if triggered.count == 1 {
+        if triggered.isEmpty {
+            return nil
+        } else if triggered.count == 1 {
             return triggered[0]
         } else {
             return .init(
@@ -135,8 +164,7 @@ private extension GameState {
 
 private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
-        event.payload.selectors.isEmpty
-        && event.kind == actionKind
+        event.kind == actionKind
         && event.payload.target == actor
         && stateReqs.allSatisfy { $0.match(actor: actor, state: state) }
     }
