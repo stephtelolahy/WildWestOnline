@@ -86,6 +86,17 @@ private extension GameState {
             }
         }
 
+        if event.kind == .discard {
+            let player = event.payload.target
+            guard let card = event.payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+            
+            if let effects = deactiveEffects(card: card, player: player) {
+                triggered.append(contentsOf: effects)
+            }
+        }
+
         if triggered.isEmpty {
             return nil
         } else if triggered.count == 1 {
@@ -148,7 +159,22 @@ private extension GameState {
     }
 
     func deactiveEffects(card: String, player: String) -> [GameAction]? {
-        fatalError("deactiveEffects not implemented")
+        let cardName = Card.extractName(from: card)
+        guard let cardObj = cards[cardName] else {
+            fatalError("Missing definition of \(cardName)")
+        }
+
+        return cardObj.onDeactive.map {
+            GameAction(
+                kind: $0.action,
+                payload: .init(
+                    actor: player,
+                    source: card,
+                    target: player,
+                    selectors: $0.selectors
+                )
+            )
+        }
     }
 
     func activatePlayableCards() -> GameAction? {

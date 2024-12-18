@@ -43,7 +43,7 @@ private extension GameAction.Kind {
         case .setMaxHealth: fatalError()
         case .setHandLimit: fatalError()
         case .setWeapon: SetWeapon()
-        case .resetWeapon: fatalError()
+        case .resetWeapon: ResetWeapon()
         case .increaseMagnifying: fatalError()
         case .increaseRemoteness: fatalError()
         case .setPlayLimitPerTurn: fatalError()
@@ -379,6 +379,19 @@ private extension GameAction.Kind {
             let player = payload.target
             var playerObj = state.players.get(player)
             playerObj.weapon = weapon
+
+            var state = state
+            state.players[player] = playerObj
+            return state
+        }
+    }
+
+    struct ResetWeapon: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            let player = payload.target
+            var playerObj = state.players.get(player)
+            playerObj.weapon = 1
+
             var state = state
             state.players[player] = playerObj
             return state

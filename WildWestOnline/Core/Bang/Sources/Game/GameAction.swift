@@ -260,6 +260,14 @@ public extension GameAction {
         )
     }
 
+    /// Reset Weapon
+    static func resetWeapon(player: String) -> Self {
+        .init(
+            kind: .resetWeapon,
+            payload: .init(target: player)
+        )
+    }
+
     /// Discard just played card
     static func discardPlayed(_ card: String, player: String) -> Self {
         .init(

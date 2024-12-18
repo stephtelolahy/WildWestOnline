@@ -19,6 +19,7 @@ struct DiscardAllCardsOnEliminatedTest {
             }
             .withPlayer("p2")
             .withPlayer("p3")
+            .withDummyCards(["c2"])
             .build()
 
         // When
