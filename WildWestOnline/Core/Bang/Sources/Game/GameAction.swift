@@ -351,6 +351,8 @@ private extension GameAction.Kind {
         .activate: "🟢",
         .discardPlayed: "🟠",
         .equip: "🔵",
-        .queue: "➕"
+        .queue: "➕",
+        .setWeapon: "😎",
+        .resetWeapon: "😟",
     ]
 }

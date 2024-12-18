@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
+// swiftlint:disable file_length
 
 extension GameAction.Kind {
     func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
