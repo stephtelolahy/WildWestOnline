@@ -84,7 +84,6 @@ private extension Card.Selector.ChooseOneElement {
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
             // </ADAPTATER: Convert action.kind>
             var pendingAction = pendingAction
-
             if pendingAction.kind == .discard {
                 let targetObj = state.players.get(pendingAction.payload.target)
                 if targetObj.hand.contains(selection) {
@@ -92,7 +91,7 @@ private extension Card.Selector.ChooseOneElement {
                 } else if targetObj.inPlay.contains(selection) {
                     pendingAction.kind = .discardInPlay
                 } else {
-                    fatalError("Unonwned card \(selection)")
+                    fatalError("Unowned card \(selection)")
                 }
             }
             // </ADAPTATER>
