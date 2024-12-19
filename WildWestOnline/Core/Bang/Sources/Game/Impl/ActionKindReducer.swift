@@ -120,10 +120,7 @@ private extension GameAction.Kind {
             }
 
             let cardName = Card.extractName(from: card)
-            guard let cardObj = state.cards[cardName] else {
-                fatalError("Missing definition of \(cardName)")
-            }
-
+            let cardObj = state.cards.get(cardName)
             guard cardObj.onPlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }

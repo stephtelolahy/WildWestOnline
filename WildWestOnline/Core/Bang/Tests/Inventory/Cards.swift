@@ -34,6 +34,8 @@ public enum Cards {
             duel,
             schofield,
             remington,
+            revCarabine,
+            winchester,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -432,6 +434,42 @@ private extension Cards {
         )
     }
 
+    static var revCarabine: Card {
+        .init(
+            name: .revCarabine,
+            desc: "can hit targets at a distance of 4.",
+            onPlay: [
+                .discardEquipedWeapon,
+                .equip
+            ],
+            onActive: [
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(4)]
+                )
+            ],
+            onDeactive: [.resetWeapon]
+        )
+    }
+
+    static var winchester: Card {
+        .init(
+            name: .winchester,
+            desc: "can hit targets at a distance of 5.",
+            onPlay: [
+                .discardEquipedWeapon,
+                .equip
+            ],
+            onActive: [
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(5)]
+                )
+            ],
+            onDeactive: [.resetWeapon]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -535,24 +573,6 @@ private extension Card.Effect {
                  ]
              )
          ]
-     )
- }
-
- static var revCarabine: CardV2 {
-     .init(
-         name: .revCarabine,
-         desc: "can hit targets at a distance of 4.",
-         setPlayerAttribute: [.weapon: 4],
-         effects: [.equip]
-     )
- }
-
- static var winchester: CardV2 {
-     .init(
-         name: .winchester,
-         desc: "can hit targets at a distance of 5.",
-         setPlayerAttribute: [.weapon: 5],
-         effects: [.equip]
      )
  }
 

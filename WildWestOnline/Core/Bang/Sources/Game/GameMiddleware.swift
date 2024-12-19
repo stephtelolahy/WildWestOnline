@@ -117,10 +117,7 @@ private extension GameState {
         player: String
     ) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
-        guard let cardObj = cards[cardName] else {
-            fatalError("Missing definition of \(cardName)")
-        }
-
+        let cardObj = cards.get(cardName)
         guard cardObj.shouldTrigger.isNotEmpty,
               cardObj.shouldTrigger.contains(where: { $0.match(event: event, actor: player, state: self) }) else {
             return nil
@@ -141,10 +138,7 @@ private extension GameState {
 
     func activeEffects(card: String, player: String) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
-        guard let cardObj = cards[cardName] else {
-            fatalError("Missing definition of \(cardName)")
-        }
-
+        let cardObj = cards.get(cardName)
         return cardObj.onActive.map {
             GameAction(
                 kind: $0.action,
@@ -160,10 +154,7 @@ private extension GameState {
 
     func deactiveEffects(card: String, player: String) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
-        guard let cardObj = cards[cardName] else {
-            fatalError("Missing definition of \(cardName)")
-        }
-
+        let cardObj = cards.get(cardName)
         return cardObj.onDeactive.map {
             GameAction(
                 kind: $0.action,
