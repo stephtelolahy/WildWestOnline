@@ -14,7 +14,6 @@ struct SchofieldTest {
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
-                    .withWeapon(1)
             }
             .build()
 
