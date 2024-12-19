@@ -12,7 +12,7 @@ import Combine
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
-        try await simulateGame(playersCount: 2)
+        try await simulateGame(playersCount: 3)
     }
 
     private func simulateGame(playersCount: Int) async throws {
@@ -48,6 +48,7 @@ struct SimulationTest {
 }
 
 private extension Middlewares {
+    // TODO: move to GameMidleware
     static var handlePendingChoice: Middleware<GameState> {
         { state, _ in
             if let pendingChoice = state.pendingChoice,

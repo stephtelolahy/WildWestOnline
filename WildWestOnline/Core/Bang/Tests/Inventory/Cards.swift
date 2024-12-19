@@ -19,6 +19,7 @@ public enum Cards {
             defaultEliminateOnDamageLethal,
             defaultEndGameOnEliminated,
             defaultDiscardAllCardsOnEliminated,
+            defaultEndTurnOnEliminated,
             stagecoach,
             wellsFargo,
             beer,
@@ -31,8 +32,10 @@ public enum Cards {
             missed,
             indians,
             duel,
+            schofield,
             willyTheKid,
-            roseDoolan
+            roseDoolan,
+            paulRegret
         ].reduce(into: [:]) { result, card in
             result[card.name] = card
         }
@@ -58,14 +61,12 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            canTrigger: [
-                .init(
-                    actionKind: .endTurn
-                )
+            shouldTrigger: [
+                .init(actionKind: .endTurn)
             ],
             onTrigger: [
                 .init(
-                    action: .discard,
+                    action: .discardHand,
                     selectors: [
                         .repeat(.excessHand),
                         .chooseOne(.card([.fromHand]))
@@ -79,10 +80,8 @@ private extension Cards {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
             desc: "TODO",
-            canTrigger: [
-                .init(
-                    actionKind: .endTurn
-                )
+            shouldTrigger: [
+                .init(actionKind: .endTurn)
             ],
             onTrigger: [
                 .init(
@@ -99,10 +98,8 @@ private extension Cards {
         .init(
             name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
-            canTrigger: [
-                .init(
-                    actionKind: .startTurn
-                )
+            shouldTrigger: [
+                .init(actionKind: .startTurn)
             ],
             onTrigger: [
                 .init(
@@ -119,16 +116,14 @@ private extension Cards {
         .init(
             name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .damage,
-                    stateConditions: [.healthZero]
+                    stateReqs: [.healthZero]
                 )
             ],
             onTrigger: [
-                .init(
-                    action: .eliminate
-                )
+                .init(action: .eliminate)
             ]
         )
     }
@@ -137,10 +132,10 @@ private extension Cards {
         .init(
             name: .defaultEndGameOnEliminated,
             desc: "TODO",
-            canTrigger: [
+            shouldTrigger: [
                 .init(
                     actionKind: .eliminate,
-                    stateConditions: [.gameOver]
+                    stateReqs: [.gameOver]
                 )
             ],
             onTrigger: [
@@ -153,27 +148,55 @@ private extension Cards {
         .init(
             name: .defaultDiscardAllCardsOnEliminated,
             desc: "TODO",
-            canTrigger: [
+            shouldTrigger: [
                 .init(actionKind: .eliminate)
             ],
             onTrigger: [
                 .init(
-                    action: .discard,
+                    action: .discardInPlay,
                     selectors: [
-                        .setCard(.all)
+                        .setCard(.allInPlay)
+                    ]
+                ),
+                .init(
+                    action: .discardHand,
+                    selectors: [
+                        .setCard(.allHand)
                     ]
                 )
             ]
         )
     }
 
-    // MARK: - Collectible
+    static var defaultEndTurnOnEliminated: Card {
+        .init(
+            name: .defaultEndTurnOnEliminated,
+            desc: "TODO",
+            shouldTrigger: [
+                .init(
+                    actionKind: .eliminate,
+                    stateReqs: [.currentTurn]
+                )
+            ],
+            onTrigger: [
+                .init(
+                    action: .startTurn,
+                    selectors: [
+                        .setTarget(.next)
+                    ]
+                )
+            ]
+        )
+    }
+
+    // MARK: - Bang
 
     static var stagecoach: Card {
         .init(
             name: .stagecoach,
             desc: "Draw two cards from the top of the deck.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .drawDeck,
                     selectors: [
@@ -189,6 +212,7 @@ private extension Cards {
             name: .wellsFargo,
             desc: "Draw three cards from the top of the deck.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .drawDeck,
                     selectors: [
@@ -207,6 +231,7 @@ private extension Cards {
                 .playersAtLeast(3)
             ],
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .heal,
                     selectors: [
@@ -222,6 +247,7 @@ private extension Cards {
             name: .saloon,
             desc: "All players in play regain one life point.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .heal,
                     selectors: [
@@ -238,6 +264,7 @@ private extension Cards {
             name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .discard,
                     selectors: [
@@ -254,6 +281,7 @@ private extension Cards {
             name: .panic,
             desc: "Draw a card from a player at distance 1",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .steal,
                     selectors: [
@@ -270,6 +298,7 @@ private extension Cards {
             name: .generalStore,
             desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .discover,
                     selectors: [
@@ -292,9 +321,10 @@ private extension Cards {
             name: .bang,
             desc: "reduce other players’s life points",
             canPlay: [
-                .playedThisTurnAtMost([.bang: 1])
+                .playLimitPerTurn([.bang: 1])
             ],
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .shoot,
                     selectors: [
@@ -310,6 +340,7 @@ private extension Cards {
             name: .gatling,
             desc: "shoots to all the other players, regardless of the distance",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .shoot,
                     selectors: [
@@ -333,6 +364,7 @@ private extension Cards {
             name: .indians,
             desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .damage,
                     selectors: [
@@ -350,6 +382,7 @@ private extension Cards {
             name: .duel,
             desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             onPlay: [
+                .discardPlayed,
                 .init(
                     action: .damage,
                     selectors: [
@@ -362,14 +395,36 @@ private extension Cards {
         )
     }
 
+    static var schofield: Card {
+        .init(
+            name: .schofield,
+            desc: "can hit targets at a distance of 2.",
+            onPlay: [
+                .equip
+            ],
+            onActive: [
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(2)]
+                )
+            ],
+            onDeactive: [
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(1)]
+                )
+            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
-            passive: [
-                .init(action: .setMaxHealth, selectors: [.setAmount(4)])
+            onActive: [
+                .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
+                .init(action: .setPlayLimitPerTurn, selectors: [.setAmountPerCard([.bang: .infinity])])
             ]
-//            setActionAttribute: [.bang: [.ignoreLimitPerTurn: 0]]
         )
     }
 
@@ -377,38 +432,46 @@ private extension Cards {
         .init(
             name: .roseDoolan,
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            passive: [
+            onActive: [
                 .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                .init(action: .setMagnifying, selectors: [.setAmount(1)])
+                .init(action: .increaseMagnifying, selectors: [.setAmount(1)])
+            ]
+        )
+    }
+
+    static var paulRegret: Card {
+        .init(
+            name: .paulRegret,
+            desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
+            onActive: [
+                .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
+                .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
+            ]
+        )
+    }
+}
+
+private extension Card.Effect {
+    static var discardPlayed: Card.Effect {
+        .init(
+            action: .discardPlayed,
+            selectors: [
+                .setCard(.played)
+            ]
+        )
+    }
+
+    static var equip: Card.Effect {
+        .init(
+            action: .equip,
+            selectors: [
+                .setCard(.played)
             ]
         )
     }
 }
 
 /*
- static var defaultAttributes: [PlayerAttribute: Int] {
-     [
-         .weapon: 1,
-         .drawCards: 1
-     ]
- }
-
- static var defaultEndTurnOnEliminated: CardV2 {
-     .init(
-         name: .defaultEndTurnOnEliminated,
-         desc: "",
-         effects: [
-             .init(
-                 action: .endTurn,
-                 selectors: [
-                     .verify(.actorTurn)
-                 ],
-                 when: .eliminated
-             )
-         ]
-     )
- }
-
  static var defaultDiscardPreviousWeaponOnPlayed: CardV2 {
      .init(
          name: .defaultDiscardPreviousWeaponOnPlayed,
@@ -442,16 +505,7 @@ private extension Cards {
      )
  }
 
- // MARK: - Bang
 
- static var schofield: CardV2 {
-     .init(
-         name: .schofield,
-         desc: "can hit targets at a distance of 2.",
-         setPlayerAttribute: [.weapon: 2],
-         effects: [.equip]
-     )
- }
 
  static var remington: CardV2 {
      .init(
@@ -593,15 +647,6 @@ private extension Cards {
                  when: .turnStarted
              )
          ]
-     )
- }
-
- static var paulRegret: CardV2 {
-     .init(
-         name: .paulRegret,
-         desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-         setPlayerAttribute: [.maxHealth: 3],
-         increasePlayerAttribute: [.remoteness: 1]
      )
  }
 

@@ -28,6 +28,7 @@ struct BeerTest {
         // Then
         #expect(result == [
             .play(.beer, player: "p1"),
+            .discardPlayed(.beer, player: "p1"),
             .heal(1, player: "p1")
         ])
     }

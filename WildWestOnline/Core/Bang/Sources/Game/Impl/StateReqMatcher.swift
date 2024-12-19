@@ -19,9 +19,10 @@ private extension Card.StateReq {
     var matcher: Matcher {
         switch self {
         case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
-        case .playedThisTurnAtMost(let limit): PlayedThisTurnAtMost(limit: limit)
+        case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .healthZero: HealthZero()
         case .gameOver: GameOver()
+        case .currentTurn: CurrentTurn()
         }
     }
 
@@ -33,16 +34,25 @@ private extension Card.StateReq {
         }
     }
 
-    struct PlayedThisTurnAtMost: Matcher {
+    struct PlayLimitPerTurn: Matcher {
         let limit: [String: Int]
 
         func match(actor: String, state: GameState) -> Bool {
-            guard let card = limit.keys.first,
-                  let limitPerTurn = limit[card] else {
-                return false
+            guard let card = limit.keys.first else {
+                fatalError("No card specified in limit")
             }
 
-            return state.playedThisTurn[card] ?? 0 < limitPerTurn
+            let playedThisTurn = state.playedThisTurn[card] ?? 0
+
+            if let actorLimit = state.players.get(actor).playLimitPerTurn[card] {
+                return playedThisTurn < actorLimit
+            }
+
+            if let requiredLimit = limit[card] {
+                return playedThisTurn < requiredLimit
+            }
+
+            return false
         }
     }
 
@@ -55,6 +65,12 @@ private extension Card.StateReq {
     struct GameOver: Matcher {
         func match(actor: String, state: GameState) -> Bool {
             state.playOrder.count <= 1
+        }
+    }
+
+    struct CurrentTurn: Matcher {
+        func match(actor: String, state: GameState) -> Bool {
+            state.turn == actor
         }
     }
 }

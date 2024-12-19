@@ -1,5 +1,5 @@
 //
-//  GameOverTest.swift
+//  EndGameOnEliminatedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct GameOverTest {
+struct EndGameOnEliminatedTest {
     @Test func game_withOnePlayerLast_shouldBeOver() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

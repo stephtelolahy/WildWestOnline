@@ -1,5 +1,5 @@
 //
-//  DefaultEndTurnTest.swift
+//  DiscardExcessHandOnTurnEndedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,32 +8,7 @@
 import Testing
 import Bang
 
-struct DefaultEndTurnTest {
-    @Test func endturn_shouldStartNextTurn() async throws {
-        // Given
-        let state = GameState.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withAbilities([
-                    .defaultEndTurn,
-                    .defaultStartTurnNextOnTurnEnded
-                ])
-            }
-            .withPlayer("p2")
-            .withTurn("p1")
-            .build()
-
-        // When
-        let action = GameAction.play(.defaultEndTurn, player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .play(.defaultEndTurn, player: "p1"),
-            .endTurn(player: "p1"),
-            .startTurn(player: "p2")
-        ])
-    }
-
+struct DiscardExcessHandOnTurnEndedTest {
     @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -60,7 +35,7 @@ struct DefaultEndTurnTest {
             .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
-            .discard("c1", player: "p1")
+            .discardHand("c1", player: "p1")
         ])
     }
 
@@ -91,9 +66,9 @@ struct DefaultEndTurnTest {
             .play(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
-            .discard("c1", player: "p1"),
+            .discardHand("c1", player: "p1"),
             .choose("c2", player: "p1"),
-            .discard("c2", player: "p1")
+            .discardHand("c2", player: "p1")
         ])
     }
 

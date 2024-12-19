@@ -18,14 +18,27 @@ private extension Card.Selector.CardGroup {
 
     var resolver: Resolver {
         switch self {
-        case .all: All()
+        case .played: Played()
+        case .allHand: AllHand()
+        case .allInPlay: AllInPlay()
         }
     }
 
-    struct All: Resolver {
+    struct AllInPlay: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
-            let playerObj = state.players.get(ctx.target)
-            return playerObj.inPlay + playerObj.hand
+            state.players.get(ctx.target).inPlay
+        }
+    }
+
+    struct AllHand: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            state.players.get(ctx.target).hand
+        }
+    }
+
+    struct Played: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            [ctx.source]
         }
     }
 }

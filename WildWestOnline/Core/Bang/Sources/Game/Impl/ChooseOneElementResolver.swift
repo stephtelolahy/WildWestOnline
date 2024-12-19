@@ -82,7 +82,21 @@ private extension Card.Selector.ChooseOneElement {
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            [pendingAction.withCard(selection)]
+            // </ADAPTATER: Convert action.kind>
+            var pendingAction = pendingAction
+            if pendingAction.kind == .discard {
+                let targetObj = state.players.get(pendingAction.payload.target)
+                if targetObj.hand.contains(selection) {
+                    pendingAction.kind = .discardHand
+                } else if targetObj.inPlay.contains(selection) {
+                    pendingAction.kind = .discardInPlay
+                } else {
+                    fatalError("Unowned card \(selection)")
+                }
+            }
+            // </ADAPTATER>
+
+            return [pendingAction.withCard(selection)]
         }
     }
 
@@ -123,7 +137,7 @@ private extension Card.Selector.ChooseOneElement {
             if selection == .pass {
                 [pendingAction]
             } else {
-                [GameAction.discard(selection, player: pendingAction.payload.target)]
+                [GameAction.discardHand(selection, player: pendingAction.payload.target)]
             }
         }
     }
@@ -158,7 +172,7 @@ private extension Card.Selector.ChooseOneElement {
                 reversedAction.payload.target = actor
                 reversedAction.payload.selectors.insert(.chooseOne(.eventuallyReverseCard(conditions)), at: 0)
                 return [
-                    GameAction.discard(selection, player: pendingAction.payload.target),
+                    GameAction.discardHand(selection, player: pendingAction.payload.target),
                     reversedAction
                 ]
             }

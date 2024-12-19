@@ -55,10 +55,12 @@ private extension Setup {
         }
 
         let maxHealth = figureObj.maxHealth
-        let magnifying = figureObj.magnifying
-        let remoteness = figureObj.remoteness
-        let handLimit = figureObj.handLimit
+        let weapon = 1
+        let magnifying = 0 + figureObj.increasedMagnifying
+        let remoteness = 0 + figureObj.increasedRemoteness
+        let handLimit = figureObj.handLimit ?? 0
         let abilities = [figure] + defaultAbilities
+        let playLimitPerTurn = figureObj.playlimitPerTurn
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -75,59 +77,62 @@ private extension Setup {
             inPlay: [],
             magnifying: magnifying,
             remoteness: remoteness,
-            weapon: 1,
+            weapon: weapon,
             abilities: abilities,
-            handLimit: handLimit
+            handLimit: handLimit,
+            playLimitPerTurn: playLimitPerTurn
         )
     }
 }
 
 private extension Card {
     var maxHealth: Int {
-        for effect in passive {
-            if case .setMaxHealth = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+        guard let effect = onActive.first(where: { $0.action == .setMaxHealth }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            fatalError("unexpected")
         }
 
-        fatalError("unexpected")
+        return value
     }
 
-    var magnifying: Int {
-        for effect in passive {
-            if case .setMagnifying = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+    var increasedMagnifying: Int {
+        guard let effect = onActive.first(where: { $0.action == .increaseMagnifying }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            return 0
         }
 
-        return 0
+        return value
     }
 
-    var remoteness: Int {
-        for effect in passive {
-            if case .setRemoteness = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+    var increasedRemoteness: Int {
+        guard let effect = onActive.first(where: { $0.action == .increaseRemoteness }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            return 0
         }
 
-        return 0
+        return value
     }
 
-    var handLimit: Int {
-        for effect in passive {
-            if case .setHandLimit = effect.action,
-               let selector = effect.selectors.first,
-               case .setAmount(let value) = selector {
-                return value
-            }
+    var handLimit: Int? {
+        guard let effect = onActive.first(where: { $0.action == .setHandLimit }),
+              let selector = effect.selectors.first,
+              case .setAmount(let value) = selector else {
+            return nil
         }
 
-        return 0
+        return value
+    }
+
+    var playlimitPerTurn: [String: Int] {
+        guard let effect = onActive.first(where: { $0.action == .setPlayLimitPerTurn }),
+              let selector = effect.selectors.first,
+              case .setAmountPerCard(let value) = selector else {
+            return [:]
+        }
+
+        return value
     }
 }

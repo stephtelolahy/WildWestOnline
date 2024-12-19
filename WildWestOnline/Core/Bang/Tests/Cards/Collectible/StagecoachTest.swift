@@ -25,6 +25,7 @@ struct StagecoachTest {
         // Then
         #expect(result == [
             .play(.stagecoach, player: "p1"),
+            .discardPlayed(.stagecoach, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

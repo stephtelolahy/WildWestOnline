@@ -8,8 +8,8 @@
 enum Figures {
     static let bang: [String] = [
         .willyTheKid,
-        .roseDoolan
-//        .paulRegret,
+        .roseDoolan,
+        .paulRegret
 //        .jourdonnais,
 //        .slabTheKiller,
 //        .luckyDuke,

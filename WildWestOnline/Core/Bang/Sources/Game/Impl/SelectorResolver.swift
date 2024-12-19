@@ -23,6 +23,7 @@ private extension Card.Selector {
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let resolved, let selection): ChooseOne(element: element, resolved: resolved, selection: selection)
+        case .setAmountPerCard: fatalError()
         }
     }
 

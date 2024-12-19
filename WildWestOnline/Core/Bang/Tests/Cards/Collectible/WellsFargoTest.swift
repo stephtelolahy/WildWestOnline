@@ -26,6 +26,7 @@ struct WellsFargoTest {
         // Then
         #expect(result == [
             .play(.wellsFargo, player: "p1"),
+            .discardPlayed(.wellsFargo, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

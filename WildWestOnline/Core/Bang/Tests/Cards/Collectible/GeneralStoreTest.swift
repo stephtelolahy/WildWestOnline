@@ -32,6 +32,7 @@ struct GeneralStoreTests {
         // Then
         #expect(result == [
             .play(.generalStore, player: "p1"),
+            .discardPlayed(.generalStore, player: "p1"),
             .discover(player: "p1"),
             .discover(player: "p1"),
             .discover(player: "p1"),
