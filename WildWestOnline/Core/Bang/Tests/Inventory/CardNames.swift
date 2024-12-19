@@ -39,7 +39,7 @@ public extension String {
 //    static let jail = "jail"
 //    static let mustang = "mustang"
     static let schofield = "schofield"
-//    static let remington = "remington"
+    static let remington = "remington"
 //    static let revCarabine = "revCarabine"
 //    static let scope = "scope"
 //    static let volcanic = "volcanic"

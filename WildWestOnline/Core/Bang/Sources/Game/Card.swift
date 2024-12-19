@@ -113,6 +113,7 @@ public struct Card: Equatable, Codable, Sendable {
             case allHand
             case allInPlay
             case played
+            case equipedWeapon
         }
 
         public enum ChooseOneElement: Equatable, Codable, Sendable {

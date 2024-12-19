@@ -21,6 +21,7 @@ private extension Card.Selector.CardGroup {
         case .played: Played()
         case .allHand: AllHand()
         case .allInPlay: AllInPlay()
+        case .equipedWeapon: EquipedWeapon()
         }
     }
 
@@ -40,5 +41,19 @@ private extension Card.Selector.CardGroup {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
             [ctx.source]
         }
+    }
+
+    struct EquipedWeapon: Resolver {
+        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+            state.players.get(ctx.target).inPlay.filter { state.isWeapon($0) }
+        }
+    }
+}
+
+private extension GameState {
+    func isWeapon(_ card: String) -> Bool {
+        let cardName = Card.extractName(from: card)
+        let cardObj = cards.get(cardName)
+        return cardObj.onActive.contains { $0.action == .setWeapon }
     }
 }

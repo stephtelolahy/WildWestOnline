@@ -33,6 +33,7 @@ public enum Cards {
             indians,
             duel,
             schofield,
+            remington,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -400,6 +401,7 @@ private extension Cards {
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
             onPlay: [
+                .discardEquipedWeapon,
                 .equip
             ],
             onActive: [
@@ -408,12 +410,25 @@ private extension Cards {
                     selectors: [.setAmount(2)]
                 )
             ],
-            onDeactive: [
+            onDeactive: [.resetWeapon]
+        )
+    }
+
+    static var remington: Card {
+        .init(
+            name: .remington,
+            desc: "can hit targets at a distance of 3.",
+            onPlay: [
+                .discardEquipedWeapon,
+                .equip
+            ],
+            onActive: [
                 .init(
                     action: .setWeapon,
-                    selectors: [.setAmount(1)]
+                    selectors: [.setAmount(3)]
                 )
-            ]
+            ],
+            onDeactive: [.resetWeapon]
         )
     }
 
@@ -469,6 +484,24 @@ private extension Card.Effect {
             ]
         )
     }
+
+    static var resetWeapon: Card.Effect {
+        .init(
+            action: .setWeapon,
+            selectors: [
+                .setAmount(1)
+            ]
+        )
+    }
+
+    static var discardEquipedWeapon: Card.Effect {
+        .init(
+            action: .discardInPlay,
+            selectors: [
+                .setCard(.equipedWeapon)
+            ]
+        )
+    }
 }
 
 /*
@@ -502,17 +535,6 @@ private extension Card.Effect {
                  ]
              )
          ]
-     )
- }
-
-
-
- static var remington: CardV2 {
-     .init(
-         name: .remington,
-         desc: "can hit targets at a distance of 3.",
-         setPlayerAttribute: [.weapon: 3],
-         effects: [.equip]
      )
  }
 
