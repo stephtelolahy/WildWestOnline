@@ -36,6 +36,7 @@ public enum Cards {
             remington,
             revCarabine,
             winchester,
+            volcanic,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -470,6 +471,28 @@ private extension Cards {
         )
     }
 
+    static var volcanic: Card {
+        .init(
+            name: .volcanic,
+            desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
+            onPlay: [
+                .discardEquipedWeapon,
+                .equip
+            ],
+            onActive: [
+                .init(
+                    action: .setWeapon,
+                    selectors: [.setAmount(1)]
+                ),
+                .init(
+                    action: .setPlayLimitPerTurn,
+                    selectors: [.setAmountPerCard([.bang: .infinity])]
+                )
+            ],
+            onDeactive: [.resetWeapon]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -573,16 +596,6 @@ private extension Card.Effect {
                  ]
              )
          ]
-     )
- }
-
- static var volcanic: CardV2 {
-     .init(
-         name: .volcanic,
-         desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-         setPlayerAttribute: [.weapon: 1],
-         setActionAttribute: [.bang: [.ignoreLimitPerTurn: 0]],
-         effects: [.equip]
      )
  }
 

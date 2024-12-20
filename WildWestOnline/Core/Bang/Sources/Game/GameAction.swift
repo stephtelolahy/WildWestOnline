@@ -52,6 +52,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         public var selectors: [Card.Selector]
         public var children: [GameAction]
         public var cards: [String]
+        public var amountPerCard: [String: Int]
 
         public init(
             actor: String = "",
@@ -62,7 +63,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             selection: String? = nil,
             selectors: [Card.Selector] = [],
             children: [GameAction] = [],
-            cards: [String] = []
+            cards: [String] = [],
+            amountPerCard: [String: Int] = [:]
         ) {
             self.actor = actor
             self.source = source
@@ -73,6 +75,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             self.selectors = selectors
             self.children = children
             self.cards = cards
+            self.amountPerCard = amountPerCard
         }
     }
 
@@ -265,14 +268,6 @@ public extension GameAction {
         )
     }
 
-    /// Set Weapon
-    static func setWeapon(_ weapon: Int, player: String) -> Self {
-        .init(
-            kind: .setWeapon,
-            payload: .init(target: player, amount: weapon)
-        )
-    }
-
     /// Discard just played card
     static func discardPlayed(_ card: String, player: String) -> Self {
         .init(
@@ -303,6 +298,24 @@ public extension GameAction {
                 actor: player,
                 target: target,
                 card: card
+            )
+        )
+    }
+
+    /// Set Weapon
+    static func setWeapon(_ weapon: Int, player: String) -> Self {
+        .init(
+            kind: .setWeapon,
+            payload: .init(target: player, amount: weapon)
+        )
+    }
+
+    static func setPlayLimitPerTurn(_ limit: [String: Int], player: String) -> Self {
+        .init(
+            kind: .setPlayLimitPerTurn,
+            payload: .init(
+                target: player,
+                amountPerCard: limit
             )
         )
     }

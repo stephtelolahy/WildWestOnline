@@ -1,5 +1,5 @@
 //
-//  RevCarabineTests.swift
+//  RevCarabineTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct RevCarabineTests {
+struct RevCarabineTest {
     @Test func playRevCarabine_shouldEquipAndSetWeapon() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

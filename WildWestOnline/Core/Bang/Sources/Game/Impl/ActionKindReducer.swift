@@ -47,7 +47,7 @@ private extension GameAction.Kind {
         case .setWeapon: SetWeapon()
         case .increaseMagnifying: fatalError()
         case .increaseRemoteness: fatalError()
-        case .setPlayLimitPerTurn: fatalError()
+        case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
         }
     }
 
@@ -392,12 +392,16 @@ private extension GameAction.Kind {
                 fatalError("Missing payload parameter weapon")
             }
 
-            let player = payload.target
-            var playerObj = state.players.get(player)
-            playerObj.weapon = weapon
-
             var state = state
-            state.players[player] = playerObj
+            state[keyPath: \.players[payload.target]!.weapon] = weapon
+            return state
+        }
+    }
+
+    struct SetPlayLimitPerTurn: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            state[keyPath: \.players[payload.target]!.playLimitPerTurn] = payload.amountPerCard
             return state
         }
     }
