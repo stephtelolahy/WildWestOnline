@@ -14,7 +14,8 @@ enum DefaultAbilities {
             .defaultStartTurnNextOnTurnEnded,
             .defaultEliminateOnDamageLethal,
             .defaultEndGameOnEliminated,
-            .defaultDiscardAllCardsOnEliminated
+            .defaultDiscardAllCardsOnEliminated,
+            .defaultEndTurnOnEliminated
         ]
     }
 }

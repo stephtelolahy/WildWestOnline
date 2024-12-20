@@ -1,5 +1,5 @@
 //
-//  DefaultEliminateTest.swift
+//  EliminateOnDamageLethalTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct DefaultEliminateTest {
+struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_lethal_shouldBeEliminated() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

@@ -1,33 +1,37 @@
 //
-//  WillyTheKidTests.swift
+//  WillyTheKidTest.swift
 //  
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import CardsData
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class WillyTheKidTests: XCTestCase {
-    func test_WillyTheKid_shouldHaveUnlimitedBang() throws {
+struct WillyTheKidTest {
+    @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {
         // Given
-        let state = Setup.buildGame(figures: [.willyTheKid], deck: [], cards: Cards.all)
+        let state = Setup.buildGame(
+            figures: [.willyTheKid],
+            deck: [],
+            cards: Cards.all,
+            defaultAbilities: []
+        )
 
         // When
-        let player = state.player(.willyTheKid)
+        let player = state.players.get(.willyTheKid)
 
         // Then
-        XCTAssertEqual(player.attributes[.bangsPerTurn], 0)
+        #expect(player.playLimitPerTurn[.bang] == .infinity)
     }
 
-    /*
     @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
+                    .withPlayLimitPerTurn([.bang: .infinity])
             }
             .withPlayer("p2")
             .withPlayedThisTurn([.bang: 1])
@@ -43,10 +47,10 @@ final class WillyTheKidTests: XCTestCase {
         // Then
         #expect(result == [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .choose("p2", player: "p1"),
             .shoot("p2", player: "p1"),
             .damage(1, player: "p2")
         ])
     }
-    */
 }

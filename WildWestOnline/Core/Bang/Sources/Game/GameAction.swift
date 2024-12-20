@@ -6,7 +6,7 @@
 //
 
 public struct GameAction: Action, Equatable, Codable, Sendable {
-    public let kind: Kind
+    public var kind: Kind
     public var payload: Payload
 
     public enum Kind: String, Codable, Sendable {
@@ -16,23 +16,30 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         case drawDiscard
         case drawDiscovered
         case discover
+        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
         case discard
+        case discardHand
+        case discardInPlay
         case heal
         case damage
-        case choose
         case steal
         case shoot
         case endTurn
         case startTurn
-        case queue
         case eliminate
         case endGame
-        case setMaxHealth
-        case setWeapon
-        case setMagnifying
-        case setRemoteness
-        case setHandLimit
         case activate
+        case setWeapon
+        case choose
+        case queue
+        case discardPlayed
+        case equip
+        case handicap
+        case setMaxHealth
+        case increaseMagnifying
+        case increaseRemoteness
+        case setHandLimit
+        case setPlayLimitPerTurn
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -45,6 +52,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
         public var selectors: [Card.Selector]
         public var children: [GameAction]
         public var cards: [String]
+        public var amountPerCard: [String: Int]
 
         public init(
             actor: String = "",
@@ -55,7 +63,8 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             selection: String? = nil,
             selectors: [Card.Selector] = [],
             children: [GameAction] = [],
-            cards: [String] = []
+            cards: [String] = [],
+            amountPerCard: [String: Int] = [:]
         ) {
             self.actor = actor
             self.source = source
@@ -66,6 +75,7 @@ public struct GameAction: Action, Equatable, Codable, Sendable {
             self.selectors = selectors
             self.children = children
             self.cards = cards
+            self.amountPerCard = amountPerCard
         }
     }
 
@@ -165,10 +175,21 @@ public extension GameAction {
         )
     }
 
-    /// Discard a player's hand or inPlay card
-    static func discard(_ card: String, player: String) -> Self {
+    /// Discard a player's hand card
+    static func discardHand(_ card: String, player: String) -> Self {
         .init(
-            kind: .discard,
+            kind: .discardHand,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Discard a player's inPlay card
+    static func discardInPlay(_ card: String, player: String) -> Self {
+        .init(
+            kind: .discardInPlay,
             payload: .init(
                 target: player,
                 card: card
@@ -246,16 +267,67 @@ public extension GameAction {
             payload: .init(target: player, cards: cards)
         )
     }
+
+    /// Discard just played card
+    static func discardPlayed(_ card: String, player: String) -> Self {
+        .init(
+            kind: .discardPlayed,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Equip a card
+    static func equip(_ card: String, player: String) -> Self {
+        .init(
+            kind: .equip,
+            payload: .init(
+                target: player,
+                card: card
+            )
+        )
+    }
+
+    /// Handicap a target with a card
+    static func handicap(_ card: String, target: String, player: String) -> Self {
+        .init(
+            kind: .handicap,
+            payload: .init(
+                actor: player,
+                target: target,
+                card: card
+            )
+        )
+    }
+
+    /// Set Weapon
+    static func setWeapon(_ weapon: Int, player: String) -> Self {
+        .init(
+            kind: .setWeapon,
+            payload: .init(target: player, amount: weapon)
+        )
+    }
+
+    static func setPlayLimitPerTurn(_ limit: [String: Int], player: String) -> Self {
+        .init(
+            kind: .setPlayLimitPerTurn,
+            payload: .init(
+                target: player,
+                amountPerCard: limit
+            )
+        )
+    }
 }
 
 extension GameAction: CustomStringConvertible {
     public var description: String {
         var parts: [String] = []
-        if payload.selectors.isEmpty {
-            parts.append(kind.emoji)
-        } else {
+        if payload.selectors.isNotEmpty {
             parts.append("..")
         }
+        parts.append(kind.emoji)
         parts.append(payload.target)
 
         if let card = payload.card {
@@ -286,14 +358,15 @@ private extension GameAction.Kind {
     }
 
     static let dict: [GameAction.Kind: String] = [
-        .play: "🟡",
+        .play: "⚪️",
         .heal: "❤️",
         .damage: "🥵",
         .drawDeck: "💰",
         .drawDiscard: "💰",
         .drawDiscovered: "💰",
         .steal: "‼️",
-        .discard: "❌",
+        .discardHand: "❌",
+        .discardInPlay: "❌",
         .draw: "🎲",
         .discover: "🎁",
         .shoot: "🔫",
@@ -303,6 +376,9 @@ private extension GameAction.Kind {
         .endGame: "🎉",
         .choose: "🎯",
         .activate: "🟢",
-        .queue: "➕"
+        .discardPlayed: "🟠",
+        .equip: "🔵",
+        .queue: "➕",
+        .setWeapon: "😎"
     ]
 }

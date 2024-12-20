@@ -16,7 +16,7 @@ public extension String {
     static let defaultEliminateOnDamageLethal = "defaultEliminateOnDamageLethal"
     static let defaultEndGameOnEliminated = "defaultEndGameOnEliminated"
     static let defaultDiscardAllCardsOnEliminated = "defaultDiscardAllCardsOnEliminated"
-//    static let defaultEndTurnOnEliminated = "defaultEndTurnOnEliminated"
+    static let defaultEndTurnOnEliminated = "defaultEndTurnOnEliminated"
 //    static let defaultDiscardPreviousWeaponOnPlayed = "defaultDiscardPreviousWeaponOnPlayed"
 //    static let defaultDiscardBeerOnDamagedLethal = "defaultDiscardBeerOnDamagedLethal"
 
@@ -37,16 +37,16 @@ public extension String {
 //    static let barrel = "barrel"
 //    static let dynamite = "dynamite"
 //    static let jail = "jail"
-//    static let mustang = "mustang"
-//    static let remington = "remington"
-//    static let revCarabine = "revCarabine"
-//    static let schofield = "schofield"
+    static let schofield = "schofield"
+    static let remington = "remington"
+    static let revCarabine = "revCarabine"
+    static let winchester = "winchester"
+    static let volcanic = "volcanic"
 //    static let scope = "scope"
-//    static let volcanic = "volcanic"
-//    static let winchester = "winchester"
+//    static let mustang = "mustang"
     static let willyTheKid = "willyTheKid"
     static let roseDoolan = "roseDoolan"
-//    static let paulRegret = "paulRegret"
+    static let paulRegret = "paulRegret"
 //    static let jourdonnais = "jourdonnais"
 //    static let slabTheKiller = "slabTheKiller"
 //    static let luckyDuke = "luckyDuke"
@@ -112,4 +112,8 @@ public extension String {
 //    static let blackFlower = "blackFlower"
 //    static let derSpotBurstRinger = "derSpotBurstRinger"
 //    static let tucoFranziskaner = "tucoFranziskaner"
+}
+
+public extension Int {
+    static let infinity = 999
 }

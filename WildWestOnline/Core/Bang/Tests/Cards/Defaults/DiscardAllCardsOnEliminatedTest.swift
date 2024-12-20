@@ -1,5 +1,5 @@
 //
-//  DefaultDiscardCardsOnEliminatedTest.swift
+//  DiscardAllCardsOnEliminatedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,7 +8,7 @@
 import Testing
 import Bang
 
-struct DefaultDiscardCardsOnEliminatedTest {
+struct DiscardAllCardsOnEliminatedTest {
     @Test func beingEliminated_havingCards_shouldDiscardAllCards() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
@@ -19,6 +19,7 @@ struct DefaultDiscardCardsOnEliminatedTest {
             }
             .withPlayer("p2")
             .withPlayer("p3")
+            .withDummyCards(["c2"])
             .build()
 
         // When
@@ -28,8 +29,8 @@ struct DefaultDiscardCardsOnEliminatedTest {
         // Then
         #expect(result == [
             .eliminate(player: "p1"),
-            .discard("c2", player: "p1"),
-            .discard("c1", player: "p1")
+            .discardInPlay("c2", player: "p1"),
+            .discardHand("c1", player: "p1")
         ])
     }
 }

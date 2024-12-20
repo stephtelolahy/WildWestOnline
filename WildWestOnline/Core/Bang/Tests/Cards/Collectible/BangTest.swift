@@ -30,6 +30,7 @@ struct BangTest {
         // Then
         #expect(result == [
             .play(.bang, player: "p1"),
+            .discardPlayed(.bang, player: "p1"),
             .choose("p2", player: "p1"),
             .shoot("p2", player: "p1"),
             .damage(1, player: "p2")
@@ -50,7 +51,7 @@ struct BangTest {
         // When
         // Assert
         let action = GameAction.play(.bang, player: "p1")
-        await #expect(throws: GameError.noReq(.playedThisTurnAtMost([.bang: 1]))) {
+        await #expect(throws: GameError.noReq(.playLimitPerTurn([.bang: 1]))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

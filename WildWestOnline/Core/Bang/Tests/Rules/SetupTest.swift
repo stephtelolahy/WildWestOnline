@@ -33,17 +33,17 @@ struct SetupTest {
         let cards: [String: Card] = [
             "p1": .init(
                 name: "p1",
-                passive: [
+                onActive: [
                     .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                    .init(action: .setMagnifying, selectors: [.setAmount(1)]),
+                    .init(action: .increaseMagnifying, selectors: [.setAmount(1)]),
                     .init(action: .setHandLimit, selectors: [.setAmount(10)])
                 ]
             ),
             "p2": .init(
                 name: "p2",
-                passive: [
+                onActive: [
                     .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
-                    .init(action: .setRemoteness, selectors: [.setAmount(1)])
+                    .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
                 ]
             )
         ]

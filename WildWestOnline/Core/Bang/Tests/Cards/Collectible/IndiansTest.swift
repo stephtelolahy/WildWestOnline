@@ -31,8 +31,9 @@ struct IndiansTest {
         // Then
         #expect(result == [
             .play(.indians, player: "p1"),
+            .discardPlayed(.indians, player: "p1"),
             .choose(.bang, player: "p2"),
-            .discard(.bang, player: "p2"),
+            .discardHand(.bang, player: "p2"),
             .damage(1, player: "p3")
         ])
     }

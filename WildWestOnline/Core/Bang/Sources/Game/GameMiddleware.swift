@@ -32,10 +32,11 @@ public extension Middlewares {
                 return triggered
             }
 
-            if let pending = state.queue.first {
-                return pending
+            if let queued = state.queue.first {
+                return queued
             }
 
+            // TODO: convert to triggered
             if let activate = state.activatePlayableCards() {
                 return activate
             }
@@ -47,6 +48,11 @@ public extension Middlewares {
 
 private extension GameState {
     func triggeredEffect(on event: GameAction) -> GameAction? {
+        // process only resolved event
+        guard event.payload.selectors.isEmpty else {
+            return nil
+        }
+
         var triggered: [GameAction] = []
 
         for player in playOrder {
@@ -69,11 +75,31 @@ private extension GameState {
             }
         }
 
-        guard triggered.isNotEmpty else {
-            return nil
+        if event.kind == .equip {
+            let player = event.payload.target
+            guard let card = event.payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            if let effects = activeEffects(card: card, player: player) {
+                triggered.append(contentsOf: effects)
+            }
         }
 
-        if triggered.count == 1 {
+        if event.kind == .discardInPlay {
+            let player = event.payload.target
+            guard let card = event.payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            if let effects = deactiveEffects(card: card, player: player) {
+                triggered.append(contentsOf: effects)
+            }
+        }
+
+        if triggered.isEmpty {
+            return nil
+        } else if triggered.count == 1 {
             return triggered[0]
         } else {
             return .init(
@@ -91,21 +117,45 @@ private extension GameState {
         player: String
     ) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
-        guard let cardObj = cards[cardName] else {
-            fatalError("Missing definition of \(cardName)")
-        }
-
-        guard cardObj.canTrigger.isNotEmpty else {
+        let cardObj = cards.get(cardName)
+        guard cardObj.shouldTrigger.isNotEmpty,
+              cardObj.shouldTrigger.contains(where: { $0.match(event: event, actor: player, state: self) }) else {
             return nil
         }
 
-        for eventReq in cardObj.canTrigger {
-            guard eventReq.match(event: event, actor: player, state: self) else {
-                return nil
-            }
-        }
-
         return cardObj.onTrigger.map {
+            GameAction(
+                kind: $0.action,
+                payload: .init(
+                    actor: player,
+                    source: card,
+                    target: player,
+                    selectors: $0.selectors
+                )
+            )
+        }
+    }
+
+    func activeEffects(card: String, player: String) -> [GameAction]? {
+        let cardName = Card.extractName(from: card)
+        let cardObj = cards.get(cardName)
+        return cardObj.onActive.map {
+            GameAction(
+                kind: $0.action,
+                payload: .init(
+                    actor: player,
+                    source: card,
+                    target: player,
+                    selectors: $0.selectors
+                )
+            )
+        }
+    }
+
+    func deactiveEffects(card: String, player: String) -> [GameAction]? {
+        let cardName = Card.extractName(from: card)
+        let cardObj = cards.get(cardName)
+        return cardObj.onDeactive.map {
             GameAction(
                 kind: $0.action,
                 payload: .init(
@@ -139,10 +189,9 @@ private extension GameState {
 
 private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
-        event.payload.selectors.isEmpty
-        && event.kind == actionKind
+        event.kind == actionKind
         && event.payload.target == actor
-        && stateConditions.allSatisfy { $0.match(actor: actor, state: state) }
+        && stateReqs.allSatisfy { $0.match(actor: actor, state: state) }
     }
 }
 

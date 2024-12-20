@@ -33,6 +33,7 @@ public struct Player: Equatable, Codable, Sendable {
     public var weapon: Int
     public var abilities: [String]
     public var handLimit: Int
+    public var playLimitPerTurn: [String: Int]
 }
 
 public extension GameState {
@@ -101,6 +102,7 @@ public extension GameState {
             _ = builderFunc(builder)
             players[id] = builder.build()
             playOrder.append(id)
+            startOrder.append(id)
             return self
         }
 
@@ -143,6 +145,7 @@ public extension Player {
         private var weapon: Int = 0
         private var abilities: [String] = []
         private var handLimit: Int = 0
+        private var playLimitPerTurn: [String: Int] = [:]
 
         public func build() -> Player {
             .init(
@@ -154,7 +157,8 @@ public extension Player {
                 remoteness: remoteness,
                 weapon: weapon,
                 abilities: abilities,
-                handLimit: handLimit
+                handLimit: handLimit,
+                playLimitPerTurn: playLimitPerTurn
             )
         }
 
@@ -200,6 +204,11 @@ public extension Player {
 
         public func withHandLimit(_ value: Int) -> Self {
             handLimit = value
+            return self
+        }
+
+        public func withPlayLimitPerTurn(_ value: [String: Int]) -> Self {
+            playLimitPerTurn = value
             return self
         }
     }
