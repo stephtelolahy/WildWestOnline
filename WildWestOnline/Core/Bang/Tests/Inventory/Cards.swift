@@ -566,22 +566,6 @@ private extension Card.Effect {
 }
 
 /*
- static var defaultDiscardPreviousWeaponOnPlayed: CardV2 {
-     .init(
-         name: .defaultDiscardPreviousWeaponOnPlayed,
-         desc: "",
-         effects: [
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .setCard(.inPlayWithAttr(.weapon))
-                 ],
-                 when: .playedCardWithAttr(.weapon)
-             )
-         ]
-     )
- }
-
  static var defaultDiscardBeerOnDamagedLethal: CardV2 {
      .init(
          name: .defaultDiscardBeerOnDamagedLethal,

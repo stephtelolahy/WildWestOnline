@@ -17,7 +17,6 @@ public extension String {
     static let defaultEndGameOnEliminated = "defaultEndGameOnEliminated"
     static let defaultDiscardAllCardsOnEliminated = "defaultDiscardAllCardsOnEliminated"
     static let defaultEndTurnOnEliminated = "defaultEndTurnOnEliminated"
-//    static let defaultDiscardPreviousWeaponOnPlayed = "defaultDiscardPreviousWeaponOnPlayed"
 //    static let defaultDiscardBeerOnDamagedLethal = "defaultDiscardBeerOnDamagedLethal"
 
     // MARK: - Bang
