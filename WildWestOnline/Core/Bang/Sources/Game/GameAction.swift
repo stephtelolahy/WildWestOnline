@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 27/10/2024.
 //
 
-public struct GameAction: Action, Equatable, Codable, Sendable {
+public struct GameAction: Action, Equatable, Codable {
     public var kind: Kind
     public var payload: Payload
 

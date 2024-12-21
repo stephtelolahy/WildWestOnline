@@ -30,7 +30,7 @@ public enum Middlewares {}
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-public class Store<State: Sendable>: ObservableObject, @unchecked Sendable {
+public class Store<State>: ObservableObject, @unchecked Sendable {
     @Published public internal(set) var state: State
     public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
     public internal(set) var errorPublisher: PassthroughSubject<Error, Never>

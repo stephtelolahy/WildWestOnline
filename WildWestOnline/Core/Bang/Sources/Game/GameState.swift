@@ -8,7 +8,7 @@
 /// All aspects of game state
 /// These state objects are passed around everywhere
 /// and maintained on both client and server seamlessly
-public struct GameState: Equatable, Codable, Sendable {
+public struct GameState: Equatable, Codable {
     public var players: [String: Player]
     public var cards: [String: Card]
     public var deck: [String]
@@ -23,7 +23,7 @@ public struct GameState: Equatable, Codable, Sendable {
     public var isOver: Bool
 }
 
-public struct Player: Equatable, Codable, Sendable {
+public struct Player: Equatable, Codable {
     public var health: Int
     public var maxHealth: Int
     public var hand: [String]
