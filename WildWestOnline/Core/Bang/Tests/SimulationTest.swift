@@ -69,13 +69,16 @@ private extension Middlewares {
     /// Middleare reproducting state according to received event
     static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
-            guard let nextState = try? GameReducer().reduce(prevState.value, action) else {
-                fatalError("Failed reducing \(action)")
+            DispatchQueue.main.async {
+                guard let nextState = try? GameReducer().reduce(prevState.value, action) else {
+                    fatalError("Failed reducing \(action)")
+                }
+
+                assert(nextState == state, "Inconsistent state after applying \(action)")
+
+                prevState.value = nextState
             }
 
-            assert(nextState == state, "Inconsistent state after applying \(action)")
-
-            prevState.value = nextState
             return nil
         }
     }

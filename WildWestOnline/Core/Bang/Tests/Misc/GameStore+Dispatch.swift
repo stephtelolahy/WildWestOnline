@@ -64,7 +64,7 @@ struct Choice {
     let selectionIndex: Int
 }
 
-private final class ChoicesWrapper: @unchecked Sendable {
+private class ChoicesWrapper {
     var choices: [Choice]
 
     init(choices: [Choice]) {
