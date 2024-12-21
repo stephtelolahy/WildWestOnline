@@ -81,7 +81,7 @@ private extension Middlewares {
     }
 }
 
-private class StateWrapper: @unchecked Sendable {
+private class StateWrapper {
     var value: GameState
 
     init(value: GameState) {
