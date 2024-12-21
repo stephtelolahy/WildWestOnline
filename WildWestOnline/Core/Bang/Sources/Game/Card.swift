@@ -12,7 +12,7 @@
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 /// ℹ️ All effects of  the same source share the resolved arguments
 ///
-public struct Card: Equatable, Codable {
+public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let desc: String
     public let canPlay: [StateReq]
@@ -46,7 +46,7 @@ public struct Card: Equatable, Codable {
     }
 
     /// Occurred action when card is played
-    public struct Effect: Equatable, Codable {
+    public struct Effect: Equatable, Codable, Sendable {
         public let action: GameAction.Kind
         public let selectors: [Selector]
 
@@ -69,7 +69,7 @@ public struct Card: Equatable, Codable {
     }
 
     /// Required event conditions to trigger a card
-    public struct EventReq: Equatable, Codable {
+    public struct EventReq: Equatable, Codable, Sendable {
         public let actionKind: GameAction.Kind
         public let stateReqs: [StateReq]
 
