@@ -31,7 +31,9 @@ private extension GameAction.Kind {
         case .heal: Heal()
         case .damage: Damage()
         case .choose: Choose()
-        case .steal: Steal()
+        case .steal: fatalError()
+        case .stealHand: StealHand()
+        case .stealInPlay: StealInPlay()
         case .shoot: Shoot()
         case .endTurn: EndTurn()
         case .startTurn: StartTurn()
@@ -279,7 +281,7 @@ private extension GameAction.Kind {
         }
     }
 
-    struct Steal: Reducer {
+    struct StealHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
                 fatalError("Missing payload parameter card")
@@ -287,18 +289,37 @@ private extension GameAction.Kind {
 
             let actor = payload.actor
             let target = payload.target
-            let targetObj = state.players.get(target)
+            let playerObj = state.players.get(target)
 
             var state = state
-            if targetObj.hand.contains(card) {
-                state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
-                state[keyPath: \.players[actor]!.hand].append(card)
-            } else if targetObj.inPlay.contains(card) {
-                state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
-                state[keyPath: \.players[actor]!.hand].append(card)
-            } else {
-                fatalError("Card \(card) not owned by \(target)")
+            guard playerObj.hand.contains(card) else {
+                fatalError("Card \(card) not in hand of \(target)")
             }
+
+            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[actor]!.hand].append(card)
+
+            return state
+        }
+    }
+
+    struct StealInPlay: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            let actor = payload.actor
+            let target = payload.target
+            let playerObj = state.players.get(target)
+
+            var state = state
+            guard playerObj.inPlay.contains(card) else {
+                fatalError("Card \(card) not inPlay of \(target)")
+            }
+
+            state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
+            state[keyPath: \.players[actor]!.hand].append(card)
 
             return state
         }

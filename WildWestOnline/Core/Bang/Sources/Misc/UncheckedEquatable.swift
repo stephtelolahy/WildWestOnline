@@ -21,6 +21,6 @@ struct UncheckedEquatable: Equatable, Codable, Sendable {
         fatalError("No implemented")
     }
 
-    public func encode(to encoder: any Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
     }
 }
