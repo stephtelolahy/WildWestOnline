@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //
+// swiftlint:disable file_length
 
 public struct GameAction: Action, Equatable, Codable {
     public var kind: Kind
@@ -323,6 +324,16 @@ public extension GameAction {
     static func increaseMagnifying(_ amount: Int, player: String) -> Self {
         .init(
             kind: .increaseMagnifying,
+            payload: .init(
+                target: player,
+                amount: amount
+            )
+        )
+    }
+
+    static func increaseRemoteness(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .increaseRemoteness,
             payload: .init(
                 target: player,
                 amount: amount
