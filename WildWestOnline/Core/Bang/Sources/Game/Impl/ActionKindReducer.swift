@@ -45,7 +45,7 @@ private extension GameAction.Kind {
         case .setMaxHealth: fatalError()
         case .setHandLimit: fatalError()
         case .setWeapon: SetWeapon()
-        case .increaseMagnifying: fatalError()
+        case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: fatalError()
         case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
         }
@@ -389,7 +389,7 @@ private extension GameAction.Kind {
     struct SetWeapon: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let weapon = payload.amount else {
-                fatalError("Missing payload parameter weapon")
+                fatalError("Missing payload parameter amount")
             }
 
             var state = state
@@ -402,6 +402,18 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state[keyPath: \.players[payload.target]!.playLimitPerTurn] = payload.amountPerCard
+            return state
+        }
+    }
+
+    struct IncreaseMagnifying: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let amount = payload.amount else {
+                fatalError("Missing payload parameter amount")
+            }
+
+            var state = state
+            state[keyPath: \.players[payload.target]!.magnifying] += amount
             return state
         }
     }

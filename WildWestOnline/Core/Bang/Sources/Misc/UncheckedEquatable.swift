@@ -6,18 +6,18 @@
 //
 
 @propertyWrapper
-public struct UncheckedEquatable: Equatable, Codable, Sendable {
-    public var wrappedValue: String
+struct UncheckedEquatable: Equatable, Codable, Sendable {
+    var wrappedValue: String
 
-    public init(wrappedValue: String) {
+    init(wrappedValue: String) {
         self.wrappedValue = wrappedValue
     }
 
-    public static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         true
     }
 
-    public init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder) throws {
         fatalError("No implemented")
     }
 

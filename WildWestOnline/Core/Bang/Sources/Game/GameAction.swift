@@ -319,6 +319,16 @@ public extension GameAction {
             )
         )
     }
+
+    static func increaseMagnifying(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .increaseMagnifying,
+            payload: .init(
+                target: player,
+                amount: amount
+            )
+        )
+    }
 }
 
 extension GameAction: CustomStringConvertible {
