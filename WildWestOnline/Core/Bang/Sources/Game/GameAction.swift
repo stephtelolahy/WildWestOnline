@@ -17,8 +17,6 @@ public struct GameAction: Action, Equatable, Codable {
         case drawDiscard
         case drawDiscovered
         case discover
-        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
-        case discard
         case discardHand
         case discardInPlay
         case heal
@@ -32,7 +30,6 @@ public struct GameAction: Action, Equatable, Codable {
         case activate
         case setWeapon
         case choose
-        case queue
         case discardPlayed
         case equip
         case handicap
@@ -41,6 +38,10 @@ public struct GameAction: Action, Equatable, Codable {
         case increaseRemoteness
         case setHandLimit
         case setPlayLimitPerTurn
+
+        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
+        case discard
+        case queue
     }
 
     public struct Payload: Equatable, Codable, Sendable {
