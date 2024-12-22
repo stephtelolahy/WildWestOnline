@@ -37,6 +37,8 @@ public enum Cards {
             revCarabine,
             winchester,
             volcanic,
+            scope,
+            mustang,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -493,6 +495,46 @@ private extension Cards {
         )
     }
 
+    static var scope: Card {
+        .init(
+            name: .scope,
+            desc: "you see all the other players at a distance decreased by 1",
+            onPlay: [.equip],
+            onActive: [
+                .init(
+                    action: .increaseMagnifying,
+                    selectors: [.setAmount(1)]
+                )
+            ],
+            onDeactive: [
+                .init(
+                    action: .increaseMagnifying,
+                    selectors: [.setAmount(-1)]
+                )
+            ]
+        )
+    }
+
+    static var mustang: Card {
+        .init(
+            name: .mustang,
+            desc: "the distance between other players and you is increased by 1",
+            onPlay: [.equip],
+            onActive: [
+                .init(
+                    action: .increaseRemoteness,
+                    selectors: [.setAmount(1)]
+                )
+            ],
+            onDeactive: [
+                .init(
+                    action: .increaseRemoteness,
+                    selectors: [.setAmount(-1)]
+                )
+            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -566,22 +608,6 @@ private extension Card.Effect {
 }
 
 /*
- static var defaultDiscardPreviousWeaponOnPlayed: CardV2 {
-     .init(
-         name: .defaultDiscardPreviousWeaponOnPlayed,
-         desc: "",
-         effects: [
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .setCard(.inPlayWithAttr(.weapon))
-                 ],
-                 when: .playedCardWithAttr(.weapon)
-             )
-         ]
-     )
- }
-
  static var defaultDiscardBeerOnDamagedLethal: CardV2 {
      .init(
          name: .defaultDiscardBeerOnDamagedLethal,
@@ -596,24 +622,6 @@ private extension Card.Effect {
                  ]
              )
          ]
-     )
- }
-
- static var scope: CardV2 {
-     .init(
-         name: .scope,
-         desc: "you see all the other players at a distance decreased by 1",
-         increasePlayerAttribute: [.magnifying: 1],
-         effects: [.equip]
-     )
- }
-
- static var mustang: CardV2 {
-     .init(
-         name: .mustang,
-         desc: "the distance between other players and you is increased by 1",
-         increasePlayerAttribute: [.remoteness: 1],
-         effects: [.equip]
      )
  }
 

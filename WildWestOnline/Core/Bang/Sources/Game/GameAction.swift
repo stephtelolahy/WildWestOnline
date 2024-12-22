@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //
+// swiftlint:disable file_length
 
 public struct GameAction: Action, Equatable, Codable {
     public var kind: Kind
@@ -16,13 +17,12 @@ public struct GameAction: Action, Equatable, Codable {
         case drawDiscard
         case drawDiscovered
         case discover
-        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
-        case discard
         case discardHand
         case discardInPlay
+        case stealHand
+        case stealInPlay
         case heal
         case damage
-        case steal
         case shoot
         case endTurn
         case startTurn
@@ -31,7 +31,6 @@ public struct GameAction: Action, Equatable, Codable {
         case activate
         case setWeapon
         case choose
-        case queue
         case discardPlayed
         case equip
         case handicap
@@ -40,6 +39,12 @@ public struct GameAction: Action, Equatable, Codable {
         case increaseRemoteness
         case setHandLimit
         case setPlayLimitPerTurn
+
+        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
+        case discard
+        @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
+        case steal
+        case queue
     }
 
     public struct Payload: Equatable, Codable, Sendable {
@@ -197,10 +202,22 @@ public extension GameAction {
         )
     }
 
-    /// Draw card from other player's hand or inPlay
-    static func steal(_ card: String, target: String, player: String) -> Self {
+    /// Draw card from other player's hand
+    static func stealHand(_ card: String, target: String, player: String) -> Self {
         .init(
-            kind: .steal,
+            kind: .stealHand,
+            payload: .init(
+                actor: player,
+                target: target,
+                card: card
+            )
+        )
+    }
+
+    /// Draw card from other player's inPlay
+    static func stealInPlay(_ card: String, target: String, player: String) -> Self {
+        .init(
+            kind: .stealInPlay,
             payload: .init(
                 actor: player,
                 target: target,
@@ -316,6 +333,26 @@ public extension GameAction {
             payload: .init(
                 target: player,
                 amountPerCard: limit
+            )
+        )
+    }
+
+    static func increaseMagnifying(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .increaseMagnifying,
+            payload: .init(
+                target: player,
+                amount: amount
+            )
+        )
+    }
+
+    static func increaseRemoteness(_ amount: Int, player: String) -> Self {
+        .init(
+            kind: .increaseRemoteness,
+            payload: .init(
+                target: player,
+                amount: amount
             )
         )
     }

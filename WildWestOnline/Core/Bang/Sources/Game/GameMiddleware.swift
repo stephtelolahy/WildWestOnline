@@ -86,7 +86,7 @@ private extension GameState {
             }
         }
 
-        if event.kind == .discardInPlay {
+        if event.kind == .discardInPlay || event.kind == .stealInPlay {
             let player = event.payload.target
             guard let card = event.payload.card else {
                 fatalError("Missing payload parameter card")

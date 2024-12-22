@@ -31,7 +31,9 @@ private extension GameAction.Kind {
         case .heal: Heal()
         case .damage: Damage()
         case .choose: Choose()
-        case .steal: Steal()
+        case .steal: fatalError()
+        case .stealHand: StealHand()
+        case .stealInPlay: StealInPlay()
         case .shoot: Shoot()
         case .endTurn: EndTurn()
         case .startTurn: StartTurn()
@@ -45,8 +47,8 @@ private extension GameAction.Kind {
         case .setMaxHealth: fatalError()
         case .setHandLimit: fatalError()
         case .setWeapon: SetWeapon()
-        case .increaseMagnifying: fatalError()
-        case .increaseRemoteness: fatalError()
+        case .increaseMagnifying: IncreaseMagnifying()
+        case .increaseRemoteness: IncreaseRemoteness()
         case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
         }
     }
@@ -279,7 +281,7 @@ private extension GameAction.Kind {
         }
     }
 
-    struct Steal: Reducer {
+    struct StealHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
                 fatalError("Missing payload parameter card")
@@ -287,18 +289,37 @@ private extension GameAction.Kind {
 
             let actor = payload.actor
             let target = payload.target
-            let targetObj = state.players.get(target)
+            let playerObj = state.players.get(target)
 
             var state = state
-            if targetObj.hand.contains(card) {
-                state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
-                state[keyPath: \.players[actor]!.hand].append(card)
-            } else if targetObj.inPlay.contains(card) {
-                state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
-                state[keyPath: \.players[actor]!.hand].append(card)
-            } else {
-                fatalError("Card \(card) not owned by \(target)")
+            guard playerObj.hand.contains(card) else {
+                fatalError("Card \(card) not in hand of \(target)")
             }
+
+            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[actor]!.hand].append(card)
+
+            return state
+        }
+    }
+
+    struct StealInPlay: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            let actor = payload.actor
+            let target = payload.target
+            let playerObj = state.players.get(target)
+
+            var state = state
+            guard playerObj.inPlay.contains(card) else {
+                fatalError("Card \(card) not inPlay of \(target)")
+            }
+
+            state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
+            state[keyPath: \.players[actor]!.hand].append(card)
 
             return state
         }
@@ -389,7 +410,7 @@ private extension GameAction.Kind {
     struct SetWeapon: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let weapon = payload.amount else {
-                fatalError("Missing payload parameter weapon")
+                fatalError("Missing payload parameter amount")
             }
 
             var state = state
@@ -402,6 +423,30 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state[keyPath: \.players[payload.target]!.playLimitPerTurn] = payload.amountPerCard
+            return state
+        }
+    }
+
+    struct IncreaseMagnifying: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let amount = payload.amount else {
+                fatalError("Missing payload parameter amount")
+            }
+
+            var state = state
+            state[keyPath: \.players[payload.target]!.magnifying] += amount
+            return state
+        }
+    }
+
+    struct IncreaseRemoteness: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let amount = payload.amount else {
+                fatalError("Missing payload parameter amount")
+            }
+
+            var state = state
+            state[keyPath: \.players[payload.target]!.remoteness] += amount
             return state
         }
     }

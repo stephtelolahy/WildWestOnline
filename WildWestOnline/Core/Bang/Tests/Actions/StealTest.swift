@@ -19,7 +19,7 @@ struct StealTest {
             .build()
 
         // When
-        let action = GameAction.steal("c21", target: "p2", player: "p1")
+        let action = GameAction.stealHand("c21", target: "p2", player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
@@ -37,7 +37,7 @@ struct StealTest {
             .build()
 
         // When
-        let action = GameAction.steal("c21", target: "p2", player: "p1")
+        let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
