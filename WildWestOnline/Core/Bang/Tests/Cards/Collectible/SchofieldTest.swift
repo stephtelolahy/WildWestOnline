@@ -49,6 +49,27 @@ struct SchofieldTest {
         ])
     }
 
+    @Test func stealSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withInPlay([.schofield])
+                    .withWeapon(2)
+            }
+            .withPlayer("p2")
+            .build()
+
+        // When
+        let action = GameAction.stealInPlay(.schofield, target: "p1", player: "p2")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .stealInPlay(.schofield, target: "p1", player: "p2"),
+            .setWeapon(1, player: "p1")
+        ])
+    }
+
     @Test func playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
