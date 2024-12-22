@@ -28,4 +28,24 @@ struct MustangTests {
             .increaseRemoteness(1, player: "p1")
         ])
     }
+
+    @Test func discardMistang_shouldResetAttribute() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withInPlay([.mustang])
+                    .withRemoteness(1)
+            }
+            .build()
+
+        // When
+        let action = GameAction.discardInPlay(.mustang, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .discardInPlay(.mustang, player: "p1"),
+            .increaseRemoteness(-1, player: "p1")
+        ])
+    }
 }

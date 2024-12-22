@@ -9,7 +9,7 @@ import XCTest
 import Combine
 import Bang
 
-func dispatchUntilCompleted(
+func   dispatchUntilCompleted(
     _ action: GameAction,
     state: GameState,
     expectedChoices: [Choice] = [],

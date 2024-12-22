@@ -423,7 +423,7 @@ private extension GameAction.Kind {
             guard let amount = payload.amount else {
                 fatalError("Missing payload parameter amount")
             }
-            
+
             var state = state
             state[keyPath: \.players[payload.target]!.remoteness] += amount
             return state

@@ -29,7 +29,7 @@ struct ScopeTest {
         ])
     }
 
-    @Test func discardScope_shouldRemoveAttribute() async throws {
+    @Test func discardScope_shouldResetAttribute() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
