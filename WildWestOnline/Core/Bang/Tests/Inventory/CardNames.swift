@@ -33,7 +33,7 @@ public extension String {
     static let gatling = "gatling"
     static let indians = "indians"
     static let duel = "duel"
-//    static let barrel = "barrel"
+    static let barrel = "barrel"
 //    static let dynamite = "dynamite"
 //    static let jail = "jail"
     static let schofield = "schofield"

@@ -39,6 +39,7 @@ public enum Cards {
             volcanic,
             scope,
             mustang,
+            barrel,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -535,6 +536,29 @@ private extension Cards {
         )
     }
 
+    static var barrel: Card {
+        .init(
+            name: .barrel,
+            desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
+            onPlay: [.equip],
+            shouldTrigger: [
+                .init(actionKind: .shoot)
+            ],
+            onTrigger: [
+                .init(
+                    action: .draw
+                ),
+//                .init(
+//                    action: ,
+//                    selectors: [
+//                        .verify(.draw("♥️"))
+//                    ],
+//                    when: .shot
+//                )
+            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -648,27 +672,6 @@ private extension Card.Effect {
                      .setCard(.played)
                  ],
                  when: .turnStarted
-             )
-         ]
-     )
- }
-
- static var barrel: CardV2 {
-     .init(
-         name: .barrel,
-         desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-         effects: [
-             .equip,
-             .init(
-                 action: .draw,
-                 when: .shot
-             ),
-             .init(
-                 action: .missed,
-                 selectors: [
-                     .verify(.draw("♥️"))
-                 ],
-                 when: .shot
              )
          ]
      )

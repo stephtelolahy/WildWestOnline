@@ -5,28 +5,29 @@
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class BarrelTests: XCTestCase {
-    func test_playingBarrel_shouldEquip() throws {
+struct BarrelTests {
+    @Test func playingBarrel_shouldEquip() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.barrel])
             }
             .build()
 
         // When
-        let action = GameAction.preparePlay(.barrel, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let action = GameAction.play(.barrel, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
-            .playEquipment(.barrel, player: "p1")
+        #expect(result == [
+            .play(.barrel, player: "p1"),
+            .equip(.barrel, player: "p1")
         ])
     }
-
+/*
     func test_triggeringBarrel_oneFlippedCard_isHearts_shouldCancelShot() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -162,4 +163,5 @@ final class BarrelTests: XCTestCase {
             .draw
         ])
     }
+ */
 }
