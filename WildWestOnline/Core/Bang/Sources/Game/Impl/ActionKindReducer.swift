@@ -35,6 +35,7 @@ private extension GameAction.Kind {
         case .stealHand: StealHand()
         case .stealInPlay: StealInPlay()
         case .shoot: Shoot()
+        case .counterShot: CounterShoot()
         case .endTurn: EndTurn()
         case .startTurn: StartTurn()
         case .queue: Queue()
@@ -341,6 +342,15 @@ private extension GameAction.Kind {
                 )
             )
             state.queue.insert(effect, at: 0)
+            return state
+        }
+    }
+
+    struct CounterShoot: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            var state = state
+            // TODO: cation removing shoot effect
+            state.queue.removeFirst()
             return state
         }
     }

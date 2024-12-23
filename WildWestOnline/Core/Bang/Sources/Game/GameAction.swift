@@ -24,6 +24,7 @@ public struct GameAction: Action, Equatable, Codable {
         case heal
         case damage
         case shoot
+        case counterShot
         case endTurn
         case startTurn
         case eliminate
@@ -91,7 +92,6 @@ public struct GameAction: Action, Equatable, Codable {
 }
 
 public extension GameAction {
-    /// Move: play a card
     static func play(_ card: String, player: String) -> Self {
         .init(
             kind: .play,
@@ -102,7 +102,6 @@ public extension GameAction {
         )
     }
 
-    /// Move: choose an option
     static func choose(_ selection: String, player: String) -> Self {
         .init(
             kind: .choose,
@@ -113,15 +112,15 @@ public extension GameAction {
         )
     }
 
-    /// Draw top deck card and put to discard
-    static var draw: Self {
+    static func draw(player: String) -> Self {
         .init(
             kind: .draw,
-            payload: .init()
+            payload: .init(
+                target: player
+            )
         )
     }
 
-    /// Draw top deck card
     static func drawDeck(player: String) -> Self {
         .init(
             kind: .drawDeck,
@@ -131,7 +130,6 @@ public extension GameAction {
         )
     }
 
-    /// Draw top discard
     static func drawDiscard(player: String) -> Self {
         .init(
             kind: .drawDiscard,
@@ -139,7 +137,6 @@ public extension GameAction {
         )
     }
 
-    /// Draw discovered deck card
     static func drawDiscovered(_ card: String, player: String) -> Self {
         .init(
             kind: .drawDiscovered,
@@ -150,7 +147,6 @@ public extension GameAction {
         )
     }
 
-    /// Discover top deck cards
     static func discover(player: String) -> Self {
         .init(
             kind: .discover,
@@ -158,7 +154,6 @@ public extension GameAction {
         )
     }
 
-    /// Restore player's health, limited to maxHealth
     static func heal(_ amount: Int, player: String) -> Self {
         .init(
             kind: .heal,
@@ -169,7 +164,6 @@ public extension GameAction {
         )
     }
 
-    /// Deals damage to a player, attempting to reduce its Health by the stated amount
     static func damage(_ amount: Int, player: String) -> Self {
         .init(
             kind: .damage,
@@ -180,7 +174,6 @@ public extension GameAction {
         )
     }
 
-    /// Discard a player's hand card
     static func discardHand(_ card: String, player: String) -> Self {
         .init(
             kind: .discardHand,
@@ -191,7 +184,6 @@ public extension GameAction {
         )
     }
 
-    /// Discard a player's inPlay card
     static func discardInPlay(_ card: String, player: String) -> Self {
         .init(
             kind: .discardInPlay,
@@ -202,7 +194,6 @@ public extension GameAction {
         )
     }
 
-    /// Draw card from other player's hand
     static func stealHand(_ card: String, target: String, player: String) -> Self {
         .init(
             kind: .stealHand,
@@ -214,7 +205,6 @@ public extension GameAction {
         )
     }
 
-    /// Draw card from other player's inPlay
     static func stealInPlay(_ card: String, target: String, player: String) -> Self {
         .init(
             kind: .stealInPlay,
@@ -226,7 +216,6 @@ public extension GameAction {
         )
     }
 
-    /// Shoot a player
     static func shoot(_ target: String, player: String) -> Self {
         .init(
             kind: .shoot,
@@ -237,7 +226,15 @@ public extension GameAction {
         )
     }
 
-    /// Start turn
+    static func counterShoot(player: String) -> Self {
+        .init(
+            kind: .counterShot,
+            payload: .init(
+                target: player
+            )
+        )
+    }
+
     static func startTurn(player: String) -> Self {
         .init(
             kind: .startTurn,
@@ -247,7 +244,6 @@ public extension GameAction {
         )
     }
 
-    /// End turn
     static func endTurn(player: String) -> Self {
         .init(
             kind: .endTurn,
@@ -257,7 +253,6 @@ public extension GameAction {
         )
     }
 
-    /// Eliminate
     static func eliminate(player: String) -> Self {
         .init(
             kind: .eliminate,
@@ -267,7 +262,6 @@ public extension GameAction {
         )
     }
 
-    /// End game
     static func endGame(player: String) -> Self {
         .init(
             kind: .endGame,
@@ -277,7 +271,6 @@ public extension GameAction {
         )
     }
 
-    /// Expose active cards
     static func activate(_ cards: [String], player: String) -> Self {
         .init(
             kind: .activate,
@@ -285,7 +278,6 @@ public extension GameAction {
         )
     }
 
-    /// Discard just played card
     static func discardPlayed(_ card: String, player: String) -> Self {
         .init(
             kind: .discardPlayed,
@@ -296,7 +288,6 @@ public extension GameAction {
         )
     }
 
-    /// Equip a card
     static func equip(_ card: String, player: String) -> Self {
         .init(
             kind: .equip,
@@ -307,7 +298,6 @@ public extension GameAction {
         )
     }
 
-    /// Handicap a target with a card
     static func handicap(_ card: String, target: String, player: String) -> Self {
         .init(
             kind: .handicap,
@@ -319,7 +309,6 @@ public extension GameAction {
         )
     }
 
-    /// Set Weapon
     static func setWeapon(_ weapon: Int, player: String) -> Self {
         .init(
             kind: .setWeapon,

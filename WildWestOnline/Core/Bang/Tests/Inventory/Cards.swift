@@ -548,13 +548,12 @@ private extension Cards {
                 .init(
                     action: .draw
                 ),
-//                .init(
-//                    action: ,
-//                    selectors: [
-//                        .verify(.draw("♥️"))
-//                    ],
-//                    when: .shot
-//                )
+                .init(
+                    action: .counterShot,
+                    selectors: [
+                        .verify(.draw("♥️"))
+                    ]
+                )
             ]
         )
     }

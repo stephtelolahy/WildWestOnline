@@ -66,6 +66,7 @@ public struct Card: Equatable, Codable, Sendable {
         case healthZero
         case gameOver
         case currentTurn
+        case draw(_ regex: String)
     }
 
     /// Required event conditions to trigger a card
@@ -91,6 +92,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
+        case verify(StateReq)
 
         public enum Number: Equatable, Codable, Sendable {
             case value(Int)
