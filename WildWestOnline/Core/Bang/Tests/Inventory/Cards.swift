@@ -546,7 +546,10 @@ private extension Cards {
             ],
             onTrigger: [
                 .init(
-                    action: .draw
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawCards)
+                    ]
                 ),
                 .init(
                     action: .counterShot,

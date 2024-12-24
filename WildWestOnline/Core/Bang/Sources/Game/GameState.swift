@@ -34,6 +34,7 @@ public struct Player: Equatable, Codable, Sendable {
     public var abilities: [String]
     public var handLimit: Int
     public var playLimitPerTurn: [String: Int]
+    public var drawCards: Int
 }
 
 public extension GameState {
@@ -146,6 +147,7 @@ public extension Player {
         private var abilities: [String] = []
         private var handLimit: Int = 0
         private var playLimitPerTurn: [String: Int] = [:]
+        private var drawCards: Int = 0
 
         public func build() -> Player {
             .init(
@@ -158,7 +160,8 @@ public extension Player {
                 weapon: weapon,
                 abilities: abilities,
                 handLimit: handLimit,
-                playLimitPerTurn: playLimitPerTurn
+                playLimitPerTurn: playLimitPerTurn,
+                drawCards: drawCards
             )
         }
 
@@ -211,6 +214,12 @@ public extension Player {
             playLimitPerTurn = value
             return self
         }
+
+        public func withDrawCards(_ value: Int) -> Self {
+            drawCards = value
+            return self
+        }
+
     }
 
     static func makeBuilder() -> Builder {

@@ -51,6 +51,7 @@ private extension GameAction.Kind {
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
+        case .setDrawCards: fatalError()
         }
     }
 

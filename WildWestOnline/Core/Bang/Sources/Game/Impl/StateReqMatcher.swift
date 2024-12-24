@@ -79,7 +79,8 @@ private extension Card.StateReq {
         let regex: String
 
         func match(actor: String, state: GameState) -> Bool {
-            let drawnCards = [state.discard[0]]
+            let drawCardsCount = state.players.get(actor).drawCards
+            let drawnCards: [String] = Array(state.discard.prefix(drawCardsCount))
             return drawnCards.contains { $0.matches(regex: regex) }
         }
     }

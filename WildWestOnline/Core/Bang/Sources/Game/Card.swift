@@ -98,6 +98,7 @@ public struct Card: Equatable, Codable, Sendable {
             case value(Int)
             case activePlayers
             case excessHand
+            case drawCards
         }
 
         public enum TargetGroup: String, Codable, Sendable {

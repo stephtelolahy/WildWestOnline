@@ -40,6 +40,7 @@ public struct GameAction: Action, Equatable, Codable {
         case increaseRemoteness
         case setHandLimit
         case setPlayLimitPerTurn
+        case setDrawCards
 
         @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
         case discard
