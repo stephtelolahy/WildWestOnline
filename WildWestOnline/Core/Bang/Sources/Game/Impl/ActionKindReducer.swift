@@ -350,7 +350,13 @@ private extension GameAction.Kind {
     struct CounterShoot: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
-            // TODO: cation removing shoot effect
+
+            guard let nextAction = state.queue.first,
+                  nextAction.kind == .damage,
+                  nextAction.payload.target == payload.target else {
+                fatalError("Next action should be shoot effect")
+            }
+
             state.queue.removeFirst()
             return state
         }
