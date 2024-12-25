@@ -555,7 +555,7 @@ private extension Cards {
                 .init(
                     action: .counterShot,
                     selectors: [
-                        .verify(.draw("♥️"))
+                        .verify(.drawMatching(.regexHearts))
                     ]
                 )
             ]
@@ -578,21 +578,21 @@ private extension Cards {
                     ]
                 ),
                 .init(action: .passInPlay, selectors: [
-                    .verify(.draw("(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)")),
+                    .verify(.drawMatching(.regexPassDynamite)),
                     .setCard(.played),
                     .setTarget(.next)
                 ]),
                 .init(
                     action: .damage,
                     selectors: [
-                        .verify(.draw("[2-9]♠️")),
+                        .verify(.drawNotMatching(.regexPassDynamite)),
                         .setAmount(3)
                     ]
                 ),
                 .init(
                     action: .discardInPlay,
                     selectors: [
-                        .verify(.draw("[2-9]♠️")),
+                        .verify(.drawNotMatching(.regexPassDynamite)),
                         .setCard(.played)
                     ]
                 )
@@ -670,6 +670,14 @@ private extension Card.Effect {
             ]
         )
     }
+}
+
+/// Card effect regex
+/// https://regex101.com/
+private extension String {
+    static let regexHearts = "♥️"
+    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
+    static let regexRed = "(♥️)|(♦️)"
 }
 
 /*

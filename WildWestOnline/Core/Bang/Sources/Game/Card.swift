@@ -66,7 +66,8 @@ public struct Card: Equatable, Codable, Sendable {
         case healthZero
         case gameOver
         case currentTurn
-        case draw(_ regex: String)
+        case drawMatching(_ regex: String)
+        case drawNotMatching(_ regex: String)
     }
 
     /// Required event conditions to trigger a card
