@@ -1,39 +1,41 @@
 //
-//  DynamiteTests.swift
+//  DynamiteTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
 //
 
-import GameCore
-import XCTest
+import Testing
+import Bang
 
-final class DynamiteTests: XCTestCase {
-    func test_playDynamite_shouldEquip() throws {
+struct DynamiteTest {
+    @Test func playDynamite_shouldEquip() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.dynamite])
             }
             .build()
 
         // When
-        let action = GameAction.preparePlay(.dynamite, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let action = GameAction.play(.dynamite, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
-            .playEquipment(.dynamite, player: "p1")
+        #expect(result == [
+            .play(.dynamite, player: "p1"),
+            .equip(.dynamite, player: "p1")
         ])
     }
 
-    func test_triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() throws {
+    @Test func triggeringDynamite_withFlippedCardIsHearts_shouldPassInPlay() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
+            .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.drawOnStartTurn])
-                    .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                    .withDrawCards(1)
+                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
             }
             .withPlayer("p2")
             .withDeck(["c1-9♦️", "c2", "c3"])
@@ -41,18 +43,18 @@ final class DynamiteTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
-            .draw,
+            .draw(player: "p1"),
             .passInPlay(.dynamite, target: "p2", player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
-
+/*
     func test_triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() throws {
         // Given
         let state = GameState.makeBuilderWithCards()
@@ -121,4 +123,5 @@ final class DynamiteTests: XCTestCase {
             .drawDeck(player: "p2")
         ])
     }
+ */
 }

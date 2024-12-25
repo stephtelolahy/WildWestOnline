@@ -34,6 +34,7 @@ private extension GameAction.Kind {
         case .steal: fatalError()
         case .stealHand: StealHand()
         case .stealInPlay: StealInPlay()
+        case .passInPlay: PassInPlay()
         case .shoot: Shoot()
         case .counterShot: CounterShoot()
         case .endTurn: EndTurn()
@@ -314,14 +315,34 @@ private extension GameAction.Kind {
             let actor = payload.actor
             let target = payload.target
             let playerObj = state.players.get(target)
-
-            var state = state
             guard playerObj.inPlay.contains(card) else {
                 fatalError("Card \(card) not inPlay of \(target)")
             }
 
+            var state = state
             state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
             state[keyPath: \.players[actor]!.hand].append(card)
+
+            return state
+        }
+    }
+
+    struct PassInPlay: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            let actor = payload.actor
+            let target = payload.target
+            let playerObj = state.players.get(actor)
+            guard playerObj.inPlay.contains(card) else {
+                fatalError("Card \(card) not inPlay of \(target)")
+            }
+
+            var state = state
+            state[keyPath: \.players[actor]!.inPlay].removeAll { $0 == card }
+            state[keyPath: \.players[target]!.inPlay].append(card)
 
             return state
         }

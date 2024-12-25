@@ -21,6 +21,7 @@ public struct GameAction: Action, Equatable, Codable {
         case discardInPlay
         case stealHand
         case stealInPlay
+        case passInPlay
         case heal
         case damage
         case shoot
@@ -217,6 +218,17 @@ public extension GameAction {
         )
     }
 
+    static func passInPlay(_ card: String, target: String, player: String) -> Self {
+        .init(
+            kind: .passInPlay,
+            payload: .init(
+                actor: player,
+                target: target,
+                card: card
+            )
+        )
+    }
+
     static func shoot(_ target: String, player: String) -> Self {
         .init(
             kind: .shoot,
@@ -391,9 +403,11 @@ private extension GameAction.Kind {
         .drawDeck: "💰",
         .drawDiscard: "💰",
         .drawDiscovered: "💰",
-        .steal: "‼️",
+        .stealHand: "‼️",
+        .stealInPlay: "‼️",
         .discardHand: "❌",
         .discardInPlay: "❌",
+        .passInPlay: "💣",
         .draw: "🎲",
         .discover: "🎁",
         .shoot: "🔫",
@@ -406,6 +420,8 @@ private extension GameAction.Kind {
         .discardPlayed: "🟠",
         .equip: "🔵",
         .queue: "➕",
-        .setWeapon: "😎"
+        .setWeapon: "😎",
+        .increaseMagnifying: "😎",
+        .increaseRemoteness: "😎"
     ]
 }

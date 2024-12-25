@@ -40,6 +40,7 @@ public enum Cards {
             scope,
             mustang,
             barrel,
+            dynamite,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -561,6 +562,79 @@ private extension Cards {
         )
     }
 
+    static var dynamite: Card {
+        .init(
+            name: .dynamite,
+            desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
+            onPlay: [.equip],
+            shouldTrigger: [
+                .init(actionKind: .startTurn)
+            ],
+            onTrigger: [
+                .init(
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawCards)
+                    ]
+                ),
+                .init(action: .passInPlay, selectors: [
+                    .verify(.draw("(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)")),
+                    .setCard(.played),
+                    .setTarget(.next)
+                ]),
+                .init(
+                    action: .damage,
+                    selectors: [
+                        .verify(.draw("[2-9]♠️")),
+                        .setAmount(3)
+                    ]
+                ),
+                .init(
+                    action: .discardInPlay,
+                    selectors: [
+                        .verify(.draw("[2-9]♠️")),
+                        .setCard(.played)
+                    ]
+                ),
+
+/*
+            ]
+            effects: [
+                .equip,
+                .init(
+                    action: .draw,
+                    when: .turnStarted
+                ),
+                .init(
+                    action: .handicap,
+                    selectors: [
+                        .verify(.not(.draw("[2-9]♠️"))),
+                        .setCard(.played),
+                        .setTarget(.next)
+                    ],
+                    when: .turnStarted
+                ),
+                .init(
+                    action: .damage,
+                    selectors: [
+                        .verify(.draw("[2-9]♠️")),
+                        .setAttribute(.damageAmount, value: .value(3))
+                    ],
+                    when: .turnStarted
+                ),
+                .init(
+                    action: .discard,
+                    selectors: [
+                        .verify(.draw("[2-9]♠️")),
+                        .setCard(.played)
+                    ],
+                    when: .turnStarted
+                )
+ */
+            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -671,45 +745,6 @@ private extension Card.Effect {
              .init(
                  action: .discard,
                  selectors: [
-                     .setCard(.played)
-                 ],
-                 when: .turnStarted
-             )
-         ]
-     )
- }
-
- static var dynamite: CardV2 {
-     .init(
-         name: .dynamite,
-         desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-         effects: [
-             .equip,
-             .init(
-                 action: .draw,
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .handicap,
-                 selectors: [
-                     .verify(.not(.draw("[2-9]♠️"))),
-                     .setCard(.played),
-                     .setTarget(.next)
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .damage,
-                 selectors: [
-                     .verify(.draw("[2-9]♠️")),
-                     .setAttribute(.damageAmount, value: .value(3))
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .verify(.draw("[2-9]♠️")),
                      .setCard(.played)
                  ],
                  when: .turnStarted

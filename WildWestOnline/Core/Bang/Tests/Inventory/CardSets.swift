@@ -8,7 +8,7 @@
 enum CardSets {
     static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],
-//        .dynamite: ["2♥️"],
+        .dynamite: ["2♥️"],
 //        .jail: ["J♠️", "10♠️", "4♥️"],
         .schofield: ["K♠️", "J♣️", "Q♣️"],
         .remington: ["K♣️"],
