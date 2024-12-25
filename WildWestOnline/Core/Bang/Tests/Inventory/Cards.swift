@@ -595,42 +595,7 @@ private extension Cards {
                         .verify(.draw("[2-9]♠️")),
                         .setCard(.played)
                     ]
-                ),
-
-/*
-            ]
-            effects: [
-                .equip,
-                .init(
-                    action: .draw,
-                    when: .turnStarted
-                ),
-                .init(
-                    action: .handicap,
-                    selectors: [
-                        .verify(.not(.draw("[2-9]♠️"))),
-                        .setCard(.played),
-                        .setTarget(.next)
-                    ],
-                    when: .turnStarted
-                ),
-                .init(
-                    action: .damage,
-                    selectors: [
-                        .verify(.draw("[2-9]♠️")),
-                        .setAttribute(.damageAmount, value: .value(3))
-                    ],
-                    when: .turnStarted
-                ),
-                .init(
-                    action: .discard,
-                    selectors: [
-                        .verify(.draw("[2-9]♠️")),
-                        .setCard(.played)
-                    ],
-                    when: .turnStarted
                 )
- */
             ]
         )
     }

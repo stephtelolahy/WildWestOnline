@@ -51,7 +51,7 @@ struct BarrelTest {
         ])
     }
 
-    @Test func triggeringBarrel_oneFlippedCardIsSpades_shouldApplyDamage() async throws {
+    @Test func triggeringBarrel_oneFlippedCardIsSpades_shouldNotCancelShot() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1")
@@ -122,7 +122,7 @@ struct BarrelTest {
         ])
     }
 
-    @Test func triggeringBarrel_twoFlippedCardsNoneIsHearts_shouldApplyDamage() async throws {
+    @Test func triggeringBarrel_twoFlippedCardsNoneIsHearts_shouldNotCancelShot() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1")

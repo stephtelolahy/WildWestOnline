@@ -34,8 +34,8 @@ struct DynamiteTest {
             .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withDrawCards(1)
                     .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withDrawCards(1)
             }
             .withPlayer("p2")
             .withDeck(["c1-9♦️", "c2", "c3"])
@@ -54,14 +54,15 @@ struct DynamiteTest {
             .drawDeck(player: "p1")
         ])
     }
-/*
-    func test_triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() throws {
+
+    @Test func triggeringDynamite_withFlippedCardIsSpades_notLethal_shouldApplyDamageAndDiscardCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
+            .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.drawOnStartTurn])
-                    .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withDrawCards(1)
                     .withHealth(4)
             }
             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -69,12 +70,12 @@ struct DynamiteTest {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
-            .draw,
+            .draw(player: "p1"),
             .damage(3, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
             .drawDeck(player: "p1"),
@@ -82,25 +83,22 @@ struct DynamiteTest {
         ])
     }
 
-    func test_triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() throws {
+    @Test func triggeringDynamite_withFlippedCardIsSpades_lethal_shouldEliminate() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
+            .withDummyCards(["c2", "c3", "c4"])
             .withPlayer("p1") {
-                $0.withInPlay([.jail, .dynamite])
+                $0.withInPlay([.dynamite, "c4"])
                     .withAbilities([
-                        .eliminateOnDamageLethal,
-                        .discardCardsOnEliminated,
-                        .nextTurnOnEliminated
+                        .defaultEliminateOnDamageLethal,
+                        .defaultDiscardAllCardsOnEliminated,
+                        .defaultStartTurnNextOnTurnEnded
                     ])
-                    .withAttributes([
-                        .flippedCards: 1,
-                        .startTurnCards: 2
-                    ])
+                    .withDrawCards(1)
                     .withHealth(3)
             }
             .withPlayer("p2") {
-                $0.withAbilities([.drawOnStartTurn])
-                    .withAttributes([.startTurnCards: 2])
+                $0.withAbilities([.defaultDraw2CardsOnTurnStarted])
             }
             .withPlayer("p3")
             .withDeck(["c1-8♠️", "c2", "c3"])
@@ -108,20 +106,19 @@ struct DynamiteTest {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
-            .draw,
+            .draw(player: "p1"),
             .damage(3, player: "p1"),
             .eliminate(player: "p1"),
-            .discardInPlay(.jail, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
+            .discardInPlay("c4", player: "p1"),
             .startTurn(player: "p2"),
             .drawDeck(player: "p2"),
             .drawDeck(player: "p2")
         ])
     }
- */
 }
