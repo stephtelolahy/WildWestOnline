@@ -66,8 +66,7 @@ struct JailTest {
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([
-                        .defaultDraw2CardsOnTurnStarted,
-                        .defaultStartTurnNextOnTurnEnded
+                        .defaultDraw2CardsOnTurnStarted
                     ])
                     .withDrawCards(1)
             }
@@ -83,9 +82,8 @@ struct JailTest {
         #expect(result == [
             .startTurn(player: "p1"),
             .draw(player: "p1"),
-            .discardInPlay(.jail, player: "p1"),
             .endTurn(player: "p1"),
-            .startTurn(player: "p2")
+            .discardInPlay(.jail, player: "p1")
         ])
     }
 }

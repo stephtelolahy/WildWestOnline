@@ -421,6 +421,9 @@ private extension GameAction.Kind {
     struct EndTurn: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
+            if let current = state.turn {
+                state.queue.removeAll { $0.payload.actor == current && $0.payload.source != payload.source }
+            }
             state.turn = nil
             return state
         }
