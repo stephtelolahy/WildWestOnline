@@ -627,32 +627,16 @@ private extension Cards {
                 .init(
                     action: .discardInPlay,
                     selectors: [
-                        .verify(.drawMatching(.regexHearts)),
                         .setCard(.played)
+                    ]
+                ),
+                .init(
+                    action: .endTurn,
+                    selectors: [
+                        .verify(.drawNotMatching(.regexHearts))
                     ]
                 )
             ]
-//            effects: [
-//                .handicap,
-//                .init(
-//                    action: .draw,
-//                    when: .turnStarted
-//                ),
-//                .init(
-//                    action: .endTurn,
-//                    selectors: [
-//                        .verify(.not(.draw("♥️")))
-//                    ],
-//                    when: .turnStarted
-//                ),
-//                .init(
-//                    action: .discard,
-//                    selectors: [
-//                        .setCard(.played)
-//                    ],
-//                    when: .turnStarted
-//                )
-//            ]
         )
     }
 

@@ -219,7 +219,6 @@ public extension Player {
             drawCards = value
             return self
         }
-
     }
 
     static func makeBuilder() -> Builder {
