@@ -35,7 +35,7 @@ public extension String {
     static let duel = "duel"
     static let barrel = "barrel"
     static let dynamite = "dynamite"
-//    static let jail = "jail"
+    static let jail = "jail"
     static let schofield = "schofield"
     static let remington = "remington"
     static let revCarabine = "revCarabine"

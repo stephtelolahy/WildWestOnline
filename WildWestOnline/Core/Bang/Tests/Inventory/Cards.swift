@@ -41,6 +41,7 @@ public enum Cards {
             mustang,
             barrel,
             dynamite,
+            jail,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -600,6 +601,54 @@ private extension Cards {
         )
     }
 
+    static var jail: Card {
+        .init(
+            name: .jail,
+            desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
+            onPlay: [
+                .init(
+                    action: .handicap,
+                    selectors: [
+                        .chooseOne(.target()),
+                        .setCard(.played)
+                    ]
+                )
+            ],
+            shouldTrigger: [
+                .init(actionKind: .startTurn)
+            ],
+            onTrigger: [
+                .init(
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawCards)
+                    ]
+                ),
+            ]
+//            effects: [
+//                .handicap,
+//                .init(
+//                    action: .draw,
+//                    when: .turnStarted
+//                ),
+//                .init(
+//                    action: .endTurn,
+//                    selectors: [
+//                        .verify(.not(.draw("♥️")))
+//                    ],
+//                    when: .turnStarted
+//                ),
+//                .init(
+//                    action: .discard,
+//                    selectors: [
+//                        .setCard(.played)
+//                    ],
+//                    when: .turnStarted
+//                )
+//            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -693,34 +742,6 @@ private extension String {
                      .verify(.playersAtLeast(3)),
                      .chooseCostHandCard(.named(.beer))
                  ]
-             )
-         ]
-     )
- }
-
- static var jail: CardV2 {
-     .init(
-         name: .jail,
-         desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-         effects: [
-             .handicap,
-             .init(
-                 action: .draw,
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .endTurn,
-                 selectors: [
-                     .verify(.not(.draw("♥️")))
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .setCard(.played)
-                 ],
-                 when: .turnStarted
              )
          ]
      )
