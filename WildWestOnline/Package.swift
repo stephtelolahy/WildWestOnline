@@ -78,13 +78,6 @@ let package = Package(
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
-        .testTarget(
-            name: "GameCoreTests",
-            dependencies: [
-                "GameCore"
-            ],
-            path: "Core/Game/Tests"
-        ),
         .target(
             name: "Bang",
             path: "Core/Bang/Sources",

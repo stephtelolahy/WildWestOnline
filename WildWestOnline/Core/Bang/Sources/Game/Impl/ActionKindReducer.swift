@@ -45,7 +45,7 @@ private extension GameAction.Kind {
         case .activate: Activate()
         case .discardPlayed: DiscardPlayed()
         case .equip: Equip()
-        case .handicap: fatalError()
+        case .handicap: Handicap()
         case .setMaxHealth: fatalError()
         case .setHandLimit: fatalError()
         case .setWeapon: SetWeapon()
@@ -191,6 +191,29 @@ private extension GameAction.Kind {
 
             // put card on self's play
             state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[payload.target]!.inPlay].append(card)
+
+            return state
+        }
+    }
+
+    struct Handicap: Reducer {
+        func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let card = payload.card else {
+                fatalError("Missing payload parameter card")
+            }
+
+            var state = state
+
+            // verify rule: not already inPlay
+            let cardName = Card.extractName(from: card)
+            let targetObj = state.players.get(payload.target)
+            guard targetObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
+                throw .cardAlreadyInPlay(cardName)
+            }
+
+            // put card on target's play
+            state[keyPath: \.players[payload.actor]!.hand].removeAll { $0 == card }
             state[keyPath: \.players[payload.target]!.inPlay].append(card)
 
             return state
