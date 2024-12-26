@@ -32,33 +32,33 @@ struct JailTest {
             .handicap(.jail, target: "p2", player: "p1")
         ])
     }
-/*
+
     @Test func triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()
+            .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.drawOnStartTurn])
-                    .withAttributes([.flippedCards: 1, .startTurnCards: 2])
+                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withDrawCards(1)
             }
-            .withPlayer("p2")
             .withDeck(["c1-2♥️", "c2", "c3"])
             .build()
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
-            .draw,
+            .draw(player: "p1"),
             .discardInPlay(.jail, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
-
+    /*
     @Test func triggeringJail_flippedCardIsSpades_shouldSkipTurn() async throws {
         // Given
         let state = GameState.makeBuilderWithAllCards()

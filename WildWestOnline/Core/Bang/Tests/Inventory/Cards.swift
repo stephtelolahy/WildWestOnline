@@ -624,6 +624,13 @@ private extension Cards {
                         .repeat(.drawCards)
                     ]
                 ),
+                .init(
+                    action: .discardInPlay,
+                    selectors: [
+                        .verify(.drawMatching(.regexHearts)),
+                        .setCard(.played)
+                    ]
+                )
             ]
 //            effects: [
 //                .handicap,

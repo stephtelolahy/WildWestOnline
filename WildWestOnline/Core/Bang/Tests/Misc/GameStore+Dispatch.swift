@@ -22,6 +22,7 @@ func dispatchUntilCompleted(
         initial: state,
         reducer: GameReducer().reduce,
         middlewares: [
+            Middlewares.logger(),
             Middlewares.updateGame,
             Middlewares.handlePendingChoice(choicesWrapper: .init(choices: expectedChoices))
         ]
