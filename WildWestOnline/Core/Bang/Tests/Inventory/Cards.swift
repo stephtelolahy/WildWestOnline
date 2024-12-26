@@ -625,15 +625,15 @@ private extension Cards {
                     ]
                 ),
                 .init(
-                    action: .discardInPlay,
-                    selectors: [
-                        .setCard(.played)
-                    ]
-                ),
-                .init(
                     action: .endTurn,
                     selectors: [
                         .verify(.drawNotMatching(.regexHearts))
+                    ]
+                ),
+                .init(
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.played)
                     ]
                 )
             ]
