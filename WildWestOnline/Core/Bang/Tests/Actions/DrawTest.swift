@@ -17,7 +17,7 @@ struct DrawTest {
             .build()
 
         // When
-        let action = GameAction.draw
+        let action = GameAction.draw(player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
@@ -32,7 +32,7 @@ struct DrawTest {
             .build()
 
         // When
-        let action = GameAction.draw
+        let action = GameAction.draw(player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
@@ -46,7 +46,7 @@ struct DrawTest {
             .build()
 
         // When
-        let action = GameAction.draw
+        let action = GameAction.draw(player: "p1")
 
         // Then
         #expect(throws: GameError.insufficientDeck) {

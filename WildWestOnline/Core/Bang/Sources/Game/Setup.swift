@@ -54,11 +54,15 @@ private extension Setup {
             fatalError("Missing figure named \(figure)")
         }
 
-        let maxHealth = figureObj.maxHealth
+        guard let maxHealth = figureObj.amountOfActiveEffect(named: .setMaxHealth) else {
+            fatalError("unexpected")
+        }
+
         let weapon = 1
-        let magnifying = 0 + figureObj.increasedMagnifying
-        let remoteness = 0 + figureObj.increasedRemoteness
-        let handLimit = figureObj.handLimit ?? 0
+        let drawCards = figureObj.amountOfActiveEffect(named: .setDrawCards) ?? 1
+        let magnifying = figureObj.amountOfActiveEffect(named: .increaseMagnifying) ?? 0
+        let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
+        let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + defaultAbilities
         let playLimitPerTurn = figureObj.playlimitPerTurn
 
@@ -80,44 +84,15 @@ private extension Setup {
             weapon: weapon,
             abilities: abilities,
             handLimit: handLimit,
-            playLimitPerTurn: playLimitPerTurn
+            playLimitPerTurn: playLimitPerTurn,
+            drawCards: drawCards
         )
     }
 }
 
 private extension Card {
-    var maxHealth: Int {
-        guard let effect = onActive.first(where: { $0.action == .setMaxHealth }),
-              let selector = effect.selectors.first,
-              case .setAmount(let value) = selector else {
-            fatalError("unexpected")
-        }
-
-        return value
-    }
-
-    var increasedMagnifying: Int {
-        guard let effect = onActive.first(where: { $0.action == .increaseMagnifying }),
-              let selector = effect.selectors.first,
-              case .setAmount(let value) = selector else {
-            return 0
-        }
-
-        return value
-    }
-
-    var increasedRemoteness: Int {
-        guard let effect = onActive.first(where: { $0.action == .increaseRemoteness }),
-              let selector = effect.selectors.first,
-              case .setAmount(let value) = selector else {
-            return 0
-        }
-
-        return value
-    }
-
-    var handLimit: Int? {
-        guard let effect = onActive.first(where: { $0.action == .setHandLimit }),
+    func amountOfActiveEffect(named action: GameAction.Kind) -> Int? {
+        guard let effect = onActive.first(where: { $0.action == action }),
               let selector = effect.selectors.first,
               case .setAmount(let value) = selector else {
             return nil

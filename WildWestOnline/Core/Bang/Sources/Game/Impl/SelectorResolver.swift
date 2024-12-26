@@ -24,6 +24,7 @@ private extension Card.Selector {
         case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let resolved, let selection): ChooseOne(element: element, resolved: resolved, selection: selection)
         case .setAmountPerCard(let limit): SetAmountPerCard(limit: limit)
+        case .verify(let stateReq): Verify(stateReq: stateReq)
         }
     }
 
@@ -98,6 +99,18 @@ private extension Card.Selector {
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
             [pendingAction.withAmountPerCard(limit)]
+        }
+    }
+
+    struct Verify: Resolver {
+        let stateReq: Card.StateReq
+
+        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+            guard stateReq.match(actor: pendingAction.payload.actor, state: state) else {
+                return []
+            }
+
+            return [pendingAction]
         }
     }
 }

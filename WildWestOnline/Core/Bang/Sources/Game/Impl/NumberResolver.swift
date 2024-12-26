@@ -21,6 +21,7 @@ private extension Card.Selector.Number {
         case .value(let rawValue): Value(rawValue: rawValue)
         case .activePlayers: ActivePlayers()
         case .excessHand: ExcessHand()
+        case .drawCards: DrawCards()
         }
     }
 
@@ -49,6 +50,13 @@ private extension Card.Selector.Number {
 
             let handCount = playerObj.hand.count
             return max(handCount - handlLimit, 0)
+        }
+    }
+
+    struct DrawCards: Resolver {
+        func resolve(actor: String, state: GameState) -> Int {
+            let playerObj = state.players.get(actor)
+            return playerObj.drawCards
         }
     }
 }

@@ -23,6 +23,8 @@ private extension Card.StateReq {
         case .healthZero: HealthZero()
         case .gameOver: GameOver()
         case .currentTurn: CurrentTurn()
+        case .drawMatching(let regex): DrawMatching(regex: regex)
+        case .drawNotMatching(let regex): DrawNotMatching(regex: regex)
         }
     }
 
@@ -71,6 +73,39 @@ private extension Card.StateReq {
     struct CurrentTurn: Matcher {
         func match(actor: String, state: GameState) -> Bool {
             state.turn == actor
+        }
+    }
+
+    struct DrawMatching: Matcher {
+        let regex: String
+
+        func match(actor: String, state: GameState) -> Bool {
+            let drawCards = state.players.get(actor).drawCards
+            return state.discard
+                .prefix(drawCards)
+                .contains { $0.matches(regex: regex) }
+        }
+    }
+
+    struct DrawNotMatching: Matcher {
+        let regex: String
+
+        func match(actor: String, state: GameState) -> Bool {
+            let drawCards = state.players.get(actor).drawCards
+            return state.discard
+                .prefix(drawCards)
+                .allSatisfy { $0.matches(regex: regex) == false }
+        }
+    }
+}
+
+private extension String {
+    func matches(regex pattern: String) -> Bool {
+        if let regex = try? Regex(pattern),
+           ranges(of: regex).isNotEmpty {
+            return true
+        } else {
+            return false
         }
     }
 }

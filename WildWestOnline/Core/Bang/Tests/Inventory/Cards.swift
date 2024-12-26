@@ -39,6 +39,9 @@ public enum Cards {
             volcanic,
             scope,
             mustang,
+            barrel,
+            dynamite,
+            jail,
             willyTheKid,
             roseDoolan,
             paulRegret
@@ -535,6 +538,108 @@ private extension Cards {
         )
     }
 
+    static var barrel: Card {
+        .init(
+            name: .barrel,
+            desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
+            onPlay: [.equip],
+            shouldTrigger: [
+                .init(actionKind: .shoot)
+            ],
+            onTrigger: [
+                .init(
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawCards)
+                    ]
+                ),
+                .init(
+                    action: .counterShot,
+                    selectors: [
+                        .verify(.drawMatching(.regexHearts))
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var dynamite: Card {
+        .init(
+            name: .dynamite,
+            desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
+            onPlay: [.equip],
+            shouldTrigger: [
+                .init(actionKind: .startTurn)
+            ],
+            onTrigger: [
+                .init(
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawCards)
+                    ]
+                ),
+                .init(action: .passInPlay, selectors: [
+                    .verify(.drawMatching(.regexPassDynamite)),
+                    .setCard(.played),
+                    .setTarget(.next)
+                ]),
+                .init(
+                    action: .damage,
+                    selectors: [
+                        .verify(.drawNotMatching(.regexPassDynamite)),
+                        .setAmount(3)
+                    ]
+                ),
+                .init(
+                    action: .discardInPlay,
+                    selectors: [
+                        .verify(.drawNotMatching(.regexPassDynamite)),
+                        .setCard(.played)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var jail: Card {
+        .init(
+            name: .jail,
+            desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
+            onPlay: [
+                .init(
+                    action: .handicap,
+                    selectors: [
+                        .chooseOne(.target()),
+                        .setCard(.played)
+                    ]
+                )
+            ],
+            shouldTrigger: [
+                .init(actionKind: .startTurn)
+            ],
+            onTrigger: [
+                .init(
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawCards)
+                    ]
+                ),
+                .init(
+                    action: .endTurn,
+                    selectors: [
+                        .verify(.drawNotMatching(.regexHearts))
+                    ]
+                ),
+                .init(
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.played)
+                    ]
+                )
+            ]
+        )
+    }
+
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,
@@ -607,6 +712,14 @@ private extension Card.Effect {
     }
 }
 
+/// Card effect regex
+/// https://regex101.com/
+private extension String {
+    static let regexHearts = "♥️"
+    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
+    static let regexRed = "(♥️)|(♦️)"
+}
+
 /*
  static var defaultDiscardBeerOnDamagedLethal: CardV2 {
      .init(
@@ -620,94 +733,6 @@ private extension Card.Effect {
                      .verify(.playersAtLeast(3)),
                      .chooseCostHandCard(.named(.beer))
                  ]
-             )
-         ]
-     )
- }
-
- static var jail: CardV2 {
-     .init(
-         name: .jail,
-         desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-         effects: [
-             .handicap,
-             .init(
-                 action: .draw,
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .endTurn,
-                 selectors: [
-                     .verify(.not(.draw("♥️")))
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .setCard(.played)
-                 ],
-                 when: .turnStarted
-             )
-         ]
-     )
- }
-
- static var barrel: CardV2 {
-     .init(
-         name: .barrel,
-         desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-         effects: [
-             .equip,
-             .init(
-                 action: .draw,
-                 when: .shot
-             ),
-             .init(
-                 action: .missed,
-                 selectors: [
-                     .verify(.draw("♥️"))
-                 ],
-                 when: .shot
-             )
-         ]
-     )
- }
-
- static var dynamite: CardV2 {
-     .init(
-         name: .dynamite,
-         desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-         effects: [
-             .equip,
-             .init(
-                 action: .draw,
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .handicap,
-                 selectors: [
-                     .verify(.not(.draw("[2-9]♠️"))),
-                     .setCard(.played),
-                     .setTarget(.next)
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .damage,
-                 selectors: [
-                     .verify(.draw("[2-9]♠️")),
-                     .setAttribute(.damageAmount, value: .value(3))
-                 ],
-                 when: .turnStarted
-             ),
-             .init(
-                 action: .discard,
-                 selectors: [
-                     .verify(.draw("[2-9]♠️")),
-                     .setCard(.played)
-                 ],
-                 when: .turnStarted
              )
          ]
      )
