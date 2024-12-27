@@ -21,6 +21,13 @@ public struct GameState: Equatable, Codable, Sendable {
     public var turn: String?
     public var active: [String: [String]]
     public var isOver: Bool
+    public var playMode: [String: PlayMode]
+    public var visibleActionDelayMilliSeconds: UInt64
+
+    public enum PlayMode: Equatable, Codable, Sendable {
+        case manual
+        case auto
+    }
 }
 
 public struct Player: Equatable, Codable, Sendable {
@@ -65,6 +72,8 @@ public extension GameState {
         private var turn: String?
         private var active: [String: [String]] = [:]
         private var isOver: Bool = false
+        private var playMode: [String: PlayMode] = [:]
+        private var visibleActionDelayMilliSeconds: UInt64 = 0
 
         public func build() -> GameState {
             .init(
@@ -79,7 +88,9 @@ public extension GameState {
                 playedThisTurn: playedThisTurn,
                 turn: turn,
                 active: active,
-                isOver: isOver
+                isOver: isOver,
+                playMode: playMode,
+                visibleActionDelayMilliSeconds: visibleActionDelayMilliSeconds
             )
         }
 
@@ -126,6 +137,16 @@ public extension GameState {
 
         public func withQueue(_ value: [GameAction]) -> Self {
             queue = value
+            return self
+        }
+
+        public func withPlayMode(_ value: [String: PlayMode]) -> Self {
+            playMode = value
+            return self
+        }
+
+        public func withVisibleActionDelayMilliSeconds(_ value: UInt64) -> Self {
+            visibleActionDelayMilliSeconds = value
             return self
         }
     }

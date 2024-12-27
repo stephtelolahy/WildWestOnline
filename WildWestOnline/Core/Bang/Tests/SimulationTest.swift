@@ -28,7 +28,7 @@ struct SimulationTest {
             middlewares: [
                 Middlewares.logger(),
                 Middlewares.updateGame,
-                Middlewares.handlePendingChoice,
+                Middlewares.playAIMove,
                 Middlewares.verifyState(StateWrapper(value: state))
             ]
         ) {
@@ -48,25 +48,6 @@ struct SimulationTest {
 }
 
 private extension Middlewares {
-    // TODO: move to GameMidleware
-    static var handlePendingChoice: Middleware<GameState> {
-        { state, _ in
-            if let pendingChoice = state.pendingChoice,
-               let selection = pendingChoice.options.randomElement() {
-                return GameAction.choose(selection.label, player: pendingChoice.chooser)
-            }
-
-            if state.active.isNotEmpty,
-               let choice = state.active.first,
-               let selection = choice.value.randomElement() {
-                return GameAction.play(selection, player: choice.key)
-            }
-
-            return nil
-        }
-    }
-
-    /// Middleare reproducting state according to received event
     static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
             DispatchQueue.main.async {

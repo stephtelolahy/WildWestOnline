@@ -44,6 +44,25 @@ public extension Middlewares {
             return nil
         }
     }
+
+    static var playAIMove: Middleware<GameState> {
+        { state, _ in
+            if let pendingChoice = state.pendingChoice,
+               let selection = pendingChoice.options.randomElement() {
+                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
+                return GameAction.choose(selection.label, player: pendingChoice.chooser)
+            }
+
+            if state.active.isNotEmpty,
+               let choice = state.active.first,
+               let selection = choice.value.randomElement() {
+                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
+                return GameAction.play(selection, player: choice.key)
+            }
+
+            return nil
+        }
+    }
 }
 
 private extension GameState {
@@ -111,11 +130,7 @@ private extension GameState {
         }
     }
 
-    func triggeredEffects(
-        on event: GameAction,
-        by card: String,
-        player: String
-    ) -> [GameAction]? {
+    func triggeredEffects(on event: GameAction, by card: String, player: String) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         guard cardObj.shouldTrigger.isNotEmpty,
@@ -200,10 +215,10 @@ private extension GameAction {
         let action = GameAction.play(card, player: player)
         do {
             try action.validate(state: state)
-//            print("🟢 validatePlay: \(card)")
+            //            print("🟢 validatePlay: \(card)")
             return true
         } catch {
-//            print("🛑 validatePlay: \(card)\tthrows: \(error)")
+            //            print("🛑 validatePlay: \(card)\tthrows: \(error)")
             return false
         }
     }
