@@ -23,7 +23,7 @@ func dispatchUntilCompleted(
         reducer: GameReducer().reduce,
         middlewares: [
             Middlewares.updateGame,
-            Middlewares.handlePendingChoice(choicesWrapper: .init(choices: expectedChoices))
+            Middlewares.performChoices(.init(choices: expectedChoices))
         ]
     ) {
         expectation.fulfill()
@@ -73,7 +73,7 @@ private class ChoicesWrapper {
 }
 
 private extension Middlewares {
-    static func handlePendingChoice(choicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
+    static func performChoices(_ choicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
         { state, _ in
             guard let pendingChoice = state.pendingChoice else {
                 return nil

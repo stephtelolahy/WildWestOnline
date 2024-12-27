@@ -19,7 +19,10 @@ struct SimulationTest {
         // Given
         let deck = Setup.buildDeck(cardSets: CardSets.bang).shuffled()
         let figures = Array(Figures.bang.shuffled().prefix(playersCount))
-        let state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
+        var state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
+        for player in state.playOrder {
+            state.playMode[player] = .auto
+        }
 
         let expectation = XCTestExpectation(description: "Game idle")
         let store = Store<GameState>(
