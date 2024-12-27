@@ -1,5 +1,5 @@
 //
-//  GameMiddleware.swift
+//  UpdateMiddleware.swift
 //  Bang
 //
 //  Created by Hugues Telolahy on 28/10/2024.

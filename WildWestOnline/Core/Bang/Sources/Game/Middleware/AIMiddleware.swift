@@ -1,6 +1,6 @@
 //
 //  AIMiddleware.swift
-//  WildWestOnline
+//  Bang
 //
 //  Created by Hugues Telolahy on 27/12/2024.
 //
