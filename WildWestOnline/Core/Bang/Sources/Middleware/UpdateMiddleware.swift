@@ -41,7 +41,6 @@ public extension Middlewares {
                 return queued
             }
 
-            // TODO: convert to triggered
             if let activate = state.activatePlayableCards() {
                 return activate
             }
