@@ -38,7 +38,9 @@ public enum Setup {
             queue: [],
             playedThisTurn: [:],
             active: [:],
-            isOver: false
+            isOver: false,
+            playMode: [:],
+            visibleActionDelayMilliSeconds: 0
         )
     }
 }

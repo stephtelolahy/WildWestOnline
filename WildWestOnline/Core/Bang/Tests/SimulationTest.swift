@@ -19,7 +19,10 @@ struct SimulationTest {
         // Given
         let deck = Setup.buildDeck(cardSets: CardSets.bang).shuffled()
         let figures = Array(Figures.bang.shuffled().prefix(playersCount))
-        let state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
+        var state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
+        for player in state.playOrder {
+            state.playMode[player] = .auto
+        }
 
         let expectation = XCTestExpectation(description: "Game idle")
         let store = Store<GameState>(
@@ -28,7 +31,7 @@ struct SimulationTest {
             middlewares: [
                 Middlewares.logger(),
                 Middlewares.updateGame,
-                Middlewares.handlePendingChoice,
+                Middlewares.playAIMove,
                 Middlewares.verifyState(StateWrapper(value: state))
             ]
         ) {
@@ -48,25 +51,6 @@ struct SimulationTest {
 }
 
 private extension Middlewares {
-    // TODO: move to GameMidleware
-    static var handlePendingChoice: Middleware<GameState> {
-        { state, _ in
-            if let pendingChoice = state.pendingChoice,
-               let selection = pendingChoice.options.randomElement() {
-                return GameAction.choose(selection.label, player: pendingChoice.chooser)
-            }
-
-            if state.active.isNotEmpty,
-               let choice = state.active.first,
-               let selection = choice.value.randomElement() {
-                return GameAction.play(selection, player: choice.key)
-            }
-
-            return nil
-        }
-    }
-
-    /// Middleare reproducting state according to received event
     static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
             DispatchQueue.main.async {

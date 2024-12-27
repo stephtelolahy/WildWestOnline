@@ -1,5 +1,5 @@
 //
-//  GameMiddleware.swift
+//  UpdateMiddleware.swift
 //  Bang
 //
 //  Created by Hugues Telolahy on 28/10/2024.
@@ -14,6 +14,11 @@ public extension Middlewares {
         { state, action in
             guard let action = action as? GameAction else {
                 return nil
+            }
+
+            // wait some delay if dispatched action was renderable
+            if action.isRenderable {
+                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
             }
 
             if state.isOver {
@@ -36,7 +41,6 @@ public extension Middlewares {
                 return queued
             }
 
-            // TODO: convert to triggered
             if let activate = state.activatePlayableCards() {
                 return activate
             }
@@ -111,11 +115,7 @@ private extension GameState {
         }
     }
 
-    func triggeredEffects(
-        on event: GameAction,
-        by card: String,
-        player: String
-    ) -> [GameAction]? {
+    func triggeredEffects(on event: GameAction, by card: String, player: String) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         guard cardObj.shouldTrigger.isNotEmpty,

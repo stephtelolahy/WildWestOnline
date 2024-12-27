@@ -10,11 +10,7 @@ import Redux
 public extension Middlewares {
     static func updateGame() -> Middleware<GameState> {
         chain([
-            checkGameOver(),
-            triggerCardEffects(),
-            processSequence(),
-            activatePlayableCards(),
-            playAIMoves(strategy: AgressiveStrategy())
+            triggerCardEffects()
         ])
     }
 }

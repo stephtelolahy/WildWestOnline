@@ -94,6 +94,12 @@ public struct GameAction: Action, Equatable, Codable {
 }
 
 public extension GameAction {
+    var isRenderable: Bool {
+        kind != .queue && payload.selectors.isEmpty
+    }
+}
+
+public extension GameAction {
     static func play(_ card: String, player: String) -> Self {
         .init(
             kind: .play,
