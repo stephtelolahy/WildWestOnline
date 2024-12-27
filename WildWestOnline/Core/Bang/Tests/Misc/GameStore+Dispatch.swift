@@ -93,9 +93,3 @@ private extension Middlewares {
         }
     }
 }
-
-private extension GameAction {
-    var isRenderable: Bool {
-        kind != .queue && payload.selectors.isEmpty
-    }
-}

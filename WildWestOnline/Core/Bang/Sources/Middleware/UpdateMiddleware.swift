@@ -16,6 +16,11 @@ public extension Middlewares {
                 return nil
             }
 
+            // wait some delay if dispatched action was renderable
+            if action.isRenderable {
+                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
+            }
+
             if state.isOver {
                 return nil
             }
