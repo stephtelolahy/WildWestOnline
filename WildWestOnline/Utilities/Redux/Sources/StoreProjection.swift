@@ -1,18 +1,14 @@
 //
 //  StoreProjection.swift
 //
-//
 //  Created by Hugues Stephano TELOLAHY on 29/11/2023.
 //
-
-import Combine
-
 /// An app should have a single real Store, holding a single source-of-truth.
 /// However, we can "derive" this store to small subsets, called store projections,
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalState> {
+private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalState>, @unchecked Sendable {
     private let globalStore: Store<GlobalState>
     private let deriveState: (GlobalState) -> LocalState?
 
@@ -27,8 +23,8 @@ private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalSt
         self.globalStore = globalStore
         self.deriveState = deriveState
         super.init(initial: initialState)
-        self.event = globalStore.event
-        self.error = globalStore.error
+        self.eventPublisher = globalStore.eventPublisher
+        self.errorPublisher = globalStore.errorPublisher
 
         globalStore.$state
             .map(self.deriveState)

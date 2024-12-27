@@ -1,6 +1,5 @@
 //
 //  LoggerMiddleware.swift
-//  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 02/11/2024.
 //

@@ -1,11 +1,8 @@
 //
 //  LiftMiddleware.swift
 //
-//
 //  Created by Hugues Telolahy on 27/11/2023.
 //
-
-import Combine
 
 /// This is a container that lifts a sub-state middleware to a global state middleware.
 /// Internally you find the middleware responsible for handling events and actions for a sub-state (`Part`),
@@ -21,10 +18,10 @@ public extension Middlewares {
     ) -> Middleware<GlobalState> {
         { state, action in
             guard let localState = deriveState(state) else {
-                return Empty().eraseToAnyPublisher()
+                return nil
             }
 
-            return partMiddleware(localState, action)
+            return await partMiddleware(localState, action)
         }
     }
 }
