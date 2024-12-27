@@ -32,18 +32,22 @@ public extension Middlewares {
     }
 }
 
-private protocol AIStrategy {
+public protocol AIStrategy {
     func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction
 }
 
-struct RandomStrategy: AIStrategy {
-    func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+public struct RandomStrategy: AIStrategy {
+    public init() {}
+
+    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
         actions.randomElement()!
     }
 }
 
-struct AgressiveStrategy: AIStrategy {
-    func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+public struct AgressiveStrategy: AIStrategy {
+    public init() {}
+
+    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
         // swiftlint:disable no_magic_numbers
         let itemValue: [String: Int] = [
             "bang": 3,
