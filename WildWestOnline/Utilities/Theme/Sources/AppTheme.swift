@@ -12,3 +12,7 @@ public protocol AppTheme {
     var backgroundView: Color { get }
     var accentColor: Color { get }
 }
+
+extension EnvironmentValues {
+    @Entry var theme: AppTheme = DefaultTheme()
+}
