@@ -40,7 +40,7 @@ public enum Setup {
             active: [:],
             isOver: false,
             playMode: [:],
-            visibleActionDelayMilliSeconds: 0
+            actionDelayMilliSeconds: 0
         )
     }
 }

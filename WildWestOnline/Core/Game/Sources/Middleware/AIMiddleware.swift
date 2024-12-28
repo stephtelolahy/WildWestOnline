@@ -13,7 +13,7 @@ public extension Middlewares {
                 let actions = pendingChoice.options.map { GameAction.choose($0.label, player: pendingChoice.chooser) }
                 let strategy: AIStrategy = AgressiveStrategy()
                 let bestMove = strategy.evaluateBestMove(actions, state: state)
-                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
+                try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
                 return bestMove
             }
 
@@ -23,7 +23,7 @@ public extension Middlewares {
                 let actions = choice.value.map { GameAction.play($0, player: choice.key) }
                 let strategy: AIStrategy = AgressiveStrategy()
                 let bestMove = strategy.evaluateBestMove(actions, state: state)
-                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
+                try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
                 return bestMove
             }
 

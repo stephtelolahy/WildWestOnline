@@ -25,7 +25,7 @@ extension SettingsHomeView {
     static let presenter: Presenter<AppState, State> = { state in
             .init(
                 playersCount: state.settings.playersCount,
-                speedIndex: SettingsHomeView.State.indexOfSpeed(state.settings.waitDelaySeconds),
+                speedIndex: SettingsHomeView.State.indexOfSpeed(state.settings.actionDelayMilliSeconds),
                 simulation: state.settings.simulation,
                 preferredFigure: state.settings.preferredFigure
             )

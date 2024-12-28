@@ -34,7 +34,7 @@ private func appStore() -> Store<AppState> {
 
     let settings = SettingsState.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
-        .withWaitDelaySeconds(settingsService.waitDelaySeconds())
+        .withWaitDelaySeconds(settingsService.actionDelayMilliSeconds())
         .withSimulation(settingsService.isSimulationEnabled())
         .withPreferredFigure(settingsService.preferredFigure())
         .build()

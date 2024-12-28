@@ -7,7 +7,7 @@
 
 public struct SettingsState: Codable, Equatable {
     public var playersCount: Int
-    public var waitDelaySeconds: Double
+    public var actionDelayMilliSeconds: Int
     public var simulation: Bool
     public var preferredFigure: String?
 }
@@ -15,14 +15,14 @@ public struct SettingsState: Codable, Equatable {
 public extension SettingsState {
     class Builder {
         private var playersCount: Int = 0
-        private var waitDelaySeconds: Double = 0
+        private var actionDelayMilliSeconds: Int = 0
         private var simulation: Bool = false
         private var preferredFigure: String?
 
         public func build() -> SettingsState {
             .init(
                 playersCount: playersCount,
-                waitDelaySeconds: waitDelaySeconds,
+                actionDelayMilliSeconds: actionDelayMilliSeconds,
                 simulation: simulation,
                 preferredFigure: preferredFigure
             )
@@ -38,8 +38,8 @@ public extension SettingsState {
             return self
         }
 
-        public func withWaitDelaySeconds(_ value: Double) -> Self {
-            waitDelaySeconds = value
+        public func withWaitDelaySeconds(_ value: Int) -> Self {
+            actionDelayMilliSeconds = value
             return self
         }
 

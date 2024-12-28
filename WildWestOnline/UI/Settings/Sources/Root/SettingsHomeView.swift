@@ -88,7 +88,7 @@ struct SettingsHomeView: View {
                     },
                     set: { index in
                         let option = store.state.speedOptions[index]
-                        store.dispatch(SettingsAction.updateWaitDelaySeconds(option.value))
+                        store.dispatch(SettingsAction.updateActionDelayMilliSeconds(option.value))
                     }
                 ),
                 label: Text(

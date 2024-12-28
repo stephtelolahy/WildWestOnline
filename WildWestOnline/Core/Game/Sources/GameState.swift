@@ -21,7 +21,7 @@ public struct GameState: Equatable, Codable, Sendable {
     public var active: [String: [String]]
     public var isOver: Bool
     public var playMode: [String: PlayMode]
-    public var visibleActionDelayMilliSeconds: UInt64
+    public var actionDelayMilliSeconds: Int
 
     public enum PlayMode: Equatable, Codable, Sendable {
         case manual
@@ -72,7 +72,7 @@ public extension GameState {
         private var active: [String: [String]] = [:]
         private var isOver: Bool = false
         private var playMode: [String: PlayMode] = [:]
-        private var visibleActionDelayMilliSeconds: UInt64 = 0
+        private var actionDelayMilliSeconds: Int = 0
 
         public func build() -> GameState {
             .init(
@@ -89,7 +89,7 @@ public extension GameState {
                 active: active,
                 isOver: isOver,
                 playMode: playMode,
-                visibleActionDelayMilliSeconds: visibleActionDelayMilliSeconds
+                actionDelayMilliSeconds: actionDelayMilliSeconds
             )
         }
 
@@ -144,8 +144,8 @@ public extension GameState {
             return self
         }
 
-        public func withVisibleActionDelayMilliSeconds(_ value: UInt64) -> Self {
-            visibleActionDelayMilliSeconds = value
+        public func withActionDelayMilliSeconds(_ value: Int) -> Self {
+            actionDelayMilliSeconds = value
             return self
         }
     }

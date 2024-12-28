@@ -9,8 +9,8 @@ public protocol SettingsService {
     func playersCount() -> Int
     func setPlayersCount(_ value: Int)
 
-    func waitDelaySeconds() -> Double
-    func setWaitDelaySeconds(_ value: Double)
+    func actionDelayMilliSeconds() -> Int
+    func setActionDelayMilliSeconds(_ value: Int)
 
     func isSimulationEnabled() -> Bool
     func setSimulationEnabled(_ value: Bool)

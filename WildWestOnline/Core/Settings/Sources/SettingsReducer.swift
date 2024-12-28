@@ -15,8 +15,8 @@ public struct SettingsReducer {
         case SettingsAction.updatePlayersCount(let value):
             state.playersCount = value
 
-        case SettingsAction.updateWaitDelaySeconds(let value):
-            state.waitDelaySeconds = value
+        case SettingsAction.updateActionDelayMilliSeconds(let value):
+            state.actionDelayMilliSeconds = value
 
         case SettingsAction.toggleSimulation:
             state.simulation.toggle()

@@ -16,7 +16,7 @@ public extension Middlewares {
 
             // wait some delay if dispatched action was renderable
             if action.isRenderable {
-                try? await Task.sleep(nanoseconds: state.visibleActionDelayMilliSeconds * 1_000_000)
+                try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
             }
 
             if state.isOver {

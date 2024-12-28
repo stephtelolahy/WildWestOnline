@@ -52,8 +52,7 @@ private extension AppState {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
 
-        // TODO: store `settings.waitDelay` as UInt64
-        game.visibleActionDelayMilliSeconds = UInt64(settings.waitDelaySeconds * 1000)
+        game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
 
         return game
     }

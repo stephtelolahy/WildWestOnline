@@ -14,8 +14,8 @@ public extension Middlewares {
             case SettingsAction.updatePlayersCount(let value):
                 service.setPlayersCount(value)
 
-            case SettingsAction.updateWaitDelaySeconds(let value):
-                service.setWaitDelaySeconds(value)
+            case SettingsAction.updateActionDelayMilliSeconds(let value):
+                service.setActionDelayMilliSeconds(value)
 
             case SettingsAction.toggleSimulation:
                 service.setSimulationEnabled(state.simulation)

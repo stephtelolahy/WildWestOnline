@@ -38,10 +38,10 @@ struct SettingsCoreTests {
         let state = SettingsState.makeBuilder().withWaitDelaySeconds(0).build()
 
         // When
-        let action = SettingsAction.updateWaitDelaySeconds(500)
+        let action = SettingsAction.updateActionDelayMilliSeconds(500)
         let result = try SettingsReducer().reduce(state, action)
 
         // Then
-        #expect(result.waitDelaySeconds == 500)
+        #expect(result.actionDelayMilliSeconds == 500)
     }
 }

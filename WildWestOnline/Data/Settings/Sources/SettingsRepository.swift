@@ -15,8 +15,8 @@ public class SettingsRepository: SettingsService {
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
     private var _playersCount: Int
 
-    @UserDefaultsStored("settings.waitDelaySeconds", defaultValue: 0.5)
-    private var _waitDelaySeconds: Double
+    @UserDefaultsStored("settings.actionDelayMilliSeconds", defaultValue: 500)
+    private var _actionDelayMilliSeconds: Int
 
     @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
     private var _simulationEnabled: Bool
@@ -32,12 +32,12 @@ public class SettingsRepository: SettingsService {
         _playersCount = value
     }
 
-    public func waitDelaySeconds() -> Double {
-        _waitDelaySeconds
+    public func actionDelayMilliSeconds() -> Int {
+        _actionDelayMilliSeconds
     }
 
-    public func setWaitDelaySeconds(_ value: Double) {
-        _waitDelaySeconds = value
+    public func setActionDelayMilliSeconds(_ value: Int) {
+        _actionDelayMilliSeconds = value
     }
 
     public func isSimulationEnabled() -> Bool {
