@@ -13,7 +13,7 @@ import SettingsCore
 import Testing
 
 struct HomeViewStateTests {
-    @Test func HomeStateProjection() throws {
+    @Test func HomeStateProjection() async throws {
         // Given
         let appState = AppState(
             navigation: .init(),
@@ -23,6 +23,6 @@ struct HomeViewStateTests {
 
         // When
         // Then
-        #expect(HomeView.presenter(appState) != nil)
+        await #expect(HomeView.presenter(appState) != nil)
     }
 }

@@ -13,6 +13,6 @@ public protocol AppTheme {
     var accentColor: Color { get }
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
     @Entry var theme: AppTheme = DefaultTheme()
 }
