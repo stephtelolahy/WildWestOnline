@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1512A9AB2C94DB7D00F7CFAA /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1512A9AA2C94DB7D00F7CFAA /* MainCoordinator.swift */; };
 		153E2F5B2C50C4A1003E9F54 /* CardsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5A2C50C4A1003E9F54 /* CardsData */; };
 		153E2F5D2C50C4A1003E9F54 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5C2C50C4A1003E9F54 /* SettingsData */; };
 		153E2F5F2C50C6DE003E9F54 /* GameUI in Frameworks */ = {isa = PBXBuildFile; productRef = 153E2F5E2C50C6DE003E9F54 /* GameUI */; };
@@ -19,7 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1512A9AA2C94DB7D00F7CFAA /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		2699EEFD29D93AD00030ACCD /* WildWestOnline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildWestOnline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildWestOnlineApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -46,18 +44,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		15BB90682C02AA5C0075BD78 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */,
-				1512A9AA2C94DB7D00F7CFAA /* MainCoordinator.swift */,
-				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
-				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
-				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
 		2653DAE829DA2ADD007EAE71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -69,7 +55,10 @@
 			isa = PBXGroup;
 			children = (
 				F37D85E02A0438EE00C3A754 /* README.md */,
-				15BB90682C02AA5C0075BD78 /* App */,
+				2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */,
+				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
+				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
+				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
 				26DD32B829F3D646002E0F93 /* WildWestOnline */,
 				2699EEFE29D93AD00030ACCD /* Products */,
 				2653DAE829DA2ADD007EAE71 /* Frameworks */,
@@ -162,7 +151,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1512A9AB2C94DB7D00F7CFAA /* MainCoordinator.swift in Sources */,
 				2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
