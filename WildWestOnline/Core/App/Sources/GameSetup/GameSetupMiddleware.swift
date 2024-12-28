@@ -13,30 +13,27 @@ import SettingsCore
 public extension Middlewares {
     static func gameSetup() -> Middleware<AppState> {
         { state, action in
-            switch action {
-            case GameSetupAction.startGame:
-                let newGame = AppState.createGame(
-                    settings: state.settings,
-                    inventory: state.inventory
-                )
-
-                // TODO: emit multiple actions
-//                return [
-//                    GameSetupAction.setGame(newGame),
-//                    NavigationStackAction<MainDestination>.push(.game)
-//                ]
+            guard let action = action as? GameSetupAction else {
                 return nil
+            }
 
-            case GameSetupAction.quitGame:
-                // TODO: emit multiple actions
-//                return [
-//                    GameSetupAction.unsetGame,
-//                    NavigationStackAction<MainDestination>.pop
-//                ]
-                return nil
+            return switch action {
+            case .startGame:
+                GameSetupAction.setGame(
+                        AppState.createGame(
+                            settings: state.settings,
+                            inventory: state.inventory
+                        )
+                    )
 
-            default:
-                return nil
+            case .setGame:
+                NavigationStackAction<MainDestination>.push(.game)
+
+            case .quitGame:
+                GameSetupAction.unsetGame
+
+            case .unsetGame:
+                NavigationStackAction<MainDestination>.pop
             }
         }
     }
