@@ -6,11 +6,13 @@
 //
 
 import Redux
-import GameCore
+import Bang
 import SettingsCore
 
-extension AppState {
-    static let gameSetupReducer: Reducer<Self> = { state, action in
+public struct GameSetupReducer {
+    public init() {}
+
+    public func reduce(_ state: AppState, _ action: Action) throws -> AppState {
         var state = state
 
         switch action {

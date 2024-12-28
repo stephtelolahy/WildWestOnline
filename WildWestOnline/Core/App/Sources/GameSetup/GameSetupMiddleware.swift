@@ -7,7 +7,7 @@
 
 import Redux
 import NavigationCore
-import GameCore
+import Bang
 import SettingsCore
 
 public extension Middlewares {
@@ -32,7 +32,7 @@ public extension Middlewares {
                 ].publisher.eraseToAnyPublisher()
 
             default:
-                return Empty().eraseToAnyPublisher()
+                return nil
             }
         }
     }
@@ -46,12 +46,13 @@ private extension AppState {
             preferredFigure: settings.preferredFigure
         )
 
-        let manualPlayer: String? = settings.simulation ? nil : game.round.playOrder[0]
-        game.playMode = game.round.startOrder.reduce(into: [:]) {
+        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
+        game.playMode = game.playOrder.reduce(into: [:]) {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
 
-        game.waitDelaySeconds = settings.waitDelaySeconds
+        // TODO: store as int
+        game.visibleActionDelayMilliSeconds = UInt64(settings.waitDelaySeconds * 1000)
 
         return game
     }

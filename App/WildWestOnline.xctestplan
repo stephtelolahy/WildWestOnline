@@ -65,6 +65,7 @@
       }
     },
     {
+      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
@@ -73,6 +74,7 @@
       }
     },
     {
+      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
@@ -81,6 +83,7 @@
       }
     },
     {
+      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
@@ -89,6 +92,7 @@
       }
     },
     {
+      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",

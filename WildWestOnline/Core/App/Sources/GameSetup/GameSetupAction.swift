@@ -6,7 +6,7 @@
 //
 
 import Redux
-import GameCore
+import Bang
 import SettingsCore
 import NavigationCore
 
