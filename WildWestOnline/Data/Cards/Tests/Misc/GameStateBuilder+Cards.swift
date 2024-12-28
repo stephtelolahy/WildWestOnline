@@ -5,6 +5,7 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 import Bang
+import CardsData
 
 extension GameState {
     static func makeBuilderWithAllCards() -> Builder {

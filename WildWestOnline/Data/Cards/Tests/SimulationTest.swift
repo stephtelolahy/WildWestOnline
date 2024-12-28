@@ -9,7 +9,7 @@ import Testing
 import XCTest
 import Redux
 import Bang
-import Combine
+import CardsData
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {

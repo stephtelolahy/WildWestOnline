@@ -16,10 +16,10 @@ struct SetPlayLimitPerTurnTest {
             .build()
 
         // When
-        let action = GameAction.setPlayLimitPerTurn([.bang: 2], player: "p1")
+        let action = GameAction.setPlayLimitPerTurn(["c1": 2], player: "p1")
         let result = try GameReducer().reduce(state, action)
 
         // Then
-        #expect(result.players.get("p1").playLimitPerTurn[.bang] == 2)
+        #expect(result.players.get("p1").playLimitPerTurn["c1"] == 2)
     }
 }
