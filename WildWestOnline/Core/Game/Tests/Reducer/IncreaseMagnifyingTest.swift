@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct IncreaseMagnifyingTest {
     @Test func increseMagnifying_shouldUpdatePlayerAttribute() async throws {

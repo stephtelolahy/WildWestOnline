@@ -13,7 +13,7 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         // Core
-        .library(name: "Bang", targets: ["Bang"]),
+        .library(name: "GameCore", targets: ["GameCore"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
@@ -67,21 +67,21 @@ let package = Package(
             path: "Utilities/Serialization/Tests"
         ),
         .target(
-            name: "Bang",
+            name: "GameCore",
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Bang/Sources",
+            path: "Core/Game/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "BangTests",
+            name: "GameCoreTests",
             dependencies: [
-                "Bang"
+                "GameCore"
             ],
-            path: "Core/Bang/Tests"
+            path: "Core/Game/Tests"
         ),
         .target(
             name: "SettingsCore",
@@ -120,7 +120,7 @@ let package = Package(
         .target(
             name: "AppCore",
             dependencies: [
-                "Bang",
+                "GameCore",
                 "SettingsCore",
                 "NavigationCore"
             ],
@@ -220,7 +220,7 @@ let package = Package(
         .target(
             name: "CardsData",
             dependencies: [
-                "Bang"
+                "GameCore"
             ],
             path: "Data/Cards/Sources",
             plugins: [

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct EndGameOnEliminatedTest {
     @Test func game_withOnePlayerLast_shouldBeOver() async throws {

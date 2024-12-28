@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct IncreaseRemotenessTest {
     @Test func increseRemoteness_shouldUpdatePlayerAttribute() async throws {

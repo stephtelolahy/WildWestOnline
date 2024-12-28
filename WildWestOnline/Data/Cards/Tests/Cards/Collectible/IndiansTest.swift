@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct IndiansTest {
     @Test func play_shouldAllowEachPlayerToCounterOrPass() async throws {

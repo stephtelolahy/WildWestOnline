@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct DamageTest {
     @Test func damage_with1LifePoint_shouldReduceHealthBy1() async throws {

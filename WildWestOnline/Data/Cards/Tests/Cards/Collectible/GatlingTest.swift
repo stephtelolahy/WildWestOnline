@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct GatlingTest {
     @Test func play_withThreePlayers_shouldDamageEachPlayer() async throws {

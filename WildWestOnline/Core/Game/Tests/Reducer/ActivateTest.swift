@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct ActivateTest {
     @Test func activate() async throws {

@@ -6,7 +6,7 @@
 //
 
 import AppCore
-import Bang
+import GameCore
 import Redux
 import SettingsCore
 import Testing

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct PassInPlayTest {
     @Test func passInPlay_shouldRemoveCardFromInPlay() async throws {

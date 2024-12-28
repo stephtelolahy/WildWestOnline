@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct ScopeTest {
     @Test func playScope_shouldEquipAndSetAttribute() async throws {

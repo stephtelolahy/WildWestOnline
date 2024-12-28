@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct EndGameTest {
     @Test func endGame() async throws {

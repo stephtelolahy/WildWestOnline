@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 import CardsData
 
 struct RoseDoolanTest {

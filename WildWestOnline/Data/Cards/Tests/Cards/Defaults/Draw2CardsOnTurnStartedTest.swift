@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct Draw2CardsOnTurnStartedTest {
     @Test func startTurn_shouldDraw2Cards() async throws {

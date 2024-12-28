@@ -6,7 +6,7 @@
 //
 import NavigationCore
 import SettingsCore
-import Bang
+import GameCore
 
 /// Global app state
 /// Organize State Structure Based on Data Types, Not Components

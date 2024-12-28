@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct MustangTests {
     @Test func playMustang_shouldEquipAndSetAttribute() async throws {

@@ -6,7 +6,7 @@
 //
 
 import Redux
-import Bang
+import GameCore
 import SettingsCore
 
 public struct GameSetupReducer {

@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct DiscardTest {
     @Test func discard_shouldRemoveCardFromHand() async throws {

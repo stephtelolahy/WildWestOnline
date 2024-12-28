@@ -8,7 +8,7 @@
 import Testing
 import XCTest
 import Redux
-import Bang
+import GameCore
 import CardsData
 
 struct SimulationTest {

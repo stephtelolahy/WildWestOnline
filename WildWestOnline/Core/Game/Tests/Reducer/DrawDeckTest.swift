@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct DrawDeckTest {
     @Test func drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() async throws {

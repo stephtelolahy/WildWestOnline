@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct GeneralStoreTests {
     @Test func play_threePlayers_shouldAllowEachPlayerToChooseACard() async throws {

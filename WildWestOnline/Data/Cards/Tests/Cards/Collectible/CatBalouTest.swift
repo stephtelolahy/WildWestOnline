@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct CatBalouTest {
     @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {

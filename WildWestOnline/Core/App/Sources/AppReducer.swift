@@ -7,7 +7,7 @@
 import Redux
 import NavigationCore
 import SettingsCore
-import Bang
+import GameCore
 
 public struct AppReducer {
     public init() {}

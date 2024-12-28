@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct SetWeaponTest {
     @Test func setWeapon_shouldSetValue() async throws {

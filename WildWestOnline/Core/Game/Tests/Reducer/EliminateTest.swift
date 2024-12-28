@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct EliminateTest {
     @Test func eliminate_shouldRemoveFromPlayOrder() async throws {

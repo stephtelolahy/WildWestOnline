@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct HandicapTest {
     @Test func handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() async throws {

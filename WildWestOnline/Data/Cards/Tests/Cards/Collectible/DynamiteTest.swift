@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct DynamiteTest {
     @Test func playDynamite_shouldEquip() async throws {

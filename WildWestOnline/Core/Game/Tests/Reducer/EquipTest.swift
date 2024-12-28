@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct EquipTest {
     @Test func equip_withCardNotInPlay_shouldPutCardInPlay() async throws {

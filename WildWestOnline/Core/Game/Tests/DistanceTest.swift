@@ -6,7 +6,7 @@
 //
 
 import Testing
-@testable import Bang
+@testable import GameCore
 
 struct DistanceTest {
     @Test func distance_withoutEquipement_shouldBeTheLowestValue() async throws {

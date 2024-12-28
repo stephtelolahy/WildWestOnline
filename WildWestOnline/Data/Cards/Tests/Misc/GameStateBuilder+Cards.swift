@@ -4,7 +4,7 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-import Bang
+import GameCore
 import CardsData
 
 extension GameState {

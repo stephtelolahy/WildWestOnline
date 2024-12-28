@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct AgressiveStrategyTest {
     @Test func evaluatePlayedCard() async throws {

@@ -5,7 +5,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct WellsFargoTest {
     @Test func play_shouldDraw3Cards() async throws {

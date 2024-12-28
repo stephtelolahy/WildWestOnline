@@ -7,7 +7,7 @@
 
 import Redux
 import NavigationCore
-import Bang
+import GameCore
 import SettingsCore
 
 public extension Middlewares {

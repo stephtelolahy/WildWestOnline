@@ -6,7 +6,7 @@
 //
 
 import Testing
-import Bang
+import GameCore
 
 struct PlayTest {
     @Test func play_shouldNotDiscard() async throws {
