@@ -33,7 +33,7 @@ extension SettingsHomeView {
 }
 
 private extension SettingsHomeView.State {
-    static func indexOfSpeed(_ delaySeconds: Double) -> Int {
-        SpeedOption.all.firstIndex { $0.value == delaySeconds } ?? 0
+    static func indexOfSpeed(_ delay: Int) -> Int {
+        SpeedOption.all.firstIndex { $0.value == delay } ?? 0
     }
 }

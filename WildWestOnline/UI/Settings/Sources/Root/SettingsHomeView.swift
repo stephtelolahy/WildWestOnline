@@ -22,10 +22,10 @@ struct SettingsHomeView: View {
 
         struct SpeedOption: Equatable {
             let label: String
-            let value: Double
+            let value: Int
 
             static let all: [Self] = [
-                .init(label: "Normal", value: 0.5),
+                .init(label: "Normal", value: 500),
                 .init(label: "Fast", value: 0)
             ]
         }

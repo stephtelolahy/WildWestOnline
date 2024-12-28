@@ -22,7 +22,7 @@ struct SetttingsViewStateTests {
         )
 
         // When
-        let settingsState = try #require(SettingsHomeView.presenter(appState))
+        let settingsState = try #require(await SettingsHomeView.presenter(appState))
 
         // Then
         #expect(settingsState.playersCount == 3)
