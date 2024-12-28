@@ -23,6 +23,6 @@ struct SplashViewStateTests {
 
         // When
         // Then
-        #expect(SplashView.presenter(appState) != nil)
+        await #expect(SplashView.presenter(appState) != nil)
     }
 }

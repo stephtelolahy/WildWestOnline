@@ -49,4 +49,4 @@ public extension Store {
 }
 
 /// A function to extract ViewState from global AppState
-public typealias Presenter<GlobalState, LocalState: Equatable> = (GlobalState) -> LocalState?
+public typealias Presenter<GlobalState, LocalState: Equatable> = @Sendable (GlobalState) -> LocalState?
