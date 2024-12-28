@@ -12,12 +12,6 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-
-        // Utilities
-        .library(name: "Redux", targets: ["Redux"]),
-        .library(name: "Serialization", targets: ["Serialization"]),
-        .library(name: "Theme", targets: ["Theme"]),
-
         // Core
         .library(name: "Bang", targets: ["Bang"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
@@ -32,7 +26,12 @@ let package = Package(
         .library(name: "SplashUI", targets: ["SplashUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
-        .library(name: "GameUI", targets: ["GameUI"])
+        .library(name: "GameUI", targets: ["GameUI"]),
+
+        // Utilities
+        .library(name: "Redux", targets: ["Redux"]),
+        .library(name: "Serialization", targets: ["Serialization"]),
+        .library(name: "Theme", targets: ["Theme"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -221,7 +220,7 @@ let package = Package(
         .target(
             name: "CardsData",
             dependencies: [
-                "GameCore"
+                "Bang"
             ],
             path: "Data/Cards/Sources",
             plugins: [
