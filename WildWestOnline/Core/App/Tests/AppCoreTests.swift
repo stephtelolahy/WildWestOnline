@@ -22,7 +22,7 @@ struct AppCoreTests {
         )
         let sut = Store<AppState>(
             initial: state,
-            reducer: AppState.reducer,
+            reducer: AppReducer().reduce,
             middlewares: [Middlewares.gameSetup()]
         )
 
@@ -50,7 +50,7 @@ struct AppCoreTests {
         )
         let sut = Store<AppState>(
             initial: state,
-            reducer: AppState.reducer,
+            reducer: AppReducer().reduce,
             middlewares: [Middlewares.gameSetup()]
         )
 

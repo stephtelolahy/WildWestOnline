@@ -18,6 +18,7 @@ struct SimulationTest {
 
     private func simulateGame(playersCount: Int) async throws {
         // Given
+        // TODO: use inventory
         let deck = Setup.buildDeck(cardSets: CardSets.bang).shuffled()
         let figures = Array(Figures.bang.shuffled().prefix(playersCount))
         var state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)

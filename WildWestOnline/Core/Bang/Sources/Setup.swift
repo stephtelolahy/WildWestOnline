@@ -45,6 +45,22 @@ public enum Setup {
     }
 }
 
+public extension Setup {
+    static func buildGame(
+        playersCount: Int,
+        inventory: Inventory,
+        preferredFigure: String? = nil
+    ) -> GameState {
+        // TODO: implement `preferredFigure`
+        buildGame(
+            figures: Array(inventory.figures.shuffled().prefix(playersCount)),
+            deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
+            cards: inventory.cards,
+            defaultAbilities: inventory.defaultAbilities
+        )
+    }
+}
+
 private extension Setup {
     static func buildPlayer(
         figure: String,

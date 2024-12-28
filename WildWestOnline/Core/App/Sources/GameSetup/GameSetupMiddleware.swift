@@ -20,16 +20,20 @@ public extension Middlewares {
                     inventory: state.inventory
                 )
 
-                return [
-                    GameSetupAction.setGame(newGame),
-                    NavigationStackAction<MainDestination>.push(.game)
-                ].publisher.eraseToAnyPublisher()
+                // TODO: emit multiple actions
+//                return [
+//                    GameSetupAction.setGame(newGame),
+//                    NavigationStackAction<MainDestination>.push(.game)
+//                ]
+                return nil
 
             case GameSetupAction.quitGame:
-                return [
-                    GameSetupAction.unsetGame,
-                    NavigationStackAction<MainDestination>.pop
-                ].publisher.eraseToAnyPublisher()
+                // TODO: emit multiple actions
+//                return [
+//                    GameSetupAction.unsetGame,
+//                    NavigationStackAction<MainDestination>.pop
+//                ]
+                return nil
 
             default:
                 return nil
@@ -51,7 +55,7 @@ private extension AppState {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
 
-        // TODO: store as int
+        // TODO: store `settings.waitDelay` as UInt64
         game.visibleActionDelayMilliSeconds = UInt64(settings.waitDelaySeconds * 1000)
 
         return game
