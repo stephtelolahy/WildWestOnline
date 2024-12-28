@@ -1,9 +1,9 @@
 //
 //  GameReducer.swift
-//  Bang
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //
+import Redux
 
 public struct GameReducer {
     public init() {}

@@ -1,6 +1,5 @@
 //
 //  Dictionary+Subscript.swift
-//  Bang
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //

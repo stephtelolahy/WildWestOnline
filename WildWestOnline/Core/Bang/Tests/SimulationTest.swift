@@ -6,8 +6,9 @@
 //
 
 import Testing
-import Bang
 import XCTest
+import Redux
+import Bang
 import Combine
 
 struct SimulationTest {

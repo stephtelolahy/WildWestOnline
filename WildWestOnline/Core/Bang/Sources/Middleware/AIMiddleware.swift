@@ -1,9 +1,9 @@
 //
 //  AIMiddleware.swift
-//  Bang
 //
 //  Created by Hugues Telolahy on 27/12/2024.
 //
+import Redux
 
 public extension Middlewares {
     static var playAIMove: Middleware<GameState> {

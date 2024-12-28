@@ -1,6 +1,5 @@
 //
 //  ActionKindReducer.swift
-//  Bang
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //

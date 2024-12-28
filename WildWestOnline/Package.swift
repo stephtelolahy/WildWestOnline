@@ -80,6 +80,9 @@ let package = Package(
         ),
         .target(
             name: "Bang",
+            dependencies: [
+                "Redux"
+            ],
             path: "Core/Bang/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")

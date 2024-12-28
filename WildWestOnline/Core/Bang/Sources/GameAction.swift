@@ -1,10 +1,10 @@
 //
 //  GameAction.swift
-//  Bang
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //
 // swiftlint:disable file_length
+import Redux
 
 public struct GameAction: Action, Equatable, Codable {
     public var kind: Kind

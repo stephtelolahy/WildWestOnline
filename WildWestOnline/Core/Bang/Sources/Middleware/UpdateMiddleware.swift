@@ -1,12 +1,10 @@
 //
 //  UpdateMiddleware.swift
-//  Bang
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 // swiftlint:disable discouraged_optional_collection
-import Combine
-import Foundation
+import Redux
 
 /// Game loop features
 public extension Middlewares {
