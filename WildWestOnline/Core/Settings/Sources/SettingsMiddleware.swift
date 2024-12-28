@@ -5,7 +5,6 @@
 //  Created by Hugues Stephano TELOLAHY on 11/12/2023.
 //
 
-import Combine
 import Redux
 
 public extension Middlewares {
@@ -28,7 +27,7 @@ public extension Middlewares {
                 break
             }
 
-            return Empty().eraseToAnyPublisher()
+            return nil
         }
     }
 }

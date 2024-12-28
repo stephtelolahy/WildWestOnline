@@ -15,7 +15,7 @@ struct SettingsCoreTests {
 
         // When
         let action = SettingsAction.updatePlayersCount(5)
-        let result = try SettingsState.reducer(state, action)
+        let result = try SettingsReducer().reduce(state, action)
 
         // Then
         #expect(result.playersCount == 5)
@@ -27,7 +27,7 @@ struct SettingsCoreTests {
 
         // When
         let action = SettingsAction.toggleSimulation
-        let result = try SettingsState.reducer(state, action)
+        let result = try SettingsReducer().reduce(state, action)
 
         // Then
         #expect(!result.simulation)
@@ -39,7 +39,7 @@ struct SettingsCoreTests {
 
         // When
         let action = SettingsAction.updateWaitDelaySeconds(500)
-        let result = try SettingsState.reducer(state, action)
+        let result = try SettingsReducer().reduce(state, action)
 
         // Then
         #expect(result.waitDelaySeconds == 500)

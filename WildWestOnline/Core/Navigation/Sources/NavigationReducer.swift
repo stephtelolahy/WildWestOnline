@@ -7,8 +7,10 @@
 
 import Redux
 
-public extension NavigationState {
-    static let reducer: Reducer<Self> = { state, action in
+public struct NavigationReducer {
+    public init() {}
+
+    public func reduce(_ state: NavigationState, _ action: Action) throws -> NavigationState {
         var state = state
         state.main = try stackReducer(state.main, action)
         state.settings = try stackReducer(state.settings, action)

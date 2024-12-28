@@ -6,8 +6,10 @@
 //
 import Redux
 
-public extension SettingsState {
-    static let reducer: Reducer<Self> = { state, action in
+public struct SettingsReducer {
+    public init() {}
+
+    public func reduce(_ state: SettingsState, _ action: Action) throws -> SettingsState {
         var state = state
         switch action {
         case SettingsAction.updatePlayersCount(let value):
