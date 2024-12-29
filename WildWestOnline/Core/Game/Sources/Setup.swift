@@ -51,8 +51,8 @@ public extension Setup {
         inventory: Inventory,
         preferredFigure: String? = nil
     ) -> GameState {
-        // TODO: implement `preferredFigure`
-        buildGame(
+        precondition(preferredFigure == nil, "unimplemted `preferredFigure`")
+        return buildGame(
             figures: Array(inventory.figures.shuffled().prefix(playersCount)),
             deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
             cards: inventory.cards,

@@ -30,7 +30,6 @@ public struct GameSetupReducer {
 
         case .quitGame:
             break
-
         }
 
         return state

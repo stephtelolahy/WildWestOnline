@@ -3,6 +3,8 @@
 //
 //  Created by Hugues Telolahy on 27/12/2024.
 //
+// swiftlint:disable force_unwrapping
+
 import Redux
 
 public extension Middlewares {
