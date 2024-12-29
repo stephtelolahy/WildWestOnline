@@ -55,12 +55,11 @@ private extension GameState {
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
             let isTargeted = queue.contains { $0.payload.target == playerId }
-            let figure  = playerObj.abilities[0]
 
             return .init(
                 id: playerId,
-                imageName: figure,
-                displayName: figure.uppercased(),
+                imageName: playerObj.figure,
+                displayName: playerObj.figure.uppercased(),
                 health: health,
                 maxHealth: maxHealth,
                 handCount: handCount,

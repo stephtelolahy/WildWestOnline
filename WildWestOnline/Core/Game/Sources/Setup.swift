@@ -93,6 +93,7 @@ private extension Setup {
         }
 
         return .init(
+            figure: figure,
             health: maxHealth,
             maxHealth: maxHealth,
             hand: hand,

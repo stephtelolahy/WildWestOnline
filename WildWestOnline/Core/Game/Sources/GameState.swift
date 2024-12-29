@@ -30,6 +30,7 @@ public struct GameState: Equatable, Codable, Sendable {
 }
 
 public struct Player: Equatable, Codable, Sendable {
+    public var figure: String
     public var health: Int
     public var maxHealth: Int
     public var hand: [String]
@@ -157,6 +158,7 @@ public extension GameState {
 
 public extension Player {
     class Builder {
+        public var figure: String = ""
         private var health: Int = 0
         private var maxHealth: Int = 0
         private var hand: [String] = []
@@ -171,6 +173,7 @@ public extension Player {
 
         public func build() -> Player {
             .init(
+                figure: figure,
                 health: health,
                 maxHealth: maxHealth,
                 hand: hand,
@@ -183,6 +186,11 @@ public extension Player {
                 playLimitPerTurn: playLimitPerTurn,
                 drawCards: drawCards
             )
+        }
+
+        public func withFigure(_ value: String) -> Self {
+            figure = value
+            return self
         }
 
         public func withHealth(_ value: Int) -> Self {
