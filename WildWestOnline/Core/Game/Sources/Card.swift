@@ -136,9 +136,19 @@ public struct Card: Equatable, Codable, Sendable {
             public let chooser: String
             public let options: [Option]
 
+            public init(chooser: String, options: [Option]) {
+                self.chooser = chooser
+                self.options = options
+            }
+
             public struct Option: Equatable, Codable, Sendable {
                 public let value: String
                 public let label: String
+
+                public init(value: String, label: String) {
+                    self.value = value
+                    self.label = label
+                }
             }
         }
 

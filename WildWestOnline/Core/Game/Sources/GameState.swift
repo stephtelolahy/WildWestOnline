@@ -149,6 +149,24 @@ public extension GameState {
             actionDelayMilliSeconds = value
             return self
         }
+
+        public func withActive(_ value: [String: [String]]) -> Self {
+            active = value
+            return self
+        }
+
+        public func withPendingChoice(_ value: Card.Selector.ChooseOneResolved) -> Self {
+            let nextAction = GameAction(
+                kind: .discardHand,
+                payload: .init(
+                    selectors: [
+                        .chooseOne(.card(), resolved: value, selection: nil)
+                    ]
+                )
+            )
+            queue.insert(nextAction, at: 0)
+          return self
+        }
     }
 
     static func makeBuilder() -> Builder {

@@ -86,21 +86,21 @@ struct GameViewStateTests {
         #expect(!player2.isTurn)
         #expect(!player2.isEliminated)
     }
-/*
+
     @Test func shouldDisplayCardActions() async throws {
         // Given
         let game = GameState.makeBuilder()
             .withPlayer("p1") {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
-                    .withAttributes([.maxHealth: 4])
-                    .withAbilities([.endTurn, .willyTheKid])
+                    .withMaxHealth(4)
+                    .withAbilities([.defaultEndTurn, .willyTheKid])
                     .withHand([.bang, .gatling])
                     .withInPlay([.saloon, .barrel])
             }
             .withPlayer("p2")
-            .withPlayModes(["p1": .manual])
-            .withActive([.bang, .endTurn], player: "p1")
+            .withPlayMode(["p1": .manual])
+            .withActive(["p1": [.bang, .defaultEndTurn]])
             .build()
         let appState = AppState(
             navigation: .init(),
@@ -110,13 +110,13 @@ struct GameViewStateTests {
         )
 
         // When
-        let result = try XCTUnwrap(GameView.presenter(appState))
+        let result = try #require(await GameView.presenter(appState))
 
         // Then
         #expect(result.handCards == [
             .init(card: .bang, active: true),
             .init(card: .gatling, active: false),
-            .init(card: .endTurn, active: true)
+            .init(card: .defaultEndTurn, active: true)
         ])
     }
 
@@ -125,8 +125,16 @@ struct GameViewStateTests {
         let game = GameState.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
-            .withChooseOne(.cardToDraw, options: [.missed, .bang], player: "p1")
-            .withPlayModes(["p1": .manual])
+            .withPendingChoice(
+                .init(
+                    chooser: "p1",
+                    options: [
+                        .init(value: .missed, label: .missed),
+                        .init(value: .bang, label: .bang)
+                    ]
+                )
+            )
+            .withPlayMode(["p1": .manual])
             .build()
         let appState = AppState(
             navigation: .init(),
@@ -136,16 +144,14 @@ struct GameViewStateTests {
         )
 
         // When
-        let result = try XCTUnwrap(GameView.presenter(appState))
+        let result = try #require(await GameView.presenter(appState))
 
         // Then
-        XCTAssertEqual(
-            result.chooseOne,
+        #expect(result.chooseOne ==
             GameView.State.ChooseOne(
-                choiceType: ChoiceType.cardToDraw.rawValue,
+                choiceType: "Unknown",
                 options: [.missed, .bang]
             )
         )
     }
- */
 }

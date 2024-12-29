@@ -89,7 +89,7 @@ private extension GameState {
         }
 
         return .init(
-            choiceType: "Unkown",
+            choiceType: "Unknown",
             options: chooseOne.options.map(\.label)
         )
     }
