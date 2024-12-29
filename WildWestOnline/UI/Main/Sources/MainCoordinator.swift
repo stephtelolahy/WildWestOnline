@@ -14,10 +14,12 @@ import SettingsUI
 import HomeUI
 import GameUI
 
-struct MainCoordinator: View {
+public struct MainCoordinator: View {
     @EnvironmentObject private var store: Store<AppState>
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         NavigationStackView(
             store: {
                 store.projection(MainCoordinator.presenter)

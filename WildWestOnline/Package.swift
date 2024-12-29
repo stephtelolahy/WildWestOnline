@@ -27,6 +27,7 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
         .library(name: "GameUI", targets: ["GameUI"]),
+        .library(name: "MainUI", targets: ["MainUI"]),
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
@@ -216,6 +217,19 @@ let package = Package(
                 "GameUI"
             ],
             path: "UI/Game/Tests"
+        ),
+        .target(
+            name: "MainUI",
+            dependencies: [
+                "SplashUI",
+                "SettingsUI",
+                "HomeUI",
+                "GameUI"
+            ],
+            path: "UI/Main/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin")
+            ]
         ),
         .target(
             name: "CardsData",
