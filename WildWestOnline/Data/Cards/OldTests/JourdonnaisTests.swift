@@ -28,7 +28,7 @@ final class JourdonnaisTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw

@@ -26,7 +26,7 @@ final class JesseJonesTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDiscard(player: "p1"),
             .drawDeck(player: "p1")
@@ -48,7 +48,7 @@ final class JesseJonesTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

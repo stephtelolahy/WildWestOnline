@@ -26,7 +26,7 @@ final class KitCarlsonTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
@@ -52,7 +52,7 @@ final class KitCarlsonTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),

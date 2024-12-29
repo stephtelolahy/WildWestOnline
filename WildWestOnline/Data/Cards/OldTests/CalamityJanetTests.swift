@@ -26,7 +26,7 @@ final class CalamityJanetTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
@@ -50,7 +50,7 @@ final class CalamityJanetTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.missed, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
@@ -76,7 +76,7 @@ final class CalamityJanetTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p2", .bang])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.bang, .pass], player: "p2"),
@@ -103,7 +103,7 @@ final class CalamityJanetTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),

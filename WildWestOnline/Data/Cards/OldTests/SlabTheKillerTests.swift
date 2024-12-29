@@ -18,7 +18,7 @@ final class SlabTheKillerTests: XCTestCase {
         let player = state.player(.slabTheKiller)
 
         // Then
-        XCTAssertEqual(player.attributes[.missesRequiredForBang], 2)
+        #expect(player.attributes[.missesRequiredForBang] == 2)
     }
 
     func test_slabTheKillerPlayingBang_shouldRequiresTwoMisses() throws {

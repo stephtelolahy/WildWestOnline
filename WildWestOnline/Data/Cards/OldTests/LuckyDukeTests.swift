@@ -18,6 +18,6 @@ final class LuckyDukeTests: XCTestCase {
         let player = state.player(.luckyDuke)
 
         // Then
-        XCTAssertEqual(player.attributes[.flippedCards], 2)
+        #expect(player.attributes[.flippedCards] == 2)
     }
 }

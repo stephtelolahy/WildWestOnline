@@ -25,7 +25,7 @@ final class SidKetchumTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.sidKetchum, player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2"], player: "p1"),
             .discardHand("c1", player: "p1"),
@@ -51,7 +51,7 @@ final class SidKetchumTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playAbility(.sidKetchum, player: "p1"),
             .chooseOne(.cardToDiscard, options: ["c1", "c2", "c3"], player: "p1"),
             .discardHand("c1", player: "p1"),
@@ -75,7 +75,7 @@ final class SidKetchumTests: XCTestCase {
         // Then
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? ArgCard.Error, .noCard(.selectHand))
+            #expect(error as? ArgCard.Error == .noCard(.selectHand))
         }
     }
 
@@ -94,7 +94,7 @@ final class SidKetchumTests: XCTestCase {
         // Then
         let action = GameAction.preparePlay(.sidKetchum, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
-            XCTAssertEqual(error as? PlayersState.Error, .playerAlreadyMaxHealth("p1"))
+            #expect(error as? PlayersState.Error == .playerAlreadyMaxHealth("p1"))
         }
     }
 }

@@ -28,7 +28,7 @@ final class VultureSamTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .eliminate(player: "p2"),
             .stealInPlay("c2", target: "p2", player: "p1"),
             .stealHand("c1", target: "p2", player: "p1")

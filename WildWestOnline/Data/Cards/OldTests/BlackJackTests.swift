@@ -25,7 +25,7 @@ final class BlackJackTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),
@@ -49,7 +49,7 @@ final class BlackJackTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1"),

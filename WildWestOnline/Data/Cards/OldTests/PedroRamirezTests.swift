@@ -42,7 +42,7 @@ final class PedroRamirezTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
             .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
@@ -72,7 +72,7 @@ final class PedroRamirezTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: [.pass])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .chooseOne(.target, options: ["p2", "p3", .pass], player: "p1"),
             .drawDeck(player: "p1"),
@@ -95,7 +95,7 @@ final class PedroRamirezTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")

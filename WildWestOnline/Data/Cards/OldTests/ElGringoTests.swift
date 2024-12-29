@@ -28,7 +28,7 @@ final class ElGringoTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .damage(1, player: "p1"),
@@ -56,7 +56,7 @@ final class ElGringoTests: XCTestCase {
         let result = try awaitAction(action, state: state, choose: ["p1"])
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .playBrown(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .damage(1, player: "p1")
@@ -78,7 +78,7 @@ final class ElGringoTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1")
         ])
     }

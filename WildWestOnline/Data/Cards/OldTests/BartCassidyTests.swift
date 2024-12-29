@@ -24,7 +24,7 @@ final class BartCassidyTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -45,7 +45,7 @@ final class BartCassidyTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(2, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
@@ -67,7 +67,7 @@ final class BartCassidyTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .damage(1, player: "p1")
         ])
     }

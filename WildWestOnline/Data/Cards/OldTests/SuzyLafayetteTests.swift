@@ -24,7 +24,7 @@ final class SuzyLafayetteTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .discardHand("c1", player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -44,7 +44,7 @@ final class SuzyLafayetteTests: XCTestCase {
         let result = try awaitAction(action, state: state)
 
         // Then
-        XCTAssertEqual(result, [
+        #expect(result == [
             .discardHand("c1", player: "p1")
         ])
     }
