@@ -18,7 +18,9 @@ class HandCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.layer.cornerRadius = 2
+        Task.detached { @MainActor [unowned self] in
+            contentView.layer.cornerRadius = 2
+        }
     }
 
     func update(with item: GameView.State.HandCard) {

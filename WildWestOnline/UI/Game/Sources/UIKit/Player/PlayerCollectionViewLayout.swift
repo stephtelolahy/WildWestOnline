@@ -7,7 +7,7 @@
 import UIKit
 
 protocol PlayerCollectionViewLayoutDelegate: AnyObject {
-    func numberOfItemsForGameCollectionViewLayout( layout: PlayerCollectionViewLayout) -> Int
+    @MainActor func numberOfItemsForGameCollectionViewLayout( layout: PlayerCollectionViewLayout) -> Int
 }
 
 class PlayerCollectionViewLayout: UICollectionViewLayout {

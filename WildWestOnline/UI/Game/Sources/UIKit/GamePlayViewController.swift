@@ -108,7 +108,7 @@ private extension GamePlayViewController {
         }
         .store(in: &subscriptions)
 
-        store.event.sink { [weak self] event in
+        store.eventPublisher.sink { [weak self] event in
             if let gameAction = event as? GameAction {
                 self?.updateViews(with: gameAction)
             }
@@ -131,12 +131,7 @@ private extension GamePlayViewController {
                     return
                 }
 
-                self.store.dispatch(
-                    GameAction.prepareChoose(
-                        option,
-                        player: player
-                    )
-                )
+                self.store.dispatch(GameAction.choose(option, player: player))
             }
         }
     }
@@ -175,7 +170,7 @@ private extension GamePlayViewController {
                 completion(key)
             }
             let image = UIImage(
-                named: key.extractName(),
+                named: Card.extractName(from: key),
                 in: Bundle.module,
                 with: .none
             )?.scale(newWidth: 32)
@@ -302,12 +297,7 @@ extension GamePlayViewController: UICollectionViewDelegate {
             return
         }
 
-        store.dispatch(
-            GameAction.preparePlay(
-                item.card,
-                player: player
-            )
-        )
+        store.dispatch(GameAction.play(item.card, player: player))
     }
 }
 
@@ -323,7 +313,7 @@ private extension GameView.State {
             return nil
         }
 
-        return UIImage(named: topDiscard.extractName(), in: Bundle.module, with: .none)
+        return UIImage(named: Card.extractName(from: topDiscard), in: Bundle.module, with: .none)
     }
 }
 
@@ -383,6 +373,6 @@ extension GamePlayViewController: AnimationRendererConfiguration {
     }
 
     func cardImage(for cardId: String) -> UIImage {
-        UIImage(named: cardId.extractName(), in: Bundle.module, with: .none)!
+        UIImage(named: Card.extractName(from: cardId), in: Bundle.module, with: .none)!
     }
 }

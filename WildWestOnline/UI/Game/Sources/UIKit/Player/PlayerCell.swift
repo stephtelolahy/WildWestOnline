@@ -18,7 +18,9 @@ class PlayerCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        figureImageView.addBrownRoundedBorder()
+        Task.detached { @MainActor [unowned self] in
+            figureImageView.addBrownRoundedBorder()
+        }
     }
 
     func update(with item: GameView.State.PlayerItem) {

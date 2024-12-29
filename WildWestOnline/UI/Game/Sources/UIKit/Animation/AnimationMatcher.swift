@@ -36,6 +36,9 @@ enum EventAnimation: Equatable {
 struct AnimationMatcher: AnimationMatcherProtocol {
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func animation(on event: GameAction) -> EventAnimation? {
+        // TODO: convert action to animation
+        nil
+        /*
         switch event {
         case let .playBrown(card, player):
                 .move(card: .id(card), from: .hand(player), to: .discard)
@@ -85,5 +88,6 @@ struct AnimationMatcher: AnimationMatcherProtocol {
         default:
             nil
         }
+         */
     }
 }

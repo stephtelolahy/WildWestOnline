@@ -8,7 +8,7 @@ import GameCore
 import UIKit
 
 protocol AnimationRendererProtocol {
-    func execute(
+    @MainActor func execute(
         _ animation: EventAnimation,
         from initialState: GameView.State,
         to finalState: GameView.State,
@@ -17,11 +17,11 @@ protocol AnimationRendererProtocol {
 }
 
 protocol AnimationRendererConfiguration {
-    func supportingViewController() -> UIViewController
-    func cardPosition(for location: EventAnimation.Location) -> CGPoint
-    func cardSize() -> CGSize
-    func cardImage(for cardId: String) -> UIImage
-    func hiddenCardImage() -> UIImage
+    @MainActor func supportingViewController() -> UIViewController
+    @MainActor func cardPosition(for location: EventAnimation.Location) -> CGPoint
+    @MainActor func cardSize() -> CGSize
+    @MainActor func cardImage(for cardId: String) -> UIImage
+    @MainActor func hiddenCardImage() -> UIImage
 }
 
 struct AnimationRenderer: AnimationRendererProtocol {
@@ -58,7 +58,7 @@ struct AnimationRenderer: AnimationRendererProtocol {
 }
 
 private extension AnimationRendererConfiguration {
-    func image(for card: EventAnimation.Card, in state: GameView.State) -> UIImage {
+    @MainActor func image(for card: EventAnimation.Card, in state: GameView.State) -> UIImage {
         switch card {
         case .id(let cardId):
             return cardImage(for: cardId)
@@ -82,7 +82,7 @@ private extension AnimationRendererConfiguration {
         }
     }
 
-    func image(at location: EventAnimation.Location, in state: GameView.State) -> UIImage? {
+    @MainActor func image(at location: EventAnimation.Location, in state: GameView.State) -> UIImage? {
         switch location {
         case .discard:
             if let cardId = state.topDiscard {
