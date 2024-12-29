@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 09/11/2024.
 //
 
-extension Card {
+public extension Card {
     /// Extract card name from cardId
     static func extractName(from identifier: String) -> String {
         identifier.split(separator: "-").first.map(String.init) ?? identifier

@@ -16,8 +16,8 @@ public struct AppReducer {
         var state = state
         state.navigation = try NavigationReducer().reduce(state.navigation, action)
         state.settings = try SettingsReducer().reduce(state.settings, action)
-        state = try GameSetupReducer().reduce(state, action)
         state.game = try state.game.flatMap { try GameReducer().reduce($0, action) }
+        state = try GameSetupReducer().reduce(state, action)
         return state
     }
 }
