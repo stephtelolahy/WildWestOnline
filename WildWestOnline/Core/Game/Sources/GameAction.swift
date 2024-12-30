@@ -86,11 +86,6 @@ public struct GameAction: Action, Equatable, Codable {
             self.amountPerCard = amountPerCard
         }
     }
-
-    public init(kind: Kind, payload: Payload) {
-        self.kind = kind
-        self.payload = payload
-    }
 }
 
 public extension GameAction {
@@ -363,6 +358,10 @@ public extension GameAction {
                 amount: amount
             )
         )
+    }
+
+    static var dummy: Self {
+        .init(kind: .queue, payload: .init())
     }
 }
 

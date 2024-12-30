@@ -23,7 +23,7 @@ struct ActivatePlayableCardsTest {
             .build()
 
         // When
-        let action = GameAction(kind: .queue, payload: .init())
+        let action = GameAction.dummy
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -46,7 +46,7 @@ struct ActivatePlayableCardsTest {
             .build()
 
         // When
-        let action = GameAction(kind: .queue, payload: .init())
+        let action = GameAction.dummy
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -70,7 +70,7 @@ struct ActivatePlayableCardsTest {
             .build()
 
         // When
-        let action = GameAction(kind: .queue, payload: .init())
+        let action = GameAction.dummy
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
