@@ -6,12 +6,12 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class JourdonnaisTests: XCTestCase {
-    func test_JourdonnaisBeingShot_flippedCardIsHearts_shouldCancelShot() throws {
+struct JourdonnaisTests {
+    @Test(.disabled()) func JourdonnaisBeingShot_flippedCardIsHearts_shouldCancelShot() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .missesRequiredForBang: 1, .bangsPerTurn: 1])

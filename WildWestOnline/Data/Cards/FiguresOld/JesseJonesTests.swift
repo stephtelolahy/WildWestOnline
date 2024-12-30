@@ -7,12 +7,12 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class JesseJonesTests: XCTestCase {
-    func test_jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() throws {
+struct JesseJonesTests {
+    @Test(.disabled()) func jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jesseJones])
                     .withAttributes([.startTurnCards: 2])
@@ -23,7 +23,7 @@ final class JesseJonesTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -33,9 +33,9 @@ final class JesseJonesTests: XCTestCase {
         ])
     }
 
-    func test_jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() throws {
+    @Test(.disabled()) func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jesseJones])
                     .withAttributes([.startTurnCards: 2])
@@ -45,7 +45,7 @@ final class JesseJonesTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

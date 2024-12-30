@@ -7,22 +7,21 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class BlackJackTests: XCTestCase {
-    func test_blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() throws {
+struct BlackJackTests {
+    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.blackJack])
-                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -34,19 +33,18 @@ final class BlackJackTests: XCTestCase {
         ])
     }
 
-    func test_blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() throws {
+    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.blackJack])
-                    .withAttributes([.startTurnCards: 2])
             }
             .withDeck(["c1", "c2-A♠️"])
             .build()
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

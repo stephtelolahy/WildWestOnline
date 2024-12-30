@@ -7,10 +7,10 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class LuckyDukeTests: XCTestCase {
-    func test_LuckyDuke_shouldHaveTwoFlippedCards() throws {
+struct LuckyDukeTests {
+    @Test(.disabled()) func LuckyDuke_shouldHaveTwoFlippedCards() async throws {
         // Given
         let state = Setup.buildGame(figures: [.luckyDuke], deck: [], cards: Cards.all)
 

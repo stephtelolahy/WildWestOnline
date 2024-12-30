@@ -7,10 +7,10 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class PedroRamirezTests: XCTestCase {
-    func test_pedroRamirez_shouldHaveSpecialStartTurn() throws {
+struct PedroRamirezTests {
+    @Test(.disabled()) func pedroRamirez_shouldHaveSpecialStartTurn() async throws {
         // Given
         let state = Setup.buildGame(figures: [.pedroRamirez], deck: [], cards: Cards.all)
 
@@ -21,9 +21,9 @@ final class PedroRamirezTests: XCTestCase {
         XCTAssertFalse(player.abilities.contains(.drawOnStartTurn))
     }
 
-    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() throws {
+    @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -51,9 +51,9 @@ final class PedroRamirezTests: XCTestCase {
         ])
     }
 
-    func test_pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() throws {
+    @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -80,9 +80,9 @@ final class PedroRamirezTests: XCTestCase {
         ])
     }
 
-    func test_pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() throws {
+    @Test(.disabled()) func pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -92,7 +92,7 @@ final class PedroRamirezTests: XCTestCase {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

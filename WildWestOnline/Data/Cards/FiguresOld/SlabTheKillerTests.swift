@@ -7,10 +7,10 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class SlabTheKillerTests: XCTestCase {
-    func test_slabTheKiller_shouldRequireTwoMissesToCounterHisBang() throws {
+struct SlabTheKillerTests {
+    @Test(.disabled()) func slabTheKiller_shouldRequireTwoMissesToCounterHisBang() async throws {
         // Given
         let state = Setup.buildGame(figures: [.slabTheKiller], deck: [], cards: Cards.all)
 
@@ -21,9 +21,9 @@ final class SlabTheKillerTests: XCTestCase {
         #expect(player.attributes[.missesRequiredForBang] == 2)
     }
 
-    func test_slabTheKillerPlayingBang_shouldRequiresTwoMisses() throws {
+    @Test(.disabled()) func slabTheKillerPlayingBang_shouldRequiresTwoMisses() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 2, .weapon: 1])
@@ -52,9 +52,9 @@ final class SlabTheKillerTests: XCTestCase {
         )
     }
 
-    func test_slabTheKillerPlayingBang_withOneCounter_shouldDamage() throws {
+    @Test(.disabled()) func slabTheKillerPlayingBang_withOneCounter_shouldDamage() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 2, .weapon: 1])

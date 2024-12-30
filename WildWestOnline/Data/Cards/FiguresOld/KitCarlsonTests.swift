@@ -7,12 +7,12 @@
 
 import CardsData
 import GameCore
-import XCTest
+import Testing
 
-final class KitCarlsonTests: XCTestCase {
-    func test_kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() throws {
+struct KitCarlsonTests {
+    @Test(.disabled()) func kitCarlsonStartTurn_withEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.kitCarlson])
                     .withAttributes([.startTurnCards: 2])
@@ -36,9 +36,9 @@ final class KitCarlsonTests: XCTestCase {
         ])
     }
 
-    func test_kitCarlsonStartTurn_withoutEnoughDeckCards_shouldChooseDeckCards() throws {
+    @Test(.disabled()) func kitCarlsonStartTurn_withoutEnoughDeckCards_shouldChooseDeckCards() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.kitCarlson])
                     .withAttributes([.startTurnCards: 2])

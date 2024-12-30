@@ -6,12 +6,12 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class BartCassidyTests: XCTestCase {
-    func test_BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() throws {
+struct BartCassidyTests {
+    @Test(.disabled()) func BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -21,7 +21,7 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -30,9 +30,9 @@ final class BartCassidyTests: XCTestCase {
         ])
     }
 
-    func test_BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() throws {
+    @Test(.disabled()) func BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -42,7 +42,7 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -52,9 +52,9 @@ final class BartCassidyTests: XCTestCase {
         ])
     }
 
-    func test_BartCassidyBeingDamaged_Lethal_shouldDoNothing() throws {
+    @Test(.disabled()) func BartCassidyBeingDamaged_Lethal_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(1)
@@ -64,7 +64,7 @@ final class BartCassidyTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

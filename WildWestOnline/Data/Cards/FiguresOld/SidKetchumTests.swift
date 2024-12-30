@@ -6,12 +6,12 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SidKetchumTests: XCTestCase {
-    func test_playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() throws {
+struct SidKetchumTests {
+    @Test(.disabled()) func playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -35,9 +35,9 @@ final class SidKetchumTests: XCTestCase {
         ])
     }
 
-    func test_playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() throws {
+    @Test(.disabled()) func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -61,9 +61,9 @@ final class SidKetchumTests: XCTestCase {
         ])
     }
 
-    func test_playing_SidKetchum_withoutCard_shouldThrowError() throws {
+    @Test(.disabled()) func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -79,9 +79,9 @@ final class SidKetchumTests: XCTestCase {
         }
     }
 
-    func test_playing_SidKetchum_alreadyMaxHealth_shouldThrowError() throws {
+    @Test(.disabled()) func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])

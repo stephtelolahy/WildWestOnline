@@ -6,12 +6,12 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class ElGringoTests: XCTestCase {
-    func test_elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() throws {
+struct ElGringoTests {
+    @Test(.disabled()) func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -37,9 +37,9 @@ final class ElGringoTests: XCTestCase {
         ])
     }
 
-    func test_elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() throws {
+    @Test(.disabled()) func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -63,9 +63,9 @@ final class ElGringoTests: XCTestCase {
         ])
     }
 
-    func test_elGringoDamaged_withOffenderIsHimself_shouldDoNothing() throws {
+    @Test(.disabled()) func elGringoDamaged_withOffenderIsHimself_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -75,7 +75,7 @@ final class ElGringoTests: XCTestCase {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [

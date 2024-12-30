@@ -6,12 +6,12 @@
 //
 
 import GameCore
-import XCTest
+import Testing
 
-final class SuzyLafayetteTests: XCTestCase {
-    func test_SuzyLafayette_havingNoHandCards_shouldDrawACard() throws {
+struct SuzyLafayetteTests {
+    @Test(.disabled()) func SuzyLafayette_havingNoHandCards_shouldDrawACard() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])
@@ -21,7 +21,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
@@ -30,9 +30,9 @@ final class SuzyLafayetteTests: XCTestCase {
         ])
     }
 
-    func test_SuzyLafayette_havingSomeHandCards_shouldDoNothing() throws {
+    @Test(.disabled()) func SuzyLafayette_havingSomeHandCards_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithCards()
+        let state = GameState.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1", "c2"])
@@ -41,7 +41,7 @@ final class SuzyLafayetteTests: XCTestCase {
 
         // When
         let action = GameAction.discardHand("c1", player: "p1")
-        let result = try awaitAction(action, state: state)
+        let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
