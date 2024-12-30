@@ -4,15 +4,15 @@
 //
 //  Created by Hugues Telolahy on 02/04/2023.
 //
-import AppCore
-import CardsData
-import GameCore
 import Redux
+import AppCore
+import GameCore
+import CardsData
 import SettingsCore
 import SettingsData
-import NavigationCore
 import SwiftUI
 import Theme
+import MainUI
 
 @main
 struct WildWestOnlineApp: App {
@@ -20,7 +20,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainCoordinator()
+            MainView()
                 .environmentObject(appStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
@@ -29,8 +29,7 @@ struct WildWestOnlineApp: App {
 }
 
 private func appStore() -> Store<AppState> {
-    let settingsService = SettingsRepository()
-    let cardsService = CardsRepository()
+    let settingsService: SettingsService = SettingsRepository()
 
     let settings = SettingsState.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
@@ -39,18 +38,25 @@ private func appStore() -> Store<AppState> {
         .withPreferredFigure(settingsService.preferredFigure())
         .build()
 
+    let inventory = Inventory(
+        cards: Cards.all,
+        figures: Figures.bang,
+        cardSets: CardSets.bang,
+        defaultAbilities: DefaultAbilities.all
+    )
+
     let initialState = AppState(
         navigation: .init(),
         settings: settings,
-        inventory: cardsService.inventory
+        inventory: inventory
     )
 
     return Store<AppState>(
         initial: initialState,
-        reducer: AppState.reducer,
+        reducer: AppReducer().reduce,
         middlewares: [
             Middlewares.lift(
-                Middlewares.updateGame(),
+                Middlewares.updateGame,
                 deriveState: { $0.game }
             ),
             Middlewares.lift(
