@@ -17,11 +17,10 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "ReduxTests",
-        "name" : "ReduxTests"
+        "identifier" : "MainUITests",
+        "name" : "MainUITests"
       }
     },
     {
@@ -44,8 +43,8 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "NavigationCoreTests",
-        "name" : "NavigationCoreTests"
+        "identifier" : "SettingsCoreTests",
+        "name" : "SettingsCoreTests"
       }
     },
     {
@@ -60,12 +59,19 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "SerializationTests",
-        "name" : "SerializationTests"
+        "identifier" : "HomeUITests",
+        "name" : "HomeUITests"
       }
     },
     {
-      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "NavigationCoreTests",
+        "name" : "NavigationCoreTests"
+      }
+    },
+    {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
@@ -74,16 +80,6 @@
       }
     },
     {
-      "enabled" : false,
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "HomeUITests",
-        "name" : "HomeUITests"
-      }
-    },
-    {
-      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
@@ -92,7 +88,14 @@
       }
     },
     {
-      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "SerializationTests",
+        "name" : "SerializationTests"
+      }
+    },
+    {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
@@ -104,8 +107,8 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "SettingsCoreTests",
-        "name" : "SettingsCoreTests"
+        "identifier" : "ReduxTests",
+        "name" : "ReduxTests"
       }
     }
   ],
