@@ -26,7 +26,7 @@ jobs:
 
       - name: Set Default Scheme
         run: |
-          default=Bang
+          default=WildWestOnline
           echo $default | cat >default
           echo Using default scheme: $default
       
