@@ -1,5 +1,5 @@
 //
-//  DocumentConvertibleTests.swift
+//  DocumentConvertibleTest.swift
 //
 //
 //  Created by Hugues Telolahy on 13/12/2023.
@@ -9,7 +9,7 @@ import Serialization
 import Testing
 import Foundation
 
-struct DocumentConvertibleTests {
+struct DocumentConvertibleTest {
     @Test func EncodingToDocument() async throws {
         let document: MyDocument = .init(name: "beer")
         let dictionary: [String: Any] = [

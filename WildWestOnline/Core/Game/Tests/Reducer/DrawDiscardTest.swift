@@ -1,6 +1,6 @@
 //
 //  DrawDiscardTest.swift
-//  BangTests
+//  BangTest
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //

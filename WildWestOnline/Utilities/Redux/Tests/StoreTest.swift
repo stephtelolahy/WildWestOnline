@@ -1,5 +1,5 @@
 //
-//  StoreTests.swift
+//  StoreTest.swift
 //
 //
 //  Created by Hugues Telolahy on 07/04/2023.
@@ -8,7 +8,7 @@
 import Redux
 import Testing
 
-struct StoreTests {
+struct StoreTest {
     @Test func createStore() async throws {
         // Given
         // When

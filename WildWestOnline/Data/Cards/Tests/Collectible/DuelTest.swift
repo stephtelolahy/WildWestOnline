@@ -1,5 +1,5 @@
 //
-//  DuelTests.swift
+//  DuelTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.

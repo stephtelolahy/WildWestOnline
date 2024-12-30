@@ -1,5 +1,5 @@
 //
-//  BlackJackTests.swift
+//  BlackJackTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 10/11/2023.

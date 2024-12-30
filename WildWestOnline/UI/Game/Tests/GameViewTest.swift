@@ -1,5 +1,5 @@
 //
-//  GameViewStateTests.swift
+//  GameViewTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
@@ -13,7 +13,7 @@ import Redux
 import SettingsCore
 import Testing
 
-struct GameViewStateTests {
+struct GameViewTest {
     @Test func shouldDisplayCurrentTurnPlayer() async throws {
         // Given
         let game = GameState.makeBuilder()

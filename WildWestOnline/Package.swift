@@ -231,6 +231,13 @@ let package = Package(
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
+        .testTarget(
+            name: "MainUITests",
+            dependencies: [
+                "MainUI"
+            ],
+            path: "UI/Main/Tests"
+        ),
         .target(
             name: "CardsData",
             dependencies: [

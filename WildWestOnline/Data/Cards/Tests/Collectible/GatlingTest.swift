@@ -1,5 +1,5 @@
 //
-//  GatlingTests.swift
+//  GatlingTest.swift
 //
 //
 //  Created by Hugues Telolahy on 22/04/2023.

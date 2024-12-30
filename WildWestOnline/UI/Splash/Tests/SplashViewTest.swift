@@ -1,5 +1,5 @@
 //
-//  HomeViewStateTests.swift
+//  SplashViewTest.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -7,13 +7,13 @@
 
 import AppCore
 import GameCore
-@testable import HomeUI
 import Redux
 import SettingsCore
+@testable import SplashUI
 import Testing
 
-struct HomeViewStateTests {
-    @Test func HomeStateProjection() async throws {
+struct SplashViewTest {
+    @Test func splashStateProjection() async throws {
         // Given
         let appState = AppState(
             navigation: .init(),
@@ -23,6 +23,6 @@ struct HomeViewStateTests {
 
         // When
         // Then
-        await #expect(HomeView.presenter(appState) != nil)
+        await #expect(SplashView.presenter(appState) != nil)
     }
 }

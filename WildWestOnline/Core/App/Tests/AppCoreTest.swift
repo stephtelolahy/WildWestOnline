@@ -1,5 +1,5 @@
 //
-//  AppCoreTests.swift
+//  AppCoreTest.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
@@ -12,7 +12,7 @@ import SettingsCore
 import Testing
 import XCTest
 
-struct AppCoreTests {
+struct AppCoreTest {
     @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
         // Given
         let state = AppState(
