@@ -35,7 +35,7 @@ struct SettingsCoreTests {
 
     @Test func updateWaitDelay() async throws {
         // Given
-        let state = SettingsState.makeBuilder().withWaitDelaySeconds(0).build()
+        let state = SettingsState.makeBuilder().withActionDelayMilliSeconds0).build()
 
         // When
         let action = SettingsAction.updateActionDelayMilliSeconds(500)

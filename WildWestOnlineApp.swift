@@ -33,7 +33,7 @@ private func appStore() -> Store<AppState> {
 
     let settings = SettingsState.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
-        .withWaitDelaySeconds(settingsService.actionDelayMilliSeconds())
+        .withActionDelayMilliSecondssettingsService.actionDelayMilliSeconds())
         .withSimulation(settingsService.isSimulationEnabled())
         .withPreferredFigure(settingsService.preferredFigure())
         .build()

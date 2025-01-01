@@ -38,7 +38,7 @@ public extension SettingsState {
             return self
         }
 
-        public func withWaitDelaySeconds(_ value: Int) -> Self {
+        public func withActionDelayMilliSeconds_ value: Int) -> Self {
             actionDelayMilliSeconds = value
             return self
         }
