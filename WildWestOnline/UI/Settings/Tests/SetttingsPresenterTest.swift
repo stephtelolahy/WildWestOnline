@@ -1,5 +1,5 @@
 //
-//  SetttingsViewTest.swift
+//  SetttingsPresenterTest.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -12,7 +12,7 @@ import SettingsCore
 @testable import SettingsUI
 import Testing
 
-struct SetttingsViewTest {
+struct SetttingsPresenterTest {
     @Test func SettingsStateProjection() async throws {
         // Given
         let appState = AppState(

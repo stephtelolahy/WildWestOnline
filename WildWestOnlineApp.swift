@@ -20,7 +20,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainCoordinator()
                 .environmentObject(appStore())
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)

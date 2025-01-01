@@ -75,7 +75,6 @@ private extension GameAction {
             fatalError("Missing played card or choosen item")
         }
 
-        // TODO: handle non-card selection
         return Card.extractName(from: item)
     }
 }

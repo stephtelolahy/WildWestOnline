@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  MainCoordinator.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 13/09/2024.
@@ -14,7 +14,7 @@ import SettingsUI
 import HomeUI
 import GameUI
 
-public struct MainView: View {
+public struct MainCoordinator: View {
     @EnvironmentObject private var store: Store<AppState>
 
     public init() {}
@@ -22,7 +22,7 @@ public struct MainView: View {
     public var body: some View {
         NavigationStackView(
             store: {
-                store.projection(MainView.presenter)
+                store.projection(MainCoordinator.presenter)
             },
             root: {
                 SplashViewBuilder()
@@ -39,7 +39,7 @@ public struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainCoordinator()
         .environmentObject(Store<AppState>.init(initial: .mockedData))
 }
 
@@ -53,7 +53,7 @@ private extension AppState {
     }
 }
 
-extension MainView {
+extension MainCoordinator {
     static let presenter: Presenter<AppState, NavigationStackState<MainDestination>> = { state in
         state.navigation.main
     }

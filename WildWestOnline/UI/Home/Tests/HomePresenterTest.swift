@@ -1,5 +1,5 @@
 //
-//  HomeViewTest.swift
+//  HomePresenterTest.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -12,7 +12,7 @@ import Redux
 import SettingsCore
 import Testing
 
-struct HomeViewTest {
+struct HomePresenterTest {
     @Test func HomeStateProjection() async throws {
         // Given
         let appState = AppState(

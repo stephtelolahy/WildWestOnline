@@ -1,5 +1,5 @@
 //
-//  MainViewTest.swift
+//  MainPresenterTest.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 30/12/2024.
@@ -11,7 +11,7 @@ import AppCore
 import SettingsCore
 import GameCore
 
-struct MainViewTest {
+struct MainPresenterTest {
     @Test func MainStateProjection() async throws {
         // Given
         let appState = AppState(
@@ -22,6 +22,6 @@ struct MainViewTest {
 
         // When
         // Then
-        await #expect(MainView.presenter(appState) != nil)
+        await #expect(MainCoordinator.presenter(appState) != nil)
     }
 }
