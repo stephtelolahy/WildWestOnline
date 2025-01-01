@@ -22,7 +22,7 @@ struct NavigationCoreTests {
 
     @Test func showingSettings_shouldDisplaySettings() async throws {
         // Given
-        let state = NavigationState(root: .init(path: [.home]))
+        let state = NavigationState(main: .init(path: [.home]))
 
         // When
         let action = NavigationStackAction<MainDestination>.present(.settings)
@@ -34,7 +34,7 @@ struct NavigationCoreTests {
 
     @Test func closingSettings_shouldRemoveSettings() async throws {
         // Given
-        let state = NavigationState(root: .init(path: [.home], sheet: .settings))
+        let state = NavigationState(main: .init(path: [.home], sheet: .settings))
 
         // When
         let action = NavigationStackAction<MainDestination>.dismiss

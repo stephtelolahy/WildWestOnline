@@ -9,10 +9,10 @@ public struct NavigationState: Equatable, Codable {
     public var settings: NavigationStackState<SettingsDestination>
 
     public init(
-        root: NavigationStackState<MainDestination> = .init(path: []),
+        main: NavigationStackState<MainDestination> = .init(path: []),
         settings: NavigationStackState<SettingsDestination> = .init(path: [])
     ) {
-        self.main = root
+        self.main = main
         self.settings = settings
     }
 }

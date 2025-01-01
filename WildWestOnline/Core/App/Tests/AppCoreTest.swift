@@ -16,7 +16,7 @@ struct AppCoreTest {
     @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
         // Given
         let state = AppState(
-            navigation: .init(root: .init(path: [.home])),
+            navigation: .init(main: .init(path: [.home])),
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
@@ -43,7 +43,7 @@ struct AppCoreTest {
     @Test func app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() async throws {
         // Given
         let state = AppState(
-            navigation: .init(root: .init(path: [.home, .game])),
+            navigation: .init(main: .init(path: [.home, .game])),
             settings: SettingsState.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
