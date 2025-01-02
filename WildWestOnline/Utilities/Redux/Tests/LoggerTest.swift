@@ -11,16 +11,16 @@ import Testing
 struct LoggerTest {
     @Test func useLoggerReducer_shouldPrintAction() async throws {
         // Given
-        let store = await Store<String, Int, Void>(
+        let sut = await Store<String, Int, Void>(
             initialState: "initial",
             reducer: loggerReducer(),
             dependencies: ()
         )
 
         // When
-        await store.dispatch(1)
+        await sut.dispatch(1)
 
         // Then
-        await #expect(store.state == "initial")
+        await #expect(sut.state == "initial")
     }
 }

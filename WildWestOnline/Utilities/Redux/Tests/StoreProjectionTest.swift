@@ -26,16 +26,16 @@ struct StoreProjectionTest {
         )
 
         let connector = SearchView.Connector()
-        let viewModel: SearchView.ViewModel = await store.projection(
+        let sut: SearchView.ViewModel = await store.projection(
             deriveState: connector.deriveState,
             embedAction: connector.embedAction
         )
 
         // When
-        await viewModel.dispatch(.didAppear)
+        await sut.dispatch(.didAppear)
 
         // Then
-        await #expect(viewModel.state.items == ["recent"])
+        await #expect(sut.state.items == ["recent"])
     }
 }
 

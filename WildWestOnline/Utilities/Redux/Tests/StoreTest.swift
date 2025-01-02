@@ -16,7 +16,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let store = await AppStore(
+        let sut = await AppStore(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -28,16 +28,16 @@ struct StoreTest {
         var receivedActions: [AppAction] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
-            store.eventPublisher
+            sut.eventPublisher
                 .sink { receivedActions.append($0) }
                 .store(in: &cancellables)
         }
 
         // When
-        await store.dispatch(.fetchRecent)
+        await sut.dispatch(.fetchRecent)
 
         // Then
-        await #expect(store.state.searchResult == ["recent"])
+        await #expect(sut.state.searchResult == ["recent"])
         #expect(receivedActions == [
             .fetchRecent,
             .setSearchResults(repos: ["recent"])
@@ -50,7 +50,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let store = await AppStore(
+        let sut = await AppStore(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -63,16 +63,16 @@ struct StoreTest {
         var receivedErrors: [Error] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
-            store.eventPublisher
+            sut.eventPublisher
                 .sink { receivedActions.append($0) }
                 .store(in: &cancellables)
-            store.errorPublisher
+            sut.errorPublisher
                 .sink { receivedErrors.append($0) }
                 .store(in: &cancellables)
         }
 
         // When
-        await store.dispatch(.search(query: ""))
+        await sut.dispatch(.search(query: ""))
 
         // Then
         #expect(receivedErrors as? [SearchError] == [
@@ -82,7 +82,7 @@ struct StoreTest {
     }
 
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
-        let store = await Store<AppState, Int, Void>(
+        let sut = await Store<AppState, Int, Void>(
             initialState: .init(),
             reducer: { state, action, _ in
                 (0...action).forEach {
@@ -95,12 +95,12 @@ struct StoreTest {
         var receivedStates: [AppState] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
-            store.$state
+            sut.$state
                 .sink { receivedStates.append($0) }
                 .store(in: &cancellables)
         }
 
-        await store.dispatch(3)
+        await sut.dispatch(3)
 
         #expect(receivedStates == [
             .init(),

@@ -6,28 +6,28 @@
 //
 import Redux
 
-public struct SettingsReducer {
-    public init() {}
+public func settingsReducer(
+    state: inout SettingsState,
+    action: SettingsAction,
+    dependencies: SettingsService
+) throws -> Effect<SettingsAction> {
+    switch action {
+    case .updatePlayersCount(let value):
+        state.playersCount = value
+        dependencies.setPlayersCount(value)
 
-    public func reduce(_ state: SettingsState, _ action: Action) throws -> SettingsState {
-        var state = state
-        switch action {
-        case SettingsAction.updatePlayersCount(let value):
-            state.playersCount = value
+    case .updateActionDelayMilliSeconds(let value):
+        state.actionDelayMilliSeconds = value
+        dependencies.setActionDelayMilliSeconds(value)
 
-        case SettingsAction.updateActionDelayMilliSeconds(let value):
-            state.actionDelayMilliSeconds = value
+    case .toggleSimulation:
+        state.simulation.toggle()
+        dependencies.setSimulationEnabled(state.simulation)
 
-        case SettingsAction.toggleSimulation:
-            state.simulation.toggle()
-
-        case SettingsAction.updatePreferredFigure(let value):
-            state.preferredFigure = value
-
-        default:
-            break
-        }
-
-        return state
+    case .updatePreferredFigure(let value):
+        state.preferredFigure = value
+        dependencies.setPreferredFigure(value)
     }
+
+    return .none
 }

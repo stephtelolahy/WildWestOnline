@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
 
-public struct SettingsState: Codable, Equatable {
+public struct SettingsState: Codable, Equatable, Sendable {
     public var playersCount: Int
     public var actionDelayMilliSeconds: Int
     public var simulation: Bool
