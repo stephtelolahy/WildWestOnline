@@ -10,7 +10,7 @@ import Testing
 import Combine
 
 struct StoreProjectionTest {
-    @Test func dispatchViewAction_ShouldEmitNewState() async throws {
+    @Test func dispatchViewAction_shouldEmitNewState() async throws {
         // Given
         let service = SearchService(
             searchResult: .success(["result"]),

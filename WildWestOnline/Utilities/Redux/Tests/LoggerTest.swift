@@ -9,7 +9,7 @@ import Redux
 import Testing
 
 struct LoggerTest {
-    @Test func useLoggerReducer_ShouldPrintAction() async throws {
+    @Test func useLoggerReducer_shouldPrintAction() async throws {
         // Given
         let store = await Store<String, Int, Void>(
             initialState: "initial",

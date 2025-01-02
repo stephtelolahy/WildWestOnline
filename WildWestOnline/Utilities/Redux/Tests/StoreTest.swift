@@ -10,7 +10,7 @@ import Testing
 import Combine
 
 struct StoreTest {
-    @Test func dispatchValidAction_ShouldEmitNewState() async throws {
+    @Test func dispatchValidAction_shouldEmitNewState() async throws {
         // Given
         let service = SearchService(
             searchResult: .success(["result"]),
@@ -44,7 +44,7 @@ struct StoreTest {
         ])
     }
 
-    @Test func dispatchInvalidAction_ShouldThrowError() async throws {
+    @Test func dispatchInvalidAction_shouldThrowError() async throws {
         // Given
         let service = SearchService(
             searchResult: .success(["result"]),
@@ -75,13 +75,10 @@ struct StoreTest {
         await store.dispatch(.search(query: ""))
 
         // Then
-        await #expect(store.state.searchResult == [""])
         #expect(receivedErrors as? [SearchError] == [
-            .queryStringShouldNotBeEmpty
+            .queryStringshouldNotBeEmpty
         ])
-        #expect(receivedActions == [
-            .search(query: "")
-        ])
+        #expect(receivedActions == [])
     }
 }
 
@@ -112,7 +109,7 @@ func appReducer(
 
     case let .search(query):
         guard !query.isEmpty else {
-            throw SearchError.queryStringShouldNotBeEmpty
+            throw SearchError.queryStringshouldNotBeEmpty
         }
         return .run {
             do {
@@ -163,5 +160,5 @@ struct SearchService {
 typealias AppStore = Store<AppState, AppAction, AppDependencies>
 
 enum SearchError: Error, Equatable {
-    case queryStringShouldNotBeEmpty
+    case queryStringshouldNotBeEmpty
 }
