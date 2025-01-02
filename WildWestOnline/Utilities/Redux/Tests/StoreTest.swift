@@ -12,10 +12,10 @@ struct StoreTest {
     @Test func createStore() async throws {
         // Given
         // When
-        let store: Store<String> = Store(initial: "initial")
+        let store: Store<String, Int, Void> = await Store(initialState: "initial", dependencies: ())
 
         // Then
         #expect(store != nil)
-        #expect(store.state == "initial")
+        await #expect(store.state == "initial")
     }
 }
