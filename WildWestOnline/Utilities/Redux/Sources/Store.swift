@@ -7,7 +7,7 @@ import Combine
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 /// It executes side-effects in response, and eventually dispatch more actions
-public typealias Reducer<State, Action, Dependencies> = (inout State, Action, Dependencies) -> Effect<Action>
+public typealias Reducer<State, Action, Dependencies> = (inout State, Action, Dependencies) throws -> Effect<Action>
 
 public enum Effect<Action> {
     case none
@@ -22,6 +22,8 @@ public enum Effect<Action> {
 @MainActor public class Store<State, Action: Sendable, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
+    public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
+
     private let reducer: Reducer<State, Action, Dependencies>
     private let dependencies: Dependencies
 
@@ -34,23 +36,28 @@ public enum Effect<Action> {
         self.reducer = reducer
         self.dependencies = dependencies
         self.eventPublisher = .init()
+        self.errorPublisher = .init()
     }
 
     public func dispatch(_ action: Action) async {
-        let effect = reducer(&state, action, dependencies)
-        eventPublisher.send(action)
-        switch effect {
-        case .none:
-            break
+        do {
+            let effect = try reducer(&state, action, dependencies)
+            eventPublisher.send(action)
+            switch effect {
+            case .none:
+                break
 
-        case .publisher(let publisher):
-            for await result in publisher.values {
+            case .publisher(let publisher):
+                for await result in publisher.values {
+                    await dispatch(result)
+                }
+
+            case .run(let asyncWork):
+                let result = await asyncWork()
                 await dispatch(result)
             }
-
-        case .run(let asyncWork):
-            let result = await asyncWork()
-            await dispatch(result)
+        } catch {
+            errorPublisher.send(error)
         }
     }
 }

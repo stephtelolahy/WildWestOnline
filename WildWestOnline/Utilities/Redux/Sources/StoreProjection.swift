@@ -30,6 +30,8 @@ private class StoreProjection<
         self.globalStore = globalStore
         self.embedAction = embedAction
         super.init(initialState: initialState, dependencies: ())
+//        self.eventPublisher = globalStore.eventPublisher
+        self.errorPublisher = globalStore.errorPublisher
 
         globalStore.$state
             .map(deriveState)

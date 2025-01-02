@@ -10,7 +10,7 @@ import Testing
 import Combine
 
 struct StoreTest {
-    @Test func dispatchActionShouldEmitNewState() async throws {
+    @Test func dispatchValidAction_ShouldEmitNewState() async throws {
         // Given
         let service = SearchService(
             searchResult: .success(["result"]),
@@ -43,6 +43,46 @@ struct StoreTest {
             .setSearchResults(repos: ["recent"])
         ])
     }
+
+    @Test func dispatchInvalidAction_ShouldThrowError() async throws {
+        // Given
+        let service = SearchService(
+            searchResult: .success(["result"]),
+            fetchRecentResult: .success(["recent"])
+        )
+        let store = await AppStore(
+            initialState: .init(),
+            reducer: appReducer,
+            dependencies: .init(
+                search: service.search,
+                fetchRecent: service.fetchRecent
+            )
+        )
+
+        var receivedActions: [AppAction] = []
+        var receivedErrors: [Error] = []
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            store.eventPublisher
+                .sink { receivedActions.append($0) }
+                .store(in: &cancellables)
+            store.errorPublisher
+                .sink { receivedErrors.append($0) }
+                .store(in: &cancellables)
+        }
+
+        // When
+        await store.dispatch(.search(query: ""))
+
+        // Then
+        await #expect(store.state.searchResult == [""])
+        #expect(receivedErrors as? [SearchError] == [
+            .queryStringShouldNotBeEmpty
+        ])
+        #expect(receivedActions == [
+            .search(query: "")
+        ])
+    }
 }
 
 struct AppState: Equatable {
@@ -64,13 +104,16 @@ func appReducer(
     state: inout AppState,
     action: AppAction,
     dependencies: AppDependencies
-) -> Effect<AppAction> {
+) throws -> Effect<AppAction> {
     switch action {
     case let .setSearchResults(repos):
         state.searchResult = repos
         return .none
 
     case let .search(query):
+        guard !query.isEmpty else {
+            throw SearchError.queryStringShouldNotBeEmpty
+        }
         return .run {
             do {
                 let result = try await dependencies.search(query)
@@ -118,3 +161,7 @@ struct SearchService {
 }
 
 typealias AppStore = Store<AppState, AppAction, AppDependencies>
+
+enum SearchError: Error, Equatable {
+    case queryStringShouldNotBeEmpty
+}
