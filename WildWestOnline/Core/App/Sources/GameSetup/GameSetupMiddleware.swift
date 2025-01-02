@@ -11,7 +11,7 @@ import GameCore
 import SettingsCore
 
 public extension Middlewares {
-    static func gameSetup() -> Middleware<AppState> {
+    static var setupGame: Middleware<AppState> {
         { state, action in
             guard let action = action as? GameSetupAction else {
                 return nil

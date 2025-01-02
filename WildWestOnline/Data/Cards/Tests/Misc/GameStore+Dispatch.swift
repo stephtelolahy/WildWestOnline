@@ -74,21 +74,21 @@ private class ChoicesWrapper {
 }
 
 private extension Middlewares {
-    static func performChoices(_ choicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
+    static func performChoices(_ expectedChoicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
         { state, _ in
             guard let pendingChoice = state.pendingChoice else {
                 return nil
             }
 
-            guard choicesWrapper.choices.isNotEmpty else {
+            guard expectedChoicesWrapper.choices.isNotEmpty else {
                 fatalError("Unexpected choice: \(pendingChoice)")
             }
 
-            guard pendingChoice.options.map(\.label) == choicesWrapper.choices[0].options else {
-                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesWrapper.choices[0].options)")
+            guard pendingChoice.options.map(\.label) == expectedChoicesWrapper.choices[0].options else {
+                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(expectedChoicesWrapper.choices[0].options)")
             }
 
-            let expectedChoice = choicesWrapper.choices.remove(at: 0)
+            let expectedChoice = expectedChoicesWrapper.choices.remove(at: 0)
             let selection = pendingChoice.options[expectedChoice.selectionIndex]
             return GameAction.choose(selection.label, player: pendingChoice.chooser)
         }

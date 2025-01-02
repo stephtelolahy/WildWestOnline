@@ -23,7 +23,7 @@ struct AppCoreTest {
         let sut = Store<AppState>(
             initial: state,
             reducer: AppReducer().reduce,
-            middlewares: [Middlewares.gameSetup()]
+            middlewares: [Middlewares.setupGame]
         )
 
         let expectation = XCTestExpectation(description: "Awaiting store idle")
@@ -51,7 +51,7 @@ struct AppCoreTest {
         let sut = Store<AppState>(
             initial: state,
             reducer: AppReducer().reduce,
-            middlewares: [Middlewares.gameSetup()]
+            middlewares: [Middlewares.setupGame]
         )
 
         let expectation = XCTestExpectation(description: "Awaiting store idle")

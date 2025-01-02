@@ -61,11 +61,15 @@ private func createStore() -> Store<AppState> {
                 deriveState: { $0.game }
             ),
             Middlewares.lift(
+                Middlewares.playAIMove,
+                deriveState: { $0.game }
+            ),
+            Middlewares.lift(
                 Middlewares.saveSettings(service: settingsService),
                 deriveState: { $0.settings }
             ),
             Middlewares.lift(
-                Middlewares.gameSetup(),
+                Middlewares.setupGame,
                 deriveState: { $0 }
             ),
             Middlewares.logger()
