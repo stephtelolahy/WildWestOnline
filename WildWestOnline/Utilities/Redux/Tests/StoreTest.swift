@@ -60,12 +60,25 @@ struct StoreTest {
     }
 
     struct SearchService {
+        var searchResult: Result<[String], Error> = .success([])
+        var fetchRecentResult: Result<[String], Error> = .success([])
+
         func search(query: String) async throws -> [String] {
-            ["result"]
+            switch searchResult {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                throw error
+            }
         }
 
         func fetchRecent() async throws -> [String] {
-            ["recent"]
+            switch searchResult {
+            case .success(let data):
+                return data
+            case .failure(let error):
+                throw error
+            }
         }
     }
 
@@ -73,7 +86,8 @@ struct StoreTest {
 
     @Test func dispatchActionShouldEmitNewState() async throws {
         // Given
-        let service = SearchService()
+        var service = SearchService()
+        service.searchResult = .success(["recent"])
         let store = await AppStore(
             initialState: .init(),
             reducer: appReducer,
