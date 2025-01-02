@@ -80,6 +80,33 @@ struct StoreTest {
         ])
         #expect(receivedActions == [])
     }
+
+    @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
+        let store = await Store<AppState, Int, Void>(
+            initialState: .init(),
+            reducer: { state, action, _ in
+                (0...action).forEach {
+                    state.searchResult.append("\($0)")
+                }
+                return .none
+            },
+            dependencies: ()
+        )
+        var receivedStates: [AppState] = []
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            store.$state
+                .sink { receivedStates.append($0) }
+                .store(in: &cancellables)
+        }
+
+        await store.dispatch(3)
+
+        #expect(receivedStates == [
+            .init(),
+            .init(searchResult: ["0", "1", "2", "3"])
+        ])
+    }
 }
 
 struct AppState: Equatable {
