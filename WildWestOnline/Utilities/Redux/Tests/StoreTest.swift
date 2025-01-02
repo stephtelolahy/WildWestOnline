@@ -76,7 +76,7 @@ struct StoreTest {
 
         // Then
         #expect(receivedErrors as? [SearchError] == [
-            .queryStringshouldNotBeEmpty
+            .queryStringShouldNotBeEmpty
         ])
         #expect(receivedActions == [])
     }
@@ -136,7 +136,7 @@ func appReducer(
 
     case let .search(query):
         guard !query.isEmpty else {
-            throw SearchError.queryStringshouldNotBeEmpty
+            throw SearchError.queryStringShouldNotBeEmpty
         }
         return .run {
             do {
@@ -187,5 +187,5 @@ struct SearchService {
 typealias AppStore = Store<AppState, AppAction, AppDependencies>
 
 private enum SearchError: Error, Equatable {
-    case queryStringshouldNotBeEmpty
+    case queryStringShouldNotBeEmpty
 }
