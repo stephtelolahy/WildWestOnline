@@ -11,8 +11,10 @@ import Testing
 struct StoreTest {
     @Test func dispatchActionShouldEmitNewState() async throws {
         // Given
-        var service = SearchService()
-        service.fetchRecentResult = .success(["recent"])
+        let service = SearchService(
+            searchResult: .success(["result"]),
+            fetchRecentResult: .success(["recent"])
+        )
         let store = await AppStore(
             initialState: .init(),
             reducer: appReducer,
@@ -80,8 +82,8 @@ func appReducer(
 }
 
 struct SearchService {
-    var searchResult: Result<[String], Error> = .success([])
-    var fetchRecentResult: Result<[String], Error> = .success([])
+    let searchResult: Result<[String], Error>
+    let fetchRecentResult: Result<[String], Error>
 
     func search(query: String) async throws -> [String] {
         switch searchResult {
