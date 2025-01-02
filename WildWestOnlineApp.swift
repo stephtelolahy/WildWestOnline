@@ -17,18 +17,19 @@ import MainUI
 @main
 struct WildWestOnlineApp: App {
     @Environment(\.theme) private var theme
+    private let store = createStore()
 
     var body: some Scene {
         WindowGroup {
             MainCoordinator()
-                .environmentObject(appStore())
+                .environmentObject(store)
             .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
     }
 }
 
-private func appStore() -> Store<AppState> {
+private func createStore() -> Store<AppState> {
     let settingsService: SettingsService = SettingsRepository()
 
     let settings = SettingsState.makeBuilder()
