@@ -5,35 +5,35 @@
 //  Created by Stephano Hugues TELOLAHY on 21/09/2024.
 //
 
-import Combine
 import Redux
 import NavigationCore
 import GameCore
 import SettingsCore
 
 public extension Middlewares {
-    static func gameSetup() -> Middleware<AppState> {
+    static var setupGame: Middleware<AppState> {
         { state, action in
-            switch action {
-            case GameSetupAction.startGame:
-                let newGame = AppState.createGame(
-                    settings: state.settings,
-                    inventory: state.inventory
-                )
+            guard let action = action as? GameSetupAction else {
+                return nil
+            }
 
-                return [
-                    GameSetupAction.setGame(newGame),
-                    NavigationStackAction<MainDestination>.push(.game)
-                ].publisher.eraseToAnyPublisher()
+            return switch action {
+            case .startGame:
+                GameSetupAction.setGame(
+                        AppState.createGame(
+                            settings: state.settings,
+                            inventory: state.inventory
+                        )
+                    )
 
-            case GameSetupAction.quitGame:
-                return [
-                    GameSetupAction.unsetGame,
-                    NavigationStackAction<MainDestination>.pop
-                ].publisher.eraseToAnyPublisher()
+            case .setGame:
+                NavigationStackAction<MainDestination>.push(.game)
 
-            default:
-                return Empty().eraseToAnyPublisher()
+            case .quitGame:
+                GameSetupAction.unsetGame
+
+            case .unsetGame:
+                NavigationStackAction<MainDestination>.pop
             }
         }
     }
@@ -47,12 +47,12 @@ private extension AppState {
             preferredFigure: settings.preferredFigure
         )
 
-        let manualPlayer: String? = settings.simulation ? nil : game.round.playOrder[0]
-        game.playMode = game.round.startOrder.reduce(into: [:]) {
+        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
+        game.playMode = game.playOrder.reduce(into: [:]) {
             $0[$1] = $1 == manualPlayer ? .manual : .auto
         }
 
-        game.waitDelaySeconds = settings.waitDelaySeconds
+        game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
 
         return game
     }

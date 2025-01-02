@@ -1,22 +1,22 @@
 //
 //  CardSets.swift
-//  
+//  WildWestOnline
 //
-//  Created by Hugues Telolahy on 12/04/2023.
+//  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-enum CardSets {
-    static let bang: [String: [String]] = [
+public enum CardSets {
+    public static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],
         .dynamite: ["2♥️"],
         .jail: ["J♠️", "10♠️", "4♥️"],
-        .mustang: ["8♥️", "9♥️"],
+        .schofield: ["K♠️", "J♣️", "Q♣️"],
         .remington: ["K♣️"],
         .revCarabine: ["A♣️"],
-        .schofield: ["K♠️", "J♣️", "Q♣️"],
-        .scope: ["A♠️"],
-        .volcanic: ["10♠️", "10♣️"],
         .winchester: ["8♠️"],
+        .volcanic: ["10♠️", "10♣️"],
+        .scope: ["A♠️"],
+        .mustang: ["8♥️", "9♥️"],
         .bang: ["A♠️", "2♦️", "3♦️", "4♦️", "5♦️", "6♦️", "7♦️", "8♦️", "9♦️", "10♦️", "J♦️", "Q♦️", "K♦️", "A♦️", "2♣️", "3♣️", "4♣️", "5♣️", "6♣️", "7♣️", "8♣️", "9♣️", "Q♥️", "K♥️", "A♥️"],
         .missed: ["10♣️", "J♣️", "Q♣️", "K♣️", "A♣️", "2♠️", "3♠️", "4♠️", "5♠️", "6♠️", "7♠️", "8♠️"],
         .beer: ["6♥️", "7♥️", "8♥️", "9♥️", "10♥️", "J♥️"],

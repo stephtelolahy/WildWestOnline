@@ -1,5 +1,5 @@
 //
-//  NavigationCoreTests.swift
+//  NavigationCoreTest.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 24/07/2024.
@@ -14,7 +14,7 @@ struct NavigationCoreTests {
 
         // When
         let action = NavigationStackAction<MainDestination>.push(.home)
-        let result = try NavigationState.reducer(state, action)
+        let result = try NavigationReducer().reduce(state, action)
 
         // Then
         #expect(result.main.path == [.home])
@@ -22,11 +22,11 @@ struct NavigationCoreTests {
 
     @Test func showingSettings_shouldDisplaySettings() async throws {
         // Given
-        let state = NavigationState(root: .init(path: [.home]))
+        let state = NavigationState(main: .init(path: [.home]))
 
         // When
         let action = NavigationStackAction<MainDestination>.present(.settings)
-        let result = try NavigationState.reducer(state, action)
+        let result = try NavigationReducer().reduce(state, action)
 
         // Then
         #expect(result.main.sheet == .settings)
@@ -34,11 +34,11 @@ struct NavigationCoreTests {
 
     @Test func closingSettings_shouldRemoveSettings() async throws {
         // Given
-        let state = NavigationState(root: .init(path: [.home], sheet: .settings))
+        let state = NavigationState(main: .init(path: [.home], sheet: .settings))
 
         // When
         let action = NavigationStackAction<MainDestination>.dismiss
-        let result = try NavigationState.reducer(state, action)
+        let result = try NavigationReducer().reduce(state, action)
 
         // Then
         #expect(result.main.sheet == nil)

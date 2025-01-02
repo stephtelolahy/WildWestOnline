@@ -1,5 +1,5 @@
 //
-//  SettingsCoreTests.swift
+//  SettingsCoreTest.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
@@ -15,7 +15,7 @@ struct SettingsCoreTests {
 
         // When
         let action = SettingsAction.updatePlayersCount(5)
-        let result = try SettingsState.reducer(state, action)
+        let result = try SettingsReducer().reduce(state, action)
 
         // Then
         #expect(result.playersCount == 5)
@@ -27,7 +27,7 @@ struct SettingsCoreTests {
 
         // When
         let action = SettingsAction.toggleSimulation
-        let result = try SettingsState.reducer(state, action)
+        let result = try SettingsReducer().reduce(state, action)
 
         // Then
         #expect(!result.simulation)
@@ -35,13 +35,13 @@ struct SettingsCoreTests {
 
     @Test func updateWaitDelay() async throws {
         // Given
-        let state = SettingsState.makeBuilder().withWaitDelaySeconds(0).build()
+        let state = SettingsState.makeBuilder().withActionDelayMilliSeconds(0).build()
 
         // When
-        let action = SettingsAction.updateWaitDelaySeconds(500)
-        let result = try SettingsState.reducer(state, action)
+        let action = SettingsAction.updateActionDelayMilliSeconds(500)
+        let result = try SettingsReducer().reduce(state, action)
 
         // Then
-        #expect(result.waitDelaySeconds == 500)
+        #expect(result.actionDelayMilliSeconds == 500)
     }
 }

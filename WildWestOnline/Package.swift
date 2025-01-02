@@ -12,15 +12,8 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-
-        // Utilities
-        .library(name: "Redux", targets: ["Redux"]),
-        .library(name: "Serialization", targets: ["Serialization"]),
-        .library(name: "Theme", targets: ["Theme"]),
-
         // Core
         .library(name: "GameCore", targets: ["GameCore"]),
-        .library(name: "Bang", targets: ["Bang"]),
         .library(name: "SettingsCore", targets: ["SettingsCore"]),
         .library(name: "NavigationCore", targets: ["NavigationCore"]),
         .library(name: "AppCore", targets: ["AppCore"]),
@@ -33,7 +26,13 @@ let package = Package(
         .library(name: "SplashUI", targets: ["SplashUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
-        .library(name: "GameUI", targets: ["GameUI"])
+        .library(name: "GameUI", targets: ["GameUI"]),
+        .library(name: "MainUI", targets: ["MainUI"]),
+
+        // Utilities
+        .library(name: "Redux", targets: ["Redux"]),
+        .library(name: "Serialization", targets: ["Serialization"]),
+        .library(name: "Theme", targets: ["Theme"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -78,19 +77,12 @@ let package = Package(
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
-        .target(
-            name: "Bang",
-            path: "Core/Bang/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintPlugin")
-            ]
-        ),
         .testTarget(
-            name: "BangTests",
+            name: "GameCoreTests",
             dependencies: [
-                "Bang"
+                "GameCore"
             ],
-            path: "Core/Bang/Tests"
+            path: "Core/Game/Tests"
         ),
         .target(
             name: "SettingsCore",
@@ -225,6 +217,26 @@ let package = Package(
                 "GameUI"
             ],
             path: "UI/Game/Tests"
+        ),
+        .target(
+            name: "MainUI",
+            dependencies: [
+                "SplashUI",
+                "SettingsUI",
+                "HomeUI",
+                "GameUI"
+            ],
+            path: "UI/Main/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin")
+            ]
+        ),
+        .testTarget(
+            name: "MainUITests",
+            dependencies: [
+                "MainUI"
+            ],
+            path: "UI/Main/Tests"
         ),
         .target(
             name: "CardsData",

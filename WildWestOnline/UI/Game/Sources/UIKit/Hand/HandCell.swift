@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import GameCore
 
 class HandCell: UICollectionViewCell {
     // MARK: Outlets
@@ -17,11 +18,13 @@ class HandCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.layer.cornerRadius = 2
+        Task.detached { @MainActor [unowned self] in
+            contentView.layer.cornerRadius = 2
+        }
     }
 
     func update(with item: GameView.State.HandCard) {
-        let cardName = item.card.extractName()
+        let cardName = Card.extractName(from: item.card)
         let cardImage = UIImage(named: cardName, in: Bundle.module, with: .none)
         if let cardImage {
             cardImageView.image = cardImage

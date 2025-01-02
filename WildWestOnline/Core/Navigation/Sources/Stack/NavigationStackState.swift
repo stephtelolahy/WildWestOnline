@@ -5,7 +5,7 @@
 //  Created by Stephano Hugues TELOLAHY on 13/09/2024.
 //
 
-public protocol Destination: Identifiable, Hashable, Codable {}
+public protocol Destination: Identifiable, Hashable, Codable, Sendable {}
 
 public struct NavigationStackState<T: Destination>: Equatable, Codable {
     public var path: [T]

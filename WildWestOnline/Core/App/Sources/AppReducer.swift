@@ -9,13 +9,15 @@ import NavigationCore
 import SettingsCore
 import GameCore
 
-public extension AppState {
-    static let reducer: Reducer<Self> = { state, action in
+public struct AppReducer {
+    public init() {}
+
+    public func reduce(_ state: AppState, _ action: Action) throws -> AppState {
         var state = state
-        state.navigation = try NavigationState.reducer(state.navigation, action)
-        state.settings = try SettingsState.reducer(state.settings, action)
-        state = try gameSetupReducer(state, action)
-        state.game = try state.game.flatMap { try GameState.reducer($0, action) }
+        state.navigation = try NavigationReducer().reduce(state.navigation, action)
+        state.settings = try SettingsReducer().reduce(state.settings, action)
+        state.game = try state.game.flatMap { try GameReducer().reduce($0, action) }
+        state = try GameSetupReducer().reduce(state, action)
         return state
     }
 }

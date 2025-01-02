@@ -9,18 +9,26 @@ import Redux
 import GameCore
 import SettingsCore
 
-extension AppState {
-    static let gameSetupReducer: Reducer<Self> = { state, action in
-        var state = state
+public struct GameSetupReducer {
+    public init() {}
 
+    public func reduce(_ state: AppState, _ action: Action) throws -> AppState {
+        guard let action = action as? GameSetupAction else {
+            return state
+        }
+
+        var state = state
         switch action {
-        case GameSetupAction.setGame(let game):
+        case .setGame(let game):
             state.game = game
 
-        case GameSetupAction.unsetGame:
+        case .unsetGame:
             state.game = nil
 
-        default:
+        case .startGame:
+            break
+
+        case .quitGame:
             break
         }
 

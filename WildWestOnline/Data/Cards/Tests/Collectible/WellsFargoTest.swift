@@ -1,0 +1,34 @@
+//
+//  WellsFargoTest.swift
+//
+//  Created by Hugues Telolahy on 30/10/2024.
+//
+
+import Testing
+import GameCore
+
+struct WellsFargoTest {
+    @Test func play_shouldDraw3Cards() async throws {
+        // Given
+        let state = GameState.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.wellsFargo])
+            }
+            .withPlayer("p2")
+            .withDeck(["c1", "c2", "c3"])
+            .build()
+
+        // When
+        let action = GameAction.play(.wellsFargo, player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .play(.wellsFargo, player: "p1"),
+            .discardPlayed(.wellsFargo, player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1")
+        ])
+    }
+}
