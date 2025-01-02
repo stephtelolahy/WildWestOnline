@@ -25,36 +25,71 @@ struct StoreProjectionTest {
             )
         )
 
-        let viewModel: ViewModel = await store.projection(
-            deriveState: deriveState,
-            embedAction: embedAction
+        let connector = SearchView.Connector()
+        let viewModel: SearchView.ViewModel = await store.projection(
+            deriveState: connector.deriveState,
+            embedAction: connector.embedAction
         )
 
         // When
         await viewModel.dispatch(.didAppear)
 
         // Then
-        await #expect(viewModel.state.content == ["recent"])
+        await #expect(viewModel.state.items == ["recent"])
     }
 }
 
-struct ViewState: Equatable {
-    let content: [String]
-}
+import SwiftUI
 
-enum ViewAction: Sendable {
-    case didAppear
-}
+struct SearchView: View {
+    struct State: Equatable {
+        let items: [String]
+    }
 
-typealias ViewModel = Store<ViewState, ViewAction, Void>
+    enum Action: Sendable {
+        case didAppear
+        case searchTextChanged(String)
+    }
 
-func deriveState(state: AppState) -> ViewState? {
-    .init(content: state.searchResult)
-}
+    typealias ViewModel = Store<State, Action, Void>
+    @ObservedObject var store: ViewModel
+    @SwiftUI.State var query: String = ""
 
-func embedAction(action: ViewAction) -> AppAction {
-    switch action {
-    case .didAppear:
-        .fetchRecent
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(store.state.items, id: \.self) { item in
+                    Text(item)
+                }
+            }
+            .navigationTitle("Search")
+            .searchable(text: $query)
+            .onSubmit(of: .search) {
+                Task {
+                    await store.dispatch(.searchTextChanged(query))
+                }
+            }
+            .task {
+                await store.dispatch(.didAppear)
+            }
+        }
     }
 }
+
+extension SearchView {
+    struct Connector {
+        func deriveState(state: AppState) -> State? {
+            .init(items: state.searchResult)
+        }
+
+        func embedAction(action: Action) -> AppAction {
+            switch action {
+            case .didAppear:
+                .fetchRecent
+            case .searchTextChanged(let text):
+                .search(query: text)
+            }
+        }
+    }
+}
+
