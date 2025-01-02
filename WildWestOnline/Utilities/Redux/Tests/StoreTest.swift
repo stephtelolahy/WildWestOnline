@@ -186,6 +186,6 @@ struct SearchService {
 
 typealias AppStore = Store<AppState, AppAction, AppDependencies>
 
-enum SearchError: Error, Equatable {
+private enum SearchError: Error, Equatable {
     case queryStringshouldNotBeEmpty
 }
