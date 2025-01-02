@@ -9,19 +9,19 @@
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
 private class StoreProjection<
-    DerivedState: Equatable,
-    ExtractedAction: Sendable,
+    ViewState: Equatable,
+    ViewAction: Sendable,
     GlobalState,
     GlobalAction: Sendable,
     Dependencies
->: Store<DerivedState, ExtractedAction, Void> {
+>: Store<ViewState, ViewAction, Void> {
     private let globalStore: Store<GlobalState, GlobalAction, Dependencies>
-    private let embedAction: (ExtractedAction) -> GlobalAction
+    private let embedAction: (ViewAction) -> GlobalAction
 
     init(
         globalStore: Store<GlobalState, GlobalAction, Dependencies>,
-        deriveState: @escaping (GlobalState) -> DerivedState?,
-        embedAction: @escaping (ExtractedAction) -> GlobalAction
+        deriveState: @escaping (GlobalState) -> ViewState?,
+        embedAction: @escaping (ViewAction) -> GlobalAction
     ) {
         guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
@@ -39,17 +39,17 @@ private class StoreProjection<
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: ExtractedAction) async {
+    override func dispatch(_ action: ViewAction) async {
         await globalStore.dispatch(embedAction(action))
     }
 }
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<DerivedState: Equatable, ExtractedAction: Sendable>(
-        deriveState: @escaping (State) -> DerivedState?,
-        embedAction: @escaping (ExtractedAction) -> Action
-    ) -> Store<DerivedState, ExtractedAction, Void> {
+    func projection<ViewState: Equatable, ViewAction: Sendable>(
+        deriveState: @escaping (State) -> ViewState?,
+        embedAction: @escaping (ViewAction) -> Action
+    ) -> Store<ViewState, ViewAction, Void> {
         StoreProjection(
             globalStore: self,
             deriveState: deriveState,

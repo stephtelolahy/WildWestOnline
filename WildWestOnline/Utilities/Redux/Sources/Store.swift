@@ -6,7 +6,7 @@
 import Combine
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
-/// It executes side-effects in response, and eventually dispatch more actions
+/// Also executes side-effects in response, and eventually dispatch more actions
 public typealias Reducer<State, Action, Dependencies> = (inout State, Action, Dependencies) throws -> Effect<Action>
 
 public enum Effect<Action> {
