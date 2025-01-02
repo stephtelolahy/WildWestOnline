@@ -7,6 +7,7 @@
 
 import Redux
 import Testing
+import Combine
 
 struct StoreTest {
     @Test func dispatchActionShouldEmitNewState() async throws {
@@ -24,11 +25,23 @@ struct StoreTest {
             )
         )
 
+        var receivedActions: [AppAction] = []
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            store.eventPublisher
+                .sink { receivedActions.append($0) }
+                .store(in: &cancellables)
+        }
+
         // When
         await store.dispatch(.fetchRecent)
 
         // Then
         await #expect(store.state.searchResult == ["recent"])
+        #expect(receivedActions == [
+            .fetchRecent,
+            .setSearchResults(repos: ["recent"])
+        ])
     }
 }
 
@@ -36,7 +49,7 @@ struct AppState: Equatable {
     var searchResult: [String] = []
 }
 
-enum AppAction {
+enum AppAction: Equatable {
     case setSearchResults(repos: [String])
     case search(query: String)
     case fetchRecent

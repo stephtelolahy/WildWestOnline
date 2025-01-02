@@ -21,6 +21,7 @@ public enum Effect<Action> {
 /// - and publish changes of the the current app `State` to possible subscribers.
 @MainActor public class Store<State, Action: Sendable, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
+    public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
     private let reducer: Reducer<State, Action, Dependencies>
     private let dependencies: Dependencies
 
@@ -32,10 +33,12 @@ public enum Effect<Action> {
         self.state = initialState
         self.reducer = reducer
         self.dependencies = dependencies
+        self.eventPublisher = .init()
     }
 
     public func dispatch(_ action: Action) async {
         let effect = reducer(&state, action, dependencies)
+        eventPublisher.send(action)
         switch effect {
         case .none:
             break
