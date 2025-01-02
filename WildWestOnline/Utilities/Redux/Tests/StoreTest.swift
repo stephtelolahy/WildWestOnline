@@ -71,10 +71,10 @@ struct StoreTest {
 
     typealias AppStore = Store<AppState, AppAction, AppDependencies>
 
-    @Test func createStore() async throws {
+    @Test func dispatchActionShouldEmitNewState() async throws {
         // Given
         let service = SearchService()
-        let store: AppStore = await .init(
+        let store = await AppStore(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
