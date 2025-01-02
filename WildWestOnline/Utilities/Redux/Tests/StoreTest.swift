@@ -20,9 +20,9 @@ struct StoreTest {
         case fetchRecent
     }
 
-    struct AppDependencies : Sendable {
-        var search: @Sendable (String) async throws -> [String]
-        var fetchRecent:  @Sendable () async throws -> [String]
+    struct AppDependencies {
+        var search: (String) async throws -> [String]
+        var fetchRecent: () async throws -> [String]
     }
 
     func appReducer(
