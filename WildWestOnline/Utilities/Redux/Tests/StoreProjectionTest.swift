@@ -41,7 +41,7 @@ struct StoreProjectionTest {
 
 import SwiftUI
 
-struct SearchView: View {
+private struct SearchView: View {
     struct State: Equatable {
         let items: [String]
     }
@@ -76,7 +76,7 @@ struct SearchView: View {
     }
 }
 
-extension SearchView {
+private extension SearchView {
     struct Connector {
         func deriveState(state: AppState) -> State? {
             .init(items: state.searchResult)
