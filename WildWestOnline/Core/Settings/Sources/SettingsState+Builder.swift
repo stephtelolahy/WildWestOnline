@@ -1,17 +1,9 @@
 //
-//  SettingsState.swift
+//  SettingsState+Builder.swift
 //
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
-
-public struct SettingsState: Codable, Equatable {
-    public var playersCount: Int
-    public var actionDelayMilliSeconds: Int
-    public var simulation: Bool
-    public var preferredFigure: String?
-}
-
 public extension SettingsState {
     class Builder {
         private var playersCount: Int = 0

@@ -16,14 +16,15 @@ struct DrawDiscoveredTest {
             .withDiscovered(["c1", "c2"])
             .withDeck(["c1", "c2"])
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.drawDiscovered("c2", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").hand == ["c2"])
-        #expect(result.discovered == ["c1"])
-        #expect(result.deck == ["c1"])
+        await #expect(sut.state.players.get("p1").hand == ["c2"])
+        await #expect(sut.state.discovered == ["c1"])
+        await #expect(sut.state.deck == ["c1"])
     }
 }

@@ -8,45 +8,52 @@
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalState>, @unchecked Sendable {
-    private let globalStore: Store<GlobalState>
-    private let deriveState: (GlobalState) -> LocalState?
+private class StoreProjection<
+    ViewState: Equatable,
+    ViewAction: Sendable,
+    GlobalState,
+    GlobalAction: Sendable,
+    Dependencies
+>: Store<ViewState, ViewAction, Void> {
+    private let globalStore: Store<GlobalState, GlobalAction, Dependencies>
+    private let embedAction: (ViewAction) -> GlobalAction
 
     init(
-        globalStore: Store<GlobalState>,
-        deriveState: @escaping (GlobalState) -> LocalState?
+        globalStore: Store<GlobalState, GlobalAction, Dependencies>,
+        deriveState: @escaping (GlobalState) -> ViewState?,
+        embedAction: @escaping (ViewAction) -> GlobalAction
     ) {
         guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
         }
 
         self.globalStore = globalStore
-        self.deriveState = deriveState
-        super.init(initial: initialState)
-        self.eventPublisher = globalStore.eventPublisher
+        self.embedAction = embedAction
+        super.init(initialState: initialState, dependencies: ())
         self.errorPublisher = globalStore.errorPublisher
 
         globalStore.$state
-            .map(self.deriveState)
+            .map(deriveState)
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: Action) {
-        globalStore.dispatch(action)
+    override func dispatch(_ action: ViewAction) async {
+        await globalStore.dispatch(embedAction(action))
     }
 }
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(_ deriveState: @escaping (State) -> LocalState?) -> Store<LocalState> {
+    func projection<ViewState: Equatable, ViewAction: Sendable>(
+        deriveState: @escaping (State) -> ViewState?,
+        embedAction: @escaping (ViewAction) -> Action
+    ) -> Store<ViewState, ViewAction, Void> {
         StoreProjection(
             globalStore: self,
-            deriveState: deriveState
+            deriveState: deriveState,
+            embedAction: embedAction
         )
     }
 }
-
-/// A function to extract ViewState from global AppState
-public typealias Presenter<GlobalState, LocalState: Equatable> = @Sendable (GlobalState) -> LocalState?

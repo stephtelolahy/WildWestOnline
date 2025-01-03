@@ -5,6 +5,19 @@
 //
 import Redux
 
+public func gameReducer(
+    state: inout GameState,
+    action: GameAction,
+    dependencies: Void
+) throws -> Effect<GameAction> {
+    // TODO: prepare action
+    // TODO: update state
+    // TODO: queue effects
+    // TODO: run AI moves
+    .none
+}
+
+/*
 public struct GameReducer {
     public init() {}
 
@@ -49,3 +62,4 @@ public struct GameReducer {
         }
     }
 }
+*/

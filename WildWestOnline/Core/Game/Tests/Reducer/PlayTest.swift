@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct PlayTest {
     @Test func play_shouldNotDiscard() async throws {
@@ -17,14 +18,15 @@ struct PlayTest {
             }
             .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").hand == ["c1"])
-        #expect(result.discard.isEmpty)
+        await #expect(sut.state.players.get("p1").hand == ["c1"])
+        await #expect(sut.state.discard.isEmpty)
     }
 
     @Test func play_firstTime_shouldSetPlayedThisTurn() async throws {
@@ -35,13 +37,14 @@ struct PlayTest {
             }
             .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.playedThisTurn["c1"] == 1)
+        await #expect(sut.state.playedThisTurn["c1"] == 1)
     }
 
     @Test func play_secondTime_shouldIncrementPlayedThisTurn() async throws {
@@ -53,13 +56,14 @@ struct PlayTest {
             .withCards(["c1": Card(name: "c1", onPlay: [.init(action: .drawDeck)])])
             .withPlayedThisTurn(["c1": 1])
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.playedThisTurn["c1"] == 2)
+        await #expect(sut.state.playedThisTurn["c1"] == 2)
     }
 
     @Test func play_shouldQueueEffectsOfMatchingCardName() async throws {
@@ -70,13 +74,14 @@ struct PlayTest {
             }
             .withCards(["c": Card(name: "c", onPlay: [.init(action: .drawDeck)])])
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.play("c-2❤️", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.queue.count == 1)
+        await #expect(sut.state.queue.count == 1)
     }
 
     @Test func play_withoutEffects_shouldThrowError() async throws {
@@ -87,12 +92,23 @@ struct PlayTest {
             }
             .withCards(["c1": Card(name: "c1")])
             .build()
+        let sut = await createGameStore(initialState: state)
+
+        var receivedErrors: [Error] = []
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            sut.errorPublisher
+                .sink { receivedErrors.append($0) }
+                .store(in: &cancellables)
+        }
 
         // When
-        // Assert
         let action = GameAction.play("c1", player: "p1")
-        #expect(throws: GameError.cardNotPlayable("c1")) {
-            try GameReducer().reduce(state, action)
-        }
+        await sut.dispatch(action)
+
+        // Assert
+        #expect(receivedErrors as? [GameError] == [
+            .cardNotPlayable("c1")
+        ])
     }
 }

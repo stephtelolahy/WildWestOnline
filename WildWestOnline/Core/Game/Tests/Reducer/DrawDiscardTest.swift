@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct DrawDiscardTest {
     @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
@@ -15,14 +16,15 @@ struct DrawDiscardTest {
             .withPlayer("p1")
             .withDiscard(["c1", "c2"])
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.drawDiscard(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").hand == ["c1"])
-        #expect(result.discard == ["c2"])
+        await #expect(sut.state.players.get("p1").hand == ["c1"])
+        await #expect(sut.state.discard == ["c2"])
     }
 
     @Test func drawDiscard_whitEmptyDiscard_shouldThrowError() async throws {
@@ -30,12 +32,23 @@ struct DrawDiscardTest {
         let state = GameState.makeBuilder()
             .withPlayer("p1")
             .build()
+        let sut = await createGameStore(initialState: state)
+
+        var receivedErrors: [Error] = []
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            sut.errorPublisher
+                .sink { receivedErrors.append($0) }
+                .store(in: &cancellables)
+        }
 
         // When
-        // Then
         let action = GameAction.drawDiscard(player: "p1")
-        #expect(throws: GameError.insufficientDiscard) {
-            try GameReducer().reduce(state, action)
-        }
+        await sut.dispatch(action)
+
+        // Then
+        #expect(receivedErrors as? [GameError] == [
+            .insufficientDiscard
+        ])
     }
 }
