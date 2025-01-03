@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct HealTest {
     @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
@@ -17,13 +18,14 @@ struct HealTest {
                     .withMaxHealth(4)
             }
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.heal(1, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").health == 3)
+        await #expect(sut.state.players.get("p1").health == 3)
     }
 
     @Test func heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() async throws {
@@ -34,13 +36,14 @@ struct HealTest {
                     .withMaxHealth(4)
             }
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.heal(2, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").health == 4)
+        await #expect(sut.state.players.get("p1").health == 4)
     }
 
     @Test func heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() async throws {
@@ -51,13 +54,14 @@ struct HealTest {
                     .withMaxHealth(4)
             }
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.heal(3, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").health == 4)
+        await #expect(sut.state.players.get("p1").health == 4)
     }
 
     @Test func heal_alreadyMaxHealth_shouldThrowError() async throws {
@@ -68,12 +72,23 @@ struct HealTest {
                     .withMaxHealth(4)
             }
             .build()
+        let sut = await createGameStore(initialState: state)
+
+        var receivedErrors: [Error] = []
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            sut.errorPublisher
+                .sink { receivedErrors.append($0) }
+                .store(in: &cancellables)
+        }
 
         // When
-        // Then
         let action = GameAction.heal(1, player: "p1")
-        #expect(throws: GameError.playerAlreadyMaxHealth("p1")) {
-            try GameReducer().reduce(state, action)
-        }
+        await sut.dispatch(action)
+
+        // Then
+        #expect(receivedErrors as? [GameError] == [
+            .playerAlreadyMaxHealth("p1")
+        ])
     }
 }

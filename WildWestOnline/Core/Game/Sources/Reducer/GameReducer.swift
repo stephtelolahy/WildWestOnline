@@ -5,6 +5,16 @@
 //
 import Redux
 
+public func gameReducer(
+    state: inout GameState,
+    action: GameAction,
+    dependencies: Void
+) throws -> Effect<GameAction> {
+
+    .none
+}
+
+/*
 public struct GameReducer {
     public init() {}
 
@@ -49,3 +59,4 @@ public struct GameReducer {
         }
     }
 }
+*/

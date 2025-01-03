@@ -16,13 +16,14 @@ struct DiscardPlayedTest {
                 $0.withHand(["c1", "c2"])
             }
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.discardPlayed("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        #expect(result.players.get("p1").hand == ["c2"])
-        #expect(result.discard == ["c1"])
+        await #expect(sut.state.players.get("p1").hand == ["c2"])
+        await #expect(sut.state.discard == ["c1"])
     }
 }

@@ -5,7 +5,7 @@
 //
 // swiftlint:disable discouraged_optional_collection
 import Redux
-
+/*
 /// Game loop features
 public extension Middlewares {
     static var updateGame: Middleware<GameState> {
@@ -219,3 +219,4 @@ private extension GameAction {
         }
     }
 }
+*/

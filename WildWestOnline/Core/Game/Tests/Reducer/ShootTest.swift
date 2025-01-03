@@ -15,13 +15,14 @@ struct ShootTest {
             .withPlayer("p1")
             .withPlayer("p2")
             .build()
+        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.shoot("p2", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        await sut.dispatch(action)
 
         // Then
-        let pending = try #require(result.queue.first)
+        let pending = try await #require(sut.state.queue.first)
         #expect(pending.kind == .damage)
         #expect(pending.payload.target == "p2")
         #expect(pending.payload.amount == 1)
