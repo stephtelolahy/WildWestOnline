@@ -25,12 +25,12 @@ func gameSetupReducer(
     switch action {
     case .startGame:
         return .none
-        
-    case .quitGame:
-        return .none
-        
+
     case .setGame(let game):
         state.game = game
+
+    case .quitGame:
+        return .none
 
     case .unsetGame:
         state.game = nil

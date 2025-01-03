@@ -32,7 +32,7 @@ public struct AppState: Codable, Equatable {
     }
 }
 
-public enum AppAction {
+public enum AppAction: Sendable {
     case navigation(NavigationAction)
     case settings(SettingsAction)
     case game(GameAction)

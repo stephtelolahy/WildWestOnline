@@ -10,7 +10,6 @@ import GameCore
 import Redux
 import SettingsCore
 import Testing
-import XCTest
 
 struct AppCoreTest {
     @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
@@ -20,24 +19,15 @@ struct AppCoreTest {
             settings: SettingsState.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
-        let sut = Store<AppState>(
-            initial: state,
-            reducer: AppReducer().reduce,
-            middlewares: [Middlewares.setupGame]
-        )
-
-        let expectation = XCTestExpectation(description: "Awaiting store idle")
-        expectation.isInverted = true
+        let sut = await createAppStore(initialState: state)
 
         // When
         let action = GameSetupAction.startGame
-        sut.dispatch(action)
+        await sut.dispatch(action)
 
         // Then
-        let waiter = XCTWaiter()
-        await waiter.fulfillment(of: [expectation], timeout: 0.1)
-        #expect(sut.state.navigation.main.path == [.home, .game])
-        #expect(sut.state.game != nil)
+        await #expect(sut.state.navigation.main.path == [.home, .game])
+        await #expect(sut.state.game != nil)
     }
 
     @Test func app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() async throws {
@@ -48,23 +38,24 @@ struct AppCoreTest {
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
-        let sut = Store<AppState>(
-            initial: state,
-            reducer: AppReducer().reduce,
-            middlewares: [Middlewares.setupGame]
-        )
-
-        let expectation = XCTestExpectation(description: "Awaiting store idle")
-        expectation.isInverted = true
+        let sut = await createAppStore(initialState: state)
 
         // When
         let action = GameSetupAction.quitGame
-        sut.dispatch(action)
+        await sut.dispatch(action)
 
         // Then
-        let waiter = XCTWaiter()
-        await waiter.fulfillment(of: [expectation], timeout: 0.1)
-        #expect(sut.state.navigation.main.path == [.home])
-        #expect(sut.state.game == nil)
+        await #expect(sut.state.navigation.main.path == [.home])
+        await #expect(sut.state.game == nil)
     }
+}
+
+private typealias AppStore = Store<AppState, AppAction, Void>
+
+@MainActor private func createAppStore(initialState: AppState) -> AppStore {
+    .init(
+        initialState: initialState,
+        reducer: appReducer,
+        dependencies: ()
+    )
 }
