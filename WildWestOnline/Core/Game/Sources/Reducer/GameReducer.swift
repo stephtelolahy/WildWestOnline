@@ -10,7 +10,10 @@ public func gameReducer(
     action: GameAction,
     dependencies: Void
 ) throws -> Effect<GameAction> {
-
+    // TODO: prepare action
+    // TODO: update state
+    // TODO: queue effects
+    // TODO: run AI moves
     .none
 }
 
