@@ -5,16 +5,16 @@
 //  Created by Stephano Hugues TELOLAHY on 09/09/2024.
 //
 
-import Redux
 import SwiftUI
+import Redux
 
 public struct NavigationStackView<T: Destination, RootView: View, DestinationView: View>: View {
-    @StateObject private var store: Store<NavigationStackState<T>>
+    @StateObject private var store: Store<NavigationStackState<T>, NavigationStackAction<T>, Void>
     private let root: () -> RootView
     private let destination: (T) -> DestinationView
 
     public init(
-        store: @escaping () -> Store<NavigationStackState<T>>,
+        store: @escaping () -> Store<NavigationStackState<T>, NavigationStackAction<T>, Void>,
         @ViewBuilder root: @escaping () -> RootView,
         @ViewBuilder destination: @escaping (T) -> DestinationView
     ) {
@@ -29,7 +29,10 @@ public struct NavigationStackView<T: Destination, RootView: View, DestinationVie
         NavigationStack(
             path: Binding<[T]>(
                 get: { store.state.path },
-                set: { store.dispatch(NavigationStackAction<T>.setPath($0)) }
+                set: { _ in
+                    fatalError("unimpelmented")
+//                    await store.dispatch(.setPath($0))
+                }
             )
         ) {
             root()
@@ -45,11 +48,5 @@ public struct NavigationStackView<T: Destination, RootView: View, DestinationVie
                     destination($0)
                 }
         }
-    }
-}
-
-public extension View {
-    func eraseToAnyView() -> AnyView {
-        AnyView(self)
     }
 }
