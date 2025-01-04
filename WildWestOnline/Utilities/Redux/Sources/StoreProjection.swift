@@ -14,7 +14,7 @@ private class StoreProjection<
     Dependencies
 >: Store<LocalState, Void> {
     private let globalStore: Store<GlobalState, Dependencies>
-    
+
     init(
         globalStore: Store<GlobalState, Dependencies>,
         deriveState: @escaping (GlobalState) -> LocalState?
@@ -22,18 +22,18 @@ private class StoreProjection<
         guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
         }
-        
+
         self.globalStore = globalStore
         super.init(initialState: initialState, dependencies: ())
         self.errorPublisher = globalStore.errorPublisher
-        
+
         globalStore.$state
             .map(deriveState)
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
     }
-    
+
     override func dispatch(_ action: Action) async {
         await globalStore.dispatch(action)
     }
