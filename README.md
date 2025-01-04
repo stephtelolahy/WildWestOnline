@@ -15,7 +15,8 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - [x] Game DSL
 - [x] Serializable game object
 - [x] Composable rules
-- [ ] Support classic Bang! and extensions
+- [ ] Support classic Bang!
+- [ ] Support extensions
 - [ ] Replay
 - [ ] Hot reload
 - [ ] Multiplayer online
@@ -24,11 +25,10 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 
 - **Game**: Global metaclass which contains all elements in a game.
 - **Player**: Players who are participating in a game.
-- **Rule**: Rules define the constraints of a game. Rules are either game-wide, or specific to one card.
 - **Card**: Cards that are used in a game. Cards can have multiple properties, define additional rules, have actions that can be played and have side effects that happen when they are being played.
 - **Action**: Any action changing the game state. It can be performed by the user or by the system.
 - **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
-- **Option**: a choice that have to be taken by player when resolving sequence
+- **Selector**: Selectors are used to specify which objects an effect should affect.
 
 ![](Docs/metamodel.png)
 
@@ -56,13 +56,13 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - New state can be set only by dispatching an action to store.
 - New state can be calculated only by reducer which is a pure function.
 - Store notifies subscribers by broadcasting a new state.
-- Each side-effect is implemented into different middleware. You can then easily enable or disable some features.
+- Each side-effect is implemented as asynchronous action. You can then easily enable or disable some features.
 
 ![](Docs/redux.png)
 
 #### Store projection
 The app should have a single real Store, holding a single source-of-truth. 
-However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each screen. So we can map back-and-forth to the original store types.
+However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each Screen. So we can map back-and-forth to the original store types.
 
 ### Sequence diagram
 
