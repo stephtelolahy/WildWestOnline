@@ -9,15 +9,15 @@
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
 private class StoreProjection<
-    ViewState: Equatable,
+    LocalState: Equatable,
     GlobalState,
     Dependencies
->: Store<ViewState, Void> {
+>: Store<LocalState, Void> {
     private let globalStore: Store<GlobalState, Dependencies>
     
     init(
         globalStore: Store<GlobalState, Dependencies>,
-        deriveState: @escaping (GlobalState) -> ViewState?
+        deriveState: @escaping (GlobalState) -> LocalState?
     ) {
         guard let initialState = deriveState(globalStore.state) else {
             fatalError("failed mapping to local state")
@@ -41,7 +41,7 @@ private class StoreProjection<
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<ViewState: Equatable>(deriveState: @escaping (State) -> ViewState?) -> Store<ViewState, Void> {
+    func projection<LocalState: Equatable>(deriveState: @escaping (State) -> LocalState?) -> Store<LocalState, Void> {
         StoreProjection(globalStore: self, deriveState: deriveState)
     }
 }
