@@ -24,16 +24,13 @@ struct StoreProjectionTest {
                 fetchRecent: service.fetchRecent
             )
         )
-
+        
         let connector = SearchView.Connector()
-        let sut: SearchView.ViewModel = await store.projection(
-            deriveState: connector.deriveState,
-            embedAction: connector.embedAction
-        )
-
+        let sut: SearchView.ViewModel = await store.projection(deriveState: connector.deriveState)
+        
         // When
-        await sut.dispatch(.didAppear)
-
+        await sut.dispatch(AppAction.fetchRecent)
+        
         // Then
         await #expect(sut.state.items == ["recent"])
     }
@@ -45,16 +42,11 @@ private struct SearchView: View {
     struct State: Equatable {
         let items: [String]
     }
-
-    enum Action: Sendable {
-        case didAppear
-        case searchTextChanged(String)
-    }
-
-    typealias ViewModel = Store<State, Action, Void>
+    
+    typealias ViewModel = Store<State, Void>
     @ObservedObject var store: ViewModel
     @SwiftUI.State var query: String = ""
-
+    
     var body: some View {
         NavigationView {
             List {
@@ -66,11 +58,11 @@ private struct SearchView: View {
             .searchable(text: $query)
             .onSubmit(of: .search) {
                 Task {
-                    await store.dispatch(.searchTextChanged(query))
+                    await store.dispatch(AppAction.search(query: query))
                 }
             }
             .task {
-                await store.dispatch(.didAppear)
+                await store.dispatch(AppAction.fetchRecent)
             }
         }
     }
@@ -80,15 +72,6 @@ private extension SearchView {
     struct Connector {
         func deriveState(state: AppState) -> State? {
             .init(items: state.searchResult)
-        }
-
-        func embedAction(action: Action) -> AppAction {
-            switch action {
-            case .didAppear:
-                .fetchRecent
-            case .searchTextChanged(let text):
-                .search(query: text)
-            }
         }
     }
 }

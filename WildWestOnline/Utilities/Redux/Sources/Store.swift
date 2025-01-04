@@ -5,11 +5,17 @@
 //
 import Combine
 
+/// ``Action`` is a plain object that describes what happened.
+/// To change something in the state, you need to dispatch an action.
+/// Common protocol to which all actions conform.
+///
+public protocol Action: Sendable {}
+
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 /// Also executes side-effects in response, and eventually dispatch more actions
-public typealias Reducer<State, Action, Dependencies> = (inout State, Action, Dependencies) throws -> Effect<Action>
+public typealias Reducer<State, Dependencies> = (inout State, Action, Dependencies) throws -> Effect
 
-public enum Effect<Action> {
+public enum Effect {
     case none
     case publisher(AnyPublisher<Action, Never>)
     case run(() async -> Action)
@@ -19,17 +25,17 @@ public enum Effect<Action> {
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-@MainActor public class Store<State, Action: Sendable, Dependencies>: ObservableObject {
+@MainActor public class Store<State, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
     public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
-
-    private let reducer: Reducer<State, Action, Dependencies>
+    
+    private let reducer: Reducer<State, Dependencies>
     private let dependencies: Dependencies
-
+    
     public init(
         initialState: State,
-        reducer: @escaping Reducer<State, Action, Dependencies> = { _, _, _ in .none },
+        reducer: @escaping Reducer<State, Dependencies> = { _, _, _ in .none },
         dependencies: Dependencies
     ) {
         self.state = initialState
@@ -38,7 +44,7 @@ public enum Effect<Action> {
         self.eventPublisher = .init()
         self.errorPublisher = .init()
     }
-
+    
     public func dispatch(_ action: Action) async {
         do {
             let effect = try reducer(&state, action, dependencies)
@@ -46,12 +52,12 @@ public enum Effect<Action> {
             switch effect {
             case .none:
                 break
-
+                
             case .publisher(let publisher):
                 for await result in publisher.values {
                     await dispatch(result)
                 }
-
+                
             case .run(let asyncWork):
                 let result = await asyncWork()
                 await dispatch(result)
