@@ -50,7 +50,7 @@ struct SettingsCoreTests {
     }
 }
 
-private typealias SettingsStore = Store<SettingsState, SettingsAction, SettingsDependencies>
+private typealias SettingsStore = Store<SettingsState, SettingsDependencies>
 
 @MainActor private func createSettingsStore(initialState: SettingsState) -> SettingsStore {
     .init(

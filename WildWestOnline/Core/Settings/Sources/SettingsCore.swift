@@ -13,7 +13,7 @@ public struct SettingsState: Codable, Equatable, Sendable {
     public var preferredFigure: String?
 }
 
-public enum SettingsAction: Sendable {
+public enum SettingsAction: Action {
     case updatePlayersCount(Int)
     case updateActionDelayMilliSeconds(Int)
     case toggleSimulation
@@ -41,9 +41,13 @@ public struct SettingsDependencies {
 
 public func settingsReducer(
     state: inout SettingsState,
-    action: SettingsAction,
+    action: Action,
     dependencies: SettingsDependencies
-) throws -> Effect<SettingsAction> {
+) throws -> Effect {
+    guard let action = action as? SettingsAction else {
+        return .none
+    }
+
     switch action {
     case .updatePlayersCount(let value):
         state.playersCount = value
