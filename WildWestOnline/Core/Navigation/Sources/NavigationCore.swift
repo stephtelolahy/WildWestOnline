@@ -42,7 +42,8 @@ public func navigationReducer(
     action: Action,
     dependencies: Void
 ) throws -> Effect {
-    _ = navigationStackReducer(state: &state.main, action: action, dependencies: ())
-    _ = navigationStackReducer(state: &state.settings, action: action, dependencies: ())
-    return .none
+    .group([
+        navigationStackReducer(state: &state.main, action: action, dependencies: ()),
+        navigationStackReducer(state: &state.settings, action: action, dependencies: ())
+    ])
 }

@@ -22,7 +22,7 @@ struct AppCoreTest {
         let sut = await createAppStore(initialState: state)
 
         // When
-        let action = GameSetupAction.startGame
+        let action = SetupGameAction.startGame
         await sut.dispatch(action)
 
         // Then
@@ -41,7 +41,7 @@ struct AppCoreTest {
         let sut = await createAppStore(initialState: state)
 
         // When
-        let action = GameSetupAction.quitGame
+        let action = SetupGameAction.quitGame
         await sut.dispatch(action)
 
         // Then
@@ -50,12 +50,19 @@ struct AppCoreTest {
     }
 }
 
-private typealias AppStore = Store<AppState, AppAction, Void>
+private typealias AppStore = Store<AppState, AppDependencies>
 
 @MainActor private func createAppStore(initialState: AppState) -> AppStore {
     .init(
         initialState: initialState,
         reducer: appReducer,
-        dependencies: ()
+        dependencies: .init(
+            settings: .init(
+                setPlayersCount: { _ in },
+                setActionDelayMilliSeconds: { _ in },
+                setSimulationEnabled: { _ in },
+                setPreferredFigure: { _ in }
+            )
+        )
     )
 }

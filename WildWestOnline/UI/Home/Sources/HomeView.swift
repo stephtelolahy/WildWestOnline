@@ -51,7 +51,7 @@ struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     withAnimation {
-                        store.dispatch(GameSetupAction.startGame)
+                        store.dispatch(SetupGameAction.startGame)
                     }
                 }
                 mainButton("menu.settings.button") {

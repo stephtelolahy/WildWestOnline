@@ -19,6 +19,7 @@ public enum Effect {
     case none
     case publisher(AnyPublisher<Action, Never>)
     case run(() async -> Action)
+    case group([Effect])
 }
 
 /// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.
@@ -49,21 +50,30 @@ public enum Effect {
         do {
             let effect = try reducer(&state, action, dependencies)
             eventPublisher.send(action)
-            switch effect {
-            case .none:
-                break
-                
-            case .publisher(let publisher):
-                for await result in publisher.values {
-                    await dispatch(result)
-                }
-                
-            case .run(let asyncWork):
-                let result = await asyncWork()
-                await dispatch(result)
-            }
+            await runEffect(effect)
         } catch {
             errorPublisher.send(error)
+        }
+    }
+
+    private func runEffect(_ effect: Effect) async {
+        switch effect {
+        case .none:
+            return
+
+        case .publisher(let publisher):
+            for await result in publisher.values {
+                await dispatch(result)
+            }
+
+        case .run(let asyncWork):
+            let result = await asyncWork()
+            await dispatch(result)
+
+        case .group(let effects):
+            for subEffect in effects {
+                await runEffect(subEffect)
+            }
         }
     }
 }

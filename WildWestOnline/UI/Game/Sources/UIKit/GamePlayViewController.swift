@@ -71,7 +71,7 @@ class GamePlayViewController: UIViewController {
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
-        store.dispatch(GameSetupAction.quitGame)
+        store.dispatch(SetupGameAction.quitGame)
     }
 }
 

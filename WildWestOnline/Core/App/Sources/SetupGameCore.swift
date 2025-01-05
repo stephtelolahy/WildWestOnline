@@ -1,5 +1,5 @@
 //
-//  GameSetupCore.swift
+//  SetupGameCore.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
@@ -10,19 +10,19 @@ import GameCore
 import SettingsCore
 import NavigationCore
 
-public enum GameSetupAction: Action {
+public enum SetupGameAction: Action {
     case startGame
     case quitGame
     case setGame(GameState)
     case unsetGame
 }
 
-func gameSetupReducer(
+func setupGameReducer(
     state: inout AppState,
     action: Action,
     dependencies: Void
 ) throws -> Effect {
-    guard let action = action as? GameSetupAction else {
+    guard let action = action as? SetupGameAction else {
         return .none
     }
 

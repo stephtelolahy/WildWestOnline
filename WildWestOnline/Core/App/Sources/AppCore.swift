@@ -34,6 +34,10 @@ public struct AppState: Codable, Equatable {
 
 public struct AppDependencies {
     let settings: SettingsDependencies
+
+    public init(settings: SettingsDependencies) {
+        self.settings = settings
+    }
 }
 
 public func appReducer(
@@ -41,10 +45,18 @@ public func appReducer(
     action: Action,
     dependencies: AppDependencies
 ) throws -> Effect {
-    _ = try navigationReducer(state: &state.navigation, action: action, dependencies: ())
-    _ = try settingsReducer(state: &state.settings, action: action, dependencies: dependencies.settings)
-    _ = try gameReducer(state: &state.game, action: action, dependencies: ())
-    _ = try gameSetupReducer(state: &state, action: action, dependencies: ())
+    .group([
+        try navigationReducer(state: &state.navigation, action: action, dependencies: ()),
+        try settingsReducer(state: &state.settings, action: action, dependencies: dependencies.settings),
+        try setupGameReducer(state: &state, action: action, dependencies: ()),
+        try currentGameReducer(state: &state, action: action, dependencies: ())
+    ])
+}
 
-    return .none
+private func currentGameReducer(state: inout AppState, action: Action, dependencies: Void) throws -> Effect {
+    guard state.game != nil else {
+        return .none
+    }
+
+    return try gameReducer(state: &state.game!, action: action, dependencies: ())
 }
