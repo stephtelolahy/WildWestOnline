@@ -32,29 +32,19 @@ public struct AppState: Codable, Equatable {
     }
 }
 
-public enum AppAction: Sendable {
-    case navigation(NavigationAction)
-    case settings(SettingsAction)
-    case game(GameAction)
-    case setup(GameSetupAction)
+public struct AppDependencies {
+    let settings: SettingsDependencies
 }
 
 public func appReducer(
     state: inout AppState,
-    action: AppAction,
-    dependencies: Void
-) throws -> Effect<AppAction> {
-    switch action {
-    case .navigation(let navigationAction):
-        return try navigationReducer(state: &state.navigation, action: navigationAction, dependencies: ())
+    action: Action,
+    dependencies: AppDependencies
+) throws -> Effect {
+    _ = try navigationReducer(state: &state.navigation, action: action, dependencies: ())
+    _ = try settingsReducer(state: &state.settings, action: action, dependencies: dependencies.settings)
+    _ = try gameReducer(state: &state.game, action: action, dependencies: ())
+    _ = try gameSetupReducer(state: &state, action: action, dependencies: ())
 
-    case .settings(let settingsAction):
-        return try settingsReducer(state: &state.settings, action: settingsAction, dependencies: ())
-
-    case .game(let gameAction):
-        return try gameReducer(state: &state.game, action: gameAction, dependencies: ())
-
-    case .setup(let setupAction):
-        return try gameSetupReducer(state: &state, action: setupAction, dependencies: ())
-    }
+    return .none
 }

@@ -41,7 +41,7 @@ public func navigationReducer(
     state: inout NavigationState,
     action: Action,
     dependencies: Void
-) -> Effect {
+) throws -> Effect {
     _ = navigationStackReducer(state: &state.main, action: action, dependencies: ())
     _ = navigationStackReducer(state: &state.settings, action: action, dependencies: ())
     return .none

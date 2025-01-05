@@ -10,7 +10,7 @@ import GameCore
 import SettingsCore
 import NavigationCore
 
-public enum GameSetupAction: Sendable {
+public enum GameSetupAction: Action {
     case startGame
     case quitGame
     case setGame(GameState)
@@ -19,9 +19,13 @@ public enum GameSetupAction: Sendable {
 
 func gameSetupReducer(
     state: inout AppState,
-    action: GameSetupAction,
+    action: Action,
     dependencies: Void
-) throws -> Effect<GameSetupAction> {
+) throws -> Effect {
+    guard let action = action as? GameSetupAction else {
+        return .none
+    }
+
     switch action {
     case .startGame:
         return .none
