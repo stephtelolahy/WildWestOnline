@@ -19,11 +19,6 @@ public struct NavigationState: Equatable, Codable, Sendable {
     }
 }
 
-public enum NavigationAction: Sendable {
-    case main(NavigationStackAction<MainDestination>)
-    case settings(NavigationStackAction<SettingsDestination>)
-}
-
 public enum MainDestination: String, Destination {
     case home
     case game
@@ -44,24 +39,10 @@ public enum SettingsDestination: String, Destination {
 
 public func navigationReducer(
     state: inout NavigationState,
-    action: NavigationAction,
+    action: Action,
     dependencies: Void
-) -> Effect<NavigationAction> {
-    switch action {
-    case .main(let mainAction):
-        _ = navigationStackReducer(
-            state: &state.main,
-            action: mainAction,
-            dependencies: ()
-        )
-
-    case .settings(let settingsAction):
-        _ = navigationStackReducer(
-            state: &state.settings,
-            action: settingsAction,
-            dependencies: ()
-        )
-    }
-
+) -> Effect {
+    _ = navigationStackReducer(state: &state.main, action: action, dependencies: ())
+    _ = navigationStackReducer(state: &state.settings, action: action, dependencies: ())
     return .none
 }

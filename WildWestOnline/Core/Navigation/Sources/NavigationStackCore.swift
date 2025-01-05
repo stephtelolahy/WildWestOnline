@@ -18,7 +18,7 @@ public struct NavigationStackState<T: Destination>: Equatable, Codable, Sendable
     }
 }
 
-public enum NavigationStackAction<T: Destination>: Sendable {
+public enum NavigationStackAction<T: Destination>: Action {
     case push(T)
     case pop
     case setPath([T])
@@ -28,9 +28,13 @@ public enum NavigationStackAction<T: Destination>: Sendable {
 
 public func navigationStackReducer<T: Destination>(
     state: inout NavigationStackState<T>,
-    action: NavigationStackAction<T>,
+    action: Action,
     dependencies: Void
-) -> Effect<NavigationStackState<T>> {
+) -> Effect {
+    guard let action = action as? NavigationStackAction<T> else {
+        return .none
+    }
+
     switch action {
     case .push(let page):
         state.path.append(page)
