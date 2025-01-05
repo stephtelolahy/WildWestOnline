@@ -4,7 +4,7 @@
 //  Created by Hugues Telolahy on 28/12/2024.
 //
 
-public struct Inventory: Codable, Equatable {
+public struct Inventory: Codable, Equatable, Sendable {
     public let cards: [String: Card]
     public let figures: [String]
     public let cardSets: [String: [String]]

@@ -13,7 +13,7 @@ import GameCore
 /// Global app state
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
-public struct AppState: Codable, Equatable {
+public struct AppState: Codable, Equatable, Sendable {
     public var navigation: NavigationState
     public var settings: SettingsState
     public let inventory: Inventory
