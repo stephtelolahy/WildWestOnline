@@ -7,7 +7,7 @@
 import Redux
 import GameCore
 
-typealias GameStore = Store<GameState, GameAction, Void>
+typealias GameStore = Store<GameState, Void>
 
 @MainActor func createGameStore(initialState: GameState) -> GameStore {
     .init(

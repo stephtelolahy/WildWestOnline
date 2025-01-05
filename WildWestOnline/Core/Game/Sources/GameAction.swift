@@ -5,7 +5,7 @@
 //
 import Redux
 
-public struct GameAction: Equatable, Codable, Sendable {
+public struct GameAction: Action, Equatable, Codable {
     public var kind: Kind
     public var payload: Payload
 
