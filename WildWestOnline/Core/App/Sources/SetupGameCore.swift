@@ -25,27 +25,24 @@ func setupGameReducer(
     guard let action = action as? SetupGameAction else {
         return .none
     }
-
+    
     switch action {
     case .startGame:
-        let state = state
+        let settings = state.settings
+        let inventory = state.inventory
         return .group([
             .run {
-                SetupGameAction.setGame(
-                    AppState.createGame(
-                        settings: state.settings,
-                        inventory: state.inventory
-                    )
-                )
+                let newGame = createGame(settings: settings, inventory: inventory)
+                return SetupGameAction.setGame(newGame)
             },
             .run {
                 NavigationStackAction<MainDestination>.push(.game)
             }
         ])
-
+        
     case .setGame(let game):
         state.game = game
-
+        
     case .quitGame:
         return .group([
             .run {
@@ -55,29 +52,27 @@ func setupGameReducer(
                 NavigationStackAction<MainDestination>.pop
             }
         ])
-
+        
     case .unsetGame:
         state.game = nil
     }
-
+    
     return .none
 }
 
-private extension AppState {
-    static func createGame(settings: SettingsState, inventory: Inventory) -> GameState {
-        var game = Setup.buildGame(
-            playersCount: settings.playersCount,
-            inventory: inventory,
-            preferredFigure: settings.preferredFigure
-        )
-
-        let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
-        game.playMode = game.playOrder.reduce(into: [:]) {
-            $0[$1] = $1 == manualPlayer ? .manual : .auto
-        }
-
-        game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
-
-        return game
+private func createGame(settings: SettingsState, inventory: Inventory) -> GameState {
+    var game = Setup.buildGame(
+        playersCount: settings.playersCount,
+        inventory: inventory,
+        preferredFigure: settings.preferredFigure
+    )
+    
+    let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
+    game.playMode = game.playOrder.reduce(into: [:]) {
+        $0[$1] = $1 == manualPlayer ? .manual : .auto
     }
+    
+    game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
+    
+    return game
 }
