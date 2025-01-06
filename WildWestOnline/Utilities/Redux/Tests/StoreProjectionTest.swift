@@ -26,7 +26,7 @@ struct StoreProjectionTest {
         )
         
         let connector = SearchView.Connector()
-        let sut: SearchView.ViewModel = await store.projection(deriveState: connector.deriveState)
+        let sut = await store.projection(deriveState: connector.deriveState)
         
         // When
         await sut.dispatch(AppAction.fetchRecent)
@@ -42,9 +42,8 @@ private struct SearchView: View {
     struct State: Equatable {
         let items: [String]
     }
-    
-    typealias ViewModel = Store<State, Void>
-    @ObservedObject var store: ViewModel
+
+    @ObservedObject var store: Store<State, Void>
     @SwiftUI.State var query: String = ""
     
     var body: some View {

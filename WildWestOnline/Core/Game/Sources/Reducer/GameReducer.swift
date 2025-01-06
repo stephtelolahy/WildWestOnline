@@ -14,18 +14,6 @@ public func gameReducer(
         return .none
     }
 
-    return .group([
-        try prepareReducer(state: &state, action: action),
-        try updateReducer(state: &state, action: action),
-        try triggerEffectsReducer(state: &state, action: action),
-        try playAIMoveReducer(state: &state, action: action)
-    ])
-}
-
-private func prepareReducer(
-    state: inout GameState,
-    action: GameAction
-) throws -> Effect {
     guard !state.isOver else {
         fatalError("Unexpected game is over")
     }
@@ -44,13 +32,6 @@ private func prepareReducer(
         state.active.removeValue(forKey: action.payload.target)
     }
 
-    return .none
-}
-
-private func updateReducer(
-    state: inout GameState,
-    action: GameAction
-) throws -> Effect {
     if action.payload.selectors.isNotEmpty {
         if state.pendingChoice != nil {
             fatalError("Unexpected waiting user choice")
@@ -66,20 +47,4 @@ private func updateReducer(
     }
 
     return .none
-}
-
-private func triggerEffectsReducer(
-    state: inout GameState,
-    action: GameAction
-) throws -> Effect {
-    // TODO: triggered effects
-    .none
-}
-
-private func playAIMoveReducer(
-    state: inout GameState,
-    action: GameAction
-) throws -> Effect {
-    // TODO: AI moves
-    .none
 }

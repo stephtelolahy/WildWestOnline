@@ -9,7 +9,7 @@
 import Serialization
 import SettingsCore
 
-public class SettingsRepository: SettingsService {
+public class SettingsRepository {
     public init() {}
 
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)

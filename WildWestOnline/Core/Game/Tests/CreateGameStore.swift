@@ -7,9 +7,7 @@
 import Redux
 import GameCore
 
-typealias GameStore = Store<GameState, Void>
-
-@MainActor func createGameStore(initialState: GameState) -> GameStore {
+@MainActor func createGameStore(initialState: GameState) -> Store<GameState, Void> {
     .init(
         initialState: initialState,
         reducer: gameReducer,
