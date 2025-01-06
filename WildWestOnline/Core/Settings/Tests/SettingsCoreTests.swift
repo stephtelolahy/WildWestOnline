@@ -57,10 +57,10 @@ private typealias SettingsStore = Store<SettingsState, SettingsDependencies>
         initialState: initialState,
         reducer: settingsReducer,
         dependencies: .init(
-            setPlayersCount: { _ in },
-            setActionDelayMilliSeconds: { _ in },
-            setSimulationEnabled: { _ in },
-            setPreferredFigure: { _ in }
+            savePlayersCount: { _ in },
+            saveActionDelayMilliSeconds: { _ in },
+            saveSimulationEnabled: { _ in },
+            savePreferredFigure: { _ in }
         )
     )
 }

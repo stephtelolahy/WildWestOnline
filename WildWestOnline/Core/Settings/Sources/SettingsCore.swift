@@ -21,21 +21,21 @@ public enum SettingsAction: Action {
 }
 
 public struct SettingsDependencies {
-    public var setPlayersCount: (Int) -> Void
-    public var setActionDelayMilliSeconds: (Int) -> Void
-    public var setSimulationEnabled: (Bool) -> Void
-    public var setPreferredFigure: (String?) -> Void
+    public var savePlayersCount: (Int) -> Void
+    public var saveActionDelayMilliSeconds: (Int) -> Void
+    public var saveSimulationEnabled: (Bool) -> Void
+    public var savePreferredFigure: (String?) -> Void
 
     public init(
-        setPlayersCount: @escaping (Int) -> Void,
-        setActionDelayMilliSeconds: @escaping (Int) -> Void,
-        setSimulationEnabled: @escaping (Bool) -> Void,
-        setPreferredFigure: @escaping (String?) -> Void
+        savePlayersCount: @escaping (Int) -> Void,
+        saveActionDelayMilliSeconds: @escaping (Int) -> Void,
+        saveSimulationEnabled: @escaping (Bool) -> Void,
+        savePreferredFigure: @escaping (String?) -> Void
     ) {
-        self.setPlayersCount = setPlayersCount
-        self.setActionDelayMilliSeconds = setActionDelayMilliSeconds
-        self.setSimulationEnabled = setSimulationEnabled
-        self.setPreferredFigure = setPreferredFigure
+        self.savePlayersCount = savePlayersCount
+        self.saveActionDelayMilliSeconds = saveActionDelayMilliSeconds
+        self.saveSimulationEnabled = saveSimulationEnabled
+        self.savePreferredFigure = savePreferredFigure
     }
 }
 
@@ -51,19 +51,19 @@ public func settingsReducer(
     switch action {
     case .updatePlayersCount(let value):
         state.playersCount = value
-        dependencies.setPlayersCount(value)
+        dependencies.savePlayersCount(value)
 
     case .updateActionDelayMilliSeconds(let value):
         state.actionDelayMilliSeconds = value
-        dependencies.setActionDelayMilliSeconds(value)
+        dependencies.saveActionDelayMilliSeconds(value)
 
     case .toggleSimulation:
         state.simulation.toggle()
-        dependencies.setSimulationEnabled(state.simulation)
+        dependencies.saveSimulationEnabled(state.simulation)
 
     case .updatePreferredFigure(let value):
         state.preferredFigure = value
-        dependencies.setPreferredFigure(value)
+        dependencies.savePreferredFigure(value)
     }
 
     return .none

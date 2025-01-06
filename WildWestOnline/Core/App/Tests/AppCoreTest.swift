@@ -58,10 +58,10 @@ private typealias AppStore = Store<AppState, AppDependencies>
         reducer: appReducer,
         dependencies: .init(
             settings: .init(
-                setPlayersCount: { _ in },
-                setActionDelayMilliSeconds: { _ in },
-                setSimulationEnabled: { _ in },
-                setPreferredFigure: { _ in }
+                savePlayersCount: { _ in },
+                saveActionDelayMilliSeconds: { _ in },
+                saveSimulationEnabled: { _ in },
+                savePreferredFigure: { _ in }
             )
         )
     )
