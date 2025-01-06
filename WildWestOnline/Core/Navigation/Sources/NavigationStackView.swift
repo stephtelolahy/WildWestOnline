@@ -10,19 +10,19 @@ import Redux
 
 public struct NavigationStackView<T: Destination, RootView: View, DestinationView: View>: View {
     @StateObject private var store: Store<NavigationStackState<T>, Void>
-    private let root: () -> RootView
-    private let destination: (T) -> DestinationView
+    private let rootView: () -> RootView
+    private let destinationView: (T) -> DestinationView
 
     public init(
         store: @escaping () -> Store<NavigationStackState<T>, Void>,
-        @ViewBuilder root: @escaping () -> RootView,
-        @ViewBuilder destination: @escaping (T) -> DestinationView
+        @ViewBuilder rootView: @escaping () -> RootView,
+        @ViewBuilder destinationView: @escaping (T) -> DestinationView
     ) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
-        self.root = root
-        self.destination = destination
+        self.rootView = rootView
+        self.destinationView = destinationView
     }
 
     public var body: some View {
@@ -36,9 +36,9 @@ public struct NavigationStackView<T: Destination, RootView: View, DestinationVie
                 }
             )
         ) {
-            root()
+            rootView()
                 .navigationDestination(for: T.self) {
-                    destination($0)
+                    destinationView($0)
                 }
                 .sheet(
                     item: Binding<T?>(
@@ -46,7 +46,7 @@ public struct NavigationStackView<T: Destination, RootView: View, DestinationVie
                         set: { _ in }
                     )
                 ) {
-                    destination($0)
+                    destinationView($0)
                 }
         }
     }
