@@ -56,7 +56,7 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - New state can be set only by dispatching an action to store.
 - New state can be calculated only by reducer which is a pure function.
 - Store notifies subscribers by broadcasting a new state.
-- Each side-effect is implemented as asynchronous action. You can then easily enable or disable some features.
+- Each side-effect is implemented as asynchronous action.
 
 ![](Docs/redux.png)
 

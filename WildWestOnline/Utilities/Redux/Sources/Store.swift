@@ -12,7 +12,7 @@ import Combine
 public protocol Action: Sendable {}
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
-/// Also executes side-effects in response, and eventually dispatch more actions
+/// Also return side-effects in response, and eventually dispatch more actions
 public typealias Reducer<State, Dependencies> = (inout State, Action, Dependencies) throws -> Effect
 
 public enum Effect {
