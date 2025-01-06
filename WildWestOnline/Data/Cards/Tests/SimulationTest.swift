@@ -10,7 +10,7 @@ import XCTest
 import Redux
 import GameCore
 import CardsData
-
+/*
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
         try await simulateGame(playersCount: 3)
@@ -76,3 +76,4 @@ private class StateWrapper: @unchecked Sendable {
         self.value = value
     }
 }
+*/

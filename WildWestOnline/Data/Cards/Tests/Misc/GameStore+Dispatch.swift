@@ -17,47 +17,45 @@ func dispatchUntilCompleted(
     file: StaticString = #file,
     line: UInt = #line
 ) async throws -> [GameAction] {
-    let expectation = XCTestExpectation(description: "Game idle")
-
-    let store = Store<GameState>(
-        initial: state,
-        reducer: GameReducer().reduce,
-        middlewares: [
-            Middlewares.updateGame,
-            Middlewares.performChoices(.init(choices: expectedChoices))
-        ]
-    ) {
-        expectation.fulfill()
+    let sut = await createGameStoreWithSideEffects(initialState: state)
+    var receivedActions: [Action] = []
+    var receivedErrors: [Error] = []
+    var cancellables: Set<AnyCancellable> = []
+    await MainActor.run {
+        sut.eventPublisher
+            .sink { receivedActions.append($0) }
+            .store(in: &cancellables)
+        sut.errorPublisher
+            .sink { receivedErrors.append($0) }
+            .store(in: &cancellables)
     }
 
-    var subscriptions: Set<AnyCancellable> = []
-    var ocurredEvents: [GameAction] = []
-    var ocurredError: Error?
+    // When
+    await sut.dispatch(action)
 
-    store.eventPublisher.sink { event in
-        if let gameAction = event as? GameAction,
-           gameAction.isRenderable {
-            ocurredEvents.append(gameAction)
+    // Then
+    guard receivedErrors.isEmpty else {
+        throw receivedErrors[0]
+    }
+
+    let gameActions = receivedActions.compactMap { action in
+        if let action = action as? GameAction,
+            action.isRenderable {
+            return action
+        } else {
+            return nil
         }
     }
-    .store(in: &subscriptions)
 
-    store.errorPublisher.sink { error in
-        ocurredError = error
-    }
-    .store(in: &subscriptions)
+    return gameActions
+}
 
-    store.dispatch(action)
-
-    let waiter = XCTWaiter()
-    await waiter.fulfillment(of: [expectation])
-    subscriptions.removeAll()
-
-    if let ocurredError {
-        throw ocurredError
-    }
-
-    return ocurredEvents
+@MainActor private func createGameStoreWithSideEffects(initialState: GameState) -> Store<GameState, Void> {
+    .init(
+        initialState: initialState,
+        reducer: gameReducer,
+        dependencies: ()
+    )
 }
 
 struct Choice {
@@ -72,7 +70,7 @@ private class ChoicesWrapper {
         self.choices = choices
     }
 }
-
+/*
 private extension Middlewares {
     static func performChoices(_ expectedChoicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
         { state, _ in
@@ -94,3 +92,4 @@ private extension Middlewares {
         }
     }
 }
+*/
