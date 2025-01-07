@@ -16,15 +16,14 @@ struct DrawDiscardTest {
             .withPlayer("p1")
             .withDiscard(["c1", "c2"])
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.drawDiscard(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").hand == ["c1"])
-        await #expect(sut.state.discard == ["c2"])
+        #expect(result.players.get("p1").hand == ["c1"])
+        #expect(result.discard == ["c2"])
     }
 
     @Test func drawDiscard_whitEmptyDiscard_shouldThrowError() async throws {
@@ -32,23 +31,12 @@ struct DrawDiscardTest {
         let state = GameState.makeBuilder()
             .withPlayer("p1")
             .build()
-        let sut = await createGameStore(initialState: state)
-
-        var receivedErrors: [Error] = []
-        var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.errorPublisher
-                .sink { receivedErrors.append($0) }
-                .store(in: &cancellables)
-        }
 
         // When
-        let action = GameAction.drawDiscard(player: "p1")
-        await sut.dispatch(action)
-
         // Then
-        #expect(receivedErrors as? [GameError] == [
-            .insufficientDiscard
-        ])
+        let action = GameAction.drawDiscard(player: "p1")
+        await #expect(throws: GameError.insufficientDiscard) {
+            try await dispatch(action, state: state)
+        }
     }
 }

@@ -13,13 +13,12 @@ struct EndGameTest {
         // Given
         let state = GameState.makeBuilder()
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.endGame(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.isOver == true)
+        #expect(result.isOver == true)
     }
 }

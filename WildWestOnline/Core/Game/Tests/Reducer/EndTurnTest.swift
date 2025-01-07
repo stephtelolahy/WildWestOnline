@@ -14,13 +14,12 @@ struct EndTurnTest {
         let state = GameState.makeBuilder()
             .withTurn("p1")
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.endTurn(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.turn == nil)
+        #expect(result.turn == nil)
     }
 }

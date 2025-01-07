@@ -25,7 +25,7 @@ func setupGameReducer(
     guard let action = action as? SetupGameAction else {
         return .none
     }
-    
+
     switch action {
     case .startGame:
         let settings = state.settings
@@ -39,10 +39,10 @@ func setupGameReducer(
                 NavigationStackAction<MainDestination>.push(.game)
             }
         ])
-        
+
     case .setGame(let game):
         state.game = game
-        
+
     case .quitGame:
         return .group([
             .run {
@@ -52,11 +52,11 @@ func setupGameReducer(
                 NavigationStackAction<MainDestination>.pop
             }
         ])
-        
+
     case .unsetGame:
         state.game = nil
     }
-    
+
     return .none
 }
 
@@ -66,13 +66,13 @@ private func createGame(settings: SettingsState, inventory: Inventory) -> GameSt
         inventory: inventory,
         preferredFigure: settings.preferredFigure
     )
-    
+
     let manualPlayer: String? = settings.simulation ? nil : game.playOrder[0]
     game.playMode = game.playOrder.reduce(into: [:]) {
         $0[$1] = $1 == manualPlayer ? .manual : .auto
     }
-    
+
     game.actionDelayMilliSeconds = settings.actionDelayMilliSeconds
-    
+
     return game
 }

@@ -16,14 +16,13 @@ struct DamageTest {
                 $0.withHealth(2)
             }
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").health == 1)
+        #expect(result.players.get("p1").health == 1)
     }
 
     @Test func damage_with2LifePoints_shouldReduceHealthBy2() async throws {
@@ -33,13 +32,12 @@ struct DamageTest {
                 $0.withHealth(2)
             }
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").health == 0)
+        #expect(result.players.get("p1").health == 0)
     }
 }

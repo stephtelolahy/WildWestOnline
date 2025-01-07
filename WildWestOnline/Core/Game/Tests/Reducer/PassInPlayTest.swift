@@ -17,14 +17,13 @@ struct PassInPlayTest {
             }
             .withPlayer("p2")
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.passInPlay("c1", target: "p2", player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").inPlay == ["c2"])
-        await #expect(sut.state.players.get("p2").inPlay == ["c1"])
+        #expect(result.players.get("p1").inPlay == ["c2"])
+        #expect(result.players.get("p2").inPlay == ["c1"])
     }
 }

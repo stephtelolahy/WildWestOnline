@@ -18,17 +18,16 @@ struct HandicapTest {
             }
             .withPlayer("p2")
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.handicap("c1", target: "p2", player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").hand == ["c2"])
-        await #expect(sut.state.players.get("p2").inPlay == ["c1"])
-        await #expect(sut.state.players.get("p1").inPlay.isEmpty)
-        await #expect(sut.state.discard.isEmpty)
+        #expect(result.players.get("p1").hand == ["c2"])
+        #expect(result.players.get("p2").inPlay == ["c1"])
+        #expect(result.players.get("p1").inPlay.isEmpty)
+        #expect(result.discard.isEmpty)
     }
 
     @Test func handicap_withCardAlreadyInPlay_shouldThrowError() async throws {
@@ -41,23 +40,12 @@ struct HandicapTest {
                 $0.withInPlay(["c-2"])
             }
             .build()
-        let sut = await createGameStore(initialState: state)
-
-        var receivedErrors: [Error] = []
-        var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.errorPublisher
-                .sink { receivedErrors.append($0) }
-                .store(in: &cancellables)
-        }
 
         // When
-        let action = GameAction.handicap("c-1", target: "p2", player: "p1")
-        await sut.dispatch(action)
-
         // Then
-        #expect(receivedErrors as? [GameError] == [
-            .cardAlreadyInPlay("c")
-        ])
+        let action = GameAction.handicap("c-1", target: "p2", player: "p1")
+        await #expect(throws: GameError.cardAlreadyInPlay("c")) {
+            try await dispatch(action, state: state)
+        }
     }
 }

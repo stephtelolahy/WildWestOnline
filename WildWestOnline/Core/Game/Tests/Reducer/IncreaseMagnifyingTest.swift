@@ -16,13 +16,12 @@ struct IncreaseMagnifyingTest {
                 $0.withMagnifying(0)
             }
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.increaseMagnifying(1, player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").magnifying == 1)
+        #expect(result.players.get("p1").magnifying == 1)
     }
 }

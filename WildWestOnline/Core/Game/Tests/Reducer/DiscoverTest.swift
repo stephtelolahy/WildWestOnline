@@ -15,15 +15,14 @@ struct DiscoverTest {
         let state = GameState.makeBuilder()
             .withDeck(["c1", "c2", "c3"])
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.discover(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.discovered == ["c1"])
-        await #expect(sut.state.deck == ["c1", "c2", "c3"])
+        #expect(result.discovered == ["c1"])
+        #expect(result.deck == ["c1", "c2", "c3"])
     }
 
     @Test func discover_withAlreadyDiscoveredCard_shouldAddCardNextToDiscovered() async throws {
@@ -32,15 +31,14 @@ struct DiscoverTest {
             .withDeck(["c1", "c2", "c3"])
             .withDiscovered(["c1"])
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.discover(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.discovered == ["c1", "c2"])
-        await #expect(sut.state.deck == ["c1", "c2", "c3"])
+        #expect(result.discovered == ["c1", "c2"])
+        #expect(result.deck == ["c1", "c2", "c3"])
     }
 
     @Test func discover_emptyDeck_withEnoughCards_shouldResetDeck() async throws {
@@ -49,40 +47,28 @@ struct DiscoverTest {
             .withDeck([])
             .withDiscard(["c1", "c2"])
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.discover(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.discovered == ["c2"])
-        await #expect(sut.state.deck == ["c2"])
-        await #expect(sut.state.discard == ["c1"])
+        #expect(result.discovered == ["c2"])
+        #expect(result.deck == ["c2"])
+        #expect(result.discard == ["c1"])
     }
 
     @Test func discover_emptyDeck_withoutEnoughCards_shouldThrowError() async throws {
         // Given
         let state = GameState.makeBuilder()
             .build()
-        let sut = await createGameStore(initialState: state)
-
-        var receivedErrors: [Error] = []
-        var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.errorPublisher
-                .sink { receivedErrors.append($0) }
-                .store(in: &cancellables)
-        }
 
         // When
-        let action = GameAction.discover(player: "p1")
-        await sut.dispatch(action)
-
         // Then
-        #expect(receivedErrors as? [GameError] == [
-            .insufficientDeck
-        ])
+        let action = GameAction.discover(player: "p1")
+        await #expect(throws: GameError.insufficientDeck) {
+            try await dispatch(action, state: state)
+        }
     }
 
     @Test func discover_nonEmptyDeck_withoutEnoughCards_shouldThrowError() async throws {
@@ -91,23 +77,12 @@ struct DiscoverTest {
             .withDiscovered(["c1"])
             .withDeck(["c1"])
             .build()
-        let sut = await createGameStore(initialState: state)
-
-        var receivedErrors: [Error] = []
-        var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.errorPublisher
-                .sink { receivedErrors.append($0) }
-                .store(in: &cancellables)
-        }
 
         // When
-        let action = GameAction.discover(player: "p1")
-        await sut.dispatch(action)
-
         // Then
-        #expect(receivedErrors as? [GameError] == [
-            .insufficientDeck
-        ])
+        let action = GameAction.discover(player: "p1")
+        await #expect(throws: GameError.insufficientDeck) {
+            try await dispatch(action, state: state)
+        }
     }
 }

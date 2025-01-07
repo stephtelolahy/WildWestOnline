@@ -13,14 +13,13 @@ struct StartTurnTest {
         // Given
         let state = GameState.makeBuilder()
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.turn == "p1")
+        #expect(result.turn == "p1")
     }
 
     @Test func startTurn_shouldResetPlayCounters() async throws {
@@ -28,13 +27,12 @@ struct StartTurnTest {
         let state = GameState.makeBuilder()
             .withPlayedThisTurn(["c1": 1, "c2": 1])
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.playedThisTurn.isEmpty)
+        #expect(result.playedThisTurn.isEmpty)
     }
 }

@@ -13,13 +13,12 @@ struct ActivateTest {
         // Given
         let state = GameState.makeBuilder()
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.activate(["c1", "c2"], player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.active == ["p1": ["c1", "c2"]])
+        #expect(result.active == ["p1": ["c1", "c2"]])
     }
 }

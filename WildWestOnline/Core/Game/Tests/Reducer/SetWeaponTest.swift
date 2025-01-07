@@ -14,13 +14,12 @@ struct SetWeaponTest {
         let state = GameState.makeBuilder()
             .withPlayer("p1")
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.setWeapon(3, player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.players.get("p1").weapon == 3)
+        #expect(result.players.get("p1").weapon == 3)
     }
 }

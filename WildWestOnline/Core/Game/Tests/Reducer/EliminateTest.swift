@@ -15,14 +15,13 @@ struct EliminateTest {
             .withPlayer("p1")
             .withPlayer("p2")
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.playOrder == ["p2"])
+        #expect(result.playOrder == ["p2"])
     }
 
     @Test func eliminate_shouldRemovePendingAction() async throws {
@@ -38,13 +37,12 @@ struct EliminateTest {
                 ]
             )
             .build()
-        let sut = await createGameStore(initialState: state)
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        await sut.dispatch(action)
+        let result = try await dispatch(action, state: state)
 
         // Then
-        await #expect(sut.state.queue.isEmpty)
+        #expect(result.queue.isEmpty)
     }
 }
