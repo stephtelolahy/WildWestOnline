@@ -24,7 +24,7 @@ func dispatch(
     }
 
     // When
-    let result = try await dispatch(action, state: state)
+    await sut.dispatch(action)
 
     // Then
     guard receivedErrors.isEmpty else {
