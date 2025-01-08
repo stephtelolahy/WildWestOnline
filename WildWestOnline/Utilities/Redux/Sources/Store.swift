@@ -18,7 +18,7 @@ public typealias Reducer<State, Dependencies> = (inout State, Action, Dependenci
 public enum Effect {
     case none
     case publisher(AnyPublisher<Action, Never>)
-    case run(() async -> Action)
+    case run(() async -> Action?)
     case group([Effect])
 }
 
@@ -67,8 +67,9 @@ public enum Effect {
             }
 
         case .run(let asyncWork):
-            let result = await asyncWork()
-            await dispatch(result)
+            if let result = await asyncWork() {
+                await dispatch(result)
+            }
 
         case .group(let effects):
             for subEffect in effects {

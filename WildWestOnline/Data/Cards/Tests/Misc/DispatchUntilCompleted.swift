@@ -53,7 +53,12 @@ func dispatchUntilCompleted(
 @MainActor private func createGameStoreWithSideEffects(initialState: GameState) -> Store<GameState, Void> {
     .init(
         initialState: initialState,
-        reducer: gameReducer,
+        reducer: { state, action, dependencies in
+                .group([
+                    try gameReducer(state: &state, action: action, dependencies: dependencies),
+                    try updateGameReducer(state: &state, action: action, dependencies: dependencies)
+                ])
+        },
         dependencies: ()
     )
 }
