@@ -51,7 +51,6 @@ private func nextAction(state: GameState, action: Action) async -> Action? {
     }
 
     return nil
-
 }
 
 private extension GameState {

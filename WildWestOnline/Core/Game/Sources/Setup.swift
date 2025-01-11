@@ -19,7 +19,7 @@ public enum Setup {
             defaultAbilities: inventory.defaultAbilities
         )
     }
-    
+
     public static func buildGame(
         figures: [String],
         deck: [String],
@@ -51,13 +51,13 @@ public enum Setup {
             actionDelayMilliSeconds: 0
         )
     }
-    
+
     public static func buildDeck(cardSets: [String: [String]]) -> [String] {
         cardSets.reduce(into: [String]()) { result, card in
             result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
         }
     }
-    
+
 }
 
 private extension Setup {
@@ -70,11 +70,11 @@ private extension Setup {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
         }
-        
+
         guard let maxHealth = figureObj.amountOfActiveEffect(named: .setMaxHealth) else {
             fatalError("unexpected")
         }
-        
+
         let weapon = 1
         let drawCards = figureObj.amountOfActiveEffect(named: .setDrawCards) ?? 1
         let magnifying = figureObj.amountOfActiveEffect(named: .increaseMagnifying) ?? 0
@@ -82,7 +82,7 @@ private extension Setup {
         let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + defaultAbilities
         let playLimitPerTurn = figureObj.playlimitPerTurn
-        
+
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
                 deck.removeFirst()
@@ -90,7 +90,7 @@ private extension Setup {
                 nil
             }
         }
-        
+
         return .init(
             figure: figure,
             health: maxHealth,
@@ -115,17 +115,17 @@ private extension Card {
               case .setAmount(let value) = selector else {
             return nil
         }
-        
+
         return value
     }
-    
+
     var playlimitPerTurn: [String: Int] {
         guard let effect = onActive.first(where: { $0.action == .setPlayLimitPerTurn }),
               let selector = effect.selectors.first,
               case .setAmountPerCard(let value) = selector else {
             return [:]
         }
-        
+
         return value
     }
 }
