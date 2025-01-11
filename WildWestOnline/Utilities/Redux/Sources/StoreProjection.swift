@@ -41,7 +41,7 @@ private class StoreProjection<
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(deriveState: @escaping (State) -> LocalState?) -> Store<LocalState, Void> {
+    func projection<LocalState: Equatable>(_ deriveState: @escaping (State) -> LocalState?) -> Store<LocalState, Void> {
         StoreProjection(globalStore: self, deriveState: deriveState)
     }
 }

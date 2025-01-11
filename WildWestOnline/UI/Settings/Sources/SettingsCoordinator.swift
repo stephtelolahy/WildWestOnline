@@ -10,21 +10,21 @@ import AppCore
 import NavigationCore
 
 public struct SettingsCoordinator: View {
-    @EnvironmentObject private var store: Store<AppState>
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
 
     public var body: some View {
-        NavigationStackView<SettingsDestination, SettingsRootViewBuilder, AnyView>(
+        NavigationStackView<SettingsDestination, SettingsRootContainerView, AnyView>(
             store: {
                 store.projection(Self.presenter)
             },
-            root: {
-                SettingsRootViewBuilder()
+            rootView: {
+                SettingsRootContainerView()
             },
-            destination: { destination in
+            destinationView: { destination in
                 switch destination {
-                case .figures: SettingsFiguresViewBuilder().eraseToAnyView()
+                case .figures: SettingsFiguresContainerView().eraseToAnyView()
                 }
             }
         )

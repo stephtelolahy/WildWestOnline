@@ -26,7 +26,7 @@ struct StoreProjectionTest {
         )
         
         let connector = SearchView.Connector()
-        let sut = await store.projection(deriveState: connector.deriveState)
+        let sut = await store.projection(connector.deriveState)
         
         // When
         await sut.dispatch(AppAction.fetchRecent)

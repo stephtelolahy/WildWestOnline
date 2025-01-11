@@ -16,7 +16,7 @@ public struct HomeContainerView: View {
 
     public var body: some View {
         HomeView {
-            store.projection(deriveState: HomeView.presenter)
+            store.projection(HomeView.presenter)
         }
     }
 }

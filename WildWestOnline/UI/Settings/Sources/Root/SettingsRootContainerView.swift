@@ -1,5 +1,5 @@
 //
-//  SettingsRootViewBuilder.swift
+//  SettingsRootContainerView.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stephano TELOLAHY on 19/09/2024.
@@ -9,8 +9,8 @@ import SwiftUI
 import Redux
 import AppCore
 
-public struct SettingsRootViewBuilder: View {
-    @EnvironmentObject private var store: Store<AppState>
+public struct SettingsRootContainerView: View {
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
 

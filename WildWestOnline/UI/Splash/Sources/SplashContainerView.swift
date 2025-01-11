@@ -16,7 +16,7 @@ public struct SplashContainerView: View {
 
     public var body: some View {
         SplashView {
-            store.projection(deriveState: SplashView.presenter)
+            store.projection(SplashView.presenter)
         }
     }
 }
