@@ -6,11 +6,10 @@
 //
 
 import Testing
-import XCTest
 import Redux
 import GameCore
 import CardsData
-/*
+
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
         try await simulateGame(playersCount: 3)
@@ -25,32 +24,44 @@ struct SimulationTest {
             state.playMode[player] = .auto
         }
 
-        let expectation = XCTestExpectation(description: "Game idle")
-        let store = Store<GameState>(
-            initial: state,
-            reducer: GameReducer().reduce,
-            middlewares: [
-                Middlewares.logger(),
-                Middlewares.updateGame,
-                Middlewares.playAIMove,
-                Middlewares.verifyState(StateWrapper(value: state))
-            ]
-        ) {
-            expectation.fulfill()
-        }
+        let store = await createGameStoreWithAIAgent(initialState: state)
 
         // When
         let startAction = GameAction.startTurn(player: state.playOrder[0])
-        store.dispatch(startAction)
+        await store.dispatch(startAction)
 
         // Then
-        let waiter = XCTWaiter()
-        await waiter.fulfillment(of: [expectation])
-
-        #expect(store.state.isOver, "Expected game over")
+        await #expect(store.state.isOver, "Expected game over")
     }
 }
 
+@MainActor private func createGameStoreWithAIAgent(initialState: GameState) -> Store<GameState, Void> {
+    .init(
+        initialState: initialState,
+        reducer: { state, action, dependencies in
+                .group([
+                    try loggerReducer(state: &state, action: action, dependencies: dependencies),
+                    try gameReducer(state: &state, action: action, dependencies: dependencies),
+                    try updateGameReducer(state: &state, action: action, dependencies: dependencies),
+                    try playAIMoveReducer(state: &state, action: action, dependencies: dependencies)
+                ])
+        },
+        dependencies: ()
+    )
+}
+
+private func loggerReducer(
+    state: inout GameState,
+    action: Action,
+    dependencies: Void
+) throws -> Effect {
+    .run {
+        print(action)
+        return nil
+    }
+}
+
+/*
 private extension Middlewares {
     static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
         { state, action in
