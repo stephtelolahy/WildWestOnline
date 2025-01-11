@@ -25,7 +25,7 @@ public struct MainCoordinator: View {
                 store.projection(MainCoordinator.presenter)
             },
             root: {
-                SplashViewBuilder()
+                SplashContainerView()
             },
             destination: { destination in
                 switch destination {

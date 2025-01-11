@@ -22,7 +22,9 @@ struct SplashPresenterTest {
         )
 
         // When
+        let result = await SplashView.presenter(appState)
+
         // Then
-        await #expect(SplashView.presenter(appState) != nil)
+        #expect(result != nil)
     }
 }

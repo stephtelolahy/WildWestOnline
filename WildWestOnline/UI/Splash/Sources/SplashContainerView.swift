@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  SplashContainerView.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stephano TELOLAHY on 19/09/2024.
@@ -9,14 +9,14 @@ import SwiftUI
 import Redux
 import AppCore
 
-public struct SplashViewBuilder: View {
-    @EnvironmentObject private var store: Store<AppState>
+public struct SplashContainerView: View {
+    @EnvironmentObject private var store: Store<AppState, Void>
 
     public init() {}
 
     public var body: some View {
         SplashView {
-            store.projection(SplashView.presenter)
+            store.projection(deriveState: SplashView.presenter)
         }
     }
 }
