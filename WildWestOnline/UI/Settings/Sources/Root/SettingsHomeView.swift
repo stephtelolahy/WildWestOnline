@@ -46,9 +46,7 @@ struct SettingsHomeView: View {
         .navigationTitle("Settings")
         .toolbar {
             Button("Done") {
-                withAnimation {
-                    store.dispatch(NavigationStackAction<MainDestination>.dismiss)
-                }
+                store.dispatch(NavigationStackAction<MainDestination>.dismiss)
             }
         }
     }

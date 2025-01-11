@@ -10,7 +10,7 @@ import Redux
 import AppCore
 
 public struct SplashContainerView: View {
-    @EnvironmentObject private var store: Store<AppState, Void>
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
 

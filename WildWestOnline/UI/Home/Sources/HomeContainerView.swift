@@ -1,5 +1,5 @@
 //
-//  HomeViewBuilder.swift
+//  HomeContainerView.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stephano TELOLAHY on 19/09/2024.
@@ -9,14 +9,14 @@ import SwiftUI
 import Redux
 import AppCore
 
-public struct HomeViewBuilder: View {
-    @EnvironmentObject private var store: Store<AppState>
+public struct HomeContainerView: View {
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
 
     public var body: some View {
         HomeView {
-            store.projection(HomeView.presenter)
+            store.projection(deriveState: HomeView.presenter)
         }
     }
 }
