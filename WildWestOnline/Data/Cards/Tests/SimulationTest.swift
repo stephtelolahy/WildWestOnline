@@ -9,6 +9,7 @@ import Testing
 import Redux
 import GameCore
 import CardsData
+import Combine
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
@@ -26,6 +27,17 @@ struct SimulationTest {
 
         let store = await createGameStoreWithAIAgent(initialState: state)
 
+        let stateVerifier = StateVerifier(initialState: state)
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            store.eventPublisher
+                .sink { stateVerifier.receiveAction(action: $0) }
+                .store(in: &cancellables)
+            store.$state
+                .sink { stateVerifier.receiveState(state: $0) }
+                .store(in: &cancellables)
+        }
+
         // When
         let startAction = GameAction.startTurn(player: state.playOrder[0])
         await store.dispatch(startAction)
@@ -35,7 +47,7 @@ struct SimulationTest {
     }
 }
 
-@MainActor private func createGameStoreWithAIAgent(initialState: GameState) -> Store<GameState, GameStoreDependencies> {
+@MainActor private func createGameStoreWithAIAgent(initialState: GameState) -> Store<GameState, Void> {
     .init(
         initialState: initialState,
         reducer: { state, action, dependencies in
@@ -43,11 +55,10 @@ struct SimulationTest {
                     try loggerReducer(state: &state, action: action, dependencies: ()),
                     try gameReducer(state: &state, action: action, dependencies: ()),
                     try updateGameReducer(state: &state, action: action, dependencies: ()),
-                    try playAIMoveReducer(state: &state, action: action, dependencies: ()),
-                    try verifyStateReducer(state: &state, action: action, dependencies: dependencies.stateHolder)
+                    try playAIMoveReducer(state: &state, action: action, dependencies: ())
                 ])
         },
-        dependencies: .init(stateHolder: .init(value: initialState))
+        dependencies: ()
     )
 }
 
@@ -62,39 +73,23 @@ private func loggerReducer(
     }
 }
 
-private func verifyStateReducer(
-    state: inout GameState,
-    action: Action,
-    dependencies: StateHolder
-) throws -> Effect {
-    let state = state
-    return .run {
-        await verifyState(state: state, action: action, prevState: dependencies)
+private class StateVerifier {
+    var prevState: GameState
+    var currentState: GameState
+
+    init(initialState: GameState) {
+        self.prevState = initialState
+        self.currentState = initialState
     }
-}
 
-private struct GameStoreDependencies {
-    let stateHolder: StateHolder
-}
+    func receiveState(state: GameState) {
+        prevState = currentState
+        currentState = state
+    }
 
-private func verifyState(
-    state: GameState,
-    action: Action,
-    prevState: StateHolder
-) async -> Action? {
-    var nextState = prevState.value
-    _ = try? gameReducer(state: &nextState, action: action, dependencies: ())
-
-    assert(nextState == state, "Inconsistent state after applying \(action)")
-
-    prevState.value = nextState
-    return nil
-}
-
-private class StateHolder: @unchecked Sendable {
-    var value: GameState
-
-    init(value: GameState) {
-        self.value = value
+    func receiveAction(action: Action) {
+        var nextState = prevState
+        _ = try? gameReducer(state: &nextState, action: action, dependencies: ())
+        assert(nextState == currentState, "Inconsistent state after applying \(action)")
     }
 }
