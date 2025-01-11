@@ -10,9 +10,7 @@ import Combine
 
 func dispatch(
     _ action: GameAction,
-    state: GameState,
-    file: StaticString = #file,
-    line: UInt = #line
+    state: GameState
 ) async throws -> GameState {
     let sut = await createGameStore(initialState: state)
     var receivedErrors: [Error] = []

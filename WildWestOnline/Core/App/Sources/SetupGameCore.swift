@@ -28,11 +28,10 @@ func setupGameReducer(
 
     switch action {
     case .startGame:
-        let settings = state.settings
-        let inventory = state.inventory
+        let state = state
         return .group([
             .run {
-                let newGame = createGame(settings: settings, inventory: inventory)
+                let newGame = createGame(settings: state.settings, inventory: state.inventory)
                 return SetupGameAction.setGame(newGame)
             },
             .run {

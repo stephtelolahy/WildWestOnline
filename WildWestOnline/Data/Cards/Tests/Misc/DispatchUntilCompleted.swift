@@ -13,11 +13,9 @@ import GameCore
 func dispatchUntilCompleted(
     _ action: GameAction,
     state: GameState,
-    expectedChoices: [Choice] = [],
-    file: StaticString = #file,
-    line: UInt = #line
+    expectedChoices: [Choice] = []
 ) async throws -> [GameAction] {
-    let sut = await createGameStoreWithSideEffects(initialState: state)
+    let sut = await createGameStoreWithSideEffects(initialState: state, expectedChoices: expectedChoices)
     var receivedActions: [Action] = []
     var receivedErrors: [Error] = []
     var cancellables: Set<AnyCancellable> = []
@@ -50,17 +48,25 @@ func dispatchUntilCompleted(
     return gameActions
 }
 
-@MainActor private func createGameStoreWithSideEffects(initialState: GameState) -> Store<GameState, Void> {
+@MainActor private func createGameStoreWithSideEffects(
+    initialState: GameState,
+    expectedChoices: [Choice] = []
+) -> Store<GameState, GameStoreDependencies> {
     .init(
         initialState: initialState,
         reducer: { state, action, dependencies in
                 .group([
-                    try gameReducer(state: &state, action: action, dependencies: dependencies),
-                    try updateGameReducer(state: &state, action: action, dependencies: dependencies)
+                    try gameReducer(state: &state, action: action, dependencies: ()),
+                    try updateGameReducer(state: &state, action: action, dependencies: ()),
+                    try performChoicesReducer(state: &state, action: action, dependencies: dependencies.choicesHolder)
                 ])
         },
-        dependencies: ()
+        dependencies: .init(choicesHolder: .init(choices: expectedChoices))
     )
+}
+
+private struct GameStoreDependencies {
+    let choicesHolder: ChoicesHolder
 }
 
 struct Choice {
@@ -68,33 +74,43 @@ struct Choice {
     let selectionIndex: Int
 }
 
-private class ChoicesWrapper {
+private class ChoicesHolder {
     var choices: [Choice]
 
     init(choices: [Choice]) {
         self.choices = choices
     }
 }
-/*
-private extension Middlewares {
-    static func performChoices(_ expectedChoicesWrapper: ChoicesWrapper) -> Middleware<GameState> {
-        { state, _ in
-            guard let pendingChoice = state.pendingChoice else {
-                return nil
-            }
 
-            guard expectedChoicesWrapper.choices.isNotEmpty else {
-                fatalError("Unexpected choice: \(pendingChoice)")
-            }
-
-            guard pendingChoice.options.map(\.label) == expectedChoicesWrapper.choices[0].options else {
-                fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(expectedChoicesWrapper.choices[0].options)")
-            }
-
-            let expectedChoice = expectedChoicesWrapper.choices.remove(at: 0)
-            let selection = pendingChoice.options[expectedChoice.selectionIndex]
-            return GameAction.choose(selection.label, player: pendingChoice.chooser)
-        }
+private func performChoicesReducer(
+    state: inout GameState,
+    action: Action,
+    dependencies: ChoicesHolder
+) throws -> Effect {
+    let state = state
+    return .run {
+        await performChoices(state: state, action: action, choicesHolder: dependencies)
     }
 }
-*/
+
+private func performChoices(
+    state: GameState,
+    action: Action,
+    choicesHolder: ChoicesHolder
+) async -> Action? {
+    guard let pendingChoice = state.pendingChoice else {
+        return nil
+    }
+
+    guard choicesHolder.choices.isNotEmpty else {
+        fatalError("Unexpected choice: \(pendingChoice)")
+    }
+
+    guard pendingChoice.options.map(\.label) == choicesHolder.choices[0].options else {
+        fatalError("Unexpected options: \(pendingChoice.options.map(\.label)) expected: \(choicesHolder.choices[0].options)")
+    }
+
+    let expectedChoice = choicesHolder.choices.remove(at: 0)
+    let selection = pendingChoice.options[expectedChoice.selectionIndex]
+    return GameAction.choose(selection.label, player: pendingChoice.chooser)
+}
