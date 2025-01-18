@@ -15,7 +15,7 @@ import HomeUI
 import GameUI
 
 public struct MainCoordinator: View {
-    @EnvironmentObject private var store: Store<AppState>
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
 
@@ -24,13 +24,13 @@ public struct MainCoordinator: View {
             store: {
                 store.projection(MainCoordinator.presenter)
             },
-            root: {
+            rootView: {
                 SplashContainerView()
             },
-            destination: { destination in
+            destinationView: { destination in
                 switch destination {
-                case .home: HomeViewBuilder().eraseToAnyView()
-                case .game: GameViewBuilder().eraseToAnyView()
+                case .home: HomeContainerView().eraseToAnyView()
+                case .game: GameContainerView().eraseToAnyView()
                 case .settings: SettingsCoordinator().eraseToAnyView()
                 }
             }
@@ -40,7 +40,12 @@ public struct MainCoordinator: View {
 
 #Preview {
     MainCoordinator()
-        .environmentObject(Store<AppState>.init(initial: .mockedData))
+        .environmentObject(
+            Store<AppState, AppDependencies>.init(
+                initialState: .mockedData,
+                dependencies: .mockedData
+            )
+        )
 }
 
 private extension AppState {
@@ -49,6 +54,19 @@ private extension AppState {
             navigation: .init(),
             settings: .makeBuilder().build(),
             inventory: .makeBuilder().build()
+        )
+    }
+}
+
+private extension AppDependencies {
+    static var mockedData: Self {
+        .init(
+            settings: .init(
+                savePlayersCount: { _ in },
+                saveActionDelayMilliSeconds: { _ in },
+                saveSimulationEnabled: { _ in },
+                savePreferredFigure: { _ in }
+            )
         )
     }
 }

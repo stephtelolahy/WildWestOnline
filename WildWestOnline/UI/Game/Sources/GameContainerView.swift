@@ -1,5 +1,5 @@
 //
-//  GameViewBuilder.swift
+//  GameContainerView.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stephano TELOLAHY on 19/09/2024.
@@ -10,7 +10,7 @@ import Redux
 import AppCore
 import GameCore
 
-public struct GameViewBuilder: View {
+public struct GameContainerView: View {
     @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
