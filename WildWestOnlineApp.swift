@@ -29,7 +29,7 @@ struct WildWestOnlineApp: App {
     }
 }
 
-private func createStore() -> Store<AppState> {
+private func createStore() -> Store<AppState, AppDependencies> {
     let settingsService: SettingsService = SettingsRepository()
 
     let settings = SettingsState.makeBuilder()
