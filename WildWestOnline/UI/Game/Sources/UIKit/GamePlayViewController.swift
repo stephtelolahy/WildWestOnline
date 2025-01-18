@@ -22,7 +22,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Data
 
-    private var store: Store<GameView.State>
+    private var store: Store<GameView.State, Void>
     private var subscriptions: Set<AnyCancellable> = []
     private var events: [String] = []
 
@@ -45,7 +45,7 @@ class GamePlayViewController: UIViewController {
 
     // MARK: - Init
 
-    init(store: Store<GameView.State>) {
+    init(store: Store<GameView.State, Void>) {
         self.store = store
         super.init(nibName: "GamePlayViewController", bundle: .module)
     }
@@ -65,13 +65,17 @@ class GamePlayViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+        Task {
+            await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+        }
     }
 
     // MARK: - IBAction
 
     @IBAction private func closeButtonTapped(_ sender: Any) {
-        store.dispatch(SetupGameAction.quitGame)
+        Task {
+            await store.dispatch(SetupGameAction.quitGame)
+        }
     }
 }
 
@@ -131,7 +135,9 @@ private extension GamePlayViewController {
                     return
                 }
 
-                self.store.dispatch(GameAction.choose(option, player: player))
+                Task {
+                    await self.store.dispatch(GameAction.choose(option, player: player))
+                }
             }
         }
     }
@@ -297,7 +303,9 @@ extension GamePlayViewController: UICollectionViewDelegate {
             return
         }
 
-        store.dispatch(GameAction.play(item.card, player: player))
+        Task {
+            await store.dispatch(GameAction.play(item.card, player: player))
+        }
     }
 }
 

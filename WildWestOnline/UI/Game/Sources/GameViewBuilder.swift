@@ -11,7 +11,7 @@ import AppCore
 import GameCore
 
 public struct GameViewBuilder: View {
-    @EnvironmentObject private var store: Store<AppState>
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
 
     public init() {}
 

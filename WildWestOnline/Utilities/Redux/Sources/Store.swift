@@ -15,6 +15,7 @@ public protocol Action: Sendable {}
 /// Also return side-effects in response, and eventually dispatch more actions
 public typealias Reducer<State, Dependencies> = (inout State, Action, Dependencies) throws -> Effect
 
+/// ``Effect`` is an asynchronous `Action`
 public enum Effect {
     case none
     case publisher(AnyPublisher<Action, Never>)

@@ -50,9 +50,9 @@ struct GameView: View {
     }
 
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<State>
+    @StateObject private var store: Store<State, Void>
 
-    init(store: @escaping () -> Store<State>) {
+    init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -72,7 +72,7 @@ struct GameView: View {
 
 #Preview {
     GameView {
-        .init(initial: .mockedData)
+        .init(initialState: .mockedData, dependencies: ())
     }
 }
 
