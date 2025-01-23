@@ -49,7 +49,8 @@ public func appReducer(
         try navigationReducer(state: &state.navigation, action: action, dependencies: ()),
         try settingsReducer(state: &state.settings, action: action, dependencies: dependencies.settings),
         try setupGameReducer(state: &state, action: action, dependencies: ()),
-        try currentGameReducer(state: &state, action: action, dependencies: ())
+        try currentGameReducer(state: &state, action: action, dependencies: ()),
+        try loggerReducer(state: &state, action: action, dependencies: ())
     ])
 }
 

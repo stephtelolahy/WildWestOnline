@@ -62,17 +62,6 @@ struct SimulationTest {
     )
 }
 
-private func loggerReducer(
-    state: inout GameState,
-    action: Action,
-    dependencies: Void
-) throws -> Effect {
-    .run {
-        print(action)
-        return nil
-    }
-}
-
 private class StateVerifier {
     var prevState: GameState
     var currentState: GameState
