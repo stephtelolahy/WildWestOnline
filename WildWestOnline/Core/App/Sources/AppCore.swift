@@ -59,6 +59,10 @@ private func currentGameReducer(state: inout AppState, action: Action, dependenc
         return .none
     }
 
-    // swiftlint:disable:next force_unwrapping
-    return try gameReducer(state: &state.game!, action: action, dependencies: ())
+    // swiftlint:disable force_unwrapping
+    return .group([
+        try gameReducer(state: &state.game!, action: action, dependencies: ()),
+        try updateGameReducer(state: &state.game!, action: action, dependencies: ()),
+        try playAIMoveReducer(state: &state.game!, action: action, dependencies: ())
+    ])
 }
