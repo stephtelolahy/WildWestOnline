@@ -24,12 +24,49 @@ public struct GameView: View {
     public var body: some View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
-            UIViewControllerRepresentableBuilder {
-                GamePlayViewController(store: store)
-            }
+            gamePlayView
+//            UIViewControllerRepresentableBuilder {
+//                GamePlayViewController(store: store)
+//            }
         }
         .foregroundColor(.primary)
-        .navigationBarHidden(true)
+//        .navigationBarHidden(true)
+    }
+
+    private var gamePlayView: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                // Top: Circular arrangement of players.
+                PlayerCircleView(
+                    players: store.state.players,
+                    topDiscard: store.state.topDiscard
+                )
+                    .frame(height: geometry.size.height * 0.7)
+                    .padding(.top)
+
+                Spacer()
+
+                Text("Your Hand")
+                    .font(.title2)
+                    .padding()
+
+                ScrollView(.horizontal) {
+                    HStack(spacing: 16) {
+                        ForEach(store.state.handCards, id: \.card) { card in
+                            Button(action: {
+                                Task {
+                                    await store.dispatch(GameAction.play(card.card, player: "???"))
+                                }
+                            }) {
+                                HandCardView(card: card)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+        }
     }
 }
 

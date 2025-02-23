@@ -18,6 +18,12 @@
         }
       }
     },
+    "Deck" : {
+
+    },
+    "Discard" : {
+
+    },
     "game.message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -51,6 +57,12 @@
           }
         }
       }
+    },
+    "Hand: %lld" : {
+
+    },
+    "Your Hand" : {
+
     }
   },
   "version" : "1.0"
