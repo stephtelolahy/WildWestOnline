@@ -41,10 +41,14 @@ public struct MainCoordinator: View {
                     await store.dispatch(NavigationStackAction<MainDestination>.setPath(newPath))
                 }
             }
-            .onChange(of: sheet) { oldSheet, newSheet in
+            .onChange(of: sheet) { _, newSheet in
                 guard newSheet != store.state.navigation.main.sheet else { return }
                 Task {
-                    await store.dispatch(NavigationStackAction<MainDestination>.pop)
+                    if let newSheet {
+                        await store.dispatch(NavigationStackAction<MainDestination>.present(newSheet))
+                    } else {
+                        await store.dispatch(NavigationStackAction<MainDestination>.pop)
+                    }
                 }
             }
         }

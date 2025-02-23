@@ -5,8 +5,8 @@
 //  Created by Stephano Hugues TELOLAHY on 05/11/2024.
 //
 
-import Testing
 @testable import GameCore
+import Testing
 
 struct DistanceTest {
     @Test func distance_withoutEquipement_shouldBeTheLowestValue() async throws {

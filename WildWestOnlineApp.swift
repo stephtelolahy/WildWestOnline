@@ -49,7 +49,7 @@ struct WildWestOnlineApp: App {
     let dependencies = AppDependencies(
         settings: .init(
             savePlayersCount: settingsService.savePlayersCount,
-            saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds(_:),
+            saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds,
             saveSimulationEnabled: settingsService.saveSimulationEnabled,
             savePreferredFigure: settingsService.savePreferredFigure
         )

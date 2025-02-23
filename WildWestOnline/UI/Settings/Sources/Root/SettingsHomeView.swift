@@ -162,14 +162,8 @@ private extension SettingsHomeView.State {
 public extension SettingsHomeView.State {
     init?(appState: AppState) {
         playersCount = appState.settings.playersCount
-        speedIndex = SettingsHomeView.State.indexOfSpeed(appState.settings.actionDelayMilliSeconds)
+        speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
         simulation = appState.settings.simulation
         preferredFigure = appState.settings.preferredFigure
-    }
-}
-
-private extension SettingsHomeView.State {
-    static func indexOfSpeed(_ delay: Int) -> Int {
-        SpeedOption.all.firstIndex { $0.value == delay } ?? 0
     }
 }
