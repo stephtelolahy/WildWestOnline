@@ -64,6 +64,9 @@
     "Hand: %lld" : {
 
     },
+    "Quit" : {
+
+    },
     "Your Hand" : {
 
     }

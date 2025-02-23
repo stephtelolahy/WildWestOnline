@@ -24,13 +24,8 @@ public struct GameView: View {
     public var body: some View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
+//            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
             gamePlayView
-                .task {
-                    await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
-                }
-//            UIViewControllerRepresentableBuilder {
-//                GamePlayViewController(store: store)
-//            }
         }
         .foregroundColor(.primary)
         .navigationBarHidden(true)
@@ -80,6 +75,9 @@ public struct GameView: View {
                     .padding(.horizontal)
                 }
             }
+        }
+        .task {
+            await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
         }
     }
 }
