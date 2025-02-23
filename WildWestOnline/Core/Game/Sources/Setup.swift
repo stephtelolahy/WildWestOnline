@@ -57,7 +57,6 @@ public enum Setup {
             result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
         }
     }
-
 }
 
 private extension Setup {

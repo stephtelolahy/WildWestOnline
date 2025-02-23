@@ -148,7 +148,7 @@ struct GameViewTest {
         // Then
         #expect(viewState.chooseOne ==
             GameView.State.ChooseOne(
-                choiceType: "Unknown",
+                choiceType: "",
                 options: [.missed, .bang]
             )
         )
