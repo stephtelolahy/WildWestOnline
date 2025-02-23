@@ -72,12 +72,12 @@ struct GameView: View {
 
 #Preview {
     GameView {
-        .init(initialState: .mockedData, dependencies: ())
+        .init(initialState: .mock, dependencies: ())
     }
 }
 
 private extension GameView.State {
-    static var mockedData: Self {
+    static var mock: Self {
         let player1 = GameView.State.PlayerItem(
             id: "p1",
             imageName: "willyTheKid",

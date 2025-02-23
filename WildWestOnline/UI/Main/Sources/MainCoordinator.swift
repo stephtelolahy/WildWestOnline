@@ -42,14 +42,14 @@ public struct MainCoordinator: View {
     MainCoordinator()
         .environmentObject(
             Store<AppState, AppDependencies>.init(
-                initialState: .mockedData,
-                dependencies: .mockedData
+                initialState: .mock,
+                dependencies: .mock
             )
         )
 }
 
 private extension AppState {
-    static var mockedData: Self {
+    static var mock: Self {
         .init(
             navigation: .init(),
             settings: .makeBuilder().build(),
@@ -59,7 +59,7 @@ private extension AppState {
 }
 
 private extension AppDependencies {
-    static var mockedData: Self {
+    static var mock: Self {
         .init(
             settings: .init(
                 savePlayersCount: { _ in },

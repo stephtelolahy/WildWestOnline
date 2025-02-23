@@ -143,12 +143,12 @@ struct SettingsHomeView: View {
 
 #Preview {
     SettingsHomeView {
-        .init(initialState: .mockedData, dependencies: ())
+        .init(initialState: .mock, dependencies: ())
     }
 }
 
 private extension SettingsHomeView.State {
-    static var mockedData: Self {
+    static var mock: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,
