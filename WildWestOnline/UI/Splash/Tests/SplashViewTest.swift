@@ -5,12 +5,11 @@
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 
-import AppCore
-import GameCore
-import Redux
-import SettingsCore
 @testable import SplashUI
 import Testing
+import AppCore
+import GameCore
+import SettingsCore
 
 struct SplashViewTest {
     @Test func splashStateProjection() async throws {
@@ -22,9 +21,9 @@ struct SplashViewTest {
         )
 
         // When
-        let result = SplashView.State(appState: appState)
+        let viewState = SplashView.State(appState: appState)
 
         // Then
-        #expect(result != nil)
+        #expect(viewState != nil)
     }
 }

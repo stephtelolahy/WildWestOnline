@@ -1,18 +1,17 @@
 //
-//  HomePresenterTest.swift
+//  HomeViewTest.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 
+@testable import HomeUI
+import Testing
 import AppCore
 import GameCore
-@testable import HomeUI
-import Redux
 import SettingsCore
-import Testing
 
-struct HomePresenterTest {
+struct HomeViewTest {
     @Test func HomeStateProjection() async throws {
         // Given
         let appState = AppState(
@@ -22,7 +21,9 @@ struct HomePresenterTest {
         )
 
         // When
+        let viewState = HomeView.State.init(appState: appState)
+
         // Then
-        await #expect(HomeView.presenter(appState) != nil)
+        #expect(viewState != nil)
     }
 }
