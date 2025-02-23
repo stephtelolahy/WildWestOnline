@@ -9,7 +9,7 @@ import SwiftUI
 /// App theme
 ///
 public protocol AppTheme {
-    var backgroundView: Color { get }
+    var backgroundColor: Color { get }
     var accentColor: Color { get }
 }
 

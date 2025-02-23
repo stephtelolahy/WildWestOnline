@@ -1,0 +1,168 @@
+//
+//  GameViewState.swift
+//  WildWestOnline
+//
+//  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
+//
+
+import Foundation
+import AppCore
+import GameCore
+
+public extension GameView {
+    struct State: Equatable {
+        let players: [PlayerItem]
+        let message: String
+        let chooseOne: ChooseOne?
+        let handCards: [HandCard]
+        let topDiscard: String?
+        let topDeck: String?
+        let animationDelay: TimeInterval
+        let startOrder: [String]
+        let deckCount: Int
+        let controlledPlayer: String?
+        let startPlayer: String
+
+        struct PlayerItem: Equatable {
+            let id: String
+            let imageName: String
+            let displayName: String
+            let health: Int
+            let maxHealth: Int
+            let handCount: Int
+            let inPlay: [String]
+            let isTurn: Bool
+            let isTargeted: Bool
+            let isEliminated: Bool
+            let role: String?
+            let userPhotoUrl: String?
+        }
+
+        struct HandCard: Equatable {
+            let card: String
+            let active: Bool
+        }
+
+        struct ChooseOne: Equatable {
+            let choiceType: String
+            let options: [String]
+        }
+    }
+}
+
+public extension GameView.State {
+    init?(appState: AppState) {
+        guard let game = appState.game else {
+            return nil
+        }
+
+        players = game.playerItems
+        message = game.message
+        chooseOne = game.chooseOne
+        handCards = game.handCards
+        topDiscard = game.discard.first
+        topDeck = game.deck.first
+        animationDelay = Double(game.actionDelayMilliSeconds) / 1000.0
+        startOrder = game.startOrder
+        deckCount = game.deck.count
+        controlledPlayer = game.controlledPlayerId
+        startPlayer = game.startPlayerId
+    }
+}
+
+private extension GameState {
+    var playerItems: [GameView.State.PlayerItem] {
+        self.startOrder.map { playerId in
+            let playerObj = players.get(playerId)
+            let health = max(0, playerObj.health)
+            let maxHealth = playerObj.maxHealth
+            let handCount = playerObj.hand.count
+            let equipment = playerObj.inPlay
+            let isTurn = playerId == turn
+            let isEliminated = !playOrder.contains(playerId)
+            let isTargeted = queue.contains { $0.payload.target == playerId }
+
+            return .init(
+                id: playerId,
+                imageName: playerObj.figure,
+                displayName: playerObj.figure.uppercased(),
+                health: health,
+                maxHealth: maxHealth,
+                handCount: handCount,
+                inPlay: equipment,
+                isTurn: isTurn,
+                isTargeted: isTargeted,
+                isEliminated: isEliminated,
+                role: nil,
+                userPhotoUrl: nil
+            )
+        }
+    }
+
+    var message: String {
+        if let turn = turn {
+            "\(turn.uppercased())'s turn"
+        } else {
+            "-"
+        }
+    }
+
+    var chooseOne: GameView.State.ChooseOne? {
+        guard let controlledPlayer = controlledPlayerId,
+              let chooseOne = pendingChoice,
+              chooseOne.chooser == controlledPlayer else {
+            return  nil
+        }
+
+        return .init(
+            choiceType: "",
+            options: chooseOne.options.map(\.label)
+        )
+    }
+
+    var handCards: [GameView.State.HandCard] {
+        guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
+              let playerObj = players[playerId] else {
+            return []
+        }
+
+        let activeCards = active[playerId] ?? []
+
+        let hand = players.get(playerId).hand.map { card in
+            GameView.State.HandCard(
+                card: card,
+                active: activeCards.contains(card)
+            )
+        }
+
+        let abilities = playerObj.abilities.compactMap { card in
+            if activeCards.contains(card) {
+                GameView.State.HandCard(
+                    card: card,
+                    active: true
+                )
+            } else {
+                nil
+            }
+        }
+
+        return hand + abilities
+    }
+
+    var startingPlayerId: String {
+        playOrder.first!
+    }
+
+    var controlledPlayerId: String? {
+        playMode.keys.first { playMode[$0] == .manual }
+    }
+
+    var startPlayerId: String {
+        guard let playerId = startOrder.first else {
+            fatalError("unsupported")
+        }
+
+        return playerId
+    }
+}
+

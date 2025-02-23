@@ -26,7 +26,7 @@ public struct HomeView: View {
 
     public var body: some View {
         ZStack {
-            theme.backgroundView.edgesIgnoringSafeArea(.all)
+            theme.backgroundColor.edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
                 contentView
