@@ -53,7 +53,7 @@ public struct MainCoordinator: View {
 @ViewBuilder private func viewForDestination(_ destination: MainDestination) -> some View {
     switch destination {
     case .home: HomeView { store.projection { HomeView.State(appState: $0) } }
-    case .game: GameContainerView()
+    case .game: GameView { store.projection { GameView.State(appState: $0) } }
     case .settings: SettingsCoordinator()
     }
 }

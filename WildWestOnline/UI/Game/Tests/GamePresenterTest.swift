@@ -5,13 +5,12 @@
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
 //
 
+@testable import GameUI
+import Testing
 import AppCore
 import CardsData
 import GameCore
-@testable import GameUI
-import Redux
 import SettingsCore
-import Testing
 
 struct GamePresenterTest {
     @Test func shouldDisplayCurrentTurnPlayer() async throws {
@@ -29,10 +28,10 @@ struct GamePresenterTest {
         )
 
         // When
-        let result = try #require(await GameView.presenter(appState))
+        let viewState = try #require(GameView.State(appState: appState))
 
         // Then
-        #expect(result.message == "P1's turn")
+        #expect(viewState.message == "P1's turn")
     }
 
     @Test func shouldDisplayStatusForEachPlayers() async throws {
@@ -59,12 +58,12 @@ struct GamePresenterTest {
         )
 
         // When
-        let result = try #require(await GameView.presenter(appState))
+        let viewState = try #require(GameView.State(appState: appState))
 
         // Then
-        #expect(result.players.count == 2)
+        #expect(viewState.players.count == 2)
 
-        let player1 = try #require(result.players[0])
+        let player1 = try #require(viewState.players[0])
         #expect(player1.id == "p1")
         #expect(player1.imageName == "willyTheKid")
         #expect(player1.displayName == "WILLYTHEKID")
@@ -75,7 +74,7 @@ struct GamePresenterTest {
         #expect(player1.isTurn)
         #expect(!player1.isEliminated)
 
-        let player2 = try #require(result.players[1])
+        let player2 = try #require(viewState.players[1])
         #expect(player2.id == "p2")
         #expect(player2.imageName == "paulRegret")
         #expect(player2.displayName == "PAULREGRET")
@@ -110,10 +109,10 @@ struct GamePresenterTest {
         )
 
         // When
-        let result = try #require(await GameView.presenter(appState))
+        let viewState = try #require(GameView.State(appState: appState))
 
         // Then
-        #expect(result.handCards == [
+        #expect(viewState.handCards == [
             .init(card: .bang, active: true),
             .init(card: .gatling, active: false),
             .init(card: .defaultEndTurn, active: true)
@@ -144,10 +143,10 @@ struct GamePresenterTest {
         )
 
         // When
-        let result = try #require(await GameView.presenter(appState))
+        let viewState = try #require(GameView.State(appState: appState))
 
         // Then
-        #expect(result.chooseOne ==
+        #expect(viewState.chooseOne ==
             GameView.State.ChooseOne(
                 choiceType: "Unknown",
                 options: [.missed, .bang]
