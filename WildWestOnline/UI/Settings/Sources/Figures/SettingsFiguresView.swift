@@ -7,6 +7,7 @@
 
 import Redux
 import SwiftUI
+import AppCore
 import SettingsCore
 
 struct SettingsFiguresView: View {
@@ -53,5 +54,16 @@ struct SettingsFiguresView: View {
             ]),
             dependencies: ()
         )
+    }
+}
+
+extension SettingsFiguresView.State {
+    init?(appState: AppState) {
+        figures = appState.inventory.figures.map {
+            .init(
+                name: $0,
+                isFavorite: $0 == appState.settings.preferredFigure
+            )
+        }
     }
 }

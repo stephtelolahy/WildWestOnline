@@ -7,11 +7,12 @@
 
 import Redux
 import SwiftUI
+import AppCore
 import NavigationCore
 import SettingsCore
 
-struct SettingsHomeView: View {
-    struct State: Equatable {
+public struct SettingsHomeView: View {
+    public struct State: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
         let speedOptions: [SpeedOption] = SpeedOption.all
@@ -33,13 +34,13 @@ struct SettingsHomeView: View {
 
     @StateObject private var store: Store<State, Void>
 
-    init(store: @escaping () -> Store<State, Void>) {
+    public init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         Form {
             preferencesSection
         }
@@ -155,5 +156,20 @@ private extension SettingsHomeView.State {
             simulation: false,
             preferredFigure: "Figure1"
         )
+    }
+}
+
+public extension SettingsHomeView.State {
+    init?(appState: AppState) {
+        playersCount = appState.settings.playersCount
+        speedIndex = SettingsHomeView.State.indexOfSpeed(appState.settings.actionDelayMilliSeconds)
+        simulation = appState.settings.simulation
+        preferredFigure = appState.settings.preferredFigure
+    }
+}
+
+private extension SettingsHomeView.State {
+    static func indexOfSpeed(_ delay: Int) -> Int {
+        SpeedOption.all.firstIndex { $0.value == delay } ?? 0
     }
 }

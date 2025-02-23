@@ -45,5 +45,3 @@ public extension Store {
         StoreProjection(globalStore: self, deriveState: deriveState)
     }
 }
-
-public typealias Presenter<GlobalSate, LocalState> = @Sendable (GlobalSate) -> LocalState?

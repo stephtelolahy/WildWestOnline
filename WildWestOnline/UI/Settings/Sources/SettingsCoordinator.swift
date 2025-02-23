@@ -17,7 +17,7 @@ public struct SettingsCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            SettingsRootContainerView()
+            SettingsHomeView { store.projection { SettingsHomeView.State(appState: $0) } }
                 .navigationDestination(for: SettingsDestination.self) {
                     viewForDestination($0)
                 }
@@ -36,7 +36,7 @@ public struct SettingsCoordinator: View {
 
     @ViewBuilder private func viewForDestination(_ destination: SettingsDestination) -> some View {
         switch destination {
-        case .figures: SettingsFiguresContainerView()
+        case .figures: SettingsFiguresView { store.projection { SettingsFiguresView.State(appState: $0) }}
         }
     }
 }

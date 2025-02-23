@@ -1,5 +1,5 @@
 //
-//  GamePresenterTest.swift
+//  GameViewTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 25/03/2024.
@@ -12,7 +12,7 @@ import CardsData
 import GameCore
 import SettingsCore
 
-struct GamePresenterTest {
+struct GameViewTest {
     @Test func shouldDisplayCurrentTurnPlayer() async throws {
         // Given
         let game = GameState.makeBuilder()
