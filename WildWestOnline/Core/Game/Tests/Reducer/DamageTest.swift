@@ -19,7 +19,7 @@ struct DamageTest {
 
         // When
         let action = GameAction.damage(1, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").health == 1)
@@ -35,7 +35,7 @@ struct DamageTest {
 
         // When
         let action = GameAction.damage(2, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").health == 0)

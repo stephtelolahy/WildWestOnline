@@ -9,7 +9,7 @@
 import Serialization
 import SettingsCore
 
-public class SettingsRepository: SettingsService {
+public class SettingsRepository {
     public init() {}
 
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
@@ -28,7 +28,7 @@ public class SettingsRepository: SettingsService {
         _playersCount
     }
 
-    public func setPlayersCount(_ value: Int) {
+    public func savePlayersCount(_ value: Int) {
         _playersCount = value
     }
 
@@ -36,7 +36,7 @@ public class SettingsRepository: SettingsService {
         _actionDelayMilliSeconds
     }
 
-    public func setActionDelayMilliSeconds(_ value: Int) {
+    public func saveActionDelayMilliSeconds(_ value: Int) {
         _actionDelayMilliSeconds = value
     }
 
@@ -44,7 +44,7 @@ public class SettingsRepository: SettingsService {
         _simulationEnabled
     }
 
-    public func setSimulationEnabled(_ value: Bool) {
+    public func saveSimulationEnabled(_ value: Bool) {
         _simulationEnabled = value
     }
 
@@ -52,7 +52,7 @@ public class SettingsRepository: SettingsService {
         _preferredFigure
     }
 
-    public func setPreferredFigure(_ value: String?) {
+    public func savePreferredFigure(_ value: String?) {
         _preferredFigure = value
     }
 }

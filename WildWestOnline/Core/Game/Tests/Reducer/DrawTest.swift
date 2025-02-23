@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct DrawTest {
     @Test func draw_shouldMoveCardFromDeckToDiscard() async throws {
@@ -18,7 +19,7 @@ struct DrawTest {
 
         // When
         let action = GameAction.draw(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.discard == ["c2", "c1"])
@@ -33,7 +34,7 @@ struct DrawTest {
 
         // When
         let action = GameAction.draw(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.discard == ["c2", "c1"])
@@ -46,11 +47,10 @@ struct DrawTest {
             .build()
 
         // When
-        let action = GameAction.draw(player: "p1")
-
         // Then
-        #expect(throws: GameError.insufficientDeck) {
-            try GameReducer().reduce(state, action)
+        let action = GameAction.draw(player: "p1")
+        await #expect(throws: GameError.insufficientDeck) {
+            try await dispatch(action, state: state)
         }
     }
 }

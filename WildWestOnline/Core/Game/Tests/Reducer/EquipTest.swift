@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct EquipTest {
     @Test func equip_withCardNotInPlay_shouldPutCardInPlay() async throws {
@@ -19,7 +20,7 @@ struct EquipTest {
 
         // When
         let action = GameAction.equip("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c2"])
@@ -28,7 +29,6 @@ struct EquipTest {
     }
 
     @Test func equip_withCardAlreadyInPlay_shouldThrowError() async throws {
-        // Given
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -40,8 +40,8 @@ struct EquipTest {
         // When
         // Then
         let action = GameAction.equip("c-1", player: "p1")
-        #expect(throws: GameError.cardAlreadyInPlay("c")) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.cardAlreadyInPlay("c")) {
+            try await dispatch(action, state: state)
         }
     }
 }

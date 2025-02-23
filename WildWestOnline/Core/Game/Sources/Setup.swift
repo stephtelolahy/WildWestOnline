@@ -6,10 +6,18 @@
 //
 
 public enum Setup {
-    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
-        cardSets.reduce(into: [String]()) { result, card in
-            result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
-        }
+    public static func buildGame(
+        playersCount: Int,
+        inventory: Inventory,
+        preferredFigure: String? = nil
+    ) -> GameState {
+        precondition(preferredFigure == nil, "unimplemted `preferredFigure`")
+        return buildGame(
+            figures: Array(inventory.figures.shuffled().prefix(playersCount)),
+            deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
+            cards: inventory.cards,
+            defaultAbilities: inventory.defaultAbilities
+        )
     }
 
     public static func buildGame(
@@ -43,21 +51,11 @@ public enum Setup {
             actionDelayMilliSeconds: 0
         )
     }
-}
 
-public extension Setup {
-    static func buildGame(
-        playersCount: Int,
-        inventory: Inventory,
-        preferredFigure: String? = nil
-    ) -> GameState {
-        precondition(preferredFigure == nil, "unimplemted `preferredFigure`")
-        return buildGame(
-            figures: Array(inventory.figures.shuffled().prefix(playersCount)),
-            deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
-            cards: inventory.cards,
-            defaultAbilities: inventory.defaultAbilities
-        )
+    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
+        cardSets.reduce(into: [String]()) { result, card in
+            result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
+        }
     }
 }
 

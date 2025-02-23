@@ -23,14 +23,14 @@ struct WildWestOnlineApp: App {
         WindowGroup {
             MainCoordinator()
                 .environmentObject(store)
-            .environment(\.colorScheme, .light)
-            .accentColor(theme.accentColor)
+                .environment(\.colorScheme, .light)
+                .accentColor(theme.accentColor)
         }
     }
 }
 
-private func createStore() -> Store<AppState> {
-    let settingsService: SettingsService = SettingsRepository()
+@MainActor private func createStore() -> Store<AppState, AppDependencies> {
+    let settingsService = SettingsRepository()
 
     let settings = SettingsState.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
@@ -46,33 +46,24 @@ private func createStore() -> Store<AppState> {
         defaultAbilities: DefaultAbilities.all
     )
 
+    let dependencies = AppDependencies(
+        settings: .init(
+            savePlayersCount: settingsService.savePlayersCount,
+            saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds,
+            saveSimulationEnabled: settingsService.saveSimulationEnabled,
+            savePreferredFigure: settingsService.savePreferredFigure
+        )
+    )
+
     let initialState = AppState(
         navigation: .init(),
         settings: settings,
         inventory: inventory
     )
 
-    return Store<AppState>(
-        initial: initialState,
-        reducer: AppReducer().reduce,
-        middlewares: [
-            Middlewares.lift(
-                Middlewares.updateGame,
-                deriveState: { $0.game }
-            ),
-            Middlewares.lift(
-                Middlewares.playAIMove,
-                deriveState: { $0.game }
-            ),
-            Middlewares.lift(
-                Middlewares.saveSettings(service: settingsService),
-                deriveState: { $0.settings }
-            ),
-            Middlewares.lift(
-                Middlewares.setupGame,
-                deriveState: { $0 }
-            ),
-            Middlewares.logger()
-        ]
+    return Store<AppState, AppDependencies>(
+        initialState: initialState,
+        reducer: appReducer,
+        dependencies: dependencies
     )
 }

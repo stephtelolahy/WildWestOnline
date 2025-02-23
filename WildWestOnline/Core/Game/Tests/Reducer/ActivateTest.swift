@@ -16,7 +16,7 @@ struct ActivateTest {
 
         // When
         let action = GameAction.activate(["c1", "c2"], player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.active == ["p1": ["c1", "c2"]])

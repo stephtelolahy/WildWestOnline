@@ -11,20 +11,20 @@ import Redux
 import AppCore
 import NavigationCore
 
-struct HomeView: View {
-    struct State: Equatable {
+public struct HomeView: View {
+    public struct State: Equatable {
     }
 
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<State>
+    @StateObject private var store: Store<State, Void>
 
-    init(store: @escaping () -> Store<State>) {
+    public init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             theme.backgroundView.edgesIgnoringSafeArea(.all)
             VStack {
@@ -50,13 +50,13 @@ struct HomeView: View {
             }
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
-                    withAnimation {
-                        store.dispatch(GameSetupAction.startGame)
+                    Task {
+                        await store.dispatch(SetupGameAction.startGame)
                     }
                 }
                 mainButton("menu.settings.button") {
-                    withAnimation {
-                        store.dispatch(NavigationStackAction<MainDestination>.present(.settings))
+                    Task {
+                        await store.dispatch(NavigationStackAction<MainDestination>.present(.settings))
                     }
                 }
             }
@@ -89,6 +89,11 @@ struct HomeView: View {
 
 #Preview {
     HomeView {
-        .init(initial: .init())
+        .init(initialState: .init(), dependencies: ())
+    }
+}
+
+public extension HomeView.State {
+    init?(appState: AppState) {
     }
 }

@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct DrawDeckTest {
     @Test func drawDeck_whithNonEmptyDeck_shouldRemoveTopCard() async throws {
@@ -18,7 +19,7 @@ struct DrawDeckTest {
 
         // When
         let action = GameAction.drawDeck(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c1"])
@@ -34,7 +35,7 @@ struct DrawDeckTest {
 
         // When
         let action = GameAction.drawDeck(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.deck == ["c3", "c4"])
@@ -51,8 +52,8 @@ struct DrawDeckTest {
         // When
         // Then
         let action = GameAction.drawDeck(player: "p1")
-        #expect(throws: GameError.insufficientDeck) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.insufficientDeck) {
+            try await dispatch(action, state: state)
         }
     }
 }

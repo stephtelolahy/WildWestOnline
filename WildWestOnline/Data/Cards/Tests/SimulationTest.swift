@@ -6,10 +6,10 @@
 //
 
 import Testing
-import XCTest
 import Redux
 import GameCore
 import CardsData
+import Combine
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
@@ -25,54 +25,60 @@ struct SimulationTest {
             state.playMode[player] = .auto
         }
 
-        let expectation = XCTestExpectation(description: "Game idle")
-        let store = Store<GameState>(
-            initial: state,
-            reducer: GameReducer().reduce,
-            middlewares: [
-                Middlewares.logger(),
-                Middlewares.updateGame,
-                Middlewares.playAIMove,
-                Middlewares.verifyState(StateWrapper(value: state))
-            ]
-        ) {
-            expectation.fulfill()
+        let store = await createGameStoreWithAIAgent(initialState: state)
+
+        let stateVerifier = StateVerifier(initialState: state)
+        var cancellables: Set<AnyCancellable> = []
+        await MainActor.run {
+            store.eventPublisher
+                .sink { stateVerifier.receiveAction(action: $0) }
+                .store(in: &cancellables)
+            store.$state
+                .sink { stateVerifier.receiveState(state: $0) }
+                .store(in: &cancellables)
         }
 
         // When
         let startAction = GameAction.startTurn(player: state.playOrder[0])
-        store.dispatch(startAction)
+        await store.dispatch(startAction)
 
         // Then
-        let waiter = XCTWaiter()
-        await waiter.fulfillment(of: [expectation])
-
-        #expect(store.state.isOver, "Expected game over")
+        await #expect(store.state.isOver, "Expected game over")
     }
 }
 
-private extension Middlewares {
-    static func verifyState(_ prevState: StateWrapper) -> Middleware<GameState> {
-        { state, action in
-            DispatchQueue.main.async {
-                guard let nextState = try? GameReducer().reduce(prevState.value, action) else {
-                    fatalError("Failed reducing \(action)")
-                }
-
-                assert(nextState == state, "Inconsistent state after applying \(action)")
-
-                prevState.value = nextState
-            }
-
-            return nil
-        }
-    }
+@MainActor private func createGameStoreWithAIAgent(initialState: GameState) -> Store<GameState, Void> {
+    .init(
+        initialState: initialState,
+        reducer: { state, action, dependencies in
+                .group([
+                    try loggerReducer(state: &state, action: action, dependencies: ()),
+                    try gameReducer(state: &state, action: action, dependencies: ()),
+                    try updateGameReducer(state: &state, action: action, dependencies: ()),
+                    try playAIMoveReducer(state: &state, action: action, dependencies: ())
+                ])
+        },
+        dependencies: ()
+    )
 }
 
-private class StateWrapper: @unchecked Sendable {
-    var value: GameState
+private class StateVerifier {
+    var prevState: GameState
+    var currentState: GameState
 
-    init(value: GameState) {
-        self.value = value
+    init(initialState: GameState) {
+        self.prevState = initialState
+        self.currentState = initialState
+    }
+
+    func receiveState(state: GameState) {
+        prevState = currentState
+        currentState = state
+    }
+
+    func receiveAction(action: Action) {
+        var nextState = prevState
+        _ = try? gameReducer(state: &nextState, action: action, dependencies: ())
+        assert(nextState == currentState, "Inconsistent state after applying \(action)")
     }
 }

@@ -3,10 +3,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 02/11/2024.
 //
-
 import Combine
-import Foundation
-// swiftlint:disable private_subject unowned_variable_capture
 
 /// ``Action`` is a plain object that describes what happened.
 /// To change something in the state, you need to dispatch an action.
@@ -15,69 +12,70 @@ import Foundation
 public protocol Action: Sendable {}
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
-public typealias Reducer<State> = (State, Action) throws -> State
+/// Also return side-effects in response, and eventually dispatch more actions
+public typealias Reducer<State, Dependencies> = (inout State, Action, Dependencies) throws -> Effect
 
-/// ``Middleware`` is a plugin, or a composition of several plugins,
-/// that are assigned to the app global  state pipeline in order to
-/// handle each action received action, to execute side-effects in response, and eventually dispatch more actions
-public typealias Middleware<State> = (State, Action) async -> Action?
-
-/// Namespace for Middlewares
-public enum Middlewares {}
+/// ``Effect`` is an asynchronous `Action`
+public enum Effect {
+    case none
+    case publisher(AnyPublisher<Action, Never>)
+    case run(() async -> Action?)
+    case group([Effect])
+}
 
 /// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-public class Store<State>: ObservableObject, @unchecked Sendable {
+@MainActor public class Store<State, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
     public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
-
-    private let reducer: Reducer<State>
-    private let middlewares: [Middleware<State>]
-    private var completion: (() -> Void)?
-    private var subscribedEffects: Int = 0
-    private var completedEffects: Int = 0
-
+    
+    private let reducer: Reducer<State, Dependencies>
+    private let dependencies: Dependencies
+    
     public init(
-        initial state: State,
-        reducer: @escaping Reducer<State> = { state, _ in state },
-        middlewares: [Middleware<State>] = [],
-        completion: (() -> Void)? = nil
+        initialState: State,
+        reducer: @escaping Reducer<State, Dependencies> = { _, _, _ in .none },
+        dependencies: Dependencies
     ) {
-        self.state = state
+        self.state = initialState
         self.reducer = reducer
-        self.middlewares = middlewares
+        self.dependencies = dependencies
         self.eventPublisher = .init()
         self.errorPublisher = .init()
-        self.completion = completion
     }
-
-    public func dispatch(_ action: Action) {
+    
+    public func dispatch(_ action: Action) async {
         do {
-            let newState = try reducer(state, action)
+            let effect = try reducer(&state, action, dependencies)
             eventPublisher.send(action)
-            state = newState
-            subscribedEffects += middlewares.count
-            Task.detached { [unowned self] in
-                for middleware in middlewares {
-                    let output = await middleware(newState, action)
-                    DispatchQueue.main.async { [unowned self] in
-                        if let output {
-                            dispatch(output)
-                        }
-
-                        completedEffects += 1
-                        if completedEffects == subscribedEffects {
-                            completion?()
-                        }
-                    }
-                }
-            }
+            await runEffect(effect)
         } catch {
             errorPublisher.send(error)
-            completion?()
+        }
+    }
+
+    private func runEffect(_ effect: Effect) async {
+        switch effect {
+        case .none:
+            return
+
+        case .publisher(let publisher):
+            for await result in publisher.values {
+                await dispatch(result)
+            }
+
+        case .run(let asyncWork):
+            if let result = await asyncWork() {
+                await dispatch(result)
+            }
+
+        case .group(let effects):
+            for subEffect in effects {
+                await runEffect(subEffect)
+            }
         }
     }
 }

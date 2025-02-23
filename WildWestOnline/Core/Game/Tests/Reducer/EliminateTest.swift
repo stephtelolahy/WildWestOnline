@@ -18,7 +18,7 @@ struct EliminateTest {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.playOrder == ["p2"])
@@ -40,7 +40,7 @@ struct EliminateTest {
 
         // When
         let action = GameAction.eliminate(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.queue.isEmpty)

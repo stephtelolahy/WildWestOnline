@@ -1,10 +1,12 @@
 //
-//  NavigationState.swift
+//  NavigationCore.swift
 //  WildWestOnline
 //
-//  Created by Stephano Hugues TELOLAHY on 07/09/2024.
+//  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
-public struct NavigationState: Equatable, Codable {
+import Redux
+
+public struct NavigationState: Equatable, Codable, Sendable {
     public var main: NavigationStackState<MainDestination>
     public var settings: NavigationStackState<SettingsDestination>
 
@@ -33,4 +35,15 @@ public enum SettingsDestination: String, Destination {
     public var id: String {
         self.rawValue
     }
+}
+
+public func navigationReducer(
+    state: inout NavigationState,
+    action: Action,
+    dependencies: Void
+) throws -> Effect {
+    .group([
+        navigationStackReducer(state: &state.main, action: action, dependencies: ()),
+        navigationStackReducer(state: &state.settings, action: action, dependencies: ())
+    ])
 }

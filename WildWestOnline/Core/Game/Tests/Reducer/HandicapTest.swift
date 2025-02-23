@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct HandicapTest {
     @Test func handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() async throws {
@@ -20,7 +21,7 @@ struct HandicapTest {
 
         // When
         let action = GameAction.handicap("c1", target: "p2", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c2"])
@@ -43,8 +44,8 @@ struct HandicapTest {
         // When
         // Then
         let action = GameAction.handicap("c-1", target: "p2", player: "p1")
-        #expect(throws: GameError.cardAlreadyInPlay("c")) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.cardAlreadyInPlay("c")) {
+            try await dispatch(action, state: state)
         }
     }
 }

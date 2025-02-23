@@ -1,18 +1,18 @@
 //
-//  MainPresenterTest.swift
-//  WildWestOnline
+//  HomeViewTest.swift
+//  
 //
-//  Created by Hugues Stéphano TELOLAHY on 30/12/2024.
+//  Created by Stephano Hugues TELOLAHY on 24/02/2024.
 //
 
+@testable import HomeUI
 import Testing
 import AppCore
-@testable import MainUI
-import SettingsCore
 import GameCore
+import SettingsCore
 
-struct MainPresenterTest {
-    @Test func MainStateProjection() async throws {
+struct HomeViewTest {
+    @Test func HomeStateProjection() async throws {
         // Given
         let appState = AppState(
             navigation: .init(),
@@ -21,7 +21,9 @@ struct MainPresenterTest {
         )
 
         // When
+        let viewState = HomeView.State.init(appState: appState)
+
         // Then
-        await #expect(MainCoordinator.presenter(appState) != nil)
+        #expect(viewState != nil)
     }
 }

@@ -20,7 +20,7 @@ struct StealTest {
 
         // When
         let action = GameAction.stealHand("c21", target: "p2", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c21"])
@@ -38,7 +38,7 @@ struct StealTest {
 
         // When
         let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c21"])

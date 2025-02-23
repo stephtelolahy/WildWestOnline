@@ -19,7 +19,7 @@ struct DiscardPlayedTest {
 
         // When
         let action = GameAction.discardPlayed("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c2"])

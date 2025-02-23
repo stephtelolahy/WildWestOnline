@@ -8,45 +8,40 @@
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-private class StoreProjection<LocalState: Equatable, GlobalState>: Store<LocalState>, @unchecked Sendable {
-    private let globalStore: Store<GlobalState>
-    private let deriveState: (GlobalState) -> LocalState?
+private class StoreProjection<
+    LocalState: Equatable,
+    GlobalState,
+    Dependencies
+>: Store<LocalState, Void> {
+    private let globalStore: Store<GlobalState, Dependencies>
 
     init(
-        globalStore: Store<GlobalState>,
+        globalStore: Store<GlobalState, Dependencies>,
         deriveState: @escaping (GlobalState) -> LocalState?
     ) {
         guard let initialState = deriveState(globalStore.state) else {
-            fatalError("failed mapping to local state")
+            fatalError("failed deriving state from \(globalStore.state) to \(LocalState.Type.self)")
         }
 
         self.globalStore = globalStore
-        self.deriveState = deriveState
-        super.init(initial: initialState)
-        self.eventPublisher = globalStore.eventPublisher
+        super.init(initialState: initialState, dependencies: ())
         self.errorPublisher = globalStore.errorPublisher
 
         globalStore.$state
-            .map(self.deriveState)
+            .map(deriveState)
             .compactMap { $0 }
             .removeDuplicates()
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: Action) {
-        globalStore.dispatch(action)
+    override func dispatch(_ action: Action) async {
+        await globalStore.dispatch(action)
     }
 }
 
 public extension Store {
     /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(_ deriveState: @escaping (State) -> LocalState?) -> Store<LocalState> {
-        StoreProjection(
-            globalStore: self,
-            deriveState: deriveState
-        )
+    func projection<LocalState: Equatable>(_ deriveState: @escaping (State) -> LocalState?) -> Store<LocalState, Void> {
+        StoreProjection(globalStore: self, deriveState: deriveState)
     }
 }
-
-/// A function to extract ViewState from global AppState
-public typealias Presenter<GlobalState, LocalState: Equatable> = @Sendable (GlobalState) -> LocalState?

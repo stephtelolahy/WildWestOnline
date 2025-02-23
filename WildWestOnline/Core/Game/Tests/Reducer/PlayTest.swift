@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct PlayTest {
     @Test func play_shouldNotDiscard() async throws {
@@ -20,7 +21,7 @@ struct PlayTest {
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c1"])
@@ -38,7 +39,7 @@ struct PlayTest {
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.playedThisTurn["c1"] == 1)
@@ -56,7 +57,7 @@ struct PlayTest {
 
         // When
         let action = GameAction.play("c1", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.playedThisTurn["c1"] == 2)
@@ -73,7 +74,7 @@ struct PlayTest {
 
         // When
         let action = GameAction.play("c-2❤️", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.queue.count == 1)
@@ -91,8 +92,8 @@ struct PlayTest {
         // When
         // Assert
         let action = GameAction.play("c1", player: "p1")
-        #expect(throws: GameError.cardNotPlayable("c1")) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.cardNotPlayable("c1")) {
+            try await dispatch(action, state: state)
         }
     }
 }

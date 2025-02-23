@@ -16,7 +16,7 @@ struct StartTurnTest {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.turn == "p1")
@@ -30,7 +30,7 @@ struct StartTurnTest {
 
         // When
         let action = GameAction.startTurn(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.playedThisTurn.isEmpty)

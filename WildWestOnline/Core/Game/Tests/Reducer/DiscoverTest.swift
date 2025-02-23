@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct DiscoverTest {
     @Test func discover_shouldAddCardToDiscovered() async throws {
@@ -17,7 +18,7 @@ struct DiscoverTest {
 
         // When
         let action = GameAction.discover(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.discovered == ["c1"])
@@ -33,7 +34,7 @@ struct DiscoverTest {
 
         // When
         let action = GameAction.discover(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.discovered == ["c1", "c2"])
@@ -49,7 +50,7 @@ struct DiscoverTest {
 
         // When
         let action = GameAction.discover(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.discovered == ["c2"])
@@ -65,8 +66,8 @@ struct DiscoverTest {
         // When
         // Then
         let action = GameAction.discover(player: "p1")
-        #expect(throws: GameError.insufficientDeck) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.insufficientDeck) {
+            try await dispatch(action, state: state)
         }
     }
 
@@ -80,8 +81,8 @@ struct DiscoverTest {
         // When
         // Then
         let action = GameAction.discover(player: "p1")
-        #expect(throws: GameError.insufficientDeck) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.insufficientDeck) {
+            try await dispatch(action, state: state)
         }
     }
 }

@@ -7,6 +7,7 @@
 
 import Redux
 import SwiftUI
+import AppCore
 import SettingsCore
 
 struct SettingsFiguresView: View {
@@ -19,9 +20,9 @@ struct SettingsFiguresView: View {
         }
     }
 
-    @StateObject private var store: Store<State>
+    @StateObject private var store: Store<State, Void>
 
-    init(store: @escaping () -> Store<State>) {
+    init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -31,7 +32,9 @@ struct SettingsFiguresView: View {
         List {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
-                    store.dispatch(SettingsAction.updatePreferredFigure(figure.name))
+                    Task {
+                        await store.dispatch(SettingsAction.updatePreferredFigure(figure.name))
+                    }
                 }, label: {
                     FigureRow(figure: figure)
                 })
@@ -43,10 +46,24 @@ struct SettingsFiguresView: View {
 
 #Preview {
     SettingsFiguresView {
-        .init(initial: .init(figures: [
-            .init(name: "Figure1", isFavorite: false),
-            .init(name: "Figure2", isFavorite: false),
-            .init(name: "Figure3", isFavorite: true)
-        ]))
+        .init(
+            initialState: .init(figures: [
+                .init(name: "Figure1", isFavorite: false),
+                .init(name: "Figure2", isFavorite: false),
+                .init(name: "Figure3", isFavorite: true)
+            ]),
+            dependencies: ()
+        )
+    }
+}
+
+extension SettingsFiguresView.State {
+    init?(appState: AppState) {
+        figures = appState.inventory.figures.map {
+            .init(
+                name: $0,
+                isFavorite: $0 == appState.settings.preferredFigure
+            )
+        }
     }
 }

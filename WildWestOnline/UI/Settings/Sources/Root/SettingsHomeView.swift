@@ -7,11 +7,12 @@
 
 import Redux
 import SwiftUI
+import AppCore
 import NavigationCore
 import SettingsCore
 
-struct SettingsHomeView: View {
-    struct State: Equatable {
+public struct SettingsHomeView: View {
+    public struct State: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
         let speedOptions: [SpeedOption] = SpeedOption.all
@@ -31,23 +32,23 @@ struct SettingsHomeView: View {
         }
     }
 
-    @StateObject private var store: Store<State>
+    @StateObject private var store: Store<State, Void>
 
-    init(store: @escaping () -> Store<State>) {
+    public init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         Form {
             preferencesSection
         }
         .navigationTitle("Settings")
         .toolbar {
             Button("Done") {
-                withAnimation {
-                    store.dispatch(NavigationStackAction<MainDestination>.dismiss)
+                Task {
+                    await store.dispatch(NavigationStackAction<MainDestination>.dismiss)
                 }
             }
         }
@@ -71,7 +72,12 @@ struct SettingsHomeView: View {
                 "Players count: \(store.state.playersCount)",
                 value: Binding<Int>(
                     get: { store.state.playersCount },
-                    set: { store.dispatch(SettingsAction.updatePlayersCount($0)) }
+                    set: { index in
+                        Task {
+                            await store.dispatch(SettingsAction.updatePlayersCount(index))
+                        }
+
+                    }
                 ).animation(),
                 in: store.state.minPlayersCount...store.state.maxPlayersCount
             )
@@ -87,8 +93,10 @@ struct SettingsHomeView: View {
                         store.state.speedIndex
                     },
                     set: { index in
-                        let option = store.state.speedOptions[index]
-                        store.dispatch(SettingsAction.updateActionDelayMilliSeconds(option.value))
+                        Task {
+                            let option = store.state.speedOptions[index]
+                            await store.dispatch(SettingsAction.updateActionDelayMilliSeconds(option.value))
+                        }
                     }
                 ),
                 label: Text(
@@ -107,7 +115,11 @@ struct SettingsHomeView: View {
             Image(systemName: "record.circle")
             Toggle(isOn: Binding<Bool>(
                 get: { store.state.simulation },
-                set: { _ in store.dispatch(SettingsAction.toggleSimulation) }
+                set: { _ in
+                    Task {
+                        await store.dispatch(SettingsAction.toggleSimulation)
+                    }
+                }
             ).animation()) {
                 Text("Simulation")
             }
@@ -116,7 +128,9 @@ struct SettingsHomeView: View {
 
     private var figureView: some View {
         Button(action: {
-            store.dispatch(NavigationStackAction<SettingsDestination>.push(.figures))
+            Task {
+                await store.dispatch(NavigationStackAction<SettingsDestination>.push(.figures))
+            }
         }, label: {
             HStack {
                 Image(systemName: "lanyardcard.fill")
@@ -130,17 +144,26 @@ struct SettingsHomeView: View {
 
 #Preview {
     SettingsHomeView {
-        .init(initial: .mockedData)
+        .init(initialState: .mock, dependencies: ())
     }
 }
 
 private extension SettingsHomeView.State {
-    static var mockedData: Self {
+    static var mock: Self {
         .init(
             playersCount: 5,
             speedIndex: 0,
             simulation: false,
             preferredFigure: "Figure1"
         )
+    }
+}
+
+public extension SettingsHomeView.State {
+    init?(appState: AppState) {
+        playersCount = appState.settings.playersCount
+        speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
+        simulation = appState.settings.simulation
+        preferredFigure = appState.settings.preferredFigure
     }
 }

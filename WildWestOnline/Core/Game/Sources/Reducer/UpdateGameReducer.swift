@@ -1,51 +1,56 @@
 //
-//  UpdateMiddleware.swift
+//  UpdateGameReducer.swift
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-// swiftlint:disable discouraged_optional_collection
 import Redux
 
-/// Game loop features
-public extension Middlewares {
-    static var updateGame: Middleware<GameState> {
-        { state, action in
-            guard let action = action as? GameAction else {
-                return nil
-            }
-
-            // wait some delay if dispatched action was renderable
-            if action.isRenderable {
-                try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
-            }
-
-            if state.isOver {
-                return nil
-            }
-
-            if state.pendingChoice != nil {
-                return nil
-            }
-
-            if state.active.isNotEmpty {
-                return nil
-            }
-
-            if let triggered = state.triggeredEffect(on: action) {
-                return triggered
-            }
-
-            if let queued = state.queue.first {
-                return queued
-            }
-
-            if let activate = state.activatePlayableCards() {
-                return activate
-            }
-
-            return nil
-        }
+public func updateGameReducer(
+    state: inout GameState,
+    action: Action,
+    dependencies: Void
+) throws -> Effect {
+    let state = state
+    return .run {
+        await nextAction(state: state, action: action)
     }
+}
+
+private func nextAction(state: GameState, action: Action) async -> Action? {
+    guard let action = action as? GameAction else {
+        return nil
+    }
+
+    // wait some delay if dispatched action was renderable
+    if action.isRenderable {
+        try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
+    }
+
+    if state.isOver {
+        return nil
+    }
+
+    if state.pendingChoice != nil {
+        return nil
+    }
+
+    if state.active.isNotEmpty {
+        return nil
+    }
+
+    if let triggered = state.triggeredEffect(on: action) {
+        return triggered
+    }
+
+    if let queued = state.queue.first {
+        return queued
+    }
+
+    if let activate = state.activatePlayableCards() {
+        return activate
+    }
+
+    return nil
 }
 
 private extension GameState {
@@ -207,7 +212,10 @@ private extension GameAction {
     }
 
     func validate(state: GameState) throws {
-        var newState = try GameReducer().reduce(state, self)
+        var newState = state
+
+        _ = try gameReducer(state: &newState, action: self, dependencies: ())
+
         if let choice = newState.pendingChoice {
             for option in choice.options {
                 let next = GameAction.choose(option.label, player: choice.chooser)

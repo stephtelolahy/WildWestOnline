@@ -10,29 +10,33 @@ import AppCore
 import NavigationCore
 
 public struct SettingsCoordinator: View {
-    @EnvironmentObject private var store: Store<AppState>
+    @EnvironmentObject private var store: Store<AppState, AppDependencies>
+    @State private var path: [SettingsDestination] = []
 
     public init() {}
 
     public var body: some View {
-        NavigationStackView<SettingsDestination, SettingsRootViewBuilder, AnyView>(
-            store: {
-                store.projection(Self.presenter)
-            },
-            root: {
-                SettingsRootViewBuilder()
-            },
-            destination: { destination in
-                switch destination {
-                case .figures: SettingsFiguresViewBuilder().eraseToAnyView()
+        NavigationStack(path: $path) {
+            SettingsHomeView { store.projection { SettingsHomeView.State(appState: $0) } }
+                .navigationDestination(for: SettingsDestination.self) {
+                    viewForDestination($0)
                 }
-            }
-        )
+                // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+                .onReceive(store.$state) { state in
+                    path = state.navigation.settings.path
+                }
+                .onChange(of: path) { _, newPath in
+                    guard newPath != store.state.navigation.settings.path else { return }
+                    Task {
+                        await store.dispatch(NavigationStackAction<SettingsDestination>.setPath(newPath))
+                    }
+                }
+        }
     }
-}
 
-private extension SettingsCoordinator {
-    static let presenter: Presenter<AppState, NavigationStackState<SettingsDestination>> = { state in
-        state.navigation.settings
+    @ViewBuilder private func viewForDestination(_ destination: SettingsDestination) -> some View {
+        switch destination {
+        case .figures: SettingsFiguresView { store.projection { SettingsFiguresView.State(appState: $0) }}
+        }
     }
 }

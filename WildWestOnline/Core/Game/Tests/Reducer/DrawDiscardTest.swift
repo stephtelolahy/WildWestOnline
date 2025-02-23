@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct DrawDiscardTest {
     @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
@@ -18,7 +19,7 @@ struct DrawDiscardTest {
 
         // When
         let action = GameAction.drawDiscard(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").hand == ["c1"])
@@ -34,8 +35,8 @@ struct DrawDiscardTest {
         // When
         // Then
         let action = GameAction.drawDiscard(player: "p1")
-        #expect(throws: GameError.insufficientDiscard) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.insufficientDiscard) {
+            try await dispatch(action, state: state)
         }
     }
 }

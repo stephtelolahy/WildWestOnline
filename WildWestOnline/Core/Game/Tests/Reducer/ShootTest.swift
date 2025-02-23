@@ -18,7 +18,7 @@ struct ShootTest {
 
         // When
         let action = GameAction.shoot("p2", player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         let pending = try #require(result.queue.first)

@@ -7,6 +7,7 @@
 
 import Testing
 import GameCore
+import Combine
 
 struct HealTest {
     @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
@@ -20,7 +21,7 @@ struct HealTest {
 
         // When
         let action = GameAction.heal(1, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").health == 3)
@@ -37,7 +38,7 @@ struct HealTest {
 
         // When
         let action = GameAction.heal(2, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").health == 4)
@@ -54,7 +55,7 @@ struct HealTest {
 
         // When
         let action = GameAction.heal(3, player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.players.get("p1").health == 4)
@@ -72,8 +73,8 @@ struct HealTest {
         // When
         // Then
         let action = GameAction.heal(1, player: "p1")
-        #expect(throws: GameError.playerAlreadyMaxHealth("p1")) {
-            try GameReducer().reduce(state, action)
+        await #expect(throws: GameError.playerAlreadyMaxHealth("p1")) {
+            try await dispatch(action, state: state)
         }
     }
 }

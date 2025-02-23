@@ -16,7 +16,7 @@ struct EndGameTest {
 
         // When
         let action = GameAction.endGame(player: "p1")
-        let result = try GameReducer().reduce(state, action)
+        let result = try await dispatch(action, state: state)
 
         // Then
         #expect(result.isOver == true)
