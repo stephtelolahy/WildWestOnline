@@ -23,30 +23,34 @@ public struct MainCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            SplashContainerView()
-                .navigationDestination(for: MainDestination.self) {
-                    viewForDestination($0)
+            SplashView {
+                store.projection {
+                    SplashView.State(appState: $0)
                 }
-                .sheet(item: $sheet) {
-                    viewForDestination($0)
+            }
+            .navigationDestination(for: MainDestination.self) {
+                viewForDestination($0)
+            }
+            .sheet(item: $sheet) {
+                viewForDestination($0)
+            }
+            // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+            .onReceive(store.$state) { state in
+                path = state.navigation.main.path
+                sheet = state.navigation.main.sheet
+            }
+            .onChange(of: path) { _, newPath in
+                guard newPath != store.state.navigation.main.path else { return }
+                Task {
+                    await store.dispatch(NavigationStackAction<MainDestination>.setPath(newPath))
                 }
-                // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-                .onReceive(store.$state) { state in
-                    path = state.navigation.main.path
-                    sheet = state.navigation.main.sheet
+            }
+            .onChange(of: sheet) { oldSheet, newSheet in
+                guard newSheet != store.state.navigation.main.sheet else { return }
+                Task {
+                    await store.dispatch(NavigationStackAction<MainDestination>.pop)
                 }
-                .onChange(of: path) { _, newPath in
-                    guard newPath != store.state.navigation.main.path else { return }
-                    Task {
-                        await store.dispatch(NavigationStackAction<MainDestination>.setPath(newPath))
-                    }
-                }
-                .onChange(of: sheet) { oldSheet, newSheet in
-                    guard newSheet != store.state.navigation.main.sheet else { return }
-                    Task {
-                        await store.dispatch(NavigationStackAction<MainDestination>.pop)
-                    }
-                }
+            }
         }
     }
 

@@ -7,21 +7,22 @@
 
 import SwiftUI
 import Redux
+import AppCore
 import NavigationCore
 
-struct SplashView: View {
-    struct State: Equatable, Sendable {
+public struct SplashView: View {
+    public struct State: Equatable, Sendable {
     }
 
     @StateObject private var store: Store<State, Void>
 
-    init(store: @escaping () -> Store<State, Void>) {
+    public init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea()
@@ -40,5 +41,10 @@ struct SplashView: View {
 #Preview {
     SplashView {
         .init(initialState: .init(), dependencies: ())
+    }
+}
+
+public extension SplashView.State {
+    init?(appState: AppState) {
     }
 }

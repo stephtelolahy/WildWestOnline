@@ -1,5 +1,5 @@
 //
-//  SplashPresenterTest.swift
+//  SplashViewTest.swift
 //  
 //
 //  Created by Stephano Hugues TELOLAHY on 24/02/2024.
@@ -12,7 +12,7 @@ import SettingsCore
 @testable import SplashUI
 import Testing
 
-struct SplashPresenterTest {
+struct SplashViewTest {
     @Test func splashStateProjection() async throws {
         // Given
         let appState = AppState(
@@ -22,7 +22,7 @@ struct SplashPresenterTest {
         )
 
         // When
-        let result = await SplashView.presenter(appState)
+        let result = SplashView.State(appState: appState)
 
         // Then
         #expect(result != nil)
