@@ -11,28 +11,26 @@ import NavigationCore
 
 public struct SettingsCoordinator: View {
     @EnvironmentObject private var store: Store<AppState, AppDependencies>
+    @State private var path: [SettingsDestination] = []
 
     public init() {}
 
     public var body: some View {
-        NavigationStackView<SettingsDestination, SettingsRootContainerView, AnyView>(
-            store: {
-                store.projection(Self.presenter)
-            },
-            rootView: {
-                SettingsRootContainerView()
-            },
-            destinationView: { destination in
-                switch destination {
-                case .figures: SettingsFiguresContainerView().eraseToAnyView()
+        NavigationStack(path: $path) {
+            SettingsRootContainerView()
+                .navigationDestination(for: SettingsDestination.self) {
+                    viewForDestination($0)
                 }
-            }
-        )
+                // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+                .onChange(of: store.state) { _ in
+                    path = store.state.navigation.settings.path
+                }
+        }
     }
-}
 
-private extension SettingsCoordinator {
-    static let presenter: Presenter<AppState, NavigationStackState<SettingsDestination>> = { state in
-        state.navigation.settings
+    @ViewBuilder private func viewForDestination(_ destination: SettingsDestination) -> some View {
+        switch destination {
+        case .figures: SettingsFiguresContainerView()
+        }
     }
 }
