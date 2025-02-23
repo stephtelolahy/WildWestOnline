@@ -20,7 +20,7 @@ private class StoreProjection<
         deriveState: @escaping (GlobalState) -> LocalState?
     ) {
         guard let initialState = deriveState(globalStore.state) else {
-            fatalError("failed mapping to local state")
+            fatalError("failed deriving state from \(globalStore.state) to \(LocalState.Type.self)")
         }
 
         self.globalStore = globalStore
