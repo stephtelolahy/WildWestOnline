@@ -25,17 +25,26 @@ public struct GameView: View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
             gamePlayView
+                .task {
+                    await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+                }
 //            UIViewControllerRepresentableBuilder {
 //                GamePlayViewController(store: store)
 //            }
         }
         .foregroundColor(.primary)
-//        .navigationBarHidden(true)
+        .navigationBarHidden(true)
     }
 
     private var gamePlayView: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
+                Button("Quit") {
+                    Task {
+                        await store.dispatch(SetupGameAction.quitGame)
+                    }
+                }
+
                 // Top: Circular arrangement of players.
                 PlayerCircleView(
                     players: store.state.players,
@@ -52,13 +61,18 @@ public struct GameView: View {
 
                 ScrollView(.horizontal) {
                     HStack(spacing: 16) {
-                        ForEach(store.state.handCards, id: \.card) { card in
+                        ForEach(store.state.handCards, id: \.card) { item in
                             Button(action: {
+                                guard item.active,
+                                      let player = store.state.controlledPlayer else {
+                                    return
+                                }
+
                                 Task {
-                                    await store.dispatch(GameAction.play(card.card, player: "???"))
+                                    await store.dispatch(GameAction.play(item.card, player: player))
                                 }
                             }) {
-                                HandCardView(card: card)
+                                HandCardView(card: item)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
