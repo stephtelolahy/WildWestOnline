@@ -7,7 +7,7 @@ let package = Package(
     name: "WildWestOnline",
     defaultLocalization: "fr",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v13)
     ],
     products: [
