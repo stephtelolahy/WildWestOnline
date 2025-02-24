@@ -34,11 +34,17 @@ public struct GameView: View {
     private var gamePlayView: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                Button("Quit") {
-                    Task {
-                        await store.dispatch(SetupGameAction.quitGame)
+                HStack {
+                    Text(store.state.message)
+                    Button {
+                        Task {
+                            await store.dispatch(SetupGameAction.quitGame)
+                        }
+                    } label: {
+                        Image(systemName: "xmark.circle")
                     }
                 }
+                .padding()
 
                 // Top: Circular arrangement of players.
                 PlayerCircleView(
