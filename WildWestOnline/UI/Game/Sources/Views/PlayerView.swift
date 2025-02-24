@@ -44,7 +44,7 @@ struct PlayerView: View {
             if !player.inPlay.isEmpty {
                 HStack(spacing: 2) {
                     ForEach(player.inPlay, id: \.self) { card in
-                        Text(card.prefix(2))
+                        Text(card.prefix(2).uppercased())
                             .font(.caption2)
                             .padding(4)
                             .background(Color.gray.opacity(0.3))

@@ -44,7 +44,6 @@ public struct GameView: View {
                         Image(systemName: "xmark.circle")
                     }
                 }
-                .padding()
 
                 // Top: Circular arrangement of players.
                 PlayerCircleView(
