@@ -19,28 +19,25 @@ struct HandCardView: View {
                 .fill(Color.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(card.active ? Color.blue : Color.gray,
+                        .stroke(card.active ? Color.green : Color.gray,
                                 lineWidth: card.active ? 3 : 1)
                 )
                 .shadow(radius: 2)
 
+            // Card image (replace with your own asset if available)
+            Image(Card.extractName(from: card.card), bundle: .module)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 150)
+                .padding(.top, 8)
+
             VStack {
-                // Card image (replace with your own asset if available)
-                Image(Card.extractName(from: card.card), bundle: .module)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 50)
-                    .padding(.top, 8)
-
                 Spacer()
-
                 // Display card value and suit at the bottom
-                HStack(spacing: 4) {
-                    Text(card.card)
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                }
-                .padding(.bottom, 8)
+                Text(Card.extractValue(from: card.card))
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .padding(.bottom, 8)
             }
             .padding([.leading, .trailing], 8)
         }
