@@ -58,7 +58,9 @@ public struct GameView: View {
 
                     ZStack {
                         // Place deck and discard view at the center.
-                        DeckDiscardView()
+                        DeckDiscardView(
+                            topDiscard: store.state.topDiscard
+                        )
                             .position(x: center.x, y: center.y)
 
                         // Arrange players along an ellipse.

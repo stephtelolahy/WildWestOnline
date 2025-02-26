@@ -6,33 +6,42 @@
 //
 
 import SwiftUI
+import GameCore
 
 // A view that displays the deck and discard piles in the center.
 struct DeckDiscardView: View {
+    let topDiscard: String?
+
     var body: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 16) {
             VStack {
                 Text("Deck")
                     .font(.headline)
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.green)
-                    .frame(width: 60, height: 90)
+                Image("card_back", bundle: .module)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 90)
+                    .cornerRadius(4)
+                    .shadow(color: .black, radius: 2)
             }
             VStack {
                 Text("Discard")
                     .font(.headline)
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.red)
-                    .frame(width: 60, height: 90)
+                if let topDiscard {
+                    Image(Card.extractName(from: topDiscard), bundle: .module)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 90)
+                        .cornerRadius(4)
+                        .shadow(color: .black, radius: 2)
+                }
             }
         }
-        .padding(8)
-        .background(Color.white.opacity(0.9))
-        .cornerRadius(12)
-        .shadow(radius: 4)
     }
 }
 
 #Preview {
-    DeckDiscardView()
+    DeckDiscardView(
+        topDiscard: "bang-A♠️"
+    )
 }
