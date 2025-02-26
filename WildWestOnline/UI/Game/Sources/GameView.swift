@@ -24,85 +24,99 @@ public struct GameView: View {
     public var body: some View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
-            //            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
+//            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
             gamePlayView
         }
         .foregroundColor(.primary)
         .navigationBarHidden(true)
     }
+}
 
-    private var gamePlayView: some View {
+private extension GameView {
+
+    var gamePlayView: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                HStack {
-                    Text(store.state.message)
-                    Button {
-                        Task {
-                            await store.dispatch(SetupGameAction.quitGame)
-                        }
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                    }
-                }
 
-                // Top: Circular arrangement of players.
-                GeometryReader { geometry in
-                    let availableWidth = geometry.size.width
-                    let availableHeight = geometry.size.height
-                    // Compute horizontal and vertical radii for an oval layout.
-                    let horizontalRadius = availableWidth * 0.4
-                    let verticalRadius = availableHeight * 0.35
-                    let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
-                    let players = store.state.players
-                    let count = players.count
+                headerView
 
-                    ZStack {
-                        // Place deck and discard view at the center.
-                        DeckDiscardView(
-                            topDiscard: store.state.topDiscard
-                        )
-                            .position(x: center.x, y: center.y)
-
-                        // Arrange players along an ellipse.
-                        ForEach(players.indices, id: \.self) { i in
-                            // Use the same angle offset so that the current player (index 0) is at the bottom (π/2 radians)
-                            let angle = (2 * .pi / CGFloat(count)) * CGFloat(i) + (.pi / 2)
-
-                            PlayerView(player: players[i])
-                                .position(x: center.x + horizontalRadius * cos(angle),
-                                          y: center.y + verticalRadius * sin(angle))
-                        }
-                    }
-                }
-                .frame(height: geometry.size.height * 0.7)
-                .padding(.top)
+                playersCircleView
+                    .frame(height: geometry.size.height * 0.7)
 
                 Spacer()
 
-                ScrollView(.horizontal) {
-                    HStack(spacing: 16) {
-                        ForEach(store.state.handCards, id: \.card) { item in
-                            Button(action: {
-                                guard item.active,
-                                      let player = store.state.controlledPlayer else {
-                                    return
-                                }
-
-                                Task {
-                                    await store.dispatch(GameAction.play(item.card, player: player))
-                                }
-                            }) {
-                                HandCardView(card: item)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                    }
-                    .padding()
-                }
+                yourHandView
             }
         }
         .task {
             await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+        }
+    }
+
+    var headerView: some View {
+        HStack {
+            Text(store.state.message)
+            Button {
+                Task {
+                    await store.dispatch(SetupGameAction.quitGame)
+                }
+            } label: {
+                Image(systemName: "xmark.circle")
+            }
+        }
+    }
+
+    var playersCircleView: some View {
+        GeometryReader { geometry in
+            let availableWidth = geometry.size.width
+            let availableHeight = geometry.size.height
+            // Compute horizontal and vertical radii for an oval layout.
+            let horizontalRadius = availableWidth * 0.4
+            let verticalRadius = availableHeight * 0.35
+            let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
+            let players = store.state.players
+            let count = players.count
+
+            ZStack {
+                // Place deck and discard view at the center.
+                DeckDiscardView(
+                    topDiscard: store.state.topDiscard
+                )
+                .position(x: center.x, y: center.y)
+
+                // Arrange players along an ellipse.
+                ForEach(players.indices, id: \.self) { i in
+                    // Use the same angle offset so that the current player (index 0) is at the bottom (π/2 radians)
+                    let angle = (2 * .pi / CGFloat(count)) * CGFloat(i) + (.pi / 2)
+
+                    PlayerView(player: players[i])
+                        .position(x: center.x + horizontalRadius * cos(angle),
+                                  y: center.y + verticalRadius * sin(angle))
+                }
+            }
+        }
+    }
+
+    var yourHandView: some View {
+        ScrollView(.horizontal) {
+            HStack(spacing: 16) {
+                ForEach(store.state.handCards, id: \.card) { item in
+                    Button(action: {
+                        guard item.active,
+                              let player = store.state.controlledPlayer else {
+                            return
+                        }
+
+                        Task {
+                            await store.dispatch(GameAction.play(item.card, player: player))
+                        }
+                    }) {
+                        HandCardView(card: item)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .padding()
         }
     }
 }
