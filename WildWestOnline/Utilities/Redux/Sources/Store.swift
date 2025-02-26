@@ -33,6 +33,9 @@ public enum Effect {
     public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
     
     private let reducer: Reducer<State, Dependencies>
+
+    /// The dependencies are passed explicitly and are injected at store creation,
+    /// and each view or reducer gets access to only the specific dependencies it is working with
     private let dependencies: Dependencies
     
     public init(
