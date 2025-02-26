@@ -32,3 +32,7 @@ struct DeckDiscardView: View {
         .shadow(radius: 4)
     }
 }
+
+#Preview {
+    DeckDiscardView()
+}

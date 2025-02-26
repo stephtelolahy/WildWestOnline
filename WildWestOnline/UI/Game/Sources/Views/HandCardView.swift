@@ -47,19 +47,10 @@ struct HandCardView: View {
 }
 
 #Preview {
-    HStack {
-        HandCardView(
-            card: .init(
-                card: "mustang-8♥️",
-                active: true
-            )
+    HandCardView(
+        card: .init(
+            card: "mustang-8♥️",
+            active: true
         )
-        HandCardView(
-            card: .init(
-                card: "bang-A♠️",
-                active: false
-            )
-        )
-    }
-
+    )
 }

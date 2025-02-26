@@ -24,7 +24,7 @@ public struct GameView: View {
     public var body: some View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
-//            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
+            //            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
             gamePlayView
         }
         .foregroundColor(.primary)
@@ -46,12 +46,34 @@ public struct GameView: View {
                 }
 
                 // Top: Circular arrangement of players.
-                PlayerCircleView(
-                    players: store.state.players,
-                    topDiscard: store.state.topDiscard
-                )
-                    .frame(height: geometry.size.height * 0.7)
-                    .padding(.top)
+                GeometryReader { geometry in
+                    let availableWidth = geometry.size.width
+                    let availableHeight = geometry.size.height
+                    // Compute horizontal and vertical radii for an oval layout.
+                    let horizontalRadius = availableWidth * 0.4
+                    let verticalRadius = availableHeight * 0.35
+                    let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
+                    let players = store.state.players
+                    let count = players.count
+
+                    ZStack {
+                        // Place deck and discard view at the center.
+                        DeckDiscardView()
+                            .position(x: center.x, y: center.y)
+
+                        // Arrange players along an ellipse.
+                        ForEach(players.indices, id: \.self) { i in
+                            // Use the same angle offset so that the current player (index 0) is at the bottom (π/2 radians)
+                            let angle = (2 * .pi / CGFloat(count)) * CGFloat(i) + (.pi / 2)
+
+                            PlayerView(player: players[i])
+                                .position(x: center.x + horizontalRadius * cos(angle),
+                                          y: center.y + verticalRadius * sin(angle))
+                        }
+                    }
+                }
+                .frame(height: geometry.size.height * 0.7)
+                .padding(.top)
 
                 Spacer()
 
