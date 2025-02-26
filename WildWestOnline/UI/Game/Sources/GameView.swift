@@ -55,10 +55,6 @@ public struct GameView: View {
 
                 Spacer()
 
-                Text("Your Hand")
-                    .font(.title2)
-                    .padding()
-
                 ScrollView(.horizontal) {
                     HStack(spacing: 16) {
                         ForEach(store.state.handCards, id: \.card) { item in
@@ -77,7 +73,7 @@ public struct GameView: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    .padding(.horizontal)
+                    .padding()
                 }
             }
         }

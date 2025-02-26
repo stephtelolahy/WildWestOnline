@@ -20,7 +20,7 @@ struct HandCardView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(card.active ? Color.green : Color.gray,
-                                lineWidth: card.active ? 3 : 1)
+                                lineWidth: card.active ? 4 : 1)
                 )
                 .shadow(radius: 2)
 
@@ -29,27 +29,37 @@ struct HandCardView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 150)
-                .padding(.top, 8)
 
             VStack {
                 Spacer()
-                // Display card value and suit at the bottom
-                Text(Card.extractValue(from: card.card))
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                    .padding(.bottom, 8)
+                HStack {
+                    Text(Card.extractValue(from: card.card))
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        .padding([.leading, .bottom], 8)
+                    Spacer()
+                }
             }
-            .padding([.leading, .trailing], 8)
+
         }
-        .frame(width: 100, height: 150)
+        .frame(width: 96 + 8, height: 150 + 8)
     }
 }
 
 #Preview {
-    HandCardView(
-        card: .init(
-            card: "mustang-2♥️",
-            active: true
+    HStack {
+        HandCardView(
+            card: .init(
+                card: "mustang-8♥️",
+                active: true
+            )
         )
-    )
+        HandCardView(
+            card: .init(
+                card: "bang-A♠️",
+                active: false
+            )
+        )
+    }
+
 }
