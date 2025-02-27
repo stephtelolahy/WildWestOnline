@@ -43,7 +43,8 @@ public extension GameView {
             let active: Bool
         }
 
-        struct ChooseOne: Equatable {
+        struct ChooseOne: Equatable, Identifiable {
+            let id: UUID = UUID()
             let choiceType: String
             let options: [String]
         }

@@ -51,6 +51,26 @@ private extension GameView {
         .task {
             await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
         }
+        .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+            get: { store.state.chooseOne },
+            set: { _ in }
+        )) { chooseOne in
+            guard let player = store.state.controlledPlayer else {
+                fatalError("Missing chooser")
+            }
+
+            return ActionSheet(
+                title: Text("Choose an Option"),
+                message: Text("Select one of the actions below"),
+                buttons: chooseOne.options.map { option in
+                        .default(Text(option)) {
+                            Task {
+                                await self.store.dispatch(GameAction.choose(option, player: player))
+                            }
+                        }
+                }
+            )
+        }
     }
 
     var headerView: some View {
