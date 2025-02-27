@@ -54,9 +54,23 @@ struct PlayerView: View {
             }
         }
         .padding(6)
-        .background(player.isTurn ? Color.orange : Color.white.opacity(0.85))
+        .background(player.backgroundColor)
         .cornerRadius(8)
         .shadow(radius: 2)
+    }
+}
+
+private extension GameView.State.PlayerItem {
+    var backgroundColor: Color {
+        if isEliminated {
+            Color.clear
+        } else if isTargeted {
+            Color.red
+        } else if isTurn {
+            Color.orange
+        } else {
+            Color.white.opacity(0.85)
+        }
     }
 }
 

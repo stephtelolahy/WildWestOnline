@@ -122,8 +122,11 @@ private extension GameView {
             HStack(spacing: 16) {
                 ForEach(store.state.handCards, id: \.card) { item in
                     Button(action: {
-                        guard item.active,
-                              let player = store.state.controlledPlayer else {
+                        guard let player = store.state.controlledPlayer else {
+                            fatalError("Missing chooser")
+                        }
+
+                        guard item.active else {
                             return
                         }
 
