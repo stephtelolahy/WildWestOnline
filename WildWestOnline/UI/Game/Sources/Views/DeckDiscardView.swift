@@ -13,28 +13,21 @@ struct DeckDiscardView: View {
     let topDiscard: String?
 
     var body: some View {
-        HStack(spacing: 16) {
-            VStack {
-                Text("Deck")
-                    .font(.headline)
-                Image("card_back", bundle: .module)
+        HStack {
+            Image("card_back", bundle: .module)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 100)
+                .cornerRadius(4)
+                .shadow(color: .black, radius: 2)
+
+            if let topDiscard {
+                Image(Card.extractName(from: topDiscard), bundle: .module)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 90)
+                    .frame(height: 100)
                     .cornerRadius(4)
                     .shadow(color: .black, radius: 2)
-            }
-            VStack {
-                Text("Discard")
-                    .font(.headline)
-                if let topDiscard {
-                    Image(Card.extractName(from: topDiscard), bundle: .module)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 90)
-                        .cornerRadius(4)
-                        .shadow(color: .black, radius: 2)
-                }
             }
         }
     }
