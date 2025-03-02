@@ -28,7 +28,26 @@ public struct GameView: View {
             gamePlayView
         }
         .foregroundColor(.primary)
-        .navigationBarHidden(true)
+        .navigationTitle(store.state.message)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Button("Actions", action: { print("Actions tapped") })
+                    Button("Settings", action: { print("Settings tapped") })
+                    Divider()
+                    Button(role: .destructive) {
+                        Task {
+                            await store.dispatch(SetupGameAction.quitGame)
+                        }
+                    } label: {
+                        Text("Quit")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+        }
     }
 }
 
@@ -37,14 +56,9 @@ private extension GameView {
     var gamePlayView: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-
-                headerView
-
                 playersCircleView
                     .frame(height: geometry.size.height * 0.7)
-
                 Spacer()
-
                 yourHandView
             }
         }
@@ -70,19 +84,6 @@ private extension GameView {
                         }
                 }
             )
-        }
-    }
-
-    var headerView: some View {
-        HStack {
-            Text(store.state.message)
-            Button {
-                Task {
-                    await store.dispatch(SetupGameAction.quitGame)
-                }
-            } label: {
-                Image(systemName: "xmark.circle")
-            }
         }
     }
 
@@ -145,8 +146,10 @@ private extension GameView {
 }
 
 #Preview {
-    GameView {
-        .init(initialState: .mock, dependencies: ())
+    NavigationStack {
+        GameView {
+            .init(initialState: .mock, dependencies: ())
+        }
     }
 }
 
