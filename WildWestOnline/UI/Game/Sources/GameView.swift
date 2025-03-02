@@ -31,22 +31,7 @@ public struct GameView: View {
         .navigationTitle(store.state.message)
         .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button("Actions", action: { print("Actions tapped") })
-                    Button("Settings", action: { print("Settings tapped") })
-                    Divider()
-                    Button(role: .destructive) {
-                        Task {
-                            await store.dispatch(SetupGameAction.quitGame)
-                        }
-                    } label: {
-                        Text("Quit")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                }
-            }
+            toolBarView
         }
     }
 }
@@ -141,6 +126,25 @@ private extension GameView {
                 }
             }
             .padding()
+        }
+    }
+
+    var toolBarView: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu {
+                Button("Actions", action: { print("Actions tapped") })
+                Button("Settings", action: { print("Settings tapped") })
+                Divider()
+                Button(role: .destructive) {
+                    Task {
+                        await store.dispatch(SetupGameAction.quitGame)
+                    }
+                } label: {
+                    Text("Quit")
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
         }
     }
 }
