@@ -15,10 +15,9 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - [x] Game DSL
 - [x] Serializable game object
 - [x] Composable rules
-- [ ] Support classic Bang!
+- [x] Support classic Bang!
 - [ ] Support extensions
 - [ ] Replay
-- [ ] Hot reload
 - [ ] Multiplayer online
 
 ### MetaModel
@@ -45,12 +44,11 @@ graph TD;
     SELECTOR --> SETVALUE(Set);
     SELECTOR --> CHOOSE(Choose);
     SELECTOR --> REPEAT(Repeat);
-    SELECTOR --> VERIFY(Require);
+    SELECTOR --> VERIFY(Verify);
 ```
 
 ### Event solving
 
-- The engine is event driven
 - The process of resolving an event is similar to a depth-first search using a graph 
 - Some effects may be blocked waiting user input. Then options are displayed through state
 
@@ -85,28 +83,16 @@ The project is composed of SwiftPackage products with the following structure.
 
 ```mermaid
 ---
-title: "TCP Packet"
+title: "Clean Architecture"
 ---
 packet-beta
-  0-15: "Source Port"
-  16-31: "Destination Port"
-  32-63: "Sequence Number"
-  64-95: "Acknowledgment Number"
-  96-99: "Data Offset"
-  100-105: "Reserved"
-  106: "URG"
-  107: "ACK"
-  108: "PSH"
-  109: "RST"
-  110: "SYN"
-  111: "FIN"
-  112-127: "Window"
-  128-143: "Checksum"
-  144-159: "Urgent Pointer"
-  160-191: "(Options and Padding)"
-  192-255: "Data (variable length)"
+  0-31: "App"
+  32-48: "UI"
+  49-63: "Data"
+  64-72: "UI Library"
+  73-88: "Core"
+  89-95: "Data Library"
 ```
-
 
 ### Redux
 
