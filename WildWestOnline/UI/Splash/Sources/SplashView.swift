@@ -11,8 +11,7 @@ import AppCore
 import NavigationCore
 
 public struct SplashView: View {
-    public struct State: Equatable, Sendable {
-    }
+    public struct State: Equatable {}
 
     @StateObject private var store: Store<State, Void>
 

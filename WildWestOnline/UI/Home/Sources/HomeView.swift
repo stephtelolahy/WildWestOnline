@@ -12,8 +12,7 @@ import AppCore
 import NavigationCore
 
 public struct HomeView: View {
-    public struct State: Equatable {
-    }
+    public struct State: Equatable {}
 
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Void>
