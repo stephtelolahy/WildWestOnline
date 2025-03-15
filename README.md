@@ -30,15 +30,22 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
 - **Selector**: Selectors are used to specify which objects an effect should affect.
 
-![](Docs/metamodel.png)
-
 ```mermaid
 graph TD;
-    A[Start] --> B{Decision};
-    B -->|Yes| C[Option 1];
-    B -->|No| D[Option 2];
-    C --> E[End];
-    D --> E;
+    GAME(Game) --> PLAYER(Player);
+    GAME --> CARD(Card);
+    GAME --> QUEUE(Queue);
+    QUEUE --> ACTION(Action);
+    ACTION --> ACTIONTYPE(ActionType);
+    ACTION --> PAYLOAD(Payload);
+    CARD --> PLAYREQ(PayReq);
+    CARD --> EFFECT(Effect);
+    EFFECT --> SELECTOR(Selector);
+    EFFECT --> ACTIONTYPE;
+    SELECTOR --> SETVALUE(Set);
+    SELECTOR --> CHOOSE(Choose);
+    SELECTOR --> REPEAT(Repeat);
+    SELECTOR --> VERIFY(Require);
 ```
 
 ### Event solving
