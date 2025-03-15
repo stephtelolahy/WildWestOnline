@@ -35,8 +35,8 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          # Get the list of available simulators, filter for iPhone devices, sort by iOS version, and trim spaces in one line
-          device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2r -k1,1 | head -n 1 | cut -d '|' -f 1 | xargs)
+          #device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2r -k1,1 | head -n 1 | cut -d '|' -f 1 | xargs)
+          device="iPhone 16"
           echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
