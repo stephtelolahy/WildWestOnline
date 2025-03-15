@@ -39,6 +39,7 @@ graph TD;
     B -->|No| D[Option 2];
     C --> E[End];
     D --> E;
+```
 
 ### Event solving
 
