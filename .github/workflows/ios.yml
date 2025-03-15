@@ -35,7 +35,7 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          device='iPhone 16'
+          device=$(xcrun simctl list devices available | grep -m 1 -oE 'iPhone [0-9]+')
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
           file_to_build=$(find . -maxdepth 1 -type d -iname "*.xcworkspace" | head -n 1)
@@ -53,7 +53,7 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          device='iPhone 16'
+          device=$(xcrun simctl list devices available | grep -m 1 -oE 'iPhone [0-9]+')
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
           file_to_build=$(find . -maxdepth 1 -type d -iname "*.xcworkspace" | head -n 1)
