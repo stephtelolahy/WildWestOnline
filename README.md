@@ -96,8 +96,8 @@ graph TD;
     STATE --> VIEW
   end
   subgraph Background thread
-    REDUCER -.-> EFFECT
-    EFFECT -.-> ACTION
+    REDUCER --> EFFECT
+    EFFECT --> ACTION
   end
 ```
 
