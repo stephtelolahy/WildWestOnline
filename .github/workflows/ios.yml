@@ -35,8 +35,8 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          # Get the list of all simulators, filter for iPhone, sort by iOS version, and select the most recent one
-          device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2r -k1,1 | head -n 1 | cut -d '|' -f 1 | xargs)
+          # Get the list of simulators, filter for iPhone devices, and sort by iOS version numerically
+          device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2V | tail -n 1 | cut -d '|' -f 1 | xargs)
           echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
