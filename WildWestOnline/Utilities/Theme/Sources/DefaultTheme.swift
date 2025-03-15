@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DefaultTheme: AppTheme {
-    var backgroundView = Color(
+    var backgroundColor = Color(
         red: 249.0 / 255.0,
         green: 215.0 / 255.0,
         blue: 160.0 / 255.0

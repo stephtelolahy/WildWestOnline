@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Actions" : {
+
+    },
     "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -17,6 +20,12 @@
           }
         }
       }
+    },
+    "Choose an Option" : {
+
+    },
+    "Close" : {
+
     },
     "game.message" : {
       "extractionState" : "manual",
@@ -51,6 +60,18 @@
           }
         }
       }
+    },
+    "Hand: %lld" : {
+
+    },
+    "Quit" : {
+
+    },
+    "Select one of the actions below" : {
+
+    },
+    "Settings" : {
+
     }
   },
   "version" : "1.0"

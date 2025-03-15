@@ -12,8 +12,7 @@ import AppCore
 import NavigationCore
 
 public struct HomeView: View {
-    public struct State: Equatable {
-    }
+    public struct State: Equatable {}
 
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Void>
@@ -26,7 +25,7 @@ public struct HomeView: View {
 
     public var body: some View {
         ZStack {
-            theme.backgroundView.edgesIgnoringSafeArea(.all)
+            theme.backgroundColor.edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
                 contentView

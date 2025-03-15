@@ -61,7 +61,7 @@ struct WildWestOnlineApp: App {
         inventory: inventory
     )
 
-    return Store<AppState, AppDependencies>(
+    return Store(
         initialState: initialState,
         reducer: appReducer,
         dependencies: dependencies

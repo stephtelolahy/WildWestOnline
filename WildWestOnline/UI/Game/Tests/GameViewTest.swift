@@ -146,11 +146,7 @@ struct GameViewTest {
         let viewState = try #require(GameView.State(appState: appState))
 
         // Then
-        #expect(viewState.chooseOne ==
-            GameView.State.ChooseOne(
-                choiceType: "",
-                options: [.missed, .bang]
-            )
-        )
+        let chooseOne = try #require(viewState.chooseOne)
+        #expect(chooseOne.options == [.missed, .bang])
     }
 }

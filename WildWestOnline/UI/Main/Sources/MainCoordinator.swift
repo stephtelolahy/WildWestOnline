@@ -23,7 +23,7 @@ public struct MainCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            SplashView { store.projection { SplashView.State(appState: $0) } }
+            SplashView { store.projection(SplashView.State.init) }
             .navigationDestination(for: MainDestination.self) {
                 viewForDestination($0)
             }
@@ -56,8 +56,8 @@ public struct MainCoordinator: View {
 
 @ViewBuilder private func viewForDestination(_ destination: MainDestination) -> some View {
     switch destination {
-    case .home: HomeView { store.projection { HomeView.State(appState: $0) } }
-    case .game: GameView { store.projection { GameView.State(appState: $0) } }
+    case .home: HomeView { store.projection(HomeView.State.init) }
+    case .game: GameView { store.projection(GameView.State.init) }
     case .settings: SettingsCoordinator()
     }
 }
