@@ -32,6 +32,14 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 
 ![](Docs/metamodel.png)
 
+```mermaid
+graph TD;
+    A[Start] --> B{Decision};
+    B -->|Yes| C[Option 1];
+    B -->|No| D[Option 2];
+    C --> E[End];
+    D --> E;
+
 ### Event solving
 
 - The engine is event driven
