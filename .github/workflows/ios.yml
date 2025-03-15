@@ -35,7 +35,7 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          device=$(xcrun simctl list devices available | grep -m 1 -oP '(?<=\)\s\().*?(?=\))')
+          device_id=$(xcrun simctl list devices available | grep -m 1 -oP '\(([^)]+)\)' | sed 's/[()]//g')
           echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
