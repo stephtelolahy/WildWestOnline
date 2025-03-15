@@ -78,8 +78,8 @@ graph TD;
 ### Modular Architecture
 
 The project is composed of SwiftPackage products with the following structure. 
-
-![](Docs/modular.png)
+- All features are implemented in self-contained module Core
+- UI and Data layer depend on Core
 
 ```mermaid
 ---
