@@ -120,6 +120,15 @@ graph TD;
 The app should have a single real Store, holding a single source-of-truth. 
 However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each Screen. So we can map back-and-forth to the original store types.
 
+```mermaid
+flowchart TD
+APP[App] --> APPSTORE(AppStore)
+APP -->  APPVIEW(AppView)
+APPVIEW --> |composition| VIEW(FeatureView)
+VIEW --> |observe| STOREPROJECTION(StoreProjection)
+APPSTORE --> |projection| STOREPROJECTION
+```
+
 ### Sequence diagram
 
 Online gameplay uses shared database
