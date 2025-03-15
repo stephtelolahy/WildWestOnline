@@ -79,7 +79,7 @@ graph TD;
 
 The project is composed of SwiftPackage products with the following structure. 
 - All features are implemented in self-contained module Core
-- UI and Data layer depend on Core
+- UI and Data layers depend on Core
 
 ```mermaid
 ---
@@ -105,7 +105,16 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - Store notifies subscribers by broadcasting a new state.
 - Each side-effect is implemented as asynchronous action.
 
-![](Docs/redux.png)
+```mermaid
+graph TD;
+    VIEW(View) --> ACTION(Action);
+    ACTION --> REDUCER(Reducer);
+    REDUCER --> STATE(State);
+    STATE --> VIEWSTATE(ViewState);
+    REDUCER --> EFFECT(Effect);
+    EFFECT --> ACTION;
+    VIEWSTATE --> VIEW;
+```
 
 #### Store projection
 The app should have a single real Store, holding a single source-of-truth. 
