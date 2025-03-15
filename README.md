@@ -41,10 +41,6 @@ graph TD;
     CARD --> EFFECT(Effect);
     EFFECT --> SELECTOR(Selector);
     EFFECT --> ACTIONTYPE;
-    SELECTOR --> SETVALUE(Set);
-    SELECTOR --> CHOOSE(Choose);
-    SELECTOR --> REPEAT(Repeat);
-    SELECTOR --> VERIFY(Verify);
 ```
 
 ### Event solving
