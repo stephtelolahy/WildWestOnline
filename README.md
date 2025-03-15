@@ -121,7 +121,7 @@ flowchart TD
 APP[App] --> APPSTORE(Store)
 APP --> |composition| VIEW(View)
 VIEW --> |observe| STOREPROJECTION(StoreProjection)
-APPSTORE --> |projection| STOREPROJECTION
+STOREPROJECTION --> |derive| APPSTORE
 ```
 
 ### Sequence diagram
