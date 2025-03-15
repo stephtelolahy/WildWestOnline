@@ -24,9 +24,8 @@ struct StoreProjectionTest {
                 fetchRecent: service.fetchRecent
             )
         )
-        
-        let connector = SearchView.Connector()
-        let sut = await store.projection(connector.deriveState)
+
+        let sut = await store.projection(SearchView.State.init)
         
         // When
         await sut.dispatch(AppAction.fetchRecent)
@@ -67,11 +66,9 @@ private struct SearchView: View {
     }
 }
 
-private extension SearchView {
-    struct Connector {
-        func deriveState(state: AppState) -> State? {
-            .init(items: state.searchResult)
-        }
+extension SearchView.State {
+    init?(appState: AppState) {
+        items = appState.searchResult
     }
 }
 
