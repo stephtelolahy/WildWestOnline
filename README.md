@@ -54,7 +54,28 @@ graph TD;
 - The process of resolving an event is similar to a depth-first search using a graph 
 - Some effects may be blocked waiting user input. Then options are displayed through state
 
-![](Docs/eventresolving.png)
+```mermaid
+graph TD;
+    N1(1) --> N2(2);
+    N2 --> N3(3);
+    N2 --> N13(13);
+    N3 --> N4(4);
+    N3 --> N12(12);
+    N4 --> N5(5);
+    N4 --> N7(7);
+    N5 --> N6(6);
+    N7 --> N8(8);
+    N7 --> N10(10);
+    N8 --> N9(9);
+    N10 --> N11(11);
+    N13 --> N14(14);
+    N14 --> N15(14);
+    N14 --> N16(16);
+    N16 --> X161(/);
+    N16 --> X162(/);
+    N13 --> X13(/);
+    N1 --> X1(/);
+```
 
 ### Modular Architecture
 
