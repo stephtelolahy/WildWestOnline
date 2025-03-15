@@ -30,6 +30,11 @@ jobs:
           echo $default > default
           echo "Using default scheme: $default"
 
+      - name: List available simulators
+        run: |
+          # List all available simulators and filter for iPhone models
+          xcrun simctl list devices | grep -i "iPhone" | grep -i "Available"
+
       - name: Build
         env:
           scheme: default
