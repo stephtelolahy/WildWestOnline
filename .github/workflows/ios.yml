@@ -35,8 +35,11 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          device_id=$(xcrun simctl list devices available | grep -m 1 -oP '\(([^)]+)\)' | sed 's/[()]//g')
-          echo "Using device: $device"
+          # Find the first available simulator UDID and name
+          device_info=$(xcrun simctl list devices available | grep -m 1 -E 'iPhone.*Simulator' | head -n 1)
+          device_name=$(echo $device_info | sed -E 's/.*name:\s*([^,]+).*/\1/')
+          device_udid=$(echo $device_info | sed -E 's/.*id:\s*([^,]+).*/\1/')
+          echo "Using device: $device_name"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
@@ -48,7 +51,7 @@ jobs:
             filetype_parameter="project"
           fi
 
-          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -skipPackagePluginValidation
+          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device_name" -skipPackagePluginValidation
 
       - name: Test
         env:
