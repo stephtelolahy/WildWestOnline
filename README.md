@@ -124,10 +124,14 @@ However, we can "derive" this store to small subsets, called store projections, 
 
 Online gameplay uses shared database
 
-![](Docs/sequence.png)
-
 ```mermaid
 sequenceDiagram
-    Alice->>Bob: Hello Bob, how are you?
-    Bob-->>Alice: I am good, thanks!
+    User->>UI: event
+    UI->>Engine: action
+    Engine->>State: update
+    State-->>UI: onChange
+    State-->>AI: onChange
+    AI->>Engine: action
+    Engine->>State: update
+    State-->>UI: onChange
 ```
