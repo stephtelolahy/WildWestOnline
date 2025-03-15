@@ -30,18 +30,13 @@ jobs:
           echo $default > default
           echo "Using default scheme: $default"
 
-      - name: List available simulators
-        run: |
-          # List all available simulators and filter for iPhone models
-          xcrun simctl list devices | grep -i "iPhone"
-
       - name: Build
         env:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          # List all available simulators, filter for iPhone, and grab the first available device
-          device=$(xcrun simctl list devices | grep -i "iPhone" | head -n 1 | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) .*/\1/')
+          # Get the list of available simulators, filter for iPhone devices, sort by iOS version, and trim spaces in one line
+          device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2r -k1,1 | head -n 1 | cut -d '|' -f 1 | xargs)
           echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
