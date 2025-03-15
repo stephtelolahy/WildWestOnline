@@ -15,10 +15,9 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - [x] Game DSL
 - [x] Serializable game object
 - [x] Composable rules
-- [ ] Support classic Bang!
+- [x] Support classic Bang!
 - [ ] Support extensions
 - [ ] Replay
-- [ ] Hot reload
 - [ ] Multiplayer online
 
 ### MetaModel
@@ -30,22 +29,70 @@ Since DSLs result in programs that are smaller and easier to understand, they al
 - **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
 - **Selector**: Selectors are used to specify which objects an effect should affect.
 
-![](Docs/metamodel.png)
+```mermaid
+graph TD;
+    GAME(Game) --> PLAYER(Player);
+    GAME --> CARD(Card);
+    GAME --> QUEUE(Queue);
+    QUEUE --> ACTION(Action);
+    ACTION --> ACTIONTYPE(ActionType);
+    ACTION --> PAYLOAD(Payload);
+    CARD --> PLAYREQ(PayReq);
+    CARD --> EFFECT(Effect);
+    EFFECT --> SELECTOR(Selector);
+    EFFECT --> ACTIONTYPE;
+    SELECTOR --> SETVALUE(Set);
+    SELECTOR --> CHOOSE(Choose);
+    SELECTOR --> REPEAT(Repeat);
+    SELECTOR --> VERIFY(Verify);
+```
 
 ### Event solving
 
-- The engine is event driven
 - The process of resolving an event is similar to a depth-first search using a graph 
 - Some effects may be blocked waiting user input. Then options are displayed through state
 
-![](Docs/eventresolving.png)
+```mermaid
+graph TD;
+    N1(1) --> N2(2);
+    N2 --> N3(3);
+    N2 --> N13(13);
+    N3 --> N4(4);
+    N3 --> N12(12);
+    N4 --> N5(5);
+    N4 --> N7(7);
+    N5 --> N6(6);
+    N7 --> N8(8);
+    N7 --> N10(10);
+    N8 --> N9(9);
+    N10 --> N11(11);
+    N13 --> N14(14);
+    N14 --> N15(14);
+    N14 --> N16(16);
+    N16 --> X161(/);
+    N16 --> X162(/);
+    N13 --> X13(/);
+    N1 --> X1(/);
+```
 
 ### Modular Architecture
 
 The project is composed of SwiftPackage products with the following structure. 
+- All features are implemented in self-contained module Core
+- UI and Data layers depend on Core
 
-![](Docs/modular.png)
-
+```mermaid
+---
+title: "Clean Architecture"
+---
+packet-beta
+  0-31: "App"
+  32-48: "UI"
+  49-63: "Data"
+  64-72: "UI Library"
+  73-88: "Core"
+  89-95: "Data Library"
+```
 
 ### Redux
 
@@ -58,14 +105,42 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - Store notifies subscribers by broadcasting a new state.
 - Each side-effect is implemented as asynchronous action.
 
-![](Docs/redux.png)
+```mermaid
+graph TD;
+    VIEW(View) --> ACTION(Action);
+    ACTION --> REDUCER(Reducer);
+    REDUCER --> STATE(State);
+    STATE --> VIEWSTATE(ViewState);
+    REDUCER --> EFFECT(Effect);
+    EFFECT --> ACTION;
+    VIEWSTATE --> VIEW;
+```
 
 #### Store projection
 The app should have a single real Store, holding a single source-of-truth. 
 However, we can "derive" this store to small subsets, called store projections, that will handle a smaller part of the state for each Screen. So we can map back-and-forth to the original store types.
 
+```mermaid
+flowchart TD
+APP[App] --> APPSTORE(AppStore)
+APP -->  APPVIEW(AppView)
+APPVIEW --> |composition| VIEW(FeatureView)
+VIEW --> |observe| STOREPROJECTION(StoreProjection)
+APPSTORE --> |projection| STOREPROJECTION
+```
+
 ### Sequence diagram
 
 Online gameplay uses shared database
 
-![](Docs/sequence.png)
+```mermaid
+sequenceDiagram
+    User->>UI: event
+    UI->>Engine: action
+    Engine->>State: update
+    State-->>UI: onChange
+    State-->>AI: onChange
+    AI->>Engine: action
+    Engine->>State: update
+    State-->>UI: onChange
+```
