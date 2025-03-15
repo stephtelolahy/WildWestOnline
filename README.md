@@ -78,16 +78,13 @@ The project is composed of SwiftPackage products with the following structure.
 - UI and Data layers depend on Core
 
 ```mermaid
----
-title: "Clean Architecture"
----
-packet-beta
-  0-31: "App"
-  32-48: "UI"
-  49-63: "Data"
-  64-72: "UI Library"
-  73-88: "Core"
-  89-95: "Data Library"
+graph TD;
+    APP(App) --> UI(Presentation);
+    APP --> DATA(Data Access);
+    UI --> UILIBRARY(Library)
+    UI --> CORE(Core);
+    DATA --> CORE;
+    DATA --> DATALIBRARY(Library)
 ```
 
 ### Redux
@@ -118,9 +115,8 @@ However, we can "derive" this store to small subsets, called store projections, 
 
 ```mermaid
 flowchart TD
-APP[App] --> APPSTORE(AppStore)
-APP -->  APPVIEW(AppView)
-APPVIEW --> |composition| VIEW(FeatureView)
+APP[App] --> APPSTORE(Store)
+APP --> |composition| VIEW(View)
 VIEW --> |observe| STOREPROJECTION(StoreProjection)
 APPSTORE --> |projection| STOREPROJECTION
 ```
