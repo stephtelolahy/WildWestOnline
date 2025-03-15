@@ -35,15 +35,9 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          # Find the first available simulator UDID and name
-          device_info=$(xcrun simctl list devices available | grep -m 1 -E 'iPhone.*Simulator' | head -n 1)
-          if [ -z "$device_info" ]; then
-          echo "Error: No available iPhone simulators found."
-          exit 1
-          fi
-          device_name=$(echo $device_info | sed -E 's/.*name:\s*([^,]+).*/\1/')
-          device_udid=$(echo $device_info | sed -E 's/.*id:\s*([^,]+).*/\1/')
-          echo "Using device: $device_name"
+          # List all available simulators, filter for iPhone, and grab the first available device
+          device=$(xcrun simctl list devices | grep -i "iPhone" | grep -i "Available" | head -n 1 | sed -E 's/([A-Za-z ]+)\(([0-9]+-[0-9]+-[0-9]+)\) .*/\1/')
+          echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
