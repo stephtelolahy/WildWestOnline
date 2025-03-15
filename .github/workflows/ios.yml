@@ -35,7 +35,7 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          device=$(xcrun simctl list devices available | grep -m 1 -oE 'name:\s*[^,]+' | cut -d ':' -f2 | xargs)
+          device=$(xcrun simctl list devices available | grep -m 1 -oP '(?<=\)\s\().*?(?=\))')
           echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
@@ -55,7 +55,7 @@ jobs:
           scheme: default
           platform: "iOS Simulator"
         run: |
-          device=$(xcrun simctl list devices available | grep -m 1 -oE 'name:[^,]+' | cut -d ':' -f2 | xargs)
+          device="iPhone 16"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
