@@ -33,7 +33,7 @@ jobs:
       - name: List available simulators
         run: |
           # List all available simulators and filter for iPhone models
-          xcrun simctl list devices | grep -i "iPhone" | grep -i "Available"
+          xcrun simctl list devices | grep -i "iPhone"
 
       - name: Build
         env:
@@ -41,7 +41,7 @@ jobs:
           platform: "iOS Simulator"
         run: |
           # List all available simulators, filter for iPhone, and grab the first available device
-          device=$(xcrun simctl list devices | grep -i "iPhone" | grep -i "Available" | head -n 1 | sed -E 's/([A-Za-z ]+)\(([0-9]+-[0-9]+-[0-9]+)\) .*/\1/')
+          device=$(xcrun simctl list devices | grep -i "iPhone" | head -n 1 | sed -E 's/([A-Za-z ]+)\(([0-9]+-[0-9]+-[0-9]+)\) .*/\1/')
           echo "Using device: $device"
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
