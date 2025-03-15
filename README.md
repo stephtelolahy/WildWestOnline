@@ -100,13 +100,16 @@ Redux architecture is meant to protect changes in an application’s state. It f
 
 ```mermaid
 graph TD;
-    VIEW(View) --> ACTION(Action);
-    ACTION --> REDUCER(Reducer);
-    REDUCER --> STATE(State);
-    STATE --> VIEWSTATE(ViewState);
-    REDUCER --> EFFECT(Effect);
-    EFFECT --> ACTION;
-    VIEWSTATE --> VIEW;
+  subgraph Main thread
+    VIEW --> ACTION
+    ACTION --> REDUCER
+    REDUCER --> STATE
+    STATE --> VIEW
+  end
+  subgraph Background thread
+    REDUCER -.-> EFFECT
+    EFFECT -.-> ACTION
+  end
 ```
 
 #### Store projection
