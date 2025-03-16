@@ -1,5 +1,5 @@
 //
-//  SettingsHomeView.swift
+//  SettingsRootView.swift
 //
 //
 //  Created by Hugues Telolahy on 08/12/2023.
@@ -11,7 +11,7 @@ import AppCore
 import NavigationCore
 import SettingsCore
 
-public struct SettingsHomeView: View {
+public struct SettingsRootView: View {
     public struct State: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
@@ -143,12 +143,12 @@ public struct SettingsHomeView: View {
 }
 
 #Preview {
-    SettingsHomeView {
+    SettingsRootView {
         .init(initialState: .mock, dependencies: ())
     }
 }
 
-private extension SettingsHomeView.State {
+private extension SettingsRootView.State {
     static var mock: Self {
         .init(
             playersCount: 5,
@@ -159,7 +159,7 @@ private extension SettingsHomeView.State {
     }
 }
 
-public extension SettingsHomeView.State {
+public extension SettingsRootView.State {
     init?(appState: AppState) {
         playersCount = appState.settings.playersCount
         speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
