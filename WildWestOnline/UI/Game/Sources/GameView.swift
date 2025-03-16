@@ -131,9 +131,9 @@ private extension GameView {
                         }
                     }) {
                         HandCardView(card: item)
-                            .captureViewPosition(for: .controlledHand(item.card), in: boardSpace)
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .captureViewPosition(for: .controlledHand(item.card), in: boardSpace)
                     .actionSheet(item: Binding<GameView.State.ChooseOne?>(
                         get: { store.state.chooseOne },
                         set: { _ in }
