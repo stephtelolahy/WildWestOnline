@@ -29,6 +29,7 @@ public struct GameView: View {
         }
         .foregroundColor(.primary)
         .navigationTitle(store.state.message)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             toolBarView
