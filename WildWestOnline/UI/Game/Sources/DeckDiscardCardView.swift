@@ -10,17 +10,11 @@ import GameCore
 
 // A view that displays the deck or discard card
 struct DeckDiscardCardView: View {
-    let content: Content
-
-    enum Content {
-        case card(String)
-        case back
-        case empty
-    }
-
+    let content: CardContent
+    
     var cardName: String {
         switch content {
-        case .card(let id):
+        case .id(let id):
             Card.extractName(from: id)
         case .back:
             "card_back"
@@ -28,7 +22,7 @@ struct DeckDiscardCardView: View {
             ""
         }
     }
-
+    
     var body: some View {
         Image(cardName, bundle: .module)
             .resizable()
@@ -41,6 +35,6 @@ struct DeckDiscardCardView: View {
 
 #Preview {
     DeckDiscardCardView(
-        content: .card("bang-A♠️")
+        content: .id("bang-A♠️")
     )
 }

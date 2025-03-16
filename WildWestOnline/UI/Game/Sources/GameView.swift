@@ -16,11 +16,13 @@ public struct GameView: View {
     @StateObject private var store: Store<State, Void>
 
     @SwiftUI.State private var viewPositions: [ViewPosition: CGPoint] = [:]
-    @SwiftUI.State private var animationSourcePosition: CGPoint = .zero
-    @SwiftUI.State private var animationTargetPosition: CGPoint = .zero
-    @SwiftUI.State private var animationCard: String?
+    @SwiftUI.State private var animationSource: CGPoint = .zero
+    @SwiftUI.State private var animationTarget: CGPoint = .zero
+    @SwiftUI.State private var animatedCard: CardContent?
     @SwiftUI.State private var isAnimating = false
+
     private let boardSpace = "boardSpace"
+    private let animationMatcher = BoardAnimationMatcher()
 
     public init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
@@ -44,9 +46,9 @@ public struct GameView: View {
                 }
             }
 
-            if let animationCard {
-                DeckDiscardCardView(content: .card(animationCard))
-                    .position(isAnimating ? animationTargetPosition : animationSourcePosition)
+            if let animatedCard {
+                DeckDiscardCardView(content: animatedCard)
+                    .position(isAnimating ? animationTarget : animationSource)
             }
         }
         .coordinateSpace(name: boardSpace)
@@ -66,7 +68,7 @@ public struct GameView: View {
         }
         .onReceive(store.eventPublisher) { newEvent in
             if let action = newEvent as? GameAction,
-                action.isRenderable {
+               action.isRenderable {
                 animate(action)
             }
         }
@@ -83,8 +85,8 @@ private extension GameView {
             let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
             let players = store.state.players
             let count = players.count
-            let discardContent: DeckDiscardCardView.Content = if let topDiscard = store.state.topDiscard {
-                .card(topDiscard)
+            let discardContent: CardContent = if let topDiscard = store.state.topDiscard {
+                .id(topDiscard)
             } else {
                 .empty
             }
@@ -174,51 +176,32 @@ private extension GameView {
     }
 
     func animate(_ action: GameAction) {
-        switch action.kind {
-        case .discardPlayed:
-            let playerIsControlled = action.payload.target == store.state.controlledPlayer
-            if playerIsControlled {
-                animateCard(
-                    action.payload.card!,
-                    from: .hand(action.payload.card!),
-                    to: .discard
-                )
-            } else {
-                animateCard(
-                    action.payload.card!,
-                    from: .player(action.payload.target),
-                    to: .discard
-                )
-            }
+        guard let animation = animationMatcher.animation(on: action, controlledPlayer: store.state.controlledPlayer) else {
+            return
+        }
 
-        default:
-            print("No animation for \(action)")
+        switch animation {
+        case let .moveCard(card, source, target):
+            moveCard(card, from: source, to: target)
         }
     }
 
-    func animateCard(
-        _ card: String,
+    func moveCard(
+        _ card: CardContent,
         from sourcePosition: ViewPosition,
         to targetPosition: ViewPosition
     ) {
-        animationCard = card
-        animationSourcePosition = viewPositions[sourcePosition]!
-        animationTargetPosition = viewPositions[targetPosition]!
+        animatedCard = card
+        animationSource = viewPositions[sourcePosition]!
+        animationTarget = viewPositions[targetPosition]!
         withAnimation(.spring(duration: 0.5)) {
             isAnimating.toggle()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             isAnimating = false
-            animationCard = nil
+            animatedCard = nil
         }
     }
-}
-
-private enum ViewPosition: Hashable {
-    case deck
-    case discard
-    case hand(String)
-    case player(String)
 }
 
 private struct ViewPositionKey: PreferenceKey {
