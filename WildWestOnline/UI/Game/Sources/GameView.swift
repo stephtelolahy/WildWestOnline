@@ -31,10 +31,10 @@ public struct GameView: View {
     public var body: some View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
-            GeometryReader { geometry in
+            GeometryReader { proxy in
                 VStack(spacing: 0) {
                     playersCircleView
-                        .frame(height: geometry.size.height * 0.7)
+                        .frame(height: proxy.size.height * 0.7)
 
                     Spacer()
 
@@ -42,6 +42,11 @@ public struct GameView: View {
                         handView(for: player)
                     }
                 }
+            }
+
+            if let animationCard {
+                DeckDiscardCardView(content: .card(animationCard))
+                    .position(isAnimating ? animationTargetPosition : animationSourcePosition)
             }
         }
         .coordinateSpace(name: boardSpace)
@@ -59,30 +64,38 @@ public struct GameView: View {
         .task {
             await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
         }
+        .onReceive(store.eventPublisher) { newEvent in
+            if let action = newEvent as? GameAction,
+                action.isRenderable {
+                animate(action)
+            }
+        }
     }
 }
 
 private extension GameView {
     var playersCircleView: some View {
-        GeometryReader { geometry in
-            let availableWidth = geometry.size.width
-            let availableHeight = geometry.size.height
+        GeometryReader { proxy in
+            let availableWidth = proxy.size.width
+            let availableHeight = proxy.size.height
             let horizontalRadius = availableWidth * 0.4
             let verticalRadius = availableHeight * 0.35
             let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
             let players = store.state.players
             let count = players.count
+            let discardContent: DeckDiscardCardView.Content = if let topDiscard = store.state.topDiscard {
+                .card(topDiscard)
+            } else {
+                .empty
+            }
 
             ZStack {
                 // Place deck and discard view at the center.
                 HStack {
-                    DeckDiscardCardView(card: nil)
+                    DeckDiscardCardView(content: .back)
                         .captureViewPosition(for: .deck, in: boardSpace)
-
-                    if let topDiscard = store.state.topDiscard {
-                        DeckDiscardCardView(card: topDiscard)
-                            .captureViewPosition(for: .discard, in: boardSpace)
-                    }
+                    DeckDiscardCardView(content: discardContent)
+                        .captureViewPosition(for: .discard, in: boardSpace)
                 }
                 .position(x: center.x, y: center.y)
 
@@ -157,6 +170,46 @@ private extension GameView {
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
+        }
+    }
+
+    func animate(_ action: GameAction) {
+        switch action.kind {
+        case .discardPlayed:
+            let playerIsControlled = action.payload.target == store.state.controlledPlayer
+            if playerIsControlled {
+                animateCard(
+                    action.payload.card!,
+                    from: .hand(action.payload.card!),
+                    to: .discard
+                )
+            } else {
+                animateCard(
+                    action.payload.card!,
+                    from: .player(action.payload.target),
+                    to: .discard
+                )
+            }
+
+        default:
+            print("No animation for \(action)")
+        }
+    }
+
+    func animateCard(
+        _ card: String,
+        from sourcePosition: ViewPosition,
+        to targetPosition: ViewPosition
+    ) {
+        animationCard = card
+        animationSourcePosition = viewPositions[sourcePosition]!
+        animationTargetPosition = viewPositions[targetPosition]!
+        withAnimation(.spring(duration: 0.5)) {
+            isAnimating.toggle()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            isAnimating = false
+            animationCard = nil
         }
     }
 }
@@ -234,7 +287,7 @@ private extension GameView.State {
             role: nil,
             userPhotoUrl: nil
         )
-        
+
         return .init(
             players: [player1, player2, player2, player2, player2, player2, player2],
             message: "P1's turn",

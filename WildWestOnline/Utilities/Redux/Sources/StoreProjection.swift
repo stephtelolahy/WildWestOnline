@@ -26,6 +26,7 @@ private class StoreProjection<
         self.globalStore = globalStore
         super.init(initialState: initialState, dependencies: ())
         self.errorPublisher = globalStore.errorPublisher
+        self.eventPublisher = globalStore.eventPublisher
 
         globalStore.$state
             .map(deriveState)
