@@ -15,6 +15,13 @@ public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Void>
 
+    @SwiftUI.State private var viewPositions: [ViewPosition: CGPoint] = [:]
+    @SwiftUI.State private var animationSourcePosition: CGPoint = .zero
+    @SwiftUI.State private var animationTargetPosition: CGPoint = .zero
+    @SwiftUI.State private var animationCard: String?
+    @SwiftUI.State private var isAnimating = false
+    private let boardSpace = "boardSpace"
+
     public init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
@@ -37,6 +44,12 @@ public struct GameView: View {
                 }
             }
         }
+        .coordinateSpace(name: boardSpace)
+        .onPreferenceChange(ViewPositionKey.self) { newValue in
+            MainActor.assumeIsolated {
+                self.viewPositions = newValue
+            }
+        }
         .navigationTitle(store.state.message)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -54,7 +67,6 @@ private extension GameView {
         GeometryReader { geometry in
             let availableWidth = geometry.size.width
             let availableHeight = geometry.size.height
-            // Compute horizontal and vertical radii for an oval layout.
             let horizontalRadius = availableWidth * 0.4
             let verticalRadius = availableHeight * 0.35
             let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
@@ -63,9 +75,37 @@ private extension GameView {
 
             ZStack {
                 // Place deck and discard view at the center.
-                DeckDiscardView(
-                    topDiscard: store.state.topDiscard
-                )
+                HStack {
+                    DeckDiscardCardView(card: nil)
+                        .background(
+                            GeometryReader { proxy in
+                                Color.clear
+                                    .preference(
+                                        key: ViewPositionKey.self,
+                                        value: [ViewPosition.deck: CGPointMake(
+                                            proxy.frame(in: .named(boardSpace)).midX,
+                                            proxy.frame(in: .named(boardSpace)).midY
+                                        )]
+                                    )
+                            }
+                        )
+
+                    if let topDiscard = store.state.topDiscard {
+                        DeckDiscardCardView(card: topDiscard)
+                            .background(
+                                GeometryReader { proxy in
+                                    Color.clear
+                                        .preference(
+                                            key: ViewPositionKey.self,
+                                            value: [ViewPosition.discard: CGPointMake(
+                                                proxy.frame(in: .named(boardSpace)).midX,
+                                                proxy.frame(in: .named(boardSpace)).midY
+                                            )]
+                                        )
+                                }
+                            )
+                    }
+                }
                 .position(x: center.x, y: center.y)
 
                 // Arrange players along an ellipse.
@@ -74,8 +114,22 @@ private extension GameView {
                     let angle = (2 * .pi / CGFloat(count)) * CGFloat(i) + (.pi / 2)
 
                     PlayerView(player: players[i])
-                        .position(x: center.x + horizontalRadius * cos(angle),
-                                  y: center.y + verticalRadius * sin(angle))
+                        .position(
+                            x: center.x + horizontalRadius * cos(angle),
+                            y: center.y + verticalRadius * sin(angle)
+                        )
+                        .background(
+                            GeometryReader { proxy in
+                                Color.clear
+                                    .preference(
+                                        key: ViewPositionKey.self,
+                                        value: [ViewPosition.player(players[i].id): CGPointMake(
+                                            proxy.frame(in: .named(boardSpace)).midX,
+                                            proxy.frame(in: .named(boardSpace)).midY
+                                        )]
+                                    )
+                            }
+                        )
                 }
             }
         }
@@ -95,6 +149,18 @@ private extension GameView {
                         }
                     }) {
                         HandCardView(card: item)
+                            .background(
+                                GeometryReader { proxy in
+                                    Color.clear
+                                        .preference(
+                                            key: ViewPositionKey.self,
+                                            value: [ViewPosition.hand(item.card): CGPointMake(
+                                                proxy.frame(in: .named(boardSpace)).midX,
+                                                proxy.frame(in: .named(boardSpace)).midY
+                                            )]
+                                        )
+                                }
+                            )
                     }
                     .buttonStyle(PlainButtonStyle())
                     .actionSheet(item: Binding<GameView.State.ChooseOne?>(
@@ -136,6 +202,21 @@ private extension GameView {
                 Image(systemName: "ellipsis.circle")
             }
         }
+    }
+}
+
+private enum ViewPosition: Hashable {
+    case deck
+    case discard
+    case hand(String)
+    case player(String)
+}
+
+private struct ViewPositionKey: PreferenceKey {
+    nonisolated(unsafe) static var defaultValue: [ViewPosition: CGPoint] = [:]
+
+    static func reduce(value: inout [ViewPosition: CGPoint], nextValue: () -> [ViewPosition: CGPoint]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
 }
 
