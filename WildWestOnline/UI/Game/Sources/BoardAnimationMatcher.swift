@@ -14,13 +14,13 @@ struct BoardAnimationMatcher {
             if playerIsControlled {
                 return .moveCard(
                     .id(action.payload.card!),
-                    from: .hand(action.payload.card!),
+                    from: .controlledHand(action.payload.card!),
                     to: .discard
                 )
             } else {
                 return .moveCard(
                     .id(action.payload.card!),
-                    from: .player(action.payload.target),
+                    from: .playerHand(action.payload.target),
                     to: .discard
                 )
             }
@@ -38,8 +38,9 @@ enum AnimationKind: Equatable {
 enum ViewPosition: Hashable {
     case deck
     case discard
-    case hand(String)
-    case player(String)
+    case playerHand(String)
+    case playerInPlay(String)
+    case controlledHand(String)
 }
 
 enum CardContent: Equatable {

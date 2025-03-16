@@ -111,7 +111,7 @@ private extension GameView {
                             x: center.x + horizontalRadius * cos(angle),
                             y: center.y + verticalRadius * sin(angle)
                         )
-                        .captureViewPosition(for: .player(players[i].id), in: boardSpace)
+                        .captureViewPosition(for: .playerHand(players[i].id), in: boardSpace)
                 }
             }
         }
@@ -131,7 +131,7 @@ private extension GameView {
                         }
                     }) {
                         HandCardView(card: item)
-                            .captureViewPosition(for: .hand(item.card), in: boardSpace)
+                            .captureViewPosition(for: .controlledHand(item.card), in: boardSpace)
                     }
                     .buttonStyle(PlainButtonStyle())
                     .actionSheet(item: Binding<GameView.State.ChooseOne?>(
