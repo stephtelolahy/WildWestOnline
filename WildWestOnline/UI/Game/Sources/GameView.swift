@@ -24,8 +24,18 @@ public struct GameView: View {
     public var body: some View {
         ZStack {
             theme.backgroundColor.edgesIgnoringSafeArea(.all)
-//            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
-            gamePlayView
+            GeometryReader { geometry in
+                VStack(spacing: 0) {
+                    playersCircleView
+                        .frame(height: geometry.size.height * 0.7)
+
+                    Spacer()
+
+                    if let player = store.state.controlledPlayer {
+                        handView(for: player)
+                    }
+                }
+            }
         }
         .navigationTitle(store.state.message)
         .navigationBarTitleDisplayMode(.inline)
@@ -33,45 +43,13 @@ public struct GameView: View {
         .toolbar {
             toolBarView
         }
+        .task {
+            await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+        }
     }
 }
 
 private extension GameView {
-
-    var gamePlayView: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-                playersCircleView
-                    .frame(height: geometry.size.height * 0.7)
-                Spacer()
-                yourHandView
-            }
-        }
-        .task {
-            await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
-        }
-        .actionSheet(item: Binding<GameView.State.ChooseOne?>(
-            get: { store.state.chooseOne },
-            set: { _ in }
-        )) { chooseOne in
-            guard let player = store.state.controlledPlayer else {
-                fatalError("Missing chooser")
-            }
-
-            return ActionSheet(
-                title: Text("Choose an Option"),
-                message: Text("Select one of the actions below"),
-                buttons: chooseOne.options.map { option in
-                        .default(Text(option)) {
-                            Task {
-                                await self.store.dispatch(GameAction.choose(option, player: player))
-                            }
-                        }
-                }
-            )
-        }
-    }
-
     var playersCircleView: some View {
         GeometryReader { geometry in
             let availableWidth = geometry.size.width
@@ -103,15 +81,11 @@ private extension GameView {
         }
     }
 
-    var yourHandView: some View {
+    func handView(for player: String) -> some View {
         ScrollView(.horizontal) {
             HStack(spacing: 16) {
                 ForEach(store.state.handCards, id: \.card) { item in
                     Button(action: {
-                        guard let player = store.state.controlledPlayer else {
-                            fatalError("Missing chooser")
-                        }
-
                         guard item.active else {
                             return
                         }
@@ -123,6 +97,22 @@ private extension GameView {
                         HandCardView(card: item)
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+                        get: { store.state.chooseOne },
+                        set: { _ in }
+                    )) { chooseOne in
+                        ActionSheet(
+                            title: Text("Choose an Option"),
+                            message: Text("Select one of the actions below"),
+                            buttons: chooseOne.options.map { option in
+                                    .default(Text(option)) {
+                                        Task {
+                                            await self.store.dispatch(GameAction.choose(option, player: player))
+                                        }
+                                    }
+                            }
+                        )
+                    }
                 }
             }
             .padding()
