@@ -50,6 +50,8 @@ public struct GameView: View {
                 DeckDiscardCardView(content: animatedCard)
                     .position(isAnimating ? animationTarget : animationSource)
             }
+
+            positionsDebugView()
         }
         .coordinateSpace(name: boardSpace)
         .onPreferenceChange(ViewPositionKey.self) { newValue in
@@ -171,6 +173,34 @@ private extension GameView {
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
+            }
+        }
+    }
+
+    @ViewBuilder func positionsDebugView() -> some View {
+        if let position = viewPositions[.deck] {
+            Text("Deck")
+                .font(.footnote)
+                .frame(width: 50, height: 50)
+                .background(Circle().fill(Color.blue.opacity(0.8)))
+                .position(x: position.x, y: position.x)
+        }
+
+        if let position = viewPositions[.discard] {
+            Text("Discard")
+                .font(.footnote)
+                .frame(width: 50, height: 50)
+                .background(Circle().fill(Color.blue.opacity(0.8)))
+                .position(x: position.x, y: position.x)
+        }
+
+        ForEach(store.state.players, id: \.id) { player in
+            if let position = viewPositions[.playerHand(player.id)] {
+                Text(player.displayName)
+                    .font(.footnote)
+                    .frame(width: 50, height: 50)
+                    .background(Circle().fill(Color.blue.opacity(0.8)))
+                    .position(x: position.x, y: position.x)
             }
         }
     }

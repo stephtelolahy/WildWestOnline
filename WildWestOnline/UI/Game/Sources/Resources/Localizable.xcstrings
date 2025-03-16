@@ -27,6 +27,12 @@
     "Close" : {
 
     },
+    "Deck" : {
+
+    },
+    "Discard" : {
+
+    },
     "game.message" : {
       "extractionState" : "manual",
       "localizations" : {
