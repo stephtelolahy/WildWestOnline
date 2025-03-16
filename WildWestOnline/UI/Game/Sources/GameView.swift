@@ -27,7 +27,6 @@ public struct GameView: View {
 //            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
             gamePlayView
         }
-        .foregroundColor(.primary)
         .navigationTitle(store.state.message)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)

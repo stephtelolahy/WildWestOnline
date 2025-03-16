@@ -35,7 +35,6 @@ struct HandCardView: View {
                 HStack {
                     Text(Card.extractValue(from: card.card))
                         .font(.headline)
-                        .foregroundColor(.primary)
                         .padding([.leading, .bottom], 8)
                     Spacer()
                 }
