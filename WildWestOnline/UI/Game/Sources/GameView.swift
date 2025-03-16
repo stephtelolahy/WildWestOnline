@@ -77,33 +77,11 @@ private extension GameView {
                 // Place deck and discard view at the center.
                 HStack {
                     DeckDiscardCardView(card: nil)
-                        .background(
-                            GeometryReader { proxy in
-                                Color.clear
-                                    .preference(
-                                        key: ViewPositionKey.self,
-                                        value: [ViewPosition.deck: CGPointMake(
-                                            proxy.frame(in: .named(boardSpace)).midX,
-                                            proxy.frame(in: .named(boardSpace)).midY
-                                        )]
-                                    )
-                            }
-                        )
+                        .captureViewPosition(for: .deck, in: boardSpace)
 
                     if let topDiscard = store.state.topDiscard {
                         DeckDiscardCardView(card: topDiscard)
-                            .background(
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .preference(
-                                            key: ViewPositionKey.self,
-                                            value: [ViewPosition.discard: CGPointMake(
-                                                proxy.frame(in: .named(boardSpace)).midX,
-                                                proxy.frame(in: .named(boardSpace)).midY
-                                            )]
-                                        )
-                                }
-                            )
+                            .captureViewPosition(for: .discard, in: boardSpace)
                     }
                 }
                 .position(x: center.x, y: center.y)
@@ -118,18 +96,7 @@ private extension GameView {
                             x: center.x + horizontalRadius * cos(angle),
                             y: center.y + verticalRadius * sin(angle)
                         )
-                        .background(
-                            GeometryReader { proxy in
-                                Color.clear
-                                    .preference(
-                                        key: ViewPositionKey.self,
-                                        value: [ViewPosition.player(players[i].id): CGPointMake(
-                                            proxy.frame(in: .named(boardSpace)).midX,
-                                            proxy.frame(in: .named(boardSpace)).midY
-                                        )]
-                                    )
-                            }
-                        )
+                        .captureViewPosition(for: .player(players[i].id), in: boardSpace)
                 }
             }
         }
@@ -149,18 +116,7 @@ private extension GameView {
                         }
                     }) {
                         HandCardView(card: item)
-                            .background(
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .preference(
-                                            key: ViewPositionKey.self,
-                                            value: [ViewPosition.hand(item.card): CGPointMake(
-                                                proxy.frame(in: .named(boardSpace)).midX,
-                                                proxy.frame(in: .named(boardSpace)).midY
-                                            )]
-                                        )
-                                }
-                            )
+                            .captureViewPosition(for: .hand(item.card), in: boardSpace)
                     }
                     .buttonStyle(PlainButtonStyle())
                     .actionSheet(item: Binding<GameView.State.ChooseOne?>(
@@ -220,6 +176,25 @@ private struct ViewPositionKey: PreferenceKey {
     }
 }
 
+private extension View {
+    func captureViewPosition(for key: ViewPosition, in space: String) -> some View {
+        self.background(
+            GeometryReader { proxy in
+                Color.clear
+                    .preference(
+                        key: ViewPositionKey.self,
+                        value: [
+                            key: CGPoint(
+                                x: proxy.frame(in: .named(space)).midX,
+                                y: proxy.frame(in: .named(space)).midY
+                            )
+                        ]
+                    )
+            }
+        )
+    }
+}
+
 #Preview {
     NavigationStack {
         GameView {
@@ -259,7 +234,7 @@ private extension GameView.State {
             role: nil,
             userPhotoUrl: nil
         )
-
+        
         return .init(
             players: [player1, player2, player2, player2, player2, player2, player2],
             message: "P1's turn",
