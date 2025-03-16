@@ -37,12 +37,8 @@ public struct GameView: View {
                 VStack(spacing: 0) {
                     playersCircleView
                         .frame(height: proxy.size.height * 0.7)
-
                     Spacer()
-
-                    if let player = store.state.controlledPlayer {
-                        handView(for: player)
-                    }
+                    controlledHandView()
                 }
             }
 
@@ -119,42 +115,45 @@ private extension GameView {
         }
     }
 
-    func handView(for player: String) -> some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 16) {
-                ForEach(store.state.handCards, id: \.card) { item in
-                    Button(action: {
-                        guard item.active else {
-                            return
-                        }
-
-                        Task {
-                            await store.dispatch(GameAction.play(item.card, player: player))
-                        }
-                    }) {
-                        HandCardView(card: item)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .captureViewPosition(for: .controlledHand(item.card), in: boardSpace)
-                    .actionSheet(item: Binding<GameView.State.ChooseOne?>(
-                        get: { store.state.chooseOne },
-                        set: { _ in }
-                    )) { chooseOne in
-                        ActionSheet(
-                            title: Text("Choose an Option"),
-                            message: Text("Select one of the actions below"),
-                            buttons: chooseOne.options.map { option in
-                                    .default(Text(option)) {
-                                        Task {
-                                            await self.store.dispatch(GameAction.choose(option, player: player))
-                                        }
-                                    }
+    @ViewBuilder func controlledHandView() -> some View {
+        if let player = store.state.controlledPlayer {
+            ScrollView(.horizontal) {
+                HStack(spacing: 16) {
+                    ForEach(store.state.handCards, id: \.card) { item in
+                        Button(action: {
+                            guard item.active else {
+                                return
                             }
-                        )
+
+                            Task {
+                                await store.dispatch(GameAction.play(item.card, player: player))
+                            }
+                        }) {
+                            HandCardView(card: item)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+                            get: { store.state.chooseOne },
+                            set: { _ in }
+                        )) { chooseOne in
+                            ActionSheet(
+                                title: Text("Choose an Option"),
+                                message: Text("Select one of the actions below"),
+                                buttons: chooseOne.options.map { option in
+                                        .default(Text(option)) {
+                                            Task {
+                                                await self.store.dispatch(GameAction.choose(option, player: player))
+                                            }
+                                        }
+                                }
+                            )
+                        }
                     }
                 }
+                .padding()
             }
-            .padding()
+        } else {
+            EmptyView()
         }
     }
 
@@ -206,7 +205,7 @@ private extension GameView {
     }
 
     func animate(_ action: GameAction) {
-        guard let animation = animationMatcher.animation(on: action, controlledPlayer: store.state.controlledPlayer) else {
+        guard let animation = animationMatcher.animation(on: action) else {
             return
         }
 
@@ -301,8 +300,23 @@ private extension GameView.State {
             userPhotoUrl: nil
         )
 
+        let player3 = GameView.State.PlayerItem(
+            id: "p3",
+            imageName: "elGringo",
+            displayName: "elGringo",
+            health: 1,
+            maxHealth: 3,
+            handCount: 0,
+            inPlay: ["scope"],
+            isTurn: false,
+            isTargeted: false,
+            isEliminated: false,
+            role: nil,
+            userPhotoUrl: nil
+        )
+
         return .init(
-            players: [player1, player2, player2, player2, player2, player2, player2],
+            players: [player1, player2, player3],
             message: "P1's turn",
             chooseOne: nil,
             handCards: [

@@ -7,26 +7,17 @@
 import GameCore
 
 struct BoardAnimationMatcher {
-    func animation(on action: GameAction, controlledPlayer: String?) -> AnimationKind? {
+    func animation(on action: GameAction) -> AnimationKind? {
         switch action.kind {
         case .discardPlayed:
-            let playerIsControlled = action.payload.target == controlledPlayer
-            if playerIsControlled {
-                return .moveCard(
-                    .id(action.payload.card!),
-                    from: .controlledHand(action.payload.card!),
-                    to: .discard
-                )
-            } else {
-                return .moveCard(
+                .moveCard(
                     .id(action.payload.card!),
                     from: .playerHand(action.payload.target),
                     to: .discard
                 )
-            }
 
         default:
-            return nil
+            nil
         }
     }
 }
@@ -40,7 +31,6 @@ enum ViewPosition: Hashable {
     case discard
     case playerHand(String)
     case playerInPlay(String)
-    case controlledHand(String)
 }
 
 enum CardContent: Equatable {

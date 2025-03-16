@@ -11,7 +11,7 @@ import GameCore
 // A custom view for each hand card displaying an image, a value, a suit, and an active state.
 struct HandCardView: View {
     let card: GameView.State.HandCard
-
+    
     var body: some View {
         ZStack {
             // Card background with rounded corners and a border that changes based on the active state.
@@ -23,13 +23,13 @@ struct HandCardView: View {
                                 lineWidth: card.active ? 4 : 1)
                 )
                 .shadow(radius: 2)
-
+            
             // Card image (replace with your own asset if available)
             Image(Card.extractName(from: card.card), bundle: .module)
                 .resizable()
                 .scaledToFit()
                 .frame(height: 150)
-
+            
             VStack {
                 Spacer()
                 HStack {
@@ -39,7 +39,7 @@ struct HandCardView: View {
                     Spacer()
                 }
             }
-
+            
         }
         .frame(width: 96 + 8, height: 150 + 8)
     }

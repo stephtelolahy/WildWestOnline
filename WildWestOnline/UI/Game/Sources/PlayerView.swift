@@ -9,7 +9,7 @@ import SwiftUI
 // Displays a player's information including figure image, name, role, health, hand count, and in-play cards.
 struct PlayerView: View {
     var player: GameView.State.PlayerItem
-
+    
     var body: some View {
         VStack(spacing: 4) {
             // Figure image
@@ -19,13 +19,13 @@ struct PlayerView: View {
                 .frame(width: 50, height: 50)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.primary, lineWidth: 1))
-
+            
             // Name and role
             Text(player.displayName)
                 .font(.headline)
             Text(player.role ?? "???")
                 .font(.caption)
-
+            
             // Health display with hearts
             HStack(spacing: 2) {
                 ForEach(0..<player.health, id: \.self) { _ in
@@ -34,11 +34,11 @@ struct PlayerView: View {
                         .font(.caption)
                 }
             }
-
+            
             // Hand count
             Text("Hand: \(player.handCount)")
                 .font(.caption)
-
+            
             // In-play cards (displayed as a compact label)
             if !player.inPlay.isEmpty {
                 HStack(spacing: 2) {
