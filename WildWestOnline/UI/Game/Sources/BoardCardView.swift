@@ -8,7 +8,7 @@
 import SwiftUI
 import GameCore
 
-// A view that displays the deck or discard card
+/// A view that displays the deck or discard card
 struct BoardCardView: View {
     let content: CardContent
 
