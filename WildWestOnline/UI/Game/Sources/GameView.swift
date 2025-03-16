@@ -43,7 +43,7 @@ public struct GameView: View {
             }
 
             if let animatedCard {
-                DeckDiscardCardView(content: animatedCard)
+                BoardCardView(content: animatedCard)
                     .position(isAnimating ? animationTarget : animationSource)
             }
 
@@ -92,9 +92,9 @@ private extension GameView {
             ZStack {
                 // Place deck and discard view at the center.
                 HStack {
-                    DeckDiscardCardView(content: .back)
+                    BoardCardView(content: .back)
                         .captureViewPosition(for: .deck, in: boardSpace)
-                    DeckDiscardCardView(content: discardContent)
+                    BoardCardView(content: discardContent)
                         .captureViewPosition(for: .discard, in: boardSpace)
                 }
                 .position(x: center.x, y: center.y)

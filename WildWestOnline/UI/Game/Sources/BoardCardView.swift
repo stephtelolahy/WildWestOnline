@@ -1,17 +1,17 @@
 //
-//  DeckDiscardCardView.swift
+//  BoardCardView.swift
 //  WildWestOnline
 //
-//  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
+//  Created by Hugues Stéphano TELOLAHY on 16/03/2025.
 //
 
 import SwiftUI
 import GameCore
 
 // A view that displays the deck or discard card
-struct DeckDiscardCardView: View {
+struct BoardCardView: View {
     let content: CardContent
-    
+
     var cardName: String {
         switch content {
         case .id(let id):
@@ -22,7 +22,7 @@ struct DeckDiscardCardView: View {
             ""
         }
     }
-    
+
     var body: some View {
         Image(cardName, bundle: .module)
             .resizable()
@@ -34,7 +34,7 @@ struct DeckDiscardCardView: View {
 }
 
 #Preview {
-    DeckDiscardCardView(
+    BoardCardView(
         content: .id("bang-A♠️")
     )
 }
