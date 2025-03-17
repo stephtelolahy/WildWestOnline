@@ -215,10 +215,10 @@ private extension GameView {
         animatedCard = card
         animationSource = viewPositions[sourcePosition]!
         animationTarget = viewPositions[targetPosition]!
-        withAnimation(.spring(duration: 0.5)) {
+        withAnimation(.spring(duration: store.state.actionDelaySeconds)) {
             isAnimating.toggle()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + store.state.actionDelaySeconds) {
             isAnimating = false
             animatedCard = nil
         }
@@ -322,7 +322,8 @@ private extension GameView.State {
             startOrder: [],
             deckCount: 12,
             controlledPlayer: "p1",
-            startPlayer: "p1"
+            startPlayer: "p1",
+            actionDelaySeconds: 0.5
         )
     }
 }
