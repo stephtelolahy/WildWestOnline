@@ -74,6 +74,25 @@ public struct GameView: View {
 }
 
 private extension GameView {
+    var toolBarView: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu {
+                Button("Actions", action: { print("Actions tapped") })
+                Button("Settings", action: { print("Settings tapped") })
+                Divider()
+                Button(role: .destructive) {
+                    Task {
+                        await store.dispatch(SetupGameAction.quitGame)
+                    }
+                } label: {
+                    Text("Quit")
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+        }
+    }
+
     var playersCircleView: some View {
         GeometryReader { proxy in
             let availableWidth = proxy.size.width
@@ -157,51 +176,28 @@ private extension GameView {
         }
     }
 
-    var toolBarView: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            Menu {
-                Button("Actions", action: { print("Actions tapped") })
-                Button("Settings", action: { print("Settings tapped") })
-                Divider()
-                Button(role: .destructive) {
-                    Task {
-                        await store.dispatch(SetupGameAction.quitGame)
-                    }
-                } label: {
-                    Text("Quit")
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
+    @ViewBuilder func positionsDebugView() -> some View {
+        ForEach(Array(viewPositions.keys.enumerated()), id: \.element) { index, key in
+            let position = viewPositions[key]!
+            switch key {
+            case .playerHand(let id):
+                positionMarkView(id, x: position.x, y: position.y)
+            case .playerInPlay(let id):
+                positionMarkView(id, x: position.x, y: position.y)
+            case .deck:
+                positionMarkView("deck", x: position.x, y: position.y)
+            case .discard:
+                positionMarkView("discard", x: position.x, y: position.y)
             }
         }
     }
 
-    @ViewBuilder func positionsDebugView() -> some View {
-        if let position = viewPositions[.deck] {
-            Text("Deck")
-                .font(.footnote)
-                .frame(width: 50, height: 50)
-                .background(Circle().fill(Color.blue.opacity(0.8)))
-                .position(x: position.x, y: position.x)
-        }
-
-        if let position = viewPositions[.discard] {
-            Text("Discard")
-                .font(.footnote)
-                .frame(width: 50, height: 50)
-                .background(Circle().fill(Color.blue.opacity(0.8)))
-                .position(x: position.x, y: position.x)
-        }
-
-        ForEach(store.state.players, id: \.id) { player in
-            if let position = viewPositions[.playerHand(player.id)] {
-                Text(player.displayName)
-                    .font(.footnote)
-                    .frame(width: 50, height: 50)
-                    .background(Circle().fill(Color.blue.opacity(0.8)))
-                    .position(x: position.x, y: position.x)
-            }
-        }
+    func positionMarkView(_ text: String, x: CGFloat, y: CGFloat) -> some View {
+        Text(text)
+            .font(.footnote)
+            .frame(width: 50, height: 50)
+            .background(Circle().fill(Color.blue.opacity(0.8)))
+            .position(x: x, y: x)
     }
 
     func animate(_ action: GameAction) {
@@ -215,11 +211,7 @@ private extension GameView {
         }
     }
 
-    func moveCard(
-        _ card: CardContent,
-        from sourcePosition: ViewPosition,
-        to targetPosition: ViewPosition
-    ) {
+    func moveCard(_ card: CardContent, from sourcePosition: ViewPosition, to targetPosition: ViewPosition) {
         animatedCard = card
         animationSource = viewPositions[sourcePosition]!
         animationTarget = viewPositions[targetPosition]!
