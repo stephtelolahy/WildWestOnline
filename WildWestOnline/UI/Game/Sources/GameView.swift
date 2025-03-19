@@ -32,9 +32,9 @@ public struct GameView: View {
             ZStack {
                 theme.backgroundColor.edgesIgnoringSafeArea(.all)
 
-                VStack(spacing: 0) {
-                    boardView(positions: positions)
-                        .frame(height: proxy.size.height * 0.7)
+                boardView(positions: positions)
+
+                VStack {
                     Spacer()
                     controlledHandView()
                 }
@@ -74,34 +74,34 @@ private extension GameView {
         }
     }
 
-    func boardView(positions: [ViewPosition: CGPoint]) -> some View {
+    @ViewBuilder func boardView(positions: [ViewPosition: CGPoint]) -> some View {
         let players = store.state.players
         let topDiscard: CardContent? = store.state.topDiscard.map { .id($0) }
 
-        return ZStack {
-            BoardCardView(content: .back)
-                .position(positions[.deck]!)
+        BoardCardView(content: .back)
+            .position(positions[.deck]!)
 
-            if let topDiscard {
-                BoardCardView(content: topDiscard)
-                    .position(positions[.discard]!)
-            }
+        if let topDiscard {
+            BoardCardView(content: topDiscard)
+                .position(positions[.discard]!)
+        }
 
-            ForEach(players.indices, id: \ .self) { i in
-                PlayerView(player: players[i])
-                    .position(positions[.playerHand(players[i].id)]!)
-            }
+        ForEach(players.indices, id: \ .self) { i in
+            PlayerView(player: players[i])
+                .position(positions[.playerHand(players[i].id)]!)
         }
     }
 
     @ViewBuilder func controlledHandView() -> some View {
         if let player = store.state.controlledPlayer {
             ScrollView(.horizontal) {
-                HStack(spacing: 16) {
+                HStack {
                     ForEach(store.state.handCards, id: \ .card) { item in
                         Button(action: {
                             guard item.active else { return }
-                            Task { await store.dispatch(GameAction.play(item.card, player: player)) }
+                            Task {
+                                await store.dispatch(GameAction.play(item.card, player: player))
+                            }
                         }) {
                             HandCardView(card: item)
                         }
@@ -136,9 +136,10 @@ private extension GameView {
     }
 
     func computePositions(proxy: GeometryProxy) -> [ViewPosition: CGPoint] {
-        let center = CGPoint(x: proxy.size.width / 2, y: proxy.size.height / 2)
-        let horizontalRadius = proxy.size.width * 0.4
-        let verticalRadius = proxy.size.height * 0.35
+        let board = CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height * 0.7)
+        let center = CGPoint(x: board.size.width / 2, y: board.size.height / 2)
+        let horizontalRadius = board.size.width * 0.4
+        let verticalRadius = board.size.height * 0.35
         let players = store.state.players
 
         var positions: [ViewPosition: CGPoint] = [:]
