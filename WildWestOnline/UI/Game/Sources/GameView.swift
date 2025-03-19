@@ -39,6 +39,8 @@ public struct GameView: View {
                     controlledHandView()
                 }
 
+                chooseOneAnchorView()
+
                 if let animatedCard {
                     CardView(content: animatedCard)
                         .position(isAnimating ? animationTarget : animationSource)
@@ -50,26 +52,6 @@ public struct GameView: View {
             .toolbar { toolBarView }
             .task {
                 await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
-            }
-            .actionSheet(item: Binding<GameView.State.ChooseOne?>(
-                get: { store.state.chooseOne },
-                set: { _ in }
-            )) { chooseOne in
-                guard let player = store.state.controlledPlayer else {
-                    fatalError("Missing chooser")
-                }
-
-                return ActionSheet(
-                    title: Text("Choose an Option"),
-                    message: Text("Select one of the actions below"),
-                    buttons: chooseOne.options.map { option in
-                            .default(Text(option)) {
-                                Task {
-                                    await self.store.dispatch(GameAction.choose(option, player: player))
-                                }
-                            }
-                    }
-                )
             }
             .onReceive(store.eventPublisher) { newEvent in
                 if let action = newEvent as? GameAction, action.isRenderable {
@@ -131,6 +113,32 @@ private extension GameView {
                 .padding()
             }
         }
+    }
+
+    func chooseOneAnchorView() -> some View {
+        Color.clear
+            .frame(width: 1, height: 1)
+            .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+                get: { store.state.chooseOne },
+                set: { _ in }
+            )) { chooseOne in
+                guard let player = store.state.controlledPlayer else {
+                    fatalError("Missing chooser")
+                }
+
+                return ActionSheet(
+                    title: Text("Choose an Option"),
+                    message: Text("Select one of the actions below"),
+                    buttons: chooseOne.options.map { option in
+                            .default(Text(option)) {
+                                Task {
+                                    await self.store.dispatch(GameAction.choose(option, player: player))
+                                }
+                            }
+                    }
+                )
+            }
+
     }
 
     func animate(_ action: GameAction, positions: [ViewPosition: CGPoint]) {
