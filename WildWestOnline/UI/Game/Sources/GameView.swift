@@ -40,7 +40,7 @@ public struct GameView: View {
                 }
 
                 if let animatedCard {
-                    BoardCardView(content: animatedCard)
+                    CardView(content: animatedCard)
                         .position(isAnimating ? animationTarget : animationSource)
                 }
             }
@@ -78,11 +78,11 @@ private extension GameView {
         let players = store.state.players
         let topDiscard: CardContent? = store.state.topDiscard.map { .id($0) }
 
-        BoardCardView(content: .back)
+        CardView(content: .back)
             .position(positions[.deck]!)
 
         if let topDiscard {
-            BoardCardView(content: topDiscard)
+            CardView(content: topDiscard)
                 .position(positions[.discard]!)
         }
 
@@ -103,7 +103,7 @@ private extension GameView {
                                 await store.dispatch(GameAction.play(item.card, player: player))
                             }
                         }) {
-                            HandCardView(card: item)
+                            CardView(content: .id(item.card), format: .large, active: item.active)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }

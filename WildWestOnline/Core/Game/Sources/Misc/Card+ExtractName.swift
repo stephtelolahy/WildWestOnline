@@ -13,6 +13,6 @@ public extension Card {
 
     /// Extract card value from cardId
     static func extractValue(from identifier: String) -> String {
-        identifier.split(separator: "-").dropFirst().first.map(String.init) ?? identifier
+        identifier.split(separator: "-").dropFirst().first.map(String.init) ?? ""
     }
 }
