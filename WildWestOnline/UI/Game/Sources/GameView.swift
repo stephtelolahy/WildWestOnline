@@ -12,7 +12,7 @@ import AppCore
 import GameCore
 
 public struct GameView: View {
-    @Environment(\ .theme) private var theme
+    @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Void>
 
     @SwiftUI.State private var animationSource: CGPoint = .zero
@@ -20,7 +20,7 @@ public struct GameView: View {
     @SwiftUI.State private var animatedCard: CardContent?
     @SwiftUI.State private var isAnimating = false
 
-    private let animationMatcher = BoardAnimationMatcher()
+    private let animationMatcher = AnimationMatcher()
 
     public init(store: @escaping () -> Store<State, Void>) {
         _store = StateObject(wrappedValue: store())
@@ -50,6 +50,26 @@ public struct GameView: View {
             .toolbar { toolBarView }
             .task {
                 await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+            }
+            .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+                get: { store.state.chooseOne },
+                set: { _ in }
+            )) { chooseOne in
+                guard let player = store.state.controlledPlayer else {
+                    fatalError("Missing chooser")
+                }
+
+                return ActionSheet(
+                    title: Text("Choose an Option"),
+                    message: Text("Select one of the actions below"),
+                    buttons: chooseOne.options.map { option in
+                            .default(Text(option)) {
+                                Task {
+                                    await self.store.dispatch(GameAction.choose(option, player: player))
+                                }
+                            }
+                    }
+                )
             }
             .onReceive(store.eventPublisher) { newEvent in
                 if let action = newEvent as? GameAction, action.isRenderable {

@@ -1,12 +1,12 @@
 //
-//  BoardAnimationMatcher.swift
+//  AnimationMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 16/03/2025.
 //
 import GameCore
 
-struct BoardAnimationMatcher {
+struct AnimationMatcher {
     func animation(on action: GameAction) -> AnimationKind? {
         switch action.kind {
         case .discardPlayed:

@@ -30,7 +30,8 @@ struct CardView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             } else {
                 Text(cardImageName)
-                    .frame(width: cardSize.width, height: cardSize.height)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: cardSize.width, maxHeight: cardSize.height)
             }
         }
         .overlay(
@@ -81,10 +82,12 @@ struct CardView: View {
 }
 
 #Preview {
-    HStack {
-        CardView(content: .id("bang-A♠️"), format: .large)
-        CardView(content: .id("mustang-8♥️"), format: .large, active: true)
-        CardView(content: .id("unknown"), format: .large, active: true)
+    ScrollView(.horizontal) {
+        HStack {
+            CardView(content: .id("bang-A♠️"), format: .large)
+            CardView(content: .id("mustang-8♥️"), format: .large, active: true)
+            CardView(content: .id("unknown card"), format: .large, active: true)
+        }
     }
-    .background(.gray)
+    .background(.yellow)
 }
