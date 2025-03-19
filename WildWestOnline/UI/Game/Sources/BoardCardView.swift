@@ -18,8 +18,6 @@ struct BoardCardView: View {
             Card.extractName(from: id)
         case .back:
             "card_back"
-        case .empty:
-            ""
         }
     }
 

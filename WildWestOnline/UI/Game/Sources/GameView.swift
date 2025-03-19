@@ -12,62 +12,49 @@ import AppCore
 import GameCore
 
 public struct GameView: View {
-    @Environment(\.theme) private var theme
+    @Environment(\ .theme) private var theme
     @StateObject private var store: Store<State, Void>
 
-    @SwiftUI.State private var viewPositions: [ViewPosition: CGPoint] = [:]
     @SwiftUI.State private var animationSource: CGPoint = .zero
     @SwiftUI.State private var animationTarget: CGPoint = .zero
     @SwiftUI.State private var animatedCard: CardContent?
     @SwiftUI.State private var isAnimating = false
 
-    private let boardSpace = "boardSpace"
     private let animationMatcher = BoardAnimationMatcher()
 
     public init(store: @escaping () -> Store<State, Void>) {
-        // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
     public var body: some View {
-        ZStack {
-            theme.backgroundColor.edgesIgnoringSafeArea(.all)
-            GeometryReader { proxy in
+        GeometryReader { proxy in
+            let positions = computePositions(proxy: proxy)
+            ZStack {
+                theme.backgroundColor.edgesIgnoringSafeArea(.all)
+
                 VStack(spacing: 0) {
-                    playersCircleView
+                    boardView(positions: positions)
                         .frame(height: proxy.size.height * 0.7)
                     Spacer()
                     controlledHandView()
                 }
-            }
 
-            if let animatedCard {
-                BoardCardView(content: animatedCard)
-                    .position(isAnimating ? animationTarget : animationSource)
+                if let animatedCard {
+                    BoardCardView(content: animatedCard)
+                        .position(isAnimating ? animationTarget : animationSource)
+                }
             }
-
-            positionsDebugView()
-        }
-        .coordinateSpace(name: boardSpace)
-        .onPreferenceChange(ViewPositionKey.self) { newValue in
-            MainActor.assumeIsolated {
-                self.viewPositions = newValue
+            .navigationTitle(store.state.message)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar { toolBarView }
+            .task {
+                await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
             }
-        }
-        .navigationTitle(store.state.message)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            toolBarView
-        }
-        .task {
-            await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
-        }
-        .onReceive(store.eventPublisher) { newEvent in
-            if let action = newEvent as? GameAction,
-               action.isRenderable {
-                animate(action)
+            .onReceive(store.eventPublisher) { newEvent in
+                if let action = newEvent as? GameAction, action.isRenderable {
+                    animate(action, positions: positions)
+                }
             }
         }
     }
@@ -81,55 +68,28 @@ private extension GameView {
                 Button("Settings", action: { print("Settings tapped") })
                 Divider()
                 Button(role: .destructive) {
-                    Task {
-                        await store.dispatch(SetupGameAction.quitGame)
-                    }
-                } label: {
-                    Text("Quit")
-                }
-            } label: {
-                Image(systemName: "ellipsis.circle")
-            }
+                    Task { await store.dispatch(SetupGameAction.quitGame) }
+                } label: { Text("Quit") }
+            } label: { Image(systemName: "ellipsis.circle") }
         }
     }
 
-    var playersCircleView: some View {
-        GeometryReader { proxy in
-            let availableWidth = proxy.size.width
-            let availableHeight = proxy.size.height
-            let horizontalRadius = availableWidth * 0.4
-            let verticalRadius = availableHeight * 0.35
-            let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
-            let players = store.state.players
-            let count = players.count
-            let discardContent: CardContent = if let topDiscard = store.state.topDiscard {
-                .id(topDiscard)
-            } else {
-                .empty
+    func boardView(positions: [ViewPosition: CGPoint]) -> some View {
+        let players = store.state.players
+        let topDiscard: CardContent? = store.state.topDiscard.map { .id($0) }
+
+        return ZStack {
+            BoardCardView(content: .back)
+                .position(positions[.deck]!)
+
+            if let topDiscard {
+                BoardCardView(content: topDiscard)
+                    .position(positions[.discard]!)
             }
 
-            ZStack {
-                // Place deck and discard view at the center.
-                HStack {
-                    BoardCardView(content: .back)
-                        .captureViewPosition(for: .deck, in: boardSpace)
-                    BoardCardView(content: discardContent)
-                        .captureViewPosition(for: .discard, in: boardSpace)
-                }
-                .position(x: center.x, y: center.y)
-
-                // Arrange players along an ellipse.
-                ForEach(players.indices, id: \.self) { i in
-                    // Use the same angle offset so that the current player (index 0) is at the bottom (π/2 radians)
-                    let angle = (2 * .pi / CGFloat(count)) * CGFloat(i) + (.pi / 2)
-
-                    PlayerView(player: players[i])
-                        .position(
-                            x: center.x + horizontalRadius * cos(angle),
-                            y: center.y + verticalRadius * sin(angle)
-                        )
-                        .captureViewPosition(for: .playerHand(players[i].id), in: boardSpace)
-                }
+            ForEach(players.indices, id: \ .self) { i in
+                PlayerView(player: players[i])
+                    .position(positions[.playerHand(players[i].id)]!)
             }
         }
     }
@@ -138,83 +98,34 @@ private extension GameView {
         if let player = store.state.controlledPlayer {
             ScrollView(.horizontal) {
                 HStack(spacing: 16) {
-                    ForEach(store.state.handCards, id: \.card) { item in
+                    ForEach(store.state.handCards, id: \ .card) { item in
                         Button(action: {
-                            guard item.active else {
-                                return
-                            }
-
-                            Task {
-                                await store.dispatch(GameAction.play(item.card, player: player))
-                            }
+                            guard item.active else { return }
+                            Task { await store.dispatch(GameAction.play(item.card, player: player)) }
                         }) {
                             HandCardView(card: item)
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .actionSheet(item: Binding<GameView.State.ChooseOne?>(
-                            get: { store.state.chooseOne },
-                            set: { _ in }
-                        )) { chooseOne in
-                            ActionSheet(
-                                title: Text("Choose an Option"),
-                                message: Text("Select one of the actions below"),
-                                buttons: chooseOne.options.map { option in
-                                        .default(Text(option)) {
-                                            Task {
-                                                await self.store.dispatch(GameAction.choose(option, player: player))
-                                            }
-                                        }
-                                }
-                            )
-                        }
                     }
                 }
                 .padding()
             }
-        } else {
-            EmptyView()
         }
     }
 
-    @ViewBuilder func positionsDebugView() -> some View {
-        ForEach(Array(viewPositions.keys.enumerated()), id: \.element) { index, key in
-            let position = viewPositions[key]!
-            switch key {
-            case .playerHand(let id):
-                positionMarkView(id, x: position.x, y: position.y)
-            case .playerInPlay(let id):
-                positionMarkView(id, x: position.x, y: position.y)
-            case .deck:
-                positionMarkView("deck", x: position.x, y: position.y)
-            case .discard:
-                positionMarkView("discard", x: position.x, y: position.y)
-            }
-        }
-    }
-
-    func positionMarkView(_ text: String, x: CGFloat, y: CGFloat) -> some View {
-        Text(text)
-            .font(.footnote)
-            .frame(width: 50, height: 50)
-            .background(Circle().fill(Color.blue.opacity(0.8)))
-            .position(x: x, y: x)
-    }
-
-    func animate(_ action: GameAction) {
-        guard let animation = animationMatcher.animation(on: action) else {
-            return
-        }
-
+    func animate(_ action: GameAction, positions: [ViewPosition: CGPoint]) {
+        guard let animation = animationMatcher.animation(on: action) else { return }
         switch animation {
         case let .moveCard(card, source, target):
-            moveCard(card, from: source, to: target)
+            moveCard(card, from: source, to: target, positions: positions)
         }
     }
 
-    func moveCard(_ card: CardContent, from sourcePosition: ViewPosition, to targetPosition: ViewPosition) {
+    func moveCard(_ card: CardContent, from source: ViewPosition, to target: ViewPosition, positions: [ViewPosition: CGPoint]) {
         animatedCard = card
-        animationSource = viewPositions[sourcePosition]!
-        animationTarget = viewPositions[targetPosition]!
+        animationSource = positions[source]!
+        animationTarget = positions[target]!
+
         withAnimation(.spring(duration: store.state.actionDelaySeconds)) {
             isAnimating.toggle()
         }
@@ -223,32 +134,25 @@ private extension GameView {
             animatedCard = nil
         }
     }
-}
 
-private struct ViewPositionKey: PreferenceKey {
-    nonisolated(unsafe) static var defaultValue: [ViewPosition: CGPoint] = [:]
+    func computePositions(proxy: GeometryProxy) -> [ViewPosition: CGPoint] {
+        let center = CGPoint(x: proxy.size.width / 2, y: proxy.size.height / 2)
+        let horizontalRadius = proxy.size.width * 0.4
+        let verticalRadius = proxy.size.height * 0.35
+        let players = store.state.players
 
-    static func reduce(value: inout [ViewPosition: CGPoint], nextValue: () -> [ViewPosition: CGPoint]) {
-        value.merge(nextValue(), uniquingKeysWith: { $1 })
-    }
-}
+        var positions: [ViewPosition: CGPoint] = [:]
+        positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y:0))
+        positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y:0))
 
-private extension View {
-    func captureViewPosition(for key: ViewPosition, in space: String) -> some View {
-        self.background(
-            GeometryReader { proxy in
-                Color.clear
-                    .preference(
-                        key: ViewPositionKey.self,
-                        value: [
-                            key: CGPoint(
-                                x: proxy.frame(in: .named(space)).midX,
-                                y: proxy.frame(in: .named(space)).midY
-                            )
-                        ]
-                    )
-            }
-        )
+        for (i, player) in players.enumerated() {
+            let angle = (2 * .pi / CGFloat(players.count)) * CGFloat(i) + (.pi / 2)
+            positions[.playerHand(player.id)] = CGPoint(
+                x: center.x + horizontalRadius * cos(angle),
+                y: center.y + verticalRadius * sin(angle)
+            )
+        }
+        return positions
     }
 }
 

@@ -36,5 +36,4 @@ enum ViewPosition: Hashable {
 enum CardContent: Equatable {
     case id(String)
     case back
-    case empty
 }
