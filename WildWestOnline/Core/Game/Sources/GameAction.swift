@@ -12,41 +12,48 @@ public struct GameAction: Action, Equatable, Codable {
     public enum Kind: String, Codable, Sendable {
         case preparePlay
 
+        case equip
+        case handicap
+        case discardPlayed
+
         case draw
+        case discover
+
         case drawDeck
         case drawDiscard
         case drawDiscovered
-        case discover
-        case discardHand
-        case discardInPlay
+        @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
+        case steal
         case stealHand
         case stealInPlay
+
+        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
+        case discard
+        case discardHand
+        case discardInPlay
         case passInPlay
+
         case heal
         case damage
+
         case shoot
         case counterShot
+
         case endTurn
         case startTurn
         case eliminate
         case endGame
         case activate
-        case setWeapon
         case choose
-        case discardPlayed
-        case equip
-        case handicap
-        case setMaxHealth
+
         case increaseMagnifying
         case increaseRemoteness
+        case setWeapon
+        case setMaxHealth
         case setHandLimit
         case setPlayLimitPerTurn
         case setDrawCards
 
-        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
-        case discard
-        @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
-        case steal
         case queue
     }
 
