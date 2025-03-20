@@ -170,6 +170,7 @@ private extension GameView {
         let verticalRadius = board.size.height * 0.35
         let players = store.state.players
 
+        let handToInPlayDx = 36
         var positions: [ViewPosition: CGPoint] = [:]
         positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y:0))
         positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y:0))
@@ -178,6 +179,10 @@ private extension GameView {
             let angle = (2 * .pi / CGFloat(players.count)) * CGFloat(i) + (.pi / 2)
             positions[.playerHand(player.id)] = CGPoint(
                 x: center.x + horizontalRadius * cos(angle),
+                y: center.y + verticalRadius * sin(angle)
+            )
+            positions[.playerInPlay(player.id)] = CGPoint(
+                x: center.x + horizontalRadius * cos(angle) + handToInPlayDx,
                 y: center.y + verticalRadius * sin(angle)
             )
         }
