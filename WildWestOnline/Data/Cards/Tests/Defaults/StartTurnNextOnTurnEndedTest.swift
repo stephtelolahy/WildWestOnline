@@ -23,12 +23,12 @@ struct StartTurnNextOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.play(.defaultEndTurn, player: "p1")
+        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.defaultEndTurn, player: "p1"),
+            .preparePlay(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])

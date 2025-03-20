@@ -29,7 +29,7 @@ private extension GameAction.Kind {
 
     static let dict: [GameAction.Kind: String] = [
         .activate: "🟢",
-        .play: "⚪️",
+        .preparePlay: "⚪️",
         .discardPlayed: "🟠",
         .equip: "🔵",
         .handicap: "⚫️",

@@ -18,7 +18,7 @@ private extension GameAction.Kind {
 
     var reducer: Reducer {
         switch self {
-        case .play: Play()
+        case .preparePlay: PreparePlay()
         case .draw: Draw()
         case .drawDeck: DrawDeck()
         case .drawDiscard: DrawDiscard()
@@ -117,7 +117,7 @@ private extension GameAction.Kind {
         }
     }
 
-    struct Play: Reducer {
+    struct PreparePlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
                 fatalError("Missing payload parameter card")

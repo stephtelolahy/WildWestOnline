@@ -10,7 +10,8 @@ public struct GameAction: Action, Equatable, Codable {
     public var payload: Payload
 
     public enum Kind: String, Codable, Sendable {
-        case play
+        case preparePlay
+
         case draw
         case drawDeck
         case drawDiscard

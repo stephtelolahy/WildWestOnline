@@ -18,12 +18,12 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.play(.barrel, player: "p1")
+        let action = GameAction.preparePlay(.barrel, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.barrel, player: "p1"),
+            .preparePlay(.barrel, player: "p1"),
             .equip(.barrel, player: "p1")
         ])
     }

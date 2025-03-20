@@ -6,9 +6,9 @@
 //
 
 public extension GameAction {
-    static func play(_ card: String, player: String) -> Self {
+    static func preparePlay(_ card: String, player: String) -> Self {
         .init(
-            kind: .play,
+            kind: .preparePlay,
             payload: .init(
                 target: player,
                 card: card

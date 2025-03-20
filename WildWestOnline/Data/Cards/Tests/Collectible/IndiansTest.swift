@@ -22,7 +22,7 @@ struct IndiansTest {
             .build()
 
         // When
-        let action = GameAction.play(.indians, player: "p1")
+        let action = GameAction.preparePlay(.indians, player: "p1")
         let choices: [Choice] = [
             .init(options: [.bang, .pass], selectionIndex: 0)
         ]
@@ -30,7 +30,7 @@ struct IndiansTest {
 
         // Then
         #expect(result == [
-            .play(.indians, player: "p1"),
+            .preparePlay(.indians, player: "p1"),
             .discardPlayed(.indians, player: "p1"),
             .choose(.bang, player: "p2"),
             .discardHand(.bang, player: "p2"),

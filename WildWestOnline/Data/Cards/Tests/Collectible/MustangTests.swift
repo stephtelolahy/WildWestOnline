@@ -18,12 +18,12 @@ struct MustangTests {
             .build()
 
         // When
-        let action = GameAction.play(.mustang, player: "p1")
+        let action = GameAction.preparePlay(.mustang, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.mustang, player: "p1"),
+            .preparePlay(.mustang, player: "p1"),
             .equip(.mustang, player: "p1"),
             .increaseRemoteness(1, player: "p1")
         ])

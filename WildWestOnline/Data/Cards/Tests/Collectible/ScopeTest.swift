@@ -18,12 +18,12 @@ struct ScopeTest {
             .build()
 
         // When
-        let action = GameAction.play(.scope, player: "p1")
+        let action = GameAction.preparePlay(.scope, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.scope, player: "p1"),
+            .preparePlay(.scope, player: "p1"),
             .equip(.scope, player: "p1"),
             .increaseMagnifying(1, player: "p1")
         ])

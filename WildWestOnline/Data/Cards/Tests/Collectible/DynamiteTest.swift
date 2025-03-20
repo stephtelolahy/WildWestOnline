@@ -18,12 +18,12 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.play(.dynamite, player: "p1")
+        let action = GameAction.preparePlay(.dynamite, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.dynamite, player: "p1"),
+            .preparePlay(.dynamite, player: "p1"),
             .equip(.dynamite, player: "p1")
         ])
     }

@@ -21,7 +21,7 @@ struct CatBalouTest {
             .build()
 
         // When
-        let action = GameAction.play(.catBalou, player: "p1")
+        let action = GameAction.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
@@ -30,7 +30,7 @@ struct CatBalouTest {
 
         // Then
         #expect(result == [
-            .play(.catBalou, player: "p1"),
+            .preparePlay(.catBalou, player: "p1"),
             .discardPlayed(.catBalou, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
@@ -51,7 +51,7 @@ struct CatBalouTest {
             .build()
 
         // When
-        let action = GameAction.play(.catBalou, player: "p1")
+        let action = GameAction.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c21"], selectionIndex: 0)
@@ -60,7 +60,7 @@ struct CatBalouTest {
 
         // Then
         #expect(result == [
-            .play(.catBalou, player: "p1"),
+            .preparePlay(.catBalou, player: "p1"),
             .discardPlayed(.catBalou, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c21", player: "p1"),
@@ -82,7 +82,7 @@ struct CatBalouTest {
             .build()
 
         // When
-        let action = GameAction.play(.catBalou, player: "p1")
+        let action = GameAction.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c23", "c24", "hiddenHand-0", "hiddenHand-1"], selectionIndex: 0)
@@ -91,7 +91,7 @@ struct CatBalouTest {
 
         // Then
         #expect(result == [
-            .play(.catBalou, player: "p1"),
+            .preparePlay(.catBalou, player: "p1"),
             .discardPlayed(.catBalou, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c23", player: "p1"),
@@ -110,7 +110,7 @@ struct CatBalouTest {
 
         // When
         // Then
-        let action = GameAction.play(.catBalou, player: "p1")
+        let action = GameAction.preparePlay(.catBalou, player: "p1")
         await #expect(throws: GameError.noChoosableTarget([.havingCard])) {
             try await dispatchUntilCompleted(action, state: state)
         }

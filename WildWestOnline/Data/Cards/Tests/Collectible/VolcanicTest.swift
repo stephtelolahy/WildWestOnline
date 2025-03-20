@@ -17,12 +17,12 @@ struct VolcanicTest {
             .build()
 
         // When
-        let action = GameAction.play(.volcanic, player: "p1")
+        let action = GameAction.preparePlay(.volcanic, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.volcanic, player: "p1"),
+            .preparePlay(.volcanic, player: "p1"),
             .equip(.volcanic, player: "p1"),
             .setWeapon(1, player: "p1"),
             .setPlayLimitPerTurn([.bang: .infinity], player: "p1")
