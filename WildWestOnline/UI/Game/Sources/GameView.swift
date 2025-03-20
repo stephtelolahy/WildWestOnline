@@ -80,7 +80,7 @@ private extension GameView {
         let players = store.state.players
         let topDiscard: CardContent? = store.state.topDiscard.map { .id($0) }
 
-        CardView(content: .back)
+        CardView(content: .hidden)
             .position(positions[.deck]!)
 
         if let topDiscard {

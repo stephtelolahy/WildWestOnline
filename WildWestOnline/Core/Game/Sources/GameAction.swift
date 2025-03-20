@@ -50,7 +50,7 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        @UncheckedEquatable var actor: String
+        @UncheckedEquatable public var actor: String
         @UncheckedEquatable var source: String
         public var target: String
         public var card: String?

@@ -24,55 +24,138 @@ struct AnimationMatcherTest {
         #expect(animation == .moveCard(.id("c1"), from: .playerHand("p1"), to: .discard))
     }
 
-    /*
-     switch event {
-              case let .playBrown(card, player):
-                      .move(card: .id(card), from: .hand(player), to: .discard)
+    @Test func animateEquip() async throws {
+        // Given
+        let event = GameAction.equip("c1", player: "p1")
 
-              case let .playEquipment(card, player):
-                      .move(card: .id(card), from: .hand(player), to: .inPlay(player))
+        // When
+        let animation = try #require(sut.animation(on: event))
 
-              case let .playHandicap(card, target, player):
-                      .move(card: .id(card), from: .hand(player), to: .inPlay(target))
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerHand("p1"), to: .playerInPlay("p1")))
+    }
 
-              case let .drawDeck(player):
-                      .move(card: .hidden, from: .deck, to: .hand(player))
+    @Test func animateHandicap() async throws {
+        // Given
+        let event = GameAction.handicap("c1", target: "p2", player: "p1")
 
-              case let .putBack(_, player):
-                      .move(card: .hidden, from: .hand(player), to: .deck)
+        // When
+        let animation = try #require(sut.animation(on: event))
 
-              case let .showHand(card, player):
-                      .reveal(card: .id(card), from: .hand(player), to: .hand(player))
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerHand("p1"), to: .playerInPlay("p2")))
+    }
 
-              case let .stealHand(_, target, player):
-                      .move(card: .hidden, from: .hand(target), to: .hand(player))
+    @Test func animateDrawDeck() async throws {
+        // Given
+        let event = GameAction.drawDeck(player: "p1")
 
-              case let .stealInPlay(card, target, player):
-                      .move(card: .id(card), from: .inPlay(target), to: .hand(player))
+        // When
+        let animation = try #require(sut.animation(on: event))
 
-              case let .drawArena(card, player):
-                      .move(card: .id(card), from: .arena, to: .hand(player))
+        // Then
+        #expect(animation == .moveCard(.hidden, from: .deck, to: .playerHand("p1")))
+    }
 
-              case let .drawDiscard(player):
-                      .move(card: .topDiscard, from: .discard, to: .hand(player))
+    @Test func animateDraw() async throws {
+        // Given
+        let event = GameAction.draw(player: "p1")
 
-              case let .passInPlay(card, target, player):
-                      .move(card: .id(card), from: .inPlay(player), to: .inPlay(target))
+        // When
+        let animation = try #require(sut.animation(on: event))
 
-              case let .discardHand(card, player):
-                      .move(card: .id(card), from: .hand(player), to: .discard)
+        // Then
+        // TODO: card id = top discard
+        #expect(animation == .moveCard(.hidden, from: .deck, to: .discard))
+    }
 
-              case let .discardInPlay(card, player):
-                      .move(card: .id(card), from: .inPlay(player), to: .discard)
+    @Test func animateStealHand() async throws {
+        // Given
+        let event = GameAction.stealHand("c1", target: "p2", player: "p1")
 
-              case .discover:
-                      .reveal(card: .topDeck, from: .deck, to: .arena)
+        // When
+        let animation = try #require(sut.animation(on: event))
 
-              case .draw:
-                      .reveal(card: .topDeck, from: .deck, to: .discard)
+        // Then
+        #expect(animation == .moveCard(.hidden, from: .playerHand("p2"), to: .playerHand("p1")))
+    }
 
-              default:
-                  nil
-              }
-     */
+    @Test func animateStealInPlay() async throws {
+        // Given
+        let event = GameAction.stealInPlay("c1", target: "p2", player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerInPlay("p2"), to: .playerHand("p1")))
+    }
+
+    @Test func animateDrawDiscovered() async throws {
+        // Given
+        let event = GameAction.drawDiscovered("c1", player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .deck, to: .playerHand("p1")))
+    }
+
+    @Test func animateDrawDiscard() async throws {
+        // Given
+        let event = GameAction.drawDiscard(player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        // TODO: card id = last hand
+        #expect(animation == .moveCard(.hidden, from: .discard, to: .playerHand("p1")))
+    }
+
+    @Test func animatePassInPlay() async throws {
+        // Given
+        let event = GameAction.passInPlay("c1", target: "p2", player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerInPlay("p1"), to: .playerInPlay("p2")))
+    }
+
+    @Test func animateDiscardHand() async throws {
+        // Given
+        let event = GameAction.discardHand("c1", player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerHand("p1"), to: .discard))
+    }
+
+    @Test func animateDiscardInPlay() async throws {
+        // Given
+        let event = GameAction.discardInPlay("c1", player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        #expect(animation == .moveCard(.id("c1"), from: .playerInPlay("p1"), to: .discard))
+    }
+
+    @Test func animateDiscover() async throws {
+        // Given
+        let event = GameAction.discover(player: "p1")
+
+        // When
+        let animation = try #require(sut.animation(on: event))
+
+        // Then
+        // TODO: card id = last discovered
+        #expect(animation == .moveCard(.hidden, from: .deck, to: .deck))
+    }
 }
