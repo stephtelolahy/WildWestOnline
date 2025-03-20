@@ -170,7 +170,7 @@ private extension GameView {
         let verticalRadius = board.size.height * 0.35
         let players = store.state.players
 
-        let handToInPlayDx = 36
+        let handToInPlayDx: CGFloat = 36
         var positions: [ViewPosition: CGPoint] = [:]
         positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y:0))
         positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y:0))
