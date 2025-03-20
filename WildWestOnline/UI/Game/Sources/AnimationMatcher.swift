@@ -9,7 +9,7 @@ import GameCore
 struct AnimationMatcher {
     func animation(on action: GameAction) -> AnimationKind? {
         switch action.kind {
-        case .discardPlayed:
+        case .playBrown:
                 .moveCard(
                     .id(action.payload.card!),
                     from: .playerHand(action.payload.target),

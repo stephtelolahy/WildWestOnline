@@ -203,9 +203,9 @@ public extension GameAction {
         )
     }
 
-    static func discardPlayed(_ card: String, player: String) -> Self {
+    static func playBrown(_ card: String, player: String) -> Self {
         .init(
-            kind: .discardPlayed,
+            kind: .playBrown,
             payload: .init(
                 target: player,
                 card: card

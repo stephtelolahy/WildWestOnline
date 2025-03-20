@@ -32,7 +32,7 @@ struct MissedTest {
         // Then
         #expect(result == [
                 .preparePlay(.bang, player: "p1"),
-                .discardPlayed(.bang, player: "p1"),
+                .playBrown(.bang, player: "p1"),
                 .choose("p2", player: "p1"),
                 .shoot("p2", player: "p1"),
                 .choose(.missed2, player: "p2"),
@@ -63,7 +63,7 @@ struct MissedTest {
         // Then
         #expect(result == [
                 .preparePlay(.bang, player: "p1"),
-                .discardPlayed(.bang, player: "p1"),
+                .playBrown(.bang, player: "p1"),
                 .choose("p2", player: "p1"),
                 .shoot("p2", player: "p1"),
                 .choose(.pass, player: "p2"),

@@ -1,5 +1,5 @@
 //
-//  DiscardPlayedTest.swift
+//  PlayBrownTest.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 15/12/2024.
@@ -8,8 +8,8 @@
 import Testing
 import GameCore
 
-struct DiscardPlayedTest {
-    @Test func discardPlayed_shouldRemoveCardFromHand() async throws {
+struct PlayBrownTest {
+    @Test func playBrown_shouldRemoveCardFromHand() async throws {
         // Given
         let state = GameState.makeBuilder()
             .withPlayer("p1") {
@@ -18,7 +18,7 @@ struct DiscardPlayedTest {
             .build()
 
         // When
-        let action = GameAction.discardPlayed("c1", player: "p1")
+        let action = GameAction.playBrown("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

@@ -31,7 +31,7 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .preparePlay(.catBalou, player: "p1"),
-            .discardPlayed(.catBalou, player: "p1"),
+            .playBrown(.catBalou, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .discardHand("c21", player: "p2")
@@ -61,7 +61,7 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .preparePlay(.catBalou, player: "p1"),
-            .discardPlayed(.catBalou, player: "p1"),
+            .playBrown(.catBalou, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c21", player: "p1"),
             .discardInPlay("c21", player: "p2")
@@ -92,7 +92,7 @@ struct CatBalouTest {
         // Then
         #expect(result == [
             .preparePlay(.catBalou, player: "p1"),
-            .discardPlayed(.catBalou, player: "p1"),
+            .playBrown(.catBalou, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c23", player: "p1"),
             .discardInPlay("c23", player: "p2")

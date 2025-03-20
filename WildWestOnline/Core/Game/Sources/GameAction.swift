@@ -12,9 +12,9 @@ public struct GameAction: Action, Equatable, Codable {
     public enum Kind: String, Codable, Sendable {
         case preparePlay
 
+        case playBrown
         case equip
         case handicap
-        case discardPlayed
 
         case draw
         case discover
@@ -22,6 +22,7 @@ public struct GameAction: Action, Equatable, Codable {
         case drawDeck
         case drawDiscard
         case drawDiscovered
+
         @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
         case steal
         case stealHand

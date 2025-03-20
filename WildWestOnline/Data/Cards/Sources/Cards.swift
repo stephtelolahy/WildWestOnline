@@ -204,7 +204,7 @@ private extension Cards {
             name: .stagecoach,
             desc: "Draw two cards from the top of the deck.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .drawDeck,
                     selectors: [
@@ -220,7 +220,7 @@ private extension Cards {
             name: .wellsFargo,
             desc: "Draw three cards from the top of the deck.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .drawDeck,
                     selectors: [
@@ -239,7 +239,7 @@ private extension Cards {
                 .playersAtLeast(3)
             ],
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .heal,
                     selectors: [
@@ -255,7 +255,7 @@ private extension Cards {
             name: .saloon,
             desc: "All players in play regain one life point.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .heal,
                     selectors: [
@@ -272,7 +272,7 @@ private extension Cards {
             name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .discard,
                     selectors: [
@@ -289,7 +289,7 @@ private extension Cards {
             name: .panic,
             desc: "Draw a card from a player at distance 1",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .steal,
                     selectors: [
@@ -306,7 +306,7 @@ private extension Cards {
             name: .generalStore,
             desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .discover,
                     selectors: [
@@ -332,7 +332,7 @@ private extension Cards {
                 .playLimitPerTurn([.bang: 1])
             ],
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .shoot,
                     selectors: [
@@ -348,7 +348,7 @@ private extension Cards {
             name: .gatling,
             desc: "shoots to all the other players, regardless of the distance",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .shoot,
                     selectors: [
@@ -372,7 +372,7 @@ private extension Cards {
             name: .indians,
             desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .damage,
                     selectors: [
@@ -390,7 +390,7 @@ private extension Cards {
             name: .duel,
             desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             onPlay: [
-                .discardPlayed,
+                .playBrown,
                 .init(
                     action: .damage,
                     selectors: [
@@ -674,9 +674,9 @@ private extension Cards {
 }
 
 private extension Card.Effect {
-    static var discardPlayed: Card.Effect {
+    static var playBrown: Card.Effect {
         .init(
-            action: .discardPlayed,
+            action: .playBrown,
             selectors: [
                 .setCard(.played)
             ]

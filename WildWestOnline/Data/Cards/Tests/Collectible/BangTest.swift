@@ -30,7 +30,7 @@ struct BangTest {
         // Then
         #expect(result == [
             .preparePlay(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
+            .playBrown(.bang, player: "p1"),
             .choose("p2", player: "p1"),
             .shoot("p2", player: "p1"),
             .damage(1, player: "p2")

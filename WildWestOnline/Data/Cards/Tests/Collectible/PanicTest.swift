@@ -31,7 +31,7 @@ struct PanicTest {
         // Then
         #expect(result == [
             .preparePlay(.panic, player: "p1"),
-            .discardPlayed(.panic, player: "p1"),
+            .playBrown(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
             .stealHand("c21", target: "p2", player: "p1")
@@ -61,7 +61,7 @@ struct PanicTest {
         // Then
         #expect(result == [
             .preparePlay(.panic, player: "p1"),
-            .discardPlayed(.panic, player: "p1"),
+            .playBrown(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c22", player: "p1"),
             .stealInPlay("c22", target: "p2", player: "p1")
@@ -92,7 +92,7 @@ struct PanicTest {
         // Then
         #expect(result == [
             .preparePlay(.panic, player: "p1"),
-            .discardPlayed(.panic, player: "p1"),
+            .playBrown(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c23", player: "p1"),
             .stealInPlay("c23", target: "p2", player: "p1")
