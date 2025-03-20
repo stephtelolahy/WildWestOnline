@@ -29,7 +29,7 @@ struct ElGringoTests {
 
         // Then
         #expect(result == [
-            .playBrown(.bang, player: "p2"),
+            .play(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .damage(1, player: "p1"),
             .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
@@ -57,7 +57,7 @@ struct ElGringoTests {
 
         // Then
         #expect(result == [
-            .playBrown(.bang, player: "p2"),
+            .play(.bang, player: "p2"),
             .chooseOne(.target, options: ["p1"], player: "p2"),
             .damage(1, player: "p1")
         ])

@@ -42,7 +42,7 @@ private extension GameAction.Kind {
         case .eliminate: Eliminate()
         case .endGame: EndGame()
         case .activate: Activate()
-        case .playBrown: PlayBrown()
+        case .play: Play()
         case .equip: Equip()
         case .handicap: Handicap()
         case .setMaxHealth: fatalError()
@@ -158,7 +158,7 @@ private extension GameAction.Kind {
         }
     }
 
-    struct PlayBrown: Reducer {
+    struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
                 fatalError("Missing payload parameter card")

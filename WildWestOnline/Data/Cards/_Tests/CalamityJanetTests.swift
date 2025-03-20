@@ -27,7 +27,7 @@ struct CalamityJanetTests {
 
         // Then
         #expect(result == [
-            .playBrown(.bang, player: "p1"),
+            .play(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
@@ -51,7 +51,7 @@ struct CalamityJanetTests {
 
         // Then
         #expect(result == [
-            .playBrown(.missed, player: "p1"),
+            .play(.missed, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .damage(1, player: "p2")
         ])
@@ -77,10 +77,10 @@ struct CalamityJanetTests {
 
         // Then
         #expect(result == [
-            .playBrown(.bang, player: "p1"),
+            .play(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.bang, .pass], player: "p2"),
-            .playBrown(.bang, player: "p2")
+            .play(.bang, player: "p2")
         ])
     }
 
@@ -104,10 +104,10 @@ struct CalamityJanetTests {
 
         // Then
         #expect(result == [
-            .playBrown(.bang, player: "p1"),
+            .play(.bang, player: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .chooseOne(.cardToPlayCounter, options: [.missed, .pass], player: "p2"),
-            .playBrown(.missed, player: "p2")
+            .play(.missed, player: "p2")
         ])
     }
 }

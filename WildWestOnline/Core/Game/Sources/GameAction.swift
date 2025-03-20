@@ -12,7 +12,7 @@ public struct GameAction: Action, Equatable, Codable {
     public enum Kind: String, Codable, Sendable {
         case preparePlay
 
-        case playBrown
+        case play
         case equip
         case handicap
 
