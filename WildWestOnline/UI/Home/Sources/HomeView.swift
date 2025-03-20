@@ -33,7 +33,6 @@ public struct HomeView: View {
                 footerView
             }
         }
-        .foregroundColor(.primary)
         .navigationBarHidden(true)
     }
 
@@ -70,7 +69,6 @@ public struct HomeView: View {
             Text(String(localized: titleKey, bundle: .module))
                 .font(.headline)
                 .padding(8)
-                .foregroundColor(.accentColor)
         }.symbolRenderingMode(.multicolor)
     }
 

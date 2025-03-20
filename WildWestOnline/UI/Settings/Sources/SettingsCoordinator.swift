@@ -17,7 +17,7 @@ public struct SettingsCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            SettingsHomeView { store.projection(SettingsHomeView.State.init) }
+            SettingsRootView { store.projection(SettingsRootView.State.init) }
                 .navigationDestination(for: SettingsDestination.self) {
                     viewForDestination($0)
                 }

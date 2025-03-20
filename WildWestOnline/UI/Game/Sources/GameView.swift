@@ -15,120 +15,54 @@ public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Void>
 
+    @SwiftUI.State private var animationSource: CGPoint = .zero
+    @SwiftUI.State private var animationTarget: CGPoint = .zero
+    @SwiftUI.State private var animatedCard: CardContent?
+    @SwiftUI.State private var isAnimating = false
+
+    private let animationMatcher = AnimationMatcher()
+
     public init(store: @escaping () -> Store<State, Void>) {
-        // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
     public var body: some View {
-        ZStack {
-            theme.backgroundColor.edgesIgnoringSafeArea(.all)
-//            UIViewControllerRepresentableBuilder { GamePlayViewController(store: store) }
-            gamePlayView
-        }
-        .foregroundColor(.primary)
-        .navigationTitle(store.state.message)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            toolBarView
+        GeometryReader { proxy in
+            let positions = computePositions(proxy: proxy)
+            ZStack {
+                theme.backgroundColor.edgesIgnoringSafeArea(.all)
+
+                boardView(positions: positions)
+
+                VStack {
+                    Spacer()
+                    controlledHandView()
+                }
+
+                chooseOneAnchorView()
+
+                if let animatedCard {
+                    CardView(content: animatedCard)
+                        .position(isAnimating ? animationTarget : animationSource)
+                }
+            }
+            .navigationTitle(store.state.message)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar { toolBarView }
+            .task {
+                await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+            }
+            .onReceive(store.eventPublisher) { newEvent in
+                if let action = newEvent as? GameAction, action.isRenderable {
+                    animate(action, positions: positions)
+                }
+            }
         }
     }
 }
 
 private extension GameView {
-
-    var gamePlayView: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-                playersCircleView
-                    .frame(height: geometry.size.height * 0.7)
-                Spacer()
-                yourHandView
-            }
-        }
-        .task {
-            await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
-        }
-        .actionSheet(item: Binding<GameView.State.ChooseOne?>(
-            get: { store.state.chooseOne },
-            set: { _ in }
-        )) { chooseOne in
-            guard let player = store.state.controlledPlayer else {
-                fatalError("Missing chooser")
-            }
-
-            return ActionSheet(
-                title: Text("Choose an Option"),
-                message: Text("Select one of the actions below"),
-                buttons: chooseOne.options.map { option in
-                        .default(Text(option)) {
-                            Task {
-                                await self.store.dispatch(GameAction.choose(option, player: player))
-                            }
-                        }
-                }
-            )
-        }
-    }
-
-    var playersCircleView: some View {
-        GeometryReader { geometry in
-            let availableWidth = geometry.size.width
-            let availableHeight = geometry.size.height
-            // Compute horizontal and vertical radii for an oval layout.
-            let horizontalRadius = availableWidth * 0.4
-            let verticalRadius = availableHeight * 0.35
-            let center = CGPoint(x: availableWidth / 2, y: availableHeight / 2)
-            let players = store.state.players
-            let count = players.count
-
-            ZStack {
-                // Place deck and discard view at the center.
-                DeckDiscardView(
-                    topDiscard: store.state.topDiscard
-                )
-                .position(x: center.x, y: center.y)
-
-                // Arrange players along an ellipse.
-                ForEach(players.indices, id: \.self) { i in
-                    // Use the same angle offset so that the current player (index 0) is at the bottom (π/2 radians)
-                    let angle = (2 * .pi / CGFloat(count)) * CGFloat(i) + (.pi / 2)
-
-                    PlayerView(player: players[i])
-                        .position(x: center.x + horizontalRadius * cos(angle),
-                                  y: center.y + verticalRadius * sin(angle))
-                }
-            }
-        }
-    }
-
-    var yourHandView: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 16) {
-                ForEach(store.state.handCards, id: \.card) { item in
-                    Button(action: {
-                        guard let player = store.state.controlledPlayer else {
-                            fatalError("Missing chooser")
-                        }
-
-                        guard item.active else {
-                            return
-                        }
-
-                        Task {
-                            await store.dispatch(GameAction.play(item.card, player: player))
-                        }
-                    }) {
-                        HandCardView(card: item)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            .padding()
-        }
-    }
-
     var toolBarView: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
@@ -136,16 +70,123 @@ private extension GameView {
                 Button("Settings", action: { print("Settings tapped") })
                 Divider()
                 Button(role: .destructive) {
-                    Task {
-                        await store.dispatch(SetupGameAction.quitGame)
+                    Task { await store.dispatch(SetupGameAction.quitGame) }
+                } label: { Text("Quit") }
+            } label: { Image(systemName: "ellipsis.circle") }
+        }
+    }
+
+    @ViewBuilder func boardView(positions: [ViewPosition: CGPoint]) -> some View {
+        let players = store.state.players
+        let topDiscard: CardContent? = store.state.topDiscard.map { .id($0) }
+
+        CardView(content: .hidden)
+            .position(positions[.deck]!)
+
+        if let topDiscard {
+            CardView(content: topDiscard)
+                .position(positions[.discard]!)
+        }
+
+        ForEach(players.indices, id: \ .self) { i in
+            PlayerView(player: players[i])
+                .position(positions[.playerHand(players[i].id)]!)
+        }
+    }
+
+    @ViewBuilder func controlledHandView() -> some View {
+        if let player = store.state.controlledPlayer {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(store.state.handCards, id: \ .card) { item in
+                        Button(action: {
+                            guard item.active else { return }
+                            Task {
+                                await store.dispatch(GameAction.play(item.card, player: player))
+                            }
+                        }) {
+                            CardView(content: .id(item.card), format: .large, active: item.active)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
-                } label: {
-                    Text("Quit")
                 }
-            } label: {
-                Image(systemName: "ellipsis.circle")
+                .padding()
             }
         }
+    }
+
+    func chooseOneAnchorView() -> some View {
+        Color.clear
+            .frame(width: 1, height: 1)
+            .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+                get: { store.state.chooseOne },
+                set: { _ in }
+            )) { chooseOne in
+                guard let player = store.state.controlledPlayer else {
+                    fatalError("Missing chooser")
+                }
+
+                return ActionSheet(
+                    title: Text("Choose an Option"),
+                    message: Text("Select one of the actions below"),
+                    buttons: chooseOne.options.map { option in
+                            .default(Text(option)) {
+                                Task {
+                                    await self.store.dispatch(GameAction.choose(option, player: player))
+                                }
+                            }
+                    }
+                )
+            }
+
+    }
+
+    func animate(_ action: GameAction, positions: [ViewPosition: CGPoint]) {
+        guard let animation = animationMatcher.animation(on: action) else { return }
+        switch animation {
+        case let .moveCard(card, source, target):
+            moveCard(card, from: source, to: target, positions: positions)
+        }
+    }
+
+    func moveCard(_ card: CardContent, from source: ViewPosition, to target: ViewPosition, positions: [ViewPosition: CGPoint]) {
+        animatedCard = card
+        animationSource = positions[source]!
+        animationTarget = positions[target]!
+
+        withAnimation(.spring(duration: store.state.actionDelaySeconds)) {
+            isAnimating.toggle()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + store.state.actionDelaySeconds) {
+            isAnimating = false
+            animatedCard = nil
+        }
+    }
+
+    func computePositions(proxy: GeometryProxy) -> [ViewPosition: CGPoint] {
+        let board = CGRect(x: 0, y: 0, width: proxy.size.width, height: proxy.size.height * 0.7)
+        let center = CGPoint(x: board.size.width / 2, y: board.size.height / 2)
+        let horizontalRadius = board.size.width * 0.4
+        let verticalRadius = board.size.height * 0.35
+        let players = store.state.players
+
+        let handToInPlayDx: CGFloat = 36
+        var positions: [ViewPosition: CGPoint] = [:]
+        positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y:0))
+        positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y:0))
+
+        for (i, player) in players.enumerated() {
+            let angle = (2 * .pi / CGFloat(players.count)) * CGFloat(i) + (.pi / 2)
+            positions[.playerHand(player.id)] = CGPoint(
+                x: center.x + horizontalRadius * cos(angle),
+                y: center.y + verticalRadius * sin(angle)
+            )
+            positions[.playerInPlay(player.id)] = CGPoint(
+                x: center.x + horizontalRadius * cos(angle) + handToInPlayDx,
+                y: center.y + verticalRadius * sin(angle)
+            )
+        }
+        return positions
     }
 }
 
@@ -189,8 +230,23 @@ private extension GameView.State {
             userPhotoUrl: nil
         )
 
+        let player3 = GameView.State.PlayerItem(
+            id: "p3",
+            imageName: "elGringo",
+            displayName: "elGringo",
+            health: 1,
+            maxHealth: 3,
+            handCount: 0,
+            inPlay: ["scope"],
+            isTurn: false,
+            isTargeted: false,
+            isEliminated: false,
+            role: nil,
+            userPhotoUrl: nil
+        )
+
         return .init(
-            players: [player1, player2, player2, player2, player2, player2, player2],
+            players: [player1, player2, player3],
             message: "P1's turn",
             chooseOne: nil,
             handCards: [
@@ -204,7 +260,8 @@ private extension GameView.State {
             startOrder: [],
             deckCount: 12,
             controlledPlayer: "p1",
-            startPlayer: "p1"
+            startPlayer: "p1",
+            actionDelaySeconds: 0.5
         )
     }
 }

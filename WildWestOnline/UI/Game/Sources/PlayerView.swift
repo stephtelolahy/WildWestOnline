@@ -25,7 +25,6 @@ struct PlayerView: View {
                 .font(.headline)
             Text(player.role ?? "???")
                 .font(.caption)
-                .foregroundColor(.secondary)
 
             // Health display with hearts
             HStack(spacing: 2) {

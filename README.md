@@ -41,10 +41,6 @@ graph TD;
     CARD --> EFFECT(Effect);
     EFFECT --> SELECTOR(Selector);
     EFFECT --> ACTIONTYPE;
-    SELECTOR --> SETVALUE(Set);
-    SELECTOR --> CHOOSE(Choose);
-    SELECTOR --> REPEAT(Repeat);
-    SELECTOR --> VERIFY(Verify);
 ```
 
 ### Event solving
@@ -56,22 +52,11 @@ graph TD;
 graph TD;
     N1(1) --> N2(2);
     N2 --> N3(3);
-    N2 --> N13(13);
+    N2 --> N6(6);
     N3 --> N4(4);
-    N3 --> N12(12);
-    N4 --> N5(5);
-    N4 --> N7(7);
-    N5 --> N6(6);
-    N7 --> N8(8);
-    N7 --> N10(10);
-    N8 --> N9(9);
-    N10 --> N11(11);
-    N13 --> N14(14);
-    N14 --> N15(14);
-    N14 --> N16(16);
-    N16 --> X161(/);
-    N16 --> X162(/);
-    N13 --> X13(/);
+    N3 --> N5(5);
+    N6 --> N7(7);
+    N6 --> X6(/);
     N1 --> X1(/);
 ```
 
@@ -82,16 +67,13 @@ The project is composed of SwiftPackage products with the following structure.
 - UI and Data layers depend on Core
 
 ```mermaid
----
-title: "Clean Architecture"
----
-packet-beta
-  0-31: "App"
-  32-48: "UI"
-  49-63: "Data"
-  64-72: "UI Library"
-  73-88: "Core"
-  89-95: "Data Library"
+graph TD;
+    APP(App) --> UI(Presentation);
+    APP --> DATA(Data Access);
+    UI --> UILIBRARY(Library)
+    UI --> CORE(Core);
+    DATA --> CORE;
+    DATA --> DATALIBRARY(Library)
 ```
 
 ### Redux
@@ -107,13 +89,16 @@ Redux architecture is meant to protect changes in an application’s state. It f
 
 ```mermaid
 graph TD;
-    VIEW(View) --> ACTION(Action);
-    ACTION --> REDUCER(Reducer);
-    REDUCER --> STATE(State);
-    STATE --> VIEWSTATE(ViewState);
-    REDUCER --> EFFECT(Effect);
-    EFFECT --> ACTION;
-    VIEWSTATE --> VIEW;
+  subgraph Main thread
+    VIEW --> ACTION
+    ACTION --> REDUCER
+    REDUCER --> STATE
+    STATE --> VIEW
+  end
+  subgraph Background thread
+    REDUCER --> EFFECT
+    EFFECT --> ACTION
+  end
 ```
 
 #### Store projection
@@ -122,11 +107,10 @@ However, we can "derive" this store to small subsets, called store projections, 
 
 ```mermaid
 flowchart TD
-APP[App] --> APPSTORE(AppStore)
-APP -->  APPVIEW(AppView)
-APPVIEW --> |composition| VIEW(FeatureView)
+APP[App] --> APPSTORE(Store)
+APP --> |composition| VIEW(View)
 VIEW --> |observe| STOREPROJECTION(StoreProjection)
-APPSTORE --> |projection| STOREPROJECTION
+STOREPROJECTION --> |derive| APPSTORE
 ```
 
 ### Sequence diagram

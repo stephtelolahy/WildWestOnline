@@ -22,6 +22,7 @@ public extension GameView {
         let deckCount: Int
         let controlledPlayer: String?
         let startPlayer: String
+        let actionDelaySeconds: Double
 
         struct PlayerItem: Equatable {
             let id: String
@@ -68,6 +69,7 @@ public extension GameView.State {
         deckCount = game.deck.count
         controlledPlayer = game.controlledPlayerId
         startPlayer = game.startPlayerId
+        actionDelaySeconds = Double(appState.settings.actionDelayMilliSeconds) / 1000.0
     }
 }
 
