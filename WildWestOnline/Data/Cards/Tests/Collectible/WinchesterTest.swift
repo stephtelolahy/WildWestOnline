@@ -23,7 +23,6 @@ struct WinchesterTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.winchester, player: "p1"),
             .equip(.winchester, player: "p1"),
             .setWeapon(5, player: "p1")
         ])

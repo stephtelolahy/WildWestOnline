@@ -32,7 +32,6 @@ struct DiscardExcessHandOnTurnEndedTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1")
@@ -63,7 +62,6 @@ struct DiscardExcessHandOnTurnEndedTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
@@ -92,7 +90,6 @@ struct DiscardExcessHandOnTurnEndedTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1")
         ])
     }
@@ -118,7 +115,6 @@ struct DiscardExcessHandOnTurnEndedTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1")
         ])
     }

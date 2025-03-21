@@ -98,6 +98,16 @@ public struct GameAction: Action, Equatable, Codable {
 
 public extension GameAction {
     var isRenderable: Bool {
-        kind != .queue && payload.selectors.isEmpty
+        guard payload.selectors.isEmpty else {
+            return false
+        }
+
+        switch kind {
+        case .queue, .preparePlay:
+            return false
+
+        default:
+            return true
+        }
     }
 }

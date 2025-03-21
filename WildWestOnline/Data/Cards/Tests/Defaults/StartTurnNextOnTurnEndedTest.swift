@@ -28,7 +28,6 @@ struct StartTurnNextOnTurnEndedTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.defaultEndTurn, player: "p1"),
             .endTurn(player: "p1"),
             .startTurn(player: "p2")
         ])

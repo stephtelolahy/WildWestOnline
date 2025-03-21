@@ -27,7 +27,6 @@ struct JailTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.jail, player: "p1"),
             .choose("p2", player: "p1"),
             .handicap(.jail, target: "p2", player: "p1")
         ])

@@ -23,7 +23,6 @@ struct DynamiteTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.dynamite, player: "p1"),
             .equip(.dynamite, player: "p1")
         ])
     }

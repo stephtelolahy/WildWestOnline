@@ -23,7 +23,6 @@ struct MustangTests {
 
         // Then
         #expect(result == [
-            .preparePlay(.mustang, player: "p1"),
             .equip(.mustang, player: "p1"),
             .increaseRemoteness(1, player: "p1")
         ])

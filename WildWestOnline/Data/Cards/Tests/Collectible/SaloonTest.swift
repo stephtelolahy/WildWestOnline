@@ -25,7 +25,6 @@ struct SaloonTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.saloon, player: "p1"),
             .play(.saloon, player: "p1"),
             .heal(1, player: "p1")
         ])
@@ -55,7 +54,6 @@ struct SaloonTest {
 
         // Then
         #expect(result == [
-            .preparePlay(.saloon, player: "p1"),
             .play(.saloon, player: "p1"),
             .heal(1, player: "p2"),
             .heal(1, player: "p3")
