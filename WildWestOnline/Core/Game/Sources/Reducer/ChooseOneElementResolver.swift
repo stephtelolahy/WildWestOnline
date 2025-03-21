@@ -82,7 +82,7 @@ private extension Card.Selector.ChooseOneElement {
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            // </ADAPTATER: Convert action.kind>
+            // <ADAPTATER: Convert action.kind>
             var pendingAction = pendingAction
 
             if pendingAction.kind == .discard {
