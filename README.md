@@ -7,8 +7,7 @@
 **Trading card games**: a form of competitive activity played according to rules. It is turn based, cards have properties and have rules.
 Currently, there is no effective way to prototype trading card games and then be able to test the workings and the implications of rules in these games. 
 
-**DSL**: Domain Specific Languages are computer languages designed for a specific domain. 
-Since DSLs result in programs that are smaller and easier to understand, they allow even non-programmers to read, write and understand the language.
+**Defining Cards with DSL**: Domain-Specific Languages (DSLs) are specialized computer languages tailored for a specific domain. They produce concise and intuitive programs, making it easier for both programmers and non-programmers to read, write, and understand the language.
 
 ### Key Features
 
