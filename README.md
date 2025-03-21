@@ -61,7 +61,7 @@ graph TD;
 ### Modular Architecture
 
 The project consists of Swift Package products with the following structure.
-- All features are implemented in self-contained module `Core`
+- All features are implemented in self-contained Domain module `Core`
 - `UI` and `Data` layers depend on `Core`
 
 ```mermaid
