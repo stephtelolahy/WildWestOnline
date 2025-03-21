@@ -1,6 +1,6 @@
 //
 //  DrawDiscoveredTest.swift
-//  BangTests
+//  WildWestOnline
 //
 //  Created by Hugues Telolahy on 27/10/2024.
 //

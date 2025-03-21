@@ -15,38 +15,30 @@ public struct GameAction: Action, Equatable, Codable {
         case play
         case equip
         case handicap
-
         case draw
         case discover
-
         case drawDeck
         case drawDiscard
         case drawDiscovered
-
         @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
         case steal
         case stealHand
         case stealInPlay
-
         @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
         case discard
         case discardHand
         case discardInPlay
         case passInPlay
-
         case heal
         case damage
-
         case shoot
         case counterShot
-
         case endTurn
         case startTurn
         case eliminate
         case endGame
         case activate
         case choose
-
         case increaseMagnifying
         case increaseRemoteness
         case setWeapon
