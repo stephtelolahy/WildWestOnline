@@ -11,7 +11,6 @@ public struct GameAction: Action, Equatable, Codable {
 
     public enum Kind: String, Codable, Sendable {
         case preparePlay
-
         case play
         case equip
         case handicap
@@ -46,7 +45,6 @@ public struct GameAction: Action, Equatable, Codable {
         case setHandLimit
         case setPlayLimitPerTurn
         case setDrawCards
-
         case queue
     }
 
