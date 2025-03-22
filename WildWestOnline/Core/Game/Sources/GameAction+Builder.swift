@@ -20,7 +20,7 @@ public extension GameAction {
         .init(
             name: .choose,
             payload: .init(
-                target: player,
+                actor: player,
                 selection: selection
             )
         )
