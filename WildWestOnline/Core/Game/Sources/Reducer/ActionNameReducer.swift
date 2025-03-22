@@ -119,18 +119,14 @@ private extension GameAction.Name {
 
     struct PreparePlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
-            }
-
-            let cardName = Card.extractName(from: card)
+            let cardName = Card.extractName(from: payload.source)
             let cardObj = state.cards.get(cardName)
             guard cardObj.onPlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
 
             for playReq in cardObj.canPlay {
-                guard playReq.match(actor: payload.target, state: state) else {
+                guard playReq.match(actor: payload.actor, state: state) else {
                     throw .noReq(playReq)
                 }
             }
@@ -142,9 +138,9 @@ private extension GameAction.Name {
                     GameAction(
                         name: $0.name,
                         payload: .init(
-                            actor: payload.target,
-                            source: card,
-                            target: payload.target
+                            actor: payload.actor,
+                            source: payload.source,
+                            target: payload.actor
                         ),
                         selectors: $0.selectors
                     )
@@ -437,8 +433,12 @@ private extension GameAction.Name {
 
     struct Queue: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let children = payload.children else {
+                fatalError("Missing payload parameter children")
+            }
+
             var state = state
-            state.queue.insert(contentsOf: payload.children, at: 0)
+            state.queue.insert(contentsOf: children, at: 0)
             return state
         }
     }
@@ -462,8 +462,12 @@ private extension GameAction.Name {
 
     struct Activate: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let cards = payload.cards else {
+                fatalError("Missing payload parameter cards")
+            }
+
             var state = state
-            state.active = [payload.target: payload.cards]
+            state.active = [payload.target: cards]
             return state
         }
     }
@@ -482,8 +486,12 @@ private extension GameAction.Name {
 
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let amountPerCard = payload.amountPerCard else {
+                fatalError("Missing payload parameter amountPerCard")
+            }
+
             var state = state
-            state[keyPath: \.players[payload.target]!.playLimitPerTurn] = payload.amountPerCard
+            state[keyPath: \.players[payload.target]!.playLimitPerTurn] = amountPerCard
             return state
         }
     }

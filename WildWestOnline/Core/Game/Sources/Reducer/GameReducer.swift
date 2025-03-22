@@ -24,12 +24,11 @@ public func gameReducer(
 
     if state.active.isNotEmpty {
         guard action.name == .preparePlay,
-              let card = action.payload.card,
-              state.active.contains(where: { $0.key == action.payload.target && $0.value.contains(card) }) else {
+              state.active.contains(where: { $0.key == action.payload.actor && $0.value.contains(action.payload.source) }) else {
             fatalError("Unexpected unwaited action \(action)")
         }
 
-        state.active.removeValue(forKey: action.payload.target)
+        state.active.removeValue(forKey: action.payload.actor)
     }
 
     if action.selectors.isNotEmpty {

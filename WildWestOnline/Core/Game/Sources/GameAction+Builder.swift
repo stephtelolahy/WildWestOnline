@@ -10,8 +10,8 @@ public extension GameAction {
         .init(
             name: .preparePlay,
             payload: .init(
-                target: player,
-                card: card
+                actor: player,
+                source: card
             )
         )
     }
@@ -199,7 +199,10 @@ public extension GameAction {
     static func activate(_ cards: [String], player: String) -> Self {
         .init(
             name: .activate,
-            payload: .init(target: player, cards: cards)
+            payload: .init(
+                target: player,
+                cards: cards
+            )
         )
     }
 
@@ -237,7 +240,10 @@ public extension GameAction {
     static func setWeapon(_ weapon: Int, player: String) -> Self {
         .init(
             name: .setWeapon,
-            payload: .init(target: player, amount: weapon)
+            payload: .init(
+                target: player,
+                amount: weapon
+            )
         )
     }
 
@@ -272,6 +278,11 @@ public extension GameAction {
     }
 
     static var dummy: Self {
-        .init(name: .queue, payload: .init())
+        .init(
+            name: .queue,
+            payload: .init(
+                children: []
+            )
+        )
     }
 }

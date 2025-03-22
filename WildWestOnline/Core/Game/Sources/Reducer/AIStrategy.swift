@@ -42,10 +42,18 @@ public struct AgressiveStrategy: AIStrategy {
 
 private extension GameAction {
     var selectedItem: String {
-        guard let item = payload.card ?? payload.selection else {
-            fatalError("Missing played card or choosen item")
-        }
+        switch name {
+        case .preparePlay:
+            return Card.extractName(from: payload.source)
 
-        return Card.extractName(from: item)
+        case .choose:
+            guard let selection = payload.selection else {
+                fatalError("Missing payload.selection")
+            }
+            return Card.extractName(from: selection)
+
+        default:
+            fatalError("unexpected action \(name)")
+        }
     }
 }

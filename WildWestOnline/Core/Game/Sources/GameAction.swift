@@ -53,14 +53,14 @@ public struct GameAction: Action, Equatable, Codable {
         @UncheckedEquatable public var actor: String
         @UncheckedEquatable public var source: String
 
-        // TODO: every value must be optional except `actor`and `source`
+        // TODO: Payload values must be optional except `actor`and `source`
         public var target: String
         public var card: String?
         public var amount: Int?
         public var selection: String?
-        public var children: [GameAction]
-        public var cards: [String]
-        public var amountPerCard: [String: Int]
+        public var children: [GameAction]?
+        public var cards: [String]?
+        public var amountPerCard: [String: Int]?
 
         public init(
             actor: String = "",
@@ -69,9 +69,9 @@ public struct GameAction: Action, Equatable, Codable {
             card: String? = nil,
             amount: Int? = nil,
             selection: String? = nil,
-            children: [GameAction] = [],
-            cards: [String] = [],
-            amountPerCard: [String: Int] = [:]
+            children: [GameAction]? = nil,
+            cards: [String]? = nil,
+            amountPerCard: [String: Int]? = nil
         ) {
             self.actor = actor
             self.source = source

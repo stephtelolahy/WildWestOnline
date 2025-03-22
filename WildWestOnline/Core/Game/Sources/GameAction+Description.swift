@@ -14,7 +14,7 @@ extension GameAction: CustomStringConvertible {
             payload.card,
             payload.selection,
             payload.amount != nil ? "x\(payload.amount ?? 1)" : nil,
-            payload.cards.isNotEmpty ? payload.cards.joined(separator: ", ") : nil,
+            payload.cards?.isNotEmpty == true ? (payload.cards ?? []).joined(separator: ", ") : nil,
             payload.source.isNotEmpty ? "<< \(payload.source):\(payload.actor)" : nil
         ]
             .compactMap { $0 }
