@@ -8,8 +8,8 @@
 extension GameAction: CustomStringConvertible {
     public var description: String {
         [
-            payload.selectors.isNotEmpty ? ".." : nil,
-            kind.emoji,
+            selectors.isNotEmpty ? ".." : nil,
+            name.emoji,
             payload.target,
             payload.card,
             payload.selection,
@@ -22,12 +22,12 @@ extension GameAction: CustomStringConvertible {
     }
 }
 
-private extension GameAction.Kind {
+private extension GameAction.Name {
     var emoji: String {
         Self.dict[self] ?? "⚠️\(rawValue)"
     }
 
-    static let dict: [GameAction.Kind: String] = [
+    static let dict: [GameAction.Name: String] = [
         .activate: "🟢",
         .preparePlay: "⚪️",
         .play: "🟠",

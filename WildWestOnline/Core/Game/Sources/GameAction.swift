@@ -6,10 +6,11 @@
 import Redux
 
 public struct GameAction: Action, Equatable, Codable {
-    public var kind: Kind
+    public var name: Name
     public var payload: Payload
+    public var selectors: [Card.Selector]
 
-    public enum Kind: String, Codable, Sendable {
+    public enum Name: String, Codable, Sendable {
         case preparePlay
         case play
         case equip
@@ -50,12 +51,13 @@ public struct GameAction: Action, Equatable, Codable {
 
     public struct Payload: Equatable, Codable, Sendable {
         @UncheckedEquatable public var actor: String
-        @UncheckedEquatable var source: String
+        @UncheckedEquatable public var source: String
+
+        // TODO: every value must be optional except `actor`and `source`
         public var target: String
         public var card: String?
         public var amount: Int?
         public var selection: String?
-        public var selectors: [Card.Selector]
         public var children: [GameAction]
         public var cards: [String]
         public var amountPerCard: [String: Int]
@@ -67,7 +69,6 @@ public struct GameAction: Action, Equatable, Codable {
             card: String? = nil,
             amount: Int? = nil,
             selection: String? = nil,
-            selectors: [Card.Selector] = [],
             children: [GameAction] = [],
             cards: [String] = [],
             amountPerCard: [String: Int] = [:]
@@ -78,21 +79,30 @@ public struct GameAction: Action, Equatable, Codable {
             self.card = card
             self.amount = amount
             self.selection = selection
-            self.selectors = selectors
             self.children = children
             self.cards = cards
             self.amountPerCard = amountPerCard
         }
     }
+
+    public init(
+        name: Name,
+        payload: Payload = .init(),
+        selectors: [Card.Selector] = []
+    ) {
+        self.name = name
+        self.selectors = selectors
+        self.payload = payload
+    }
 }
 
 public extension GameAction {
     var isRenderable: Bool {
-        guard payload.selectors.isEmpty else {
+        guard selectors.isEmpty else {
             return false
         }
 
-        switch kind {
+        switch name {
         case .queue, .preparePlay:
             return false
 

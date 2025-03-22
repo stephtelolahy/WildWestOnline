@@ -7,8 +7,8 @@
 import GameCore
 
 struct AnimationMatcher {
-    func animation(on action: GameAction) -> AnimationKind? {
-        switch action.kind {
+    func animation(on action: GameAction) -> BoardAnimation? {
+        switch action.name {
         case .play:
                 .moveCard(
                     .id(action.payload.card!),
@@ -106,7 +106,7 @@ struct AnimationMatcher {
     }
 }
 
-enum AnimationKind: Equatable {
+enum BoardAnimation: Equatable {
     case moveCard(CardContent, from: ViewPosition, to: ViewPosition)
 }
 

@@ -1,17 +1,17 @@
 //
-//  ActionKindReducer.swift
+//  ActionNameReducer.swift
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
 // swiftlint:disable file_length
 
-extension GameAction.Kind {
+extension GameAction.Name {
     func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
         try reducer.reduce(state, payload)
     }
 }
 
-private extension GameAction.Kind {
+private extension GameAction.Name {
     protocol Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState
     }
@@ -140,13 +140,13 @@ private extension GameAction.Kind {
             let onPlay = cardObj.onPlay
                 .map {
                     GameAction(
-                        kind: $0.action,
+                        name: $0.name,
                         payload: .init(
                             actor: payload.target,
                             source: card,
-                            target: payload.target,
-                            selectors: $0.selectors
-                        )
+                            target: payload.target
+                        ),
+                        selectors: $0.selectors
                     )
                 }
             state.queue.insert(contentsOf: onPlay, at: 0)
@@ -288,7 +288,7 @@ private extension GameAction.Kind {
             }
 
             guard let nextAction = state.queue.first,
-                  let selector = nextAction.payload.selectors.first,
+                  let selector = nextAction.selectors.first,
                   case let .chooseOne(element, resolved, prevSelection) = selector,
                   let choice = resolved,
                   choice.options.map(\.label).contains(selection),
@@ -299,7 +299,7 @@ private extension GameAction.Kind {
             var state = state
             var updatedAction = nextAction
             let updatedSelector = Card.Selector.chooseOne(element, resolved: resolved, selection: selection)
-            updatedAction.payload.selectors[0] = updatedSelector
+            updatedAction.selectors[0] = updatedSelector
             state.queue[0] = updatedAction
 
             return state
@@ -374,16 +374,14 @@ private extension GameAction.Kind {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             let effect = GameAction(
-                kind: .damage,
+                name: .damage,
                 payload: .init(
                     actor: payload.actor,
                     source: payload.source,
                     target: payload.target,
-                    amount: 1,
-                    selectors: [
-                        .chooseOne(.eventuallyCounterCard([.counterShot]))
-                    ]
-                )
+                    amount: 1
+                ),
+                selectors: [.chooseOne(.eventuallyCounterCard([.counterShot]))]
             )
             state.queue.insert(effect, at: 0)
             return state
@@ -395,7 +393,7 @@ private extension GameAction.Kind {
             var state = state
 
             guard let nextAction = state.queue.first,
-                  nextAction.kind == .damage,
+                  nextAction.name == .damage,
                   nextAction.payload.target == payload.target else {
                 fatalError("Next action should be shoot effect")
             }

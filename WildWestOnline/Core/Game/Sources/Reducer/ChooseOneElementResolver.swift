@@ -82,26 +82,26 @@ private extension Card.Selector.ChooseOneElement {
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            // <ADAPTATER: Convert action.kind>
+            // <ADAPTATER: Convert action.name>
             var pendingAction = pendingAction
 
-            if pendingAction.kind == .discard {
+            if pendingAction.name == .discard {
                 let targetObj = state.players.get(pendingAction.payload.target)
                 if targetObj.hand.contains(selection) {
-                    pendingAction.kind = .discardHand
+                    pendingAction.name = .discardHand
                 } else if targetObj.inPlay.contains(selection) {
-                    pendingAction.kind = .discardInPlay
+                    pendingAction.name = .discardInPlay
                 } else {
                     fatalError("Unowned card \(selection)")
                 }
             }
 
-            if pendingAction.kind == .steal {
+            if pendingAction.name == .steal {
                 let targetObj = state.players.get(pendingAction.payload.target)
                 if targetObj.hand.contains(selection) {
-                    pendingAction.kind = .stealHand
+                    pendingAction.name = .stealHand
                 } else if targetObj.inPlay.contains(selection) {
-                    pendingAction.kind = .stealInPlay
+                    pendingAction.name = .stealInPlay
                 } else {
                     fatalError("Unowned card \(selection)")
                 }
@@ -182,7 +182,7 @@ private extension Card.Selector.ChooseOneElement {
                 let actor = pendingAction.payload.actor
                 reversedAction.payload.actor = pendingAction.payload.target
                 reversedAction.payload.target = actor
-                reversedAction.payload.selectors.insert(.chooseOne(.eventuallyReverseCard(conditions)), at: 0)
+                reversedAction.selectors.insert(.chooseOne(.eventuallyReverseCard(conditions)), at: 0)
                 return [
                     GameAction.discardHand(selection, player: pendingAction.payload.target),
                     reversedAction

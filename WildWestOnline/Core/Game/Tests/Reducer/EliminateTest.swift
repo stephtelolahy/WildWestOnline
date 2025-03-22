@@ -31,7 +31,7 @@ struct EliminateTest {
             .withQueue(
                 [
                     .init(
-                        kind: .drawDeck,
+                        name: .drawDeck,
                         payload: .init(actor: "p1")
                     )
                 ]
