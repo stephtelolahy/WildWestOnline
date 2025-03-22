@@ -119,7 +119,7 @@ private extension GameAction.Name {
 
     struct PreparePlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let cardName = Card.extractName(from: payload.source)
+            let cardName = Card.extractName(from: payload.played)
             let cardObj = state.cards.get(cardName)
             guard cardObj.onPlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
@@ -139,7 +139,7 @@ private extension GameAction.Name {
                         name: $0.name,
                         payload: .init(
                             actor: payload.actor,
-                            source: payload.source,
+                            played: payload.played,
                             target: payload.actor
                         ),
                         selectors: $0.selectors
@@ -373,7 +373,7 @@ private extension GameAction.Name {
                 name: .damage,
                 payload: .init(
                     actor: payload.actor,
-                    source: payload.source,
+                    played: payload.played,
                     target: payload.target,
                     amount: 1
                 ),
@@ -415,7 +415,7 @@ private extension GameAction.Name {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             if let current = state.turn {
-                state.queue.removeAll { $0.payload.actor == current && $0.payload.source != payload.source }
+                state.queue.removeAll { $0.payload.actor == current && $0.payload.played != payload.played }
             }
             state.turn = nil
             return state

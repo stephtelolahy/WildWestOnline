@@ -51,7 +51,7 @@ public struct GameAction: Action, Equatable, Codable {
 
     public struct Payload: Equatable, Codable, Sendable {
         @UncheckedEquatable public var actor: String
-        @UncheckedEquatable public var source: String
+        @UncheckedEquatable public var played: String
 
         // TODO: Payload values must be optional except `actor`and `source`
         public var target: String
@@ -64,7 +64,7 @@ public struct GameAction: Action, Equatable, Codable {
 
         public init(
             actor: String = "",
-            source: String = "",
+            played: String = "",
             target: String = "",
             card: String? = nil,
             amount: Int? = nil,
@@ -74,7 +74,7 @@ public struct GameAction: Action, Equatable, Codable {
             amountPerCard: [String: Int]? = nil
         ) {
             self.actor = actor
-            self.source = source
+            self.played = played
             self.target = target
             self.card = card
             self.amount = amount

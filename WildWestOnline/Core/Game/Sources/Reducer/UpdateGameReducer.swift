@@ -131,7 +131,7 @@ private extension GameState {
                 name: $0.name,
                 payload: .init(
                     actor: player,
-                    source: card,
+                    played: card,
                     target: player
                 ),
                 selectors: $0.selectors
@@ -147,7 +147,7 @@ private extension GameState {
                 name: $0.name,
                 payload: .init(
                     actor: player,
-                    source: card,
+                    played: card,
                     target: player
                 ),
                 selectors: $0.selectors
@@ -163,7 +163,7 @@ private extension GameState {
                 name: $0.name,
                 payload: .init(
                     actor: player,
-                    source: card,
+                    played: card,
                     target: player
                 ),
                 selectors: $0.selectors

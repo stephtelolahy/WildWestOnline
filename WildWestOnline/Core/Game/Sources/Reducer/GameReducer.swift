@@ -24,7 +24,7 @@ public func gameReducer(
 
     if state.active.isNotEmpty {
         guard action.name == .preparePlay,
-              state.active.contains(where: { $0.key == action.payload.actor && $0.value.contains(action.payload.source) }) else {
+              state.active.contains(where: { $0.key == action.payload.actor && $0.value.contains(action.payload.played) }) else {
             fatalError("Unexpected unwaited action \(action)")
         }
 

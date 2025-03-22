@@ -44,7 +44,7 @@ private extension GameAction {
     var selectedItem: String {
         switch name {
         case .preparePlay:
-            return Card.extractName(from: payload.source)
+            return Card.extractName(from: payload.played)
 
         case .choose:
             guard let selection = payload.selection else {

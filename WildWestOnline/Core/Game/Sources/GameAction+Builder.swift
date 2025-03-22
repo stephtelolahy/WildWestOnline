@@ -11,7 +11,7 @@ public extension GameAction {
             name: .preparePlay,
             payload: .init(
                 actor: player,
-                source: card
+                played: card
             )
         )
     }
