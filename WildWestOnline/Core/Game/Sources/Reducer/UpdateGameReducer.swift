@@ -85,7 +85,7 @@ private extension GameState {
         if event.name == .equip {
             let player = event.payload.target
             guard let card = event.payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             if let effects = activeEffects(card: card, player: player) {
@@ -96,7 +96,7 @@ private extension GameState {
         if event.name == .discardInPlay || event.name == .stealInPlay {
             let player = event.payload.target
             guard let card = event.payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             if let effects = deactiveEffects(card: card, player: player) {

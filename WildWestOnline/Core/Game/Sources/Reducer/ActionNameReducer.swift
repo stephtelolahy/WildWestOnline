@@ -85,7 +85,7 @@ private extension GameAction.Name {
     struct DrawDiscovered: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             guard let discoverIndex = state.discovered.firstIndex(of: card) else {
@@ -157,7 +157,7 @@ private extension GameAction.Name {
     struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             var state = state
@@ -172,7 +172,7 @@ private extension GameAction.Name {
     struct Equip: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             var state = state
@@ -195,7 +195,7 @@ private extension GameAction.Name {
     struct Handicap: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             var state = state
@@ -218,7 +218,7 @@ private extension GameAction.Name {
     struct Heal: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let amount = payload.amount else {
-                fatalError("Missing payload parameter amount")
+                fatalError("Missing payload.amount")
             }
 
             let player = payload.target
@@ -238,7 +238,7 @@ private extension GameAction.Name {
     struct DiscardHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             var state = state
@@ -259,7 +259,7 @@ private extension GameAction.Name {
     struct DiscardInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             var state = state
@@ -280,7 +280,7 @@ private extension GameAction.Name {
     struct Choose: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let selection = payload.selection else {
-                fatalError("Missing payload parameter selection")
+                fatalError("Missing payload.selection")
             }
 
             guard let nextAction = state.queue.first,
@@ -305,7 +305,7 @@ private extension GameAction.Name {
     struct StealHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             let actor = payload.actor
@@ -327,7 +327,7 @@ private extension GameAction.Name {
     struct StealInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             let actor = payload.actor
@@ -348,7 +348,7 @@ private extension GameAction.Name {
     struct PassInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let card = payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             let actor = payload.actor
@@ -402,7 +402,7 @@ private extension GameAction.Name {
     struct Damage: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let amount = payload.amount else {
-                fatalError("Missing payload parameter amount")
+                fatalError("Missing payload.amount")
             }
 
             var state = state
@@ -434,7 +434,7 @@ private extension GameAction.Name {
     struct Queue: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let children = payload.children else {
-                fatalError("Missing payload parameter children")
+                fatalError("Missing payload.children")
             }
 
             var state = state
@@ -463,7 +463,7 @@ private extension GameAction.Name {
     struct Activate: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let cards = payload.cards else {
-                fatalError("Missing payload parameter cards")
+                fatalError("Missing payload.cards")
             }
 
             var state = state
@@ -475,7 +475,7 @@ private extension GameAction.Name {
     struct SetWeapon: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let weapon = payload.amount else {
-                fatalError("Missing payload parameter amount")
+                fatalError("Missing payload.amount")
             }
 
             var state = state
@@ -487,7 +487,7 @@ private extension GameAction.Name {
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let amountPerCard = payload.amountPerCard else {
-                fatalError("Missing payload parameter amountPerCard")
+                fatalError("Missing payload.amountPerCard")
             }
 
             var state = state
@@ -499,7 +499,7 @@ private extension GameAction.Name {
     struct IncreaseMagnifying: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let amount = payload.amount else {
-                fatalError("Missing payload parameter amount")
+                fatalError("Missing payload.amount")
             }
 
             var state = state
@@ -511,7 +511,7 @@ private extension GameAction.Name {
     struct IncreaseRemoteness: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             guard let amount = payload.amount else {
-                fatalError("Missing payload parameter amount")
+                fatalError("Missing payload.amount")
             }
 
             var state = state
