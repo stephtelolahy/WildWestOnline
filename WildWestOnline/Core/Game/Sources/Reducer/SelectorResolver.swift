@@ -87,7 +87,7 @@ private extension Card.Selector {
 
                 var updatedAction = pendingAction
                 let updatedSelector = Card.Selector.chooseOne(element, resolved: choice)
-                updatedAction.payload.selectors.insert(updatedSelector, at: 0)
+                updatedAction.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
             }
         }

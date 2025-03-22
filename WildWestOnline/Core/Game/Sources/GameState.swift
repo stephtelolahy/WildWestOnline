@@ -47,7 +47,7 @@ public struct Player: Equatable, Codable, Sendable {
 public extension GameState {
     var pendingChoice: Card.Selector.ChooseOneResolved? {
         guard let nextAction = queue.first,
-              let selector = nextAction.payload.selectors.first,
+              let selector = nextAction.selectors.first,
               case let .chooseOne(_, resolved, selection) = selector,
               let choice = resolved,
               selection == nil else {

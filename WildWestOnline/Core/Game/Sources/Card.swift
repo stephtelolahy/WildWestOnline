@@ -15,47 +15,33 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let desc: String
     public let canPlay: [StateReq]
-    public let onPlay: [Effect]
-    public let shouldTrigger: [EventReq]
-    public let onTrigger: [Effect]
-    public let onActive: [Effect]
-    public let onDeactive: [Effect]
+    public let onPlay: [GameAction]
+    public let canTrigger: [EventReq]
+    public let onTrigger: [GameAction]
+    public let onActive: [GameAction]
+    public let onDeactive: [GameAction]
     public let counterShot: Bool
 
     public init(
         name: String,
         desc: String = "",
         canPlay: [StateReq] = [],
-        onPlay: [Effect] = [],
-        shouldTrigger: [EventReq] = [],
-        onTrigger: [Effect] = [],
-        onActive: [Effect] = [],
-        onDeactive: [Effect] = [],
+        onPlay: [GameAction] = [],
+        canTrigger: [EventReq] = [],
+        onTrigger: [GameAction] = [],
+        onActive: [GameAction] = [],
+        onDeactive: [GameAction] = [],
         counterShot: Bool = false
     ) {
         self.name = name
         self.desc = desc
         self.canPlay = canPlay
         self.onPlay = onPlay
-        self.shouldTrigger = shouldTrigger
+        self.canTrigger = canTrigger
         self.onTrigger = onTrigger
         self.onActive = onActive
         self.onDeactive = onDeactive
         self.counterShot = counterShot
-    }
-
-    /// Occurred action when card is played
-    public struct Effect: Equatable, Codable, Sendable {
-        public let action: GameAction.Kind
-        public let selectors: [Selector]
-
-        public init(
-            action: GameAction.Kind,
-            selectors: [Selector] = []
-        ) {
-            self.action = action
-            self.selectors = selectors
-        }
     }
 
     /// Required state conditions to play a card
@@ -71,14 +57,14 @@ public struct Card: Equatable, Codable, Sendable {
 
     /// Required event conditions to trigger a card
     public struct EventReq: Equatable, Codable, Sendable {
-        public let actionKind: GameAction.Kind
+        public let actionName: GameAction.Name
         public let stateReqs: [StateReq]
 
         public init(
-            actionKind: GameAction.Kind,
+            actionName: GameAction.Name,
             stateReqs: [StateReq] = []
         ) {
-            self.actionKind = actionKind
+            self.actionName = actionName
             self.stateReqs = stateReqs
         }
     }

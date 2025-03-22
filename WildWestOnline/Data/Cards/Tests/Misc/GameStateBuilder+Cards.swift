@@ -1,6 +1,6 @@
 //
 //  GameStateBuilder+Cards.swift
-//  BangTests
+//  WildWestOnline
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //

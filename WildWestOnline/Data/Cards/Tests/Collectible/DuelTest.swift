@@ -25,7 +25,7 @@ struct DuelTests {
 
     @Test func play_withTargetPassing_shouldDamage() async throws {
         // When
-        let action = GameAction.play(.duel, player: "p1")
+        let action = GameAction.preparePlay(.duel, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3", "p4"], selectionIndex: 0),
             .init(options: [.bang2, .pass], selectionIndex: 1)
@@ -35,7 +35,6 @@ struct DuelTests {
         // Then
         #expect(result == [
             .play(.duel, player: "p1"),
-            .discardPlayed(.duel, player: "p1"),
             .choose("p2", player: "p1"),
             .choose(.pass, player: "p2"),
             .damage(1, player: "p2")
@@ -44,7 +43,7 @@ struct DuelTests {
 
     @Test func play_withTargetDiscardingBang_shouldDamageOffender() async throws {
         // When
-        let action = GameAction.play(.duel, player: "p1")
+        let action = GameAction.preparePlay(.duel, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3", "p4"], selectionIndex: 0),
             .init(options: [.bang2, .pass], selectionIndex: 0),
@@ -55,7 +54,6 @@ struct DuelTests {
         // Then
         #expect(result == [
             .play(.duel, player: "p1"),
-            .discardPlayed(.duel, player: "p1"),
             .choose("p2", player: "p1"),
             .choose(.bang2, player: "p2"),
             .discardHand(.bang2, player: "p2"),

@@ -18,12 +18,11 @@ struct WinchesterTest {
             .build()
 
         // When
-        let action = GameAction.play(.winchester, player: "p1")
+        let action = GameAction.preparePlay(.winchester, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.winchester, player: "p1"),
             .equip(.winchester, player: "p1"),
             .setWeapon(5, player: "p1")
         ])

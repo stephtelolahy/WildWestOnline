@@ -1,6 +1,6 @@
 //
 //  StagecoachTest.swift
-//  BangTests
+//  WildWestOnline
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
@@ -19,13 +19,12 @@ struct StagecoachTest {
             .build()
 
         // When
-        let action = GameAction.play(.stagecoach, player: "p1")
+        let action = GameAction.preparePlay(.stagecoach, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
             .play(.stagecoach, player: "p1"),
-            .discardPlayed(.stagecoach, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

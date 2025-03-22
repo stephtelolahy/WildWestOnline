@@ -22,7 +22,7 @@ struct MissedTest {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: [.missed1, .missed2, .pass], selectionIndex: 1)
@@ -32,7 +32,6 @@ struct MissedTest {
         // Then
         #expect(result == [
                 .play(.bang, player: "p1"),
-                .discardPlayed(.bang, player: "p1"),
                 .choose("p2", player: "p1"),
                 .shoot("p2", player: "p1"),
                 .choose(.missed2, player: "p2"),
@@ -53,7 +52,7 @@ struct MissedTest {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: [.missed, .pass], selectionIndex: 1)
@@ -63,7 +62,6 @@ struct MissedTest {
         // Then
         #expect(result == [
                 .play(.bang, player: "p1"),
-                .discardPlayed(.bang, player: "p1"),
                 .choose("p2", player: "p1"),
                 .shoot("p2", player: "p1"),
                 .choose(.pass, player: "p2"),

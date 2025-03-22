@@ -34,16 +34,16 @@ struct SetupTest {
             "p1": .init(
                 name: "p1",
                 onActive: [
-                    .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                    .init(action: .increaseMagnifying, selectors: [.setAmount(1)]),
-                    .init(action: .setHandLimit, selectors: [.setAmount(10)])
+                    .init(name: .setMaxHealth, selectors: [.setAmount(4)]),
+                    .init(name: .increaseMagnifying, selectors: [.setAmount(1)]),
+                    .init(name: .setHandLimit, selectors: [.setAmount(10)])
                 ]
             ),
             "p2": .init(
                 name: "p2",
                 onActive: [
-                    .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
-                    .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
+                    .init(name: .setMaxHealth, selectors: [.setAmount(3)]),
+                    .init(name: .increaseRemoteness, selectors: [.setAmount(1)])
                 ]
             )
         ]

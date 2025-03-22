@@ -104,12 +104,8 @@ public extension GameState {
 
         public func withPendingChoice(_ value: Card.Selector.ChooseOneResolved) -> Self {
             let nextAction = GameAction(
-                kind: .discardHand,
-                payload: .init(
-                    selectors: [
-                        .chooseOne(.card(), resolved: value, selection: nil)
-                    ]
-                )
+                name: .discardHand,
+                selectors: [.chooseOne(.card(), resolved: value, selection: nil)]
             )
             queue.insert(nextAction, at: 0)
           return self

@@ -18,12 +18,11 @@ struct RevCarabineTest {
             .build()
 
         // When
-        let action = GameAction.play(.revCarabine, player: "p1")
+        let action = GameAction.preparePlay(.revCarabine, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.revCarabine, player: "p1"),
             .equip(.revCarabine, player: "p1"),
             .setWeapon(4, player: "p1")
         ])

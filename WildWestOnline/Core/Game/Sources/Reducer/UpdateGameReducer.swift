@@ -56,7 +56,7 @@ private func nextAction(state: GameState, action: Action) async -> Action? {
 private extension GameState {
     func triggeredEffect(on event: GameAction) -> GameAction? {
         // process only resolved event
-        guard event.payload.selectors.isEmpty else {
+        guard event.selectors.isEmpty else {
             return nil
         }
 
@@ -72,7 +72,7 @@ private extension GameState {
             }
         }
 
-        if event.kind == .eliminate {
+        if event.name == .eliminate {
             let player = event.payload.target
             let playerObj = players.get(player)
             for card in playerObj.abilities {
@@ -82,10 +82,10 @@ private extension GameState {
             }
         }
 
-        if event.kind == .equip {
+        if event.name == .equip {
             let player = event.payload.target
             guard let card = event.payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             if let effects = activeEffects(card: card, player: player) {
@@ -93,10 +93,10 @@ private extension GameState {
             }
         }
 
-        if event.kind == .discardInPlay || event.kind == .stealInPlay {
+        if event.name == .discardInPlay || event.name == .stealInPlay {
             let player = event.payload.target
             guard let card = event.payload.card else {
-                fatalError("Missing payload parameter card")
+                fatalError("Missing payload.card")
             }
 
             if let effects = deactiveEffects(card: card, player: player) {
@@ -110,7 +110,7 @@ private extension GameState {
             return triggered[0]
         } else {
             return .init(
-                kind: .queue,
+                name: .queue,
                 payload: .init(
                     children: triggered
                 )
@@ -121,20 +121,20 @@ private extension GameState {
     func triggeredEffects(on event: GameAction, by card: String, player: String) -> [GameAction]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        guard cardObj.shouldTrigger.isNotEmpty,
-              cardObj.shouldTrigger.contains(where: { $0.match(event: event, actor: player, state: self) }) else {
+        guard cardObj.canTrigger.isNotEmpty,
+              cardObj.canTrigger.contains(where: { $0.match(event: event, actor: player, state: self) }) else {
             return nil
         }
 
         return cardObj.onTrigger.map {
             GameAction(
-                kind: $0.action,
+                name: $0.name,
                 payload: .init(
                     actor: player,
-                    source: card,
-                    target: player,
-                    selectors: $0.selectors
-                )
+                    played: card,
+                    target: player
+                ),
+                selectors: $0.selectors
             )
         }
     }
@@ -144,13 +144,13 @@ private extension GameState {
         let cardObj = cards.get(cardName)
         return cardObj.onActive.map {
             GameAction(
-                kind: $0.action,
+                name: $0.name,
                 payload: .init(
                     actor: player,
-                    source: card,
-                    target: player,
-                    selectors: $0.selectors
-                )
+                    played: card,
+                    target: player
+                ),
+                selectors: $0.selectors
             )
         }
     }
@@ -160,13 +160,13 @@ private extension GameState {
         let cardObj = cards.get(cardName)
         return cardObj.onDeactive.map {
             GameAction(
-                kind: $0.action,
+                name: $0.name,
                 payload: .init(
                     actor: player,
-                    source: card,
-                    target: player,
-                    selectors: $0.selectors
-                )
+                    played: card,
+                    target: player
+                ),
+                selectors: $0.selectors
             )
         }
     }
@@ -192,7 +192,7 @@ private extension GameState {
 
 private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
-        event.kind == actionKind
+        event.name == actionName
         && event.payload.target == actor
         && stateReqs.allSatisfy { $0.match(actor: actor, state: state) }
     }
@@ -200,7 +200,7 @@ private extension Card.EventReq {
 
 private extension GameAction {
     static func validatePlay(card: String, player: String, state: GameState) -> Bool {
-        let action = GameAction.play(card, player: player)
+        let action = GameAction.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
 //            print("🟢 validatePlay: \(card)")
