@@ -143,7 +143,7 @@ private extension GameAction.Name {
                         payload: .init(
                             actor: payload.actor,
                             played: payload.played,
-                            target: $0.name.childEffectTarget(payload: payload)
+                            target: NonStandardLogic.childEffectTarget($0.name, payload: payload)
                         ),
                         selectors: $0.selectors
                     )
@@ -534,26 +534,3 @@ private extension GameState {
         return discard.remove(at: 0)
     }
 }
-
-// <Unsetting default target>
-extension GameAction.Name {
-    func childEffectTarget(payload: GameAction.Payload) -> String? {
-        switch self {
-        case .choose,
-                .preparePlay,
-                .play,
-                .equip,
-                .handicap,
-                .draw,
-                .discover,
-                .stealHand,
-                .stealInPlay,
-                .passInPlay:
-            payload.target
-
-        default:
-            payload.actor
-        }
-    }
-}
-// </Unsetting default target>

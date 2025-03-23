@@ -82,32 +82,8 @@ private extension Card.Selector.ChooseOneElement {
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            // <ADAPTATER: Convert action.name>
             var pendingAction = pendingAction
-
-            if pendingAction.name == .discard {
-                let targetObj = state.players.get(pendingAction.payload.target!)
-                if targetObj.hand.contains(selection) {
-                    pendingAction.name = .discardHand
-                } else if targetObj.inPlay.contains(selection) {
-                    pendingAction.name = .discardInPlay
-                } else {
-                    fatalError("Unowned card \(selection)")
-                }
-            }
-
-            if pendingAction.name == .steal {
-                let targetObj = state.players.get(pendingAction.payload.target!)
-                if targetObj.hand.contains(selection) {
-                    pendingAction.name = .stealHand
-                } else if targetObj.inPlay.contains(selection) {
-                    pendingAction.name = .stealInPlay
-                } else {
-                    fatalError("Unowned card \(selection)")
-                }
-            }
-            // </ADAPTATER>
-
+            NonStandardLogic.resolveCardSelection(selection, state: state, pendingAction: &pendingAction)
             return [pendingAction.withCard(selection)]
         }
     }

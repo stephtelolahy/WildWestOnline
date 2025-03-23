@@ -129,7 +129,7 @@ private extension GameState {
                 payload: .init(
                     actor: player,
                     played: card,
-                    target: $0.name.childEffectTarget(payload: .init(actor: player))
+                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(actor: player))
                 ),
                 selectors: $0.selectors
             )
@@ -145,7 +145,7 @@ private extension GameState {
                 payload: .init(
                     actor: player,
                     played: card,
-                    target: $0.name.childEffectTarget(payload: .init(actor: player))
+                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(actor: player))
                 ),
                 selectors: $0.selectors
             )
@@ -161,7 +161,7 @@ private extension GameState {
                 payload: .init(
                     actor: player,
                     played: card,
-                    target: $0.name.childEffectTarget(payload: .init(actor: player))
+                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(actor: player))
                 ),
                 selectors: $0.selectors
             )
