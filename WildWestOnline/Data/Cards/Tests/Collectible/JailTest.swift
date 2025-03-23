@@ -51,7 +51,7 @@ struct JailTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .discardInPlay(.jail, player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
@@ -80,7 +80,7 @@ struct JailTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .endTurn(player: "p1"),
             .discardInPlay(.jail, player: "p1")
         ])

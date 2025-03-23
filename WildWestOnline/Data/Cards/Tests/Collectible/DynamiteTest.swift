@@ -47,7 +47,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .passInPlay(.dynamite, target: "p2", player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
@@ -74,7 +74,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .damage(3, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
             .drawDeck(player: "p1"),
@@ -111,7 +111,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .damage(3, player: "p1"),
             .eliminate(player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),

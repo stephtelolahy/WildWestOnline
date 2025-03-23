@@ -45,7 +45,7 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p2"),
-            .draw(player: "p2"),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }
@@ -68,7 +68,7 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p2"),
-            .draw(player: "p2"),
+            .draw(),
             .damage(1, player: "p2")
         ])
     }
@@ -91,8 +91,8 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p2"),
-            .draw(player: "p2"),
-            .draw(player: "p2"),
+            .draw(),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }
@@ -115,8 +115,8 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p2"),
-            .draw(player: "p2"),
-            .draw(player: "p2"),
+            .draw(),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }
@@ -139,8 +139,8 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p2"),
-            .draw(player: "p2"),
-            .draw(player: "p2"),
+            .draw(),
+            .draw(),
             .damage(1, player: "p2")
         ])
     }
@@ -164,7 +164,7 @@ struct BarrelTest {
         // Then
         #expect(result == [
             .shoot("p2"),
-            .draw(player: "p2"),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }

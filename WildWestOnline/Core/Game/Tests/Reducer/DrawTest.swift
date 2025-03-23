@@ -18,7 +18,7 @@ struct DrawTest {
             .build()
 
         // When
-        let action = GameAction.draw(player: "p1")
+        let action = GameAction.draw()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -33,7 +33,7 @@ struct DrawTest {
             .build()
 
         // When
-        let action = GameAction.draw(player: "p1")
+        let action = GameAction.draw()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -48,7 +48,7 @@ struct DrawTest {
 
         // When
         // Then
-        let action = GameAction.draw(player: "p1")
+        let action = GameAction.draw()
         await #expect(throws: GameError.insufficientDeck) {
             try await dispatch(action, state: state)
         }

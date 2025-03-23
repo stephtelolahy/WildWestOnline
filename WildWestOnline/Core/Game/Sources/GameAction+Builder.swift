@@ -26,12 +26,9 @@ public extension GameAction {
         )
     }
 
-    static func draw(player: String) -> Self {
+    static func draw() -> Self {
         .init(
-            name: .draw,
-            payload: .init(
-                target: player
-            )
+            name: .draw
         )
     }
 
