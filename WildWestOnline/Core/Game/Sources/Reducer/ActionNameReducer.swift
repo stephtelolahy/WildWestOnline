@@ -538,7 +538,7 @@ private extension GameState {
 extension GameAction.Name {
     func childEffectTarget(payload: GameAction.Payload) -> String? {
         switch self {
-        case .draw:
+        case .draw, .discover:
             // Expected behaviour for all
             payload.target
         default:

@@ -58,10 +58,9 @@ public extension GameAction {
         )
     }
 
-    static func discover(player: String) -> Self {
+    static func discover() -> Self {
         .init(
-            name: .discover,
-            payload: .init(target: player)
+            name: .discover
         )
     }
 

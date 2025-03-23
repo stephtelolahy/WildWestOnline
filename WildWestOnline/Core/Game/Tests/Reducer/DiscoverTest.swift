@@ -17,7 +17,7 @@ struct DiscoverTest {
             .build()
 
         // When
-        let action = GameAction.discover(player: "p1")
+        let action = GameAction.discover()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -33,7 +33,7 @@ struct DiscoverTest {
             .build()
 
         // When
-        let action = GameAction.discover(player: "p1")
+        let action = GameAction.discover()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -49,7 +49,7 @@ struct DiscoverTest {
             .build()
 
         // When
-        let action = GameAction.discover(player: "p1")
+        let action = GameAction.discover()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -65,7 +65,7 @@ struct DiscoverTest {
 
         // When
         // Then
-        let action = GameAction.discover(player: "p1")
+        let action = GameAction.discover()
         await #expect(throws: GameError.insufficientDeck) {
             try await dispatch(action, state: state)
         }
@@ -80,7 +80,7 @@ struct DiscoverTest {
 
         // When
         // Then
-        let action = GameAction.discover(player: "p1")
+        let action = GameAction.discover()
         await #expect(throws: GameError.insufficientDeck) {
             try await dispatch(action, state: state)
         }

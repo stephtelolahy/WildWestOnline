@@ -149,7 +149,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDiscover() async throws {
         // Given
-        let event = GameAction.discover(player: "p1")
+        let event = GameAction.discover()
 
         // When
         let animation = try #require(sut.animation(on: event))
