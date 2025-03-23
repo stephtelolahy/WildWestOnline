@@ -49,7 +49,7 @@ struct WillyTheKidTest {
         #expect(result == [
             .play(.bang, player: "p1"),
             .choose("p2", player: "p1"),
-            .shoot("p2", player: "p1"),
+            .shoot("p2"),
             .damage(1, player: "p2")
         ])
     }

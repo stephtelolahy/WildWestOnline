@@ -33,7 +33,7 @@ struct MissedTest {
         #expect(result == [
                 .play(.bang, player: "p1"),
                 .choose("p2", player: "p1"),
-                .shoot("p2", player: "p1"),
+                .shoot("p2"),
                 .choose(.missed2, player: "p2"),
                 .discardHand(.missed2, player: "p2")
         ])
@@ -63,7 +63,7 @@ struct MissedTest {
         #expect(result == [
                 .play(.bang, player: "p1"),
                 .choose("p2", player: "p1"),
-                .shoot("p2", player: "p1"),
+                .shoot("p2"),
                 .choose(.pass, player: "p2"),
                 .damage(1, player: "p2")
         ])

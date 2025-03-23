@@ -17,7 +17,7 @@ struct ShootTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatch(action, state: state)
 
         // Then

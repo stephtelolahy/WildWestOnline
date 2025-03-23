@@ -141,11 +141,10 @@ public extension GameAction {
         )
     }
 
-    static func shoot(_ target: String, player: String) -> Self {
+    static func shoot(_ target: String) -> Self {
         .init(
             name: .shoot,
             payload: .init(
-                actor: player,
                 target: target
             )
         )
