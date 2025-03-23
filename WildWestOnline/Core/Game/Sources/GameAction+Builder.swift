@@ -205,8 +205,8 @@ public extension GameAction {
         .init(
             name: .play,
             payload: .init(
-                target: player,
-                card: card
+                actor: player,
+                played: card
             )
         )
     }

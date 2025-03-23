@@ -159,12 +159,12 @@ private extension GameAction.Name {
 
     struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let target = payload.target!
-            let card = payload.card!
+            let player = payload.actor
+            let card = payload.played
 
             var state = state
 
-            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
             return state
@@ -535,14 +535,22 @@ private extension GameState {
     }
 }
 
+// <Unsetting default target>
 extension GameAction.Name {
     func childEffectTarget(payload: GameAction.Payload) -> String? {
         switch self {
-        case .draw, .discover, .equip:
-            // Expected behaviour for all
+        case .choose,
+                .preparePlay,
+                .play,
+                .equip,
+                .handicap,
+                .draw,
+                .discover:
             payload.target
+
         default:
             payload.actor
         }
     }
 }
+// </Unsetting default target>

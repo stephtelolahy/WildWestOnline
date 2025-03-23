@@ -675,10 +675,7 @@ private extension Cards {
 private extension GameAction {
     static var play: Self {
         .init(
-            name: .play,
-            selectors: [
-                .setCard(.played)
-            ]
+            name: .play
         )
     }
 
