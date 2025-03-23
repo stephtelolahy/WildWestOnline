@@ -25,7 +25,7 @@ struct AnimationMatcher {
 
         case .handicap:
                 .moveCard(
-                    .id(action.payload.card!),
+                    .id(action.payload.played),
                     from: .playerHand(action.payload.actor),
                     to: .playerInPlay(action.payload.target)
                 )

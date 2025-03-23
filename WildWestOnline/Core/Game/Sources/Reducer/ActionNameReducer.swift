@@ -194,22 +194,22 @@ private extension GameAction.Name {
 
     struct Handicap: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let player = payload.actor
+            let target = payload.target
+            let card = payload.played
 
             var state = state
 
             // verify rule: not already inPlay
             let cardName = Card.extractName(from: card)
-            let targetObj = state.players.get(payload.target)
+            let targetObj = state.players.get(target)
             guard targetObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
                 throw .cardAlreadyInPlay(cardName)
             }
 
             // put card on target's play
-            state[keyPath: \.players[payload.actor]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[payload.target]!.inPlay].append(card)
+            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[target]!.inPlay].append(card)
 
             return state
         }

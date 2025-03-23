@@ -230,8 +230,8 @@ public extension GameAction {
             name: .handicap,
             payload: .init(
                 actor: player,
-                target: target,
-                card: card
+                played: card,
+                target: target
             )
         )
     }

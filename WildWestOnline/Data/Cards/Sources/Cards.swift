@@ -608,8 +608,7 @@ private extension Cards {
                 .init(
                     name: .handicap,
                     selectors: [
-                        .chooseOne(.target()),
-                        .setCard(.played)
+                        .chooseOne(.target())
                     ]
                 )
             ],
