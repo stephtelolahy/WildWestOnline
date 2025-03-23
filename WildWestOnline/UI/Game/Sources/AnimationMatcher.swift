@@ -18,9 +18,9 @@ struct AnimationMatcher {
 
         case .equip:
                 .moveCard(
-                    .id(action.payload.card!),
-                    from: .playerHand(action.payload.target!),
-                    to: .playerInPlay(action.payload.target!)
+                    .id(action.payload.played),
+                    from: .playerHand(action.payload.actor),
+                    to: .playerInPlay(action.payload.actor)
                 )
 
         case .handicap:

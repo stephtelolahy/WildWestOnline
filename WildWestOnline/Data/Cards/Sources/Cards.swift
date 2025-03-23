@@ -684,10 +684,7 @@ private extension GameAction {
 
     static var equip: Self {
         .init(
-            name: .equip,
-            selectors: [
-                .setCard(.played)
-            ]
+            name: .equip
         )
     }
 

@@ -173,21 +173,21 @@ private extension GameAction.Name {
 
     struct Equip: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let target = payload.target!
-            let card = payload.card!
+            let player = payload.actor
+            let card = payload.played
 
             var state = state
 
             // verify rule: not already inPlay
             let cardName = Card.extractName(from: card)
-            let playerObj = state.players.get(target)
+            let playerObj = state.players.get(player)
             guard playerObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
                 throw .cardAlreadyInPlay(cardName)
             }
 
             // put card on self's play
-            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[target]!.inPlay].append(card)
+            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[player]!.inPlay].append(card)
 
             return state
         }
@@ -538,7 +538,7 @@ private extension GameState {
 extension GameAction.Name {
     func childEffectTarget(payload: GameAction.Payload) -> String? {
         switch self {
-        case .draw, .discover:
+        case .draw, .discover, .equip:
             // Expected behaviour for all
             payload.target
         default:

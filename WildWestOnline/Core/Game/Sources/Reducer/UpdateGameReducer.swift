@@ -83,11 +83,8 @@ private extension GameState {
         }
 
         if event.name == .equip {
-            let player = event.payload.target!
-            guard let card = event.payload.card else {
-                fatalError("Missing payload.card")
-            }
-
+            let player = event.payload.actor
+            let card = event.payload.played
             if let effects = activeEffects(card: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
