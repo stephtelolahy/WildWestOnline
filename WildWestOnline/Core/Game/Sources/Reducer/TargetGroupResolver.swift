@@ -33,7 +33,7 @@ private extension Card.Selector.TargetGroup {
     struct Damaged: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
             state.playOrder
-                .starting(with: ctx.target!)
+                .starting(with: ctx.actor)
                 .filter { state.players.get($0).isDamaged }
         }
     }
@@ -41,14 +41,14 @@ private extension Card.Selector.TargetGroup {
     struct Active: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
             state.playOrder
-                .starting(with: ctx.target!)
+                .starting(with: ctx.actor)
         }
     }
 
     struct Others: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
             state.playOrder
-                .starting(with: ctx.target!)
+                .starting(with: ctx.actor)
                 .filter { $0 != ctx.target }
         }
     }
