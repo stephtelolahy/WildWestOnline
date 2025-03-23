@@ -545,7 +545,10 @@ extension GameAction.Name {
                 .equip,
                 .handicap,
                 .draw,
-                .discover:
+                .discover,
+                .stealHand,
+                .stealInPlay,
+                .passInPlay:
             payload.target
 
         default:

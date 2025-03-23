@@ -55,9 +55,10 @@ private extension Card.Selector.TargetGroup {
 
     struct Next: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+            let current = ctx.actor
             let next = state.startOrder
-                .filter { state.playOrder.contains($0) || $0 == ctx.target }
-                .starting(with: ctx.target!)[1]
+                .filter { state.playOrder.contains($0) || $0 == current }
+                .starting(with: current)[1]
             return [next]
         }
     }

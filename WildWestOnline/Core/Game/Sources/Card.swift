@@ -94,7 +94,7 @@ public struct Card: Equatable, Codable, Sendable {
             case damaged
             /// All other players
             case others
-            /// Next turn player
+            /// Next player after actor
             case next
         }
 
