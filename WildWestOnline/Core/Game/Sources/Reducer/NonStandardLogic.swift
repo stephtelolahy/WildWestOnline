@@ -42,6 +42,7 @@ enum NonStandardLogic {
     ) -> String? {
         switch name {
         case .choose,
+                .activate,
                 .preparePlay,
                 .play,
                 .equip,
