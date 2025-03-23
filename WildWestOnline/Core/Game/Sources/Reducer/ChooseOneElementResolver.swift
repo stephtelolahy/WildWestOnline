@@ -59,7 +59,7 @@ private extension Card.Selector.ChooseOneElement {
         let conditions: [Card.Selector.CardCondition]
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
-            let playerObj = state.players.get(ctx.target)
+            let playerObj = state.players.get(ctx.target!)
             var options: [Card.Selector.ChooseOneResolved.Option] = []
             options += playerObj.inPlay.map {
                 .init(value: $0, label: $0)
@@ -86,7 +86,7 @@ private extension Card.Selector.ChooseOneElement {
             var pendingAction = pendingAction
 
             if pendingAction.name == .discard {
-                let targetObj = state.players.get(pendingAction.payload.target)
+                let targetObj = state.players.get(pendingAction.payload.target!)
                 if targetObj.hand.contains(selection) {
                     pendingAction.name = .discardHand
                 } else if targetObj.inPlay.contains(selection) {
@@ -97,7 +97,7 @@ private extension Card.Selector.ChooseOneElement {
             }
 
             if pendingAction.name == .steal {
-                let targetObj = state.players.get(pendingAction.payload.target)
+                let targetObj = state.players.get(pendingAction.payload.target!)
                 if targetObj.hand.contains(selection) {
                     pendingAction.name = .stealHand
                 } else if targetObj.inPlay.contains(selection) {
@@ -115,7 +115,7 @@ private extension Card.Selector.ChooseOneElement {
     struct DiscoveredResolver: Resolver {
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             .init(
-                chooser: ctx.target,
+                chooser: ctx.target!,
                 options: state.discovered.map { .init(value: $0, label: $0) }
             )
         }
@@ -129,7 +129,7 @@ private extension Card.Selector.ChooseOneElement {
         let conditions: [Card.Selector.CardCondition]
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
-            let counterCards = state.players.get(ctx.target).hand.filter {
+            let counterCards = state.players.get(ctx.target!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
 
@@ -140,7 +140,7 @@ private extension Card.Selector.ChooseOneElement {
             var options: [Card.Selector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
             options.append(.init(value: .pass, label: .pass))
             return .init(
-                chooser: ctx.target,
+                chooser: ctx.target!,
                 options: options
             )
         }
@@ -149,7 +149,7 @@ private extension Card.Selector.ChooseOneElement {
             if selection == .pass {
                 [pendingAction]
             } else {
-                [GameAction.discardHand(selection, player: pendingAction.payload.target)]
+                [GameAction.discardHand(selection, player: pendingAction.payload.target!)]
             }
         }
     }
@@ -158,7 +158,7 @@ private extension Card.Selector.ChooseOneElement {
         let conditions: [Card.Selector.CardCondition]
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
-            let counterCards = state.players.get(ctx.target).hand.filter {
+            let counterCards = state.players.get(ctx.target!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
 
@@ -169,7 +169,7 @@ private extension Card.Selector.ChooseOneElement {
             var options: [Card.Selector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
             options.append(.init(value: .pass, label: .pass))
             return .init(
-                chooser: ctx.target,
+                chooser: ctx.target!,
                 options: options
             )
         }
@@ -180,11 +180,11 @@ private extension Card.Selector.ChooseOneElement {
             } else {
                 var reversedAction = pendingAction
                 let actor = pendingAction.payload.actor
-                reversedAction.payload.actor = pendingAction.payload.target
+                reversedAction.payload.actor = pendingAction.payload.target!
                 reversedAction.payload.target = actor
                 reversedAction.selectors.insert(.chooseOne(.eventuallyReverseCard(conditions)), at: 0)
                 return [
-                    GameAction.discardHand(selection, player: pendingAction.payload.target),
+                    GameAction.discardHand(selection, player: pendingAction.payload.target!),
                     reversedAction
                 ]
             }

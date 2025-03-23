@@ -12,43 +12,43 @@ struct AnimationMatcher {
         case .play:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerHand(action.payload.target),
+                    from: .playerHand(action.payload.target!),
                     to: .discard
                 )
 
         case .equip:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerHand(action.payload.target),
-                    to: .playerInPlay(action.payload.target)
+                    from: .playerHand(action.payload.target!),
+                    to: .playerInPlay(action.payload.target!)
                 )
 
         case .handicap:
                 .moveCard(
                     .id(action.payload.played),
                     from: .playerHand(action.payload.actor),
-                    to: .playerInPlay(action.payload.target)
+                    to: .playerInPlay(action.payload.target!)
                 )
 
         case .drawDeck:
                 .moveCard(
                     .hidden,
                     from: .deck,
-                    to: .playerHand(action.payload.target)
+                    to: .playerHand(action.payload.target!)
                 )
 
         case .drawDiscovered:
                 .moveCard(
                     .id(action.payload.card!),
                     from: .deck,
-                    to: .playerHand(action.payload.target)
+                    to: .playerHand(action.payload.target!)
                 )
 
         case .drawDiscard:
                 .moveCard(
                     .hidden,
                     from: .discard,
-                    to: .playerHand(action.payload.target)
+                    to: .playerHand(action.payload.target!)
                 )
 
         case .draw:
@@ -61,14 +61,14 @@ struct AnimationMatcher {
         case .stealHand:
                 .moveCard(
                     .hidden,
-                    from: .playerHand(action.payload.target),
+                    from: .playerHand(action.payload.target!),
                     to: .playerHand(action.payload.actor)
                 )
 
         case .stealInPlay:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerInPlay(action.payload.target),
+                    from: .playerInPlay(action.payload.target!),
                     to: .playerHand(action.payload.actor)
                 )
 
@@ -76,20 +76,20 @@ struct AnimationMatcher {
                 .moveCard(
                     .id(action.payload.card!),
                     from: .playerInPlay(action.payload.actor),
-                    to: .playerInPlay(action.payload.target)
+                    to: .playerInPlay(action.payload.target!)
                 )
 
         case .discardHand:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerHand(action.payload.target),
+                    from: .playerHand(action.payload.target!),
                     to: .discard
                 )
 
         case .discardInPlay:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerInPlay(action.payload.target),
+                    from: .playerInPlay(action.payload.target!),
                     to: .discard
                 )
 

@@ -42,7 +42,7 @@ private extension Card.Selector.CardCondition {
 
     struct FromHand: Matcher {
         func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
-            let playerObj = state.players.get(ctx.target)
+            let playerObj = state.players.get(ctx.target!)
             return playerObj.hand.contains(card)
         }
     }

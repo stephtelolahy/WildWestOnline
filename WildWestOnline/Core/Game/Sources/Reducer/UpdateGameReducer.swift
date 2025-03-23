@@ -73,7 +73,7 @@ private extension GameState {
         }
 
         if event.name == .eliminate {
-            let player = event.payload.target
+            let player = event.payload.target!
             let playerObj = players.get(player)
             for card in playerObj.abilities {
                 if let effects = triggeredEffects(on: event, by: card, player: player) {
@@ -83,7 +83,7 @@ private extension GameState {
         }
 
         if event.name == .equip {
-            let player = event.payload.target
+            let player = event.payload.target!
             guard let card = event.payload.card else {
                 fatalError("Missing payload.card")
             }
@@ -94,7 +94,7 @@ private extension GameState {
         }
 
         if event.name == .discardInPlay || event.name == .stealInPlay {
-            let player = event.payload.target
+            let player = event.payload.target!
             guard let card = event.payload.card else {
                 fatalError("Missing payload.card")
             }

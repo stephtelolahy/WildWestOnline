@@ -66,27 +66,30 @@ private extension GameAction.Name {
 
     struct DrawDeck: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            let target = payload.target!
+
             var state = state
             let card = try state.popDeck()
-            state[keyPath: \.players[payload.target]!.hand].append(card)
+            state[keyPath: \.players[target]!.hand].append(card)
             return state
         }
     }
 
     struct DrawDiscard: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            let target = payload.target!
+
             var state = state
             let card = try state.popDiscard()
-            state[keyPath: \.players[payload.target]!.hand].append(card)
+            state[keyPath: \.players[target]!.hand].append(card)
             return state
         }
     }
 
     struct DrawDiscovered: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let target = payload.target!
+            let card = payload.card!
 
             guard let discoverIndex = state.discovered.firstIndex(of: card) else {
                 fatalError("Card \(card) not discovered")
@@ -99,7 +102,7 @@ private extension GameAction.Name {
             var state = state
             state.deck.remove(at: deckIndex)
             state.discovered.remove(at: discoverIndex)
-            state[keyPath: \.players[payload.target]!.hand].append(card)
+            state[keyPath: \.players[target]!.hand].append(card)
             return state
         }
     }
@@ -156,13 +159,12 @@ private extension GameAction.Name {
 
     struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let target = payload.target!
+            let card = payload.card!
 
             var state = state
 
-            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
             return state
@@ -171,22 +173,21 @@ private extension GameAction.Name {
 
     struct Equip: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let target = payload.target!
+            let card = payload.card!
 
             var state = state
 
             // verify rule: not already inPlay
             let cardName = Card.extractName(from: card)
-            let playerObj = state.players.get(payload.target)
+            let playerObj = state.players.get(target)
             guard playerObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
                 throw .cardAlreadyInPlay(cardName)
             }
 
             // put card on self's play
-            state[keyPath: \.players[payload.target]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[payload.target]!.inPlay].append(card)
+            state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[target]!.inPlay].append(card)
 
             return state
         }
@@ -195,7 +196,7 @@ private extension GameAction.Name {
     struct Handicap: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             let player = payload.actor
-            let target = payload.target
+            let target = payload.target!
             let card = payload.played
 
             var state = state
@@ -217,11 +218,9 @@ private extension GameAction.Name {
 
     struct Heal: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let amount = payload.amount else {
-                fatalError("Missing payload.amount")
-            }
+            let player = payload.target!
+            let amount = payload.amount!
 
-            let player = payload.target
             var playerObj = state.players.get(player)
             let maxHealth = playerObj.maxHealth
             guard playerObj.health < maxHealth else {
@@ -237,12 +236,10 @@ private extension GameAction.Name {
 
     struct DiscardHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let player = payload.target!
+            let card = payload.card!
 
             var state = state
-            let player = payload.target
             let playerObj = state.players.get(player)
 
             guard playerObj.hand.contains(card) else {
@@ -258,12 +255,10 @@ private extension GameAction.Name {
 
     struct DiscardInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let player = payload.target!
+            let card = payload.card!
 
             var state = state
-            let player = payload.target
             let playerObj = state.players.get(player)
 
             guard playerObj.inPlay.contains(card) else {
@@ -304,15 +299,12 @@ private extension GameAction.Name {
 
     struct StealHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
-
+            let target = payload.target!
+            let card = payload.card!
             let actor = payload.actor
-            let target = payload.target
-            let playerObj = state.players.get(target)
 
             var state = state
+            let playerObj = state.players.get(target)
             guard playerObj.hand.contains(card) else {
                 fatalError("Card \(card) not in hand of \(target)")
             }
@@ -326,12 +318,10 @@ private extension GameAction.Name {
 
     struct StealInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
-
+            let target = payload.target!
+            let card = payload.card!
             let actor = payload.actor
-            let target = payload.target
+
             let playerObj = state.players.get(target)
             guard playerObj.inPlay.contains(card) else {
                 fatalError("Card \(card) not inPlay of \(target)")
@@ -347,12 +337,10 @@ private extension GameAction.Name {
 
     struct PassInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let card = payload.card else {
-                fatalError("Missing payload.card")
-            }
-
+            let card = payload.card!
             let actor = payload.actor
-            let target = payload.target
+            let target = payload.target!
+
             let playerObj = state.players.get(actor)
             guard playerObj.inPlay.contains(card) else {
                 fatalError("Card \(card) not inPlay of \(target)")
@@ -401,12 +389,11 @@ private extension GameAction.Name {
 
     struct Damage: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let amount = payload.amount else {
-                fatalError("Missing payload.amount")
-            }
+            let player = payload.target!
+            let amount = payload.amount!
 
             var state = state
-            state[keyPath: \.players[payload.target]!.health] -= amount
+            state[keyPath: \.players[player]!.health] -= amount
             return state
         }
     }
@@ -462,60 +449,55 @@ private extension GameAction.Name {
 
     struct Activate: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let cards = payload.cards else {
-                fatalError("Missing payload.cards")
-            }
+            let target = payload.target!
+            let cards = payload.cards!
 
             var state = state
-            state.active = [payload.target: cards]
+            state.active = [target: cards]
             return state
         }
     }
 
     struct SetWeapon: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let weapon = payload.amount else {
-                fatalError("Missing payload.amount")
-            }
+            let target = payload.target!
+            let weapon = payload.amount!
 
             var state = state
-            state[keyPath: \.players[payload.target]!.weapon] = weapon
+            state[keyPath: \.players[target]!.weapon] = weapon
             return state
         }
     }
 
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let amountPerCard = payload.amountPerCard else {
-                fatalError("Missing payload.amountPerCard")
-            }
+            let target = payload.target!
+            let amountPerCard = payload.amountPerCard!
 
             var state = state
-            state[keyPath: \.players[payload.target]!.playLimitPerTurn] = amountPerCard
+            state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerCard
             return state
         }
     }
 
     struct IncreaseMagnifying: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let amount = payload.amount else {
-                fatalError("Missing payload.amount")
-            }
+            let target = payload.target!
+            let amount = payload.amount!
 
             var state = state
-            state[keyPath: \.players[payload.target]!.magnifying] += amount
+            state[keyPath: \.players[target]!.magnifying] += amount
             return state
         }
     }
 
     struct IncreaseRemoteness: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            guard let amount = payload.amount else {
-                fatalError("Missing payload.amount")
-            }
+            let target = payload.target!
+            let amount = payload.amount!
 
             var state = state
-            state[keyPath: \.players[payload.target]!.remoteness] += amount
+            state[keyPath: \.players[target]!.remoteness] += amount
             return state
         }
     }
