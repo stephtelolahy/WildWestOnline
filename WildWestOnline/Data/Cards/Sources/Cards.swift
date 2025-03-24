@@ -394,12 +394,18 @@ private extension Cards {
             name: .duel,
             desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             onPreparePlay: [
-                .play,
+                .init(
+                    name: .play,
+                    selectors: [
+                        .chooseOne(.target())
+                    ]
+                )
+            ],
+            onPlay: [
                 .init(
                     name: .damage,
                     selectors: [
                         .setAmount(1),
-                        .chooseOne(.target()),
                         .chooseOne(.eventuallyReverseCard([.named(.bang)]))
                     ]
                 )
