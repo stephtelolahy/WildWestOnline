@@ -129,7 +129,7 @@ private extension GameAction.Name {
             }
 
             for playReq in cardObj.canPlay {
-                guard playReq.match(actor: payload.player, state: state) else {
+                guard playReq.match(player: payload.player, state: state) else {
                     throw .noReq(playReq)
                 }
             }
@@ -155,11 +155,11 @@ private extension GameAction.Name {
 
     struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let actor = payload.player
+            let player = payload.player
             let card = payload.played
             var state = state
 
-            state[keyPath: \.players[actor]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
             return state

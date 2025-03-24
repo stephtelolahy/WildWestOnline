@@ -193,7 +193,7 @@ private extension Card.EventReq {
     func match(event: GameAction, actor: String, state: GameState) -> Bool {
         event.name == actionName
         && event.payload.target == actor
-        && stateReqs.allSatisfy { $0.match(actor: actor, state: state) }
+        && stateReqs.allSatisfy { $0.match(player: actor, state: state) }
     }
 }
 

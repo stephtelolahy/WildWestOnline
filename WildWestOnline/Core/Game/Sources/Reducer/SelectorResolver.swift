@@ -105,7 +105,7 @@ private extension Card.Selector {
         let stateReq: Card.StateReq
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            guard stateReq.match(actor: pendingAction.payload.player, state: state) else {
+            guard stateReq.match(player: pendingAction.payload.player, state: state) else {
                 return []
             }
 
