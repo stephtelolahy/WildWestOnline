@@ -61,8 +61,8 @@ public struct GameAction: Action, Equatable, Codable {
         public var amountPerCard: [String: Int]?
 
         public init(
-            actor: String = "",
-            played: String = "",
+            actor: String,
+            played: String,
             target: String? = nil,
             card: String? = nil,
             amount: Int? = nil,
@@ -95,7 +95,7 @@ public struct GameAction: Action, Equatable, Codable {
 
     public init(
         name: Name,
-        payload: Payload = .init(),
+        payload: Payload = .init(actor: "", played: ""),
         selectors: [Card.Selector] = []
     ) {
         self.name = name

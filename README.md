@@ -33,12 +33,11 @@ graph TD;
     GAME(Game) --> PLAYER(Player);
     GAME --> CARD(Card);
     GAME --> QUEUE(Queue);
-    QUEUE --> ACTION(Action);
-    ACTION --> ACTIONTYPE(ActionType);
+    CARD --> ACTION(Effect/Action);
+    QUEUE --> ACTION;
+    ACTION --> ACTIONTYPE(Type);
     ACTION --> PAYLOAD(Payload);
-    CARD --> EFFECT(Effect);
-    EFFECT --> SELECTOR(Selector);
-    EFFECT --> ACTIONTYPE;
+    ACTION --> SELECTOR(Selector);
 ```
 
 ### Event solving
