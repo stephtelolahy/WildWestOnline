@@ -27,7 +27,7 @@ struct JailTest {
 
         // Then
         #expect(result == [
-            .choose("p2", player: "p1"),
+            .choose("p2", actor: "p1"),
             .handicap(.jail, target: "p2", player: "p1")
         ])
     }

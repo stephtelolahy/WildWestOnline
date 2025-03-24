@@ -35,8 +35,8 @@ struct DuelTests {
         // Then
         #expect(result == [
             .play(.duel, player: "p1"),
-            .choose("p2", player: "p1"),
-            .choose(.pass, player: "p2"),
+            .choose("p2", actor: "p1"),
+            .choose(.pass, actor: "p2"),
             .damage(1, player: "p2")
         ])
     }
@@ -54,10 +54,10 @@ struct DuelTests {
         // Then
         #expect(result == [
             .play(.duel, player: "p1"),
-            .choose("p2", player: "p1"),
-            .choose(.bang2, player: "p2"),
+            .choose("p2", actor: "p1"),
+            .choose(.bang2, actor: "p2"),
             .discardHand(.bang2, player: "p2"),
-            .choose(.bang1, player: "p1"),
+            .choose(.bang1, actor: "p1"),
             .discardHand(.bang1, player: "p1"),
             .damage(1, player: "p2")
         ])

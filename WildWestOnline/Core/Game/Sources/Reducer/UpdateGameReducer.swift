@@ -217,7 +217,7 @@ private extension GameAction {
 
         if let choice = newState.pendingChoice {
             for option in choice.options {
-                let next = GameAction.choose(option.label, player: choice.chooser)
+                let next = GameAction.choose(option.label, actor: choice.chooser)
                 try next.validate(state: newState)
             }
         } else if newState.queue.isNotEmpty {

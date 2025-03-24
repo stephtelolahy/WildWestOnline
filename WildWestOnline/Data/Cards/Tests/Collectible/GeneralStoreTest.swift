@@ -35,11 +35,11 @@ struct GeneralStoreTests {
             .discover(),
             .discover(),
             .discover(),
-            .choose("c1", player: "p1"),
+            .choose("c1", actor: "p1"),
             .drawDiscovered("c1", player: "p1"),
-            .choose("c3", player: "p2"),
+            .choose("c3", actor: "p2"),
             .drawDiscovered("c3", player: "p2"),
-            .choose("c2", player: "p3"),
+            .choose("c2", actor: "p3"),
             .drawDiscovered("c2", player: "p3")
         ])
     }

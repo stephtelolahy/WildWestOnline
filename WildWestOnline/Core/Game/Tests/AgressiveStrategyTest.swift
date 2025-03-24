@@ -30,8 +30,8 @@ struct AgressiveStrategyTest {
         // Given
         let state = GameState.makeBuilder().build()
         let possibleMoves: [GameAction] = [
-            .choose("pass", player: "p1"),
-            .choose("bang", player: "p1")
+            .choose("pass", actor: "p1"),
+            .choose("bang", actor: "p1")
         ]
         let sut = AgressiveStrategy()
 
@@ -39,6 +39,6 @@ struct AgressiveStrategyTest {
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
 
         // Then
-        #expect(bestMove == .choose("bang", player: "p1"))
+        #expect(bestMove == .choose("bang", actor: "p1"))
     }
 }

@@ -287,6 +287,8 @@ private extension GameAction.Name {
                 fatalError("Unexpected choose action")
             }
 
+            assert(choice.chooser == payload.actor)
+
             var state = state
             var updatedAction = nextAction
             let updatedSelector = Card.Selector.chooseOne(element, resolved: resolved, selection: selection)

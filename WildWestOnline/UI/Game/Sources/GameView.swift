@@ -132,7 +132,7 @@ private extension GameView {
                     buttons: chooseOne.options.map { option in
                             .default(Text(option)) {
                                 Task {
-                                    await self.store.dispatch(GameAction.choose(option, player: player))
+                                    await self.store.dispatch(GameAction.choose(option, actor: player))
                                 }
                             }
                     }
