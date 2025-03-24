@@ -29,7 +29,7 @@ struct JourdonnaisTests {
 
         // Then
         #expect(result == [
-            .play(.bang, player: "p1"),
+            .play(.bang, actor: "p1"),
             .chooseOne(.target, options: ["p2"], player: "p1"),
             .draw
         ])

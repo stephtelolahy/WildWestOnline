@@ -235,11 +235,11 @@ public extension GameAction {
         )
     }
 
-    static func play(_ card: String, player: String) -> Self {
+    static func play(_ card: String, actor: String) -> Self {
         .init(
             name: .play,
             payload: .init(
-                actor: player,
+                actor: actor,
                 played: card
             )
         )

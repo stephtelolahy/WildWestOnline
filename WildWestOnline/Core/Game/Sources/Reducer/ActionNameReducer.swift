@@ -155,12 +155,11 @@ private extension GameAction.Name {
 
     struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let player = payload.actor
+            let actor = payload.actor
             let card = payload.played
-
             var state = state
 
-            state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
+            state[keyPath: \.players[actor]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
             return state

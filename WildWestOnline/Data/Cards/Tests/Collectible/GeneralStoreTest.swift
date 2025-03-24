@@ -31,7 +31,7 @@ struct GeneralStoreTests {
 
         // Then
         #expect(result == [
-            .play(.generalStore, player: "p1"),
+            .play(.generalStore, actor: "p1"),
             .discover(),
             .discover(),
             .discover(),

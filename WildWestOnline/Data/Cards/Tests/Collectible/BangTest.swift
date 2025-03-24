@@ -29,7 +29,7 @@ struct BangTest {
 
         // Then
         #expect(result == [
-            .play(.bang, player: "p1"),
+            .play(.bang, actor: "p1"),
             .choose("p2", actor: "p1"),
             .shoot("p2"),
             .damage(1, player: "p2")

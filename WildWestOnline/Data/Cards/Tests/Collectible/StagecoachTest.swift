@@ -24,7 +24,7 @@ struct StagecoachTest {
 
         // Then
         #expect(result == [
-            .play(.stagecoach, player: "p1"),
+            .play(.stagecoach, actor: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

@@ -25,7 +25,7 @@ struct GatlingTest {
 
         // Then
         #expect(result == [
-            .play(.gatling, player: "p1"),
+            .play(.gatling, actor: "p1"),
             .shoot("p2"),
             .damage(1, player: "p2"),
             .shoot("p3"),
@@ -48,7 +48,7 @@ struct GatlingTest {
 
         // Then
         #expect(result == [
-            .play(.gatling, player: "p1"),
+            .play(.gatling, actor: "p1"),
             .shoot("p2"),
             .damage(1, player: "p2")
         ])
