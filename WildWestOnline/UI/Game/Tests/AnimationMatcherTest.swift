@@ -82,7 +82,7 @@ struct AnimationMatcherTest {
 
     @Test func animateStealInPlay() async throws {
         // Given
-        let event = GameAction.stealInPlay("c1", target: "p2", player: "p1")
+        let event = GameAction.stealInPlay("c1", target: "p2", player: "p1", source: "c0")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -116,7 +116,7 @@ struct AnimationMatcherTest {
 
     @Test func animatePassInPlay() async throws {
         // Given
-        let event = GameAction.passInPlay("c1", target: "p2", player: "p1")
+        let event = GameAction.passInPlay("c1", target: "p2", player: "p1", source: "c0")
 
         // When
         let animation = try #require(sut.animation(on: event))

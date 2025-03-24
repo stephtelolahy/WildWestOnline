@@ -133,24 +133,24 @@ public extension GameAction {
         )
     }
 
-    static func stealInPlay(_ card: String, target: String, player: String) -> Self {
+    static func stealInPlay(_ card: String, target: String, player: String, source: String) -> Self {
         .init(
             name: .stealInPlay,
             payload: .init(
                 player: player,
-                played: "",
+                played: source,
                 target: target,
                 card: card
             )
         )
     }
 
-    static func passInPlay(_ card: String, target: String, player: String) -> Self {
+    static func passInPlay(_ card: String, target: String, player: String, source: String) -> Self {
         .init(
             name: .passInPlay,
             payload: .init(
                 player: player,
-                played: "",
+                played: source,
                 target: target,
                 card: card
             )

@@ -124,6 +124,8 @@ public struct GameAction: Action, Equatable, Codable {
                 .equip,
                 .handicap,
                 .stealHand,
+                .stealInPlay,
+                .passInPlay,
                 .choose:
             guard
                 lhs.payload.player == rhs.payload.player,

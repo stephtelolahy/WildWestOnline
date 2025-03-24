@@ -37,7 +37,7 @@ struct StealTest {
             .build()
 
         // When
-        let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
+        let action = GameAction.stealInPlay("c21", target: "p2", player: "p1", source: "c0")
         let result = try await dispatch(action, state: state)
 
         // Then
