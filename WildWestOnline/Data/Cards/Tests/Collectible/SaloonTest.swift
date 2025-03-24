@@ -20,7 +20,7 @@ struct SaloonTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.saloon, player: "p1")
+        let action = GameAction.preparePlay(.saloon, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -49,7 +49,7 @@ struct SaloonTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.saloon, player: "p1")
+        let action = GameAction.preparePlay(.saloon, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -76,7 +76,7 @@ struct SaloonTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.saloon, player: "p1")
+        let action = GameAction.preparePlay(.saloon, actor: "p1")
         await #expect(throws: GameError.noTarget(.damaged)) {
             try await dispatchUntilCompleted(action, state: state)
         }

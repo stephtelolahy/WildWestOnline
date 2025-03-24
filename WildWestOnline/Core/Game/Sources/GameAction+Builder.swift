@@ -6,11 +6,11 @@
 //
 
 public extension GameAction {
-    static func preparePlay(_ card: String, player: String) -> Self {
+    static func preparePlay(_ card: String, actor: String) -> Self {
         .init(
             name: .preparePlay,
             payload: .init(
-                actor: player,
+                actor: actor,
                 played: card
             )
         )

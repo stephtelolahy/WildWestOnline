@@ -21,7 +21,7 @@ struct BangTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3"], selectionIndex: 0)
         ]
@@ -49,7 +49,7 @@ struct BangTest {
 
         // When
         // Assert
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, actor: "p1")
         await #expect(throws: GameError.noReq(.playLimitPerTurn([.bang: 1]))) {
             try await dispatchUntilCompleted(action, state: state)
         }
@@ -69,7 +69,7 @@ struct BangTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, actor: "p1")
         await #expect(throws: GameError.noChoosableTarget([.reachable])) {
             try await dispatchUntilCompleted(action, state: state)
         }

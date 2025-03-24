@@ -102,7 +102,7 @@ private extension GameView {
                         Button(action: {
                             guard item.active else { return }
                             Task {
-                                await store.dispatch(GameAction.preparePlay(item.card, player: player))
+                                await store.dispatch(GameAction.preparePlay(item.card, actor: player))
                             }
                         }) {
                             CardView(content: .id(item.card), format: .large, active: item.active)

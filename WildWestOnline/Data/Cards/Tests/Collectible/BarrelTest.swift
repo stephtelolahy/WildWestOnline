@@ -18,7 +18,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.barrel, player: "p1")
+        let action = GameAction.preparePlay(.barrel, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

@@ -16,11 +16,11 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", onPlay: [.init(name: .drawDeck)])])
+            .withCards(["c1": Card(name: "c1", onPreparePlay: [.init(name: .drawDeck)])])
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameAction.preparePlay("c1", actor: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -34,11 +34,11 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", onPlay: [.init(name: .drawDeck)])])
+            .withCards(["c1": Card(name: "c1", onPreparePlay: [.init(name: .drawDeck)])])
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameAction.preparePlay("c1", actor: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -51,12 +51,12 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", onPlay: [.init(name: .drawDeck)])])
+            .withCards(["c1": Card(name: "c1", onPreparePlay: [.init(name: .drawDeck)])])
             .withPlayedThisTurn(["c1": 1])
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameAction.preparePlay("c1", actor: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -69,11 +69,11 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c-2❤️"])
             }
-            .withCards(["c": Card(name: "c", onPlay: [.init(name: .drawDeck)])])
+            .withCards(["c": Card(name: "c", onPreparePlay: [.init(name: .drawDeck)])])
             .build()
 
         // When
-        let action = GameAction.preparePlay("c-2❤️", player: "p1")
+        let action = GameAction.preparePlay("c-2❤️", actor: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -91,7 +91,7 @@ struct PreparePlayTest {
 
         // When
         // Assert
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameAction.preparePlay("c1", actor: "p1")
         await #expect(throws: GameError.cardNotPlayable("c1")) {
             try await dispatch(action, state: state)
         }

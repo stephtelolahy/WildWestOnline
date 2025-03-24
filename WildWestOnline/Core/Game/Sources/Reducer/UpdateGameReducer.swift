@@ -199,7 +199,7 @@ private extension Card.EventReq {
 
 private extension GameAction {
     static func validatePlay(card: String, player: String, state: GameState) -> Bool {
-        let action = GameAction.preparePlay(card, player: player)
+        let action = GameAction.preparePlay(card, actor: player)
         do {
             try action.validate(state: state)
 //            print("🟢 validatePlay: \(card)")

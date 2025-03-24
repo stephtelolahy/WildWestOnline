@@ -124,7 +124,7 @@ private extension GameAction.Name {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             let cardName = Card.extractName(from: payload.played)
             let cardObj = state.cards.get(cardName)
-            guard cardObj.onPlay.isNotEmpty else {
+            guard cardObj.onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
 
@@ -136,19 +136,15 @@ private extension GameAction.Name {
 
             var state = state
 
-            let onPlay = cardObj.onPlay
+            let effects = cardObj.onPreparePlay
                 .map {
-                    GameAction(
-                        name: $0.name,
-                        payload: .init(
-                            actor: payload.actor,
-                            played: payload.played,
-                            target: NonStandardLogic.childEffectTarget($0.name, payload: payload)
-                        ),
-                        selectors: $0.selectors
+                    $0.copy(
+                        withActor: payload.actor,
+                        played: payload.played,
+                        target: NonStandardLogic.childEffectTarget($0.name, payload: payload)
                     )
                 }
-            state.queue.insert(contentsOf: onPlay, at: 0)
+            state.queue.insert(contentsOf: effects, at: 0)
 
             let playedThisTurn = state.playedThisTurn[cardName] ?? 0
             state.playedThisTurn[cardName] = playedThisTurn + 1

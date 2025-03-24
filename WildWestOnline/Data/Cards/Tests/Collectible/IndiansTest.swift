@@ -22,7 +22,7 @@ struct IndiansTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.indians, player: "p1")
+        let action = GameAction.preparePlay(.indians, actor: "p1")
         let choices: [Choice] = [
             .init(options: [.bang, .pass], selectionIndex: 0)
         ]

@@ -23,7 +23,7 @@ struct StartTurnNextOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameAction.preparePlay(.defaultEndTurn, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

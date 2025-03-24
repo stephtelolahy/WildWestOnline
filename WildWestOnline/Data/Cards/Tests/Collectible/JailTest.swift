@@ -19,7 +19,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.jail, player: "p1")
+        let action = GameAction.preparePlay(.jail, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0)
         ]

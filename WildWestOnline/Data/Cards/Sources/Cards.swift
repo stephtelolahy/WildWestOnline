@@ -57,7 +57,7 @@ private extension Cards {
         .init(
             name: .defaultEndTurn,
             desc: "End turn",
-            onPlay: [
+            onPreparePlay: [
                 .init(
                     name: .endTurn
                 )
@@ -203,7 +203,7 @@ private extension Cards {
         .init(
             name: .stagecoach,
             desc: "Draw two cards from the top of the deck.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .drawDeck,
@@ -219,7 +219,7 @@ private extension Cards {
         .init(
             name: .wellsFargo,
             desc: "Draw three cards from the top of the deck.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .drawDeck,
@@ -238,7 +238,7 @@ private extension Cards {
             canPlay: [
                 .playersAtLeast(3)
             ],
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .heal,
@@ -254,7 +254,7 @@ private extension Cards {
         .init(
             name: .saloon,
             desc: "All players in play regain one life point.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .heal,
@@ -271,7 +271,7 @@ private extension Cards {
         .init(
             name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .discard,
@@ -288,7 +288,7 @@ private extension Cards {
         .init(
             name: .panic,
             desc: "Draw a card from a player at distance 1",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .steal,
@@ -305,7 +305,7 @@ private extension Cards {
         .init(
             name: .generalStore,
             desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .discover,
@@ -331,7 +331,7 @@ private extension Cards {
             canPlay: [
                 .playLimitPerTurn([.bang: 1])
             ],
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .shoot,
@@ -347,7 +347,7 @@ private extension Cards {
         .init(
             name: .gatling,
             desc: "shoots to all the other players, regardless of the distance",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .shoot,
@@ -371,7 +371,7 @@ private extension Cards {
         .init(
             name: .indians,
             desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .damage,
@@ -389,7 +389,7 @@ private extension Cards {
         .init(
             name: .duel,
             desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-            onPlay: [
+            onPreparePlay: [
                 .play,
                 .init(
                     name: .damage,
@@ -407,7 +407,7 @@ private extension Cards {
         .init(
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
@@ -425,7 +425,7 @@ private extension Cards {
         .init(
             name: .remington,
             desc: "can hit targets at a distance of 3.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
@@ -443,7 +443,7 @@ private extension Cards {
         .init(
             name: .revCarabine,
             desc: "can hit targets at a distance of 4.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
@@ -461,7 +461,7 @@ private extension Cards {
         .init(
             name: .winchester,
             desc: "can hit targets at a distance of 5.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
@@ -479,7 +479,7 @@ private extension Cards {
         .init(
             name: .volcanic,
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
@@ -501,7 +501,7 @@ private extension Cards {
         .init(
             name: .scope,
             desc: "you see all the other players at a distance decreased by 1",
-            onPlay: [.equip],
+            onPreparePlay: [.equip],
             onActive: [
                 .init(
                     name: .increaseMagnifying,
@@ -521,7 +521,7 @@ private extension Cards {
         .init(
             name: .mustang,
             desc: "the distance between other players and you is increased by 1",
-            onPlay: [.equip],
+            onPreparePlay: [.equip],
             onActive: [
                 .init(
                     name: .increaseRemoteness,
@@ -541,7 +541,7 @@ private extension Cards {
         .init(
             name: .barrel,
             desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-            onPlay: [.equip],
+            onPreparePlay: [.equip],
             canTrigger: [
                 .init(actionName: .shoot)
             ],
@@ -566,7 +566,7 @@ private extension Cards {
         .init(
             name: .dynamite,
             desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            onPlay: [.equip],
+            onPreparePlay: [.equip],
             canTrigger: [
                 .init(actionName: .startTurn)
             ],
@@ -604,7 +604,7 @@ private extension Cards {
         .init(
             name: .jail,
             desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-            onPlay: [
+            onPreparePlay: [
                 .init(
                     name: .handicap,
                     selectors: [

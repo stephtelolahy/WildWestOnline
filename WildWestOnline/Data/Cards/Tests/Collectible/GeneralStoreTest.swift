@@ -21,7 +21,7 @@ struct GeneralStoreTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.generalStore, player: "p1")
+        let action = GameAction.preparePlay(.generalStore, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 1),

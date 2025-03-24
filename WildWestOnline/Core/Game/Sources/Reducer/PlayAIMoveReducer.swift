@@ -29,7 +29,7 @@ private func playAIMove(state: GameState, action: Action) async -> Action? {
     if state.active.isNotEmpty,
        let choice = state.active.first,
        state.playMode[choice.key] == .auto {
-        let actions = choice.value.map { GameAction.preparePlay($0, player: choice.key) }
+        let actions = choice.value.map { GameAction.preparePlay($0, actor: choice.key) }
         let strategy: AIStrategy = AgressiveStrategy()
         let bestMove = strategy.evaluateBestMove(actions, state: state)
         try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))

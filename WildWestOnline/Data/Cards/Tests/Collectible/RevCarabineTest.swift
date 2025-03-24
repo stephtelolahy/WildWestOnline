@@ -18,7 +18,7 @@ struct RevCarabineTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.revCarabine, player: "p1")
+        let action = GameAction.preparePlay(.revCarabine, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

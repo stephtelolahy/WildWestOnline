@@ -20,7 +20,7 @@ struct GatlingTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.gatling, player: "p1")
+        let action = GameAction.preparePlay(.gatling, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -43,7 +43,7 @@ struct GatlingTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.gatling, player: "p1")
+        let action = GameAction.preparePlay(.gatling, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

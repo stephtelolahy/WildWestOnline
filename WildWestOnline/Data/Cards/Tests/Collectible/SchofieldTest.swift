@@ -18,7 +18,7 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.schofield, player: "p1")
+        let action = GameAction.preparePlay(.schofield, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -80,7 +80,7 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.schofield, player: "p1")
+        let action = GameAction.preparePlay(.schofield, actor: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

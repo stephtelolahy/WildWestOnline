@@ -93,6 +93,28 @@ public struct GameAction: Action, Equatable, Codable {
         self.payload = payload
     }
 
+    public func copy(
+        withActor actor: String,
+        played: String,
+        target: String?
+    ) -> Self {
+        .init(
+            name: name,
+            payload: .init(
+                actor: actor,
+                played: played,
+                target: target,
+                card: payload.card,
+                amount: payload.amount,
+                selection: payload.selection,
+                children: payload.children,
+                cards: payload.cards,
+                amountPerCard: payload.amountPerCard
+            ),
+            selectors: selectors
+        )
+    }
+
     // <Migrate to default Equatable conformance>
     public static func == (lhs: Self, rhs: Self) -> Bool {
         switch lhs.name {
@@ -122,7 +144,7 @@ public struct GameAction: Action, Equatable, Codable {
         && lhs.payload.children == rhs.payload.children
         && lhs.payload.cards == rhs.payload.cards
         && lhs.payload.amountPerCard == rhs.payload.amountPerCard
-   }
+    }
     // </Migrate to default Equatable conformance>
 }
 

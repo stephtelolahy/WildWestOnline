@@ -39,7 +39,7 @@ struct WillyTheKidTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0)
         ]

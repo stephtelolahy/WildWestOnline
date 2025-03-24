@@ -21,7 +21,7 @@ struct PanicTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
@@ -50,7 +50,7 @@ struct PanicTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c21", "c22"], selectionIndex: 1)
@@ -80,7 +80,7 @@ struct PanicTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, actor: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c22", "c23", "hiddenHand-0"], selectionIndex: 1)
@@ -106,7 +106,7 @@ struct PanicTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, actor: "p1")
         await #expect(throws: GameError.noChoosableTarget([.atDistance(1), .havingCard])) {
             try await dispatchUntilCompleted(action, state: state)
         }
