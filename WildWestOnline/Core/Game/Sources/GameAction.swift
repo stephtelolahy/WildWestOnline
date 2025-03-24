@@ -94,18 +94,20 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public func copy(
-        withPlayer player: String,
-        played: String,
-        target: String?
+        withPlayer player: String? = nil,
+        played: String? = nil,
+        target: String? = nil,
+        card: String? = nil,
+        amount: Int? = nil
     ) -> Self {
         .init(
             name: name,
             payload: .init(
-                player: player,
-                played: played,
-                target: target,
-                card: payload.card,
-                amount: payload.amount,
+                player: player ?? payload.player,
+                played: played ?? payload.played,
+                target: target ?? payload.target,
+                card: card ?? payload.card,
+                amount: amount ?? payload.amount,
                 selection: payload.selection,
                 children: payload.children,
                 cards: payload.cards,

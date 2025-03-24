@@ -299,9 +299,13 @@ private extension GameAction.Name {
 
     struct StealHand: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let target = payload.target!
-            let card = payload.card!
-            let actor = payload.player
+            guard let target = payload.target else {
+                fatalError("Missing payload.target")
+            }
+            guard let card = payload.card else {
+                fatalError("Missing payload.card")
+            }
+            let player = payload.player
 
             var state = state
             let playerObj = state.players.get(target)
@@ -310,7 +314,7 @@ private extension GameAction.Name {
             }
 
             state[keyPath: \.players[target]!.hand].removeAll { $0 == card }
-            state[keyPath: \.players[actor]!.hand].append(card)
+            state[keyPath: \.players[player]!.hand].append(card)
 
             return state
         }
@@ -318,9 +322,13 @@ private extension GameAction.Name {
 
     struct StealInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let target = payload.target!
-            let card = payload.card!
-            let actor = payload.player
+            guard let target = payload.target else {
+                fatalError("Missing payload.target")
+            }
+            guard let card = payload.card else {
+                fatalError("Missing payload.card")
+            }
+            let player = payload.player
 
             let playerObj = state.players.get(target)
             guard playerObj.inPlay.contains(card) else {
@@ -329,7 +337,7 @@ private extension GameAction.Name {
 
             var state = state
             state[keyPath: \.players[target]!.inPlay].removeAll { $0 == card }
-            state[keyPath: \.players[actor]!.hand].append(card)
+            state[keyPath: \.players[player]!.hand].append(card)
 
             return state
         }
@@ -337,17 +345,21 @@ private extension GameAction.Name {
 
     struct PassInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let card = payload.card!
-            let actor = payload.player
-            let target = payload.target!
+            guard let target = payload.target else {
+                fatalError("Missing payload.target")
+            }
+            guard let card = payload.card else {
+                fatalError("Missing payload.card")
+            }
+            let player = payload.player
 
-            let playerObj = state.players.get(actor)
+            let playerObj = state.players.get(player)
             guard playerObj.inPlay.contains(card) else {
                 fatalError("Card \(card) not inPlay of \(target)")
             }
 
             var state = state
-            state[keyPath: \.players[actor]!.inPlay].removeAll { $0 == card }
+            state[keyPath: \.players[player]!.inPlay].removeAll { $0 == card }
             state[keyPath: \.players[target]!.inPlay].append(card)
 
             return state

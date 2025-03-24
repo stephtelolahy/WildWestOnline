@@ -126,14 +126,10 @@ private extension GameState {
         }
 
         return cardObj.onTrigger.map {
-            GameAction(
-                name: $0.name,
-                payload: .init(
-                    player: player,
-                    played: card,
-                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
-                ),
-                selectors: $0.selectors
+            $0.copy(
+                withPlayer: player,
+                played: card,
+                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
             )
         }
     }
@@ -142,14 +138,10 @@ private extension GameState {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.onActive.map {
-            GameAction(
-                name: $0.name,
-                payload: .init(
-                    player: player,
-                    played: card,
-                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
-                ),
-                selectors: $0.selectors
+            $0.copy(
+                withPlayer: player,
+                played: card,
+                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
             )
         }
     }
@@ -158,14 +150,10 @@ private extension GameState {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.onDeactive.map {
-            GameAction(
-                name: $0.name,
-                payload: .init(
-                    player: player,
-                    played: card,
-                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
-                ),
-                selectors: $0.selectors
+            $0.copy(
+                withPlayer: player,
+                played: card,
+                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
             )
         }
     }
