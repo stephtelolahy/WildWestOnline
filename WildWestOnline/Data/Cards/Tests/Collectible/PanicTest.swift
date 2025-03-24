@@ -33,7 +33,7 @@ struct PanicTest {
             .play(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
-            .stealHand("c21", target: "p2", player: "p1")
+            .stealHand("c21", target: "p2", player: "p1", source: .panic)
         ])
     }
 

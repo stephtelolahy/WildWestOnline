@@ -71,7 +71,7 @@ struct AnimationMatcherTest {
 
     @Test func animateStealHand() async throws {
         // Given
-        let event = GameAction.stealHand("c1", target: "p2", player: "p1")
+        let event = GameAction.stealHand("c1", target: "p2", player: "p1", source: "c0")
 
         // When
         let animation = try #require(sut.animation(on: event))

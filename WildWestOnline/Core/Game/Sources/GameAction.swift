@@ -123,6 +123,7 @@ public struct GameAction: Action, Equatable, Codable {
                 .play,
                 .equip,
                 .handicap,
+                .stealHand,
                 .choose:
             guard
                 lhs.payload.player == rhs.payload.player,
