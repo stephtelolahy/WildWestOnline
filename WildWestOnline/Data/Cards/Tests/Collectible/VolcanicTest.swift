@@ -17,7 +17,7 @@ struct VolcanicTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.volcanic, actor: "p1")
+        let action = GameAction.preparePlay(.volcanic, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

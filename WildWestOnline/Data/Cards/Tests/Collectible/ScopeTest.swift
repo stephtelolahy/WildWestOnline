@@ -18,7 +18,7 @@ struct ScopeTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.scope, actor: "p1")
+        let action = GameAction.preparePlay(.scope, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

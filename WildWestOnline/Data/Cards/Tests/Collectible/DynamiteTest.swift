@@ -18,7 +18,7 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.dynamite, actor: "p1")
+        let action = GameAction.preparePlay(.dynamite, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

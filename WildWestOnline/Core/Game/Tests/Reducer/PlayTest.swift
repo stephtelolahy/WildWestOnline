@@ -18,7 +18,7 @@ struct PlayTest {
             .build()
 
         // When
-        let action = GameAction.play("c1", actor: "p1")
+        let action = GameAction.play("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

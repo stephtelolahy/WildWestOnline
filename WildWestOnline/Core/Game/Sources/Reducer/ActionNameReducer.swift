@@ -129,7 +129,7 @@ private extension GameAction.Name {
             }
 
             for playReq in cardObj.canPlay {
-                guard playReq.match(actor: payload.actor, state: state) else {
+                guard playReq.match(actor: payload.player, state: state) else {
                     throw .noReq(playReq)
                 }
             }
@@ -139,7 +139,7 @@ private extension GameAction.Name {
             let effects = cardObj.onPreparePlay
                 .map {
                     $0.copy(
-                        withActor: payload.actor,
+                        withPlayer: payload.player,
                         played: payload.played,
                         target: NonStandardLogic.childEffectTarget($0.name, payload: payload)
                     )
@@ -155,7 +155,7 @@ private extension GameAction.Name {
 
     struct Play: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let actor = payload.actor
+            let actor = payload.player
             let card = payload.played
             var state = state
 
@@ -168,7 +168,7 @@ private extension GameAction.Name {
 
     struct Equip: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let player = payload.actor
+            let player = payload.player
             let card = payload.played
 
             var state = state
@@ -190,7 +190,7 @@ private extension GameAction.Name {
 
     struct Handicap: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
-            let player = payload.actor
+            let player = payload.player
             let target = payload.target!
             let card = payload.played
 
@@ -282,7 +282,7 @@ private extension GameAction.Name {
                 fatalError("Unexpected choose action")
             }
 
-            assert(choice.chooser == payload.actor)
+            assert(choice.chooser == payload.player)
 
             var state = state
             var updatedAction = nextAction
@@ -298,7 +298,7 @@ private extension GameAction.Name {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             let target = payload.target!
             let card = payload.card!
-            let actor = payload.actor
+            let actor = payload.player
 
             var state = state
             let playerObj = state.players.get(target)
@@ -317,7 +317,7 @@ private extension GameAction.Name {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             let target = payload.target!
             let card = payload.card!
-            let actor = payload.actor
+            let actor = payload.player
 
             let playerObj = state.players.get(target)
             guard playerObj.inPlay.contains(card) else {
@@ -335,7 +335,7 @@ private extension GameAction.Name {
     struct PassInPlay: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             let card = payload.card!
-            let actor = payload.actor
+            let actor = payload.player
             let target = payload.target!
 
             let playerObj = state.players.get(actor)
@@ -357,7 +357,7 @@ private extension GameAction.Name {
             let effect = GameAction(
                 name: .damage,
                 payload: .init(
-                    actor: payload.actor,
+                    player: payload.player,
                     played: payload.played,
                     target: payload.target,
                     amount: 1
@@ -399,7 +399,7 @@ private extension GameAction.Name {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             if let current = state.turn {
-                state.queue.removeAll { $0.payload.actor == current && $0.payload.played != payload.played }
+                state.queue.removeAll { $0.payload.player == current && $0.payload.played != payload.played }
             }
             state.turn = nil
             return state
@@ -431,7 +431,7 @@ private extension GameAction.Name {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
             var state = state
             state.playOrder.removeAll { $0 == payload.target }
-            state.queue.removeAll { $0.payload.actor == payload.target }
+            state.queue.removeAll { $0.payload.player == payload.target }
             return state
         }
     }

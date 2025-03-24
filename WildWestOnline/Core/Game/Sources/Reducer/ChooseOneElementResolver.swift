@@ -36,7 +36,7 @@ private extension Card.Selector.ChooseOneElement {
 
         func resolveOptions(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> Card.Selector.ChooseOneResolved? {
             let result = state.playOrder
-                .starting(with: ctx.actor)
+                .starting(with: ctx.player)
                 .dropFirst()
                 .filter { conditions.match($0, state: state, ctx: ctx) }
 
@@ -45,7 +45,7 @@ private extension Card.Selector.ChooseOneElement {
             }
 
             return .init(
-                chooser: ctx.actor,
+                chooser: ctx.player,
                 options: result.map { .init(value: $0, label: $0) }
             )
         }
@@ -66,7 +66,7 @@ private extension Card.Selector.ChooseOneElement {
             }
             options += playerObj.hand.indices.map {
                 let value = playerObj.hand[$0]
-                let label = ctx.actor == ctx.target ? value : "\(String.hiddenHand)-\($0)"
+                let label = ctx.player == ctx.target ? value : "\(String.hiddenHand)-\($0)"
                 return .init(value: value, label: label)
             }
             options = options.filter { conditions.match($0.value, state: state, ctx: ctx) }
@@ -76,7 +76,7 @@ private extension Card.Selector.ChooseOneElement {
             }
 
             return .init(
-                chooser: ctx.actor,
+                chooser: ctx.player,
                 options: options
             )
         }
@@ -157,9 +157,9 @@ private extension Card.Selector.ChooseOneElement {
                 let reversedAction = GameAction(
                     name: pendingAction.name,
                     payload: .init(
-                        actor: pendingAction.payload.target!,
+                        player: pendingAction.payload.target!,
                         played: pendingAction.payload.played,
-                        target: pendingAction.payload.actor,
+                        target: pendingAction.payload.player,
                         amount: pendingAction.payload.amount
                     ),
                     selectors: [.chooseOne(.eventuallyReverseCard(conditions))] + pendingAction.selectors

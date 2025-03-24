@@ -20,7 +20,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", actor: "p1")
+        let action = GameAction.preparePlay("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -38,7 +38,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", actor: "p1")
+        let action = GameAction.preparePlay("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -56,7 +56,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", actor: "p1")
+        let action = GameAction.preparePlay("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -73,7 +73,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c-2❤️", actor: "p1")
+        let action = GameAction.preparePlay("c-2❤️", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -91,7 +91,7 @@ struct PreparePlayTest {
 
         // When
         // Assert
-        let action = GameAction.preparePlay("c1", actor: "p1")
+        let action = GameAction.preparePlay("c1", player: "p1")
         await #expect(throws: GameError.cardNotPlayable("c1")) {
             try await dispatch(action, state: state)
         }

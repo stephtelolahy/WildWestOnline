@@ -24,7 +24,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, actor: "p1")
+        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0)
         ]
@@ -33,7 +33,7 @@ struct DiscardExcessHandOnTurnEndedTest {
         // Then
         #expect(result == [
             .endTurn(player: "p1"),
-            .choose("c1", actor: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1")
         ])
     }
@@ -53,7 +53,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, actor: "p1")
+        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 0)
@@ -63,9 +63,9 @@ struct DiscardExcessHandOnTurnEndedTest {
         // Then
         #expect(result == [
             .endTurn(player: "p1"),
-            .choose("c1", actor: "p1"),
+            .choose("c1", player: "p1"),
             .discardHand("c1", player: "p1"),
-            .choose("c2", actor: "p1"),
+            .choose("c2", player: "p1"),
             .discardHand("c2", player: "p1")
         ])
     }
@@ -85,7 +85,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, actor: "p1")
+        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -110,7 +110,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, actor: "p1")
+        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

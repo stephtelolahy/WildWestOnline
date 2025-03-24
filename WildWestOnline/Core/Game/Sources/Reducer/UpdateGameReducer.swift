@@ -83,7 +83,7 @@ private extension GameState {
         }
 
         if event.name == .equip {
-            let player = event.payload.actor
+            let player = event.payload.player
             let card = event.payload.played
             if let effects = activeEffects(card: card, player: player) {
                 triggered.append(contentsOf: effects)
@@ -109,7 +109,7 @@ private extension GameState {
             return .init(
                 name: .queue,
                 payload: .init(
-                    actor: "",
+                    player: "",
                     played: "",
                     children: triggered
                 )
@@ -129,9 +129,9 @@ private extension GameState {
             GameAction(
                 name: $0.name,
                 payload: .init(
-                    actor: player,
+                    player: player,
                     played: card,
-                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(actor: player, played: ""))
+                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
                 ),
                 selectors: $0.selectors
             )
@@ -145,9 +145,9 @@ private extension GameState {
             GameAction(
                 name: $0.name,
                 payload: .init(
-                    actor: player,
+                    player: player,
                     played: card,
-                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(actor: player, played: ""))
+                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
                 ),
                 selectors: $0.selectors
             )
@@ -161,9 +161,9 @@ private extension GameState {
             GameAction(
                 name: $0.name,
                 payload: .init(
-                    actor: player,
+                    player: player,
                     played: card,
-                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(actor: player, played: ""))
+                    target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player, played: ""))
                 ),
                 selectors: $0.selectors
             )
@@ -199,7 +199,7 @@ private extension Card.EventReq {
 
 private extension GameAction {
     static func validatePlay(card: String, player: String, state: GameState) -> Bool {
-        let action = GameAction.preparePlay(card, actor: player)
+        let action = GameAction.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
 //            print("🟢 validatePlay: \(card)")
@@ -217,7 +217,7 @@ private extension GameAction {
 
         if let choice = newState.pendingChoice {
             for option in choice.options {
-                let next = GameAction.choose(option.label, actor: choice.chooser)
+                let next = GameAction.choose(option.label, player: choice.chooser)
                 try next.validate(state: newState)
             }
         } else if newState.queue.isNotEmpty {

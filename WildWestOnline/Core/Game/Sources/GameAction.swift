@@ -50,7 +50,7 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        public let actor: String
+        public let player: String
         public let played: String
         public var target: String?
         public var card: String?
@@ -61,7 +61,7 @@ public struct GameAction: Action, Equatable, Codable {
         public var amountPerCard: [String: Int]?
 
         public init(
-            actor: String,
+            player: String,
             played: String,
             target: String? = nil,
             card: String? = nil,
@@ -71,7 +71,7 @@ public struct GameAction: Action, Equatable, Codable {
             cards: [String]? = nil,
             amountPerCard: [String: Int]? = nil
         ) {
-            self.actor = actor
+            self.player = player
             self.played = played
             self.target = target
             self.card = card
@@ -85,7 +85,7 @@ public struct GameAction: Action, Equatable, Codable {
 
     public init(
         name: Name,
-        payload: Payload = .init(actor: "", played: ""),
+        payload: Payload = .init(player: "", played: ""),
         selectors: [Card.Selector] = []
     ) {
         self.name = name
@@ -94,14 +94,14 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public func copy(
-        withActor actor: String,
+        withPlayer player: String,
         played: String,
         target: String?
     ) -> Self {
         .init(
             name: name,
             payload: .init(
-                actor: actor,
+                player: player,
                 played: played,
                 target: target,
                 card: payload.card,
@@ -125,7 +125,7 @@ public struct GameAction: Action, Equatable, Codable {
                 .handicap,
                 .choose:
             guard
-                lhs.payload.actor == rhs.payload.actor,
+                lhs.payload.player == rhs.payload.player,
                 lhs.payload.played == rhs.payload.played
             else {
                 return false

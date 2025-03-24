@@ -25,7 +25,7 @@ struct DuelTests {
 
     @Test func play_withTargetPassing_shouldDamage() async throws {
         // When
-        let action = GameAction.preparePlay(.duel, actor: "p1")
+        let action = GameAction.preparePlay(.duel, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3", "p4"], selectionIndex: 0),
             .init(options: [.bang2, .pass], selectionIndex: 1)
@@ -34,16 +34,16 @@ struct DuelTests {
 
         // Then
         #expect(result == [
-            .play(.duel, actor: "p1"),
-            .choose("p2", actor: "p1"),
-            .choose(.pass, actor: "p2"),
+            .play(.duel, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose(.pass, player: "p2"),
             .damage(1, player: "p2")
         ])
     }
 
     @Test func play_withTargetDiscardingBang_shouldDamageOffender() async throws {
         // When
-        let action = GameAction.preparePlay(.duel, actor: "p1")
+        let action = GameAction.preparePlay(.duel, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3", "p4"], selectionIndex: 0),
             .init(options: [.bang2, .pass], selectionIndex: 0),
@@ -53,11 +53,11 @@ struct DuelTests {
 
         // Then
         #expect(result == [
-            .play(.duel, actor: "p1"),
-            .choose("p2", actor: "p1"),
-            .choose(.bang2, actor: "p2"),
+            .play(.duel, player: "p1"),
+            .choose("p2", player: "p1"),
+            .choose(.bang2, player: "p2"),
             .discardHand(.bang2, player: "p2"),
-            .choose(.bang1, actor: "p1"),
+            .choose(.bang1, player: "p1"),
             .discardHand(.bang1, player: "p1"),
             .damage(1, player: "p2")
         ])

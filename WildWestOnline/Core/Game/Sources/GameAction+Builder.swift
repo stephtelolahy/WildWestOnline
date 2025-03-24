@@ -6,21 +6,21 @@
 //
 
 public extension GameAction {
-    static func preparePlay(_ card: String, actor: String) -> Self {
+    static func preparePlay(_ card: String, player: String) -> Self {
         .init(
             name: .preparePlay,
             payload: .init(
-                actor: actor,
+                player: player,
                 played: card
             )
         )
     }
 
-    static func choose(_ selection: String, actor: String) -> Self {
+    static func choose(_ selection: String, player: String) -> Self {
         .init(
             name: .choose,
             payload: .init(
-                actor: actor,
+                player: player,
                 played: "",
                 selection: selection
             )
@@ -37,7 +37,7 @@ public extension GameAction {
         .init(
             name: .drawDeck,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -48,7 +48,7 @@ public extension GameAction {
         .init(
             name: .drawDiscard,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -59,7 +59,7 @@ public extension GameAction {
         .init(
             name: .drawDiscovered,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 card: card
@@ -77,7 +77,7 @@ public extension GameAction {
         .init(
             name: .heal,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 amount: amount
@@ -89,7 +89,7 @@ public extension GameAction {
         .init(
             name: .damage,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 amount: amount
@@ -101,7 +101,7 @@ public extension GameAction {
         .init(
             name: .discardHand,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 card: card
@@ -113,7 +113,7 @@ public extension GameAction {
         .init(
             name: .discardInPlay,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 card: card
@@ -125,7 +125,7 @@ public extension GameAction {
         .init(
             name: .stealHand,
             payload: .init(
-                actor: player,
+                player: player,
                 played: "",
                 target: target,
                 card: card
@@ -137,7 +137,7 @@ public extension GameAction {
         .init(
             name: .stealInPlay,
             payload: .init(
-                actor: player,
+                player: player,
                 played: "",
                 target: target,
                 card: card
@@ -149,7 +149,7 @@ public extension GameAction {
         .init(
             name: .passInPlay,
             payload: .init(
-                actor: player,
+                player: player,
                 played: "",
                 target: target,
                 card: card
@@ -161,7 +161,7 @@ public extension GameAction {
         .init(
             name: .shoot,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: target
             )
@@ -172,7 +172,7 @@ public extension GameAction {
         .init(
             name: .counterShot,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -183,7 +183,7 @@ public extension GameAction {
         .init(
             name: .startTurn,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -194,7 +194,7 @@ public extension GameAction {
         .init(
             name: .endTurn,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -205,7 +205,7 @@ public extension GameAction {
         .init(
             name: .eliminate,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -216,7 +216,7 @@ public extension GameAction {
         .init(
             name: .endGame,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player
             )
@@ -227,7 +227,7 @@ public extension GameAction {
         .init(
             name: .activate,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 cards: cards
@@ -235,11 +235,11 @@ public extension GameAction {
         )
     }
 
-    static func play(_ card: String, actor: String) -> Self {
+    static func play(_ card: String, player: String) -> Self {
         .init(
             name: .play,
             payload: .init(
-                actor: actor,
+                player: player,
                 played: card
             )
         )
@@ -249,7 +249,7 @@ public extension GameAction {
         .init(
             name: .equip,
             payload: .init(
-                actor: player,
+                player: player,
                 played: card
             )
         )
@@ -259,7 +259,7 @@ public extension GameAction {
         .init(
             name: .handicap,
             payload: .init(
-                actor: player,
+                player: player,
                 played: card,
                 target: target
             )
@@ -270,7 +270,7 @@ public extension GameAction {
         .init(
             name: .setWeapon,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 amount: weapon
@@ -282,7 +282,7 @@ public extension GameAction {
         .init(
             name: .setPlayLimitPerTurn,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 amountPerCard: limit
@@ -294,7 +294,7 @@ public extension GameAction {
         .init(
             name: .increaseMagnifying,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 amount: amount
@@ -306,7 +306,7 @@ public extension GameAction {
         .init(
             name: .increaseRemoteness,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 target: player,
                 amount: amount
@@ -318,7 +318,7 @@ public extension GameAction {
         .init(
             name: .queue,
             payload: .init(
-                actor: "",
+                player: "",
                 played: "",
                 children: []
             )

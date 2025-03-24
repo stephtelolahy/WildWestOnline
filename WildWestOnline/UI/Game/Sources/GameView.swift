@@ -102,7 +102,7 @@ private extension GameView {
                         Button(action: {
                             guard item.active else { return }
                             Task {
-                                await store.dispatch(GameAction.preparePlay(item.card, actor: player))
+                                await store.dispatch(GameAction.preparePlay(item.card, player: player))
                             }
                         }) {
                             CardView(content: .id(item.card), format: .large, active: item.active)
@@ -132,7 +132,7 @@ private extension GameView {
                     buttons: chooseOne.options.map { option in
                             .default(Text(option)) {
                                 Task {
-                                    await self.store.dispatch(GameAction.choose(option, actor: player))
+                                    await self.store.dispatch(GameAction.choose(option, player: player))
                                 }
                             }
                     }

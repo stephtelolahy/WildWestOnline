@@ -21,7 +21,7 @@ struct GeneralStoreTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.generalStore, actor: "p1")
+        let action = GameAction.preparePlay(.generalStore, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 1),
@@ -31,15 +31,15 @@ struct GeneralStoreTests {
 
         // Then
         #expect(result == [
-            .play(.generalStore, actor: "p1"),
+            .play(.generalStore, player: "p1"),
             .discover(),
             .discover(),
             .discover(),
-            .choose("c1", actor: "p1"),
+            .choose("c1", player: "p1"),
             .drawDiscovered("c1", player: "p1"),
-            .choose("c3", actor: "p2"),
+            .choose("c3", player: "p2"),
             .drawDiscovered("c3", player: "p2"),
-            .choose("c2", actor: "p3"),
+            .choose("c2", player: "p3"),
             .drawDiscovered("c2", player: "p3")
         ])
     }

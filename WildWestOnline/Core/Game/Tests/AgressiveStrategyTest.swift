@@ -13,9 +13,9 @@ struct AgressiveStrategyTest {
         // Given
         let state = GameState.makeBuilder().build()
         let possibleMoves: [GameAction] = [
-            .preparePlay("endTurn", actor: "p1"),
-            .preparePlay("panic", actor: "p1"),
-            .preparePlay("bang", actor: "p1")
+            .preparePlay("endTurn", player: "p1"),
+            .preparePlay("panic", player: "p1"),
+            .preparePlay("bang", player: "p1")
         ]
         let sut = AgressiveStrategy()
 
@@ -23,15 +23,15 @@ struct AgressiveStrategyTest {
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
 
         // Then
-        #expect(bestMove == .preparePlay("bang", actor: "p1"))
+        #expect(bestMove == .preparePlay("bang", player: "p1"))
     }
 
     @Test func evaluateChoosenItem() async throws {
         // Given
         let state = GameState.makeBuilder().build()
         let possibleMoves: [GameAction] = [
-            .choose("pass", actor: "p1"),
-            .choose("bang", actor: "p1")
+            .choose("pass", player: "p1"),
+            .choose("bang", player: "p1")
         ]
         let sut = AgressiveStrategy()
 
@@ -39,6 +39,6 @@ struct AgressiveStrategyTest {
         let bestMove = sut.evaluateBestMove(possibleMoves, state: state)
 
         // Then
-        #expect(bestMove == .choose("bang", actor: "p1"))
+        #expect(bestMove == .choose("bang", player: "p1"))
     }
 }

@@ -55,7 +55,7 @@ enum NonStandardLogic {
             payload.target
 
         default:
-            payload.actor
+            payload.player
         }
     }
 }

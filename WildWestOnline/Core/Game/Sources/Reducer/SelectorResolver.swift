@@ -31,7 +31,7 @@ private extension Card.Selector {
         let number: Card.Selector.Number
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            let value = number.resolve(actor: pendingAction.payload.actor, state: state)
+            let value = number.resolve(actor: pendingAction.payload.player, state: state)
             return Array(repeating: pendingAction, count: value)
         }
     }
@@ -105,7 +105,7 @@ private extension Card.Selector {
         let stateReq: Card.StateReq
 
         func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
-            guard stateReq.match(actor: pendingAction.payload.actor, state: state) else {
+            guard stateReq.match(actor: pendingAction.payload.player, state: state) else {
                 return []
             }
 
