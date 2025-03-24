@@ -50,8 +50,8 @@ public struct GameAction: Action, Equatable, Codable {
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        @UncheckedEquatable public var actor: String
-        @UncheckedEquatable public var played: String
+        public let actor: String
+        public let played: String
         public var target: String?
         public var card: String?
         public var amount: Int?
@@ -80,6 +80,16 @@ public struct GameAction: Action, Equatable, Codable {
             self.children = children
             self.cards = cards
             self.amountPerCard = amountPerCard
+        }
+
+        public static func == (lhs: Self, rhs: Self) -> Bool {
+            lhs.target == rhs.target
+            && lhs.card == rhs.card
+            && lhs.amount == rhs.amount
+            && lhs.selection == rhs.selection
+            && lhs.children == rhs.children
+            && lhs.cards == rhs.cards
+            && lhs.amountPerCard == rhs.amountPerCard
         }
     }
 

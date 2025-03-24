@@ -154,11 +154,17 @@ private extension Card.Selector.ChooseOneElement {
             if selection == .pass {
                 return [pendingAction]
             } else {
-                var reversedAction = pendingAction
-                let actor = pendingAction.payload.actor
-                reversedAction.payload.actor = pendingAction.payload.target!
-                reversedAction.payload.target = actor
-                reversedAction.selectors.insert(.chooseOne(.eventuallyReverseCard(conditions)), at: 0)
+                let reversedAction = GameAction(
+                    name: pendingAction.name,
+                    payload: .init(
+                        actor: pendingAction.payload.target!,
+                        played: pendingAction.payload.played,
+                        target: pendingAction.payload.actor,
+                        amount: pendingAction.payload.amount
+                    ),
+                    selectors: [.chooseOne(.eventuallyReverseCard(conditions))] + pendingAction.selectors
+                )
+
                 return [
                     GameAction.discardHand(selection, player: pendingAction.payload.target!),
                     reversedAction
