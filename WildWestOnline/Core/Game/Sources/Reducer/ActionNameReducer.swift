@@ -190,8 +190,11 @@ private extension GameAction.Name {
 
     struct Handicap: Reducer {
         func reduce(_ state: GameState, _ payload: GameAction.Payload) throws(GameError) -> GameState {
+            guard let target = payload.target else {
+                fatalError("Missing payload.target")
+            }
+
             let player = payload.player
-            let target = payload.target!
             let card = payload.played
 
             var state = state
