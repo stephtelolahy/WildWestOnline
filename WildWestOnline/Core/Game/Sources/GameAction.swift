@@ -98,7 +98,8 @@ public struct GameAction: Action, Equatable, Codable {
         played: String? = nil,
         target: String? = nil,
         card: String? = nil,
-        amount: Int? = nil
+        amount: Int? = nil,
+        selectors: [Card.Selector]? = nil
     ) -> Self {
         .init(
             name: name,
@@ -113,7 +114,7 @@ public struct GameAction: Action, Equatable, Codable {
                 cards: payload.cards,
                 amountPerCard: payload.amountPerCard
             ),
-            selectors: selectors
+            selectors: selectors ?? self.selectors
         )
     }
 
