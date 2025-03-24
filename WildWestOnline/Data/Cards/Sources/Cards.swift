@@ -332,12 +332,16 @@ private extension Cards {
                 .playLimitPerTurn([.bang: 1])
             ],
             onPreparePlay: [
-                .play,
                 .init(
-                    name: .shoot,
+                    name: .play,
                     selectors: [
                         .chooseOne(.target([.reachable]))
                     ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .shoot
                 )
             ]
         )

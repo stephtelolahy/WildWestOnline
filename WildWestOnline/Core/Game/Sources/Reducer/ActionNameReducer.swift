@@ -162,6 +162,20 @@ private extension GameAction.Name {
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
+            let cardName = Card.extractName(from: payload.played)
+            if let cardObj = state.cards[cardName] {
+                let effects = cardObj.onPlay
+                    .map {
+                        $0.copy(
+                            withPlayer: payload.player,
+                            played: payload.played,
+                            target: payload.target,
+                            card: payload.card
+                        )
+                    }
+                state.queue.insert(contentsOf: effects, at: 0)
+            }
+
             return state
         }
     }
@@ -526,7 +540,7 @@ private extension GameState {
 
         return deck.remove(at: 0)
     }
-
+    
     mutating func resetDeck() throws(GameError) {
         let minDiscardedCards = 2
         guard discard.count >= minDiscardedCards else {

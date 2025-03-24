@@ -235,12 +235,13 @@ public extension GameAction {
         )
     }
 
-    static func play(_ card: String, player: String) -> Self {
+    static func play(_ card: String, player: String, target: String? = nil) -> Self {
         .init(
             name: .play,
             payload: .init(
                 player: player,
-                played: card
+                played: card,
+                target: target
             )
         )
     }

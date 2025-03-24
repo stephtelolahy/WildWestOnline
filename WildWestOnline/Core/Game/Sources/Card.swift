@@ -16,6 +16,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let desc: String
     public let canPlay: [StateReq]
     public let onPreparePlay: [GameAction]
+    public let onPlay: [GameAction]
     public let canTrigger: [EventReq]
     public let onTrigger: [GameAction]
     public let onActive: [GameAction]
@@ -27,6 +28,7 @@ public struct Card: Equatable, Codable, Sendable {
         desc: String = "",
         canPlay: [StateReq] = [],
         onPreparePlay: [GameAction] = [],
+        onPlay: [GameAction] = [],
         canTrigger: [EventReq] = [],
         onTrigger: [GameAction] = [],
         onActive: [GameAction] = [],
@@ -37,6 +39,7 @@ public struct Card: Equatable, Codable, Sendable {
         self.desc = desc
         self.canPlay = canPlay
         self.onPreparePlay = onPreparePlay
+        self.onPlay = onPlay
         self.canTrigger = canTrigger
         self.onTrigger = onTrigger
         self.onActive = onActive
