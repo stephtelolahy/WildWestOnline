@@ -7,15 +7,15 @@
 import Redux
 
 public struct NavigationState: Equatable, Codable, Sendable {
-    public var main: NavigationStackState<MainDestination>
-    public var settings: NavigationStackState<SettingsDestination>
+    public var mainStack: NavigationStackState<MainDestination>
+    public var settingsStack: NavigationStackState<SettingsDestination>
 
     public init(
-        main: NavigationStackState<MainDestination> = .init(path: []),
-        settings: NavigationStackState<SettingsDestination> = .init(path: [])
+        mainStack: NavigationStackState<MainDestination> = .init(path: []),
+        settingsStack: NavigationStackState<SettingsDestination> = .init(path: [])
     ) {
-        self.main = main
-        self.settings = settings
+        self.mainStack = mainStack
+        self.settingsStack = settingsStack
     }
 }
 
@@ -43,7 +43,7 @@ public func navigationReducer(
     dependencies: Void
 ) throws -> Effect {
     .group([
-        navigationStackReducer(state: &state.main, action: action, dependencies: ()),
-        navigationStackReducer(state: &state.settings, action: action, dependencies: ())
+        navigationStackReducer(state: &state.mainStack, action: action, dependencies: ()),
+        navigationStackReducer(state: &state.settingsStack, action: action, dependencies: ())
     ])
 }

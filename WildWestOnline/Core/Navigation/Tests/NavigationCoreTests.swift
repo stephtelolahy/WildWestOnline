@@ -19,12 +19,12 @@ struct NavigationCoreTests {
         await sut.dispatch(action)
 
         // Then
-        await #expect(sut.state.main.path == [.home])
+        await #expect(sut.state.mainStack.path == [.home])
     }
 
     @Test func showingSettings_shouldDisplaySettings() async throws {
         // Given
-        let state = NavigationState(main: .init(path: [.home]))
+        let state = NavigationState(mainStack: .init(path: [.home]))
         let sut = await createNavigationStore(initialState: state)
 
         // When
@@ -32,12 +32,12 @@ struct NavigationCoreTests {
         await sut.dispatch(action)
 
         // Then
-        await #expect(sut.state.main.sheet == .settings)
+        await #expect(sut.state.mainStack.sheet == .settings)
     }
 
     @Test func closingSettings_shouldRemoveSettings() async throws {
         // Given
-        let state = NavigationState(main: .init(path: [.home], sheet: .settings))
+        let state = NavigationState(mainStack: .init(path: [.home], sheet: .settings))
         let sut = await createNavigationStore(initialState: state)
 
         // When
@@ -45,7 +45,7 @@ struct NavigationCoreTests {
         await sut.dispatch(action)
 
         // Then
-        await #expect(sut.state.main.sheet == nil)
+        await #expect(sut.state.mainStack.sheet == nil)
     }
 }
 

@@ -156,6 +156,6 @@ struct AnimationMatcherTest {
 
         // Then
         // TODO: card id = last discovered
-        #expect(animation == .moveCard(.hidden, from: .deck, to: .deck))
+        #expect(animation == .moveCard(.hidden, from: .deck, to: .discovered))
     }
 }
