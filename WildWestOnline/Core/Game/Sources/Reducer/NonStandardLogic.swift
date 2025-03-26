@@ -58,4 +58,38 @@ enum NonStandardLogic {
             payload.player
         }
     }
+
+    /// Migrate to default Equatable conformance
+    static func areActionsEqual(_ lhs: GameAction, _ rhs: GameAction) -> Bool {
+        switch lhs.name {
+        case .queue,
+                .preparePlay,
+                .play,
+                .equip,
+                .handicap,
+                .stealHand,
+                .stealInPlay,
+                .passInPlay,
+                .choose:
+            guard
+                lhs.payload.player == rhs.payload.player,
+                lhs.payload.played == rhs.payload.played
+            else {
+                return false
+            }
+
+        default:
+            break
+        }
+
+        return lhs.name == rhs.name
+        && lhs.selectors == rhs.selectors
+        && lhs.payload.target == rhs.payload.target
+        && lhs.payload.card == rhs.payload.card
+        && lhs.payload.amount == rhs.payload.amount
+        && lhs.payload.selection == rhs.payload.selection
+        && lhs.payload.children == rhs.payload.children
+        && lhs.payload.cards == rhs.payload.cards
+        && lhs.payload.amountPerCard == rhs.payload.amountPerCard
+    }
 }
