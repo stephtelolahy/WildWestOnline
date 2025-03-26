@@ -97,7 +97,7 @@ struct AnimationMatcher {
                 .moveCard(
                     .hidden,
                     from: .deck,
-                    to: .deck
+                    to: .discovered
                 )
 
         default:
@@ -108,16 +108,4 @@ struct AnimationMatcher {
 
 enum BoardAnimation: Equatable {
     case moveCard(CardContent, from: ViewPosition, to: ViewPosition)
-}
-
-enum ViewPosition: Hashable {
-    case deck
-    case discard
-    case playerHand(String)
-    case playerInPlay(String)
-}
-
-enum CardContent: Equatable {
-    case id(String)
-    case hidden
 }
