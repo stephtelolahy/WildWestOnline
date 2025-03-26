@@ -59,7 +59,7 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.stealInPlay(.schofield, target: "p1", player: "p2", source: "c0")
+        let action = GameAction.stealInPlay(.schofield, target: "p1", player: "p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

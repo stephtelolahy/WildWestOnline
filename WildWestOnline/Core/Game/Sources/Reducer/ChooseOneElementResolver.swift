@@ -82,9 +82,7 @@ private extension Card.Selector.ChooseOneElement {
         }
 
         func resolveSelection(_ selection: String, state: GameState, pendingAction: GameAction) throws(GameError) -> [GameAction] {
-            var pendingAction = pendingAction
-            NonStandardLogic.resolveCardSelection(selection, state: state, pendingAction: &pendingAction)
-            return [pendingAction.withCard(selection)]
+            [pendingAction.withCard(selection)]
         }
     }
 

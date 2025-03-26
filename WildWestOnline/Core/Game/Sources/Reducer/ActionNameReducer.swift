@@ -166,12 +166,14 @@ private extension GameAction.Name {
             if let cardObj = state.cards[cardName] {
                 let effects = cardObj.onPlay
                     .map {
-                        $0.copy(
+                        var effect = $0.copy(
                             withPlayer: payload.player,
                             played: payload.played,
                             target: payload.target,
                             card: payload.card
                         )
+                        NonStandardLogic.validatePendingAction(&effect, state: state)
+                        return effect
                     }
                 state.queue.insert(contentsOf: effects, at: 0)
             }

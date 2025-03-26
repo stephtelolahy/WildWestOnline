@@ -6,12 +6,12 @@
 //
 
 public extension GameAction {
-    static func preparePlay(_ card: String, player: String) -> Self {
+    static func preparePlay(_ played: String, player: String) -> Self {
         .init(
             name: .preparePlay,
             payload: .init(
                 player: player,
-                played: card
+                played: played
             )
         )
     }
@@ -121,7 +121,7 @@ public extension GameAction {
         )
     }
 
-    static func stealHand(_ card: String, target: String, player: String, source: String) -> Self {
+    static func stealHand(_ card: String, target: String, player: String, source: String = "") -> Self {
         .init(
             name: .stealHand,
             payload: .init(
@@ -133,7 +133,7 @@ public extension GameAction {
         )
     }
 
-    static func stealInPlay(_ card: String, target: String, player: String, source: String) -> Self {
+    static func stealInPlay(_ card: String, target: String, player: String, source: String = "") -> Self {
         .init(
             name: .stealInPlay,
             payload: .init(
@@ -145,7 +145,7 @@ public extension GameAction {
         )
     }
 
-    static func passInPlay(_ card: String, target: String, player: String, source: String) -> Self {
+    static func passInPlay(_ card: String, target: String, player: String, source: String = "") -> Self {
         .init(
             name: .passInPlay,
             payload: .init(
@@ -235,33 +235,34 @@ public extension GameAction {
         )
     }
 
-    static func play(_ card: String, player: String, target: String? = nil) -> Self {
+    static func play(_ played: String, player: String, target: String? = nil, card: String? = nil) -> Self {
         .init(
             name: .play,
             payload: .init(
                 player: player,
-                played: card,
-                target: target
+                played: played,
+                target: target,
+                card: card
             )
         )
     }
 
-    static func equip(_ card: String, player: String) -> Self {
+    static func equip(_ played: String, player: String) -> Self {
         .init(
             name: .equip,
             payload: .init(
                 player: player,
-                played: card
+                played: played
             )
         )
     }
 
-    static func handicap(_ card: String, target: String, player: String) -> Self {
+    static func handicap(_ played: String, target: String, player: String) -> Self {
         .init(
             name: .handicap,
             payload: .init(
                 player: player,
-                played: card,
+                played: played,
                 target: target
             )
         )

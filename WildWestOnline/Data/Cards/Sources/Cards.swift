@@ -272,13 +272,17 @@ private extension Cards {
             name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
             onPreparePlay: [
-                .play,
                 .init(
-                    name: .discard,
+                    name: .play,
                     selectors: [
                         .chooseOne(.target([.havingCard])),
                         .chooseOne(.card())
                     ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .discard
                 )
             ]
         )
@@ -289,13 +293,17 @@ private extension Cards {
             name: .panic,
             desc: "Draw a card from a player at distance 1",
             onPreparePlay: [
-                .play,
                 .init(
-                    name: .steal,
+                    name: .play,
                     selectors: [
                         .chooseOne(.target([.atDistance(1), .havingCard])),
                         .chooseOne(.card())
                     ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .steal
                 )
             ]
         )

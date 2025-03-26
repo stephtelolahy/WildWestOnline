@@ -7,30 +7,31 @@
 
 enum NonStandardLogic {
     /// Convert action.name to child action
-    static func resolveCardSelection(
-        _ selection: String,
-        state: GameState,
-        pendingAction: inout GameAction
+    static func  validatePendingAction(
+        _ pendingAction: inout GameAction,
+        state: GameState
     ) {
         if pendingAction.name == .discard {
+            let card = pendingAction.payload.card!
             let targetObj = state.players.get(pendingAction.payload.target!)
-            if targetObj.hand.contains(selection) {
+            if targetObj.hand.contains(card) {
                 pendingAction.name = .discardHand
-            } else if targetObj.inPlay.contains(selection) {
+            } else if targetObj.inPlay.contains(card) {
                 pendingAction.name = .discardInPlay
             } else {
-                fatalError("Unowned card \(selection)")
+                fatalError("Unowned card \(card)")
             }
         }
 
         if pendingAction.name == .steal {
+            let card = pendingAction.payload.card!
             let targetObj = state.players.get(pendingAction.payload.target!)
-            if targetObj.hand.contains(selection) {
+            if targetObj.hand.contains(card) {
                 pendingAction.name = .stealHand
-            } else if targetObj.inPlay.contains(selection) {
+            } else if targetObj.inPlay.contains(card) {
                 pendingAction.name = .stealInPlay
             } else {
-                fatalError("Unowned card \(selection)")
+                fatalError("Unowned card \(card)")
             }
         }
     }
