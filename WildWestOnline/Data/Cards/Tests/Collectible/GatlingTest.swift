@@ -20,16 +20,15 @@ struct GatlingTest {
             .build()
 
         // When
-        let action = GameAction.play(.gatling, player: "p1")
+        let action = GameAction.preparePlay(.gatling, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
             .play(.gatling, player: "p1"),
-            .discardPlayed(.gatling, player: "p1"),
-            .shoot("p2", player: "p1"),
+            .shoot("p2"),
             .damage(1, player: "p2"),
-            .shoot("p3", player: "p1"),
+            .shoot("p3"),
             .damage(1, player: "p3")
         ])
     }
@@ -44,14 +43,13 @@ struct GatlingTest {
             .build()
 
         // When
-        let action = GameAction.play(.gatling, player: "p1")
+        let action = GameAction.preparePlay(.gatling, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
             .play(.gatling, player: "p1"),
-            .discardPlayed(.gatling, player: "p1"),
-            .shoot("p2", player: "p1"),
+            .shoot("p2"),
             .damage(1, player: "p2")
         ])
     }

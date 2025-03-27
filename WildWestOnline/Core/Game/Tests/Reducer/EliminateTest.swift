@@ -31,8 +31,8 @@ struct EliminateTest {
             .withQueue(
                 [
                     .init(
-                        kind: .drawDeck,
-                        payload: .init(actor: "p1")
+                        name: .drawDeck,
+                        payload: .init(player: "p1", played: "")
                     )
                 ]
             )

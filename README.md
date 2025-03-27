@@ -5,10 +5,9 @@
 **Prototyping a game engine for the [Bang!](<https://en.wikipedia.org/wiki/Bang!_(card_game)>) card game**
 
 **Trading card games**: a form of competitive activity played according to rules. It is turn based, cards have properties and have rules.
-Currently, there is no good way to prototype trading card games and then be able to test the workings and the implications of rules in these games. 
+Currently, there is no effective way to prototype trading card games and then be able to test the workings and the implications of rules in these games. 
 
-**DSL**: Domain Specific Languages are computer languages designed for a specific domain. 
-Since DSLs result in programs that are smaller and easier to understand, they allow even non-programmers to read, write and understand the language.
+**Defining Cards with DSL**: Domain-Specific Languages (DSLs) are specialized computer languages tailored for a specific domain. They produce concise and intuitive programs, making it easier for both programmers and non-programmers to read, write, and understand the language.
 
 ### Key Features
 
@@ -34,19 +33,17 @@ graph TD;
     GAME(Game) --> PLAYER(Player);
     GAME --> CARD(Card);
     GAME --> QUEUE(Queue);
-    QUEUE --> ACTION(Action);
-    ACTION --> ACTIONTYPE(ActionType);
+    CARD --> ACTION(Effect/Action);
+    QUEUE --> ACTION;
+    ACTION --> ACTIONTYPE(Type);
     ACTION --> PAYLOAD(Payload);
-    CARD --> PLAYREQ(PayReq);
-    CARD --> EFFECT(Effect);
-    EFFECT --> SELECTOR(Selector);
-    EFFECT --> ACTIONTYPE;
+    ACTION --> SELECTOR(Selector);
 ```
 
 ### Event solving
 
 - The process of resolving an event is similar to a depth-first search using a graph 
-- Some effects may be blocked waiting user input. Then options are displayed through state
+- Some effects may be blocked while waiting for user input. Then options are displayed through state.
 
 ```mermaid
 graph TD;
@@ -62,14 +59,14 @@ graph TD;
 
 ### Modular Architecture
 
-The project is composed of SwiftPackage products with the following structure. 
-- All features are implemented in self-contained module Core
-- UI and Data layers depend on Core
+The project consists of Swift Package products with the following structure.
+- All features are implemented in self-contained Domain module `Core`
+- `UI` and `Data` layers depend on `Core`
 
 ```mermaid
-graph TD;
-    APP(App) --> UI(Presentation);
-    APP --> DATA(Data Access);
+ graph TD;
+    APP(App) --> UI(UI);
+    APP --> DATA(Data);
     UI --> UILIBRARY(Library)
     UI --> CORE(Core);
     DATA --> CORE;
@@ -85,19 +82,19 @@ Redux architecture is meant to protect changes in an application’s state. It f
 - New state can be set only by dispatching an action to store.
 - New state can be calculated only by reducer which is a pure function.
 - Store notifies subscribers by broadcasting a new state.
-- Each side-effect is implemented as asynchronous action.
+- Each side-effect is implemented as an asynchronous action.
 
 ```mermaid
 graph TD;
   subgraph Main thread
-    VIEW --> ACTION
-    ACTION --> REDUCER
-    REDUCER --> STATE
-    STATE --> VIEW
+    View --> Action
+    Action --> Reducer
+    Reducer --> State
+    State --> View
   end
   subgraph Background thread
-    REDUCER --> EFFECT
-    EFFECT --> ACTION
+    Reducer --> Effect
+    Effect --> Action
   end
 ```
 
@@ -108,7 +105,7 @@ However, we can "derive" this store to small subsets, called store projections, 
 ```mermaid
 flowchart TD
 APP[App] --> APPSTORE(Store)
-APP --> |composition| VIEW(View)
+APP --> |compose| VIEW(View)
 VIEW --> |observe| STOREPROJECTION(StoreProjection)
 STOREPROJECTION --> |derive| APPSTORE
 ```
@@ -122,9 +119,9 @@ sequenceDiagram
     User->>UI: event
     UI->>Engine: action
     Engine->>State: update
-    State-->>UI: onChange
-    State-->>AI: onChange
+    State-->>UI: notify
+    State-->>AI: notify
     AI->>Engine: action
     Engine->>State: update
-    State-->>UI: onChange
+    State-->>UI: notify
 ```

@@ -108,8 +108,8 @@ private extension Setup {
 }
 
 private extension Card {
-    func amountOfActiveEffect(named action: GameAction.Kind) -> Int? {
-        guard let effect = onActive.first(where: { $0.action == action }),
+    func amountOfActiveEffect(named action: GameAction.Name) -> Int? {
+        guard let effect = onActive.first(where: { $0.name == action }),
               let selector = effect.selectors.first,
               case .setAmount(let value) = selector else {
             return nil
@@ -119,7 +119,7 @@ private extension Card {
     }
 
     var playlimitPerTurn: [String: Int] {
-        guard let effect = onActive.first(where: { $0.action == .setPlayLimitPerTurn }),
+        guard let effect = onActive.first(where: { $0.name == .setPlayLimitPerTurn }),
               let selector = effect.selectors.first,
               case .setAmountPerCard(let value) = selector else {
             return [:]

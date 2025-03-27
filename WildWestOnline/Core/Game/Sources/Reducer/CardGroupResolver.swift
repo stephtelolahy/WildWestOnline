@@ -27,25 +27,25 @@ private extension Card.Selector.CardGroup {
 
     struct AllInPlay: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
-            state.players.get(ctx.target).inPlay
+            state.players.get(ctx.target!).inPlay
         }
     }
 
     struct AllHand: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
-            state.players.get(ctx.target).hand
+            state.players.get(ctx.target!).hand
         }
     }
 
     struct Played: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
-            [ctx.source]
+            [ctx.played]
         }
     }
 
     struct EquipedWeapon: Resolver {
         func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
-            state.players.get(ctx.target).inPlay.filter { state.isWeapon($0) }
+            state.players.get(ctx.target!).inPlay.filter { state.isWeapon($0) }
         }
     }
 }
@@ -54,6 +54,6 @@ private extension GameState {
     func isWeapon(_ card: String) -> Bool {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        return cardObj.onActive.contains { $0.action == .setWeapon }
+        return cardObj.onActive.contains { $0.name == .setWeapon }
     }
 }

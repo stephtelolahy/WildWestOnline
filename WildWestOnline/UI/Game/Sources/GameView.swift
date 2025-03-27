@@ -11,6 +11,19 @@ import Redux
 import AppCore
 import GameCore
 
+enum ViewPosition: Hashable {
+    case deck
+    case discard
+    case discovered
+    case playerHand(String)
+    case playerInPlay(String)
+}
+
+enum CardContent: Equatable {
+    case id(String)
+    case hidden
+}
+
 public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<State, Void>
@@ -102,7 +115,7 @@ private extension GameView {
                         Button(action: {
                             guard item.active else { return }
                             Task {
-                                await store.dispatch(GameAction.play(item.card, player: player))
+                                await store.dispatch(GameAction.preparePlay(item.card, player: player))
                             }
                         }) {
                             CardView(content: .id(item.card), format: .large, active: item.active)
@@ -174,6 +187,7 @@ private extension GameView {
         var positions: [ViewPosition: CGPoint] = [:]
         positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y:0))
         positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y:0))
+        positions[.discovered] = center.applying(CGAffineTransform(translationX: 0, y:-100))
 
         for (i, player) in players.enumerated() {
             let angle = (2 * .pi / CGFloat(players.count)) * CGFloat(i) + (.pi / 2)

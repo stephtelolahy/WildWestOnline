@@ -18,12 +18,11 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.play(.schofield, player: "p1")
+        let action = GameAction.preparePlay(.schofield, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.schofield, player: "p1"),
             .equip(.schofield, player: "p1"),
             .setWeapon(2, player: "p1")
         ])
@@ -65,7 +64,7 @@ struct SchofieldTest {
 
         // Then
         #expect(result == [
-            .stealInPlay(.schofield, target: "p1", player: "p2"),
+            action,
             .setWeapon(1, player: "p1")
         ])
     }
@@ -81,12 +80,11 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.play(.schofield, player: "p1")
+        let action = GameAction.preparePlay(.schofield, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.schofield, player: "p1"),
             .discardInPlay(.remington, player: "p1"),
             .setWeapon(1, player: "p1"),
             .equip(.schofield, player: "p1"),

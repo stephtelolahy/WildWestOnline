@@ -23,10 +23,10 @@ public struct SettingsCoordinator: View {
                 }
                 // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
                 .onReceive(store.$state) { state in
-                    path = state.navigation.settings.path
+                    path = state.navigation.settingsStack.path
                 }
                 .onChange(of: path) { _, newPath in
-                    guard newPath != store.state.navigation.settings.path else { return }
+                    guard newPath != store.state.navigation.settingsStack.path else { return }
                     Task {
                         await store.dispatch(NavigationStackAction<SettingsDestination>.setPath(newPath))
                     }

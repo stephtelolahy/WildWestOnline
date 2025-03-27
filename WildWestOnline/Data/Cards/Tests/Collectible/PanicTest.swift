@@ -21,7 +21,7 @@ struct PanicTest {
             .build()
 
         // When
-        let action = GameAction.play(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
@@ -30,11 +30,10 @@ struct PanicTest {
 
         // Then
         #expect(result == [
-            .play(.panic, player: "p1"),
-            .discardPlayed(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("hiddenHand-0", player: "p1"),
-            .stealHand("c21", target: "p2", player: "p1")
+            .play(.panic, player: "p1", target: "p2", card: "c21"),
+            .stealHand("c21", target: "p2", player: "p1", source: .panic)
         ])
     }
 
@@ -51,7 +50,7 @@ struct PanicTest {
             .build()
 
         // When
-        let action = GameAction.play(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c21", "c22"], selectionIndex: 1)
@@ -60,11 +59,10 @@ struct PanicTest {
 
         // Then
         #expect(result == [
-            .play(.panic, player: "p1"),
-            .discardPlayed(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c22", player: "p1"),
-            .stealInPlay("c22", target: "p2", player: "p1")
+            .play(.panic, player: "p1", target: "p2", card: "c22"),
+            .stealInPlay("c22", target: "p2", player: "p1", source: .panic)
         ])
     }
 
@@ -82,7 +80,7 @@ struct PanicTest {
             .build()
 
         // When
-        let action = GameAction.play(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c22", "c23", "hiddenHand-0"], selectionIndex: 1)
@@ -91,11 +89,10 @@ struct PanicTest {
 
         // Then
         #expect(result == [
-            .play(.panic, player: "p1"),
-            .discardPlayed(.panic, player: "p1"),
             .choose("p2", player: "p1"),
             .choose("c23", player: "p1"),
-            .stealInPlay("c23", target: "p2", player: "p1")
+            .play(.panic, player: "p1", target: "p2", card: "c23"),
+            .stealInPlay("c23", target: "p2", player: "p1", source: .panic)
         ])
     }
 
@@ -109,7 +106,7 @@ struct PanicTest {
 
         // When
         // Then
-        let action = GameAction.play(.panic, player: "p1")
+        let action = GameAction.preparePlay(.panic, player: "p1")
         await #expect(throws: GameError.noChoosableTarget([.atDistance(1), .havingCard])) {
             try await dispatchUntilCompleted(action, state: state)
         }

@@ -32,17 +32,17 @@ public struct MainCoordinator: View {
             }
             // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
             .onReceive(store.$state) { state in
-                path = state.navigation.main.path
-                sheet = state.navigation.main.sheet
+                path = state.navigation.mainStack.path
+                sheet = state.navigation.mainStack.sheet
             }
             .onChange(of: path) { _, newPath in
-                guard newPath != store.state.navigation.main.path else { return }
+                guard newPath != store.state.navigation.mainStack.path else { return }
                 Task {
                     await store.dispatch(NavigationStackAction<MainDestination>.setPath(newPath))
                 }
             }
             .onChange(of: sheet) { _, newSheet in
-                guard newSheet != store.state.navigation.main.sheet else { return }
+                guard newSheet != store.state.navigation.mainStack.sheet else { return }
                 Task {
                     if let newSheet {
                         await store.dispatch(NavigationStackAction<MainDestination>.present(newSheet))

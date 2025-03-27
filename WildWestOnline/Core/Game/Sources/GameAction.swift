@@ -6,20 +6,28 @@
 import Redux
 
 public struct GameAction: Action, Equatable, Codable {
-    public var kind: Kind
+    public var name: Name
     public var payload: Payload
+    public var selectors: [Card.Selector]
 
-    public enum Kind: String, Codable, Sendable {
+    public enum Name: String, Codable, Sendable {
+        case preparePlay
         case play
+        case equip
+        case handicap
         case draw
+        case discover
         case drawDeck
         case drawDiscard
         case drawDiscovered
-        case discover
-        case discardHand
-        case discardInPlay
+        @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
+        case steal
         case stealHand
         case stealInPlay
+        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
+        case discard
+        case discardHand
+        case discardInPlay
         case passInPlay
         case heal
         case damage
@@ -30,65 +38,103 @@ public struct GameAction: Action, Equatable, Codable {
         case eliminate
         case endGame
         case activate
-        case setWeapon
         case choose
-        case discardPlayed
-        case equip
-        case handicap
-        case setMaxHealth
         case increaseMagnifying
         case increaseRemoteness
+        case setWeapon
+        case setMaxHealth
         case setHandLimit
         case setPlayLimitPerTurn
         case setDrawCards
-
-        @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
-        case discard
-        @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
-        case steal
         case queue
     }
 
     public struct Payload: Equatable, Codable, Sendable {
-        @UncheckedEquatable public var actor: String
-        @UncheckedEquatable var source: String
-        public var target: String
+        public let player: String
+        public let played: String
+        public var target: String?
         public var card: String?
         public var amount: Int?
         public var selection: String?
-        public var selectors: [Card.Selector]
-        public var children: [GameAction]
-        public var cards: [String]
-        public var amountPerCard: [String: Int]
+        public var children: [GameAction]?
+        public var cards: [String]?
+        public var amountPerCard: [String: Int]?
 
         public init(
-            actor: String = "",
-            source: String = "",
-            target: String = "",
+            player: String,
+            played: String,
+            target: String? = nil,
             card: String? = nil,
             amount: Int? = nil,
             selection: String? = nil,
-            selectors: [Card.Selector] = [],
-            children: [GameAction] = [],
-            cards: [String] = [],
-            amountPerCard: [String: Int] = [:]
+            children: [GameAction]? = nil,
+            cards: [String]? = nil,
+            amountPerCard: [String: Int]? = nil
         ) {
-            self.actor = actor
-            self.source = source
+            self.player = player
+            self.played = played
             self.target = target
             self.card = card
             self.amount = amount
             self.selection = selection
-            self.selectors = selectors
             self.children = children
             self.cards = cards
             self.amountPerCard = amountPerCard
         }
     }
+
+    public init(
+        name: Name,
+        payload: Payload = .init(player: "", played: ""),
+        selectors: [Card.Selector] = []
+    ) {
+        self.name = name
+        self.selectors = selectors
+        self.payload = payload
+    }
+
+    public func copy(
+        withPlayer player: String? = nil,
+        played: String? = nil,
+        target: String? = nil,
+        card: String? = nil,
+        amount: Int? = nil,
+        selectors: [Card.Selector]? = nil
+    ) -> Self {
+        .init(
+            name: name,
+            payload: .init(
+                player: player ?? payload.player,
+                played: played ?? payload.played,
+                target: target ?? payload.target,
+                card: card ?? payload.card,
+                amount: amount ?? payload.amount,
+                selection: payload.selection,
+                children: payload.children,
+                cards: payload.cards,
+                amountPerCard: payload.amountPerCard
+            ),
+            selectors: selectors ?? self.selectors
+        )
+    }
+
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        NonStandardLogic.areActionsEqual(lhs, rhs)
+    }
 }
 
 public extension GameAction {
     var isRenderable: Bool {
-        kind != .queue && payload.selectors.isEmpty
+        guard selectors.isEmpty else {
+            return false
+        }
+
+        switch name {
+        case .queue, .preparePlay:
+            return false
+
+        default:
+            return true
+        }
     }
 }

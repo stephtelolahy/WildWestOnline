@@ -8,29 +8,29 @@
 extension GameAction: CustomStringConvertible {
     public var description: String {
         [
-            payload.selectors.isNotEmpty ? ".." : nil,
-            kind.emoji,
+            selectors.isNotEmpty ? ".." : nil,
+            name.emoji,
             payload.target,
             payload.card,
             payload.selection,
             payload.amount != nil ? "x\(payload.amount ?? 1)" : nil,
-            payload.cards.isNotEmpty ? payload.cards.joined(separator: ", ") : nil,
-            payload.source.isNotEmpty ? "<< \(payload.source):\(payload.actor)" : nil
+            payload.cards?.isNotEmpty == true ? (payload.cards ?? []).joined(separator: ", ") : nil,
+            payload.played.isNotEmpty ? "<< \(payload.played):\(payload.player)" : nil
         ]
             .compactMap { $0 }
             .joined(separator: " ")
     }
 }
 
-private extension GameAction.Kind {
+private extension GameAction.Name {
     var emoji: String {
         Self.dict[self] ?? "⚠️\(rawValue)"
     }
 
-    static let dict: [GameAction.Kind: String] = [
+    static let dict: [GameAction.Name: String] = [
         .activate: "🟢",
-        .play: "⚪️",
-        .discardPlayed: "🟠",
+        .preparePlay: "⚪️",
+        .play: "🟠",
         .equip: "🔵",
         .handicap: "⚫️",
         .heal: "❤️",

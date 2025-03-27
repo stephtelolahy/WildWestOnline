@@ -13,9 +13,9 @@ struct AnimationMatcherTest {
 
     private let sut = AnimationMatcher()
 
-    @Test func animateDiscardPlayed() async throws {
+    @Test func animatePlay() async throws {
         // Given
-        let event = GameAction.discardPlayed("c1", player: "p1")
+        let event = GameAction.play("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -59,7 +59,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDraw() async throws {
         // Given
-        let event = GameAction.draw(player: "p1")
+        let event = GameAction.draw()
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -149,13 +149,13 @@ struct AnimationMatcherTest {
 
     @Test func animateDiscover() async throws {
         // Given
-        let event = GameAction.discover(player: "p1")
+        let event = GameAction.discover()
 
         // When
         let animation = try #require(sut.animation(on: event))
 
         // Then
         // TODO: card id = last discovered
-        #expect(animation == .moveCard(.hidden, from: .deck, to: .deck))
+        #expect(animation == .moveCard(.hidden, from: .deck, to: .discovered))
     }
 }

@@ -18,12 +18,11 @@ struct RemingtonTest {
             .build()
 
         // When
-        let action = GameAction.play(.remington, player: "p1")
+        let action = GameAction.preparePlay(.remington, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.remington, player: "p1"),
             .equip(.remington, player: "p1"),
             .setWeapon(3, player: "p1")
         ])

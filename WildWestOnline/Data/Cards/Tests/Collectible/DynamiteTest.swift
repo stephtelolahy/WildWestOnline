@@ -18,12 +18,11 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.play(.dynamite, player: "p1")
+        let action = GameAction.preparePlay(.dynamite, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.dynamite, player: "p1"),
             .equip(.dynamite, player: "p1")
         ])
     }
@@ -48,8 +47,8 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
-            .passInPlay(.dynamite, target: "p2", player: "p1"),
+            .draw(),
+            .passInPlay(.dynamite, target: "p2", player: "p1", source: .dynamite),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])
@@ -75,7 +74,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .damage(3, player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),
             .drawDeck(player: "p1"),
@@ -112,7 +111,7 @@ struct DynamiteTest {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .draw(player: "p1"),
+            .draw(),
             .damage(3, player: "p1"),
             .eliminate(player: "p1"),
             .discardInPlay(.dynamite, player: "p1"),

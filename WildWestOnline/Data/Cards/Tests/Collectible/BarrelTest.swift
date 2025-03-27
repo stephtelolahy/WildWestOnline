@@ -18,12 +18,11 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.play(.barrel, player: "p1")
+        let action = GameAction.preparePlay(.barrel, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .play(.barrel, player: "p1"),
             .equip(.barrel, player: "p1")
         ])
     }
@@ -40,13 +39,13 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2", player: "p1"),
-            .draw(player: "p2"),
+            .shoot("p2"),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }
@@ -63,13 +62,13 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2", player: "p1"),
-            .draw(player: "p2"),
+            .shoot("p2"),
+            .draw(),
             .damage(1, player: "p2")
         ])
     }
@@ -86,14 +85,14 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2", player: "p1"),
-            .draw(player: "p2"),
-            .draw(player: "p2"),
+            .shoot("p2"),
+            .draw(),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }
@@ -110,14 +109,14 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2", player: "p1"),
-            .draw(player: "p2"),
-            .draw(player: "p2"),
+            .shoot("p2"),
+            .draw(),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }
@@ -134,14 +133,14 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2", player: "p1"),
-            .draw(player: "p2"),
-            .draw(player: "p2"),
+            .shoot("p2"),
+            .draw(),
+            .draw(),
             .damage(1, player: "p2")
         ])
     }
@@ -159,13 +158,13 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
         #expect(result == [
-            .shoot("p2", player: "p1"),
-            .draw(player: "p2"),
+            .shoot("p2"),
+            .draw(),
             .counterShoot(player: "p2")
         ])
     }

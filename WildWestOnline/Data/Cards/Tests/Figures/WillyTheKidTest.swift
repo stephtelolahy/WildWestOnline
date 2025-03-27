@@ -39,7 +39,7 @@ struct WillyTheKidTest {
             .build()
 
         // When
-        let action = GameAction.play(.bang, player: "p1")
+        let action = GameAction.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0)
         ]
@@ -47,10 +47,9 @@ struct WillyTheKidTest {
 
         // Then
         #expect(result == [
-            .play(.bang, player: "p1"),
-            .discardPlayed(.bang, player: "p1"),
             .choose("p2", player: "p1"),
-            .shoot("p2", player: "p1"),
+            .play(.bang, player: "p1", target: "p2"),
+            .shoot("p2"),
             .damage(1, player: "p2")
         ])
     }

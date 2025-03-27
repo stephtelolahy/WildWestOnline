@@ -56,10 +56,10 @@ private extension Cards {
     static var defaultEndTurn: Card {
         .init(
             name: .defaultEndTurn,
-            desc: "TODO",
-            onPlay: [
+            desc: "End turn",
+            onPreparePlay: [
                 .init(
-                    action: .endTurn
+                    name: .endTurn
                 )
             ]
         )
@@ -69,12 +69,12 @@ private extension Cards {
         .init(
             name: .defaultDiscardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            shouldTrigger: [
-                .init(actionKind: .endTurn)
+            canTrigger: [
+                .init(actionName: .endTurn)
             ],
             onTrigger: [
                 .init(
-                    action: .discardHand,
+                    name: .discardHand,
                     selectors: [
                         .repeat(.excessHand),
                         .chooseOne(.card([.fromHand]))
@@ -87,13 +87,13 @@ private extension Cards {
     static var defaultStartTurnNextOnTurnEnded: Card {
         .init(
             name: .defaultStartTurnNextOnTurnEnded,
-            desc: "TODO",
-            shouldTrigger: [
-                .init(actionKind: .endTurn)
+            desc: "Start next player's turn",
+            canTrigger: [
+                .init(actionName: .endTurn)
             ],
             onTrigger: [
                 .init(
-                    action: .startTurn,
+                    name: .startTurn,
                     selectors: [
                         .setTarget(.next)
                     ]
@@ -106,12 +106,12 @@ private extension Cards {
         .init(
             name: .defaultDraw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
-            shouldTrigger: [
-                .init(actionKind: .startTurn)
+            canTrigger: [
+                .init(actionName: .startTurn)
             ],
             onTrigger: [
                 .init(
-                    action: .drawDeck,
+                    name: .drawDeck,
                     selectors: [
                         .repeat(.value(2))
                     ]
@@ -124,14 +124,14 @@ private extension Cards {
         .init(
             name: .defaultEliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
-            shouldTrigger: [
+            canTrigger: [
                 .init(
-                    actionKind: .damage,
+                    actionName: .damage,
                     stateReqs: [.healthZero]
                 )
             ],
             onTrigger: [
-                .init(action: .eliminate)
+                .init(name: .eliminate)
             ]
         )
     }
@@ -139,15 +139,15 @@ private extension Cards {
     static var defaultEndGameOnEliminated: Card {
         .init(
             name: .defaultEndGameOnEliminated,
-            desc: "TODO",
-            shouldTrigger: [
+            desc: "End game when last player is eliminated",
+            canTrigger: [
                 .init(
-                    actionKind: .eliminate,
+                    actionName: .eliminate,
                     stateReqs: [.gameOver]
                 )
             ],
             onTrigger: [
-                .init(action: .endGame)
+                .init(name: .endGame)
             ]
         )
     }
@@ -155,19 +155,19 @@ private extension Cards {
     static var defaultDiscardAllCardsOnEliminated: Card {
         .init(
             name: .defaultDiscardAllCardsOnEliminated,
-            desc: "TODO",
-            shouldTrigger: [
-                .init(actionKind: .eliminate)
+            desc: "Discard all cards when eliminated",
+            canTrigger: [
+                .init(actionName: .eliminate)
             ],
             onTrigger: [
                 .init(
-                    action: .discardInPlay,
+                    name: .discardInPlay,
                     selectors: [
                         .setCard(.allInPlay)
                     ]
                 ),
                 .init(
-                    action: .discardHand,
+                    name: .discardHand,
                     selectors: [
                         .setCard(.allHand)
                     ]
@@ -179,16 +179,16 @@ private extension Cards {
     static var defaultEndTurnOnEliminated: Card {
         .init(
             name: .defaultEndTurnOnEliminated,
-            desc: "TODO",
-            shouldTrigger: [
+            desc: "End turn when eliminated",
+            canTrigger: [
                 .init(
-                    actionKind: .eliminate,
+                    actionName: .eliminate,
                     stateReqs: [.currentTurn]
                 )
             ],
             onTrigger: [
                 .init(
-                    action: .startTurn,
+                    name: .startTurn,
                     selectors: [
                         .setTarget(.next)
                     ]
@@ -203,10 +203,10 @@ private extension Cards {
         .init(
             name: .stagecoach,
             desc: "Draw two cards from the top of the deck.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .drawDeck,
+                    name: .drawDeck,
                     selectors: [
                         .repeat(.value(2))
                     ]
@@ -219,10 +219,10 @@ private extension Cards {
         .init(
             name: .wellsFargo,
             desc: "Draw three cards from the top of the deck.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .drawDeck,
+                    name: .drawDeck,
                     selectors: [
                         .repeat(.value(3))
                     ]
@@ -238,10 +238,10 @@ private extension Cards {
             canPlay: [
                 .playersAtLeast(3)
             ],
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .heal,
+                    name: .heal,
                     selectors: [
                         .setAmount(1)
                     ]
@@ -254,10 +254,10 @@ private extension Cards {
         .init(
             name: .saloon,
             desc: "All players in play regain one life point.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .heal,
+                    name: .heal,
                     selectors: [
                         .setAmount(1),
                         .setTarget(.damaged)
@@ -271,14 +271,18 @@ private extension Cards {
         .init(
             name: .catBalou,
             desc: "Force “any one player” to “discard a card”, regardless of the distance.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
                 .init(
-                    action: .discard,
+                    name: .play,
                     selectors: [
                         .chooseOne(.target([.havingCard])),
                         .chooseOne(.card())
                     ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .discard
                 )
             ]
         )
@@ -288,14 +292,18 @@ private extension Cards {
         .init(
             name: .panic,
             desc: "Draw a card from a player at distance 1",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
                 .init(
-                    action: .steal,
+                    name: .play,
                     selectors: [
                         .chooseOne(.target([.atDistance(1), .havingCard])),
                         .chooseOne(.card())
                     ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .steal
                 )
             ]
         )
@@ -305,16 +313,16 @@ private extension Cards {
         .init(
             name: .generalStore,
             desc: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .discover,
+                    name: .discover,
                     selectors: [
                         .repeat(.activePlayers)
                     ]
                 ),
                 .init(
-                    action: .drawDiscovered,
+                    name: .drawDiscovered,
                     selectors: [
                         .setTarget(.active),
                         .chooseOne(.discovered)
@@ -331,13 +339,17 @@ private extension Cards {
             canPlay: [
                 .playLimitPerTurn([.bang: 1])
             ],
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
                 .init(
-                    action: .shoot,
+                    name: .play,
                     selectors: [
                         .chooseOne(.target([.reachable]))
                     ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .shoot
                 )
             ]
         )
@@ -347,10 +359,10 @@ private extension Cards {
         .init(
             name: .gatling,
             desc: "shoots to all the other players, regardless of the distance",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .shoot,
+                    name: .shoot,
                     selectors: [
                         .setTarget(.others)
                     ]
@@ -371,10 +383,10 @@ private extension Cards {
         .init(
             name: .indians,
             desc: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
+                .play,
                 .init(
-                    action: .damage,
+                    name: .damage,
                     selectors: [
                         .setAmount(1),
                         .setTarget(.others),
@@ -389,13 +401,19 @@ private extension Cards {
         .init(
             name: .duel,
             desc: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-            onPlay: [
-                .discardPlayed,
+            onPreparePlay: [
                 .init(
-                    action: .damage,
+                    name: .play,
+                    selectors: [
+                        .chooseOne(.target())
+                    ]
+                )
+            ],
+            onPlay: [
+                .init(
+                    name: .damage,
                     selectors: [
                         .setAmount(1),
-                        .chooseOne(.target()),
                         .chooseOne(.eventuallyReverseCard([.named(.bang)]))
                     ]
                 )
@@ -407,13 +425,13 @@ private extension Cards {
         .init(
             name: .schofield,
             desc: "can hit targets at a distance of 2.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
             onActive: [
                 .init(
-                    action: .setWeapon,
+                    name: .setWeapon,
                     selectors: [.setAmount(2)]
                 )
             ],
@@ -425,13 +443,13 @@ private extension Cards {
         .init(
             name: .remington,
             desc: "can hit targets at a distance of 3.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
             onActive: [
                 .init(
-                    action: .setWeapon,
+                    name: .setWeapon,
                     selectors: [.setAmount(3)]
                 )
             ],
@@ -443,13 +461,13 @@ private extension Cards {
         .init(
             name: .revCarabine,
             desc: "can hit targets at a distance of 4.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
             onActive: [
                 .init(
-                    action: .setWeapon,
+                    name: .setWeapon,
                     selectors: [.setAmount(4)]
                 )
             ],
@@ -461,13 +479,13 @@ private extension Cards {
         .init(
             name: .winchester,
             desc: "can hit targets at a distance of 5.",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
             onActive: [
                 .init(
-                    action: .setWeapon,
+                    name: .setWeapon,
                     selectors: [.setAmount(5)]
                 )
             ],
@@ -479,17 +497,17 @@ private extension Cards {
         .init(
             name: .volcanic,
             desc: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            onPlay: [
+            onPreparePlay: [
                 .discardEquipedWeapon,
                 .equip
             ],
             onActive: [
                 .init(
-                    action: .setWeapon,
+                    name: .setWeapon,
                     selectors: [.setAmount(1)]
                 ),
                 .init(
-                    action: .setPlayLimitPerTurn,
+                    name: .setPlayLimitPerTurn,
                     selectors: [.setAmountPerCard([.bang: .infinity])]
                 )
             ],
@@ -501,16 +519,16 @@ private extension Cards {
         .init(
             name: .scope,
             desc: "you see all the other players at a distance decreased by 1",
-            onPlay: [.equip],
+            onPreparePlay: [.equip],
             onActive: [
                 .init(
-                    action: .increaseMagnifying,
+                    name: .increaseMagnifying,
                     selectors: [.setAmount(1)]
                 )
             ],
             onDeactive: [
                 .init(
-                    action: .increaseMagnifying,
+                    name: .increaseMagnifying,
                     selectors: [.setAmount(-1)]
                 )
             ]
@@ -521,16 +539,16 @@ private extension Cards {
         .init(
             name: .mustang,
             desc: "the distance between other players and you is increased by 1",
-            onPlay: [.equip],
+            onPreparePlay: [.equip],
             onActive: [
                 .init(
-                    action: .increaseRemoteness,
+                    name: .increaseRemoteness,
                     selectors: [.setAmount(1)]
                 )
             ],
             onDeactive: [
                 .init(
-                    action: .increaseRemoteness,
+                    name: .increaseRemoteness,
                     selectors: [.setAmount(-1)]
                 )
             ]
@@ -541,19 +559,19 @@ private extension Cards {
         .init(
             name: .barrel,
             desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-            onPlay: [.equip],
-            shouldTrigger: [
-                .init(actionKind: .shoot)
+            onPreparePlay: [.equip],
+            canTrigger: [
+                .init(actionName: .shoot)
             ],
             onTrigger: [
                 .init(
-                    action: .draw,
+                    name: .draw,
                     selectors: [
                         .repeat(.drawCards)
                     ]
                 ),
                 .init(
-                    action: .counterShot,
+                    name: .counterShot,
                     selectors: [
                         .verify(.drawMatching(.regexHearts))
                     ]
@@ -566,31 +584,31 @@ private extension Cards {
         .init(
             name: .dynamite,
             desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            onPlay: [.equip],
-            shouldTrigger: [
-                .init(actionKind: .startTurn)
+            onPreparePlay: [.equip],
+            canTrigger: [
+                .init(actionName: .startTurn)
             ],
             onTrigger: [
                 .init(
-                    action: .draw,
+                    name: .draw,
                     selectors: [
                         .repeat(.drawCards)
                     ]
                 ),
-                .init(action: .passInPlay, selectors: [
+                .init(name: .passInPlay, selectors: [
                     .verify(.drawMatching(.regexPassDynamite)),
                     .setCard(.played),
                     .setTarget(.next)
                 ]),
                 .init(
-                    action: .damage,
+                    name: .damage,
                     selectors: [
                         .verify(.drawNotMatching(.regexPassDynamite)),
                         .setAmount(3)
                     ]
                 ),
                 .init(
-                    action: .discardInPlay,
+                    name: .discardInPlay,
                     selectors: [
                         .verify(.drawNotMatching(.regexPassDynamite)),
                         .setCard(.played)
@@ -604,33 +622,32 @@ private extension Cards {
         .init(
             name: .jail,
             desc: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-            onPlay: [
+            onPreparePlay: [
                 .init(
-                    action: .handicap,
+                    name: .handicap,
                     selectors: [
-                        .chooseOne(.target()),
-                        .setCard(.played)
+                        .chooseOne(.target())
                     ]
                 )
             ],
-            shouldTrigger: [
-                .init(actionKind: .startTurn)
+            canTrigger: [
+                .init(actionName: .startTurn)
             ],
             onTrigger: [
                 .init(
-                    action: .draw,
+                    name: .draw,
                     selectors: [
                         .repeat(.drawCards)
                     ]
                 ),
                 .init(
-                    action: .endTurn,
+                    name: .endTurn,
                     selectors: [
                         .verify(.drawNotMatching(.regexHearts))
                     ]
                 ),
                 .init(
-                    action: .discardInPlay,
+                    name: .discardInPlay,
                     selectors: [
                         .setCard(.played)
                     ]
@@ -644,8 +661,8 @@ private extension Cards {
             name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
             onActive: [
-                .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                .init(action: .setPlayLimitPerTurn, selectors: [.setAmountPerCard([.bang: .infinity])])
+                .init(name: .setMaxHealth, selectors: [.setAmount(4)]),
+                .init(name: .setPlayLimitPerTurn, selectors: [.setAmountPerCard([.bang: .infinity])])
             ]
         )
     }
@@ -655,8 +672,8 @@ private extension Cards {
             name: .roseDoolan,
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
             onActive: [
-                .init(action: .setMaxHealth, selectors: [.setAmount(4)]),
-                .init(action: .increaseMagnifying, selectors: [.setAmount(1)])
+                .init(name: .setMaxHealth, selectors: [.setAmount(4)]),
+                .init(name: .increaseMagnifying, selectors: [.setAmount(1)])
             ]
         )
     }
@@ -666,44 +683,38 @@ private extension Cards {
             name: .paulRegret,
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             onActive: [
-                .init(action: .setMaxHealth, selectors: [.setAmount(3)]),
-                .init(action: .increaseRemoteness, selectors: [.setAmount(1)])
+                .init(name: .setMaxHealth, selectors: [.setAmount(3)]),
+                .init(name: .increaseRemoteness, selectors: [.setAmount(1)])
             ]
         )
     }
 }
 
-private extension Card.Effect {
-    static var discardPlayed: Card.Effect {
+private extension GameAction {
+    static var play: Self {
         .init(
-            action: .discardPlayed,
-            selectors: [
-                .setCard(.played)
-            ]
+            name: .play
         )
     }
 
-    static var equip: Card.Effect {
+    static var equip: Self {
         .init(
-            action: .equip,
-            selectors: [
-                .setCard(.played)
-            ]
+            name: .equip
         )
     }
 
-    static var resetWeapon: Card.Effect {
+    static var resetWeapon: Self {
         .init(
-            action: .setWeapon,
+            name: .setWeapon,
             selectors: [
                 .setAmount(1)
             ]
         )
     }
 
-    static var discardEquipedWeapon: Card.Effect {
+    static var discardEquipedWeapon: Self {
         .init(
-            action: .discardInPlay,
+            name: .discardInPlay,
             selectors: [
                 .setCard(.equipedWeapon)
             ]
@@ -727,7 +738,7 @@ private extension String {
          canPlay: .damagedLethal,
          effects: [
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .verify(.playersAtLeast(3)),
                      .chooseCostHandCard(.named(.beer))
@@ -744,11 +755,11 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .draw,
+                 name: .draw,
                  when: .shot
              ),
              .init(
-                 action: .missed,
+                 name: .missed,
                  selectors: [
                      .verify(.draw("♥️"))
                  ],
@@ -765,7 +776,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.damage)
                  ],
@@ -782,7 +793,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 3],
          effects: [
              .init(
-                 action: .steal,
+                 name: .steal,
                  selectors: [
                      .setTarget(.offender),
                      .repeat(.damage)
@@ -800,7 +811,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  when: .handEmpty
              )
          ]
@@ -814,7 +825,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .chooseCostHandCard(count: 2)
                  ]
@@ -830,7 +841,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .steal,
+                 name: .steal,
                  selectors: [
                      .setTarget(.eliminated),
                      .setCard(.all)
@@ -878,14 +889,14 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
-                 action: .discover,
+                 name: .discover,
                  selectors: [
                      .setAttribute(.discoverAmount, value: .value(3))
                  ],
                  when: .turnStarted
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.value(3))
                  ],
@@ -903,18 +914,18 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.value(2))
                  ],
                  when: .turnStarted
              ),
              .init(
-                 action: .showLastDraw,
+                 name: .showLastDraw,
                  when: .turnStarted
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .verify(.draw("(♥️)|(♦️)"))
                  ],
@@ -932,11 +943,11 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
-                 action: .drawDiscard,
+                 name: .drawDiscard,
                  when: .turnStarted
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  when: .turnStarted
              )
          ]
@@ -951,7 +962,7 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
-                 action: .steal,
+                 name: .steal,
                  selectors: [
                      .chooseTarget([.havingHandCard]),
                      .chooseCard()
@@ -959,7 +970,7 @@ private extension String {
                  when: .turnStarted
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  when: .turnStarted
              )
          ]
@@ -975,7 +986,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .chooseTarget([.atDistance(1)])
                  ]
@@ -992,10 +1003,10 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .missed
+                 name: .missed
              ),
              .init(
-                 action: .drawDeck
+                 name: .drawDeck
              )
          ]
      )
@@ -1008,7 +1019,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .chooseCostHandCard(),
                      .chooseTarget()
@@ -1041,7 +1052,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .chooseCostHandCard(),
                      .setAttribute(.healAmount, value: .value(2))
@@ -1059,7 +1070,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .chooseCostHandCard(),
                      .chooseTarget()
@@ -1076,7 +1087,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .steal,
+                 name: .steal,
                  selectors: [
                      .chooseCostHandCard(),
                      .chooseTarget(),
@@ -1094,7 +1105,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .discard,
+                 name: .discard,
                  selectors: [
                      .chooseCostHandCard(),
                      .setTarget(.all),
@@ -1139,7 +1150,7 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.value(3))
                  ],
@@ -1157,11 +1168,11 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  when: .turnStarted
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.wound)
                  ],
@@ -1178,7 +1189,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .setAttribute(.healAmount, value: .value(2))
                  ],
@@ -1195,7 +1206,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.value(2))
                  ],
@@ -1212,7 +1223,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .verify(.limitPerTurn(2))
                  ],
@@ -1229,7 +1240,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .verify(.limitPerTurn(2)),
                      .chooseCostHandCard(.isBlue),
@@ -1247,10 +1258,10 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .damage
+                 name: .damage
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .repeat(.value(2))
                  ]
@@ -1266,7 +1277,7 @@ private extension String {
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .verify(.limitPerTurn(1)),
                      .chooseCostHandCard(count: 2),
@@ -1303,7 +1314,7 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
-                 action: .steal,
+                 name: .steal,
                  selectors: [
                      .chooseTarget([.havingInPlayCard]),
                      .chooseCard(.inPlay)
@@ -1331,7 +1342,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .heal
+                 name: .heal
              )
          ]
      )
@@ -1344,7 +1355,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .setTarget(.all),
                      .chooseCostHandCard(),
@@ -1362,10 +1373,10 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .missed
+                 name: .missed
              ),
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .setTarget(.offender)
                  ]
@@ -1381,7 +1392,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .chooseTarget([.atDistance(2)])
                  ]
@@ -1410,14 +1421,14 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .verify(.limitPerTurn(1)),
                      .chooseTarget([.atDistanceReachable])
                  ]
              ),
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .chooseTarget([.neighbourToTarget])
                  ]
@@ -1434,13 +1445,13 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .setTarget(.damaged)
                  ]
              ),
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .verify(.targetHealthIs1),
                      .repeat(.value(2))
@@ -1457,7 +1468,7 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .damage,
+                 name: .damage,
                  selectors: [
                      .setTarget(.others),
                      .chooseEventuallyCounterHandCard(count: 2)
@@ -1474,14 +1485,14 @@ private extension String {
          effects: [
              .brown,
              .init(
-                 action: .discard,
+                 name: .discard,
                  selectors: [
                      .setTarget(.others),
                      .chooseCard()
                  ]
              ),
              .init(
-                 action: .drawDiscard,
+                 name: .drawDiscard,
                  selectors: [
                      .verify(.discardedCardsNotAce),
                      .repeat(.value(2)),
@@ -1509,7 +1520,7 @@ private extension String {
          effects: [
              .equip,
              .init(
-                 action: .discard,
+                 name: .discard,
                  selectors: [
                      .setTarget(.damaged),
                      .chooseCard(.fromHand)
@@ -1527,7 +1538,7 @@ private extension String {
          effects: [
              .handicap,
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .setTarget(.offender)
                  ],
@@ -1544,11 +1555,11 @@ private extension String {
          effects: [
              .handicap,
              .init(
-                 action: .draw,
+                 name: .draw,
                  when: .turnStarted
              ),
              .init(
-                 action: .damage,
+                 name: .damage,
                  selectors: [
                      .verify(.draw("♠️"))
                  ],
@@ -1564,7 +1575,7 @@ private extension String {
          desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect.",
          effects: [
              .init(
-                 action: .counter,
+                 name: .counter,
                  when: .targetedWithCardOthertThan(.bang)
              )
          ]
@@ -1585,11 +1596,11 @@ private extension String {
          desc: "Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.",
          effects: [
              .init(
-                 action: .draw,
+                 name: .draw,
                  when: .otherMissedYourShoot(.bang)
              ),
              .init(
-                 action: .damage,
+                 name: .damage,
                  selectors: [
                      .verify(.draw("♠️")),
                      .setTarget(.targeted)
@@ -1607,7 +1618,7 @@ private extension String {
          setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .repeat(.value(2)),
                      .chooseTarget([.atDistanceReachable])
@@ -1625,7 +1636,7 @@ private extension String {
          canPlay: .otherPlayedCard(.beer),
          effects: [
              .init(
-                 action: .heal,
+                 name: .heal,
                  selectors: [
                      .chooseCostHandCard()
                  ]
@@ -1640,14 +1651,14 @@ private extension String {
          desc: "Any another player who discards or draw from Henry hand or in front him, is target of BANG.",
          effects: [
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .setTarget(.offender)
                  ],
                  when: .cardStolen
              ),
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .setTarget(.offender)
                  ],
@@ -1663,7 +1674,7 @@ private extension String {
          desc: "Once per turn, she can shoot an extra Bang! by discarding a Clubs card.",
          effects: [
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .verify(.limitPerTurn(1)),
                      .chooseCostHandCard(.suits("♣️")),
@@ -1680,7 +1691,7 @@ private extension String {
          desc: "Once per turn, he can play a Bang! card as Gatling.",
          effects: [
              .init(
-                 action: .shoot,
+                 name: .shoot,
                  selectors: [
                      .verify(.limitPerTurn(1)),
                      .chooseCostHandCard(.named(.bang)),
@@ -1697,7 +1708,7 @@ private extension String {
          desc: "During his draw phase, he draw 2 extra cards if he has no blue cards in play.",
          effects: [
              .init(
-                 action: .drawDeck,
+                 name: .drawDeck,
                  selectors: [
                      .verify(.hasNoBlueCardsInPlay),
                      .repeat(.value(2))
@@ -1712,7 +1723,7 @@ private extension String {
 extension Effect {
  static var brown: Effect {
      .init(
-         action: .discardSilently,
+         name: .discardSilently,
          selectors: [
              .setCard(.played)
          ]
@@ -1721,7 +1732,7 @@ extension Effect {
 
  static var equip: Effect {
      .init(
-         action: .equip,
+         name: .equip,
          selectors: [
              .setCard(.played)
          ]
@@ -1730,7 +1741,7 @@ extension Effect {
 
  static var handicap: Effect {
      .init(
-         action: .handicap,
+         name: .handicap,
          selectors: [
              .chooseTarget(),
              .setCard(.played)

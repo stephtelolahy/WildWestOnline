@@ -6,39 +6,39 @@
 //
 
 public extension GameAction {
-    static func play(_ card: String, player: String) -> Self {
+    static func preparePlay(_ played: String, player: String) -> Self {
         .init(
-            kind: .play,
+            name: .preparePlay,
             payload: .init(
-                target: player,
-                card: card
+                player: player,
+                played: played
             )
         )
     }
 
     static func choose(_ selection: String, player: String) -> Self {
         .init(
-            kind: .choose,
+            name: .choose,
             payload: .init(
-                target: player,
+                player: player,
+                played: "",
                 selection: selection
             )
         )
     }
 
-    static func draw(player: String) -> Self {
+    static func draw() -> Self {
         .init(
-            kind: .draw,
-            payload: .init(
-                target: player
-            )
+            name: .draw
         )
     }
 
     static func drawDeck(player: String) -> Self {
         .init(
-            kind: .drawDeck,
+            name: .drawDeck,
             payload: .init(
+                player: "",
+                played: "",
                 target: player
             )
         )
@@ -46,32 +46,39 @@ public extension GameAction {
 
     static func drawDiscard(player: String) -> Self {
         .init(
-            kind: .drawDiscard,
-            payload: .init(target: player)
+            name: .drawDiscard,
+            payload: .init(
+                player: "",
+                played: "",
+                target: player
+            )
         )
     }
 
     static func drawDiscovered(_ card: String, player: String) -> Self {
         .init(
-            kind: .drawDiscovered,
+            name: .drawDiscovered,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 card: card
             )
         )
     }
 
-    static func discover(player: String) -> Self {
+    static func discover() -> Self {
         .init(
-            kind: .discover,
-            payload: .init(target: player)
+            name: .discover
         )
     }
 
     static func heal(_ amount: Int, player: String) -> Self {
         .init(
-            kind: .heal,
+            name: .heal,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 amount: amount
             )
@@ -80,8 +87,10 @@ public extension GameAction {
 
     static func damage(_ amount: Int, player: String) -> Self {
         .init(
-            kind: .damage,
+            name: .damage,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 amount: amount
             )
@@ -90,8 +99,10 @@ public extension GameAction {
 
     static func discardHand(_ card: String, player: String) -> Self {
         .init(
-            kind: .discardHand,
+            name: .discardHand,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 card: card
             )
@@ -100,52 +111,58 @@ public extension GameAction {
 
     static func discardInPlay(_ card: String, player: String) -> Self {
         .init(
-            kind: .discardInPlay,
+            name: .discardInPlay,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 card: card
             )
         )
     }
 
-    static func stealHand(_ card: String, target: String, player: String) -> Self {
+    static func stealHand(_ card: String, target: String, player: String, source: String = "") -> Self {
         .init(
-            kind: .stealHand,
+            name: .stealHand,
             payload: .init(
-                actor: player,
+                player: player,
+                played: source,
                 target: target,
                 card: card
             )
         )
     }
 
-    static func stealInPlay(_ card: String, target: String, player: String) -> Self {
+    static func stealInPlay(_ card: String, target: String, player: String, source: String = "") -> Self {
         .init(
-            kind: .stealInPlay,
+            name: .stealInPlay,
             payload: .init(
-                actor: player,
+                player: player,
+                played: source,
                 target: target,
                 card: card
             )
         )
     }
 
-    static func passInPlay(_ card: String, target: String, player: String) -> Self {
+    static func passInPlay(_ card: String, target: String, player: String, source: String = "") -> Self {
         .init(
-            kind: .passInPlay,
+            name: .passInPlay,
             payload: .init(
-                actor: player,
+                player: player,
+                played: source,
                 target: target,
                 card: card
             )
         )
     }
 
-    static func shoot(_ target: String, player: String) -> Self {
+    static func shoot(_ target: String) -> Self {
         .init(
-            kind: .shoot,
+            name: .shoot,
             payload: .init(
-                actor: player,
+                player: "",
+                played: "",
                 target: target
             )
         )
@@ -153,8 +170,10 @@ public extension GameAction {
 
     static func counterShoot(player: String) -> Self {
         .init(
-            kind: .counterShot,
+            name: .counterShot,
             payload: .init(
+                player: "",
+                played: "",
                 target: player
             )
         )
@@ -162,8 +181,10 @@ public extension GameAction {
 
     static func startTurn(player: String) -> Self {
         .init(
-            kind: .startTurn,
+            name: .startTurn,
             payload: .init(
+                player: "",
+                played: "",
                 target: player
             )
         )
@@ -171,8 +192,10 @@ public extension GameAction {
 
     static func endTurn(player: String) -> Self {
         .init(
-            kind: .endTurn,
+            name: .endTurn,
             payload: .init(
+                player: "",
+                played: "",
                 target: player
             )
         )
@@ -180,8 +203,10 @@ public extension GameAction {
 
     static func eliminate(player: String) -> Self {
         .init(
-            kind: .eliminate,
+            name: .eliminate,
             payload: .init(
+                player: "",
+                played: "",
                 target: player
             )
         )
@@ -189,8 +214,10 @@ public extension GameAction {
 
     static func endGame(player: String) -> Self {
         .init(
-            kind: .endGame,
+            name: .endGame,
             payload: .init(
+                player: "",
+                played: "",
                 target: player
             )
         )
@@ -198,53 +225,67 @@ public extension GameAction {
 
     static func activate(_ cards: [String], player: String) -> Self {
         .init(
-            kind: .activate,
-            payload: .init(target: player, cards: cards)
-        )
-    }
-
-    static func discardPlayed(_ card: String, player: String) -> Self {
-        .init(
-            kind: .discardPlayed,
+            name: .activate,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
-                card: card
+                cards: cards
             )
         )
     }
 
-    static func equip(_ card: String, player: String) -> Self {
+    static func play(_ played: String, player: String, target: String? = nil, card: String? = nil) -> Self {
         .init(
-            kind: .equip,
+            name: .play,
             payload: .init(
-                target: player,
-                card: card
-            )
-        )
-    }
-
-    static func handicap(_ card: String, target: String, player: String) -> Self {
-        .init(
-            kind: .handicap,
-            payload: .init(
-                actor: player,
+                player: player,
+                played: played,
                 target: target,
                 card: card
             )
         )
     }
 
+    static func equip(_ played: String, player: String) -> Self {
+        .init(
+            name: .equip,
+            payload: .init(
+                player: player,
+                played: played
+            )
+        )
+    }
+
+    static func handicap(_ played: String, target: String, player: String) -> Self {
+        .init(
+            name: .handicap,
+            payload: .init(
+                player: player,
+                played: played,
+                target: target
+            )
+        )
+    }
+
     static func setWeapon(_ weapon: Int, player: String) -> Self {
         .init(
-            kind: .setWeapon,
-            payload: .init(target: player, amount: weapon)
+            name: .setWeapon,
+            payload: .init(
+                player: "",
+                played: "",
+                target: player,
+                amount: weapon
+            )
         )
     }
 
     static func setPlayLimitPerTurn(_ limit: [String: Int], player: String) -> Self {
         .init(
-            kind: .setPlayLimitPerTurn,
+            name: .setPlayLimitPerTurn,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 amountPerCard: limit
             )
@@ -253,8 +294,10 @@ public extension GameAction {
 
     static func increaseMagnifying(_ amount: Int, player: String) -> Self {
         .init(
-            kind: .increaseMagnifying,
+            name: .increaseMagnifying,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 amount: amount
             )
@@ -263,8 +306,10 @@ public extension GameAction {
 
     static func increaseRemoteness(_ amount: Int, player: String) -> Self {
         .init(
-            kind: .increaseRemoteness,
+            name: .increaseRemoteness,
             payload: .init(
+                player: "",
+                played: "",
                 target: player,
                 amount: amount
             )
@@ -272,6 +317,13 @@ public extension GameAction {
     }
 
     static var dummy: Self {
-        .init(kind: .queue, payload: .init())
+        .init(
+            name: .queue,
+            payload: .init(
+                player: "",
+                played: "",
+                children: []
+            )
+        )
     }
 }

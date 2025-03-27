@@ -23,27 +23,26 @@ public func gameReducer(
     }
 
     if state.active.isNotEmpty {
-        guard action.kind == .play,
-              let card = action.payload.card,
-              state.active.contains(where: { $0.key == action.payload.target && $0.value.contains(card) }) else {
+        guard action.name == .preparePlay,
+              state.active.contains(where: { $0.key == action.payload.player && $0.value.contains(action.payload.played) }) else {
             fatalError("Unexpected unwaited action \(action)")
         }
 
-        state.active.removeValue(forKey: action.payload.target)
+        state.active.removeValue(forKey: action.payload.player)
     }
 
-    if action.payload.selectors.isNotEmpty {
+    if action.selectors.isNotEmpty {
         if state.pendingChoice != nil {
             fatalError("Unexpected waiting user choice")
         }
 
         var pendingAction = action
-        let selector = pendingAction.payload.selectors.remove(at: 0)
+        let selector = pendingAction.selectors.remove(at: 0)
         let children = try selector.resolve(pendingAction, state)
 
         state.queue.insert(contentsOf: children, at: 0)
     } else {
-        state = try action.kind.reduce(state, action.payload)
+        state = try action.name.reduce(state, action.payload)
     }
 
     return .none

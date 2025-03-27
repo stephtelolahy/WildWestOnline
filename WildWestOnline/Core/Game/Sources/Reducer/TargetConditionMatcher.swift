@@ -39,13 +39,13 @@ private extension Card.Selector.TargetCondition {
         let distance: Int
 
         func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
-            state.distance(from: ctx.actor, to: player) <= distance
+            state.distance(from: ctx.player, to: player) <= distance
         }
     }
 
     struct Reachable: Matcher {
         func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
-            state.distance(from: ctx.actor, to: player) <= state.players.get(ctx.actor).weapon
+            state.distance(from: ctx.player, to: player) <= state.players.get(ctx.player).weapon
         }
     }
 }

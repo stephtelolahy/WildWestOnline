@@ -17,12 +17,12 @@ struct ShootTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2", player: "p1")
+        let action = GameAction.shoot("p2")
         let result = try await dispatch(action, state: state)
 
         // Then
         let pending = try #require(result.queue.first)
-        #expect(pending.kind == .damage)
+        #expect(pending.name == .damage)
         #expect(pending.payload.target == "p2")
         #expect(pending.payload.amount == 1)
     }
