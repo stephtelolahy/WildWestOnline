@@ -15,13 +15,13 @@ import GameCore
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable, Sendable {
     public var navigation: NavigationState
-    public var settings: SettingsState
+    public var settings: Settings.State
     public let inventory: Inventory
     public var game: GameState?
 
     public init(
         navigation: NavigationState,
-        settings: SettingsState,
+        settings: Settings.State,
         inventory: Inventory,
         game: GameState? = nil
     ) {
@@ -33,28 +33,28 @@ public struct AppState: Codable, Equatable, Sendable {
 }
 
 public struct AppDependencies {
-    let settings: SettingsDependencies
+    let settings: Settings.Dependencies
 
-    public init(settings: SettingsDependencies) {
+    public init(settings: Settings.Dependencies) {
         self.settings = settings
     }
 }
 
 public func appReducer(
     state: inout AppState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: AppDependencies
 ) throws -> Effect {
     .group([
         try navigationReducer(state: &state.navigation, action: action, dependencies: ()),
-        try settingsReducer(state: &state.settings, action: action, dependencies: dependencies.settings),
+        try Settings.reducer(&state.settings, action: action, dependencies: dependencies.settings),
         try setupGameReducer(state: &state, action: action, dependencies: ()),
         try currentGameReducer(state: &state, action: action, dependencies: ()),
         try loggerReducer(state: &state, action: action, dependencies: ())
     ])
 }
 
-private func currentGameReducer(state: inout AppState, action: Action, dependencies: Void) throws -> Effect {
+private func currentGameReducer(state: inout AppState, action: ActionProtocol, dependencies: Void) throws -> Effect {
     guard state.game != nil else {
         return .none
     }

@@ -18,7 +18,7 @@ public struct NavigationStackState<T: Destination>: Equatable, Codable, Sendable
     }
 }
 
-public enum NavigationStackAction<T: Destination>: Action {
+public enum NavigationStackAction<T: Destination>: ActionProtocol {
     case push(T)
     case pop
     case setPath([T])
@@ -28,7 +28,7 @@ public enum NavigationStackAction<T: Destination>: Action {
 
 public func navigationStackReducer<T: Destination>(
     state: inout NavigationStackState<T>,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) -> Effect {
     guard let action = action as? NavigationStackAction<T> else {

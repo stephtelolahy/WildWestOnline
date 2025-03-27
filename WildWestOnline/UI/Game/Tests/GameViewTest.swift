@@ -22,7 +22,7 @@ struct GameViewTest {
             .build()
         let appState = AppState(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
@@ -52,7 +52,7 @@ struct GameViewTest {
             .build()
         let appState = AppState(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
@@ -103,7 +103,7 @@ struct GameViewTest {
             .build()
         let appState = AppState(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
@@ -137,7 +137,7 @@ struct GameViewTest {
             .build()
         let appState = AppState(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )

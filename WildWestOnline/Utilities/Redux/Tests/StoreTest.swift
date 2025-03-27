@@ -25,7 +25,7 @@ struct StoreTest {
             )
         )
 
-        var receivedActions: [Action] = []
+        var receivedActions: [ActionProtocol] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.eventPublisher
@@ -59,7 +59,7 @@ struct StoreTest {
             )
         )
 
-        var receivedActions: [Action] = []
+        var receivedActions: [ActionProtocol] = []
         var receivedErrors: [Error] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
@@ -113,7 +113,7 @@ struct AppState: Equatable {
     var searchResult: [String] = []
 }
 
-enum AppAction: Action, Equatable {
+enum AppAction: ActionProtocol, Equatable {
     case setSearchResults(repos: [String])
     case search(query: String)
     case fetchRecent
@@ -126,7 +126,7 @@ struct AppDependencies {
 
 func appReducer(
     state: inout AppState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: AppDependencies
 ) throws -> Effect {
     switch action {

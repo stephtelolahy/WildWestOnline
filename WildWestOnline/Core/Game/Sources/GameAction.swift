@@ -5,7 +5,7 @@
 //
 import Redux
 
-public struct GameAction: Action, Equatable, Codable {
+public struct GameAction: ActionProtocol, Equatable, Codable {
     public var name: Name
     public var payload: Payload
     public var selectors: [Card.Selector]

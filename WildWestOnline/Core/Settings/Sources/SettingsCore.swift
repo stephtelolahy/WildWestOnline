@@ -6,65 +6,67 @@
 //
 import Redux
 
-public struct SettingsState: Codable, Equatable, Sendable {
-    public var playersCount: Int
-    public var actionDelayMilliSeconds: Int
-    public var simulation: Bool
-    public var preferredFigure: String?
-}
-
-public enum SettingsAction: Action {
-    case updatePlayersCount(Int)
-    case updateActionDelayMilliSeconds(Int)
-    case toggleSimulation
-    case updatePreferredFigure(String?)
-}
-
-public struct SettingsDependencies {
-    public var savePlayersCount: (Int) -> Void
-    public var saveActionDelayMilliSeconds: (Int) -> Void
-    public var saveSimulationEnabled: (Bool) -> Void
-    public var savePreferredFigure: (String?) -> Void
-
-    public init(
-        savePlayersCount: @escaping (Int) -> Void,
-        saveActionDelayMilliSeconds: @escaping (Int) -> Void,
-        saveSimulationEnabled: @escaping (Bool) -> Void,
-        savePreferredFigure: @escaping (String?) -> Void
-    ) {
-        self.savePlayersCount = savePlayersCount
-        self.saveActionDelayMilliSeconds = saveActionDelayMilliSeconds
-        self.saveSimulationEnabled = saveSimulationEnabled
-        self.savePreferredFigure = savePreferredFigure
+public enum Settings {
+    public struct State: Equatable, Codable, Sendable {
+        public var playersCount: Int
+        public var actionDelayMilliSeconds: Int
+        public var simulation: Bool
+        public var preferredFigure: String?
     }
-}
 
-public func settingsReducer(
-    state: inout SettingsState,
-    action: Action,
-    dependencies: SettingsDependencies
-) throws -> Effect {
-    guard let action = action as? SettingsAction else {
+    public enum Action: ActionProtocol {
+        case updatePlayersCount(Int)
+        case updateActionDelayMilliSeconds(Int)
+        case toggleSimulation
+        case updatePreferredFigure(String?)
+    }
+
+    public struct Dependencies {
+        public var savePlayersCount: (Int) -> Void
+        public var saveActionDelayMilliSeconds: (Int) -> Void
+        public var saveSimulationEnabled: (Bool) -> Void
+        public var savePreferredFigure: (String?) -> Void
+
+        public init(
+            savePlayersCount: @escaping (Int) -> Void = { _ in },
+            saveActionDelayMilliSeconds: @escaping (Int) -> Void = { _ in },
+            saveSimulationEnabled: @escaping (Bool) -> Void = { _ in },
+            savePreferredFigure: @escaping (String?) -> Void = { _ in }
+        ) {
+            self.savePlayersCount = savePlayersCount
+            self.saveActionDelayMilliSeconds = saveActionDelayMilliSeconds
+            self.saveSimulationEnabled = saveSimulationEnabled
+            self.savePreferredFigure = savePreferredFigure
+        }
+    }
+
+    public static func reducer(
+        _ state: inout State,
+        action: ActionProtocol,
+        dependencies: Dependencies
+    ) throws -> Effect {
+        guard let action = action as? Action else {
+            return .none
+        }
+
+        switch action {
+        case .updatePlayersCount(let value):
+            state.playersCount = value
+            dependencies.savePlayersCount(value)
+
+        case .updateActionDelayMilliSeconds(let value):
+            state.actionDelayMilliSeconds = value
+            dependencies.saveActionDelayMilliSeconds(value)
+
+        case .toggleSimulation:
+            state.simulation.toggle()
+            dependencies.saveSimulationEnabled(state.simulation)
+
+        case .updatePreferredFigure(let value):
+            state.preferredFigure = value
+            dependencies.savePreferredFigure(value)
+        }
+
         return .none
     }
-
-    switch action {
-    case .updatePlayersCount(let value):
-        state.playersCount = value
-        dependencies.savePlayersCount(value)
-
-    case .updateActionDelayMilliSeconds(let value):
-        state.actionDelayMilliSeconds = value
-        dependencies.saveActionDelayMilliSeconds(value)
-
-    case .toggleSimulation:
-        state.simulation.toggle()
-        dependencies.saveSimulationEnabled(state.simulation)
-
-    case .updatePreferredFigure(let value):
-        state.preferredFigure = value
-        dependencies.savePreferredFigure(value)
-    }
-
-    return .none
 }

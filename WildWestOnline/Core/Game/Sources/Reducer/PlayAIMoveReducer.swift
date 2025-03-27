@@ -7,7 +7,7 @@ import Redux
 
 public func playAIMoveReducer(
     state: inout GameState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
     let state = state
@@ -16,7 +16,7 @@ public func playAIMoveReducer(
     }
 }
 
-private func playAIMove(state: GameState, action: Action) async -> Action? {
+private func playAIMove(state: GameState, action: ActionProtocol) async -> ActionProtocol? {
     if let pendingChoice = state.pendingChoice,
        state.playMode[pendingChoice.chooser] == .auto {
         let actions = pendingChoice.options.map { GameAction.choose($0.label, player: pendingChoice.chooser) }

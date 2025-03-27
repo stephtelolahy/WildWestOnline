@@ -10,7 +10,7 @@ import GameCore
 import SettingsCore
 import NavigationCore
 
-public enum SetupGameAction: Action {
+public enum SetupGameAction: ActionProtocol {
     case startGame
     case quitGame
     case setGame(GameState)
@@ -19,7 +19,7 @@ public enum SetupGameAction: Action {
 
 func setupGameReducer(
     state: inout AppState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
     guard let action = action as? SetupGameAction else {
@@ -59,7 +59,7 @@ func setupGameReducer(
     return .none
 }
 
-private func createGame(settings: SettingsState, inventory: Inventory) -> GameState {
+private func createGame(settings: Settings.State, inventory: Inventory) -> GameState {
     var game = Setup.buildGame(
         playersCount: settings.playersCount,
         inventory: inventory,

@@ -7,7 +7,7 @@ import Redux
 
 public func updateGameReducer(
     state: inout GameState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
     let state = state
@@ -16,7 +16,7 @@ public func updateGameReducer(
     }
 }
 
-private func nextAction(state: GameState, action: Action) async -> Action? {
+private func nextAction(state: GameState, action: ActionProtocol) async -> ActionProtocol? {
     guard let action = action as? GameAction else {
         return nil
     }

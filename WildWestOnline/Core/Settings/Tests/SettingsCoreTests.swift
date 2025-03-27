@@ -12,11 +12,11 @@ import Redux
 struct SettingsCoreTests {
     @Test func updatePlayersCount() async throws {
         // Given
-        let state = SettingsState.makeBuilder().withPlayersCount(2).build()
+        let state = Settings.State.makeBuilder().withPlayersCount(2).build()
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsAction.updatePlayersCount(5)
+        let action = Settings.Action.updatePlayersCount(5)
         await sut.dispatch(action)
 
         // Then
@@ -25,11 +25,11 @@ struct SettingsCoreTests {
 
     @Test func toggleSimulation() async throws {
         // Given
-        let state = SettingsState.makeBuilder().withSimulation(true).build()
+        let state = Settings.State.makeBuilder().withSimulation(true).build()
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsAction.toggleSimulation
+        let action = Settings.Action.toggleSimulation
         await sut.dispatch(action)
 
         // Then
@@ -38,11 +38,11 @@ struct SettingsCoreTests {
 
     @Test func updateWaitDelay() async throws {
         // Given
-        let state = SettingsState.makeBuilder().withActionDelayMilliSeconds(0).build()
+        let state = Settings.State.makeBuilder().withActionDelayMilliSeconds(0).build()
         let sut = await createSettingsStore(initialState: state)
 
         // When
-        let action = SettingsAction.updateActionDelayMilliSeconds(500)
+        let action = Settings.Action.updateActionDelayMilliSeconds(500)
         await sut.dispatch(action)
 
         // Then
@@ -50,17 +50,12 @@ struct SettingsCoreTests {
     }
 }
 
-private typealias SettingsStore = Store<SettingsState, SettingsDependencies>
+private typealias SettingsStore = Store<Settings.State, Settings.Dependencies>
 
-@MainActor private func createSettingsStore(initialState: SettingsState) -> SettingsStore {
+@MainActor private func createSettingsStore(initialState: Settings.State) -> SettingsStore {
     .init(
         initialState: initialState,
-        reducer: settingsReducer,
-        dependencies: .init(
-            savePlayersCount: { _ in },
-            saveActionDelayMilliSeconds: { _ in },
-            saveSimulationEnabled: { _ in },
-            savePreferredFigure: { _ in }
-        )
+        reducer: Settings.reducer,
+        dependencies: .init()
     )
 }

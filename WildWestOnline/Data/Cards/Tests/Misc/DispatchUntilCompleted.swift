@@ -16,7 +16,7 @@ func dispatchUntilCompleted(
     expectedChoices: [Choice] = []
 ) async throws -> [GameAction] {
     let sut = await createGameStoreWithSideEffects(initialState: state, expectedChoices: expectedChoices)
-    var receivedActions: [Action] = []
+    var receivedActions: [ActionProtocol] = []
     var receivedErrors: [Error] = []
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
@@ -84,7 +84,7 @@ private class ChoicesHolder {
 
 private func performChoicesReducer(
     state: inout GameState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: ChoicesHolder
 ) throws -> Effect {
     let state = state
@@ -95,9 +95,9 @@ private func performChoicesReducer(
 
 private func performChoices(
     state: GameState,
-    action: Action,
+    action: ActionProtocol,
     choicesHolder: ChoicesHolder
-) async -> Action? {
+) async -> ActionProtocol? {
     guard let pendingChoice = state.pendingChoice else {
         return nil
     }

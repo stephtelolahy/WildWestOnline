@@ -32,7 +32,7 @@ struct WildWestOnlineApp: App {
 @MainActor private func createStore() -> Store<AppState, AppDependencies> {
     let settingsService = SettingsRepository()
 
-    let settings = SettingsState.makeBuilder()
+    let settings = Settings.State.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
         .withActionDelayMilliSeconds(settingsService.actionDelayMilliSeconds())
         .withSimulation(settingsService.isSimulationEnabled())

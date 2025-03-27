@@ -33,7 +33,7 @@ struct SettingsFiguresView: View {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
                     Task {
-                        await store.dispatch(SettingsAction.updatePreferredFigure(figure.name))
+                        await store.dispatch(Settings.Action.updatePreferredFigure(figure.name))
                     }
                 }, label: {
                     FigureRow(figure: figure)

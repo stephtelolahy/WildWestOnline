@@ -39,7 +39,7 @@ public enum SettingsDestination: String, Destination {
 
 public func navigationReducer(
     state: inout NavigationState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
     .group([

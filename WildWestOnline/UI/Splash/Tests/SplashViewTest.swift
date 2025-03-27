@@ -16,7 +16,7 @@ struct SplashViewTest {
         // Given
         let appState = AppState(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: Settings.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )
 

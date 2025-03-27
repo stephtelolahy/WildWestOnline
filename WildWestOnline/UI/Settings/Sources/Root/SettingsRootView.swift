@@ -74,7 +74,7 @@ public struct SettingsRootView: View {
                     get: { store.state.playersCount },
                     set: { index in
                         Task {
-                            await store.dispatch(SettingsAction.updatePlayersCount(index))
+                            await store.dispatch(Settings.Action.updatePlayersCount(index))
                         }
 
                     }
@@ -95,7 +95,7 @@ public struct SettingsRootView: View {
                     set: { index in
                         Task {
                             let option = store.state.speedOptions[index]
-                            await store.dispatch(SettingsAction.updateActionDelayMilliSeconds(option.value))
+                            await store.dispatch(Settings.Action.updateActionDelayMilliSeconds(option.value))
                         }
                     }
                 ),
@@ -117,7 +117,7 @@ public struct SettingsRootView: View {
                 get: { store.state.simulation },
                 set: { _ in
                     Task {
-                        await store.dispatch(SettingsAction.toggleSimulation)
+                        await store.dispatch(Settings.Action.toggleSimulation)
                     }
                 }
             ).animation()) {

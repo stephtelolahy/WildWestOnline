@@ -76,7 +76,7 @@ private class StateVerifier {
         currentState = state
     }
 
-    func receiveAction(action: Action) {
+    func receiveAction(action: ActionProtocol) {
         var nextState = prevState
         _ = try? gameReducer(state: &nextState, action: action, dependencies: ())
         assert(nextState == currentState, "Inconsistent state after applying \(action)")

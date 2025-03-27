@@ -7,7 +7,7 @@
 
 public func loggerReducer<State>(
     state: inout State,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
     .run {

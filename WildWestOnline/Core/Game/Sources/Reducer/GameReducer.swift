@@ -7,7 +7,7 @@ import Redux
 
 public func gameReducer(
     state: inout GameState,
-    action: Action,
+    action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
     guard let action = action as? GameAction else {
