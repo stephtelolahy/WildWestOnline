@@ -15,62 +15,65 @@ import HomeUI
 import GameUI
 
 public struct MainCoordinator: View {
-    @EnvironmentObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
+    @StateObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
     @State private var path: [NavigationFeature.State.MainDestination] = []
     @State private var sheet: NavigationFeature.State.MainDestination? = nil
 
-    public init() {}
+    public init(store: @escaping () -> Store<AppFeature.State, AppFeature.Dependencies>) {
+        // SwiftUI ensures that the following initialization uses the
+        // closure only once during the lifetime of the view.
+        _store = StateObject(wrappedValue: store())
+    }
 
     public var body: some View {
         NavigationStack(path: $path) {
             SplashView { store.projection(SplashView.State.init) }
                 .navigationDestination(for: NavigationFeature.State.MainDestination.self) {
-                viewForDestination($0)
-            }
-            .sheet(item: $sheet) {
-                viewForDestination($0)
-            }
-            // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-            .onReceive(store.$state) { state in
-                path = state.navigation.mainStack.path
-                sheet = state.navigation.mainStack.sheet
-            }
-            .onChange(of: path) { _, newPath in
-                guard newPath != store.state.navigation.mainStack.path else { return }
-                Task {
-                    await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.setPath(newPath))
+                    viewForDestination($0)
                 }
-            }
-            .onChange(of: sheet) { _, newSheet in
-                guard newSheet != store.state.navigation.mainStack.sheet else { return }
-                Task {
-                    if let newSheet {
-                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.present(newSheet))
-                    } else {
-                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.dismiss)
+                .sheet(item: $sheet) {
+                    viewForDestination($0)
+                }
+            // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+                .onReceive(store.$state) { state in
+                    path = state.navigation.mainStack.path
+                    sheet = state.navigation.mainStack.sheet
+                }
+                .onChange(of: path) { _, newPath in
+                    guard newPath != store.state.navigation.mainStack.path else { return }
+                    Task {
+                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.setPath(newPath))
                     }
                 }
-            }
+                .onChange(of: sheet) { _, newSheet in
+                    guard newSheet != store.state.navigation.mainStack.sheet else { return }
+                    Task {
+                        if let newSheet {
+                            await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.present(newSheet))
+                        } else {
+                            await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.dismiss)
+                        }
+                    }
+                }
         }
     }
 
     @ViewBuilder private func viewForDestination(_ destination: NavigationFeature.State.MainDestination) -> some View {
-    switch destination {
-    case .home: HomeView { store.projection(HomeView.State.init) }
-    case .game: GameView { store.projection(GameView.State.init) }
-    case .settings: SettingsCoordinator()
+        switch destination {
+        case .home: HomeView { store.projection(HomeView.State.init) }
+        case .game: GameView { store.projection(GameView.State.init) }
+        case .settings: SettingsCoordinator(store: store)
+        }
     }
-}
 }
 
 #Preview {
-    MainCoordinator()
-        .environmentObject(
-            Store<AppFeature.State, AppFeature.Dependencies>.init(
-                initialState: .mock,
-                dependencies: .init(settings: .init())
-            )
+    MainCoordinator {
+        Store<AppFeature.State, AppFeature.Dependencies>.init(
+            initialState: .mock,
+            dependencies: .init(settings: .init())
         )
+    }
 }
 
 private extension AppFeature.State {

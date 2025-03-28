@@ -10,10 +10,12 @@ import AppCore
 import NavigationCore
 
 public struct SettingsCoordinator: View {
-    @EnvironmentObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
+    @ObservedObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
     @State private var path: [NavigationFeature.State.SettingsDestination] = []
 
-    public init() {}
+    public init(store: Store<AppFeature.State, AppFeature.Dependencies>) {
+        self.store = store
+    }
 
     public var body: some View {
         NavigationStack(path: $path) {

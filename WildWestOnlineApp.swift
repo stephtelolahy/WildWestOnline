@@ -17,14 +17,14 @@ import MainUI
 @main
 struct WildWestOnlineApp: App {
     @Environment(\.theme) private var theme
-    private let store = createStore()
 
     var body: some Scene {
         WindowGroup {
-            MainCoordinator()
-                .environmentObject(store)
-                .environment(\.colorScheme, .light)
-                .accentColor(theme.accentColor)
+            MainCoordinator {
+                createStore()
+            }
+            .environment(\.colorScheme, .light)
+            .accentColor(theme.accentColor)
         }
     }
 }
