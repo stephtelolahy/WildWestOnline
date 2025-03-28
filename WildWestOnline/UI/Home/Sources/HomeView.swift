@@ -49,7 +49,7 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     Task {
-                        await store.dispatch(SetupGameAction.startGame)
+                        await store.dispatch(GameSessionFeature.Action.start)
                     }
                 }
                 mainButton("menu.settings.button") {

@@ -83,7 +83,7 @@ private extension GameView {
                 Button("Settings", action: { print("Settings tapped") })
                 Divider()
                 Button(role: .destructive) {
-                    Task { await store.dispatch(SetupGameAction.quitGame) }
+                    Task { await store.dispatch(GameSessionFeature.Action.quit) }
                 } label: { Text("Quit") }
             } label: { Image(systemName: "ellipsis.circle") }
         }

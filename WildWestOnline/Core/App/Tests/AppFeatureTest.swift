@@ -39,7 +39,7 @@ struct AppFeatureTest {
         let sut = await createAppStore(initialState: state)
 
         // When
-        let action = SetupGameAction.startGame
+        let action = GameSessionFeature.Action.start
         await sut.dispatch(action)
 
         // Then
@@ -58,7 +58,7 @@ struct AppFeatureTest {
         let sut = await createAppStore(initialState: state)
 
         // When
-        let action = SetupGameAction.quitGame
+        let action = GameSessionFeature.Action.quit
         await sut.dispatch(action)
 
         // Then
