@@ -506,7 +506,7 @@ private extension Cards {
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    selectors: [.setAmountPerCard([.bang: .infinity])]
+                    payload: .init(amountPerTurn: [.bang: .infinity])
                 )
             ],
             onDeactive: [.resetWeapon]
@@ -665,7 +665,7 @@ private extension Cards {
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    selectors: [.setAmountPerCard([.bang: .infinity])]
+                    payload: .init(amountPerTurn: [.bang: .infinity])
                 )
             ]
         )

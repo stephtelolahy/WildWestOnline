@@ -91,6 +91,6 @@ enum NonStandardLogic {
         && lhs.payload.selection == rhs.payload.selection
         && lhs.payload.children == rhs.payload.children
         && lhs.payload.cards == rhs.payload.cards
-        && lhs.payload.amountPerCard == rhs.payload.amountPerCard
+        && lhs.payload.amountPerTurn == rhs.payload.amountPerTurn
     }
 }

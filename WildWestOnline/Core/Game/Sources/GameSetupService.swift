@@ -80,7 +80,7 @@ private extension GameSetupService {
         let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
         let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
         let abilities = [figure] + defaultAbilities
-        let playLimitPerTurn = figureObj.playlimitPerTurn
+        let playLimitPerTurn = figureObj.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
             if deck.isNotEmpty {
@@ -112,13 +112,7 @@ private extension Card {
         onActive.first { $0.name == action }?.payload.amount
     }
 
-    var playlimitPerTurn: [String: Int] {
-        guard let effect = onActive.first(where: { $0.name == .setPlayLimitPerTurn }),
-              let selector = effect.selectors.first,
-              case .setAmountPerCard(let value) = selector else {
-            return [:]
-        }
-
-        return value
+    var playlimitPerTurn: [String: Int]? {
+        onActive.first { $0.name == .setPlayLimitPerTurn }?.payload.amountPerTurn
     }
 }

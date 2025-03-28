@@ -102,7 +102,7 @@ public struct Card: Equatable, Codable, Sendable {
             public var selection: String?
             public var children: [Card.Effect]?
             public var cards: [String]?
-            public var amountPerCard: [String: Int]?
+            public var amountPerTurn: [String: Int]?
 
             public init(
                 player: String = "",
@@ -113,7 +113,7 @@ public struct Card: Equatable, Codable, Sendable {
                 selection: String? = nil,
                 children: [Card.Effect]? = nil,
                 cards: [String]? = nil,
-                amountPerCard: [String: Int]? = nil
+                amountPerTurn: [String: Int]? = nil
             ) {
                 self.player = player
                 self.played = played
@@ -123,7 +123,7 @@ public struct Card: Equatable, Codable, Sendable {
                 self.selection = selection
                 self.children = children
                 self.cards = cards
-                self.amountPerCard = amountPerCard
+                self.amountPerTurn = amountPerTurn
             }
         }
 
@@ -156,7 +156,7 @@ public struct Card: Equatable, Codable, Sendable {
                     selection: payload.selection,
                     children: payload.children,
                     cards: payload.cards,
-                    amountPerCard: payload.amountPerCard
+                    amountPerTurn: payload.amountPerTurn
                 ),
                 selectors: selectors ?? self.selectors
             )
@@ -196,7 +196,6 @@ public struct Card: Equatable, Codable, Sendable {
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
-        case setAmountPerCard([String: Int])
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)

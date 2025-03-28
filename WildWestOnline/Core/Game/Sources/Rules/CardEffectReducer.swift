@@ -500,10 +500,10 @@ private extension Card.Effect.Name {
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.Failure) -> GameFeature.State {
             let target = payload.target!
-            let amountPerCard = payload.amountPerCard!
+            let amountPerTurn = payload.amountPerTurn!
 
             var state = state
-            state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerCard
+            state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerTurn
             return state
         }
     }

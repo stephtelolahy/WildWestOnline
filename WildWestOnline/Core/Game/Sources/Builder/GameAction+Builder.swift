@@ -254,7 +254,7 @@ public extension GameFeature.Action {
             name: .setPlayLimitPerTurn,
             payload: .init(
                 target: player,
-                amountPerCard: limit
+                amountPerTurn: limit
             )
         )
     }
