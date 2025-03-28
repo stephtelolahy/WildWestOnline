@@ -11,7 +11,7 @@ import GameCore
 struct EndGameOnEliminatedTest {
     @Test func game_withOnePlayerLast_shouldBeOver() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withAbilities([.defaultEndGameOnEliminated])
@@ -31,7 +31,7 @@ struct EndGameOnEliminatedTest {
 
     @Test func game_with2Players_shouldNotBeOver() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3") {

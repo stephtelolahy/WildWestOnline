@@ -11,7 +11,7 @@ import Testing
 struct JourdonnaisTests {
     @Test(.disabled()) func JourdonnaisBeingShot_flippedCardIsHearts_shouldCancelShot() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.weapon: 1, .missesRequiredForBang: 1, .bangsPerTurn: 1])

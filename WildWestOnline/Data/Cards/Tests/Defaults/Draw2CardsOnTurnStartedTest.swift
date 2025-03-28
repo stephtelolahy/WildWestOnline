@@ -11,7 +11,7 @@ import GameCore
 struct Draw2CardsOnTurnStartedTest {
     @Test func startTurn_shouldDraw2Cards() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
                 $0.withAbilities([.defaultDraw2CardsOnTurnStarted])

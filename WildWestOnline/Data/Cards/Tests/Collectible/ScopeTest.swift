@@ -11,7 +11,7 @@ import GameCore
 struct ScopeTest {
     @Test func playScope_shouldEquipAndSetAttribute() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.scope])
             }
@@ -30,7 +30,7 @@ struct ScopeTest {
 
     @Test func discardScope_shouldResetAttribute() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.scope])
                     .withMagnifying(1)

@@ -58,7 +58,7 @@ public enum GameFeature {
         .group([
             try reduceMechanics(into: &state, action: action, dependencies: dependencies),
             try reduceLoop(into: &state, action: action, dependencies: dependencies),
-            try reduceAI(into: &state, action: action, dependencies: dependencies)
+            try reduceAI(into: &state, action: action, dependencies: dependencies),
         ])
     }
 }

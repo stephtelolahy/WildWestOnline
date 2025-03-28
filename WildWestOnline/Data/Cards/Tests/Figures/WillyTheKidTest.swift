@@ -12,7 +12,7 @@ import CardsData
 struct WillyTheKidTest {
     @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {
         // Given
-        let state = GameSetup.buildGame(
+        let state = GameSetupService.buildGame(
             figures: [.willyTheKid],
             deck: [],
             cards: Cards.all,
@@ -28,7 +28,7 @@ struct WillyTheKidTest {
 
     @Test func play_noLimitPerTurn_shouldAllowMultipleBang() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)

@@ -11,7 +11,7 @@ import GameCore
 struct CatBalouTest {
     @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -39,7 +39,7 @@ struct CatBalouTest {
 
     @Test func play_targetHavingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c21"])
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
@@ -68,7 +68,7 @@ struct CatBalouTest {
 
     @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c23", "c24"])
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
@@ -98,7 +98,7 @@ struct CatBalouTest {
 
     @Test func play_noTarget_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }

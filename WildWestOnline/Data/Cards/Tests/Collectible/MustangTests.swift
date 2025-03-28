@@ -11,7 +11,7 @@ import GameCore
 struct MustangTests {
     @Test func playMustang_shouldEquipAndSetAttribute() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.mustang])
             }
@@ -30,7 +30,7 @@ struct MustangTests {
 
     @Test func discardMistang_shouldResetAttribute() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.mustang])
                     .withRemoteness(1)

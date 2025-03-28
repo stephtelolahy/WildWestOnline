@@ -11,7 +11,7 @@ import GameCore
 struct EndTurnOnEliminatedTest {
     @Test func beingEliminated_currentTurn_shouldNextTurn() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3") {
@@ -33,7 +33,7 @@ struct EndTurnOnEliminatedTest {
 
     @Test func beingEliminated_currentTurn_withCards_shouldDiscardCardsAndNextTurn() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c11", "c12", "c1", "c2"])
             .withPlayer("p1") {
                 $0.withHand(["c11"])

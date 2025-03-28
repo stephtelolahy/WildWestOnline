@@ -11,7 +11,7 @@ import GameCore
 struct BeerTest {
     @Test func play_beingDamaged_shouldHealOneLifePoint() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)
@@ -34,7 +34,7 @@ struct BeerTest {
 
     @Test func play_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(3)
@@ -54,7 +54,7 @@ struct BeerTest {
 
     @Test func play_twoPlayersLeft_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer])
                     .withHealth(2)

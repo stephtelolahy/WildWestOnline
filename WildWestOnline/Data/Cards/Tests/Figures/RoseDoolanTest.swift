@@ -12,7 +12,7 @@ import CardsData
 struct RoseDoolanTest {
     @Test func roseDoolan_shouldDecrementDistanceToOthers() async throws {
         // Given
-        let state = GameSetup.buildGame(
+        let state = GameSetupService.buildGame(
             figures: [.roseDoolan],
             deck: [],
             cards: Cards.all,

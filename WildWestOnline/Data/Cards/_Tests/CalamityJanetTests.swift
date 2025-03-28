@@ -11,7 +11,7 @@ import Testing
 struct CalamityJanetTests {
     @Test(.disabled()) func calamityJanetPlayingBang_shouldPlayAsBang() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAttributes([.bangsPerTurn: 1, .weapon: 1])
                     .withHand([.bang])
@@ -35,7 +35,7 @@ struct CalamityJanetTests {
 
     @Test(.disabled()) func calamityJanetPlayingMissed_shouldPlayAsBang() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAttributes([.bangsPerTurn: 1, .weapon: 1])
                     .withHand([.missed])
@@ -59,7 +59,7 @@ struct CalamityJanetTests {
 
     @Test(.disabled()) func calamityJanetBeingShot_holdingBang_shouldAskToCounter() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 1, .weapon: 1])
@@ -86,7 +86,7 @@ struct CalamityJanetTests {
 
     @Test(.disabled()) func calamityJanetBeingShot_holdingMissed_shouldAskToCounter() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 1, .weapon: 1])

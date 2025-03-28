@@ -11,7 +11,7 @@ import GameCore
 struct DiscardExcessHandOnTurnEndedTest {
     @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
@@ -40,7 +40,7 @@ struct DiscardExcessHandOnTurnEndedTest {
 
     @Test func endTurn_twoExcessCard_shouldDiscardTwoHandCards() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)
@@ -72,7 +72,7 @@ struct DiscardExcessHandOnTurnEndedTest {
 
     @Test func endTurn_noExcessCards_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
                     .withHealth(3)
@@ -96,7 +96,7 @@ struct DiscardExcessHandOnTurnEndedTest {
 
     @Test func endTurn_customHandLimit_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)

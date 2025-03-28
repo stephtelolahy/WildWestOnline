@@ -11,7 +11,7 @@ import GameCore
 struct ActivatePlayableCardsTest {
     @Test func updateGame_withPlayableCards_shouldActivate() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon, .gatling, .beer, .missed])
                     .withMaxHealth(4)
@@ -34,7 +34,7 @@ struct ActivatePlayableCardsTest {
 
     @Test func activatingCards_withoutPlayableCards_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.beer, .missed])
                     .withMaxHealth(4)
@@ -55,7 +55,7 @@ struct ActivatePlayableCardsTest {
 
     @Test func activatingCards_withDeepPath_shouldCompleteWithReasonableDelay() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand((1...10).map { "\(String.beer)-\($0)" })
                     .withMaxHealth(4)

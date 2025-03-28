@@ -12,7 +12,7 @@ import Testing
 struct JesseJonesTests {
     @Test(.disabled()) func jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jesseJones])
                     .withAttributes([.startTurnCards: 2])
@@ -35,7 +35,7 @@ struct JesseJonesTests {
 
     @Test(.disabled()) func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.jesseJones])
                     .withAttributes([.startTurnCards: 2])

@@ -11,7 +11,7 @@ import GameCore
 struct SaloonTest {
     @Test func play_withSelfDamaged_shouldHealOneLifePoint() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(3)
@@ -32,7 +32,7 @@ struct SaloonTest {
 
     @Test func play_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -62,7 +62,7 @@ struct SaloonTest {
 
     @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)

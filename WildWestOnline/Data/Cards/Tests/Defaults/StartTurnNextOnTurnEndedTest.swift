@@ -11,7 +11,7 @@ import GameCore
 struct StartTurnNextOnTurnEndedTest {
     @Test func endturn_shouldStartNextTurn() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([
                     .defaultEndTurn,

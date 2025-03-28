@@ -7,9 +7,9 @@
 
 import Testing
 import Redux
-import GameCore
 import CardsData
 import Combine
+@testable import GameCore
 
 struct SimulationTest {
     @Test func simulate2PlayersGame_shouldComplete() async throws {
@@ -18,14 +18,14 @@ struct SimulationTest {
 
     private func simulateGame(playersCount: Int) async throws {
         // Given
-        let deck = GameSetup.buildDeck(cardSets: CardSets.bang).shuffled()
+        let deck = GameSetupService.buildDeck(cardSets: CardSets.bang).shuffled()
         let figures = Array(Figures.bang.shuffled().prefix(playersCount))
-        var state = GameSetup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
+        var state = GameSetupService.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
         for player in state.playOrder {
             state.playMode[player] = .auto
         }
 
-        let store = await createGameStoreWithAIAgent(initialState: state)
+        let store = await createGameStore(initialState: state)
 
         let stateVerifier = StateVerifier(initialState: state)
         var cancellables: Set<AnyCancellable> = []
@@ -47,38 +47,37 @@ struct SimulationTest {
     }
 }
 
-@MainActor private func createGameStoreWithAIAgent(initialState: GameState) -> Store<GameState, Void> {
+@MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
     .init(
         initialState: initialState,
         reducer: { state, action, dependencies in
                 .group([
+                    try GameFeature.reduce(into: &state, action: action, dependencies: ()),
                     try loggerReducer(state: &state, action: action, dependencies: ()),
-                    try gameReducer(state: &state, action: action, dependencies: ()),
-                    try updateGameReducer(state: &state, action: action, dependencies: ()),
-                    try playAIMoveReducer(state: &state, action: action, dependencies: ())
                 ])
         },
         dependencies: ()
     )
 }
 
+/// Verify State integrity by applying action to previous State
 private class StateVerifier {
-    var prevState: GameState
-    var currentState: GameState
+    var prevState: GameFeature.State
+    var currentState: GameFeature.State
 
-    init(initialState: GameState) {
+    init(initialState: GameFeature.State) {
         self.prevState = initialState
         self.currentState = initialState
     }
 
-    func receiveState(state: GameState) {
+    func receiveState(state: GameFeature.State) {
         prevState = currentState
         currentState = state
     }
 
     func receiveAction(action: ActionProtocol) {
         var nextState = prevState
-        _ = try? gameReducer(state: &nextState, action: action, dependencies: ())
+        _ = try? GameFeature.reduceMechanics(into: &nextState, action: action, dependencies: ())
         assert(nextState == currentState, "Inconsistent state after applying \(action)")
     }
 }

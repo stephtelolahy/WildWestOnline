@@ -73,7 +73,7 @@ public extension GameView.State {
     }
 }
 
-private extension GameState {
+private extension GameFeature.State {
     var playerItems: [GameView.State.PlayerItem] {
         self.startOrder.map { playerId in
             let playerObj = players.get(playerId)

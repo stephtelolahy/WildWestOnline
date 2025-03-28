@@ -12,7 +12,7 @@ import Testing
 struct BlackJackTests {
     @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.blackJack])
             }
@@ -35,7 +35,7 @@ struct BlackJackTests {
 
     @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.blackJack])
             }

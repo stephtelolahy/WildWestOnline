@@ -11,7 +11,7 @@ import Testing
 struct ElGringoTests {
     @Test(.disabled()) func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -39,7 +39,7 @@ struct ElGringoTests {
 
     @Test(.disabled()) func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -65,7 +65,7 @@ struct ElGringoTests {
 
     @Test(.disabled()) func elGringoDamaged_withOffenderIsHimself_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)

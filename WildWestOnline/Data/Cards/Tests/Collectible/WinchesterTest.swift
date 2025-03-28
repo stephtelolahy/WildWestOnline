@@ -11,7 +11,7 @@ import GameCore
 struct WinchesterTest {
     @Test func playWinchester_shouldEquipAndSetAttribute() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.winchester])
             }

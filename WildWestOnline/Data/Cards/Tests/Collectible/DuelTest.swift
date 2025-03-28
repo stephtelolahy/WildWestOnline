@@ -10,8 +10,8 @@ import GameCore
 
 struct DuelTests {
     // Given
-    private var state: GameState {
-        GameState.makeBuilderWithAllCards()
+    private var state: GameFeature.State {
+        GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.duel, .bang1])
             }

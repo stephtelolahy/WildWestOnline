@@ -46,24 +46,18 @@ public enum AppFeature {
         action: ActionProtocol,
         dependencies: Dependencies
     ) throws -> Effect {
-        .group([
+        let activeGameEffet: Effect = if state.game != nil {
+            try GameFeature.reduce(into: &state.game!, action: action, dependencies: ())
+        } else {
+            .none
+        }
+
+        return .group([
             try NavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
             try SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
             try GameSessionFeature.reduce(into: &state, action: action, dependencies: ()),
-            try reduceCurrentGame(into: &state, action: action, dependencies: ()),
-            try loggerReducer(state: &state, action: action, dependencies: ())
+            activeGameEffet,
+            try loggerReducer(state: &state, action: action, dependencies: ()),
         ])
-    }
-
-    private static func reduceCurrentGame(
-        into state: inout State,
-        action: ActionProtocol,
-        dependencies: Void
-    ) throws -> Effect {
-        guard state.game != nil else {
-            return .none
-        }
-
-        return try GameFeature.reduce(into: &state.game!, action: action, dependencies: ())
     }
 }
