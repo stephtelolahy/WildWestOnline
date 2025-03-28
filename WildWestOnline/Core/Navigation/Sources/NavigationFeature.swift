@@ -38,14 +38,14 @@ public enum NavigationFeature {
         }
     }
 
-    public static func reducer(
-        _ state: inout State,
+    public static func reduce(
+        into state: inout State,
         action: ActionProtocol,
         dependencies: Void
     ) throws -> Effect {
         .group([
-            try NavStackFeature.reducer(&state.mainStack, action: action, dependencies: ()),
-            try NavStackFeature.reducer(&state.settingsStack, action: action, dependencies: ())
+            try NavStackFeature.reduce(into: &state.mainStack, action: action, dependencies: ()),
+            try NavStackFeature.reduce(into: &state.settingsStack, action: action, dependencies: ())
         ])
     }
 }

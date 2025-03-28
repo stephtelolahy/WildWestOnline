@@ -46,8 +46,8 @@ public func appReducer(
     dependencies: AppDependencies
 ) throws -> Effect {
     .group([
-        try NavigationFeature.reducer(&state.navigation, action: action, dependencies: ()),
-        try SettingsFeature.reducer(&state.settings, action: action, dependencies: dependencies.settings),
+        try NavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
+        try SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
         try setupGameReducer(state: &state, action: action, dependencies: ()),
         try currentGameReducer(state: &state, action: action, dependencies: ()),
         try loggerReducer(state: &state, action: action, dependencies: ())

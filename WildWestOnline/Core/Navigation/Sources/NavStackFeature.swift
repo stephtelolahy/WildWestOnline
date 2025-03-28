@@ -27,8 +27,8 @@ public enum NavStackFeature<T: Destination> {
         case dismiss
     }
 
-    public static func reducer(
-        _ state: inout State,
+    public static func reduce(
+        into state: inout State,
         action: ActionProtocol,
         dependencies: Void
     ) throws -> Effect {

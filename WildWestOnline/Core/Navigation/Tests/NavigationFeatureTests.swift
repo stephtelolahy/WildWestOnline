@@ -14,7 +14,7 @@ struct NavigationFeatureTests {
     @MainActor private func createNavigationStore(initialState: NavigationFeature.State) -> NavigationStore {
         .init(
             initialState: initialState,
-            reducer: NavigationFeature.reducer,
+            reducer: NavigationFeature.reduce,
             dependencies: ()
         )
     }

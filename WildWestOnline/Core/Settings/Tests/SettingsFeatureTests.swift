@@ -15,7 +15,7 @@ struct SettingsFeatureTests {
     @MainActor private func createSettingsStore(initialState: SettingsFeature.State) -> SettingsStore {
         .init(
             initialState: initialState,
-            reducer: SettingsFeature.reducer,
+            reducer: SettingsFeature.reduce,
             dependencies: .init()
         )
     }
