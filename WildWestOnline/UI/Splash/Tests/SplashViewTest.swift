@@ -14,7 +14,7 @@ import SettingsCore
 struct SplashViewTest {
     @Test func splashStateProjection() async throws {
         // Given
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()

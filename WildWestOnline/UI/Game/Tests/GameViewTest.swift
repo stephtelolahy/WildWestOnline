@@ -20,7 +20,7 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .withPlayer("p1")
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
@@ -50,7 +50,7 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .withTurn("p1")
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
@@ -101,7 +101,7 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .withActive(["p1": [.bang, .defaultEndTurn]])
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
@@ -135,7 +135,7 @@ struct GameViewTest {
             )
             .withPlayMode(["p1": .manual])
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),

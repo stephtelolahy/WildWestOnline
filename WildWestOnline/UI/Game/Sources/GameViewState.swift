@@ -53,7 +53,7 @@ public extension GameView {
 }
 
 public extension GameView.State {
-    init?(appState: AppState) {
+    init?(appState: AppFeature.State) {
         guard let game = appState.game else {
             return nil
         }

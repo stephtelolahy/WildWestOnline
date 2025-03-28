@@ -58,7 +58,7 @@ struct SettingsFiguresView: View {
 }
 
 extension SettingsFiguresView.State {
-    init?(appState: AppState) {
+    init?(appState: AppFeature.State) {
         figures = appState.inventory.figures.map {
             .init(
                 name: $0,

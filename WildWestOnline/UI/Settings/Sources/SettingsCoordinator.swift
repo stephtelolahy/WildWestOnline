@@ -10,7 +10,7 @@ import AppCore
 import NavigationCore
 
 public struct SettingsCoordinator: View {
-    @EnvironmentObject private var store: Store<AppState, AppDependencies>
+    @EnvironmentObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
     @State private var path: [NavigationFeature.State.SettingsDestination] = []
 
     public init() {}

@@ -15,7 +15,7 @@ import HomeUI
 import GameUI
 
 public struct MainCoordinator: View {
-    @EnvironmentObject private var store: Store<AppState, AppDependencies>
+    @EnvironmentObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
     @State private var path: [NavigationFeature.State.MainDestination] = []
     @State private var sheet: NavigationFeature.State.MainDestination? = nil
 
@@ -66,32 +66,19 @@ public struct MainCoordinator: View {
 #Preview {
     MainCoordinator()
         .environmentObject(
-            Store<AppState, AppDependencies>.init(
+            Store<AppFeature.State, AppFeature.Dependencies>.init(
                 initialState: .mock,
-                dependencies: .mock
+                dependencies: .init(settings: .init())
             )
         )
 }
 
-private extension AppState {
+private extension AppFeature.State {
     static var mock: Self {
         .init(
             navigation: .init(),
             settings: .makeBuilder().build(),
             inventory: .makeBuilder().build()
-        )
-    }
-}
-
-private extension AppDependencies {
-    static var mock: Self {
-        .init(
-            settings: .init(
-                savePlayersCount: { _ in },
-                saveActionDelayMilliSeconds: { _ in },
-                saveSimulationEnabled: { _ in },
-                savePreferredFigure: { _ in }
-            )
         )
     }
 }

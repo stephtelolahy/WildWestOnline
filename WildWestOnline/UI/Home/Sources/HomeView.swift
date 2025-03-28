@@ -91,6 +91,5 @@ public struct HomeView: View {
 }
 
 public extension HomeView.State {
-    init?(appState: AppState) {
-    }
+    init?(appState: AppFeature.State) { }
 }

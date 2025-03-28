@@ -18,7 +18,7 @@ public enum SetupGameAction: ActionProtocol {
 }
 
 func setupGameReducer(
-    state: inout AppState,
+    state: inout AppFeature.State,
     action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {

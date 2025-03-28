@@ -160,7 +160,7 @@ private extension SettingsRootView.State {
 }
 
 public extension SettingsRootView.State {
-    init?(appState: AppState) {
+    init?(appState: AppFeature.State) {
         playersCount = appState.settings.playersCount
         speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
         simulation = appState.settings.simulation

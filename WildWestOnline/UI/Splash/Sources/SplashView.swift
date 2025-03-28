@@ -44,6 +44,5 @@ public struct SplashView: View {
 }
 
 public extension SplashView.State {
-    init?(appState: AppState) {
-    }
+    init?(appState: AppFeature.State) { }
 }
