@@ -32,7 +32,7 @@ public struct SplashView: View {
         .navigationBarHidden(true)
         .task {
             try? await Task.sleep(nanoseconds: 2_000_000_000)
-            await store.dispatch(NavigationCore.NavigationStack<Navigation.State.MainDestination>.Action.push(.home))
+            await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.push(.home))
         }
     }
 }

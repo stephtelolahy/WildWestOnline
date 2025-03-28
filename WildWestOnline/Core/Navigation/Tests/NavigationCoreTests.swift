@@ -15,7 +15,7 @@ struct NavigationCoreTests {
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = NavigationStack<Navigation.State.MainDestination>.Action.push(.home)
+        let action = NavStack<Navigation.State.MainDestination>.Action.push(.home)
         await sut.dispatch(action)
 
         // Then
@@ -28,7 +28,7 @@ struct NavigationCoreTests {
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = NavigationStack<Navigation.State.MainDestination>.Action.present(.settings)
+        let action = NavStack<Navigation.State.MainDestination>.Action.present(.settings)
         await sut.dispatch(action)
 
         // Then
@@ -41,7 +41,7 @@ struct NavigationCoreTests {
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = NavigationStack<Navigation.State.MainDestination>.Action.dismiss
+        let action = NavStack<Navigation.State.MainDestination>.Action.dismiss
         await sut.dispatch(action)
 
         // Then

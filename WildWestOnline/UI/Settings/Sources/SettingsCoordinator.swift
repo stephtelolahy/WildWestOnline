@@ -28,7 +28,7 @@ public struct SettingsCoordinator: View {
                 .onChange(of: path) { _, newPath in
                     guard newPath != store.state.navigation.settingsStack.path else { return }
                     Task {
-                        await store.dispatch(NavigationCore.NavigationStack<Navigation.State.SettingsDestination>.Action.setPath(newPath))
+                        await store.dispatch(NavStack<Navigation.State.SettingsDestination>.Action.setPath(newPath))
                     }
                 }
         }

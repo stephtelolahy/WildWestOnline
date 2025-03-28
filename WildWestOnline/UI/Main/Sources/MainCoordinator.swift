@@ -38,16 +38,16 @@ public struct MainCoordinator: View {
             .onChange(of: path) { _, newPath in
                 guard newPath != store.state.navigation.mainStack.path else { return }
                 Task {
-                    await store.dispatch(NavigationCore.NavigationStack<Navigation.State.MainDestination>.Action.setPath(newPath))
+                    await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.setPath(newPath))
                 }
             }
             .onChange(of: sheet) { _, newSheet in
                 guard newSheet != store.state.navigation.mainStack.sheet else { return }
                 Task {
                     if let newSheet {
-                        await store.dispatch(NavigationCore.NavigationStack<Navigation.State.MainDestination>.Action.present(newSheet))
+                        await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.present(newSheet))
                     } else {
-                        await store.dispatch(NavigationCore.NavigationStack<Navigation.State.MainDestination>.Action.dismiss)
+                        await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.dismiss)
                     }
                 }
             }

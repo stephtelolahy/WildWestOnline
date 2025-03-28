@@ -8,8 +8,8 @@ import Redux
 
 public enum Navigation {
     public struct State: Equatable, Codable, Sendable {
-        public var mainStack: NavigationStack<MainDestination>.State
-        public var settingsStack: NavigationStack<SettingsDestination>.State
+        public var mainStack: NavStack<MainDestination>.State
+        public var settingsStack: NavStack<SettingsDestination>.State
 
         public enum MainDestination: String, Destination {
             case home
@@ -30,8 +30,8 @@ public enum Navigation {
         }
 
         public init(
-            mainStack: NavigationStack<MainDestination>.State = .init(path: []),
-            settingsStack: NavigationStack<SettingsDestination>.State = .init(path: [])
+            mainStack: NavStack<MainDestination>.State = .init(path: []),
+            settingsStack: NavStack<SettingsDestination>.State = .init(path: [])
         ) {
             self.mainStack = mainStack
             self.settingsStack = settingsStack
@@ -44,8 +44,8 @@ public enum Navigation {
         dependencies: Void
     ) throws -> Effect {
         .group([
-            try NavigationStack.reducer(&state.mainStack, action: action, dependencies: ()),
-            try NavigationStack.reducer(&state.settingsStack, action: action, dependencies: ())
+            try NavStack.reducer(&state.mainStack, action: action, dependencies: ()),
+            try NavStack.reducer(&state.settingsStack, action: action, dependencies: ())
         ])
     }
 }
