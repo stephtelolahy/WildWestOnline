@@ -18,7 +18,7 @@ struct RemingtonTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.remington, player: "p1")
+        let action = GameFeature.Action.preparePlay(.remington, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

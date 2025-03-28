@@ -18,9 +18,9 @@ struct SimulationTest {
 
     private func simulateGame(playersCount: Int) async throws {
         // Given
-        let deck = Setup.buildDeck(cardSets: CardSets.bang).shuffled()
+        let deck = GameSetup.buildDeck(cardSets: CardSets.bang).shuffled()
         let figures = Array(Figures.bang.shuffled().prefix(playersCount))
-        var state = Setup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
+        var state = GameSetup.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.all)
         for player in state.playOrder {
             state.playMode[player] = .auto
         }
@@ -39,7 +39,7 @@ struct SimulationTest {
         }
 
         // When
-        let startAction = GameAction.startTurn(player: state.playOrder[0])
+        let startAction = GameFeature.Action.startTurn(player: state.playOrder[0])
         await store.dispatch(startAction)
 
         // Then

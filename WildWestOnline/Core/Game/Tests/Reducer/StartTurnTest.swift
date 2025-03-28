@@ -11,11 +11,11 @@ import GameCore
 struct StartTurnTest {
     @Test func startTurn_shouldSetTurn() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -24,12 +24,12 @@ struct StartTurnTest {
 
     @Test func startTurn_shouldResetPlayCounters() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayedThisTurn(["c1": 1, "c2": 1])
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

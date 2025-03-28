@@ -38,7 +38,7 @@ struct PedroRamirezTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
@@ -68,7 +68,7 @@ struct PedroRamirezTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try awaitAction(action, state: state, choose: [.pass])
 
         // Then
@@ -91,7 +91,7 @@ struct PedroRamirezTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

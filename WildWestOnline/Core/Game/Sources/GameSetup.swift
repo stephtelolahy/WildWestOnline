@@ -1,16 +1,16 @@
 //
-//  Setup.swift
+//  GameSetup.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-public enum Setup {
+public enum GameSetup {
     public static func buildGame(
         playersCount: Int,
         inventory: Inventory,
         preferredFigure: String? = nil
-    ) -> GameState {
+    ) -> GameFeature.State {
         precondition(preferredFigure == nil, "unimplemted `preferredFigure`")
         return buildGame(
             figures: Array(inventory.figures.shuffled().prefix(playersCount)),
@@ -25,9 +25,9 @@ public enum Setup {
         deck: [String],
         cards: [String: Card],
         defaultAbilities: [String]
-    ) -> GameState {
+    ) -> GameFeature.State {
         var deck = deck
-        let players = figures.reduce(into: [String: Player]()) { result, figure in
+        let players = figures.reduce(into: [String: GameFeature.State.Player]()) { result, figure in
             result[figure] = buildPlayer(
                 figure: figure,
                 cards: cards,
@@ -59,13 +59,13 @@ public enum Setup {
     }
 }
 
-private extension Setup {
+private extension GameSetup {
     static func buildPlayer(
         figure: String,
         cards: [String: Card],
         deck: inout [String],
         defaultAbilities: [String]
-    ) -> Player {
+    ) -> GameFeature.State.Player {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
         }
@@ -108,7 +108,7 @@ private extension Setup {
 }
 
 private extension Card {
-    func amountOfActiveEffect(named action: GameAction.Name) -> Int? {
+    func amountOfActiveEffect(named action: Card.Effect.Name) -> Int? {
         guard let effect = onActive.first(where: { $0.name == action }),
               let selector = effect.selectors.first,
               case .setAmount(let value) = selector else {

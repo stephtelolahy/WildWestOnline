@@ -11,14 +11,14 @@ import GameCore
 struct PlayTest {
     @Test func play_shouldRemoveCardFromHand() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
             .build()
 
         // When
-        let action = GameAction.play("c1", player: "p1")
+        let action = GameFeature.Action.play("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

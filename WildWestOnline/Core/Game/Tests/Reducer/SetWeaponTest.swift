@@ -11,12 +11,12 @@ import GameCore
 struct SetWeaponTest {
     @Test func setWeapon_shouldSetValue() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .build()
 
         // When
-        let action = GameAction.setWeapon(3, player: "p1")
+        let action = GameFeature.Action.setWeapon(3, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

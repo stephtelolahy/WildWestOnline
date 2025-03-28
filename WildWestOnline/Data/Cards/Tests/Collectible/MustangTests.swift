@@ -18,7 +18,7 @@ struct MustangTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.mustang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.mustang, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -38,7 +38,7 @@ struct MustangTests {
             .build()
 
         // When
-        let action = GameAction.discardInPlay(.mustang, player: "p1")
+        let action = GameFeature.Action.discardInPlay(.mustang, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

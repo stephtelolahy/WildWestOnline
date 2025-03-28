@@ -112,5 +112,5 @@ private func performChoices(
 
     let expectedChoice = choicesHolder.choices.remove(at: 0)
     let selection = pendingChoice.options[expectedChoice.selectionIndex]
-    return GameAction.choose(selection.label, player: pendingChoice.chooser)
+    return GameFeature.Action.choose(selection.label, player: pendingChoice.chooser)
 }

@@ -19,7 +19,7 @@ struct StagecoachTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.stagecoach, player: "p1")
+        let action = GameFeature.Action.preparePlay(.stagecoach, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

@@ -53,7 +53,7 @@ struct AppFeatureTest {
             navigation: .init(mainStack: .init(path: [.home, .game])),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
-            game: GameState.makeBuilder().build()
+            game: GameFeature.State.makeBuilder().build()
         )
         let sut = await createAppStore(initialState: state)
 

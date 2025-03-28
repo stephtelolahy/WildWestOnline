@@ -20,7 +20,7 @@ struct BlackJackTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -43,7 +43,7 @@ struct BlackJackTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

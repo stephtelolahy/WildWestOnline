@@ -24,7 +24,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p2")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p2")
         let result = try awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
 
         // Then
@@ -52,7 +52,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p2")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p2")
         let result = try awaitAction(action, state: state, choose: ["p1"])
 
         // Then
@@ -74,7 +74,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

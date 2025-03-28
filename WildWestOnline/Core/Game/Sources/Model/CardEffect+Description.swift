@@ -1,11 +1,11 @@
 //
-//  GameAction+Description.swift
+//  CardEffect+Description.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
 //
 
-extension GameAction: CustomStringConvertible {
+extension Card.Effect: CustomStringConvertible {
     public var description: String {
         [
             selectors.isNotEmpty ? ".." : nil,
@@ -22,12 +22,12 @@ extension GameAction: CustomStringConvertible {
     }
 }
 
-private extension GameAction.Name {
+private extension Card.Effect.Name {
     var emoji: String {
         Self.dict[self] ?? "⚠️\(rawValue)"
     }
 
-    static let dict: [GameAction.Name: String] = [
+    static let dict: [Card.Effect.Name: String] = [
         .activate: "🟢",
         .preparePlay: "⚪️",
         .play: "🟠",

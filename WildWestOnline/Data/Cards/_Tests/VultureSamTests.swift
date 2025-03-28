@@ -24,7 +24,7 @@ struct VultureSamTests {
             .build()
 
         // When
-        let action = GameAction.eliminate(player: "p2")
+        let action = GameFeature.Action.eliminate(player: "p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

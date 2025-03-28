@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 
-public extension GameAction {
+public extension GameFeature.Action {
     static func preparePlay(_ played: String, player: String) -> Self {
         .init(
             name: .preparePlay,

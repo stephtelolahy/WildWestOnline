@@ -20,7 +20,7 @@ struct BartCassidyTests {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -41,7 +41,7 @@ struct BartCassidyTests {
             .build()
 
         // When
-        let action = GameAction.damage(2, player: "p1")
+        let action = GameFeature.Action.damage(2, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -63,7 +63,7 @@ struct BartCassidyTests {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

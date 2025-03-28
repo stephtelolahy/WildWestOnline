@@ -23,7 +23,7 @@ struct DiscardAllCardsOnEliminatedTest {
             .build()
 
         // When
-        let action = GameAction.eliminate(player: "p1")
+        let action = GameFeature.Action.eliminate(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

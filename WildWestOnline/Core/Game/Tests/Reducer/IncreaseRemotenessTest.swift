@@ -11,14 +11,14 @@ import GameCore
 struct IncreaseRemotenessTest {
     @Test func increseRemoteness_shouldUpdatePlayerAttribute() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withRemoteness(0)
             }
             .build()
 
         // When
-        let action = GameAction.increaseRemoteness(1, player: "p1")
+        let action = GameFeature.Action.increaseRemoteness(1, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

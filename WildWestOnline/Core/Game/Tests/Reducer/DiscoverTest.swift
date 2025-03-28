@@ -12,12 +12,12 @@ import Combine
 struct DiscoverTest {
     @Test func discover_shouldAddCardToDiscovered() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withDeck(["c1", "c2", "c3"])
             .build()
 
         // When
-        let action = GameAction.discover()
+        let action = GameFeature.Action.discover()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -27,13 +27,13 @@ struct DiscoverTest {
 
     @Test func discover_withAlreadyDiscoveredCard_shouldAddCardNextToDiscovered() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withDeck(["c1", "c2", "c3"])
             .withDiscovered(["c1"])
             .build()
 
         // When
-        let action = GameAction.discover()
+        let action = GameFeature.Action.discover()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -43,13 +43,13 @@ struct DiscoverTest {
 
     @Test func discover_emptyDeck_withEnoughCards_shouldResetDeck() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withDeck([])
             .withDiscard(["c1", "c2"])
             .build()
 
         // When
-        let action = GameAction.discover()
+        let action = GameFeature.Action.discover()
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -60,28 +60,28 @@ struct DiscoverTest {
 
     @Test func discover_emptyDeck_withoutEnoughCards_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .build()
 
         // When
         // Then
-        let action = GameAction.discover()
-        await #expect(throws: GameError.insufficientDeck) {
+        let action = GameFeature.Action.discover()
+        await #expect(throws: Card.Failure.insufficientDeck) {
             try await dispatch(action, state: state)
         }
     }
 
     @Test func discover_nonEmptyDeck_withoutEnoughCards_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withDiscovered(["c1"])
             .withDeck(["c1"])
             .build()
 
         // When
         // Then
-        let action = GameAction.discover()
-        await #expect(throws: GameError.insufficientDeck) {
+        let action = GameFeature.Action.discover()
+        await #expect(throws: Card.Failure.insufficientDeck) {
             try await dispatch(action, state: state)
         }
     }

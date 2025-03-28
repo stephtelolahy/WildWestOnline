@@ -18,7 +18,7 @@ struct ScopeTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.scope, player: "p1")
+        let action = GameFeature.Action.preparePlay(.scope, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -38,7 +38,7 @@ struct ScopeTest {
             .build()
 
         // When
-        let action = GameAction.discardInPlay(.scope, player: "p1")
+        let action = GameFeature.Action.discardInPlay(.scope, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

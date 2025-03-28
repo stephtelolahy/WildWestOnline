@@ -21,7 +21,7 @@ struct SidKetchumTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
@@ -47,7 +47,7 @@ struct SidKetchumTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
@@ -73,7 +73,7 @@ struct SidKetchumTests {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             #expect(error as? ArgCard.Error == .noCard(.selectHand))
         }
@@ -92,7 +92,7 @@ struct SidKetchumTests {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             #expect(error as? PlayersState.Error == .playerAlreadyMaxHealth("p1"))
         }

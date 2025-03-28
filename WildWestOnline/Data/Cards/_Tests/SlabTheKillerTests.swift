@@ -35,7 +35,7 @@ struct SlabTheKillerTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed1, .missed2])
 
         // Then
@@ -66,7 +66,7 @@ struct SlabTheKillerTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then

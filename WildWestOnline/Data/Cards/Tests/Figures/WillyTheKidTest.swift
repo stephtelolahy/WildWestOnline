@@ -12,7 +12,7 @@ import CardsData
 struct WillyTheKidTest {
     @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {
         // Given
-        let state = Setup.buildGame(
+        let state = GameSetup.buildGame(
             figures: [.willyTheKid],
             deck: [],
             cards: Cards.all,
@@ -39,7 +39,7 @@ struct WillyTheKidTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0)
         ]

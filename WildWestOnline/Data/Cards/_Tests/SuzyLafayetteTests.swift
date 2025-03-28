@@ -20,7 +20,7 @@ struct SuzyLafayetteTests {
             .build()
 
         // When
-        let action = GameAction.discardHand("c1", player: "p1")
+        let action = GameFeature.Action.discardHand("c1", player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -40,7 +40,7 @@ struct SuzyLafayetteTests {
             .build()
 
         // When
-        let action = GameAction.discardHand("c1", player: "p1")
+        let action = GameFeature.Action.discardHand("c1", player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

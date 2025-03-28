@@ -11,7 +11,7 @@ import Testing
 struct DistanceTest {
     @Test func distance_withoutEquipement_shouldBeTheLowestValue() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3")
@@ -49,7 +49,7 @@ struct DistanceTest {
 
     @Test func distance_withScope_shouldDecrementDistanceToOthers() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withMagnifying(1)
             }
@@ -69,7 +69,7 @@ struct DistanceTest {
 
     @Test func distance_withRemoteness_shouldIncrementDistanceFromOthers() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withRemoteness(1)
             }

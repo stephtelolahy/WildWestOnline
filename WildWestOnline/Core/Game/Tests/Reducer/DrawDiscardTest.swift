@@ -12,13 +12,13 @@ import Combine
 struct DrawDiscardTest {
     @Test func drawDiscard_whithNonEmptyDiscard_shouldRemoveTopCard() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withDiscard(["c1", "c2"])
             .build()
 
         // When
-        let action = GameAction.drawDiscard(player: "p1")
+        let action = GameFeature.Action.drawDiscard(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -28,14 +28,14 @@ struct DrawDiscardTest {
 
     @Test func drawDiscard_whitEmptyDiscard_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .build()
 
         // When
         // Then
-        let action = GameAction.drawDiscard(player: "p1")
-        await #expect(throws: GameError.insufficientDiscard) {
+        let action = GameFeature.Action.drawDiscard(player: "p1")
+        await #expect(throws: Card.Failure.insufficientDiscard) {
             try await dispatch(action, state: state)
         }
     }

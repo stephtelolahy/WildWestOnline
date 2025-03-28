@@ -11,12 +11,12 @@ import GameCore
 struct SetPlayLimitPerTurnTest {
     @Test func setPlayLimitPerTurn_shouldSetValue() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .build()
 
         // When
-        let action = GameAction.setPlayLimitPerTurn(["c1": 2], player: "p1")
+        let action = GameFeature.Action.setPlayLimitPerTurn(["c1": 2], player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

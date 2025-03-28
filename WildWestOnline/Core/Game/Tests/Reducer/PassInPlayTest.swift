@@ -11,7 +11,7 @@ import GameCore
 struct PassInPlayTest {
     @Test func passInPlay_shouldRemoveCardFromInPlay() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withInPlay(["c1", "c2"])
             }
@@ -19,7 +19,7 @@ struct PassInPlayTest {
             .build()
 
         // When
-        let action = GameAction.passInPlay("c1", target: "p2", player: "p1")
+        let action = GameFeature.Action.passInPlay("c1", target: "p2", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

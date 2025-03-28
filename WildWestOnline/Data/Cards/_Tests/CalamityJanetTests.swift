@@ -22,7 +22,7 @@ struct CalamityJanetTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
@@ -46,7 +46,7 @@ struct CalamityJanetTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.missed, player: "p1")
+        let action = GameFeature.Action.preparePlay(.missed, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2"])
 
         // Then
@@ -72,7 +72,7 @@ struct CalamityJanetTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .bang])
 
         // Then
@@ -99,7 +99,7 @@ struct CalamityJanetTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then

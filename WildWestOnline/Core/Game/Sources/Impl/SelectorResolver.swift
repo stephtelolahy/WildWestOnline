@@ -5,14 +5,14 @@
 //
 
 extension Card.Selector {
-    func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+    func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
         try resolver.resolve(pendingAction, state)
     }
 }
 
 private extension Card.Selector {
     protocol Resolver {
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction]
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect]
     }
 
     var resolver: Resolver {
@@ -30,7 +30,7 @@ private extension Card.Selector {
     struct Repeat: Resolver {
         let number: Card.Selector.Number
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             let value = number.resolve(actor: pendingAction.payload.player, state: state)
             return Array(repeating: pendingAction, count: value)
         }
@@ -39,7 +39,7 @@ private extension Card.Selector {
     struct SetAmount: Resolver {
         let number: Int
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             [pendingAction.withAmount(number)]
         }
     }
@@ -47,7 +47,7 @@ private extension Card.Selector {
     struct SetTarget: Resolver {
         let targetGroup: Card.Selector.TargetGroup
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             try targetGroup.resolve(state, ctx: pendingAction.payload)
                 .map { pendingAction.withTarget($0) }
         }
@@ -56,7 +56,7 @@ private extension Card.Selector {
     struct SetCard: Resolver {
         let cardGroup: Card.Selector.CardGroup
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             try cardGroup.resolve(state, ctx: pendingAction.payload)
                 .map { pendingAction.withCard($0) }
         }
@@ -67,7 +67,7 @@ private extension Card.Selector {
         let resolved: ChooseOneResolved?
         let selection: String?
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             if let resolved {
                 // handle choice
                 guard let selection else {
@@ -96,7 +96,7 @@ private extension Card.Selector {
     struct SetAmountPerCard: Resolver {
         let limit: [String: Int]
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             [pendingAction.withAmountPerCard(limit)]
         }
     }
@@ -104,7 +104,7 @@ private extension Card.Selector {
     struct Verify: Resolver {
         let stateReq: Card.StateReq
 
-        func resolve(_ pendingAction: GameAction, _ state: GameState) throws(GameError) -> [GameAction] {
+        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             guard stateReq.match(player: pendingAction.payload.player, state: state) else {
                 return []
             }
@@ -114,7 +114,7 @@ private extension Card.Selector {
     }
 }
 
-extension GameAction {
+extension Card.Effect {
     func withTarget(_ target: String) -> Self {
         var copy = self
         copy.payload.target = target

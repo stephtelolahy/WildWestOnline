@@ -5,7 +5,7 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 
-public extension GameState {
+public extension GameFeature.State {
     class Builder {
         private var players: [String: Player] = [:]
         private var cards: [String: Card] = [:]
@@ -14,7 +14,8 @@ public extension GameState {
         private var discovered: [String] = []
         private var playOrder: [String] = []
         private var startOrder: [String] = []
-        private var queue: [GameAction] = []
+        private var queue: [Card.Effect] = []
+        private var error: Card.Failure?
         private var playedThisTurn: [String: Int] = [:]
         private var turn: String?
         private var active: [String: [String]] = [:]
@@ -22,7 +23,7 @@ public extension GameState {
         private var playMode: [String: PlayMode] = [:]
         private var actionDelayMilliSeconds: Int = 0
 
-        public func build() -> GameState {
+        public func build() -> GameFeature.State {
             .init(
                 players: players,
                 cards: cards,
@@ -32,6 +33,7 @@ public extension GameState {
                 playOrder: playOrder,
                 startOrder: startOrder,
                 queue: queue,
+                error: error,
                 playedThisTurn: playedThisTurn,
                 turn: turn,
                 active: active,
@@ -82,7 +84,7 @@ public extension GameState {
             return self
         }
 
-        public func withQueue(_ value: [GameAction]) -> Self {
+        public func withQueue(_ value: [Card.Effect]) -> Self {
             queue = value
             return self
         }
@@ -103,7 +105,7 @@ public extension GameState {
         }
 
         public func withPendingChoice(_ value: Card.Selector.ChooseOneResolved) -> Self {
-            let nextAction = GameAction(
+            let nextAction = Card.Effect(
                 name: .discardHand,
                 selectors: [.chooseOne(.card(), resolved: value, selection: nil)]
             )
@@ -117,7 +119,7 @@ public extension GameState {
     }
 }
 
-public extension Player {
+public extension GameFeature.State.Player {
     class Builder {
         public var figure: String = ""
         private var health: Int = 0
@@ -132,7 +134,7 @@ public extension Player {
         private var playLimitPerTurn: [String: Int] = [:]
         private var drawCards: Int = 0
 
-        public func build() -> Player {
+        public func build() -> GameFeature.State.Player {
             .init(
                 figure: figure,
                 health: health,

@@ -6,7 +6,7 @@
 //
 
 extension Card.Selector.TargetGroup {
-    func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+    func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
         let players = resolver.resolve(state, ctx: ctx)
         guard players.isNotEmpty else {
             throw .noTarget(self)
@@ -18,7 +18,7 @@ extension Card.Selector.TargetGroup {
 
 private extension Card.Selector.TargetGroup {
     protocol Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String]
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String]
     }
 
     var resolver: Resolver {
@@ -31,7 +31,7 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct Damaged: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.player)
                 .filter { state.players.get($0).isDamaged }
@@ -39,14 +39,14 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct Active: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.player)
         }
     }
 
     struct Others: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.player)
                 .filter { $0 != ctx.target }
@@ -54,7 +54,7 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct Next: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             let current = ctx.player
             let next = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
@@ -64,7 +64,7 @@ private extension Card.Selector.TargetGroup {
     }
 }
 
-private extension Player {
+private extension GameFeature.State.Player {
     var isDamaged: Bool {
         health < maxHealth
     }

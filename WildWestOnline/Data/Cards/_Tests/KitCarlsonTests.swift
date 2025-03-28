@@ -22,7 +22,7 @@ struct KitCarlsonTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c2"])
 
         // Then
@@ -48,7 +48,7 @@ struct KitCarlsonTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c2"])
 
         // Then

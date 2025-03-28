@@ -19,7 +19,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.jail, player: "p1")
+        let action = GameFeature.Action.preparePlay(.jail, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0)
         ]
@@ -45,7 +45,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -74,7 +74,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

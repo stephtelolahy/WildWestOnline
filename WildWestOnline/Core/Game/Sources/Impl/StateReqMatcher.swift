@@ -6,14 +6,14 @@
 //
 
 extension Card.StateReq {
-    func match(player: String, state: GameState) -> Bool {
+    func match(player: String, state: GameFeature.State) -> Bool {
         matcher.match(player: player, state: state)
     }
 }
 
 private extension Card.StateReq {
     protocol Matcher {
-        func match(player: String, state: GameState) -> Bool
+        func match(player: String, state: GameFeature.State) -> Bool
     }
 
     var matcher: Matcher {
@@ -31,7 +31,7 @@ private extension Card.StateReq {
     struct PlayersAtLeast: Matcher {
         let amount: Int
 
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             state.playOrder.count >= amount
         }
     }
@@ -39,7 +39,7 @@ private extension Card.StateReq {
     struct PlayLimitPerTurn: Matcher {
         let limit: [String: Int]
 
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             guard let card = limit.keys.first else {
                 fatalError("No card specified in limit")
             }
@@ -59,19 +59,19 @@ private extension Card.StateReq {
     }
 
     struct HealthZero: Matcher {
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             state.players.get(player).health <= 0
         }
     }
 
     struct GameOver: Matcher {
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             state.playOrder.count <= 1
         }
     }
 
     struct CurrentTurn: Matcher {
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             state.turn == player
         }
     }
@@ -79,7 +79,7 @@ private extension Card.StateReq {
     struct DrawMatching: Matcher {
         let regex: String
 
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             let drawCards = state.players.get(player).drawCards
             return state.discard
                 .prefix(drawCards)
@@ -90,7 +90,7 @@ private extension Card.StateReq {
     struct DrawNotMatching: Matcher {
         let regex: String
 
-        func match(player: String, state: GameState) -> Bool {
+        func match(player: String, state: GameFeature.State) -> Bool {
             let drawCards = state.players.get(player).drawCards
             return state.discard
                 .prefix(drawCards)

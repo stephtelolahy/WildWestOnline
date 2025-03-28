@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.TargetCondition {
-    func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+    func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
         matcher.match(player, state: state, ctx: ctx)
     }
 }
 
 private extension Card.Selector.TargetCondition {
     protocol Matcher {
-        func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool
+        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool
     }
 
     var matcher: Matcher {
@@ -25,7 +25,7 @@ private extension Card.Selector.TargetCondition {
     }
 
     struct HavingCard: Matcher {
-        func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let playerObj = state.players.get(player)
             if player == ctx.target {
                 return playerObj.inPlay.isNotEmpty
@@ -38,19 +38,19 @@ private extension Card.Selector.TargetCondition {
     struct AtDistance: Matcher {
         let distance: Int
 
-        func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             state.distance(from: ctx.player, to: player) <= distance
         }
     }
 
     struct Reachable: Matcher {
-        func match(_ player: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             state.distance(from: ctx.player, to: player) <= state.players.get(ctx.player).weapon
         }
     }
 }
 
-extension GameState {
+extension GameFeature.State {
     func distance(from playerId: String, to other: String) -> Int {
         guard let pIndex = playOrder.firstIndex(of: playerId),
               let oIndex = playOrder.firstIndex(of: other) else {

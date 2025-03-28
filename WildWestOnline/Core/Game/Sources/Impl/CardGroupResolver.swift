@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.CardGroup {
-    func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+    func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
         try resolver.resolve(state, ctx: ctx)
     }
 }
 
 private extension Card.Selector.CardGroup {
     protocol Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String]
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String]
     }
 
     var resolver: Resolver {
@@ -26,31 +26,31 @@ private extension Card.Selector.CardGroup {
     }
 
     struct AllInPlay: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
             state.players.get(ctx.target!).inPlay
         }
     }
 
     struct AllHand: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
             state.players.get(ctx.target!).hand
         }
     }
 
     struct Played: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
             [ctx.played]
         }
     }
 
     struct EquipedWeapon: Resolver {
-        func resolve(_ state: GameState, ctx: GameAction.Payload) throws(GameError) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
             state.players.get(ctx.target!).inPlay.filter { state.isWeapon($0) }
         }
     }
 }
 
-private extension GameState {
+private extension GameFeature.State {
     func isWeapon(_ card: String) -> Bool {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)

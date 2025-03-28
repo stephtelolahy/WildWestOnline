@@ -64,7 +64,7 @@ public struct GameView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar { toolBarView }
             .task {
-                await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+                await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
             }
             .onReceive(store.eventPublisher) { newEvent in
                 if let action = newEvent as? GameAction, action.isRenderable {
@@ -115,7 +115,7 @@ private extension GameView {
                         Button(action: {
                             guard item.active else { return }
                             Task {
-                                await store.dispatch(GameAction.preparePlay(item.card, player: player))
+                                await store.dispatch(GameFeature.Action.preparePlay(item.card, player: player))
                             }
                         }) {
                             CardView(content: .id(item.card), format: .large, active: item.active)
@@ -145,7 +145,7 @@ private extension GameView {
                     buttons: chooseOne.options.map { option in
                             .default(Text(option)) {
                                 Task {
-                                    await self.store.dispatch(GameAction.choose(option, player: player))
+                                    await self.store.dispatch(GameFeature.Action.choose(option, player: player))
                                 }
                             }
                     }

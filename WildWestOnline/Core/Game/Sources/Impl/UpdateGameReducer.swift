@@ -6,7 +6,7 @@
 import Redux
 
 public func updateGameReducer(
-    state: inout GameState,
+    state: inout GameFeature.State,
     action: ActionProtocol,
     dependencies: Void
 ) throws -> Effect {
@@ -16,8 +16,8 @@ public func updateGameReducer(
     }
 }
 
-private func nextAction(state: GameState, action: ActionProtocol) async -> ActionProtocol? {
-    guard let action = action as? GameAction else {
+private func nextAction(state: GameFeature.State, action: ActionProtocol) async -> ActionProtocol? {
+    guard let action = action as? Card.Effect else {
         return nil
     }
 
@@ -53,14 +53,14 @@ private func nextAction(state: GameState, action: ActionProtocol) async -> Actio
     return nil
 }
 
-private extension GameState {
-    func triggeredEffect(on event: GameAction) -> GameAction? {
+private extension GameFeature.State {
+    func triggeredEffect(on event: Card.Effect) -> Card.Effect? {
         // process only resolved event
         guard event.selectors.isEmpty else {
             return nil
         }
 
-        var triggered: [GameAction] = []
+        var triggered: [Card.Effect] = []
 
         for player in playOrder {
             let playerObj = players.get(player)
@@ -117,7 +117,7 @@ private extension GameState {
         }
     }
 
-    func triggeredEffects(on event: GameAction, by card: String, player: String) -> [GameAction]? {
+    func triggeredEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         guard cardObj.canTrigger.isNotEmpty,
@@ -134,7 +134,7 @@ private extension GameState {
         }
     }
 
-    func activeEffects(card: String, player: String) -> [GameAction]? {
+    func activeEffects(card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.onActive.map {
@@ -146,7 +146,7 @@ private extension GameState {
         }
     }
 
-    func deactiveEffects(card: String, player: String) -> [GameAction]? {
+    func deactiveEffects(card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.onDeactive.map {
@@ -158,7 +158,7 @@ private extension GameState {
         }
     }
 
-    func activatePlayableCards() -> GameAction? {
+    func activatePlayableCards() -> Card.Effect? {
         guard let player = turn else {
             return nil
         }
@@ -166,28 +166,28 @@ private extension GameState {
         let playerObj = players.get(player)
         let activeCards = (playerObj.abilities + players.get(player).hand)
             .filter {
-                GameAction.validatePlay(card: $0, player: player, state: self)
+                Card.Effect.validatePlay(card: $0, player: player, state: self)
             }
 
         guard activeCards.isNotEmpty else {
             return nil
         }
 
-        return GameAction.activate(activeCards, player: player)
+        return Card.Effect.activate(activeCards, player: player)
     }
 }
 
 private extension Card.EventReq {
-    func match(event: GameAction, actor: String, state: GameState) -> Bool {
+    func match(event: Card.Effect, actor: String, state: GameFeature.State) -> Bool {
         event.name == actionName
         && event.payload.target == actor
         && stateReqs.allSatisfy { $0.match(player: actor, state: state) }
     }
 }
 
-private extension GameAction {
-    static func validatePlay(card: String, player: String, state: GameState) -> Bool {
-        let action = GameAction.preparePlay(card, player: player)
+private extension Card.Effect {
+    static func validatePlay(card: String, player: String, state: GameFeature.State) -> Bool {
+        let action = Card.Effect.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
 //            print("🟢 validatePlay: \(card)")
@@ -198,14 +198,14 @@ private extension GameAction {
         }
     }
 
-    func validate(state: GameState) throws {
+    func validate(state: GameFeature.State) throws {
         var newState = state
 
-        _ = try gameReducer(state: &newState, action: self, dependencies: ())
+        _ = try GameFeature.reduce(into: &newState, action: self, dependencies: ())
 
         if let choice = newState.pendingChoice {
             for option in choice.options {
-                let next = GameAction.choose(option.label, player: choice.chooser)
+                let next = Card.Effect.choose(option.label, player: choice.chooser)
                 try next.validate(state: newState)
             }
         } else if newState.queue.isNotEmpty {

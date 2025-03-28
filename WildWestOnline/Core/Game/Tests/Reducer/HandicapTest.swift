@@ -12,7 +12,7 @@ import Combine
 struct HandicapTest {
     @Test func handicap_withCardNotInPlay_shouldPutcardInTargetInPlay() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
@@ -20,7 +20,7 @@ struct HandicapTest {
             .build()
 
         // When
-        let action = GameAction.handicap("c1", target: "p2", player: "p1")
+        let action = GameFeature.Action.handicap("c1", target: "p2", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -32,7 +32,7 @@ struct HandicapTest {
 
     @Test func handicap_withCardAlreadyInPlay_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c-1"])
             }
@@ -43,8 +43,8 @@ struct HandicapTest {
 
         // When
         // Then
-        let action = GameAction.handicap("c-1", target: "p2", player: "p1")
-        await #expect(throws: GameError.cardAlreadyInPlay("c")) {
+        let action = GameFeature.Action.handicap("c-1", target: "p2", player: "p1")
+        await #expect(throws: Card.Failure.cardAlreadyInPlay("c")) {
             try await dispatch(action, state: state)
         }
     }

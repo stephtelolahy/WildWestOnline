@@ -61,7 +61,7 @@ public enum GameSessionFeature {
     }
 
     private static func createGame(settings: SettingsFeature.State, inventory: Inventory) -> GameState {
-        var game = Setup.buildGame(
+        var game = GameSetup.buildGame(
             playersCount: settings.playersCount,
             inventory: inventory,
             preferredFigure: settings.preferredFigure

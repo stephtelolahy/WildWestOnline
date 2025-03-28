@@ -22,7 +22,7 @@ struct BeerTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.beer, player: "p1")
+        let action = GameFeature.Action.preparePlay(.beer, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -46,8 +46,8 @@ struct BeerTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.beer, player: "p1")
-        await #expect(throws: GameError.playerAlreadyMaxHealth("p1")) {
+        let action = GameFeature.Action.preparePlay(.beer, player: "p1")
+        await #expect(throws: Card.Failure.playerAlreadyMaxHealth("p1")) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
@@ -65,8 +65,8 @@ struct BeerTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.beer, player: "p1")
-        await #expect(throws: GameError.noReq(.playersAtLeast(3))) {
+        let action = GameFeature.Action.preparePlay(.beer, player: "p1")
+        await #expect(throws: Card.Failure.noReq(.playersAtLeast(3))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

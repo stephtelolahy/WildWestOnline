@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.CardCondition {
-    func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+    func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
         matcher.match(card, state: state, ctx: ctx)
     }
 }
 
 private extension Card.Selector.CardCondition {
     protocol Matcher {
-        func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool
+        func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool
     }
 
     var matcher: Matcher {
@@ -25,7 +25,7 @@ private extension Card.Selector.CardCondition {
     }
 
     struct CounterShot: Matcher {
-        func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
             return cardObj.counterShot
@@ -35,13 +35,13 @@ private extension Card.Selector.CardCondition {
     struct Named: Matcher {
         let name: String
 
-        func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             Card.extractName(from: card) == name
         }
     }
 
     struct FromHand: Matcher {
-        func match(_ card: String, state: GameState, ctx: GameAction.Payload) -> Bool {
+        func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let playerObj = state.players.get(ctx.target!)
             return playerObj.hand.contains(card)
         }

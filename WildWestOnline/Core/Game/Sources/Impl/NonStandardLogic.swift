@@ -8,8 +8,8 @@
 enum NonStandardLogic {
     /// Convert action.name to child action
     static func  validatePendingAction(
-        _ pendingAction: inout GameAction,
-        state: GameState
+        _ pendingAction: inout Card.Effect,
+        state: GameFeature.State
     ) {
         if pendingAction.name == .discard {
             let card = pendingAction.payload.card!
@@ -38,8 +38,8 @@ enum NonStandardLogic {
 
     /// Determine child effect's target
     static func childEffectTarget(
-        _ name: GameAction.Name,
-        payload: GameAction.Payload
+        _ name: Card.Effect.Name,
+        payload: Card.Effect.Payload
     ) -> String? {
         switch name {
         case .choose,
@@ -61,7 +61,7 @@ enum NonStandardLogic {
     }
 
     /// Migrate to default Equatable conformance
-    static func areActionsEqual(_ lhs: GameAction, _ rhs: GameAction) -> Bool {
+    static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
         case .queue,
                 .preparePlay,

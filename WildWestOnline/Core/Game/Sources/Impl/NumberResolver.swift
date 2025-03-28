@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.Number {
-    func resolve(actor: String, state: GameState) -> Int {
+    func resolve(actor: String, state: GameFeature.State) -> Int {
         resolver.resolve(actor: actor, state: state)
     }
 }
 
 private extension Card.Selector.Number {
     protocol Resolver {
-        func resolve(actor: String, state: GameState) -> Int
+        func resolve(actor: String, state: GameFeature.State) -> Int
     }
 
     var resolver: Resolver {
@@ -28,19 +28,19 @@ private extension Card.Selector.Number {
     struct Value: Resolver {
         let rawValue: Int
 
-        func resolve(actor: String, state: GameState) -> Int {
+        func resolve(actor: String, state: GameFeature.State) -> Int {
             rawValue
         }
     }
 
     struct ActivePlayers: Resolver {
-        func resolve(actor: String, state: GameState) -> Int {
+        func resolve(actor: String, state: GameFeature.State) -> Int {
             state.playOrder.count
         }
     }
 
     struct ExcessHand: Resolver {
-        func resolve(actor: String, state: GameState) -> Int {
+        func resolve(actor: String, state: GameFeature.State) -> Int {
             let playerObj = state.players.get(actor)
             let handlLimit = if playerObj.handLimit > 0 {
                 playerObj.handLimit
@@ -54,7 +54,7 @@ private extension Card.Selector.Number {
     }
 
     struct DrawCards: Resolver {
-        func resolve(actor: String, state: GameState) -> Int {
+        func resolve(actor: String, state: GameFeature.State) -> Int {
             let playerObj = state.players.get(actor)
             return playerObj.drawCards
         }

@@ -18,7 +18,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.barrel, player: "p1")
+        let action = GameFeature.Action.preparePlay(.barrel, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -39,7 +39,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -62,7 +62,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -85,7 +85,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -109,7 +109,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -133,7 +133,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -158,7 +158,7 @@ struct BarrelTest {
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

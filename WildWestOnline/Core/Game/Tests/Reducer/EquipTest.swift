@@ -12,14 +12,14 @@ import Combine
 struct EquipTest {
     @Test func equip_withCardNotInPlay_shouldPutCardInPlay() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
             .build()
 
         // When
-        let action = GameAction.equip("c1", player: "p1")
+        let action = GameFeature.Action.equip("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -30,7 +30,7 @@ struct EquipTest {
 
     @Test func equip_withCardAlreadyInPlay_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c-1"])
                     .withInPlay(["c-2"])
@@ -39,8 +39,8 @@ struct EquipTest {
 
         // When
         // Then
-        let action = GameAction.equip("c-1", player: "p1")
-        await #expect(throws: GameError.cardAlreadyInPlay("c")) {
+        let action = GameFeature.Action.equip("c-1", player: "p1")
+        await #expect(throws: Card.Failure.cardAlreadyInPlay("c")) {
             try await dispatch(action, state: state)
         }
     }

@@ -11,8 +11,8 @@ import GameCore
 struct AgressiveStrategyTest {
     @Test func evaluatePlayedCard() async throws {
         // Given
-        let state = GameState.makeBuilder().build()
-        let possibleMoves: [GameAction] = [
+        let state = GameFeature.State.makeBuilder().build()
+        let possibleMoves: [GameFeature.Action] = [
             .preparePlay("endTurn", player: "p1"),
             .preparePlay("panic", player: "p1"),
             .preparePlay("bang", player: "p1")
@@ -28,8 +28,8 @@ struct AgressiveStrategyTest {
 
     @Test func evaluateChoosenItem() async throws {
         // Given
-        let state = GameState.makeBuilder().build()
-        let possibleMoves: [GameAction] = [
+        let state = GameFeature.State.makeBuilder().build()
+        let possibleMoves: [GameFeature.Action] = [
             .choose("pass", player: "p1"),
             .choose("bang", player: "p1")
         ]

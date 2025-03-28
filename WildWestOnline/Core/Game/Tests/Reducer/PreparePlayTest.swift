@@ -12,7 +12,7 @@ import Combine
 struct PreparePlayTest {
     @Test func play_shouldNotDiscard() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
@@ -20,7 +20,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameFeature.Action.preparePlay("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -30,7 +30,7 @@ struct PreparePlayTest {
 
     @Test func play_firstTime_shouldSetPlayedThisTurn() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
@@ -38,7 +38,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameFeature.Action.preparePlay("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -47,7 +47,7 @@ struct PreparePlayTest {
 
     @Test func play_secondTime_shouldIncrementPlayedThisTurn() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
@@ -56,7 +56,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c1", player: "p1")
+        let action = GameFeature.Action.preparePlay("c1", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -65,7 +65,7 @@ struct PreparePlayTest {
 
     @Test func play_shouldQueueEffectsOfMatchingCardName() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c-2❤️"])
             }
@@ -73,7 +73,7 @@ struct PreparePlayTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay("c-2❤️", player: "p1")
+        let action = GameFeature.Action.preparePlay("c-2❤️", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -82,7 +82,7 @@ struct PreparePlayTest {
 
     @Test func play_withoutEffects_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
@@ -91,8 +91,8 @@ struct PreparePlayTest {
 
         // When
         // Assert
-        let action = GameAction.preparePlay("c1", player: "p1")
-        await #expect(throws: GameError.cardNotPlayable("c1")) {
+        let action = GameFeature.Action.preparePlay("c1", player: "p1")
+        await #expect(throws: Card.Failure.cardNotPlayable("c1")) {
             try await dispatch(action, state: state)
         }
     }

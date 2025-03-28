@@ -18,7 +18,7 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.dynamite, player: "p1")
+        let action = GameFeature.Action.preparePlay(.dynamite, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -41,7 +41,7 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -68,7 +68,7 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -105,7 +105,7 @@ struct DynamiteTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

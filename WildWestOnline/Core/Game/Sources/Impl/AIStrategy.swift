@@ -6,13 +6,13 @@
 //
 
 public protocol AIStrategy {
-    func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction
+    func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect
 }
 
 public struct RandomStrategy: AIStrategy {
     public init() {}
 
-    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+    public func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
         actions.randomElement()!
     }
 }
@@ -20,7 +20,7 @@ public struct RandomStrategy: AIStrategy {
 public struct AgressiveStrategy: AIStrategy {
     public init() {}
 
-    public func evaluateBestMove(_ actions: [GameAction], state: GameState) -> GameAction {
+    public func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
         // swiftlint:disable no_magic_numbers
         let itemValue: [String: Int] = [
             "bang": 3,
@@ -40,7 +40,7 @@ public struct AgressiveStrategy: AIStrategy {
     }
 }
 
-private extension GameAction {
+private extension Card.Effect {
     var selectedItem: String {
         switch name {
         case .preparePlay:

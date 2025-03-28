@@ -24,7 +24,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0)
         ]
@@ -53,7 +53,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 0)
@@ -85,7 +85,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -110,7 +110,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

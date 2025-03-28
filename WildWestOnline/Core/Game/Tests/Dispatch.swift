@@ -9,9 +9,9 @@ import GameCore
 import Combine
 
 func dispatch(
-    _ action: GameAction,
-    state: GameState
-) async throws -> GameState {
+    _ action: GameFeature.Action,
+    state: GameFeature.State
+) async throws -> GameFeature.State {
     let sut = await createGameStore(initialState: state)
     var receivedErrors: [Error] = []
     var cancellables: Set<AnyCancellable> = []
@@ -32,10 +32,10 @@ func dispatch(
     return await sut.state
 }
 
-@MainActor private func createGameStore(initialState: GameState) -> Store<GameState, Void> {
+@MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
     .init(
         initialState: initialState,
-        reducer: gameReducer,
+        reducer: GameFeature.reduce,
         dependencies: ()
     )
 }
