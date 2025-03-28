@@ -28,7 +28,7 @@ private extension Card.Selector.CardCondition {
         func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            return cardObj.counterShot
+            return cardObj.canCounterShot
         }
     }
 

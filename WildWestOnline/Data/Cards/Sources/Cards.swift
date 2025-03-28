@@ -373,7 +373,7 @@ private extension Cards {
         .init(
             name: .missed,
             desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            counterShot: true
+            canCounterShot: true
         )
     }
 

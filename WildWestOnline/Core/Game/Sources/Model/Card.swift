@@ -23,7 +23,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let onTrigger: [Effect]
     public let onActive: [Effect]
     public let onDeactive: [Effect]
-    public let counterShot: Bool
+    public let canCounterShot: Bool
 
     public init(
         name: String,
@@ -35,7 +35,7 @@ public struct Card: Equatable, Codable, Sendable {
         onTrigger: [Effect] = [],
         onActive: [Effect] = [],
         onDeactive: [Effect] = [],
-        counterShot: Bool = false
+        canCounterShot: Bool = false
     ) {
         self.name = name
         self.desc = desc
@@ -46,7 +46,7 @@ public struct Card: Equatable, Codable, Sendable {
         self.onTrigger = onTrigger
         self.onActive = onActive
         self.onDeactive = onDeactive
-        self.counterShot = counterShot
+        self.canCounterShot = canCounterShot
     }
 
     public struct Effect: ActionProtocol, Equatable, Codable {
@@ -129,7 +129,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public init(
             name: Name,
-            payload: Payload = .init(player: "", played: ""),
+            payload: Payload = .init(),
             selectors: [Card.Selector] = []
         ) {
             self.name = name
