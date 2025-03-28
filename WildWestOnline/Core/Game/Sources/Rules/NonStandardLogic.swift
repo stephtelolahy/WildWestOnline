@@ -60,7 +60,7 @@ enum NonStandardLogic {
         }
     }
 
-    /// Migrate to default Equatable conformance
+    /// Equatable conformance
     static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
         case .queue,

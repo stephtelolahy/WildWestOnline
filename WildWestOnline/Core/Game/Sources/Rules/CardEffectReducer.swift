@@ -1,5 +1,5 @@
 //
-//  EffectNameReducer.swift
+//  CardEffectReducer.swift
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
