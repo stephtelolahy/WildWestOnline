@@ -14,7 +14,7 @@ public enum GameSessionFeature {
     public enum Action: ActionProtocol {
         case start
         case quit
-        case setGame(GameState)
+        case setGame(GameFeature.State)
         case unsetGame
     }
 
@@ -60,7 +60,7 @@ public enum GameSessionFeature {
         return .none
     }
 
-    private static func createGame(settings: SettingsFeature.State, inventory: Inventory) -> GameState {
+    private static func createGame(settings: SettingsFeature.State, inventory: Inventory) -> GameFeature.State {
         var game = GameSetupService.buildGame(
             playersCount: settings.playersCount,
             inventory: inventory,

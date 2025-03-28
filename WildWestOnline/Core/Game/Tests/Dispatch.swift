@@ -4,9 +4,9 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
-import Redux
-import GameCore
 import Combine
+import Redux
+@testable import GameCore
 
 func dispatch(
     _ action: GameFeature.Action,

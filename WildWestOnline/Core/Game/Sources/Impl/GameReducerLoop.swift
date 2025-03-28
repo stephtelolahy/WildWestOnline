@@ -1,18 +1,20 @@
 //
-//  UpdateGameReducer.swift
+//  GameReducerLoop.swift
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 import Redux
 
-public func updateGameReducer(
-    state: inout GameFeature.State,
-    action: ActionProtocol,
-    dependencies: Void
-) throws -> Effect {
-    let state = state
-    return .run {
-        await nextAction(state: state, action: action)
+extension GameFeature {
+    static func reduceLoop(
+        into state: inout State,
+        action: ActionProtocol,
+        dependencies: Void
+    ) throws -> Effect {
+        let state = state
+        return .run {
+            await nextAction(state: state, action: action)
+        }
     }
 }
 

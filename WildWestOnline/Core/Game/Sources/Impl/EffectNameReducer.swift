@@ -1,5 +1,5 @@
 //
-//  ActionNameReducer.swift
+//  EffectNameReducer.swift
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //

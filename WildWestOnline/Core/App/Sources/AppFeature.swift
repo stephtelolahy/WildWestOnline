@@ -18,13 +18,13 @@ public enum AppFeature {
         public var navigation: NavigationFeature.State
         public var settings: SettingsFeature.State
         public let inventory: Inventory
-        public var game: GameState?
+        public var game: GameFeature.State?
 
         public init(
             navigation: NavigationFeature.State,
             settings: SettingsFeature.State,
             inventory: Inventory,
-            game: GameState? = nil
+            game: GameFeature.State? = nil
         ) {
             self.navigation = navigation
             self.settings = settings
@@ -64,11 +64,6 @@ public enum AppFeature {
             return .none
         }
 
-        // swiftlint:disable force_unwrapping
-        return .group([
-            try gameReducer(state: &state.game!, action: action, dependencies: ()),
-            try updateGameReducer(state: &state.game!, action: action, dependencies: ()),
-            try playAIMoveReducer(state: &state.game!, action: action, dependencies: ())
-        ])
+        return try GameFeature.reduce(into: &state.game!, action: action, dependencies: ())
     }
 }

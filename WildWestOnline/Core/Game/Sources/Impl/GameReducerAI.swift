@@ -1,22 +1,28 @@
 //
-//  PlayAIMoveReducer.swift
+//  GameReducerAI.swift
 //
 //  Created by Hugues Telolahy on 27/12/2024.
 //
 import Redux
 
-public func playAIMoveReducer(
-    state: inout GameFeature.State,
-    action: ActionProtocol,
-    dependencies: Void
-) throws -> Effect {
-    let state = state
-    return .run {
-        await playAIMove(state: state, action: action)
+extension GameFeature {
+    static func reduceAI(
+        into state: inout State,
+        action: ActionProtocol,
+        dependencies: Void
+    ) throws -> Effect {
+        let state = state
+        return .run {
+            await playAIMove(state: state, action: action)
+        }
     }
 }
 
 private func playAIMove(state: GameFeature.State, action: ActionProtocol) async -> ActionProtocol? {
+    guard action is GameFeature.Action else {
+        return nil
+    }
+
     if let pendingChoice = state.pendingChoice,
        state.playMode[pendingChoice.chooser] == .auto {
         let actions = pendingChoice.options.map { Card.Effect.choose($0.label, player: pendingChoice.chooser) }

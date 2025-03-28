@@ -6,8 +6,8 @@
 //
 import Redux
 
-public extension GameFeature {
-    public static func reduceMechanics(
+extension GameFeature {
+    static func reduceMechanics(
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
