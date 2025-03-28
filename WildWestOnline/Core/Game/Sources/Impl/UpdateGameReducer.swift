@@ -201,7 +201,7 @@ private extension Card.Effect {
     func validate(state: GameFeature.State) throws {
         var newState = state
 
-        _ = try GameFeature.reduce(into: &newState, action: self, dependencies: ())
+        _ = try GameFeature.reduceMechanics(into: &newState, action: self, dependencies: ())
 
         if let choice = newState.pendingChoice {
             for option in choice.options {

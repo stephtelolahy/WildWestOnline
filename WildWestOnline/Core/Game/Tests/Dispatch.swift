@@ -35,7 +35,7 @@ func dispatch(
 @MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
     .init(
         initialState: initialState,
-        reducer: GameFeature.reduce,
+        reducer: GameFeature.reduceMechanics,
         dependencies: ()
     )
 }
