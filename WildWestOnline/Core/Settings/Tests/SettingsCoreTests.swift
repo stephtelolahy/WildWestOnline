@@ -13,7 +13,7 @@ struct SettingsCoreTests {
     @Test func updatePlayersCount() async throws {
         // Given
         let state = Settings.State.makeBuilder().withPlayersCount(2).build()
-        let sut = await testStore(initialState: state)
+        let sut = await createSettingsStore(initialState: state)
 
         // When
         let action = Settings.Action.updatePlayersCount(5)
@@ -26,7 +26,7 @@ struct SettingsCoreTests {
     @Test func toggleSimulation() async throws {
         // Given
         let state = Settings.State.makeBuilder().withSimulation(true).build()
-        let sut = await testStore(initialState: state)
+        let sut = await createSettingsStore(initialState: state)
 
         // When
         let action = Settings.Action.toggleSimulation
@@ -39,7 +39,7 @@ struct SettingsCoreTests {
     @Test func updateWaitDelay() async throws {
         // Given
         let state = Settings.State.makeBuilder().withActionDelayMilliSeconds(0).build()
-        let sut = await testStore(initialState: state)
+        let sut = await createSettingsStore(initialState: state)
 
         // When
         let action = Settings.Action.updateActionDelayMilliSeconds(500)
@@ -52,7 +52,7 @@ struct SettingsCoreTests {
 
 private typealias SettingsStore = Store<Settings.State, Settings.Dependencies>
 
-@MainActor private func testStore(initialState: Settings.State) -> SettingsStore {
+@MainActor private func createSettingsStore(initialState: Settings.State) -> SettingsStore {
     .init(
         initialState: initialState,
         reducer: Settings.reducer,
