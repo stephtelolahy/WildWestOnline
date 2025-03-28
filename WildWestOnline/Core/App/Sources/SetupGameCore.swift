@@ -59,7 +59,7 @@ func setupGameReducer(
     return .none
 }
 
-private func createGame(settings: Settings.State, inventory: Inventory) -> GameState {
+private func createGame(settings: SettingsFeature.State, inventory: Inventory) -> GameState {
     var game = Setup.buildGame(
         playersCount: settings.playersCount,
         inventory: inventory,

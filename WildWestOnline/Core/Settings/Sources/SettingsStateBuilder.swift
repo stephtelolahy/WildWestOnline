@@ -4,14 +4,14 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/02/2024.
 //
-public extension Settings.State {
+public extension SettingsFeature.State {
     class Builder {
         private var playersCount: Int = 0
         private var actionDelayMilliSeconds: Int = 0
         private var simulation: Bool = false
         private var preferredFigure: String?
 
-        public func build() -> Settings.State {
+        public func build() -> SettingsFeature.State {
             .init(
                 playersCount: playersCount,
                 actionDelayMilliSeconds: actionDelayMilliSeconds,

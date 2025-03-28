@@ -16,7 +16,7 @@ struct HomeViewTest {
         // Given
         let appState = AppState(
             navigation: .init(),
-            settings: Settings.State.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )
 

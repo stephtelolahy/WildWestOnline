@@ -16,7 +16,7 @@ struct AppCoreTest {
         // Given
         let state = AppState(
             navigation: .init(mainStack: .init(path: [.home])),
-            settings: Settings.State.makeBuilder().withPlayersCount(5).build(),
+            settings: SettingsFeature.State.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
         let sut = await createAppStore(initialState: state)
@@ -34,7 +34,7 @@ struct AppCoreTest {
         // Given
         let state = AppState(
             navigation: .init(mainStack: .init(path: [.home, .game])),
-            settings: Settings.State.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: GameState.makeBuilder().build()
         )
