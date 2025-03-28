@@ -208,6 +208,7 @@ public struct Card: Equatable, Codable, Sendable {
             case drawCards
         }
 
+        /// Players from actor point of view
         public enum TargetGroup: String, Codable, Sendable {
             /// All active players
             case active
@@ -215,7 +216,7 @@ public struct Card: Equatable, Codable, Sendable {
             case damaged
             /// All other players
             case others
-            /// Next player after actor
+            /// Next player
             case next
         }
 
@@ -223,7 +224,7 @@ public struct Card: Equatable, Codable, Sendable {
             case allHand
             case allInPlay
             case played
-            case equipedWeapon
+            case weaponInPlay
         }
 
         public enum ChooseOneElement: Equatable, Codable, Sendable {
@@ -237,6 +238,18 @@ public struct Card: Equatable, Codable, Sendable {
             case eventuallyCounterCard([CardCondition] = [])
             /// Can `discard` hand card to reverse the effect's target
             case eventuallyReverseCard([CardCondition] = [])
+        }
+
+        public enum TargetCondition: Equatable, Codable, Sendable {
+            case havingCard
+            case atDistance(Int)
+            case reachable
+        }
+
+        public enum CardCondition: Equatable, Codable, Sendable {
+            case canCounterShot
+            case named(String)
+            case fromHand
         }
 
         public struct ChooseOneResolved: Equatable, Codable, Sendable {
@@ -258,21 +271,9 @@ public struct Card: Equatable, Codable, Sendable {
                 }
             }
         }
-
-        public enum TargetCondition: Equatable, Codable, Sendable {
-            case havingCard
-            case atDistance(Int)
-            case reachable
-        }
-
-        public enum CardCondition: Equatable, Codable, Sendable {
-            case counterShot
-            case named(String)
-            case fromHand
-        }
     }
 
-    /// Error on playing card
+    /// Card play error
     public enum Failure: Error, Equatable, Codable {
         case insufficientDeck
         case insufficientDiscard

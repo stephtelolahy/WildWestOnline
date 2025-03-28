@@ -18,13 +18,13 @@ private extension Card.Selector.CardCondition {
 
     var matcher: Matcher {
         switch self {
-        case .counterShot: CounterShot()
+        case .canCounterShot: CanCounterShot()
         case .named(let name): Named(name: name)
         case .fromHand: FromHand()
         }
     }
 
-    struct CounterShot: Matcher {
+    struct CanCounterShot: Matcher {
         func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
