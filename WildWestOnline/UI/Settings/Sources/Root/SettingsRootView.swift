@@ -48,7 +48,7 @@ public struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 Task {
-                    await store.dispatch(NavigationStackAction<MainDestination>.dismiss)
+                    await store.dispatch(NavigationCore.NavigationStack<Navigation.State.MainDestination>.Action.dismiss)
                 }
             }
         }
@@ -129,7 +129,7 @@ public struct SettingsRootView: View {
     private var figureView: some View {
         Button(action: {
             Task {
-                await store.dispatch(NavigationStackAction<SettingsDestination>.push(.figures))
+                await store.dispatch(NavigationCore.NavigationStack<Navigation.State.SettingsDestination>.Action.push(.figures))
             }
         }, label: {
             HStack {

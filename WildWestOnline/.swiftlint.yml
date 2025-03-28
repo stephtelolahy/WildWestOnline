@@ -14,6 +14,7 @@ analyzer_rules:
 disabled_rules:
 - blanket_disable_command
 - strong_iboutlet
+- nesting
 opt_in_rules:
   # - accessibility_label_for_image
   - accessibility_trait_for_button

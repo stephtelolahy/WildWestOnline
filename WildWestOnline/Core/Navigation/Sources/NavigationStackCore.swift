@@ -8,49 +8,51 @@ import Redux
 
 public protocol Destination: Identifiable, Hashable, Codable, Sendable {}
 
-public struct NavigationStackState<T: Destination>: Equatable, Codable, Sendable {
-    public var path: [T]
-    public var sheet: T?
+public enum NavigationStack<T: Destination> {
+    public struct State: Equatable, Codable, Sendable {
+        public var path: [T]
+        public var sheet: T?
 
-    public init(path: [T], sheet: T? = nil) {
-        self.path = path
-        self.sheet = sheet
+        public init(path: [T], sheet: T? = nil) {
+            self.path = path
+            self.sheet = sheet
+        }
     }
-}
 
-public enum NavigationStackAction<T: Destination>: ActionProtocol {
-    case push(T)
-    case pop
-    case setPath([T])
-    case present(T)
-    case dismiss
-}
+    public enum Action: ActionProtocol {
+        case push(T)
+        case pop
+        case setPath([T])
+        case present(T)
+        case dismiss
+    }
 
-public func navigationStackReducer<T: Destination>(
-    state: inout NavigationStackState<T>,
-    action: ActionProtocol,
-    dependencies: Void
-) -> Effect {
-    guard let action = action as? NavigationStackAction<T> else {
+    public static func reducer(
+        _ state: inout State,
+        action: ActionProtocol,
+        dependencies: Void
+    ) throws -> Effect {
+        guard let action = action as? NavigationStack<T>.Action else {
+            return .none
+        }
+
+        switch action {
+        case .push(let page):
+            state.path.append(page)
+
+        case .pop:
+            state.path.removeLast()
+
+        case .setPath(let path):
+            state.path = path
+
+        case .present(let page):
+            state.sheet = page
+
+        case .dismiss:
+            state.sheet = nil
+        }
+
         return .none
     }
-
-    switch action {
-    case .push(let page):
-        state.path.append(page)
-
-    case .pop:
-        state.path.removeLast()
-
-    case .setPath(let path):
-        state.path = path
-
-    case .present(let page):
-        state.sheet = page
-
-    case .dismiss:
-        state.sheet = nil
-    }
-
-    return .none
 }

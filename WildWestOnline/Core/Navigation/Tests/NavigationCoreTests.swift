@@ -11,11 +11,11 @@ import Redux
 struct NavigationCoreTests {
     @Test func app_whenCompletedSplash_shouldSetHomeScreen() async throws {
         // Given
-        let state = NavigationState()
+        let state = Navigation.State()
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = NavigationStackAction<MainDestination>.push(.home)
+        let action = NavigationStack<Navigation.State.MainDestination>.Action.push(.home)
         await sut.dispatch(action)
 
         // Then
@@ -24,11 +24,11 @@ struct NavigationCoreTests {
 
     @Test func showingSettings_shouldDisplaySettings() async throws {
         // Given
-        let state = NavigationState(mainStack: .init(path: [.home]))
+        let state = Navigation.State(mainStack: .init(path: [.home]))
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = NavigationStackAction<MainDestination>.present(.settings)
+        let action = NavigationStack<Navigation.State.MainDestination>.Action.present(.settings)
         await sut.dispatch(action)
 
         // Then
@@ -37,11 +37,11 @@ struct NavigationCoreTests {
 
     @Test func closingSettings_shouldRemoveSettings() async throws {
         // Given
-        let state = NavigationState(mainStack: .init(path: [.home], sheet: .settings))
+        let state = Navigation.State(mainStack: .init(path: [.home], sheet: .settings))
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = NavigationStackAction<MainDestination>.dismiss
+        let action = NavigationStack<Navigation.State.MainDestination>.Action.dismiss
         await sut.dispatch(action)
 
         // Then
@@ -49,12 +49,12 @@ struct NavigationCoreTests {
     }
 }
 
-private typealias NavigationStore = Store<NavigationState, Void>
+private typealias NavigationStore = Store<Navigation.State, Void>
 
-@MainActor private func createNavigationStore(initialState: NavigationState) -> NavigationStore {
+@MainActor private func createNavigationStore(initialState: Navigation.State) -> NavigationStore {
     .init(
         initialState: initialState,
-        reducer: navigationReducer,
+        reducer: Navigation.reducer,
         dependencies: ()
     )
 }
