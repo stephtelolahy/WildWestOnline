@@ -1,15 +1,15 @@
 //
-//  NavigationCore.swift
+//  NavigationFeature.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 import Redux
 
-public enum Navigation {
+public enum NavigationFeature {
     public struct State: Equatable, Codable, Sendable {
-        public var mainStack: NavStack<MainDestination>.State
-        public var settingsStack: NavStack<SettingsDestination>.State
+        public var mainStack: NavStackFeature<MainDestination>.State
+        public var settingsStack: NavStackFeature<SettingsDestination>.State
 
         public enum MainDestination: String, Destination {
             case home
@@ -30,8 +30,8 @@ public enum Navigation {
         }
 
         public init(
-            mainStack: NavStack<MainDestination>.State = .init(path: []),
-            settingsStack: NavStack<SettingsDestination>.State = .init(path: [])
+            mainStack: NavStackFeature<MainDestination>.State = .init(path: []),
+            settingsStack: NavStackFeature<SettingsDestination>.State = .init(path: [])
         ) {
             self.mainStack = mainStack
             self.settingsStack = settingsStack
@@ -44,8 +44,8 @@ public enum Navigation {
         dependencies: Void
     ) throws -> Effect {
         .group([
-            try NavStack.reducer(&state.mainStack, action: action, dependencies: ()),
-            try NavStack.reducer(&state.settingsStack, action: action, dependencies: ())
+            try NavStackFeature.reducer(&state.mainStack, action: action, dependencies: ()),
+            try NavStackFeature.reducer(&state.settingsStack, action: action, dependencies: ())
         ])
     }
 }

@@ -14,13 +14,13 @@ import GameCore
 /// Organize State Structure Based on Data Types, Not Components
 /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
 public struct AppState: Codable, Equatable, Sendable {
-    public var navigation: Navigation.State
+    public var navigation: NavigationFeature.State
     public var settings: SettingsFeature.State
     public let inventory: Inventory
     public var game: GameState?
 
     public init(
-        navigation: Navigation.State,
+        navigation: NavigationFeature.State,
         settings: SettingsFeature.State,
         inventory: Inventory,
         game: GameState? = nil
@@ -46,7 +46,7 @@ public func appReducer(
     dependencies: AppDependencies
 ) throws -> Effect {
     .group([
-        try Navigation.reducer(&state.navigation, action: action, dependencies: ()),
+        try NavigationFeature.reducer(&state.navigation, action: action, dependencies: ()),
         try SettingsFeature.reducer(&state.settings, action: action, dependencies: dependencies.settings),
         try setupGameReducer(state: &state, action: action, dependencies: ()),
         try currentGameReducer(state: &state, action: action, dependencies: ()),

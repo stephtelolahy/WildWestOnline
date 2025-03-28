@@ -11,14 +11,14 @@ import NavigationCore
 
 public struct SettingsCoordinator: View {
     @EnvironmentObject private var store: Store<AppState, AppDependencies>
-    @State private var path: [Navigation.State.SettingsDestination] = []
+    @State private var path: [NavigationFeature.State.SettingsDestination] = []
 
     public init() {}
 
     public var body: some View {
         NavigationStack(path: $path) {
             SettingsRootView { store.projection(SettingsRootView.State.init) }
-                .navigationDestination(for: Navigation.State.SettingsDestination.self) {
+                .navigationDestination(for: NavigationFeature.State.SettingsDestination.self) {
                     viewForDestination($0)
                 }
                 // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
@@ -28,13 +28,13 @@ public struct SettingsCoordinator: View {
                 .onChange(of: path) { _, newPath in
                     guard newPath != store.state.navigation.settingsStack.path else { return }
                     Task {
-                        await store.dispatch(NavStack<Navigation.State.SettingsDestination>.Action.setPath(newPath))
+                        await store.dispatch(NavStackFeature<NavigationFeature.State.SettingsDestination>.Action.setPath(newPath))
                     }
                 }
         }
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: Navigation.State.SettingsDestination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: NavigationFeature.State.SettingsDestination) -> some View {
         switch destination {
         case .figures: SettingsFiguresView { store.projection(SettingsFiguresView.State.init) }
         }

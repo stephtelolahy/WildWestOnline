@@ -35,7 +35,7 @@ func setupGameReducer(
                 return SetupGameAction.setGame(newGame)
             },
             .run {
-                NavStack<Navigation.State.MainDestination>.Action.push(.game)
+                NavStackFeature<NavigationFeature.State.MainDestination>.Action.push(.game)
             }
         ])
 
@@ -48,7 +48,7 @@ func setupGameReducer(
                 SetupGameAction.unsetGame
             },
             .run {
-                NavStack<Navigation.State.MainDestination>.Action.pop
+                NavStackFeature<NavigationFeature.State.MainDestination>.Action.pop
             }
         ])
 

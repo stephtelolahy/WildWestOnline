@@ -1,5 +1,5 @@
 //
-//  NavStackCore.swift
+//  NavStackFeature.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
@@ -8,7 +8,7 @@ import Redux
 
 public protocol Destination: Identifiable, Hashable, Codable, Sendable {}
 
-public enum NavStack<T: Destination> {
+public enum NavStackFeature<T: Destination> {
     public struct State: Equatable, Codable, Sendable {
         public var path: [T]
         public var sheet: T?
@@ -32,7 +32,7 @@ public enum NavStack<T: Destination> {
         action: ActionProtocol,
         dependencies: Void
     ) throws -> Effect {
-        guard let action = action as? NavStack<T>.Action else {
+        guard let action = action as? NavStackFeature<T>.Action else {
             return .none
         }
 

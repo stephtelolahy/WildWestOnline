@@ -16,15 +16,15 @@ import GameUI
 
 public struct MainCoordinator: View {
     @EnvironmentObject private var store: Store<AppState, AppDependencies>
-    @State private var path: [Navigation.State.MainDestination] = []
-    @State private var sheet: Navigation.State.MainDestination? = nil
+    @State private var path: [NavigationFeature.State.MainDestination] = []
+    @State private var sheet: NavigationFeature.State.MainDestination? = nil
 
     public init() {}
 
     public var body: some View {
         NavigationStack(path: $path) {
             SplashView { store.projection(SplashView.State.init) }
-                .navigationDestination(for: Navigation.State.MainDestination.self) {
+                .navigationDestination(for: NavigationFeature.State.MainDestination.self) {
                 viewForDestination($0)
             }
             .sheet(item: $sheet) {
@@ -38,23 +38,23 @@ public struct MainCoordinator: View {
             .onChange(of: path) { _, newPath in
                 guard newPath != store.state.navigation.mainStack.path else { return }
                 Task {
-                    await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.setPath(newPath))
+                    await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.setPath(newPath))
                 }
             }
             .onChange(of: sheet) { _, newSheet in
                 guard newSheet != store.state.navigation.mainStack.sheet else { return }
                 Task {
                     if let newSheet {
-                        await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.present(newSheet))
+                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.present(newSheet))
                     } else {
-                        await store.dispatch(NavStack<Navigation.State.MainDestination>.Action.dismiss)
+                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.dismiss)
                     }
                 }
             }
         }
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: Navigation.State.MainDestination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: NavigationFeature.State.MainDestination) -> some View {
     switch destination {
     case .home: HomeView { store.projection(HomeView.State.init) }
     case .game: GameView { store.projection(GameView.State.init) }
