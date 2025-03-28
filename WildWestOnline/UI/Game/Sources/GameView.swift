@@ -67,7 +67,8 @@ public struct GameView: View {
                 await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
             }
             .onReceive(store.eventPublisher) { newEvent in
-                if let action = newEvent as? GameAction, action.isRenderable {
+                if let action = newEvent as? GameFeature.Action,
+                   action.isRenderable {
                     animate(action, positions: positions)
                 }
             }
@@ -154,7 +155,7 @@ private extension GameView {
 
     }
 
-    func animate(_ action: GameAction, positions: [ViewPosition: CGPoint]) {
+    func animate(_ action: GameFeature.Action, positions: [ViewPosition: CGPoint]) {
         guard let animation = animationMatcher.animation(on: action) else { return }
         switch animation {
         case let .moveCard(card, source, target):

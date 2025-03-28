@@ -7,7 +7,7 @@
 import GameCore
 
 struct AnimationMatcher {
-    func animation(on action: GameAction) -> BoardAnimation? {
+    func animation(on action: GameFeature.Action) -> BoardAnimation? {
         switch action.name {
         case .play:
                 .moveCard(
