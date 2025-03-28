@@ -11,7 +11,7 @@ import Testing
 struct BartCassidyTests {
     @Test(.disabled()) func BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -20,7 +20,7 @@ struct BartCassidyTests {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -32,7 +32,7 @@ struct BartCassidyTests {
 
     @Test(.disabled()) func BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(3)
@@ -41,7 +41,7 @@ struct BartCassidyTests {
             .build()
 
         // When
-        let action = GameAction.damage(2, player: "p1")
+        let action = GameFeature.Action.damage(2, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -54,7 +54,7 @@ struct BartCassidyTests {
 
     @Test(.disabled()) func BartCassidyBeingDamaged_Lethal_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.bartCassidy])
                     .withHealth(1)
@@ -63,7 +63,7 @@ struct BartCassidyTests {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

@@ -11,7 +11,7 @@ import GameCore
 struct BangTest {
     @Test func play_shouldDeal1Damage() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -21,7 +21,7 @@ struct BangTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3"], selectionIndex: 0)
         ]
@@ -38,7 +38,7 @@ struct BangTest {
 
     @Test func play_reachedLimitPerTurn_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -49,15 +49,15 @@ struct BangTest {
 
         // When
         // Assert
-        let action = GameAction.preparePlay(.bang, player: "p1")
-        await #expect(throws: GameError.noReq(.playLimitPerTurn([.bang: 1]))) {
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        await #expect(throws: Card.Failure.noReq(.playLimitPerTurn([.bang: 1]))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
 
     @Test func play_noPlayerReachable_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -69,8 +69,8 @@ struct BangTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.bang, player: "p1")
-        await #expect(throws: GameError.noChoosableTarget([.reachable])) {
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        await #expect(throws: Card.Failure.noChoosableTarget([.reachable])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

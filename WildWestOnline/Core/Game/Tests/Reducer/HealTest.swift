@@ -12,7 +12,7 @@ import Combine
 struct HealTest {
     @Test func heal_beingDamaged_amountLessThanDamage_shouldGainLifePoints() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withMaxHealth(4)
@@ -20,7 +20,7 @@ struct HealTest {
             .build()
 
         // When
-        let action = GameAction.heal(1, player: "p1")
+        let action = GameFeature.Action.heal(1, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -29,7 +29,7 @@ struct HealTest {
 
     @Test func heal_beingDamaged_amountEqualDamage_shouldGainLifePoints() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withMaxHealth(4)
@@ -37,7 +37,7 @@ struct HealTest {
             .build()
 
         // When
-        let action = GameAction.heal(2, player: "p1")
+        let action = GameFeature.Action.heal(2, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -46,7 +46,7 @@ struct HealTest {
 
     @Test func heal_beingDamaged_amountGreaterThanDamage_shouldGainLifePointsLimitedToMaxHealth() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withMaxHealth(4)
@@ -54,7 +54,7 @@ struct HealTest {
             .build()
 
         // When
-        let action = GameAction.heal(3, player: "p1")
+        let action = GameFeature.Action.heal(3, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -63,7 +63,7 @@ struct HealTest {
 
     @Test func heal_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(4)
                     .withMaxHealth(4)
@@ -72,8 +72,8 @@ struct HealTest {
 
         // When
         // Then
-        let action = GameAction.heal(1, player: "p1")
-        await #expect(throws: GameError.playerAlreadyMaxHealth("p1")) {
+        let action = GameFeature.Action.heal(1, player: "p1")
+        await #expect(throws: Card.Failure.playerAlreadyMaxHealth("p1")) {
             try await dispatch(action, state: state)
         }
     }

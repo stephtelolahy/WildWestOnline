@@ -11,7 +11,7 @@ import Testing
 struct SuzyLafayetteTests {
     @Test(.disabled()) func SuzyLafayette_havingNoHandCards_shouldDrawACard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1"])
@@ -20,7 +20,7 @@ struct SuzyLafayetteTests {
             .build()
 
         // When
-        let action = GameAction.discardHand("c1", player: "p1")
+        let action = GameFeature.Action.discardHand("c1", player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -32,7 +32,7 @@ struct SuzyLafayetteTests {
 
     @Test(.disabled()) func SuzyLafayette_havingSomeHandCards_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.suzyLafayette])
                     .withHand(["c1", "c2"])
@@ -40,7 +40,7 @@ struct SuzyLafayetteTests {
             .build()
 
         // When
-        let action = GameAction.discardHand("c1", player: "p1")
+        let action = GameFeature.Action.discardHand("c1", player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

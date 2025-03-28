@@ -15,14 +15,14 @@ import SettingsCore
 struct GameViewTest {
     @Test func shouldDisplayCurrentTurnPlayer() async throws {
         // Given
-        let game = GameState.makeBuilder()
+        let game = GameFeature.State.makeBuilder()
             .withTurn("p1")
             .withPlayMode(["p1": .manual])
             .withPlayer("p1")
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
@@ -36,7 +36,7 @@ struct GameViewTest {
 
     @Test func shouldDisplayStatusForEachPlayers() async throws {
         // Given
-        let game = GameState.makeBuilder()
+        let game = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
@@ -50,9 +50,9 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .withTurn("p1")
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
@@ -88,7 +88,7 @@ struct GameViewTest {
 
     @Test func shouldDisplayCardActions() async throws {
         // Given
-        let game = GameState.makeBuilder()
+        let game = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
@@ -101,9 +101,9 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .withActive(["p1": [.bang, .defaultEndTurn]])
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )
@@ -121,7 +121,7 @@ struct GameViewTest {
 
     @Test func shouldDisplayChooseOneActions() async throws {
         // Given
-        let game = GameState.makeBuilder()
+        let game = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPendingChoice(
@@ -135,9 +135,9 @@ struct GameViewTest {
             )
             .withPlayMode(["p1": .manual])
             .build()
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: game
         )

@@ -11,7 +11,7 @@ import Testing
 struct SidKetchumTests {
     @Test(.disabled()) func playing_SidKetchum_havingTwoCards_shouldDiscardThemAndGainHealth() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -21,7 +21,7 @@ struct SidKetchumTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
@@ -37,7 +37,7 @@ struct SidKetchumTests {
 
     @Test(.disabled()) func playing_SidKetchum_havingThreeCards_shouldDiscardTwoCardsAndGainHealth() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -47,7 +47,7 @@ struct SidKetchumTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["c1", "c2"])
 
         // Then
@@ -63,7 +63,7 @@ struct SidKetchumTests {
 
     @Test(.disabled()) func playing_SidKetchum_withoutCard_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -73,7 +73,7 @@ struct SidKetchumTests {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             #expect(error as? ArgCard.Error == .noCard(.selectHand))
         }
@@ -81,7 +81,7 @@ struct SidKetchumTests {
 
     @Test(.disabled()) func playing_SidKetchum_alreadyMaxHealth_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.sidKetchum])
                     .withAttributes([.maxHealth: 4])
@@ -92,7 +92,7 @@ struct SidKetchumTests {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.sidKetchum, player: "p1")
+        let action = GameFeature.Action.preparePlay(.sidKetchum, player: "p1")
         XCTAssertThrowsError(try awaitAction(action, state: state)) { error in
             #expect(error as? PlayersState.Error == .playerAlreadyMaxHealth("p1"))
         }

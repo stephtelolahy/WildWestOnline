@@ -14,9 +14,9 @@ import SettingsCore
 struct HomeViewTest {
     @Test func HomeStateProjection() async throws {
         // Given
-        let appState = AppState(
+        let appState = AppFeature.State(
             navigation: .init(),
-            settings: SettingsState.makeBuilder().build(),
+            settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build()
         )
 

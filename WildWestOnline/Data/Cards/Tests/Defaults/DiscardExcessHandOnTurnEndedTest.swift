@@ -11,7 +11,7 @@ import GameCore
 struct DiscardExcessHandOnTurnEndedTest {
     @Test func endTurn_oneExcessCard_shouldDiscardAHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
@@ -24,7 +24,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0)
         ]
@@ -40,7 +40,7 @@ struct DiscardExcessHandOnTurnEndedTest {
 
     @Test func endTurn_twoExcessCard_shouldDiscardTwoHandCards() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)
@@ -53,7 +53,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 0)
@@ -72,7 +72,7 @@ struct DiscardExcessHandOnTurnEndedTest {
 
     @Test func endTurn_noExcessCards_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
                     .withHealth(3)
@@ -85,7 +85,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -96,7 +96,7 @@ struct DiscardExcessHandOnTurnEndedTest {
 
     @Test func endTurn_customHandLimit_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
                     .withHealth(1)
@@ -110,7 +110,7 @@ struct DiscardExcessHandOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

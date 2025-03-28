@@ -11,12 +11,12 @@ import Combine
 import GameCore
 
 func dispatchUntilCompleted(
-    _ action: GameAction,
-    state: GameState,
+    _ action: GameFeature.Action,
+    state: GameFeature.State,
     expectedChoices: [Choice] = []
-) async throws -> [GameAction] {
-    let sut = await createGameStoreWithSideEffects(initialState: state, expectedChoices: expectedChoices)
-    var receivedActions: [Action] = []
+) async throws -> [GameFeature.Action] {
+    let sut = await createGameStore(initialState: state, expectedChoices: expectedChoices)
+    var receivedActions: [ActionProtocol] = []
     var receivedErrors: [Error] = []
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
@@ -37,8 +37,8 @@ func dispatchUntilCompleted(
     }
 
     let gameActions = receivedActions.compactMap { action in
-        if let action = action as? GameAction,
-            action.isRenderable {
+        if let action = action as? GameFeature.Action,
+           action.isRenderable {
             return action
         } else {
             return nil
@@ -48,16 +48,15 @@ func dispatchUntilCompleted(
     return gameActions
 }
 
-@MainActor private func createGameStoreWithSideEffects(
-    initialState: GameState,
+@MainActor private func createGameStore(
+    initialState: GameFeature.State,
     expectedChoices: [Choice] = []
-) -> Store<GameState, GameStoreDependencies> {
+) -> Store<GameFeature.State, GameStoreDependencies> {
     .init(
         initialState: initialState,
         reducer: { state, action, dependencies in
                 .group([
-                    try gameReducer(state: &state, action: action, dependencies: ()),
-                    try updateGameReducer(state: &state, action: action, dependencies: ()),
+                    try GameFeature.reduce(into: &state, action: action, dependencies: ()),
                     try performChoicesReducer(state: &state, action: action, dependencies: dependencies.choicesHolder)
                 ])
         },
@@ -83,8 +82,8 @@ private class ChoicesHolder {
 }
 
 private func performChoicesReducer(
-    state: inout GameState,
-    action: Action,
+    state: inout GameFeature.State,
+    action: ActionProtocol,
     dependencies: ChoicesHolder
 ) throws -> Effect {
     let state = state
@@ -94,10 +93,10 @@ private func performChoicesReducer(
 }
 
 private func performChoices(
-    state: GameState,
-    action: Action,
+    state: GameFeature.State,
+    action: ActionProtocol,
     choicesHolder: ChoicesHolder
-) async -> Action? {
+) async -> ActionProtocol? {
     guard let pendingChoice = state.pendingChoice else {
         return nil
     }
@@ -112,5 +111,5 @@ private func performChoices(
 
     let expectedChoice = choicesHolder.choices.remove(at: 0)
     let selection = pendingChoice.options[expectedChoice.selectionIndex]
-    return GameAction.choose(selection.label, player: pendingChoice.chooser)
+    return GameFeature.Action.choose(selection.label, player: pendingChoice.chooser)
 }

@@ -48,7 +48,7 @@ public struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 Task {
-                    await store.dispatch(NavigationStackAction<MainDestination>.dismiss)
+                    await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.dismiss)
                 }
             }
         }
@@ -74,7 +74,7 @@ public struct SettingsRootView: View {
                     get: { store.state.playersCount },
                     set: { index in
                         Task {
-                            await store.dispatch(SettingsAction.updatePlayersCount(index))
+                            await store.dispatch(SettingsFeature.Action.updatePlayersCount(index))
                         }
 
                     }
@@ -95,7 +95,7 @@ public struct SettingsRootView: View {
                     set: { index in
                         Task {
                             let option = store.state.speedOptions[index]
-                            await store.dispatch(SettingsAction.updateActionDelayMilliSeconds(option.value))
+                            await store.dispatch(SettingsFeature.Action.updateActionDelayMilliSeconds(option.value))
                         }
                     }
                 ),
@@ -117,7 +117,7 @@ public struct SettingsRootView: View {
                 get: { store.state.simulation },
                 set: { _ in
                     Task {
-                        await store.dispatch(SettingsAction.toggleSimulation)
+                        await store.dispatch(SettingsFeature.Action.toggleSimulation)
                     }
                 }
             ).animation()) {
@@ -129,7 +129,7 @@ public struct SettingsRootView: View {
     private var figureView: some View {
         Button(action: {
             Task {
-                await store.dispatch(NavigationStackAction<SettingsDestination>.push(.figures))
+                await store.dispatch(NavStackFeature<NavigationFeature.State.SettingsDestination>.Action.push(.figures))
             }
         }, label: {
             HStack {
@@ -160,7 +160,7 @@ private extension SettingsRootView.State {
 }
 
 public extension SettingsRootView.State {
-    init?(appState: AppState) {
+    init?(appState: AppFeature.State) {
         playersCount = appState.settings.playersCount
         speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
         simulation = appState.settings.simulation

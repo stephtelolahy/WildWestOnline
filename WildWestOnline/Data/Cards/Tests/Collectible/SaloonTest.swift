@@ -11,7 +11,7 @@ import GameCore
 struct SaloonTest {
     @Test func play_withSelfDamaged_shouldHealOneLifePoint() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(3)
@@ -20,7 +20,7 @@ struct SaloonTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.saloon, player: "p1")
+        let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -32,7 +32,7 @@ struct SaloonTest {
 
     @Test func play_withSomePlayersDamaged_shouldHealOneLifePoint() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -49,7 +49,7 @@ struct SaloonTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.saloon, player: "p1")
+        let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -62,7 +62,7 @@ struct SaloonTest {
 
     @Test func play_withNoPlayerDamaged_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.saloon])
                     .withHealth(4)
@@ -76,8 +76,8 @@ struct SaloonTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.saloon, player: "p1")
-        await #expect(throws: GameError.noTarget(.damaged)) {
+        let action = GameFeature.Action.preparePlay(.saloon, player: "p1")
+        await #expect(throws: Card.Failure.noTarget(.damaged)) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

@@ -11,7 +11,7 @@ import GameCore
 struct CatBalouTest {
     @Test func play_targetHavingHandCards_shouldChooseOneHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -21,7 +21,7 @@ struct CatBalouTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.catBalou, player: "p1")
+        let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["hiddenHand-0"], selectionIndex: 0)
@@ -39,7 +39,7 @@ struct CatBalouTest {
 
     @Test func play_targetHavingInPlayCards_shouldChooseOneInPlayCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c21"])
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
@@ -50,7 +50,7 @@ struct CatBalouTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.catBalou, player: "p1")
+        let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c21"], selectionIndex: 0)
@@ -68,7 +68,7 @@ struct CatBalouTest {
 
     @Test func play_targetHavingHandAndInPlayCards_shouldChooseAnyCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c23", "c24"])
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
@@ -80,7 +80,7 @@ struct CatBalouTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.catBalou, player: "p1")
+        let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: ["c23", "c24", "hiddenHand-0", "hiddenHand-1"], selectionIndex: 0)
@@ -98,7 +98,7 @@ struct CatBalouTest {
 
     @Test func play_noTarget_shouldThrowError() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.catBalou])
             }
@@ -107,8 +107,8 @@ struct CatBalouTest {
 
         // When
         // Then
-        let action = GameAction.preparePlay(.catBalou, player: "p1")
-        await #expect(throws: GameError.noChoosableTarget([.havingCard])) {
+        let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
+        await #expect(throws: Card.Failure.noChoosableTarget([.havingCard])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

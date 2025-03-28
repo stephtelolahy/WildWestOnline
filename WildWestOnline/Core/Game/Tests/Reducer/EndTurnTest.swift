@@ -11,12 +11,12 @@ import GameCore
 struct EndTurnTest {
     @Test func endTurn_shouldUnsetTurn() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameAction.endTurn(player: "p1")
+        let action = GameFeature.Action.endTurn(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

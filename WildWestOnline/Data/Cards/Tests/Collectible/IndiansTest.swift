@@ -11,7 +11,7 @@ import GameCore
 struct IndiansTest {
     @Test func play_shouldAllowEachPlayerToCounterOrPass() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.indians])
             }
@@ -22,7 +22,7 @@ struct IndiansTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.indians, player: "p1")
+        let action = GameFeature.Action.preparePlay(.indians, player: "p1")
         let choices: [Choice] = [
             .init(options: [.bang, .pass], selectionIndex: 0)
         ]

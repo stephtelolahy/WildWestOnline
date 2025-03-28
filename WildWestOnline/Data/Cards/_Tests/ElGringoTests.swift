@@ -11,7 +11,7 @@ import Testing
 struct ElGringoTests {
     @Test(.disabled()) func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -24,7 +24,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p2")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p2")
         let result = try awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
 
         // Then
@@ -39,7 +39,7 @@ struct ElGringoTests {
 
     @Test(.disabled()) func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -52,7 +52,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p2")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p2")
         let result = try awaitAction(action, state: state, choose: ["p1"])
 
         // Then
@@ -65,7 +65,7 @@ struct ElGringoTests {
 
     @Test(.disabled()) func elGringoDamaged_withOffenderIsHimself_shouldDoNothing() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
@@ -74,7 +74,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

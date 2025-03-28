@@ -11,7 +11,7 @@ import GameCore
 struct JailTest {
     @Test func playingJail_againstAnyPlayer_shouldHandicap() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.jail])
             }
@@ -19,7 +19,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.jail, player: "p1")
+        let action = GameFeature.Action.preparePlay(.jail, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0)
         ]
@@ -34,7 +34,7 @@ struct JailTest {
 
     @Test func triggeringJail_flippedCardIsHearts_shouldEscapeFromJail() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
@@ -45,7 +45,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -60,7 +60,7 @@ struct JailTest {
 
     @Test func triggeringJail_flippedCardIsSpades_shouldSkipTurn() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
@@ -74,7 +74,7 @@ struct JailTest {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

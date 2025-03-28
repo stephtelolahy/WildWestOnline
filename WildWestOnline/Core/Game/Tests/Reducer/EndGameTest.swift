@@ -11,11 +11,11 @@ import GameCore
 struct EndGameTest {
     @Test func endGame() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .build()
 
         // When
-        let action = GameAction.endGame(player: "p1")
+        let action = GameFeature.Action.endGame(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

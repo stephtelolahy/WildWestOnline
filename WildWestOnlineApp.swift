@@ -29,10 +29,10 @@ struct WildWestOnlineApp: App {
     }
 }
 
-@MainActor private func createStore() -> Store<AppState, AppDependencies> {
+@MainActor private func createStore() -> Store<AppFeature.State, AppFeature.Dependencies> {
     let settingsService = SettingsRepository()
 
-    let settings = SettingsState.makeBuilder()
+    let settings = SettingsFeature.State.makeBuilder()
         .withPlayersCount(settingsService.playersCount())
         .withActionDelayMilliSeconds(settingsService.actionDelayMilliSeconds())
         .withSimulation(settingsService.isSimulationEnabled())
@@ -46,7 +46,13 @@ struct WildWestOnlineApp: App {
         defaultAbilities: DefaultAbilities.all
     )
 
-    let dependencies = AppDependencies(
+    let initialState = AppFeature.State(
+        navigation: .init(),
+        settings: settings,
+        inventory: inventory
+    )
+
+    let dependencies = AppFeature.Dependencies(
         settings: .init(
             savePlayersCount: settingsService.savePlayersCount,
             saveActionDelayMilliSeconds: settingsService.saveActionDelayMilliSeconds,
@@ -55,15 +61,9 @@ struct WildWestOnlineApp: App {
         )
     )
 
-    let initialState = AppState(
-        navigation: .init(),
-        settings: settings,
-        inventory: inventory
-    )
-
     return Store(
         initialState: initialState,
-        reducer: appReducer,
+        reducer: AppFeature.reduce,
         dependencies: dependencies
     )
 }

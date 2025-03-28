@@ -11,7 +11,7 @@ import GameCore
 struct StealTest {
     @Test func steal_shouldRemoveCardFromTargetHand() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withHand(["c21", "c22"])
@@ -19,7 +19,7 @@ struct StealTest {
             .build()
 
         // When
-        let action = GameAction.stealHand("c21", target: "p2", player: "p1")
+        let action = GameFeature.Action.stealHand("c21", target: "p2", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -29,7 +29,7 @@ struct StealTest {
 
     @Test func steal_shouldRemoveCardFromTargetInPlay() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2") {
                 $0.withInPlay(["c21", "c22"])
@@ -37,7 +37,7 @@ struct StealTest {
             .build()
 
         // When
-        let action = GameAction.stealInPlay("c21", target: "p2", player: "p1")
+        let action = GameFeature.Action.stealInPlay("c21", target: "p2", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

@@ -11,11 +11,11 @@ import GameCore
 struct ActivateTest {
     @Test func activate() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .build()
 
         // When
-        let action = GameAction.activate(["c1", "c2"], player: "p1")
+        let action = GameFeature.Action.activate(["c1", "c2"], player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

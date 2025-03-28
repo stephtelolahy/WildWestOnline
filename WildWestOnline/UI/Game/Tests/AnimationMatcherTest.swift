@@ -15,7 +15,7 @@ struct AnimationMatcherTest {
 
     @Test func animatePlay() async throws {
         // Given
-        let event = GameAction.play("c1", player: "p1")
+        let event = GameFeature.Action.play("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -26,7 +26,7 @@ struct AnimationMatcherTest {
 
     @Test func animateEquip() async throws {
         // Given
-        let event = GameAction.equip("c1", player: "p1")
+        let event = GameFeature.Action.equip("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -37,7 +37,7 @@ struct AnimationMatcherTest {
 
     @Test func animateHandicap() async throws {
         // Given
-        let event = GameAction.handicap("c1", target: "p2", player: "p1")
+        let event = GameFeature.Action.handicap("c1", target: "p2", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -48,7 +48,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDrawDeck() async throws {
         // Given
-        let event = GameAction.drawDeck(player: "p1")
+        let event = GameFeature.Action.drawDeck(player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -59,7 +59,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDraw() async throws {
         // Given
-        let event = GameAction.draw()
+        let event = GameFeature.Action.draw()
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -71,7 +71,7 @@ struct AnimationMatcherTest {
 
     @Test func animateStealHand() async throws {
         // Given
-        let event = GameAction.stealHand("c1", target: "p2", player: "p1")
+        let event = GameFeature.Action.stealHand("c1", target: "p2", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -82,7 +82,7 @@ struct AnimationMatcherTest {
 
     @Test func animateStealInPlay() async throws {
         // Given
-        let event = GameAction.stealInPlay("c1", target: "p2", player: "p1")
+        let event = GameFeature.Action.stealInPlay("c1", target: "p2", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -93,7 +93,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDrawDiscovered() async throws {
         // Given
-        let event = GameAction.drawDiscovered("c1", player: "p1")
+        let event = GameFeature.Action.drawDiscovered("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -104,7 +104,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDrawDiscard() async throws {
         // Given
-        let event = GameAction.drawDiscard(player: "p1")
+        let event = GameFeature.Action.drawDiscard(player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -116,7 +116,7 @@ struct AnimationMatcherTest {
 
     @Test func animatePassInPlay() async throws {
         // Given
-        let event = GameAction.passInPlay("c1", target: "p2", player: "p1")
+        let event = GameFeature.Action.passInPlay("c1", target: "p2", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -127,7 +127,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDiscardHand() async throws {
         // Given
-        let event = GameAction.discardHand("c1", player: "p1")
+        let event = GameFeature.Action.discardHand("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -138,7 +138,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDiscardInPlay() async throws {
         // Given
-        let event = GameAction.discardInPlay("c1", player: "p1")
+        let event = GameFeature.Action.discardInPlay("c1", player: "p1")
 
         // When
         let animation = try #require(sut.animation(on: event))
@@ -149,7 +149,7 @@ struct AnimationMatcherTest {
 
     @Test func animateDiscover() async throws {
         // Given
-        let event = GameAction.discover()
+        let event = GameFeature.Action.discover()
 
         // When
         let animation = try #require(sut.animation(on: event))

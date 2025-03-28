@@ -23,7 +23,7 @@ struct PedroRamirezTests {
 
     @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenDraw() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -38,7 +38,7 @@ struct PedroRamirezTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", "hiddenHand-0"])
 
         // Then
@@ -53,7 +53,7 @@ struct PedroRamirezTests {
 
     @Test(.disabled()) func pedroRamirezStartTurn_withAnotherPlayerHoldingCard_shouldAskDrawFirstCardFromPlayerThenIgnore() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -68,7 +68,7 @@ struct PedroRamirezTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try awaitAction(action, state: state, choose: [.pass])
 
         // Then
@@ -82,7 +82,7 @@ struct PedroRamirezTests {
 
     @Test(.disabled()) func pedroRamirezStartTurn_withthoutAnotherPlayerHoldingCard_shouldDrawCardsFromDeck() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([.pedroRamirez])
                     .withAttributes([.startTurnCards: 2])
@@ -91,7 +91,7 @@ struct PedroRamirezTests {
             .build()
 
         // When
-        let action = GameAction.startTurn(player: "p1")
+        let action = GameFeature.Action.startTurn(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

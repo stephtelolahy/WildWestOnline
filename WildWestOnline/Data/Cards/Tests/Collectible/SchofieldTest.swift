@@ -11,14 +11,14 @@ import GameCore
 struct SchofieldTest {
     @Test func playSchofield_shouldSetWeapon() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
             }
             .build()
 
         // When
-        let action = GameAction.preparePlay(.schofield, player: "p1")
+        let action = GameFeature.Action.preparePlay(.schofield, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -30,7 +30,7 @@ struct SchofieldTest {
 
     @Test func discardSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
                     .withWeapon(2)
@@ -38,7 +38,7 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.discardInPlay(.schofield, player: "p1")
+        let action = GameFeature.Action.discardInPlay(.schofield, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -50,7 +50,7 @@ struct SchofieldTest {
 
     @Test func stealSchofieldFromInPlay_shouldResetToDefaultWeapon() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withInPlay([.schofield])
                     .withWeapon(2)
@@ -59,7 +59,7 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.stealInPlay(.schofield, target: "p1", player: "p2")
+        let action = GameFeature.Action.stealInPlay(.schofield, target: "p1", player: "p2")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -71,7 +71,7 @@ struct SchofieldTest {
 
     @Test func playSchofield_withAnotherWeaponInPlay_shouldDiscardPreviousWeapon() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.schofield])
                     .withInPlay([.remington])
@@ -80,7 +80,7 @@ struct SchofieldTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.schofield, player: "p1")
+        let action = GameFeature.Action.preparePlay(.schofield, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

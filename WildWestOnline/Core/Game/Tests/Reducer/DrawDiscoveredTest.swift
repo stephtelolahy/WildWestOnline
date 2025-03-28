@@ -11,14 +11,14 @@ import GameCore
 struct DrawDiscoveredTest {
     @Test func drawDiscovered_shouldDrawDeckCard() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withDiscovered(["c1", "c2"])
             .withDeck(["c1", "c2"])
             .build()
 
         // When
-        let action = GameAction.drawDiscovered("c2", player: "p1")
+        let action = GameFeature.Action.drawDiscovered("c2", player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

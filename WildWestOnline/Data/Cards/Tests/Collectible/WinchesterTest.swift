@@ -11,14 +11,14 @@ import GameCore
 struct WinchesterTest {
     @Test func playWinchester_shouldEquipAndSetAttribute() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.winchester])
             }
             .build()
 
         // When
-        let action = GameAction.preparePlay(.winchester, player: "p1")
+        let action = GameFeature.Action.preparePlay(.winchester, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

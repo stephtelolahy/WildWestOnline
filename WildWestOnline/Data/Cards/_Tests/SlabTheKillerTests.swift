@@ -23,7 +23,7 @@ struct SlabTheKillerTests {
 
     @Test(.disabled()) func slabTheKillerPlayingBang_shouldRequiresTwoMisses() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 2, .weapon: 1])
@@ -35,7 +35,7 @@ struct SlabTheKillerTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed1, .missed2])
 
         // Then
@@ -54,7 +54,7 @@ struct SlabTheKillerTests {
 
     @Test(.disabled()) func slabTheKillerPlayingBang_withOneCounter_shouldDamage() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withAttributes([.bangsPerTurn: 1, .missesRequiredForBang: 2, .weapon: 1])
@@ -66,7 +66,7 @@ struct SlabTheKillerTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let result = try awaitAction(action, state: state, choose: ["p2", .missed])
 
         // Then

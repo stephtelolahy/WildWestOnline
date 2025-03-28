@@ -5,21 +5,21 @@
 //
 import Combine
 
-/// ``Action`` is a plain object that describes what happened.
+/// ``ActionProtocol`` is a plain object that describes what happened.
 /// To change something in the state, you need to dispatch an action.
 /// Common protocol to which all actions conform.
 ///
-public protocol Action: Sendable {}
+public protocol ActionProtocol: Sendable {}
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 /// Also return side-effects in response, and eventually dispatch more actions
-public typealias Reducer<State, Dependencies> = (inout State, Action, Dependencies) throws -> Effect
+public typealias Reducer<State, Dependencies> = (inout State, ActionProtocol, Dependencies) throws -> Effect
 
-/// ``Effect`` is an asynchronous `Action`
+/// ``Effect`` is an asynchronous `ActionProtocol`
 public enum Effect {
     case none
-    case publisher(AnyPublisher<Action, Never>)
-    case run(() async -> Action?)
+    case publisher(AnyPublisher<ActionProtocol, Never>)
+    case run(() async -> ActionProtocol?)
     case group([Effect])
 }
 
@@ -29,7 +29,7 @@ public enum Effect {
 /// - and publish changes of the the current app `State` to possible subscribers.
 @MainActor public class Store<State, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
-    public internal(set) var eventPublisher: PassthroughSubject<Action, Never>
+    public internal(set) var eventPublisher: PassthroughSubject<ActionProtocol, Never>
     public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
     
     private let reducer: Reducer<State, Dependencies>
@@ -50,7 +50,7 @@ public enum Effect {
         self.errorPublisher = .init()
     }
     
-    public func dispatch(_ action: Action) async {
+    public func dispatch(_ action: ActionProtocol) async {
         do {
             let effect = try reducer(&state, action, dependencies)
             eventPublisher.send(action)

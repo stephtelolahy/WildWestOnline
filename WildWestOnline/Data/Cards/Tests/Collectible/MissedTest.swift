@@ -11,7 +11,7 @@ import GameCore
 struct MissedTest {
     @Test func beingShot_discardingMissed_shouldCounter() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -22,7 +22,7 @@ struct MissedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: [.missed1, .missed2, .pass], selectionIndex: 1)
@@ -41,7 +41,7 @@ struct MissedTest {
 
     @Test func beingShot_choosingPass_shouldDealDamage() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.bang])
                     .withWeapon(1)
@@ -52,7 +52,7 @@ struct MissedTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.bang, player: "p1")
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2"], selectionIndex: 0),
             .init(options: [.missed, .pass], selectionIndex: 1)

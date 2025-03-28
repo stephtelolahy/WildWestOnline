@@ -64,10 +64,11 @@ public struct GameView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar { toolBarView }
             .task {
-                await store.dispatch(GameAction.startTurn(player: store.state.startPlayer))
+                await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
             }
             .onReceive(store.eventPublisher) { newEvent in
-                if let action = newEvent as? GameAction, action.isRenderable {
+                if let action = newEvent as? GameFeature.Action,
+                   action.isRenderable {
                     animate(action, positions: positions)
                 }
             }
@@ -83,7 +84,7 @@ private extension GameView {
                 Button("Settings", action: { print("Settings tapped") })
                 Divider()
                 Button(role: .destructive) {
-                    Task { await store.dispatch(SetupGameAction.quitGame) }
+                    Task { await store.dispatch(GameSessionFeature.Action.quit) }
                 } label: { Text("Quit") }
             } label: { Image(systemName: "ellipsis.circle") }
         }
@@ -115,7 +116,7 @@ private extension GameView {
                         Button(action: {
                             guard item.active else { return }
                             Task {
-                                await store.dispatch(GameAction.preparePlay(item.card, player: player))
+                                await store.dispatch(GameFeature.Action.preparePlay(item.card, player: player))
                             }
                         }) {
                             CardView(content: .id(item.card), format: .large, active: item.active)
@@ -145,7 +146,7 @@ private extension GameView {
                     buttons: chooseOne.options.map { option in
                             .default(Text(option)) {
                                 Task {
-                                    await self.store.dispatch(GameAction.choose(option, player: player))
+                                    await self.store.dispatch(GameFeature.Action.choose(option, player: player))
                                 }
                             }
                     }
@@ -154,7 +155,7 @@ private extension GameView {
 
     }
 
-    func animate(_ action: GameAction, positions: [ViewPosition: CGPoint]) {
+    func animate(_ action: GameFeature.Action, positions: [ViewPosition: CGPoint]) {
         guard let animation = animationMatcher.animation(on: action) else { return }
         switch animation {
         case let .moveCard(card, source, target):

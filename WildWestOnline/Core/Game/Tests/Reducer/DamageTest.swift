@@ -11,14 +11,14 @@ import GameCore
 struct DamageTest {
     @Test func damage_with1LifePoint_shouldReduceHealthBy1() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
             }
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -27,14 +27,14 @@ struct DamageTest {
 
     @Test func damage_with2LifePoints_shouldReduceHealthBy2() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withHealth(2)
             }
             .build()
 
         // When
-        let action = GameAction.damage(2, player: "p1")
+        let action = GameFeature.Action.damage(2, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

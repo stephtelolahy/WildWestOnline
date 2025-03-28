@@ -11,14 +11,14 @@ import GameCore
 struct IncreaseMagnifyingTest {
     @Test func increseMagnifying_shouldUpdatePlayerAttribute() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1") {
                 $0.withMagnifying(0)
             }
             .build()
 
         // When
-        let action = GameAction.increaseMagnifying(1, player: "p1")
+        let action = GameFeature.Action.increaseMagnifying(1, player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

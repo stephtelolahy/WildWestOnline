@@ -53,7 +53,7 @@ public extension GameView {
 }
 
 public extension GameView.State {
-    init?(appState: AppState) {
+    init?(appState: AppFeature.State) {
         guard let game = appState.game else {
             return nil
         }
@@ -73,7 +73,7 @@ public extension GameView.State {
     }
 }
 
-private extension GameState {
+private extension GameFeature.State {
     var playerItems: [GameView.State.PlayerItem] {
         self.startOrder.map { playerId in
             let playerObj = players.get(playerId)

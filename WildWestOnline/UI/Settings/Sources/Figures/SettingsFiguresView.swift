@@ -33,7 +33,7 @@ struct SettingsFiguresView: View {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
                     Task {
-                        await store.dispatch(SettingsAction.updatePreferredFigure(figure.name))
+                        await store.dispatch(SettingsFeature.Action.updatePreferredFigure(figure.name))
                     }
                 }, label: {
                     FigureRow(figure: figure)
@@ -58,7 +58,7 @@ struct SettingsFiguresView: View {
 }
 
 extension SettingsFiguresView.State {
-    init?(appState: AppState) {
+    init?(appState: AppFeature.State) {
         figures = appState.inventory.figures.map {
             .init(
                 name: $0,

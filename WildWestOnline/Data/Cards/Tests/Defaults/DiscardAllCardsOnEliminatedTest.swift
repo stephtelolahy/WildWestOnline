@@ -11,7 +11,7 @@ import GameCore
 struct DiscardAllCardsOnEliminatedTest {
     @Test func beingEliminated_havingCards_shouldDiscardAllCards() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand(["c1"])
                     .withInPlay(["c2"])
@@ -23,7 +23,7 @@ struct DiscardAllCardsOnEliminatedTest {
             .build()
 
         // When
-        let action = GameAction.eliminate(player: "p1")
+        let action = GameFeature.Action.eliminate(player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

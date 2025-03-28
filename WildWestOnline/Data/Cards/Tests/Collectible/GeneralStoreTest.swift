@@ -11,7 +11,7 @@ import GameCore
 struct GeneralStoreTests {
     @Test func play_threePlayers_shouldAllowEachPlayerToChooseACard() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.generalStore])
             }
@@ -21,7 +21,7 @@ struct GeneralStoreTests {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.generalStore, player: "p1")
+        let action = GameFeature.Action.preparePlay(.generalStore, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 1),

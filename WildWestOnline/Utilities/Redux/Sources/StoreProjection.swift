@@ -35,7 +35,7 @@ private class StoreProjection<
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: Action) async {
+    override func dispatch(_ action: ActionProtocol) async {
         await globalStore.dispatch(action)
     }
 }

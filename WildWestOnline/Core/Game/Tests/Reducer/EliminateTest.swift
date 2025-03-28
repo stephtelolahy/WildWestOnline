@@ -11,13 +11,13 @@ import Testing
 struct EliminateTest {
     @Test func eliminate_shouldRemoveFromPlayOrder() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
             .build()
 
         // When
-        let action = GameAction.eliminate(player: "p1")
+        let action = GameFeature.Action.eliminate(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then
@@ -26,7 +26,7 @@ struct EliminateTest {
 
     @Test func eliminate_shouldRemovePendingAction() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withQueue(
                 [
@@ -39,7 +39,7 @@ struct EliminateTest {
             .build()
 
         // When
-        let action = GameAction.eliminate(player: "p1")
+        let action = GameFeature.Action.eliminate(player: "p1")
         let result = try await dispatch(action, state: state)
 
         // Then

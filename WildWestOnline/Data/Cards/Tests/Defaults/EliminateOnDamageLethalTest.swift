@@ -11,7 +11,7 @@ import GameCore
 struct EliminateOnDamageLethalTest {
     @Test func beingDamaged_lethal_shouldBeEliminated() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
                     .withAbilities([.defaultEliminateOnDamageLethal])
@@ -21,7 +21,7 @@ struct EliminateOnDamageLethalTest {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -33,7 +33,7 @@ struct EliminateOnDamageLethalTest {
 
     @Test func beingDamaged_nonLethal_shouldRemainActive() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHealth(2)
                     .withAbilities([.defaultEliminateOnDamageLethal])
@@ -41,7 +41,7 @@ struct EliminateOnDamageLethalTest {
             .build()
 
         // When
-        let action = GameAction.damage(1, player: "p1")
+        let action = GameFeature.Action.damage(1, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

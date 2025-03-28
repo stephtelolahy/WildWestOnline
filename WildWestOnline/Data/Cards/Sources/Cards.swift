@@ -690,7 +690,7 @@ private extension Cards {
     }
 }
 
-private extension GameAction {
+private extension Card.Effect {
     static var play: Self {
         .init(
             name: .play

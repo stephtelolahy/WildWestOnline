@@ -10,7 +10,7 @@ import GameCore
 struct WellsFargoTest {
     @Test func play_shouldDraw3Cards() async throws {
         // Given
-        let state = GameState.makeBuilderWithAllCards()
+        let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHand([.wellsFargo])
             }
@@ -19,7 +19,7 @@ struct WellsFargoTest {
             .build()
 
         // When
-        let action = GameAction.preparePlay(.wellsFargo, player: "p1")
+        let action = GameFeature.Action.preparePlay(.wellsFargo, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

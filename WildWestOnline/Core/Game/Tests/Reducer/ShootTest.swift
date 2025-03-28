@@ -11,13 +11,13 @@ import GameCore
 struct ShootTest {
     @Test func shoot() async throws {
         // Given
-        let state = GameState.makeBuilder()
+        let state = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
             .build()
 
         // When
-        let action = GameAction.shoot("p2")
+        let action = GameFeature.Action.shoot("p2")
         let result = try await dispatch(action, state: state)
 
         // Then
