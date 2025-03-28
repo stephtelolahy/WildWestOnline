@@ -105,8 +105,8 @@ public struct Card: Equatable, Codable, Sendable {
             public var amountPerCard: [String: Int]?
 
             public init(
-                player: String,
-                played: String,
+                player: String = "",
+                played: String = "",
                 target: String? = nil,
                 card: String? = nil,
                 amount: Int? = nil,
@@ -196,7 +196,6 @@ public struct Card: Equatable, Codable, Sendable {
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
-        case setAmount(Int)
         case setAmountPerCard([String: Int])
         case setTarget(TargetGroup)
         case setCard(CardGroup)

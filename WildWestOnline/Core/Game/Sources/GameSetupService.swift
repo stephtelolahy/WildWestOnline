@@ -109,13 +109,7 @@ private extension GameSetupService {
 
 private extension Card {
     func amountOfActiveEffect(named action: Card.Effect.Name) -> Int? {
-        guard let effect = onActive.first(where: { $0.name == action }),
-              let selector = effect.selectors.first,
-              case .setAmount(let value) = selector else {
-            return nil
-        }
-
-        return value
+        onActive.first { $0.name == action }?.payload.amount
     }
 
     var playlimitPerTurn: [String: Int] {

@@ -39,7 +39,7 @@ public extension Inventory {
                 onActive: [
                     .init(
                         name: .setMaxHealth,
-                        selectors: [.setAmount(1)]
+                        payload: .init(amount: 1)
                     )
                 ]
             )
