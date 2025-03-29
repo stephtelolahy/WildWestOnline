@@ -31,30 +31,30 @@ public struct MainCoordinator: View {
                 .navigationDestination(for: MainNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
-                // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-                .onReceive(store.$state) { state in
-                    path = state.navigation.path
-                    settingsSheetPresented = state.navigation.settingsSheet != nil
-                }
-                .onChange(of: path) { _, newPath in
-                    guard newPath != store.state.navigation.path else { return }
-                    Task {
-                        await store.dispatch(MainNavigationFeature.Action.setPath(newPath))
-                    }
-                }
-                .onChange(of: settingsSheetPresented) { _, isPresented in
-                    guard isPresented != (store.state.navigation.settingsSheet != nil) else { return }
-                    Task {
-                        if isPresented {
-                            await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
-                        } else {
-                            await store.dispatch(MainNavigationFeature.Action.dismissSettingsSheet)
-                        }
-                    }
-                }
         }
         .sheet(isPresented: $settingsSheetPresented) {
             SettingsCoordinator(store: store)
+        }
+        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+        .onReceive(store.$state) { state in
+            path = state.navigation.path
+            settingsSheetPresented = state.navigation.settingsSheet != nil
+        }
+        .onChange(of: path) { _, newPath in
+            guard newPath != store.state.navigation.path else { return }
+            Task {
+                await store.dispatch(MainNavigationFeature.Action.setPath(newPath))
+            }
+        }
+        .onChange(of: settingsSheetPresented) { _, isPresented in
+            guard isPresented != (store.state.navigation.settingsSheet != nil) else { return }
+            Task {
+                if isPresented {
+                    await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
+                } else {
+                    await store.dispatch(MainNavigationFeature.Action.dismissSettingsSheet)
+                }
+            }
         }
         .onReceive(store.eventPublisher) { event in
             print(event)

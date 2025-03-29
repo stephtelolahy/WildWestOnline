@@ -23,17 +23,17 @@ public struct SettingsCoordinator: View {
                 .navigationDestination(for: SettingsNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
-                // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-                .onReceive(store.$state) { state in
-                    guard let newPath = store.state.navigation.settingsSheet?.path else { return }
-                    path = newPath
-                }
-                .onChange(of: path) { _, newPath in
-                    guard newPath != store.state.navigation.settingsSheet?.path else { return }
-                    Task {
-                        await store.dispatch(SettingsNavigationFeature.Action.setPath(newPath))
-                    }
-                }
+        }
+        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+        .onReceive(store.$state) { state in
+            guard let newPath = state.navigation.settingsSheet?.path else { return }
+            path = newPath
+        }
+        .onChange(of: path) { _, newPath in
+            guard newPath != store.state.navigation.settingsSheet?.path else { return }
+            Task {
+                await store.dispatch(SettingsNavigationFeature.Action.setPath(newPath))
+            }
         }
     }
 
