@@ -43,3 +43,22 @@ public struct SettingsCoordinator: View {
         }
     }
 }
+
+#Preview {
+    SettingsCoordinator(
+        store: Store<AppFeature.State, AppFeature.Dependencies>.init(
+            initialState: .mock,
+            dependencies: .init(settings: .init())
+        )
+    )
+}
+
+private extension AppFeature.State {
+    static var mock: Self {
+        .init(
+            navigation: .init(),
+            settings: .makeBuilder().build(),
+            inventory: .makeBuilder().build()
+        )
+    }
+}
