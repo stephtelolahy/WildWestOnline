@@ -31,10 +31,15 @@ struct SimulationTest {
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             store.eventPublisher
-                .sink { stateVerifier.receiveAction(action: $0) }
+                .sink {
+                    stateVerifier.receiveAction(action: $0)
+                    print($0)
+                }
                 .store(in: &cancellables)
             store.$state
-                .sink { stateVerifier.receiveState(state: $0) }
+                .sink {
+                    stateVerifier.receiveState(state: $0)
+                }
                 .store(in: &cancellables)
         }
 
@@ -50,12 +55,7 @@ struct SimulationTest {
 @MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
     .init(
         initialState: initialState,
-        reducer: { state, action, dependencies in
-                .group([
-                    try GameFeature.reduce(into: &state, action: action, dependencies: ()),
-                    try loggerReducer(state: &state, action: action, dependencies: ()),
-                ])
-        },
+        reducer: GameFeature.reduce,
         dependencies: ()
     )
 }

@@ -5,7 +5,6 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 import Testing
-import XCTest
 import Redux
 import Combine
 import GameCore
