@@ -21,7 +21,6 @@ public extension GameFeature.Action {
             name: .choose,
             payload: .init(
                 player: player,
-                played: "",
                 selection: selection
             )
         )
@@ -37,8 +36,6 @@ public extension GameFeature.Action {
         .init(
             name: .drawDeck,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -48,8 +45,6 @@ public extension GameFeature.Action {
         .init(
             name: .drawDiscard,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -59,8 +54,6 @@ public extension GameFeature.Action {
         .init(
             name: .drawDiscovered,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 card: card
             )
@@ -77,8 +70,6 @@ public extension GameFeature.Action {
         .init(
             name: .heal,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 amount: amount
             )
@@ -89,8 +80,6 @@ public extension GameFeature.Action {
         .init(
             name: .damage,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 amount: amount
             )
@@ -101,8 +90,6 @@ public extension GameFeature.Action {
         .init(
             name: .discardHand,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 card: card
             )
@@ -113,8 +100,6 @@ public extension GameFeature.Action {
         .init(
             name: .discardInPlay,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 card: card
             )
@@ -161,8 +146,6 @@ public extension GameFeature.Action {
         .init(
             name: .shoot,
             payload: .init(
-                player: "",
-                played: "",
                 target: target
             )
         )
@@ -172,8 +155,6 @@ public extension GameFeature.Action {
         .init(
             name: .counterShot,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -183,8 +164,6 @@ public extension GameFeature.Action {
         .init(
             name: .startTurn,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -194,8 +173,6 @@ public extension GameFeature.Action {
         .init(
             name: .endTurn,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -205,8 +182,6 @@ public extension GameFeature.Action {
         .init(
             name: .eliminate,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -216,8 +191,6 @@ public extension GameFeature.Action {
         .init(
             name: .endGame,
             payload: .init(
-                player: "",
-                played: "",
                 target: player
             )
         )
@@ -227,8 +200,6 @@ public extension GameFeature.Action {
         .init(
             name: .activate,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 cards: cards
             )
@@ -272,8 +243,6 @@ public extension GameFeature.Action {
         .init(
             name: .setWeapon,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 amount: weapon
             )
@@ -284,10 +253,8 @@ public extension GameFeature.Action {
         .init(
             name: .setPlayLimitPerTurn,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
-                amountPerCard: limit
+                amountPerTurn: limit
             )
         )
     }
@@ -296,8 +263,6 @@ public extension GameFeature.Action {
         .init(
             name: .increaseMagnifying,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 amount: amount
             )
@@ -308,8 +273,6 @@ public extension GameFeature.Action {
         .init(
             name: .increaseRemoteness,
             payload: .init(
-                player: "",
-                played: "",
                 target: player,
                 amount: amount
             )
@@ -320,8 +283,6 @@ public extension GameFeature.Action {
         .init(
             name: .queue,
             payload: .init(
-                player: "",
-                played: "",
                 children: []
             )
         )

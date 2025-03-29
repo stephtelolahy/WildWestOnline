@@ -23,7 +23,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let onTrigger: [Effect]
     public let onActive: [Effect]
     public let onDeactive: [Effect]
-    public let counterShot: Bool
+    public let canCounterShot: Bool
 
     public init(
         name: String,
@@ -35,7 +35,7 @@ public struct Card: Equatable, Codable, Sendable {
         onTrigger: [Effect] = [],
         onActive: [Effect] = [],
         onDeactive: [Effect] = [],
-        counterShot: Bool = false
+        canCounterShot: Bool = false
     ) {
         self.name = name
         self.desc = desc
@@ -46,7 +46,7 @@ public struct Card: Equatable, Codable, Sendable {
         self.onTrigger = onTrigger
         self.onActive = onActive
         self.onDeactive = onDeactive
-        self.counterShot = counterShot
+        self.canCounterShot = canCounterShot
     }
 
     public struct Effect: ActionProtocol, Equatable, Codable {
@@ -102,18 +102,18 @@ public struct Card: Equatable, Codable, Sendable {
             public var selection: String?
             public var children: [Card.Effect]?
             public var cards: [String]?
-            public var amountPerCard: [String: Int]?
+            public var amountPerTurn: [String: Int]?
 
             public init(
-                player: String,
-                played: String,
+                player: String = "",
+                played: String = "",
                 target: String? = nil,
                 card: String? = nil,
                 amount: Int? = nil,
                 selection: String? = nil,
                 children: [Card.Effect]? = nil,
                 cards: [String]? = nil,
-                amountPerCard: [String: Int]? = nil
+                amountPerTurn: [String: Int]? = nil
             ) {
                 self.player = player
                 self.played = played
@@ -123,13 +123,13 @@ public struct Card: Equatable, Codable, Sendable {
                 self.selection = selection
                 self.children = children
                 self.cards = cards
-                self.amountPerCard = amountPerCard
+                self.amountPerTurn = amountPerTurn
             }
         }
 
         public init(
             name: Name,
-            payload: Payload = .init(player: "", played: ""),
+            payload: Payload = .init(),
             selectors: [Card.Selector] = []
         ) {
             self.name = name
@@ -156,7 +156,7 @@ public struct Card: Equatable, Codable, Sendable {
                     selection: payload.selection,
                     children: payload.children,
                     cards: payload.cards,
-                    amountPerCard: payload.amountPerCard
+                    amountPerTurn: payload.amountPerTurn
                 ),
                 selectors: selectors ?? self.selectors
             )
@@ -196,8 +196,6 @@ public struct Card: Equatable, Codable, Sendable {
     /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
-        case setAmount(Int)
-        case setAmountPerCard([String: Int])
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
@@ -210,6 +208,7 @@ public struct Card: Equatable, Codable, Sendable {
             case drawCards
         }
 
+        /// Players from actor point of view
         public enum TargetGroup: String, Codable, Sendable {
             /// All active players
             case active
@@ -217,7 +216,7 @@ public struct Card: Equatable, Codable, Sendable {
             case damaged
             /// All other players
             case others
-            /// Next player after actor
+            /// Next player
             case next
         }
 
@@ -225,7 +224,7 @@ public struct Card: Equatable, Codable, Sendable {
             case allHand
             case allInPlay
             case played
-            case equipedWeapon
+            case weaponInPlay
         }
 
         public enum ChooseOneElement: Equatable, Codable, Sendable {
@@ -239,6 +238,18 @@ public struct Card: Equatable, Codable, Sendable {
             case eventuallyCounterCard([CardCondition] = [])
             /// Can `discard` hand card to reverse the effect's target
             case eventuallyReverseCard([CardCondition] = [])
+        }
+
+        public enum TargetCondition: Equatable, Codable, Sendable {
+            case havingCard
+            case atDistance(Int)
+            case reachable
+        }
+
+        public enum CardCondition: Equatable, Codable, Sendable {
+            case canCounterShot
+            case named(String)
+            case fromHand
         }
 
         public struct ChooseOneResolved: Equatable, Codable, Sendable {
@@ -260,21 +271,9 @@ public struct Card: Equatable, Codable, Sendable {
                 }
             }
         }
-
-        public enum TargetCondition: Equatable, Codable, Sendable {
-            case havingCard
-            case atDistance(Int)
-            case reachable
-        }
-
-        public enum CardCondition: Equatable, Codable, Sendable {
-            case counterShot
-            case named(String)
-            case fromHand
-        }
     }
 
-    /// Error on playing card
+    /// Card play error
     public enum Failure: Error, Equatable, Codable {
         case insufficientDeck
         case insufficientDiscard

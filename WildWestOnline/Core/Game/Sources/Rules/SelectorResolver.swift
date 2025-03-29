@@ -18,11 +18,9 @@ private extension Card.Selector {
     var resolver: Resolver {
         switch self {
         case .repeat(let number): Repeat(number: number)
-        case .setAmount(let number): SetAmount(number: number)
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let resolved, let selection): ChooseOne(element: element, resolved: resolved, selection: selection)
-        case .setAmountPerCard(let limit): SetAmountPerCard(limit: limit)
         case .verify(let stateReq): Verify(stateReq: stateReq)
         }
     }
@@ -33,14 +31,6 @@ private extension Card.Selector {
         func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
             let value = number.resolve(actor: pendingAction.payload.player, state: state)
             return Array(repeating: pendingAction, count: value)
-        }
-    }
-
-    struct SetAmount: Resolver {
-        let number: Int
-
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
-            [pendingAction.withAmount(number)]
         }
     }
 
@@ -93,14 +83,6 @@ private extension Card.Selector {
         }
     }
 
-    struct SetAmountPerCard: Resolver {
-        let limit: [String: Int]
-
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
-            [pendingAction.withAmountPerCard(limit)]
-        }
-    }
-
     struct Verify: Resolver {
         let stateReq: Card.StateReq
 
@@ -124,18 +106,6 @@ extension Card.Effect {
     func withCard(_ card: String) -> Self {
         var copy = self
         copy.payload.card = card
-        return copy
-    }
-
-    func withAmount(_ amount: Int) -> Self {
-        var copy = self
-        copy.payload.amount = amount
-        return copy
-    }
-
-    func withAmountPerCard(_ limit: [String: Int]) -> Self {
-        var copy = self
-        copy.payload.amountPerCard = limit
         return copy
     }
 }

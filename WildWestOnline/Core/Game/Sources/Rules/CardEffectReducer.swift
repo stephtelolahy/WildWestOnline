@@ -1,5 +1,5 @@
 //
-//  EffectNameReducer.swift
+//  CardEffectReducer.swift
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
@@ -393,7 +393,7 @@ private extension Card.Effect.Name {
                     target: payload.target,
                     amount: 1
                 ),
-                selectors: [.chooseOne(.eventuallyCounterCard([.counterShot]))]
+                selectors: [.chooseOne(.eventuallyCounterCard([.canCounterShot]))]
             )
             state.queue.insert(effect, at: 0)
             return state
@@ -500,10 +500,10 @@ private extension Card.Effect.Name {
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.Failure) -> GameFeature.State {
             let target = payload.target!
-            let amountPerCard = payload.amountPerCard!
+            let amountPerTurn = payload.amountPerTurn!
 
             var state = state
-            state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerCard
+            state[keyPath: \.players[target]!.playLimitPerTurn] = amountPerTurn
             return state
         }
     }
