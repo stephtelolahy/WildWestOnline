@@ -36,7 +36,7 @@ public enum GameSessionFeature {
                     return Action.setGame(newGame)
                 },
                 .run {
-                    NavStackFeature<NavigationFeature.State.MainDestination>.Action.push(.game)
+                    MainNavigationFeature.Action.push(.game)
                 }
             ])
 
@@ -46,7 +46,7 @@ public enum GameSessionFeature {
                     Action.unsetGame
                 },
                 .run {
-                    NavStackFeature<NavigationFeature.State.MainDestination>.Action.pop
+                    MainNavigationFeature.Action.pop
                 }
             ])
 

@@ -11,7 +11,7 @@ import NavigationCore
 
 public struct SettingsCoordinator: View {
     @ObservedObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
-    @State private var path: [NavigationFeature.State.SettingsDestination] = []
+    @State private var path: [SettingsNavigationFeature.State.Destination] = []
 
     public init(store: Store<AppFeature.State, AppFeature.Dependencies>) {
         self.store = store
@@ -20,25 +20,45 @@ public struct SettingsCoordinator: View {
     public var body: some View {
         NavigationStack(path: $path) {
             SettingsRootView { store.projection(SettingsRootView.State.init) }
-                .navigationDestination(for: NavigationFeature.State.SettingsDestination.self) {
+                .navigationDestination(for: SettingsNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
-                // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-                .onReceive(store.$state) { state in
-                    path = state.navigation.settingsStack.path
-                }
-                .onChange(of: path) { _, newPath in
-                    guard newPath != store.state.navigation.settingsStack.path else { return }
-                    Task {
-                        await store.dispatch(NavStackFeature<NavigationFeature.State.SettingsDestination>.Action.setPath(newPath))
-                    }
-                }
+        }
+        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+        .onReceive(store.$state) { state in
+            guard let newPath = state.navigation.settingsSheet?.path else { return }
+            path = newPath
+        }
+        .onChange(of: path) { _, newPath in
+            guard newPath != store.state.navigation.settingsSheet?.path else { return }
+            Task {
+                await store.dispatch(SettingsNavigationFeature.Action.setPath(newPath))
+            }
         }
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: NavigationFeature.State.SettingsDestination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: SettingsNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .figures: SettingsFiguresView { store.projection(SettingsFiguresView.State.init) }
         }
+    }
+}
+
+#Preview {
+    SettingsCoordinator(
+        store: Store<AppFeature.State, AppFeature.Dependencies>.init(
+            initialState: .mock,
+            dependencies: .init(settings: .init())
+        )
+    )
+}
+
+private extension AppFeature.State {
+    static var mock: Self {
+        .init(
+            navigation: .init(),
+            settings: .makeBuilder().build(),
+            inventory: .makeBuilder().build()
+        )
     }
 }

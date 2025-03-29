@@ -54,7 +54,7 @@ public struct HomeView: View {
                 }
                 mainButton("menu.settings.button") {
                     Task {
-                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.present(.settings))
+                        await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
                     }
                 }
             }
