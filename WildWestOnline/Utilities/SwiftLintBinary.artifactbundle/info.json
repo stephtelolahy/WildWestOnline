@@ -2,12 +2,16 @@
     "schemaVersion": "1.0",
     "artifacts": {
         "swiftlint": {
-            "version": "0.57.0",
+            "version": "0.58.2",
             "type": "executable",
             "variants": [
                 {
-                    "path": "swiftlint-0.57.0-macos/bin/swiftlint",
+                    "path": "swiftlint-0.58.2-macos/bin/swiftlint",
                     "supportedTriples": ["x86_64-apple-macosx", "arm64-apple-macosx"]
+                },
+                {
+                    "path": "swiftlint-0.58.2-linux-gnu/bin/swiftlint",
+                    "supportedTriples": ["x86_64-unknown-linux-gnu"]
                 }
             ]
         }
