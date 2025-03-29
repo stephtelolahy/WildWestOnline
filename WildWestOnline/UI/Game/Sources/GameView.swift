@@ -80,8 +80,8 @@ private extension GameView {
     var toolBarView: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
-                Button("Actions", action: { print("Actions tapped") })
-                Button("Settings", action: { print("Settings tapped") })
+                Button("Actions", action: { })
+                Button("Settings", action: { })
                 Divider()
                 Button(role: .destructive) {
                     Task { await store.dispatch(GameSessionFeature.Action.quit) }

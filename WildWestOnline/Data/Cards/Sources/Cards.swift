@@ -242,9 +242,7 @@ private extension Cards {
                 .play,
                 .init(
                     name: .heal,
-                    selectors: [
-                        .setAmount(1)
-                    ]
+                    payload: .init(amount: 1)
                 )
             ]
         )
@@ -258,8 +256,8 @@ private extension Cards {
                 .play,
                 .init(
                     name: .heal,
+                    payload: .init(amount: 1),
                     selectors: [
-                        .setAmount(1),
                         .setTarget(.damaged)
                     ]
                 )
@@ -375,7 +373,7 @@ private extension Cards {
         .init(
             name: .missed,
             desc: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            counterShot: true
+            canCounterShot: true
         )
     }
 
@@ -387,8 +385,8 @@ private extension Cards {
                 .play,
                 .init(
                     name: .damage,
+                    payload: .init(amount: 1),
                     selectors: [
-                        .setAmount(1),
                         .setTarget(.others),
                         .chooseOne(.eventuallyCounterCard([.named(.bang)]))
                     ]
@@ -412,8 +410,8 @@ private extension Cards {
             onPlay: [
                 .init(
                     name: .damage,
+                    payload: .init(amount: 1),
                     selectors: [
-                        .setAmount(1),
                         .chooseOne(.eventuallyReverseCard([.named(.bang)]))
                     ]
                 )
@@ -432,7 +430,7 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    selectors: [.setAmount(2)]
+                    payload: .init(amount: 2)
                 )
             ],
             onDeactive: [.resetWeapon]
@@ -450,7 +448,7 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    selectors: [.setAmount(3)]
+                    payload: .init(amount: 3)
                 )
             ],
             onDeactive: [.resetWeapon]
@@ -468,7 +466,7 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    selectors: [.setAmount(4)]
+                    payload: .init(amount: 4)
                 )
             ],
             onDeactive: [.resetWeapon]
@@ -486,7 +484,7 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    selectors: [.setAmount(5)]
+                    payload: .init(amount: 5)
                 )
             ],
             onDeactive: [.resetWeapon]
@@ -504,11 +502,11 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    selectors: [.setAmount(1)]
+                    payload: .init(amount: 1)
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    selectors: [.setAmountPerCard([.bang: .infinity])]
+                    payload: .init(amountPerTurn: [.bang: .infinity])
                 )
             ],
             onDeactive: [.resetWeapon]
@@ -523,13 +521,13 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .increaseMagnifying,
-                    selectors: [.setAmount(1)]
+                    payload: .init(amount: 1)
                 )
             ],
             onDeactive: [
                 .init(
                     name: .increaseMagnifying,
-                    selectors: [.setAmount(-1)]
+                    payload: .init(amount: -1)
                 )
             ]
         )
@@ -543,13 +541,13 @@ private extension Cards {
             onActive: [
                 .init(
                     name: .increaseRemoteness,
-                    selectors: [.setAmount(1)]
+                    payload: .init(amount: 1)
                 )
             ],
             onDeactive: [
                 .init(
                     name: .increaseRemoteness,
-                    selectors: [.setAmount(-1)]
+                    payload: .init(amount: -1)
                 )
             ]
         )
@@ -602,9 +600,9 @@ private extension Cards {
                 ]),
                 .init(
                     name: .damage,
+                    payload: .init(amount: 3),
                     selectors: [
-                        .verify(.drawNotMatching(.regexPassDynamite)),
-                        .setAmount(3)
+                        .verify(.drawNotMatching(.regexPassDynamite))
                     ]
                 ),
                 .init(
@@ -661,8 +659,14 @@ private extension Cards {
             name: .willyTheKid,
             desc: "he can play any number of BANG! cards during his turn.",
             onActive: [
-                .init(name: .setMaxHealth, selectors: [.setAmount(4)]),
-                .init(name: .setPlayLimitPerTurn, selectors: [.setAmountPerCard([.bang: .infinity])])
+                .init(
+                    name: .setMaxHealth,
+                    payload: .init(amount: 4)
+                ),
+                .init(
+                    name: .setPlayLimitPerTurn,
+                    payload: .init(amountPerTurn: [.bang: .infinity])
+                )
             ]
         )
     }
@@ -672,8 +676,14 @@ private extension Cards {
             name: .roseDoolan,
             desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
             onActive: [
-                .init(name: .setMaxHealth, selectors: [.setAmount(4)]),
-                .init(name: .increaseMagnifying, selectors: [.setAmount(1)])
+                .init(
+                    name: .setMaxHealth,
+                    payload: .init(amount: 4)
+                ),
+                .init(
+                    name: .increaseMagnifying,
+                    payload: .init(amount: 1)
+                )
             ]
         )
     }
@@ -683,8 +693,14 @@ private extension Cards {
             name: .paulRegret,
             desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
             onActive: [
-                .init(name: .setMaxHealth, selectors: [.setAmount(3)]),
-                .init(name: .increaseRemoteness, selectors: [.setAmount(1)])
+                .init(
+                    name: .setMaxHealth,
+                    payload: .init(amount: 3)
+                ),
+                .init(
+                    name: .increaseRemoteness,
+                    payload: .init(amount: 1)
+                )
             ]
         )
     }
@@ -706,9 +722,7 @@ private extension Card.Effect {
     static var resetWeapon: Self {
         .init(
             name: .setWeapon,
-            selectors: [
-                .setAmount(1)
-            ]
+            payload: .init(amount: 1)
         )
     }
 
@@ -716,7 +730,7 @@ private extension Card.Effect {
         .init(
             name: .discardInPlay,
             selectors: [
-                .setCard(.equipedWeapon)
+                .setCard(.weaponInPlay)
             ]
         )
     }

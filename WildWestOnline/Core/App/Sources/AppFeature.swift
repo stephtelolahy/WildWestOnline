@@ -53,11 +53,10 @@ public enum AppFeature {
         }
 
         return .group([
-            try NavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
-            try SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
-            try GameSessionFeature.reduce(into: &state, action: action, dependencies: ()),
             activeGameEffet,
-            try loggerReducer(state: &state, action: action, dependencies: ()),
+            try GameSessionFeature.reduce(into: &state, action: action, dependencies: ()),
+            try SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
+            try NavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
         ])
     }
 }

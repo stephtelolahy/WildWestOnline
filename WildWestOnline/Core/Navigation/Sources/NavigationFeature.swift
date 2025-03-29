@@ -44,8 +44,8 @@ public enum NavigationFeature {
         dependencies: Void
     ) throws -> Effect {
         .group([
-            try NavStackFeature.reduce(into: &state.mainStack, action: action, dependencies: ()),
-            try NavStackFeature.reduce(into: &state.settingsStack, action: action, dependencies: ())
+            try NavStackFeature.reduce(into: &state.mainStack, action: action, dependencies: dependencies),
+            try NavStackFeature.reduce(into: &state.settingsStack, action: action, dependencies: dependencies)
         ])
     }
 }
