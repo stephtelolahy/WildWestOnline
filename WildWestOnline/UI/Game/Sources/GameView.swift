@@ -10,6 +10,7 @@ import Theme
 import Redux
 import AppCore
 import GameCore
+import NavigationCore
 
 enum ViewPosition: Hashable {
     case deck
@@ -81,7 +82,11 @@ private extension GameView {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
                 Button("Actions", action: { })
-                Button("Settings", action: { })
+                Button("Settings") {
+                    Task {
+                        await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
+                    }
+                }
                 Divider()
                 Button(role: .destructive) {
                     Task { await store.dispatch(GameSessionFeature.Action.quit) }

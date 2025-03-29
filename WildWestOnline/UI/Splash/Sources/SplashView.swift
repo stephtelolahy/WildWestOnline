@@ -32,7 +32,7 @@ public struct SplashView: View {
         .toolbar(.hidden, for: .automatic)
         .task {
             try? await Task.sleep(nanoseconds: 2_000_000_000)
-            await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.push(.home))
+            await store.dispatch(MainNavigationFeature.Action.push(.home))
         }
     }
 }

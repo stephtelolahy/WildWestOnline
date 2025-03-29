@@ -16,8 +16,8 @@ import GameUI
 
 public struct MainCoordinator: View {
     @StateObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
-    @State private var path: [NavigationFeature.State.MainDestination] = []
-    @State private var sheet: NavigationFeature.State.MainDestination? = nil
+    @State private var path: [MainNavigationFeature.State.Destination] = []
+    @State private var settingsSheetPresented: Bool = false
 
     public init(store: @escaping () -> Store<AppFeature.State, AppFeature.Dependencies>) {
         // SwiftUI ensures that the following initialization uses the
@@ -28,44 +28,43 @@ public struct MainCoordinator: View {
     public var body: some View {
         NavigationStack(path: $path) {
             SplashView { store.projection(SplashView.State.init) }
-                .navigationDestination(for: NavigationFeature.State.MainDestination.self) {
+                .navigationDestination(for: MainNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
-                .sheet(item: $sheet) {
-                    viewForDestination($0)
+        }
+        .sheet(isPresented: $settingsSheetPresented) {
+            SettingsCoordinator(store: store)
+        }
+        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
+        .onReceive(store.$state) { state in
+            path = state.navigation.path
+            settingsSheetPresented = state.navigation.settingsSheet != nil
+        }
+        .onChange(of: path) { _, newPath in
+            guard newPath != store.state.navigation.path else { return }
+            Task {
+                await store.dispatch(MainNavigationFeature.Action.setPath(newPath))
+            }
+        }
+        .onChange(of: settingsSheetPresented) { _, isPresented in
+            guard isPresented != (store.state.navigation.settingsSheet != nil) else { return }
+            Task {
+                if isPresented {
+                    await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
+                } else {
+                    await store.dispatch(MainNavigationFeature.Action.dismissSettingsSheet)
                 }
-            // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
-                .onReceive(store.$state) { state in
-                    path = state.navigation.mainStack.path
-                    sheet = state.navigation.mainStack.sheet
-                }
-                .onChange(of: path) { _, newPath in
-                    guard newPath != store.state.navigation.mainStack.path else { return }
-                    Task {
-                        await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.setPath(newPath))
-                    }
-                }
-                .onChange(of: sheet) { _, newSheet in
-                    guard newSheet != store.state.navigation.mainStack.sheet else { return }
-                    Task {
-                        if let newSheet {
-                            await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.present(newSheet))
-                        } else {
-                            await store.dispatch(NavStackFeature<NavigationFeature.State.MainDestination>.Action.dismiss)
-                        }
-                    }
-                }
+            }
         }
         .onReceive(store.eventPublisher) { event in
             print(event)
         }
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: NavigationFeature.State.MainDestination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: MainNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .home: HomeView { store.projection(HomeView.State.init) }
         case .game: GameView { store.projection(GameView.State.init) }
-        case .settings: SettingsCoordinator(store: store)
         }
     }
 }
