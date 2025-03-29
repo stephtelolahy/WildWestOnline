@@ -14,6 +14,10 @@ public enum SettingsNavigationFeature {
         public enum Destination: String, Codable, Sendable {
             case figures
         }
+
+        public init(path: [Destination] = []) {
+            self.path = path
+        }
     }
 
     public enum Action: ActionProtocol {
