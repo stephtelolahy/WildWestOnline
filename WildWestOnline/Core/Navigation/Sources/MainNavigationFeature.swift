@@ -18,7 +18,7 @@ public enum MainNavigationFeature {
         }
 
         public init(
-            path: [Destination],
+            path: [Destination] = [],
             settingsSheet: SettingsNavigationFeature.State? = nil
         ) {
             self.path = path

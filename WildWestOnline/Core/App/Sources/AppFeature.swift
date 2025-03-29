@@ -15,13 +15,13 @@ public enum AppFeature {
     /// Organize State Structure Based on Data Types, Not Components
     /// https://redux.js.org/style-guide/#organize-state-structure-based-on-data-types-not-components
     public struct State: Codable, Equatable, Sendable {
-        public var navigation: NavigationFeature.State
+        public var navigation: MainNavigationFeature.State
         public var settings: SettingsFeature.State
         public let inventory: Inventory
         public var game: GameFeature.State?
 
         public init(
-            navigation: NavigationFeature.State,
+            navigation: MainNavigationFeature.State,
             settings: SettingsFeature.State,
             inventory: Inventory,
             game: GameFeature.State? = nil
@@ -56,7 +56,7 @@ public enum AppFeature {
             activeGameEffet,
             try GameSessionFeature.reduce(into: &state, action: action, dependencies: ()),
             try SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
-            try NavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
+            try MainNavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
         ])
     }
 }
