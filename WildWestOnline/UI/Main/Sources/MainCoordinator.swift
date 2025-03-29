@@ -52,6 +52,9 @@ public struct MainCoordinator: View {
                 }
             }
         }
+        .onReceive(store.eventPublisher) { event in
+            print(event)
+        }
     }
 
     @ViewBuilder private func viewForDestination(_ destination: NavigationFeature.State.MainDestination) -> some View {
