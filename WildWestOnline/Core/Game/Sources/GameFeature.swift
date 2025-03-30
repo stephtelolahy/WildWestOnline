@@ -56,8 +56,12 @@ public enum GameFeature {
         action: ActionProtocol,
         dependencies: Void
     ) -> Effect {
-        .group([
-            reduceMechanics(into: &state, action: action, dependencies: dependencies),
+        _ = reduceMechanics(into: &state, action: action, dependencies: dependencies)
+        guard state.lastActionError == nil else {
+            return .none
+        }
+
+        return .group([
             reduceLoop(into: &state, action: action, dependencies: dependencies),
             reduceAI(into: &state, action: action, dependencies: dependencies),
         ])
