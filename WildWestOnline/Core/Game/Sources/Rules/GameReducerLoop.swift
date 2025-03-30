@@ -10,7 +10,7 @@ extension GameFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         let state = state
         return .run {
             await nextAction(state: state, action: action)

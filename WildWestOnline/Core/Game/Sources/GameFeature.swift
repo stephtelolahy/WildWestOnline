@@ -54,11 +54,11 @@ public enum GameFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         .group([
-            try reduceMechanics(into: &state, action: action, dependencies: dependencies),
-            try reduceLoop(into: &state, action: action, dependencies: dependencies),
-            try reduceAI(into: &state, action: action, dependencies: dependencies),
+            reduceMechanics(into: &state, action: action, dependencies: dependencies),
+            reduceLoop(into: &state, action: action, dependencies: dependencies),
+            reduceAI(into: &state, action: action, dependencies: dependencies),
         ])
     }
 }

@@ -11,7 +11,7 @@ extension GameFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         guard let action = action as? Action else {
             return .none
         }
