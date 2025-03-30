@@ -44,7 +44,7 @@ struct StoreTest {
         ])
     }
 
-    @Test func dispatchInvalidAction_shouldThrowError() async throws {
+    @Test func dispatchInvalidAction_shouldNotUpdateState() async throws {
         // Given
         let service = SearchService(
             searchResult: .success(["result"]),
@@ -60,14 +60,10 @@ struct StoreTest {
         )
 
         var receivedActions: [ActionProtocol] = []
-        var receivedErrors: [Error] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.eventPublisher
                 .sink { receivedActions.append($0) }
-                .store(in: &cancellables)
-            sut.errorPublisher
-                .sink { receivedErrors.append($0) }
                 .store(in: &cancellables)
         }
 
@@ -75,10 +71,7 @@ struct StoreTest {
         await sut.dispatch(AppAction.search(query: ""))
 
         // Then
-        #expect(receivedErrors as? [SearchError] == [
-            .queryStringShouldNotBeEmpty
-        ])
-        #expect(receivedActions.isEmpty)
+        await #expect(sut.state.searchResult.isEmpty)
     }
 
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
@@ -128,7 +121,7 @@ func appReducer(
     state: inout AppState,
     action: ActionProtocol,
     dependencies: AppDependencies
-) throws -> Effect {
+) -> Effect {
     switch action {
     case let AppAction.setSearchResults(repos):
         state.searchResult = repos
@@ -136,7 +129,7 @@ func appReducer(
 
     case let AppAction.search(query):
         guard !query.isEmpty else {
-            throw SearchError.queryStringShouldNotBeEmpty
+            return .none
         }
         return .run {
             do {
@@ -189,7 +182,3 @@ struct SearchService {
 }
 
 typealias AppStore = Store<AppState, AppDependencies>
-
-private enum SearchError: Error, Equatable {
-    case queryStringShouldNotBeEmpty
-}

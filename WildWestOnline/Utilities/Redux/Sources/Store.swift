@@ -13,7 +13,7 @@ public protocol ActionProtocol: Sendable {}
 
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 /// Also return side-effects in response, and eventually dispatch more actions
-public typealias Reducer<State, Dependencies> = (inout State, ActionProtocol, Dependencies) throws -> Effect
+public typealias Reducer<State, Dependencies> = (inout State, ActionProtocol, Dependencies) -> Effect
 
 /// ``Effect`` is an asynchronous `ActionProtocol`
 public enum Effect {
@@ -30,14 +30,13 @@ public enum Effect {
 @MainActor public class Store<State, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
     public internal(set) var eventPublisher: PassthroughSubject<ActionProtocol, Never>
-    public internal(set) var errorPublisher: PassthroughSubject<Error, Never>
-    
+
     private let reducer: Reducer<State, Dependencies>
 
     /// The dependencies are passed explicitly and are injected at store creation,
-    /// and each view or reducer gets access to only the specific dependencies it is working with
+    /// and each reducer gets access to only the specific dependencies it is working with
     private let dependencies: Dependencies
-    
+
     public init(
         initialState: State,
         reducer: @escaping Reducer<State, Dependencies> = { _, _, _ in .none },
@@ -47,17 +46,12 @@ public enum Effect {
         self.reducer = reducer
         self.dependencies = dependencies
         self.eventPublisher = .init()
-        self.errorPublisher = .init()
     }
-    
+
     public func dispatch(_ action: ActionProtocol) async {
-        do {
-            let effect = try reducer(&state, action, dependencies)
-            eventPublisher.send(action)
-            await runEffect(effect)
-        } catch {
-            errorPublisher.send(error)
-        }
+        let effect = reducer(&state, action, dependencies)
+        eventPublisher.send(action)
+        await runEffect(effect)
     }
 
     private func runEffect(_ effect: Effect) async {
