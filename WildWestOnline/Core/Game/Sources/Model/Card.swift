@@ -193,13 +193,12 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     /// Selectors are used to specify which objects an effect should affect.
-    /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
-        case verify(StateReq)
+        case require(StateReq)
 
         public enum Number: Equatable, Codable, Sendable {
             case value(Int)
@@ -208,7 +207,6 @@ public struct Card: Equatable, Codable, Sendable {
             case drawCards
         }
 
-        /// Players from actor point of view
         public enum TargetGroup: String, Codable, Sendable {
             /// All active players
             case active

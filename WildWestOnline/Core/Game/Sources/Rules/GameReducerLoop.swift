@@ -121,7 +121,7 @@ private extension GameFeature.State {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         guard cardObj.canTrigger.isNotEmpty,
-              cardObj.canTrigger.contains(where: { $0.match(event: event, actor: player, state: self) }) else {
+              cardObj.canTrigger.contains(where: { $0.match(event: event, player: player, state: self) }) else {
             return nil
         }
 
@@ -178,10 +178,10 @@ private extension GameFeature.State {
 }
 
 private extension Card.EventReq {
-    func match(event: Card.Effect, actor: String, state: GameFeature.State) -> Bool {
+    func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
         event.name == actionName
-        && event.payload.target == actor
-        && stateReqs.allSatisfy { $0.match(player: actor, state: state) }
+        && event.payload.target == player
+        && stateReqs.allSatisfy { $0.match(player: player, state: state) }
     }
 }
 

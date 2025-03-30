@@ -571,7 +571,7 @@ private extension Cards {
                 .init(
                     name: .counterShot,
                     selectors: [
-                        .verify(.drawMatching(.regexHearts))
+                        .require(.drawMatching(.regexHearts))
                     ]
                 )
             ]
@@ -594,7 +594,7 @@ private extension Cards {
                     ]
                 ),
                 .init(name: .passInPlay, selectors: [
-                    .verify(.drawMatching(.regexPassDynamite)),
+                    .require(.drawMatching(.regexPassDynamite)),
                     .setCard(.played),
                     .setTarget(.next)
                 ]),
@@ -602,13 +602,13 @@ private extension Cards {
                     name: .damage,
                     payload: .init(amount: 3),
                     selectors: [
-                        .verify(.drawNotMatching(.regexPassDynamite))
+                        .require(.drawNotMatching(.regexPassDynamite))
                     ]
                 ),
                 .init(
                     name: .discardInPlay,
                     selectors: [
-                        .verify(.drawNotMatching(.regexPassDynamite)),
+                        .require(.drawNotMatching(.regexPassDynamite)),
                         .setCard(.played)
                     ]
                 )
@@ -641,7 +641,7 @@ private extension Cards {
                 .init(
                     name: .endTurn,
                     selectors: [
-                        .verify(.drawNotMatching(.regexHearts))
+                        .require(.drawNotMatching(.regexHearts))
                     ]
                 ),
                 .init(
@@ -754,7 +754,7 @@ private extension String {
              .init(
                  name: .heal,
                  selectors: [
-                     .verify(.playersAtLeast(3)),
+                     .require(.playersAtLeast(3)),
                      .chooseCostHandCard(.named(.beer))
                  ]
              )
@@ -775,7 +775,7 @@ private extension String {
              .init(
                  name: .missed,
                  selectors: [
-                     .verify(.draw("♥️"))
+                     .require(.draw("♥️"))
                  ],
                  when: .shot
              )
@@ -941,7 +941,7 @@ private extension String {
              .init(
                  name: .drawDeck,
                  selectors: [
-                     .verify(.draw("(♥️)|(♦️)"))
+                     .require(.draw("(♥️)|(♦️)"))
                  ],
                  when: .turnStarted
              )
@@ -1239,7 +1239,7 @@ private extension String {
              .init(
                  name: .drawDeck,
                  selectors: [
-                     .verify(.limitPerTurn(2))
+                     .require(.limitPerTurn(2))
                  ],
                  when: .playedCardOutOfTurn
              )
@@ -1256,7 +1256,7 @@ private extension String {
              .init(
                  name: .drawDeck,
                  selectors: [
-                     .verify(.limitPerTurn(2)),
+                     .require(.limitPerTurn(2)),
                      .chooseCostHandCard(.isBlue),
                      .repeat(.value(2))
                  ]
@@ -1293,7 +1293,7 @@ private extension String {
              .init(
                  name: .shoot,
                  selectors: [
-                     .verify(.limitPerTurn(1)),
+                     .require(.limitPerTurn(1)),
                      .chooseCostHandCard(count: 2),
                      .chooseTarget([.atDistanceReachable])
                  ]
@@ -1437,7 +1437,7 @@ private extension String {
              .init(
                  name: .shoot,
                  selectors: [
-                     .verify(.limitPerTurn(1)),
+                     .require(.limitPerTurn(1)),
                      .chooseTarget([.atDistanceReachable])
                  ]
              ),
@@ -1467,7 +1467,7 @@ private extension String {
              .init(
                  name: .drawDeck,
                  selectors: [
-                     .verify(.targetHealthIs1),
+                     .require(.targetHealthIs1),
                      .repeat(.value(2))
                  ]
              )
@@ -1508,7 +1508,7 @@ private extension String {
              .init(
                  name: .drawDiscard,
                  selectors: [
-                     .verify(.discardedCardsNotAce),
+                     .require(.discardedCardsNotAce),
                      .repeat(.value(2)),
                      .chooseCard(.discarded)
                  ]
@@ -1575,7 +1575,7 @@ private extension String {
              .init(
                  name: .damage,
                  selectors: [
-                     .verify(.draw("♠️"))
+                     .require(.draw("♠️"))
                  ],
                  when: .turnStarted
              )
@@ -1616,7 +1616,7 @@ private extension String {
              .init(
                  name: .damage,
                  selectors: [
-                     .verify(.draw("♠️")),
+                     .require(.draw("♠️")),
                      .setTarget(.targeted)
                  ],
                  when: .otherMissedYourShoot(.bang)
@@ -1690,7 +1690,7 @@ private extension String {
              .init(
                  name: .shoot,
                  selectors: [
-                     .verify(.limitPerTurn(1)),
+                     .require(.limitPerTurn(1)),
                      .chooseCostHandCard(.suits("♣️")),
                      .chooseTarget([.atDistanceReachable])
                  ]
@@ -1707,7 +1707,7 @@ private extension String {
              .init(
                  name: .shoot,
                  selectors: [
-                     .verify(.limitPerTurn(1)),
+                     .require(.limitPerTurn(1)),
                      .chooseCostHandCard(.named(.bang)),
                      .setTarget(.others)
                  ]
@@ -1724,7 +1724,7 @@ private extension String {
              .init(
                  name: .drawDeck,
                  selectors: [
-                     .verify(.hasNoBlueCardsInPlay),
+                     .require(.hasNoBlueCardsInPlay),
                      .repeat(.value(2))
                  ],
                  when: .turnStarted
