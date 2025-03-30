@@ -193,7 +193,6 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     /// Selectors are used to specify which objects an effect should affect.
-    /// Choice is performed by {actor}
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
@@ -208,7 +207,6 @@ public struct Card: Equatable, Codable, Sendable {
             case drawCards
         }
 
-        /// Players from actor point of view
         public enum TargetGroup: String, Codable, Sendable {
             /// All active players
             case active
