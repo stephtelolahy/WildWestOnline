@@ -5,22 +5,18 @@
 //  Created by Hugues Stéphano TELOLAHY on 03/01/2025.
 //
 
-public protocol AIStrategy {
+protocol AIStrategy {
     func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect
 }
 
-public struct RandomStrategy: AIStrategy {
-    public init() {}
-
-    public func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
+struct RandomStrategy: AIStrategy {
+    func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
         actions.randomElement()!
     }
 }
 
-public struct AgressiveStrategy: AIStrategy {
-    public init() {}
-
-    public func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
+struct AgressiveStrategy: AIStrategy {
+    func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
         // swiftlint:disable no_magic_numbers
         let itemValue: [String: Int] = [
             "bang": 3,
