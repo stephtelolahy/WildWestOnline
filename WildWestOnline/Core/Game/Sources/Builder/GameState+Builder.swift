@@ -15,7 +15,6 @@ public extension GameFeature.State {
         private var playOrder: [String] = []
         private var startOrder: [String] = []
         private var queue: [Card.Effect] = []
-        private var error: Card.Failure?
         private var playedThisTurn: [String: Int] = [:]
         private var turn: String?
         private var active: [String: [String]] = [:]
@@ -33,7 +32,6 @@ public extension GameFeature.State {
                 playOrder: playOrder,
                 startOrder: startOrder,
                 queue: queue,
-                error: error,
                 playedThisTurn: playedThisTurn,
                 turn: turn,
                 active: active,

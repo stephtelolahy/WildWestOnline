@@ -44,7 +44,7 @@ public enum SettingsFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Dependencies
-    ) throws -> Effect {
+    ) -> Effect {
         guard let action = action as? Action else {
             return .none
         }

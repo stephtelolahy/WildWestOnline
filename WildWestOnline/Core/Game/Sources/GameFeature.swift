@@ -19,7 +19,8 @@ public enum GameFeature {
         public var playOrder: [String]
         public var startOrder: [String]
         public var queue: [Card.Effect]
-        public var error: Card.Failure?
+        public var lastSuccessfulAction: Card.Effect?
+        public var lastActionError: Card.Failure?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]
@@ -54,11 +55,15 @@ public enum GameFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
-        .group([
-            try reduceMechanics(into: &state, action: action, dependencies: dependencies),
-            try reduceLoop(into: &state, action: action, dependencies: dependencies),
-            try reduceAI(into: &state, action: action, dependencies: dependencies),
+    ) -> Effect {
+        _ = reduceMechanics(into: &state, action: action, dependencies: dependencies)
+        guard state.lastActionError == nil else {
+            return .none
+        }
+
+        return .group([
+            reduceLoop(into: &state, action: action, dependencies: dependencies),
+            reduceAI(into: &state, action: action, dependencies: dependencies),
         ])
     }
 }

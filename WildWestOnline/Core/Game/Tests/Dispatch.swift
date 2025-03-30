@@ -11,13 +11,17 @@ import Redux
 func dispatch(
     _ action: GameFeature.Action,
     state: GameFeature.State
-) async throws -> GameFeature.State {
+) async throws(Card.Failure) -> GameFeature.State {
     let sut = await createGameStore(initialState: state)
-    var receivedErrors: [Error] = []
+    var receivedErrors: [Card.Failure] = []
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
-        sut.errorPublisher
-            .sink { receivedErrors.append($0) }
+        sut.$state
+            .sink { state in
+                if let error = state.lastActionError {
+                    receivedErrors.append(error)
+                }
+            }
             .store(in: &cancellables)
     }
 

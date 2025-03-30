@@ -13,17 +13,21 @@ func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
     expectedChoices: [Choice] = []
-) async throws -> [GameFeature.Action] {
+) async throws(Card.Failure) -> [GameFeature.Action] {
     let sut = await createGameStore(initialState: state, expectedChoices: expectedChoices)
-    var receivedActions: [ActionProtocol] = []
-    var receivedErrors: [Error] = []
+    var receivedActions: [GameFeature.Action] = []
+    var receivedErrors: [Card.Failure] = []
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
-        sut.eventPublisher
-            .sink { receivedActions.append($0) }
-            .store(in: &cancellables)
-        sut.errorPublisher
-            .sink { receivedErrors.append($0) }
+        sut.$state
+            .sink { state in
+                if let error = state.lastActionError {
+                    receivedErrors.append(error)
+                }
+                if let event = state.lastSuccessfulAction {
+                    receivedActions.append(event)
+                }
+            }
             .store(in: &cancellables)
     }
 
@@ -35,16 +39,8 @@ func dispatchUntilCompleted(
         throw receivedErrors[0]
     }
 
-    let gameActions = receivedActions.compactMap { action in
-        if let action = action as? GameFeature.Action,
-           action.isRenderable {
-            return action
-        } else {
-            return nil
-        }
-    }
-
-    return gameActions
+    return receivedActions
+        .filter { $0.isRenderable }
 }
 
 @MainActor private func createGameStore(
@@ -55,8 +51,8 @@ func dispatchUntilCompleted(
         initialState: initialState,
         reducer: { state, action, dependencies in
                 .group([
-                    try GameFeature.reduce(into: &state, action: action, dependencies: ()),
-                    try performChoicesReducer(state: &state, action: action, dependencies: dependencies.choicesHolder)
+                    GameFeature.reduce(into: &state, action: action, dependencies: ()),
+                    performChoicesReducer(state: &state, action: action, dependencies: dependencies.choicesHolder)
                 ])
         },
         dependencies: .init(choicesHolder: .init(choices: expectedChoices))
@@ -84,7 +80,7 @@ private func performChoicesReducer(
     state: inout GameFeature.State,
     action: ActionProtocol,
     dependencies: ChoicesHolder
-) throws -> Effect {
+) -> Effect {
     let state = state
     return .run {
         await performChoices(state: state, action: action, choicesHolder: dependencies)

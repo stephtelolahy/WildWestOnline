@@ -10,7 +10,7 @@ extension GameFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         let state = state
         return .run {
             await nextAction(state: state, action: action)
@@ -201,7 +201,10 @@ private extension Card.Effect {
     func validate(state: GameFeature.State) throws {
         var newState = state
 
-        _ = try GameFeature.reduceMechanics(into: &newState, action: self, dependencies: ())
+        _ = GameFeature.reduceMechanics(into: &newState, action: self, dependencies: ())
+        if let error = newState.lastActionError {
+            throw error
+        }
 
         if let choice = newState.pendingChoice {
             for option in choice.options {
