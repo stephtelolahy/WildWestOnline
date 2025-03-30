@@ -189,7 +189,7 @@ private extension Card.Effect.Name {
 
             var state = state
 
-            // verify rule: not already inPlay
+            // verify not already inPlay
             let cardName = Card.extractName(from: card)
             let playerObj = state.players.get(player)
             guard playerObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {
@@ -215,7 +215,7 @@ private extension Card.Effect.Name {
 
             var state = state
 
-            // verify rule: not already inPlay
+            // verify not already inPlay
             let cardName = Card.extractName(from: card)
             let targetObj = state.players.get(target)
             guard targetObj.inPlay.allSatisfy({ Card.extractName(from: $0) != cardName }) else {

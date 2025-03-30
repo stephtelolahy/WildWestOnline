@@ -198,7 +198,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
-        case verify(StateReq)
+        case require(StateReq)
 
         public enum Number: Equatable, Codable, Sendable {
             case value(Int)
