@@ -40,6 +40,12 @@ graph TD;
     ACTION --> SELECTOR(Selector);
 ```
 
+When modeling everything as a card, you’re essentially treating every component—whether a character, item, or inherent ability—as a card object. Each card would include attributes like a name, description, and specific stats or effects. For instance:
+	•	A figure card would list the character’s health, a brief backstory, and the default ability.
+	•	A collectible card would display the item’s effect (e.g., modifying range or providing defense) and any activation conditions.
+	•	Even default abilities could be abstracted as separate card entries in a design document to keep track of their effects, even if they’re always “active” when a figure is in play.
+
+
 ### Event solving
 
 - The process of resolving an event is similar to a depth-first search using a graph 
