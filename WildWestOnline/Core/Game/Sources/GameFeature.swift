@@ -19,7 +19,8 @@ public enum GameFeature {
         public var playOrder: [String]
         public var startOrder: [String]
         public var queue: [Card.Effect]
-        public var error: Card.Failure?
+        public var lastSuccessfulAction: Card.Effect?
+        public var lastActionError: Card.Failure?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]

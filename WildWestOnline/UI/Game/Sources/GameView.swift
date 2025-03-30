@@ -67,8 +67,8 @@ public struct GameView: View {
             .task {
                 await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
             }
-            .onReceive(store.eventPublisher) { newEvent in
-                if let action = newEvent as? GameFeature.Action,
+            .onReceive(store.$state) { state in
+                if let action = state.lastSuccessfulAction,
                    action.isRenderable {
                     animate(action, positions: positions)
                 }
@@ -281,7 +281,8 @@ private extension GameView.State {
             deckCount: 12,
             controlledPlayer: "p1",
             startPlayer: "p1",
-            actionDelaySeconds: 0.5
+            actionDelaySeconds: 0.5,
+            lastSuccessfulAction: nil
         )
     }
 }

@@ -16,11 +16,14 @@ extension GameFeature {
             return .none
         }
 
-        state.error = nil
+        state.lastSuccessfulAction = nil
+        state.lastActionError = nil
+
         do {
             try updateState(&state, action: action)
+            state.lastSuccessfulAction = action
         } catch {
-            state.error = error
+            state.lastActionError = error
         }
 
         return .none

@@ -23,6 +23,7 @@ public extension GameView {
         let controlledPlayer: String?
         let startPlayer: String
         let actionDelaySeconds: Double
+        let lastSuccessfulAction: GameFeature.Action?
 
         struct PlayerItem: Equatable {
             let id: String
@@ -70,6 +71,7 @@ public extension GameView.State {
         controlledPlayer = game.controlledPlayerId
         startPlayer = game.startPlayerId
         actionDelaySeconds = Double(appState.settings.actionDelayMilliSeconds) / 1000.0
+        lastSuccessfulAction = game.lastSuccessfulAction
     }
 }
 

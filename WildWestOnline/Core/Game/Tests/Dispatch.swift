@@ -18,7 +18,7 @@ func dispatch(
     await MainActor.run {
         sut.$state
             .sink { state in
-                if let error = state.error {
+                if let error = state.lastActionError {
                     receivedErrors.append(error)
                 }
             }
