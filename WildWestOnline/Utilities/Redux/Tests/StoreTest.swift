@@ -25,11 +25,11 @@ struct StoreTest {
             )
         )
 
-        var receivedActions: [ActionProtocol] = []
+        var dispatchedActions: [ActionProtocol] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
-            sut.eventPublisher
-                .sink { receivedActions.append($0) }
+            sut.dispatchedAction
+                .sink { dispatchedActions.append($0) }
                 .store(in: &cancellables)
         }
 
@@ -38,7 +38,7 @@ struct StoreTest {
 
         // Then
         await #expect(sut.state.searchResult == ["recent"])
-        #expect(receivedActions as? [AppAction] == [
+        #expect(dispatchedActions as? [AppAction] == [
             .fetchRecent,
             .setSearchResults(repos: ["recent"])
         ])
@@ -59,11 +59,11 @@ struct StoreTest {
             )
         )
 
-        var receivedActions: [ActionProtocol] = []
+        var dispatchedActions: [ActionProtocol] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
-            sut.eventPublisher
-                .sink { receivedActions.append($0) }
+            sut.dispatchedAction
+                .sink { dispatchedActions.append($0) }
                 .store(in: &cancellables)
         }
 
