@@ -133,11 +133,12 @@ struct SettingsRootView: View {
             }
         }, label: {
             HStack {
-                Image(systemName: "lanyardcard.fill")
+                Image(systemName: "lanyardcard")
                 Text("Preferred figure")
                 Spacer()
                 Text(store.state.preferredFigure ?? "")
             }
+            .foregroundStyle(.foreground)
         })
     }
 }
