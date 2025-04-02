@@ -56,7 +56,7 @@ public struct MainCoordinator: View {
                 }
             }
         }
-        .onReceive(store.eventPublisher) { event in
+        .onReceive(store.dispatchedAction) { event in
             print(event)
         }
     }

@@ -45,18 +45,18 @@ public enum AppFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Dependencies
-    ) throws -> Effect {
+    ) -> Effect {
         let activeGameEffet: Effect = if state.game != nil {
-            try GameFeature.reduce(into: &state.game!, action: action, dependencies: ())
+            GameFeature.reduce(into: &state.game!, action: action, dependencies: ())
         } else {
             .none
         }
 
         return .group([
             activeGameEffet,
-            try GameSessionFeature.reduce(into: &state, action: action, dependencies: ()),
-            try SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
-            try MainNavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
+            GameSessionFeature.reduce(into: &state, action: action, dependencies: ()),
+            SettingsFeature.reduce(into: &state.settings, action: action, dependencies: dependencies.settings),
+            MainNavigationFeature.reduce(into: &state.navigation, action: action, dependencies: ()),
         ])
     }
 }

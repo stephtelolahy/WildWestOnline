@@ -11,11 +11,25 @@ extension GameFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         guard let action = action as? Action else {
             return .none
         }
 
+        state.lastSuccessfulAction = nil
+        state.lastActionError = nil
+
+        do {
+            try updateState(&state, action: action)
+            state.lastSuccessfulAction = action
+        } catch {
+            state.lastActionError = error
+        }
+
+        return .none
+    }
+
+    private static func updateState(_ state: inout GameFeature.State, action: GameFeature.Action) throws(Card.Failure) {
         guard !state.isOver else {
             fatalError("Unexpected game is over")
         }
@@ -46,7 +60,5 @@ extension GameFeature {
         } else {
             state = try action.name.reduce(state, action.payload)
         }
-
-        return .none
     }
 }

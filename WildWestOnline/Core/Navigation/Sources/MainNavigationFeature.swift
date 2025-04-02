@@ -38,16 +38,16 @@ public enum MainNavigationFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         let settingsSheetEffect: Effect = if state.settingsSheet != nil {
-            try SettingsNavigationFeature.reduce(into: &state.settingsSheet!, action: action, dependencies: dependencies)
+            SettingsNavigationFeature.reduce(into: &state.settingsSheet!, action: action, dependencies: dependencies)
         } else {
             .none
         }
 
         return .group([
             settingsSheetEffect,
-            try reduceMain(into: &state, action: action, dependencies: dependencies)
+            reduceMain(into: &state, action: action, dependencies: dependencies)
         ])
     }
 
@@ -55,7 +55,7 @@ public enum MainNavigationFeature {
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
-    ) throws -> Effect {
+    ) -> Effect {
         guard let action = action as? Action else {
             return .none
         }

@@ -11,8 +11,8 @@ import AppCore
 import NavigationCore
 import SettingsCore
 
-public struct SettingsRootView: View {
-    public struct State: Equatable {
+struct SettingsRootView: View {
+    struct State: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
         let speedOptions: [SpeedOption] = SpeedOption.all
@@ -34,13 +34,13 @@ public struct SettingsRootView: View {
 
     @StateObject private var store: Store<State, Void>
 
-    public init(store: @escaping () -> Store<State, Void>) {
+    init(store: @escaping () -> Store<State, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
     }
 
-    public var body: some View {
+    var body: some View {
         Form {
             preferencesSection
         }
@@ -133,11 +133,12 @@ public struct SettingsRootView: View {
             }
         }, label: {
             HStack {
-                Image(systemName: "lanyardcard.fill")
+                Image(systemName: "lanyardcard")
                 Text("Preferred figure")
                 Spacer()
                 Text(store.state.preferredFigure ?? "")
             }
+            .foregroundStyle(.foreground)
         })
     }
 }
@@ -159,7 +160,7 @@ private extension SettingsRootView.State {
     }
 }
 
-public extension SettingsRootView.State {
+extension SettingsRootView.State {
     init?(appState: AppFeature.State) {
         playersCount = appState.settings.playersCount
         speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0

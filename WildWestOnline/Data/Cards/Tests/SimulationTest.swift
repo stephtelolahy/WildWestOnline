@@ -30,7 +30,7 @@ struct SimulationTest {
         let stateVerifier = StateVerifier(initialState: state)
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
-            store.eventPublisher
+            store.dispatchedAction
                 .sink {
                     stateVerifier.receiveAction(action: $0)
                     print($0)
