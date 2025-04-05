@@ -19,22 +19,9 @@ struct MainNavigationFeatureTests {
         )
     }
 
-    @Test func app_whenCompletedSplash_shouldSetHomeScreen() async throws {
-        // Given
-        let state = MainNavigationFeature.State()
-        let sut = await createNavigationStore(initialState: state)
-
-        // When
-        let action = MainNavigationFeature.Action.push(.home)
-        await sut.dispatch(action)
-
-        // Then
-        await #expect(sut.state.path == [.home])
-    }
-
     @Test func showingSettings_shouldDisplaySettings() async throws {
         // Given
-        let state = MainNavigationFeature.State(path: [.home])
+        let state = MainNavigationFeature.State()
         let sut = await createNavigationStore(initialState: state)
 
         // When
@@ -47,7 +34,7 @@ struct MainNavigationFeatureTests {
 
     @Test func showingSettingsFigures_shouldDisplayFigures() async throws {
         // Given
-        let state = MainNavigationFeature.State(path: [.home], settingsSheet: .init())
+        let state = MainNavigationFeature.State(settingsSheet: .init())
         let sut = await createNavigationStore(initialState: state)
 
         // When
@@ -60,7 +47,7 @@ struct MainNavigationFeatureTests {
 
     @Test func closingSettings_shouldRemoveSettings() async throws {
         // Given
-        let state = MainNavigationFeature.State(path: [.home], settingsSheet: .init(path: [.figures]))
+        let state = MainNavigationFeature.State(settingsSheet: .init(path: [.figures]))
         let sut = await createNavigationStore(initialState: state)
 
         // When
