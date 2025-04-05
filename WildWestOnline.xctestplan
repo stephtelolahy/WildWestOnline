@@ -100,14 +100,6 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "SplashUITests",
-        "name" : "SplashUITests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
         "identifier" : "ReduxTests",
         "name" : "ReduxTests"
       }

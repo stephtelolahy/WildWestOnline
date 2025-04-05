@@ -32,7 +32,7 @@ struct AppFeatureTest {
     @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
         // Given
         let state = AppFeature.State(
-            navigation: .init(path: [.home]),
+            navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().withPlayersCount(5).build(),
             inventory: Inventory.makeBuilder().withSample().build()
         )
@@ -43,14 +43,14 @@ struct AppFeatureTest {
         await sut.dispatch(action)
 
         // Then
-        await #expect(sut.state.navigation.path == [.home, .game])
+        await #expect(sut.state.navigation.path == [.game])
         await #expect(sut.state.game != nil)
     }
 
     @Test func app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() async throws {
         // Given
         let state = AppFeature.State(
-            navigation: .init(path: [.home, .game]),
+            navigation: .init(path: [.game]),
             settings: SettingsFeature.State.makeBuilder().build(),
             inventory: Inventory.makeBuilder().build(),
             game: GameFeature.State.makeBuilder().build()
@@ -62,7 +62,7 @@ struct AppFeatureTest {
         await sut.dispatch(action)
 
         // Then
-        await #expect(sut.state.navigation.path == [.home])
+        await #expect(sut.state.navigation.path.isEmpty)
         await #expect(sut.state.game == nil)
     }
 }

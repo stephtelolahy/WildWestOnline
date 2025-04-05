@@ -23,7 +23,6 @@ let package = Package(
         .library(name: "SettingsData", targets: ["SettingsData"]),
 
         // UI
-        .library(name: "SplashUI", targets: ["SplashUI"]),
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
         .library(name: "GameUI", targets: ["GameUI"]),
@@ -146,24 +145,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "SplashUI",
-            dependencies: [
-                "AppCore",
-                "Theme"
-            ],
-            path: "UI/Splash/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintPlugin")
-            ]
-        ),
-        .testTarget(
-            name: "SplashUITests",
-            dependencies: [
-                "SplashUI"
-            ],
-            path: "UI/Splash/Tests"
-        ),
-        .target(
             name: "HomeUI",
             dependencies: [
                 "AppCore",
@@ -221,10 +202,9 @@ let package = Package(
         .target(
             name: "MainUI",
             dependencies: [
-                "SplashUI",
-                "SettingsUI",
                 "HomeUI",
-                "GameUI"
+                "GameUI",
+                "SettingsUI"
             ],
             path: "UI/Main/Sources",
             plugins: [
