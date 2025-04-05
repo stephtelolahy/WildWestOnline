@@ -13,7 +13,6 @@ public enum MainNavigationFeature {
         public var settingsSheet: SettingsNavigationFeature.State?
 
         public enum Destination: String, Codable, Sendable {
-            case home
             case game
         }
 

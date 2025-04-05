@@ -9,7 +9,6 @@ import SwiftUI
 import NavigationCore
 import Redux
 import AppCore
-import SplashUI
 import SettingsUI
 import HomeUI
 import GameUI
@@ -27,7 +26,7 @@ public struct MainCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            SplashView { store.projection(SplashView.State.init) }
+            HomeView { store.projection(HomeView.State.init) }
                 .navigationDestination(for: MainNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
@@ -63,8 +62,8 @@ public struct MainCoordinator: View {
 
     @ViewBuilder private func viewForDestination(_ destination: MainNavigationFeature.State.Destination) -> some View {
         switch destination {
-        case .home: HomeView { store.projection(HomeView.State.init) }
-        case .game: GameView { store.projection(GameView.State.init) }
+        case .game:
+            GameView { store.projection(GameView.State.init) }
         }
     }
 }

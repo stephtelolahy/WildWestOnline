@@ -74,10 +74,10 @@ public struct HomeView: View {
 
     private var footerView: some View {
         VStack {
-            Text("splash.developer.name", bundle: .module)
+            Text("menu.developer.name", bundle: .module)
                 .font(.footnote)
                 .foregroundStyle(.primary)
-            Text("splash.developer.email", bundle: .module)
+            Text("menu.developer.email", bundle: .module)
                 .font(.footnote)
                 .foregroundStyle(.primary.opacity(0.4))
         }
