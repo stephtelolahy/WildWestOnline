@@ -10,6 +10,7 @@ import GameCore
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
 public enum Cards {
     public static var all: [String: Card] {
+        (
         [
             defaultEndTurn,
             defaultDiscardExcessHandOnTurnEnded,
@@ -41,10 +42,11 @@ public enum Cards {
             barrel,
             dynamite,
             jail,
-            willyTheKid,
-            roseDoolan,
-            paulRegret
-        ].reduce(into: [:]) { result, card in
+        ] +
+        Figures.all
+        )
+
+            .reduce(into: [:]) { result, card in
             result[card.name] = card
         }
     }
@@ -649,57 +651,6 @@ private extension Cards {
                     selectors: [
                         .setCard(.played)
                     ]
-                )
-            ]
-        )
-    }
-
-    static var willyTheKid: Card {
-        .init(
-            name: .willyTheKid,
-            desc: "he can play any number of BANG! cards during his turn.",
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    payload: .init(amount: 4)
-                ),
-                .init(
-                    name: .setPlayLimitPerTurn,
-                    payload: .init(amountPerTurn: [.bang: .infinity])
-                )
-            ]
-        )
-    }
-
-    static var roseDoolan: Card {
-        .init(
-            name: .roseDoolan,
-            desc: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    payload: .init(amount: 4)
-                ),
-                .init(
-                    name: .increaseMagnifying,
-                    payload: .init(amount: 1)
-                )
-            ]
-        )
-    }
-
-    static var paulRegret: Card {
-        .init(
-            name: .paulRegret,
-            desc: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    payload: .init(amount: 3)
-                ),
-                .init(
-                    name: .increaseRemoteness,
-                    payload: .init(amount: 1)
                 )
             ]
         )

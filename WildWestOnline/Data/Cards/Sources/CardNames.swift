@@ -42,22 +42,6 @@ public extension String {
     static let volcanic = "volcanic"
     static let scope = "scope"
     static let mustang = "mustang"
-    static let willyTheKid = "willyTheKid"
-    static let roseDoolan = "roseDoolan"
-    static let paulRegret = "paulRegret"
-    static let jourdonnais = "jourdonnais"
-    static let slabTheKiller = "slabTheKiller"
-    static let luckyDuke = "luckyDuke"
-    static let calamityJanet = "calamityJanet"
-    static let bartCassidy = "bartCassidy"
-    static let elGringo = "elGringo"
-    static let suzyLafayette = "suzyLafayette"
-    static let vultureSam = "vultureSam"
-    static let sidKetchum = "sidKetchum"
-    static let blackJack = "blackJack"
-    static let kitCarlson = "kitCarlson"
-    static let jesseJones = "jesseJones"
-    static let pedroRamirez = "pedroRamirez"
 
     // MARK: - Dodge city
 
