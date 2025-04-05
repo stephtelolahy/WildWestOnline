@@ -12,7 +12,7 @@ public enum Figures {
         roseDoolan,
         paulRegret,
     ]
-
+    
     public static let allNames: [String] = all.map(\.name)
 }
 
@@ -33,6 +33,28 @@ public extension String {
     static let kitCarlson = "kitCarlson"
     static let jesseJones = "jesseJones"
     static let pedroRamirez = "pedroRamirez"
+    static let elenaFuente = "elenaFuente"
+    static let seanMallory = "seanMallory"
+    static let tequilaJoe = "tequilaJoe"
+    static let pixiePete = "pixiePete"
+    static let billNoface = "billNoface"
+    static let gregDigger = "gregDigger"
+    static let herbHunter = "herbHunter"
+    static let mollyStark = "mollyStark"
+    static let joseDelgado = "joseDelgado"
+    static let chuckWengam = "chuckWengam"
+    static let docHolyday = "docHolyday"
+    static let apacheKid = "apacheKid"
+    static let belleStar = "belleStar"
+    static let patBrennan = "patBrennan"
+    static let veraCuster = "veraCuster"
+    static let coloradoBill = "coloradoBill"
+    static let evelynShebang = "evelynShebang"
+    static let lemonadeJim = "lemonadeJim"
+    static let henryBlock = "henryBlock"
+    static let blackFlower = "blackFlower"
+    static let derSpotBurstRinger = "derSpotBurstRinger"
+    static let tucoFranziskaner = "tucoFranziskaner"
 }
 
 private extension Figures {
@@ -52,7 +74,7 @@ private extension Figures {
             ]
         )
     }
-
+    
     static var roseDoolan: Card {
         .init(
             name: .roseDoolan,
@@ -69,7 +91,7 @@ private extension Figures {
             ]
         )
     }
-
+    
     static var paulRegret: Card {
         .init(
             name: .paulRegret,

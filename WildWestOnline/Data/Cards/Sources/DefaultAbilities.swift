@@ -7,18 +7,16 @@
 import GameCore
 
 public enum DefaultAbilities {
-    public static var all: [Card] {
-        [
-            defaultEndTurn,
-            defaultDiscardExcessHandOnTurnEnded,
-            defaultDraw2CardsOnTurnStarted,
-            defaultStartTurnNextOnTurnEnded,
-            defaultEliminateOnDamageLethal,
-            defaultEndGameOnEliminated,
-            defaultDiscardAllCardsOnEliminated,
-            defaultEndTurnOnEliminated
-        ]
-    }
+    public static let all: [Card] = [
+        defaultEndTurn,
+        defaultDiscardExcessHandOnTurnEnded,
+        defaultDraw2CardsOnTurnStarted,
+        defaultStartTurnNextOnTurnEnded,
+        defaultEliminateOnDamageLethal,
+        defaultEndGameOnEliminated,
+        defaultDiscardAllCardsOnEliminated,
+        defaultEndTurnOnEliminated
+    ]
 
     public static let allNames: [String] = all.map(\.name)
 }
@@ -32,7 +30,7 @@ public extension String {
     static let defaultEndGameOnEliminated = "defaultEndGameOnEliminated"
     static let defaultDiscardAllCardsOnEliminated = "defaultDiscardAllCardsOnEliminated"
     static let defaultEndTurnOnEliminated = "defaultEndTurnOnEliminated"
-//    static let defaultDiscardBeerOnDamagedLethal = "defaultDiscardBeerOnDamagedLethal"
+    static let defaultDiscardBeerOnDamagedLethal = "defaultDiscardBeerOnDamagedLethal"
 }
 
 extension DefaultAbilities {
