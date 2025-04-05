@@ -16,3 +16,8 @@ public protocol AppTheme {
 public extension EnvironmentValues {
     @Entry var theme: AppTheme = DefaultTheme()
 }
+
+struct DefaultTheme: AppTheme {
+    var backgroundColor = Color("BackgroundColor", bundle: .module)
+    var accentColor =  Color("AccentColor", bundle: .module)
+}
