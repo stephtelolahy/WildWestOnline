@@ -1,5 +1,5 @@
 //
-//  FiguresCollection.swift
+//  Figures.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 06/04/2025.
@@ -35,7 +35,7 @@ public extension String {
     static let pedroRamirez = "pedroRamirez"
 }
 
-extension Figures {
+private extension Figures {
     static var willyTheKid: Card {
         .init(
             name: .willyTheKid,

@@ -43,7 +43,7 @@ struct WildWestOnlineApp: App {
         cards: Cards.all,
         figures: Figures.allNames,
         cardSets: CardSets.bang,
-        defaultAbilities: DefaultAbilities.all
+        defaultAbilities: DefaultAbilities.allNames
     )
 
     let initialState = AppFeature.State(

@@ -12,14 +12,6 @@ public enum Cards {
     public static var all: [String: Card] {
         (
         [
-            defaultEndTurn,
-            defaultDiscardExcessHandOnTurnEnded,
-            defaultStartTurnNextOnTurnEnded,
-            defaultDraw2CardsOnTurnStarted,
-            defaultEliminateOnDamageLethal,
-            defaultEndGameOnEliminated,
-            defaultDiscardAllCardsOnEliminated,
-            defaultEndTurnOnEliminated,
             stagecoach,
             wellsFargo,
             beer,
@@ -42,8 +34,10 @@ public enum Cards {
             barrel,
             dynamite,
             jail,
-        ] +
-        Figures.all
+        ]
+         + Figures.all
+         + DefaultAbilities.all
+
         )
 
             .reduce(into: [:]) { result, card in
@@ -53,152 +47,6 @@ public enum Cards {
 }
 
 private extension Cards {
-    // MARK: - Defaults
-
-    static var defaultEndTurn: Card {
-        .init(
-            name: .defaultEndTurn,
-            desc: "End turn",
-            onPreparePlay: [
-                .init(
-                    name: .endTurn
-                )
-            ]
-        )
-    }
-
-    static var defaultDiscardExcessHandOnTurnEnded: Card {
-        .init(
-            name: .defaultDiscardExcessHandOnTurnEnded,
-            desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            canTrigger: [
-                .init(actionName: .endTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .discardHand,
-                    selectors: [
-                        .repeat(.excessHand),
-                        .chooseOne(.card([.fromHand]))
-                    ]
-                )
-            ]
-        )
-    }
-
-    static var defaultStartTurnNextOnTurnEnded: Card {
-        .init(
-            name: .defaultStartTurnNextOnTurnEnded,
-            desc: "Start next player's turn",
-            canTrigger: [
-                .init(actionName: .endTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .startTurn,
-                    selectors: [
-                        .setTarget(.next)
-                    ]
-                )
-            ]
-        )
-    }
-
-    static var defaultDraw2CardsOnTurnStarted: Card {
-        .init(
-            name: .defaultDraw2CardsOnTurnStarted,
-            desc: "Draw two cards at the beginning of your turn",
-            canTrigger: [
-                .init(actionName: .startTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .drawDeck,
-                    selectors: [
-                        .repeat(.value(2))
-                    ]
-                )
-            ]
-        )
-    }
-
-    static var defaultEliminateOnDamageLethal: Card {
-        .init(
-            name: .defaultEliminateOnDamageLethal,
-            desc: "When you lose your last life point, you are eliminated and your game is over",
-            canTrigger: [
-                .init(
-                    actionName: .damage,
-                    stateReqs: [.healthZero]
-                )
-            ],
-            onTrigger: [
-                .init(name: .eliminate)
-            ]
-        )
-    }
-
-    static var defaultEndGameOnEliminated: Card {
-        .init(
-            name: .defaultEndGameOnEliminated,
-            desc: "End game when last player is eliminated",
-            canTrigger: [
-                .init(
-                    actionName: .eliminate,
-                    stateReqs: [.gameOver]
-                )
-            ],
-            onTrigger: [
-                .init(name: .endGame)
-            ]
-        )
-    }
-
-    static var defaultDiscardAllCardsOnEliminated: Card {
-        .init(
-            name: .defaultDiscardAllCardsOnEliminated,
-            desc: "Discard all cards when eliminated",
-            canTrigger: [
-                .init(actionName: .eliminate)
-            ],
-            onTrigger: [
-                .init(
-                    name: .discardInPlay,
-                    selectors: [
-                        .setCard(.allInPlay)
-                    ]
-                ),
-                .init(
-                    name: .discardHand,
-                    selectors: [
-                        .setCard(.allHand)
-                    ]
-                )
-            ]
-        )
-    }
-
-    static var defaultEndTurnOnEliminated: Card {
-        .init(
-            name: .defaultEndTurnOnEliminated,
-            desc: "End turn when eliminated",
-            canTrigger: [
-                .init(
-                    actionName: .eliminate,
-                    stateReqs: [.currentTurn]
-                )
-            ],
-            onTrigger: [
-                .init(
-                    name: .startTurn,
-                    selectors: [
-                        .setTarget(.next)
-                    ]
-                )
-            ]
-        )
-    }
-
     // MARK: - Bang
 
     static var stagecoach: Card {
