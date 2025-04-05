@@ -23,7 +23,6 @@ struct WildWestOnlineApp: App {
             MainCoordinator {
                 createStore()
             }
-            .environment(\.colorScheme, .light)
             .accentColor(theme.accentColor)
         }
     }
