@@ -18,6 +18,40 @@
         }
       }
     },
+    "menu.developer.email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stephano.telolahy@gmail.com"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "stephano.telolahy@gmail.com"
+          }
+        }
+      }
+    },
+    "menu.developer.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CREATIVE GAMES"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CREATIVE GAMES"
+          }
+        }
+      }
+    },
     "menu.game.title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -31,23 +65,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
-          }
-        }
-      }
-    },
-    "menu.online.button" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ONLINE"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "MULTIJOUEUR"
           }
         }
       }
@@ -82,40 +99,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OPTIONS"
-          }
-        }
-      }
-    },
-    "splash.developer.email" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stephano.telolahy@gmail.com"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "stephano.telolahy@gmail.com"
-          }
-        }
-      }
-    },
-    "splash.developer.name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CREATIVE GAMES"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CREATIVE GAMES"
           }
         }
       }
