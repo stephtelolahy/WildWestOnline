@@ -24,13 +24,11 @@ private extension Card.Effect.Name {
         case .drawDiscard: DrawDiscard()
         case .drawDiscovered: DrawDiscovered()
         case .discover: Discover()
-        case .discard: fatalError()
         case .discardHand: DiscardHand()
         case .discardInPlay: DiscardInPlay()
         case .heal: Heal()
         case .damage: Damage()
         case .choose: Choose()
-        case .steal: fatalError()
         case .stealHand: StealHand()
         case .stealInPlay: StealInPlay()
         case .passInPlay: PassInPlay()
@@ -45,13 +43,13 @@ private extension Card.Effect.Name {
         case .play: Play()
         case .equip: Equip()
         case .handicap: Handicap()
-        case .setMaxHealth: fatalError()
-        case .setHandLimit: fatalError()
+        case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
+        case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setWeapon: SetWeapon()
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
         case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
-        case .setDrawCards: fatalError()
+        case .setDrawCards: fatalError("Unexpected to dispatch setDrawCards")
         }
     }
 
@@ -129,7 +127,7 @@ private extension Card.Effect.Name {
             }
 
             for playReq in cardObj.canPlay {
-                guard playReq.match(player: payload.player, state: state) else {
+                guard playReq.match(payload, state: state) else {
                     throw .noReq(playReq)
                 }
             }
@@ -166,14 +164,12 @@ private extension Card.Effect.Name {
             if let cardObj = state.cards[cardName] {
                 let effects = cardObj.onPlay
                     .map {
-                        var effect = $0.copy(
+                        $0.copy(
                             withPlayer: payload.player,
                             played: payload.played,
                             target: payload.target,
                             card: payload.card
                         )
-                        NonStandardLogic.validatePendingAction(&effect, state: state)
-                        return effect
                     }
                 state.queue.insert(contentsOf: effects, at: 0)
             }
@@ -542,7 +538,7 @@ private extension GameFeature.State {
 
         return deck.remove(at: 0)
     }
-    
+
     mutating func resetDeck() throws(Card.Failure) {
         let minDiscardedCards = 2
         guard discard.count >= minDiscardedCards else {

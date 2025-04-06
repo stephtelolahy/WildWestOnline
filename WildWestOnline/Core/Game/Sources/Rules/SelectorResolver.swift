@@ -87,7 +87,7 @@ private extension Card.Selector {
         let stateReq: Card.StateReq
 
         func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
-            guard stateReq.match(player: pendingAction.payload.player, state: state) else {
+            guard stateReq.match(pendingAction.payload, state: state) else {
                 return []
             }
 
