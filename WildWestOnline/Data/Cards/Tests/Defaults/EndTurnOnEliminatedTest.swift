@@ -15,7 +15,7 @@ struct EndTurnOnEliminatedTest {
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3") {
-                $0.withAbilities([.defaultEndTurnOnEliminated])
+                $0.withAbilities([.endTurnOnEliminated])
             }
             .withTurn("p3")
             .build()
@@ -38,10 +38,10 @@ struct EndTurnOnEliminatedTest {
             .withPlayer("p1") {
                 $0.withHand(["c11"])
                     .withInPlay(["c12"])
-                    .withAbilities([.defaultDiscardAllCardsOnEliminated, .defaultEndTurnOnEliminated])
+                    .withAbilities([.discardAllCardsOnEliminated, .endTurnOnEliminated])
             }
             .withPlayer("p2") {
-                $0.withAbilities([.defaultDraw2CardsOnTurnStarted])
+                $0.withAbilities([.draw2CardsOnTurnStarted])
             }
             .withPlayer("p3")
             .withDeck(["c1", "c2"])

@@ -16,15 +16,15 @@ struct DiscardExcessHandOnTurnEndedTest {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(2)
                     .withAbilities([
-                        .defaultEndTurn,
-                        .defaultDiscardExcessHandOnTurnEnded
+                        .endTurn,
+                        .discardExcessHandOnTurnEnded
                     ])
             }
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0)
         ]
@@ -45,15 +45,15 @@ struct DiscardExcessHandOnTurnEndedTest {
                 $0.withHand(["c1", "c2", "c3"])
                     .withHealth(1)
                     .withAbilities([
-                        .defaultEndTurn,
-                        .defaultDiscardExcessHandOnTurnEnded
+                        .endTurn,
+                        .discardExcessHandOnTurnEnded
                     ])
             }
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
         let choices: [Choice] = [
             .init(options: ["c1", "c2", "c3"], selectionIndex: 0),
             .init(options: ["c2", "c3"], selectionIndex: 0)
@@ -77,15 +77,15 @@ struct DiscardExcessHandOnTurnEndedTest {
                 $0.withHand(["c1", "c2"])
                     .withHealth(3)
                     .withAbilities([
-                        .defaultEndTurn,
-                        .defaultDiscardExcessHandOnTurnEnded
+                        .endTurn,
+                        .discardExcessHandOnTurnEnded
                     ])
             }
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then
@@ -102,15 +102,15 @@ struct DiscardExcessHandOnTurnEndedTest {
                     .withHealth(1)
                     .withHandLimit(10)
                     .withAbilities([
-                        .defaultEndTurn,
-                        .defaultDiscardExcessHandOnTurnEnded
+                        .endTurn,
+                        .discardExcessHandOnTurnEnded
                     ])
             }
             .withTurn("p1")
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

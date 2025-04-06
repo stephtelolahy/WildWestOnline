@@ -14,7 +14,7 @@ struct Draw2CardsOnTurnStartedTest {
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withDummyCards(["c1", "c2"])
             .withPlayer("p1") {
-                $0.withAbilities([.defaultDraw2CardsOnTurnStarted])
+                $0.withAbilities([.draw2CardsOnTurnStarted])
             }
             .withDeck(["c1", "c2"])
             .build()

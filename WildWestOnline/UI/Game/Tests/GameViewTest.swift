@@ -93,13 +93,13 @@ struct GameViewTest {
                 $0.withFigure(.willyTheKid)
                     .withHealth(1)
                     .withMaxHealth(4)
-                    .withAbilities([.defaultEndTurn, .willyTheKid])
+                    .withAbilities([.endTurn, .willyTheKid])
                     .withHand([.bang, .gatling])
                     .withInPlay([.saloon, .barrel])
             }
             .withPlayer("p2")
             .withPlayMode(["p1": .manual])
-            .withActive(["p1": [.bang, .defaultEndTurn]])
+            .withActive(["p1": [.bang, .endTurn]])
             .build()
         let appState = AppFeature.State(
             navigation: .init(),
@@ -115,7 +115,7 @@ struct GameViewTest {
         #expect(viewState.handCards == [
             .init(card: .bang, active: true),
             .init(card: .gatling, active: false),
-            .init(card: .defaultEndTurn, active: true)
+            .init(card: .endTurn, active: true)
         ])
     }
 
