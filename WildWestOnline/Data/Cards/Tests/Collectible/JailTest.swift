@@ -38,7 +38,7 @@ struct JailTest {
             .withDummyCards(["c1", "c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
-                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withDrawCards(1)
             }
             .withDeck(["c1-2♥️", "c2", "c3"])
@@ -65,7 +65,7 @@ struct JailTest {
             .withPlayer("p1") {
                 $0.withInPlay([.jail])
                     .withAbilities([
-                        .defaultDraw2CardsOnTurnStarted
+                        .draw2CardsOnTurnStarted
                     ])
                     .withDrawCards(1)
             }

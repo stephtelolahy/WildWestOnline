@@ -14,8 +14,8 @@ struct StartTurnNextOnTurnEndedTest {
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([
-                    .defaultEndTurn,
-                    .defaultStartTurnNextOnTurnEnded
+                    .endTurn,
+                    .startTurnNextOnTurnEnded
                 ])
             }
             .withPlayer("p2")
@@ -23,7 +23,7 @@ struct StartTurnNextOnTurnEndedTest {
             .build()
 
         // When
-        let action = GameFeature.Action.preparePlay(.defaultEndTurn, player: "p1")
+        let action = GameFeature.Action.preparePlay(.endTurn, player: "p1")
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

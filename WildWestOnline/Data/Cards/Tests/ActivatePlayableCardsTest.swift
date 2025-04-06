@@ -60,11 +60,11 @@ struct ActivatePlayableCardsTest {
                 $0.withHand((1...10).map { "\(String.beer)-\($0)" })
                     .withMaxHealth(4)
                     .withHealth(1)
-                    .withAbilities([.defaultEndTurn])
+                    .withAbilities([.endTurn])
             }
             .withPlayer("p2") {
                 $0.withMaxHealth(2)
-                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withAbilities([.draw2CardsOnTurnStarted])
             }
             .withTurn("p1")
             .build()
@@ -75,7 +75,7 @@ struct ActivatePlayableCardsTest {
 
         // Then
         #expect(result == [
-            .activate([.defaultEndTurn], player: "p1")
+            .activate([.endTurn], player: "p1")
         ])
     }
 }

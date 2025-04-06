@@ -14,7 +14,7 @@ struct EndGameOnEliminatedTest {
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1")
             .withPlayer("p2") {
-                $0.withAbilities([.defaultEndGameOnEliminated])
+                $0.withAbilities([.endGameOnEliminated])
             }
             .build()
 
@@ -35,7 +35,7 @@ struct EndGameOnEliminatedTest {
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3") {
-                $0.withAbilities([.defaultEndGameOnEliminated])
+                $0.withAbilities([.endGameOnEliminated])
             }
             .build()
 

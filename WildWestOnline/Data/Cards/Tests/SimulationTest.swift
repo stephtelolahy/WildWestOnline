@@ -20,7 +20,12 @@ struct SimulationTest {
         // Given
         let deck = GameSetupService.buildDeck(cardSets: CardSets.bang).shuffled()
         let figures = Array(Figures.allNames.shuffled().prefix(playersCount))
-        var state = GameSetupService.buildGame(figures: figures, deck: deck, cards: Cards.all, defaultAbilities: DefaultAbilities.allNames)
+        var state = GameSetupService.buildGame(
+            figures: figures,
+            deck: deck,
+            cards: Cards.all,
+            defaultAbilities: DefaultAbilities.allNames
+        )
         for player in state.playOrder {
             state.playMode[player] = .auto
         }

@@ -14,7 +14,7 @@ struct EliminateOnDamageLethalTest {
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHealth(1)
-                    .withAbilities([.defaultEliminateOnDamageLethal])
+                    .withAbilities([.eliminateOnDamageLethal])
             }
             .withPlayer("p2")
             .withPlayer("p3")
@@ -36,7 +36,7 @@ struct EliminateOnDamageLethalTest {
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withHealth(2)
-                    .withAbilities([.defaultEliminateOnDamageLethal])
+                    .withAbilities([.eliminateOnDamageLethal])
             }
             .build()
 

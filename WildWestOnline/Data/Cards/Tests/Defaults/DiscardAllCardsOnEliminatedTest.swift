@@ -15,7 +15,7 @@ struct DiscardAllCardsOnEliminatedTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
                     .withInPlay(["c2"])
-                    .withAbilities([.defaultDiscardAllCardsOnEliminated])
+                    .withAbilities([.discardAllCardsOnEliminated])
             }
             .withPlayer("p2")
             .withPlayer("p3")

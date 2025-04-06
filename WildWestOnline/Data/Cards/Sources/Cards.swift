@@ -20,9 +20,9 @@ public enum Cards {
 }
 
 /*
- static var defaultDiscardBeerOnDamagedLethal: CardV2 {
+ static var discardBeerOnDamagedLethal: CardV2 {
      .init(
-         name: .defaultDiscardBeerOnDamagedLethal,
+         name: .discardBeerOnDamagedLethal,
          desc: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
          canPlay: .damagedLethal,
          effects: [
@@ -175,7 +175,7 @@ public enum Cards {
          name: .kitCarlson,
          desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .discover,
@@ -200,7 +200,7 @@ public enum Cards {
          name: .blackJack,
          desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -229,7 +229,7 @@ public enum Cards {
          name: .jesseJones,
          desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .drawDiscard,
@@ -248,7 +248,7 @@ public enum Cards {
          name: .pedroRamirez,
          desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .steal,
@@ -436,7 +436,7 @@ public enum Cards {
          name: .pixiePete,
          desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
          setPlayerAttribute: [.maxHealth: 3],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -454,7 +454,7 @@ public enum Cards {
          name: .billNoface,
          desc: "He draws 1 card, plus 1 card for each wound he has.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.silent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
              .init(
                  name: .drawDeck,
@@ -600,7 +600,7 @@ public enum Cards {
          name: .patBrennan,
          desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
          setPlayerAttribute: [.maxHealth: 4],
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .steal,
@@ -904,7 +904,7 @@ public enum Cards {
      .init(
          name: .evelynShebang,
          desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
-         setActionAttribute: [.defaultDraw2CardsOnTurnStarted: [.eventuallySilent: 0]],
+         setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
                  name: .shoot,

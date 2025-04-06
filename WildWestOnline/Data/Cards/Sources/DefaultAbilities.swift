@@ -8,23 +8,23 @@ import GameCore
 
 public enum DefaultAbilities {
     public static let all: [Card] = [
-        defaultEndTurn,
-        defaultDiscardExcessHandOnTurnEnded,
-        defaultDraw2CardsOnTurnStarted,
-        defaultStartTurnNextOnTurnEnded,
-        defaultEliminateOnDamageLethal,
-        defaultEndGameOnEliminated,
-        defaultDiscardAllCardsOnEliminated,
-        defaultEndTurnOnEliminated
+        endTurn,
+        discardExcessHandOnTurnEnded,
+        draw2CardsOnTurnStarted,
+        startTurnNextOnTurnEnded,
+        eliminateOnDamageLethal,
+        endGameOnEliminated,
+        discardAllCardsOnEliminated,
+        endTurnOnEliminated
     ]
 
     public static let allNames: [String] = all.map(\.name)
 }
 
 extension DefaultAbilities {
-    static var defaultEndTurn: Card {
+    static var endTurn: Card {
         .init(
-            name: .defaultEndTurn,
+            name: .endTurn,
             desc: "End turn",
             onPreparePlay: [
                 .init(
@@ -34,9 +34,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultDiscardExcessHandOnTurnEnded: Card {
+    static var discardExcessHandOnTurnEnded: Card {
         .init(
-            name: .defaultDiscardExcessHandOnTurnEnded,
+            name: .discardExcessHandOnTurnEnded,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             canTrigger: [
                 .init(actionName: .endTurn)
@@ -53,9 +53,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultStartTurnNextOnTurnEnded: Card {
+    static var startTurnNextOnTurnEnded: Card {
         .init(
-            name: .defaultStartTurnNextOnTurnEnded,
+            name: .startTurnNextOnTurnEnded,
             desc: "Start next player's turn",
             canTrigger: [
                 .init(actionName: .endTurn)
@@ -71,9 +71,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultDraw2CardsOnTurnStarted: Card {
+    static var draw2CardsOnTurnStarted: Card {
         .init(
-            name: .defaultDraw2CardsOnTurnStarted,
+            name: .draw2CardsOnTurnStarted,
             desc: "Draw two cards at the beginning of your turn",
             canTrigger: [
                 .init(actionName: .startTurn)
@@ -89,9 +89,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultEliminateOnDamageLethal: Card {
+    static var eliminateOnDamageLethal: Card {
         .init(
-            name: .defaultEliminateOnDamageLethal,
+            name: .eliminateOnDamageLethal,
             desc: "When you lose your last life point, you are eliminated and your game is over",
             canTrigger: [
                 .init(
@@ -105,9 +105,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultEndGameOnEliminated: Card {
+    static var endGameOnEliminated: Card {
         .init(
-            name: .defaultEndGameOnEliminated,
+            name: .endGameOnEliminated,
             desc: "End game when last player is eliminated",
             canTrigger: [
                 .init(
@@ -121,9 +121,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultDiscardAllCardsOnEliminated: Card {
+    static var discardAllCardsOnEliminated: Card {
         .init(
-            name: .defaultDiscardAllCardsOnEliminated,
+            name: .discardAllCardsOnEliminated,
             desc: "Discard all cards when eliminated",
             canTrigger: [
                 .init(actionName: .eliminate)
@@ -145,9 +145,9 @@ extension DefaultAbilities {
         )
     }
 
-    static var defaultEndTurnOnEliminated: Card {
+    static var endTurnOnEliminated: Card {
         .init(
-            name: .defaultEndTurnOnEliminated,
+            name: .endTurnOnEliminated,
             desc: "End turn when eliminated",
             canTrigger: [
                 .init(
@@ -168,13 +168,13 @@ extension DefaultAbilities {
 }
 
 public extension String {
-    static let defaultEndTurn = "defaultEndTurn"
-    static let defaultDiscardExcessHandOnTurnEnded = "defaultDiscardExcessHandOnTurnEnded"
-    static let defaultDraw2CardsOnTurnStarted = "defaultDraw2CardsOnTurnStarted"
-    static let defaultStartTurnNextOnTurnEnded = "defaultStartTurnNextOnTurnEnded"
-    static let defaultEliminateOnDamageLethal = "defaultEliminateOnDamageLethal"
-    static let defaultEndGameOnEliminated = "defaultEndGameOnEliminated"
-    static let defaultDiscardAllCardsOnEliminated = "defaultDiscardAllCardsOnEliminated"
-    static let defaultEndTurnOnEliminated = "defaultEndTurnOnEliminated"
-    static let defaultDiscardBeerOnDamagedLethal = "defaultDiscardBeerOnDamagedLethal"
+    static let endTurn = "endTurn"
+    static let discardExcessHandOnTurnEnded = "discardExcessHandOnTurnEnded"
+    static let draw2CardsOnTurnStarted = "draw2CardsOnTurnStarted"
+    static let startTurnNextOnTurnEnded = "startTurnNextOnTurnEnded"
+    static let eliminateOnDamageLethal = "eliminateOnDamageLethal"
+    static let endGameOnEliminated = "endGameOnEliminated"
+    static let discardAllCardsOnEliminated = "discardAllCardsOnEliminated"
+    static let endTurnOnEliminated = "endTurnOnEliminated"
+    static let discardBeerOnDamagedLethal = "discardBeerOnDamagedLethal"
 }

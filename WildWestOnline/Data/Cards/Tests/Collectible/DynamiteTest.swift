@@ -33,7 +33,7 @@ struct DynamiteTest {
             .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withDrawCards(1)
             }
             .withPlayer("p2")
@@ -60,7 +60,7 @@ struct DynamiteTest {
             .withDummyCards(["c2", "c3"])
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite])
-                    .withAbilities([.defaultDraw2CardsOnTurnStarted])
+                    .withAbilities([.draw2CardsOnTurnStarted])
                     .withDrawCards(1)
                     .withHealth(4)
             }
@@ -89,16 +89,16 @@ struct DynamiteTest {
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])
                     .withAbilities([
-                        .defaultStartTurnNextOnTurnEnded,
-                        .defaultEliminateOnDamageLethal,
-                        .defaultDiscardAllCardsOnEliminated,
-                        .defaultEndTurnOnEliminated
+                        .startTurnNextOnTurnEnded,
+                        .eliminateOnDamageLethal,
+                        .discardAllCardsOnEliminated,
+                        .endTurnOnEliminated
                     ])
                     .withDrawCards(1)
                     .withHealth(3)
             }
             .withPlayer("p2") {
-                $0.withAbilities([.defaultDraw2CardsOnTurnStarted])
+                $0.withAbilities([.draw2CardsOnTurnStarted])
             }
             .withPlayer("p3")
             .withDeck(["c1-8♠️", "c2", "c3"])
