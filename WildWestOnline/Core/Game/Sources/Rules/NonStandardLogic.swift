@@ -6,36 +6,6 @@
 //
 
 enum NonStandardLogic {
-    /// Convert action.name to child action
-    static func  validatePendingAction(
-        _ pendingAction: inout Card.Effect,
-        state: GameFeature.State
-    ) {
-        if pendingAction.name == .discard {
-            let card = pendingAction.payload.card!
-            let targetObj = state.players.get(pendingAction.payload.target!)
-            if targetObj.hand.contains(card) {
-                pendingAction.name = .discardHand
-            } else if targetObj.inPlay.contains(card) {
-                pendingAction.name = .discardInPlay
-            } else {
-                fatalError("Unowned card \(card)")
-            }
-        }
-
-        if pendingAction.name == .steal {
-            let card = pendingAction.payload.card!
-            let targetObj = state.players.get(pendingAction.payload.target!)
-            if targetObj.hand.contains(card) {
-                pendingAction.name = .stealHand
-            } else if targetObj.inPlay.contains(card) {
-                pendingAction.name = .stealInPlay
-            } else {
-                fatalError("Unowned card \(card)")
-            }
-        }
-    }
-
     /// Determine child effect's target
     static func childEffectTarget(
         _ name: Card.Effect.Name,

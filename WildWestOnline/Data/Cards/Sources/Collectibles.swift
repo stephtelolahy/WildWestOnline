@@ -116,7 +116,16 @@ private extension Collectibles {
             ],
             onPlay: [
                 .init(
-                    name: .discard
+                    name: .discardHand,
+                    selectors: [
+                        .require(.payloadCardIsFromTargetHand)
+                    ]
+                ),
+                .init(
+                    name: .discardInPlay,
+                    selectors: [
+                        .require(.payloadCardIsFromTargetInPlay)
+                    ]
                 )
             ]
         )
@@ -137,7 +146,16 @@ private extension Collectibles {
             ],
             onPlay: [
                 .init(
-                    name: .steal
+                    name: .stealHand,
+                    selectors: [
+                        .require(.payloadCardIsFromTargetHand)
+                    ]
+                ),
+                .init(
+                    name: .stealInPlay,
+                    selectors: [
+                        .require(.payloadCardIsFromTargetInPlay)
+                    ]
                 )
             ]
         )

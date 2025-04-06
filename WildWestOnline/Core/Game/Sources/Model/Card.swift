@@ -64,12 +64,8 @@ public struct Card: Equatable, Codable, Sendable {
             case drawDeck
             case drawDiscard
             case drawDiscovered
-            @available(*, deprecated, message: "use .stealHand or .stealInPlay instead")
-            case steal
             case stealHand
             case stealInPlay
-            @available(*, deprecated, message: "use .discardHand or .discardInPlay instead")
-            case discard
             case discardHand
             case discardInPlay
             case passInPlay
@@ -176,6 +172,8 @@ public struct Card: Equatable, Codable, Sendable {
         case currentTurn
         case drawMatching(_ regex: String)
         case drawNotMatching(_ regex: String)
+        case payloadCardIsFromTargetHand
+        case payloadCardIsFromTargetInPlay
     }
 
     /// Required event conditions to trigger a card

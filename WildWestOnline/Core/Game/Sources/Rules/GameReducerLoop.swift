@@ -177,14 +177,6 @@ private extension GameFeature.State {
     }
 }
 
-private extension Card.EventReq {
-    func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
-        event.name == actionName
-        && event.payload.target == player
-        && stateReqs.allSatisfy { $0.match(player: player, state: state) }
-    }
-}
-
 private extension Card.Effect {
     static func validatePlay(card: String, player: String, state: GameFeature.State) -> Bool {
         let action = Card.Effect.preparePlay(card, player: player)
