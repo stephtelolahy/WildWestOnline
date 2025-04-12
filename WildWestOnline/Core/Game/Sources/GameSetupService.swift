@@ -11,9 +11,13 @@ public enum GameSetupService {
         inventory: Inventory,
         preferredFigure: String? = nil
     ) -> GameFeature.State {
-        precondition(preferredFigure == nil, "unimplemted `preferredFigure`")
+        var figures = inventory.figures.shuffled()
+        if let preferredFigure {
+            figures = figures.starting(with: preferredFigure)
+        }
+
         return buildGame(
-            figures: Array(inventory.figures.shuffled().prefix(playersCount)),
+            figures: Array(figures.prefix(playersCount)),
             deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
             cards: inventory.cards,
             defaultAbilities: inventory.defaultAbilities
