@@ -1,12 +1,12 @@
 //
-//  CardEffect+IsRenderable.swift
+//  CardEffect+isResolved.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 28/03/2025.
 //
 
 public extension Card.Effect {
-    var isRenderable: Bool {
+    var isResolved: Bool {
         guard selectors.isEmpty else {
             return false
         }

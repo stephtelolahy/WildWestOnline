@@ -69,7 +69,7 @@ public struct GameView: View {
             }
             .onReceive(store.$state) { state in
                 if let action = state.lastSuccessfulAction,
-                   action.isRenderable {
+                   action.isResolved {
                     animate(action, positions: positions)
                 }
             }
