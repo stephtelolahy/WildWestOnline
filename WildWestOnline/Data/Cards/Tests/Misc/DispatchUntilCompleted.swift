@@ -40,7 +40,7 @@ func dispatchUntilCompleted(
     }
 
     return receivedActions
-        .filter { $0.isRenderable }
+        .filter { $0.isResolved }
 }
 
 @MainActor private func createGameStore(

@@ -23,8 +23,8 @@ private func nextAction(state: GameFeature.State, action: ActionProtocol) async 
         return nil
     }
 
-    // wait some delay if dispatched action was renderable
-    if action.isRenderable {
+    // wait some delay if dispatched action was animatable
+    if action.isAnimatable {
         try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
     }
 
@@ -206,6 +206,34 @@ private extension Card.Effect {
         } else if newState.queue.isNotEmpty {
             let next = newState.queue.removeFirst()
             try next.validate(state: newState)
+        }
+    }
+}
+
+private extension Card.Effect {
+    var isAnimatable: Bool {
+        guard selectors.isEmpty else {
+            return false
+        }
+
+        switch name {
+        case .play,
+                .equip,
+                .handicap,
+                .drawDeck,
+                .drawDiscard,
+                .drawDiscovered,
+                .draw,
+                .stealHand,
+                .stealInPlay,
+                .passInPlay,
+                .discardHand,
+                .discardInPlay,
+                .discover:
+            return true
+
+        default:
+            return false
         }
     }
 }
