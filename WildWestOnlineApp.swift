@@ -32,10 +32,10 @@ struct WildWestOnlineApp: App {
     let settingsService = SettingsRepository()
 
     let settings = SettingsFeature.State.makeBuilder()
-        .withPlayersCount(settingsService.playersCount())
-        .withActionDelayMilliSeconds(settingsService.actionDelayMilliSeconds())
-        .withSimulation(settingsService.isSimulationEnabled())
-        .withPreferredFigure(settingsService.preferredFigure())
+        .withPlayersCount(settingsService.playersCount)
+        .withActionDelayMilliSeconds(settingsService.actionDelayMilliSeconds)
+        .withSimulation(settingsService.simulationEnabled)
+        .withPreferredFigure(settingsService.preferredFigure)
         .build()
 
     let inventory = Inventory(
