@@ -64,11 +64,11 @@ private extension GameView.ViewState.PlayerItem {
         if isEliminated {
             Color.clear
         } else if isTargeted {
-            Color.red
+            Color(.systemRed)
         } else if isTurn {
-            Color.orange
+            Color(.systemOrange)
         } else {
-            Color.white.opacity(0.85)
+            Color(.tertiarySystemBackground).opacity(0.6)
         }
     }
 }
@@ -83,7 +83,7 @@ private extension GameView.ViewState.PlayerItem {
             maxHealth: 4,
             handCount: 5,
             inPlay: ["scope", "jail"],
-            isTurn: true,
+            isTurn: false,
             isTargeted: false,
             isEliminated: false,
             role: nil,
