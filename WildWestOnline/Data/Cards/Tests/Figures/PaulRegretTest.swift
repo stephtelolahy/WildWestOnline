@@ -16,7 +16,7 @@ struct PaulRegretTest {
             figures: [.paulRegret],
             deck: [],
             cards: Cards.all,
-            defaultAbilities: []
+            playerAbilities: []
         )
 
         // When

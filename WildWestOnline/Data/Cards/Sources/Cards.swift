@@ -12,7 +12,7 @@ public enum Cards {
     public static let all: [String: Card] = (
         Collectibles.all
         + Figures.all
-        + DefaultAbilities.all
+        + PlayerAbilities.all
         )
         .reduce(into: [:]) { result, card in
             result[card.name] = card
