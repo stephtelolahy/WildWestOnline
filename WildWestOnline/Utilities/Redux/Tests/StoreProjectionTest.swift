@@ -25,7 +25,7 @@ struct StoreProjectionTest {
             )
         )
 
-        let sut = await store.projection(SearchView.State.init)
+        let sut = await store.projection(SearchView.ViewState.init)
         
         // When
         await sut.dispatch(AppAction.fetchRecent)
@@ -38,11 +38,11 @@ struct StoreProjectionTest {
 import SwiftUI
 
 private struct SearchView: View {
-    struct State: Equatable {
+    struct ViewState: Equatable {
         let items: [String]
     }
 
-    @ObservedObject var store: Store<State, Void>
+    @ObservedObject var store: Store<ViewState, Void>
     @SwiftUI.State var query: String = ""
     
     var body: some View {
@@ -66,7 +66,7 @@ private struct SearchView: View {
     }
 }
 
-extension SearchView.State {
+extension SearchView.ViewState {
     init?(appState: AppState) {
         items = appState.searchResult
     }

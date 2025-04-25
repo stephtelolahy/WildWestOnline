@@ -11,7 +11,7 @@ import AppCore
 import SettingsCore
 
 struct SettingsFiguresView: View {
-    struct State: Equatable {
+    struct ViewState: Equatable {
         let figures: [Figure]
 
         struct Figure: Equatable {
@@ -20,9 +20,9 @@ struct SettingsFiguresView: View {
         }
     }
 
-    @StateObject private var store: Store<State, Void>
+    @StateObject private var store: Store<ViewState, Void>
 
-    init(store: @escaping () -> Store<State, Void>) {
+    init(store: @escaping () -> Store<ViewState, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -58,7 +58,7 @@ struct SettingsFiguresView: View {
     }
 }
 
-extension SettingsFiguresView.State {
+extension SettingsFiguresView.ViewState {
     init?(appState: AppFeature.State) {
         figures = appState.inventory.figures.map {
             .init(

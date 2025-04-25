@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct FigureRow: View {
-    var figure: SettingsFiguresView.State.Figure
+    var figure: SettingsFiguresView.ViewState.Figure
 
     var body: some View {
         HStack {

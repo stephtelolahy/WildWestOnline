@@ -10,7 +10,7 @@ import AppCore
 import GameCore
 
 public extension GameView {
-    struct State: Equatable {
+    struct ViewState: Equatable {
         let players: [PlayerItem]
         let message: String
         let chooseOne: ChooseOne?
@@ -53,7 +53,7 @@ public extension GameView {
     }
 }
 
-public extension GameView.State {
+public extension GameView.ViewState {
     init?(appState: AppFeature.State) {
         guard let game = appState.game else {
             return nil
@@ -76,7 +76,7 @@ public extension GameView.State {
 }
 
 private extension GameFeature.State {
-    var playerItems: [GameView.State.PlayerItem] {
+    var playerItems: [GameView.ViewState.PlayerItem] {
         self.startOrder.map { playerId in
             let playerObj = players.get(playerId)
             let health = max(0, playerObj.health)
@@ -112,7 +112,7 @@ private extension GameFeature.State {
         }
     }
 
-    var chooseOne: GameView.State.ChooseOne? {
+    var chooseOne: GameView.ViewState.ChooseOne? {
         guard let controlledPlayer = controlledPlayerId,
               let chooseOne = pendingChoice,
               chooseOne.chooser == controlledPlayer else {
@@ -125,7 +125,7 @@ private extension GameFeature.State {
         )
     }
 
-    var handCards: [GameView.State.HandCard] {
+    var handCards: [GameView.ViewState.HandCard] {
         guard let playerId = players.first(where: { playMode[$0.key] == .manual })?.key,
               let playerObj = players[playerId] else {
             return []
@@ -134,7 +134,7 @@ private extension GameFeature.State {
         let activeCards = active[playerId] ?? []
 
         let hand = players.get(playerId).hand.map { card in
-            GameView.State.HandCard(
+            GameView.ViewState.HandCard(
                 card: card,
                 active: activeCards.contains(card)
             )
@@ -142,7 +142,7 @@ private extension GameFeature.State {
 
         let abilities = playerObj.abilities.compactMap { card in
             if activeCards.contains(card) {
-                GameView.State.HandCard(
+                GameView.ViewState.HandCard(
                     card: card,
                     active: true
                 )

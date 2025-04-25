@@ -12,12 +12,12 @@ import AppCore
 import NavigationCore
 
 public struct HomeView: View {
-    public struct State: Equatable {}
+    public struct ViewState: Equatable {}
 
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<State, Void>
+    @StateObject private var store: Store<ViewState, Void>
 
-    public init(store: @escaping () -> Store<State, Void>) {
+    public init(store: @escaping () -> Store<ViewState, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -90,6 +90,6 @@ public struct HomeView: View {
     }
 }
 
-public extension HomeView.State {
+public extension HomeView.ViewState {
     init?(appState: AppFeature.State) { }
 }

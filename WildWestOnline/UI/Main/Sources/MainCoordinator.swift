@@ -26,7 +26,7 @@ public struct MainCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            HomeView { store.projection(HomeView.State.init) }
+            HomeView { store.projection(HomeView.ViewState.init) }
                 .navigationDestination(for: MainNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
@@ -63,7 +63,7 @@ public struct MainCoordinator: View {
     @ViewBuilder private func viewForDestination(_ destination: MainNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .game:
-            GameView { store.projection(GameView.State.init) }
+            GameView { store.projection(GameView.ViewState.init) }
         }
     }
 }
