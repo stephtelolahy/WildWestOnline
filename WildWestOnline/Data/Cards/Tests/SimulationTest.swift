@@ -24,7 +24,7 @@ struct SimulationTest {
             figures: figures,
             deck: deck,
             cards: Cards.all,
-            defaultAbilities: DefaultAbilities.allNames
+            playerAbilities: PlayerAbilities.allNames
         )
         for player in state.playOrder {
             state.playMode[player] = .auto
@@ -82,7 +82,7 @@ private class StateVerifier {
 
     func receiveAction(action: ActionProtocol) {
         var nextState = prevState
-        _ = try? GameFeature.reduceMechanics(into: &nextState, action: action, dependencies: ())
+        _ = GameFeature.reduceMechanics(into: &nextState, action: action, dependencies: ())
         assert(nextState == currentState, "Inconsistent state after applying \(action)")
     }
 }

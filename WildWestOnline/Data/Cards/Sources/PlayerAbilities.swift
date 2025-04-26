@@ -1,12 +1,12 @@
 //
-//  DefaultAbilities.swift
+//  PlayerAbilities.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 01/12/2024.
 //
 import GameCore
 
-public enum DefaultAbilities {
+public enum PlayerAbilities {
     public static let all: [Card] = [
         endTurn,
         discardExcessHandOnTurnEnded,
@@ -21,7 +21,7 @@ public enum DefaultAbilities {
     public static let allNames: [String] = all.map(\.name)
 }
 
-extension DefaultAbilities {
+extension PlayerAbilities {
     static var endTurn: Card {
         .init(
             name: .endTurn,

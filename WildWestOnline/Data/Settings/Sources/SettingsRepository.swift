@@ -13,46 +13,30 @@ public class SettingsRepository {
     public init() {}
 
     @UserDefaultsStored("settings.playersCount", defaultValue: 5)
-    private var _playersCount: Int
+    public private(set) var playersCount: Int
 
     @UserDefaultsStored("settings.actionDelayMilliSeconds", defaultValue: 500)
-    private var _actionDelayMilliSeconds: Int
+    public private(set) var actionDelayMilliSeconds: Int
 
     @UserDefaultsStored("settings.simulationEnabled", defaultValue: false)
-    private var _simulationEnabled: Bool
+    public private(set) var simulationEnabled: Bool
 
     @OptionalUserDefaultsStored("settings.preferredFigure")
-    private var _preferredFigure: String?
-
-    public func playersCount() -> Int {
-        _playersCount
-    }
+    public private(set) var preferredFigure: String?
 
     public func savePlayersCount(_ value: Int) {
-        _playersCount = value
-    }
-
-    public func actionDelayMilliSeconds() -> Int {
-        _actionDelayMilliSeconds
+        _playersCount.wrappedValue = value
     }
 
     public func saveActionDelayMilliSeconds(_ value: Int) {
-        _actionDelayMilliSeconds = value
-    }
-
-    public func isSimulationEnabled() -> Bool {
-        _simulationEnabled
+        _actionDelayMilliSeconds.wrappedValue = value
     }
 
     public func saveSimulationEnabled(_ value: Bool) {
-        _simulationEnabled = value
-    }
-
-    public func preferredFigure() -> String? {
-        _preferredFigure
+        _simulationEnabled.wrappedValue = value
     }
 
     public func savePreferredFigure(_ value: String?) {
-        _preferredFigure = value
+        _preferredFigure.wrappedValue = value
     }
 }

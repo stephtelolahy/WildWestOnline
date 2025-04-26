@@ -53,7 +53,7 @@ struct SetupTest {
             figures: figures,
             deck: deck,
             cards: cards,
-            defaultAbilities: ["a1", "a2"]
+            playerAbilities: ["a1", "a2"]
         )
 
         // Then
