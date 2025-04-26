@@ -10,14 +10,14 @@ public extension Inventory {
         private var cards: [String: Card] = [:]
         private var figures: [String] = []
         private var cardSets: [String: [String]] = [:]
-        private var defaultAbilities: [String] = []
+        private var playerAbilities: [String] = []
 
         public func build() -> Inventory {
             .init(
                 cards: cards,
                 figures: figures,
                 cardSets: cardSets,
-                defaultAbilities: defaultAbilities
+                playerAbilities: playerAbilities
             )
         }
 

@@ -16,7 +16,7 @@ struct WillyTheKidTest {
             figures: [.willyTheKid],
             deck: [],
             cards: Cards.all,
-            defaultAbilities: []
+            playerAbilities: []
         )
 
         // When

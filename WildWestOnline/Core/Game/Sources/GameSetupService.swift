@@ -20,7 +20,7 @@ public enum GameSetupService {
             figures: Array(figures.prefix(playersCount)),
             deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
             cards: inventory.cards,
-            defaultAbilities: inventory.defaultAbilities
+            playerAbilities: inventory.playerAbilities
         )
     }
 
@@ -28,7 +28,7 @@ public enum GameSetupService {
         figures: [String],
         deck: [String],
         cards: [String: Card],
-        defaultAbilities: [String]
+        playerAbilities: [String]
     ) -> GameFeature.State {
         var deck = deck
         let players = figures.reduce(into: [String: GameFeature.State.Player]()) { result, figure in
@@ -36,7 +36,7 @@ public enum GameSetupService {
                 figure: figure,
                 cards: cards,
                 deck: &deck,
-                defaultAbilities: defaultAbilities
+                playerAbilities: playerAbilities
             )
         }
         return .init(
@@ -68,7 +68,7 @@ private extension GameSetupService {
         figure: String,
         cards: [String: Card],
         deck: inout [String],
-        defaultAbilities: [String]
+        playerAbilities: [String]
     ) -> GameFeature.State.Player {
         guard let figureObj = cards[figure] else {
             fatalError("Missing figure named \(figure)")
@@ -83,7 +83,7 @@ private extension GameSetupService {
         let magnifying = figureObj.amountOfActiveEffect(named: .increaseMagnifying) ?? 0
         let remoteness = figureObj.amountOfActiveEffect(named: .increaseRemoteness) ?? 0
         let handLimit = figureObj.amountOfActiveEffect(named: .setHandLimit) ?? 0
-        let abilities = [figure] + defaultAbilities
+        let abilities = [figure] + playerAbilities
         let playLimitPerTurn = figureObj.playlimitPerTurn ?? [:]
 
         let hand = Array(1...maxHealth).compactMap { _ in
