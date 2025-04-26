@@ -28,7 +28,7 @@ struct GameViewTest {
         )
 
         // When
-        let viewState = try #require(GameView.State(appState: appState))
+        let viewState = try #require(GameView.ViewState(appState: appState))
 
         // Then
         #expect(viewState.message == "P1's turn")
@@ -58,7 +58,7 @@ struct GameViewTest {
         )
 
         // When
-        let viewState = try #require(GameView.State(appState: appState))
+        let viewState = try #require(GameView.ViewState(appState: appState))
 
         // Then
         #expect(viewState.players.count == 2)
@@ -109,7 +109,7 @@ struct GameViewTest {
         )
 
         // When
-        let viewState = try #require(GameView.State(appState: appState))
+        let viewState = try #require(GameView.ViewState(appState: appState))
 
         // Then
         #expect(viewState.handCards == [
@@ -143,7 +143,7 @@ struct GameViewTest {
         )
 
         // When
-        let viewState = try #require(GameView.State(appState: appState))
+        let viewState = try #require(GameView.ViewState(appState: appState))
 
         // Then
         let chooseOne = try #require(viewState.chooseOne)

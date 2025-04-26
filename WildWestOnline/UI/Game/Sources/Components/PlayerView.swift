@@ -8,7 +8,7 @@ import SwiftUI
 
 // Displays a player's information including figure image, name, role, health, hand count, and in-play cards.
 struct PlayerView: View {
-    var player: GameView.State.PlayerItem
+    var player: GameView.ViewState.PlayerItem
 
     var body: some View {
         VStack(spacing: 4) {
@@ -59,16 +59,16 @@ struct PlayerView: View {
     }
 }
 
-private extension GameView.State.PlayerItem {
+private extension GameView.ViewState.PlayerItem {
     var backgroundColor: Color {
         if isEliminated {
             Color.clear
         } else if isTargeted {
-            Color.red
+            Color(.systemRed)
         } else if isTurn {
-            Color.orange
+            Color(.systemOrange)
         } else {
-            Color.white.opacity(0.85)
+            Color(.tertiarySystemBackground).opacity(0.6)
         }
     }
 }
@@ -83,7 +83,7 @@ private extension GameView.State.PlayerItem {
             maxHealth: 4,
             handCount: 5,
             inPlay: ["scope", "jail"],
-            isTurn: true,
+            isTurn: false,
             isTargeted: false,
             isEliminated: false,
             role: nil,

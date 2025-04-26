@@ -12,7 +12,7 @@ import NavigationCore
 import SettingsCore
 
 struct SettingsRootView: View {
-    struct State: Equatable {
+    struct viewState: Equatable {
         let minPlayersCount = 2
         let maxPlayersCount = 7
         let speedOptions: [SpeedOption] = SpeedOption.all
@@ -32,9 +32,9 @@ struct SettingsRootView: View {
         }
     }
 
-    @StateObject private var store: Store<State, Void>
+    @StateObject private var store: Store<viewState, Void>
 
-    init(store: @escaping () -> Store<State, Void>) {
+    init(store: @escaping () -> Store<viewState, Void>) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -149,7 +149,7 @@ struct SettingsRootView: View {
     }
 }
 
-private extension SettingsRootView.State {
+private extension SettingsRootView.viewState {
     static var mock: Self {
         .init(
             playersCount: 5,
@@ -160,7 +160,7 @@ private extension SettingsRootView.State {
     }
 }
 
-extension SettingsRootView.State {
+extension SettingsRootView.viewState {
     init?(appState: AppFeature.State) {
         playersCount = appState.settings.playersCount
         speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0

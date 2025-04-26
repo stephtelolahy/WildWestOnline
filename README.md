@@ -33,7 +33,7 @@ graph TD;
     GAME(Game) --> PLAYER(Player);
     GAME --> CARD(Card);
     GAME --> QUEUE(Queue);
-    CARD --> ACTION(Effect/Action);
+    CARD --> ACTION(Effect);
     QUEUE --> ACTION;
     ACTION --> ACTIONTYPE(Type);
     ACTION --> PAYLOAD(Payload);
@@ -86,7 +86,7 @@ Redux architecture is meant to protect changes in an application’s state. It f
 
 ```mermaid
 graph TD;
-  subgraph Main thread
+  subgraph Main
     View --> Action
     Action --> Reducer
     Reducer --> State

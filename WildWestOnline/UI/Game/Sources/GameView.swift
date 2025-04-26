@@ -27,7 +27,7 @@ enum CardContent: Equatable {
 
 public struct GameView: View {
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<State, Void>
+    @StateObject private var store: Store<ViewState, Void>
 
     @SwiftUI.State private var animationSource: CGPoint = .zero
     @SwiftUI.State private var animationTarget: CGPoint = .zero
@@ -36,7 +36,7 @@ public struct GameView: View {
 
     private let animationMatcher = AnimationMatcher()
 
-    public init(store: @escaping () -> Store<State, Void>) {
+    public init(store: @escaping () -> Store<ViewState, Void>) {
         _store = StateObject(wrappedValue: store())
     }
 
@@ -137,7 +137,7 @@ private extension GameView {
     func chooseOneAnchorView() -> some View {
         Color.clear
             .frame(width: 1, height: 1)
-            .actionSheet(item: Binding<GameView.State.ChooseOne?>(
+            .actionSheet(item: Binding<GameView.ViewState.ChooseOne?>(
                 get: { store.state.chooseOne },
                 set: { _ in }
             )) { chooseOne in
@@ -218,9 +218,9 @@ private extension GameView {
     }
 }
 
-private extension GameView.State {
+private extension GameView.ViewState {
     static var mock: Self {
-        let player1 = GameView.State.PlayerItem(
+        let player1 = GameView.ViewState.PlayerItem(
             id: "p1",
             imageName: "willyTheKid",
             displayName: "willyTheKid",
@@ -235,7 +235,7 @@ private extension GameView.State {
             userPhotoUrl: nil
         )
 
-        let player2 = GameView.State.PlayerItem(
+        let player2 = GameView.ViewState.PlayerItem(
             id: "p2",
             imageName: "calamityJanet",
             displayName: "calamityJanet",
@@ -250,7 +250,7 @@ private extension GameView.State {
             userPhotoUrl: nil
         )
 
-        let player3 = GameView.State.PlayerItem(
+        let player3 = GameView.ViewState.PlayerItem(
             id: "p3",
             imageName: "elGringo",
             displayName: "elGringo",
