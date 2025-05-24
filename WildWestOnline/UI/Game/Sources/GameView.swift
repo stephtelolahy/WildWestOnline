@@ -28,6 +28,15 @@ enum CardContent: Equatable {
 public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<ViewState, Void>
+    private let onNavigateBack: () -> Void
+
+    public init(
+        viewState: @escaping () -> Store<ViewState, Void>,
+        onNavigateBack: @escaping () -> Void
+    ) {
+        _store = StateObject(wrappedValue: viewState())
+        self.onNavigateBack = onNavigateBack
+    }
 
     @SwiftUI.State private var animationSource: CGPoint = .zero
     @SwiftUI.State private var animationTarget: CGPoint = .zero
@@ -35,10 +44,6 @@ public struct GameView: View {
     @SwiftUI.State private var isAnimating = false
 
     private let animationMatcher = AnimationMatcher()
-
-    public init(store: @escaping () -> Store<ViewState, Void>) {
-        _store = StateObject(wrappedValue: store())
-    }
 
     public var body: some View {
         GeometryReader { proxy in
@@ -64,6 +69,13 @@ public struct GameView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar { toolBarView }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: onNavigateBack) {
+                        Image(systemName: "chevron.left")
+                    }
+                }
+            }
             .task {
                 await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
             }
@@ -214,7 +226,7 @@ private extension GameView {
     NavigationStack {
         GameView {
             .init(initialState: .mock, dependencies: ())
-        }
+        } onNavigateBack: {}
     }
 }
 

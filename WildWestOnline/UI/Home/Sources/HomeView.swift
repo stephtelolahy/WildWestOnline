@@ -16,11 +16,17 @@ public struct HomeView: View {
 
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<ViewState, Void>
+    private let onNavigateToGame: () -> Void
+    private let onPresentSettings: () -> Void
 
-    public init(store: @escaping () -> Store<ViewState, Void>) {
-        // SwiftUI ensures that the following initialization uses the
-        // closure only once during the lifetime of the view.
-        _store = StateObject(wrappedValue: store())
+    public init(
+        viewState: @escaping () -> Store<ViewState, Void>,
+        onNavigateToGame: @escaping () -> Void,
+        onPresentSettings: @escaping () -> Void
+    ) {
+        _store = StateObject(wrappedValue: viewState())
+        self.onNavigateToGame = onNavigateToGame
+        self.onPresentSettings = onPresentSettings
     }
 
     public var body: some View {
@@ -48,14 +54,10 @@ public struct HomeView: View {
             }
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
-                    Task {
-                        await store.dispatch(GameSessionFeature.Action.start)
-                    }
+                    onNavigateToGame()
                 }
                 mainButton("menu.settings.button") {
-                    Task {
-                        await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
-                    }
+                    onPresentSettings()
                 }
             }
         }
@@ -87,7 +89,7 @@ public struct HomeView: View {
 #Preview {
     HomeView {
         .init(initialState: .init(), dependencies: ())
-    }
+    } onNavigateToGame: {} onPresentSettings: {}
 }
 
 public extension HomeView.ViewState {

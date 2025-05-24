@@ -26,34 +26,23 @@ public struct MainCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            HomeView { store.projection(HomeView.ViewState.init) }
-                .navigationDestination(for: MainNavigationFeature.State.Destination.self) {
-                    viewForDestination($0)
-                }
+            HomeView(
+                viewState: { store.projection(HomeView.ViewState.init) },
+                onNavigateToGame: { path.append(.game) },
+                onPresentSettings: { settingsSheetPresented = true }
+            )
+            .navigationDestination(for: MainNavigationFeature.State.Destination.self) { destination in
+                viewForDestination(destination)
+            }
         }
         .sheet(isPresented: $settingsSheetPresented) {
-            SettingsCoordinator(store: store)
+            SettingsCoordinator(
+                store: store,
+                onDismiss: { settingsSheetPresented = false }
+            )
         }
-        // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { state in
-            path = state.navigation.path
-            settingsSheetPresented = state.navigation.settingsSheet != nil
-        }
-        .onChange(of: path) { _, newPath in
-            guard newPath != store.state.navigation.path else { return }
-            Task {
-                await store.dispatch(MainNavigationFeature.Action.setPath(newPath))
-            }
-        }
-        .onChange(of: settingsSheetPresented) { _, isPresented in
-            guard isPresented != (store.state.navigation.settingsSheet != nil) else { return }
-            Task {
-                if isPresented {
-                    await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
-                } else {
-                    await store.dispatch(MainNavigationFeature.Action.dismissSettingsSheet)
-                }
-            }
+            // Keep other state in sync if needed, but navigation is now local
         }
         .onReceive(store.dispatchedAction) { event in
             print(event)
@@ -63,7 +52,10 @@ public struct MainCoordinator: View {
     @ViewBuilder private func viewForDestination(_ destination: MainNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .game:
-            GameView { store.projection(GameView.ViewState.init) }
+            GameView(
+                viewState: { store.projection(GameView.ViewState.init) },
+                onNavigateBack: { path.removeLast() }
+            )
         }
     }
 }

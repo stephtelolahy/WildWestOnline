@@ -12,9 +12,14 @@ import NavigationCore
 public struct SettingsCoordinator: View {
     @ObservedObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
     @State private var path: [SettingsNavigationFeature.State.Destination] = []
+    private let onDismiss: () -> Void
 
-    public init(store: Store<AppFeature.State, AppFeature.Dependencies>) {
+    public init(
+        store: Store<AppFeature.State, AppFeature.Dependencies>,
+        onDismiss: @escaping () -> Void
+    ) {
         self.store = store
+        self.onDismiss = onDismiss
     }
 
     public var body: some View {
@@ -23,6 +28,11 @@ public struct SettingsCoordinator: View {
                 .navigationDestination(for: SettingsNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Close", action: onDismiss)
+            }
         }
         // Fix Error `Update NavigationAuthority bound path tried to update multiple times per frame`
         .onReceive(store.$state) { state in
@@ -49,7 +59,7 @@ public struct SettingsCoordinator: View {
         store: Store<AppFeature.State, AppFeature.Dependencies>.init(
             initialState: .mock,
             dependencies: .init(settings: .init())
-        )
+        ), onDismiss: {}
     )
 }
 
