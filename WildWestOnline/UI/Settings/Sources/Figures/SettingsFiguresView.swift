@@ -41,6 +41,7 @@ struct SettingsFiguresView: View {
                 })
             }
         }
+        .scrollContentBackground(.hidden)
         .navigationTitle("Figures")
     }
 }
