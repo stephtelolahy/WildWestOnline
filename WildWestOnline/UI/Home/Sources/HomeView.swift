@@ -61,15 +61,24 @@ public struct HomeView: View {
         }
     }
 
-    private func mainButton(
+    @ViewBuilder private func mainButton(
         _ titleKey: String.LocalizationValue,
         action: @escaping () -> Void
     ) -> some View {
-        Button(action: action) {
-            Text(String(localized: titleKey, bundle: .module))
-                .font(.headline)
-                .padding(8)
-        }.symbolRenderingMode(.multicolor)
+        if #available(iOS 26.0, *) {
+            Button(action: action) {
+                Text(String(localized: titleKey, bundle: .module))
+                    .font(.headline)
+                    .padding(8)
+            }
+            .buttonStyle(.glass)
+        } else {
+            Button(action: action) {
+                Text(String(localized: titleKey, bundle: .module))
+                    .font(.headline)
+                    .padding(8)
+            }
+        }
     }
 
     private var footerView: some View {
