@@ -29,10 +29,10 @@ public struct GameView: View {
     @Environment(\.theme) private var theme
     @StateObject private var store: Store<ViewState, Void>
 
-    @SwiftUI.State private var animationSource: CGPoint = .zero
-    @SwiftUI.State private var animationTarget: CGPoint = .zero
-    @SwiftUI.State private var animatedCard: CardContent?
-    @SwiftUI.State private var isAnimating = false
+    @State private var animationSource: CGPoint = .zero
+    @State private var animationTarget: CGPoint = .zero
+    @State private var animatedCard: CardContent?
+    @State private var isAnimating = false
 
     private let animationMatcher = AnimationMatcher()
 
