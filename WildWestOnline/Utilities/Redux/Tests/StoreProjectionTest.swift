@@ -43,7 +43,7 @@ private struct SearchView: View {
     }
 
     @ObservedObject var store: Store<ViewState, Void>
-    @SwiftUI.State var query: String = ""
+    @State var query: String = ""
     
     var body: some View {
         NavigationView {
