@@ -26,7 +26,7 @@ let package = Package(
         .library(name: "HomeUI", targets: ["HomeUI"]),
         .library(name: "SettingsUI", targets: ["SettingsUI"]),
         .library(name: "GameUI", targets: ["GameUI"]),
-        .library(name: "MainUI", targets: ["MainUI"]),
+        .library(name: "AppUI", targets: ["AppUI"]),
 
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
@@ -42,19 +42,19 @@ let package = Package(
         .target(
             name: "Redux",
             dependencies: [],
-            path: "Utilities/Redux/Sources"
+            path: "Redux/Sources"
         ),
         .testTarget(
             name: "ReduxTests",
             dependencies: [
                 "Redux"
             ],
-            path: "Utilities/Redux/Tests"
+            path: "Redux/Tests"
         ),
         .target(
             name: "Serialization",
             dependencies: [],
-            path: "Utilities/Serialization/Sources",
+            path: "Serialization/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -64,14 +64,14 @@ let package = Package(
             dependencies: [
                 "Serialization"
             ],
-            path: "Utilities/Serialization/Tests"
+            path: "Serialization/Tests"
         ),
         .target(
             name: "GameCore",
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Game/Sources",
+            path: "GameCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -81,14 +81,14 @@ let package = Package(
             dependencies: [
                 "GameCore"
             ],
-            path: "Core/Game/Tests"
+            path: "GameCore/Tests"
         ),
         .target(
             name: "SettingsCore",
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Settings/Sources",
+            path: "SettingsCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -98,14 +98,14 @@ let package = Package(
             dependencies: [
                 "SettingsCore"
             ],
-            path: "Core/Settings/Tests"
+            path: "SettingsCore/Tests"
         ),
         .target(
             name: "NavigationCore",
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Navigation/Sources",
+            path: "NavigationCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -115,7 +115,7 @@ let package = Package(
             dependencies: [
                 "NavigationCore"
             ],
-            path: "Core/Navigation/Tests"
+            path: "NavigationCore/Tests"
         ),
         .target(
             name: "AppCore",
@@ -124,7 +124,7 @@ let package = Package(
                 "SettingsCore",
                 "NavigationCore"
             ],
-            path: "Core/App/Sources",
+            path: "AppCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -134,12 +134,12 @@ let package = Package(
             dependencies: [
                 "AppCore"
             ],
-            path: "Core/App/Tests"
+            path: "AppCore/Tests"
         ),
         .target(
             name: "Theme",
             dependencies: [],
-            path: "Utilities/Theme/sources",
+            path: "Theme/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -150,7 +150,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "UI/Home/Sources",
+            path: "HomeUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -160,7 +160,7 @@ let package = Package(
             dependencies: [
                 "HomeUI"
             ],
-            path: "UI/Home/Tests"
+            path: "HomeUI/Tests"
         ),
         .target(
             name: "SettingsUI",
@@ -168,7 +168,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "UI/Settings/Sources",
+            path: "SettingsUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -178,7 +178,7 @@ let package = Package(
             dependencies: [
                 "SettingsUI"
             ],
-            path: "UI/Settings/Tests"
+            path: "SettingsUI/Tests"
         ),
         .target(
             name: "GameUI",
@@ -187,7 +187,7 @@ let package = Package(
                 "Theme",
                 "CardsData"
             ],
-            path: "UI/Game/Sources",
+            path: "GameUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -197,33 +197,33 @@ let package = Package(
             dependencies: [
                 "GameUI"
             ],
-            path: "UI/Game/Tests"
+            path: "GameUI/Tests"
         ),
         .target(
-            name: "MainUI",
+            name: "AppUI",
             dependencies: [
                 "HomeUI",
                 "GameUI",
                 "SettingsUI"
             ],
-            path: "UI/Main/Sources",
+            path: "AppUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "MainUITests",
+            name: "AppUITests",
             dependencies: [
-                "MainUI"
+                "AppUI"
             ],
-            path: "UI/Main/Tests"
+            path: "AppUI/Tests"
         ),
         .target(
             name: "CardsData",
             dependencies: [
                 "GameCore"
             ],
-            path: "Data/Cards/Sources",
+            path: "CardsData/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -233,7 +233,7 @@ let package = Package(
             dependencies: [
                 "CardsData"
             ],
-            path: "Data/Cards/Tests"
+            path: "CardsData/Tests"
         ),
         .target(
             name: "SettingsData",
@@ -241,20 +241,20 @@ let package = Package(
                 "SettingsCore",
                 "Serialization"
             ],
-            path: "Data/Settings/Sources",
+            path: "SettingsData/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .binaryTarget(
             name: "SwiftLintBinary",
-            path: "Utilities/SwiftLintBinary.artifactbundle"
+            path: "SwiftLintBinary.artifactbundle"
         ),
         .plugin(
             name: "SwiftLintPlugin",
             capability: .buildTool(),
             dependencies: ["SwiftLintBinary"],
-            path: "Utilities/SwiftLintPlugin/Sources"
+            path: "SwiftLintPlugin/Sources"
         )
     ]
 )
