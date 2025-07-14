@@ -248,13 +248,13 @@ let package = Package(
         ),
         .binaryTarget(
             name: "SwiftLintBinary",
-            path: "Utilities/SwiftLintBinary.artifactbundle"
+            path: "SwiftLintBinary.artifactbundle"
         ),
         .plugin(
             name: "SwiftLintPlugin",
             capability: .buildTool(),
             dependencies: ["SwiftLintBinary"],
-            path: "Utilities/SwiftLintPlugin/Sources"
+            path: "SwiftLintPlugin/Sources"
         )
     ]
 )
