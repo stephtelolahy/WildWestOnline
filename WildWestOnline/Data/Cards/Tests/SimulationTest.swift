@@ -18,7 +18,7 @@ struct SimulationTest {
 
     private func simulateGame(playersCount: Int) async throws {
         // Given
-        let deck = GameSetupService.buildDeck(cardSets: CardSets.bang).shuffled()
+        let deck = GameSetupService.buildDeck(deck: Deck.bang).shuffled()
         let figures = Array(Figures.allNames.shuffled().prefix(playersCount))
         var state = GameSetupService.buildGame(
             figures: figures,

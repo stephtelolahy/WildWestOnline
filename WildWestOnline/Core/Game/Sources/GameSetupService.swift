@@ -18,7 +18,7 @@ public enum GameSetupService {
 
         return buildGame(
             figures: Array(figures.prefix(playersCount)),
-            deck: buildDeck(cardSets: inventory.cardSets).shuffled(),
+            deck: buildDeck(deck: inventory.deck).shuffled(),
             cards: inventory.cards,
             playerAbilities: inventory.playerAbilities
         )
@@ -56,8 +56,8 @@ public enum GameSetupService {
         )
     }
 
-    public static func buildDeck(cardSets: [String: [String]]) -> [String] {
-        cardSets.reduce(into: [String]()) { result, card in
+    public static func buildDeck(deck: [String: [String]]) -> [String] {
+        deck.reduce(into: [String]()) { result, card in
             result.append(contentsOf: card.value.map { "\(card.key)-\($0)" })
         }
     }

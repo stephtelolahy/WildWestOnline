@@ -7,18 +7,18 @@
 public struct Inventory: Codable, Equatable, Sendable {
     public let cards: [String: Card]
     public let figures: [String]
-    public let cardSets: [String: [String]]
+    public let deck: [String: [String]]
     public let playerAbilities: [String]
 
     public init(
         cards: [String: Card],
         figures: [String],
-        cardSets: [String: [String]],
+        deck: [String: [String]],
         playerAbilities: [String]
     ) {
         self.cards = cards
         self.figures = figures
-        self.cardSets = cardSets
+        self.deck = deck
         self.playerAbilities = playerAbilities
     }
 }

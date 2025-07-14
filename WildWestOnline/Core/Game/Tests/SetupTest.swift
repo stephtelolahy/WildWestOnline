@@ -17,7 +17,7 @@ struct SetupTest {
         ]
 
         // When
-        let deck = GameSetupService.buildDeck(cardSets: cardSets)
+        let deck = GameSetupService.buildDeck(deck: cardSets)
 
         // Then
         #expect(deck.contains("card1-val11"))

@@ -41,7 +41,7 @@ struct WildWestOnlineApp: App {
     let inventory = Inventory(
         cards: Cards.all,
         figures: Figures.allNames,
-        cardSets: CardSets.bang,
+        deck: Deck.bang,
         playerAbilities: PlayerAbilities.allNames
     )
 

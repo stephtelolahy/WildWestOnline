@@ -9,14 +9,14 @@ public extension Inventory {
     class Builder {
         private var cards: [String: Card] = [:]
         private var figures: [String] = []
-        private var cardSets: [String: [String]] = [:]
+        private var deck: [String: [String]] = [:]
         private var playerAbilities: [String] = []
 
         public func build() -> Inventory {
             .init(
                 cards: cards,
                 figures: figures,
-                cardSets: cardSets,
+                deck: deck,
                 playerAbilities: playerAbilities
             )
         }
@@ -33,7 +33,7 @@ public extension Inventory {
 
         public func  withSample() -> Self {
             figures = (1...16).map { "c\($0)" }
-            cardSets = [:]
+            deck = [:]
             let sampleCard = Card(
                 name: "",
                 onActive: [
