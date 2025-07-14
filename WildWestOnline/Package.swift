@@ -71,7 +71,7 @@ let package = Package(
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Game/Sources",
+            path: "GameCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -81,14 +81,14 @@ let package = Package(
             dependencies: [
                 "GameCore"
             ],
-            path: "Core/Game/Tests"
+            path: "GameCore/Tests"
         ),
         .target(
             name: "SettingsCore",
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Settings/Sources",
+            path: "SettingsCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -98,14 +98,14 @@ let package = Package(
             dependencies: [
                 "SettingsCore"
             ],
-            path: "Core/Settings/Tests"
+            path: "SettingsCore/Tests"
         ),
         .target(
             name: "NavigationCore",
             dependencies: [
                 "Redux"
             ],
-            path: "Core/Navigation/Sources",
+            path: "NavigationCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -115,7 +115,7 @@ let package = Package(
             dependencies: [
                 "NavigationCore"
             ],
-            path: "Core/Navigation/Tests"
+            path: "NavigationCore/Tests"
         ),
         .target(
             name: "AppCore",
@@ -124,7 +124,7 @@ let package = Package(
                 "SettingsCore",
                 "NavigationCore"
             ],
-            path: "Core/App/Sources",
+            path: "AppCore/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -134,7 +134,7 @@ let package = Package(
             dependencies: [
                 "AppCore"
             ],
-            path: "Core/App/Tests"
+            path: "AppCore/Tests"
         ),
         .target(
             name: "Theme",
