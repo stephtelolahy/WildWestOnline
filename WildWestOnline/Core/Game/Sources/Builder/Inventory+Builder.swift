@@ -8,22 +8,13 @@
 public extension Inventory {
     class Builder {
         private var cards: [String: Card] = [:]
-        private var figures: [String] = []
         private var deck: [String: [String]] = [:]
-        private var playerAbilities: [String] = []
 
         public func build() -> Inventory {
             .init(
                 cards: cards,
-                figures: figures,
-                deck: deck,
-                playerAbilities: playerAbilities
+                deck: deck
             )
-        }
-
-        public func withFigures(_ value: [String]) -> Self {
-            figures = value
-            return self
         }
 
         public func withCards(_ value: [String: Card]) -> Self {
@@ -32,10 +23,10 @@ public extension Inventory {
         }
 
         public func  withSample() -> Self {
-            figures = (1...16).map { "c\($0)" }
             deck = [:]
             let sampleCard = Card(
                 name: "",
+                type: .character,
                 onActive: [
                     .init(
                         name: .setMaxHealth,

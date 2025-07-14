@@ -13,15 +13,9 @@ import Redux
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
 /// ℹ️ All effects of  the same source share the resolved arguments
 ///
-public struct CardDefinition: Equatable, Codable, Sendable {
-    public let name: String
-    public let desc: String
-    public let type: Card.CardType
-    public let behaviour: Card.CardBehaviour
-}
-
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
+    public let type: CardType
     public let desc: String
     public let canPlay: [StateReq]
     public let onPreparePlay: [Effect]
@@ -34,6 +28,7 @@ public struct Card: Equatable, Codable, Sendable {
 
     public init(
         name: String,
+        type: CardType,
         desc: String = "",
         canPlay: [StateReq] = [],
         onPreparePlay: [Effect] = [],
@@ -45,6 +40,7 @@ public struct Card: Equatable, Codable, Sendable {
         canCounterShot: Bool = false
     ) {
         self.name = name
+        self.type = type
         self.desc = desc
         self.canPlay = canPlay
         self.onPreparePlay = onPreparePlay
@@ -61,17 +57,6 @@ public struct Card: Equatable, Codable, Sendable {
         case blue
         case character
         case ability
-    }
-
-    public struct CardBehaviour: Equatable, Codable, Sendable {
-        public let canPlay: [StateReq]
-        public let canTrigger: [EventReq]
-        public let canCounterShot: Bool
-        public let onPreparePlay: [Effect]
-        public let onPlay: [Effect]
-        public let onTrigger: [Effect]
-        public let onActive: [Effect]
-        public let onDeactive: [Effect]
     }
 
     public struct Effect: ActionProtocol, Equatable, Codable {

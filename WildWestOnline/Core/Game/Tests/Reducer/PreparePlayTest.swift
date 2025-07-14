@@ -16,7 +16,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", onPreparePlay: [.init(name: .drawDeck)])])
+            .withCards(["c1": Card(name: "c1", type: .brown, onPreparePlay: [.init(name: .drawDeck)])])
             .build()
 
         // When
@@ -34,7 +34,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", onPreparePlay: [.init(name: .drawDeck)])])
+            .withCards(["c1": Card(name: "c1", type: .brown, onPreparePlay: [.init(name: .drawDeck)])])
             .build()
 
         // When
@@ -51,7 +51,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1"])
             }
-            .withCards(["c1": Card(name: "c1", onPreparePlay: [.init(name: .drawDeck)])])
+            .withCards(["c1": Card(name: "c1", type: .brown, onPreparePlay: [.init(name: .drawDeck)])])
             .withPlayedThisTurn(["c1": 1])
             .build()
 
@@ -69,7 +69,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c-2❤️"])
             }
-            .withCards(["c": Card(name: "c", onPreparePlay: [.init(name: .drawDeck)])])
+            .withCards(["c": Card(name: "c", type: .brown, onPreparePlay: [.init(name: .drawDeck)])])
             .build()
 
         // When
@@ -86,7 +86,7 @@ struct PreparePlayTest {
             .withPlayer("p1") {
                 $0.withHand(["c1", "c2"])
             }
-            .withCards(["c1": Card(name: "c1")])
+            .withCards(["c1": Card(name: "c1", type: .brown)])
             .build()
 
         // When

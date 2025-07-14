@@ -11,11 +11,7 @@ public enum GameSetupService {
         inventory: Inventory,
         preferredFigure: String? = nil
     ) -> GameFeature.State {
-        var figures = inventory.figures.shuffled()
-        if let preferredFigure {
-            figures = figures.starting(with: preferredFigure)
-        }
-
+        let figures = inventory.figures.shuffled().starting(with: preferredFigure)
         return buildGame(
             figures: Array(figures.prefix(playersCount)),
             deck: buildDeck(deck: inventory.deck).shuffled(),
