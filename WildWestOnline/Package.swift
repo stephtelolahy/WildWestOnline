@@ -139,7 +139,7 @@ let package = Package(
         .target(
             name: "Theme",
             dependencies: [],
-            path: "Theme/sources",
+            path: "Theme/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]

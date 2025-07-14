@@ -107,9 +107,9 @@ private extension GameView {
                 .position(positions[.discard]!)
         }
 
-        ForEach(players.indices, id: \ .self) { i in
-            PlayerView(player: players[i])
-                .position(positions[.playerHand(players[i].id)]!)
+        ForEach(players.indices, id: \ .self) { index in
+            PlayerView(player: players[index])
+                .position(positions[.playerHand(players[index].id)]!)
         }
     }
 
@@ -191,12 +191,12 @@ private extension GameView {
 
         let handToInPlayDx: CGFloat = 36
         var positions: [ViewPosition: CGPoint] = [:]
-        positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y:0))
-        positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y:0))
-        positions[.discovered] = center.applying(CGAffineTransform(translationX: 0, y:-100))
+        positions[.deck] = center.applying(CGAffineTransform(translationX: -36, y: 0))
+        positions[.discard] = center.applying(CGAffineTransform(translationX: 36, y: 0))
+        positions[.discovered] = center.applying(CGAffineTransform(translationX: 0, y: -100))
 
-        for (i, player) in players.enumerated() {
-            let angle = (2 * .pi / CGFloat(players.count)) * CGFloat(i) + (.pi / 2)
+        for (index, player) in players.enumerated() {
+            let angle = (2 * .pi / CGFloat(players.count)) * CGFloat(index) + (.pi / 2)
             positions[.playerHand(player.id)] = CGPoint(
                 x: center.x + horizontalRadius * cos(angle),
                 y: center.y + verticalRadius * sin(angle)
