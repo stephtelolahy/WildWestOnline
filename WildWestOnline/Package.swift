@@ -42,14 +42,14 @@ let package = Package(
         .target(
             name: "Redux",
             dependencies: [],
-            path: "Utilities/Redux/Sources"
+            path: "Redux/Sources"
         ),
         .testTarget(
             name: "ReduxTests",
             dependencies: [
                 "Redux"
             ],
-            path: "Utilities/Redux/Tests"
+            path: "Redux/Tests"
         ),
         .target(
             name: "Serialization",
