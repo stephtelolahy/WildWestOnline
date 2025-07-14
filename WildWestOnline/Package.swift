@@ -54,7 +54,7 @@ let package = Package(
         .target(
             name: "Serialization",
             dependencies: [],
-            path: "Utilities/Serialization/Sources",
+            path: "Serialization/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -64,7 +64,7 @@ let package = Package(
             dependencies: [
                 "Serialization"
             ],
-            path: "Utilities/Serialization/Tests"
+            path: "Serialization/Tests"
         ),
         .target(
             name: "GameCore",
