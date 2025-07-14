@@ -15,6 +15,7 @@ import Redux
 ///
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
+    public let type: CardType
     public let desc: String
     public let canPlay: [StateReq]
     public let onPreparePlay: [Effect]
@@ -27,6 +28,7 @@ public struct Card: Equatable, Codable, Sendable {
 
     public init(
         name: String,
+        type: CardType,
         desc: String = "",
         canPlay: [StateReq] = [],
         onPreparePlay: [Effect] = [],
@@ -38,6 +40,7 @@ public struct Card: Equatable, Codable, Sendable {
         canCounterShot: Bool = false
     ) {
         self.name = name
+        self.type = type
         self.desc = desc
         self.canPlay = canPlay
         self.onPreparePlay = onPreparePlay
@@ -47,6 +50,13 @@ public struct Card: Equatable, Codable, Sendable {
         self.onActive = onActive
         self.onDeactive = onDeactive
         self.canCounterShot = canCounterShot
+    }
+
+    public enum CardType: Equatable, Codable, Sendable {
+        case brown
+        case blue
+        case character
+        case ability
     }
 
     public struct Effect: ActionProtocol, Equatable, Codable {

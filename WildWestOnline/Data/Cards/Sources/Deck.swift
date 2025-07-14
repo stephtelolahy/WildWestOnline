@@ -1,11 +1,11 @@
 //
-//  CardSets.swift
+//  Deck.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 24/11/2024.
 //
 
-public enum CardSets {
+public enum Deck {
     public static let bang: [String: [String]] = [
         .barrel: ["Q♠️", "K♠️"],
         .dynamite: ["2♥️"],

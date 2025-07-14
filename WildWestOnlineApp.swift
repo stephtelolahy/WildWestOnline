@@ -40,9 +40,7 @@ struct WildWestOnlineApp: App {
 
     let inventory = Inventory(
         cards: Cards.all,
-        figures: Figures.allNames,
-        cardSets: CardSets.bang,
-        playerAbilities: PlayerAbilities.allNames
+        deck: Deck.bang
     )
 
     let initialState = AppFeature.State(

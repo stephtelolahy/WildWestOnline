@@ -17,7 +17,7 @@ struct SetupTest {
         ]
 
         // When
-        let deck = GameSetupService.buildDeck(cardSets: cardSets)
+        let deck = GameSetupService.buildDeck(deck: cardSets)
 
         // Then
         #expect(deck.contains("card1-val11"))
@@ -33,6 +33,7 @@ struct SetupTest {
         let cards: [String: Card] = [
             "p1": .init(
                 name: "p1",
+                type: .character,
                 onActive: [
                     .init(name: .setMaxHealth, payload: .init(amount: 4)),
                     .init(name: .increaseMagnifying, payload: .init(amount: 1)),
@@ -41,6 +42,7 @@ struct SetupTest {
             ),
             "p2": .init(
                 name: "p2",
+                type: .character,
                 onActive: [
                     .init(name: .setMaxHealth, payload: .init(amount: 3)),
                     .init(name: .increaseRemoteness, payload: .init(amount: 1)),
