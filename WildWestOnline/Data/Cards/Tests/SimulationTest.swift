@@ -18,13 +18,9 @@ struct SimulationTest {
 
     private func simulateGame(playersCount: Int) async throws {
         // Given
-        let deck = GameSetupService.buildDeck(cardSets: CardSets.bang).shuffled()
-        let figures = Array(Figures.allNames.shuffled().prefix(playersCount))
         var state = GameSetupService.buildGame(
-            figures: figures,
-            deck: deck,
-            cards: Cards.all,
-            playerAbilities: PlayerAbilities.allNames
+            playersCount: playersCount,
+            inventory: .init(cards: Cards.all, deck: Deck.bang)
         )
         for player in state.playOrder {
             state.playMode[player] = .auto

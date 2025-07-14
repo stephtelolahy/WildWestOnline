@@ -6,19 +6,23 @@
 
 public struct Inventory: Codable, Equatable, Sendable {
     public let cards: [String: Card]
-    public let figures: [String]
-    public let cardSets: [String: [String]]
-    public let playerAbilities: [String]
+    public let deck: [String: [String]]
 
     public init(
         cards: [String: Card],
-        figures: [String],
-        cardSets: [String: [String]],
-        playerAbilities: [String]
+        deck: [String: [String]]
     ) {
         self.cards = cards
-        self.figures = figures
-        self.cardSets = cardSets
-        self.playerAbilities = playerAbilities
+        self.deck = deck
+    }
+}
+
+public extension Inventory {
+    var figures: [String] {
+        cards.filter { $0.value.type == .character }.map(\.key)
+    }
+
+    var playerAbilities: [String] {
+        cards.filter { $0.value.type == .ability }.map(\.key)
     }
 }

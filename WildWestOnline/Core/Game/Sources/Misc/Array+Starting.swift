@@ -7,7 +7,11 @@
 
 extension Array where Element: Equatable {
     /// Start array with given element, keeping initial order
-    func starting(with element: Element) -> [Element] {
+    func starting(with element: Element?) -> [Element] {
+        guard let element else {
+            return self
+        }
+
         guard let elementIndex = firstIndex(of: element) else {
             fatalError("Element \(element) not found in array \(self)")
         }
