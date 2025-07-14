@@ -48,48 +48,6 @@ public enum Cards {
     }
 }
 
-public extension Int {
-    static let infinity = 999
-}
-
-/// Card effect regex
-/// https://regex101.com/
-private extension String {
-    static let regexHearts = "♥️"
-    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
-    static let regexRed = "(♥️)|(♦️)"
-}
-
-private extension Card.Effect {
-    static var play: Self {
-        .init(
-            name: .play
-        )
-    }
-
-    static var equip: Self {
-        .init(
-            name: .equip
-        )
-    }
-
-    static var resetWeapon: Self {
-        .init(
-            name: .setWeapon,
-            payload: .init(amount: 1)
-        )
-    }
-
-    static var discardEquipedWeapon: Self {
-        .init(
-            name: .discardInPlay,
-            selectors: [
-                .setCard(.weaponInPlay)
-            ]
-        )
-    }
-}
-
 private extension Card {
     static var endTurn: Self {
         .init(
@@ -788,6 +746,44 @@ private extension Card {
                     name: .increaseRemoteness,
                     payload: .init(amount: 1)
                 )
+            ]
+        )
+    }
+}
+
+/// Card effect regex
+/// https://regex101.com/
+private extension String {
+    static let regexHearts = "♥️"
+    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
+    static let regexRed = "(♥️)|(♦️)"
+}
+
+private extension Card.Effect {
+    static var play: Self {
+        .init(
+            name: .play
+        )
+    }
+
+    static var equip: Self {
+        .init(
+            name: .equip
+        )
+    }
+
+    static var resetWeapon: Self {
+        .init(
+            name: .setWeapon,
+            payload: .init(amount: 1)
+        )
+    }
+
+    static var discardEquipedWeapon: Self {
+        .init(
+            name: .discardInPlay,
+            selectors: [
+                .setCard(.weaponInPlay)
             ]
         )
     }

@@ -300,3 +300,7 @@ public extension String {
     /// Pass when asked a counter card
     static let pass = "pass"
 }
+
+public extension Int {
+    static let infinity = 999
+}
