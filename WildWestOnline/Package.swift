@@ -150,7 +150,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "UI/Home/Sources",
+            path: "HomeUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -160,7 +160,7 @@ let package = Package(
             dependencies: [
                 "HomeUI"
             ],
-            path: "UI/Home/Tests"
+            path: "HomeUI/Tests"
         ),
         .target(
             name: "SettingsUI",
@@ -168,7 +168,7 @@ let package = Package(
                 "AppCore",
                 "Theme"
             ],
-            path: "UI/Settings/Sources",
+            path: "SettingsUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -178,7 +178,7 @@ let package = Package(
             dependencies: [
                 "SettingsUI"
             ],
-            path: "UI/Settings/Tests"
+            path: "SettingsUI/Tests"
         ),
         .target(
             name: "GameUI",
@@ -187,7 +187,7 @@ let package = Package(
                 "Theme",
                 "CardsData"
             ],
-            path: "UI/Game/Sources",
+            path: "GameUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -197,7 +197,7 @@ let package = Package(
             dependencies: [
                 "GameUI"
             ],
-            path: "UI/Game/Tests"
+            path: "GameUI/Tests"
         ),
         .target(
             name: "MainUI",
@@ -206,7 +206,7 @@ let package = Package(
                 "GameUI",
                 "SettingsUI"
             ],
-            path: "UI/Main/Sources",
+            path: "MainUI/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -216,7 +216,7 @@ let package = Package(
             dependencies: [
                 "MainUI"
             ],
-            path: "UI/Main/Tests"
+            path: "MainUI/Tests"
         ),
         .target(
             name: "CardsData",
