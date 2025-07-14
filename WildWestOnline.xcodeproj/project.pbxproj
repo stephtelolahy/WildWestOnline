@@ -11,7 +11,7 @@
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
 		98BA2FE72E25C14100C109F5 /* CardsData in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FE62E25C14100C109F5 /* CardsData */; };
 		98BA2FE92E25C14700C109F5 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FE82E25C14700C109F5 /* SettingsData */; };
-		98BA2FEB2E25C14C00C109F5 /* MainUI in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FEA2E25C14C00C109F5 /* MainUI */; };
+		98BA2FED2E25C74100C109F5 /* AppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FEC2E25C74100C109F5 /* AppUI */; };
 		98E868E62D9D19CC00EF4582 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -31,9 +31,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98BA2FED2E25C74100C109F5 /* AppUI in Frameworks */,
 				98BA2FE72E25C14100C109F5 /* CardsData in Frameworks */,
 				98BA2FE92E25C14700C109F5 /* SettingsData in Frameworks */,
-				98BA2FEB2E25C14C00C109F5 /* MainUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 			packageProductDependencies = (
 				98BA2FE62E25C14100C109F5 /* CardsData */,
 				98BA2FE82E25C14700C109F5 /* SettingsData */,
-				98BA2FEA2E25C14C00C109F5 /* MainUI */,
+				98BA2FEC2E25C74100C109F5 /* AppUI */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -395,9 +395,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SettingsData;
 		};
-		98BA2FEA2E25C14C00C109F5 /* MainUI */ = {
+		98BA2FEC2E25C74100C109F5 /* AppUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = MainUI;
+			productName = AppUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

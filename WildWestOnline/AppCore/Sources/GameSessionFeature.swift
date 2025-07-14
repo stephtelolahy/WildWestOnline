@@ -36,7 +36,7 @@ public enum GameSessionFeature {
                     return Action.setGame(newGame)
                 },
                 .run {
-                    MainNavigationFeature.Action.push(.game)
+                    AppNavigationFeature.Action.push(.game)
                 }
             ])
 
@@ -46,7 +46,7 @@ public enum GameSessionFeature {
                     Action.unsetGame
                 },
                 .run {
-                    MainNavigationFeature.Action.pop
+                    AppNavigationFeature.Action.pop
                 }
             ])
 

@@ -1,5 +1,5 @@
 //
-//  MainCoordinator.swift
+//  AppCoordinator.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 13/09/2024.
@@ -13,9 +13,9 @@ import SettingsUI
 import HomeUI
 import GameUI
 
-public struct MainCoordinator: View {
+public struct AppCoordinator: View {
     @StateObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
-    @State private var path: [MainNavigationFeature.State.Destination] = []
+    @State private var path: [AppNavigationFeature.State.Destination] = []
     @State private var settingsSheetPresented: Bool = false
 
     public init(store: @escaping () -> Store<AppFeature.State, AppFeature.Dependencies>) {
@@ -27,7 +27,7 @@ public struct MainCoordinator: View {
     public var body: some View {
         NavigationStack(path: $path) {
             HomeView { store.projection(HomeView.ViewState.init) }
-                .navigationDestination(for: MainNavigationFeature.State.Destination.self) {
+                .navigationDestination(for: AppNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
         }
@@ -42,16 +42,16 @@ public struct MainCoordinator: View {
         .onChange(of: path) { _, newPath in
             guard newPath != store.state.navigation.path else { return }
             Task {
-                await store.dispatch(MainNavigationFeature.Action.setPath(newPath))
+                await store.dispatch(AppNavigationFeature.Action.setPath(newPath))
             }
         }
         .onChange(of: settingsSheetPresented) { _, isPresented in
             guard isPresented != (store.state.navigation.settingsSheet != nil) else { return }
             Task {
                 if isPresented {
-                    await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
+                    await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
                 } else {
-                    await store.dispatch(MainNavigationFeature.Action.dismissSettingsSheet)
+                    await store.dispatch(AppNavigationFeature.Action.dismissSettingsSheet)
                 }
             }
         }
@@ -60,7 +60,7 @@ public struct MainCoordinator: View {
         }
     }
 
-    @ViewBuilder private func viewForDestination(_ destination: MainNavigationFeature.State.Destination) -> some View {
+    @ViewBuilder private func viewForDestination(_ destination: AppNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .game:
             GameView { store.projection(GameView.ViewState.init) }
@@ -69,7 +69,7 @@ public struct MainCoordinator: View {
 }
 
 #Preview {
-    MainCoordinator {
+    AppCoordinator {
         Store<AppFeature.State, AppFeature.Dependencies>.init(
             initialState: .mock,
             dependencies: .init(settings: .init())

@@ -48,7 +48,7 @@ struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 Task {
-                    await store.dispatch(MainNavigationFeature.Action.dismissSettingsSheet)
+                    await store.dispatch(AppNavigationFeature.Action.dismissSettingsSheet)
                 }
             }
         }

@@ -84,7 +84,7 @@ private extension GameView {
                 Button("Actions", action: { })
                 Button("Settings") {
                     Task {
-                        await store.dispatch(MainNavigationFeature.Action.presentSettingsSheet)
+                        await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
                     }
                 }
                 Divider()

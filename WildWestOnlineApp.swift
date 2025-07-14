@@ -12,7 +12,7 @@ import SettingsCore
 import SettingsData
 import SwiftUI
 import Theme
-import MainUI
+import AppUI
 
 @main
 struct WildWestOnlineApp: App {
@@ -20,8 +20,7 @@ struct WildWestOnlineApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // TODO: rename AppCoordinator from AppUI module
-            MainCoordinator {
+            AppCoordinator {
                 createStore()
             }
             .accentColor(theme.accentColor)

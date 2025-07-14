@@ -1,5 +1,5 @@
 //
-//  MainNavigationFeature.swift
+//  AppNavigationFeature.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 29/03/2025.
@@ -7,7 +7,7 @@
 
 import Redux
 
-public enum MainNavigationFeature {
+public enum AppNavigationFeature {
     public struct State: Equatable, Codable, Sendable {
         public var path: [Destination]
         public var settingsSheet: SettingsNavigationFeature.State?
@@ -46,11 +46,11 @@ public enum MainNavigationFeature {
 
         return .group([
             settingsSheetEffect,
-            reduceMain(into: &state, action: action, dependencies: dependencies)
+            reduceApp(into: &state, action: action, dependencies: dependencies)
         ])
     }
 
-    private static func reduceMain(
+    private static func reduceApp(
         into state: inout State,
         action: ActionProtocol,
         dependencies: Void
