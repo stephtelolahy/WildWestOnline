@@ -223,7 +223,7 @@ let package = Package(
             dependencies: [
                 "GameCore"
             ],
-            path: "Data/Cards/Sources",
+            path: "CardsData/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
@@ -233,7 +233,7 @@ let package = Package(
             dependencies: [
                 "CardsData"
             ],
-            path: "Data/Cards/Tests"
+            path: "CardsData/Tests"
         ),
         .target(
             name: "SettingsData",
@@ -241,7 +241,7 @@ let package = Package(
                 "SettingsCore",
                 "Serialization"
             ],
-            path: "Data/Settings/Sources",
+            path: "SettingsData/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
