@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct BartCassidyTests {
-    @Test(.disabled()) func BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() async throws {
+    @Test func BartCassidyBeingDamaged_1LifePoint_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -30,7 +30,7 @@ struct BartCassidyTests {
         ])
     }
 
-    @Test(.disabled()) func BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() async throws {
+    @Test func BartCassidyBeingDamaged_2LifePoints_shouldDraw2Cards() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -52,7 +52,7 @@ struct BartCassidyTests {
         ])
     }
 
-    @Test(.disabled()) func BartCassidyBeingDamaged_Lethal_shouldDoNothing() async throws {
+    @Test func BartCassidyBeingDamaged_Lethal_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {

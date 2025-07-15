@@ -213,6 +213,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayers
             case excessHand
             case drawCards
+            case damage
         }
 
         public enum TargetGroup: String, Codable, Sendable {

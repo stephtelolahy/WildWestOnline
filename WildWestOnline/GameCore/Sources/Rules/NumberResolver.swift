@@ -22,6 +22,7 @@ private extension Card.Selector.Number {
         case .activePlayers: ActivePlayers()
         case .excessHand: ExcessHand()
         case .drawCards: DrawCards()
+        case .damage: Damage()
         }
     }
 
@@ -57,6 +58,18 @@ private extension Card.Selector.Number {
         func resolve(player: String, state: GameFeature.State) -> Int {
             let playerObj = state.players.get(player)
             return playerObj.drawCards
+        }
+    }
+
+    struct Damage: Resolver {
+        func resolve(player: String, state: GameFeature.State) -> Int {
+            guard let event = state.lastSuccessfulAction,
+                  case .damage = event.name,
+                    let damage = event.payload.amount else {
+                fatalError("Expecting damage event as last successful action")
+            }
+
+            return damage
         }
     }
 }
