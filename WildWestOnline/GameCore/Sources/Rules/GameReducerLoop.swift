@@ -111,7 +111,7 @@ private extension GameFeature.State {
             return .init(
                 name: .queue,
                 payload: .init(
-                    children: triggered
+                    nestedEffects: triggered
                 )
             )
         }

@@ -107,7 +107,7 @@ public struct Card: Equatable, Codable, Sendable {
             public var targetedCard: String?
             public var amount: Int?
             public var selection: String?
-            public var children: [Effect]?
+            public var nestedEffects: [Effect]?
             public var cards: [String]?
             public var amountPerTurn: [String: Int]?
 
@@ -118,7 +118,7 @@ public struct Card: Equatable, Codable, Sendable {
                 targetedCard: String? = nil,
                 amount: Int? = nil,
                 selection: String? = nil,
-                children: [Card.Effect]? = nil,
+                nestedEffects: [Card.Effect]? = nil,
                 cards: [String]? = nil,
                 amountPerTurn: [String: Int]? = nil
             ) {
@@ -128,7 +128,7 @@ public struct Card: Equatable, Codable, Sendable {
                 self.targetedCard = targetedCard
                 self.amount = amount
                 self.selection = selection
-                self.children = children
+                self.nestedEffects = nestedEffects
                 self.cards = cards
                 self.amountPerTurn = amountPerTurn
             }
@@ -167,7 +167,7 @@ public struct Card: Equatable, Codable, Sendable {
                     targetedCard: targetedCard ?? self.payload.targetedCard,
                     amount: amount ?? self.payload.amount,
                     selection: self.payload.selection,
-                    children: self.payload.children,
+                    nestedEffects: self.payload.nestedEffects,
                     cards: self.payload.cards,
                     amountPerTurn: self.payload.amountPerTurn
                 ),

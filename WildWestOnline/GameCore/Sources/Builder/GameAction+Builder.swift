@@ -283,7 +283,7 @@ public extension GameFeature.Action {
         .init(
             name: .queue,
             payload: .init(
-                children: []
+                nestedEffects: []
             )
         )
     }

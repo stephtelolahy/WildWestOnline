@@ -448,8 +448,8 @@ private extension Card.Effect.Name {
 
     struct Queue: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let children = payload.children else {
-                fatalError("Missing payload.children")
+            guard let children = payload.nestedEffects else {
+                fatalError("Missing payload.nestedEffects")
             }
 
             var state = state
