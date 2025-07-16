@@ -606,7 +606,7 @@ private extension Card {
                 .init(
                     name: .draw,
                     selectors: [
-                        .repeat(.drawCards)
+                        .repeat(.drawnCardCount)
                     ]
                 ),
                 .init(
@@ -632,7 +632,7 @@ private extension Card {
                 .init(
                     name: .draw,
                     selectors: [
-                        .repeat(.drawCards)
+                        .repeat(.drawnCardCount)
                     ]
                 ),
                 .init(name: .passInPlay, selectors: [
@@ -678,7 +678,7 @@ private extension Card {
                 .init(
                     name: .draw,
                     selectors: [
-                        .repeat(.drawCards)
+                        .repeat(.drawnCardCount)
                     ]
                 ),
                 .init(
