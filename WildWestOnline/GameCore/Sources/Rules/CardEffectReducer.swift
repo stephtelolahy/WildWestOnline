@@ -206,9 +206,7 @@ private extension Card.Effect.Name {
 
     struct Handicap: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.targetedPlayer else {
-                fatalError("Missing payload.target")
-            }
+            let target = payload.targetedPlayer!
 
             let player = payload.player
             let card = payload.playedCard
@@ -288,9 +286,7 @@ private extension Card.Effect.Name {
 
     struct Choose: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let selection = payload.chosenOption else {
-                fatalError("Missing payload.selection")
-            }
+            let selection = payload.chosenOption!
 
             guard let nextAction = state.queue.first,
                   let selector = nextAction.selectors.first,
@@ -315,12 +311,8 @@ private extension Card.Effect.Name {
 
     struct StealHand: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.targetedPlayer else {
-                fatalError("Missing payload.target")
-            }
-            guard let card = payload.targetedCard else {
-                fatalError("Missing payload.card")
-            }
+            let target = payload.targetedPlayer!
+            let card = payload.targetedCard!
             let player = payload.player
 
             var state = state
@@ -338,12 +330,8 @@ private extension Card.Effect.Name {
 
     struct StealInPlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.targetedPlayer else {
-                fatalError("Missing payload.target")
-            }
-            guard let card = payload.targetedCard else {
-                fatalError("Missing payload.card")
-            }
+            let target = payload.targetedPlayer!
+            let card = payload.targetedCard!
             let player = payload.player
 
             let playerObj = state.players.get(target)
@@ -361,12 +349,8 @@ private extension Card.Effect.Name {
 
     struct PassInPlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.targetedPlayer else {
-                fatalError("Missing payload.target")
-            }
-            guard let card = payload.targetedCard else {
-                fatalError("Missing payload.card")
-            }
+            let target = payload.targetedPlayer!
+            let card = payload.targetedCard!
             let player = payload.player
 
             let playerObj = state.players.get(player)
@@ -448,9 +432,7 @@ private extension Card.Effect.Name {
 
     struct Queue: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let children = payload.nestedEffects else {
-                fatalError("Missing payload.nestedEffects")
-            }
+            let children = payload.nestedEffects!
 
             var state = state
             state.queue.insert(contentsOf: children, at: 0)

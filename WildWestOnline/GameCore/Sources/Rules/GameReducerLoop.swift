@@ -94,9 +94,7 @@ private extension GameFeature.State {
 
         if event.name == .discardInPlay || event.name == .stealInPlay {
             let player = event.payload.targetedPlayer!
-            guard let card = event.payload.targetedCard else {
-                fatalError("Missing payload.card")
-            }
+            let card = event.payload.targetedCard!
 
             if let effects = inactiveEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
