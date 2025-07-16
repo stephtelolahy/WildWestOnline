@@ -139,7 +139,9 @@ private extension Card.Effect.Name {
                     $0.copy(
                         withPlayer: payload.player,
                         played: payload.played,
-                        target: NonStandardLogic.childEffectTarget($0.name, payload: payload)
+                        target: NonStandardLogic.childEffectTarget($0.name, payload: payload),
+                        triggeredByName: .preparePlay,
+                        triggeredByPayload: payload
                     )
                 }
             state.queue.insert(contentsOf: effects, at: 0)
@@ -168,7 +170,9 @@ private extension Card.Effect.Name {
                             withPlayer: payload.player,
                             played: payload.played,
                             target: payload.target,
-                            card: payload.card
+                            card: payload.card,
+                            triggeredByName: .play,
+                            triggeredByPayload: payload
                         )
                     }
                 state.queue.insert(contentsOf: effects, at: 0)

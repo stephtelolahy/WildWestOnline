@@ -87,7 +87,7 @@ private extension GameFeature.State {
         if event.name == .equip {
             let player = event.payload.player
             let card = event.payload.played
-            if let effects = activeEffects(card: card, player: player) {
+            if let effects = activeEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
         }
@@ -98,7 +98,7 @@ private extension GameFeature.State {
                 fatalError("Missing payload.card")
             }
 
-            if let effects = deactiveEffects(card: card, player: player) {
+            if let effects = deactiveEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
         }
@@ -129,31 +129,37 @@ private extension GameFeature.State {
             $0.copy(
                 withPlayer: player,
                 played: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player))
+                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                triggeredByName: event.name,
+                triggeredByPayload: event.payload
             )
         }
     }
 
-    func activeEffects(card: String, player: String) -> [Card.Effect]? {
+    func activeEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.onActive.map {
             $0.copy(
                 withPlayer: player,
                 played: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player))
+                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                triggeredByName: event.name,
+                triggeredByPayload: event.payload
             )
         }
     }
 
-    func deactiveEffects(card: String, player: String) -> [Card.Effect]? {
+    func deactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.onDeactive.map {
             $0.copy(
                 withPlayer: player,
                 played: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player))
+                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                triggeredByName: event.name,
+                triggeredByPayload: event.payload
             )
         }
     }
