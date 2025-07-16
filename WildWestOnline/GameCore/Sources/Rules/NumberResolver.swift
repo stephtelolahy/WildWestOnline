@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.Number {
-    func resolve(player: String, state: GameFeature.State) -> Int {
-        resolver.resolve(player: player, state: state)
+    func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+        resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.Number {
     protocol Resolver {
-        func resolve(player: String, state: GameFeature.State) -> Int
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int
     }
 
     var resolver: Resolver {
@@ -29,19 +29,20 @@ private extension Card.Selector.Number {
     struct Value: Resolver {
         let rawValue: Int
 
-        func resolve(player: String, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             rawValue
         }
     }
 
     struct ActivePlayers: Resolver {
-        func resolve(player: String, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             state.playOrder.count
         }
     }
 
     struct ExcessHand: Resolver {
-        func resolve(player: String, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+            let player = pendingAction.payload.player
             let playerObj = state.players.get(player)
             let handlLimit = if playerObj.handLimit > 0 {
                 playerObj.handLimit
@@ -55,18 +56,18 @@ private extension Card.Selector.Number {
     }
 
     struct DrawCards: Resolver {
-        func resolve(player: String, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+            let player = pendingAction.payload.player
             let playerObj = state.players.get(player)
             return playerObj.drawCards
         }
     }
 
     struct Damage: Resolver {
-        func resolve(player: String, state: GameFeature.State) -> Int {
-            guard let event = state.lastSuccessfulAction,
-                  case .damage = event.name,
-                    let damage = event.payload.amount else {
-                fatalError("Expecting damage event as last successful action")
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+            guard pendingAction.triggeredByName == .damage,
+                  let damage = pendingAction.triggeredByPayload?.amount else {
+                fatalError("Expecting damage event as triggering action")
             }
 
             return damage

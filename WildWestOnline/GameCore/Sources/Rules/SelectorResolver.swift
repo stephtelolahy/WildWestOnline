@@ -29,7 +29,7 @@ private extension Card.Selector {
         let number: Card.Selector.Number
 
         func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.Failure) -> [Card.Effect] {
-            let value = number.resolve(player: pendingAction.payload.player, state: state)
+            let value = number.resolve(pendingAction, state: state)
             return Array(repeating: pendingAction, count: value)
         }
     }
