@@ -545,7 +545,7 @@ private extension Card {
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    payload: .init(amountPerTurn: [.bang: .infinity])
+                    payload: .init(amountPerTurn: [.bang: .unlimited])
                 )
             ],
             onInactive: [.resetWeapon]
@@ -710,7 +710,7 @@ private extension Card {
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    payload: .init(amountPerTurn: [.bang: .infinity])
+                    payload: .init(amountPerTurn: [.bang: .unlimited])
                 )
             ]
         )

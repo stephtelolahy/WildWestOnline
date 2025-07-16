@@ -24,7 +24,7 @@ struct VolcanicTest {
         #expect(result == [
             .equip(.volcanic, player: "p1"),
             .setWeapon(1, player: "p1"),
-            .setPlayLimitPerTurn([.bang: .infinity], player: "p1")
+            .setPlayLimitPerTurn([.bang: .unlimited], player: "p1")
         ])
     }
 }

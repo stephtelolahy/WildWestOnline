@@ -296,5 +296,5 @@ public extension String {
 }
 
 public extension Int {
-    static let infinity = 999
+    static let unlimited = 999
 }
