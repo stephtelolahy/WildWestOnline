@@ -13,10 +13,10 @@ func dispatchUntilCompleted(
     _ action: GameFeature.Action,
     state: GameFeature.State,
     expectedChoices: [Choice] = []
-) async throws(Card.Failure) -> [GameFeature.Action] {
+) async throws(Card.PlayError) -> [GameFeature.Action] {
     let sut = await createGameStore(initialState: state, expectedChoices: expectedChoices)
     var receivedActions: [GameFeature.Action] = []
-    var receivedErrors: [Card.Failure] = []
+    var receivedErrors: [Card.PlayError] = []
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
         sut.$state

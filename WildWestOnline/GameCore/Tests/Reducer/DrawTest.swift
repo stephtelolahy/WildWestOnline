@@ -49,7 +49,7 @@ struct DrawTest {
         // When
         // Then
         let action = GameFeature.Action.draw()
-        await #expect(throws: Card.Failure.insufficientDeck) {
+        await #expect(throws: Card.PlayError.insufficientDeck) {
             try await dispatch(action, state: state)
         }
     }

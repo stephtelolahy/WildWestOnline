@@ -20,7 +20,7 @@ private extension Card.Selector.CardFilter {
         switch self {
         case .canCounterShot: CanCounterShot()
         case .named(let name): Named(name: name)
-        case .fromHand: FromHand()
+        case .isFromHand: IsFromHand()
         }
     }
 
@@ -40,7 +40,7 @@ private extension Card.Selector.CardFilter {
         }
     }
 
-    struct FromHand: Matcher {
+    struct IsFromHand: Matcher {
         func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let playerObj = state.players.get(ctx.target!)
             return playerObj.hand.contains(card)

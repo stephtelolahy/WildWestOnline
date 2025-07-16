@@ -31,7 +31,7 @@ extension GameFeature {
         return .none
     }
 
-    private static func updateState(_ state: inout GameFeature.State, action: GameFeature.Action) throws(Card.Failure) {
+    private static func updateState(_ state: inout GameFeature.State, action: GameFeature.Action) throws(Card.PlayError) {
         guard !state.isOver else {
             fatalError("Unexpected game is over")
         }

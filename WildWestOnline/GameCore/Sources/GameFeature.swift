@@ -20,7 +20,7 @@ public enum GameFeature {
         public var startOrder: [String]
         public var queue: [Card.Effect]
         public var lastSuccessfulAction: Card.Effect?
-        public var lastActionError: Card.Failure?
+        public var lastActionError: Card.PlayError?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]

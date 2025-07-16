@@ -260,7 +260,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum CardFilter: Equatable, Codable, Sendable {
             case canCounterShot
             case named(String)
-            case fromHand
+            case isFromHand
         }
 
         public struct ChooseOneResolved: Equatable, Codable, Sendable {
@@ -284,8 +284,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    /// Card play error
-    public enum Failure: Error, Equatable, Codable {
+    public enum PlayError: Error, Equatable, Codable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)

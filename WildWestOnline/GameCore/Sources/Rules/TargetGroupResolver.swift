@@ -6,7 +6,7 @@
 //
 
 extension Card.Selector.TargetGroup {
-    func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
+    func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
         let players = resolver.resolve(state, ctx: ctx)
         guard players.isNotEmpty else {
             throw .noTarget(self)

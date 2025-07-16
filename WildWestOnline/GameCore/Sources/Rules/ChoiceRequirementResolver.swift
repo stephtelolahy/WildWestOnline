@@ -6,19 +6,19 @@
 //
 
 extension Card.Selector.ChoiceRequirement {
-    func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
+    func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
-    func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect] {
+    func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
         try resolver.resolveSelection(selection, state: state, pendingAction: pendingAction)
     }
 }
 
 private extension Card.Selector.ChoiceRequirement {
     protocol Resolver {
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved?
-        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect]
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved?
+        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect]
     }
 
     var resolver: Resolver {
@@ -34,7 +34,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct TargetResolver: Resolver {
         let conditions: [Card.Selector.TargetFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
             let result = state.playOrder
                 .starting(with: ctx.player)
                 .dropFirst()
@@ -50,7 +50,7 @@ private extension Card.Selector.ChoiceRequirement {
             )
         }
 
-        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
             [pendingAction.withTarget(selection)]
         }
     }
@@ -58,7 +58,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct CardResolver: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target!)
             var options: [Card.Selector.ChooseOneResolved.Option] = []
             options += playerObj.inPlay.map {
@@ -81,20 +81,20 @@ private extension Card.Selector.ChoiceRequirement {
             )
         }
 
-        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
             [pendingAction.withCard(selection)]
         }
     }
 
     struct DiscoveredResolver: Resolver {
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
             .init(
                 chooser: ctx.target!,
                 options: state.discovered.map { .init(value: $0, label: $0) }
             )
         }
 
-        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
             [pendingAction.withCard(selection)]
         }
     }
@@ -102,7 +102,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct EventuallyCounterCardResolver: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
             let counterCards = state.players.get(ctx.target!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
@@ -119,7 +119,7 @@ private extension Card.Selector.ChoiceRequirement {
             )
         }
 
-        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
             if selection == .pass {
                 [pendingAction]
             } else {
@@ -131,7 +131,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct EventuallyReverseCardResolver: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
             let counterCards = state.players.get(ctx.target!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
@@ -148,7 +148,7 @@ private extension Card.Selector.ChoiceRequirement {
             )
         }
 
-        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
             if selection == .pass {
                 return [pendingAction]
             } else {

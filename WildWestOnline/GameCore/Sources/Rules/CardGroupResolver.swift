@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.CardGroup {
-    func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
+    func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
         try resolver.resolve(state, ctx: ctx)
     }
 }
 
 private extension Card.Selector.CardGroup {
     protocol Resolver {
-        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String]
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String]
     }
 
     var resolver: Resolver {
@@ -26,25 +26,25 @@ private extension Card.Selector.CardGroup {
     }
 
     struct AllInPlay: Resolver {
-        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
             state.players.get(ctx.target!).inPlay
         }
     }
 
     struct AllInHand: Resolver {
-        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
             state.players.get(ctx.target!).hand
         }
     }
 
     struct Played: Resolver {
-        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
             [ctx.played]
         }
     }
 
     struct EquippedWeapon: Resolver {
-        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
+        func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
             state.players.get(ctx.target!).inPlay.filter { state.isWeapon($0) }
         }
     }
