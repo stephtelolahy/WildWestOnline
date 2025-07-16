@@ -201,7 +201,7 @@ public extension GameFeature.Action {
             name: .activate,
             payload: .init(
                 targetedPlayer: player,
-                cards: cards
+                affectedCards: cards
             )
         )
     }

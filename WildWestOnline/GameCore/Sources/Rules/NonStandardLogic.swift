@@ -60,7 +60,7 @@ enum NonStandardLogic {
         && lhs.payload.amount == rhs.payload.amount
         && lhs.payload.selection == rhs.payload.selection
         && lhs.payload.nestedEffects == rhs.payload.nestedEffects
-        && lhs.payload.cards == rhs.payload.cards
+        && lhs.payload.affectedCards == rhs.payload.affectedCards
         && lhs.payload.amountPerTurn == rhs.payload.amountPerTurn
     }
 }

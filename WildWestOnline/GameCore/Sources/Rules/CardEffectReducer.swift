@@ -478,7 +478,7 @@ private extension Card.Effect.Name {
     struct Activate: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             let target = payload.targetedPlayer!
-            let cards = payload.cards!
+            let cards = payload.affectedCards!
 
             var state = state
             state.active = [target: cards]
