@@ -612,7 +612,7 @@ private extension Card {
                 .init(
                     name: .counterShot,
                     selectors: [
-                        .require(.drawMatching(.regexHearts))
+                        .require(.drawnCardMatches(.regexHearts))
                     ]
                 )
             ]
@@ -636,7 +636,7 @@ private extension Card {
                     ]
                 ),
                 .init(name: .passInPlay, selectors: [
-                    .require(.drawMatching(.regexPassDynamite)),
+                    .require(.drawnCardMatches(.regexPassDynamite)),
                     .setCard(.played),
                     .setTarget(.next)
                 ]),
@@ -644,13 +644,13 @@ private extension Card {
                     name: .damage,
                     payload: .init(amount: 3),
                     selectors: [
-                        .require(.drawNotMatching(.regexPassDynamite))
+                        .require(.drawnCardDoesNotMatch(.regexPassDynamite))
                     ]
                 ),
                 .init(
                     name: .discardInPlay,
                     selectors: [
-                        .require(.drawNotMatching(.regexPassDynamite)),
+                        .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
                         .setCard(.played)
                     ]
                 )
@@ -684,7 +684,7 @@ private extension Card {
                 .init(
                     name: .endTurn,
                     selectors: [
-                        .require(.drawNotMatching(.regexHearts))
+                        .require(.drawnCardDoesNotMatch(.regexHearts))
                     ]
                 ),
                 .init(
