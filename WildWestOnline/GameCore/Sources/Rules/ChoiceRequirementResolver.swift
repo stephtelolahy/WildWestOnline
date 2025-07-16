@@ -27,7 +27,7 @@ private extension Card.Selector.ChoiceRequirement {
         case .targetCard(let conditions): TargetCard(conditions: conditions)
         case .discoveredCard: DiscoveredCard()
         case .optionalCounterCard(let conditions): OptionalCounterCard(conditions: conditions)
-        case .eventuallyReverseCard(let conditions): EventuallyReverseCardResolver(conditions: conditions)
+        case .optionalRedirectCard(let conditions): OptionalRedirectCard(conditions: conditions)
         }
     }
 
@@ -128,7 +128,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct EventuallyReverseCardResolver: Resolver {
+    struct OptionalRedirectCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
@@ -155,7 +155,7 @@ private extension Card.Selector.ChoiceRequirement {
                 let reversedAction = pendingAction.copy(
                     withPlayer: pendingAction.payload.target!,
                     target: pendingAction.payload.player,
-                    selectors: [.chooseOne(.eventuallyReverseCard(conditions))] + pendingAction.selectors
+                    selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
                     Card.Effect.discardHand(selection, player: pendingAction.payload.target!),

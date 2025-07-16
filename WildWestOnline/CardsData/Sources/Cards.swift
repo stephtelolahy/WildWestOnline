@@ -446,7 +446,7 @@ private extension Card {
                     name: .damage,
                     payload: .init(amount: 1),
                     selectors: [
-                        .chooseOne(.eventuallyReverseCard([.named(.bang)]))
+                        .chooseOne(.optionalRedirectCard([.named(.bang)]))
                     ]
                 )
             ]

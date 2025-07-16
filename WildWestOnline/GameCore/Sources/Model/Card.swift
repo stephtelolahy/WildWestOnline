@@ -243,8 +243,7 @@ public struct Card: Equatable, Codable, Sendable {
             case targetCard([CardFilter] = [])
             case discoveredCard
             case optionalCounterCard([CardFilter] = [])
-            /// Can `discard` hand card to reverse the effect's target
-            case eventuallyReverseCard([CardFilter] = [])
+            case optionalRedirectCard([CardFilter] = [])
         }
 
         public enum TargetFilter: Equatable, Codable, Sendable {
