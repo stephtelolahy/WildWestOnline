@@ -129,7 +129,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     actionName: .damage,
-                    stateReqs: [.healthZero]
+                    playConditions: [.healthZero]
                 )
             ],
             onTrigger: [
@@ -146,7 +146,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     actionName: .eliminate,
-                    stateReqs: [.gameOver]
+                    playConditions: [.gameOver]
                 )
             ],
             onTrigger: [
@@ -188,7 +188,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     actionName: .eliminate,
-                    stateReqs: [.currentTurn]
+                    playConditions: [.currentTurn]
                 )
             ],
             onTrigger: [
@@ -759,7 +759,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     actionName: .damage,
-                    stateReqs: [.healthNotZero]
+                    playConditions: [.healthNotZero]
                 )
             ],
             onTrigger: [

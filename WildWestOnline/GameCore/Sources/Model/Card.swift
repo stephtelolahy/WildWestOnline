@@ -17,7 +17,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let desc: String
-    public let canPlay: [StateReq]
+    public let canPlay: [PlayCondition]
     public let onPreparePlay: [Effect]
     public let onPlay: [Effect]
     public let canTrigger: [EventReq]
@@ -30,7 +30,7 @@ public struct Card: Equatable, Codable, Sendable {
         name: String,
         type: CardType,
         desc: String = "",
-        canPlay: [StateReq] = [],
+        canPlay: [PlayCondition] = [],
         onPreparePlay: [Effect] = [],
         onPlay: [Effect] = [],
         canTrigger: [EventReq] = [],
@@ -183,8 +183,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    /// Required state conditions to play a card
-    public enum StateReq: Equatable, Codable, Sendable {
+    public enum PlayCondition: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
         case playLimitPerTurn([String: Int])
         case healthZero
@@ -200,14 +199,14 @@ public struct Card: Equatable, Codable, Sendable {
     /// Required event conditions to trigger a card
     public struct EventReq: Equatable, Codable, Sendable {
         public let actionName: Card.Effect.Name
-        public let stateReqs: [StateReq]
+        public let playConditions: [PlayCondition]
 
         public init(
             actionName: Effect.Name,
-            stateReqs: [StateReq] = []
+            playConditions: [PlayCondition] = []
         ) {
             self.actionName = actionName
-            self.stateReqs = stateReqs
+            self.playConditions = playConditions
         }
     }
 
@@ -217,7 +216,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
-        case require(StateReq)
+        case require(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
             case value(Int)
@@ -296,7 +295,7 @@ public struct Card: Equatable, Codable, Sendable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
-        case noReq(Card.StateReq)
+        case noReq(Card.PlayCondition)
         case noTarget(Card.Selector.TargetGroup)
         case noChoosableTarget([Card.Selector.TargetCondition])
         case cardNotPlayable(String)
