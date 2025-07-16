@@ -18,7 +18,7 @@ private extension Card.PlayCondition {
 
     var matcher: Matcher {
         switch self {
-        case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
+        case .minimumPlayers(let count): MinimumPlayers(count: count)
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .healthZero: HealthZero()
         case .healthNotZero: HealthNotZero()
@@ -31,11 +31,11 @@ private extension Card.PlayCondition {
         }
     }
 
-    struct PlayersAtLeast: Matcher {
-        let amount: Int
+    struct MinimumPlayers: Matcher {
+        let count: Int
 
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            state.playOrder.count >= amount
+            state.playOrder.count >= count
         }
     }
 

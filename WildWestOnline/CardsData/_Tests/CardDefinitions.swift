@@ -15,7 +15,7 @@
              .init(
                  name: .heal,
                  selectors: [
-                     .require(.playersAtLeast(3)),
+                     .require(.minimumPlayers(3)),
                      .chooseCostHandCard(.named(.beer))
                  ]
              )

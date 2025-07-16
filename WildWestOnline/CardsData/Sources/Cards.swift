@@ -242,7 +242,7 @@ private extension Card {
             type: .brown,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
             canPlay: [
-                .playersAtLeast(3)
+                .minimumPlayers(3)
             ],
             onPreparePlay: [
                 .play,
