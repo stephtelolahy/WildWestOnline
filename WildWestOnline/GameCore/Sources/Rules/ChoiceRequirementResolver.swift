@@ -154,7 +154,7 @@ private extension Card.Selector.ChoiceRequirement {
             } else {
                 let reversedAction = pendingAction.copy(
                     withPlayer: pendingAction.payload.targetedPlayer!,
-                    target: pendingAction.payload.player,
+                    targetedPlayer: pendingAction.payload.player,
                     selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
                 )
                 return [

@@ -55,7 +55,7 @@ public extension GameFeature.Action {
             name: .drawDiscovered,
             payload: .init(
                 targetedPlayer: player,
-                card: card
+                targetedCard: card
             )
         )
     }
@@ -91,7 +91,7 @@ public extension GameFeature.Action {
             name: .discardHand,
             payload: .init(
                 targetedPlayer: player,
-                card: card
+                targetedCard: card
             )
         )
     }
@@ -101,7 +101,7 @@ public extension GameFeature.Action {
             name: .discardInPlay,
             payload: .init(
                 targetedPlayer: player,
-                card: card
+                targetedCard: card
             )
         )
     }
@@ -113,7 +113,7 @@ public extension GameFeature.Action {
                 player: player,
                 playedCard: source,
                 targetedPlayer: target,
-                card: card
+                targetedCard: card
             )
         )
     }
@@ -125,7 +125,7 @@ public extension GameFeature.Action {
                 player: player,
                 playedCard: source,
                 targetedPlayer: target,
-                card: card
+                targetedCard: card
             )
         )
     }
@@ -137,7 +137,7 @@ public extension GameFeature.Action {
                 player: player,
                 playedCard: source,
                 targetedPlayer: target,
-                card: card
+                targetedCard: card
             )
         )
     }
@@ -213,7 +213,7 @@ public extension GameFeature.Action {
                 player: player,
                 playedCard: playedCard,
                 targetedPlayer: target,
-                card: card
+                targetedCard: card
             )
         )
     }

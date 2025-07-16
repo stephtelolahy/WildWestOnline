@@ -115,7 +115,7 @@ public struct Card: Equatable, Codable, Sendable {
                 player: String = "",
                 playedCard: String = "",
                 targetedPlayer: String? = nil,
-                card: String? = nil,
+                targetedCard: String? = nil,
                 amount: Int? = nil,
                 selection: String? = nil,
                 children: [Card.Effect]? = nil,
@@ -125,7 +125,7 @@ public struct Card: Equatable, Codable, Sendable {
                 self.player = player
                 self.playedCard = playedCard
                 self.targetedPlayer = targetedPlayer
-                self.targetedCard = card
+                self.targetedCard = targetedCard
                 self.amount = amount
                 self.selection = selection
                 self.children = children
@@ -151,8 +151,8 @@ public struct Card: Equatable, Codable, Sendable {
         public func copy(
             withPlayer player: String? = nil,
             playedCard: String? = nil,
-            target: String? = nil,
-            card: String? = nil,
+            targetedPlayer: String? = nil,
+            targetedCard: String? = nil,
             amount: Int? = nil,
             selectors: [Card.Selector]? = nil,
             triggeredByName: Name? = nil,
@@ -163,8 +163,8 @@ public struct Card: Equatable, Codable, Sendable {
                 payload: .init(
                     player: player ?? self.payload.player,
                     playedCard: playedCard ?? self.payload.playedCard,
-                    targetedPlayer: target ?? self.payload.targetedPlayer,
-                    card: card ?? self.payload.targetedCard,
+                    targetedPlayer: targetedPlayer ?? self.payload.targetedPlayer,
+                    targetedCard: targetedCard ?? self.payload.targetedCard,
                     amount: amount ?? self.payload.amount,
                     selection: self.payload.selection,
                     children: self.payload.children,

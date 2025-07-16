@@ -7,7 +7,7 @@
 
 enum NonStandardLogic {
     /// Determine child effect's target
-    static func childEffectTarget(
+    static func targetedPlayerForChildEffect(
         _ name: Card.Effect.Name,
         payload: Card.Effect.Payload
     ) -> String? {

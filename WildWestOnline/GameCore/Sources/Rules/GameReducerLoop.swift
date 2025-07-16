@@ -129,7 +129,7 @@ private extension GameFeature.State {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -143,7 +143,7 @@ private extension GameFeature.State {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -157,7 +157,7 @@ private extension GameFeature.State {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
