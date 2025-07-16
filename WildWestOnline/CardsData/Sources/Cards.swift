@@ -467,7 +467,7 @@ private extension Card {
                     payload: .init(amount: 2)
                 )
             ],
-            onDeactive: [.resetWeapon]
+            onInactive: [.resetWeapon]
         )
     }
 
@@ -486,7 +486,7 @@ private extension Card {
                     payload: .init(amount: 3)
                 )
             ],
-            onDeactive: [.resetWeapon]
+            onInactive: [.resetWeapon]
         )
     }
 
@@ -505,7 +505,7 @@ private extension Card {
                     payload: .init(amount: 4)
                 )
             ],
-            onDeactive: [.resetWeapon]
+            onInactive: [.resetWeapon]
         )
     }
 
@@ -524,7 +524,7 @@ private extension Card {
                     payload: .init(amount: 5)
                 )
             ],
-            onDeactive: [.resetWeapon]
+            onInactive: [.resetWeapon]
         )
     }
 
@@ -547,7 +547,7 @@ private extension Card {
                     payload: .init(amountPerTurn: [.bang: .infinity])
                 )
             ],
-            onDeactive: [.resetWeapon]
+            onInactive: [.resetWeapon]
         )
     }
 
@@ -563,7 +563,7 @@ private extension Card {
                     payload: .init(amount: 1)
                 )
             ],
-            onDeactive: [
+            onInactive: [
                 .init(
                     name: .increaseMagnifying,
                     payload: .init(amount: -1)
@@ -584,7 +584,7 @@ private extension Card {
                     payload: .init(amount: 1)
                 )
             ],
-            onDeactive: [
+            onInactive: [
                 .init(
                     name: .increaseRemoteness,
                     payload: .init(amount: -1)

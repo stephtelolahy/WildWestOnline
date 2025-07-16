@@ -98,7 +98,7 @@ private extension GameFeature.State {
                 fatalError("Missing payload.card")
             }
 
-            if let effects = deactiveEffects(on: event, by: card, player: player) {
+            if let effects = inactiveEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
         }
@@ -150,10 +150,10 @@ private extension GameFeature.State {
         }
     }
 
-    func deactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
+    func inactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        return cardObj.onDeactive.map {
+        return cardObj.onInactive.map {
             $0.copy(
                 withPlayer: player,
                 played: card,
