@@ -75,7 +75,7 @@ private extension Card {
                 .init(
                     name: .discardHand,
                     selectors: [
-                        .repeat(.excessHand),
+                        .repeat(.playerExcessHandSize),
                         .chooseOne(.card([.fromHand]))
                     ]
                 )

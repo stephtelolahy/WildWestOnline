@@ -20,7 +20,7 @@ private extension Card.Selector.Number {
         switch self {
         case .value(let rawValue): Value(rawValue: rawValue)
         case .activePlayerCount: ActivePlayerCount()
-        case .excessHand: ExcessHand()
+        case .playerExcessHandSize: PlayerExcessHandSize()
         case .drawCards: DrawCards()
         case .damage: Damage()
         }
@@ -40,7 +40,7 @@ private extension Card.Selector.Number {
         }
     }
 
-    struct ExcessHand: Resolver {
+    struct PlayerExcessHandSize: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             let player = pendingAction.payload.player
             let playerObj = state.players.get(player)

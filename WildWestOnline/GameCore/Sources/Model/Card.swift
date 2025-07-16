@@ -219,7 +219,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum Number: Equatable, Codable, Sendable {
             case value(Int)
             case activePlayerCount
-            case excessHand
+            case playerExcessHandSize
             case drawCards
             case damage
         }
