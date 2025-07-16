@@ -241,8 +241,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
             case target([TargetFilter] = [])
             case targetCard([CardFilter] = [])
-            /// Must choose a discovered card
-            case discovered
+            case discoveredCard
             /// Can `discard` hand card to counter the effect
             case eventuallyCounterCard([CardFilter] = [])
             /// Can `discard` hand card to reverse the effect's target

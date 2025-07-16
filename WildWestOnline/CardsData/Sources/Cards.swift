@@ -352,7 +352,7 @@ private extension Card {
                     name: .drawDiscovered,
                     selectors: [
                         .setTarget(.activePlayers),
-                        .chooseOne(.discovered)
+                        .chooseOne(.discoveredCard)
                     ]
                 )
             ]

@@ -25,7 +25,7 @@ private extension Card.Selector.ChoiceRequirement {
         switch self {
         case .target(let conditions): Target(conditions: conditions)
         case .targetCard(let conditions): TargetCard(conditions: conditions)
-        case .discovered: DiscoveredResolver()
+        case .discoveredCard: DiscoveredCard()
         case .eventuallyCounterCard(let conditions): EventuallyCounterCardResolver(conditions: conditions)
         case .eventuallyReverseCard(let conditions): EventuallyReverseCardResolver(conditions: conditions)
         }
@@ -86,7 +86,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct DiscoveredResolver: Resolver {
+    struct DiscoveredCard: Resolver {
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
             .init(
                 chooser: ctx.target!,
