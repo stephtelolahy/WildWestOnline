@@ -56,7 +56,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct CardResolver: Resolver {
-        let conditions: [Card.Selector.CardCondition]
+        let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
             let playerObj = state.players.get(ctx.target!)
@@ -100,7 +100,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct EventuallyCounterCardResolver: Resolver {
-        let conditions: [Card.Selector.CardCondition]
+        let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
             let counterCards = state.players.get(ctx.target!).hand.filter {
@@ -129,7 +129,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct EventuallyReverseCardResolver: Resolver {
-        let conditions: [Card.Selector.CardCondition]
+        let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
             let counterCards = state.players.get(ctx.target!).hand.filter {
@@ -174,7 +174,7 @@ private extension Array where Element == Card.Selector.TargetCondition {
     }
 }
 
-private extension Array where Element == Card.Selector.CardCondition {
+private extension Array where Element == Card.Selector.CardFilter {
     func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
         allSatisfy {
             $0.match(card, state: state, ctx: ctx)

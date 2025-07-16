@@ -242,13 +242,13 @@ public struct Card: Equatable, Codable, Sendable {
             /// Must choose a target
             case target([TargetCondition] = [])
             /// Must choose a target's card
-            case card([CardCondition] = [])
+            case card([CardFilter] = [])
             /// Must choose a discovered card
             case discovered
             /// Can `discard` hand card to counter the effect
-            case eventuallyCounterCard([CardCondition] = [])
+            case eventuallyCounterCard([CardFilter] = [])
             /// Can `discard` hand card to reverse the effect's target
-            case eventuallyReverseCard([CardCondition] = [])
+            case eventuallyReverseCard([CardFilter] = [])
         }
 
         public enum TargetCondition: Equatable, Codable, Sendable {
@@ -257,7 +257,7 @@ public struct Card: Equatable, Codable, Sendable {
             case reachable
         }
 
-        public enum CardCondition: Equatable, Codable, Sendable {
+        public enum CardFilter: Equatable, Codable, Sendable {
             case canCounterShot
             case named(String)
             case fromHand

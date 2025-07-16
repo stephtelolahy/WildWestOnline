@@ -1,17 +1,17 @@
 //
-//  CardConditionMatcher.swift
+//  CardFilterMatcher.swift
 //  WildWestOnline
 //
 //  Created by Stephano Hugues TELOLAHY on 10/11/2024.
 //
 
-extension Card.Selector.CardCondition {
+extension Card.Selector.CardFilter {
     func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
         matcher.match(card, state: state, ctx: ctx)
     }
 }
 
-private extension Card.Selector.CardCondition {
+private extension Card.Selector.CardFilter {
     protocol Matcher {
         func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool
     }

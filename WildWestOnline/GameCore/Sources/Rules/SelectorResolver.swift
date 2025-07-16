@@ -70,13 +70,12 @@ private extension Card.Selector {
 
                 return try requirement.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
             } else {
-                // generate options
-                guard let choice = try requirement.resolveOptions(state, ctx: pendingAction.payload) else {
+                guard let resolved = try requirement.resolveOptions(state, ctx: pendingAction.payload) else {
                     return [pendingAction]
                 }
 
                 var updatedAction = pendingAction
-                let updatedSelector = Card.Selector.chooseOne(requirement, resolved: choice)
+                let updatedSelector = Card.Selector.chooseOne(requirement, resolved: resolved)
                 updatedAction.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
             }
