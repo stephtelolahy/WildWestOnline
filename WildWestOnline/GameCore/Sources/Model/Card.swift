@@ -227,7 +227,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum TargetGroup: String, Codable, Sendable {
             case activePlayers
             case woundedPlayers
-            case others
+            case otherPlayers
             case next
         }
 

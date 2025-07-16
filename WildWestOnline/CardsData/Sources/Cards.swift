@@ -392,7 +392,7 @@ private extension Card {
                 .init(
                     name: .shoot,
                     selectors: [
-                        .setTarget(.others)
+                        .setTarget(.otherPlayers)
                     ]
                 )
             ]
@@ -419,7 +419,7 @@ private extension Card {
                     name: .damage,
                     payload: .init(amount: 1),
                     selectors: [
-                        .setTarget(.others),
+                        .setTarget(.otherPlayers),
                         .chooseOne(.eventuallyCounterCard([.named(.bang)]))
                     ]
                 )
