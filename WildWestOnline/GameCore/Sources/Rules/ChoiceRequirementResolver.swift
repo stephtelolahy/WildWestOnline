@@ -66,7 +66,7 @@ private extension Card.Selector.ChoiceRequirement {
             }
             options += playerObj.hand.indices.map {
                 let value = playerObj.hand[$0]
-                let label = ctx.player == ctx.target ? value : "\(String.hiddenHand)-\($0)"
+                let label = ctx.player == ctx.target ? value : "\(String.choiceHiddenHand)-\($0)"
                 return .init(id: value, label: label)
             }
             options = options.filter { conditions.match($0.id, state: state, ctx: ctx) }
@@ -112,7 +112,7 @@ private extension Card.Selector.ChoiceRequirement {
             }
 
             var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
-            options.append(.init(id: .pass, label: .pass))
+            options.append(.init(id: .choicePass, label: .choicePass))
             return .init(
                 chooser: ctx.target!,
                 options: options
@@ -120,7 +120,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
-            if selection == .pass {
+            if selection == .choicePass {
                 [pendingAction]
             } else {
                 [Card.Effect.discardHand(selection, player: pendingAction.payload.target!)]
@@ -141,7 +141,7 @@ private extension Card.Selector.ChoiceRequirement {
             }
 
             var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
-            options.append(.init(id: .pass, label: .pass))
+            options.append(.init(id: .choicePass, label: .choicePass))
             return .init(
                 chooser: ctx.target!,
                 options: options
@@ -149,7 +149,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
 
         func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect] {
-            if selection == .pass {
+            if selection == .choicePass {
                 return [pendingAction]
             } else {
                 let reversedAction = pendingAction.copy(

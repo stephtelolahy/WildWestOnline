@@ -28,7 +28,7 @@ struct DuelTests {
         let action = GameFeature.Action.preparePlay(.duel, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3", "p4"], selectionIndex: 0),
-            .init(options: [.bang2, .pass], selectionIndex: 1)
+            .init(options: [.bang2, .choicePass], selectionIndex: 1)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
@@ -36,7 +36,7 @@ struct DuelTests {
         #expect(result == [
             .choose("p2", player: "p1"),
             .play(.duel, player: "p1", target: "p2"),
-            .choose(.pass, player: "p2"),
+            .choose(.choicePass, player: "p2"),
             .damage(1, player: "p2")
         ])
     }
@@ -46,8 +46,8 @@ struct DuelTests {
         let action = GameFeature.Action.preparePlay(.duel, player: "p1")
         let choices: [Choice] = [
             .init(options: ["p2", "p3", "p4"], selectionIndex: 0),
-            .init(options: [.bang2, .pass], selectionIndex: 0),
-            .init(options: [.bang1, .pass], selectionIndex: 0)
+            .init(options: [.bang2, .choicePass], selectionIndex: 0),
+            .init(options: [.bang1, .choicePass], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 

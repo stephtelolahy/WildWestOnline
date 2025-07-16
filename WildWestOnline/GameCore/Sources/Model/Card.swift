@@ -7,11 +7,10 @@
 
 import Redux
 
-/// We are working on a Card Definition Language that will allow people to create new cards,
+/// We are working on a Card Definition DLS that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
-/// ℹ️ All effects of  the same source share the resolved arguments
 ///
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
@@ -291,13 +290,9 @@ public struct Card: Equatable, Codable, Sendable {
     }
 }
 
-/// ChooseOne options
 public extension String {
-    /// Hidden hand card
-    static let hiddenHand = "hiddenHand"
-
-    /// Pass when asked a counter card
-    static let pass = "pass"
+    static let choiceHiddenHand = "hiddenHand"
+    static let choicePass = "pass"
 }
 
 public extension Int {
