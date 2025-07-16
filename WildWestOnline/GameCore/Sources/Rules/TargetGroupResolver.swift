@@ -49,7 +49,7 @@ private extension Card.Selector.TargetGroup {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.player)
-                .filter { $0 != ctx.target }
+                .filter { $0 != ctx.targetedPlayer }
         }
     }
 

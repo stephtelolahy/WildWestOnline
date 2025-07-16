@@ -23,7 +23,7 @@ enum NonStandardLogic {
                 .stealHand,
                 .stealInPlay,
                 .passInPlay:
-            payload.target
+            payload.targetedPlayer
 
         default:
             payload.player
@@ -55,7 +55,7 @@ enum NonStandardLogic {
 
         return lhs.name == rhs.name
         && lhs.selectors == rhs.selectors
-        && lhs.payload.target == rhs.payload.target
+        && lhs.payload.targetedPlayer == rhs.payload.targetedPlayer
         && lhs.payload.card == rhs.payload.card
         && lhs.payload.amount == rhs.payload.amount
         && lhs.payload.selection == rhs.payload.selection

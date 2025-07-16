@@ -27,13 +27,13 @@ private extension Card.Selector.CardGroup {
 
     struct AllInPlay: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
-            state.players.get(ctx.target!).inPlay
+            state.players.get(ctx.targetedPlayer!).inPlay
         }
     }
 
     struct AllInHand: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
-            state.players.get(ctx.target!).hand
+            state.players.get(ctx.targetedPlayer!).hand
         }
     }
 
@@ -45,7 +45,7 @@ private extension Card.Selector.CardGroup {
 
     struct EquippedWeapon: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> [String] {
-            state.players.get(ctx.target!).inPlay.filter { state.isWeapon($0) }
+            state.players.get(ctx.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
         }
     }
 }

@@ -27,7 +27,7 @@ private extension Card.Selector.TargetFilter {
     struct HasCards: Matcher {
         func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let playerObj = state.players.get(player)
-            if player == ctx.target {
+            if player == ctx.targetedPlayer {
                 return playerObj.inPlay.isNotEmpty
             } else {
                 return playerObj.inPlay.isNotEmpty || playerObj.hand.isNotEmpty

@@ -98,7 +98,7 @@ private extension Card.Selector {
 extension Card.Effect {
     func withTarget(_ target: String) -> Self {
         var copy = self
-        copy.payload.target = target
+        copy.payload.targetedPlayer = target
         return copy
     }
 

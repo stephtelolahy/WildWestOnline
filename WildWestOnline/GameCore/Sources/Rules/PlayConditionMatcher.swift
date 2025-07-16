@@ -115,7 +115,7 @@ private extension Card.PlayCondition {
     struct PayloadCardFromTargetHand: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let card = payload.card!
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let targetObj = state.players.get(target)
             return targetObj.hand.contains(card)
         }
@@ -124,7 +124,7 @@ private extension Card.PlayCondition {
     struct PayloadCardFromTargetInPlay: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let card = payload.card!
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
         }

@@ -64,7 +64,7 @@ private extension Card.Effect.Name {
 
     struct DrawDeck: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
 
             var state = state
             let card = try state.popDeck()
@@ -75,7 +75,7 @@ private extension Card.Effect.Name {
 
     struct DrawDiscard: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
 
             var state = state
             let card = try state.popDiscard()
@@ -86,7 +86,7 @@ private extension Card.Effect.Name {
 
     struct DrawDiscovered: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let card = payload.card!
 
             guard let discoverIndex = state.discovered.firstIndex(of: card) else {
@@ -169,7 +169,7 @@ private extension Card.Effect.Name {
                         $0.copy(
                             withPlayer: payload.player,
                             played: payload.playedCard,
-                            target: payload.target,
+                            target: payload.targetedPlayer,
                             card: payload.card,
                             triggeredByName: .play,
                             triggeredByPayload: payload
@@ -206,7 +206,7 @@ private extension Card.Effect.Name {
 
     struct Handicap: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.target else {
+            guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
 
@@ -232,7 +232,7 @@ private extension Card.Effect.Name {
 
     struct Heal: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let player = payload.target!
+            let player = payload.targetedPlayer!
             let amount = payload.amount!
 
             var playerObj = state.players.get(player)
@@ -250,7 +250,7 @@ private extension Card.Effect.Name {
 
     struct DiscardHand: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let player = payload.target!
+            let player = payload.targetedPlayer!
             let card = payload.card!
 
             var state = state
@@ -269,7 +269,7 @@ private extension Card.Effect.Name {
 
     struct DiscardInPlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let player = payload.target!
+            let player = payload.targetedPlayer!
             let card = payload.card!
 
             var state = state
@@ -315,7 +315,7 @@ private extension Card.Effect.Name {
 
     struct StealHand: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.target else {
+            guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
             guard let card = payload.card else {
@@ -338,7 +338,7 @@ private extension Card.Effect.Name {
 
     struct StealInPlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.target else {
+            guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
             guard let card = payload.card else {
@@ -361,7 +361,7 @@ private extension Card.Effect.Name {
 
     struct PassInPlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let target = payload.target else {
+            guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
             guard let card = payload.card else {
@@ -390,7 +390,7 @@ private extension Card.Effect.Name {
                 payload: .init(
                     player: payload.player,
                     played: payload.playedCard,
-                    target: payload.target,
+                    target: payload.targetedPlayer,
                     amount: 1
                 ),
                 selectors: [.chooseOne(.optionalCounterCard([.canCounterShot]))]
@@ -406,7 +406,7 @@ private extension Card.Effect.Name {
 
             guard let nextAction = state.queue.first,
                   nextAction.name == .damage,
-                  nextAction.payload.target == payload.target else {
+                  nextAction.payload.targetedPlayer == payload.targetedPlayer else {
                 fatalError("Next action should be shoot effect")
             }
 
@@ -417,7 +417,7 @@ private extension Card.Effect.Name {
 
     struct Damage: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let player = payload.target!
+            let player = payload.targetedPlayer!
             let amount = payload.amount!
 
             var state = state
@@ -440,7 +440,7 @@ private extension Card.Effect.Name {
     struct StartTurn: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             var state = state
-            state.turn = payload.target
+            state.turn = payload.targetedPlayer
             state.playedThisTurn = [:]
             return state
         }
@@ -461,8 +461,8 @@ private extension Card.Effect.Name {
     struct Eliminate: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             var state = state
-            state.playOrder.removeAll { $0 == payload.target }
-            state.queue.removeAll { $0.payload.player == payload.target }
+            state.playOrder.removeAll { $0 == payload.targetedPlayer }
+            state.queue.removeAll { $0.payload.player == payload.targetedPlayer }
             return state
         }
     }
@@ -477,7 +477,7 @@ private extension Card.Effect.Name {
 
     struct Activate: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let cards = payload.cards!
 
             var state = state
@@ -488,7 +488,7 @@ private extension Card.Effect.Name {
 
     struct SetWeapon: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let weapon = payload.amount!
 
             var state = state
@@ -499,7 +499,7 @@ private extension Card.Effect.Name {
 
     struct SetPlayLimitPerTurn: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let amountPerTurn = payload.amountPerTurn!
 
             var state = state
@@ -510,7 +510,7 @@ private extension Card.Effect.Name {
 
     struct IncreaseMagnifying: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let amount = payload.amount!
 
             var state = state
@@ -521,7 +521,7 @@ private extension Card.Effect.Name {
 
     struct IncreaseRemoteness: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let target = payload.target!
+            let target = payload.targetedPlayer!
             let amount = payload.amount!
 
             var state = state

@@ -59,14 +59,14 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let playerObj = state.players.get(ctx.target!)
+            let playerObj = state.players.get(ctx.targetedPlayer!)
             var options: [Card.Selector.ChoicePrompt.Option] = []
             options += playerObj.inPlay.map {
                 .init(id: $0, label: $0)
             }
             options += playerObj.hand.indices.map {
                 let value = playerObj.hand[$0]
-                let label = ctx.player == ctx.target ? value : "\(String.choiceHiddenHand)-\($0)"
+                let label = ctx.player == ctx.targetedPlayer ? value : "\(String.choiceHiddenHand)-\($0)"
                 return .init(id: value, label: label)
             }
             options = options.filter { conditions.match($0.id, state: state, ctx: ctx) }
@@ -89,7 +89,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct DiscoveredCard: Resolver {
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             .init(
-                chooser: ctx.target!,
+                chooser: ctx.targetedPlayer!,
                 options: state.discovered.map { .init(id: $0, label: $0) }
             )
         }
@@ -103,7 +103,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let counterCards = state.players.get(ctx.target!).hand.filter {
+            let counterCards = state.players.get(ctx.targetedPlayer!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
 
@@ -114,7 +114,7 @@ private extension Card.Selector.ChoiceRequirement {
             var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
             options.append(.init(id: .choicePass, label: .choicePass))
             return .init(
-                chooser: ctx.target!,
+                chooser: ctx.targetedPlayer!,
                 options: options
             )
         }
@@ -123,7 +123,7 @@ private extension Card.Selector.ChoiceRequirement {
             if selection == .choicePass {
                 [pendingAction]
             } else {
-                [Card.Effect.discardHand(selection, player: pendingAction.payload.target!)]
+                [Card.Effect.discardHand(selection, player: pendingAction.payload.targetedPlayer!)]
             }
         }
     }
@@ -132,7 +132,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let counterCards = state.players.get(ctx.target!).hand.filter {
+            let counterCards = state.players.get(ctx.targetedPlayer!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
 
@@ -143,7 +143,7 @@ private extension Card.Selector.ChoiceRequirement {
             var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
             options.append(.init(id: .choicePass, label: .choicePass))
             return .init(
-                chooser: ctx.target!,
+                chooser: ctx.targetedPlayer!,
                 options: options
             )
         }
@@ -153,12 +153,12 @@ private extension Card.Selector.ChoiceRequirement {
                 return [pendingAction]
             } else {
                 let reversedAction = pendingAction.copy(
-                    withPlayer: pendingAction.payload.target!,
+                    withPlayer: pendingAction.payload.targetedPlayer!,
                     target: pendingAction.payload.player,
                     selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
-                    Card.Effect.discardHand(selection, player: pendingAction.payload.target!),
+                    Card.Effect.discardHand(selection, player: pendingAction.payload.targetedPlayer!),
                     reversedAction
                 ]
             }

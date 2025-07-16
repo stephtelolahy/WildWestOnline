@@ -10,7 +10,7 @@ extension Card.Effect: CustomStringConvertible {
         [
             selectors.isNotEmpty ? ".." : nil,
             name.emoji,
-            payload.target,
+            payload.targetedPlayer,
             payload.card,
             payload.selection,
             payload.amount != nil ? "x\(payload.amount ?? 1)" : nil,

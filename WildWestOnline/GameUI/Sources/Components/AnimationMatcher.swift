@@ -27,28 +27,28 @@ struct AnimationMatcher {
                 .moveCard(
                     .id(action.payload.playedCard),
                     from: .playerHand(action.payload.player),
-                    to: .playerInPlay(action.payload.target!)
+                    to: .playerInPlay(action.payload.targetedPlayer!)
                 )
 
         case .drawDeck:
                 .moveCard(
                     .hidden,
                     from: .deck,
-                    to: .playerHand(action.payload.target!)
+                    to: .playerHand(action.payload.targetedPlayer!)
                 )
 
         case .drawDiscovered:
                 .moveCard(
                     .id(action.payload.card!),
                     from: .deck,
-                    to: .playerHand(action.payload.target!)
+                    to: .playerHand(action.payload.targetedPlayer!)
                 )
 
         case .drawDiscard:
                 .moveCard(
                     .hidden,
                     from: .discard,
-                    to: .playerHand(action.payload.target!)
+                    to: .playerHand(action.payload.targetedPlayer!)
                 )
 
         case .draw:
@@ -61,14 +61,14 @@ struct AnimationMatcher {
         case .stealHand:
                 .moveCard(
                     .hidden,
-                    from: .playerHand(action.payload.target!),
+                    from: .playerHand(action.payload.targetedPlayer!),
                     to: .playerHand(action.payload.player)
                 )
 
         case .stealInPlay:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerInPlay(action.payload.target!),
+                    from: .playerInPlay(action.payload.targetedPlayer!),
                     to: .playerHand(action.payload.player)
                 )
 
@@ -76,20 +76,20 @@ struct AnimationMatcher {
                 .moveCard(
                     .id(action.payload.card!),
                     from: .playerInPlay(action.payload.player),
-                    to: .playerInPlay(action.payload.target!)
+                    to: .playerInPlay(action.payload.targetedPlayer!)
                 )
 
         case .discardHand:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerHand(action.payload.target!),
+                    from: .playerHand(action.payload.targetedPlayer!),
                     to: .discard
                 )
 
         case .discardInPlay:
                 .moveCard(
                     .id(action.payload.card!),
-                    from: .playerInPlay(action.payload.target!),
+                    from: .playerInPlay(action.payload.targetedPlayer!),
                     to: .discard
                 )
 

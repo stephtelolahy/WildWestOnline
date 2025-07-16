@@ -42,7 +42,7 @@ private extension Card.Selector.CardFilter {
 
     struct IsFromHand: Matcher {
         func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
-            let playerObj = state.players.get(ctx.target!)
+            let playerObj = state.players.get(ctx.targetedPlayer!)
             return playerObj.hand.contains(card)
         }
     }
