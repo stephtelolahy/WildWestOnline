@@ -11,7 +11,7 @@ extension Card.Effect: CustomStringConvertible {
             selectors.isNotEmpty ? ".." : nil,
             name.emoji,
             payload.targetedPlayer,
-            payload.card,
+            payload.targetedCard,
             payload.selection,
             payload.amount != nil ? "x\(payload.amount ?? 1)" : nil,
             payload.cards?.isNotEmpty == true ? (payload.cards ?? []).joined(separator: ", ") : nil,

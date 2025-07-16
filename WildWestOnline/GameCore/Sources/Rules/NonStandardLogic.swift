@@ -56,7 +56,7 @@ enum NonStandardLogic {
         return lhs.name == rhs.name
         && lhs.selectors == rhs.selectors
         && lhs.payload.targetedPlayer == rhs.payload.targetedPlayer
-        && lhs.payload.card == rhs.payload.card
+        && lhs.payload.targetedCard == rhs.payload.targetedCard
         && lhs.payload.amount == rhs.payload.amount
         && lhs.payload.selection == rhs.payload.selection
         && lhs.payload.children == rhs.payload.children

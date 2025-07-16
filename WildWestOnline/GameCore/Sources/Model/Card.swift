@@ -104,7 +104,7 @@ public struct Card: Equatable, Codable, Sendable {
             public let player: String
             public let playedCard: String
             public var targetedPlayer: String?
-            public var card: String?
+            public var targetedCard: String?
             public var amount: Int?
             public var selection: String?
             public var children: [Effect]?
@@ -113,8 +113,8 @@ public struct Card: Equatable, Codable, Sendable {
 
             public init(
                 player: String = "",
-                played: String = "",
-                target: String? = nil,
+                playedCard: String = "",
+                targetedPlayer: String? = nil,
                 card: String? = nil,
                 amount: Int? = nil,
                 selection: String? = nil,
@@ -123,9 +123,9 @@ public struct Card: Equatable, Codable, Sendable {
                 amountPerTurn: [String: Int]? = nil
             ) {
                 self.player = player
-                self.playedCard = played
-                self.targetedPlayer = target
-                self.card = card
+                self.playedCard = playedCard
+                self.targetedPlayer = targetedPlayer
+                self.targetedCard = card
                 self.amount = amount
                 self.selection = selection
                 self.children = children
@@ -150,7 +150,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public func copy(
             withPlayer player: String? = nil,
-            played: String? = nil,
+            playedCard: String? = nil,
             target: String? = nil,
             card: String? = nil,
             amount: Int? = nil,
@@ -162,9 +162,9 @@ public struct Card: Equatable, Codable, Sendable {
                 name: self.name,
                 payload: .init(
                     player: player ?? self.payload.player,
-                    played: played ?? self.payload.playedCard,
-                    target: target ?? self.payload.targetedPlayer,
-                    card: card ?? self.payload.card,
+                    playedCard: playedCard ?? self.payload.playedCard,
+                    targetedPlayer: target ?? self.payload.targetedPlayer,
+                    card: card ?? self.payload.targetedCard,
                     amount: amount ?? self.payload.amount,
                     selection: self.payload.selection,
                     children: self.payload.children,

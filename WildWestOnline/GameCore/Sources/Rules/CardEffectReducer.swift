@@ -87,7 +87,7 @@ private extension Card.Effect.Name {
     struct DrawDiscovered: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             let target = payload.targetedPlayer!
-            let card = payload.card!
+            let card = payload.targetedCard!
 
             guard let discoverIndex = state.discovered.firstIndex(of: card) else {
                 fatalError("Card \(card) not discovered")
@@ -138,7 +138,7 @@ private extension Card.Effect.Name {
                 .map {
                     $0.copy(
                         withPlayer: payload.player,
-                        played: payload.playedCard,
+                        playedCard: payload.playedCard,
                         target: NonStandardLogic.childEffectTarget($0.name, payload: payload),
                         triggeredByName: .preparePlay,
                         triggeredByPayload: payload
@@ -168,9 +168,9 @@ private extension Card.Effect.Name {
                     .map {
                         $0.copy(
                             withPlayer: payload.player,
-                            played: payload.playedCard,
+                            playedCard: payload.playedCard,
                             target: payload.targetedPlayer,
-                            card: payload.card,
+                            card: payload.targetedCard,
                             triggeredByName: .play,
                             triggeredByPayload: payload
                         )
@@ -251,7 +251,7 @@ private extension Card.Effect.Name {
     struct DiscardHand: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             let player = payload.targetedPlayer!
-            let card = payload.card!
+            let card = payload.targetedCard!
 
             var state = state
             let playerObj = state.players.get(player)
@@ -270,7 +270,7 @@ private extension Card.Effect.Name {
     struct DiscardInPlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             let player = payload.targetedPlayer!
-            let card = payload.card!
+            let card = payload.targetedCard!
 
             var state = state
             let playerObj = state.players.get(player)
@@ -318,7 +318,7 @@ private extension Card.Effect.Name {
             guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
-            guard let card = payload.card else {
+            guard let card = payload.targetedCard else {
                 fatalError("Missing payload.card")
             }
             let player = payload.player
@@ -341,7 +341,7 @@ private extension Card.Effect.Name {
             guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
-            guard let card = payload.card else {
+            guard let card = payload.targetedCard else {
                 fatalError("Missing payload.card")
             }
             let player = payload.player
@@ -364,7 +364,7 @@ private extension Card.Effect.Name {
             guard let target = payload.targetedPlayer else {
                 fatalError("Missing payload.target")
             }
-            guard let card = payload.card else {
+            guard let card = payload.targetedCard else {
                 fatalError("Missing payload.card")
             }
             let player = payload.player
@@ -389,8 +389,8 @@ private extension Card.Effect.Name {
                 name: .damage,
                 payload: .init(
                     player: payload.player,
-                    played: payload.playedCard,
-                    target: payload.targetedPlayer,
+                    playedCard: payload.playedCard,
+                    targetedPlayer: payload.targetedPlayer,
                     amount: 1
                 ),
                 selectors: [.chooseOne(.optionalCounterCard([.canCounterShot]))]

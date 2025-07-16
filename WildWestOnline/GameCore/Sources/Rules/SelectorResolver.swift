@@ -104,7 +104,7 @@ extension Card.Effect {
 
     func withCard(_ card: String) -> Self {
         var copy = self
-        copy.payload.card = card
+        copy.payload.targetedCard = card
         return copy
     }
 }

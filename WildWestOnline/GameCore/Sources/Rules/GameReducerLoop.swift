@@ -94,7 +94,7 @@ private extension GameFeature.State {
 
         if event.name == .discardInPlay || event.name == .stealInPlay {
             let player = event.payload.targetedPlayer!
-            guard let card = event.payload.card else {
+            guard let card = event.payload.targetedCard else {
                 fatalError("Missing payload.card")
             }
 
@@ -128,7 +128,7 @@ private extension GameFeature.State {
         return cardObj.onTrigger.map {
             $0.copy(
                 withPlayer: player,
-                played: card,
+                playedCard: card,
                 target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
@@ -142,7 +142,7 @@ private extension GameFeature.State {
         return cardObj.onActive.map {
             $0.copy(
                 withPlayer: player,
-                played: card,
+                playedCard: card,
                 target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
@@ -156,7 +156,7 @@ private extension GameFeature.State {
         return cardObj.onInactive.map {
             $0.copy(
                 withPlayer: player,
-                played: card,
+                playedCard: card,
                 target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
