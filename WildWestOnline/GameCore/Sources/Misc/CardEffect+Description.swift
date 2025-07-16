@@ -6,7 +6,7 @@
 //
 
 extension Card.Effect: CustomStringConvertible {
-    public var description: String {
+    public var descriptionription: String {
         [
             selectors.isNotEmpty ? ".." : nil,
             name.emoji,

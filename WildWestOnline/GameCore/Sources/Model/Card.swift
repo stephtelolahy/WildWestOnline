@@ -16,7 +16,7 @@ import Redux
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
-    public let desc: String
+    public let description: String
     public let canPlay: [PlayCondition]
     public let onPreparePlay: [Effect]
     public let onPlay: [Effect]
@@ -29,7 +29,7 @@ public struct Card: Equatable, Codable, Sendable {
     public init(
         name: String,
         type: CardType,
-        desc: String = "",
+        description: String = "",
         canPlay: [PlayCondition] = [],
         onPreparePlay: [Effect] = [],
         onPlay: [Effect] = [],
@@ -41,7 +41,7 @@ public struct Card: Equatable, Codable, Sendable {
     ) {
         self.name = name
         self.type = type
-        self.desc = desc
+        self.description = description
         self.canPlay = canPlay
         self.onPreparePlay = onPreparePlay
         self.onPlay = onPlay
@@ -209,7 +209,6 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    /// Selectors are used to specify which objects an effect should affect.
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
