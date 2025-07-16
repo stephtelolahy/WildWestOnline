@@ -213,7 +213,7 @@ public struct Card: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
-        case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
+        case chooseOne(ChoiceRequirement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
         case require(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
@@ -238,7 +238,7 @@ public struct Card: Equatable, Codable, Sendable {
             case equippedWeapon
         }
 
-        public enum ChooseOneElement: Equatable, Codable, Sendable {
+        public enum ChoiceRequirement: Equatable, Codable, Sendable {
             /// Must choose a target
             case target([TargetCondition] = [])
             /// Must choose a target's card

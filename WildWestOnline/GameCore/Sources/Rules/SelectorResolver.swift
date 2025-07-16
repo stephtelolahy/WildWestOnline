@@ -20,7 +20,7 @@ private extension Card.Selector {
         case .repeat(let number): Repeat(number: number)
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
-        case .chooseOne(let element, let resolved, let selection): ChooseOne(element: element, resolved: resolved, selection: selection)
+        case .chooseOne(let element, let resolved, let selection): ChooseOne(requirement: element, resolved: resolved, selection: selection)
         case .require(let playCondition): Require(playCondition: playCondition)
         }
     }
@@ -53,7 +53,7 @@ private extension Card.Selector {
     }
 
     struct ChooseOne: Resolver {
-        let element: ChooseOneElement
+        let requirement: ChoiceRequirement
         let resolved: ChooseOneResolved?
         let selection: String?
 
@@ -68,15 +68,15 @@ private extension Card.Selector {
                     fatalError("Selection \(selection) not found in options")
                 }
 
-                return try element.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
+                return try requirement.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
             } else {
                 // generate options
-                guard let choice = try element.resolveOptions(state, ctx: pendingAction.payload) else {
+                guard let choice = try requirement.resolveOptions(state, ctx: pendingAction.payload) else {
                     return [pendingAction]
                 }
 
                 var updatedAction = pendingAction
-                let updatedSelector = Card.Selector.chooseOne(element, resolved: choice)
+                let updatedSelector = Card.Selector.chooseOne(requirement, resolved: choice)
                 updatedAction.selectors.insert(updatedSelector, at: 0)
                 return [updatedAction]
             }

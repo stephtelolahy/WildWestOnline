@@ -1,11 +1,11 @@
 //
-//  ChooseOneElementResolver.swift
+//  ChoiceRequirementResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 01/11/2024.
 //
 
-extension Card.Selector.ChooseOneElement {
+extension Card.Selector.ChoiceRequirement {
     func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
         try resolver.resolveOptions(state, ctx: ctx)
     }
@@ -15,7 +15,7 @@ extension Card.Selector.ChooseOneElement {
     }
 }
 
-private extension Card.Selector.ChooseOneElement {
+private extension Card.Selector.ChoiceRequirement {
     protocol Resolver {
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved?
         func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.Failure) -> [Card.Effect]
