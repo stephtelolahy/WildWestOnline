@@ -344,7 +344,7 @@ private extension Card {
                 .init(
                     name: .discover,
                     selectors: [
-                        .repeat(.activePlayers)
+                        .repeat(.activePlayerCount)
                     ]
                 ),
                 .init(

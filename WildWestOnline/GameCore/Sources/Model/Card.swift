@@ -218,20 +218,16 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum Number: Equatable, Codable, Sendable {
             case value(Int)
-            case activePlayers
+            case activePlayerCount
             case excessHand
             case drawCards
             case damage
         }
 
         public enum TargetGroup: String, Codable, Sendable {
-            /// All active players
             case active
-            /// All damaged players
             case damaged
-            /// All other players
             case others
-            /// Next player
             case next
         }
 
