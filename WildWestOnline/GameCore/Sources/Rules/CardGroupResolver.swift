@@ -21,7 +21,7 @@ private extension Card.Selector.CardGroup {
         case .played: Played()
         case .allInHand: AllInHand()
         case .allInPlay: AllInPlay()
-        case .weaponInPlay: WeaponInPlay()
+        case .equippedWeapon: EquippedWeapon()
         }
     }
 
@@ -43,7 +43,7 @@ private extension Card.Selector.CardGroup {
         }
     }
 
-    struct WeaponInPlay: Resolver {
+    struct EquippedWeapon: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
             state.players.get(ctx.target!).inPlay.filter { state.isWeapon($0) }
         }

@@ -813,7 +813,7 @@ private extension Card.Effect {
         .init(
             name: .discardInPlay,
             selectors: [
-                .setCard(.weaponInPlay)
+                .setCard(.equippedWeapon)
             ]
         )
     }
