@@ -43,6 +43,7 @@ public enum Cards {
         .willyTheKid,
         .roseDoolan,
         .paulRegret,
+        .bartCassidy,
     ].reduce(into: [:]) { result, card in
         result[card.name] = card
     }
@@ -745,6 +746,34 @@ private extension Card {
                 .init(
                     name: .increaseRemoteness,
                     payload: .init(amount: 1)
+                )
+            ]
+        )
+    }
+
+    static var bartCassidy: Self {
+        .init(
+            name: .bartCassidy,
+            type: .character,
+            desc: "each time he loses a life point, he immediately draws a card from the deck.",
+            canTrigger: [
+                .init(
+                    actionName: .damage,
+                    stateReqs: [.healthNotZero]
+                )
+            ],
+            onTrigger: [
+                .init(
+                    name: .drawDeck,
+                    selectors: [
+                        .repeat(.damage)
+                    ]
+                )
+            ],
+            onActive: [
+                .init(
+                    name: .setMaxHealth,
+                    payload: .init(amount: 4)
                 )
             ]
         )

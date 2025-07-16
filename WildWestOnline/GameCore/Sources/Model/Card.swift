@@ -60,9 +60,11 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public struct Effect: ActionProtocol, Equatable, Codable {
-        public var name: Name
+        public let name: Name
         public var payload: Payload
         public var selectors: [Card.Selector]
+        public let triggeredByName: Name?
+        public let triggeredByPayload: Payload?
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -106,7 +108,7 @@ public struct Card: Equatable, Codable, Sendable {
             public var card: String?
             public var amount: Int?
             public var selection: String?
-            public var children: [Card.Effect]?
+            public var children: [Effect]?
             public var cards: [String]?
             public var amountPerTurn: [String: Int]?
 
@@ -136,11 +138,15 @@ public struct Card: Equatable, Codable, Sendable {
         public init(
             name: Name,
             payload: Payload = .init(),
-            selectors: [Card.Selector] = []
+            selectors: [Card.Selector] = [],
+            triggeredByName: Name? = nil,
+            triggeredByPayload: Payload? = nil
         ) {
             self.name = name
             self.selectors = selectors
             self.payload = payload
+            self.triggeredByName = triggeredByName
+            self.triggeredByPayload = triggeredByPayload
         }
 
         public func copy(
@@ -149,22 +155,26 @@ public struct Card: Equatable, Codable, Sendable {
             target: String? = nil,
             card: String? = nil,
             amount: Int? = nil,
-            selectors: [Card.Selector]? = nil
+            selectors: [Card.Selector]? = nil,
+            triggeredByName: Name? = nil,
+            triggeredByPayload: Payload? = nil
         ) -> Self {
             .init(
-                name: name,
+                name: self.name,
                 payload: .init(
-                    player: player ?? payload.player,
-                    played: played ?? payload.played,
-                    target: target ?? payload.target,
-                    card: card ?? payload.card,
-                    amount: amount ?? payload.amount,
-                    selection: payload.selection,
-                    children: payload.children,
-                    cards: payload.cards,
-                    amountPerTurn: payload.amountPerTurn
+                    player: player ?? self.payload.player,
+                    played: played ?? self.payload.played,
+                    target: target ?? self.payload.target,
+                    card: card ?? self.payload.card,
+                    amount: amount ?? self.payload.amount,
+                    selection: self.payload.selection,
+                    children: self.payload.children,
+                    cards: self.payload.cards,
+                    amountPerTurn: self.payload.amountPerTurn
                 ),
-                selectors: selectors ?? self.selectors
+                selectors: selectors ?? self.selectors,
+                triggeredByName: triggeredByName ?? self.triggeredByName,
+                triggeredByPayload: triggeredByPayload ?? self.triggeredByPayload
             )
         }
 
@@ -178,6 +188,7 @@ public struct Card: Equatable, Codable, Sendable {
         case playersAtLeast(Int)
         case playLimitPerTurn([String: Int])
         case healthZero
+        case healthNotZero
         case gameOver
         case currentTurn
         case drawMatching(_ regex: String)
@@ -213,6 +224,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayers
             case excessHand
             case drawCards
+            case damage
         }
 
         public enum TargetGroup: String, Codable, Sendable {

@@ -21,6 +21,7 @@ private extension Card.StateReq {
         case .playersAtLeast(let amount): PlayersAtLeast(amount: amount)
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .healthZero: HealthZero()
+        case .healthNotZero: HealthNotZero()
         case .gameOver: GameOver()
         case .currentTurn: CurrentTurn()
         case .drawMatching(let regex): DrawMatching(regex: regex)
@@ -65,6 +66,13 @@ private extension Card.StateReq {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let player = payload.player
             return state.players.get(player).health <= 0
+        }
+    }
+
+    struct HealthNotZero: Matcher {
+        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+            let player = payload.player
+            return state.players.get(player).health > 0
         }
     }
 
