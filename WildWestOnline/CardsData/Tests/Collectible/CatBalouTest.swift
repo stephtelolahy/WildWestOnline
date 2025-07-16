@@ -108,7 +108,7 @@ struct CatBalouTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.catBalou, player: "p1")
-        await #expect(throws: Card.PlayError.noChoosableTarget([.havingCard])) {
+        await #expect(throws: Card.PlayError.noChoosableTarget([.hasCards])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

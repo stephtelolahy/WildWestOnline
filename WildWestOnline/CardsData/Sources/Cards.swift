@@ -282,7 +282,7 @@ private extension Card {
                 .init(
                     name: .play,
                     selectors: [
-                        .chooseOne(.target([.havingCard])),
+                        .chooseOne(.target([.hasCards])),
                         .chooseOne(.card())
                     ]
                 )
@@ -313,7 +313,7 @@ private extension Card {
                 .init(
                     name: .play,
                     selectors: [
-                        .chooseOne(.target([.atDistance(1), .havingCard])),
+                        .chooseOne(.target([.atDistance(1), .hasCards])),
                         .chooseOne(.card())
                     ]
                 )

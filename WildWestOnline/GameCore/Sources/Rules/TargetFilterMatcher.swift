@@ -18,13 +18,13 @@ private extension Card.Selector.TargetFilter {
 
     var matcher: Matcher {
         switch self {
-        case .havingCard: HavingCard()
+        case .hasCards: HasCards()
         case .atDistance(let distance): AtDistance(distance: distance)
         case .reachable: Reachable()
         }
     }
 
-    struct HavingCard: Matcher {
+    struct HasCards: Matcher {
         func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
             let playerObj = state.players.get(player)
             if player == ctx.target {

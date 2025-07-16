@@ -252,7 +252,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
 
         public enum TargetFilter: Equatable, Codable, Sendable {
-            case havingCard
+            case hasCards
             case atDistance(Int)
             case reachable
         }
