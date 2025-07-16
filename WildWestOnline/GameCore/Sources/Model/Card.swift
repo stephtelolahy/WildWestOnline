@@ -20,7 +20,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let canPlay: [PlayCondition]
     public let onPreparePlay: [Effect]
     public let onPlay: [Effect]
-    public let canTrigger: [EventReq]
+    public let canTrigger: [TriggerCondition]
     public let onTrigger: [Effect]
     public let onActive: [Effect]
     public let onDeactive: [Effect]
@@ -33,7 +33,7 @@ public struct Card: Equatable, Codable, Sendable {
         canPlay: [PlayCondition] = [],
         onPreparePlay: [Effect] = [],
         onPlay: [Effect] = [],
-        canTrigger: [EventReq] = [],
+        canTrigger: [TriggerCondition] = [],
         onTrigger: [Effect] = [],
         onActive: [Effect] = [],
         onDeactive: [Effect] = [],
@@ -196,17 +196,16 @@ public struct Card: Equatable, Codable, Sendable {
         case payloadCardIsFromTargetInPlay
     }
 
-    /// Required event conditions to trigger a card
-    public struct EventReq: Equatable, Codable, Sendable {
-        public let actionName: Card.Effect.Name
-        public let playConditions: [PlayCondition]
+    public struct TriggerCondition: Equatable, Codable, Sendable {
+        public let name: Card.Effect.Name
+        public let conditions: [PlayCondition]
 
         public init(
-            actionName: Effect.Name,
-            playConditions: [PlayCondition] = []
+            name: Effect.Name,
+            conditions: [PlayCondition] = []
         ) {
-            self.actionName = actionName
-            self.playConditions = playConditions
+            self.name = name
+            self.conditions = conditions
         }
     }
 

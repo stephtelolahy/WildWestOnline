@@ -69,7 +69,7 @@ private extension Card {
             type: .ability,
             desc: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
             canTrigger: [
-                .init(actionName: .endTurn)
+                .init(name: .endTurn)
             ],
             onTrigger: [
                 .init(
@@ -89,7 +89,7 @@ private extension Card {
             type: .ability,
             desc: "Start next player's turn",
             canTrigger: [
-                .init(actionName: .endTurn)
+                .init(name: .endTurn)
             ],
             onTrigger: [
                 .init(
@@ -108,7 +108,7 @@ private extension Card {
             type: .ability,
             desc: "Draw two cards at the beginning of your turn",
             canTrigger: [
-                .init(actionName: .startTurn)
+                .init(name: .startTurn)
             ],
             onTrigger: [
                 .init(
@@ -128,8 +128,8 @@ private extension Card {
             desc: "When you lose your last life point, you are eliminated and your game is over",
             canTrigger: [
                 .init(
-                    actionName: .damage,
-                    playConditions: [.healthZero]
+                    name: .damage,
+                    conditions: [.healthZero]
                 )
             ],
             onTrigger: [
@@ -145,8 +145,8 @@ private extension Card {
             desc: "End game when last player is eliminated",
             canTrigger: [
                 .init(
-                    actionName: .eliminate,
-                    playConditions: [.gameOver]
+                    name: .eliminate,
+                    conditions: [.gameOver]
                 )
             ],
             onTrigger: [
@@ -161,7 +161,7 @@ private extension Card {
             type: .ability,
             desc: "Discard all cards when eliminated",
             canTrigger: [
-                .init(actionName: .eliminate)
+                .init(name: .eliminate)
             ],
             onTrigger: [
                 .init(
@@ -187,8 +187,8 @@ private extension Card {
             desc: "End turn when eliminated",
             canTrigger: [
                 .init(
-                    actionName: .eliminate,
-                    playConditions: [.currentTurn]
+                    name: .eliminate,
+                    conditions: [.currentTurn]
                 )
             ],
             onTrigger: [
@@ -600,7 +600,7 @@ private extension Card {
             desc: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
             onPreparePlay: [.equip],
             canTrigger: [
-                .init(actionName: .shoot)
+                .init(name: .shoot)
             ],
             onTrigger: [
                 .init(
@@ -626,7 +626,7 @@ private extension Card {
             desc: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
             onPreparePlay: [.equip],
             canTrigger: [
-                .init(actionName: .startTurn)
+                .init(name: .startTurn)
             ],
             onTrigger: [
                 .init(
@@ -672,7 +672,7 @@ private extension Card {
                 )
             ],
             canTrigger: [
-                .init(actionName: .startTurn)
+                .init(name: .startTurn)
             ],
             onTrigger: [
                 .init(
@@ -758,8 +758,8 @@ private extension Card {
             desc: "each time he loses a life point, he immediately draws a card from the deck.",
             canTrigger: [
                 .init(
-                    actionName: .damage,
-                    playConditions: [.healthNotZero]
+                    name: .damage,
+                    conditions: [.healthNotZero]
                 )
             ],
             onTrigger: [
