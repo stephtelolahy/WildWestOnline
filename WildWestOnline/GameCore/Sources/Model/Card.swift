@@ -232,7 +232,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
 
         public enum CardGroup: String, Codable, Sendable {
-            case allHand
+            case allInHand
             case allInPlay
             case played
             case weaponInPlay

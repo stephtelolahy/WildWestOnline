@@ -19,7 +19,7 @@ private extension Card.Selector.CardGroup {
     var resolver: Resolver {
         switch self {
         case .played: Played()
-        case .allHand: AllHand()
+        case .allInHand: AllInHand()
         case .allInPlay: AllInPlay()
         case .weaponInPlay: WeaponInPlay()
         }
@@ -31,7 +31,7 @@ private extension Card.Selector.CardGroup {
         }
     }
 
-    struct AllHand: Resolver {
+    struct AllInHand: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> [String] {
             state.players.get(ctx.target!).hand
         }

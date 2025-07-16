@@ -44,9 +44,10 @@ public enum Cards {
         .roseDoolan,
         .paulRegret,
         .bartCassidy,
-    ].reduce(into: [:]) { result, card in
-        result[card.name] = card
-    }
+    ]
+        .reduce(into: [:]) { result, card in
+            result[card.name] = card
+        }
 }
 
 private extension Card {
@@ -173,7 +174,7 @@ private extension Card {
                 .init(
                     name: .discardHand,
                     selectors: [
-                        .setCard(.allHand)
+                        .setCard(.allInHand)
                     ]
                 )
             ]
