@@ -393,7 +393,7 @@ private extension Card.Effect.Name {
                     target: payload.target,
                     amount: 1
                 ),
-                selectors: [.chooseOne(.eventuallyCounterCard([.canCounterShot]))]
+                selectors: [.chooseOne(.optionalCounterCard([.canCounterShot]))]
             )
             state.queue.insert(effect, at: 0)
             return state

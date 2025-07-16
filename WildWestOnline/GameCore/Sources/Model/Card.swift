@@ -242,8 +242,7 @@ public struct Card: Equatable, Codable, Sendable {
             case target([TargetFilter] = [])
             case targetCard([CardFilter] = [])
             case discoveredCard
-            /// Can `discard` hand card to counter the effect
-            case eventuallyCounterCard([CardFilter] = [])
+            case optionalCounterCard([CardFilter] = [])
             /// Can `discard` hand card to reverse the effect's target
             case eventuallyReverseCard([CardFilter] = [])
         }

@@ -421,7 +421,7 @@ private extension Card {
                     payload: .init(amount: 1),
                     selectors: [
                         .setTarget(.otherPlayers),
-                        .chooseOne(.eventuallyCounterCard([.named(.bang)]))
+                        .chooseOne(.optionalCounterCard([.named(.bang)]))
                     ]
                 )
             ]
