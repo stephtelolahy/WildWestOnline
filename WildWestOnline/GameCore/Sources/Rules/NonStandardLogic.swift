@@ -44,7 +44,7 @@ enum NonStandardLogic {
                 .choose:
             guard
                 lhs.payload.player == rhs.payload.player,
-                lhs.payload.played == rhs.payload.played
+                lhs.payload.playedCard == rhs.payload.playedCard
             else {
                 return false
             }

@@ -86,7 +86,7 @@ private extension GameFeature.State {
 
         if event.name == .equip {
             let player = event.payload.player
-            let card = event.payload.played
+            let card = event.payload.playedCard
             if let effects = activeEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }

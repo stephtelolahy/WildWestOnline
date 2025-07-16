@@ -120,7 +120,7 @@ private extension Card.Effect.Name {
 
     struct PreparePlay: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            let cardName = Card.extractName(from: payload.played)
+            let cardName = Card.extractName(from: payload.playedCard)
             let cardObj = state.cards.get(cardName)
             guard cardObj.onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
@@ -138,7 +138,7 @@ private extension Card.Effect.Name {
                 .map {
                     $0.copy(
                         withPlayer: payload.player,
-                        played: payload.played,
+                        played: payload.playedCard,
                         target: NonStandardLogic.childEffectTarget($0.name, payload: payload),
                         triggeredByName: .preparePlay,
                         triggeredByPayload: payload
@@ -156,19 +156,19 @@ private extension Card.Effect.Name {
     struct Play: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             let player = payload.player
-            let card = payload.played
+            let card = payload.playedCard
             var state = state
 
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
-            let cardName = Card.extractName(from: payload.played)
+            let cardName = Card.extractName(from: payload.playedCard)
             if let cardObj = state.cards[cardName] {
                 let effects = cardObj.onPlay
                     .map {
                         $0.copy(
                             withPlayer: payload.player,
-                            played: payload.played,
+                            played: payload.playedCard,
                             target: payload.target,
                             card: payload.card,
                             triggeredByName: .play,
@@ -185,7 +185,7 @@ private extension Card.Effect.Name {
     struct Equip: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             let player = payload.player
-            let card = payload.played
+            let card = payload.playedCard
 
             var state = state
 
@@ -211,7 +211,7 @@ private extension Card.Effect.Name {
             }
 
             let player = payload.player
-            let card = payload.played
+            let card = payload.playedCard
 
             var state = state
 
@@ -389,7 +389,7 @@ private extension Card.Effect.Name {
                 name: .damage,
                 payload: .init(
                     player: payload.player,
-                    played: payload.played,
+                    played: payload.playedCard,
                     target: payload.target,
                     amount: 1
                 ),
@@ -430,7 +430,7 @@ private extension Card.Effect.Name {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             if let current = state.turn {
-                state.queue.removeAll { $0.payload.player == current && $0.payload.played != payload.played }
+                state.queue.removeAll { $0.payload.player == current && $0.payload.playedCard != payload.playedCard }
             }
             state.turn = nil
             return state

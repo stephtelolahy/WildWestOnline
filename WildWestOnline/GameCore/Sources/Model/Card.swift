@@ -102,7 +102,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public struct Payload: Equatable, Codable, Sendable {
             public let player: String
-            public let played: String
+            public let playedCard: String
             public var target: String?
             public var card: String?
             public var amount: Int?
@@ -123,7 +123,7 @@ public struct Card: Equatable, Codable, Sendable {
                 amountPerTurn: [String: Int]? = nil
             ) {
                 self.player = player
-                self.played = played
+                self.playedCard = played
                 self.target = target
                 self.card = card
                 self.amount = amount
@@ -162,7 +162,7 @@ public struct Card: Equatable, Codable, Sendable {
                 name: self.name,
                 payload: .init(
                     player: player ?? self.payload.player,
-                    played: played ?? self.payload.played,
+                    played: played ?? self.payload.playedCard,
                     target: target ?? self.payload.target,
                     card: card ?? self.payload.card,
                     amount: amount ?? self.payload.amount,

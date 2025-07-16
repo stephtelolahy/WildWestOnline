@@ -42,7 +42,7 @@ extension GameFeature {
 
         if state.active.isNotEmpty {
             guard action.name == .preparePlay,
-                  state.active.contains(where: { $0.key == action.payload.player && $0.value.contains(action.payload.played) }) else {
+                  state.active.contains(where: { $0.key == action.payload.player && $0.value.contains(action.payload.playedCard) }) else {
                 fatalError("Unexpected unwaited action \(action)")
             }
 
