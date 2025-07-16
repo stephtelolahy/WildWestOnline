@@ -129,7 +129,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     name: .damage,
-                    conditions: [.healthZero]
+                    conditions: [.isHealthZero]
                 )
             ],
             onTrigger: [
@@ -759,7 +759,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     name: .damage,
-                    conditions: [.healthNotZero]
+                    conditions: [.isHealthNonZero]
                 )
             ],
             onTrigger: [

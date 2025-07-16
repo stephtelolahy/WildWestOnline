@@ -186,8 +186,8 @@ public struct Card: Equatable, Codable, Sendable {
     public enum PlayCondition: Equatable, Codable, Sendable {
         case minimumPlayers(Int)
         case playLimitPerTurn([String: Int])
-        case healthZero
-        case healthNotZero
+        case isHealthZero
+        case isHealthNonZero
         case gameOver
         case currentTurn
         case drawMatching(_ regex: String)

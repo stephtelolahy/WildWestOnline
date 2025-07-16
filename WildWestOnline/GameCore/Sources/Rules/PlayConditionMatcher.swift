@@ -20,8 +20,8 @@ private extension Card.PlayCondition {
         switch self {
         case .minimumPlayers(let count): MinimumPlayers(count: count)
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
-        case .healthZero: HealthZero()
-        case .healthNotZero: HealthNotZero()
+        case .isHealthZero: IsHealthZero()
+        case .isHealthNonZero: IsHealthNonZero()
         case .gameOver: GameOver()
         case .currentTurn: CurrentTurn()
         case .drawMatching(let regex): DrawMatching(regex: regex)
@@ -62,14 +62,14 @@ private extension Card.PlayCondition {
         }
     }
 
-    struct HealthZero: Matcher {
+    struct IsHealthZero: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let player = payload.player
             return state.players.get(player).health <= 0
         }
     }
 
-    struct HealthNotZero: Matcher {
+    struct IsHealthNonZero: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let player = payload.player
             return state.players.get(player).health > 0
