@@ -240,7 +240,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
             /// Must choose a target
-            case target([TargetCondition] = [])
+            case target([TargetFilter] = [])
             /// Must choose a target's card
             case card([CardFilter] = [])
             /// Must choose a discovered card
@@ -251,7 +251,7 @@ public struct Card: Equatable, Codable, Sendable {
             case eventuallyReverseCard([CardFilter] = [])
         }
 
-        public enum TargetCondition: Equatable, Codable, Sendable {
+        public enum TargetFilter: Equatable, Codable, Sendable {
             case havingCard
             case atDistance(Int)
             case reachable
@@ -291,7 +291,7 @@ public struct Card: Equatable, Codable, Sendable {
         case playerAlreadyMaxHealth(String)
         case noReq(Card.PlayCondition)
         case noTarget(Card.Selector.TargetGroup)
-        case noChoosableTarget([Card.Selector.TargetCondition])
+        case noChoosableTarget([Card.Selector.TargetFilter])
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String)
     }

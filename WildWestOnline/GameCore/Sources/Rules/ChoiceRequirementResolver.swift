@@ -32,7 +32,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct TargetResolver: Resolver {
-        let conditions: [Card.Selector.TargetCondition]
+        let conditions: [Card.Selector.TargetFilter]
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.Failure) -> Card.Selector.ChooseOneResolved? {
             let result = state.playOrder
@@ -166,7 +166,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 }
 
-private extension Array where Element == Card.Selector.TargetCondition {
+private extension Array where Element == Card.Selector.TargetFilter {
     func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
         allSatisfy {
             $0.match(player, state: state, ctx: ctx)
