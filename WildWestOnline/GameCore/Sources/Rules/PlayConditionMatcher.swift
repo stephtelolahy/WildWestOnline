@@ -22,7 +22,7 @@ private extension Card.PlayCondition {
         case .playLimitPerTurn(let limit): PlayLimitPerTurn(limit: limit)
         case .isHealthZero: IsHealthZero()
         case .isHealthNonZero: IsHealthNonZero()
-        case .gameOver: GameOver()
+        case .isGameOver: IsGameOver()
         case .currentTurn: CurrentTurn()
         case .drawMatching(let regex): DrawMatching(regex: regex)
         case .drawNotMatching(let regex): DrawNotMatching(regex: regex)
@@ -76,7 +76,7 @@ private extension Card.PlayCondition {
         }
     }
 
-    struct GameOver: Matcher {
+    struct IsGameOver: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             state.playOrder.count <= 1
         }

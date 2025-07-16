@@ -146,7 +146,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     name: .eliminate,
-                    conditions: [.gameOver]
+                    conditions: [.isGameOver]
                 )
             ],
             onTrigger: [
