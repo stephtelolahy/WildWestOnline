@@ -239,10 +239,8 @@ public struct Card: Equatable, Codable, Sendable {
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
-            /// Must choose a target
             case target([TargetFilter] = [])
-            /// Must choose a target's card
-            case card([CardFilter] = [])
+            case targetCard([CardFilter] = [])
             /// Must choose a discovered card
             case discovered
             /// Can `discard` hand card to counter the effect

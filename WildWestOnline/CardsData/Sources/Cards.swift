@@ -77,7 +77,7 @@ private extension Card {
                     name: .discardHand,
                     selectors: [
                         .repeat(.playerExcessHandSize),
-                        .chooseOne(.card([.isFromHand]))
+                        .chooseOne(.targetCard([.isFromHand]))
                     ]
                 )
             ]
@@ -283,7 +283,7 @@ private extension Card {
                     name: .play,
                     selectors: [
                         .chooseOne(.target([.hasCards])),
-                        .chooseOne(.card())
+                        .chooseOne(.targetCard())
                     ]
                 )
             ],
@@ -314,7 +314,7 @@ private extension Card {
                     name: .play,
                     selectors: [
                         .chooseOne(.target([.atDistance(1), .hasCards])),
-                        .chooseOne(.card())
+                        .chooseOne(.targetCard())
                     ]
                 )
             ],
