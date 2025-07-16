@@ -69,7 +69,7 @@ private extension Card.Selector.ChoiceRequirement {
                 let label = ctx.player == ctx.targetedPlayer ? value : "\(String.choiceHiddenHand)-\($0)"
                 return .init(id: value, label: label)
             }
-            options = options.filter { conditions.match($0.id, state: state, ctx: ctx) }
+            options = options.filter { conditions.match($0.id, payload: ctx, state: state) }
 
             guard options.isNotEmpty else {
                 fatalError("No card matching \(conditions)")
@@ -104,7 +104,7 @@ private extension Card.Selector.ChoiceRequirement {
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let counterCards = state.players.get(ctx.targetedPlayer!).hand.filter {
-                conditions.match($0, state: state, ctx: ctx)
+                conditions.match($0, payload: ctx, state: state)
             }
 
             guard counterCards.isNotEmpty else {
@@ -133,7 +133,7 @@ private extension Card.Selector.ChoiceRequirement {
 
         func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let counterCards = state.players.get(ctx.targetedPlayer!).hand.filter {
-                conditions.match($0, state: state, ctx: ctx)
+                conditions.match($0, payload: ctx, state: state)
             }
 
             guard counterCards.isNotEmpty else {
@@ -175,9 +175,9 @@ private extension Array where Element == Card.Selector.TargetFilter {
 }
 
 private extension Array where Element == Card.Selector.CardFilter {
-    func match(_ card: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
+    func match(_ card: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
         allSatisfy {
-            $0.match(card, state: state, ctx: ctx)
+            $0.match(card, payload: payload, state: state)
         }
     }
 }
