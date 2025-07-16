@@ -189,7 +189,7 @@ public struct Card: Equatable, Codable, Sendable {
         case isHealthZero
         case isHealthNonZero
         case isGameOver
-        case currentTurn
+        case isCurrentTurn
         case drawMatching(_ regex: String)
         case drawNotMatching(_ regex: String)
         case payloadCardIsFromTargetHand

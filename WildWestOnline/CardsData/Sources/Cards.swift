@@ -188,7 +188,7 @@ private extension Card {
             canTrigger: [
                 .init(
                     name: .eliminate,
-                    conditions: [.currentTurn]
+                    conditions: [.isCurrentTurn]
                 )
             ],
             onTrigger: [
