@@ -95,7 +95,7 @@ private extension Card {
                 .init(
                     name: .startTurn,
                     selectors: [
-                        .setTarget(.next)
+                        .setTarget(.nextPlayer)
                     ]
                 )
             ]
@@ -195,7 +195,7 @@ private extension Card {
                 .init(
                     name: .startTurn,
                     selectors: [
-                        .setTarget(.next)
+                        .setTarget(.nextPlayer)
                     ]
                 )
             ]
@@ -638,7 +638,7 @@ private extension Card {
                 .init(name: .passInPlay, selectors: [
                     .require(.drawnCardMatches(.regexPassDynamite)),
                     .setCard(.played),
-                    .setTarget(.next)
+                    .setTarget(.nextPlayer)
                 ]),
                 .init(
                     name: .damage,

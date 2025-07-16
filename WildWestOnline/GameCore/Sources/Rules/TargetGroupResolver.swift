@@ -26,7 +26,7 @@ private extension Card.Selector.TargetGroup {
         case .woundedPlayers: WoundedPlayers()
         case .activePlayers: ActivePlayers()
         case .otherPlayers: OtherPlayers()
-        case .next: Next()
+        case .nextPlayer: NextPlayer()
         }
     }
 
@@ -53,7 +53,7 @@ private extension Card.Selector.TargetGroup {
         }
     }
 
-    struct Next: Resolver {
+    struct NextPlayer: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             let current = ctx.player
             let next = state.startOrder
