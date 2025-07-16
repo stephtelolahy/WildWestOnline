@@ -213,7 +213,7 @@ public struct Card: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
-        case chooseOne(ChoiceRequirement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
+        case chooseOne(ChoiceRequirement, resolved: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
@@ -221,7 +221,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case drawnCardCount
-            case triggeringDamageAmount
+            case receivedDamageAmount
         }
 
         public enum TargetGroup: String, Codable, Sendable {
@@ -258,7 +258,7 @@ public struct Card: Equatable, Codable, Sendable {
             case isFromHand
         }
 
-        public struct ChooseOneResolved: Equatable, Codable, Sendable {
+        public struct ChoicePrompt: Equatable, Codable, Sendable {
             public let chooser: String
             public let options: [Option]
 
@@ -268,11 +268,11 @@ public struct Card: Equatable, Codable, Sendable {
             }
 
             public struct Option: Equatable, Codable, Sendable {
-                public let value: String
+                public let id: String
                 public let label: String
 
-                public init(value: String, label: String) {
-                    self.value = value
+                public init(id: String, label: String) {
+                    self.id = id
                     self.label = label
                 }
             }

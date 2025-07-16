@@ -69,7 +69,7 @@ public enum GameFeature {
 }
 
 public extension GameFeature.State {
-    var pendingChoice: Card.Selector.ChooseOneResolved? {
+    var pendingChoice: Card.Selector.ChoicePrompt? {
         guard let nextAction = queue.first,
               let selector = nextAction.selectors.first,
               case let .chooseOne(_, resolved, selection) = selector,

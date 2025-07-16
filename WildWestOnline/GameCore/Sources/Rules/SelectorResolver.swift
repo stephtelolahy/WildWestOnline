@@ -54,7 +54,7 @@ private extension Card.Selector {
 
     struct ChooseOne: Resolver {
         let requirement: ChoiceRequirement
-        let resolved: ChooseOneResolved?
+        let resolved: ChoicePrompt?
         let selection: String?
 
         func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
@@ -64,7 +64,7 @@ private extension Card.Selector {
                     fatalError("Unexpected, waiting user choice")
                 }
 
-                guard let selectionValue = resolved.options.first(where: { $0.label == selection })?.value else {
+                guard let selectionValue = resolved.options.first(where: { $0.label == selection })?.id else {
                     fatalError("Selection \(selection) not found in options")
                 }
 

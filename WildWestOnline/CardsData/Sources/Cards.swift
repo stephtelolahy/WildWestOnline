@@ -767,7 +767,7 @@ private extension Card {
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .repeat(.triggeringDamageAmount)
+                        .repeat(.receivedDamageAmount)
                     ]
                 )
             ],

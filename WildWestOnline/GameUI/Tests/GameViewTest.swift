@@ -128,8 +128,8 @@ struct GameViewTest {
                 .init(
                     chooser: "p1",
                     options: [
-                        .init(value: .missed, label: .missed),
-                        .init(value: .bang, label: .bang)
+                        .init(id: .missed, label: .missed),
+                        .init(id: .bang, label: .bang)
                     ]
                 )
             )

@@ -6,7 +6,7 @@
 //
 
 extension Card.Selector.ChoiceRequirement {
-    func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
+    func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
         try resolver.resolveOptions(state, ctx: ctx)
     }
 
@@ -17,7 +17,7 @@ extension Card.Selector.ChoiceRequirement {
 
 private extension Card.Selector.ChoiceRequirement {
     protocol Resolver {
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved?
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt?
         func resolveSelection(_ selection: String, state: GameFeature.State, pendingAction: Card.Effect) throws(Card.PlayError) -> [Card.Effect]
     }
 
@@ -34,7 +34,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct Target: Resolver {
         let conditions: [Card.Selector.TargetFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let result = state.playOrder
                 .starting(with: ctx.player)
                 .dropFirst()
@@ -46,7 +46,7 @@ private extension Card.Selector.ChoiceRequirement {
 
             return .init(
                 chooser: ctx.player,
-                options: result.map { .init(value: $0, label: $0) }
+                options: result.map { .init(id: $0, label: $0) }
             )
         }
 
@@ -58,18 +58,18 @@ private extension Card.Selector.ChoiceRequirement {
     struct TargetCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let playerObj = state.players.get(ctx.target!)
-            var options: [Card.Selector.ChooseOneResolved.Option] = []
+            var options: [Card.Selector.ChoicePrompt.Option] = []
             options += playerObj.inPlay.map {
-                .init(value: $0, label: $0)
+                .init(id: $0, label: $0)
             }
             options += playerObj.hand.indices.map {
                 let value = playerObj.hand[$0]
                 let label = ctx.player == ctx.target ? value : "\(String.hiddenHand)-\($0)"
-                return .init(value: value, label: label)
+                return .init(id: value, label: label)
             }
-            options = options.filter { conditions.match($0.value, state: state, ctx: ctx) }
+            options = options.filter { conditions.match($0.id, state: state, ctx: ctx) }
 
             guard options.isNotEmpty else {
                 fatalError("No card matching \(conditions)")
@@ -87,10 +87,10 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct DiscoveredCard: Resolver {
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             .init(
                 chooser: ctx.target!,
-                options: state.discovered.map { .init(value: $0, label: $0) }
+                options: state.discovered.map { .init(id: $0, label: $0) }
             )
         }
 
@@ -102,7 +102,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct OptionalCounterCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let counterCards = state.players.get(ctx.target!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
@@ -111,8 +111,8 @@ private extension Card.Selector.ChoiceRequirement {
                 return nil
             }
 
-            var options: [Card.Selector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
-            options.append(.init(value: .pass, label: .pass))
+            var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
+            options.append(.init(id: .pass, label: .pass))
             return .init(
                 chooser: ctx.target!,
                 options: options
@@ -131,7 +131,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct OptionalRedirectCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChooseOneResolved? {
+        func resolveOptions(_ state: GameFeature.State, ctx: Card.Effect.Payload) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let counterCards = state.players.get(ctx.target!).hand.filter {
                 conditions.match($0, state: state, ctx: ctx)
             }
@@ -140,8 +140,8 @@ private extension Card.Selector.ChoiceRequirement {
                 return nil
             }
 
-            var options: [Card.Selector.ChooseOneResolved.Option] = counterCards.map { .init(value: $0, label: $0) }
-            options.append(.init(value: .pass, label: .pass))
+            var options: [Card.Selector.ChoicePrompt.Option] = counterCards.map { .init(id: $0, label: $0) }
+            options.append(.init(id: .pass, label: .pass))
             return .init(
                 chooser: ctx.target!,
                 options: options
