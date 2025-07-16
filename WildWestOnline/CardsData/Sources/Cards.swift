@@ -757,7 +757,10 @@ private extension Card {
             type: .character,
             desc: "each time he loses a life point, he immediately draws a card from the deck.",
             canTrigger: [
-                .init(actionName: .damage)
+                .init(
+                    actionName: .damage,
+                    stateReqs: [.healthNotZero]
+                )
             ],
             onTrigger: [
                 .init(
