@@ -22,7 +22,7 @@ private extension Card.Selector.Number {
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
         case .drawnCardCount: DrawnCardCount()
-        case .damage: Damage()
+        case .triggeringDamageAmount: TriggeringDamageAmount()
         }
     }
 
@@ -63,14 +63,14 @@ private extension Card.Selector.Number {
         }
     }
 
-    struct Damage: Resolver {
+    struct TriggeringDamageAmount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             guard pendingAction.triggeredByName == .damage,
-                  let damage = pendingAction.triggeredByPayload?.amount else {
-                fatalError("Expecting damage event as triggering action")
+                  let amount = pendingAction.triggeredByPayload?.amount else {
+                fatalError("Expected damage event as triggering action")
             }
 
-            return damage
+            return amount
         }
     }
 }

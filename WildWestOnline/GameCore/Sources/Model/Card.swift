@@ -221,7 +221,7 @@ public struct Card: Equatable, Codable, Sendable {
             case activePlayerCount
             case playerExcessHandSize
             case drawnCardCount
-            case damage
+            case triggeringDamageAmount
         }
 
         public enum TargetGroup: String, Codable, Sendable {
