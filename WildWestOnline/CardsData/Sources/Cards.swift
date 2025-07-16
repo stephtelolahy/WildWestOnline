@@ -290,13 +290,13 @@ private extension Card {
                 .init(
                     name: .discardHand,
                     selectors: [
-                        .require(.payloadCardIsFromTargetHand)
+                        .require(.payloadCardFromTargetHand)
                     ]
                 ),
                 .init(
                     name: .discardInPlay,
                     selectors: [
-                        .require(.payloadCardIsFromTargetInPlay)
+                        .require(.payloadCardFromTargetInPlay)
                     ]
                 )
             ]
@@ -321,13 +321,13 @@ private extension Card {
                 .init(
                     name: .stealHand,
                     selectors: [
-                        .require(.payloadCardIsFromTargetHand)
+                        .require(.payloadCardFromTargetHand)
                     ]
                 ),
                 .init(
                     name: .stealInPlay,
                     selectors: [
-                        .require(.payloadCardIsFromTargetInPlay)
+                        .require(.payloadCardFromTargetInPlay)
                     ]
                 )
             ]

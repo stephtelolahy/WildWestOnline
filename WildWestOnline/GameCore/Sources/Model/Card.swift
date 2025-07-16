@@ -192,8 +192,8 @@ public struct Card: Equatable, Codable, Sendable {
         case isCurrentTurn
         case drawnCardMatches(_ regex: String)
         case drawnCardDoesNotMatch(_ regex: String)
-        case payloadCardIsFromTargetHand
-        case payloadCardIsFromTargetInPlay
+        case payloadCardFromTargetHand
+        case payloadCardFromTargetInPlay
     }
 
     public struct TriggerCondition: Equatable, Codable, Sendable {

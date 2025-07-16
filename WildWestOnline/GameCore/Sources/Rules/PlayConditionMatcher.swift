@@ -26,8 +26,8 @@ private extension Card.PlayCondition {
         case .isCurrentTurn: IsCurrentTurn()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
-        case .payloadCardIsFromTargetHand: PayloadCardIsFromTargetHand()
-        case .payloadCardIsFromTargetInPlay: PayloadCardIsFromTargetInPlay()
+        case .payloadCardFromTargetHand: PayloadCardFromTargetHand()
+        case .payloadCardFromTargetInPlay: PayloadCardFromTargetInPlay()
         }
     }
 
@@ -112,7 +112,7 @@ private extension Card.PlayCondition {
         }
     }
 
-    struct PayloadCardIsFromTargetHand: Matcher {
+    struct PayloadCardFromTargetHand: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let card = payload.card!
             let target = payload.target!
@@ -121,7 +121,7 @@ private extension Card.PlayCondition {
         }
     }
 
-    struct PayloadCardIsFromTargetInPlay: Matcher {
+    struct PayloadCardFromTargetInPlay: Matcher {
         func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let card = payload.card!
             let target = payload.target!
