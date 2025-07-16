@@ -68,8 +68,7 @@ public struct GameView: View {
                 await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
             }
             .onReceive(store.$state) { state in
-                if let action = state.lastSuccessfulAction,
-                   action.isResolved {
+                if let action = state.lastSuccessfulAction {
                     animate(action, positions: positions)
                 }
             }

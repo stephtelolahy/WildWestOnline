@@ -21,7 +21,9 @@ extension GameFeature {
 
         do {
             try updateState(&state, action: action)
-            state.lastSuccessfulAction = action
+            if action.isResolved {
+                state.lastSuccessfulAction = action
+            }
         } catch {
             state.lastActionError = error
         }
@@ -59,6 +61,22 @@ extension GameFeature {
             state.queue.insert(contentsOf: children, at: 0)
         } else {
             state = try action.name.reduce(state, action.payload)
+        }
+    }
+}
+
+private extension Card.Effect {
+    var isResolved: Bool {
+        guard selectors.isEmpty else {
+            return false
+        }
+
+        switch name {
+        case .queue, .preparePlay:
+            return false
+
+        default:
+            return true
         }
     }
 }
