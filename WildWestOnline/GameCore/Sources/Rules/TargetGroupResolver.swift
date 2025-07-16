@@ -23,18 +23,18 @@ private extension Card.Selector.TargetGroup {
 
     var resolver: Resolver {
         switch self {
-        case .damaged: Damaged()
+        case .woundedPlayers: WoundedPlayers()
         case .activePlayers: ActivePlayers()
         case .others: Others()
         case .next: Next()
         }
     }
 
-    struct Damaged: Resolver {
+    struct WoundedPlayers: Resolver {
         func resolve(_ state: GameFeature.State, ctx: Card.Effect.Payload) -> [String] {
             state.playOrder
                 .starting(with: ctx.player)
-                .filter { state.players.get($0).isDamaged }
+                .filter { state.players.get($0).isWounded }
         }
     }
 
@@ -65,7 +65,7 @@ private extension Card.Selector.TargetGroup {
 }
 
 private extension GameFeature.State.Player {
-    var isDamaged: Bool {
+    var isWounded: Bool {
         health < maxHealth
     }
 }

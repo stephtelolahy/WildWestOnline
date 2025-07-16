@@ -265,7 +265,7 @@ private extension Card {
                     name: .heal,
                     payload: .init(amount: 1),
                     selectors: [
-                        .setTarget(.damaged)
+                        .setTarget(.woundedPlayers)
                     ]
                 )
             ]
