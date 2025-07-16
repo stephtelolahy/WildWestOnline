@@ -115,7 +115,7 @@ private extension Card {
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .repeat(.value(2))
+                        .repeat(.fixed(2))
                     ]
                 )
             ]
@@ -213,7 +213,7 @@ private extension Card {
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .repeat(.value(2))
+                        .repeat(.fixed(2))
                     ]
                 )
             ]
@@ -230,7 +230,7 @@ private extension Card {
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .repeat(.value(3))
+                        .repeat(.fixed(3))
                     ]
                 )
             ]

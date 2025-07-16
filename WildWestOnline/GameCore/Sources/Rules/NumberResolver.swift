@@ -18,7 +18,7 @@ private extension Card.Selector.Number {
 
     var resolver: Resolver {
         switch self {
-        case .value(let rawValue): Value(rawValue: rawValue)
+        case .fixed(let rawValue): Fixed(rawValue: rawValue)
         case .activePlayerCount: ActivePlayerCount()
         case .playerExcessHandSize: PlayerExcessHandSize()
         case .drawnCardCount: DrawnCardCount()
@@ -26,7 +26,7 @@ private extension Card.Selector.Number {
         }
     }
 
-    struct Value: Resolver {
+    struct Fixed: Resolver {
         let rawValue: Int
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {

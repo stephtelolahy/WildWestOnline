@@ -216,7 +216,7 @@ public struct Card: Equatable, Codable, Sendable {
         case require(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
-            case value(Int)
+            case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
             case drawnCardCount
