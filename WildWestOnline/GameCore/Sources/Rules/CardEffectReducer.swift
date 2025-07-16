@@ -288,7 +288,7 @@ private extension Card.Effect.Name {
 
     struct Choose: Reducer {
         func reduce(_ state: GameFeature.State, _ payload: Card.Effect.Payload) throws(Card.PlayError) -> GameFeature.State {
-            guard let selection = payload.selection else {
+            guard let selection = payload.chosenOption else {
                 fatalError("Missing payload.selection")
             }
 

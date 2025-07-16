@@ -21,7 +21,7 @@ public extension GameFeature.Action {
             name: .choose,
             payload: .init(
                 player: player,
-                selection: selection
+                chosenOption: selection
             )
         )
     }

@@ -12,7 +12,7 @@ extension Card.Effect: CustomStringConvertible {
             name.emoji,
             payload.targetedPlayer,
             payload.targetedCard,
-            payload.selection,
+            payload.chosenOption,
             payload.amount != nil ? "x\(payload.amount ?? 1)" : nil,
             payload.affectedCards?.isNotEmpty == true ? (payload.affectedCards ?? []).joined(separator: ", ") : nil,
             payload.playedCard.isNotEmpty ? "<< \(payload.playedCard):\(payload.player)" : nil

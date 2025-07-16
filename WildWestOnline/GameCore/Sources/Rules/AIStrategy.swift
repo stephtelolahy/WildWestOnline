@@ -43,7 +43,7 @@ private extension Card.Effect {
             return Card.extractName(from: payload.playedCard)
 
         case .choose:
-            guard let selection = payload.selection else {
+            guard let selection = payload.chosenOption else {
                 fatalError("Missing payload.selection")
             }
             return Card.extractName(from: selection)
