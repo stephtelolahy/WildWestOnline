@@ -123,12 +123,12 @@ private extension GameFeature.State {
             return nil
         }
 
-        let parentAction = Card.Effect(name: event.name, payload: .init(player: player))
+        let contextAction = Card.Effect(name: event.name, payload: .init(player: player))
         return cardObj.onTrigger.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: parentAction),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: contextAction),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -138,12 +138,12 @@ private extension GameFeature.State {
     func activeEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        let parentAction = Card.Effect(name: event.name, payload: .init(player: player))
+        let contextAction = Card.Effect(name: event.name, payload: .init(player: player))
         return cardObj.onActive.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: parentAction),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: contextAction),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -154,12 +154,12 @@ private extension GameFeature.State {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
 
-        let parentAction = Card.Effect(name: event.name, payload: .init(player: player))
+        let contextAction = Card.Effect(name: event.name, payload: .init(player: player))
         return cardObj.onInactive.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: parentAction),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: contextAction),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -248,9 +248,9 @@ private extension Card.Effect {
 
 private extension Card.TriggerCondition {
     func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
-        let parentAction = Card.Effect(name: event.name, payload: .init(player: player))
+        let contextAction = Card.Effect(name: event.name, payload: .init(player: player))
         return event.name == name
         && event.payload.targetedPlayer == player
-        && conditions.allSatisfy { $0.match(parentAction, state: state) }
+        && conditions.allSatisfy { $0.match(contextAction, state: state) }
     }
 }

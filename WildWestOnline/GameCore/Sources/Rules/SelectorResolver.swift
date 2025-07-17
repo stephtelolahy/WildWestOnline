@@ -47,7 +47,7 @@ private extension Card.Selector {
         let cardGroup: Card.Selector.CardGroup
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
-            try cardGroup.resolve(pendingAction.payload, state: state)
+            try cardGroup.resolve(pendingAction, state: state)
                 .map { pendingAction.withCard($0) }
         }
     }
