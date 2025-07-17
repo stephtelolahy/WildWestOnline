@@ -60,7 +60,7 @@ extension GameFeature {
 
             state.queue.insert(contentsOf: children, at: 0)
         } else {
-            state = try action.name.reduce(action.payload, state: state)
+            state = try action.name.reduce(action, state: state)
         }
     }
 }

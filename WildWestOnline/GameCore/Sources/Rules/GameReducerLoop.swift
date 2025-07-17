@@ -186,10 +186,10 @@ private extension Card.Effect {
         let action = Card.Effect.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
-//            print("🟢 validatePlay: \(card)")
+            //            print("🟢 validatePlay: \(card)")
             return true
         } catch {
-//            print("🛑 validatePlay: \(card)\tthrows: \(error)")
+            //            print("🛑 validatePlay: \(card)\tthrows: \(error)")
             return false
         }
     }
@@ -244,10 +244,9 @@ private extension Card.Effect {
 
 private extension Card.TriggerCondition {
     func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
-        event.name == name
+        let contextAction = Card.Effect(name: event.name, payload: .init(player: player))
+        return event.name == name
         && event.payload.targetedPlayer == player
-        && conditions.allSatisfy {
-            $0.match(.init(player: player), state: state)
-        }
+        && conditions.allSatisfy { $0.match(contextAction, state: state) }
     }
 }
