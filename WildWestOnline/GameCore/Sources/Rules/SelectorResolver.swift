@@ -68,9 +68,9 @@ private extension Card.Selector {
                     fatalError("Selection \(selection) not found in options")
                 }
 
-                return try requirement.resolveSelection(selectionValue, state: state, pendingAction: pendingAction)
+                return try requirement.resolveSelection(selectionValue, pendingAction: pendingAction, state: state)
             } else {
-                guard let resolved = try requirement.resolveOptions(state, ctx: pendingAction.payload) else {
+                guard let resolved = try requirement.resolveOptions(pendingAction, state: state) else {
                     return [pendingAction]
                 }
 
