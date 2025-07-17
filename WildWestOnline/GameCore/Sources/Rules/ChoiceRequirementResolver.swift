@@ -39,7 +39,7 @@ private extension Card.Selector.ChoiceRequirement {
             let result = state.playOrder
                 .starting(with: player)
                 .dropFirst()
-                .filter { conditions.match($0, payload: pendingAction.payload, state: state) }
+                .filter { conditions.match($0, pendingAction: pendingAction, state: state) }
 
             guard result.isNotEmpty else {
                 throw .noChoosableTarget(conditions)
@@ -172,9 +172,9 @@ private extension Card.Selector.ChoiceRequirement {
 }
 
 private extension Array where Element == Card.Selector.TargetFilter {
-    func match(_ player: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+    func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
         allSatisfy {
-            $0.match(player, payload: payload, state: state)
+            $0.match(player, pendingAction: pendingAction, state: state)
         }
     }
 }
