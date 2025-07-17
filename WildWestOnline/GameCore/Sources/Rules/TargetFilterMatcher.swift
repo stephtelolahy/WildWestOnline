@@ -27,7 +27,7 @@ private extension Card.Selector.TargetFilter {
     struct HasCards: Matcher {
         func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
             let playerObj = state.players.get(player)
-            if player == pendingAction.payload.targetedPlayer {
+            if player == pendingAction.targetedPlayer {
                 return playerObj.inPlay.isNotEmpty
             } else {
                 return playerObj.inPlay.isNotEmpty || playerObj.hand.isNotEmpty
@@ -39,13 +39,13 @@ private extension Card.Selector.TargetFilter {
         let distance: Int
 
         func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            state.distance(from: pendingAction.payload.player, to: player) <= distance
+            state.distance(from: pendingAction.player, to: player) <= distance
         }
     }
 
     struct Reachable: Matcher {
         func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            state.distance(from: pendingAction.payload.player, to: player) <= state.players.get(pendingAction.payload.player).weapon
+            state.distance(from: pendingAction.player, to: player) <= state.players.get(pendingAction.player).weapon
         }
     }
 }

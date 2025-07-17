@@ -33,7 +33,7 @@ private extension Card.Selector.TargetGroup {
     struct WoundedPlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
             state.playOrder
-                .starting(with: pendingAction.payload.player)
+                .starting(with: pendingAction.player)
                 .filter { state.players.get($0).isWounded }
         }
     }
@@ -41,21 +41,21 @@ private extension Card.Selector.TargetGroup {
     struct ActivePlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
             state.playOrder
-                .starting(with: pendingAction.payload.player)
+                .starting(with: pendingAction.player)
         }
     }
 
     struct OtherPlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
             state.playOrder
-                .starting(with: pendingAction.payload.player)
-                .filter { $0 != pendingAction.payload.targetedPlayer }
+                .starting(with: pendingAction.player)
+                .filter { $0 != pendingAction.targetedPlayer }
         }
     }
 
     struct NextPlayer: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
-            let current = pendingAction.payload.player
+            let current = pendingAction.player
             let next = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
                 .starting(with: current)[1]

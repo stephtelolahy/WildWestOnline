@@ -11,44 +11,44 @@ struct AnimationMatcher {
         switch action.name {
         case .play:
                 .moveCard(
-                    .id(action.payload.playedCard),
-                    from: .playerHand(action.payload.player),
+                    .id(action.playedCard),
+                    from: .playerHand(action.player),
                     to: .discard
                 )
 
         case .equip:
                 .moveCard(
-                    .id(action.payload.playedCard),
-                    from: .playerHand(action.payload.player),
-                    to: .playerInPlay(action.payload.player)
+                    .id(action.playedCard),
+                    from: .playerHand(action.player),
+                    to: .playerInPlay(action.player)
                 )
 
         case .handicap:
                 .moveCard(
-                    .id(action.payload.playedCard),
-                    from: .playerHand(action.payload.player),
-                    to: .playerInPlay(action.payload.targetedPlayer!)
+                    .id(action.playedCard),
+                    from: .playerHand(action.player),
+                    to: .playerInPlay(action.targetedPlayer!)
                 )
 
         case .drawDeck:
                 .moveCard(
                     .hidden,
                     from: .deck,
-                    to: .playerHand(action.payload.targetedPlayer!)
+                    to: .playerHand(action.targetedPlayer!)
                 )
 
         case .drawDiscovered:
                 .moveCard(
-                    .id(action.payload.targetedCard!),
+                    .id(action.targetedCard!),
                     from: .deck,
-                    to: .playerHand(action.payload.targetedPlayer!)
+                    to: .playerHand(action.targetedPlayer!)
                 )
 
         case .drawDiscard:
                 .moveCard(
                     .hidden,
                     from: .discard,
-                    to: .playerHand(action.payload.targetedPlayer!)
+                    to: .playerHand(action.targetedPlayer!)
                 )
 
         case .draw:
@@ -61,35 +61,35 @@ struct AnimationMatcher {
         case .stealHand:
                 .moveCard(
                     .hidden,
-                    from: .playerHand(action.payload.targetedPlayer!),
-                    to: .playerHand(action.payload.player)
+                    from: .playerHand(action.targetedPlayer!),
+                    to: .playerHand(action.player)
                 )
 
         case .stealInPlay:
                 .moveCard(
-                    .id(action.payload.targetedCard!),
-                    from: .playerInPlay(action.payload.targetedPlayer!),
-                    to: .playerHand(action.payload.player)
+                    .id(action.targetedCard!),
+                    from: .playerInPlay(action.targetedPlayer!),
+                    to: .playerHand(action.player)
                 )
 
         case .passInPlay:
                 .moveCard(
-                    .id(action.payload.targetedCard!),
-                    from: .playerInPlay(action.payload.player),
-                    to: .playerInPlay(action.payload.targetedPlayer!)
+                    .id(action.targetedCard!),
+                    from: .playerInPlay(action.player),
+                    to: .playerInPlay(action.targetedPlayer!)
                 )
 
         case .discardHand:
                 .moveCard(
-                    .id(action.payload.targetedCard!),
-                    from: .playerHand(action.payload.targetedPlayer!),
+                    .id(action.targetedCard!),
+                    from: .playerHand(action.targetedPlayer!),
                     to: .discard
                 )
 
         case .discardInPlay:
                 .moveCard(
-                    .id(action.payload.targetedCard!),
-                    from: .playerInPlay(action.payload.targetedPlayer!),
+                    .id(action.targetedCard!),
+                    from: .playerInPlay(action.targetedPlayer!),
                     to: .discard
                 )
 

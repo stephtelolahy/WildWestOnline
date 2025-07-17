@@ -19,10 +19,10 @@ enum NonStandardLogic {
                 .stealHand,
                 .stealInPlay,
                 .passInPlay:
-            parentAction.payload.targetedPlayer
+            parentAction.targetedPlayer
 
         default:
-            parentAction.payload.player
+            parentAction.player
         }
     }
 
@@ -38,8 +38,8 @@ enum NonStandardLogic {
                 .passInPlay,
                 .choose:
             guard
-                lhs.payload.player == rhs.payload.player,
-                lhs.payload.playedCard == rhs.payload.playedCard
+                lhs.player == rhs.player,
+                lhs.playedCard == rhs.playedCard
             else {
                 return false
             }
@@ -50,12 +50,12 @@ enum NonStandardLogic {
 
         return lhs.name == rhs.name
         && lhs.selectors == rhs.selectors
-        && lhs.payload.targetedPlayer == rhs.payload.targetedPlayer
-        && lhs.payload.targetedCard == rhs.payload.targetedCard
-        && lhs.payload.amount == rhs.payload.amount
-        && lhs.payload.chosenOption == rhs.payload.chosenOption
-        && lhs.payload.nestedEffects == rhs.payload.nestedEffects
-        && lhs.payload.affectedCards == rhs.payload.affectedCards
-        && lhs.payload.amountPerTurn == rhs.payload.amountPerTurn
+        && lhs.targetedPlayer == rhs.targetedPlayer
+        && lhs.targetedCard == rhs.targetedCard
+        && lhs.amount == rhs.amount
+        && lhs.chosenOption == rhs.chosenOption
+        && lhs.nestedEffects == rhs.nestedEffects
+        && lhs.affectedCards == rhs.affectedCards
+        && lhs.amountPerTurn == rhs.amountPerTurn
     }
 }

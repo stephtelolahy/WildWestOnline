@@ -98,13 +98,13 @@ private extension Card.Selector {
 extension Card.Effect {
     func withTarget(_ target: String) -> Self {
         var copy = self
-        copy.payload.targetedPlayer = target
+        copy.targetedPlayer = target
         return copy
     }
 
     func withCard(_ card: String) -> Self {
         var copy = self
-        copy.payload.targetedCard = card
+        copy.targetedCard = card
         return copy
     }
 }

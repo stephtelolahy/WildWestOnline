@@ -35,7 +35,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.TargetFilter]
 
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let player = pendingAction.payload.player
+            let player = pendingAction.player
             let result = state.playOrder
                 .starting(with: player)
                 .dropFirst()
@@ -60,8 +60,8 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let player = pendingAction.payload.player
-            let target = pendingAction.payload.targetedPlayer!
+            let player = pendingAction.player
+            let target = pendingAction.targetedPlayer!
             let playerObj = state.players.get(target)
             var options: [Card.Selector.ChoicePrompt.Option] = []
             options += playerObj.inPlay.map {
@@ -92,7 +92,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct DiscoveredCard: Resolver {
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             .init(
-                chooser: pendingAction.payload.targetedPlayer!,
+                chooser: pendingAction.targetedPlayer!,
                 options: state.discovered.map { .init(id: $0, label: $0) }
             )
         }
@@ -106,7 +106,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let target = pendingAction.payload.targetedPlayer!
+            let target = pendingAction.targetedPlayer!
             let counterCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
             }
@@ -127,7 +127,7 @@ private extension Card.Selector.ChoiceRequirement {
             if selection == .choicePass {
                 [pendingAction]
             } else {
-                [Card.Effect.discardHand(selection, player: pendingAction.payload.targetedPlayer!)]
+                [Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!)]
             }
         }
     }
@@ -136,7 +136,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let target = pendingAction.payload.targetedPlayer!
+            let target = pendingAction.targetedPlayer!
             let counterCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
             }
@@ -158,12 +158,12 @@ private extension Card.Selector.ChoiceRequirement {
                 return [pendingAction]
             } else {
                 let reversedAction = pendingAction.copy(
-                    withPlayer: pendingAction.payload.targetedPlayer!,
-                    targetedPlayer: pendingAction.payload.player,
+                    withPlayer: pendingAction.targetedPlayer!,
+                    targetedPlayer: pendingAction.player,
                     selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
-                    Card.Effect.discardHand(selection, player: pendingAction.payload.targetedPlayer!),
+                    Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!),
                     reversedAction
                 ]
             }

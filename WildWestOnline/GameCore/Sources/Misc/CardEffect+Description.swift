@@ -10,12 +10,12 @@ extension Card.Effect: CustomStringConvertible {
         [
             selectors.isNotEmpty ? ".." : nil,
             name.emoji,
-            payload.targetedPlayer,
-            payload.targetedCard,
-            payload.chosenOption,
-            payload.amount != nil ? "x\(payload.amount ?? 1)" : nil,
-            payload.affectedCards?.isNotEmpty == true ? (payload.affectedCards ?? []).joined(separator: ", ") : nil,
-            payload.playedCard.isNotEmpty ? "<< \(payload.playedCard):\(payload.player)" : nil
+            targetedPlayer,
+            targetedCard,
+            chosenOption,
+            amount != nil ? "x\(amount ?? 1)" : nil,
+            affectedCards?.isNotEmpty == true ? (affectedCards ?? []).joined(separator: ", ") : nil,
+            playedCard.isNotEmpty ? "<< \(playedCard):\(player)" : nil
         ]
             .compactMap { $0 }
             .joined(separator: " ")

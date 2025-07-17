@@ -27,25 +27,25 @@ private extension Card.Selector.CardGroup {
 
     struct AllInPlay: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            state.players.get(pendingAction.payload.targetedPlayer!).inPlay
+            state.players.get(pendingAction.targetedPlayer!).inPlay
         }
     }
 
     struct AllInHand: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            state.players.get(pendingAction.payload.targetedPlayer!).hand
+            state.players.get(pendingAction.targetedPlayer!).hand
         }
     }
 
     struct Played: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            [pendingAction.payload.playedCard]
+            [pendingAction.playedCard]
         }
     }
 
     struct EquippedWeapon: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            state.players.get(pendingAction.payload.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
+            state.players.get(pendingAction.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
         }
     }
 }
