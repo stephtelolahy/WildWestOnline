@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.TargetFilter {
-    func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
-        matcher.match(player, state: state, ctx: ctx)
+    func match(_ player: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+        matcher.match(player, payload: payload, state: state)
     }
 }
 
 private extension Card.Selector.TargetFilter {
     protocol Matcher {
-        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool
+        func match(_ player: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool
     }
 
     var matcher: Matcher {
@@ -25,9 +25,9 @@ private extension Card.Selector.TargetFilter {
     }
 
     struct HasCards: Matcher {
-        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
+        func match(_ player: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
             let playerObj = state.players.get(player)
-            if player == ctx.targetedPlayer {
+            if player == payload.targetedPlayer {
                 return playerObj.inPlay.isNotEmpty
             } else {
                 return playerObj.inPlay.isNotEmpty || playerObj.hand.isNotEmpty
@@ -38,14 +38,14 @@ private extension Card.Selector.TargetFilter {
     struct AtDistance: Matcher {
         let distance: Int
 
-        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
-            state.distance(from: ctx.player, to: player) <= distance
+        func match(_ player: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+            state.distance(from: payload.player, to: player) <= distance
         }
     }
 
     struct Reachable: Matcher {
-        func match(_ player: String, state: GameFeature.State, ctx: Card.Effect.Payload) -> Bool {
-            state.distance(from: ctx.player, to: player) <= state.players.get(ctx.player).weapon
+        func match(_ player: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+            state.distance(from: payload.player, to: player) <= state.players.get(payload.player).weapon
         }
     }
 }
