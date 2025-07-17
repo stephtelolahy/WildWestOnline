@@ -6,11 +6,7 @@
 //
 
 enum NonStandardLogic {
-    /// Determine child effect's target
-    static func targetedPlayerForChildEffect(
-        _ name: Card.Effect.Name,
-        payload: Card.Effect.Payload
-    ) -> String? {
+    static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, payload: Card.Effect.Payload) -> String? {
         switch name {
         case .choose,
                 .activate,
@@ -30,7 +26,6 @@ enum NonStandardLogic {
         }
     }
 
-    /// Equatable conformance
     static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
         case .queue,

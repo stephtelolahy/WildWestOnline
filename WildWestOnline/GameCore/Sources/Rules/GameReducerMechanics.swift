@@ -56,7 +56,7 @@ extension GameFeature {
 
             var pendingAction = action
             let selector = pendingAction.selectors.remove(at: 0)
-            let children = try selector.resolve(pendingAction, state)
+            let children = try selector.resolve(pendingAction, state: state)
 
             state.queue.insert(contentsOf: children, at: 0)
         } else {

@@ -5,14 +5,14 @@
 //
 
 extension Card.Selector {
-    func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
-        try resolver.resolve(pendingAction, state)
+    func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        try resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector {
     protocol Resolver {
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect]
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect]
     }
 
     var resolver: Resolver {
@@ -28,7 +28,7 @@ private extension Card.Selector {
     struct Repeat: Resolver {
         let number: Card.Selector.Number
 
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             let value = number.resolve(pendingAction, state: state)
             return Array(repeating: pendingAction, count: value)
         }
@@ -37,7 +37,7 @@ private extension Card.Selector {
     struct SetTarget: Resolver {
         let targetGroup: Card.Selector.TargetGroup
 
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             try targetGroup.resolve(state, ctx: pendingAction.payload)
                 .map { pendingAction.withTarget($0) }
         }
@@ -46,7 +46,7 @@ private extension Card.Selector {
     struct SetCard: Resolver {
         let cardGroup: Card.Selector.CardGroup
 
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             try cardGroup.resolve(pendingAction.payload, state: state)
                 .map { pendingAction.withCard($0) }
         }
@@ -57,7 +57,7 @@ private extension Card.Selector {
         let resolved: ChoicePrompt?
         let selection: String?
 
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             if let resolved {
                 // handle choice
                 guard let selection else {
@@ -85,7 +85,7 @@ private extension Card.Selector {
     struct Require: Resolver {
         let playCondition: Card.PlayCondition
 
-        func resolve(_ pendingAction: Card.Effect, _ state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             guard playCondition.match(pendingAction.payload, state: state) else {
                 return []
             }
