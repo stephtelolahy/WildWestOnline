@@ -72,7 +72,7 @@ private extension Card.Selector.ChoiceRequirement {
                 let label = player == target ? value : "\(String.choiceHiddenHand)-\($0)"
                 return .init(id: value, label: label)
             }
-            options = options.filter { conditions.match($0.id, payload: pendingAction.payload, state: state) }
+            options = options.filter { conditions.match($0.id, pendingAction: pendingAction, state: state) }
 
             guard options.isNotEmpty else {
                 fatalError("No card matching \(conditions)")
@@ -108,7 +108,7 @@ private extension Card.Selector.ChoiceRequirement {
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let target = pendingAction.payload.targetedPlayer!
             let counterCards = state.players.get(target).hand.filter {
-                conditions.match($0, payload: pendingAction.payload, state: state)
+                conditions.match($0, pendingAction: pendingAction, state: state)
             }
 
             guard counterCards.isNotEmpty else {
@@ -138,7 +138,7 @@ private extension Card.Selector.ChoiceRequirement {
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
             let target = pendingAction.payload.targetedPlayer!
             let counterCards = state.players.get(target).hand.filter {
-                conditions.match($0, payload: pendingAction.payload, state: state)
+                conditions.match($0, pendingAction: pendingAction, state: state)
             }
 
             guard counterCards.isNotEmpty else {
@@ -180,9 +180,9 @@ private extension Array where Element == Card.Selector.TargetFilter {
 }
 
 private extension Array where Element == Card.Selector.CardFilter {
-    func match(_ card: String, payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+    func match(_ card: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
         allSatisfy {
-            $0.match(card, payload: payload, state: state)
+            $0.match(card, pendingAction: pendingAction, state: state)
         }
     }
 }
