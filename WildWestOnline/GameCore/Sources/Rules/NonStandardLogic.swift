@@ -6,7 +6,7 @@
 //
 
 enum NonStandardLogic {
-    static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, payload: Card.Effect.Payload) -> String? {
+    static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
         switch name {
         case .choose,
                 .activate,
@@ -19,10 +19,10 @@ enum NonStandardLogic {
                 .stealHand,
                 .stealInPlay,
                 .passInPlay:
-            payload.targetedPlayer
+            parentAction.payload.targetedPlayer
 
         default:
-            payload.player
+            parentAction.payload.player
         }
     }
 

@@ -139,7 +139,7 @@ private extension Card.Effect.Name {
                     $0.copy(
                         withPlayer: action.payload.player,
                         playedCard: action.payload.playedCard,
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: action.payload),
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action),
                         triggeredByName: .preparePlay,
                         triggeredByPayload: action.payload
                     )
