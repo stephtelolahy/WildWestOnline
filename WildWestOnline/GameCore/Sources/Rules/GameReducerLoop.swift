@@ -241,3 +241,13 @@ private extension Card.Effect {
         }
     }
 }
+
+private extension Card.TriggerCondition {
+    func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
+        event.name == name
+        && event.payload.targetedPlayer == player
+        && conditions.allSatisfy {
+            $0.match(.init(player: player), state: state)
+        }
+    }
+}
