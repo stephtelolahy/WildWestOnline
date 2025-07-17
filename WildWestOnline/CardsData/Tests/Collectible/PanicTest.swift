@@ -107,7 +107,7 @@ struct PanicTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.panic, player: "p1")
-        await #expect(throws: Card.Failure.noChoosableTarget([.atDistance(1), .havingCard])) {
+        await #expect(throws: Card.PlayError.noChoosableTarget([.atDistance(1), .hasCards])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

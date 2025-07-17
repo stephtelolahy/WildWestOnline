@@ -47,7 +47,7 @@ struct BeerTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.beer, player: "p1")
-        await #expect(throws: Card.Failure.playerAlreadyMaxHealth("p1")) {
+        await #expect(throws: Card.PlayError.playerAlreadyMaxHealth("p1")) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
@@ -66,7 +66,7 @@ struct BeerTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.beer, player: "p1")
-        await #expect(throws: Card.Failure.noReq(.playersAtLeast(3))) {
+        await #expect(throws: Card.PlayError.noReq(.minimumPlayers(3))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

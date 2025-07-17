@@ -23,7 +23,7 @@ struct ShootTest {
         // Then
         let pending = try #require(result.queue.first)
         #expect(pending.name == .damage)
-        #expect(pending.payload.target == "p2")
+        #expect(pending.payload.targetedPlayer == "p2")
         #expect(pending.payload.amount == 1)
     }
 }

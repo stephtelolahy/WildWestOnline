@@ -5,7 +5,7 @@
 //
 import Combine
 
-/// ``ActionProtocol`` is a plain object that describes what happened.
+/// ``ActionProtocol`` is a plain object that descriptionribes what happened.
 /// To change something in the state, you need to dispatch an action.
 /// Common protocol to which all actions conform.
 ///

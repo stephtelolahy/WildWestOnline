@@ -50,7 +50,7 @@ struct BangTest {
         // When
         // Assert
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        await #expect(throws: Card.Failure.noReq(.playLimitPerTurn([.bang: 1]))) {
+        await #expect(throws: Card.PlayError.noReq(.playLimitPerTurn([.bang: 1]))) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }
@@ -70,7 +70,7 @@ struct BangTest {
         // When
         // Then
         let action = GameFeature.Action.preparePlay(.bang, player: "p1")
-        await #expect(throws: Card.Failure.noChoosableTarget([.reachable])) {
+        await #expect(throws: Card.PlayError.noChoosableTarget([.reachable])) {
             try await dispatchUntilCompleted(action, state: state)
         }
     }

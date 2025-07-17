@@ -11,9 +11,9 @@ import Redux
 func dispatch(
     _ action: GameFeature.Action,
     state: GameFeature.State
-) async throws(Card.Failure) -> GameFeature.State {
+) async throws(Card.PlayError) -> GameFeature.State {
     let sut = await createGameStore(initialState: state)
-    var receivedErrors: [Card.Failure] = []
+    var receivedErrors: [Card.PlayError] = []
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
         sut.$state

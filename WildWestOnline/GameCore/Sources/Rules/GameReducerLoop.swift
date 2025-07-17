@@ -75,7 +75,7 @@ private extension GameFeature.State {
         }
 
         if event.name == .eliminate {
-            let player = event.payload.target!
+            let player = event.payload.targetedPlayer!
             let playerObj = players.get(player)
             for card in playerObj.abilities {
                 if let effects = triggeredEffects(on: event, by: card, player: player) {
@@ -86,19 +86,17 @@ private extension GameFeature.State {
 
         if event.name == .equip {
             let player = event.payload.player
-            let card = event.payload.played
+            let card = event.payload.playedCard
             if let effects = activeEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
         }
 
         if event.name == .discardInPlay || event.name == .stealInPlay {
-            let player = event.payload.target!
-            guard let card = event.payload.card else {
-                fatalError("Missing payload.card")
-            }
+            let player = event.payload.targetedPlayer!
+            let card = event.payload.targetedCard!
 
-            if let effects = deactiveEffects(on: event, by: card, player: player) {
+            if let effects = inactiveEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
         }
@@ -111,7 +109,7 @@ private extension GameFeature.State {
             return .init(
                 name: .queue,
                 payload: .init(
-                    children: triggered
+                    nestedEffects: triggered
                 )
             )
         }
@@ -128,8 +126,8 @@ private extension GameFeature.State {
         return cardObj.onTrigger.map {
             $0.copy(
                 withPlayer: player,
-                played: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                playedCard: card,
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -142,22 +140,22 @@ private extension GameFeature.State {
         return cardObj.onActive.map {
             $0.copy(
                 withPlayer: player,
-                played: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                playedCard: card,
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
         }
     }
 
-    func deactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
+    func inactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        return cardObj.onDeactive.map {
+        return cardObj.onInactive.map {
             $0.copy(
                 withPlayer: player,
-                played: card,
-                target: NonStandardLogic.childEffectTarget($0.name, payload: .init(player: player)),
+                playedCard: card,
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, payload: .init(player: player)),
                 triggeredByName: event.name,
                 triggeredByPayload: event.payload
             )
@@ -240,6 +238,16 @@ private extension Card.Effect {
 
         default:
             return false
+        }
+    }
+}
+
+private extension Card.TriggerCondition {
+    func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
+        event.name == name
+        && event.payload.targetedPlayer == player
+        && conditions.allSatisfy {
+            $0.match(.init(player: player), state: state)
         }
     }
 }

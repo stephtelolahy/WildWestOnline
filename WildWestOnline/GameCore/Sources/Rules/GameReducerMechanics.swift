@@ -31,7 +31,7 @@ extension GameFeature {
         return .none
     }
 
-    private static func updateState(_ state: inout GameFeature.State, action: GameFeature.Action) throws(Card.Failure) {
+    private static func updateState(_ state: inout GameFeature.State, action: GameFeature.Action) throws(Card.PlayError) {
         guard !state.isOver else {
             fatalError("Unexpected game is over")
         }
@@ -42,7 +42,7 @@ extension GameFeature {
 
         if state.active.isNotEmpty {
             guard action.name == .preparePlay,
-                  state.active.contains(where: { $0.key == action.payload.player && $0.value.contains(action.payload.played) }) else {
+                  state.active.contains(where: { $0.key == action.payload.player && $0.value.contains(action.payload.playedCard) }) else {
                 fatalError("Unexpected unwaited action \(action)")
             }
 
@@ -56,11 +56,11 @@ extension GameFeature {
 
             var pendingAction = action
             let selector = pendingAction.selectors.remove(at: 0)
-            let children = try selector.resolve(pendingAction, state)
+            let children = try selector.resolve(pendingAction, state: state)
 
             state.queue.insert(contentsOf: children, at: 0)
         } else {
-            state = try action.name.reduce(state, action.payload)
+            state = try action.name.reduce(action.payload, state: state)
         }
     }
 }

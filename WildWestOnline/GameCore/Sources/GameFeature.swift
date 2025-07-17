@@ -20,7 +20,7 @@ public enum GameFeature {
         public var startOrder: [String]
         public var queue: [Card.Effect]
         public var lastSuccessfulAction: Card.Effect?
-        public var lastActionError: Card.Failure?
+        public var lastActionError: Card.PlayError?
         public var playedThisTurn: [String: Int]
         public var turn: String?
         public var active: [String: [String]]
@@ -69,7 +69,7 @@ public enum GameFeature {
 }
 
 public extension GameFeature.State {
-    var pendingChoice: Card.Selector.ChooseOneResolved? {
+    var pendingChoice: Card.Selector.ChoicePrompt? {
         guard let nextAction = queue.first,
               let selector = nextAction.selectors.first,
               case let .chooseOne(_, resolved, selection) = selector,

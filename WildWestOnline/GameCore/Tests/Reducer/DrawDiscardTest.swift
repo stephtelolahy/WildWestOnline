@@ -35,7 +35,7 @@ struct DrawDiscardTest {
         // When
         // Then
         let action = GameFeature.Action.drawDiscard(player: "p1")
-        await #expect(throws: Card.Failure.insufficientDiscard) {
+        await #expect(throws: Card.PlayError.insufficientDiscard) {
             try await dispatch(action, state: state)
         }
     }

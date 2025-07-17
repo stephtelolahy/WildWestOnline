@@ -24,7 +24,7 @@ struct IndiansTest {
         // When
         let action = GameFeature.Action.preparePlay(.indians, player: "p1")
         let choices: [Choice] = [
-            .init(options: [.bang, .pass], selectionIndex: 0)
+            .init(options: [.bang, .choicePass], selectionIndex: 0)
         ]
         let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 

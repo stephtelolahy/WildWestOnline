@@ -102,10 +102,10 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withPendingChoice(_ value: Card.Selector.ChooseOneResolved) -> Self {
+        public func withPendingChoice(_ value: Card.Selector.ChoicePrompt) -> Self {
             let nextAction = Card.Effect(
                 name: .discardHand,
-                selectors: [.chooseOne(.card(), resolved: value, selection: nil)]
+                selectors: [.chooseOne(.targetCard(), resolved: value, selection: nil)]
             )
             queue.insert(nextAction, at: 0)
           return self

@@ -73,7 +73,7 @@ struct HealTest {
         // When
         // Then
         let action = GameFeature.Action.heal(1, player: "p1")
-        await #expect(throws: Card.Failure.playerAlreadyMaxHealth("p1")) {
+        await #expect(throws: Card.PlayError.playerAlreadyMaxHealth("p1")) {
             try await dispatch(action, state: state)
         }
     }

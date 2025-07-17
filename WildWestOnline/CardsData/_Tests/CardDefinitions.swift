@@ -9,13 +9,13 @@
  static var discardBeerOnDamagedLethal: Self {
      .init(
          name: .discardBeerOnDamagedLethal,
-         desc: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
+         description: "When you lose your last life point, you are eliminated and your game is over, unless you immediately play a Beer",
          canPlay: .damagedLethal,
          effects: [
              .init(
                  name: .heal,
                  selectors: [
-                     .require(.playersAtLeast(3)),
+                     .require(.minimumPlayers(3)),
                      .chooseCostHandCard(.named(.beer))
                  ]
              )
@@ -26,7 +26,7 @@
  static var jourdonnais: Self {
      .init(
          name: .jourdonnais,
-         desc: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
+         description: "he is considered to have a Barrel card in play at all times; he can \"draw!\" when he is the target of a BANG!, and on a Heart he is missed. If he has another real Barrel card in play, he can count both of them, giving him two chances to cancel the BANG! before playing a Missed! card.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -47,7 +47,7 @@
  static var elGringo: Self {
      .init(
          name: .elGringo,
-         desc: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
+         description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
          setPlayerAttribute: [.maxHealth: 3],
          effects: [
              .init(
@@ -65,7 +65,7 @@
  static var suzyLafayette: Self {
      .init(
          name: .suzyLafayette,
-         desc: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
+         description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -79,7 +79,7 @@
  static var sidKetchum: Self {
      .init(
          name: .sidKetchum,
-         desc: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
+         description: "at any time, he may discard 2 cards from his hand to regain one life point. If he is willing and able, he can use this ability more than once at a time.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -95,7 +95,7 @@
  static var vultureSam: Self {
      .init(
          name: .vultureSam,
-         desc: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
+         description: "whenever a character is eliminated from the game, Sam takes all the cards that player had in his hand and in play, and adds them to his hand.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -113,7 +113,7 @@
  static var slabTheKiller: Self {
      .init(
          name: .slabTheKiller,
-         desc: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
+         description: "players trying to cancel his BANG! cards need to play 2 Missed! cards. The Barrel effect, if successfully used, only counts as one Missed!.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.bang: [.shootRequiredMisses: 2]]
      )
@@ -122,7 +122,7 @@
  static var luckyDuke: Self {
      .init(
          name: .luckyDuke,
-         desc: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
+         description: "each time he is required to \"draw!\", he flips the top two cards from the deck, and chooses the result he prefers. Discard both cards afterwards.",
          setPlayerAttribute: [.maxHealth: 4, .drawCards: 2]
      )
  }
@@ -130,7 +130,7 @@
  static var calamityJanet: Self {
      .init(
          name: .calamityJanet,
-         desc: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
+         description: "she can use BANG! cards as Missed! cards and vice versa. If she plays a Missed! card as a BANG!, she cannot play another BANG! card that turn (unless she has a Volcanic in play).",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [
              "missed": [.playableAsBang: 0],
@@ -142,7 +142,7 @@
  static var kitCarlson: Self {
      .init(
          name: .kitCarlson,
-         desc: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
+         description: "during the phase 1 of his turn, he looks at the top three cards of the deck: he chooses 2 to draw, and puts the other one back on the top of the deck, face down.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
@@ -167,7 +167,7 @@
  static var blackJack: Self {
      .init(
          name: .blackJack,
-         desc: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
+         description: "during the phase 1 of his turn, he must show the second card he draws: if it's Heart or Diamonds (just like a \"draw!\", he draws one additional card (without revealing it).",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
@@ -196,7 +196,7 @@
  static var jesseJones: Self {
      .init(
          name: .jesseJones,
-         desc: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
+         description: "during phase 1 of his turn, he may choose to draw the first card from the deck, or randomly from the hand of any other player. Then he draws the second card from the deck.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
@@ -215,7 +215,7 @@
  static var pedroRamirez: Self {
      .init(
          name: .pedroRamirez,
-         desc: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
+         description: "during the phase 1 of his turn, he may choose to draw the first card from the top of the discard pile or from the deck. Then, he draws the second card from the deck.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
@@ -240,7 +240,7 @@
  static var punch: Self {
      .init(
          name: .punch,
-         desc: "Acts as a Bang! with a range of one.",
+         description: "Acts as a Bang! with a range of one.",
          effects: [
              .brown,
              .init(
@@ -256,7 +256,7 @@
  static var dodge: Self {
      .init(
          name: .dodge,
-         desc: "Acts as a Missed!, but allows the player to draw a card.",
+         description: "Acts as a Missed!, but allows the player to draw a card.",
          canPlay: .shot,
          effects: [
              .brown,
@@ -273,7 +273,7 @@
  static var springfield: Self {
      .init(
          name: .springfield,
-         desc: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
+         description: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
          effects: [
              .brown,
              .init(
@@ -290,7 +290,7 @@
  static var hideout: Self {
      .init(
          name: .hideout,
-         desc: "Others view you at distance +1",
+         description: "Others view you at distance +1",
          increasePlayerAttribute: [.remoteness: 1]
      )
  }
@@ -298,7 +298,7 @@
  static var binocular: Self {
      .init(
          name: .binocular,
-         desc: "you view others at distance -1",
+         description: "you view others at distance -1",
          increasePlayerAttribute: [.magnifying: 1]
      )
  }
@@ -306,7 +306,7 @@
  static var whisky: Self {
      .init(
          name: .whisky,
-         desc: "The player must discard one additional card, to heal two health.",
+         description: "The player must discard one additional card, to heal two health.",
          effects: [
              .brown,
              .init(
@@ -323,7 +323,7 @@
  static var tequila: Self {
      .init(
          name: .tequila,
-         desc: "The player must discard one additional card, to heal any player one health.",
+         description: "The player must discard one additional card, to heal any player one health.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .brown,
@@ -341,7 +341,7 @@
  static var ragTime: Self {
      .init(
          name: .ragTime,
-         desc: "The player must discard one additional card to steal a card from any other player.",
+         description: "The player must discard one additional card to steal a card from any other player.",
          effects: [
              .brown,
              .init(
@@ -359,7 +359,7 @@
  static var brawl: Self {
      .init(
          name: .brawl,
-         desc: "The player must discard one additional card to cause all other players to discard one card.",
+         description: "The player must discard one additional card to cause all other players to discard one card.",
          effects: [
              .brown,
              .init(
@@ -377,7 +377,7 @@
  static var elenaFuente: Self {
      .init(
          name: .elenaFuente,
-         desc: "She may use any card in hand as Missed!.",
+         description: "She may use any card in hand as Missed!.",
          setPlayerAttribute: [.maxHealth: 3],
          setActionAttribute: ["": [.playableAsMissed: 0]]
      )
@@ -386,7 +386,7 @@
  static var seanMallory: Self {
      .init(
          name: .seanMallory,
-         desc: "He may hold in his hand up to 10 cards.",
+         description: "He may hold in his hand up to 10 cards.",
          setPlayerAttribute: [.maxHealth: 3, .handLimit: 10]
      )
  }
@@ -394,7 +394,7 @@
  static var tequilaJoe: Self {
      .init(
          name: .tequilaJoe,
-         desc: "Each time he plays a Beer, he regains 2 life points instead of 1.",
+         description: "Each time he plays a Beer, he regains 2 life points instead of 1.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.beer: [.healAmount: 2]]
      )
@@ -403,7 +403,7 @@
  static var pixiePete: Self {
      .init(
          name: .pixiePete,
-         desc: "During phase 1 of his turn, he draws 3 cards instead of 2.",
+         description: "During phase 1 of his turn, he draws 3 cards instead of 2.",
          setPlayerAttribute: [.maxHealth: 3],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
@@ -421,7 +421,7 @@
  static var billNoface: Self {
      .init(
          name: .billNoface,
-         desc: "He draws 1 card, plus 1 card for each wound he has.",
+         description: "He draws 1 card, plus 1 card for each wound he has.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.silent: 0]],
          effects: [
@@ -443,7 +443,7 @@
  static var gregDigger: Self {
      .init(
          name: .gregDigger,
-         desc: "Each time another player is eliminated, he regains 2 life points.",
+         description: "Each time another player is eliminated, he regains 2 life points.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -460,7 +460,7 @@
  static var herbHunter: Self {
      .init(
          name: .herbHunter,
-         desc: "Each time another player is eliminated, he draws 2 extra cards.",
+         description: "Each time another player is eliminated, he draws 2 extra cards.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -477,7 +477,7 @@
  static var mollyStark: Self {
      .init(
          name: .mollyStark,
-         desc: "Each time she uses a card from her hand out of turn, she draw a card.",
+         description: "Each time she uses a card from her hand out of turn, she draw a card.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -494,7 +494,7 @@
  static var joseDelgado: Self {
      .init(
          name: .joseDelgado,
-         desc: "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
+         description: "Twice in his turn, he may discard a blue card from the hand to draw 2 cards.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -512,7 +512,7 @@
  static var chuckWengam: Self {
      .init(
          name: .chuckWengam,
-         desc: "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
+         description: "During his turn, he may choose to lose 1 life point to draw 2 cards. However, the last life point cannot be lost.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -531,7 +531,7 @@
  static var docHolyday: Self {
      .init(
          name: .docHolyday,
-         desc: "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
+         description: "Once during his turn, he may discard 2 cards from the hand to shoot a Bang!.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
              .init(
@@ -549,7 +549,7 @@
  static var apacheKid: Self {
      .init(
          name: .apacheKid,
-         desc: "Cards of Diamond played by other players do not affect him",
+         description: "Cards of Diamond played by other players do not affect him",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: ["♦️": [.playedByOtherHasNoEffect: 0]]
      )
@@ -558,7 +558,7 @@
  static var belleStar: Self {
      .init(
          name: .belleStar,
-         desc: "During her turn, cards in play in front of other players have no effect. ",
+         description: "During her turn, cards in play in front of other players have no effect. ",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: ["": [.inPlayOfOtherHasNoEffect: 0]]
      )
@@ -567,7 +567,7 @@
  static var patBrennan: Self {
      .init(
          name: .patBrennan,
-         desc: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
+         description: "Instead of drawing normally, he may draw only one card in play in front of any one player.",
          setPlayerAttribute: [.maxHealth: 4],
          setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
@@ -586,7 +586,7 @@
  static var veraCuster: Self {
      .init(
          name: .veraCuster,
-         desc: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
+         description: "For a whole round, she gains the same ability of another character in play of her choice until the beginning of her next turn",
          setPlayerAttribute: [.maxHealth: 3]
      )
  }
@@ -596,7 +596,7 @@
  static var lastCall: Self {
      .init(
          name: .lastCall,
-         desc: "Refill 1 life point even in game last 2 players.",
+         description: "Refill 1 life point even in game last 2 players.",
          effects: [
              .brown,
              .init(
@@ -609,7 +609,7 @@
  static var tornado: Self {
      .init(
          name: .tornado,
-         desc: "Each player discards a card from their hand (if possible), then draw 2 cards from the deck",
+         description: "Each player discards a card from their hand (if possible), then draw 2 cards from the deck",
          effects: [
              .brown,
              .init(
@@ -627,7 +627,7 @@
  static var backfire: Self {
      .init(
          name: .backfire,
-         desc: "Count as MISSED!. Player who shot you, is now target of BANG!.",
+         description: "Count as MISSED!. Player who shot you, is now target of BANG!.",
          effects: [
              .brown,
              .init(
@@ -646,7 +646,7 @@
  static var tomahawk: Self {
      .init(
          name: .tomahawk,
-         desc: "Bang at distance 2. But it can be used at distance 1",
+         description: "Bang at distance 2. But it can be used at distance 1",
          effects: [
              .brown,
              .init(
@@ -662,7 +662,7 @@
  static var aim: Self {
      .init(
          name: .aim,
-         desc: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
+         description: "Play with Bang card. If defending player doesn't miss, he loses 2 life points instead",
          setActionAttribute: [.bang: [.damageAmount: 2]],
          canPlay: .playedCardWithName(.bang),
          effects: [
@@ -674,7 +674,7 @@
  static var faning: Self {
      .init(
          name: .faning,
-         desc: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
+         description: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
          setActionAttribute: ["faning": [.labeledAsBang: 0]],
          effects: [
              .brown,
@@ -698,7 +698,7 @@
  static var saved: Self {
      .init(
          name: .saved,
-         desc: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
+         description: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
          canPlay: .otherDamaged,
          effects: [
              .brown,
@@ -722,7 +722,7 @@
  static var bandidos: Self {
      .init(
          name: .bandidos,
-         desc: "Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.",
+         description: "Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.",
          effects: [
              .brown,
              .init(
@@ -739,7 +739,7 @@
  static var poker: Self {
      .init(
          name: .poker,
-         desc: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
+         description: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
          effects: [
              .brown,
              .init(
@@ -764,7 +764,7 @@
  static var lemat: Self {
      .init(
          name: .lemat,
-         desc: "gun, range 1: In your turn, you may use any card like BANG card.",
+         description: "gun, range 1: In your turn, you may use any card like BANG card.",
          setPlayerAttribute: [.weapon: 1],
          setActionAttribute: ["": [.playableAsBang: 0]]
      )
@@ -773,7 +773,7 @@
  static var shootgun: Self {
      .init(
          name: .shootgun,
-         desc: "gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.",
+         description: "gun, range 1: If any player is hit by BANG! card by player with SHOTGUN, that player discard 1 card from hand at his choice.",
          setPlayerAttribute: [.weapon: 1],
          effects: [
              .equip,
@@ -792,7 +792,7 @@
  static var bounty: Self {
      .init(
          name: .bounty,
-         desc: "Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.",
+         description: "Play in front any player. Player who succesfully hit player with BOUNTY with BANG! card, he draw a card.",
          effects: [
              .handicap,
              .init(
@@ -809,7 +809,7 @@
  static var rattlesnake: Self {
      .init(
          name: .rattlesnake,
-         desc: "Play in front any player. At beginnings of that player's turn, he draw: On Spade, he lose 1 life point, otherwise he does nothing.",
+         description: "Play in front any player. At beginnings of that player's turn, he draw: On Spade, he lose 1 life point, otherwise he does nothing.",
          effects: [
              .handicap,
              .init(
@@ -830,7 +830,7 @@
  static var escape: Self {
      .init(
          name: .escape,
-         desc: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect.",
+         description: "If you are target of card other than BANG! card, you may discard this card to avoid that card's effect.",
          effects: [
              .init(
                  name: .counter,
@@ -843,7 +843,7 @@
  static var ghost: Self {
      .init(
          name: .ghost,
-         desc: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player.",
+         description: "Play in front any eliminated player. He return to game without his ability and possibilty to grain or lose any life point. He play as normal player.",
          setPlayerAttribute: [.ghost: 0]
      )
  }
@@ -851,7 +851,7 @@
  static var coloradoBill: Self {
      .init(
          name: .coloradoBill,
-         desc: "Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.",
+         description: "Eachtime any player play MISSED! against BANG! card from Colorado: Colorado draw: on Spades, MISSED! is ignored and that player lose 1 life points.",
          effects: [
              .init(
                  name: .draw,
@@ -872,7 +872,7 @@
  static var evelynShebang: Self {
      .init(
          name: .evelynShebang,
-         desc: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
+         description: "She may decide not to draw some number of cards in her draw phase. For each card skipped, she shoots a Bang! at a different target in reachable distance.",
          setActionAttribute: [.draw2CardsOnTurnStarted: [.eventuallySilent: 0]],
          effects: [
              .init(
@@ -890,7 +890,7 @@
  static var lemonadeJim: Self {
      .init(
          name: .lemonadeJim,
-         desc: "When another player plays BEER card, he may discard any card to refill 1 life point.",
+         description: "When another player plays BEER card, he may discard any card to refill 1 life point.",
          canPlay: .otherPlayedCard(.beer),
          effects: [
              .init(
@@ -906,7 +906,7 @@
  static var henryBlock: Self {
      .init(
          name: .henryBlock,
-         desc: "Any another player who discards or draw from Henry hand or in front him, is target of BANG.",
+         description: "Any another player who discards or draw from Henry hand or in front him, is target of BANG.",
          effects: [
              .init(
                  name: .shoot,
@@ -929,7 +929,7 @@
  static var blackFlower: Self {
      .init(
          name: .blackFlower,
-         desc: "Once per turn, she can shoot an extra Bang! by discarding a Clubs card.",
+         description: "Once per turn, she can shoot an extra Bang! by discarding a Clubs card.",
          effects: [
              .init(
                  name: .shoot,
@@ -946,7 +946,7 @@
  static var derSpotBurstRinger: Self {
      .init(
          name: .derSpotBurstRinger,
-         desc: "Once per turn, he can play a Bang! card as Gatling.",
+         description: "Once per turn, he can play a Bang! card as Gatling.",
          effects: [
              .init(
                  name: .shoot,
@@ -963,7 +963,7 @@
  static var tucoFranziskaner: Self {
      .init(
          name: .tucoFranziskaner,
-         desc: "During his draw phase, he draw 2 extra cards if he has no blue cards in play.",
+         description: "During his draw phase, he draw 2 extra cards if he has no blue cards in play.",
          effects: [
              .init(
                  name: .drawDeck,

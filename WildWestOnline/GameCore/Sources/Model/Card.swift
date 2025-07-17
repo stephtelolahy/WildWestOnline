@@ -7,48 +7,47 @@
 
 import Redux
 
-/// We are working on a Card Definition Language that will allow people to create new cards,
+/// We are working on a Card Definition DLS that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
-/// ℹ️ All effects of  the same source share the resolved arguments
 ///
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
-    public let desc: String
-    public let canPlay: [StateReq]
+    public let description: String
+    public let canPlay: [PlayCondition]
     public let onPreparePlay: [Effect]
     public let onPlay: [Effect]
-    public let canTrigger: [EventReq]
+    public let canTrigger: [TriggerCondition]
     public let onTrigger: [Effect]
     public let onActive: [Effect]
-    public let onDeactive: [Effect]
+    public let onInactive: [Effect]
     public let canCounterShot: Bool
 
     public init(
         name: String,
         type: CardType,
-        desc: String = "",
-        canPlay: [StateReq] = [],
+        description: String = "",
+        canPlay: [PlayCondition] = [],
         onPreparePlay: [Effect] = [],
         onPlay: [Effect] = [],
-        canTrigger: [EventReq] = [],
+        canTrigger: [TriggerCondition] = [],
         onTrigger: [Effect] = [],
         onActive: [Effect] = [],
-        onDeactive: [Effect] = [],
+        onInactive: [Effect] = [],
         canCounterShot: Bool = false
     ) {
         self.name = name
         self.type = type
-        self.desc = desc
+        self.description = description
         self.canPlay = canPlay
         self.onPreparePlay = onPreparePlay
         self.onPlay = onPlay
         self.canTrigger = canTrigger
         self.onTrigger = onTrigger
         self.onActive = onActive
-        self.onDeactive = onDeactive
+        self.onInactive = onInactive
         self.canCounterShot = canCounterShot
     }
 
@@ -103,34 +102,34 @@ public struct Card: Equatable, Codable, Sendable {
 
         public struct Payload: Equatable, Codable, Sendable {
             public let player: String
-            public let played: String
-            public var target: String?
-            public var card: String?
+            public let playedCard: String
+            public var targetedPlayer: String?
+            public var targetedCard: String?
             public var amount: Int?
-            public var selection: String?
-            public var children: [Effect]?
-            public var cards: [String]?
+            public var chosenOption: String?
+            public var nestedEffects: [Effect]?
+            public var affectedCards: [String]?
             public var amountPerTurn: [String: Int]?
 
             public init(
                 player: String = "",
-                played: String = "",
-                target: String? = nil,
-                card: String? = nil,
+                playedCard: String = "",
+                targetedPlayer: String? = nil,
+                targetedCard: String? = nil,
                 amount: Int? = nil,
-                selection: String? = nil,
-                children: [Card.Effect]? = nil,
-                cards: [String]? = nil,
+                chosenOption: String? = nil,
+                nestedEffects: [Card.Effect]? = nil,
+                affectedCards: [String]? = nil,
                 amountPerTurn: [String: Int]? = nil
             ) {
                 self.player = player
-                self.played = played
-                self.target = target
-                self.card = card
+                self.playedCard = playedCard
+                self.targetedPlayer = targetedPlayer
+                self.targetedCard = targetedCard
                 self.amount = amount
-                self.selection = selection
-                self.children = children
-                self.cards = cards
+                self.chosenOption = chosenOption
+                self.nestedEffects = nestedEffects
+                self.affectedCards = affectedCards
                 self.amountPerTurn = amountPerTurn
             }
         }
@@ -151,9 +150,9 @@ public struct Card: Equatable, Codable, Sendable {
 
         public func copy(
             withPlayer player: String? = nil,
-            played: String? = nil,
-            target: String? = nil,
-            card: String? = nil,
+            playedCard: String? = nil,
+            targetedPlayer: String? = nil,
+            targetedCard: String? = nil,
             amount: Int? = nil,
             selectors: [Card.Selector]? = nil,
             triggeredByName: Name? = nil,
@@ -163,13 +162,13 @@ public struct Card: Equatable, Codable, Sendable {
                 name: self.name,
                 payload: .init(
                     player: player ?? self.payload.player,
-                    played: played ?? self.payload.played,
-                    target: target ?? self.payload.target,
-                    card: card ?? self.payload.card,
+                    playedCard: playedCard ?? self.payload.playedCard,
+                    targetedPlayer: targetedPlayer ?? self.payload.targetedPlayer,
+                    targetedCard: targetedCard ?? self.payload.targetedCard,
                     amount: amount ?? self.payload.amount,
-                    selection: self.payload.selection,
-                    children: self.payload.children,
-                    cards: self.payload.cards,
+                    chosenOption: self.payload.chosenOption,
+                    nestedEffects: self.payload.nestedEffects,
+                    affectedCards: self.payload.affectedCards,
                     amountPerTurn: self.payload.amountPerTurn
                 ),
                 selectors: selectors ?? self.selectors,
@@ -183,94 +182,82 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    /// Required state conditions to play a card
-    public enum StateReq: Equatable, Codable, Sendable {
-        case playersAtLeast(Int)
+    public enum PlayCondition: Equatable, Codable, Sendable {
+        case minimumPlayers(Int)
         case playLimitPerTurn([String: Int])
-        case healthZero
-        case healthNotZero
-        case gameOver
-        case currentTurn
-        case drawMatching(_ regex: String)
-        case drawNotMatching(_ regex: String)
-        case payloadCardIsFromTargetHand
-        case payloadCardIsFromTargetInPlay
+        case isHealthZero
+        case isHealthNonZero
+        case isGameOver
+        case isCurrentTurn
+        case drawnCardMatches(_ regex: String)
+        case drawnCardDoesNotMatch(_ regex: String)
+        case payloadCardFromTargetHand
+        case payloadCardFromTargetInPlay
     }
 
-    /// Required event conditions to trigger a card
-    public struct EventReq: Equatable, Codable, Sendable {
-        public let actionName: Card.Effect.Name
-        public let stateReqs: [StateReq]
+    public struct TriggerCondition: Equatable, Codable, Sendable {
+        public let name: Card.Effect.Name
+        public let conditions: [PlayCondition]
 
         public init(
-            actionName: Effect.Name,
-            stateReqs: [StateReq] = []
+            name: Effect.Name,
+            conditions: [PlayCondition] = []
         ) {
-            self.actionName = actionName
-            self.stateReqs = stateReqs
+            self.name = name
+            self.conditions = conditions
         }
     }
 
-    /// Selectors are used to specify which objects an effect should affect.
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
-        case chooseOne(ChooseOneElement, resolved: ChooseOneResolved? = nil, selection: String? = nil)
-        case require(StateReq)
+        case chooseOne(ChoiceRequirement, resolved: ChoicePrompt? = nil, selection: String? = nil)
+        case require(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
-            case value(Int)
-            case activePlayers
-            case excessHand
-            case drawCards
-            case damage
+            case fixed(Int)
+            case activePlayerCount
+            case playerExcessHandSize
+            case drawnCardCount
+            case receivedDamageAmount
         }
 
         public enum TargetGroup: String, Codable, Sendable {
-            /// All active players
-            case active
-            /// All damaged players
-            case damaged
-            /// All other players
-            case others
-            /// Next player
-            case next
+            case activePlayers
+            case woundedPlayers
+            case otherPlayers
+            case nextPlayer
         }
 
         public enum CardGroup: String, Codable, Sendable {
-            case allHand
+            case allInHand
             case allInPlay
             case played
-            case weaponInPlay
+            case equippedWeapon
         }
 
-        public enum ChooseOneElement: Equatable, Codable, Sendable {
-            /// Must choose a target
-            case target([TargetCondition] = [])
-            /// Must choose a target's card
-            case card([CardCondition] = [])
-            /// Must choose a discovered card
-            case discovered
-            /// Can `discard` hand card to counter the effect
-            case eventuallyCounterCard([CardCondition] = [])
-            /// Can `discard` hand card to reverse the effect's target
-            case eventuallyReverseCard([CardCondition] = [])
+        public enum ChoiceRequirement: Equatable, Codable, Sendable {
+            case target([TargetFilter] = [])
+            case targetCard([CardFilter] = [])
+            case discoveredCard
+            case optionalCounterCard([CardFilter] = [])
+            case optionalRedirectCard([CardFilter] = [])
         }
 
-        public enum TargetCondition: Equatable, Codable, Sendable {
-            case havingCard
+        public enum TargetFilter: Equatable, Codable, Sendable {
+            case hasCards
             case atDistance(Int)
             case reachable
         }
 
-        public enum CardCondition: Equatable, Codable, Sendable {
+        public enum CardFilter: Equatable, Codable, Sendable {
             case canCounterShot
             case named(String)
-            case fromHand
+            case isFromHand
         }
 
-        public struct ChooseOneResolved: Equatable, Codable, Sendable {
+        public struct ChoicePrompt: Equatable, Codable, Sendable {
             public let chooser: String
             public let options: [Option]
 
@@ -280,39 +267,34 @@ public struct Card: Equatable, Codable, Sendable {
             }
 
             public struct Option: Equatable, Codable, Sendable {
-                public let value: String
+                public let id: String
                 public let label: String
 
-                public init(value: String, label: String) {
-                    self.value = value
+                public init(id: String, label: String) {
+                    self.id = id
                     self.label = label
                 }
             }
         }
     }
 
-    /// Card play error
-    public enum Failure: Error, Equatable, Codable {
+    public enum PlayError: Error, Equatable, Codable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
-        case noReq(Card.StateReq)
+        case noReq(Card.PlayCondition)
         case noTarget(Card.Selector.TargetGroup)
-        case noChoosableTarget([Card.Selector.TargetCondition])
+        case noChoosableTarget([Card.Selector.TargetFilter])
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String)
     }
 }
 
-/// ChooseOne options
 public extension String {
-    /// Hidden hand card
-    static let hiddenHand = "hiddenHand"
-
-    /// Pass when asked a counter card
-    static let pass = "pass"
+    static let choiceHiddenHand = "hiddenHand"
+    static let choicePass = "pass"
 }
 
 public extension Int {
-    static let infinity = 999
+    static let unlimited = 999
 }

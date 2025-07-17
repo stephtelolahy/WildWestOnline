@@ -6,12 +6,12 @@
 //
 
 public extension GameFeature.Action {
-    static func preparePlay(_ played: String, player: String) -> Self {
+    static func preparePlay(_ playedCard: String, player: String) -> Self {
         .init(
             name: .preparePlay,
             payload: .init(
                 player: player,
-                played: played
+                playedCard: playedCard
             )
         )
     }
@@ -21,7 +21,7 @@ public extension GameFeature.Action {
             name: .choose,
             payload: .init(
                 player: player,
-                selection: selection
+                chosenOption: selection
             )
         )
     }
@@ -36,7 +36,7 @@ public extension GameFeature.Action {
         .init(
             name: .drawDeck,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -45,7 +45,7 @@ public extension GameFeature.Action {
         .init(
             name: .drawDiscard,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -54,8 +54,8 @@ public extension GameFeature.Action {
         .init(
             name: .drawDiscovered,
             payload: .init(
-                target: player,
-                card: card
+                targetedPlayer: player,
+                targetedCard: card
             )
         )
     }
@@ -70,7 +70,7 @@ public extension GameFeature.Action {
         .init(
             name: .heal,
             payload: .init(
-                target: player,
+                targetedPlayer: player,
                 amount: amount
             )
         )
@@ -80,7 +80,7 @@ public extension GameFeature.Action {
         .init(
             name: .damage,
             payload: .init(
-                target: player,
+                targetedPlayer: player,
                 amount: amount
             )
         )
@@ -90,8 +90,8 @@ public extension GameFeature.Action {
         .init(
             name: .discardHand,
             payload: .init(
-                target: player,
-                card: card
+                targetedPlayer: player,
+                targetedCard: card
             )
         )
     }
@@ -100,8 +100,8 @@ public extension GameFeature.Action {
         .init(
             name: .discardInPlay,
             payload: .init(
-                target: player,
-                card: card
+                targetedPlayer: player,
+                targetedCard: card
             )
         )
     }
@@ -111,9 +111,9 @@ public extension GameFeature.Action {
             name: .stealHand,
             payload: .init(
                 player: player,
-                played: source,
-                target: target,
-                card: card
+                playedCard: source,
+                targetedPlayer: target,
+                targetedCard: card
             )
         )
     }
@@ -123,9 +123,9 @@ public extension GameFeature.Action {
             name: .stealInPlay,
             payload: .init(
                 player: player,
-                played: source,
-                target: target,
-                card: card
+                playedCard: source,
+                targetedPlayer: target,
+                targetedCard: card
             )
         )
     }
@@ -135,9 +135,9 @@ public extension GameFeature.Action {
             name: .passInPlay,
             payload: .init(
                 player: player,
-                played: source,
-                target: target,
-                card: card
+                playedCard: source,
+                targetedPlayer: target,
+                targetedCard: card
             )
         )
     }
@@ -146,7 +146,7 @@ public extension GameFeature.Action {
         .init(
             name: .shoot,
             payload: .init(
-                target: target
+                targetedPlayer: target
             )
         )
     }
@@ -155,7 +155,7 @@ public extension GameFeature.Action {
         .init(
             name: .counterShot,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -164,7 +164,7 @@ public extension GameFeature.Action {
         .init(
             name: .startTurn,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -173,7 +173,7 @@ public extension GameFeature.Action {
         .init(
             name: .endTurn,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -182,7 +182,7 @@ public extension GameFeature.Action {
         .init(
             name: .eliminate,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -191,7 +191,7 @@ public extension GameFeature.Action {
         .init(
             name: .endGame,
             payload: .init(
-                target: player
+                targetedPlayer: player
             )
         )
     }
@@ -200,41 +200,41 @@ public extension GameFeature.Action {
         .init(
             name: .activate,
             payload: .init(
-                target: player,
-                cards: cards
+                targetedPlayer: player,
+                affectedCards: cards
             )
         )
     }
 
-    static func play(_ played: String, player: String, target: String? = nil, card: String? = nil) -> Self {
+    static func play(_ playedCard: String, player: String, target: String? = nil, card: String? = nil) -> Self {
         .init(
             name: .play,
             payload: .init(
                 player: player,
-                played: played,
-                target: target,
-                card: card
+                playedCard: playedCard,
+                targetedPlayer: target,
+                targetedCard: card
             )
         )
     }
 
-    static func equip(_ played: String, player: String) -> Self {
+    static func equip(_ playedCard: String, player: String) -> Self {
         .init(
             name: .equip,
             payload: .init(
                 player: player,
-                played: played
+                playedCard: playedCard
             )
         )
     }
 
-    static func handicap(_ played: String, target: String, player: String) -> Self {
+    static func handicap(_ playedCard: String, target: String, player: String) -> Self {
         .init(
             name: .handicap,
             payload: .init(
                 player: player,
-                played: played,
-                target: target
+                playedCard: playedCard,
+                targetedPlayer: target
             )
         )
     }
@@ -243,7 +243,7 @@ public extension GameFeature.Action {
         .init(
             name: .setWeapon,
             payload: .init(
-                target: player,
+                targetedPlayer: player,
                 amount: weapon
             )
         )
@@ -253,7 +253,7 @@ public extension GameFeature.Action {
         .init(
             name: .setPlayLimitPerTurn,
             payload: .init(
-                target: player,
+                targetedPlayer: player,
                 amountPerTurn: limit
             )
         )
@@ -263,7 +263,7 @@ public extension GameFeature.Action {
         .init(
             name: .increaseMagnifying,
             payload: .init(
-                target: player,
+                targetedPlayer: player,
                 amount: amount
             )
         )
@@ -273,7 +273,7 @@ public extension GameFeature.Action {
         .init(
             name: .increaseRemoteness,
             payload: .init(
-                target: player,
+                targetedPlayer: player,
                 amount: amount
             )
         )
@@ -283,7 +283,7 @@ public extension GameFeature.Action {
         .init(
             name: .queue,
             payload: .init(
-                children: []
+                nestedEffects: []
             )
         )
     }

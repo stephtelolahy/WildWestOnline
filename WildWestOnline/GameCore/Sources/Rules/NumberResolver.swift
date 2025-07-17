@@ -18,15 +18,15 @@ private extension Card.Selector.Number {
 
     var resolver: Resolver {
         switch self {
-        case .value(let rawValue): Value(rawValue: rawValue)
-        case .activePlayers: ActivePlayers()
-        case .excessHand: ExcessHand()
-        case .drawCards: DrawCards()
-        case .damage: Damage()
+        case .fixed(let rawValue): Fixed(rawValue: rawValue)
+        case .activePlayerCount: ActivePlayerCount()
+        case .playerExcessHandSize: PlayerExcessHandSize()
+        case .drawnCardCount: DrawnCardCount()
+        case .receivedDamageAmount: ReceivedDamageAmount()
         }
     }
 
-    struct Value: Resolver {
+    struct Fixed: Resolver {
         let rawValue: Int
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
@@ -34,13 +34,13 @@ private extension Card.Selector.Number {
         }
     }
 
-    struct ActivePlayers: Resolver {
+    struct ActivePlayerCount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             state.playOrder.count
         }
     }
 
-    struct ExcessHand: Resolver {
+    struct PlayerExcessHandSize: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             let player = pendingAction.payload.player
             let playerObj = state.players.get(player)
@@ -55,7 +55,7 @@ private extension Card.Selector.Number {
         }
     }
 
-    struct DrawCards: Resolver {
+    struct DrawnCardCount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             let player = pendingAction.payload.player
             let playerObj = state.players.get(player)
@@ -63,14 +63,14 @@ private extension Card.Selector.Number {
         }
     }
 
-    struct Damage: Resolver {
+    struct ReceivedDamageAmount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
             guard pendingAction.triggeredByName == .damage,
-                  let damage = pendingAction.triggeredByPayload?.amount else {
-                fatalError("Expecting damage event as triggering action")
+                  let amount = pendingAction.triggeredByPayload?.amount else {
+                fatalError("Expected trigger from damage")
             }
 
-            return damage
+            return amount
         }
     }
 }
