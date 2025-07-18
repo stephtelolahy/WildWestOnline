@@ -154,22 +154,21 @@ private extension Card {
             name: .discardAllCardsOnEliminated,
             type: .ability,
             description: "Discard all cards when eliminated",
-            canTrigger: [
-                .init(name: .eliminate)
-            ],
-            onTrigger: [
-                .init(
-                    name: .discardInPlay,
-                    selectors: [
-                        .setCard(.allInPlay)
-                    ]
-                ),
-                .init(
-                    name: .discardHand,
-                    selectors: [
-                        .setCard(.allInHand)
-                    ]
-                )
+            behaviour: [
+                .eliminate: [
+                    .init(
+                        name: .discardInPlay,
+                        selectors: [
+                            .setCard(.allInPlay)
+                        ]
+                    ),
+                    .init(
+                        name: .discardHand,
+                        selectors: [
+                            .setCard(.allInHand)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -179,19 +178,16 @@ private extension Card {
             name: .endTurnOnEliminated,
             type: .ability,
             description: "End turn when eliminated",
-            canTrigger: [
-                .init(
-                    name: .eliminate,
-                    conditions: [.isCurrentTurn]
-                )
-            ],
-            onTrigger: [
-                .init(
-                    name: .startTurn,
-                    selectors: [
-                        .setTarget(.nextPlayer)
-                    ]
-                )
+            behaviour: [
+                .eliminate: [
+                    .init(
+                        name: .startTurn,
+                        selectors: [
+                            .require(.isCurrentTurn),
+                            .setTarget(.nextPlayer)
+                        ]
+                    )
+                ]
             ]
         )
     }
