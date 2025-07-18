@@ -138,14 +138,13 @@ private extension Card {
             name: .endGameOnEliminated,
             type: .ability,
             description: "End game when last player is eliminated",
-            canTrigger: [
-                .init(
-                    name: .eliminate,
-                    conditions: [.isGameOver]
-                )
-            ],
-            onTrigger: [
-                .init(name: .endGame)
+            behaviour: [
+                .eliminate: [
+                    .init(
+                        name: .endGame,
+                        selectors: [.require(.isGameOver)]
+                    )
+                ]
             ]
         )
     }
