@@ -51,6 +51,48 @@ public struct Card: Equatable, Codable, Sendable {
         self.canCounterShot = canCounterShot
     }
 
+    public init(
+        name: String,
+        type: CardType,
+        description: String = "",
+        behaviour: [Effect.Name: [Effect]] = [:]
+    ) {
+        var onPreparePlay: [Effect] = []
+        var onPlay: [Effect] = []
+        var canTrigger: [TriggerCondition] = []
+        var onTrigger: [Effect] = []
+        var onActive: [Effect] = []
+        var onInactive: [Effect] = []
+        for (eventName, effects) in behaviour {
+            switch eventName {
+            case .preparePlay:
+                onPreparePlay = effects
+            case .play:
+                onPlay = effects
+            case .equip:
+                onActive = effects
+            case .discardInPlay:
+                onInactive = effects
+            default:
+                assert(canTrigger.isEmpty)
+                canTrigger = [.init(name: eventName)]
+                onTrigger = effects
+            }
+        }
+
+        self.name = name
+        self.type = type
+        self.description = description
+        self.canPlay = []
+        self.onPreparePlay = onPreparePlay
+        self.onPlay = onPlay
+        self.canTrigger = canTrigger
+        self.onTrigger = onTrigger
+        self.onActive = onActive
+        self.onInactive = onInactive
+        self.canCounterShot = false
+    }
+
     public enum CardType: Equatable, Codable, Sendable {
         case brown
         case blue
