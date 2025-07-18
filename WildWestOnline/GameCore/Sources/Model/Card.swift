@@ -25,6 +25,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let onInactive: [Effect]
     public let canCounterShot: Bool
 
+    @available(*, deprecated, message: "use constructor with behaviour")
     public init(
         name: String,
         type: CardType,

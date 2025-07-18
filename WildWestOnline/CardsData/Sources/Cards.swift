@@ -56,10 +56,8 @@ private extension Card {
             name: .endTurn,
             type: .ability,
             description: "End turn",
-            onPreparePlay: [
-                .init(
-                    name: .endTurn
-                )
+            behaviour: [
+                .preparePlay: [.init(name: .endTurn)]
             ]
         )
     }
@@ -69,17 +67,16 @@ private extension Card {
             name: .discardExcessHandOnTurnEnded,
             type: .ability,
             description: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            canTrigger: [
-                .init(name: .endTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .discardHand,
-                    selectors: [
-                        .repeat(.playerExcessHandSize),
-                        .chooseOne(.targetCard([.isFromHand]))
-                    ]
-                )
+            behaviour: [
+                .endTurn: [
+                    .init(
+                        name: .discardHand,
+                        selectors: [
+                            .repeat(.playerExcessHandSize),
+                            .chooseOne(.targetCard([.isFromHand]))
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -89,16 +86,15 @@ private extension Card {
             name: .startTurnNextOnTurnEnded,
             type: .ability,
             description: "Start next player's turn",
-            canTrigger: [
-                .init(name: .endTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .startTurn,
-                    selectors: [
-                        .setTarget(.nextPlayer)
-                    ]
-                )
+            behaviour: [
+                .endTurn: [
+                    .init(
+                        name: .startTurn,
+                        selectors: [
+                            .setTarget(.nextPlayer)
+                        ]
+                    )
+                ]
             ]
         )
     }
