@@ -208,12 +208,13 @@ private extension Card {
             name: .stagecoach,
             type: .brown,
             description: "Draw two cards from the top of the deck.",
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(2))
+                        .repeat(.fixed(2)),
+                        .setTarget(.currentPlayer)
                     ]
                 )
             ]
@@ -225,12 +226,13 @@ private extension Card {
             name: .wellsFargo,
             type: .brown,
             description: "Draw three cards from the top of the deck.",
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .drawDeck,
                     selectors: [
-                        .repeat(.fixed(3))
+                        .repeat(.fixed(3)),
+                        .setTarget(.currentPlayer)
                     ]
                 )
             ]
@@ -245,11 +247,14 @@ private extension Card {
             canPlay: [
                 .minimumPlayers(3)
             ],
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .heal,
-                    amount: 1
+                    amount: 1,
+                    selectors: [
+                        .setTarget(.currentPlayer)
+                    ]
                 )
             ]
         )
@@ -260,8 +265,8 @@ private extension Card {
             name: .saloon,
             type: .brown,
             description: "All players in play regain one life point.",
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .heal,
                     amount: 1,
@@ -340,8 +345,8 @@ private extension Card {
             name: .generalStore,
             type: .brown,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .discover,
                     selectors: [
@@ -388,8 +393,8 @@ private extension Card {
             name: .gatling,
             type: .brown,
             description: "shoots to all the other players, regardless of the distance",
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .shoot,
                     selectors: [
