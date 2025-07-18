@@ -282,28 +282,30 @@ private extension Card {
             name: .catBalou,
             type: .brown,
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
-            onPreparePlay: [
-                .init(
-                    name: .play,
-                    selectors: [
-                        .chooseOne(.target([.hasCards])),
-                        .chooseOne(.targetCard())
-                    ]
-                )
-            ],
-            onPlay: [
-                .init(
-                    name: .discardHand,
-                    selectors: [
-                        .require(.payloadCardFromTargetHand)
-                    ]
-                ),
-                .init(
-                    name: .discardInPlay,
-                    selectors: [
-                        .require(.payloadCardFromTargetInPlay)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [
+                    .init(
+                        name: .play,
+                        selectors: [
+                            .chooseOne(.target([.hasCards])),
+                            .chooseOne(.targetCard())
+                        ]
+                    )
+                ],
+                .play: [
+                    .init(
+                        name: .discardHand,
+                        selectors: [
+                            .require(.payloadCardFromTargetHand)
+                        ]
+                    ),
+                    .init(
+                        name: .discardInPlay,
+                        selectors: [
+                            .require(.payloadCardFromTargetInPlay)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -313,28 +315,30 @@ private extension Card {
             name: .panic,
             type: .brown,
             description: "Draw a card from a player at distance 1",
-            onPreparePlay: [
-                .init(
-                    name: .play,
-                    selectors: [
-                        .chooseOne(.target([.atDistance(1), .hasCards])),
-                        .chooseOne(.targetCard())
-                    ]
-                )
-            ],
-            onPlay: [
-                .init(
-                    name: .stealHand,
-                    selectors: [
-                        .require(.payloadCardFromTargetHand)
-                    ]
-                ),
-                .init(
-                    name: .stealInPlay,
-                    selectors: [
-                        .require(.payloadCardFromTargetInPlay)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [
+                    .init(
+                        name: .play,
+                        selectors: [
+                            .chooseOne(.target([.atDistance(1), .hasCards])),
+                            .chooseOne(.targetCard())
+                        ]
+                    )
+                ],
+                .play: [
+                    .init(
+                        name: .stealHand,
+                        selectors: [
+                            .require(.payloadCardFromTargetHand)
+                        ]
+                    ),
+                    .init(
+                        name: .stealInPlay,
+                        selectors: [
+                            .require(.payloadCardFromTargetInPlay)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -344,21 +348,23 @@ private extension Card {
             name: .generalStore,
             type: .brown,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .discover,
-                    selectors: [
-                        .repeat(.activePlayerCount)
-                    ]
-                ),
-                .init(
-                    name: .drawDiscovered,
-                    selectors: [
-                        .setTarget(.activePlayers),
-                        .chooseOne(.discoveredCard)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.play],
+                .play: [
+                    .init(
+                        name: .discover,
+                        selectors: [
+                            .repeat(.activePlayerCount)
+                        ]
+                    ),
+                    .init(
+                        name: .drawDiscovered,
+                        selectors: [
+                            .setTarget(.activePlayers),
+                            .chooseOne(.discoveredCard)
+                        ]
+                    )
+                ]
             ]
         )
     }
