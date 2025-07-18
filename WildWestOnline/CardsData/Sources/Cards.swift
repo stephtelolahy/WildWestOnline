@@ -104,16 +104,15 @@ private extension Card {
             name: .draw2CardsOnTurnStarted,
             type: .ability,
             description: "Draw two cards at the beginning of your turn",
-            canTrigger: [
-                .init(name: .startTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .drawDeck,
-                    selectors: [
-                        .repeat(.fixed(2))
-                    ]
-                )
+            behaviour: [
+                .startTurn: [
+                    .init(
+                        name: .drawDeck,
+                        selectors: [
+                            .repeat(.fixed(2))
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -123,14 +122,13 @@ private extension Card {
             name: .eliminateOnDamageLethal,
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
-            canTrigger: [
-                .init(
-                    name: .damage,
-                    conditions: [.isHealthZero]
-                )
-            ],
-            onTrigger: [
-                .init(name: .eliminate)
+            behaviour: [
+                .damage: [
+                    .init(
+                        name: .eliminate,
+                        selectors: [.require(.isHealthZero)]
+                    )
+                ]
             ]
         )
     }
