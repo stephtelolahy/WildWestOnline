@@ -27,6 +27,7 @@ private extension Card.Selector.TargetGroup {
         case .activePlayers: ActivePlayers()
         case .otherPlayers: OtherPlayers()
         case .nextPlayer: NextPlayer()
+        case .currentPlayer: CurrentPlayer()
         }
     }
 
@@ -47,9 +48,7 @@ private extension Card.Selector.TargetGroup {
 
     struct OtherPlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
-            state.playOrder
-                .starting(with: pendingAction.player)
-                .filter { $0 != pendingAction.targetedPlayer }
+            Array(state.playOrder.starting(with: pendingAction.player).dropFirst())
         }
     }
 
@@ -60,6 +59,12 @@ private extension Card.Selector.TargetGroup {
                 .filter { state.playOrder.contains($0) || $0 == current }
                 .starting(with: current)[1]
             return [next]
+        }
+    }
+
+    struct CurrentPlayer: Resolver {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
+            [pendingAction.player]
         }
     }
 }
