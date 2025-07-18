@@ -758,15 +758,17 @@ private extension Card {
             name: .willyTheKid,
             type: .character,
             description: "he can play any number of BANG! cards during his turn.",
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    amount: 4
-                ),
-                .init(
-                    name: .setPlayLimitPerTurn,
-                    amountPerTurn: [.bang: .unlimited]
-                )
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 4
+                    ),
+                    .init(
+                        name: .setPlayLimitPerTurn,
+                        amountPerTurn: [.bang: .unlimited]
+                    )
+                ]
             ]
         )
     }
@@ -776,15 +778,17 @@ private extension Card {
             name: .roseDoolan,
             type: .character,
             description: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    amount: 4
-                ),
-                .init(
-                    name: .increaseMagnifying,
-                    amount: 1
-                )
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 4
+                    ),
+                    .init(
+                        name: .increaseMagnifying,
+                        amount: 1
+                    )
+                ]
             ]
         )
     }
@@ -794,15 +798,17 @@ private extension Card {
             name: .paulRegret,
             type: .character,
             description: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    amount: 3
-                ),
-                .init(
-                    name: .increaseRemoteness,
-                    amount: 1
-                )
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 3
+                    ),
+                    .init(
+                        name: .increaseRemoteness,
+                        amount: 1
+                    )
+                ]
             ]
         )
     }
@@ -812,25 +818,22 @@ private extension Card {
             name: .bartCassidy,
             type: .character,
             description: "each time he loses a life point, he immediately draws a card from the deck.",
-            canTrigger: [
-                .init(
-                    name: .damage,
-                    conditions: [.isHealthNonZero]
-                )
-            ],
-            onTrigger: [
-                .init(
-                    name: .drawDeck,
-                    selectors: [
-                        .repeat(.receivedDamageAmount)
-                    ]
-                )
-            ],
-            onActive: [
-                .init(
-                    name: .setMaxHealth,
-                    amount: 4
-                )
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 4
+                    )
+                ],
+                .damage: [
+                    .init(
+                        name: .drawDeck,
+                        selectors: [
+                            .require(.isHealthNonZero),
+                            .repeat(.receivedDamageAmount)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -873,3 +876,4 @@ private extension Card.Effect {
         )
     }
 }
+

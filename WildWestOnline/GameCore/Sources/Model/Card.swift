@@ -72,6 +72,8 @@ public struct Card: Equatable, Codable, Sendable {
                 onPlay = effects
             case .equip:
                 onActive = effects
+            case .permanent:
+                onActive = effects
             case .discardInPlay:
                 onInactive = effects
             default:
@@ -109,11 +111,11 @@ public struct Card: Equatable, Codable, Sendable {
         public var targetedCard: String?
         public var amount: Int?
         public var chosenOption: String?
-        public var nestedEffects: [Effect]?
+        public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
         public var selectors: [Card.Selector]
-        public let triggeredBy: [Effect]? // use array to fix Value type 'Card.Effect' cannot have a stored property that recursively contains it
+        public let triggeredBy: [Self]? // use array to fix Value type 'Card.Effect' cannot have a stored property that recursively contains it
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -148,6 +150,7 @@ public struct Card: Equatable, Codable, Sendable {
             case setPlayLimitPerTurn
             case setDrawCards
             case queue
+            case permanent
         }
 
         public init(

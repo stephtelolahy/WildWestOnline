@@ -50,6 +50,7 @@ private extension Card.Effect.Name {
         case .increaseRemoteness: IncreaseRemoteness()
         case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
         case .setDrawCards: fatalError("Unexpected to dispatch setDrawCards")
+        case .permanent: fatalError("Unexpected to dispatch permanent")
         }
     }
 
