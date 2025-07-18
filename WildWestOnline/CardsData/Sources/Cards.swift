@@ -26,8 +26,8 @@ public enum Cards {
         .panic,
         .generalStore,
         .bang,
-        .gatling,
         .missed,
+        .gatling,
         .indians,
         .duel,
         .schofield,
@@ -411,6 +411,15 @@ private extension Card {
         )
     }
 
+    static var missed: Self {
+        .init(
+            name: .missed,
+            type: .brown,
+            description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
+            canCounterShot: true
+        )
+    }
+
     static var gatling: Self {
         .init(
             name: .gatling,
@@ -427,15 +436,6 @@ private extension Card {
                     )
                 ]
             ]
-        )
-    }
-
-    static var missed: Self {
-        .init(
-            name: .missed,
-            type: .brown,
-            description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            canCounterShot: true
         )
     }
 
@@ -492,17 +492,21 @@ private extension Card {
             name: .schofield,
             type: .blue,
             description: "can hit targets at a distance of 2.",
-            onPreparePlay: [
-                .discardEquipedWeapon,
-                .equip
-            ],
-            onActive: [
-                .init(
-                    name: .setWeapon,
-                    amount: 2
-                )
-            ],
-            onInactive: [.resetWeapon]
+            behaviour: [
+                .preparePlay: [
+                    .discardEquipedWeapon,
+                    .equip
+                ],
+                .equip: [
+                    .init(
+                        name: .setWeapon,
+                        amount: 2
+                    )
+                ],
+                .discardInPlay: [
+                    .resetWeapon
+                ]
+            ]
         )
     }
 
@@ -511,17 +515,21 @@ private extension Card {
             name: .remington,
             type: .blue,
             description: "can hit targets at a distance of 3.",
-            onPreparePlay: [
-                .discardEquipedWeapon,
-                .equip
-            ],
-            onActive: [
-                .init(
-                    name: .setWeapon,
-                    amount: 3
-                )
-            ],
-            onInactive: [.resetWeapon]
+            behaviour: [
+                .preparePlay: [
+                    .discardEquipedWeapon,
+                    .equip
+                ],
+                .equip: [
+                    .init(
+                        name: .setWeapon,
+                        amount: 3
+                    )
+                ],
+                .discardInPlay: [
+                    .resetWeapon
+                ]
+            ]
         )
     }
 
@@ -530,17 +538,21 @@ private extension Card {
             name: .revCarabine,
             type: .blue,
             description: "can hit targets at a distance of 4.",
-            onPreparePlay: [
-                .discardEquipedWeapon,
-                .equip
-            ],
-            onActive: [
-                .init(
-                    name: .setWeapon,
-                    amount: 4
-                )
-            ],
-            onInactive: [.resetWeapon]
+            behaviour: [
+                .preparePlay: [
+                    .discardEquipedWeapon,
+                    .equip
+                ],
+                .equip: [
+                    .init(
+                        name: .setWeapon,
+                        amount: 4
+                    )
+                ],
+                .discardInPlay: [
+                    .resetWeapon
+                ]
+            ]
         )
     }
 
@@ -549,17 +561,21 @@ private extension Card {
             name: .winchester,
             type: .blue,
             description: "can hit targets at a distance of 5.",
-            onPreparePlay: [
-                .discardEquipedWeapon,
-                .equip
-            ],
-            onActive: [
-                .init(
-                    name: .setWeapon,
-                    amount: 5
-                )
-            ],
-            onInactive: [.resetWeapon]
+            behaviour: [
+                .preparePlay: [
+                    .discardEquipedWeapon,
+                    .equip
+                ],
+                .equip: [
+                    .init(
+                        name: .setWeapon,
+                        amount: 5
+                    )
+                ],
+                .discardInPlay: [
+                    .resetWeapon
+                ]
+            ]
         )
     }
 
@@ -568,21 +584,25 @@ private extension Card {
             name: .volcanic,
             type: .blue,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            onPreparePlay: [
-                .discardEquipedWeapon,
-                .equip
-            ],
-            onActive: [
-                .init(
-                    name: .setWeapon,
-                    amount: 1
-                ),
-                .init(
-                    name: .setPlayLimitPerTurn,
-                    amountPerTurn: [.bang: .unlimited]
-                )
-            ],
-            onInactive: [.resetWeapon]
+            behaviour: [
+                .preparePlay: [
+                    .discardEquipedWeapon,
+                    .equip
+                ],
+                .equip: [
+                    .init(
+                        name: .setWeapon,
+                        amount: 1
+                    ),
+                    .init(
+                        name: .setPlayLimitPerTurn,
+                        amountPerTurn: [.bang: .unlimited]
+                    )
+                ],
+                .discardInPlay: [
+                    .resetWeapon
+                ]
+            ]
         )
     }
 
