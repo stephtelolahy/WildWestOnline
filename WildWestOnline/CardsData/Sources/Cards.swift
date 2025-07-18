@@ -419,8 +419,8 @@ private extension Card {
             name: .indians,
             type: .brown,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            onPreparePlay: [
-                .play,
+            onPreparePlay: [.play],
+            onPlay: [
                 .init(
                     name: .damage,
                     amount: 1,

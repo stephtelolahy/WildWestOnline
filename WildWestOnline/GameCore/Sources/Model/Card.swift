@@ -7,6 +7,15 @@
 
 import Redux
 
+/*
+struct EventDrivenCard: Equatable, Codable, Sendable {
+    public let name: String
+    public let type: Card.CardType
+    public let description: String
+    public let behaviour: [Card.Effect.Name: [Card.Effect]]
+}
+*/
+
 /// We are working on a Card Definition DLS that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
