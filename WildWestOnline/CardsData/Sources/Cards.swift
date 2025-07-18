@@ -682,36 +682,35 @@ private extension Card {
             name: .dynamite,
             type: .blue,
             description: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            onPreparePlay: [.equip],
-            canTrigger: [
-                .init(name: .startTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .draw,
-                    selectors: [
-                        .repeat(.drawnCardCount)
-                    ]
-                ),
-                .init(name: .passInPlay, selectors: [
-                    .require(.drawnCardMatches(.regexPassDynamite)),
-                    .setCard(.played),
-                    .setTarget(.nextPlayer)
-                ]),
-                .init(
-                    name: .damage,
-                    amount: 3,
-                    selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexPassDynamite))
-                    ]
-                ),
-                .init(
-                    name: .discardInPlay,
-                    selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
-                        .setCard(.played)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.equip],
+                .startTurn: [
+                    .init(
+                        name: .draw,
+                        selectors: [
+                            .repeat(.drawnCardCount)
+                        ]
+                    ),
+                    .init(name: .passInPlay, selectors: [
+                        .require(.drawnCardMatches(.regexPassDynamite)),
+                        .setCard(.played),
+                        .setTarget(.nextPlayer)
+                    ]),
+                    .init(
+                        name: .damage,
+                        amount: 3,
+                        selectors: [
+                            .require(.drawnCardDoesNotMatch(.regexPassDynamite))
+                        ]
+                    ),
+                    .init(
+                        name: .discardInPlay,
+                        selectors: [
+                            .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
+                            .setCard(.played)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -721,36 +720,35 @@ private extension Card {
             name: .jail,
             type: .blue,
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-            onPreparePlay: [
-                .init(
-                    name: .handicap,
-                    selectors: [
-                        .chooseOne(.target())
-                    ]
-                )
-            ],
-            canTrigger: [
-                .init(name: .startTurn)
-            ],
-            onTrigger: [
-                .init(
-                    name: .draw,
-                    selectors: [
-                        .repeat(.drawnCardCount)
-                    ]
-                ),
-                .init(
-                    name: .endTurn,
-                    selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexHearts))
-                    ]
-                ),
-                .init(
-                    name: .discardInPlay,
-                    selectors: [
-                        .setCard(.played)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [
+                    .init(
+                        name: .handicap,
+                        selectors: [
+                            .chooseOne(.target())
+                        ]
+                    )
+                ],
+                .startTurn: [
+                    .init(
+                        name: .draw,
+                        selectors: [
+                            .repeat(.drawnCardCount)
+                        ]
+                    ),
+                    .init(
+                        name: .endTurn,
+                        selectors: [
+                            .require(.drawnCardDoesNotMatch(.regexHearts))
+                        ]
+                    ),
+                    .init(
+                        name: .discardInPlay,
+                        selectors: [
+                            .setCard(.played)
+                        ]
+                    )
+                ]
             ]
         )
     }
