@@ -374,6 +374,24 @@ private extension Card {
             name: .bang,
             type: .brown,
             description: "reduce other players’s life points",
+            /*
+             behaviour: [
+                 .preparePlay: [
+                     .init(
+                         name: .play,
+                         selectors: [
+                             .requireThrows(.playLimitPerTurn([.bang: 1])),
+                             .chooseOne(.target([.reachable]))
+                         ]
+                     )
+                 ],
+                 .play: [
+                     .init(
+                         name: .shoot
+                     )
+                 ]
+             ]
+             */
             canPlay: [
                 .playLimitPerTurn([.bang: 1])
             ],
@@ -398,14 +416,16 @@ private extension Card {
             name: .gatling,
             type: .brown,
             description: "shoots to all the other players, regardless of the distance",
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .shoot,
-                    selectors: [
-                        .setTarget(.otherPlayers)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.play],
+                .play: [
+                    .init(
+                        name: .shoot,
+                        selectors: [
+                            .setTarget(.otherPlayers)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -424,16 +444,18 @@ private extension Card {
             name: .indians,
             type: .brown,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .damage,
-                    amount: 1,
-                    selectors: [
-                        .setTarget(.otherPlayers),
-                        .chooseOne(.optionalCounterCard([.named(.bang)]))
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.play],
+                .play: [
+                    .init(
+                        name: .damage,
+                        amount: 1,
+                        selectors: [
+                            .setTarget(.otherPlayers),
+                            .chooseOne(.optionalCounterCard([.named(.bang)]))
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -443,22 +465,24 @@ private extension Card {
             name: .duel,
             type: .brown,
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-            onPreparePlay: [
-                .init(
-                    name: .play,
-                    selectors: [
-                        .chooseOne(.target())
-                    ]
-                )
-            ],
-            onPlay: [
-                .init(
-                    name: .damage,
-                    amount: 1,
-                    selectors: [
-                        .chooseOne(.optionalRedirectCard([.named(.bang)]))
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [
+                    .init(
+                        name: .play,
+                        selectors: [
+                            .chooseOne(.target())
+                        ]
+                    )
+                ],
+                .play: [
+                    .init(
+                        name: .damage,
+                        amount: 1,
+                        selectors: [
+                            .chooseOne(.optionalRedirectCard([.named(.bang)]))
+                        ]
+                    )
+                ]
             ]
         )
     }
