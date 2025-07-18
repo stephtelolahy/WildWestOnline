@@ -197,15 +197,17 @@ private extension Card {
             name: .stagecoach,
             type: .brown,
             description: "Draw two cards from the top of the deck.",
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .drawDeck,
-                    selectors: [
-                        .repeat(.fixed(2)),
-                        .setTarget(.currentPlayer)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.play],
+                .play: [
+                    .init(
+                        name: .drawDeck,
+                        selectors: [
+                            .repeat(.fixed(2)),
+                            .setTarget(.currentPlayer)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -215,15 +217,17 @@ private extension Card {
             name: .wellsFargo,
             type: .brown,
             description: "Draw three cards from the top of the deck.",
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .drawDeck,
-                    selectors: [
-                        .repeat(.fixed(3)),
-                        .setTarget(.currentPlayer)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.play],
+                .play: [
+                    .init(
+                        name: .drawDeck,
+                        selectors: [
+                            .repeat(.fixed(3)),
+                            .setTarget(.currentPlayer)
+                        ]
+                    )
+                ]
             ]
         )
     }
@@ -233,18 +237,22 @@ private extension Card {
             name: .beer,
             type: .brown,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            canPlay: [
-                .minimumPlayers(3)
-            ],
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .heal,
-                    amount: 1,
-                    selectors: [
-                        .setTarget(.currentPlayer)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [
+                    .init(
+                        name: .play,
+                        selectors: [.requireThrows(.minimumPlayers(3))]
+                    )
+                ],
+                .play: [
+                    .init(
+                        name: .heal,
+                        amount: 1,
+                        selectors: [
+                            .setTarget(.currentPlayer)
+                        ]
+                    )
+                ]
             ]
         )
     }

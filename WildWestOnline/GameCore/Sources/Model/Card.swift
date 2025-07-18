@@ -239,7 +239,9 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, resolved: ChoicePrompt? = nil, selection: String? = nil)
+        @available(*, deprecated, renamed: "requireThrows")
         case require(PlayCondition)
+        case requireThrows(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
             case fixed(Int)
