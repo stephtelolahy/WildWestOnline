@@ -262,15 +262,17 @@ private extension Card {
             name: .saloon,
             type: .brown,
             description: "All players in play regain one life point.",
-            onPreparePlay: [.play],
-            onPlay: [
-                .init(
-                    name: .heal,
-                    amount: 1,
-                    selectors: [
-                        .setTarget(.woundedPlayers)
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.play],
+                .play: [
+                    .init(
+                        name: .heal,
+                        amount: 1,
+                        selectors: [
+                            .setTarget(.woundedPlayers)
+                        ]
+                    )
+                ]
             ]
         )
     }
