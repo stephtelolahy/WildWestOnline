@@ -657,23 +657,22 @@ private extension Card {
             name: .barrel,
             type: .blue,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-            onPreparePlay: [.equip],
-            canTrigger: [
-                .init(name: .shoot)
-            ],
-            onTrigger: [
-                .init(
-                    name: .draw,
-                    selectors: [
-                        .repeat(.drawnCardCount)
-                    ]
-                ),
-                .init(
-                    name: .counterShot,
-                    selectors: [
-                        .require(.drawnCardMatches(.regexHearts))
-                    ]
-                )
+            behaviour: [
+                .preparePlay: [.equip],
+                .shoot: [
+                    .init(
+                        name: .draw,
+                        selectors: [
+                            .repeat(.drawnCardCount)
+                        ]
+                    ),
+                    .init(
+                        name: .counterShot,
+                        selectors: [
+                            .require(.drawnCardMatches(.regexHearts))
+                        ]
+                    )
+                ],
             ]
         )
     }
