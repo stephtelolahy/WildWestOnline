@@ -611,18 +611,20 @@ private extension Card {
             name: .scope,
             type: .blue,
             description: "you see all the other players at a distance decreased by 1",
-            onPreparePlay: [.equip],
-            onActive: [
-                .init(
-                    name: .increaseMagnifying,
-                    amount: 1
-                )
-            ],
-            onInactive: [
-                .init(
-                    name: .increaseMagnifying,
-                    amount: -1
-                )
+            behaviour: [
+                .preparePlay: [.equip],
+                .equip: [
+                    .init(
+                        name: .increaseMagnifying,
+                        amount: 1
+                    )
+                ],
+                .discardInPlay: [
+                    .init(
+                        name: .increaseMagnifying,
+                        amount: -1
+                    )
+                ]
             ]
         )
     }
@@ -632,18 +634,20 @@ private extension Card {
             name: .mustang,
             type: .blue,
             description: "the distance between other players and you is increased by 1",
-            onPreparePlay: [.equip],
-            onActive: [
-                .init(
-                    name: .increaseRemoteness,
-                    amount: 1
-                )
-            ],
-            onInactive: [
-                .init(
-                    name: .increaseRemoteness,
-                    amount: -1
-                )
+            behaviour: [
+                .preparePlay: [.equip],
+                .equip: [
+                    .init(
+                        name: .increaseRemoteness,
+                        amount: 1
+                    )
+                ],
+                .discardInPlay: [
+                    .init(
+                        name: .increaseRemoteness,
+                        amount: -1
+                    )
+                ]
             ]
         )
     }
