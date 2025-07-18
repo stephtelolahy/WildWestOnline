@@ -6,14 +6,14 @@
 //
 
 extension Card.PlayCondition {
-    func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-        matcher.match(payload, state: state)
+    func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        matcher.match(pendingAction, state: state)
     }
 }
 
 private extension Card.PlayCondition {
     protocol Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool
     }
 
     var matcher: Matcher {
@@ -34,7 +34,7 @@ private extension Card.PlayCondition {
     struct MinimumPlayers: Matcher {
         let count: Int
 
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
             state.playOrder.count >= count
         }
     }
@@ -42,8 +42,8 @@ private extension Card.PlayCondition {
     struct PlayLimitPerTurn: Matcher {
         let limit: [String: Int]
 
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let player = payload.player
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let player = pendingAction.player
             guard let card = limit.keys.first else {
                 fatalError("No card specified in limit")
             }
@@ -63,36 +63,36 @@ private extension Card.PlayCondition {
     }
 
     struct IsHealthZero: Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let player = payload.player
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let player = pendingAction.player
             return state.players.get(player).health <= 0
         }
     }
 
     struct IsHealthNonZero: Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let player = payload.player
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let player = pendingAction.player
             return state.players.get(player).health > 0
         }
     }
 
     struct IsGameOver: Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
             state.playOrder.count <= 1
         }
     }
 
     struct IsCurrentTurn: Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            state.turn == payload.player
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            state.turn == pendingAction.player
         }
     }
 
     struct DrawnCardMatches: Matcher {
         let regex: String
 
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let player = payload.player
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let player = pendingAction.player
             let drawCards = state.players.get(player).drawCards
             return state.discard
                 .prefix(drawCards)
@@ -103,8 +103,8 @@ private extension Card.PlayCondition {
     struct DrawnCardDoesNotMatch: Matcher {
         let regex: String
 
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let player = payload.player
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let player = pendingAction.player
             let drawCards = state.players.get(player).drawCards
             return state.discard
                 .prefix(drawCards)
@@ -113,18 +113,18 @@ private extension Card.PlayCondition {
     }
 
     struct PayloadCardFromTargetHand: Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let card = payload.targetedCard!
-            let target = payload.targetedPlayer!
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let card = pendingAction.targetedCard!
+            let target = pendingAction.targetedPlayer!
             let targetObj = state.players.get(target)
             return targetObj.hand.contains(card)
         }
     }
 
     struct PayloadCardFromTargetInPlay: Matcher {
-        func match(_ payload: Card.Effect.Payload, state: GameFeature.State) -> Bool {
-            let card = payload.targetedCard!
-            let target = payload.targetedPlayer!
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let card = pendingAction.targetedCard!
+            let target = pendingAction.targetedPlayer!
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
         }

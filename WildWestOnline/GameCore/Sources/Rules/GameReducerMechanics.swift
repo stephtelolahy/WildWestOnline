@@ -42,11 +42,11 @@ extension GameFeature {
 
         if state.active.isNotEmpty {
             guard action.name == .preparePlay,
-                  state.active.contains(where: { $0.key == action.payload.player && $0.value.contains(action.payload.playedCard) }) else {
+                  state.active.contains(where: { $0.key == action.player && $0.value.contains(action.playedCard) }) else {
                 fatalError("Unexpected unwaited action \(action)")
             }
 
-            state.active.removeValue(forKey: action.payload.player)
+            state.active.removeValue(forKey: action.player)
         }
 
         if action.selectors.isNotEmpty {
@@ -60,7 +60,7 @@ extension GameFeature {
 
             state.queue.insert(contentsOf: children, at: 0)
         } else {
-            state = try action.name.reduce(action.payload, state: state)
+            state = try action.name.reduce(action, state: state)
         }
     }
 }

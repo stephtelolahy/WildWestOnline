@@ -6,8 +6,8 @@
 //
 
 extension Card.Selector.TargetGroup {
-    func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-        let players = resolver.resolve(payload, state: state)
+    func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        let players = resolver.resolve(pendingAction, state: state)
         guard players.isNotEmpty else {
             throw .noTarget(self)
         }
@@ -18,7 +18,7 @@ extension Card.Selector.TargetGroup {
 
 private extension Card.Selector.TargetGroup {
     protocol Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) -> [String]
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String]
     }
 
     var resolver: Resolver {
@@ -31,31 +31,31 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct WoundedPlayers: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) -> [String] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
             state.playOrder
-                .starting(with: payload.player)
+                .starting(with: pendingAction.player)
                 .filter { state.players.get($0).isWounded }
         }
     }
 
     struct ActivePlayers: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) -> [String] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
             state.playOrder
-                .starting(with: payload.player)
+                .starting(with: pendingAction.player)
         }
     }
 
     struct OtherPlayers: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) -> [String] {
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
             state.playOrder
-                .starting(with: payload.player)
-                .filter { $0 != payload.targetedPlayer }
+                .starting(with: pendingAction.player)
+                .filter { $0 != pendingAction.targetedPlayer }
         }
     }
 
     struct NextPlayer: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) -> [String] {
-            let current = payload.player
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> [String] {
+            let current = pendingAction.player
             let next = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
                 .starting(with: current)[1]

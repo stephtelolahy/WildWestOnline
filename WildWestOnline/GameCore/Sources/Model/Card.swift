@@ -60,10 +60,17 @@ public struct Card: Equatable, Codable, Sendable {
 
     public struct Effect: ActionProtocol, Equatable, Codable {
         public let name: Name
-        public var payload: Payload
+        public let player: String
+        public let playedCard: String
+        public var targetedPlayer: String?
+        public var targetedCard: String?
+        public var amount: Int?
+        public var chosenOption: String?
+        public var nestedEffects: [Effect]?
+        public var affectedCards: [String]?
+        public var amountPerTurn: [String: Int]?
         public var selectors: [Card.Selector]
-        public let triggeredByName: Name?
-        public let triggeredByPayload: Payload?
+        public let triggeredBy: [Effect]? // use array to fix Value type 'Card.Effect' cannot have a stored property that recursively contains it
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -100,52 +107,32 @@ public struct Card: Equatable, Codable, Sendable {
             case queue
         }
 
-        public struct Payload: Equatable, Codable, Sendable {
-            public let player: String
-            public let playedCard: String
-            public var targetedPlayer: String?
-            public var targetedCard: String?
-            public var amount: Int?
-            public var chosenOption: String?
-            public var nestedEffects: [Effect]?
-            public var affectedCards: [String]?
-            public var amountPerTurn: [String: Int]?
-
-            public init(
-                player: String = "",
-                playedCard: String = "",
-                targetedPlayer: String? = nil,
-                targetedCard: String? = nil,
-                amount: Int? = nil,
-                chosenOption: String? = nil,
-                nestedEffects: [Card.Effect]? = nil,
-                affectedCards: [String]? = nil,
-                amountPerTurn: [String: Int]? = nil
-            ) {
-                self.player = player
-                self.playedCard = playedCard
-                self.targetedPlayer = targetedPlayer
-                self.targetedCard = targetedCard
-                self.amount = amount
-                self.chosenOption = chosenOption
-                self.nestedEffects = nestedEffects
-                self.affectedCards = affectedCards
-                self.amountPerTurn = amountPerTurn
-            }
-        }
-
         public init(
             name: Name,
-            payload: Payload = .init(),
+            player: String = "",
+            playedCard: String = "",
+            targetedPlayer: String? = nil,
+            targetedCard: String? = nil,
+            amount: Int? = nil,
+            chosenOption: String? = nil,
+            nestedEffects: [Self]? = nil,
+            affectedCards: [String]? = nil,
+            amountPerTurn: [String: Int]? = nil,
             selectors: [Card.Selector] = [],
-            triggeredByName: Name? = nil,
-            triggeredByPayload: Payload? = nil
+            triggeredBy: [Self]? = nil
         ) {
             self.name = name
             self.selectors = selectors
-            self.payload = payload
-            self.triggeredByName = triggeredByName
-            self.triggeredByPayload = triggeredByPayload
+            self.player = player
+            self.playedCard = playedCard
+            self.targetedPlayer = targetedPlayer
+            self.targetedCard = targetedCard
+            self.amount = amount
+            self.chosenOption = chosenOption
+            self.nestedEffects = nestedEffects
+            self.affectedCards = affectedCards
+            self.amountPerTurn = amountPerTurn
+            self.triggeredBy = triggeredBy
         }
 
         public func copy(
@@ -155,25 +142,21 @@ public struct Card: Equatable, Codable, Sendable {
             targetedCard: String? = nil,
             amount: Int? = nil,
             selectors: [Card.Selector]? = nil,
-            triggeredByName: Name? = nil,
-            triggeredByPayload: Payload? = nil
+            triggeredBy: [Self]? = nil
         ) -> Self {
             .init(
                 name: self.name,
-                payload: .init(
-                    player: player ?? self.payload.player,
-                    playedCard: playedCard ?? self.payload.playedCard,
-                    targetedPlayer: targetedPlayer ?? self.payload.targetedPlayer,
-                    targetedCard: targetedCard ?? self.payload.targetedCard,
-                    amount: amount ?? self.payload.amount,
-                    chosenOption: self.payload.chosenOption,
-                    nestedEffects: self.payload.nestedEffects,
-                    affectedCards: self.payload.affectedCards,
-                    amountPerTurn: self.payload.amountPerTurn
-                ),
+                player: player ?? self.player,
+                playedCard: playedCard ?? self.playedCard,
+                targetedPlayer: targetedPlayer ?? self.targetedPlayer,
+                targetedCard: targetedCard ?? self.targetedCard,
+                amount: amount ?? self.amount,
+                chosenOption: self.chosenOption,
+                nestedEffects: self.nestedEffects,
+                affectedCards: self.affectedCards,
+                amountPerTurn: self.amountPerTurn,
                 selectors: selectors ?? self.selectors,
-                triggeredByName: triggeredByName ?? self.triggeredByName,
-                triggeredByPayload: triggeredByPayload ?? self.triggeredByPayload
+                triggeredBy: triggeredBy ?? self.triggeredBy
             )
         }
 

@@ -85,7 +85,7 @@ private extension GameFeature.State {
             let equipment = playerObj.inPlay
             let isTurn = playerId == turn
             let isEliminated = !playOrder.contains(playerId)
-            let isTargeted = queue.contains { $0.payload.targetedPlayer == playerId }
+            let isTargeted = queue.contains { $0.targetedPlayer == playerId }
 
             return .init(
                 id: playerId,

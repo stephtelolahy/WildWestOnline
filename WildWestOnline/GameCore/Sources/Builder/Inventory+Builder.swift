@@ -30,7 +30,7 @@ public extension Inventory {
                 onActive: [
                     .init(
                         name: .setMaxHealth,
-                        payload: .init(amount: 1)
+                        amount: 1
                     )
                 ]
             )

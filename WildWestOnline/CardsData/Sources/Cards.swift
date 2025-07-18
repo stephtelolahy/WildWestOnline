@@ -249,7 +249,7 @@ private extension Card {
                 .play,
                 .init(
                     name: .heal,
-                    payload: .init(amount: 1)
+                    amount: 1
                 )
             ]
         )
@@ -264,7 +264,7 @@ private extension Card {
                 .play,
                 .init(
                     name: .heal,
-                    payload: .init(amount: 1),
+                    amount: 1,
                     selectors: [
                         .setTarget(.woundedPlayers)
                     ]
@@ -418,7 +418,7 @@ private extension Card {
                 .play,
                 .init(
                     name: .damage,
-                    payload: .init(amount: 1),
+                    amount: 1,
                     selectors: [
                         .setTarget(.otherPlayers),
                         .chooseOne(.optionalCounterCard([.named(.bang)]))
@@ -444,7 +444,7 @@ private extension Card {
             onPlay: [
                 .init(
                     name: .damage,
-                    payload: .init(amount: 1),
+                    amount: 1,
                     selectors: [
                         .chooseOne(.optionalRedirectCard([.named(.bang)]))
                     ]
@@ -465,7 +465,7 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    payload: .init(amount: 2)
+                    amount: 2
                 )
             ],
             onInactive: [.resetWeapon]
@@ -484,7 +484,7 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    payload: .init(amount: 3)
+                    amount: 3
                 )
             ],
             onInactive: [.resetWeapon]
@@ -503,7 +503,7 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    payload: .init(amount: 4)
+                    amount: 4
                 )
             ],
             onInactive: [.resetWeapon]
@@ -522,7 +522,7 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    payload: .init(amount: 5)
+                    amount: 5
                 )
             ],
             onInactive: [.resetWeapon]
@@ -541,11 +541,11 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setWeapon,
-                    payload: .init(amount: 1)
+                    amount: 1
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    payload: .init(amountPerTurn: [.bang: .unlimited])
+                    amountPerTurn: [.bang: .unlimited]
                 )
             ],
             onInactive: [.resetWeapon]
@@ -561,13 +561,13 @@ private extension Card {
             onActive: [
                 .init(
                     name: .increaseMagnifying,
-                    payload: .init(amount: 1)
+                    amount: 1
                 )
             ],
             onInactive: [
                 .init(
                     name: .increaseMagnifying,
-                    payload: .init(amount: -1)
+                    amount: -1
                 )
             ]
         )
@@ -582,13 +582,13 @@ private extension Card {
             onActive: [
                 .init(
                     name: .increaseRemoteness,
-                    payload: .init(amount: 1)
+                    amount: 1
                 )
             ],
             onInactive: [
                 .init(
                     name: .increaseRemoteness,
-                    payload: .init(amount: -1)
+                    amount: -1
                 )
             ]
         )
@@ -643,7 +643,7 @@ private extension Card {
                 ]),
                 .init(
                     name: .damage,
-                    payload: .init(amount: 3),
+                    amount: 3,
                     selectors: [
                         .require(.drawnCardDoesNotMatch(.regexPassDynamite))
                     ]
@@ -706,11 +706,11 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setMaxHealth,
-                    payload: .init(amount: 4)
+                    amount: 4
                 ),
                 .init(
                     name: .setPlayLimitPerTurn,
-                    payload: .init(amountPerTurn: [.bang: .unlimited])
+                    amountPerTurn: [.bang: .unlimited]
                 )
             ]
         )
@@ -724,11 +724,11 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setMaxHealth,
-                    payload: .init(amount: 4)
+                    amount: 4
                 ),
                 .init(
                     name: .increaseMagnifying,
-                    payload: .init(amount: 1)
+                    amount: 1
                 )
             ]
         )
@@ -742,11 +742,11 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setMaxHealth,
-                    payload: .init(amount: 3)
+                    amount: 3
                 ),
                 .init(
                     name: .increaseRemoteness,
-                    payload: .init(amount: 1)
+                    amount: 1
                 )
             ]
         )
@@ -774,7 +774,7 @@ private extension Card {
             onActive: [
                 .init(
                     name: .setMaxHealth,
-                    payload: .init(amount: 4)
+                    amount: 4
                 )
             ]
         )
@@ -805,7 +805,7 @@ private extension Card.Effect {
     static var resetWeapon: Self {
         .init(
             name: .setWeapon,
-            payload: .init(amount: 1)
+            amount: 1
         )
     }
 

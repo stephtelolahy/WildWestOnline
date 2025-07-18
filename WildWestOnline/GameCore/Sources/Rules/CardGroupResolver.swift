@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.CardGroup {
-    func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-        try resolver.resolve(payload, state: state)
+    func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        try resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.CardGroup {
     protocol Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String]
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String]
     }
 
     var resolver: Resolver {
@@ -26,26 +26,26 @@ private extension Card.Selector.CardGroup {
     }
 
     struct AllInPlay: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            state.players.get(payload.targetedPlayer!).inPlay
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+            state.players.get(pendingAction.targetedPlayer!).inPlay
         }
     }
 
     struct AllInHand: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            state.players.get(payload.targetedPlayer!).hand
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+            state.players.get(pendingAction.targetedPlayer!).hand
         }
     }
 
     struct Played: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            [payload.playedCard]
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+            [pendingAction.playedCard]
         }
     }
 
     struct EquippedWeapon: Resolver {
-        func resolve(_ payload: Card.Effect.Payload, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            state.players.get(payload.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
+        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+            state.players.get(pendingAction.targetedPlayer!).inPlay.filter { state.isWeapon($0) }
         }
     }
 }
