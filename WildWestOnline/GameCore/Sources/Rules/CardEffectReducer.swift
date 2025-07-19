@@ -50,6 +50,7 @@ private extension Card.Effect.Name {
         case .increaseRemoteness: IncreaseRemoteness()
         case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
         case .setDrawCards: fatalError("Unexpected to dispatch setDrawCards")
+        case .permanent: fatalError("Unexpected to dispatch permanent")
         }
     }
 
@@ -122,19 +123,12 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let cardName = Card.extractName(from: action.playedCard)
             let cardObj = state.cards.get(cardName)
-            guard cardObj.onPreparePlay.isNotEmpty else {
+            guard let onPreparePlay = cardObj.behaviour[.preparePlay],
+                  onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
 
-            for playReq in cardObj.canPlay {
-                guard playReq.match(action, state: state) else {
-                    throw .noReq(playReq)
-                }
-            }
-
-            var state = state
-
-            let effects = cardObj.onPreparePlay
+            let effects = onPreparePlay
                 .map {
                     $0.copy(
                         withPlayer: action.player,
@@ -143,11 +137,9 @@ private extension Card.Effect.Name {
                         triggeredBy: [action]
                     )
                 }
+
+            var state = state
             state.queue.insert(contentsOf: effects, at: 0)
-
-            let playedThisTurn = state.playedThisTurn[cardName] ?? 0
-            state.playedThisTurn[cardName] = playedThisTurn + 1
-
             return state
         }
     }
@@ -162,8 +154,9 @@ private extension Card.Effect.Name {
             state.discard.insert(card, at: 0)
 
             let cardName = Card.extractName(from: action.playedCard)
-            if let cardObj = state.cards[cardName] {
-                let effects = cardObj.onPlay
+            if let cardObj = state.cards[cardName],
+               let onPlay = cardObj.behaviour[.play] {
+                let effects = onPlay
                     .map {
                         $0.copy(
                             withPlayer: action.player,
@@ -175,6 +168,9 @@ private extension Card.Effect.Name {
                     }
                 state.queue.insert(contentsOf: effects, at: 0)
             }
+
+            let playedThisTurn = state.playedThisTurn[cardName] ?? 0
+            state.playedThisTurn[cardName] = playedThisTurn + 1
 
             return state
         }

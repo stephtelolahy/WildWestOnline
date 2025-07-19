@@ -1,9 +1,8 @@
 //
-//  Card.swift
+//  swift
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-// swiftlint:disable nesting
 
 import Redux
 
@@ -16,39 +15,18 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String
-    public let canPlay: [PlayCondition]
-    public let onPreparePlay: [Effect]
-    public let onPlay: [Effect]
-    public let canTrigger: [TriggerCondition]
-    public let onTrigger: [Effect]
-    public let onActive: [Effect]
-    public let onInactive: [Effect]
-    public let canCounterShot: Bool
+    public let behaviour: [Effect.Name: [Effect]]
 
     public init(
         name: String,
         type: CardType,
         description: String = "",
-        canPlay: [PlayCondition] = [],
-        onPreparePlay: [Effect] = [],
-        onPlay: [Effect] = [],
-        canTrigger: [TriggerCondition] = [],
-        onTrigger: [Effect] = [],
-        onActive: [Effect] = [],
-        onInactive: [Effect] = [],
-        canCounterShot: Bool = false
+        behaviour: [Effect.Name: [Effect]] = [:]
     ) {
         self.name = name
         self.type = type
         self.description = description
-        self.canPlay = canPlay
-        self.onPreparePlay = onPreparePlay
-        self.onPlay = onPlay
-        self.canTrigger = canTrigger
-        self.onTrigger = onTrigger
-        self.onActive = onActive
-        self.onInactive = onInactive
-        self.canCounterShot = canCounterShot
+        self.behaviour = behaviour
     }
 
     public enum CardType: Equatable, Codable, Sendable {
@@ -66,11 +44,11 @@ public struct Card: Equatable, Codable, Sendable {
         public var targetedCard: String?
         public var amount: Int?
         public var chosenOption: String?
-        public var nestedEffects: [Effect]?
+        public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
-        public var selectors: [Card.Selector]
-        public let triggeredBy: [Effect]? // use array to fix Value type 'Card.Effect' cannot have a stored property that recursively contains it
+        public var selectors: [Selector]
+        public let triggeredBy: [Self]? // use array to fix Value type 'Effect' cannot have a stored property that recursively contains it
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -105,6 +83,7 @@ public struct Card: Equatable, Codable, Sendable {
             case setPlayLimitPerTurn
             case setDrawCards
             case queue
+            case permanent
         }
 
         public init(
@@ -118,7 +97,7 @@ public struct Card: Equatable, Codable, Sendable {
             nestedEffects: [Self]? = nil,
             affectedCards: [String]? = nil,
             amountPerTurn: [String: Int]? = nil,
-            selectors: [Card.Selector] = [],
+            selectors: [Selector] = [],
             triggeredBy: [Self]? = nil
         ) {
             self.name = name
@@ -141,7 +120,7 @@ public struct Card: Equatable, Codable, Sendable {
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
             amount: Int? = nil,
-            selectors: [Card.Selector]? = nil,
+            selectors: [Selector]? = nil,
             triggeredBy: [Self]? = nil
         ) -> Self {
             .init(
@@ -178,25 +157,13 @@ public struct Card: Equatable, Codable, Sendable {
         case payloadCardFromTargetInPlay
     }
 
-    public struct TriggerCondition: Equatable, Codable, Sendable {
-        public let name: Card.Effect.Name
-        public let conditions: [PlayCondition]
-
-        public init(
-            name: Effect.Name,
-            conditions: [PlayCondition] = []
-        ) {
-            self.name = name
-            self.conditions = conditions
-        }
-    }
-
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, resolved: ChoicePrompt? = nil, selection: String? = nil)
         case require(PlayCondition)
+        case requireThrows(PlayCondition)
 
         public enum Number: Equatable, Codable, Sendable {
             case fixed(Int)
@@ -266,9 +233,9 @@ public struct Card: Equatable, Codable, Sendable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
-        case noReq(Card.PlayCondition)
-        case noTarget(Card.Selector.TargetGroup)
-        case noChoosableTarget([Card.Selector.TargetFilter])
+        case noReq(PlayCondition)
+        case noTarget(Selector.TargetGroup)
+        case noChoosableTarget([Selector.TargetFilter])
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String)
     }

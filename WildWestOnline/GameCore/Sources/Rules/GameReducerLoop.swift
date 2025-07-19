@@ -95,7 +95,6 @@ private extension GameFeature.State {
         if event.name == .discardInPlay || event.name == .stealInPlay {
             let player = event.targetedPlayer!
             let card = event.targetedCard!
-
             if let effects = inactiveEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
@@ -116,13 +115,13 @@ private extension GameFeature.State {
     func triggeredEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        guard cardObj.canTrigger.isNotEmpty,
-              cardObj.canTrigger.contains(where: { $0.match(event: event, player: player, state: self) }) else {
+        guard let onTrigger = cardObj.behaviour[event.name],
+                event.targetedPlayer == player else {
             return nil
         }
 
         let contextAction = Card.Effect(name: event.name, player: player)
-        return cardObj.onTrigger.map {
+        return onTrigger.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
@@ -136,7 +135,8 @@ private extension GameFeature.State {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         let contextAction = Card.Effect(name: event.name, player: player)
-        return cardObj.onActive.map {
+        let onActive = cardObj.behaviour[.equip] ?? []
+        return onActive.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
@@ -149,9 +149,9 @@ private extension GameFeature.State {
     func inactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-
         let contextAction = Card.Effect(name: event.name, player: player)
-        return cardObj.onInactive.map {
+        let onInactive = cardObj.behaviour[.discardInPlay] ?? []
+        return onInactive.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
@@ -238,14 +238,5 @@ private extension Card.Effect {
         default:
             return false
         }
-    }
-}
-
-private extension Card.TriggerCondition {
-    func match(event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
-        let contextAction = Card.Effect(name: event.name, player: player)
-        return event.name == name
-        && event.targetedPlayer == player
-        && conditions.allSatisfy { $0.match(contextAction, state: state) }
     }
 }

@@ -54,6 +54,7 @@ private extension GameFeature.State {
     func isWeapon(_ card: String) -> Bool {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        return cardObj.onActive.contains { $0.name == .setWeapon }
+        let onActive = cardObj.behaviour[.equip] ?? []
+        return onActive.contains { $0.name == .setWeapon }
     }
 }
