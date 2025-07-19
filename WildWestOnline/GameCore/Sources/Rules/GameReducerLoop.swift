@@ -57,105 +57,84 @@ private func nextAction(state: GameFeature.State, action: ActionProtocol) async 
 
 private extension GameFeature.State {
     func triggeredEffect(on event: Card.Effect) -> Card.Effect? {
-        // process only resolved event
+        // Only handle fully resolved events (no selectors)
         guard event.selectors.isEmpty else {
             return nil
         }
 
-        var triggered: [Card.Effect] = []
+        var effects: [Card.Effect] = []
 
-        for player in playOrder {
-            let playerObj = players.get(player)
-            let triggerableCards = playerObj.inPlay + playerObj.abilities
-            for card in triggerableCards {
-                if let effects = triggeredEffects(on: event, by: card, player: player) {
-                    triggered.append(contentsOf: effects)
-                }
+        // 1. Trigger effects from all players’ inPlay + ability cards
+        for player in playOrder
+            where event.targetedPlayer == player {
+            let triggerableCards = players.get(player).inPlay + players.get(player).abilities
+            effects += triggerableCards.flatMap { card in
+                effectsTriggered(
+                    by: card,
+                    ownedBy: player,
+                    for: event,
+                    behaviorKey: event.name
+                )
             }
         }
 
-        if event.name == .eliminate {
+        // 2. Handle specific triggers based on event type
+        switch event.name {
+        case .eliminate:
             let player = event.targetedPlayer!
-            let playerObj = players.get(player)
-            for card in playerObj.abilities {
-                if let effects = triggeredEffects(on: event, by: card, player: player) {
-                    triggered.append(contentsOf: effects)
-                }
+            effects += players.get(player).abilities.flatMap { card in
+                effectsTriggered(
+                    by: card,
+                    ownedBy: player,
+                    for: event,
+                    behaviorKey: .eliminate
+                )
             }
-        }
 
-        if event.name == .equip {
-            let player = event.player
-            let card = event.playedCard
-            if let effects = activeEffects(on: event, by: card, player: player) {
-                triggered.append(contentsOf: effects)
-            }
-        }
+        case .equip:
+            effects += effectsTriggered(
+                by: event.playedCard,
+                ownedBy: event.player,
+                for: event,
+                behaviorKey: .equip
+            )
 
-        if event.name == .discardInPlay || event.name == .stealInPlay {
+        case .discardInPlay, .stealInPlay:
             let player = event.targetedPlayer!
             let card = event.targetedCard!
-            if let effects = inactiveEffects(on: event, by: card, player: player) {
-                triggered.append(contentsOf: effects)
-            }
+            effects += effectsTriggered(
+                by: card,
+                ownedBy: player,
+                for: event,
+                behaviorKey: .discardInPlay
+            )
+
+        default:
+            break
         }
 
-        if triggered.isEmpty {
-            return nil
-        } else if triggered.count == 1 {
-            return triggered[0]
-        } else {
-            return .init(
-                name: .queue,
-                nestedEffects: triggered
-            )
+        // 3. Return a single effect or a queue of multiple
+        switch effects.count {
+        case 0: return nil
+        case 1: return effects.first
+        default: return .init(name: .queue, nestedEffects: effects)
         }
     }
 
-    func triggeredEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
+    func effectsTriggered(
+        by card: String,
+        ownedBy player: String,
+        for event: Card.Effect,
+        behaviorKey: Card.Effect.Name
+    ) -> [Card.Effect] {
         let cardName = Card.extractName(from: card)
-        let cardObj = cards.get(cardName)
-        guard let onTrigger = cardObj.behaviour[event.name],
-                event.targetedPlayer == player else {
-            return nil
-        }
-
-        let contextAction = Card.Effect(name: event.name, player: player)
-        return onTrigger.map {
+        let behavior = cards.get(cardName).behaviour[behaviorKey] ?? []
+        let context = Card.Effect(name: event.name, player: player)
+        return behavior.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: contextAction),
-                triggeredBy: [event]
-            )
-        }
-    }
-
-    func activeEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
-        let cardName = Card.extractName(from: card)
-        let cardObj = cards.get(cardName)
-        let contextAction = Card.Effect(name: event.name, player: player)
-        let onActive = cardObj.behaviour[.equip] ?? []
-        return onActive.map {
-            $0.copy(
-                withPlayer: player,
-                playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: contextAction),
-                triggeredBy: [event]
-            )
-        }
-    }
-
-    func inactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
-        let cardName = Card.extractName(from: card)
-        let cardObj = cards.get(cardName)
-        let contextAction = Card.Effect(name: event.name, player: player)
-        let onInactive = cardObj.behaviour[.discardInPlay] ?? []
-        return onInactive.map {
-            $0.copy(
-                withPlayer: player,
-                playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: contextAction),
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context),
                 triggeredBy: [event]
             )
         }
