@@ -19,7 +19,6 @@ public struct Card: Equatable, Codable, Sendable {
     public let behaviour: [Effect.Name: [Effect]]
 
     @available(*, deprecated, renamed: "behaviour")
-    public let onInactive: [Effect]
     public let canTrigger: [TriggerCondition]
     public let onTrigger: [Effect]
     public let canCounterShot: Bool
@@ -30,9 +29,13 @@ public struct Card: Equatable, Codable, Sendable {
         description: String = "",
         behaviour: [Effect.Name: [Effect]] = [:]
     ) {
+        self.name = name
+        self.type = type
+        self.description = description
+        self.behaviour = behaviour
+
         var canTrigger: [TriggerCondition] = []
         var onTrigger: [Effect] = []
-        var onInactive: [Effect] = []
         var canCounterShot = false
         for (eventName, effects) in behaviour {
             switch eventName {
@@ -47,21 +50,15 @@ public struct Card: Equatable, Codable, Sendable {
                     canCounterShot = true
                 }
             case .discardInPlay:
-                onInactive = effects
+                break
             default:
                 assert(canTrigger.isEmpty)
                 canTrigger = [.init(name: eventName)]
                 onTrigger = effects
             }
         }
-
-        self.behaviour = behaviour
-        self.name = name
-        self.type = type
-        self.description = description
         self.canTrigger = canTrigger
         self.onTrigger = onTrigger
-        self.onInactive = onInactive
         self.canCounterShot = canCounterShot
     }
 

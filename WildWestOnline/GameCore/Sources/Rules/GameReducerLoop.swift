@@ -152,7 +152,8 @@ private extension GameFeature.State {
         let cardObj = cards.get(cardName)
 
         let contextAction = Card.Effect(name: event.name, player: player)
-        return cardObj.onInactive.map {
+        let onInactive = cardObj.behaviour[.discardInPlay] ?? []
+        return onInactive.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
