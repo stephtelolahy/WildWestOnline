@@ -7,7 +7,7 @@
 
 import Testing
 import Redux
-import CardsData
+import GameData
 import Combine
 @testable import GameCore
 

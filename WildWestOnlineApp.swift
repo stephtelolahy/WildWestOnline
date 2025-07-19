@@ -7,7 +7,7 @@
 import Redux
 import AppCore
 import GameCore
-import CardsData
+import GameData
 import SettingsCore
 import SettingsData
 import SwiftUI

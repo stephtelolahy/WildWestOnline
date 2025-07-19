@@ -7,7 +7,7 @@
 
 import Testing
 import GameCore
-import CardsData
+import GameData
 
 struct WillyTheKidTest {
     @Test func willyTheKid_shouldSetNoLimitForBangPerTurn() async throws {

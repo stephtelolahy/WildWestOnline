@@ -8,7 +8,7 @@
 @testable import GameUI
 import Testing
 import AppCore
-import CardsData
+import GameData
 import GameCore
 import SettingsCore
 

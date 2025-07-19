@@ -7,7 +7,7 @@
 
 import Testing
 import GameCore
-import CardsData
+import GameData
 
 struct RoseDoolanTest {
     @Test func roseDoolan_shouldDecrementDistanceToOthers() async throws {
