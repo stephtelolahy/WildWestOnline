@@ -374,21 +374,21 @@ private extension Card {
             name: .bang,
             type: .brown,
             description: "reduce other players’s life points",
-            canPlay: [
-                .playLimitPerTurn([.bang: 1])
-            ],
-            onPreparePlay: [
-                .init(
-                    name: .play,
-                    selectors: [
-                        .chooseOne(.target([.reachable]))
-                    ]
-                )
-            ],
-            onPlay: [
-                .init(
-                    name: .shoot
-                )
+            behaviour: [
+                .preparePlay: [
+                    .init(
+                        name: .play,
+                        selectors: [
+                            .requireThrows(.playLimitPerTurn([.bang: 1])),
+                            .chooseOne(.target([.reachable]))
+                        ]
+                    )
+                ],
+                .play: [
+                    .init(
+                        name: .shoot
+                    )
+                ]
             ]
         )
     }

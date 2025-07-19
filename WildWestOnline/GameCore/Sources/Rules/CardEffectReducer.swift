@@ -146,9 +146,6 @@ private extension Card.Effect.Name {
                 }
             state.queue.insert(contentsOf: effects, at: 0)
 
-            let playedThisTurn = state.playedThisTurn[cardName] ?? 0
-            state.playedThisTurn[cardName] = playedThisTurn + 1
-
             return state
         }
     }
@@ -176,6 +173,9 @@ private extension Card.Effect.Name {
                     }
                 state.queue.insert(contentsOf: effects, at: 0)
             }
+
+            let playedThisTurn = state.playedThisTurn[cardName] ?? 0
+            state.playedThisTurn[cardName] = playedThisTurn + 1
 
             return state
         }
