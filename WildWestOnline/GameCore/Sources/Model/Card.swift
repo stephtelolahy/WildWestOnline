@@ -3,7 +3,6 @@
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
-// swiftlint:disable nesting
 
 import Redux
 
