@@ -127,12 +127,6 @@ private extension Card.Effect.Name {
                 throw .cardNotPlayable(cardName)
             }
 
-            for playReq in cardObj.canPlay {
-                guard playReq.match(action, state: state) else {
-                    throw .noReq(playReq)
-                }
-            }
-
             var state = state
 
             let effects = cardObj.onPreparePlay

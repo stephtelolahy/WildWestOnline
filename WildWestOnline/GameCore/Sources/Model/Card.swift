@@ -16,7 +16,9 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String
-    public let canPlay: [PlayCondition]
+    public let behaviour: [Effect.Name: [Effect]]
+
+    @available(*, deprecated, renamed: "behaviour")
     public let onPreparePlay: [Effect]
     public let onPlay: [Effect]
     public let canTrigger: [TriggerCondition]
@@ -61,10 +63,10 @@ public struct Card: Equatable, Codable, Sendable {
             }
         }
 
+        self.behaviour = behaviour
         self.name = name
         self.type = type
         self.description = description
-        self.canPlay = []
         self.onPreparePlay = onPreparePlay
         self.onPlay = onPlay
         self.canTrigger = canTrigger
