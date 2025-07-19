@@ -1,5 +1,5 @@
 //
-//  Card.swift
+//  swift
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
@@ -19,8 +19,6 @@ public struct Card: Equatable, Codable, Sendable {
     public let behaviour: [Effect.Name: [Effect]]
 
     @available(*, deprecated, renamed: "behaviour")
-    public let canTrigger: [TriggerCondition]
-    public let onTrigger: [Effect]
     public let canCounterShot: Bool
 
     public init(
@@ -34,31 +32,17 @@ public struct Card: Equatable, Codable, Sendable {
         self.description = description
         self.behaviour = behaviour
 
-        var canTrigger: [TriggerCondition] = []
-        var onTrigger: [Effect] = []
         var canCounterShot = false
         for (eventName, effects) in behaviour {
             switch eventName {
-            case .preparePlay:
-                break
-            case .play:
-                break
-            case .equip:
-                break
             case .permanent:
                 if effects.first?.name == .counterShot {
                     canCounterShot = true
                 }
-            case .discardInPlay:
-                break
             default:
-                assert(canTrigger.isEmpty)
-                canTrigger = [.init(name: eventName)]
-                onTrigger = effects
+                break
             }
         }
-        self.canTrigger = canTrigger
-        self.onTrigger = onTrigger
         self.canCounterShot = canCounterShot
     }
 
@@ -80,8 +64,8 @@ public struct Card: Equatable, Codable, Sendable {
         public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
-        public var selectors: [Card.Selector]
-        public let triggeredBy: [Self]? // use array to fix Value type 'Card.Effect' cannot have a stored property that recursively contains it
+        public var selectors: [Selector]
+        public let triggeredBy: [Self]? // use array to fix Value type 'Effect' cannot have a stored property that recursively contains it
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -130,7 +114,7 @@ public struct Card: Equatable, Codable, Sendable {
             nestedEffects: [Self]? = nil,
             affectedCards: [String]? = nil,
             amountPerTurn: [String: Int]? = nil,
-            selectors: [Card.Selector] = [],
+            selectors: [Selector] = [],
             triggeredBy: [Self]? = nil
         ) {
             self.name = name
@@ -153,7 +137,7 @@ public struct Card: Equatable, Codable, Sendable {
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
             amount: Int? = nil,
-            selectors: [Card.Selector]? = nil,
+            selectors: [Selector]? = nil,
             triggeredBy: [Self]? = nil
         ) -> Self {
             .init(
@@ -188,19 +172,6 @@ public struct Card: Equatable, Codable, Sendable {
         case drawnCardDoesNotMatch(_ regex: String)
         case payloadCardFromTargetHand
         case payloadCardFromTargetInPlay
-    }
-
-    public struct TriggerCondition: Equatable, Codable, Sendable {
-        public let name: Card.Effect.Name
-        public let conditions: [PlayCondition]
-
-        public init(
-            name: Effect.Name,
-            conditions: [PlayCondition] = []
-        ) {
-            self.name = name
-            self.conditions = conditions
-        }
     }
 
     public enum Selector: Equatable, Codable, Sendable {
@@ -279,9 +250,9 @@ public struct Card: Equatable, Codable, Sendable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
-        case noReq(Card.PlayCondition)
-        case noTarget(Card.Selector.TargetGroup)
-        case noChoosableTarget([Card.Selector.TargetFilter])
+        case noReq(PlayCondition)
+        case noTarget(Selector.TargetGroup)
+        case noChoosableTarget([Selector.TargetFilter])
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String)
     }
