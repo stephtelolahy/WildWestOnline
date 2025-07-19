@@ -19,7 +19,7 @@ let package = Package(
         .library(name: "AppCore", targets: ["AppCore"]),
 
         // Data
-        .library(name: "CardsData", targets: ["CardsData"]),
+        .library(name: "GameData", targets: ["GameData"]),
         .library(name: "SettingsData", targets: ["SettingsData"]),
 
         // UI
@@ -185,7 +185,7 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "CardsData"
+                "GameData"
             ],
             path: "GameUI/Sources",
             plugins: [
@@ -219,21 +219,21 @@ let package = Package(
             path: "AppUI/Tests"
         ),
         .target(
-            name: "CardsData",
+            name: "GameData",
             dependencies: [
                 "GameCore"
             ],
-            path: "CardsData/Sources",
+            path: "GameData/Sources",
             plugins: [
                 .plugin(name: "SwiftLintPlugin")
             ]
         ),
         .testTarget(
-            name: "CardsDataTests",
+            name: "GameDataTests",
             dependencies: [
-                "CardsData"
+                "GameData"
             ],
-            path: "CardsData/Tests"
+            path: "GameData/Tests"
         ),
         .target(
             name: "SettingsData",

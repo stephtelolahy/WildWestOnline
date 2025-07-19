@@ -1,22 +1,24 @@
 //
-//  BlackJackTest.swift
+//  JesseJonesTest.swift
 //
 //
-//  Created by Hugues Stephano TELOLAHY on 10/11/2023.
+//  Created by Hugues Stephano TELOLAHY on 20/11/2023.
 //
 
-import CardsData
+import GameData
 import GameCore
 import Testing
 
-struct BlackJackTests {
-    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
+struct JesseJonesTests {
+    @Test(.disabled()) func jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.blackJack])
+                $0.withAbilities([.jesseJones])
+                    .withAttributes([.startTurnCards: 2])
             }
-            .withDeck(["c1", "c2-8♥️", "c3"])
+            .withDiscard(["c1"])
+            .withDeck(["c2"])
             .build()
 
         // When
@@ -26,20 +28,19 @@ struct BlackJackTests {
         // Then
         #expect(result == [
             .startTurn(player: "p1"),
-            .drawDeck(player: "p1"),
-            .drawDeck(player: "p1"),
-            .showHand("c2-8♥️", player: "p1"),
+            .drawDiscard(player: "p1"),
             .drawDeck(player: "p1")
         ])
     }
 
-    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
+    @Test(.disabled()) func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.blackJack])
+                $0.withAbilities([.jesseJones])
+                    .withAttributes([.startTurnCards: 2])
             }
-            .withDeck(["c1", "c2-A♠️"])
+            .withDeck(["c1", "c2"])
             .build()
 
         // When
@@ -50,8 +51,7 @@ struct BlackJackTests {
         #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
-            .drawDeck(player: "p1"),
-            .showHand("c2-A♠️", player: "p1")
+            .drawDeck(player: "p1")
         ])
     }
 }

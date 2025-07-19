@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
-		98BA2FE72E25C14100C109F5 /* CardsData in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FE62E25C14100C109F5 /* CardsData */; };
+		9893DF252E2C41FB00F5FBCB /* GameData in Frameworks */ = {isa = PBXBuildFile; productRef = 9893DF242E2C41FB00F5FBCB /* GameData */; };
 		98BA2FE92E25C14700C109F5 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FE82E25C14700C109F5 /* SettingsData */; };
 		98BA2FED2E25C74100C109F5 /* AppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FEC2E25C74100C109F5 /* AppUI */; };
 		98E868E62D9D19CC00EF4582 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */; };
@@ -32,7 +32,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98BA2FED2E25C74100C109F5 /* AppUI in Frameworks */,
-				98BA2FE72E25C14100C109F5 /* CardsData in Frameworks */,
+				9893DF252E2C41FB00F5FBCB /* GameData in Frameworks */,
 				98BA2FE92E25C14700C109F5 /* SettingsData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,9 +87,9 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				98BA2FE62E25C14100C109F5 /* CardsData */,
 				98BA2FE82E25C14700C109F5 /* SettingsData */,
 				98BA2FEC2E25C74100C109F5 /* AppUI */,
+				9893DF242E2C41FB00F5FBCB /* GameData */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -387,9 +387,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		98BA2FE62E25C14100C109F5 /* CardsData */ = {
+		9893DF242E2C41FB00F5FBCB /* GameData */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CardsData;
+			productName = GameData;
 		};
 		98BA2FE82E25C14700C109F5 /* SettingsData */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -17,10 +17,27 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "AppUITests",
-        "name" : "AppUITests"
+        "identifier" : "GameCoreTests",
+        "name" : "GameCoreTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "GameUITests",
+        "name" : "GameUITests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "ReduxTests",
+        "name" : "ReduxTests"
       }
     },
     {
@@ -32,19 +49,25 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "CardsDataTests",
-        "name" : "CardsDataTests"
+        "identifier" : "AppUITests",
+        "name" : "AppUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WildWestOnline",
+        "identifier" : "GameDataTests",
+        "name" : "GameDataTests"
       }
     },
     {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "GameUITests",
-        "name" : "GameUITests"
+        "identifier" : "HomeUITests",
+        "name" : "HomeUITests"
       }
     },
     {
@@ -67,22 +90,6 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "NavigationCoreTests",
-        "name" : "NavigationCoreTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "HomeUITests",
-        "name" : "HomeUITests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
         "identifier" : "SerializationTests",
         "name" : "SerializationTests"
       }
@@ -91,16 +98,8 @@
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WildWestOnline",
-        "identifier" : "GameCoreTests",
-        "name" : "GameCoreTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:WildWestOnline",
-        "identifier" : "ReduxTests",
-        "name" : "ReduxTests"
+        "identifier" : "NavigationCoreTests",
+        "name" : "NavigationCoreTests"
       }
     }
   ],

@@ -7,7 +7,7 @@
 
 import Testing
 import GameCore
-import CardsData
+import GameData
 
 struct PaulRegretTest {
     @Test func paulRegret_shouldIncrementDistanceFromOthers() async throws {

@@ -5,7 +5,7 @@
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 import GameCore
-import CardsData
+import GameData
 
 extension GameFeature.State {
     static func makeBuilderWithAllCards() -> Builder {

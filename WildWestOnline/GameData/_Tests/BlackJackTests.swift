@@ -1,46 +1,22 @@
 //
-//  JesseJonesTest.swift
+//  BlackJackTest.swift
 //
 //
-//  Created by Hugues Stephano TELOLAHY on 20/11/2023.
+//  Created by Hugues Stephano TELOLAHY on 10/11/2023.
 //
 
-import CardsData
+import GameData
 import GameCore
 import Testing
 
-struct JesseJonesTests {
-    @Test(.disabled()) func jesseJonesStartTurn_withNonEmptyDiscard_shouldDrawFirstCardFromDiscard() async throws {
+struct BlackJackTests {
+    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardRed_shouldDrawAnotherCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
-                $0.withAbilities([.jesseJones])
-                    .withAttributes([.startTurnCards: 2])
+                $0.withAbilities([.blackJack])
             }
-            .withDiscard(["c1"])
-            .withDeck(["c2"])
-            .build()
-
-        // When
-        let action = GameFeature.Action.startTurn(player: "p1")
-        let result = try await dispatchUntilCompleted(action, state: state)
-
-        // Then
-        #expect(result == [
-            .startTurn(player: "p1"),
-            .drawDiscard(player: "p1"),
-            .drawDeck(player: "p1")
-        ])
-    }
-
-    @Test(.disabled()) func jesseJonesStartTurn_withEmptyDiscard_shouldDrawCardsFromDeck() async throws {
-        // Given
-        let state = GameFeature.State.makeBuilderWithAllCards()
-            .withPlayer("p1") {
-                $0.withAbilities([.jesseJones])
-                    .withAttributes([.startTurnCards: 2])
-            }
-            .withDeck(["c1", "c2"])
+            .withDeck(["c1", "c2-8♥️", "c3"])
             .build()
 
         // When
@@ -51,7 +27,31 @@ struct JesseJonesTests {
         #expect(result == [
             .startTurn(player: "p1"),
             .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .showHand("c2-8♥️", player: "p1"),
             .drawDeck(player: "p1")
+        ])
+    }
+
+    @Test(.disabled()) func blackJackStartTurn_withSecondDrawnCardBlack_shouldDoNothing() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withAbilities([.blackJack])
+            }
+            .withDeck(["c1", "c2-A♠️"])
+            .build()
+
+        // When
+        let action = GameFeature.Action.startTurn(player: "p1")
+        let result = try await dispatchUntilCompleted(action, state: state)
+
+        // Then
+        #expect(result == [
+            .startTurn(player: "p1"),
+            .drawDeck(player: "p1"),
+            .drawDeck(player: "p1"),
+            .showHand("c2-A♠️", player: "p1")
         ])
     }
 }
