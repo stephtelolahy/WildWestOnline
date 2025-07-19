@@ -132,6 +132,7 @@ private extension GameFeature.State {
         }
     }
 
+    @available(*, deprecated, message: "remove")
     func activeEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
@@ -147,6 +148,7 @@ private extension GameFeature.State {
         }
     }
 
+    @available(*, deprecated, message: "remove")
     func inactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)

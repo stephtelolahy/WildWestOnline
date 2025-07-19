@@ -28,7 +28,7 @@ private extension Card.Selector.CardFilter {
         func match(_ card: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            return cardObj.canCounterShot
+            return cardObj.behaviour[.permanent]?.first?.name == .counterShot
         }
     }
 

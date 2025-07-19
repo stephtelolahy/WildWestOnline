@@ -18,9 +18,6 @@ public struct Card: Equatable, Codable, Sendable {
     public let description: String
     public let behaviour: [Effect.Name: [Effect]]
 
-    @available(*, deprecated, renamed: "behaviour")
-    public let canCounterShot: Bool
-
     public init(
         name: String,
         type: CardType,
@@ -31,19 +28,6 @@ public struct Card: Equatable, Codable, Sendable {
         self.type = type
         self.description = description
         self.behaviour = behaviour
-
-        var canCounterShot = false
-        for (eventName, effects) in behaviour {
-            switch eventName {
-            case .permanent:
-                if effects.first?.name == .counterShot {
-                    canCounterShot = true
-                }
-            default:
-                break
-            }
-        }
-        self.canCounterShot = canCounterShot
     }
 
     public enum CardType: Equatable, Codable, Sendable {
