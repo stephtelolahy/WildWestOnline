@@ -123,13 +123,12 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let cardName = Card.extractName(from: action.playedCard)
             let cardObj = state.cards.get(cardName)
-            guard cardObj.onPreparePlay.isNotEmpty else {
+            guard let onPreparePlay = cardObj.behaviour[.preparePlay],
+                  onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
 
-            var state = state
-
-            let effects = cardObj.onPreparePlay
+            let effects = onPreparePlay
                 .map {
                     $0.copy(
                         withPlayer: action.player,
@@ -138,8 +137,9 @@ private extension Card.Effect.Name {
                         triggeredBy: [action]
                     )
                 }
-            state.queue.insert(contentsOf: effects, at: 0)
 
+            var state = state
+            state.queue.insert(contentsOf: effects, at: 0)
             return state
         }
     }
