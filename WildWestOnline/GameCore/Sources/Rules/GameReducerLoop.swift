@@ -136,7 +136,8 @@ private extension GameFeature.State {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         let contextAction = Card.Effect(name: event.name, player: player)
-        return cardObj.onActive.map {
+        let onActive = cardObj.behaviour[.equip] ?? []
+        return onActive.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
