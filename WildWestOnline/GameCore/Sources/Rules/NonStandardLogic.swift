@@ -33,14 +33,18 @@ enum NonStandardLogic {
                 .play,
                 .equip,
                 .handicap,
-                .stealHand,
-                .stealInPlay,
                 .passInPlay,
                 .choose:
             guard
                 lhs.player == rhs.player,
                 lhs.playedCard == rhs.playedCard
             else {
+                return false
+            }
+
+        case .stealHand,
+                .stealInPlay:
+            guard lhs.player == rhs.player else {
                 return false
             }
 

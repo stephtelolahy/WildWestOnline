@@ -841,6 +841,7 @@ private extension Card {
                         selectors: [
                             .setTarget(.damagingPlayer),
                             .repeat(.receivedDamageAmount),
+                            .require(.targetedPlayerHasHandCard),
                             .chooseOne(.targetCard([.isFromHand]))
                         ]
                     )

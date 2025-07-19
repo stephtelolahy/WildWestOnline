@@ -28,6 +28,7 @@ private extension Card.PlayCondition {
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .payloadCardFromTargetHand: PayloadCardFromTargetHand()
         case .payloadCardFromTargetInPlay: PayloadCardFromTargetInPlay()
+        case .targetedPlayerHasHandCard: TargetedPlayerHasHandCard()
         }
     }
 
@@ -127,6 +128,14 @@ private extension Card.PlayCondition {
             let target = pendingAction.targetedPlayer!
             let targetObj = state.players.get(target)
             return targetObj.inPlay.contains(card)
+        }
+    }
+
+    struct TargetedPlayerHasHandCard: Matcher {
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let target = pendingAction.targetedPlayer!
+            let targetObj = state.players.get(target)
+            return !targetObj.hand.isEmpty
         }
     }
 }

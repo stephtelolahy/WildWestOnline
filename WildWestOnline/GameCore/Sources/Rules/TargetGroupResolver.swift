@@ -77,12 +77,11 @@ private extension Card.Selector.TargetGroup {
                 fatalError("Expected trigger from damage")
             }
 
-            if parentAction.player == parentAction.targetedPlayer {
+            guard parentAction.player != parentAction.targetedPlayer else {
                 return []
-            } else {
-                assert(state.players[parentAction.player] != nil)
-                return [parentAction.player]
             }
+
+            return [parentAction.player]
         }
     }
 }

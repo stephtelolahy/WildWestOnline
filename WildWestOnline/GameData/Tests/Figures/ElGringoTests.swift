@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct ElGringoTests {
-    @Test(.disabled()) func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
+    @Test func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -42,7 +42,7 @@ struct ElGringoTests {
         ])
     }
 
-    @Test(.disabled()) func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
+    @Test func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
