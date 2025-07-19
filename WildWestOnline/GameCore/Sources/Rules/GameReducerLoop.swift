@@ -95,7 +95,6 @@ private extension GameFeature.State {
         if event.name == .discardInPlay || event.name == .stealInPlay {
             let player = event.targetedPlayer!
             let card = event.targetedCard!
-
             if let effects = inactiveEffects(on: event, by: card, player: player) {
                 triggered.append(contentsOf: effects)
             }
@@ -132,7 +131,6 @@ private extension GameFeature.State {
         }
     }
 
-    @available(*, deprecated, message: "remove")
     func activeEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
@@ -148,11 +146,9 @@ private extension GameFeature.State {
         }
     }
 
-    @available(*, deprecated, message: "remove")
     func inactiveEffects(on event: Card.Effect, by card: String, player: String) -> [Card.Effect]? {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-
         let contextAction = Card.Effect(name: event.name, player: player)
         let onInactive = cardObj.behaviour[.discardInPlay] ?? []
         return onInactive.map {
