@@ -64,6 +64,7 @@ public struct Card: Equatable, Codable, Sendable {
         var onTrigger: [Effect] = []
         var onActive: [Effect] = []
         var onInactive: [Effect] = []
+        var canCounterShot = false
         for (eventName, effects) in behaviour {
             switch eventName {
             case .preparePlay:
@@ -73,7 +74,11 @@ public struct Card: Equatable, Codable, Sendable {
             case .equip:
                 onActive = effects
             case .permanent:
-                onActive = effects
+                if effects.first?.name == .counterShot {
+                    canCounterShot = true
+                } else {
+                    onActive = effects
+                }
             case .discardInPlay:
                 onInactive = effects
             default:
@@ -93,7 +98,7 @@ public struct Card: Equatable, Codable, Sendable {
         self.onTrigger = onTrigger
         self.onActive = onActive
         self.onInactive = onInactive
-        self.canCounterShot = false
+        self.canCounterShot = canCounterShot
     }
 
     public enum CardType: Equatable, Codable, Sendable {

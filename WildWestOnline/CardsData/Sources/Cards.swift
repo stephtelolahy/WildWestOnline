@@ -398,7 +398,9 @@ private extension Card {
             name: .missed,
             type: .brown,
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            canCounterShot: true
+            behaviour: [
+                .permanent: [.init(name: .counterShot)]
+            ]
         )
     }
 
@@ -858,4 +860,3 @@ private extension Card.Effect {
         )
     }
 }
-
