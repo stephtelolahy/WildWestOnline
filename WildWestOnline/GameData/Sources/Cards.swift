@@ -44,6 +44,7 @@ public enum Cards {
         .roseDoolan,
         .paulRegret,
         .bartCassidy,
+        .elGringo,
     ]
         .reduce(into: [:]) { result, card in
             result[card.name] = card
@@ -815,6 +816,32 @@ private extension Card {
                         selectors: [
                             .require(.isHealthNonZero),
                             .repeat(.receivedDamageAmount)
+                        ]
+                    )
+                ]
+            ]
+        )
+    }
+
+    static var elGringo: Self {
+        .init(
+            name: .elGringo,
+            type: .character,
+            description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 3
+                    )
+                ],
+                .damage: [
+                    .init(
+                        name: .stealHand,
+                        selectors: [
+                            .setTarget(.damagingPlayer),
+                            .repeat(.receivedDamageAmount),
+                            .chooseOne(.targetCard([.isFromHand]))
                         ]
                     )
                 ]
