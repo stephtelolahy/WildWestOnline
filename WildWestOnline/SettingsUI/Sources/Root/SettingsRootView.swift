@@ -44,6 +44,7 @@ struct SettingsRootView: View {
         Form {
             preferencesSection
         }
+        .scrollContentBackground(.hidden)
         .navigationTitle("Settings")
         .toolbar {
             Button("Done") {
