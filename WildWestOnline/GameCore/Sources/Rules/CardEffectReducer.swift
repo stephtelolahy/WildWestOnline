@@ -154,8 +154,9 @@ private extension Card.Effect.Name {
             state.discard.insert(card, at: 0)
 
             let cardName = Card.extractName(from: action.playedCard)
-            if let cardObj = state.cards[cardName] {
-                let effects = cardObj.onPlay
+            if let cardObj = state.cards[cardName],
+               let onPlay = cardObj.behaviour[.play] {
+                let effects = onPlay
                     .map {
                         $0.copy(
                             withPlayer: action.player,

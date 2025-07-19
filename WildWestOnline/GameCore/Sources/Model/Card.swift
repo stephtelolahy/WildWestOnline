@@ -19,7 +19,6 @@ public struct Card: Equatable, Codable, Sendable {
     public let behaviour: [Effect.Name: [Effect]]
 
     @available(*, deprecated, renamed: "behaviour")
-    public let onPlay: [Effect]
     public let canTrigger: [TriggerCondition]
     public let onTrigger: [Effect]
     public let onActive: [Effect]
@@ -32,7 +31,6 @@ public struct Card: Equatable, Codable, Sendable {
         description: String = "",
         behaviour: [Effect.Name: [Effect]] = [:]
     ) {
-        var onPlay: [Effect] = []
         var canTrigger: [TriggerCondition] = []
         var onTrigger: [Effect] = []
         var onActive: [Effect] = []
@@ -43,7 +41,7 @@ public struct Card: Equatable, Codable, Sendable {
             case .preparePlay:
                 break
             case .play:
-                onPlay = effects
+                break
             case .equip:
                 onActive = effects
             case .permanent:
@@ -65,7 +63,6 @@ public struct Card: Equatable, Codable, Sendable {
         self.name = name
         self.type = type
         self.description = description
-        self.onPlay = onPlay
         self.canTrigger = canTrigger
         self.onTrigger = onTrigger
         self.onActive = onActive
