@@ -25,33 +25,6 @@ public struct Card: Equatable, Codable, Sendable {
     public let onInactive: [Effect]
     public let canCounterShot: Bool
 
-    @available(*, deprecated, message: "use constructor with behaviour")
-    public init(
-        name: String,
-        type: CardType,
-        description: String = "",
-        canPlay: [PlayCondition] = [],
-        onPreparePlay: [Effect] = [],
-        onPlay: [Effect] = [],
-        canTrigger: [TriggerCondition] = [],
-        onTrigger: [Effect] = [],
-        onActive: [Effect] = [],
-        onInactive: [Effect] = [],
-        canCounterShot: Bool = false
-    ) {
-        self.name = name
-        self.type = type
-        self.description = description
-        self.canPlay = canPlay
-        self.onPreparePlay = onPreparePlay
-        self.onPlay = onPlay
-        self.canTrigger = canTrigger
-        self.onTrigger = onTrigger
-        self.onActive = onActive
-        self.onInactive = onInactive
-        self.canCounterShot = canCounterShot
-    }
-
     public init(
         name: String,
         type: CardType,

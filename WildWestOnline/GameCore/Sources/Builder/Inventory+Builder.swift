@@ -27,11 +27,13 @@ public extension Inventory {
             let sampleCard = Card(
                 name: "",
                 type: .character,
-                onActive: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 1
-                    )
+                behaviour: [
+                    .permanent: [
+                        .init(
+                            name: .setMaxHealth,
+                            amount: 1
+                        )
+                    ]
                 ]
             )
 

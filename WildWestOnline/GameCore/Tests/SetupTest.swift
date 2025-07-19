@@ -34,18 +34,22 @@ struct SetupTest {
             "p1": .init(
                 name: "p1",
                 type: .character,
-                onActive: [
-                    .init(name: .setMaxHealth, amount: 4),
-                    .init(name: .increaseMagnifying, amount: 1),
-                    .init(name: .setHandLimit, amount: 10),
+                behaviour: [
+                    .permanent: [
+                        .init(name: .setMaxHealth, amount: 4),
+                        .init(name: .increaseMagnifying, amount: 1),
+                        .init(name: .setHandLimit, amount: 10),
+                    ]
                 ]
             ),
             "p2": .init(
                 name: "p2",
                 type: .character,
-                onActive: [
-                    .init(name: .setMaxHealth, amount: 3),
-                    .init(name: .increaseRemoteness, amount: 1),
+                behaviour: [
+                    .permanent: [
+                        .init(name: .setMaxHealth, amount: 3),
+                        .init(name: .increaseRemoteness, amount: 1),
+                    ]
                 ]
             )
         ]
