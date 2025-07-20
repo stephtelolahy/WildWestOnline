@@ -48,7 +48,7 @@ struct DynamiteTest {
         #expect(result == [
             .startTurn(player: "p1"),
             .draw(),
-            .passInPlay(.dynamite, target: "p2", player: "p1", source: .dynamite),
+            .passInPlay(.dynamite, target: "p2", player: "p1"),
             .drawDeck(player: "p1"),
             .drawDeck(player: "p1")
         ])

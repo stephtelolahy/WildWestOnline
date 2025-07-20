@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct ElGringoTests {
-    @Test(.disabled()) func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
+    @Test func elGringoDamaged_withOffenderHavingHandCards_shouldStealHandCard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -18,26 +18,31 @@ struct ElGringoTests {
             }
             .withPlayer("p2") {
                 $0.withHand([.bang, "c2"])
-                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+                    .withWeapon(1)
+                    .withPlayLimitPerTurn([.bang: 1])
             }
-            .withTurn("p2")
             .build()
 
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p2")
-        let result = try awaitAction(action, state: state, choose: ["p1", "hiddenHand-0"])
+        let choices: [Choice] = [
+            .init(options: ["p1"], selectionIndex: 0),
+            .init(options: ["hiddenHand-0"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .play(.bang, actor: "p2"),
-            .chooseOne(.target, options: ["p1"], player: "p2"),
+            .choose("p1", player: "p2"),
+            .play(.bang, player: "p2", target: "p1"),
+            .shoot("p1"),
             .damage(1, player: "p1"),
-            .chooseOne(.cardToSteal, options: ["hiddenHand-0"], player: "p1"),
+            .choose("hiddenHand-0", player: "p1"),
             .stealHand("c2", target: "p2", player: "p1")
         ])
     }
 
-    @Test(.disabled()) func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
+    @Test func elGringoDamaged_withOffenderHavingNoCard_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -46,24 +51,28 @@ struct ElGringoTests {
             }
             .withPlayer("p2") {
                 $0.withHand([.bang])
-                    .withAttributes([.bangsPerTurn: 1, .weapon: 1])
+                    .withWeapon(1)
+                    .withPlayLimitPerTurn([.bang: 1])
             }
-            .withTurn("p2")
             .build()
 
         // When
         let action = GameFeature.Action.preparePlay(.bang, player: "p2")
-        let result = try awaitAction(action, state: state, choose: ["p1"])
+        let choices: [Choice] = [
+            .init(options: ["p1"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
 
         // Then
         #expect(result == [
-            .play(.bang, actor: "p2"),
-            .chooseOne(.target, options: ["p1"], player: "p2"),
+            .choose("p1", player: "p2"),
+            .play(.bang, player: "p2", target: "p1"),
+            .shoot("p1"),
             .damage(1, player: "p1")
         ])
     }
 
-    @Test(.disabled()) func elGringoDamaged_withOffenderIsHimself_shouldDoNothing() async throws {
+    @Test func elGringoDamaged_withOffenderIsHimself_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -74,7 +83,7 @@ struct ElGringoTests {
             .build()
 
         // When
-        let action = GameFeature.Action.damage(1, player: "p1")
+        let action = GameFeature.Action.init(name: .damage, player: "p1", targetedPlayer: "p1", amount: 1)
         let result = try await dispatchUntilCompleted(action, state: state)
 
         // Then

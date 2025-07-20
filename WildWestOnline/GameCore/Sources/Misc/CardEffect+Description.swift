@@ -10,6 +10,7 @@ extension Card.Effect: CustomStringConvertible {
         [
             selectors.isNotEmpty ? ".." : nil,
             name.emoji,
+            name.rawValue,
             targetedPlayer,
             targetedCard,
             chosenOption,
@@ -24,7 +25,7 @@ extension Card.Effect: CustomStringConvertible {
 
 private extension Card.Effect.Name {
     var emoji: String {
-        Self.dict[self] ?? "⚠️\(rawValue)"
+        Self.dict[self] ?? ""
     }
 
     static let dict: [Card.Effect.Name: String] = [

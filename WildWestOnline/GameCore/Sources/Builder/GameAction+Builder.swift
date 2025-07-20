@@ -88,31 +88,28 @@ public extension GameFeature.Action {
         )
     }
 
-    static func stealHand(_ card: String, target: String, player: String, source: String = "") -> Self {
+    static func stealHand(_ card: String, target: String, player: String) -> Self {
         .init(
             name: .stealHand,
             player: player,
-            playedCard: source,
             targetedPlayer: target,
             targetedCard: card
         )
     }
 
-    static func stealInPlay(_ card: String, target: String, player: String, source: String = "") -> Self {
+    static func stealInPlay(_ card: String, target: String, player: String) -> Self {
         .init(
             name: .stealInPlay,
             player: player,
-            playedCard: source,
             targetedPlayer: target,
             targetedCard: card
         )
     }
 
-    static func passInPlay(_ card: String, target: String, player: String, source: String = "") -> Self {
+    static func passInPlay(_ card: String, target: String, player: String) -> Self {
         .init(
             name: .passInPlay,
             player: player,
-            playedCard: source,
             targetedPlayer: target,
             targetedCard: card
         )

@@ -44,24 +44,6 @@
      )
  }
 
- static var elGringo: Self {
-     .init(
-         name: .elGringo,
-         description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
-         setPlayerAttribute: [.maxHealth: 3],
-         effects: [
-             .init(
-                 name: .steal,
-                 selectors: [
-                     .setTarget(.offender),
-                     .repeat(.damage)
-                 ],
-                 when: .damaged
-             )
-         ]
-     )
- }
-
  static var suzyLafayette: Self {
      .init(
          name: .suzyLafayette,

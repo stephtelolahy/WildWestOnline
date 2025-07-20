@@ -291,8 +291,6 @@ private extension Card.Effect.Name {
                 fatalError("Unexpected choose action")
             }
 
-            assert(choice.chooser == action.player)
-
             var state = state
             var updatedAction = nextAction
             let updatedSelector = Card.Selector.chooseOne(element, resolved: resolved, selection: selection)
