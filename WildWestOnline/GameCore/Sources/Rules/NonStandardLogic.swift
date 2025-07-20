@@ -28,13 +28,10 @@ enum NonStandardLogic {
 
     static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
-        case .queue,
-                .preparePlay,
+        case .preparePlay,
                 .play,
                 .equip,
-                .handicap,
-                .passInPlay,
-                .choose:
+                .handicap:
             guard
                 lhs.player == rhs.player,
                 lhs.playedCard == rhs.playedCard
@@ -42,8 +39,11 @@ enum NonStandardLogic {
                 return false
             }
 
-        case .stealHand,
-                .stealInPlay:
+        case .choose,
+                .stealHand,
+                .stealInPlay,
+                .passInPlay,
+                .drawDiscard:
             guard lhs.player == rhs.player else {
                 return false
             }
@@ -53,7 +53,6 @@ enum NonStandardLogic {
         }
 
         return lhs.name == rhs.name
-        && lhs.selectors == rhs.selectors
         && lhs.targetedPlayer == rhs.targetedPlayer
         && lhs.targetedCard == rhs.targetedCard
         && lhs.amount == rhs.amount
@@ -61,5 +60,6 @@ enum NonStandardLogic {
         && lhs.nestedEffects == rhs.nestedEffects
         && lhs.affectedCards == rhs.affectedCards
         && lhs.amountPerTurn == rhs.amountPerTurn
+        && lhs.selectors == rhs.selectors
     }
 }
