@@ -8,8 +8,7 @@
 extension Card.Effect: CustomStringConvertible {
     public var description: String {
         [
-            selectors.isNotEmpty ? ".." : nil,
-            name.emoji,
+            selectors.isEmpty ? name.emoji : "..",
             name.rawValue,
             targetedPlayer,
             targetedCard,

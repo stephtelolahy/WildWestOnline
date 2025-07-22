@@ -9,7 +9,7 @@ import GameCore
 /// BANG! THE BULLET
 /// https://bang.dvgiochi.com/cardslist.php?id=2#q_result
 public enum Cards {
-    public static let all: [String: Card] = [
+    public static let all: [Card] = [
         .endTurn,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
@@ -46,9 +46,6 @@ public enum Cards {
         .bartCassidy,
         .elGringo,
     ]
-        .reduce(into: [:]) { result, card in
-            result[card.name] = card
-        }
 }
 
 private extension Card {

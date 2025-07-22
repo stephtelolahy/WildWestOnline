@@ -15,7 +15,7 @@ public enum GameSetupService {
         return buildGame(
             figures: Array(figures.prefix(playersCount)),
             deck: buildDeck(deck: inventory.deck).shuffled(),
-            cards: inventory.cards,
+            cards: inventory.cards.toDictionary,
             playerAbilities: inventory.playerAbilities
         )
     }

@@ -10,7 +10,7 @@ import GameData
 extension GameFeature.State {
     static func makeBuilderWithAllCards() -> Builder {
         makeBuilder()
-            .withCards(Cards.all)
+            .withCards(Cards.all.toDictionary)
     }
 }
 
