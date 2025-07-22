@@ -11,21 +11,21 @@ struct AnimationMatcher {
         switch action.name {
         case .play:
                 .moveCard(
-                    .id(action.playedCard),
+                    .id(action.playedCard!),
                     from: .playerHand(action.player),
                     to: .discard
                 )
 
         case .equip:
                 .moveCard(
-                    .id(action.playedCard),
+                    .id(action.playedCard!),
                     from: .playerHand(action.player),
                     to: .playerInPlay(action.player)
                 )
 
         case .handicap:
                 .moveCard(
-                    .id(action.playedCard),
+                    .id(action.playedCard!),
                     from: .playerHand(action.player),
                     to: .playerInPlay(action.targetedPlayer!)
                 )

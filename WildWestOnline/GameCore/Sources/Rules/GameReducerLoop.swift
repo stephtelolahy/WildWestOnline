@@ -92,8 +92,9 @@ private extension GameFeature.State {
             }
 
         case .equip:
+            let card = event.playedCard!
             effects += effectsTriggered(
-                by: event.playedCard,
+                by: card,
                 ownedBy: event.player,
                 for: event,
                 behaviorKey: .equip

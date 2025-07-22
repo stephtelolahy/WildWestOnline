@@ -14,13 +14,13 @@ import Redux
 public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
-    public let description: String
+    public let description: String?
     public let behaviour: [Effect.Name: [Effect]]
 
     public init(
         name: String,
         type: CardType,
-        description: String = "",
+        description: String? = nil,
         behaviour: [Effect.Name: [Effect]] = [:]
     ) {
         self.name = name
@@ -39,7 +39,7 @@ public struct Card: Equatable, Codable, Sendable {
     public struct Effect: ActionProtocol, Equatable, Codable {
         public let name: Name
         public let player: String
-        public let playedCard: String
+        public var playedCard: String?
         public var targetedPlayer: String?
         public var targetedCard: String?
         public var amount: Int?
@@ -89,7 +89,7 @@ public struct Card: Equatable, Codable, Sendable {
         public init(
             name: Name,
             player: String = "",
-            playedCard: String = "",
+            playedCard: String? = nil,
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
             amount: Int? = nil,

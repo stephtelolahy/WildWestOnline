@@ -121,7 +121,8 @@ private extension Card.Effect.Name {
 
     struct PreparePlay: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
-            let cardName = Card.extractName(from: action.playedCard)
+            let card = action.playedCard!
+            let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
             guard let onPreparePlay = cardObj.behaviour[.preparePlay],
                   onPreparePlay.isNotEmpty else {
@@ -147,13 +148,13 @@ private extension Card.Effect.Name {
     struct Play: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let player = action.player
-            let card = action.playedCard
+            let card = action.playedCard!
             var state = state
 
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
-            let cardName = Card.extractName(from: action.playedCard)
+            let cardName = Card.extractName(from: card)
             if let cardObj = state.cards[cardName],
                let onPlay = cardObj.behaviour[.play] {
                 let effects = onPlay
@@ -179,7 +180,7 @@ private extension Card.Effect.Name {
     struct Equip: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let player = action.player
-            let card = action.playedCard
+            let card = action.playedCard!
 
             var state = state
 
@@ -203,7 +204,7 @@ private extension Card.Effect.Name {
             let target = action.targetedPlayer!
 
             let player = action.player
-            let card = action.playedCard
+            let card = action.playedCard!
 
             var state = state
 

@@ -42,7 +42,8 @@ extension GameFeature {
 
         if state.active.isNotEmpty {
             guard action.name == .preparePlay,
-                  state.active.contains(where: { $0.key == action.player && $0.value.contains(action.playedCard) }) else {
+                  let card = action.playedCard,
+                  state.active.contains(where: { $0.key == action.player && $0.value.contains(card) }) else {
                 fatalError("Unexpected unwaited action \(action)")
             }
 
