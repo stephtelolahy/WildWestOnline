@@ -9,7 +9,7 @@ public extension GameFeature.Action {
     static func preparePlay(_ playedCard: String, player: String) -> Self {
         .init(
             name: .preparePlay,
-            player: player,
+            sourcePlayer: player,
             playedCard: playedCard
         )
     }
@@ -91,7 +91,7 @@ public extension GameFeature.Action {
     static func stealHand(_ card: String, target: String, player: String) -> Self {
         .init(
             name: .stealHand,
-            player: player,
+            sourcePlayer: player,
             targetedPlayer: target,
             targetedCard: card
         )
@@ -100,7 +100,7 @@ public extension GameFeature.Action {
     static func stealInPlay(_ card: String, target: String, player: String) -> Self {
         .init(
             name: .stealInPlay,
-            player: player,
+            sourcePlayer: player,
             targetedPlayer: target,
             targetedCard: card
         )
@@ -109,7 +109,7 @@ public extension GameFeature.Action {
     static func passInPlay(_ card: String, target: String, player: String) -> Self {
         .init(
             name: .passInPlay,
-            player: player,
+            sourcePlayer: player,
             targetedPlayer: target,
             targetedCard: card
         )
@@ -168,7 +168,7 @@ public extension GameFeature.Action {
     static func play(_ playedCard: String, player: String, target: String? = nil, card: String? = nil) -> Self {
         .init(
             name: .play,
-            player: player,
+            sourcePlayer: player,
             playedCard: playedCard,
             targetedPlayer: target,
             targetedCard: card
@@ -178,7 +178,7 @@ public extension GameFeature.Action {
     static func equip(_ playedCard: String, player: String) -> Self {
         .init(
             name: .equip,
-            player: player,
+            sourcePlayer: player,
             playedCard: playedCard
         )
     }
@@ -186,7 +186,7 @@ public extension GameFeature.Action {
     static func handicap(_ playedCard: String, target: String, player: String) -> Self {
         .init(
             name: .handicap,
-            player: player,
+            sourcePlayer: player,
             playedCard: playedCard,
             targetedPlayer: target
         )

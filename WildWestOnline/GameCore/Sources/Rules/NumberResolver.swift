@@ -42,7 +42,7 @@ private extension Card.Selector.Number {
 
     struct PlayerExcessHandSize: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
-            let player = pendingAction.player
+            let player = pendingAction.sourcePlayer!
             let playerObj = state.players.get(player)
             let handlLimit = if playerObj.handLimit > 0 {
                 playerObj.handLimit
@@ -57,7 +57,7 @@ private extension Card.Selector.Number {
 
     struct DrawnCardCount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
-            let player = pendingAction.player
+            let player = pendingAction.sourcePlayer!
             let playerObj = state.players.get(player)
             return playerObj.drawCards
         }

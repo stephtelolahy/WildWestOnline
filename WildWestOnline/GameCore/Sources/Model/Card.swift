@@ -38,8 +38,8 @@ public struct Card: Equatable, Codable, Sendable {
 
     public struct Effect: ActionProtocol, Equatable, Codable {
         public let name: Name
-        public let player: String
-        public var playedCard: String?
+        public let sourcePlayer: String?
+        public let playedCard: String?
         public var targetedPlayer: String?
         public var targetedCard: String?
         public var amount: Int?
@@ -48,7 +48,7 @@ public struct Card: Equatable, Codable, Sendable {
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
         public var selectors: [Selector]
-        public let triggeredBy: [Self]? // use array to fix Value type 'Effect' cannot have a stored property that recursively contains it
+        public let triggeredBy: [Self]?
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -88,7 +88,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public init(
             name: Name,
-            player: String = "",
+            sourcePlayer: String? = nil,
             playedCard: String? = nil,
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
@@ -102,7 +102,7 @@ public struct Card: Equatable, Codable, Sendable {
         ) {
             self.name = name
             self.selectors = selectors
-            self.player = player
+            self.sourcePlayer = sourcePlayer
             self.playedCard = playedCard
             self.targetedPlayer = targetedPlayer
             self.targetedCard = targetedCard
@@ -115,7 +115,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
 
         public func copy(
-            withPlayer player: String? = nil,
+            withPlayer sourcePlayer: String? = nil,
             playedCard: String? = nil,
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
@@ -125,7 +125,7 @@ public struct Card: Equatable, Codable, Sendable {
         ) -> Self {
             .init(
                 name: self.name,
-                player: player ?? self.player,
+                sourcePlayer: sourcePlayer ?? self.sourcePlayer,
                 playedCard: playedCard ?? self.playedCard,
                 targetedPlayer: targetedPlayer ?? self.targetedPlayer,
                 targetedCard: targetedCard ?? self.targetedCard,

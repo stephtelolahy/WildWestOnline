@@ -95,7 +95,7 @@ private extension GameFeature.State {
             let card = event.playedCard!
             effects += effectsTriggered(
                 by: card,
-                ownedBy: event.player,
+                ownedBy: event.sourcePlayer!,
                 for: event,
                 behaviorKey: .equip
             )
@@ -130,7 +130,7 @@ private extension GameFeature.State {
     ) -> [Card.Effect] {
         let cardName = Card.extractName(from: card)
         let behavior = cards.get(cardName).behaviour[behaviorKey] ?? []
-        let context = Card.Effect(name: event.name, player: player)
+        let context = Card.Effect(name: event.name, sourcePlayer: player)
         return behavior.map {
             $0.copy(
                 withPlayer: player,

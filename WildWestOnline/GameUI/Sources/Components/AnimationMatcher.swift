@@ -12,21 +12,21 @@ struct AnimationMatcher {
         case .play:
                 .moveCard(
                     .id(action.playedCard!),
-                    from: .playerHand(action.player),
+                    from: .playerHand(action.sourcePlayer!),
                     to: .discard
                 )
 
         case .equip:
                 .moveCard(
                     .id(action.playedCard!),
-                    from: .playerHand(action.player),
-                    to: .playerInPlay(action.player)
+                    from: .playerHand(action.sourcePlayer!),
+                    to: .playerInPlay(action.sourcePlayer!)
                 )
 
         case .handicap:
                 .moveCard(
                     .id(action.playedCard!),
-                    from: .playerHand(action.player),
+                    from: .playerHand(action.sourcePlayer!),
                     to: .playerInPlay(action.targetedPlayer!)
                 )
 
@@ -62,20 +62,20 @@ struct AnimationMatcher {
                 .moveCard(
                     .hidden,
                     from: .playerHand(action.targetedPlayer!),
-                    to: .playerHand(action.player)
+                    to: .playerHand(action.sourcePlayer!)
                 )
 
         case .stealInPlay:
                 .moveCard(
                     .id(action.targetedCard!),
                     from: .playerInPlay(action.targetedPlayer!),
-                    to: .playerHand(action.player)
+                    to: .playerHand(action.sourcePlayer!)
                 )
 
         case .passInPlay:
                 .moveCard(
                     .id(action.targetedCard!),
-                    from: .playerInPlay(action.player),
+                    from: .playerInPlay(action.sourcePlayer!),
                     to: .playerInPlay(action.targetedPlayer!)
                 )
 

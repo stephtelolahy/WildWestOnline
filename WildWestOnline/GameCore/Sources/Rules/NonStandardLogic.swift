@@ -21,7 +21,7 @@ enum NonStandardLogic {
             parentAction.targetedPlayer
 
         default:
-            parentAction.player
+            parentAction.sourcePlayer
         }
     }
 
@@ -39,7 +39,7 @@ enum NonStandardLogic {
 
         switch lhs.name {
         case .preparePlay, .play, .equip, .handicap, .stealHand, .stealInPlay, .passInPlay:
-            guard lhs.player == rhs.player
+            guard lhs.sourcePlayer == rhs.sourcePlayer
             else {
                 return false
             }
