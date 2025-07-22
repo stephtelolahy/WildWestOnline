@@ -11,12 +11,14 @@ public enum GameSetupService {
         inventory: Inventory,
         preferredFigure: String? = nil
     ) -> GameFeature.State {
-        let figures = inventory.figures.shuffled().starting(with: preferredFigure)
+        let figures = inventory.cards.names(for: .character)
+            .shuffled()
+            .starting(with: preferredFigure)
         return buildGame(
             figures: Array(figures.prefix(playersCount)),
             deck: buildDeck(deck: inventory.deck).shuffled(),
-            cards: inventory.cards,
-            playerAbilities: inventory.playerAbilities
+            cards: inventory.cards.toDictionary,
+            playerAbilities: inventory.cards.names(for: .ability)
         )
     }
 

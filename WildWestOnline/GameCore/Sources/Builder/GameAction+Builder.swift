@@ -17,7 +17,7 @@ public extension GameFeature.Action {
     static func choose(_ selection: String, player: String) -> Self {
         .init(
             name: .choose,
-            player: player,
+            targetedPlayer: player,
             chosenOption: selection
         )
     }

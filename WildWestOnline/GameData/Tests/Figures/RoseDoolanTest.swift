@@ -15,7 +15,7 @@ struct RoseDoolanTest {
         let state = GameSetupService.buildGame(
             figures: [.roseDoolan],
             deck: [],
-            cards: Cards.all,
+            cards: Cards.all.toDictionary,
             playerAbilities: []
         )
 

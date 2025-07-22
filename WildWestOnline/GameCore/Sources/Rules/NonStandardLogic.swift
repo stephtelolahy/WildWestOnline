@@ -8,8 +8,7 @@
 enum NonStandardLogic {
     static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
         switch name {
-        case .choose,
-                .activate,
+        case .activate,
                 .preparePlay,
                 .play,
                 .equip,
@@ -28,23 +27,20 @@ enum NonStandardLogic {
 
     static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
-        case .preparePlay,
-                .play,
-                .equip,
-                .handicap:
-            guard
-                lhs.player == rhs.player,
-                lhs.playedCard == rhs.playedCard
+        case .preparePlay, .play, .equip, .handicap:
+            guard lhs.playedCard == rhs.playedCard
             else {
                 return false
             }
 
-        case .choose,
-                .stealHand,
-                .stealInPlay,
-                .passInPlay,
-                .drawDiscard:
-            guard lhs.player == rhs.player else {
+        default:
+            break
+        }
+
+        switch lhs.name {
+        case .preparePlay, .play, .equip, .handicap, .stealHand, .stealInPlay, .passInPlay:
+            guard lhs.player == rhs.player
+            else {
                 return false
             }
 

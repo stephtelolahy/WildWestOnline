@@ -7,7 +7,7 @@
 
 public extension Inventory {
     class Builder {
-        private var cards: [String: Card] = [:]
+        private var cards: [Card] = []
         private var deck: [String: [String]] = [:]
 
         public func build() -> Inventory {
@@ -17,31 +17,29 @@ public extension Inventory {
             )
         }
 
-        public func withCards(_ value: [String: Card]) -> Self {
+        public func withCards(_ value: [Card]) -> Self {
             cards = value
             return self
         }
 
         public func  withSample() -> Self {
             deck = [:]
-            let sampleCard = Card(
-                name: "",
-                type: .character,
-                behaviour: [
-                    .permanent: [
-                        .init(
-                            name: .setMaxHealth,
-                            amount: 1
-                        )
+            cards = (1...100).map {
+                Card(
+                    name: "c\($0)",
+                    type: .character,
+                    behaviour: [
+                        .permanent: [
+                            .init(
+                                name: .setMaxHealth,
+                                amount: 1
+                            )
+                        ]
                     ]
-                ]
-            )
-
-            cards = Dictionary(
-                uniqueKeysWithValues: (1...100).map { "c\($0)" }.map { ($0, sampleCard) }
-            )
+                )
+            }
             return self
-         }
+        }
     }
 
     static func makeBuilder() -> Builder {

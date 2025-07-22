@@ -15,7 +15,7 @@ struct PaulRegretTest {
         let state = GameSetupService.buildGame(
             figures: [.paulRegret],
             deck: [],
-            cards: Cards.all,
+            cards: Cards.all.toDictionary,
             playerAbilities: []
         )
 

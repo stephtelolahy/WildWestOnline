@@ -61,11 +61,12 @@ struct SettingsFiguresView: View {
 
 extension SettingsFiguresView.ViewState {
     init?(appState: AppFeature.State) {
-        figures = appState.inventory.figures.map {
-            .init(
-                name: $0,
-                isFavorite: $0 == appState.settings.preferredFigure
-            )
-        }
+        figures = appState.inventory.cards.names(for: .character)
+            .map {
+                .init(
+                    name: $0,
+                    isFavorite: $0 == appState.settings.preferredFigure
+                )
+            }
     }
 }
