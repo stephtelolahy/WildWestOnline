@@ -17,20 +17,14 @@ public struct Inventory: Codable, Equatable, Sendable {
     }
 }
 
-public extension Inventory {
-    var figures: [String] {
-        cards.filter { $0.type == .character }.map(\.name)
-    }
-
-    var playerAbilities: [String] {
-        cards.filter { $0.type == .ability }.map(\.name)
-    }
-}
-
 public extension Array where Element == Card {
     var toDictionary: [String: Card] {
         reduce(into: [:]) { result, card in
             result[card.name] = card
         }
+    }
+
+    func names(for type: Card.CardType) -> [String] {
+        filter { $0.type == type }.map(\.name)
     }
 }
