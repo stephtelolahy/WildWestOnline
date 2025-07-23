@@ -39,7 +39,7 @@ private extension Card.Selector.CardGroup {
 
     struct Played: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            let card = pendingAction.playedCard!
+            let card = pendingAction.playedCard
             return [card]
         }
     }

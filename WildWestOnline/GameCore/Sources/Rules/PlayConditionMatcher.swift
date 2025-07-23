@@ -44,7 +44,7 @@ private extension Card.PlayCondition {
         let limit: [String: Int]
 
         func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             guard let card = limit.keys.first else {
                 fatalError("No card specified in limit")
             }
@@ -65,14 +65,14 @@ private extension Card.PlayCondition {
 
     struct IsHealthZero: Matcher {
         func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             return state.players.get(player).health <= 0
         }
     }
 
     struct IsHealthNonZero: Matcher {
         func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             return state.players.get(player).health > 0
         }
     }
@@ -93,7 +93,7 @@ private extension Card.PlayCondition {
         let regex: String
 
         func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             let drawCards = state.players.get(player).drawCards
             return state.discard
                 .prefix(drawCards)
@@ -105,7 +105,7 @@ private extension Card.PlayCondition {
         let regex: String
 
         func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             let drawCards = state.players.get(player).drawCards
             return state.discard
                 .prefix(drawCards)

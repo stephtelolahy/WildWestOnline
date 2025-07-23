@@ -92,10 +92,10 @@ private extension GameFeature.State {
             }
 
         case .equip:
-            let card = event.playedCard!
+            let card = event.playedCard
             effects += effectsTriggered(
                 by: card,
-                ownedBy: event.sourcePlayer!,
+                ownedBy: event.sourcePlayer,
                 for: event,
                 behaviorKey: .equip
             )
@@ -135,8 +135,8 @@ private extension GameFeature.State {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context),
-                triggeredBy: [event]
+                triggeredBy: [event],
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context)
             )
         }
     }

@@ -42,12 +42,11 @@ extension GameFeature {
 
         if state.active.isNotEmpty {
             guard action.name == .preparePlay,
-                  let card = action.playedCard,
-                  state.active.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(card) }) else {
+                  state.active.contains(where: { $0.key == action.sourcePlayer && $0.value.contains(action.playedCard) }) else {
                 fatalError("Unexpected unwaited action \(action)")
             }
 
-            state.active.removeValue(forKey: action.sourcePlayer!)
+            state.active.removeValue(forKey: action.sourcePlayer)
         }
 
         if action.selectors.isNotEmpty {

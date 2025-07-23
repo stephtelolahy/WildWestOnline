@@ -11,22 +11,22 @@ struct AnimationMatcher {
         switch action.name {
         case .play:
                 .moveCard(
-                    .id(action.playedCard!),
-                    from: .playerHand(action.sourcePlayer!),
+                    .id(action.playedCard),
+                    from: .playerHand(action.sourcePlayer),
                     to: .discard
                 )
 
         case .equip:
                 .moveCard(
-                    .id(action.playedCard!),
-                    from: .playerHand(action.sourcePlayer!),
-                    to: .playerInPlay(action.sourcePlayer!)
+                    .id(action.playedCard),
+                    from: .playerHand(action.sourcePlayer),
+                    to: .playerInPlay(action.sourcePlayer)
                 )
 
         case .handicap:
                 .moveCard(
-                    .id(action.playedCard!),
-                    from: .playerHand(action.sourcePlayer!),
+                    .id(action.playedCard),
+                    from: .playerHand(action.sourcePlayer),
                     to: .playerInPlay(action.targetedPlayer!)
                 )
 
@@ -62,20 +62,20 @@ struct AnimationMatcher {
                 .moveCard(
                     .hidden,
                     from: .playerHand(action.targetedPlayer!),
-                    to: .playerHand(action.sourcePlayer!)
+                    to: .playerHand(action.sourcePlayer)
                 )
 
         case .stealInPlay:
                 .moveCard(
                     .id(action.targetedCard!),
                     from: .playerInPlay(action.targetedPlayer!),
-                    to: .playerHand(action.sourcePlayer!)
+                    to: .playerHand(action.sourcePlayer)
                 )
 
         case .passInPlay:
                 .moveCard(
                     .id(action.targetedCard!),
-                    from: .playerInPlay(action.sourcePlayer!),
+                    from: .playerInPlay(action.sourcePlayer),
                     to: .playerInPlay(action.targetedPlayer!)
                 )
 

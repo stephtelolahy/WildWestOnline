@@ -38,8 +38,11 @@ public struct Card: Equatable, Codable, Sendable {
 
     public struct Effect: ActionProtocol, Equatable, Codable {
         public let name: Name
-        public let sourcePlayer: String?
-        public let playedCard: String?
+
+        public let sourcePlayer: String
+        public let playedCard: String
+        public let triggeredBy: [Self]
+
         public var targetedPlayer: String?
         public var targetedCard: String?
         public var amount: Int?
@@ -47,8 +50,8 @@ public struct Card: Equatable, Codable, Sendable {
         public var nestedEffects: [Self]?
         public var affectedCards: [String]?
         public var amountPerTurn: [String: Int]?
+
         public var selectors: [Selector]
-        public let triggeredBy: [Self]?
 
         public enum Name: String, Codable, Sendable {
             case preparePlay
@@ -88,8 +91,9 @@ public struct Card: Equatable, Codable, Sendable {
 
         public init(
             name: Name,
-            sourcePlayer: String? = nil,
-            playedCard: String? = nil,
+            sourcePlayer: String = "",
+            playedCard: String = "",
+            triggeredBy: [Self] = [],
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
             amount: Int? = nil,
@@ -97,13 +101,13 @@ public struct Card: Equatable, Codable, Sendable {
             nestedEffects: [Self]? = nil,
             affectedCards: [String]? = nil,
             amountPerTurn: [String: Int]? = nil,
-            selectors: [Selector] = [],
-            triggeredBy: [Self]? = nil
+            selectors: [Selector] = []
         ) {
             self.name = name
             self.selectors = selectors
             self.sourcePlayer = sourcePlayer
             self.playedCard = playedCard
+            self.triggeredBy = triggeredBy
             self.targetedPlayer = targetedPlayer
             self.targetedCard = targetedCard
             self.amount = amount
@@ -111,22 +115,22 @@ public struct Card: Equatable, Codable, Sendable {
             self.nestedEffects = nestedEffects
             self.affectedCards = affectedCards
             self.amountPerTurn = amountPerTurn
-            self.triggeredBy = triggeredBy
         }
 
         public func copy(
             withPlayer sourcePlayer: String? = nil,
             playedCard: String? = nil,
+            triggeredBy: [Self]? = nil,
             targetedPlayer: String? = nil,
             targetedCard: String? = nil,
             amount: Int? = nil,
             selectors: [Selector]? = nil,
-            triggeredBy: [Self]? = nil
         ) -> Self {
             .init(
                 name: self.name,
                 sourcePlayer: sourcePlayer ?? self.sourcePlayer,
                 playedCard: playedCard ?? self.playedCard,
+                triggeredBy: triggeredBy ?? self.triggeredBy,
                 targetedPlayer: targetedPlayer ?? self.targetedPlayer,
                 targetedCard: targetedCard ?? self.targetedCard,
                 amount: amount ?? self.amount,
@@ -134,8 +138,7 @@ public struct Card: Equatable, Codable, Sendable {
                 nestedEffects: self.nestedEffects,
                 affectedCards: self.affectedCards,
                 amountPerTurn: self.amountPerTurn,
-                selectors: selectors ?? self.selectors,
-                triggeredBy: triggeredBy ?? self.triggeredBy
+                selectors: selectors ?? self.selectors
             )
         }
 

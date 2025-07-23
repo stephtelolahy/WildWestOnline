@@ -42,7 +42,7 @@ private extension Card.Selector.Number {
 
     struct PlayerExcessHandSize: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
             let handlLimit = if playerObj.handLimit > 0 {
                 playerObj.handLimit
@@ -57,7 +57,7 @@ private extension Card.Selector.Number {
 
     struct DrawnCardCount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
-            let player = pendingAction.sourcePlayer!
+            let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
             return playerObj.drawCards
         }
@@ -65,7 +65,7 @@ private extension Card.Selector.Number {
 
     struct ReceivedDamageAmount: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
-            guard let parentAction = pendingAction.triggeredBy?.first,
+            guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage,
                   let amount = parentAction.amount else {
                 fatalError("Expected trigger from damage")

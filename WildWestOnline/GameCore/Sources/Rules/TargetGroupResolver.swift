@@ -66,13 +66,13 @@ private extension Card.Selector.TargetGroup {
 
     struct CurrentPlayer: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            [pendingAction.sourcePlayer!]
+            [pendingAction.sourcePlayer]
         }
     }
 
     struct DamagingPlayer: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            guard let parentAction = pendingAction.triggeredBy?.first,
+            guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage else {
                 fatalError("Expected trigger from damage")
             }
@@ -81,7 +81,7 @@ private extension Card.Selector.TargetGroup {
                 return []
             }
 
-            return [parentAction.sourcePlayer!]
+            return [parentAction.sourcePlayer]
         }
     }
 }

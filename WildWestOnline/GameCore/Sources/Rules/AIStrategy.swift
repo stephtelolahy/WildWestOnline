@@ -40,8 +40,7 @@ private extension Card.Effect {
     var selectedItem: String {
         switch name {
         case .preparePlay:
-            let card = playedCard!
-            return Card.extractName(from: card)
+            return Card.extractName(from: playedCard)
 
         case .choose:
             let selection = chosenOption!

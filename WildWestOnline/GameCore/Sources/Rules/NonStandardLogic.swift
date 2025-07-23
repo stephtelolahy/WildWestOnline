@@ -8,20 +8,33 @@
 enum NonStandardLogic {
     static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
         switch name {
-        case .activate,
-                .preparePlay,
-                .play,
-                .equip,
-                .handicap,
-                .draw,
-                .discover,
-                .stealHand,
-                .stealInPlay,
-                .passInPlay:
-            parentAction.targetedPlayer
+        case .drawDeck,
+                .drawDiscard,
+                .drawDiscovered,
+                .discardHand,
+                .discardInPlay,
+                .heal,
+                .setWeapon,
+                .setMaxHealth,
+                .setHandLimit,
+                .setPlayLimitPerTurn,
+                .increaseMagnifying,
+                .increaseRemoteness,
+                .shoot,
+                .damage,
+                .choose,
+                .counterShot,
+                .queue,
+                .permanent,
+                .setDrawCards,
+                .endGame,
+                .eliminate,
+                .endTurn,
+                .startTurn:
+            parentAction.sourcePlayer
 
         default:
-            parentAction.sourcePlayer
+            parentAction.targetedPlayer
         }
     }
 
