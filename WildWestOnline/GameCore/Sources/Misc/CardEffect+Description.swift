@@ -15,7 +15,7 @@ extension Card.Effect: CustomStringConvertible {
             chosenOption,
             amount != nil ? "x\(amount ?? 0)" : nil,
             affectedCards?.isNotEmpty == true ? (affectedCards ?? []).joined(separator: ", ") : nil,
-            playedCard != nil ? "<< \(playedCard ?? ""):\(sourcePlayer ?? "")" : nil
+            playedCard.isNotEmpty ? "<< \(playedCard):\(sourcePlayer)" : nil
         ]
             .compactMap { $0 }
             .joined(separator: " ")
