@@ -54,6 +54,7 @@ struct PlayerView: View {
         .background(player.backgroundColor)
         .cornerRadius(8)
         .shadow(radius: 2)
+        .opacity(player.isEliminated ? 0.3 : 1)
     }
 }
 
