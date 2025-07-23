@@ -253,13 +253,13 @@ private extension GameView.ViewState {
             id: "p3",
             imageName: "elGringo",
             displayName: "elGringo",
-            health: 1,
+            health: 0,
             maxHealth: 3,
             handCount: 0,
-            inPlay: ["scope"],
+            inPlay: [],
             isTurn: false,
             isTargeted: false,
-            isEliminated: false,
+            isEliminated: true,
             role: nil,
             userPhotoUrl: nil
         )

@@ -21,10 +21,8 @@ struct PlayerView: View {
                 .overlay(Circle().stroke(Color.primary, lineWidth: 1))
 
             // Name and role
-            Text(player.displayName)
-                .font(.headline)
-            Text(player.role ?? "???")
-                .font(.caption)
+            Text(player.displayName.uppercased())
+                .font(.subheadline)
 
             // Health display with hearts
             HStack(spacing: 2) {
@@ -33,11 +31,11 @@ struct PlayerView: View {
                         .foregroundColor(.red)
                         .font(.caption)
                 }
-            }
 
-            // Hand count
-            Text("Hand: \(player.handCount)")
-                .font(.caption)
+                // Hand count
+                Text("[]\(player.handCount)")
+                    .font(.caption)
+            }
 
             // In-play cards (displayed as a compact label)
             if !player.inPlay.isEmpty {
@@ -56,19 +54,18 @@ struct PlayerView: View {
         .background(player.backgroundColor)
         .cornerRadius(8)
         .shadow(radius: 2)
+        .opacity(player.isEliminated ? 0.3 : 1)
     }
 }
 
 private extension GameView.ViewState.PlayerItem {
     var backgroundColor: Color {
-        if isEliminated {
-            Color.clear
-        } else if isTargeted {
+        if isTargeted {
             Color(.systemRed)
         } else if isTurn {
             Color(.systemOrange)
         } else {
-            Color(.tertiarySystemBackground).opacity(0.6)
+            Color(.clear)
         }
     }
 }
