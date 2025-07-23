@@ -61,14 +61,12 @@ struct PlayerView: View {
 
 private extension GameView.ViewState.PlayerItem {
     var backgroundColor: Color {
-        if isEliminated {
-            Color.clear
-        } else if isTargeted {
+        if isTargeted {
             Color(.systemRed)
         } else if isTurn {
             Color(.systemOrange)
         } else {
-            Color(.tertiarySystemBackground).opacity(0.6)
+            Color(.clear)
         }
     }
 }
