@@ -27,7 +27,7 @@ public enum Deck {
         .indians: ["K♦️", "A♦️"],
         .panic: ["J♥️", "Q♥️", "A♥️", "8♦️"],
         .saloon: ["5♥️"],
-        .stagecoach: ["9♠️", "9♠️"],
+        .stagecoach: ["8♠️", "9♠️"],
         .wellsFargo: ["3♥️"]
     ]
 }
