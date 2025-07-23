@@ -119,7 +119,7 @@ public extension GameFeature.State {
 
 public extension GameFeature.State.Player {
     class Builder {
-        public var figure: String = ""
+        private var figure: String = ""
         private var health: Int = 0
         private var maxHealth: Int = 0
         private var hand: [String] = []

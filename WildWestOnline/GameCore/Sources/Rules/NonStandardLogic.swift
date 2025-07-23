@@ -6,40 +6,54 @@
 //
 
 enum NonStandardLogic {
+    @available(*, deprecated, message: "Use parentAction.targetedPlayer")
     static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
+        if let targetedPlayer = parentAction.targetedPlayer {
+            return targetedPlayer
+        }
+
         switch name {
-        case .activate,
-                .preparePlay,
-                .play,
-                .equip,
-                .handicap,
-                .draw,
-                .discover,
-                .stealHand,
-                .stealInPlay,
-                .passInPlay:
-            parentAction.targetedPlayer
+        case .drawDeck,
+                .drawDiscard,
+                .drawDiscovered,
+                .discardHand,
+                .discardInPlay,
+                .heal,
+                .setWeapon,
+                .setPlayLimitPerTurn,
+                .increaseMagnifying,
+                .increaseRemoteness,
+                .shoot,
+                .damage,
+                .choose,
+                .counterShot,
+                .endGame,
+                .eliminate,
+                .endTurn,
+                .startTurn:
+            return parentAction.sourcePlayer
 
         default:
-            parentAction.player
+            return nil
         }
     }
 
     static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
-        case .preparePlay, .play, .equip, .handicap:
-            guard lhs.playedCard == rhs.playedCard
+        case .preparePlay,
+                .play,
+                .equip,
+                .handicap:
+            guard lhs.sourcePlayer == rhs.sourcePlayer,
+                  lhs.playedCard == rhs.playedCard
             else {
                 return false
             }
 
-        default:
-            break
-        }
-
-        switch lhs.name {
-        case .preparePlay, .play, .equip, .handicap, .stealHand, .stealInPlay, .passInPlay:
-            guard lhs.player == rhs.player
+        case .stealHand,
+                .stealInPlay,
+                .passInPlay:
+            guard lhs.sourcePlayer == rhs.sourcePlayer
             else {
                 return false
             }

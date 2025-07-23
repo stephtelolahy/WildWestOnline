@@ -201,8 +201,8 @@ private extension Card {
                     .init(
                         name: .drawDeck,
                         selectors: [
-                            .repeat(.fixed(2)),
-                            .setTarget(.currentPlayer)
+                            .setTarget(.currentPlayer),
+                            .repeat(.fixed(2))
                         ]
                     )
                 ]
@@ -221,8 +221,8 @@ private extension Card {
                     .init(
                         name: .drawDeck,
                         selectors: [
-                            .repeat(.fixed(3)),
-                            .setTarget(.currentPlayer)
+                            .setTarget(.currentPlayer),
+                            .repeat(.fixed(3))
                         ]
                     )
                 ]

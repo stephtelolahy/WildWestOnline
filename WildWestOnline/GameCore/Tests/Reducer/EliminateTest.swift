@@ -32,7 +32,7 @@ struct EliminateTest {
                 [
                     .init(
                         name: .drawDeck,
-                        player: "p1"
+                        sourcePlayer: "p1"
                     )
                 ]
             )

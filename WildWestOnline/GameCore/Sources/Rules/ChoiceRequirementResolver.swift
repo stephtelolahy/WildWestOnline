@@ -35,7 +35,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.TargetFilter]
 
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let player = pendingAction.player
+            let player = pendingAction.sourcePlayer
             let result = state.playOrder
                 .starting(with: player)
                 .dropFirst()
@@ -60,7 +60,7 @@ private extension Card.Selector.ChoiceRequirement {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {
-            let player = pendingAction.player
+            let player = pendingAction.sourcePlayer
             let target = pendingAction.targetedPlayer!
             let playerObj = state.players.get(target)
             var options: [Card.Selector.ChoicePrompt.Option] = []
@@ -158,8 +158,8 @@ private extension Card.Selector.ChoiceRequirement {
                 return [pendingAction]
             } else {
                 let reversedAction = pendingAction.copy(
-                    withPlayer: pendingAction.targetedPlayer!,
-                    targetedPlayer: pendingAction.player,
+                    withPlayer: pendingAction.targetedPlayer,
+                    targetedPlayer: pendingAction.sourcePlayer,
                     selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
                 )
                 return [

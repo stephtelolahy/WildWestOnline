@@ -30,7 +30,7 @@ private extension Card.Selector.TargetGroup {
     struct WoundedPlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             let players = state.playOrder
-                .starting(with: pendingAction.player)
+                .starting(with: pendingAction.sourcePlayer)
                 .filter { state.players.get($0).isWounded }
 
             guard players.isNotEmpty else {
@@ -44,19 +44,19 @@ private extension Card.Selector.TargetGroup {
     struct ActivePlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             state.playOrder
-                .starting(with: pendingAction.player)
+                .starting(with: pendingAction.sourcePlayer)
         }
     }
 
     struct OtherPlayers: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            Array(state.playOrder.starting(with: pendingAction.player).dropFirst())
+            Array(state.playOrder.starting(with: pendingAction.sourcePlayer).dropFirst())
         }
     }
 
     struct NextPlayer: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            let current = pendingAction.player
+            let current = pendingAction.sourcePlayer
             let next = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
                 .starting(with: current)[1]
@@ -66,22 +66,22 @@ private extension Card.Selector.TargetGroup {
 
     struct CurrentPlayer: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            [pendingAction.player]
+            [pendingAction.sourcePlayer]
         }
     }
 
     struct DamagingPlayer: Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            guard let parentAction = pendingAction.triggeredBy?.first,
+            guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage else {
                 fatalError("Expected trigger from damage")
             }
 
-            guard parentAction.player != parentAction.targetedPlayer else {
+            guard parentAction.sourcePlayer != parentAction.targetedPlayer else {
                 return []
             }
 
-            return [parentAction.player]
+            return [parentAction.sourcePlayer]
         }
     }
 }

@@ -94,7 +94,7 @@ private extension GameFeature.State {
         case .equip:
             effects += effectsTriggered(
                 by: event.playedCard,
-                ownedBy: event.player,
+                ownedBy: event.sourcePlayer,
                 for: event,
                 behaviorKey: .equip
             )
@@ -129,13 +129,13 @@ private extension GameFeature.State {
     ) -> [Card.Effect] {
         let cardName = Card.extractName(from: card)
         let behavior = cards.get(cardName).behaviour[behaviorKey] ?? []
-        let context = Card.Effect(name: event.name, player: player)
+        let context = Card.Effect(name: event.name, sourcePlayer: player)
         return behavior.map {
             $0.copy(
                 withPlayer: player,
                 playedCard: card,
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context),
-                triggeredBy: [event]
+                triggeredBy: [event],
+                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context)
             )
         }
     }

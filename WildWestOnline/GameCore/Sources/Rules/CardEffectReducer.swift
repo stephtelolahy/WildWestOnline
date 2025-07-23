@@ -121,7 +121,8 @@ private extension Card.Effect.Name {
 
     struct PreparePlay: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
-            let cardName = Card.extractName(from: action.playedCard)
+            let card = action.playedCard
+            let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
             guard let onPreparePlay = cardObj.behaviour[.preparePlay],
                   onPreparePlay.isNotEmpty else {
@@ -131,10 +132,10 @@ private extension Card.Effect.Name {
             let effects = onPreparePlay
                 .map {
                     $0.copy(
-                        withPlayer: action.player,
+                        withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action),
-                        triggeredBy: [action]
+                        triggeredBy: [action],
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action)
                     )
                 }
 
@@ -146,24 +147,24 @@ private extension Card.Effect.Name {
 
     struct Play: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
-            let player = action.player
+            let player = action.sourcePlayer
             let card = action.playedCard
             var state = state
 
             state[keyPath: \.players[player]!.hand].removeAll { $0 == card }
             state.discard.insert(card, at: 0)
 
-            let cardName = Card.extractName(from: action.playedCard)
+            let cardName = Card.extractName(from: card)
             if let cardObj = state.cards[cardName],
                let onPlay = cardObj.behaviour[.play] {
                 let effects = onPlay
                     .map {
                         $0.copy(
-                            withPlayer: action.player,
+                            withPlayer: action.sourcePlayer,
                             playedCard: action.playedCard,
-                            targetedPlayer: action.targetedPlayer,
-                            targetedCard: action.targetedCard,
-                            triggeredBy: [action]
+                            triggeredBy: [action],
+                            targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action),
+                            targetedCard: action.targetedCard
                         )
                     }
                 state.queue.insert(contentsOf: effects, at: 0)
@@ -178,7 +179,7 @@ private extension Card.Effect.Name {
 
     struct Equip: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
-            let player = action.player
+            let player = action.sourcePlayer
             let card = action.playedCard
 
             var state = state
@@ -201,8 +202,7 @@ private extension Card.Effect.Name {
     struct Handicap: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
-
-            let player = action.player
+            let player = action.sourcePlayer
             let card = action.playedCard
 
             var state = state
@@ -305,7 +305,7 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
-            let player = action.player
+            let player = action.sourcePlayer
 
             var state = state
             let playerObj = state.players.get(target)
@@ -324,7 +324,7 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
-            let player = action.player
+            let player = action.sourcePlayer
 
             let playerObj = state.players.get(target)
             guard playerObj.inPlay.contains(card) else {
@@ -343,7 +343,7 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
-            let player = action.player
+            let player = action.sourcePlayer
 
             let playerObj = state.players.get(player)
             guard playerObj.inPlay.contains(card) else {
@@ -363,7 +363,7 @@ private extension Card.Effect.Name {
             var state = state
             let effect = Card.Effect(
                 name: .damage,
-                player: action.player,
+                sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
                 targetedPlayer: action.targetedPlayer,
                 amount: 1,
@@ -404,7 +404,7 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             if let current = state.turn {
-                state.queue.removeAll { $0.player == current && $0.playedCard != action.playedCard }
+                state.queue.removeAll { $0.sourcePlayer == current && $0.playedCard != action.playedCard }
             }
             state.turn = nil
             return state
@@ -434,7 +434,7 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             state.playOrder.removeAll { $0 == action.targetedPlayer }
-            state.queue.removeAll { $0.player == action.targetedPlayer }
+            state.queue.removeAll { $0.sourcePlayer == action.targetedPlayer }
             return state
         }
     }
