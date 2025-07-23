@@ -40,18 +40,19 @@ enum NonStandardLogic {
 
     static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
         switch lhs.name {
-        case .preparePlay, .play, .equip, .handicap:
-            guard lhs.playedCard == rhs.playedCard
+        case .preparePlay,
+                .play,
+                .equip,
+                .handicap:
+            guard lhs.sourcePlayer == rhs.sourcePlayer,
+                  lhs.playedCard == rhs.playedCard
             else {
                 return false
             }
 
-        default:
-            break
-        }
-
-        switch lhs.name {
-        case .preparePlay, .play, .equip, .handicap, .stealHand, .stealInPlay, .passInPlay:
+        case .stealHand,
+                .stealInPlay,
+                .passInPlay:
             guard lhs.sourcePlayer == rhs.sourcePlayer
             else {
                 return false
