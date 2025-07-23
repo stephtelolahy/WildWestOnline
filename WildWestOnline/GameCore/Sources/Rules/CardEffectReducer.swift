@@ -163,7 +163,7 @@ private extension Card.Effect.Name {
                             withPlayer: action.sourcePlayer,
                             playedCard: action.playedCard,
                             triggeredBy: [action],
-                            targetedPlayer: action.targetedPlayer,
+                            targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action),
                             targetedCard: action.targetedCard
                         )
                     }

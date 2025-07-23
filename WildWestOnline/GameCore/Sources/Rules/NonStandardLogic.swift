@@ -6,7 +6,12 @@
 //
 
 enum NonStandardLogic {
+    @available(*, deprecated, message: "Use parentAction.targetedPlayer")
     static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
+        if let targetedPlayer = parentAction.targetedPlayer {
+            return targetedPlayer
+        }
+
         switch name {
         case .drawDeck,
                 .drawDiscard,
@@ -26,10 +31,10 @@ enum NonStandardLogic {
                 .eliminate,
                 .endTurn,
                 .startTurn:
-            parentAction.sourcePlayer
+            return parentAction.sourcePlayer
 
         default:
-            parentAction.targetedPlayer
+            return nil
         }
     }
 
