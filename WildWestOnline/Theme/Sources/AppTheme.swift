@@ -11,6 +11,7 @@ import SwiftUI
 public protocol AppTheme {
     var backgroundColor: Color { get }
     var accentColor: Color { get }
+    var fontName: String { get }
 }
 
 public extension EnvironmentValues {
@@ -20,4 +21,5 @@ public extension EnvironmentValues {
 struct DefaultTheme: AppTheme {
     var backgroundColor = Color("BackgroundColor", bundle: .module)
     var accentColor =  Color("AccentColor", bundle: .module)
+    var fontName: String { "AmericanTypewriter-Bold" }
 }

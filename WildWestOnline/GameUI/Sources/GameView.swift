@@ -156,7 +156,6 @@ private extension GameView {
                     }
                 )
             }
-
     }
 
     func animate(_ action: GameFeature.Action, positions: [ViewPosition: CGPoint]) {

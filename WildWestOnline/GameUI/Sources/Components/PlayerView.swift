@@ -9,6 +9,7 @@ import SwiftUI
 // Displays a player's information including figure image, name, role, health, hand count, and in-play cards.
 struct PlayerView: View {
     var player: GameView.ViewState.PlayerItem
+    @Environment(\.theme) private var theme
 
     var body: some View {
         VStack(spacing: 4) {
@@ -22,19 +23,19 @@ struct PlayerView: View {
 
             // Name and role
             Text(player.displayName.uppercased())
-                .font(.subheadline)
+                .font(.custom(theme.fontName, size: 12, relativeTo: .headline))
 
             // Health display with hearts
             HStack(spacing: 2) {
                 ForEach(0..<player.health, id: \.self) { _ in
                     Image(systemName: "heart.fill")
                         .foregroundColor(.red)
-                        .font(.caption)
+                        .font(.custom(theme.fontName, size: 12, relativeTo: .caption))
                 }
 
                 // Hand count
                 Text("[]\(player.handCount)")
-                    .font(.caption)
+                    .font(.custom(theme.fontName, size: 12, relativeTo: .caption))
             }
 
             // In-play cards (displayed as a compact label)
@@ -42,7 +43,7 @@ struct PlayerView: View {
                 HStack(spacing: 2) {
                     ForEach(player.inPlay, id: \.self) { card in
                         Text(card.prefix(2).uppercased())
-                            .font(.caption2)
+                            .font(.custom(theme.fontName, size: 12, relativeTo: .caption2))
                             .padding(4)
                             .background(Color.gray.opacity(0.3))
                             .cornerRadius(4)
@@ -53,17 +54,16 @@ struct PlayerView: View {
         .padding(6)
         .background(player.backgroundColor)
         .cornerRadius(8)
-        .shadow(radius: 2)
         .opacity(player.isEliminated ? 0.3 : 1)
     }
 }
 
 private extension GameView.ViewState.PlayerItem {
     var backgroundColor: Color {
-        if isTargeted {
-            Color(.systemRed)
-        } else if isTurn {
+        if isTurn {
             Color(.systemOrange)
+        } else if isTargeted {
+            Color(.systemRed)
         } else {
             Color(.clear)
         }
