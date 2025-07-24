@@ -90,7 +90,7 @@ private extension GameView {
                 Button(role: .destructive) {
                     Task { await store.dispatch(GameSessionFeature.Action.quit) }
                 } label: { Text("Quit") }
-            } label: { Image(systemName: "ellipsis.circle") }
+            } label: { Image(systemName: "ellipsis") }
         }
     }
 
