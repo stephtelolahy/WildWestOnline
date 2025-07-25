@@ -864,7 +864,6 @@ private extension Card {
             ]
         )
     }
-
 }
 
 /// Card effect regex

@@ -64,7 +64,7 @@ private extension GameFeature.State {
 
         var effects: [Card.Effect] = []
 
-        // 1. Trigger effects from all players’ inPlay + ability cards
+        // 1. Trigger effects from all targeted players
         for player in playOrder
             where event.targetedPlayer == player {
             let triggerableCards = players.get(player).inPlay + players.get(player).abilities
