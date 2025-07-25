@@ -44,20 +44,6 @@
      )
  }
 
- static var suzyLafayette: Self {
-     .init(
-         name: .suzyLafayette,
-         description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
-         setPlayerAttribute: [.maxHealth: 4],
-         effects: [
-             .init(
-                 name: .drawDeck,
-                 when: .handEmpty
-             )
-         ]
-     )
- }
-
  static var sidKetchum: Self {
      .init(
          name: .sidKetchum,

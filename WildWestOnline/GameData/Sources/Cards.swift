@@ -45,6 +45,7 @@ public enum Cards {
         .paulRegret,
         .bartCassidy,
         .elGringo,
+        .suzyLafayette,
     ]
 }
 
@@ -841,6 +842,29 @@ private extension Card {
             ]
         )
     }
+
+    static var suzyLafayette: Self {
+        .init(
+            name: .suzyLafayette,
+            type: .character,
+            description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 4
+                    )
+                ],
+                .discardHand: [ // TODO all events removing card from hand
+                    .init(
+                        name: .drawDeck,
+                        selectors: [.require(.isHandEmpty)]
+                    )
+                ]
+            ]
+        )
+    }
+
 }
 
 /// Card effect regex

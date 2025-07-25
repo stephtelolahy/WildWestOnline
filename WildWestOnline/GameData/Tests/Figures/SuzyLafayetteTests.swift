@@ -9,7 +9,7 @@ import GameCore
 import Testing
 
 struct SuzyLafayetteTests {
-    @Test(.disabled()) func SuzyLafayette_havingNoHandCards_shouldDrawACard() async throws {
+    @Test func suzyLafayette_havingNoHandCards_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -30,7 +30,7 @@ struct SuzyLafayetteTests {
         ])
     }
 
-    @Test(.disabled()) func SuzyLafayette_havingSomeHandCards_shouldDoNothing() async throws {
+    @Test func suzyLafayette_havingSomeHandCards_shouldDoNothing() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
