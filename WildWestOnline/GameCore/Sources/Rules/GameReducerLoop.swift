@@ -70,7 +70,7 @@ private extension GameFeature.State {
             for card in triggerableCards {
                 let cardName = Card.extractName(from: card)
                 let cardObj = cards.get(cardName)
-                for (condition, behavior) in cardObj.behaviourV2
+                for (condition, behavior) in cardObj.behaviour
                 where condition.match(event, player: player, state: self) {
                     effects.append(
                         contentsOf: behavior.map {
@@ -149,7 +149,7 @@ private extension GameFeature.State {
         behaviorKey: Card.Effect.Name
     ) -> [Card.Effect] {
         let cardName = Card.extractName(from: card)
-        let behavior = cards.get(cardName).behaviour[behaviorKey] ?? []
+        let behavior = cards.get(cardName).behaviourOld[behaviorKey] ?? []
         let context = Card.Effect(name: event.name, sourcePlayer: player)
         return behavior.map {
             $0.copy(

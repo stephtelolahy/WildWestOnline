@@ -34,7 +34,7 @@ struct SetupTest {
             "p1": .init(
                 name: "p1",
                 type: .character,
-                behaviour: [
+                behaviourOld: [
                     .permanent: [
                         .init(name: .setMaxHealth, amount: 4),
                         .init(name: .increaseMagnifying, amount: 1),
@@ -45,7 +45,7 @@ struct SetupTest {
             "p2": .init(
                 name: "p2",
                 type: .character,
-                behaviour: [
+                behaviourOld: [
                     .permanent: [
                         .init(name: .setMaxHealth, amount: 3),
                         .init(name: .increaseRemoteness, amount: 1),

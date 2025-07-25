@@ -55,7 +55,7 @@ private extension Card {
             name: .endTurn,
             type: .ability,
             description: "End turn",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.init(name: .endTurn)]
             ]
         )
@@ -66,7 +66,7 @@ private extension Card {
             name: .discardExcessHandOnTurnEnded,
             type: .ability,
             description: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            behaviour: [
+            behaviourOld: [
                 .endTurn: [
                     .init(
                         name: .discardHand,
@@ -85,7 +85,7 @@ private extension Card {
             name: .startTurnNextOnTurnEnded,
             type: .ability,
             description: "Start next player's turn",
-            behaviour: [
+            behaviourOld: [
                 .endTurn: [
                     .init(
                         name: .startTurn,
@@ -103,7 +103,7 @@ private extension Card {
             name: .draw2CardsOnTurnStarted,
             type: .ability,
             description: "Draw two cards at the beginning of your turn",
-            behaviour: [
+            behaviourOld: [
                 .startTurn: [
                     .init(
                         name: .drawDeck,
@@ -121,7 +121,7 @@ private extension Card {
             name: .eliminateOnDamageLethal,
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
-            behaviour: [
+            behaviourOld: [
                 .damage: [
                     .init(
                         name: .eliminate,
@@ -137,7 +137,7 @@ private extension Card {
             name: .endGameOnEliminated,
             type: .ability,
             description: "End game when last player is eliminated",
-            behaviour: [
+            behaviourOld: [
                 .eliminate: [
                     .init(
                         name: .endGame,
@@ -153,7 +153,7 @@ private extension Card {
             name: .discardAllCardsOnEliminated,
             type: .ability,
             description: "Discard all cards when eliminated",
-            behaviour: [
+            behaviourOld: [
                 .eliminate: [
                     .init(
                         name: .discardInPlay,
@@ -177,7 +177,7 @@ private extension Card {
             name: .endTurnOnEliminated,
             type: .ability,
             description: "End turn when eliminated",
-            behaviour: [
+            behaviourOld: [
                 .eliminate: [
                     .init(
                         name: .startTurn,
@@ -196,7 +196,7 @@ private extension Card {
             name: .stagecoach,
             type: .brown,
             description: "Draw two cards from the top of the deck.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.play],
                 .play: [
                     .init(
@@ -215,7 +215,7 @@ private extension Card {
             name: .wellsFargo,
             type: .brown,
             description: "Draw three cards from the top of the deck.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.play],
                 .play: [
                     .init(
@@ -234,7 +234,7 @@ private extension Card {
             name: .beer,
             type: .brown,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .init(
                         name: .play,
@@ -256,7 +256,7 @@ private extension Card {
             name: .saloon,
             type: .brown,
             description: "All players in play regain one life point.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.play],
                 .play: [
                     .init(
@@ -276,7 +276,7 @@ private extension Card {
             name: .catBalou,
             type: .brown,
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .init(
                         name: .play,
@@ -309,7 +309,7 @@ private extension Card {
             name: .panic,
             type: .brown,
             description: "Draw a card from a player at distance 1",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .init(
                         name: .play,
@@ -342,7 +342,7 @@ private extension Card {
             name: .generalStore,
             type: .brown,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.play],
                 .play: [
                     .init(
@@ -368,7 +368,7 @@ private extension Card {
             name: .bang,
             type: .brown,
             description: "reduce other players’s life points",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .init(
                         name: .play,
@@ -392,7 +392,7 @@ private extension Card {
             name: .missed,
             type: .brown,
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [.init(name: .counterShot)]
             ]
         )
@@ -403,7 +403,7 @@ private extension Card {
             name: .gatling,
             type: .brown,
             description: "shoots to all the other players, regardless of the distance",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.play],
                 .play: [
                     .init(
@@ -422,7 +422,7 @@ private extension Card {
             name: .indians,
             type: .brown,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.play],
                 .play: [
                     .init(
@@ -443,7 +443,7 @@ private extension Card {
             name: .duel,
             type: .brown,
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .init(
                         name: .play,
@@ -470,7 +470,7 @@ private extension Card {
             name: .schofield,
             type: .blue,
             description: "can hit targets at a distance of 2.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
@@ -493,7 +493,7 @@ private extension Card {
             name: .remington,
             type: .blue,
             description: "can hit targets at a distance of 3.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
@@ -516,7 +516,7 @@ private extension Card {
             name: .revCarabine,
             type: .blue,
             description: "can hit targets at a distance of 4.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
@@ -539,7 +539,7 @@ private extension Card {
             name: .winchester,
             type: .blue,
             description: "can hit targets at a distance of 5.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
@@ -562,7 +562,7 @@ private extension Card {
             name: .volcanic,
             type: .blue,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
@@ -589,7 +589,7 @@ private extension Card {
             name: .scope,
             type: .blue,
             description: "you see all the other players at a distance decreased by 1",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.equip],
                 .equip: [
                     .init(
@@ -612,7 +612,7 @@ private extension Card {
             name: .mustang,
             type: .blue,
             description: "the distance between other players and you is increased by 1",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.equip],
                 .equip: [
                     .init(
@@ -635,7 +635,7 @@ private extension Card {
             name: .barrel,
             type: .blue,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.equip],
                 .shoot: [
                     .init(
@@ -660,7 +660,7 @@ private extension Card {
             name: .dynamite,
             type: .blue,
             description: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [.equip],
                 .startTurn: [
                     .init(
@@ -698,7 +698,7 @@ private extension Card {
             name: .jail,
             type: .blue,
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-            behaviour: [
+            behaviourOld: [
                 .preparePlay: [
                     .init(
                         name: .handicap,
@@ -736,7 +736,7 @@ private extension Card {
             name: .willyTheKid,
             type: .character,
             description: "he can play any number of BANG! cards during his turn.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -756,7 +756,7 @@ private extension Card {
             name: .roseDoolan,
             type: .character,
             description: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -776,7 +776,7 @@ private extension Card {
             name: .paulRegret,
             type: .character,
             description: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -796,7 +796,7 @@ private extension Card {
             name: .bartCassidy,
             type: .character,
             description: "each time he loses a life point, he immediately draws a card from the deck.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -821,7 +821,7 @@ private extension Card {
             name: .elGringo,
             type: .character,
             description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -848,7 +848,7 @@ private extension Card {
             name: .suzyLafayette,
             type: .character,
             description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
-            behaviour: [
+            behaviourOld: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -856,7 +856,7 @@ private extension Card {
                     )
                 ]
             ],
-            behaviourV2: [
+            behaviour: [
                 .handEmptied: [
                     .init(
                         name: .drawDeck

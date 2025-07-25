@@ -15,21 +15,22 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
-    public let behaviour: [Effect.Name: [Effect]]
-    public let behaviourV2: [EventCondition: [Effect]]
+    @available(*, deprecated, renamed: "behaviour")
+    public let behaviourOld: [Effect.Name: [Effect]]
+    public let behaviour: [EventCondition: [Effect]]
 
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        behaviour: [Effect.Name: [Effect]] = [:],
-        behaviourV2: [EventCondition: [Effect]] = [:]
+        behaviourOld: [Effect.Name: [Effect]] = [:],
+        behaviour: [EventCondition: [Effect]] = [:]
     ) {
         self.name = name
         self.type = type
         self.description = description
+        self.behaviourOld = behaviourOld
         self.behaviour = behaviour
-        self.behaviourV2 = behaviourV2
     }
 
     public enum CardType: Equatable, Codable, Sendable {

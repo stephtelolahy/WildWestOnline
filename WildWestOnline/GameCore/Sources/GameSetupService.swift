@@ -111,10 +111,10 @@ private extension GameSetupService {
 
 private extension Card {
     func amountOfActiveEffect(named action: Card.Effect.Name) -> Int? {
-        behaviour[.permanent]?.first { $0.name == action }?.amount
+        behaviourOld[.permanent]?.first { $0.name == action }?.amount
     }
 
     var playlimitPerTurn: [String: Int]? {
-        behaviour[.permanent]?.first { $0.name == .setPlayLimitPerTurn }?.amountPerTurn
+        behaviourOld[.permanent]?.first { $0.name == .setPlayLimitPerTurn }?.amountPerTurn
     }
 }
