@@ -854,11 +854,12 @@ private extension Card {
                         name: .setMaxHealth,
                         amount: 4
                     )
-                ],
-                .discardHand: [ // TODO all events removing card from hand
+                ]
+            ],
+            behaviourV2: [
+                .handEmptied: [
                     .init(
-                        name: .drawDeck,
-                        selectors: [.require(.isHandEmpty)]
+                        name: .drawDeck
                     )
                 ]
             ]

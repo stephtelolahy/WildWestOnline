@@ -16,17 +16,20 @@ public struct Card: Equatable, Codable, Sendable {
     public let type: CardType
     public let description: String?
     public let behaviour: [Effect.Name: [Effect]]
+    public let behaviourV2: [EventCondition: [Effect]]
 
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        behaviour: [Effect.Name: [Effect]] = [:]
+        behaviour: [Effect.Name: [Effect]] = [:],
+        behaviourV2: [EventCondition: [Effect]] = [:]
     ) {
         self.name = name
         self.type = type
         self.description = description
         self.behaviour = behaviour
+        self.behaviourV2 = behaviourV2
     }
 
     public enum CardType: Equatable, Codable, Sendable {
@@ -147,6 +150,7 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
+    @available(*, deprecated, renamed: "EventCondition")
     public enum PlayCondition: Equatable, Codable, Sendable {
         case minimumPlayers(Int)
         case playLimitPerTurn([String: Int])
@@ -154,12 +158,15 @@ public struct Card: Equatable, Codable, Sendable {
         case isHealthNonZero
         case isGameOver
         case isCurrentTurn
-        case isHandEmpty
         case drawnCardMatches(_ regex: String)
         case drawnCardDoesNotMatch(_ regex: String)
         case payloadCardFromTargetHand
         case payloadCardFromTargetInPlay
         case targetedPlayerHasHandCard
+    }
+
+    public enum EventCondition: Equatable, Codable, Sendable {
+        case handEmptied
     }
 
     public enum Selector: Equatable, Codable, Sendable {
