@@ -64,33 +64,35 @@ private extension GameFeature.State {
 
         var effects: [Card.Effect] = []
 
-        // 1. Trigger effects from all targeted players
         for player in playOrder {
             let triggerableCards = players.get(player).inPlay + players.get(player).abilities
-            for card in triggerableCards {
-                let cardName = Card.extractName(from: card)
-                let cardObj = cards.get(cardName)
-                for (condition, behavior) in cardObj.behaviour
-                where condition.match(event, player: player, state: self) {
-                    effects.append(
-                        contentsOf: behavior.map {
-                            $0.copy(
-                                withPlayer: player,
-                                playedCard: card,
-                                triggeredBy: [event],
-                                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: event)
-                            )
-                        }
-                    )
-                }
+            effects += triggerableCards.flatMap { card in
+                effectsTriggered(
+                    by: card,
+                    ownedBy: player,
+                    for: event
+                )
             }
         }
 
+        if case .eliminate = event.name {
+            let player = event.targetedPlayer!
+            let triggerableCards = players.get(player).abilities
+            effects += triggerableCards.flatMap { card in
+                effectsTriggered(
+                    by: card,
+                    ownedBy: player,
+                    for: event
+                )
+            }
+        }
+
+        // 1. Trigger effects from all targeted players
         for player in playOrder
             where event.targetedPlayer == player {
             let triggerableCards = players.get(player).inPlay + players.get(player).abilities
             effects += triggerableCards.flatMap { card in
-                effectsTriggered(
+                oldEffectsTriggered(
                     by: card,
                     ownedBy: player,
                     for: event,
@@ -101,19 +103,8 @@ private extension GameFeature.State {
 
         // 2. Handle specific triggers based on event type
         switch event.name {
-        case .eliminate:
-            let player = event.targetedPlayer!
-            effects += players.get(player).abilities.flatMap { card in
-                effectsTriggered(
-                    by: card,
-                    ownedBy: player,
-                    for: event,
-                    behaviorKey: .eliminate
-                )
-            }
-
         case .equip:
-            effects += effectsTriggered(
+            effects += oldEffectsTriggered(
                 by: event.playedCard,
                 ownedBy: event.sourcePlayer,
                 for: event,
@@ -123,7 +114,7 @@ private extension GameFeature.State {
         case .discardInPlay, .stealInPlay:
             let player = event.targetedPlayer!
             let card = event.targetedCard!
-            effects += effectsTriggered(
+            effects += oldEffectsTriggered(
                 by: card,
                 ownedBy: player,
                 for: event,
@@ -143,6 +134,30 @@ private extension GameFeature.State {
     }
 
     func effectsTriggered(
+        by card: String,
+        ownedBy player: String,
+        for event: Card.Effect
+    ) -> [Card.Effect] {
+        var effects: [Card.Effect] = []
+        let cardName = Card.extractName(from: card)
+        let cardObj = cards.get(cardName)
+        for (condition, behavior) in cardObj.behaviour
+        where condition.match(event, player: player, state: self) {
+            effects.append(
+                contentsOf: behavior.map {
+                    $0.copy(
+                        withPlayer: player,
+                        playedCard: card,
+                        triggeredBy: [event],
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: event)
+                    )
+                }
+            )
+        }
+        return effects
+    }
+
+    func oldEffectsTriggered(
         by card: String,
         ownedBy player: String,
         for event: Card.Effect,

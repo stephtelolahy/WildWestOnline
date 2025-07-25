@@ -137,8 +137,8 @@ private extension Card {
             name: .endGameOnEliminated,
             type: .ability,
             description: "End game when last player is eliminated",
-            behaviourOld: [
-                .eliminate: [
+            behaviour: [
+                .eliminated: [
                     .init(
                         name: .endGame,
                         selectors: [.require(.isGameOver)]
@@ -153,8 +153,8 @@ private extension Card {
             name: .discardAllCardsOnEliminated,
             type: .ability,
             description: "Discard all cards when eliminated",
-            behaviourOld: [
-                .eliminate: [
+            behaviour: [
+                .eliminated: [
                     .init(
                         name: .discardInPlay,
                         selectors: [
@@ -177,8 +177,8 @@ private extension Card {
             name: .endTurnOnEliminated,
             type: .ability,
             description: "End turn when eliminated",
-            behaviourOld: [
-                .eliminate: [
+            behaviour: [
+                .eliminated: [
                     .init(
                         name: .startTurn,
                         selectors: [
