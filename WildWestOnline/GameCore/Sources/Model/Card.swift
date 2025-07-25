@@ -167,8 +167,10 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum EventCondition: Equatable, Codable, Sendable {
-        case handEmptied
+        case cardEquiped
+        case cardDiscarded
         case eliminated
+        case handEmptied
     }
 
     public enum Selector: Equatable, Codable, Sendable {

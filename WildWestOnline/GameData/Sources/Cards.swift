@@ -474,14 +474,16 @@ private extension Card {
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
-                ],
-                .equip: [
+                ]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .setWeapon,
                         amount: 2
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .resetWeapon
                 ]
             ]
@@ -497,14 +499,16 @@ private extension Card {
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
-                ],
-                .equip: [
+                ]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .setWeapon,
                         amount: 3
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .resetWeapon
                 ]
             ]
@@ -520,14 +524,16 @@ private extension Card {
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
-                ],
-                .equip: [
+                ]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .setWeapon,
                         amount: 4
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .resetWeapon
                 ]
             ]
@@ -543,14 +549,16 @@ private extension Card {
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
-                ],
-                .equip: [
+                ]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .setWeapon,
                         amount: 5
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .resetWeapon
                 ]
             ]
@@ -566,8 +574,10 @@ private extension Card {
                 .preparePlay: [
                     .discardEquipedWeapon,
                     .equip
-                ],
-                .equip: [
+                ]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .setWeapon,
                         amount: 1
@@ -577,7 +587,7 @@ private extension Card {
                         amountPerTurn: [.bang: .unlimited]
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .resetWeapon
                 ]
             ]
@@ -590,14 +600,16 @@ private extension Card {
             type: .blue,
             description: "you see all the other players at a distance decreased by 1",
             behaviourOld: [
-                .preparePlay: [.equip],
-                .equip: [
+                .preparePlay: [.equip]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .increaseMagnifying,
                         amount: 1
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .init(
                         name: .increaseMagnifying,
                         amount: -1
@@ -613,14 +625,16 @@ private extension Card {
             type: .blue,
             description: "the distance between other players and you is increased by 1",
             behaviourOld: [
-                .preparePlay: [.equip],
-                .equip: [
+                .preparePlay: [.equip]
+            ],
+            behaviour: [
+                .cardEquiped: [
                     .init(
                         name: .increaseRemoteness,
                         amount: 1
                     )
                 ],
-                .discardInPlay: [
+                .cardDiscarded: [
                     .init(
                         name: .increaseRemoteness,
                         amount: -1

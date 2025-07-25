@@ -64,6 +64,7 @@ private extension GameFeature.State {
 
         var effects: [Card.Effect] = []
 
+        // 1. Trigger effects from all active players
         for player in playOrder {
             let triggerableCards = players.get(player).inPlay + players.get(player).abilities
             effects += triggerableCards.flatMap { card in
@@ -75,19 +76,7 @@ private extension GameFeature.State {
             }
         }
 
-        if case .eliminate = event.name {
-            let player = event.targetedPlayer!
-            let triggerableCards = players.get(player).abilities
-            effects += triggerableCards.flatMap { card in
-                effectsTriggered(
-                    by: card,
-                    ownedBy: player,
-                    for: event
-                )
-            }
-        }
-
-        // 1. Trigger effects from all targeted players
+        // TODO: remove old effect
         for player in playOrder
             where event.targetedPlayer == player {
             let triggerableCards = players.get(player).inPlay + players.get(player).abilities
@@ -101,28 +90,39 @@ private extension GameFeature.State {
             }
         }
 
-        // 2. Handle specific triggers based on event type
-        switch event.name {
-        case .equip:
-            effects += oldEffectsTriggered(
-                by: event.playedCard,
-                ownedBy: event.sourcePlayer,
-                for: event,
-                behaviorKey: .equip
-            )
+        // 2. Trigger specific effects from eliminated player
+        if case .eliminate = event.name {
+            let player = event.targetedPlayer!
+            let triggerableCards = players.get(player).abilities
+            effects += triggerableCards.flatMap { card in
+                effectsTriggered(
+                    by: card,
+                    ownedBy: player,
+                    for: event
+                )
+            }
+        }
 
-        case .discardInPlay, .stealInPlay:
+        // 2. Trigger specific effects from discarded card
+
+        if case .discardInPlay = event.name {
             let player = event.targetedPlayer!
             let card = event.targetedCard!
-            effects += oldEffectsTriggered(
+            effects += effectsTriggered(
                 by: card,
                 ownedBy: player,
-                for: event,
-                behaviorKey: .discardInPlay
+                for: event
             )
+        }
 
-        default:
-            break
+        if case .stealInPlay = event.name {
+            let player = event.targetedPlayer!
+            let card = event.targetedCard!
+            effects += effectsTriggered(
+                by: card,
+                ownedBy: player,
+                for: event
+            )
         }
 
         // 3. Return a single effect or a queue of multiple
@@ -142,7 +142,7 @@ private extension GameFeature.State {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         for (condition, behavior) in cardObj.behaviour
-        where condition.match(event, player: player, state: self) {
+        where condition.match(event, card: card, player: player, state: self) {
             effects.append(
                 contentsOf: behavior.map {
                     $0.copy(
