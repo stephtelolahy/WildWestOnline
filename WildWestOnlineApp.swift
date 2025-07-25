@@ -23,7 +23,7 @@ struct WildWestOnlineApp: App {
             AppCoordinator {
                 createStore()
             }
-            .accentColor(theme.accentColor)
+            .accentColor(theme.colorAccent)
         }
     }
 }

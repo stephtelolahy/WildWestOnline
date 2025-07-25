@@ -14,6 +14,8 @@ struct CardView: View {
     var format: Format = .medium
     var active: Bool = false
 
+    @Environment(\.theme) private var theme
+
     enum Format {
         case medium
         case large
@@ -29,7 +31,8 @@ struct CardView: View {
                     .frame(width: cardSize.width, height: cardSize.height)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             } else {
-                Text(cardImageName)
+                Text(cardImageName.uppercased())
+                    .font(theme.fontTitle)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: cardSize.width, maxHeight: cardSize.height)
             }
@@ -44,7 +47,8 @@ struct CardView: View {
                 Spacer()
                 HStack {
                     Text(cardValue)
-                        .font(.headline)
+                        .font(theme.fontHeadline)
+                        .foregroundColor(.black)
                         .background(.white)
                         .padding([.leading, .bottom], 8)
                     Spacer()

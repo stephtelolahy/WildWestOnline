@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "[]%lld" : {
+
+    },
     "Actions" : {
 
     },
@@ -57,9 +60,6 @@
           }
         }
       }
-    },
-    "Hand: %lld" : {
-
     },
     "Quit" : {
 
