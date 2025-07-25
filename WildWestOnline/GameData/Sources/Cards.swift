@@ -243,10 +243,7 @@ private extension Card {
                 .play: [
                     .init(
                         name: .heal,
-                        amount: 1,
-                        selectors: [
-                            .setTarget(.currentPlayer)
-                        ]
+                        amount: 1
                     )
                 ]
             ]

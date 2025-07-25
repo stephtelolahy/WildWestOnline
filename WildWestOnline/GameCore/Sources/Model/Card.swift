@@ -182,7 +182,6 @@ public struct Card: Equatable, Codable, Sendable {
             case woundedPlayers
             case otherPlayers
             case nextPlayer
-            case currentPlayer
             case damagingPlayer
         }
 
