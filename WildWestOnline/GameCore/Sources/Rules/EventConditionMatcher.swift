@@ -25,8 +25,26 @@ private extension Card.EventCondition {
     struct HandEmptied: Matcher {
         func match(_ event: Card.Effect, player: String, state: GameFeature.State) -> Bool {
             if case .discardHand = event.name,
-               event.targetedPlayer == player, state.players
-                .get(player).hand.isEmpty {
+               event.targetedPlayer == player,
+               state.players.get(player).hand.isEmpty {
+                return true
+            }
+
+            if case .stealHand = event.name,
+               event.targetedPlayer == player,
+               state.players.get(player).hand.isEmpty {
+                return true
+            }
+
+            if case .play = event.name,
+               event.sourcePlayer == player,
+               state.players.get(player).hand.isEmpty {
+                return true
+            }
+
+            if case .equip = event.name,
+               event.sourcePlayer == player,
+               state.players.get(player).hand.isEmpty {
                 return true
             }
 

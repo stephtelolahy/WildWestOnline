@@ -49,7 +49,7 @@ struct SuzyLafayetteTests {
         ])
     }
 
-    @Test(.disabled()) func suzyLafayette_play_havingNoHandCards_shouldDrawACard() async throws {
+    @Test func suzyLafayette_play_havingNoHandCards_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -57,6 +57,7 @@ struct SuzyLafayetteTests {
                     .withHand(["c1"])
             }
             .withDeck(["c2"])
+            .withCards(["c1": Card(name: "c1", type: .brown)])
             .build()
 
         // When
@@ -70,7 +71,7 @@ struct SuzyLafayetteTests {
         ])
     }
 
-    @Test(.disabled()) func suzyLafayette_equip_havingNoHandCards_shouldDrawACard() async throws {
+    @Test func suzyLafayette_equip_havingNoHandCards_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
@@ -92,7 +93,7 @@ struct SuzyLafayetteTests {
         ])
     }
 
-    @Test(.disabled()) func suzyLafayette_stolenHand_havingNoHandCards_shouldDrawACard() async throws {
+    @Test func suzyLafayette_stolenHand_havingNoHandCards_shouldDrawACard() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
