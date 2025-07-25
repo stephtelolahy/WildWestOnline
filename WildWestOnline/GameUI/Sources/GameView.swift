@@ -26,13 +26,13 @@ enum CardContent: Equatable {
 }
 
 public struct GameView: View {
-    @Environment(\.theme) private var theme
     @StateObject private var store: Store<ViewState, Void>
-
     @State private var animationSource: CGPoint = .zero
     @State private var animationTarget: CGPoint = .zero
     @State private var animatedCard: CardContent?
     @State private var isAnimating = false
+
+    @Environment(\.theme) private var theme
 
     private let animationMatcher = AnimationMatcher()
 
@@ -44,7 +44,7 @@ public struct GameView: View {
         GeometryReader { proxy in
             let positions = computePositions(proxy: proxy)
             ZStack {
-                theme.backgroundColor.edgesIgnoringSafeArea(.all)
+                theme.colorBackground.edgesIgnoringSafeArea(.all)
 
                 boardView(positions: positions)
 

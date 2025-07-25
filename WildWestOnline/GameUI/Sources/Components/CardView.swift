@@ -32,7 +32,7 @@ struct CardView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             } else {
                 Text(cardImageName.uppercased())
-                    .font(.custom(theme.fontName, size: 16, relativeTo: .headline))
+                    .font(theme.fontTitle)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: cardSize.width, maxHeight: cardSize.height)
             }
@@ -47,7 +47,7 @@ struct CardView: View {
                 Spacer()
                 HStack {
                     Text(cardValue)
-                        .font(.custom(theme.fontName, size: 12, relativeTo: .headline))
+                        .font(theme.fontHeadline)
                         .foregroundColor(.black)
                         .background(.white)
                         .padding([.leading, .bottom], 8)

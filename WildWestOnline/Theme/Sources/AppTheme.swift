@@ -9,9 +9,10 @@ import SwiftUI
 /// App theme
 ///
 public protocol AppTheme {
-    var backgroundColor: Color { get }
-    var accentColor: Color { get }
-    var fontName: String { get }
+    var colorBackground: Color { get }
+    var colorAccent: Color { get }
+    var fontHeadline: Font { get }
+    var fontTitle: Font { get }
 }
 
 public extension EnvironmentValues {
@@ -19,7 +20,10 @@ public extension EnvironmentValues {
 }
 
 struct DefaultTheme: AppTheme {
-    var backgroundColor = Color("BackgroundColor", bundle: .module)
-    var accentColor =  Color("AccentColor", bundle: .module)
-    var fontName: String { "AmericanTypewriter-Bold" }
+    private static let fontName = "AmericanTypewriter-Bold"
+
+    var colorBackground = Color("BackgroundColor", bundle: .module)
+    var colorAccent = Color("AccentColor", bundle: .module)
+    var fontHeadline = Font.custom(fontName, size: 12, relativeTo: .headline)
+    var fontTitle = Font.custom(fontName, size: 16, relativeTo: .title)
 }
