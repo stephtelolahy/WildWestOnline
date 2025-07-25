@@ -64,7 +64,7 @@ private extension GameFeature.State {
 
         var effects: [Card.Effect] = []
 
-        // 1. Trigger effects from all players’ inPlay + ability cards
+        // 1. Trigger effects from all targeted players
         for player in playOrder
             where event.targetedPlayer == player {
             let triggerableCards = players.get(player).inPlay + players.get(player).abilities
@@ -164,10 +164,10 @@ private extension Card.Effect {
         let action = Card.Effect.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
-            //            print("🟢 validatePlay: \(card)")
+            // print("🟢 validatePlay: \(card)")
             return true
         } catch {
-            //            print("🛑 validatePlay: \(card)\tthrows: \(error)")
+            // print("🛑 validatePlay: \(card)\tthrows: \(error)")
             return false
         }
     }

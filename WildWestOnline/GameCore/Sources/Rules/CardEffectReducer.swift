@@ -43,12 +43,12 @@ private extension Card.Effect.Name {
         case .play: Play()
         case .equip: Equip()
         case .handicap: Handicap()
-        case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
-        case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setWeapon: SetWeapon()
+        case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
         case .increaseMagnifying: IncreaseMagnifying()
         case .increaseRemoteness: IncreaseRemoteness()
-        case .setPlayLimitPerTurn: SetPlayLimitPerTurn()
+        case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
+        case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setDrawCards: fatalError("Unexpected to dispatch setDrawCards")
         case .permanent: fatalError("Unexpected to dispatch permanent")
         }
@@ -155,8 +155,8 @@ private extension Card.Effect.Name {
             state.discard.insert(card, at: 0)
 
             let cardName = Card.extractName(from: card)
-            if let cardObj = state.cards[cardName],
-               let onPlay = cardObj.behaviour[.play] {
+            let cardObj = state.cards.get(cardName)
+            if let onPlay = cardObj.behaviour[.play] {
                 let effects = onPlay
                     .map {
                         $0.copy(

@@ -24,6 +24,7 @@ private extension Card.PlayCondition {
         case .isHealthNonZero: IsHealthNonZero()
         case .isGameOver: IsGameOver()
         case .isCurrentTurn: IsCurrentTurn()
+        case .isHandEmpty: IsHandEmpty()
         case .drawnCardMatches(let regex): DrawnCardMatches(regex: regex)
         case .drawnCardDoesNotMatch(let regex): DrawnCardDoesNotMatch(regex: regex)
         case .payloadCardFromTargetHand: PayloadCardFromTargetHand()
@@ -86,6 +87,13 @@ private extension Card.PlayCondition {
     struct IsCurrentTurn: Matcher {
         func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
             state.turn == pendingAction.sourcePlayer
+        }
+    }
+
+    struct IsHandEmpty: Matcher {
+        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+            let player = pendingAction.sourcePlayer
+            return state.players.get(player).hand.isEmpty
         }
     }
 

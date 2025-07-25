@@ -22,7 +22,6 @@ private extension Card.Selector.TargetGroup {
         case .activePlayers: ActivePlayers()
         case .otherPlayers: OtherPlayers()
         case .nextPlayer: NextPlayer()
-        case .currentPlayer: CurrentPlayer()
         case .damagingPlayer: DamagingPlayer()
         }
     }
@@ -61,12 +60,6 @@ private extension Card.Selector.TargetGroup {
                 .filter { state.playOrder.contains($0) || $0 == current }
                 .starting(with: current)[1]
             return [next]
-        }
-    }
-
-    struct CurrentPlayer: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
-            [pendingAction.sourcePlayer]
         }
     }
 

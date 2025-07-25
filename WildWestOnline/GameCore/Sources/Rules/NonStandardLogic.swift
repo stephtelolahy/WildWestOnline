@@ -6,7 +6,6 @@
 //
 
 enum NonStandardLogic {
-    @available(*, deprecated, message: "Use parentAction.targetedPlayer")
     static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
         if let targetedPlayer = parentAction.targetedPlayer {
             return targetedPlayer
