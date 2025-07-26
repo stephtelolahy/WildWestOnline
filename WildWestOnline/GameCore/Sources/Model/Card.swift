@@ -90,7 +90,6 @@ public struct Card: Equatable, Codable, Sendable {
             case setPlayLimitPerTurn
             case setDrawCards
             case queue
-            case permanent
         }
 
         public init(
@@ -166,6 +165,7 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum Trigger: Equatable, Codable, Sendable {
+        case permanent
         case cardEquiped
         case cardDiscarded
         case eliminated

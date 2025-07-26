@@ -18,10 +18,17 @@ private extension Card.Trigger {
 
     var matcher: Matcher {
         switch self {
+        case .permanent: NeverMatch()
         case .cardEquiped: CardEquiped()
         case .cardDiscarded: CardDiscarded()
         case .eliminated: Eliminated()
         case .handEmptied: HandEmptied()
+        }
+    }
+
+    struct NeverMatch: Matcher {
+        func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
+            false
         }
     }
 

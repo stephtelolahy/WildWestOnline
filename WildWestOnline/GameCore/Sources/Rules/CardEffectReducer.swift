@@ -50,7 +50,6 @@ private extension Card.Effect.Name {
         case .setMaxHealth: fatalError("Unexpected to dispatch setMaxHealth")
         case .setHandLimit: fatalError("Unexpected to dispatch setHandLimit")
         case .setDrawCards: fatalError("Unexpected to dispatch setDrawCards")
-        case .permanent: fatalError("Unexpected to dispatch permanent")
         }
     }
 

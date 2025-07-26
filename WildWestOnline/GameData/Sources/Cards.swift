@@ -392,7 +392,7 @@ private extension Card {
             name: .missed,
             type: .brown,
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            behaviourOld: [
+            behaviour: [
                 .permanent: [.init(name: .counterShot)]
             ]
         )
@@ -750,7 +750,7 @@ private extension Card {
             name: .willyTheKid,
             type: .character,
             description: "he can play any number of BANG! cards during his turn.",
-            behaviourOld: [
+            behaviour: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -770,7 +770,7 @@ private extension Card {
             name: .roseDoolan,
             type: .character,
             description: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            behaviourOld: [
+            behaviour: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -790,7 +790,7 @@ private extension Card {
             name: .paulRegret,
             type: .character,
             description: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            behaviourOld: [
+            behaviour: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
@@ -811,12 +811,6 @@ private extension Card {
             type: .character,
             description: "each time he loses a life point, he immediately draws a card from the deck.",
             behaviourOld: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 4
-                    )
-                ],
                 .damage: [
                     .init(
                         name: .drawDeck,
@@ -824,6 +818,14 @@ private extension Card {
                             .require(.isHealthNonZero),
                             .repeat(.receivedDamageAmount)
                         ]
+                    )
+                ]
+            ],
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 4
                     )
                 ]
             ]
@@ -836,12 +838,6 @@ private extension Card {
             type: .character,
             description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
             behaviourOld: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 3
-                    )
-                ],
                 .damage: [
                     .init(
                         name: .stealHand,
@@ -853,6 +849,14 @@ private extension Card {
                         ]
                     )
                 ]
+            ],
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 3
+                    )
+                ]
             ]
         )
     }
@@ -862,15 +866,13 @@ private extension Card {
             name: .suzyLafayette,
             type: .character,
             description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
-            behaviourOld: [
+            behaviour: [
                 .permanent: [
                     .init(
                         name: .setMaxHealth,
                         amount: 4
                     )
-                ]
-            ],
-            behaviour: [
+                ],
                 .handEmptied: [
                     .init(
                         name: .drawDeck

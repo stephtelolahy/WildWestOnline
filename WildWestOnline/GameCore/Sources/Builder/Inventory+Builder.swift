@@ -28,7 +28,7 @@ public extension Inventory {
                 Card(
                     name: "c\($0)",
                     type: .character,
-                    behaviourOld: [
+                    behaviour: [
                         .permanent: [
                             .init(
                                 name: .setMaxHealth,
