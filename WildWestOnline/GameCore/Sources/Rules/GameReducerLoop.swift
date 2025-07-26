@@ -122,13 +122,13 @@ private extension GameFeature.State {
         ownedBy player: String,
         for event: Card.Effect
     ) -> [Card.Effect] {
-        var effects: [Card.Effect] = []
+        var result: [Card.Effect] = []
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        for (condition, behavior) in cardObj.behaviour
-        where condition.match(event, card: card, player: player, state: self) {
-            effects.append(
-                contentsOf: behavior.map {
+        for (trigger, effects) in cardObj.behaviour
+        where trigger.match(event, card: card, player: player, state: self) {
+            result.append(
+                contentsOf: effects.map {
                     $0.copy(
                         withPlayer: player,
                         playedCard: card,
@@ -138,7 +138,7 @@ private extension GameFeature.State {
                 }
             )
         }
-        return effects
+        return result
     }
 
     func oldEffectsTriggered(
@@ -240,7 +240,7 @@ private extension Card.Effect {
     }
 }
 
-struct TriggerableElement {
+private struct TriggerableElement {
     let card: String
     let player: String
 }
