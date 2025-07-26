@@ -22,6 +22,7 @@ private extension Card.Trigger {
         case .cardEquiped: CardEquiped()
         case .cardDiscarded: CardDiscarded()
         case .damaged: Damaged()
+        case .damagedLethal: DamagedLethal()
         case .eliminated: Eliminated()
         case .handEmptied: HandEmptied()
         }
@@ -66,10 +67,23 @@ private extension Card.Trigger {
     struct Damaged: Matcher {
         func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
             if case .damage = event.name,
-               event.targetedPlayer == player {
+               event.targetedPlayer == player,
+               state.players.get(player).health > 0 {
                 return true
             }
-            
+
+            return false
+        }
+    }
+
+    struct DamagedLethal: Matcher {
+        func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
+            if case .damage = event.name,
+               event.targetedPlayer == player,
+               state.players.get(player).health <= 0 {
+                return true
+            }
+
             return false
         }
     }

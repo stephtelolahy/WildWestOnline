@@ -122,10 +122,9 @@ private extension Card {
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
             behaviour: [
-                .damaged: [
+                .damagedLethal: [
                     .init(
-                        name: .eliminate,
-                        selectors: [.require(.isHealthZero)]
+                        name: .eliminate
                     )
                 ]
             ]
@@ -821,7 +820,6 @@ private extension Card {
                     .init(
                         name: .drawDeck,
                         selectors: [
-                            .require(.isHealthNonZero),
                             .repeat(.receivedDamageAmount)
                         ]
                     )
