@@ -170,6 +170,7 @@ public struct Card: Equatable, Codable, Sendable {
         case damagedLethal
         case eliminated
         case handEmptied
+        case turnStarted
     }
 
     public enum Selector: Equatable, Codable, Sendable {

@@ -25,6 +25,7 @@ private extension Card.Trigger {
         case .damagedLethal: DamagedLethal()
         case .eliminated: Eliminated()
         case .handEmptied: HandEmptied()
+        case .turnStarted: TurnStarted()
         }
     }
 
@@ -122,6 +123,17 @@ private extension Card.Trigger {
             if case .equip = event.name,
                event.sourcePlayer == player,
                state.players.get(player).hand.isEmpty {
+                return true
+            }
+
+            return false
+        }
+    }
+
+    struct TurnStarted: Matcher {
+        func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
+            if case .startTurn = event.name,
+               event.targetedPlayer == player {
                 return true
             }
 
