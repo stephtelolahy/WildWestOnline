@@ -171,6 +171,7 @@ public struct Card: Equatable, Codable, Sendable {
         case eliminated
         case handEmptied
         case turnStarted
+        case turnEnded
         case shot
     }
 

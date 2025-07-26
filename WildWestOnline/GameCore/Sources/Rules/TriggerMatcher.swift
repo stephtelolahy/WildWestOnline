@@ -26,6 +26,7 @@ private extension Card.Trigger {
         case .eliminated: Eliminated()
         case .handEmptied: HandEmptied()
         case .turnStarted: TurnStarted()
+        case .turnEnded: TurnEnded()
         case .shot: Shot()
         }
     }
@@ -134,6 +135,17 @@ private extension Card.Trigger {
     struct TurnStarted: Matcher {
         func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
             if case .startTurn = event.name,
+               event.targetedPlayer == player {
+                return true
+            }
+
+            return false
+        }
+    }
+
+    struct TurnEnded: Matcher {
+        func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
+            if case .endTurn = event.name,
                event.targetedPlayer == player {
                 return true
             }

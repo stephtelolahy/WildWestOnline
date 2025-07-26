@@ -66,8 +66,8 @@ private extension Card {
             name: .discardExcessHandOnTurnEnded,
             type: .ability,
             description: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            behaviourOld: [
-                .endTurn: [
+            behaviour: [
+                .turnEnded: [
                     .init(
                         name: .discardHand,
                         selectors: [
@@ -85,8 +85,8 @@ private extension Card {
             name: .startTurnNextOnTurnEnded,
             type: .ability,
             description: "Start next player's turn",
-            behaviourOld: [
-                .endTurn: [
+            behaviour: [
+                .turnEnded: [
                     .init(
                         name: .startTurn,
                         selectors: [
