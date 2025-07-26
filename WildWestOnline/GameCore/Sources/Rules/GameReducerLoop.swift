@@ -125,7 +125,6 @@ private extension GameFeature.State {
         var result: [Card.Effect] = []
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        let context = Card.Effect(name: event.name, sourcePlayer: player)
         for (trigger, effects) in cardObj.behaviour
         where trigger.match(event, card: card, player: player, state: self) {
             result.append(
@@ -134,7 +133,7 @@ private extension GameFeature.State {
                         withPlayer: player,
                         playedCard: card,
                         triggeredBy: [event],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context)
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: event)
                     )
                 }
             )

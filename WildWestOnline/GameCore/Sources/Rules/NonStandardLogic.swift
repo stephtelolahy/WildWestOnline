@@ -7,10 +7,6 @@
 
 enum NonStandardLogic {
     static func targetedPlayerForChildEffect(_ name: Card.Effect.Name, parentAction: Card.Effect) -> String? {
-        if let targetedPlayer = parentAction.targetedPlayer {
-            return targetedPlayer
-        }
-
         switch name {
         case .drawDeck,
                 .drawDiscard,
@@ -30,10 +26,13 @@ enum NonStandardLogic {
                 .eliminate,
                 .endTurn,
                 .startTurn:
-            return parentAction.sourcePlayer
+            return parentAction.targetedPlayer ?? parentAction.sourcePlayer
+
+        case .draw:
+            return nil
 
         default:
-            return nil
+            return parentAction.targetedPlayer
         }
     }
 
