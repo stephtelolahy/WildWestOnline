@@ -1,17 +1,17 @@
 //
-//  EventConditionMatcher.swift
+//  TriggerMatcher.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 26/07/2025.
 //
 
-extension Card.EventCondition {
+extension Card.Trigger {
     func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool {
         matcher.match(event, card: card, player: player, state: state)
     }
 }
 
-private extension Card.EventCondition {
+private extension Card.Trigger {
     protocol Matcher {
         func match(_ event: Card.Effect, card: String, player: String, state: GameFeature.State) -> Bool
     }
