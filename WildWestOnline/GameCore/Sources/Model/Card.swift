@@ -153,7 +153,9 @@ public struct Card: Equatable, Codable, Sendable {
     public enum PlayCondition: Equatable, Codable, Sendable {
         case minimumPlayers(Int)
         case playLimitPerTurn([String: Int])
+        @available(*, deprecated, message: "use damagedLethal")
         case isHealthZero
+        @available(*, deprecated, message: "use damaged")
         case isHealthNonZero
         case isGameOver
         case isCurrentTurn
@@ -168,6 +170,7 @@ public struct Card: Equatable, Codable, Sendable {
         case permanent
         case cardEquiped
         case cardDiscarded
+        case damaged
         case eliminated
         case handEmptied
     }

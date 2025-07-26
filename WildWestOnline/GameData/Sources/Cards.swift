@@ -121,8 +121,8 @@ private extension Card {
             name: .eliminateOnDamageLethal,
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
-            behaviourOld: [
-                .damage: [
+            behaviour: [
+                .damaged: [
                     .init(
                         name: .eliminate,
                         selectors: [.require(.isHealthZero)]
@@ -810,22 +810,20 @@ private extension Card {
             name: .bartCassidy,
             type: .character,
             description: "each time he loses a life point, he immediately draws a card from the deck.",
-            behaviourOld: [
-                .damage: [
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 4
+                    )
+                ],
+                .damaged: [
                     .init(
                         name: .drawDeck,
                         selectors: [
                             .require(.isHealthNonZero),
                             .repeat(.receivedDamageAmount)
                         ]
-                    )
-                ]
-            ],
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 4
                     )
                 ]
             ]
@@ -837,8 +835,14 @@ private extension Card {
             name: .elGringo,
             type: .character,
             description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
-            behaviourOld: [
-                .damage: [
+            behaviour: [
+                .permanent: [
+                    .init(
+                        name: .setMaxHealth,
+                        amount: 3
+                    )
+                ],
+                .damaged: [
                     .init(
                         name: .stealHand,
                         selectors: [
@@ -847,14 +851,6 @@ private extension Card {
                             .require(.targetedPlayerHasHandCard),
                             .chooseOne(.targetCard([.isFromHand]))
                         ]
-                    )
-                ]
-            ],
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 3
                     )
                 ]
             ]
