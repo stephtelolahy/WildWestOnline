@@ -649,8 +649,10 @@ private extension Card {
             type: .blue,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
             behaviourOld: [
-                .preparePlay: [.equip],
-                .shoot: [
+                .preparePlay: [.equip]
+            ],
+            behaviour: [
+                .shot: [
                     .init(
                         name: .draw,
                         selectors: [
