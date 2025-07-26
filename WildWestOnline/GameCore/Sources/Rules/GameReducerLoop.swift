@@ -69,21 +69,6 @@ private extension GameFeature.State {
             )
         }
 
-        // <TODO: remove old effect>
-        for player in playOrder
-            where event.targetedPlayer == player {
-            let triggerableCards = players.get(player).inPlay + players.get(player).abilities
-            effects += triggerableCards.flatMap { card in
-                oldEffectsTriggered(
-                    by: card,
-                    ownedBy: player,
-                    for: event,
-                    behaviorKey: event.name
-                )
-            }
-        }
-        // </TODO: remove old effect>
-
         switch effects.count {
         case 0: return nil
         case 1: return effects.first
@@ -139,25 +124,6 @@ private extension GameFeature.State {
             )
         }
         return result
-    }
-
-    func oldEffectsTriggered(
-        by card: String,
-        ownedBy player: String,
-        for event: Card.Effect,
-        behaviorKey: Card.Effect.Name
-    ) -> [Card.Effect] {
-        let cardName = Card.extractName(from: card)
-        let behavior = cards.get(cardName).behaviourOld[behaviorKey] ?? []
-        let context = Card.Effect(name: event.name, sourcePlayer: player)
-        return behavior.map {
-            $0.copy(
-                withPlayer: player,
-                playedCard: card,
-                triggeredBy: [event],
-                targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: context)
-            )
-        }
     }
 
     func activatePlayableCards() -> Card.Effect? {

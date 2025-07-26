@@ -15,21 +15,17 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
-    @available(*, deprecated, renamed: "behaviour")
-    public let behaviourOld: [Effect.Name: [Effect]]
     public let behaviour: [Trigger: [Effect]]
 
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        behaviourOld: [Effect.Name: [Effect]] = [:],
         behaviour: [Trigger: [Effect]] = [:]
     ) {
         self.name = name
         self.type = type
         self.description = description
-        self.behaviourOld = behaviourOld
         self.behaviour = behaviour
     }
 
@@ -173,6 +169,8 @@ public struct Card: Equatable, Codable, Sendable {
         case turnStarted
         case turnEnded
         case shot
+        case cardPrePlayed
+        case cardPlayed
     }
 
     public enum Selector: Equatable, Codable, Sendable {

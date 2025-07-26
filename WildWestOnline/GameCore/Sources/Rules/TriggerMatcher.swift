@@ -28,6 +28,8 @@ private extension Card.Trigger {
         case .turnStarted: TurnStarted()
         case .turnEnded: TurnEnded()
         case .shot: Shot()
+        case .cardPrePlayed: NeverMatch()
+        case .cardPlayed: NeverMatch()
         }
     }
 

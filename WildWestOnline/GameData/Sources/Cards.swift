@@ -55,8 +55,8 @@ private extension Card {
             name: .endTurn,
             type: .ability,
             description: "End turn",
-            behaviourOld: [
-                .preparePlay: [.init(name: .endTurn)]
+            behaviour: [
+                .cardPrePlayed: [.init(name: .endTurn)]
             ]
         )
     }
@@ -195,9 +195,9 @@ private extension Card {
             name: .stagecoach,
             type: .brown,
             description: "Draw two cards from the top of the deck.",
-            behaviourOld: [
-                .preparePlay: [.play],
-                .play: [
+            behaviour: [
+                .cardPrePlayed: [.play],
+                .cardPlayed: [
                     .init(
                         name: .drawDeck,
                         selectors: [
@@ -214,9 +214,9 @@ private extension Card {
             name: .wellsFargo,
             type: .brown,
             description: "Draw three cards from the top of the deck.",
-            behaviourOld: [
-                .preparePlay: [.play],
-                .play: [
+            behaviour: [
+                .cardPrePlayed: [.play],
+                .cardPlayed: [
                     .init(
                         name: .drawDeck,
                         selectors: [
@@ -233,14 +233,14 @@ private extension Card {
             name: .beer,
             type: .brown,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .init(
                         name: .play,
                         selectors: [.requireThrows(.minimumPlayers(3))]
                     )
                 ],
-                .play: [
+                .cardPlayed: [
                     .init(
                         name: .heal,
                         amount: 1
@@ -255,9 +255,9 @@ private extension Card {
             name: .saloon,
             type: .brown,
             description: "All players in play regain one life point.",
-            behaviourOld: [
-                .preparePlay: [.play],
-                .play: [
+            behaviour: [
+                .cardPrePlayed: [.play],
+                .cardPlayed: [
                     .init(
                         name: .heal,
                         amount: 1,
@@ -275,8 +275,8 @@ private extension Card {
             name: .catBalou,
             type: .brown,
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .init(
                         name: .play,
                         selectors: [
@@ -285,7 +285,7 @@ private extension Card {
                         ]
                     )
                 ],
-                .play: [
+                .cardPlayed: [
                     .init(
                         name: .discardHand,
                         selectors: [
@@ -308,8 +308,8 @@ private extension Card {
             name: .panic,
             type: .brown,
             description: "Draw a card from a player at distance 1",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .init(
                         name: .play,
                         selectors: [
@@ -318,7 +318,7 @@ private extension Card {
                         ]
                     )
                 ],
-                .play: [
+                .cardPlayed: [
                     .init(
                         name: .stealHand,
                         selectors: [
@@ -341,9 +341,9 @@ private extension Card {
             name: .generalStore,
             type: .brown,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            behaviourOld: [
-                .preparePlay: [.play],
-                .play: [
+            behaviour: [
+                .cardPrePlayed: [.play],
+                .cardPlayed: [
                     .init(
                         name: .discover,
                         selectors: [
@@ -367,8 +367,8 @@ private extension Card {
             name: .bang,
             type: .brown,
             description: "reduce other players’s life points",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .init(
                         name: .play,
                         selectors: [
@@ -377,7 +377,7 @@ private extension Card {
                         ]
                     )
                 ],
-                .play: [
+                .cardPlayed: [
                     .init(
                         name: .shoot
                     )
@@ -402,9 +402,9 @@ private extension Card {
             name: .gatling,
             type: .brown,
             description: "shoots to all the other players, regardless of the distance",
-            behaviourOld: [
-                .preparePlay: [.play],
-                .play: [
+            behaviour: [
+                .cardPrePlayed: [.play],
+                .cardPlayed: [
                     .init(
                         name: .shoot,
                         selectors: [
@@ -421,9 +421,9 @@ private extension Card {
             name: .indians,
             type: .brown,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            behaviourOld: [
-                .preparePlay: [.play],
-                .play: [
+            behaviour: [
+                .cardPrePlayed: [.play],
+                .cardPlayed: [
                     .init(
                         name: .damage,
                         amount: 1,
@@ -442,8 +442,8 @@ private extension Card {
             name: .duel,
             type: .brown,
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .init(
                         name: .play,
                         selectors: [
@@ -451,7 +451,7 @@ private extension Card {
                         ]
                     )
                 ],
-                .play: [
+                .cardPlayed: [
                     .init(
                         name: .damage,
                         amount: 1,
@@ -469,13 +469,11 @@ private extension Card {
             name: .schofield,
             type: .blue,
             description: "can hit targets at a distance of 2.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .discardEquipedWeapon,
                     .equip
-                ]
-            ],
-            behaviour: [
+                ],
                 .cardEquiped: [
                     .init(
                         name: .setWeapon,
@@ -494,13 +492,11 @@ private extension Card {
             name: .remington,
             type: .blue,
             description: "can hit targets at a distance of 3.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .discardEquipedWeapon,
                     .equip
-                ]
-            ],
-            behaviour: [
+                ],
                 .cardEquiped: [
                     .init(
                         name: .setWeapon,
@@ -519,13 +515,11 @@ private extension Card {
             name: .revCarabine,
             type: .blue,
             description: "can hit targets at a distance of 4.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .discardEquipedWeapon,
                     .equip
-                ]
-            ],
-            behaviour: [
+                ],
                 .cardEquiped: [
                     .init(
                         name: .setWeapon,
@@ -544,13 +538,11 @@ private extension Card {
             name: .winchester,
             type: .blue,
             description: "can hit targets at a distance of 5.",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .discardEquipedWeapon,
                     .equip
-                ]
-            ],
-            behaviour: [
+                ],
                 .cardEquiped: [
                     .init(
                         name: .setWeapon,
@@ -569,13 +561,11 @@ private extension Card {
             name: .volcanic,
             type: .blue,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .discardEquipedWeapon,
                     .equip
-                ]
-            ],
-            behaviour: [
+                ],
                 .cardEquiped: [
                     .init(
                         name: .setWeapon,
@@ -598,10 +588,8 @@ private extension Card {
             name: .scope,
             type: .blue,
             description: "you see all the other players at a distance decreased by 1",
-            behaviourOld: [
-                .preparePlay: [.equip]
-            ],
             behaviour: [
+                .cardPrePlayed: [.equip],
                 .cardEquiped: [
                     .init(
                         name: .increaseMagnifying,
@@ -623,10 +611,8 @@ private extension Card {
             name: .mustang,
             type: .blue,
             description: "the distance between other players and you is increased by 1",
-            behaviourOld: [
-                .preparePlay: [.equip]
-            ],
             behaviour: [
+                .cardPrePlayed: [.equip],
                 .cardEquiped: [
                     .init(
                         name: .increaseRemoteness,
@@ -648,10 +634,8 @@ private extension Card {
             name: .barrel,
             type: .blue,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-            behaviourOld: [
-                .preparePlay: [.equip]
-            ],
             behaviour: [
+                .cardPrePlayed: [.equip],
                 .shot: [
                     .init(
                         name: .draw,
@@ -675,10 +659,8 @@ private extension Card {
             name: .dynamite,
             type: .blue,
             description: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            behaviourOld: [
-                .preparePlay: [.equip]
-            ],
             behaviour: [
+                .cardPrePlayed: [.equip],
                 .turnStarted: [
                     .init(
                         name: .draw,
@@ -715,17 +697,15 @@ private extension Card {
             name: .jail,
             type: .blue,
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-            behaviourOld: [
-                .preparePlay: [
+            behaviour: [
+                .cardPrePlayed: [
                     .init(
                         name: .handicap,
                         selectors: [
                             .chooseOne(.target())
                         ]
                     )
-                ]
-            ],
-            behaviour: [
+                ],
                 .turnStarted: [
                     .init(
                         name: .draw,

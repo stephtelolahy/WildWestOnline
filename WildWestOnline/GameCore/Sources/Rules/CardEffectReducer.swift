@@ -123,7 +123,7 @@ private extension Card.Effect.Name {
             let card = action.playedCard
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            guard let onPreparePlay = cardObj.behaviourOld[.preparePlay],
+            guard let onPreparePlay = cardObj.behaviour[.cardPrePlayed],
                   onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
@@ -155,7 +155,7 @@ private extension Card.Effect.Name {
 
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            if let onPlay = cardObj.behaviourOld[.play] {
+            if let onPlay = cardObj.behaviour[.cardPlayed] {
                 let effects = onPlay
                     .map {
                         $0.copy(
