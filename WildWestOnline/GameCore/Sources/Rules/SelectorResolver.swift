@@ -84,7 +84,7 @@ private extension Card.Selector {
     }
 
     struct Require: Resolver {
-        let playCondition: Card.PlayCondition
+        let playCondition: Card.Selector.StateCondition
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             guard playCondition.match(pendingAction, state: state) else {
@@ -96,7 +96,7 @@ private extension Card.Selector {
     }
 
     struct RequireThrows: Resolver {
-        let playCondition: Card.PlayCondition
+        let playCondition: Card.Selector.StateCondition
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             guard playCondition.match(pendingAction, state: state) else {
