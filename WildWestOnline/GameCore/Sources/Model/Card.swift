@@ -146,18 +146,6 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
-    public enum PlayCondition: Equatable, Codable, Sendable {
-        case minimumPlayers(Int)
-        case playLimitPerTurn([String: Int])
-        case isGameOver
-        case isCurrentTurn
-        case drawnCardMatches(_ regex: String)
-        case drawnCardDoesNotMatch(_ regex: String)
-        case targetedCardFromHand
-        case targetedCardFromInPlay
-        case targetedPlayerHasHandCard
-    }
-
     public enum Trigger: Equatable, Codable, Sendable {
         case permanent
         case cardEquiped
@@ -178,8 +166,8 @@ public struct Card: Equatable, Codable, Sendable {
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, resolved: ChoicePrompt? = nil, selection: String? = nil)
-        case require(PlayCondition)
-        case requireThrows(PlayCondition)
+        case require(StateCondition)
+        case requireThrows(StateCondition)
 
         public enum Number: Equatable, Codable, Sendable {
             case fixed(Int)
@@ -202,6 +190,18 @@ public struct Card: Equatable, Codable, Sendable {
             case allInPlay
             case played
             case equippedWeapon
+        }
+
+        public enum StateCondition: Equatable, Codable, Sendable {
+            case minimumPlayers(Int)
+            case playLimitPerTurn([String: Int])
+            case isGameOver
+            case isCurrentTurn
+            case drawnCardMatches(_ regex: String)
+            case drawnCardDoesNotMatch(_ regex: String)
+            case targetedCardFromHand
+            case targetedCardFromInPlay
+            case targetedPlayerHasHandCard
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
@@ -249,7 +249,7 @@ public struct Card: Equatable, Codable, Sendable {
         case insufficientDeck
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
-        case noReq(PlayCondition)
+        case noReq(Selector.StateCondition)
         case noTarget(Selector.TargetGroup)
         case noChoosableTarget([Selector.TargetFilter])
         case cardNotPlayable(String)
