@@ -15,13 +15,13 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
-    public let behaviour: [Effect.Name: [Effect]]
+    public let behaviour: [Trigger: [Effect]]
 
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        behaviour: [Effect.Name: [Effect]] = [:]
+        behaviour: [Trigger: [Effect]] = [:]
     ) {
         self.name = name
         self.type = type
@@ -86,7 +86,6 @@ public struct Card: Equatable, Codable, Sendable {
             case setPlayLimitPerTurn
             case setDrawCards
             case queue
-            case permanent
         }
 
         public init(
@@ -150,16 +149,28 @@ public struct Card: Equatable, Codable, Sendable {
     public enum PlayCondition: Equatable, Codable, Sendable {
         case minimumPlayers(Int)
         case playLimitPerTurn([String: Int])
-        case isHealthZero
-        case isHealthNonZero
         case isGameOver
         case isCurrentTurn
-        case isHandEmpty
         case drawnCardMatches(_ regex: String)
         case drawnCardDoesNotMatch(_ regex: String)
-        case payloadCardFromTargetHand
-        case payloadCardFromTargetInPlay
+        case targetedCardFromHand
+        case targetedCardFromInPlay
         case targetedPlayerHasHandCard
+    }
+
+    public enum Trigger: Equatable, Codable, Sendable {
+        case permanent
+        case cardEquiped
+        case cardDiscarded
+        case damaged
+        case damagedLethal
+        case eliminated
+        case handEmptied
+        case turnStarted
+        case turnEnded
+        case shot
+        case cardPrePlayed
+        case cardPlayed
     }
 
     public enum Selector: Equatable, Codable, Sendable {
