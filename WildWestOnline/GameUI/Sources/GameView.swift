@@ -120,13 +120,16 @@ private extension GameView {
                 HStack {
                     ForEach(store.state.handCards, id: \ .card) { item in
                         Button(action: {
-                            guard item.active else { return }
+                            guard item.active else {
+                                return
+                            }
+
                             Task {
                                 await store.dispatch(GameFeature.Action.preparePlay(item.card, player: player))
                             }
-                        }) {
+                        }, label: {
                             CardView(content: .id(item.card), format: .large, active: item.active)
-                        }
+                        })
                         .buttonStyle(PlainButtonStyle())
                     }
                 }
@@ -161,7 +164,10 @@ private extension GameView {
     }
 
     func animate(_ action: GameFeature.Action, positions: [ViewPosition: CGPoint]) {
-        guard let animation = animationMatcher.animation(on: action) else { return }
+        guard let animation = animationMatcher.animation(on: action) else {
+            return
+        }
+
         switch animation {
         case let .moveCard(card, source, target):
             moveCard(card, from: source, to: target, positions: positions)
