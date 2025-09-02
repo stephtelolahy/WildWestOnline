@@ -36,6 +36,21 @@ public struct Card: Equatable, Codable, Sendable {
         case ability
     }
 
+    public enum Trigger: Equatable, Codable, Sendable {
+        case permanent
+        case cardEquiped
+        case cardDiscarded
+        case damaged
+        case damagedLethal
+        case eliminated
+        case handEmptied
+        case turnStarted
+        case turnEnded
+        case shot
+        case cardPrePlayed
+        case cardPlayed
+    }
+
     public struct Effect: ActionProtocol, Equatable, Codable {
         public let name: Name
 
@@ -144,21 +159,6 @@ public struct Card: Equatable, Codable, Sendable {
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)
         }
-    }
-
-    public enum Trigger: Equatable, Codable, Sendable {
-        case permanent
-        case cardEquiped
-        case cardDiscarded
-        case damaged
-        case damagedLethal
-        case eliminated
-        case handEmptied
-        case turnStarted
-        case turnEnded
-        case shot
-        case cardPrePlayed
-        case cardPlayed
     }
 
     public enum Selector: Equatable, Codable, Sendable {
