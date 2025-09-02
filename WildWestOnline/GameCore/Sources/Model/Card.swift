@@ -37,9 +37,11 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum Trigger: Equatable, Codable, Sendable {
-        case permanent
+        case cardPrePlayed
+        case cardPlayed
         case cardEquiped
         case cardDiscarded
+        case permanent
         case damaged
         case damagedLethal
         case eliminated
@@ -47,8 +49,6 @@ public struct Card: Equatable, Codable, Sendable {
         case turnStarted
         case turnEnded
         case shot
-        case cardPrePlayed
-        case cardPlayed
     }
 
     public struct Effect: ActionProtocol, Equatable, Codable {
