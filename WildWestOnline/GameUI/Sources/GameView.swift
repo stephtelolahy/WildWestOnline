@@ -80,7 +80,7 @@ private extension GameView {
     var toolBarView: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Menu {
-                Button("Actions", action: { })
+                Button("Actions") { }
                 Button("Settings") {
                     Task {
                         await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
@@ -89,8 +89,10 @@ private extension GameView {
                 Divider()
                 Button(role: .destructive) {
                     Task { await store.dispatch(GameSessionFeature.Action.quit) }
-                } label: { Text("Quit") }
-            } label: { Image(systemName: "ellipsis") }
+                } label: { Text("Quit")
+                }
+            } label: { Image(systemName: "ellipsis")
+            }
         }
     }
 

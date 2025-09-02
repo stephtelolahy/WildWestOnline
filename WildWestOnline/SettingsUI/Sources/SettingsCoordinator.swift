@@ -47,7 +47,7 @@ public struct SettingsCoordinator: View {
 
 #Preview {
     SettingsCoordinator(
-        store: Store<AppFeature.State, AppFeature.Dependencies>.init(
+        store: Store<AppFeature.State, AppFeature.Dependencies>(
             initialState: .mock,
             dependencies: .init(settings: .init())
         )

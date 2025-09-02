@@ -21,7 +21,7 @@ struct HomeViewTest {
         )
 
         // When
-        let viewState = HomeView.ViewState.init(appState: appState)
+        let viewState = HomeView.ViewState(appState: appState)
 
         // Then
         #expect(viewState != nil)

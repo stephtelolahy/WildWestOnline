@@ -26,10 +26,10 @@ struct StoreProjectionTest {
         )
 
         let sut = await store.projection(SearchView.ViewState.init)
-        
+
         // When
         await sut.dispatch(AppAction.fetchRecent)
-        
+
         // Then
         await #expect(sut.state.items == ["recent"])
     }
@@ -44,7 +44,7 @@ private struct SearchView: View {
 
     @ObservedObject var store: Store<ViewState, Void>
     @State var query: String = ""
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -71,4 +71,3 @@ extension SearchView.ViewState {
         items = appState.searchResult
     }
 }
-

@@ -170,4 +170,3 @@ private extension GameFeature.State {
         return playerId
     }
 }
-

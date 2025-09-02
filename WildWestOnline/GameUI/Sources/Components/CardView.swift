@@ -61,6 +61,7 @@ struct CardView: View {
         switch content {
         case .id(let id):
             Card.extractName(from: id)
+
         case .hidden:
             "card_back"
         }
@@ -70,6 +71,7 @@ struct CardView: View {
         switch content {
         case .id(let id):
             Card.extractValue(from: id)
+
         case .hidden:
             ""
         }
@@ -79,6 +81,7 @@ struct CardView: View {
         switch format {
         case .medium:
             CGSize(width: 67, height: 100)
+
         case .large:
             CGSize(width: 100, height: 150)
         }

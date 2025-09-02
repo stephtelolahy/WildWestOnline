@@ -10,7 +10,6 @@ import Testing
 import GameCore
 
 struct AnimationMatcherTest {
-
     private let sut = AnimationMatcher()
 
     @Test func animatePlay() async throws {
