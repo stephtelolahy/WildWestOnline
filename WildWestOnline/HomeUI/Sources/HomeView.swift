@@ -39,7 +39,7 @@ public struct HomeView: View {
     private var contentView: some View {
         VStack {
             VStack {
-                Text("menu.game.title", bundle: .module)
+                Text(.menuGameTitle)
                     .font(.subheadline)
                     .foregroundStyle(.primary)
                 Image(.logo)
@@ -74,10 +74,10 @@ public struct HomeView: View {
 
     private var footerView: some View {
         VStack {
-            Text("menu.developer.name", bundle: .module)
+            Text(.menuDeveloperName)
                 .font(.footnote)
                 .foregroundStyle(.primary)
-            Text("menu.developer.email", bundle: .module)
+            Text(.menuDeveloperEmail)
                 .font(.footnote)
                 .foregroundStyle(.primary.opacity(0.4))
         }
