@@ -40,13 +40,19 @@ public struct AppCoordinator: View {
             settingsSheetPresented = state.navigation.settingsSheet != nil
         }
         .onChange(of: path) { _, newPath in
-            guard newPath != store.state.navigation.path else { return }
+            guard newPath != store.state.navigation.path else {
+                return
+            }
+
             Task {
                 await store.dispatch(AppNavigationFeature.Action.setPath(newPath))
             }
         }
         .onChange(of: settingsSheetPresented) { _, isPresented in
-            guard isPresented != (store.state.navigation.settingsSheet != nil) else { return }
+            guard isPresented != (store.state.navigation.settingsSheet != nil) else {
+                return
+            }
+
             Task {
                 if isPresented {
                     await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
@@ -70,7 +76,7 @@ public struct AppCoordinator: View {
 
 #Preview {
     AppCoordinator {
-        Store<AppFeature.State, AppFeature.Dependencies>.init(
+        Store<AppFeature.State, AppFeature.Dependencies>(
             initialState: .mock,
             dependencies: .init(settings: .init())
         )

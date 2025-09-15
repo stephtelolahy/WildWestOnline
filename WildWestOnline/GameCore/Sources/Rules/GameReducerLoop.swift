@@ -61,7 +61,7 @@ private extension GameFeature.State {
             return nil
         }
 
-        var effects: [Card.Effect] = triggerableElements(on: event).flatMap {
+        let effects: [Card.Effect] = triggerableElements(on: event).flatMap {
             effectsTriggered(
                 by: $0.card,
                 ownedBy: $0.player,

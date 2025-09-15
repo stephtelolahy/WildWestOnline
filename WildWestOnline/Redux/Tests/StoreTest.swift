@@ -77,7 +77,7 @@ struct StoreTest {
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
         let sut = await Store<AppState, Void>(
             initialState: .init(),
-            reducer: { state, action, _ in
+            reducer: { state, _, _ in
                 (0...3).forEach {
                     state.searchResult.append("\($0)")
                 }
@@ -138,7 +138,6 @@ func appReducer(
             } catch {
                 return AppAction.setSearchResults(repos: [])
             }
-
         }
 
     case AppAction.fetchRecent:
@@ -146,7 +145,6 @@ func appReducer(
             do {
                 let result = try await dependencies.fetchRecent()
                 return AppAction.setSearchResults(repos: result)
-
             } catch {
                 return AppAction.setSearchResults(repos: [])
             }
@@ -155,7 +153,6 @@ func appReducer(
     default:
         return .none
     }
-    
 }
 
 struct SearchService {
@@ -166,6 +163,7 @@ struct SearchService {
         switch searchResult {
         case .success(let data):
             return data
+
         case .failure(let error):
             throw error
         }
@@ -175,6 +173,7 @@ struct SearchService {
         switch fetchRecentResult {
         case .success(let data):
             return data
+
         case .failure(let error):
             throw error
         }

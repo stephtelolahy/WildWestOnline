@@ -20,7 +20,7 @@ public enum Effect {
     case none
     case publisher(AnyPublisher<ActionProtocol, Never>)
     case run(() async -> ActionProtocol?)
-    case group([Effect])
+    case group([Self])
 }
 
 /// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.

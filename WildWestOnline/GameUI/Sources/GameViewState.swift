@@ -105,7 +105,7 @@ private extension GameFeature.State {
     }
 
     var message: String {
-        if let turn = turn {
+        if let turn {
             "\(turn.uppercased())'s turn"
         } else {
             "-"
@@ -170,4 +170,3 @@ private extension GameFeature.State {
         return playerId
     }
 }
-
