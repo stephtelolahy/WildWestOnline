@@ -15,17 +15,13 @@ func dispatchUntilCompleted(
     expectedChoices: [Choice] = []
 ) async throws(Card.PlayError) -> [GameFeature.Action] {
     let sut = await createGameStore(initialState: state, expectedChoices: expectedChoices)
-    var receivedActions: [GameFeature.Action] = []
-    var receivedErrors: [Card.PlayError] = []
+    let collector = ActionCollector()
     var cancellables: Set<AnyCancellable> = []
     await MainActor.run {
         sut.$state
             .sink { state in
-                if let error = state.lastActionError {
-                    receivedErrors.append(error)
-                }
-                if let event = state.lastSuccessfulAction {
-                    receivedActions.append(event)
+                Task {
+                    await collector.append(from: state)
                 }
             }
             .store(in: &cancellables)
@@ -35,11 +31,12 @@ func dispatchUntilCompleted(
     await sut.dispatch(action)
 
     // Then
-    guard receivedErrors.isEmpty else {
-        throw receivedErrors[0]
+    let snapshot = await collector.snapshot()
+    guard snapshot.errors.isEmpty else {
+        throw snapshot.errors[0]
     }
 
-    return receivedActions
+    return snapshot.actions
 }
 
 @MainActor private func createGameStore(
@@ -72,6 +69,24 @@ private class ChoicesHolder {
 
     init(choices: [Choice]) {
         self.choices = choices
+    }
+}
+
+private actor ActionCollector {
+    private var actions: [GameFeature.Action] = []
+    private var errors: [Card.PlayError] = []
+
+    func append(from state: GameFeature.State) {
+        if let error = state.lastActionError {
+            errors.append(error)
+        }
+        if let event = state.lastSuccessfulAction {
+            actions.append(event)
+        }
+    }
+
+    func snapshot() -> (actions: [GameFeature.Action], errors: [Card.PlayError]) {
+        (actions, errors)
     }
 }
 

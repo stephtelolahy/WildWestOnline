@@ -8,22 +8,20 @@ import Combine
 import Redux
 @testable import GameCore
 
-func dispatch(
+@MainActor func dispatch(
     _ action: GameFeature.Action,
     state: GameFeature.State
 ) async throws(Card.PlayError) -> GameFeature.State {
-    let sut = await createGameStore(initialState: state)
+    let sut = createGameStore(initialState: state)
     var receivedErrors: [Card.PlayError] = []
     var cancellables: Set<AnyCancellable> = []
-    await MainActor.run {
-        sut.$state
-            .sink { state in
-                if let error = state.lastActionError {
-                    receivedErrors.append(error)
-                }
+    sut.$state
+        .sink { state in
+            if let error = state.lastActionError {
+                receivedErrors.append(error)
             }
-            .store(in: &cancellables)
-    }
+        }
+        .store(in: &cancellables)
 
     // When
     await sut.dispatch(action)
@@ -33,7 +31,7 @@ func dispatch(
         throw receivedErrors[0]
     }
 
-    return await sut.state
+    return sut.state
 }
 
 @MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
