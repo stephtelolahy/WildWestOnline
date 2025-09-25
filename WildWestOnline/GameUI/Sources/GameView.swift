@@ -89,7 +89,7 @@ private extension GameView {
                 Divider()
                 Button(role: .destructive) {
                     Task { await store.dispatch(GameSessionFeature.Action.quit) }
-                } label: { Text("Quit")
+                } label: { Text(.gameQuitButton)
                 }
             } label: { Image(systemName: "ellipsis")
             }

@@ -9,6 +9,7 @@ import Redux
 import Testing
 import Combine
 
+@MainActor
 struct StoreTest {
     @Test func dispatchValidAction_shouldEmitNewState() async throws {
         // Given
@@ -16,7 +17,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = await AppStore(
+        let sut = AppStore(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -37,7 +38,7 @@ struct StoreTest {
         await sut.dispatch(AppAction.fetchRecent)
 
         // Then
-        await #expect(sut.state.searchResult == ["recent"])
+        #expect(sut.state.searchResult == ["recent"])
         #expect(dispatchedActions as? [AppAction] == [
             .fetchRecent,
             .setSearchResults(repos: ["recent"])
@@ -50,7 +51,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = await AppStore(
+        let sut = AppStore(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -71,11 +72,11 @@ struct StoreTest {
         await sut.dispatch(AppAction.search(query: ""))
 
         // Then
-        await #expect(sut.state.searchResult.isEmpty)
+        #expect(sut.state.searchResult.isEmpty)
     }
 
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
-        let sut = await Store<AppState, Void>(
+        let sut = Store<AppState, Void>(
             initialState: .init(),
             reducer: { state, _, _ in
                 (0...3).forEach {
