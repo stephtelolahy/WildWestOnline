@@ -11,7 +11,7 @@ enum SearchFeature {
         var searchResult: [String] = []
     }
 
-    enum Action: Equatable {
+    enum Action: Equatable, Sendable {
         case setSearchResults(repos: [String])
         case search(query: String)
         case fetchRecent
@@ -22,34 +22,32 @@ enum SearchFeature {
         var fetchRecent: () async throws -> [String]
     }
 
-    static var reducer: Reducer<State, Action, Dependencies> {
-        { state, action, dependencies in
-            switch action {
-            case let .setSearchResults(repos):
-                state.searchResult = repos
+    static func reducer(state: inout State, action: Action, dependencies: Dependencies) -> Effect<Action> {
+        switch action {
+        case let .setSearchResults(repos):
+            state.searchResult = repos
+            return .none
+
+        case let .search(query):
+            guard !query.isEmpty else {
                 return .none
-
-            case let .search(query):
-                guard !query.isEmpty else {
-                    return .none
+            }
+            return .run {
+                do {
+                    let result = try await dependencies.search(query)
+                    return .setSearchResults(repos: result)
+                } catch {
+                    return .setSearchResults(repos: [])
                 }
-                return .run {
-                    do {
-                        let result = try await dependencies.search(query)
-                        return .setSearchResults(repos: result)
-                    } catch {
-                        return .setSearchResults(repos: [])
-                    }
-                }
+            }
 
-            case .fetchRecent:
-                return .run {
-                    do {
-                        let result = try await dependencies.fetchRecent()
-                        return .setSearchResults(repos: result)
-                    } catch {
-                        return .setSearchResults(repos: [])
-                    }
+        case .fetchRecent:
+            return .run {
+                do {
+                    let result = try await dependencies.fetchRecent()
+                    return .setSearchResults(repos: result)
+                } catch {
+                    return .setSearchResults(repos: [])
                 }
             }
         }
@@ -130,27 +128,25 @@ enum CounterFeature {
         var step: Int
     }
 
-    static var reducer: Reducer<State, Action, Dependencies> {
-        { state, action, deps in
-            switch action {
-            case .increment:
-                state.count += deps.step
-                return .none
+    static func reducer(state: inout State, action: Action, dependencies: Dependencies) -> Effect<Action> {
+        switch action {
+        case .increment:
+            state.count += dependencies.step
+            return .none
 
-            case .decrement:
-                state.count -= deps.step
-                return .none
+        case .decrement:
+            state.count -= dependencies.step
+            return .none
 
-            case .asyncIncrement:
-                return .run {
-                    try? await Task.sleep(nanoseconds: 100_000_000)
-                    return .incremented(1)
-                }
-
-            case .incremented(let delta):
-                state.count += delta
-                return .none
+        case .asyncIncrement:
+            return .run {
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                return .incremented(1)
             }
+
+        case .incremented(let delta):
+            state.count += delta
+            return .none
         }
     }
 }
@@ -164,13 +160,11 @@ enum FlagFeature {
 
     struct Dependencies {}
 
-    static var reducer: Reducer<State, Action, Dependencies> {
-        { state, action, _ in
-            switch action {
-            case .toggle:
-                state.isOn.toggle()
-                return .none
-            }
+    static func reducer(state: inout State, action: Action, dependencies: Dependencies) -> Effect<Action> {
+        switch action {
+        case .toggle:
+            state.isOn.toggle()
+            return .none
         }
     }
 }
