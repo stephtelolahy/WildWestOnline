@@ -36,7 +36,7 @@ public enum AppNavigationFeature {
 
     public static var reducer: Reducer<State, Action, Void> {
         combine(
-            mainReducer,
+            reducerMain,
             pullback(
                 SettingsNavigationFeature.reducer,
                 state: \.settingsSheet!,
@@ -53,7 +53,7 @@ public enum AppNavigationFeature {
         )
     }
 
-    private static func mainReducer(
+    private static func reducerMain(
         into state: inout State,
         action: Action,
         dependencies: Void

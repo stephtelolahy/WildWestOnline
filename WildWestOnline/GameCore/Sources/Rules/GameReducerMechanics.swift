@@ -7,15 +7,11 @@
 import Redux
 
 extension GameFeature {
-    static func reduceMechanics(
+    static func reducerMechanics(
         into state: inout State,
-        action: ActionProtocol,
+        action: Action,
         dependencies: Void
-    ) -> Effect {
-        guard let action = action as? Action else {
-            return .none
-        }
-
+    ) -> Effect<Action> {
         state.lastSuccessfulAction = nil
         state.lastActionError = nil
 

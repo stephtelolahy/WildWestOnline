@@ -12,7 +12,11 @@ import Redux
     _ action: GameFeature.Action,
     state: GameFeature.State
 ) async throws(Card.PlayError) -> GameFeature.State {
-    let sut = createGameStore(initialState: state)
+    let sut = Store(
+        initialState: state,
+        reducer: GameFeature.reducerMechanics,
+        dependencies: ()
+    )
     var receivedErrors: [Card.PlayError] = []
     var cancellables: Set<AnyCancellable> = []
     sut.$state
@@ -32,12 +36,4 @@ import Redux
     }
 
     return sut.state
-}
-
-@MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
-    .init(
-        initialState: initialState,
-        reducer: GameFeature.reduceMechanics,
-        dependencies: ()
-    )
 }

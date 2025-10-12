@@ -51,7 +51,7 @@ public struct Card: Equatable, Codable, Sendable {
         case shot
     }
 
-    public struct Effect: ActionProtocol, Equatable, Codable {
+    public struct Effect: Equatable, Codable, Sendable {
         public let name: Name
 
         public let sourcePlayer: String

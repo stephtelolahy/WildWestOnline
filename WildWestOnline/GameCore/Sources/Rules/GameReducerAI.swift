@@ -6,41 +6,42 @@
 import Redux
 
 extension GameFeature {
-    static func reduceAI(
+    static func reducerAI(
         into state: inout State,
-        action: ActionProtocol,
+        action: Action,
         dependencies: Void
-    ) -> Effect {
+    ) -> Effect<Action> {
         let state = state
+
+        guard state.lastActionError == nil else {
+            return .none
+        }
+
         return .run {
             await playAIMove(state: state, action: action)
         }
     }
-}
 
-private func playAIMove(state: GameFeature.State, action: ActionProtocol) async -> ActionProtocol? {
-    guard action is GameFeature.Action else {
+    private static func playAIMove(state: State, action: Action) async -> Action? {
+        if let pendingChoice = state.pendingChoice,
+           state.playMode[pendingChoice.chooser] == .auto {
+            let actions = pendingChoice.options.map { Card.Effect.choose($0.label, player: pendingChoice.chooser) }
+            let strategy: AIStrategy = AgressiveStrategy()
+            let bestMove = strategy.evaluateBestMove(actions, state: state)
+            try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
+            return bestMove
+        }
+
+        if state.active.isNotEmpty,
+           let choice = state.active.first,
+           state.playMode[choice.key] == .auto {
+            let actions = choice.value.map { Card.Effect.preparePlay($0, player: choice.key) }
+            let strategy: AIStrategy = AgressiveStrategy()
+            let bestMove = strategy.evaluateBestMove(actions, state: state)
+            try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
+            return bestMove
+        }
+
         return nil
     }
-
-    if let pendingChoice = state.pendingChoice,
-       state.playMode[pendingChoice.chooser] == .auto {
-        let actions = pendingChoice.options.map { Card.Effect.choose($0.label, player: pendingChoice.chooser) }
-        let strategy: AIStrategy = AgressiveStrategy()
-        let bestMove = strategy.evaluateBestMove(actions, state: state)
-        try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
-        return bestMove
-    }
-
-    if state.active.isNotEmpty,
-       let choice = state.active.first,
-       state.playMode[choice.key] == .auto {
-        let actions = choice.value.map { Card.Effect.preparePlay($0, player: choice.key) }
-        let strategy: AIStrategy = AgressiveStrategy()
-        let bestMove = strategy.evaluateBestMove(actions, state: state)
-        try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
-        return bestMove
-    }
-
-    return nil
 }
