@@ -27,11 +27,9 @@ struct StoreTest {
 
         var dispatchedActions: [SearchFeature.Action] = []
         var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.dispatchedAction
-                .sink { dispatchedActions.append($0) }
-                .store(in: &cancellables)
-        }
+        sut.dispatchedAction
+            .sink { dispatchedActions.append($0) }
+            .store(in: &cancellables)
 
         // When
         await sut.dispatch(.fetchRecent)
@@ -61,11 +59,9 @@ struct StoreTest {
 
         var dispatchedActions: [SearchFeature.Action] = []
         var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.dispatchedAction
-                .sink { dispatchedActions.append($0) }
-                .store(in: &cancellables)
-        }
+        sut.dispatchedAction
+            .sink { dispatchedActions.append($0) }
+            .store(in: &cancellables)
 
         // When
         await sut.dispatch(.search(query: ""))
@@ -87,11 +83,9 @@ struct StoreTest {
         )
         var receivedStates: [SearchFeature.State] = []
         var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            sut.$state
-                .sink { receivedStates.append($0) }
-                .store(in: &cancellables)
-        }
+        sut.$state
+            .sink { receivedStates.append($0) }
+            .store(in: &cancellables)
 
         await sut.dispatch(.fetchRecent)
 

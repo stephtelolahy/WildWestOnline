@@ -33,7 +33,11 @@ private final class StoreProjection<
         self.toLocalState = deriveState
         self.embedAction = embedAction
 
-        super.init(initialState: initialState, reducer: { _, _, _ in .none }, dependencies: ())
+        super.init(
+            initialState: initialState,
+            reducer: { _, _, _ in .none },
+            dependencies: ()
+        )
 
         globalStore.$state
             .map(deriveState)
