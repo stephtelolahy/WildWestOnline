@@ -1,7 +1,6 @@
 //
 //  StoreTest.swift
 //
-//
 //  Created by Hugues Telolahy on 07/04/2023.
 //
 
@@ -17,16 +16,16 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = Store<AppState, AppAction, AppDependencies>(
+        let sut = Store<SearchFeature.State, SearchFeature.Action, SearchFeature.Dependencies>(
             initialState: .init(),
-            reducer: appReducer,
+            reducer: SearchFeature.reducer,
             dependencies: .init(
                 search: service.search,
                 fetchRecent: service.fetchRecent
             )
         )
 
-        var dispatchedActions: [AppAction] = []
+        var dispatchedActions: [SearchFeature.Action] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.dispatchedAction
@@ -35,7 +34,7 @@ struct StoreTest {
         }
 
         // When
-        await sut.dispatch(AppAction.fetchRecent)
+        await sut.dispatch(.fetchRecent)
 
         // Then
         #expect(sut.state.searchResult == ["recent"])
@@ -51,16 +50,16 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = Store<AppState, AppAction, AppDependencies>(
+        let sut = Store<SearchFeature.State, SearchFeature.Action, SearchFeature.Dependencies>(
             initialState: .init(),
-            reducer: appReducer,
+            reducer: SearchFeature.reducer,
             dependencies: .init(
                 search: service.search,
                 fetchRecent: service.fetchRecent
             )
         )
 
-        var dispatchedActions: [AppAction] = []
+        var dispatchedActions: [SearchFeature.Action] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.dispatchedAction
@@ -69,14 +68,14 @@ struct StoreTest {
         }
 
         // When
-        await sut.dispatch(AppAction.search(query: ""))
+        await sut.dispatch(.search(query: ""))
 
         // Then
         #expect(sut.state.searchResult.isEmpty)
     }
 
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
-        let sut = Store<AppState, AppAction, Void>(
+        let sut = Store<SearchFeature.State, SearchFeature.Action, SearchFeature.Dependencies>(
             initialState: .init(),
             reducer: { state, _, _ in
                 (0...3).forEach {
@@ -84,9 +83,9 @@ struct StoreTest {
                 }
                 return .none
             },
-            dependencies: ()
+            dependencies: .init(search: { _ in [] }, fetchRecent: { [] })
         )
-        var receivedStates: [AppState] = []
+        var receivedStates: [SearchFeature.State] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.$state
@@ -94,7 +93,7 @@ struct StoreTest {
                 .store(in: &cancellables)
         }
 
-        await sut.dispatch(AppAction.fetchRecent)
+        await sut.dispatch(.fetchRecent)
 
         #expect(receivedStates == [
             .init(),

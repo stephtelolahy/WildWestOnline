@@ -1,6 +1,5 @@
 //
-//  File.swift
-//  WildWestOnline
+//  Reducer+Pullback.swift
 //
 //  Created by Hugues Stéphano TELOLAHY on 12/10/2025.
 //
@@ -15,30 +14,32 @@ public func combine<State, Action, Dependencies>(
     }
 }
 
-/// Pull back reducers — make a small reducer that operates on part of the state/action,
-/// and lift it into a global one.
+/// Pull back reducers —
+/// lift a small reducer that operates on part of the state/action into a global one.
 public func pullback<
     LocalState,
     LocalAction,
     GlobalState,
     GlobalAction,
-    Dependencies
+    LocalDependencies,
+    GlobalDependencies
 >(
-    _ localReducer: @escaping Reducer<LocalState, LocalAction, Dependencies>,
+    _ localReducer: @escaping Reducer<LocalState, LocalAction, LocalDependencies>,
     state toLocalState: WritableKeyPath<GlobalState, LocalState>,
     action toLocalAction: @escaping (GlobalAction) -> LocalAction?,
-    embedAction: @escaping (LocalAction) -> GlobalAction
-) -> Reducer<GlobalState, GlobalAction, Dependencies> {
-    return { globalState, globalAction, dependencies in
+    embedAction: @escaping (LocalAction) -> GlobalAction,
+    dependencies toLocalDependencies: @escaping (GlobalDependencies) -> LocalDependencies
+) -> Reducer<GlobalState, GlobalAction, GlobalDependencies> {
+    return { globalState, globalAction, globalDependencies in
         // Only handle actions that map to the local domain
         guard let localAction = toLocalAction(globalAction) else {
             return .none
         }
 
         // Run the local reducer on the local portion of state
-        let localEffect = localReducer(&globalState[keyPath: toLocalState], localAction, dependencies)
+        let localDeps = toLocalDependencies(globalDependencies)
+        let localEffect = localReducer(&globalState[keyPath: toLocalState], localAction, localDeps)
 
-        // Lift the effect’s actions back into the global space
         return localEffect.map(embedAction)
     }
 }
