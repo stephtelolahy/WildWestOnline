@@ -16,7 +16,7 @@ struct StoreProjectionTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let store = await AppStore(
+        let store = await Store<AppState, AppAction, AppDependencies>(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -25,7 +25,7 @@ struct StoreProjectionTest {
             )
         )
 
-        let sut = await store.projection(SearchView.ViewState.init)
+        let sut: Store<SearchView.ViewState, AppAction, Void> = await store.projection(state: SearchView.ViewState.init, action: \.self)
 
         // When
         await sut.dispatch(AppAction.fetchRecent)
@@ -42,7 +42,7 @@ private struct SearchView: View {
         let items: [String]
     }
 
-    @ObservedObject var store: Store<ViewState, Void>
+    @ObservedObject var store: Store<ViewState, AppAction, Void>
     @State var query: String = ""
 
     var body: some View {

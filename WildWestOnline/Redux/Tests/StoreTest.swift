@@ -17,7 +17,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = AppStore(
+        let sut = Store<AppState, AppAction, AppDependencies>(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -26,7 +26,7 @@ struct StoreTest {
             )
         )
 
-        var dispatchedActions: [ActionProtocol] = []
+        var dispatchedActions: [AppAction] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.dispatchedAction
@@ -39,7 +39,7 @@ struct StoreTest {
 
         // Then
         #expect(sut.state.searchResult == ["recent"])
-        #expect(dispatchedActions as? [AppAction] == [
+        #expect(dispatchedActions == [
             .fetchRecent,
             .setSearchResults(repos: ["recent"])
         ])
@@ -51,7 +51,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = AppStore(
+        let sut = Store<AppState, AppAction, AppDependencies>(
             initialState: .init(),
             reducer: appReducer,
             dependencies: .init(
@@ -60,7 +60,7 @@ struct StoreTest {
             )
         )
 
-        var dispatchedActions: [ActionProtocol] = []
+        var dispatchedActions: [AppAction] = []
         var cancellables: Set<AnyCancellable> = []
         await MainActor.run {
             sut.dispatchedAction
@@ -76,7 +76,7 @@ struct StoreTest {
     }
 
     @Test func modifyStateMultipleTimesThroughReducer_shouldEmitOnlyOnce() async throws {
-        let sut = Store<AppState, Void>(
+        let sut = Store<AppState, AppAction, Void>(
             initialState: .init(),
             reducer: { state, _, _ in
                 (0...3).forEach {
@@ -102,83 +102,3 @@ struct StoreTest {
         ])
     }
 }
-
-struct AppState: Equatable {
-    var searchResult: [String] = []
-}
-
-enum AppAction: ActionProtocol, Equatable {
-    case setSearchResults(repos: [String])
-    case search(query: String)
-    case fetchRecent
-}
-
-struct AppDependencies {
-    var search: (String) async throws -> [String]
-    var fetchRecent: () async throws -> [String]
-}
-
-func appReducer(
-    state: inout AppState,
-    action: ActionProtocol,
-    dependencies: AppDependencies
-) -> Effect {
-    switch action {
-    case let AppAction.setSearchResults(repos):
-        state.searchResult = repos
-        return .none
-
-    case let AppAction.search(query):
-        guard !query.isEmpty else {
-            return .none
-        }
-        return .run {
-            do {
-                let result = try await dependencies.search(query)
-                return AppAction.setSearchResults(repos: result)
-            } catch {
-                return AppAction.setSearchResults(repos: [])
-            }
-        }
-
-    case AppAction.fetchRecent:
-        return .run {
-            do {
-                let result = try await dependencies.fetchRecent()
-                return AppAction.setSearchResults(repos: result)
-            } catch {
-                return AppAction.setSearchResults(repos: [])
-            }
-        }
-
-    default:
-        return .none
-    }
-}
-
-struct SearchService {
-    let searchResult: Result<[String], Error>
-    let fetchRecentResult: Result<[String], Error>
-
-    func search(query: String) async throws -> [String] {
-        switch searchResult {
-        case .success(let data):
-            return data
-
-        case .failure(let error):
-            throw error
-        }
-    }
-
-    func fetchRecent() async throws -> [String] {
-        switch fetchRecentResult {
-        case .success(let data):
-            return data
-
-        case .failure(let error):
-            throw error
-        }
-    }
-}
-
-typealias AppStore = Store<AppState, AppDependencies>

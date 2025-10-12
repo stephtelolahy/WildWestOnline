@@ -8,24 +8,32 @@
 /// that will handle a smaller part of the state,
 /// as long as we can map back-and-forth to the original store types.
 /// It won't store anything, only project the original store.
-private class StoreProjection<
+@MainActor
+private final class StoreProjection<
     LocalState: Equatable,
+    LocalAction,
     GlobalState,
+    GlobalAction,
     Dependencies
->: Store<LocalState, Void> {
-    private let globalStore: Store<GlobalState, Dependencies>
+>: Store<LocalState, LocalAction, Void> {
+    private let globalStore: Store<GlobalState, GlobalAction, Dependencies>
+    private let toLocalState: (GlobalState) -> LocalState?
+    private let embedAction: (LocalAction) -> GlobalAction
 
     init(
-        globalStore: Store<GlobalState, Dependencies>,
-        deriveState: @escaping (GlobalState) -> LocalState?
+        globalStore: Store<GlobalState, GlobalAction, Dependencies>,
+        deriveState: @escaping (GlobalState) -> LocalState?,
+        embedAction: @escaping (LocalAction) -> GlobalAction
     ) {
         guard let initialState = deriveState(globalStore.state) else {
-            fatalError("failed deriving state from \(globalStore.state) to \(LocalState.Type.self)")
+            fatalError("Failed deriving \(LocalState.self) from \(GlobalState.self): \(globalStore.state)")
         }
 
         self.globalStore = globalStore
-        super.init(initialState: initialState, dependencies: ())
-        self.dispatchedAction = globalStore.dispatchedAction
+        self.toLocalState = deriveState
+        self.embedAction = embedAction
+
+        super.init(initialState: initialState, reducer: { _, _, _ in .none }, dependencies: ())
 
         globalStore.$state
             .map(deriveState)
@@ -34,14 +42,20 @@ private class StoreProjection<
             .assign(to: &self.$state)
     }
 
-    override func dispatch(_ action: ActionProtocol) async {
-        await globalStore.dispatch(action)
+    override func dispatch(_ action: LocalAction) async {
+        await globalStore.dispatch(embedAction(action))
     }
 }
 
 public extension Store {
-    /// Creates a subset of the current store by applying any transformation to the State.
-    func projection<LocalState: Equatable>(_ deriveState: @escaping (State) -> LocalState?) -> Store<LocalState, Void> {
-        StoreProjection(globalStore: self, deriveState: deriveState)
+    func projection<LocalState: Equatable, LocalAction>(
+        state toLocalState: @escaping (State) -> LocalState?,
+        action embedAction: @escaping (LocalAction) -> Action
+    ) -> Store<LocalState, LocalAction, Void> {
+        StoreProjection(
+            globalStore: self,
+            deriveState: toLocalState,
+            embedAction: embedAction
+        )
     }
 }
