@@ -40,7 +40,11 @@ public enum SettingsFeature {
         }
     }
 
-    public static func reducer(state: inout State, action: Action, dependencies: Dependencies) -> Effect<Action> {
+    public static func reducer(
+        state: inout State,
+        action: Action,
+        dependencies: Dependencies
+    ) -> Effect<Action> {
         switch action {
         case .updatePlayersCount(let value):
             state.playersCount = value

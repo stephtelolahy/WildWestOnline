@@ -11,7 +11,7 @@ enum SearchFeature {
         var searchResult: [String] = []
     }
 
-    enum Action: Equatable, Sendable {
+    enum Action: Equatable {
         case setSearchResults(repos: [String])
         case search(query: String)
         case fetchRecent

@@ -9,12 +9,12 @@ import NavigationCore
 import Redux
 
 struct AppNavigationFeatureTests {
-    private typealias NavigationStore = Store<AppNavigationFeature.State, Void>
+    private typealias NavigationStore = Store<AppNavigationFeature.State, AppNavigationFeature.Action, Void>
 
-    @MainActor private func createNavigationStore(initialState: AppNavigationFeature.State) -> NavigationStore {
-        .init(
+    private func createNavigationStore(initialState: AppNavigationFeature.State) async -> NavigationStore {
+        await .init(
             initialState: initialState,
-            reducer: AppNavigationFeature.reduce,
+            reducer: AppNavigationFeature.reducer,
             dependencies: ()
         )
     }
@@ -38,7 +38,7 @@ struct AppNavigationFeatureTests {
         let sut = await createNavigationStore(initialState: state)
 
         // When
-        let action = SettingsNavigationFeature.Action.push(.figures)
+        let action = AppNavigationFeature.Action.settingsSheet(.push(.figures))
         await sut.dispatch(action)
 
         // Then
