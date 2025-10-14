@@ -47,7 +47,6 @@ public enum AppNavigationFeature {
                     return nil
                 },
                 embedAction: Action.settingsSheet,
-                // swiftlint:disable:next trailing_closure
                 dependencies: { $0 }
             )
         )
