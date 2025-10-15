@@ -10,16 +10,18 @@ import AppCore
 import NavigationCore
 
 public struct SettingsCoordinator: View {
-    @ObservedObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
+    public typealias ViewStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
+
+    @ObservedObject private var store: ViewStore
     @State private var path: [SettingsNavigationFeature.State.Destination] = []
 
-    public init(store: Store<AppFeature.State, AppFeature.Dependencies>) {
+    public init(store: ViewStore) {
         self.store = store
     }
 
     public var body: some View {
         NavigationStack(path: $path) {
-            SettingsRootView { store.projection(SettingsRootView.ViewState.init) }
+            SettingsRootView { store.projection(state: SettingsRootView.ViewState.init, action: \.self) }
                 .navigationDestination(for: SettingsNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
@@ -38,7 +40,7 @@ public struct SettingsCoordinator: View {
             }
 
             Task {
-                await store.dispatch(SettingsNavigationFeature.Action.setPath(newPath))
+                await store.dispatch(.navigation(.settingsSheet(.setPath(newPath))))
             }
         }
         .presentationDetents([.medium, .large])
@@ -46,14 +48,14 @@ public struct SettingsCoordinator: View {
 
     @ViewBuilder private func viewForDestination(_ destination: SettingsNavigationFeature.State.Destination) -> some View {
         switch destination {
-        case .figures: SettingsFiguresView { store.projection(SettingsFiguresView.ViewState.init) }
+        case .figures: SettingsFiguresView { store.projection(state: SettingsFiguresView.ViewState.init, action: \.self) }
         }
     }
 }
 
 #Preview {
     SettingsCoordinator(
-        store: Store<AppFeature.State, AppFeature.Dependencies>(
+        store: Store(
             initialState: .mock,
             dependencies: .init(settings: .init())
         )
@@ -63,9 +65,9 @@ public struct SettingsCoordinator: View {
 private extension AppFeature.State {
     static var mock: Self {
         .init(
+            inventory: .makeBuilder().build(),
             navigation: .init(),
-            settings: .makeBuilder().build(),
-            inventory: .makeBuilder().build()
+            settings: .makeBuilder().build()
         )
     }
 }
