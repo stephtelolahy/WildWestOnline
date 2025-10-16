@@ -12,8 +12,6 @@ import SettingsCore
 import Testing
 
 struct AppFeatureTest {
-    private typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
-
     private func createAppStore(initialState: AppFeature.State) async -> AppStore {
         await .init(
             initialState: initialState,

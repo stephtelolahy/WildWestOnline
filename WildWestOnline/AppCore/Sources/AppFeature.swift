@@ -10,6 +10,8 @@ import NavigationCore
 import SettingsCore
 import GameCore
 
+public typealias AppStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
+
 public enum AppFeature {
     /// Global app state
     /// Organize State Structure Based on Data Types, Not Components

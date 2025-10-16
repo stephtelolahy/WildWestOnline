@@ -2,10 +2,12 @@
 //  GameViewState.swift
 //  WildWestOnline
 //
-//  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
+//  Created by Hugues Stéphano TELOLAHY on 16/10/2025.
 //
 
 import Foundation
+import SwiftUI
+import Redux
 import AppCore
 import GameCore
 
@@ -51,6 +53,8 @@ public extension GameView {
             let options: [String]
         }
     }
+
+    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
 }
 
 public extension GameView.ViewState {

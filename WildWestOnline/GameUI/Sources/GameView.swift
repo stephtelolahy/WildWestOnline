@@ -7,10 +7,7 @@
 
 import SwiftUI
 import Theme
-import Redux
-import AppCore
 import GameCore
-import NavigationCore
 
 enum ViewPosition: Hashable {
     case deck
@@ -26,8 +23,6 @@ enum CardContent: Equatable {
 }
 
 public struct GameView: View {
-    public typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
-
     @StateObject private var store: ViewStore
     @State private var animationSource: CGPoint = .zero
     @State private var animationTarget: CGPoint = .zero
@@ -221,7 +216,7 @@ private extension GameView {
 #Preview {
     NavigationStack {
         GameView {
-            Store(initialState: .mock, dependencies: ())
+            .init(initialState: .mock, dependencies: ())
         }
     }
 }
