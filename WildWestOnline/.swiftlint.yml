@@ -1,5 +1,6 @@
 # SwiftLint configuration file
 # See all rules at https://realm.github.io/SwiftLint/rule-directory.html
+strict: true
 analyzer_rules:
   - capture_variable
   - explicit_self

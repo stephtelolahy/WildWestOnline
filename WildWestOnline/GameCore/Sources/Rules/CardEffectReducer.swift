@@ -3,7 +3,7 @@
 //
 //  Created by Hugues Telolahy on 30/10/2024.
 //
-// swiftlint:disable file_length
+// swiftlint:disable file_length force_unwrapping
 
 extension Card.Effect.Name {
     func reduce(_ action: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {

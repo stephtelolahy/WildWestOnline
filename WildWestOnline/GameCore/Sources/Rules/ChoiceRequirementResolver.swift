@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Telolahy on 01/11/2024.
 //
+// swiftlint:disable force_unwrapping
 
 extension Card.Selector.ChoiceRequirement {
     func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> Card.Selector.ChoicePrompt? {

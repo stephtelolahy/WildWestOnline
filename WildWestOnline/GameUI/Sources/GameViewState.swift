@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
 //
+// swiftlint:disable force_unwrapping
 
 import Foundation
 import AppCore

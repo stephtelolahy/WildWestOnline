@@ -4,6 +4,7 @@
 //
 //  Created by Hugues Stephano TELOLAHY on 19/11/2024.
 //
+// swiftlint:disable force_unwrapping
 
 extension Card.Selector.CardGroup {
     func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
