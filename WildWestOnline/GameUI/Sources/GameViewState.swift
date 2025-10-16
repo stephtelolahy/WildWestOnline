@@ -1,5 +1,5 @@
 //
-//  GameViewModel.swift
+//  GameViewState.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 16/10/2025.

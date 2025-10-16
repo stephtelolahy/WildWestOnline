@@ -1,5 +1,5 @@
 //
-//  SettingsRootViewModel.swift
+//  SettingsRootViewState.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 16/10/2025.
