@@ -4,6 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
+// swiftlint:disable force_unwrapping
 
 import SwiftUI
 import Theme

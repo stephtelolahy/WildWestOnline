@@ -22,7 +22,7 @@ public extension Inventory {
             return self
         }
 
-        public func  withSample() -> Self {
+        public func withSample() -> Self {
             deck = [:]
             cards = (1...100).map {
                 Card(

@@ -35,6 +35,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.62.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -56,7 +57,7 @@ let package = Package(
             dependencies: [],
             path: "Serialization/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -73,7 +74,7 @@ let package = Package(
             ],
             path: "GameCore/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -90,7 +91,7 @@ let package = Package(
             ],
             path: "SettingsCore/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -107,7 +108,7 @@ let package = Package(
             ],
             path: "NavigationCore/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -126,7 +127,7 @@ let package = Package(
             ],
             path: "AppCore/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -141,7 +142,7 @@ let package = Package(
             dependencies: [],
             path: "Theme/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .target(
@@ -152,7 +153,7 @@ let package = Package(
             ],
             path: "HomeUI/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -170,7 +171,7 @@ let package = Package(
             ],
             path: "SettingsUI/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -189,7 +190,7 @@ let package = Package(
             ],
             path: "GameUI/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -208,7 +209,7 @@ let package = Package(
             ],
             path: "AppUI/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -225,7 +226,7 @@ let package = Package(
             ],
             path: "GameData/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -243,18 +244,8 @@ let package = Package(
             ],
             path: "SettingsData/Sources",
             plugins: [
-                .plugin(name: "SwiftLintPlugin")
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
-        .binaryTarget(
-            name: "SwiftLintBinary",
-            path: "SwiftLintBinary.artifactbundle"
-        ),
-        .plugin(
-            name: "SwiftLintPlugin",
-            capability: .buildTool(),
-            dependencies: ["SwiftLintBinary"],
-            path: "SwiftLintPlugin/Sources"
-        )
     ]
 )

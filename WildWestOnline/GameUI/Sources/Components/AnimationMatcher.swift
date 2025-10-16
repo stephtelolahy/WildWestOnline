@@ -4,6 +4,8 @@
 //
 //  Created by Hugues Stéphano TELOLAHY on 16/03/2025.
 //
+// swiftlint:disable force_unwrapping
+
 import GameCore
 
 struct AnimationMatcher {
