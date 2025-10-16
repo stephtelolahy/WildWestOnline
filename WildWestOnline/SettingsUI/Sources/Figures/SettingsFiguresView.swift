@@ -5,23 +5,9 @@
 //  Created by Stephano Hugues TELOLAHY on 07/09/2024.
 //
 
-import Redux
 import SwiftUI
-import AppCore
-import SettingsCore
 
 struct SettingsFiguresView: View {
-    struct ViewState: Equatable {
-        let figures: [Figure]
-
-        struct Figure: Equatable {
-            let name: String
-            let isFavorite: Bool
-        }
-    }
-
-    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
-
     @StateObject private var store: ViewStore
 
     init(store: @escaping () -> ViewStore) {
@@ -50,7 +36,7 @@ struct SettingsFiguresView: View {
 
 #Preview {
     SettingsFiguresView {
-        Store(
+        .init(
             initialState: .init(figures: [
                 .init(name: "Figure1", isFavorite: false),
                 .init(name: "Figure2", isFavorite: false),
@@ -58,17 +44,5 @@ struct SettingsFiguresView: View {
             ]),
             dependencies: ()
         )
-    }
-}
-
-extension SettingsFiguresView.ViewState {
-    init?(appState: AppFeature.State) {
-        figures = appState.inventory.cards.names(for: .character)
-            .map {
-                .init(
-                    name: $0,
-                    isFavorite: $0 == appState.settings.preferredFigure
-                )
-            }
     }
 }

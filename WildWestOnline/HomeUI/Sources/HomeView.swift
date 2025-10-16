@@ -7,14 +7,8 @@
 
 import SwiftUI
 import Theme
-import Redux
-import AppCore
-import NavigationCore
 
 public struct HomeView: View {
-    public struct ViewState: Equatable {}
-    public typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
-
     @Environment(\.theme) private var theme
     @StateObject private var store: ViewStore
 
@@ -87,10 +81,6 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        Store(initialState: .init(), dependencies: ())
+        .init(initialState: .init(), dependencies: ())
     }
-}
-
-public extension HomeView.ViewState {
-    init?(appState: AppFeature.State) { }
 }

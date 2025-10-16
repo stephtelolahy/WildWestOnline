@@ -16,7 +16,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = Store<SearchFeature.State, SearchFeature.Action, SearchFeature.Dependencies>(
+        let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer,
             dependencies: .init(
@@ -48,7 +48,7 @@ struct StoreTest {
             searchResult: .success(["result"]),
             fetchRecentResult: .success(["recent"])
         )
-        let sut = Store<SearchFeature.State, SearchFeature.Action, SearchFeature.Dependencies>(
+        let sut = Store(
             initialState: .init(),
             reducer: SearchFeature.reducer,
             dependencies: .init(

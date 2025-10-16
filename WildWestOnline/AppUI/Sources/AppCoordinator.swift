@@ -14,13 +14,11 @@ import HomeUI
 import GameUI
 
 public struct AppCoordinator: View {
-    public typealias ViewStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
-
-    @StateObject private var store: ViewStore
+    @StateObject private var store: AppStore
     @State private var path: [AppNavigationFeature.State.Destination] = []
     @State private var settingsSheetPresented: Bool = false
 
-    public init(store: @escaping () -> ViewStore) {
+    public init(store: @escaping () -> AppStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -78,7 +76,7 @@ public struct AppCoordinator: View {
 
 #Preview {
     AppCoordinator {
-        Store(
+        .init(
             initialState: .mock,
             dependencies: .init(settings: .init())
         )

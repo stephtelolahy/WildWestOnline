@@ -10,12 +10,10 @@ import AppCore
 import NavigationCore
 
 public struct SettingsCoordinator: View {
-    public typealias ViewStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
-
-    @ObservedObject private var store: ViewStore
+    @ObservedObject private var store: AppStore
     @State private var path: [SettingsNavigationFeature.State.Destination] = []
 
-    public init(store: ViewStore) {
+    public init(store: AppStore) {
         self.store = store
     }
 
