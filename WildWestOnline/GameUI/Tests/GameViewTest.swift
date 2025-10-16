@@ -21,9 +21,9 @@ struct GameViewTest {
             .withPlayer("p1")
             .build()
         let appState = AppFeature.State(
+            inventory: Inventory.makeBuilder().build(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
@@ -51,9 +51,9 @@ struct GameViewTest {
             .withTurn("p1")
             .build()
         let appState = AppFeature.State(
+            inventory: Inventory.makeBuilder().build(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
@@ -63,7 +63,7 @@ struct GameViewTest {
         // Then
         #expect(viewState.players.count == 2)
 
-        let player1 = try #require(viewState.players[0])
+        let player1 = viewState.players[0]
         #expect(player1.id == "p1")
         #expect(player1.imageName == "willyTheKid")
         #expect(player1.displayName == "WILLYTHEKID")
@@ -74,7 +74,7 @@ struct GameViewTest {
         #expect(player1.isTurn)
         #expect(!player1.isEliminated)
 
-        let player2 = try #require(viewState.players[1])
+        let player2 = viewState.players[1]
         #expect(player2.id == "p2")
         #expect(player2.imageName == "paulRegret")
         #expect(player2.displayName == "PAULREGRET")
@@ -102,9 +102,9 @@ struct GameViewTest {
             .withActive(["p1": [.bang, .endTurn]])
             .build()
         let appState = AppFeature.State(
+            inventory: Inventory.makeBuilder().build(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
@@ -136,9 +136,9 @@ struct GameViewTest {
             .withPlayMode(["p1": .manual])
             .build()
         let appState = AppFeature.State(
+            inventory: Inventory.makeBuilder().build(),
             navigation: .init(),
             settings: SettingsFeature.State.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build(),
             game: game
         )
 
