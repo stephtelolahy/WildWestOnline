@@ -13,11 +13,12 @@ import NavigationCore
 
 public struct HomeView: View {
     public struct ViewState: Equatable {}
+    public typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
 
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<ViewState, Void>
+    @StateObject private var store: ViewStore
 
-    public init(store: @escaping () -> Store<ViewState, Void>) {
+    public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -49,12 +50,12 @@ public struct HomeView: View {
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     Task {
-                        await store.dispatch(GameSessionFeature.Action.start)
+                        await store.dispatch(.start)
                     }
                 }
                 mainButton("menu.settings.button") {
                     Task {
-                        await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
+                        await store.dispatch(.navigation(.presentSettingsSheet))
                     }
                 }
             }
