@@ -147,7 +147,7 @@ struct SettingsRootView: View {
 
 #Preview {
     SettingsRootView {
-        .init(initialState: .mock, dependencies: ())
+        Store(initialState: .mock, dependencies: ())
     }
 }
 

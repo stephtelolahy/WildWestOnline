@@ -221,7 +221,7 @@ private extension GameView {
 #Preview {
     NavigationStack {
         GameView {
-            .init(initialState: .mock, dependencies: ())
+            Store(initialState: .mock, dependencies: ())
         }
     }
 }

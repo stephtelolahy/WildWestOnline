@@ -50,7 +50,7 @@ struct SettingsFiguresView: View {
 
 #Preview {
     SettingsFiguresView {
-        .init(
+        Store(
             initialState: .init(figures: [
                 .init(name: "Figure1", isFavorite: false),
                 .init(name: "Figure2", isFavorite: false),

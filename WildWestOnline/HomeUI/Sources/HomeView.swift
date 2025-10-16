@@ -87,7 +87,7 @@ public struct HomeView: View {
 
 #Preview {
     HomeView {
-        .init(initialState: .init(), dependencies: ())
+        Store(initialState: .init(), dependencies: ())
     }
 }
 
