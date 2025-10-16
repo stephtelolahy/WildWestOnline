@@ -15,6 +15,7 @@ import GameUI
 
 public struct AppCoordinator: View {
     public typealias ViewStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
+
     @StateObject private var store: ViewStore
     @State private var path: [AppNavigationFeature.State.Destination] = []
     @State private var settingsSheetPresented: Bool = false
