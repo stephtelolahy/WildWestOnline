@@ -12,8 +12,7 @@ Currently, there is no effective way to prototype trading card games and then be
 ### Key Features
 
 - [x] Game DSL
-- [x] Serializable game object
-- [x] Composable rules
+- [x] Serializable game
 - [x] Support classic Bang!
 - [ ] Support extensions
 - [ ] Replay
@@ -59,9 +58,12 @@ graph TD;
 
 ### Modular Architecture
 
-The project consists of Swift Package products with the following structure.
-- All features are implemented in self-contained Domain module `Core`
-- `UI` and `Data` layers depend on `Core`
+This project uses a modular architecture, dividing functionality into focused feature modules:
+
+- **Core**: Self-contained Domain and Business logic (`GameCore`, `SettingsCore`, `NavigationCore`, `AppCore`)
+- **Data**: Data management and persistence (`GameData`, `SettingsData`)
+- **UI**: Feature UIs (`HomeUI`, `SettingsUI`, `GameUI`, `AppUI`)
+- **Utilities**: Supporting libraries (`Redux`, `Serialization`, `Theme`)
 
 ```mermaid
  graph TD;
@@ -73,7 +75,9 @@ The project consists of Swift Package products with the following structure.
     DATA --> DATALIBRARY(Library)
 ```
 
-### Redux
+### Redux-Style State Management
+
+The `Redux` module implements a unidirectional data flow, making app state predictable and testable. This pattern is utilized throughout core and UI modules.
 
 Redux architecture is meant to protect changes in an application’s state. It forces you to define clearly what state should be set when a specific action is dispatched.
 
@@ -110,9 +114,7 @@ VIEW --> |observe| STOREPROJECTION(StoreProjection)
 STOREPROJECTION --> |derive| APPSTORE
 ```
 
-### Sequence diagram
-
-Online gameplay uses shared database
+### Online gameplay diagram
 
 ```mermaid
 sequenceDiagram
