@@ -12,10 +12,11 @@ import Combine
 @testable import GameCore
 
 struct SimulationTest {
-    @Test func simulate2PlayersGame_shouldComplete() async throws {
-        try await simulateGame(playersCount: 3)
+    @Test func simulateGame_shouldComplete() async throws {
+        try await simulateGame(playersCount: 5)
     }
 
+    @MainActor
     private func simulateGame(playersCount: Int) async throws {
         // Given
         var state = GameSetupService.buildGame(
@@ -26,59 +27,37 @@ struct SimulationTest {
             state.playMode[player] = .auto
         }
 
-        let store = await createGameStore(initialState: state)
+        let store = Store(
+            initialState: state,
+            reducer: GameFeature.reducer,
+            dependencies: ()
+        )
 
-        let stateVerifier = StateVerifier(initialState: state)
+        var prevState = state
+        var currentState = state
         var cancellables: Set<AnyCancellable> = []
-        await MainActor.run {
-            store.dispatchedAction
-                .sink {
-                    stateVerifier.receiveAction(action: $0)
-                    print($0)
-                }
-                .store(in: &cancellables)
-            store.$state
-                .sink {
-                    stateVerifier.receiveState(state: $0)
-                }
-                .store(in: &cancellables)
-        }
+
+        store.$state
+            .sink {
+                prevState = currentState
+                currentState = $0
+            }
+            .store(in: &cancellables)
+
+        store.dispatchedAction
+            .sink {
+                print($0)
+                var nextState = prevState
+                _ = GameFeature.reducerMechanics(into: &nextState, action: $0, dependencies: ())
+                #expect(nextState == currentState, "Inconsistent state after applying \($0)")
+            }
+            .store(in: &cancellables)
 
         // When
         let startAction = GameFeature.Action.startTurn(player: state.playOrder[0])
         await store.dispatch(startAction)
 
         // Then
-        await #expect(store.state.isOver, "Expected game over")
-    }
-}
-
-@MainActor private func createGameStore(initialState: GameFeature.State) -> Store<GameFeature.State, Void> {
-    .init(
-        initialState: initialState,
-        reducer: GameFeature.reduce,
-        dependencies: ()
-    )
-}
-
-/// Verify State integrity by applying action to previous State
-private class StateVerifier {
-    var prevState: GameFeature.State
-    var currentState: GameFeature.State
-
-    init(initialState: GameFeature.State) {
-        self.prevState = initialState
-        self.currentState = initialState
-    }
-
-    func receiveState(state: GameFeature.State) {
-        prevState = currentState
-        currentState = state
-    }
-
-    func receiveAction(action: ActionProtocol) {
-        var nextState = prevState
-        _ = GameFeature.reduceMechanics(into: &nextState, action: action, dependencies: ())
-        assert(nextState == currentState, "Inconsistent state after applying \(action)")
+        #expect(store.state.isOver, "Expected game over")
     }
 }

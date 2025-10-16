@@ -6,53 +6,54 @@
 import Redux
 
 extension GameFeature {
-    static func reduceLoop(
+    static func reducerLoop(
         into state: inout State,
-        action: ActionProtocol,
+        action: Action,
         dependencies: Void
-    ) -> Effect {
+    ) -> Effect<Action> {
         let state = state
+
+        guard state.lastActionError == nil else {
+            return .none
+        }
+
         return .run {
             await nextAction(state: state, action: action)
         }
     }
-}
 
-private func nextAction(state: GameFeature.State, action: ActionProtocol) async -> ActionProtocol? {
-    guard let action = action as? Card.Effect else {
+    private static func nextAction(state: State, action: Action) async -> Action? {
+        // wait some delay if dispatched action was animatable
+        if action.isAnimatable {
+            try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
+        }
+
+        if state.isOver {
+            return nil
+        }
+
+        if state.pendingChoice != nil {
+            return nil
+        }
+
+        if state.active.isNotEmpty {
+            return nil
+        }
+
+        if let triggered = state.triggeredEffect(on: action) {
+            return triggered
+        }
+
+        if let queued = state.queue.first {
+            return queued
+        }
+
+        if let activate = state.activatePlayableCards() {
+            return activate
+        }
+
         return nil
     }
-
-    // wait some delay if dispatched action was animatable
-    if action.isAnimatable {
-        try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
-    }
-
-    if state.isOver {
-        return nil
-    }
-
-    if state.pendingChoice != nil {
-        return nil
-    }
-
-    if state.active.isNotEmpty {
-        return nil
-    }
-
-    if let triggered = state.triggeredEffect(on: action) {
-        return triggered
-    }
-
-    if let queued = state.queue.first {
-        return queued
-    }
-
-    if let activate = state.activatePlayableCards() {
-        return activate
-    }
-
-    return nil
 }
 
 private extension GameFeature.State {
@@ -161,7 +162,7 @@ private extension Card.Effect {
     func validate(state: GameFeature.State) throws {
         var newState = state
 
-        _ = GameFeature.reduceMechanics(into: &newState, action: self, dependencies: ())
+        _ = GameFeature.reducerMechanics(into: &newState, action: self, dependencies: ())
         if let error = newState.lastActionError {
             throw error
         }

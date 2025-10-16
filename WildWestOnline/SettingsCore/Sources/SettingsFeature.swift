@@ -14,7 +14,7 @@ public enum SettingsFeature {
         public var preferredFigure: String?
     }
 
-    public enum Action: ActionProtocol {
+    public enum Action {
         case updatePlayersCount(Int)
         case updateActionDelayMilliSeconds(Int)
         case toggleSimulation
@@ -40,15 +40,11 @@ public enum SettingsFeature {
         }
     }
 
-    public static func reduce(
-        into state: inout State,
-        action: ActionProtocol,
+    public static func reducer(
+        state: inout State,
+        action: Action,
         dependencies: Dependencies
-    ) -> Effect {
-        guard let action = action as? Action else {
-            return .none
-        }
-
+    ) -> Effect<Action> {
         switch action {
         case .updatePlayersCount(let value):
             state.playersCount = value

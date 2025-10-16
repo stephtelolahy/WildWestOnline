@@ -32,9 +32,11 @@ struct SettingsRootView: View {
         }
     }
 
-    @StateObject private var store: Store<ViewState, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
 
-    init(store: @escaping () -> Store<ViewState, Void>) {
+    @StateObject private var store: ViewStore
+
+    init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -49,7 +51,7 @@ struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 Task {
-                    await store.dispatch(AppNavigationFeature.Action.dismissSettingsSheet)
+                    await store.dispatch(.navigation(.dismissSettingsSheet))
                 }
             }
         }
@@ -75,7 +77,7 @@ struct SettingsRootView: View {
                     get: { store.state.playersCount },
                     set: { index in
                         Task {
-                            await store.dispatch(SettingsFeature.Action.updatePlayersCount(index))
+                            await store.dispatch(.settings(.updatePlayersCount(index)))
                         }
                     }
                 ).animation(),
@@ -95,7 +97,7 @@ struct SettingsRootView: View {
                     set: { index in
                         Task {
                             let option = store.state.speedOptions[index]
-                            await store.dispatch(SettingsFeature.Action.updateActionDelayMilliSeconds(option.value))
+                            await store.dispatch(.settings(.updateActionDelayMilliSeconds(option.value)))
                         }
                     }
                 ),
@@ -117,7 +119,7 @@ struct SettingsRootView: View {
                 get: { store.state.simulation },
                 set: { _ in
                     Task {
-                        await store.dispatch(SettingsFeature.Action.toggleSimulation)
+                        await store.dispatch(.settings(.toggleSimulation))
                     }
                 }
             ).animation()) {
@@ -129,7 +131,7 @@ struct SettingsRootView: View {
     private var figureView: some View {
         Button(action: {
             Task {
-                await store.dispatch(SettingsNavigationFeature.Action.push(.figures))
+                await store.dispatch(.navigation(.settingsSheet(.push(.figures))))
             }
         }, label: {
             HStack {
@@ -145,7 +147,7 @@ struct SettingsRootView: View {
 
 #Preview {
     SettingsRootView {
-        .init(initialState: .mock, dependencies: ())
+        Store(initialState: .mock, dependencies: ())
     }
 }
 

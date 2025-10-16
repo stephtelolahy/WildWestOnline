@@ -26,7 +26,9 @@ enum CardContent: Equatable {
 }
 
 public struct GameView: View {
-    @StateObject private var store: Store<ViewState, Void>
+    public typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
+
+    @StateObject private var store: ViewStore
     @State private var animationSource: CGPoint = .zero
     @State private var animationTarget: CGPoint = .zero
     @State private var animatedCard: CardContent?
@@ -36,7 +38,7 @@ public struct GameView: View {
 
     private let animationMatcher = AnimationMatcher()
 
-    public init(store: @escaping () -> Store<ViewState, Void>) {
+    public init(store: @escaping () -> ViewStore) {
         _store = StateObject(wrappedValue: store())
     }
 
@@ -65,7 +67,7 @@ public struct GameView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar { toolBarView }
             .task {
-                await store.dispatch(GameFeature.Action.startTurn(player: store.state.startPlayer))
+                await store.dispatch(.game(.startTurn(player: store.state.startPlayer)))
             }
             .onReceive(store.$state) { state in
                 if let action = state.lastSuccessfulAction {
@@ -83,12 +85,12 @@ private extension GameView {
                 Button("Actions") { }
                 Button("Settings") {
                     Task {
-                        await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
+                        await store.dispatch(.navigation(.presentSettingsSheet))
                     }
                 }
                 Divider()
                 Button(role: .destructive) {
-                    Task { await store.dispatch(GameSessionFeature.Action.quit) }
+                    Task { await store.dispatch(.quit) }
                 } label: { Text(.gameQuitButton)
                 }
             } label: { Image(systemName: "ellipsis")
@@ -125,7 +127,7 @@ private extension GameView {
                             }
 
                             Task {
-                                await store.dispatch(GameFeature.Action.preparePlay(item.card, player: player))
+                                await store.dispatch(.game(.preparePlay(item.card, player: player)))
                             }
                         }, label: {
                             CardView(content: .id(item.card), format: .large, active: item.active)
@@ -155,7 +157,7 @@ private extension GameView {
                     buttons: chooseOne.options.map { option in
                             .default(Text(option)) {
                                 Task {
-                                    await self.store.dispatch(GameFeature.Action.choose(option, player: player))
+                                    await self.store.dispatch(.game(.choose(option, player: player)))
                                 }
                             }
                     }
@@ -219,7 +221,7 @@ private extension GameView {
 #Preview {
     NavigationStack {
         GameView {
-            .init(initialState: .mock, dependencies: ())
+            Store(initialState: .mock, dependencies: ())
         }
     }
 }

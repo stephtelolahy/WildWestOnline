@@ -25,40 +25,38 @@ public enum AppNavigationFeature {
         }
     }
 
-    public enum Action: ActionProtocol {
+    public enum Action {
         case push(State.Destination)
         case pop
         case setPath([State.Destination])
         case presentSettingsSheet
         case dismissSettingsSheet
+        case settingsSheet(SettingsNavigationFeature.Action)
     }
 
-    public static func reduce(
-        into state: inout State,
-        action: ActionProtocol,
-        dependencies: Void
-    ) -> Effect {
-        let settingsSheetEffect: Effect = if state.settingsSheet != nil {
-            SettingsNavigationFeature.reduce(into: &state.settingsSheet!, action: action, dependencies: dependencies)
-        } else {
-            .none
-        }
-
-        return .group([
-            settingsSheetEffect,
-            reduceApp(into: &state, action: action, dependencies: dependencies)
-        ])
+    public static var reducer: Reducer<State, Action, Void> {
+        combine(
+            reducerMain,
+            pullback(
+                SettingsNavigationFeature.reducer,
+                state: \.settingsSheet!,
+                action: { globalAction in
+                    if case let .settingsSheet(localAction) = globalAction {
+                        return localAction
+                    }
+                    return nil
+                },
+                embedAction: Action.settingsSheet,
+                dependencies: { $0 }
+            )
+        )
     }
 
-    private static func reduceApp(
+    private static func reducerMain(
         into state: inout State,
-        action: ActionProtocol,
+        action: Action,
         dependencies: Void
-    ) -> Effect {
-        guard let action = action as? Action else {
-            return .none
-        }
-
+    ) -> Effect<Action> {
         switch action {
         case .push(let page):
             state.path.append(page)
@@ -74,6 +72,9 @@ public enum AppNavigationFeature {
 
         case .dismissSettingsSheet:
             state.settingsSheet = nil
+
+        case .settingsSheet:
+            break
         }
 
         return .none

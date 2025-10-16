@@ -20,9 +20,11 @@ struct SettingsFiguresView: View {
         }
     }
 
-    @StateObject private var store: Store<ViewState, Void>
+    typealias ViewStore = Store<ViewState, AppFeature.Action, Void>
 
-    init(store: @escaping () -> Store<ViewState, Void>) {
+    @StateObject private var store: ViewStore
+
+    init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -33,7 +35,7 @@ struct SettingsFiguresView: View {
             ForEach(store.state.figures, id: \.name) { figure in
                 Button(action: {
                     Task {
-                        await store.dispatch(SettingsFeature.Action.updatePreferredFigure(figure.name))
+                        await store.dispatch(.settings(.updatePreferredFigure(figure.name)))
                     }
                 }, label: {
                     FigureRow(figure: figure)
@@ -48,7 +50,7 @@ struct SettingsFiguresView: View {
 
 #Preview {
     SettingsFiguresView {
-        .init(
+        Store(
             initialState: .init(figures: [
                 .init(name: "Figure1", isFavorite: false),
                 .init(name: "Figure2", isFavorite: false),

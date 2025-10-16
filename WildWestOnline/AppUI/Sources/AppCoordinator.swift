@@ -14,11 +14,13 @@ import HomeUI
 import GameUI
 
 public struct AppCoordinator: View {
-    @StateObject private var store: Store<AppFeature.State, AppFeature.Dependencies>
+    public typealias ViewStore = Store<AppFeature.State, AppFeature.Action, AppFeature.Dependencies>
+
+    @StateObject private var store: ViewStore
     @State private var path: [AppNavigationFeature.State.Destination] = []
     @State private var settingsSheetPresented: Bool = false
 
-    public init(store: @escaping () -> Store<AppFeature.State, AppFeature.Dependencies>) {
+    public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -26,7 +28,7 @@ public struct AppCoordinator: View {
 
     public var body: some View {
         NavigationStack(path: $path) {
-            HomeView { store.projection(HomeView.ViewState.init) }
+            HomeView { store.projection(state: HomeView.ViewState.init, action: \.self) }
                 .navigationDestination(for: AppNavigationFeature.State.Destination.self) {
                     viewForDestination($0)
                 }
@@ -45,7 +47,7 @@ public struct AppCoordinator: View {
             }
 
             Task {
-                await store.dispatch(AppNavigationFeature.Action.setPath(newPath))
+                await store.dispatch(.navigation(.setPath(newPath)))
             }
         }
         .onChange(of: settingsSheetPresented) { _, isPresented in
@@ -55,9 +57,9 @@ public struct AppCoordinator: View {
 
             Task {
                 if isPresented {
-                    await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
+                    await store.dispatch(.navigation(.presentSettingsSheet))
                 } else {
-                    await store.dispatch(AppNavigationFeature.Action.dismissSettingsSheet)
+                    await store.dispatch(.navigation(.dismissSettingsSheet))
                 }
             }
         }
@@ -69,14 +71,14 @@ public struct AppCoordinator: View {
     @ViewBuilder private func viewForDestination(_ destination: AppNavigationFeature.State.Destination) -> some View {
         switch destination {
         case .game:
-            GameView { store.projection(GameView.ViewState.init) }
+            GameView { store.projection(state: GameView.ViewState.init, action: \.self) }
         }
     }
 }
 
 #Preview {
     AppCoordinator {
-        Store<AppFeature.State, AppFeature.Dependencies>(
+        Store(
             initialState: .mock,
             dependencies: .init(settings: .init())
         )
@@ -86,9 +88,9 @@ public struct AppCoordinator: View {
 private extension AppFeature.State {
     static var mock: Self {
         .init(
+            inventory: .makeBuilder().build(),
             navigation: .init(),
-            settings: .makeBuilder().build(),
-            inventory: .makeBuilder().build()
+            settings: .makeBuilder().build()
         )
     }
 }
