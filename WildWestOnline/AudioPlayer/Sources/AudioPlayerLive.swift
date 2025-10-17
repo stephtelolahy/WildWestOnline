@@ -14,6 +14,8 @@ extension AudioPlayer {
             load: { try? await actor.load(sounds: $0) },
             loop: { try? await actor.play(sound: $0, loop: true) },
             play: { try? await actor.play(sound: $0) },
+            pause: { try? await actor.pause(sound: $0) },
+            resume: { try? await actor.resume(sound: $0) },
             setGlobalVolume: { await actor.setMusicVolume(to: $0) },
             setVolume: { try? await actor.setVolume(of: $0, to: $1) },
             stop: { try? await actor.stop(sound: $0) }
@@ -74,6 +76,23 @@ extension AudioPlayer {
             }
 
             player.stop()
+        }
+
+        func pause(sound: Sound) throws {
+            guard let player = self.players[sound] else {
+                throw Failure.soundNotLoaded(sound)
+            }
+
+            player.pause()
+        }
+
+        func resume(sound: Sound) throws {
+            guard let player = self.players[sound] else {
+                throw Failure.soundNotLoaded(sound)
+            }
+
+            player.volume = self.musicVolume
+            player.play()
         }
 
         func setVolume(of sound: Sound, to volume: Float) throws {

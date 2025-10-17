@@ -32,12 +32,12 @@ public struct HomeView: View {
         .navigationBarHidden(true)
         .onAppear {
             Task {
-                await AudioPlayer.shared.play(.musicLoneRider)
+                await AudioPlayer.shared.resume(.musicLoneRider)
             }
         }
         .onDisappear {
             Task {
-                await AudioPlayer.shared.stop(.musicLoneRider)
+                await AudioPlayer.shared.pause(.musicLoneRider)
             }
         }
     }
