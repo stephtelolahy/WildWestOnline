@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Theme
+import AudioPlayer
 
 public struct HomeView: View {
     @Environment(\.theme) private var theme
@@ -20,7 +21,7 @@ public struct HomeView: View {
 
     public var body: some View {
         ZStack {
-            theme.colorBackground.edgesIgnoringSafeArea(.all)
+            theme.colorBackground.ignoresSafeArea()
             VStack {
                 Spacer()
                 contentView
@@ -29,6 +30,16 @@ public struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear {
+            Task {
+                await AudioPlayer.shared.resume(.musicLoneRider)
+            }
+        }
+        .onDisappear {
+            Task {
+                await AudioPlayer.shared.pause(.musicLoneRider)
+            }
+        }
     }
 
     private var contentView: some View {
@@ -39,7 +50,10 @@ public struct HomeView: View {
                     .foregroundStyle(.primary)
                 Image(.logo)
                     .resizable()
-                    .frame(width: 120, height: 120)
+                    .scaledToFit()
+                    .frame(width: 140, height: 140)
+                    .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
+                    .modifier(BreathingEffect())
             }
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
@@ -64,7 +78,7 @@ public struct HomeView: View {
             Text(String(localized: titleKey, bundle: .module))
                 .font(.headline)
                 .padding(8)
-        }.symbolRenderingMode(.multicolor)
+        }
     }
 
     private var footerView: some View {
@@ -76,6 +90,22 @@ public struct HomeView: View {
                 .font(.footnote)
                 .foregroundStyle(.primary.opacity(0.4))
         }
+    }
+}
+
+// MARK: - Helpers
+
+private struct BreathingEffect: ViewModifier {
+    @State private var scale: CGFloat = 1.0
+
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(scale)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
+                    scale = 1.1
+                }
+            }
     }
 }
 

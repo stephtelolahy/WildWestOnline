@@ -31,7 +31,8 @@ let package = Package(
         // Utilities
         .library(name: "Redux", targets: ["Redux"]),
         .library(name: "Serialization", targets: ["Serialization"]),
-        .library(name: "Theme", targets: ["Theme"])
+        .library(name: "Theme", targets: ["Theme"]),
+        .library(name: "AudioPlayer", targets: ["AudioPlayer"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -146,10 +147,22 @@ let package = Package(
             ]
         ),
         .target(
+            name: "AudioPlayer",
+            dependencies: [],
+            path: "AudioPlayer/Sources",
+            resources: [
+                .process("Resources")
+            ],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .target(
             name: "HomeUI",
             dependencies: [
                 "AppCore",
-                "Theme"
+                "Theme",
+                "AudioPlayer"
             ],
             path: "HomeUI/Sources",
             plugins: [
@@ -186,9 +199,13 @@ let package = Package(
             dependencies: [
                 "AppCore",
                 "Theme",
-                "GameData"
+                "GameData",
+                "AudioPlayer"
             ],
             path: "GameUI/Sources",
+            resources: [
+                .process("Resources")
+            ],
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]

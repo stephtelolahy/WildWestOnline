@@ -13,6 +13,7 @@ import SettingsData
 import SwiftUI
 import Theme
 import AppUI
+import AudioPlayer
 
 @main
 struct WildWestOnlineApp: App {
@@ -24,6 +25,9 @@ struct WildWestOnlineApp: App {
                 createStore()
             }
             .accentColor(theme.colorAccent)
+            .task {
+                await AudioPlayer.shared.load(AudioPlayer.Sound.allSfx)
+            }
         }
     }
 }
