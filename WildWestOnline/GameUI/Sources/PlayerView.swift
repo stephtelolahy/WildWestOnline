@@ -52,20 +52,18 @@ struct PlayerView: View {
             }
         }
         .padding(6)
-        .background(player.backgroundColor)
         .cornerRadius(8)
         .opacity(player.isEliminated ? 0.3 : 1)
+        .foregroundStyle(player.foregroundColor)
     }
 }
 
 private extension GameView.ViewState.PlayerItem {
-    var backgroundColor: Color {
-        if isTurn {
-            Color(.systemOrange)
-        } else if isTargeted {
+    var foregroundColor: Color {
+        if isTargeted {
             Color(.systemRed)
         } else {
-            Color(.clear)
+            Color.primary
         }
     }
 }

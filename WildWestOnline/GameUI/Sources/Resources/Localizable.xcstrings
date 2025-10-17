@@ -50,12 +50,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Give up"
+            "value" : "Quit"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Quitter"
           }
         }
@@ -65,6 +65,9 @@
 
     },
     "Settings" : {
+
+    },
+    "TURN" : {
 
     }
   },

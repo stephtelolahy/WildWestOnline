@@ -13,7 +13,7 @@ import GameCore
 struct CardView: View {
     let content: CardContent
     var format: Format = .medium
-    var active: Bool = false
+    var disabled: Bool = false
 
     @Environment(\.theme) private var theme
 
@@ -38,10 +38,6 @@ struct CardView: View {
                     .frame(maxWidth: cardSize.width, maxHeight: cardSize.height)
             }
         }
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(active ? Color.green : Color.gray, lineWidth: active ? 4 : 1)
-        )
         .shadow(radius: 2)
         .overlay(
             VStack {
@@ -56,6 +52,7 @@ struct CardView: View {
                 }
             }
         )
+        .opacity(disabled ? 0.5 : 1.0)
     }
 
     private var cardImageName: String {
@@ -92,9 +89,9 @@ struct CardView: View {
 #Preview {
     ScrollView(.horizontal) {
         HStack {
-            CardView(content: .id("bang-A♠️"), format: .large)
-            CardView(content: .id("mustang-8♥️"), format: .large, active: true)
-            CardView(content: .id("unknown card"), format: .large, active: true)
+            CardView(content: .id("bang-A♠️"), format: .large, disabled: true)
+            CardView(content: .id("mustang-8♥️"), format: .large)
+            CardView(content: .id("unknown card"), format: .large)
         }
     }
     .background(.yellow)

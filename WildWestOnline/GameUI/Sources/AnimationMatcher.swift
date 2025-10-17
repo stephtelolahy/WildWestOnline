@@ -110,5 +110,5 @@ struct AnimationMatcher {
 }
 
 enum BoardAnimation: Equatable {
-    case moveCard(CardContent, from: ViewPosition, to: ViewPosition)
+    case moveCard(CardContent, from: GameArea, to: GameArea)
 }
