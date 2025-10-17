@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Theme
+import AudioPlayer
 
 public struct HomeView: View {
     @Environment(\.theme) private var theme
@@ -29,6 +30,16 @@ public struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear {
+            Task {
+                await AudioPlayer.shared.play(.musicLoneRider)
+            }
+        }
+        .onDisappear {
+            Task {
+                await AudioPlayer.shared.stop(.musicLoneRider)
+            }
+        }
     }
 
     private var contentView: some View {

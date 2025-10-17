@@ -25,7 +25,8 @@ public extension AudioPlayer.Sound {
         sfxFly,
         sfxMetalLatch,
         sfxShotgunOldSchool,
-        sfxPain
+        sfxPain,
+        musicLoneRider,
     ]
 
     static let sfxHurt = "342229_christopherderp_hurt-1-male (online-audio-converter.com)"
@@ -47,4 +48,6 @@ public extension AudioPlayer.Sound {
     static let sfxMetalLatch = "Metal Latch-SoundBible.com-736691159"
     static let sfxShotgunOldSchool = "shotgun-old_school-RA_The_Sun_God-1129942741"
     static let sfxPain = "Pain-SoundBible.com-1883168362"
+
+    static let musicLoneRider = "2017-03-24_-_Lone_Rider_-_David_Fesliyan"
 }

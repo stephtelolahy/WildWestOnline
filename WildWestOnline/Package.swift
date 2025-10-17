@@ -161,7 +161,8 @@ let package = Package(
             name: "HomeUI",
             dependencies: [
                 "AppCore",
-                "Theme"
+                "Theme",
+                "AudioPlayer"
             ],
             path: "HomeUI/Sources",
             plugins: [
