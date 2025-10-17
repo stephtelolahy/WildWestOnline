@@ -39,7 +39,6 @@ extension AudioPlayer {
 
         func load(sounds: [Sound]) throws {
             let sounds = sounds.filter { !self.players.keys.contains($0) }
-            try AVAudioSession.sharedInstance().setCategory(.ambient)
             try AVAudioSession.sharedInstance().setActive(true, options: [])
             var errors: [Sound: Error] = [:]
             for sound in sounds {
@@ -60,7 +59,6 @@ extension AudioPlayer {
 
         func play(sound: Sound, loop: Bool = false) throws {
             guard let player = self.players[sound] else {
-                print("cannot play sound: \(sound), self: \(self)")
                 throw Failure.soundNotLoaded(sound)
             }
 
