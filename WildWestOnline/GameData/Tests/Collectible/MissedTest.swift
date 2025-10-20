@@ -35,6 +35,7 @@ struct MissedTest {
             .play(.bang, player: "p1", target: "p2"),
             .shoot("p2"),
             .choose(.missed2, player: "p2"),
+            .counterShoot(player: "p2"),
             .discardHand(.missed2, player: "p2")
         ])
     }
