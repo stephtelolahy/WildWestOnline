@@ -51,20 +51,12 @@ public enum GameFeature {
 
     public typealias Action = Card.Effect
 
-    public static func reduce(
-        into state: inout State,
-        action: ActionProtocol,
-        dependencies: Void
-    ) -> Effect {
-        _ = reduceMechanics(into: &state, action: action, dependencies: dependencies)
-        guard state.lastActionError == nil else {
-            return .none
-        }
-
-        return .group([
-            reduceLoop(into: &state, action: action, dependencies: dependencies),
-            reduceAI(into: &state, action: action, dependencies: dependencies),
-        ])
+    public static var reducer: Reducer<State, Action, Void> {
+        combine(
+            reducerMechanics,
+            reducerLoop,
+            reducerAI
+        )
     }
 }
 

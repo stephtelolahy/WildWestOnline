@@ -10,12 +10,12 @@ import SettingsCore
 import Redux
 
 struct SettingsFeatureTests {
-    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Dependencies>
+    private typealias SettingsStore = Store<SettingsFeature.State, SettingsFeature.Action, SettingsFeature.Dependencies>
 
-    @MainActor private func createSettingsStore(initialState: SettingsFeature.State) -> SettingsStore {
-        .init(
+    private func createSettingsStore(initialState: SettingsFeature.State) async -> SettingsStore {
+        await .init(
             initialState: initialState,
-            reducer: SettingsFeature.reduce,
+            reducer: SettingsFeature.reducer,
             dependencies: .init()
         )
     }

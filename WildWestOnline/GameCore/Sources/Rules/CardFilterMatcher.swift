@@ -4,6 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 10/11/2024.
 //
+// swiftlint:disable force_unwrapping
 
 extension Card.Selector.CardFilter {
     func match(_ card: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {

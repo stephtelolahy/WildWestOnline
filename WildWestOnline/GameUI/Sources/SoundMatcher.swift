@@ -1,0 +1,74 @@
+//
+//  SoundMatcher.swift
+//  WildWestOnline
+//
+//  Created by Hugues Stéphano TELOLAHY on 28/09/2025.
+//
+
+import GameCore
+import GameData
+import AudioPlayer
+
+struct SoundMatcher {
+    // swiftlint:disable:next cyclomatic_complexity
+    func sfx(on action: GameFeature.Action) -> AudioPlayer.Sound? {
+        switch action.name {
+        case .shoot:
+                .sfxGunLoud
+
+        case .draw, .drawDeck, .drawDiscard, .discover, .drawDiscovered:
+                .sfxSlideClosed
+
+        case .discardHand, .discardInPlay:
+                .sfxFly
+
+        case .stealHand, .stealInPlay:
+                .sfxSlap
+
+        case .counterShot:
+                .sfxWesternRicochet
+
+        case .equip:
+                .sfxShotGun
+
+        case .handicap:
+                .sfxMetalLatch
+
+        case .passInPlay:
+                .sfxFuseBurning
+
+        case .heal:
+                .sfxSlurping2
+
+        case .damage:
+                .sfxHurt
+
+        case .eliminate:
+                .sfxPain
+
+        case .endGame:
+                .sfxTaDa
+
+        case .play:
+            switch Card.extractName(from: action.playedCard) {
+            case .stagecoach, .wellsFargo:
+                    .sfxHorseGalloping
+
+            case .duel:
+                    .sfxShotgunOldSchool
+
+            case .gatling:
+                    .sfxAutomaticMachineGun
+
+            case .indians, .brawl:
+                    .sfxPeacock
+
+            default:
+                nil
+            }
+
+        default:
+            nil
+        }
+    }
+}

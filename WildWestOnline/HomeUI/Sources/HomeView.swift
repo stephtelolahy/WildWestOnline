@@ -7,17 +7,13 @@
 
 import SwiftUI
 import Theme
-import Redux
-import AppCore
-import NavigationCore
+import AudioPlayer
 
 public struct HomeView: View {
-    public struct ViewState: Equatable {}
-
     @Environment(\.theme) private var theme
-    @StateObject private var store: Store<ViewState, Void>
+    @StateObject private var store: ViewStore
 
-    public init(store: @escaping () -> Store<ViewState, Void>) {
+    public init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -25,7 +21,7 @@ public struct HomeView: View {
 
     public var body: some View {
         ZStack {
-            theme.colorBackground.edgesIgnoringSafeArea(.all)
+            theme.colorBackground.ignoresSafeArea()
             VStack {
                 Spacer()
                 contentView
@@ -34,6 +30,16 @@ public struct HomeView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear {
+            Task {
+                await AudioPlayer.shared.resume(.musicLoneRider)
+            }
+        }
+        .onDisappear {
+            Task {
+                await AudioPlayer.shared.pause(.musicLoneRider)
+            }
+        }
     }
 
     private var contentView: some View {
@@ -44,17 +50,20 @@ public struct HomeView: View {
                     .foregroundStyle(.primary)
                 Image(.logo)
                     .resizable()
-                    .frame(width: 120, height: 120)
+                    .scaledToFit()
+                    .frame(width: 140, height: 140)
+                    .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
+                    .modifier(BreathingEffect())
             }
             VStack(spacing: 8) {
                 mainButton("menu.play.button") {
                     Task {
-                        await store.dispatch(GameSessionFeature.Action.start)
+                        await store.dispatch(.start)
                     }
                 }
                 mainButton("menu.settings.button") {
                     Task {
-                        await store.dispatch(AppNavigationFeature.Action.presentSettingsSheet)
+                        await store.dispatch(.navigation(.presentSettingsSheet))
                     }
                 }
             }
@@ -69,7 +78,7 @@ public struct HomeView: View {
             Text(String(localized: titleKey, bundle: .module))
                 .font(.headline)
                 .padding(8)
-        }.symbolRenderingMode(.multicolor)
+        }
     }
 
     private var footerView: some View {
@@ -84,12 +93,24 @@ public struct HomeView: View {
     }
 }
 
+// MARK: - Helpers
+
+private struct BreathingEffect: ViewModifier {
+    @State private var scale: CGFloat = 1.0
+
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(scale)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
+                    scale = 1.1
+                }
+            }
+    }
+}
+
 #Preview {
     HomeView {
         .init(initialState: .init(), dependencies: ())
     }
-}
-
-public extension HomeView.ViewState {
-    init?(appState: AppFeature.State) { }
 }

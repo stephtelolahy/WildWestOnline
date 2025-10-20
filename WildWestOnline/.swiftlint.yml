@@ -1,5 +1,6 @@
 # SwiftLint configuration file
 # See all rules at https://realm.github.io/SwiftLint/rule-directory.html
+strict: true
 analyzer_rules:
   - capture_variable
   - explicit_self
@@ -129,7 +130,7 @@ opt_in_rules:
   # - switch_case_on_newline
   - test_case_accessibility
   - toggle_bool
-  - trailing_closure
+  # - trailing_closure
   # - type_contents_order
   - unavailable_function
   # - unhandled_throwing_task

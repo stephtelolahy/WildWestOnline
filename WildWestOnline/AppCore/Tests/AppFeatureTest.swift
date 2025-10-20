@@ -12,12 +12,10 @@ import SettingsCore
 import Testing
 
 struct AppFeatureTest {
-    private typealias AppStore = Store<AppFeature.State, AppFeature.Dependencies>
-
-    @MainActor private func createAppStore(initialState: AppFeature.State) -> AppStore {
-        .init(
+    private func createAppStore(initialState: AppFeature.State) async -> AppStore {
+        await .init(
             initialState: initialState,
-            reducer: AppFeature.reduce,
+            reducer: AppFeature.reducer,
             dependencies: .init(
                 settings: .init(
                     savePlayersCount: { _ in },
@@ -32,33 +30,33 @@ struct AppFeatureTest {
     @Test func app_whenStartedGame_shouldShowGameScreen_AndCreateGame() async throws {
         // Given
         let state = AppFeature.State(
+            inventory: Inventory.makeBuilder().withSample().build(),
             navigation: .init(),
-            settings: SettingsFeature.State.makeBuilder().withPlayersCount(5).build(),
-            inventory: Inventory.makeBuilder().withSample().build()
+            settings: SettingsFeature.State.makeBuilder().withPlayersCount(5).build()
         )
         let sut = await createAppStore(initialState: state)
 
         // When
-        let action = GameSessionFeature.Action.start
+        let action = AppFeature.Action.start
         await sut.dispatch(action)
 
         // Then
         await #expect(sut.state.navigation.path == [.game])
         await #expect(sut.state.game != nil)
     }
-
+    
     @Test func app_whenFinishedGame_shouldBackToHomeScreen_AndDeleteGame() async throws {
         // Given
         let state = AppFeature.State(
+            inventory: Inventory.makeBuilder().build(),
             navigation: .init(path: [.game]),
             settings: SettingsFeature.State.makeBuilder().build(),
-            inventory: Inventory.makeBuilder().build(),
             game: GameFeature.State.makeBuilder().build()
         )
         let sut = await createAppStore(initialState: state)
 
         // When
-        let action = GameSessionFeature.Action.quit
+        let action = AppFeature.Action.quit
         await sut.dispatch(action)
 
         // Then

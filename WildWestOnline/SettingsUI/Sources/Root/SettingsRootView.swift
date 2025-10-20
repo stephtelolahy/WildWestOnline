@@ -5,36 +5,12 @@
 //  Created by Hugues Telolahy on 08/12/2023.
 //
 
-import Redux
 import SwiftUI
-import AppCore
-import NavigationCore
-import SettingsCore
 
 struct SettingsRootView: View {
-    struct ViewState: Equatable {
-        let minPlayersCount = 2
-        let maxPlayersCount = 7
-        let speedOptions: [SpeedOption] = SpeedOption.all
-        let playersCount: Int
-        let speedIndex: Int
-        let simulation: Bool
-        let preferredFigure: String?
+    @StateObject private var store: ViewStore
 
-        struct SpeedOption: Equatable {
-            let label: String
-            let value: Int
-
-            static let all: [Self] = [
-                .init(label: "Normal", value: 500),
-                .init(label: "Fast", value: 0)
-            ]
-        }
-    }
-
-    @StateObject private var store: Store<ViewState, Void>
-
-    init(store: @escaping () -> Store<ViewState, Void>) {
+    init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
         // closure only once during the lifetime of the view.
         _store = StateObject(wrappedValue: store())
@@ -49,7 +25,7 @@ struct SettingsRootView: View {
         .toolbar {
             Button("Done") {
                 Task {
-                    await store.dispatch(AppNavigationFeature.Action.dismissSettingsSheet)
+                    await store.dispatch(.navigation(.dismissSettingsSheet))
                 }
             }
         }
@@ -75,7 +51,7 @@ struct SettingsRootView: View {
                     get: { store.state.playersCount },
                     set: { index in
                         Task {
-                            await store.dispatch(SettingsFeature.Action.updatePlayersCount(index))
+                            await store.dispatch(.settings(.updatePlayersCount(index)))
                         }
                     }
                 ).animation(),
@@ -95,7 +71,7 @@ struct SettingsRootView: View {
                     set: { index in
                         Task {
                             let option = store.state.speedOptions[index]
-                            await store.dispatch(SettingsFeature.Action.updateActionDelayMilliSeconds(option.value))
+                            await store.dispatch(.settings(.updateActionDelayMilliSeconds(option.value)))
                         }
                     }
                 ),
@@ -117,7 +93,7 @@ struct SettingsRootView: View {
                 get: { store.state.simulation },
                 set: { _ in
                     Task {
-                        await store.dispatch(SettingsFeature.Action.toggleSimulation)
+                        await store.dispatch(.settings(.toggleSimulation))
                     }
                 }
             ).animation()) {
@@ -129,7 +105,7 @@ struct SettingsRootView: View {
     private var figureView: some View {
         Button(action: {
             Task {
-                await store.dispatch(SettingsNavigationFeature.Action.push(.figures))
+                await store.dispatch(.navigation(.settingsSheet(.push(.figures))))
             }
         }, label: {
             HStack {
@@ -157,14 +133,5 @@ private extension SettingsRootView.ViewState {
             simulation: false,
             preferredFigure: "Figure1"
         )
-    }
-}
-
-extension SettingsRootView.ViewState {
-    init?(appState: AppFeature.State) {
-        playersCount = appState.settings.playersCount
-        speedIndex = SpeedOption.all.firstIndex { $0.value == appState.settings.actionDelayMilliSeconds } ?? 0
-        simulation = appState.settings.simulation
-        preferredFigure = appState.settings.preferredFigure
     }
 }

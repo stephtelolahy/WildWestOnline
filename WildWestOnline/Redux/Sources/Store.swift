@@ -5,56 +5,47 @@
 //
 import Combine
 
-/// ``ActionProtocol`` is a plain object that descriptionribes what happened.
-/// To change something in the state, you need to dispatch an action.
-/// Common protocol to which all actions conform.
-///
-public protocol ActionProtocol: Sendable {}
-
 /// ``Reducer`` is a pure function that takes an action and the current state to calculate the new state.
 /// Also return side-effects in response, and eventually dispatch more actions
-public typealias Reducer<State, Dependencies> = (inout State, ActionProtocol, Dependencies) -> Effect
+public typealias Reducer<State, Action, Dependencies> = (inout State, Action, Dependencies) -> Effect<Action>
 
-/// ``Effect`` is an asynchronous `ActionProtocol`
-public enum Effect {
+/// ``Effect`` is an asynchronous `Action`
+public enum Effect<Action> {
     case none
-    case publisher(AnyPublisher<ActionProtocol, Never>)
-    case run(() async -> ActionProtocol?)
-    case group([Self])
+    case publisher(AnyPublisher<Action, Never>)
+    case run(() async -> Action?)
+    case group([Effect<Action>])
 }
 
 /// ``Store`` is a base class that can be used to create the main store of an app, using the redux pattern.
 /// It defines two roles of a "Store":
 /// - receive/distribute `Action`;
 /// - and publish changes of the the current app `State` to possible subscribers.
-@MainActor public class Store<State, Dependencies>: ObservableObject {
+@MainActor
+public class Store<State, Action, Dependencies>: ObservableObject {
     @Published public internal(set) var state: State
-    public internal(set) var dispatchedAction: PassthroughSubject<ActionProtocol, Never>
+    public internal(set) var dispatchedAction = PassthroughSubject<Action, Never>()
 
-    private let reducer: Reducer<State, Dependencies>
-
-    /// The dependencies are passed explicitly and are injected at store creation,
-    /// and each reducer gets access to only the specific dependencies it is working with
+    private let reducer: Reducer<State, Action, Dependencies>
     private let dependencies: Dependencies
 
     public init(
         initialState: State,
-        reducer: @escaping Reducer<State, Dependencies> = { _, _, _ in .none },
+        reducer: @escaping Reducer<State, Action, Dependencies> = { _, _, _ in .none },
         dependencies: Dependencies
     ) {
         self.state = initialState
         self.reducer = reducer
         self.dependencies = dependencies
-        self.dispatchedAction = .init()
     }
 
-    public func dispatch(_ action: ActionProtocol) async {
+    public func dispatch(_ action: Action) async {
         let effect = reducer(&state, action, dependencies)
         dispatchedAction.send(action)
         await runEffect(effect)
     }
 
-    private func runEffect(_ effect: Effect) async {
+    private func runEffect(_ effect: Effect<Action>) async {
         switch effect {
         case .none:
             return

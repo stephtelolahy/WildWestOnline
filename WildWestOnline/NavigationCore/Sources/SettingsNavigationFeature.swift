@@ -20,21 +20,17 @@ public enum SettingsNavigationFeature {
         }
     }
 
-    public enum Action: ActionProtocol {
+    public enum Action {
         case push(State.Destination)
         case pop
         case setPath([State.Destination])
     }
 
-    public static func reduce(
+    public static func reducer(
         into state: inout State,
-        action: ActionProtocol,
+        action: Action,
         dependencies: Void
-    ) -> Effect {
-        guard let action = action as? Action else {
-            return .none
-        }
-
+    ) -> Effect<Action> {
         switch action {
         case .push(let page):
             state.path.append(page)
