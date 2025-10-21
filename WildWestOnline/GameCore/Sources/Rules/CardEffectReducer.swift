@@ -365,8 +365,7 @@ private extension Card.Effect.Name {
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
                 targetedPlayer: action.targetedPlayer,
-                amount: 1,
-                selectors: [.chooseOne(.optionalCounterCard([.canCounterShot]))]
+                amount: 1
             )
             state.queue.insert(effect, at: 0)
             return state

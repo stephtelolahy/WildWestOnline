@@ -207,6 +207,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
             case target([TargetFilter] = [])
             case targetCard([CardFilter] = [])
+            case optionalTargetCard([CardFilter] = [])
             case discoveredCard
             case optionalCounterCard([CardFilter] = [])
             case optionalRedirectCard([CardFilter] = [])

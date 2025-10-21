@@ -11,6 +11,7 @@ import GameCore
 public enum Cards {
     public static let all: [Card] = [
         .endTurn,
+        .discardCounterCardOnShot,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
         .startTurnNextOnTurnEnded,
@@ -57,6 +58,24 @@ private extension Card {
             description: "End turn",
             behaviour: [
                 .cardPrePlayed: [.init(name: .endTurn)]
+            ]
+        )
+    }
+
+    static var discardCounterCardOnShot: Self {
+        .init(
+            name: .discardCounterCardOnShot,
+            type: .ability,
+            description: "Discard counter card on shot",
+            behaviour: [
+                .shot: [
+                    .init(
+                        name: .counterShot,
+                        selectors: [
+                            .chooseOne(.optionalTargetCard([.canCounterShot]))
+                        ]
+                    )
+                ],
             ]
         )
     }
