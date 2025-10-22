@@ -18,6 +18,7 @@ struct MissedTest {
             }
             .withPlayer("p2") {
                 $0.withHand([.missed1, .missed2, .beer])
+                    .withAbilities([.discardCounterCardOnShot])
             }
             .build()
 
@@ -35,7 +36,8 @@ struct MissedTest {
             .play(.bang, player: "p1", target: "p2"),
             .shoot("p2"),
             .choose(.missed2, player: "p2"),
-            .discardHand(.missed2, player: "p2")
+            .discardHand(.missed2, player: "p2"),
+            .counterShoot(player: "p2")
         ])
     }
 
@@ -48,6 +50,7 @@ struct MissedTest {
             }
             .withPlayer("p2") {
                 $0.withHand([.missed])
+                    .withAbilities([.discardCounterCardOnShot])
             }
             .build()
 
