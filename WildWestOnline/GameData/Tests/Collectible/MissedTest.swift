@@ -71,6 +71,34 @@ struct MissedTest {
             .damage(1, player: "p2")
         ])
     }
+
+    @Test func beingShot_noCounterCard_shouldDealDamage() async throws {
+        // Given
+        let state = GameFeature.State.makeBuilderWithAllCards()
+            .withPlayer("p1") {
+                $0.withHand([.bang])
+                    .withWeapon(1)
+            }
+            .withPlayer("p2") {
+                $0.withAbilities([.discardCounterCardOnShot])
+            }
+            .build()
+
+        // When
+        let action = GameFeature.Action.preparePlay(.bang, player: "p1")
+        let choices: [Choice] = [
+            .init(options: ["p2"], selectionIndex: 0)
+        ]
+        let result = try await dispatchUntilCompleted(action, state: state, expectedChoices: choices)
+
+        // Then
+        #expect(result == [
+            .choose("p2", player: "p1"),
+            .play(.bang, player: "p1", target: "p2"),
+            .shoot("p2"),
+            .damage(1, player: "p2")
+        ])
+    }
 }
 
 private extension String {
