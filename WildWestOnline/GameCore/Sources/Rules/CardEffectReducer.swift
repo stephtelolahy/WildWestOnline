@@ -364,6 +364,7 @@ private extension Card.Effect.Name {
                 name: .damage,
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
+                triggeredBy: [action],
                 targetedPlayer: action.targetedPlayer,
                 amount: 1
             )
@@ -376,13 +377,14 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             var state = state
 
-            guard let shootIndex = state.queue.firstIndex(where: {
-                $0.name == .damage && $0.targetedPlayer == action.targetedPlayer
+            guard state.queue.contains(where: {
+                $0.triggeredBy.first?.name == .shoot && $0.targetedPlayer == action.targetedPlayer
             }) else {
-                fatalError("No pending shoot effect found")
+                fatalError("No pending shoot effects found")
             }
 
-            state.queue.remove(at: shootIndex)
+            state.queue.removeAll { $0.triggeredBy.first?.name == .shoot && $0.targetedPlayer == action.targetedPlayer }
+
             return state
         }
     }
