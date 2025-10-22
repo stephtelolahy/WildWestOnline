@@ -385,7 +385,7 @@ private extension Card.Effect.Name {
 
             state.queue.remove(at: damageIndex)
 
-//            state.queue.removeAll { $0.triggeredBy.first?.name == .shoot && $0.targetedPlayer == action.targetedPlayer }
+            state.queue.removeAll { $0.triggeredBy.first?.name == .shoot && $0.name == .counterShot && $0.targetedPlayer == action.targetedPlayer }
 
             return state
         }

@@ -126,8 +126,8 @@ private extension Card.Selector.ChoiceRequirement {
                 []
             } else {
                 [
-                    pendingAction,
-                    Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!)
+                    Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!),
+                    pendingAction
                 ]
             }
         }
