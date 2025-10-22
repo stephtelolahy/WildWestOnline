@@ -209,10 +209,10 @@ public struct Card: Equatable, Codable, Sendable {
             case target([TargetFilter] = [])
             /// Must choose a targeted card
             case targetCard([CardFilter] = [])
-            /// Effect requires to discard a hand card
-            case optionalCostCard([CardFilter] = [])
             /// Must choose a discovered card
             case discoveredCard
+            /// Effect can be performed by discarding a hand card
+            case optionalCostCard([CardFilter] = [])
             /// Effect can be countered by discarding a hand card
             case optionalCounterCard([CardFilter] = [])
             /// Effect can be redirected by discarding a hand card
