@@ -20,7 +20,7 @@ private extension Card.Selector {
         case .repeat(let number): Repeat(number: number)
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
-        case .chooseOne(let element, let resolved, let selection): ChooseOne(requirement: element, resolved: resolved, selection: selection)
+        case .chooseOne(let element, let prompt, let selection): ChooseOne(requirement: element, prompt: prompt, selection: selection)
         case .require(let playCondition): Require(playCondition: playCondition)
         case .requireThrows(let playCondition): RequireThrows(playCondition: playCondition)
         }
@@ -55,17 +55,17 @@ private extension Card.Selector {
 
     struct ChooseOne: Resolver {
         let requirement: ChoiceRequirement
-        let resolved: ChoicePrompt?
+        let prompt: ChoicePrompt?
         let selection: String?
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
-            if let resolved {
+            if let prompt {
                 // handle choice
                 guard let selection else {
                     fatalError("Unexpected, waiting user choice")
                 }
 
-                guard let selectionValue = resolved.options.first(where: { $0.label == selection })?.id else {
+                guard let selectionValue = prompt.options.first(where: { $0.label == selection })?.id else {
                     fatalError("Selection \(selection) not found in options")
                 }
 
@@ -76,8 +76,7 @@ private extension Card.Selector {
                 }
 
                 var updatedAction = pendingAction
-                let updatedSelector = Card.Selector.chooseOne(requirement, resolved: resolved)
-                updatedAction.selectors.insert(updatedSelector, at: 0)
+                updatedAction.selectors.insert(.chooseOne(requirement, prompt: resolved), at: 0)
                 return [updatedAction]
             }
         }
