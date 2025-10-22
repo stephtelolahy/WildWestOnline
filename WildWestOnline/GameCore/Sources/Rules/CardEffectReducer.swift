@@ -360,14 +360,14 @@ private extension Card.Effect.Name {
     struct Shoot: Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             var state = state
-            let effect = Card.Effect(
+            let damage = Card.Effect(
                 name: .damage,
                 sourcePlayer: action.sourcePlayer,
                 playedCard: action.playedCard,
                 targetedPlayer: action.targetedPlayer,
                 amount: 1
             )
-            state.queue.insert(effect, at: 0)
+            state.queue.insert(damage, at: 0)
             return state
         }
     }
@@ -376,13 +376,13 @@ private extension Card.Effect.Name {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
             var state = state
 
-            guard let nextAction = state.queue.first,
-                  nextAction.name == .damage,
-                  nextAction.targetedPlayer == action.targetedPlayer else {
-                fatalError("Next action should be shoot effect")
+            guard let shootIndex = state.queue.firstIndex(where: {
+                $0.name == .damage && $0.targetedPlayer == action.targetedPlayer
+            }) else {
+                fatalError("No pending shoot effect found")
             }
 
-            state.queue.removeFirst()
+            state.queue.remove(at: shootIndex)
             return state
         }
     }

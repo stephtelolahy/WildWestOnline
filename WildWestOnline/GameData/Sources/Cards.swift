@@ -72,7 +72,7 @@ private extension Card {
                     .init(
                         name: .counterShot,
                         selectors: [
-                            .chooseOne(.optionalTargetCard([.canCounterShot]))
+                            .chooseOne(.optionalCostCard([.canCounterShot]))
                         ]
                     )
                 ],
