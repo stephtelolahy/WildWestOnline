@@ -1,8 +1,3 @@
-//
-//  CardEffectReducer.swift
-//
-//  Created by Hugues Telolahy on 30/10/2024.
-//
 // swiftlint:disable file_length force_unwrapping
 
 extension Card.Effect.Name {
@@ -536,3 +531,4 @@ private extension GameFeature.State {
         return discard.remove(at: 0)
     }
 }
+

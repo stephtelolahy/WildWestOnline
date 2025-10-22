@@ -1,10 +1,3 @@
-//
-//  SettingsRootView.swift
-//
-//
-//  Created by Hugues Telolahy on 08/12/2023.
-//
-
 import SwiftUI
 
 struct SettingsRootView: View {
@@ -135,3 +128,4 @@ private extension SettingsRootView.ViewState {
         )
     }
 }
+

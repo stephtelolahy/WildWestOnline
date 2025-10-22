@@ -1,10 +1,3 @@
-//
-//  CalamityJanetTest.swift
-//
-//
-//  Created by Hugues Telolahy on 20/11/2023.
-//
-
 import GameCore
 import Testing
 
@@ -111,3 +104,4 @@ struct CalamityJanetTests {
         ])
     }
 }
+

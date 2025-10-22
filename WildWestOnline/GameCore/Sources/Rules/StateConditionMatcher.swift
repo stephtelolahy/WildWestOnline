@@ -1,9 +1,3 @@
-//
-//  StateConditionMatcher.swift
-//  WildWestOnline
-//
-//  Created by Hugues Telolahy on 30/10/2024.
-//
 // swiftlint:disable force_unwrapping
 
 extension Card.Selector.StateCondition {
@@ -135,3 +129,4 @@ private extension String {
         }
     }
 }
+

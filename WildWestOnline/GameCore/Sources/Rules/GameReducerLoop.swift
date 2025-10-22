@@ -1,8 +1,3 @@
-//
-//  GameReducerLoop.swift
-//
-//  Created by Hugues Telolahy on 28/10/2024.
-//
 // swiftlint:disable force_unwrapping
 
 import Redux

@@ -1,10 +1,3 @@
-//
-//  DocumentConvertible.swift
-//  
-//
-//  Created by Hugues Telolahy on 13/12/2023.
-//
-
 import Foundation
 
 public protocol DocumentConvertible {

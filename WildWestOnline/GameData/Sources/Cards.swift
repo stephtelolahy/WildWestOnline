@@ -1,8 +1,3 @@
-//
-//  Cards.swift
-//
-//  Created by Hugues Telolahy on 28/10/2024.
-//
 // swiftlint:disable file_length line_length
 import GameCore
 
@@ -919,3 +914,4 @@ private extension Card.Effect {
         )
     }
 }
+

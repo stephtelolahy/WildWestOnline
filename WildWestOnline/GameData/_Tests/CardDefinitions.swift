@@ -1,10 +1,3 @@
-//
-//  CardDefinitions.swift
-//  WildWestOnline
-//
-//  Created by Hugues Stéphano TELOLAHY on 06/04/2025.
-//
-
 /*
  static var discardBeerOnDamagedLethal: Self {
      .init(
@@ -642,7 +635,7 @@
  static var faning: Self {
      .init(
          name: .faning,
-         description: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
+         description: "Count as your normal bang per turn. You hit additional player at distance 1 from 1st target(except you).",
          setActionAttribute: ["faning": [.labeledAsBang: 0]],
          effects: [
              .brown,
@@ -946,3 +939,4 @@
  }
 }
 */
+

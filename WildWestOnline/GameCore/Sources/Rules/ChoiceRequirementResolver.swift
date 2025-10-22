@@ -1,9 +1,3 @@
-//
-//  ChoiceRequirementResolver.swift
-//  WildWestOnline
-//
-//  Created by Hugues Telolahy on 01/11/2024.
-//
 // swiftlint:disable force_unwrapping
 
 extension Card.Selector.ChoiceRequirement {

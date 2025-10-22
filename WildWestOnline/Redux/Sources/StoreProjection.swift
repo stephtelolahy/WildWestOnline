@@ -1,8 +1,3 @@
-//
-//  StoreProjection.swift
-//
-//  Created by Hugues Stephano TELOLAHY on 29/11/2023.
-//
 /// An app should have a single real Store, holding a single source-of-truth.
 /// However, we can "derive" this store to small subsets, called store projections,
 /// that will handle a smaller part of the state,
