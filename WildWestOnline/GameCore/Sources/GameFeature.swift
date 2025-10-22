@@ -65,11 +65,10 @@ public extension GameFeature.State {
         guard let nextAction = queue.first,
               let selector = nextAction.selectors.first,
               case let .chooseOne(_, prompt, selection) = selector,
-              let choice = prompt,
               selection == nil else {
             return nil
         }
 
-        return choice
+        return prompt
     }
 }

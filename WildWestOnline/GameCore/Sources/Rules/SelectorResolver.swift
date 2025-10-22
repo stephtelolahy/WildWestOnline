@@ -60,7 +60,6 @@ private extension Card.Selector {
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
             if let prompt {
-                // handle choice
                 guard let selection else {
                     fatalError("Unexpected, waiting user choice")
                 }
