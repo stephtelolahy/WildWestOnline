@@ -59,16 +59,16 @@ extension GameFeature {
 }
 
 private extension GameFeature.State {
-    func triggeredEffect(on event: Card.Effect) -> Card.Effect? {
-        guard event.selectors.isEmpty else {
+    func triggeredEffect(on action: Card.Effect) -> Card.Effect? {
+        guard action.selectors.isEmpty else {
             return nil
         }
 
-        let effects: [Card.Effect] = triggerableElements(on: event).flatMap {
+        let effects: [Card.Effect] = triggerableElements(on: action).flatMap {
             effectsTriggered(
                 by: $0.card,
                 ownedBy: $0.player,
-                for: event
+                for: action
             )
         }
 
@@ -79,7 +79,7 @@ private extension GameFeature.State {
         }
     }
 
-    func triggerableElements(on event: Card.Effect) -> [TriggerableElement] {
+    func triggerableElements(on action: Card.Effect) -> [TriggerableElement] {
         var result: [TriggerableElement] = []
 
         for player in playOrder {
@@ -87,15 +87,15 @@ private extension GameFeature.State {
             result += triggerableCards.map { .init(card: $0, player: player) }
         }
 
-        switch event.name {
+        switch action.name {
         case .eliminate:
-            let player = event.targetedPlayer!
+            let player = action.targetedPlayer!
             let triggerableCards = players.get(player).abilities
             result += triggerableCards.map { .init(card: $0, player: player) }
 
         case .discardInPlay, .stealInPlay:
-            let player = event.targetedPlayer!
-            let card = event.targetedCard!
+            let player = action.targetedPlayer!
+            let card = action.targetedCard!
             result += [.init(card: card, player: player)]
 
         default:
