@@ -17,6 +17,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let description: String?
     public let behaviour: [Trigger: [Effect]]
 
+    @available(*, deprecated, message: "Use CardJSON")
     public init(
         name: String,
         type: CardType,
@@ -27,6 +28,20 @@ public struct Card: Equatable, Codable, Sendable {
         self.type = type
         self.description = description
         self.behaviour = behaviour
+    }
+
+    public static func initJSON(
+        name: String,
+        type: CardType,
+        description: String? = nil,
+        effects: [EffectJSON] = []
+    ) -> Self {
+        .init(
+            name: name,
+            type: type,
+            description: description,
+            behaviour: [:]
+        )
     }
 
     public enum CardType: Equatable, Codable, Sendable {
@@ -48,6 +63,22 @@ public struct Card: Equatable, Codable, Sendable {
         case turnStarted
         case turnEnded
         case shot
+    }
+
+    public struct EffectJSON: Codable {
+        public let trigger: Trigger
+        public let action: Effect.Name
+        public let selectors: [Selector]
+
+        public init(
+            trigger: Trigger,
+            action: Effect.Name,
+            selectors: [Selector] = []
+        ) {
+            self.trigger = trigger
+            self.action = action
+            self.selectors = selectors
+        }
     }
 
     public struct Effect: Equatable, Codable, Sendable {
