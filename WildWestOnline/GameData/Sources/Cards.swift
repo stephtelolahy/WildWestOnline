@@ -52,12 +52,12 @@ public enum Cards {
 
 private extension Card {
     static var endTurn: Self {
-        .init(
+        .initJSON(
             name: .endTurn,
             type: .ability,
             description: "End turn",
-            behaviour: [
-                .cardPrePlayed: [.init(name: .endTurn)]
+            effects: [
+                .init(trigger: .cardPrePlayed, action: .endTurn)
             ]
         )
     }

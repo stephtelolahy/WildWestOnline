@@ -36,11 +36,20 @@ public struct Card: Equatable, Codable, Sendable {
         description: String? = nil,
         effects: [EffectJSON] = []
     ) -> Self {
-        .init(
+        let effectsByTrigger: [Trigger: [Effect]] = Dictionary(grouping: effects, by: \.trigger)
+            .mapValues { values in
+                values.map {
+                    Effect(
+                        name: $0.action,
+                        selectors: $0.selectors
+                    )
+                }
+            }
+        return .init(
             name: name,
             type: type,
             description: description,
-            behaviour: [:]
+            behaviour: effectsByTrigger
         )
     }
 
