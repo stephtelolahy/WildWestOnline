@@ -101,19 +101,18 @@ private extension Card {
     }
 
     static var startTurnNextOnTurnEnded: Self {
-        .init(
+        .initJSON(
             name: .startTurnNextOnTurnEnded,
             type: .ability,
             description: "Start next player's turn",
-            behaviour: [
-                .turnEnded: [
-                    .init(
-                        name: .startTurn,
-                        selectors: [
-                            .setTarget(.nextPlayer)
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .turnEnded,
+                    action: .startTurn,
+                    selectors: [
+                        .setTarget(.nextPlayer)
+                    ]
+                )
             ]
         )
     }
