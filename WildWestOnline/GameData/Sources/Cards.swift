@@ -74,27 +74,28 @@ private extension Card {
                 .init(
                     trigger: .shot,
                     action: .counterShot,
-                    selectors: [.chooseOne(.optionalCostCard([.canCounterShot]))]
+                    selectors: [
+                        .chooseOne(.optionalCostCard([.canCounterShot]))
+                    ]
                 )
             ]
         )
     }
 
     static var discardExcessHandOnTurnEnded: Self {
-        .init(
+        .initJSON(
             name: .discardExcessHandOnTurnEnded,
             type: .ability,
             description: "Once you do not want to or cannot play any more cards, then you must discard from your hand any cards exceeding your hand-size limit",
-            behaviour: [
-                .turnEnded: [
-                    .init(
-                        name: .discardHand,
-                        selectors: [
-                            .repeat(.playerExcessHandSize),
-                            .chooseOne(.targetCard([.isFromHand]))
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .turnEnded,
+                    action: .discardHand,
+                    selectors: [
+                        .repeat(.playerExcessHandSize),
+                        .chooseOne(.targetCard([.isFromHand]))
+                    ]
+                )
             ]
         )
     }
