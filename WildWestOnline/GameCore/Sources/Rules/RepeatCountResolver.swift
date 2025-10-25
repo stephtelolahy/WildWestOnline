@@ -1,17 +1,17 @@
 //
-//  NumberResolver.swift
+//  RepeatCountResolver.swift
 //  WildWestOnline
 //
 //  Created by Hugues Telolahy on 31/10/2024.
 //
 
-extension Card.Selector.Number {
+extension Card.Selector.RepeatCount {
     func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
         resolver.resolve(pendingAction, state: state)
     }
 }
 
-private extension Card.Selector.Number {
+private extension Card.Selector.RepeatCount {
     protocol Resolver {
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int
     }

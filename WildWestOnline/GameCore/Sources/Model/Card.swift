@@ -162,14 +162,14 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum Selector: Equatable, Codable, Sendable {
-        case `repeat`(Number)
+        case `repeat`(RepeatCount)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(StateCondition)
         case requireThrows(StateCondition)
 
-        public enum Number: Equatable, Codable, Sendable {
+        public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
