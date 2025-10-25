@@ -57,7 +57,7 @@ struct SuzyLafayetteTests {
                     .withHand(["c1"])
             }
             .withDeck(["c2"])
-            .withCards(["c1": Card(name: "c1", type: .brown)])
+            .withCards(["c1": Card(name: "c1", type: .playable)])
             .build()
 
         // When
@@ -79,7 +79,7 @@ struct SuzyLafayetteTests {
                     .withHand(["c1"])
             }
             .withDeck(["c2"])
-            .withCards(["c1": Card(name: "c1", type: .brown)])
+            .withCards(["c1": Card(name: "c1", type: .playable)])
             .build()
 
         // When

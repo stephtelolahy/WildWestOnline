@@ -212,7 +212,7 @@ private extension Card {
     static var stagecoach: Self {
         .init(
             name: .stagecoach,
-            type: .brown,
+            type: .playable,
             description: "Draw two cards from the top of the deck.",
             behaviour: [
                 .cardPrePlayed: [.play],
@@ -231,7 +231,7 @@ private extension Card {
     static var wellsFargo: Self {
         .init(
             name: .wellsFargo,
-            type: .brown,
+            type: .playable,
             description: "Draw three cards from the top of the deck.",
             behaviour: [
                 .cardPrePlayed: [.play],
@@ -250,7 +250,7 @@ private extension Card {
     static var beer: Self {
         .init(
             name: .beer,
-            type: .brown,
+            type: .playable,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
             behaviour: [
                 .cardPrePlayed: [
@@ -272,7 +272,7 @@ private extension Card {
     static var saloon: Self {
         .init(
             name: .saloon,
-            type: .brown,
+            type: .playable,
             description: "All players in play regain one life point.",
             behaviour: [
                 .cardPrePlayed: [.play],
@@ -292,7 +292,7 @@ private extension Card {
     static var catBalou: Self {
         .init(
             name: .catBalou,
-            type: .brown,
+            type: .playable,
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
             behaviour: [
                 .cardPrePlayed: [
@@ -325,7 +325,7 @@ private extension Card {
     static var panic: Self {
         .init(
             name: .panic,
-            type: .brown,
+            type: .playable,
             description: "Draw a card from a player at distance 1",
             behaviour: [
                 .cardPrePlayed: [
@@ -358,7 +358,7 @@ private extension Card {
     static var generalStore: Self {
         .init(
             name: .generalStore,
-            type: .brown,
+            type: .playable,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
             behaviour: [
                 .cardPrePlayed: [.play],
@@ -384,7 +384,7 @@ private extension Card {
     static var bang: Self {
         .init(
             name: .bang,
-            type: .brown,
+            type: .playable,
             description: "reduce other players’s life points",
             behaviour: [
                 .cardPrePlayed: [
@@ -408,7 +408,7 @@ private extension Card {
     static var missed: Self {
         .init(
             name: .missed,
-            type: .brown,
+            type: .playable,
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
             behaviour: [
                 .permanent: [.init(name: .counterShot)]
@@ -419,7 +419,7 @@ private extension Card {
     static var gatling: Self {
         .init(
             name: .gatling,
-            type: .brown,
+            type: .playable,
             description: "shoots to all the other players, regardless of the distance",
             behaviour: [
                 .cardPrePlayed: [.play],
@@ -438,7 +438,7 @@ private extension Card {
     static var indians: Self {
         .init(
             name: .indians,
-            type: .brown,
+            type: .playable,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
             behaviour: [
                 .cardPrePlayed: [.play],
@@ -459,7 +459,7 @@ private extension Card {
     static var duel: Self {
         .init(
             name: .duel,
-            type: .brown,
+            type: .playable,
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
             behaviour: [
                 .cardPrePlayed: [
@@ -486,7 +486,7 @@ private extension Card {
     static var schofield: Self {
         .init(
             name: .schofield,
-            type: .blue,
+            type: .playable,
             description: "can hit targets at a distance of 2.",
             behaviour: [
                 .cardPrePlayed: [
@@ -509,7 +509,7 @@ private extension Card {
     static var remington: Self {
         .init(
             name: .remington,
-            type: .blue,
+            type: .playable,
             description: "can hit targets at a distance of 3.",
             behaviour: [
                 .cardPrePlayed: [
@@ -532,7 +532,7 @@ private extension Card {
     static var revCarabine: Self {
         .init(
             name: .revCarabine,
-            type: .blue,
+            type: .playable,
             description: "can hit targets at a distance of 4.",
             behaviour: [
                 .cardPrePlayed: [
@@ -555,7 +555,7 @@ private extension Card {
     static var winchester: Self {
         .init(
             name: .winchester,
-            type: .blue,
+            type: .playable,
             description: "can hit targets at a distance of 5.",
             behaviour: [
                 .cardPrePlayed: [
@@ -578,7 +578,7 @@ private extension Card {
     static var volcanic: Self {
         .init(
             name: .volcanic,
-            type: .blue,
+            type: .playable,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
             behaviour: [
                 .cardPrePlayed: [
@@ -605,7 +605,7 @@ private extension Card {
     static var scope: Self {
         .init(
             name: .scope,
-            type: .blue,
+            type: .playable,
             description: "you see all the other players at a distance decreased by 1",
             behaviour: [
                 .cardPrePlayed: [.equip],
@@ -628,7 +628,7 @@ private extension Card {
     static var mustang: Self {
         .init(
             name: .mustang,
-            type: .blue,
+            type: .playable,
             description: "the distance between other players and you is increased by 1",
             behaviour: [
                 .cardPrePlayed: [.equip],
@@ -651,7 +651,7 @@ private extension Card {
     static var barrel: Self {
         .init(
             name: .barrel,
-            type: .blue,
+            type: .playable,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
             behaviour: [
                 .cardPrePlayed: [.equip],
@@ -676,7 +676,7 @@ private extension Card {
     static var dynamite: Self {
         .init(
             name: .dynamite,
-            type: .blue,
+            type: .playable,
             description: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
             behaviour: [
                 .cardPrePlayed: [.equip],
@@ -714,7 +714,7 @@ private extension Card {
     static var jail: Self {
         .init(
             name: .jail,
-            type: .blue,
+            type: .playable,
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
             behaviour: [
                 .cardPrePlayed: [
