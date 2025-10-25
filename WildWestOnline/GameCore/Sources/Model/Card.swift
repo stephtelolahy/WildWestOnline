@@ -6,7 +6,7 @@
 
 import Redux
 
-/// We are working on a Card Definition DLS that will allow people to create new cards,
+/// We are working on a Card Definition DSL that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
@@ -17,7 +17,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let description: String?
     public let behaviour: [Trigger: [Effect]]
 
-    @available(*, deprecated, message: "Use CardJSON")
+    @available(*, deprecated, message: "Use initJSON")
     public init(
         name: String,
         type: CardType,
@@ -34,17 +34,10 @@ public struct Card: Equatable, Codable, Sendable {
         name: String,
         type: CardType,
         description: String? = nil,
-        effects: [EffectJSON] = []
+        effects: [EffectDefinition] = []
     ) -> Self {
-        let effectsByTrigger: [Trigger: [Effect]] = Dictionary(grouping: effects, by: \.trigger)
-            .mapValues { values in
-                values.map {
-                    Effect(
-                        name: $0.action,
-                        selectors: $0.selectors
-                    )
-                }
-            }
+        let effectsByTrigger = Dictionary(grouping: effects, by: \.trigger)
+            .mapValues { $0.map { $0.toInstance() } }
         return .init(
             name: name,
             type: type,
@@ -74,7 +67,7 @@ public struct Card: Equatable, Codable, Sendable {
         case shot
     }
 
-    public struct EffectJSON: Codable {
+    public struct EffectDefinition: Codable {
         public let trigger: Trigger
         public let action: Effect.Name
         public let selectors: [Selector]
@@ -234,7 +227,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum StateCondition: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
             case playLimitPerTurn([String: Int])
-            // TODO: convert to trigger
+            // TODOs: convert to trigger
             case isGameOver
             case isCurrentTurn
             case drawnCardMatches(_ regex: String)
@@ -311,4 +304,13 @@ public extension String {
 
 public extension Int {
     static let unlimited = 999
+}
+
+private extension Card.EffectDefinition {
+    func toInstance() -> Card.Effect {
+        .init(
+            name: action,
+            selectors: selectors
+        )
+    }
 }

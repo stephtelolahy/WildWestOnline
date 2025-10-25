@@ -190,20 +190,19 @@ private extension Card {
     }
 
     static var endTurnOnEliminated: Self {
-        .init(
+        .initJSON(
             name: .endTurnOnEliminated,
             type: .ability,
             description: "End turn when eliminated",
-            behaviour: [
-                .eliminated: [
-                    .init(
-                        name: .startTurn,
-                        selectors: [
-                            .require(.isCurrentTurn),
-                            .setTarget(.nextPlayer)
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .eliminated,
+                    action: .startTurn,
+                    selectors: [
+                        .require(.isCurrentTurn),
+                        .setTarget(.nextPlayer)
+                    ]
+                )
             ]
         )
     }
