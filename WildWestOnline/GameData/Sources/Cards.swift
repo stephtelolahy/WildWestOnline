@@ -63,19 +63,12 @@ private extension Card {
     }
 
     static var discardCounterCardOnShot: Self {
-        .init(
+        .initJSON(
             name: .discardCounterCardOnShot,
             type: .ability,
             description: "Discard counter card on shot",
-            behaviour: [
-                .shot: [
-                    .init(
-                        name: .counterShot,
-                        selectors: [
-                            .chooseOne(.optionalCostCard([.canCounterShot]))
-                        ]
-                    )
-                ],
+            effects: [
+                .init(trigger: .shot, action: .counterShot, selectors: [.chooseOne(.optionalCostCard([.canCounterShot]))])
             ]
         )
     }
