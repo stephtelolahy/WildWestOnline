@@ -57,7 +57,10 @@ private extension Card {
             type: .ability,
             description: "End turn",
             effects: [
-                .init(trigger: .cardPrePlayed, action: .endTurn)
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .endTurn
+                )
             ]
         )
     }
@@ -68,7 +71,11 @@ private extension Card {
             type: .ability,
             description: "Discard counter card on shot",
             effects: [
-                .init(trigger: .shot, action: .counterShot, selectors: [.chooseOne(.optionalCostCard([.canCounterShot]))])
+                .init(
+                    trigger: .shot,
+                    action: .counterShot,
+                    selectors: [.chooseOne(.optionalCostCard([.canCounterShot]))]
+                )
             ]
         )
     }
