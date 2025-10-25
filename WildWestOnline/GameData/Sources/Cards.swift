@@ -118,74 +118,73 @@ private extension Card {
     }
 
     static var draw2CardsOnTurnStarted: Self {
-        .init(
+        .initJSON(
             name: .draw2CardsOnTurnStarted,
             type: .ability,
             description: "Draw two cards at the beginning of your turn",
-            behaviour: [
-                .turnStarted: [
-                    .init(
-                        name: .drawDeck,
-                        selectors: [
-                            .repeat(.fixed(2))
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .turnStarted,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.fixed(2))
+                    ]
+                )
             ]
         )
     }
 
     static var eliminateOnDamageLethal: Self {
-        .init(
+        .initJSON(
             name: .eliminateOnDamageLethal,
             type: .ability,
             description: "When you lose your last life point, you are eliminated and your game is over",
-            behaviour: [
-                .damagedLethal: [
-                    .init(
-                        name: .eliminate
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .damagedLethal,
+                    action: .eliminate
+                )
             ]
         )
     }
 
     static var endGameOnEliminated: Self {
-        .init(
+        .initJSON(
             name: .endGameOnEliminated,
             type: .ability,
             description: "End game when last player is eliminated",
-            behaviour: [
-                .eliminated: [
-                    .init(
-                        name: .endGame,
-                        selectors: [.require(.isGameOver)]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .eliminated,
+                    action: .endGame,
+                    selectors: [
+                        .require(.isGameOver)
+                    ]
+                )
             ]
         )
     }
 
     static var discardAllCardsOnEliminated: Self {
-        .init(
+        .initJSON(
             name: .discardAllCardsOnEliminated,
             type: .ability,
             description: "Discard all cards when eliminated",
-            behaviour: [
-                .eliminated: [
-                    .init(
-                        name: .discardInPlay,
-                        selectors: [
-                            .setCard(.allInPlay)
-                        ]
-                    ),
-                    .init(
-                        name: .discardHand,
-                        selectors: [
-                            .setCard(.allInHand)
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .eliminated,
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.allInPlay)
+                    ]
+                ),
+                .init(
+                    trigger: .eliminated,
+                    action: .discardHand,
+                    selectors: [
+                        .setCard(.allInHand)
+                    ]
+                )
             ]
         )
     }

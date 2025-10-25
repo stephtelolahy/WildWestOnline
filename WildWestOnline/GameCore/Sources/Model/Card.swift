@@ -234,6 +234,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum StateCondition: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
             case playLimitPerTurn([String: Int])
+            // TODO: convert to trigger
             case isGameOver
             case isCurrentTurn
             case drawnCardMatches(_ regex: String)
