@@ -474,94 +474,38 @@ private extension Card {
     }
 
     static var schofield: Self {
-        .init(
+        .initJSON(
             name: .schofield,
             type: .playable,
             description: "can hit targets at a distance of 2.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .discardEquipedWeapon,
-                    .equip
-                ],
-                .cardEquiped: [
-                    .init(
-                        name: .setWeapon,
-                        amount: 2
-                    )
-                ],
-                .cardDiscarded: [
-                    .resetWeapon
-                ]
-            ]
+            effects: Card.EffectDefinition.weaponEffects(range: 2)
         )
     }
 
     static var remington: Self {
-        .init(
+        .initJSON(
             name: .remington,
             type: .playable,
             description: "can hit targets at a distance of 3.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .discardEquipedWeapon,
-                    .equip
-                ],
-                .cardEquiped: [
-                    .init(
-                        name: .setWeapon,
-                        amount: 3
-                    )
-                ],
-                .cardDiscarded: [
-                    .resetWeapon
-                ]
-            ]
+            effects: Card.EffectDefinition.weaponEffects(range: 3)
         )
     }
 
     static var revCarabine: Self {
-        .init(
+        .initJSON(
             name: .revCarabine,
             type: .playable,
             description: "can hit targets at a distance of 4.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .discardEquipedWeapon,
-                    .equip
-                ],
-                .cardEquiped: [
-                    .init(
-                        name: .setWeapon,
-                        amount: 4
-                    )
-                ],
-                .cardDiscarded: [
-                    .resetWeapon
-                ]
-            ]
+            effects: Card.EffectDefinition.weaponEffects(range: 4)
         )
     }
 
     static var winchester: Self {
-        .init(
+        .initJSON(
             name: .winchester,
             type: .playable,
             description: "can hit targets at a distance of 5.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .discardEquipedWeapon,
-                    .equip
-                ],
-                .cardEquiped: [
-                    .init(
-                        name: .setWeapon,
-                        amount: 5
-                    )
-                ],
-                .cardDiscarded: [
-                    .resetWeapon
-                ]
-            ]
+            effects: Card.EffectDefinition.weaponEffects(range: 5)
         )
     }
 
@@ -910,5 +854,31 @@ private extension Card.EffectDefinition {
             trigger: .cardPrePlayed,
             action: .play
         )
+    }
+
+    static func weaponEffects(range: Int) -> [Self] {
+        [
+            .init(
+                trigger: .cardPrePlayed,
+                action: .discardInPlay,
+                selectors: [
+                    .setCard(.equippedWeapon)
+                ]
+            ),
+            .init(
+                trigger: .cardPrePlayed,
+                action: .equip
+            ),
+            .init(
+                trigger: .cardEquiped,
+                action: .setWeapon,
+                amount: range
+            ),
+            .init(
+                trigger: .cardDiscarded,
+                action: .setWeapon,
+                amount: 1
+            )
+        ]
     }
 }
