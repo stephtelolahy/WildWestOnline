@@ -429,22 +429,21 @@ private extension Card {
     }
 
     static var indians: Self {
-        .init(
+        .initJSON(
             name: .indians,
             type: .playable,
             description: "Each player, excluding the one who played this card, may discard a BANG! card, or lose one life point.",
-            behaviour: [
-                .cardPrePlayed: [.play],
-                .cardPlayed: [
-                    .init(
-                        name: .damage,
-                        amount: 1,
-                        selectors: [
-                            .setTarget(.otherPlayers),
-                            .chooseOne(.optionalCounterCard([.named(.bang)]))
-                        ]
-                    )
-                ]
+            effects: [
+                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPlayed,
+                    action: .damage,
+                    amount: 1,
+                    selectors: [
+                        .setTarget(.otherPlayers),
+                        .chooseOne(.optionalCounterCard([.named(.bang)]))
+                    ]
+                )
             ]
         )
     }
