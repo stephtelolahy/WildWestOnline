@@ -317,34 +317,33 @@ private extension Card {
     }
 
     static var panic: Self {
-        .init(
+        .initJSON(
             name: .panic,
             type: .playable,
             description: "Draw a card from a player at distance 1",
-            behaviour: [
-                .cardPrePlayed: [
-                    .init(
-                        name: .play,
-                        selectors: [
-                            .chooseOne(.target([.atDistance(1), .hasCards])),
-                            .chooseOne(.targetCard())
-                        ]
-                    )
-                ],
-                .cardPlayed: [
-                    .init(
-                        name: .stealHand,
-                        selectors: [
-                            .require(.targetedCardFromHand)
-                        ]
-                    ),
-                    .init(
-                        name: .stealInPlay,
-                        selectors: [
-                            .require(.targetedCardFromInPlay)
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .chooseOne(.target([.atDistance(1), .hasCards])),
+                        .chooseOne(.targetCard())
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .stealHand,
+                    selectors: [
+                        .require(.targetedCardFromHand)
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .stealInPlay,
+                    selectors: [
+                        .require(.targetedCardFromInPlay)
+                    ]
+                )
             ]
         )
     }
