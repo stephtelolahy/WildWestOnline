@@ -375,25 +375,23 @@ private extension Card {
     }
 
     static var bang: Self {
-        .init(
+        .initJSON(
             name: .bang,
             type: .playable,
             description: "reduce other players’s life points",
-            behaviour: [
-                .cardPrePlayed: [
-                    .init(
-                        name: .play,
-                        selectors: [
-                            .requireThrows(.playLimitPerTurn([.bang: 1])),
-                            .chooseOne(.target([.reachable]))
-                        ]
-                    )
-                ],
-                .cardPlayed: [
-                    .init(
-                        name: .shoot
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .requireThrows(.playLimitPerTurn([.bang: 1])),
+                        .chooseOne(.target([.reachable]))
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .shoot
+                )
             ]
         )
     }
