@@ -70,15 +70,18 @@ public struct Card: Equatable, Codable, Sendable {
     public struct EffectDefinition: Codable {
         public let trigger: Trigger
         public let action: Effect.Name
+        public let amount: Int?
         public let selectors: [Selector]
 
         public init(
             trigger: Trigger,
             action: Effect.Name,
+            amount: Int? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
+            self.amount = amount
             self.selectors = selectors
         }
     }
@@ -310,6 +313,7 @@ private extension Card.EffectDefinition {
     func toInstance() -> Card.Effect {
         .init(
             name: action,
+            amount: amount,
             selectors: selectors
         )
     }

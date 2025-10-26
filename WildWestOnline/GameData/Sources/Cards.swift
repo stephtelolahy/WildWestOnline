@@ -244,23 +244,23 @@ private extension Card {
     }
 
     static var beer: Self {
-        .init(
+        .initJSON(
             name: .beer,
             type: .playable,
             description: "Regain one life point. Beer has no effect if there are only 2 players left in the game.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .init(
-                        name: .play,
-                        selectors: [.requireThrows(.minimumPlayers(3))]
-                    )
-                ],
-                .cardPlayed: [
-                    .init(
-                        name: .heal,
-                        amount: 1
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .requireThrows(.minimumPlayers(3))
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .heal,
+                    amount: 1
+                )
             ]
         )
     }
