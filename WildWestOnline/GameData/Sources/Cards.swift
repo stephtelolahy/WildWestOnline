@@ -411,20 +411,19 @@ private extension Card {
     }
 
     static var gatling: Self {
-        .init(
+        .initJSON(
             name: .gatling,
             type: .playable,
             description: "shoots to all the other players, regardless of the distance",
-            behaviour: [
-                .cardPrePlayed: [.play],
-                .cardPlayed: [
-                    .init(
-                        name: .shoot,
-                        selectors: [
-                            .setTarget(.otherPlayers)
-                        ]
-                    )
-                ]
+            effects: [
+                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPlayed,
+                    action: .shoot,
+                    selectors: [
+                        .setTarget(.otherPlayers)
+                    ]
+                )
             ]
         )
     }
