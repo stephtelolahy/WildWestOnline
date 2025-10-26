@@ -449,28 +449,26 @@ private extension Card {
     }
 
     static var duel: Self {
-        .init(
+        .initJSON(
             name: .duel,
             type: .playable,
             description: "can challenge any other player. The first player failing to discard a BANG! card loses one life point.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .init(
-                        name: .play,
-                        selectors: [
-                            .chooseOne(.target())
-                        ]
-                    )
-                ],
-                .cardPlayed: [
-                    .init(
-                        name: .damage,
-                        amount: 1,
-                        selectors: [
-                            .chooseOne(.optionalRedirectCard([.named(.bang)]))
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .chooseOne(.target())
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .damage,
+                    amount: 1,
+                    selectors: [
+                        .chooseOne(.optionalRedirectCard([.named(.bang)]))
+                    ]
+                )
             ]
         )
     }
