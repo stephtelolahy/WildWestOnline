@@ -397,12 +397,15 @@ private extension Card {
     }
 
     static var missed: Self {
-        .init(
+        .initJSON(
             name: .missed,
             type: .playable,
             description: "If you are hit by a BANG! you may immediately play a Missed! - even though it is not your turn! - to cancel the shot.",
-            behaviour: [
-                .permanent: [.init(name: .counterShot)]
+            effects: [
+                .init(
+                    trigger: .permanent,
+                    action: .counterShot
+                )
             ]
         )
     }
