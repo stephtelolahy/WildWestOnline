@@ -283,8 +283,8 @@ private extension Card.Effect.Name {
 
             guard let nextAction = state.queue.first,
                   let selector = nextAction.selectors.first,
-                  case let .chooseOne(element, resolved, prevSelection) = selector,
-                  let choice = resolved,
+                  case let .chooseOne(element, prompt, prevSelection) = selector,
+                  let choice = prompt,
                   choice.options.map(\.label).contains(selection),
                   prevSelection == nil else {
                 fatalError("Unexpected choose action")
@@ -292,8 +292,7 @@ private extension Card.Effect.Name {
 
             var state = state
             var updatedAction = nextAction
-            let updatedSelector = Card.Selector.chooseOne(element, resolved: resolved, selection: selection)
-            updatedAction.selectors[0] = updatedSelector
+            updatedAction.selectors[0] = .chooseOne(element, prompt: prompt, selection: selection)
             state.queue[0] = updatedAction
 
             return state

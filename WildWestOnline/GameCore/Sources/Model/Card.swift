@@ -165,7 +165,7 @@ public struct Card: Equatable, Codable, Sendable {
         case `repeat`(Number)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
-        case chooseOne(ChoiceRequirement, resolved: ChoicePrompt? = nil, selection: String? = nil)
+        case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(StateCondition)
         case requireThrows(StateCondition)
 
