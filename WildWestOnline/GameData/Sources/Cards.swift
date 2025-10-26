@@ -285,34 +285,33 @@ private extension Card {
     }
 
     static var catBalou: Self {
-        .init(
+        .initJSON(
             name: .catBalou,
             type: .playable,
             description: "Force “any one player” to “discard a card”, regardless of the distance.",
-            behaviour: [
-                .cardPrePlayed: [
-                    .init(
-                        name: .play,
-                        selectors: [
-                            .chooseOne(.target([.hasCards])),
-                            .chooseOne(.targetCard())
-                        ]
-                    )
-                ],
-                .cardPlayed: [
-                    .init(
-                        name: .discardHand,
-                        selectors: [
-                            .require(.targetedCardFromHand)
-                        ]
-                    ),
-                    .init(
-                        name: .discardInPlay,
-                        selectors: [
-                            .require(.targetedCardFromInPlay)
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .play,
+                    selectors: [
+                        .chooseOne(.target([.hasCards])),
+                        .chooseOne(.targetCard())
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .discardHand,
+                    selectors: [
+                        .require(.targetedCardFromHand)
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .discardInPlay,
+                    selectors: [
+                        .require(.targetedCardFromInPlay)
+                    ]
+                )
             ]
         )
     }
