@@ -71,17 +71,20 @@ public struct Card: Equatable, Codable, Sendable {
         public let trigger: Trigger
         public let action: Effect.Name
         public let amount: Int?
+        public let amountPerTurn: [String: Int]?
         public let selectors: [Selector]
 
         public init(
             trigger: Trigger,
             action: Effect.Name,
             amount: Int? = nil,
+            amountPerTurn: [String: Int]? = nil,
             selectors: [Selector] = []
         ) {
             self.trigger = trigger
             self.action = action
             self.amount = amount
+            self.amountPerTurn = amountPerTurn
             self.selectors = selectors
         }
     }
@@ -314,6 +317,7 @@ private extension Card.EffectDefinition {
         .init(
             name: action,
             amount: amount,
+            amountPerTurn: amountPerTurn,
             selectors: selectors
         )
     }

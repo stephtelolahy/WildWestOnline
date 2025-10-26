@@ -510,28 +510,16 @@ private extension Card {
     }
 
     static var volcanic: Self {
-        .init(
+        .initJSON(
             name: .volcanic,
             type: .playable,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            behaviour: [
-                .cardPrePlayed: [
-                    .discardEquipedWeapon,
-                    .equip
-                ],
-                .cardEquiped: [
-                    .init(
-                        name: .setWeapon,
-                        amount: 1
-                    ),
-                    .init(
-                        name: .setPlayLimitPerTurn,
-                        amountPerTurn: [.bang: .unlimited]
-                    )
-                ],
-                .cardDiscarded: [
-                    .resetWeapon
-                ]
+            effects: Card.EffectDefinition.weaponEffects(range: 1) + [
+                .init(
+                    trigger: .cardEquiped,
+                    action: .setPlayLimitPerTurn,
+                    amountPerTurn: [.bang: .unlimited]
+                )
             ]
         )
     }
