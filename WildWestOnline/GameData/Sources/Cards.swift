@@ -349,27 +349,27 @@ private extension Card {
     }
 
     static var generalStore: Self {
-        .init(
+        .initJSON(
             name: .generalStore,
             type: .playable,
             description: "When you play this card, turn as many cards from the deck face up as the players still playing. Starting with you and proceeding clockwise, each player chooses one of those cards and puts it in his hands.",
-            behaviour: [
-                .cardPrePlayed: [.play],
-                .cardPlayed: [
-                    .init(
-                        name: .discover,
-                        selectors: [
-                            .repeat(.activePlayerCount)
-                        ]
-                    ),
-                    .init(
-                        name: .drawDiscovered,
-                        selectors: [
-                            .setTarget(.activePlayers),
-                            .chooseOne(.discoveredCard)
-                        ]
-                    )
-                ]
+            effects: [
+                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPlayed,
+                    action: .discover,
+                    selectors: [
+                        .repeat(.activePlayerCount)
+                    ]
+                ),
+                .init(
+                    trigger: .cardPlayed,
+                    action: .drawDiscovered,
+                    selectors: [
+                        .setTarget(.activePlayers),
+                        .chooseOne(.discoveredCard)
+                    ]
+                )
             ]
         )
     }
