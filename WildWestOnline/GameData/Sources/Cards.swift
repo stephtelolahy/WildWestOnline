@@ -478,7 +478,7 @@ private extension Card {
             name: .schofield,
             type: .playable,
             description: "can hit targets at a distance of 2.",
-            effects: Card.EffectDefinition.weaponEffects(range: 2)
+            effects: Card.EffectDefinition.weapon(range: 2)
         )
     }
 
@@ -487,7 +487,7 @@ private extension Card {
             name: .remington,
             type: .playable,
             description: "can hit targets at a distance of 3.",
-            effects: Card.EffectDefinition.weaponEffects(range: 3)
+            effects: Card.EffectDefinition.weapon(range: 3)
         )
     }
 
@@ -496,7 +496,7 @@ private extension Card {
             name: .revCarabine,
             type: .playable,
             description: "can hit targets at a distance of 4.",
-            effects: Card.EffectDefinition.weaponEffects(range: 4)
+            effects: Card.EffectDefinition.weapon(range: 4)
         )
     }
 
@@ -505,7 +505,7 @@ private extension Card {
             name: .winchester,
             type: .playable,
             description: "can hit targets at a distance of 5.",
-            effects: Card.EffectDefinition.weaponEffects(range: 5)
+            effects: Card.EffectDefinition.weapon(range: 5)
         )
     }
 
@@ -514,7 +514,7 @@ private extension Card {
             name: .volcanic,
             type: .playable,
             description: "can play any number of BANG! cards during your turn but limited to a distance of 1",
-            effects: Card.EffectDefinition.weaponEffects(range: 1) + [
+            effects: Card.EffectDefinition.weapon(range: 1) + [
                 .init(
                     trigger: .cardEquiped,
                     action: .setPlayLimitPerTurn,
@@ -844,7 +844,7 @@ private extension Card.EffectDefinition {
         )
     }
 
-    static func weaponEffects(range: Int) -> [Self] {
+    static func weapon(range: Int) -> [Self] {
         [
             .init(
                 trigger: .cardPrePlayed,
