@@ -881,12 +881,6 @@ private extension String {
 }
 
 private extension Card.Effect {
-    static var play: Self {
-        .init(
-            name: .play
-        )
-    }
-
     static var equip: Self {
         .init(
             name: .equip
