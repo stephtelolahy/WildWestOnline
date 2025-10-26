@@ -266,21 +266,20 @@ private extension Card {
     }
 
     static var saloon: Self {
-        .init(
+        .initJSON(
             name: .saloon,
             type: .playable,
             description: "All players in play regain one life point.",
-            behaviour: [
-                .cardPrePlayed: [.play],
-                .cardPlayed: [
-                    .init(
-                        name: .heal,
-                        amount: 1,
-                        selectors: [
-                            .setTarget(.woundedPlayers)
-                        ]
-                    )
-                ]
+            effects: [
+                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPlayed,
+                    action: .heal,
+                    amount: 1,
+                    selectors: [
+                        .setTarget(.woundedPlayers)
+                    ]
+                )
             ]
         )
     }
