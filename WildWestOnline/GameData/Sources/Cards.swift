@@ -208,39 +208,37 @@ private extension Card {
     }
 
     static var stagecoach: Self {
-        .init(
+        .initJSON(
             name: .stagecoach,
             type: .playable,
             description: "Draw two cards from the top of the deck.",
-            behaviour: [
-                .cardPrePlayed: [.play],
-                .cardPlayed: [
-                    .init(
-                        name: .drawDeck,
-                        selectors: [
-                            .repeat(.fixed(2))
-                        ]
-                    )
-                ]
+            effects: [
+                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPlayed,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.fixed(2))
+                    ]
+                )
             ]
         )
     }
 
     static var wellsFargo: Self {
-        .init(
+        .initJSON(
             name: .wellsFargo,
             type: .playable,
             description: "Draw three cards from the top of the deck.",
-            behaviour: [
-                .cardPrePlayed: [.play],
-                .cardPlayed: [
-                    .init(
-                        name: .drawDeck,
-                        selectors: [
-                            .repeat(.fixed(3))
-                        ]
-                    )
-                ]
+            effects: [
+                .playOnPrePlayed,
+                .init(
+                    trigger: .cardPlayed,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.fixed(3))
+                    ]
+                )
             ]
         )
     }
@@ -914,6 +912,15 @@ private extension Card.Effect {
             selectors: [
                 .setCard(.equippedWeapon)
             ]
+        )
+    }
+}
+
+private extension Card.EffectDefinition {
+    static var playOnPrePlayed: Self {
+        .init(
+            trigger: .cardPrePlayed,
+            action: .play
         )
     }
 }
