@@ -18,7 +18,33 @@ Currently, there is no effective way to prototype trading card games and then be
 - [ ] Replay
 - [ ] Multiplayer online
 
-### DSL at a glance
+### MetaModel
+
+- **Game**: Global metaclass which contains all elements in a game.
+- **Player**: Players who are participating in a game.
+- **Card**: Cards that are used in a game. Cards can have multiple properties, define additional rules, have actions that can be played and have side effects that happen when they are being played.
+- **Action**: Any action changing the game state. It can be performed by the user or by the system.
+- **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
+- **Selector**: Selectors are used to specify which objects an effect should affect.
+
+```mermaid
+graph TD;
+    GAME(Game) --> PLAYER(Player);
+    GAME --> CARD(Card);
+    GAME --> QUEUE(Queue);
+    CARD --> ACTION(Effect);
+    QUEUE --> ACTION;
+    ACTION --> ACTIONTYPE(Type);
+    ACTION --> PAYLOAD(Payload);
+    ACTION --> SELECTOR(Selector);
+```
+
+### Card DSL
+So basically,
+- cards can set some attributes on its own (maxHealth, weapon etc)
+- it can trigger actions on event
+- it becomes active in certain conditions
+- it can also change behavior of other card or even system mechanics
 
 Here’s a quick taste of the card effect DSL used to define Bang! content.
 Playable card: Stagecoach — draw 2 from deck
@@ -44,30 +70,9 @@ extension Card {
 }
 ```
 
-### MetaModel
+### Effect solving
 
-- **Game**: Global metaclass which contains all elements in a game.
-- **Player**: Players who are participating in a game.
-- **Card**: Cards that are used in a game. Cards can have multiple properties, define additional rules, have actions that can be played and have side effects that happen when they are being played.
-- **Action**: Any action changing the game state. It can be performed by the user or by the system.
-- **Effect**: Action applied when playing a card. An Effect may be resolved as a sequence of actions
-- **Selector**: Selectors are used to specify which objects an effect should affect.
-
-```mermaid
-graph TD;
-    GAME(Game) --> PLAYER(Player);
-    GAME --> CARD(Card);
-    GAME --> QUEUE(Queue);
-    CARD --> ACTION(Effect);
-    QUEUE --> ACTION;
-    ACTION --> ACTIONTYPE(Type);
-    ACTION --> PAYLOAD(Payload);
-    ACTION --> SELECTOR(Selector);
-```
-
-### Event solving
-
-- The process of resolving an event is similar to a depth-first search using a graph 
+- The process of resolving an effect is similar to a depth-first search using a graph 
 - Some effects may be blocked while waiting for user input. Then options are displayed through state.
 
 ```mermaid
