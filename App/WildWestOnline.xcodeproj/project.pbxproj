@@ -3,15 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2699EF0129D93AD00030ACCD /* WildWestOnlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */; };
 		2699EF0529D93AD10030ACCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2699EF0429D93AD10030ACCD /* Assets.xcassets */; };
-		9893DF252E2C41FB00F5FBCB /* GameData in Frameworks */ = {isa = PBXBuildFile; productRef = 9893DF242E2C41FB00F5FBCB /* GameData */; };
-		98BA2FE92E25C14700C109F5 /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FE82E25C14700C109F5 /* SettingsData */; };
-		98BA2FED2E25C74100C109F5 /* AppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 98BA2FEC2E25C74100C109F5 /* AppUI */; };
+		986B85F22EB00145001B198B /* AppUI in Frameworks */ = {isa = PBXBuildFile; productRef = 986B85F12EB00145001B198B /* AppUI */; };
+		986B85F42EB0015E001B198B /* SettingsData in Frameworks */ = {isa = PBXBuildFile; productRef = 986B85F32EB0015E001B198B /* SettingsData */; };
 		98E868E62D9D19CC00EF4582 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -20,10 +19,7 @@
 		2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildWestOnlineApp.swift; sourceTree = "<group>"; };
 		2699EF0429D93AD10030ACCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildWestOnline.entitlements; sourceTree = "<group>"; };
-		269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = WildWestOnline.xctestplan; sourceTree = "<group>"; };
-		26DD32B829F3D646002E0F93 /* WildWestOnline */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = WildWestOnline; sourceTree = "<group>"; };
 		98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		F37D85E02A0438EE00C3A754 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,9 +27,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98BA2FED2E25C74100C109F5 /* AppUI in Frameworks */,
-				9893DF252E2C41FB00F5FBCB /* GameData in Frameworks */,
-				98BA2FE92E25C14700C109F5 /* SettingsData in Frameworks */,
+				986B85F22EB00145001B198B /* AppUI in Frameworks */,
+				986B85F42EB0015E001B198B /* SettingsData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,13 +45,10 @@
 		2699EEF429D93AD00030ACCD = {
 			isa = PBXGroup;
 			children = (
-				F37D85E02A0438EE00C3A754 /* README.md */,
 				2699EF0029D93AD00030ACCD /* WildWestOnlineApp.swift */,
 				98E868E52D9D19CC00EF4582 /* LaunchScreen.storyboard */,
 				2699EF0629D93AD10030ACCD /* WildWestOnline.entitlements */,
-				269ABC6C2B081B78008D3181 /* WildWestOnline.xctestplan */,
 				2699EF0429D93AD10030ACCD /* Assets.xcassets */,
-				26DD32B829F3D646002E0F93 /* WildWestOnline */,
 				2699EEFE29D93AD00030ACCD /* Products */,
 				2653DAE829DA2ADD007EAE71 /* Frameworks */,
 			);
@@ -87,9 +79,8 @@
 			);
 			name = WildWestOnline;
 			packageProductDependencies = (
-				98BA2FE82E25C14700C109F5 /* SettingsData */,
-				98BA2FEC2E25C74100C109F5 /* AppUI */,
-				9893DF242E2C41FB00F5FBCB /* GameData */,
+				986B85F12EB00145001B198B /* AppUI */,
+				986B85F32EB0015E001B198B /* SettingsData */,
 			);
 			productName = ReduxGameDSL;
 			productReference = 2699EEFD29D93AD00030ACCD /* WildWestOnline.app */;
@@ -120,6 +111,9 @@
 				fr,
 			);
 			mainGroup = 2699EEF429D93AD00030ACCD;
+			packageReferences = (
+				986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../../wwo" */,
+			);
 			productRefGroup = 2699EEFE29D93AD00030ACCD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -420,18 +414,22 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../../wwo" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../wwo;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		9893DF242E2C41FB00F5FBCB /* GameData */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = GameData;
-		};
-		98BA2FE82E25C14700C109F5 /* SettingsData */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SettingsData;
-		};
-		98BA2FEC2E25C74100C109F5 /* AppUI */ = {
+		986B85F12EB00145001B198B /* AppUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppUI;
+		};
+		986B85F32EB0015E001B198B /* SettingsData */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../../wwo" */;
+			productName = SettingsData;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
