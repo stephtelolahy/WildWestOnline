@@ -125,7 +125,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public var selectors: [Selector]
 
-        @available(*, deprecated, message: "Use copy(with:) instead")
+        @available(*, deprecated, message: "Use GameFeature.Action instead")
         public init(
             name: EffectName,
             sourcePlayer: String = "",
