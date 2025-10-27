@@ -1,0 +1,51 @@
+name: iOS Package Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches:
+      - '*'
+
+concurrency:
+  group: ios-package-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Run Swift Package Tests on iOS Simulator
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1.6.0
+        with:
+          xcode-version: latest-stable
+
+      - name: Set Default Scheme
+        run: |
+          default=WildWestOnline-Package
+          echo $default > default
+          echo "Using default scheme: $default"
+
+      - name: Select iPhone Simulator
+        id: sim
+        run: |
+          device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2V | tail -n 1 | cut -d '|' -f 1 | xargs)
+          echo "device=$device" >> $GITHUB_OUTPUT
+
+      - name: Build and Test Swift Package
+        env:
+          DEVICE: ${{ steps.sim.outputs.device }}
+        run: |
+          echo "Using simulator: $DEVICE"
+          
+          # Build and test the Swift package on iOS simulator
+          xcodebuild \
+            -scheme "$default" \
+            -destination "platform=iOS Simulator,name=$DEVICE" \
+            -skipPackagePluginValidation \
+            clean test
