@@ -593,39 +593,44 @@ private extension Card {
     }
 
     static var dynamite: Self {
-        .init(
+        .initJSON(
             name: .dynamite,
             type: .playable,
             description: "Play this card in front of you: the Dynamite will stay there for a whole turn. When you start your next turn (you have the Dynamite already in play), before the first phase you must “draw!”: - if you draw a card showing Spades and a number between 2 and 9, the Dynamite explodes! Discard it and lose 3 life points; - otherwise, pass the Dynamite to the player on your left (who will “draw!” on his turn, etc.).",
-            behaviour: [
-                .cardPrePlayed: [.equip],
-                .turnStarted: [
-                    .init(
-                        name: .draw,
-                        selectors: [
-                            .repeat(.drawnCardCount)
-                        ]
-                    ),
-                    .init(name: .passInPlay, selectors: [
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .turnStarted,
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawnCardCount)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .passInPlay,
+                    selectors: [
                         .require(.drawnCardMatches(.regexPassDynamite)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
-                    ]),
-                    .init(
-                        name: .damage,
-                        amount: 3,
-                        selectors: [
-                            .require(.drawnCardDoesNotMatch(.regexPassDynamite))
-                        ]
-                    ),
-                    .init(
-                        name: .discardInPlay,
-                        selectors: [
-                            .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
-                            .setCard(.played)
-                        ]
-                    )
-                ]
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .damage,
+                    amount: 3,
+                    selectors: [
+                        .require(.drawnCardDoesNotMatch(.regexPassDynamite))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discardInPlay,
+                    selectors: [
+                        .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
+                        .setCard(.played)
+                    ]
+                )
             ]
         )
     }
