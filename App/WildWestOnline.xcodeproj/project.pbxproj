@@ -112,7 +112,7 @@
 			);
 			mainGroup = 2699EEF429D93AD00030ACCD;
 			packageReferences = (
-				986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../../wwo" */,
+				986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../" */,
 			);
 			productRefGroup = 2699EEFE29D93AD00030ACCD /* Products */;
 			projectDirPath = "";
@@ -415,9 +415,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../../wwo" */ = {
+		986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../wwo;
+			relativePath = ../;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -428,7 +428,7 @@
 		};
 		986B85F32EB0015E001B198B /* SettingsData */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../../wwo" */;
+			package = 986B85F02EB00145001B198B /* XCLocalSwiftPackageReference "../" */;
 			productName = SettingsData;
 		};
 /* End XCSwiftPackageProductDependency section */
