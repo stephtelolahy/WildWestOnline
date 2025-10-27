@@ -26,9 +26,10 @@ jobs:
           xcode-version: latest-stable
 
       - name: Set Default Scheme
+        id: scheme
         run: |
           default=WildWestOnline-Package
-          echo "scheme=$default" >> $GITHUB_OUTPUT
+          echo "default=$default" >> $GITHUB_OUTPUT
           echo "Using default scheme: $default"
 
       - name: Select iPhone Simulator
@@ -42,6 +43,7 @@ jobs:
       - name: Build and Test Swift Package
         env:
           DEVICE: ${{ steps.sim.outputs.device }}
+          SCHEME: ${{ steps.scheme.outputs.default }}
         run: |
           # Build and test the Swift package on iOS simulator
           xcodebuild \
