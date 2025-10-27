@@ -568,26 +568,26 @@ private extension Card {
     }
 
     static var barrel: Self {
-        .init(
+        .initJSON(
             name: .barrel,
             type: .playable,
             description: "allows you to “draw!” when you are the target of a BANG!: - if you draw a Heart card, you are Missed! (just like if you played a Missed! card); - otherwise nothing happens.",
-            behaviour: [
-                .cardPrePlayed: [.equip],
-                .shot: [
-                    .init(
-                        name: .draw,
-                        selectors: [
-                            .repeat(.drawnCardCount)
-                        ]
-                    ),
-                    .init(
-                        name: .counterShot,
-                        selectors: [
-                            .require(.drawnCardMatches(.regexHearts))
-                        ]
-                    )
-                ],
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .shot,
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawnCardCount)
+                    ]
+                ),
+                .init(
+                    trigger: .shot,
+                    action: .counterShot,
+                    selectors: [
+                        .require(.drawnCardMatches(.regexHearts))
+                    ]
+                )
             ]
         )
     }
