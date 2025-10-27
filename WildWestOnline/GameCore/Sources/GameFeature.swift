@@ -94,31 +94,6 @@ public enum GameFeature {
             self.amountPerTurn = amountPerTurn
         }
 
-        public func copy(
-            withPlayer sourcePlayer: String? = nil,
-            playedCard: String? = nil,
-            triggeredBy: [Self]? = nil,
-            targetedPlayer: String? = nil,
-            targetedCard: String? = nil,
-            amount: Int? = nil,
-            selectors: [Card.Selector]? = nil,
-        ) -> Self {
-            .init(
-                name: self.name,
-                sourcePlayer: sourcePlayer ?? self.sourcePlayer,
-                playedCard: playedCard ?? self.playedCard,
-                triggeredBy: triggeredBy ?? self.triggeredBy,
-                targetedPlayer: targetedPlayer ?? self.targetedPlayer,
-                targetedCard: targetedCard ?? self.targetedCard,
-                amount: amount ?? self.amount,
-                chosenOption: self.chosenOption,
-                nestedEffects: self.nestedEffects,
-                affectedCards: self.affectedCards,
-                amountPerTurn: self.amountPerTurn,
-                selectors: selectors ?? self.selectors
-            )
-        }
-
         public static func == (lhs: Self, rhs: Self) -> Bool {
             NonStandardLogic.areActionsEqual(lhs, rhs)
         }
