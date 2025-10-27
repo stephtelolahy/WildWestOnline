@@ -29,11 +29,7 @@ private extension Card.Selector.CardFilter {
         func match(_ card: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            if let permanentEffects = cardObj.behaviour[.permanent],
-                  permanentEffects.contains(where: { $0.name == .counterShot }) {
-                return true
-            }
-            return false
+            return cardObj.effects.contains { $0.trigger == .permanent && $0.action == .counterShot }
         }
     }
 

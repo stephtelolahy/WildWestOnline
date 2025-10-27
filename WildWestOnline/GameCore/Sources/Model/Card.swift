@@ -15,7 +15,7 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
-    public let behaviour: [Trigger: [Effect]]
+    public let effects: [EffectDefinition]
 
     public init(
         name: String,
@@ -23,36 +23,19 @@ public struct Card: Equatable, Codable, Sendable {
         description: String? = nil,
         effects: [EffectDefinition] = []
     ) {
-        let effectsByTrigger = Dictionary(grouping: effects, by: \.trigger)
-            .mapValues { $0.map { $0.toInstance() } }
         self.name = name
         self.type = type
         self.description = description
-        self.behaviour = effectsByTrigger
+        self.effects = effects
     }
 
-    public enum CardType: Equatable, Codable, Sendable {
+    public enum CardType: String, Codable, Sendable {
         case playable
         case character
         case ability
     }
 
-    public enum Trigger: Equatable, Codable, Sendable {
-        case cardPrePlayed
-        case cardPlayed
-        case cardEquiped
-        case cardDiscarded
-        case permanent
-        case damaged
-        case damagedLethal
-        case eliminated
-        case handEmptied
-        case turnStarted
-        case turnEnded
-        case shot
-    }
-
-    public struct EffectDefinition: Codable {
+    public struct EffectDefinition: Equatable, Codable, Sendable {
         public let trigger: Trigger
         public let action: EffectName
         public let amount: Int?
@@ -72,6 +55,21 @@ public struct Card: Equatable, Codable, Sendable {
             self.amountPerTurn = amountPerTurn
             self.selectors = selectors
         }
+    }
+
+    public enum Trigger: String, Codable, Sendable {
+        case cardPrePlayed
+        case cardPlayed
+        case cardEquiped
+        case cardDiscarded
+        case permanent
+        case damaged
+        case damagedLethal
+        case eliminated
+        case handEmptied
+        case turnStarted
+        case turnEnded
+        case shot
     }
 
     public enum EffectName: String, Codable, Sendable {
@@ -109,7 +107,6 @@ public struct Card: Equatable, Codable, Sendable {
         case queue
     }
 
-    @available(*, deprecated, message: "Use GameFeature.Action instead")
     public struct Effect: Equatable, Codable, Sendable {
         public let name: EffectName
 
@@ -127,6 +124,7 @@ public struct Card: Equatable, Codable, Sendable {
 
         public var selectors: [Selector]
 
+        @available(*, deprecated, message: "Use copy(with:) instead")
         public init(
             name: EffectName,
             sourcePlayer: String = "",
@@ -219,7 +217,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum StateCondition: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
             case playLimitPerTurn([String: Int])
-            // TODOs: convert to trigger
+            @available(*, deprecated, message: "Use trigger instead")
             case isGameOver
             case isCurrentTurn
             case drawnCardMatches(_ regex: String)
@@ -296,15 +294,4 @@ public extension String {
 
 public extension Int {
     static let unlimited = 999
-}
-
-private extension Card.EffectDefinition {
-    func toInstance() -> Card.Effect {
-        .init(
-            name: action,
-            amount: amount,
-            amountPerTurn: amountPerTurn,
-            selectors: selectors
-        )
-    }
 }

@@ -509,6 +509,7 @@ private extension Card {
         )
     }
 
+    @available(*, deprecated, message: "Restore amountPerTurn")
     static var volcanic: Self {
         .init(
             name: .volcanic,
@@ -520,7 +521,6 @@ private extension Card {
                     action: .setPlayLimitPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 )
-                // TODOs: restore amountPerTurn
             ]
         )
     }
