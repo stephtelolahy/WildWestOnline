@@ -520,29 +520,28 @@ private extension Card {
                     action: .setPlayLimitPerTurn,
                     amountPerTurn: [.bang: .unlimited]
                 )
+                // TODOs: restore amountPerTurn
             ]
         )
     }
 
     static var scope: Self {
-        .init(
+        .initJSON(
             name: .scope,
             type: .playable,
             description: "you see all the other players at a distance decreased by 1",
-            behaviour: [
-                .cardPrePlayed: [.equip],
-                .cardEquiped: [
-                    .init(
-                        name: .increaseMagnifying,
-                        amount: 1
-                    )
-                ],
-                .cardDiscarded: [
-                    .init(
-                        name: .increaseMagnifying,
-                        amount: -1
-                    )
-                ]
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .cardEquiped,
+                    action: .increaseMagnifying,
+                    amount: 1
+                ),
+                .init(
+                    trigger: .cardDiscarded,
+                    action: .increaseMagnifying,
+                    amount: -1
+                )
             ]
         )
     }
@@ -841,6 +840,13 @@ private extension Card.EffectDefinition {
         .init(
             trigger: .cardPrePlayed,
             action: .play
+        )
+    }
+
+    static var equipOnPrePlayed: Self {
+        .init(
+            trigger: .cardPrePlayed,
+            action: .equip
         )
     }
 
