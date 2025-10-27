@@ -69,14 +69,14 @@ public struct Card: Equatable, Codable, Sendable {
 
     public struct EffectDefinition: Codable {
         public let trigger: Trigger
-        public let action: Effect.Name
+        public let action: EffectName
         public let amount: Int?
         public let amountPerTurn: [String: Int]?
         public let selectors: [Selector]
 
         public init(
             trigger: Trigger,
-            action: Effect.Name,
+            action: EffectName,
             amount: Int? = nil,
             amountPerTurn: [String: Int]? = nil,
             selectors: [Selector] = []
@@ -89,8 +89,44 @@ public struct Card: Equatable, Codable, Sendable {
         }
     }
 
+    public enum EffectName: String, Codable, Sendable {
+        case preparePlay
+        case play
+        case equip
+        case handicap
+        case draw
+        case discover
+        case drawDeck
+        case drawDiscard
+        case drawDiscovered
+        case stealHand
+        case stealInPlay
+        case discardHand
+        case discardInPlay
+        case passInPlay
+        case heal
+        case damage
+        case shoot
+        case counterShot
+        case endTurn
+        case startTurn
+        case eliminate
+        case endGame
+        case activate
+        case choose
+        case increaseMagnifying
+        case increaseRemoteness
+        case setWeapon
+        case setMaxHealth
+        case setHandLimit
+        case setPlayLimitPerTurn
+        case setDrawCards
+        case queue
+    }
+
+    @available(*, deprecated, message: "Use GameFeature.Action instead")
     public struct Effect: Equatable, Codable, Sendable {
-        public let name: Name
+        public let name: EffectName
 
         public let sourcePlayer: String
         public let playedCard: String
@@ -106,43 +142,8 @@ public struct Card: Equatable, Codable, Sendable {
 
         public var selectors: [Selector]
 
-        public enum Name: String, Codable, Sendable {
-            case preparePlay
-            case play
-            case equip
-            case handicap
-            case draw
-            case discover
-            case drawDeck
-            case drawDiscard
-            case drawDiscovered
-            case stealHand
-            case stealInPlay
-            case discardHand
-            case discardInPlay
-            case passInPlay
-            case heal
-            case damage
-            case shoot
-            case counterShot
-            case endTurn
-            case startTurn
-            case eliminate
-            case endGame
-            case activate
-            case choose
-            case increaseMagnifying
-            case increaseRemoteness
-            case setWeapon
-            case setMaxHealth
-            case setHandLimit
-            case setPlayLimitPerTurn
-            case setDrawCards
-            case queue
-        }
-
         public init(
-            name: Name,
+            name: EffectName,
             sourcePlayer: String = "",
             playedCard: String = "",
             triggeredBy: [Self] = [],
