@@ -13,7 +13,6 @@ concurrency:
 env:
   XCODE_VERSION: latest-stable
   DERIVED_DATA_PATH: .build/DerivedData
-  SIM_NAME: iPhone 15
   PLATFORM: "iOS Simulator"
 
 jobs:
@@ -40,14 +39,18 @@ jobs:
           restore-keys: |
             derived-${{ matrix.job }}-
 
-      - name: Select Simulator (static)
+      - name: Select iPhone Simulator
+        id: sim
         run: |
-          echo "Using simulator: $SIM_NAME"
+          # Get the list of simulators, filter for iPhone devices, and sort by iOS version numerically
+          device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2V | tail -n 1 | cut -d '|' -f 1 | xargs)
+          echo "device=$device" >> $GITHUB_OUTPUT
+          echo "Using simulator: $device"
 
       - name: Build and Test (SwiftPM)
         if: matrix.job == 'swiftpm'
         env:
-          DEVICE: ${{ env.SIM_NAME }}
+          DEVICE: ${{ steps.sim.outputs.device }}
         run: |
           SCHEME="WildWestOnline-Package"
           echo "Running tests for scheme: $SCHEME"
@@ -64,7 +67,7 @@ jobs:
       - name: Build App (Xcode)
         if: matrix.job == 'xcode-ui'
         env:
-          DEVICE: ${{ env.SIM_NAME }}
+          DEVICE: ${{ steps.sim.outputs.device }}
         run: |
           SCHEME="WildWestOnline"
           PROJECT="App/WildWestOnline.xcodeproj"
