@@ -1,0 +1,80 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "*" ]
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  XCODE_VERSION: latest-stable
+  DERIVED_DATA_PATH: .build/DerivedData
+  SIM_NAME: iPhone 15
+  PLATFORM: "iOS Simulator"
+
+jobs:
+  test-and-build:
+    name: SwiftPM & App Build
+    runs-on: macos-15
+    strategy:
+      matrix:
+        job: [ "swiftpm", "xcode-ui" ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1.6.0
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Cache Derived Data
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.DERIVED_DATA_PATH }}
+          key: derived-${{ matrix.job }}-${{ github.ref }}
+          restore-keys: |
+            derived-${{ matrix.job }}-
+
+      - name: Select Simulator (static)
+        run: |
+          echo "Using simulator: $SIM_NAME"
+
+      - name: Build and Test (SwiftPM)
+        if: matrix.job == 'swiftpm'
+        env:
+          DEVICE: ${{ env.SIM_NAME }}
+        run: |
+          SCHEME="WildWestOnline-Package"
+          echo "Running tests for scheme: $SCHEME"
+          xcodebuild \
+            -scheme "$SCHEME" \
+            -destination "platform=${{ env.PLATFORM }},name=$DEVICE" \
+            -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
+            -skipPackagePluginValidation \
+            -enableCodeCoverage YES \
+            build-for-testing test-without-building \
+            -quiet \
+            -showBuildTimingSummary
+
+      - name: Build App (Xcode)
+        if: matrix.job == 'xcode-ui'
+        env:
+          DEVICE: ${{ env.SIM_NAME }}
+        run: |
+          SCHEME="WildWestOnline"
+          PROJECT="App/WildWestOnline.xcodeproj"
+          echo "Building app scheme: $SCHEME"
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "platform=${{ env.PLATFORM }},name=$DEVICE" \
+            -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
+            -skipPackagePluginValidation \
+            build \
+            -quiet \
+            -showBuildTimingSummary
