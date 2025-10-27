@@ -4,7 +4,8 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - '*'
 
 concurrency:
   group: ios-build-${{ github.ref }}
@@ -41,15 +42,7 @@ jobs:
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
-          file_to_build=$(find . -maxdepth 1 -type d -iname "*.xcworkspace" | head -n 1)
-          if [ -n "$file_to_build" ]; then
-            filetype_parameter="workspace"
-          else
-            file_to_build=$(find . -maxdepth 1 -type d -iname "*.xcodeproj" | head -n 1)
-            filetype_parameter="project"
-          fi
-
-          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -skipPackagePluginValidation
+          xcodebuild build-for-testing -scheme "$scheme" -destination "platform=$platform,name=$device" -skipPackagePluginValidation
 
       - name: Test
         env:
@@ -62,12 +55,4 @@ jobs:
 
           [ "$scheme" = "default" ] && scheme=$(cat default)
 
-          file_to_build=$(find . -maxdepth 1 -type d -iname "*.xcworkspace" | head -n 1)
-          if [ -n "$file_to_build" ]; then
-            filetype_parameter="workspace"
-          else
-            file_to_build=$(find . -maxdepth 1 -type d -iname "*.xcodeproj" | head -n 1)
-            filetype_parameter="project"
-          fi
-
-          xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -parallel-testing-enabled YES -skipPackagePluginValidation
+          xcodebuild test-without-building -scheme "$scheme" -destination "platform=$platform,name=$device" -parallel-testing-enabled YES -skipPackagePluginValidation
