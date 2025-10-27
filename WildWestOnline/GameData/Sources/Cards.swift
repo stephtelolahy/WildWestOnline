@@ -674,133 +674,103 @@ private extension Card {
     }
 
     static var willyTheKid: Self {
-        .init(
+        .initJSON(
             name: .willyTheKid,
             type: .character,
             description: "he can play any number of BANG! cards during his turn.",
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 4
-                    ),
-                    .init(
-                        name: .setPlayLimitPerTurn,
-                        amountPerTurn: [.bang: .unlimited]
-                    )
-                ]
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .setPlayLimitPerTurn,
+                    amountPerTurn: [.bang: .unlimited]
+                )
             ]
         )
     }
 
     static var roseDoolan: Self {
-        .init(
+        .initJSON(
             name: .roseDoolan,
             type: .character,
             description: "she is considered to have an Appaloosa card in play at all times; she sees the other players at a distance decreased by 1.",
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 4
-                    ),
-                    .init(
-                        name: .increaseMagnifying,
-                        amount: 1
-                    )
-                ]
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .permanent,
+                    action: .increaseMagnifying,
+                    amount: 1
+                )
             ]
         )
     }
 
     static var paulRegret: Self {
-        .init(
+        .initJSON(
             name: .paulRegret,
             type: .character,
             description: "he is considered to have a Mustang card in play at all times; all other players must add 1 to the distance to him.",
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 3
-                    ),
-                    .init(
-                        name: .increaseRemoteness,
-                        amount: 1
-                    )
-                ]
+            effects: [
+                .maxHealth(3),
+                .init(
+                    trigger: .permanent,
+                    action: .increaseRemoteness,
+                    amount: 1
+                )
             ]
         )
     }
 
     static var bartCassidy: Self {
-        .init(
+        .initJSON(
             name: .bartCassidy,
             type: .character,
             description: "each time he loses a life point, he immediately draws a card from the deck.",
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 4
-                    )
-                ],
-                .damaged: [
-                    .init(
-                        name: .drawDeck,
-                        selectors: [
-                            .repeat(.receivedDamageAmount)
-                        ]
-                    )
-                ]
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .damaged,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(.receivedDamageAmount)
+                    ]
+                )
             ]
         )
     }
 
     static var elGringo: Self {
-        .init(
+        .initJSON(
             name: .elGringo,
             type: .character,
             description: "each time he loses a life point due to a card played by another player, he draws a random card from the hands of that player (one card for each life point). If that player has no more cards, too bad! Note that Dynamite damages are not caused by any player.",
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 3
-                    )
-                ],
-                .damaged: [
-                    .init(
-                        name: .stealHand,
-                        selectors: [
-                            .setTarget(.damagingPlayer),
-                            .repeat(.receivedDamageAmount),
-                            .require(.targetedPlayerHasHandCard),
-                            .chooseOne(.targetCard([.isFromHand]))
-                        ]
-                    )
-                ]
+            effects: [
+                .maxHealth(3),
+                .init(
+                    trigger: .damaged,
+                    action: .stealHand,
+                    selectors: [
+                        .setTarget(.damagingPlayer),
+                        .repeat(.receivedDamageAmount),
+                        .require(.targetedPlayerHasHandCard),
+                        .chooseOne(.targetCard([.isFromHand]))
+                    ]
+                )
             ]
         )
     }
 
     static var suzyLafayette: Self {
-        .init(
+        .initJSON(
             name: .suzyLafayette,
             type: .character,
             description: "as soon as she has no cards in her hand, she draws a card from the draw pile.",
-            behaviour: [
-                .permanent: [
-                    .init(
-                        name: .setMaxHealth,
-                        amount: 4
-                    )
-                ],
-                .handEmptied: [
-                    .init(
-                        name: .drawDeck
-                    )
-                ]
+            effects: [
+                .maxHealth(4),
+                .init(
+                    trigger: .handEmptied,
+                    action: .drawDeck
+                )
             ]
         )
     }
@@ -877,5 +847,13 @@ private extension Card.EffectDefinition {
                 amount: 1
             )
         ]
+    }
+
+    static func maxHealth(_ value: Int) -> Self {
+        .init(
+            trigger: .permanent,
+            action: .setMaxHealth,
+            amount: value
+        )
     }
 }
