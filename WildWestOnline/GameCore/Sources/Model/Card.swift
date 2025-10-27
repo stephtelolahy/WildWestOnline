@@ -104,7 +104,7 @@ public struct Card: Equatable, Codable, Sendable {
         case setHandLimit
         case setPlayLimitPerTurn
         case setDrawCards
-        @available(*, deprecated, message: "User Redux.Effect.group instead")
+        @available(*, deprecated, message: "Use Redux.Effect.group instead")
         case queue
     }
 
