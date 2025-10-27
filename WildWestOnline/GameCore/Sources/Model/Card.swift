@@ -17,33 +17,18 @@ public struct Card: Equatable, Codable, Sendable {
     public let description: String?
     public let behaviour: [Trigger: [Effect]]
 
-    @available(*, deprecated, message: "Use initJSON")
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        behaviour: [Trigger: [Effect]] = [:]
+        effects: [EffectDefinition] = []
     ) {
+        let effectsByTrigger = Dictionary(grouping: effects, by: \.trigger)
+            .mapValues { $0.map { $0.toInstance() } }
         self.name = name
         self.type = type
         self.description = description
-        self.behaviour = behaviour
-    }
-
-    public static func initJSON(
-        name: String,
-        type: CardType,
-        description: String? = nil,
-        effects: [EffectDefinition] = []
-    ) -> Self {
-        let effectsByTrigger = Dictionary(grouping: effects, by: \.trigger)
-            .mapValues { $0.map { $0.toInstance() } }
-        return .init(
-            name: name,
-            type: type,
-            description: description,
-            behaviour: effectsByTrigger
-        )
+        self.behaviour = effectsByTrigger
     }
 
     public enum CardType: Equatable, Codable, Sendable {
