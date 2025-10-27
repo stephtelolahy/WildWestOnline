@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   swiftpm-test:
-    name: Run Swift Package Tests
+    name: Test Swift Package
     runs-on: macos-15
 
     steps:
