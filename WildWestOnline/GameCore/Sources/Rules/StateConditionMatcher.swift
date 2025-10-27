@@ -7,14 +7,14 @@
 // swiftlint:disable force_unwrapping
 
 extension Card.Selector.StateCondition {
-    func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+    func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         matcher.match(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.StateCondition {
     protocol Matcher {
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
     }
 
     var matcher: Matcher {
@@ -34,7 +34,7 @@ private extension Card.Selector.StateCondition {
     struct MinimumPlayers: Matcher {
         let count: Int
 
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.playOrder.count >= count
         }
     }
@@ -42,7 +42,7 @@ private extension Card.Selector.StateCondition {
     struct PlayLimitPerTurn: Matcher {
         let limit: [String: Int]
 
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let player = pendingAction.sourcePlayer
             guard let card = limit.keys.first else {
                 fatalError("No card specified in limit")
@@ -63,13 +63,13 @@ private extension Card.Selector.StateCondition {
     }
 
     struct IsGameOver: Matcher {
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.playOrder.count <= 1
         }
     }
 
     struct IsCurrentTurn: Matcher {
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.turn == pendingAction.sourcePlayer
         }
     }
@@ -77,7 +77,7 @@ private extension Card.Selector.StateCondition {
     struct DrawnCardMatches: Matcher {
         let regex: String
 
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let player = pendingAction.sourcePlayer
             let drawCards = state.players.get(player).drawCards
             return state.discard
@@ -89,7 +89,7 @@ private extension Card.Selector.StateCondition {
     struct DrawnCardDoesNotMatch: Matcher {
         let regex: String
 
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let player = pendingAction.sourcePlayer
             let drawCards = state.players.get(player).drawCards
             return state.discard
@@ -99,7 +99,7 @@ private extension Card.Selector.StateCondition {
     }
 
     struct TargetedCardFromHand: Matcher {
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let card = pendingAction.targetedCard!
             let target = pendingAction.targetedPlayer!
             let targetObj = state.players.get(target)
@@ -108,7 +108,7 @@ private extension Card.Selector.StateCondition {
     }
 
     struct TargetedCardFromInPlay: Matcher {
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let card = pendingAction.targetedCard!
             let target = pendingAction.targetedPlayer!
             let targetObj = state.players.get(target)
@@ -117,7 +117,7 @@ private extension Card.Selector.StateCondition {
     }
 
     struct TargetedPlayerHasHandCard: Matcher {
-        func match(_ pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let target = pendingAction.targetedPlayer!
             let targetObj = state.players.get(target)
             return !targetObj.hand.isEmpty

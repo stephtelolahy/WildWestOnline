@@ -14,7 +14,7 @@ public extension GameFeature.State {
         private var discovered: [String] = []
         private var playOrder: [String] = []
         private var startOrder: [String] = []
-        private var queue: [Card.Effect] = []
+        private var queue: [GameFeature.Action] = []
         private var playedThisTurn: [String: Int] = [:]
         private var turn: String?
         private var active: [String: [String]] = [:]
@@ -82,7 +82,7 @@ public extension GameFeature.State {
             return self
         }
 
-        public func withQueue(_ value: [Card.Effect]) -> Self {
+        public func withQueue(_ value: [GameFeature.Action]) -> Self {
             queue = value
             return self
         }
@@ -103,7 +103,7 @@ public extension GameFeature.State {
         }
 
         public func withPendingChoice(_ value: Card.Selector.ChoicePrompt) -> Self {
-            let nextAction = Card.Effect(
+            let nextAction = GameFeature.Action(
                 name: .discardHand,
                 selectors: [.chooseOne(.targetCard(), prompt: value, selection: nil)]
             )

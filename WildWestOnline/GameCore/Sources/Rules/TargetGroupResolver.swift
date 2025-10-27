@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.TargetGroup {
-    func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
         try resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.TargetGroup {
     protocol Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String]
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String]
     }
 
     var resolver: Resolver {
@@ -27,7 +27,7 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct WoundedPlayers: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             let players = state.playOrder
                 .starting(with: pendingAction.sourcePlayer)
                 .filter { state.players.get($0).isWounded }
@@ -41,20 +41,20 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct ActivePlayers: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             state.playOrder
                 .starting(with: pendingAction.sourcePlayer)
         }
     }
 
     struct OtherPlayers: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             Array(state.playOrder.starting(with: pendingAction.sourcePlayer).dropFirst())
         }
     }
 
     struct NextPlayer: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             let current = pendingAction.sourcePlayer
             let next = state.startOrder
                 .filter { state.playOrder.contains($0) || $0 == current }
@@ -64,7 +64,7 @@ private extension Card.Selector.TargetGroup {
     }
 
     struct DamagingPlayer: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage else {
                 fatalError("Expected trigger from damage")

@@ -61,7 +61,7 @@ extension GameFeature {
     }
 }
 
-private extension Card.Effect {
+private extension GameFeature.Action {
     var isResolved: Bool {
         guard selectors.isEmpty else {
             return false

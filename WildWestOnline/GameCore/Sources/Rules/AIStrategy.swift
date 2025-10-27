@@ -7,17 +7,17 @@
 //
 
 protocol AIStrategy {
-    func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect
+    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action
 }
 
 struct RandomStrategy: AIStrategy {
-    func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
+    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
         actions.randomElement()!
     }
 }
 
 struct AgressiveStrategy: AIStrategy {
-    func evaluateBestMove(_ actions: [Card.Effect], state: GameFeature.State) -> Card.Effect {
+    func evaluateBestMove(_ actions: [GameFeature.Action], state: GameFeature.State) -> GameFeature.Action {
         // swiftlint:disable no_magic_numbers
         let itemValue: [String: Int] = [
             "bang": 3,
@@ -37,7 +37,7 @@ struct AgressiveStrategy: AIStrategy {
     }
 }
 
-private extension Card.Effect {
+private extension GameFeature.Action {
     var selectedItem: String {
         switch name {
         case .preparePlay:

@@ -1,11 +1,11 @@
 //
-//  CardEffect+Description.swift
+//  GameFeatureAction+Description.swift
 //  WildWestOnline
 //
 //  Created by Hugues Stéphano TELOLAHY on 23/02/2025.
 //
 
-extension Card.Effect: CustomStringConvertible {
+extension GameFeature.Action: CustomStringConvertible {
     public var description: String {
         [
             selectors.isEmpty ? name.emoji : "..",

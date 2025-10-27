@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.RepeatCount {
-    func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+    func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
         resolver.resolve(pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.RepeatCount {
     protocol Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int
     }
 
     var resolver: Resolver {
@@ -29,19 +29,19 @@ private extension Card.Selector.RepeatCount {
     struct Fixed: Resolver {
         let rawValue: Int
 
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             rawValue
         }
     }
 
     struct ActivePlayerCount: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             state.playOrder.count
         }
     }
 
     struct PlayerExcessHandSize: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
             let handlLimit = if playerObj.handLimit > 0 {
@@ -56,7 +56,7 @@ private extension Card.Selector.RepeatCount {
     }
 
     struct DrawnCardCount: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             let player = pendingAction.sourcePlayer
             let playerObj = state.players.get(player)
             return playerObj.drawCards
@@ -64,7 +64,7 @@ private extension Card.Selector.RepeatCount {
     }
 
     struct ReceivedDamageAmount: Resolver {
-        func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) -> Int {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) -> Int {
             guard let parentAction = pendingAction.triggeredBy.first,
                   parentAction.name == .damage,
                   let amount = parentAction.amount else {

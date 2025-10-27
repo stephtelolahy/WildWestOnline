@@ -25,7 +25,7 @@ extension GameFeature {
     private static func playAIMove(state: State, action: Action) async -> Action? {
         if let pendingChoice = state.pendingChoice,
            state.playMode[pendingChoice.chooser] == .auto {
-            let actions = pendingChoice.options.map { Card.Effect.choose($0.label, player: pendingChoice.chooser) }
+            let actions = pendingChoice.options.map { GameFeature.Action.choose($0.label, player: pendingChoice.chooser) }
             let strategy: AIStrategy = AgressiveStrategy()
             let bestMove = strategy.evaluateBestMove(actions, state: state)
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
@@ -35,7 +35,7 @@ extension GameFeature {
         if state.active.isNotEmpty,
            let choice = state.active.first,
            state.playMode[choice.key] == .auto {
-            let actions = choice.value.map { Card.Effect.preparePlay($0, player: choice.key) }
+            let actions = choice.value.map { GameFeature.Action.preparePlay($0, player: choice.key) }
             let strategy: AIStrategy = AgressiveStrategy()
             let bestMove = strategy.evaluateBestMove(actions, state: state)
             try? await Task.sleep(nanoseconds: UInt64(state.actionDelayMilliSeconds * 1_000_000))
