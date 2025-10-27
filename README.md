@@ -39,9 +39,39 @@ graph TD;
     ACTION --> SELECTOR(Selector);
 ```
 
-### Event solving
+### Card DSL
+So basically,
+- cards can set some attributes on its own (maxHealth, weapon etc)
+- it can trigger actions on event
+- it becomes active in certain conditions
+- it can also change behavior of other card or even system mechanics
 
-- The process of resolving an event is similar to a depth-first search using a graph 
+Here’s a quick taste of the card effect DSL used to define Bang! content.
+Playable card: Stagecoach — draw 2 from deck
+```swift
+extension Card {
+    static var stagecoach: Self {
+        .init(
+            name: "Stagecoach",
+            type: .playable,
+            description: "Draw two cards from the top of the deck.",
+            effects: [
+                .init(
+                    trigger: .cardPlayed,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(2)
+                    ]
+                )
+            ]
+        )
+    }
+}
+```
+
+### Effect solving
+
+- The process of resolving an effect is similar to a depth-first search using a graph 
 - Some effects may be blocked while waiting for user input. Then options are displayed through state.
 
 ```mermaid
