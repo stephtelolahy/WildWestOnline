@@ -1,4 +1,4 @@
-name: iOS Build and Swift Package Tests
+name: iOS Build
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - '*'
 
 concurrency:
-  group: ios-package-tests-${{ github.ref }}
+  group: ios-build-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
     runs-on: macos-15
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Xcode
@@ -56,7 +56,7 @@ jobs:
     runs-on: macos-15
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Xcode
