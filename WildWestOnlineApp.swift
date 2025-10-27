@@ -10,6 +10,7 @@ import GameCore
 import GameData
 import SettingsCore
 import SettingsData
+import NavigationCore
 import SwiftUI
 import Theme
 import AppUI
