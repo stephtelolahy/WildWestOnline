@@ -36,16 +36,17 @@ jobs:
         run: |
           device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2V | tail -n 1 | cut -d '|' -f 1 | xargs)
           echo "device=$device" >> $GITHUB_OUTPUT
+          echo "Using simulator: $DEVICE"
 
       - name: Build and Test Swift Package
         env:
           DEVICE: ${{ steps.sim.outputs.device }}
         run: |
-          echo "Using simulator: $DEVICE"
+          [ "$scheme" = "default" ] && scheme=$(cat default)
           
           # Build and test the Swift package on iOS simulator
           xcodebuild \
-            -scheme "$default" \
+            -scheme "$scheme" \
             -destination "platform=iOS Simulator,name=$DEVICE" \
             -skipPackagePluginValidation \
             clean test
