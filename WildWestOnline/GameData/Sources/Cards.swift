@@ -636,39 +636,39 @@ private extension Card {
     }
 
     static var jail: Self {
-        .init(
+        .initJSON(
             name: .jail,
             type: .playable,
             description: "Play this card in front of any player regardless of the distance: you put him in jail! If you are in jail, you must “draw!” before the beginning of your turn: - if you draw a Heart card, you escape from jail: discard the Jail, and continue your turn as normal; - otherwise discard the Jail and skip your turn",
-            behaviour: [
-                .cardPrePlayed: [
-                    .init(
-                        name: .handicap,
-                        selectors: [
-                            .chooseOne(.target())
-                        ]
-                    )
-                ],
-                .turnStarted: [
-                    .init(
-                        name: .draw,
-                        selectors: [
-                            .repeat(.drawnCardCount)
-                        ]
-                    ),
-                    .init(
-                        name: .endTurn,
-                        selectors: [
-                            .require(.drawnCardDoesNotMatch(.regexHearts))
-                        ]
-                    ),
-                    .init(
-                        name: .discardInPlay,
-                        selectors: [
-                            .setCard(.played)
-                        ]
-                    )
-                ]
+            effects: [
+                .init(
+                    trigger: .cardPrePlayed,
+                    action: .handicap,
+                    selectors: [
+                        .chooseOne(.target())
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .draw,
+                    selectors: [
+                        .repeat(.drawnCardCount)
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .endTurn,
+                    selectors: [
+                        .require(.drawnCardDoesNotMatch(.regexHearts))
+                    ]
+                ),
+                .init(
+                    trigger: .turnStarted,
+                    action: .discardInPlay,
+                    selectors: [
+                        .setCard(.played)
+                    ]
+                )
             ]
         )
     }
