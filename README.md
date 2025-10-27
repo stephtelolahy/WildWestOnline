@@ -18,6 +18,32 @@ Currently, there is no effective way to prototype trading card games and then be
 - [ ] Replay
 - [ ] Multiplayer online
 
+### DSL at a glance
+
+Here’s a quick taste of the card effect DSL used to define Bang! content.
+Playable card: Stagecoach — draw 2 from deck
+
+```swift
+extension Card {
+    static var stagecoach: Self {
+        .init(
+            name: "Stagecoach",
+            type: .playable,
+            description: "Draw two cards from the top of the deck.",
+            effects: [
+                .init(
+                    trigger: .cardPlayed,
+                    action: .drawDeck,
+                    selectors: [
+                        .repeat(2)
+                    ]
+                )
+            ]
+        )
+    }
+}
+```
+
 ### MetaModel
 
 - **Game**: Global metaclass which contains all elements in a game.

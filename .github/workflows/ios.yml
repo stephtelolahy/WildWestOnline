@@ -59,9 +59,7 @@ jobs:
             -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
             -skipPackagePluginValidation \
             -enableCodeCoverage YES \
-            build-for-testing test-without-building \
-            -quiet \
-            -showBuildTimingSummary
+            build-for-testing test-without-building
 
       - name: Build App (Xcode)
         if: matrix.job == 'xcode-ui'
@@ -77,6 +75,4 @@ jobs:
             -destination "platform=${{ env.PLATFORM }},name=$DEVICE" \
             -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
             -skipPackagePluginValidation \
-            build \
-            -quiet \
-            -showBuildTimingSummary
+            build
