@@ -48,7 +48,6 @@ So basically,
 
 Here’s a quick taste of the card effect DSL used to define Bang! content.
 Playable card: Stagecoach — draw 2 from deck
-
 ```swift
 extension Card {
     static var stagecoach: Self {
