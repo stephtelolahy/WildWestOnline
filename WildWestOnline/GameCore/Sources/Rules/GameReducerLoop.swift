@@ -59,12 +59,12 @@ extension GameFeature {
 }
 
 private extension GameFeature.State {
-    func triggeredEffect(on action: Card.Effect) -> Card.Effect? {
+    func triggeredEffect(on action: GameFeature.Action) -> GameFeature.Action? {
         guard action.selectors.isEmpty else {
             return nil
         }
 
-        let effects: [Card.Effect] = triggerableElements(on: action).flatMap {
+        let effects: [GameFeature.Action] = triggerableElements(on: action).flatMap {
             effectsTriggered(
                 by: $0.card,
                 ownedBy: $0.player,
@@ -79,7 +79,7 @@ private extension GameFeature.State {
         }
     }
 
-    func triggerableElements(on action: Card.Effect) -> [TriggerableElement] {
+    func triggerableElements(on action: GameFeature.Action) -> [TriggerableElement] {
         var result: [TriggerableElement] = []
 
         for player in playOrder {
@@ -108,8 +108,8 @@ private extension GameFeature.State {
     func effectsTriggered(
         by card: String,
         ownedBy player: String,
-        for event: Card.Effect
-    ) -> [Card.Effect] {
+        for event: GameFeature.Action
+    ) -> [GameFeature.Action] {
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
         return cardObj.effects
@@ -124,7 +124,7 @@ private extension GameFeature.State {
             }
     }
 
-    func activatePlayableCards() -> Card.Effect? {
+    func activatePlayableCards() -> GameFeature.Action? {
         guard let player = turn else {
             return nil
         }
@@ -132,20 +132,20 @@ private extension GameFeature.State {
         let playerObj = players.get(player)
         let activeCards = (playerObj.abilities + players.get(player).hand)
             .filter {
-                Card.Effect.validatePlay(card: $0, player: player, state: self)
+                GameFeature.Action.validatePlay(card: $0, player: player, state: self)
             }
 
         guard activeCards.isNotEmpty else {
             return nil
         }
 
-        return Card.Effect.activate(activeCards, player: player)
+        return .activate(activeCards, player: player)
     }
 }
 
-private extension Card.Effect {
+private extension GameFeature.Action {
     static func validatePlay(card: String, player: String, state: GameFeature.State) -> Bool {
-        let action = Card.Effect.preparePlay(card, player: player)
+        let action = GameFeature.Action.preparePlay(card, player: player)
         do {
             try action.validate(state: state)
             // print("🟢 validatePlay: \(card)")
@@ -166,7 +166,7 @@ private extension Card.Effect {
 
         if let choice = newState.pendingChoice {
             for option in choice.options {
-                let next = Card.Effect.choose(option.label, player: choice.chooser)
+                let next = GameFeature.Action.choose(option.label, player: choice.chooser)
                 try next.validate(state: newState)
             }
         } else if newState.queue.isNotEmpty {
@@ -176,7 +176,7 @@ private extension Card.Effect {
     }
 }
 
-private extension Card.Effect {
+private extension GameFeature.Action {
     var isAnimatable: Bool {
         guard selectors.isEmpty else {
             return false

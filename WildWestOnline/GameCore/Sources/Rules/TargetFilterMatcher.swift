@@ -6,14 +6,14 @@
 //
 
 extension Card.Selector.TargetFilter {
-    func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+    func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         matcher.match(player, pendingAction: pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.TargetFilter {
     protocol Matcher {
-        func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool
     }
 
     var matcher: Matcher {
@@ -25,7 +25,7 @@ private extension Card.Selector.TargetFilter {
     }
 
     struct HasCards: Matcher {
-        func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             let playerObj = state.players.get(player)
             if player == pendingAction.targetedPlayer {
                 return playerObj.inPlay.isNotEmpty
@@ -38,13 +38,13 @@ private extension Card.Selector.TargetFilter {
     struct AtDistance: Matcher {
         let distance: Int
 
-        func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.distance(from: pendingAction.sourcePlayer, to: player) <= distance
         }
     }
 
     struct Reachable: Matcher {
-        func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+        func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
             state.distance(from: pendingAction.sourcePlayer, to: player) <= state.players.get(pendingAction.sourcePlayer).weapon
         }
     }

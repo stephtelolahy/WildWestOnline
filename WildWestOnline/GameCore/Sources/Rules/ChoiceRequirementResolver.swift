@@ -7,19 +7,19 @@
 // swiftlint:disable force_unwrapping
 
 extension Card.Selector.ChoiceRequirement {
-    func resolveOptions(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+    func resolveOptions(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
         try resolver.resolveOptions(self, pendingAction: pendingAction, state: state)
     }
 
-    func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+    func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
         try resolver.resolveSelection(selection, pendingAction: pendingAction, state: state)
     }
 }
 
 private extension Card.Selector.ChoiceRequirement {
     protocol Resolver {
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect]
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect]
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action]
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action]
     }
 
     var resolver: Resolver {
@@ -36,7 +36,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct Target: Resolver {
         let conditions: [Card.Selector.TargetFilter]
 
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
             let result = state.playOrder
                 .starting(with: player)
@@ -57,7 +57,7 @@ private extension Card.Selector.ChoiceRequirement {
             return [updatedAction]
         }
 
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             [pendingAction.withTarget(selection)]
         }
     }
@@ -65,7 +65,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct TargetCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
             let target = pendingAction.targetedPlayer!
             let playerObj = state.players.get(target)
@@ -94,7 +94,7 @@ private extension Card.Selector.ChoiceRequirement {
             return [updatedAction]
         }
 
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             [pendingAction.withCard(selection)]
         }
     }
@@ -102,7 +102,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct OptionalCostCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
             let target = pendingAction.targetedPlayer!
             let playerObj = state.players.get(target)
@@ -133,12 +133,12 @@ private extension Card.Selector.ChoiceRequirement {
             return [updatedAction]
         }
 
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             if selection == .choicePass {
                 []
             } else {
                 [
-                    Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!),
+                    .discardHand(selection, player: pendingAction.targetedPlayer!),
                     pendingAction
                 ]
             }
@@ -146,7 +146,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 
     struct DiscoveredCard: Resolver {
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let prompt = Card.Selector.ChoicePrompt(
                 chooser: pendingAction.targetedPlayer!,
                 options: state.discovered.map { .init(id: $0, label: $0) }
@@ -157,7 +157,7 @@ private extension Card.Selector.ChoiceRequirement {
             return [updatedAction]
         }
 
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             [pendingAction.withCard(selection)]
         }
     }
@@ -165,7 +165,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct OptionalCounterCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let target = pendingAction.targetedPlayer!
             let counterCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
@@ -187,11 +187,11 @@ private extension Card.Selector.ChoiceRequirement {
             return [updatedAction]
         }
 
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             if selection == .choicePass {
                 [pendingAction]
             } else {
-                [Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!)]
+                [.discardHand(selection, player: pendingAction.targetedPlayer!)]
             }
         }
     }
@@ -199,7 +199,7 @@ private extension Card.Selector.ChoiceRequirement {
     struct OptionalRedirectCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
-        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let target = pendingAction.targetedPlayer!
             let counterCards = state.players.get(target).hand.filter {
                 conditions.match($0, pendingAction: pendingAction, state: state)
@@ -221,7 +221,7 @@ private extension Card.Selector.ChoiceRequirement {
             return [updatedAction]
         }
 
-        func resolveSelection(_ selection: String, pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
+        func resolveSelection(_ selection: String, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             if selection == .choicePass {
                 return [pendingAction]
             } else {
@@ -231,7 +231,7 @@ private extension Card.Selector.ChoiceRequirement {
                     selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
-                    Card.Effect.discardHand(selection, player: pendingAction.targetedPlayer!),
+                    .discardHand(selection, player: pendingAction.targetedPlayer!),
                     reversedAction
                 ]
             }
@@ -240,7 +240,7 @@ private extension Card.Selector.ChoiceRequirement {
 }
 
 private extension Array where Element == Card.Selector.TargetFilter {
-    func match(_ player: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+    func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(player, pendingAction: pendingAction, state: state)
         }
@@ -248,7 +248,7 @@ private extension Array where Element == Card.Selector.TargetFilter {
 }
 
 private extension Array where Element == Card.Selector.CardFilter {
-    func match(_ card: String, pendingAction: Card.Effect, state: GameFeature.State) -> Bool {
+    func match(_ card: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(card, pendingAction: pendingAction, state: state)
         }

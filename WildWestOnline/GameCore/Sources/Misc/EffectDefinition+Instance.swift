@@ -9,10 +9,10 @@ extension Card.EffectDefinition {
     func toInstance(
         withPlayer sourcePlayer: String,
         playedCard: String,
-        triggeredBy: Card.Effect,
+        triggeredBy: GameFeature.Action,
         targetedPlayer: String?,
         targetedCard: String? = nil,
-    ) -> Card.Effect {
+    ) -> GameFeature.Action {
         .init(
             name: action,
             sourcePlayer: sourcePlayer,

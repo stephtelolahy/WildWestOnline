@@ -6,7 +6,7 @@
 //
 
 enum NonStandardLogic {
-    static func targetedPlayerForChildEffect(_ name: Card.EffectName, parentAction: Card.Effect) -> String? {
+    static func targetedPlayerForChildEffect(_ name: Card.EffectName, parentAction: GameFeature.Action) -> String? {
         switch name {
         case .drawDeck,
                 .drawDiscard,
@@ -36,7 +36,7 @@ enum NonStandardLogic {
         }
     }
 
-    static func areActionsEqual(_ lhs: Card.Effect, _ rhs: Card.Effect) -> Bool {
+    static func areActionsEqual(_ lhs: GameFeature.Action, _ rhs: GameFeature.Action) -> Bool {
         switch lhs.name {
         case .preparePlay,
                 .play,

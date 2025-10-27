@@ -784,30 +784,6 @@ private extension String {
     static let regexRed = "(♥️)|(♦️)"
 }
 
-private extension Card.Effect {
-    static var equip: Self {
-        .init(
-            name: .equip
-        )
-    }
-
-    static var resetWeapon: Self {
-        .init(
-            name: .setWeapon,
-            amount: 1
-        )
-    }
-
-    static var discardEquipedWeapon: Self {
-        .init(
-            name: .discardInPlay,
-            selectors: [
-                .setCard(.equippedWeapon)
-            ]
-        )
-    }
-}
-
 private extension Card.EffectDefinition {
     static var playOnPrePlayed: Self {
         .init(

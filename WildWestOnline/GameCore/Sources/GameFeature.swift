@@ -18,8 +18,8 @@ public enum GameFeature {
         public var discovered: [String]
         public var playOrder: [String]
         public var startOrder: [String]
-        public var queue: [Card.Effect]
-        public var lastSuccessfulAction: Card.Effect?
+        public var queue: [Action]
+        public var lastSuccessfulAction: Action?
         public var lastActionError: Card.PlayError?
         public var playedThisTurn: [String: Int]
         public var turn: String?
@@ -49,7 +49,80 @@ public enum GameFeature {
         }
     }
 
-    public typealias Action = Card.Effect
+    public struct Action: Equatable, Codable, Sendable {
+        public let name: Card.EffectName
+
+        public let sourcePlayer: String
+        public let playedCard: String
+        public let triggeredBy: [Self]
+
+        public var targetedPlayer: String?
+        public var targetedCard: String?
+        public var amount: Int?
+        public var chosenOption: String?
+        public var nestedEffects: [Self]?
+        public var affectedCards: [String]?
+        public var amountPerTurn: [String: Int]?
+
+        public var selectors: [Card.Selector]
+
+        public init(
+            name: Card.EffectName,
+            sourcePlayer: String = "",
+            playedCard: String = "",
+            triggeredBy: [Self] = [],
+            targetedPlayer: String? = nil,
+            targetedCard: String? = nil,
+            amount: Int? = nil,
+            chosenOption: String? = nil,
+            nestedEffects: [Self]? = nil,
+            affectedCards: [String]? = nil,
+            amountPerTurn: [String: Int]? = nil,
+            selectors: [Card.Selector] = []
+        ) {
+            self.name = name
+            self.selectors = selectors
+            self.sourcePlayer = sourcePlayer
+            self.playedCard = playedCard
+            self.triggeredBy = triggeredBy
+            self.targetedPlayer = targetedPlayer
+            self.targetedCard = targetedCard
+            self.amount = amount
+            self.chosenOption = chosenOption
+            self.nestedEffects = nestedEffects
+            self.affectedCards = affectedCards
+            self.amountPerTurn = amountPerTurn
+        }
+
+        public func copy(
+            withPlayer sourcePlayer: String? = nil,
+            playedCard: String? = nil,
+            triggeredBy: [Self]? = nil,
+            targetedPlayer: String? = nil,
+            targetedCard: String? = nil,
+            amount: Int? = nil,
+            selectors: [Card.Selector]? = nil,
+        ) -> Self {
+            .init(
+                name: self.name,
+                sourcePlayer: sourcePlayer ?? self.sourcePlayer,
+                playedCard: playedCard ?? self.playedCard,
+                triggeredBy: triggeredBy ?? self.triggeredBy,
+                targetedPlayer: targetedPlayer ?? self.targetedPlayer,
+                targetedCard: targetedCard ?? self.targetedCard,
+                amount: amount ?? self.amount,
+                chosenOption: self.chosenOption,
+                nestedEffects: self.nestedEffects,
+                affectedCards: self.affectedCards,
+                amountPerTurn: self.amountPerTurn,
+                selectors: selectors ?? self.selectors
+            )
+        }
+
+        public static func == (lhs: Self, rhs: Self) -> Bool {
+            NonStandardLogic.areActionsEqual(lhs, rhs)
+        }
+    }
 
     public static var reducer: Reducer<State, Action, Void> {
         combine(
