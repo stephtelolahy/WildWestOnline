@@ -210,7 +210,7 @@
          name: .punch,
          description: "Acts as a Bang! with a range of one.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .shoot,
                  selectors: [
@@ -227,7 +227,7 @@
          description: "Acts as a Missed!, but allows the player to draw a card.",
          canPlay: .shot,
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .missed
              ),
@@ -243,7 +243,7 @@
          name: .springfield,
          description: "The player must discard one additional card, and then the card acts as a Bang! with unlimited range.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .shoot,
                  selectors: [
@@ -276,7 +276,7 @@
          name: .whisky,
          description: "The player must discard one additional card, to heal two health.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .heal,
                  selectors: [
@@ -294,7 +294,7 @@
          description: "The player must discard one additional card, to heal any player one health.",
          setPlayerAttribute: [.maxHealth: 4],
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .heal,
                  selectors: [
@@ -311,7 +311,7 @@
          name: .ragTime,
          description: "The player must discard one additional card to steal a card from any other player.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .steal,
                  selectors: [
@@ -329,7 +329,7 @@
          name: .brawl,
          description: "The player must discard one additional card to cause all other players to discard one card.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .discard,
                  selectors: [
@@ -566,7 +566,7 @@
          name: .lastCall,
          description: "Refill 1 life point even in game last 2 players.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .heal
              )
@@ -579,7 +579,7 @@
          name: .tornado,
          description: "Each player discards a card from their hand (if possible), then draw 2 cards from the deck",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .drawDeck,
                  selectors: [
@@ -597,7 +597,7 @@
          name: .backfire,
          description: "Count as MISSED!. Player who shot you, is now target of BANG!.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .missed
              ),
@@ -616,7 +616,7 @@
          name: .tomahawk,
          description: "Bang at distance 2. But it can be used at distance 1",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .shoot,
                  selectors: [
@@ -634,7 +634,7 @@
          setActionAttribute: [.bang: [.damageAmount: 2]],
          canPlay: .playedCardWithName(.bang),
          effects: [
-             .brown
+             .playable
          ]
      )
  }
@@ -645,7 +645,7 @@
          description: "Count as your normal bang per turn. You hit addional player at distance 1 from 1st target(except you).",
          setActionAttribute: ["faning": [.labeledAsBang: 0]],
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .shoot,
                  selectors: [
@@ -669,7 +669,7 @@
          description: "Play out your turn. By discarding prevent any player to lose 1 life. In case of save from death, you draw 2 card form hand of saved player or from deck (your choice).",
          canPlay: .otherDamaged,
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .heal,
                  selectors: [
@@ -692,7 +692,7 @@
          name: .bandidos,
          description: "Others players may discard 2 cards from hand (1 if he only has one) or loose one life point.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .damage,
                  selectors: [
@@ -709,7 +709,7 @@
          name: .poker,
          description: "All others players discard a card. If no one discards an Ace card, you can draw 2 cards from the discarded cards.",
          effects: [
-             .brown,
+             .playable,
              .init(
                  name: .discard,
                  selectors: [

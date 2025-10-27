@@ -17,7 +17,7 @@ private extension Card.Selector {
 
     var resolver: Resolver {
         switch self {
-        case .repeat(let number): Repeat(number: number)
+        case .repeat(let count): Repeat(count: count)
         case .setTarget(let target): SetTarget(targetGroup: target)
         case .setCard(let card): SetCard(cardGroup: card)
         case .chooseOne(let element, let prompt, let selection): ChooseOne(requirement: element, prompt: prompt, selection: selection)
@@ -27,10 +27,10 @@ private extension Card.Selector {
     }
 
     struct Repeat: Resolver {
-        let number: Card.Selector.Number
+        let count: Card.Selector.RepeatCount
 
         func resolve(_ pendingAction: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> [Card.Effect] {
-            let value = number.resolve(pendingAction, state: state)
+            let value = count.resolve(pendingAction, state: state)
             return Array(repeating: pendingAction, count: value)
         }
     }

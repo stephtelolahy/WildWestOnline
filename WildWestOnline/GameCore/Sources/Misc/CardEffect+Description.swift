@@ -22,12 +22,12 @@ extension Card.Effect: CustomStringConvertible {
     }
 }
 
-private extension Card.Effect.Name {
+private extension Card.EffectName {
     var emoji: String {
         Self.dict[self] ?? ""
     }
 
-    static let dict: [Card.Effect.Name: String] = [
+    static let dict: [Card.EffectName: String] = [
         .activate: "🟢",
         .preparePlay: "⚪️",
         .play: "🟠",

@@ -28,13 +28,12 @@ public extension Inventory {
                 Card(
                     name: "c\($0)",
                     type: .character,
-                    behaviour: [
-                        .permanent: [
-                            .init(
-                                name: .setMaxHealth,
-                                amount: 1
-                            )
-                        ]
+                    effects: [
+                        .init(
+                            trigger: .permanent,
+                            action: .setMaxHealth,
+                            amount: 1
+                        )
                     ]
                 )
             }

@@ -110,23 +110,18 @@ private extension GameFeature.State {
         ownedBy player: String,
         for event: Card.Effect
     ) -> [Card.Effect] {
-        var result: [Card.Effect] = []
         let cardName = Card.extractName(from: card)
         let cardObj = cards.get(cardName)
-        for (trigger, effects) in cardObj.behaviour
-        where trigger.match(event, card: card, player: player, state: self) {
-            result.append(
-                contentsOf: effects.map {
-                    $0.copy(
-                        withPlayer: player,
-                        playedCard: card,
-                        triggeredBy: [event],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: event)
-                    )
-                }
-            )
-        }
-        return result
+        return cardObj.effects
+            .filter { $0.trigger.match(event, card: card, player: player, state: self) }
+            .map {
+                $0.toInstance(
+                    withPlayer: player,
+                    playedCard: card,
+                    triggeredBy: event,
+                    targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: event)
+                )
+            }
     }
 
     func activatePlayableCards() -> Card.Effect? {

@@ -1,12 +1,12 @@
 //
-//  swift
+//  Card.swift
 //
 //  Created by Hugues Telolahy on 28/10/2024.
 //
 
 import Redux
 
-/// We are working on a Card Definition DLS that will allow people to create new cards,
+/// We are working on a Card Definition DSL that will allow people to create new cards,
 /// not currently in the game and see how they play.
 /// A `card` is just a collection of effects and attributes
 /// ℹ️ Inspired by https://github.com/danielyule/hearthbreaker/wiki/Tag-Format
@@ -15,28 +15,49 @@ public struct Card: Equatable, Codable, Sendable {
     public let name: String
     public let type: CardType
     public let description: String?
-    public let behaviour: [Trigger: [Effect]]
+    public let effects: [EffectDefinition]
 
     public init(
         name: String,
         type: CardType,
         description: String? = nil,
-        behaviour: [Trigger: [Effect]] = [:]
+        effects: [EffectDefinition] = []
     ) {
         self.name = name
         self.type = type
         self.description = description
-        self.behaviour = behaviour
+        self.effects = effects
     }
 
-    public enum CardType: Equatable, Codable, Sendable {
-        case brown
-        case blue
+    public enum CardType: String, Codable, Sendable {
+        case playable
         case character
         case ability
     }
 
-    public enum Trigger: Equatable, Codable, Sendable {
+    public struct EffectDefinition: Equatable, Codable, Sendable {
+        public let trigger: Trigger
+        public let action: EffectName
+        public let amount: Int?
+        public let amountPerTurn: [String: Int]?
+        public let selectors: [Selector]
+
+        public init(
+            trigger: Trigger,
+            action: EffectName,
+            amount: Int? = nil,
+            amountPerTurn: [String: Int]? = nil,
+            selectors: [Selector] = []
+        ) {
+            self.trigger = trigger
+            self.action = action
+            self.amount = amount
+            self.amountPerTurn = amountPerTurn
+            self.selectors = selectors
+        }
+    }
+
+    public enum Trigger: String, Codable, Sendable {
         case cardPrePlayed
         case cardPlayed
         case cardEquiped
@@ -51,8 +72,44 @@ public struct Card: Equatable, Codable, Sendable {
         case shot
     }
 
+    public enum EffectName: String, Codable, Sendable {
+        case preparePlay
+        case play
+        case equip
+        case handicap
+        case draw
+        case discover
+        case drawDeck
+        case drawDiscard
+        case drawDiscovered
+        case stealHand
+        case stealInPlay
+        case discardHand
+        case discardInPlay
+        case passInPlay
+        case heal
+        case damage
+        case shoot
+        case counterShot
+        case endTurn
+        case startTurn
+        case eliminate
+        case endGame
+        case activate
+        case choose
+        case increaseMagnifying
+        case increaseRemoteness
+        case setWeapon
+        case setMaxHealth
+        case setHandLimit
+        case setPlayLimitPerTurn
+        case setDrawCards
+        @available(*, deprecated, message: "Use Redux.Effect.group instead")
+        case queue
+    }
+
     public struct Effect: Equatable, Codable, Sendable {
-        public let name: Name
+        public let name: EffectName
 
         public let sourcePlayer: String
         public let playedCard: String
@@ -68,43 +125,9 @@ public struct Card: Equatable, Codable, Sendable {
 
         public var selectors: [Selector]
 
-        public enum Name: String, Codable, Sendable {
-            case preparePlay
-            case play
-            case equip
-            case handicap
-            case draw
-            case discover
-            case drawDeck
-            case drawDiscard
-            case drawDiscovered
-            case stealHand
-            case stealInPlay
-            case discardHand
-            case discardInPlay
-            case passInPlay
-            case heal
-            case damage
-            case shoot
-            case counterShot
-            case endTurn
-            case startTurn
-            case eliminate
-            case endGame
-            case activate
-            case choose
-            case increaseMagnifying
-            case increaseRemoteness
-            case setWeapon
-            case setMaxHealth
-            case setHandLimit
-            case setPlayLimitPerTurn
-            case setDrawCards
-            case queue
-        }
-
+        @available(*, deprecated, message: "Use GameFeature.Action instead")
         public init(
-            name: Name,
+            name: EffectName,
             sourcePlayer: String = "",
             playedCard: String = "",
             triggeredBy: [Self] = [],
@@ -162,14 +185,14 @@ public struct Card: Equatable, Codable, Sendable {
     }
 
     public enum Selector: Equatable, Codable, Sendable {
-        case `repeat`(Number)
+        case `repeat`(RepeatCount)
         case setTarget(TargetGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(StateCondition)
         case requireThrows(StateCondition)
 
-        public enum Number: Equatable, Codable, Sendable {
+        public enum RepeatCount: Equatable, Codable, Sendable {
             case fixed(Int)
             case activePlayerCount
             case playerExcessHandSize
@@ -195,6 +218,7 @@ public struct Card: Equatable, Codable, Sendable {
         public enum StateCondition: Equatable, Codable, Sendable {
             case minimumPlayers(Int)
             case playLimitPerTurn([String: Int])
+            @available(*, deprecated, message: "Use trigger instead")
             case isGameOver
             case isCurrentTurn
             case drawnCardMatches(_ regex: String)

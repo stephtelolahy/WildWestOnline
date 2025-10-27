@@ -5,13 +5,13 @@
 //
 // swiftlint:disable file_length force_unwrapping
 
-extension Card.Effect.Name {
+extension Card.EffectName {
     func reduce(_ action: Card.Effect, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
         try reducer.reduce(action, state: state)
     }
 }
 
-private extension Card.Effect.Name {
+private extension Card.EffectName {
     protocol Reducer {
         func reduce(_ action: Card.Effect, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State
     }
@@ -123,18 +123,19 @@ private extension Card.Effect.Name {
             let card = action.playedCard
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            guard let onPreparePlay = cardObj.behaviour[.cardPrePlayed],
-                  onPreparePlay.isNotEmpty else {
+
+            let onPreparePlay = cardObj.effects.filter { $0.trigger == .cardPrePlayed }
+            guard onPreparePlay.isNotEmpty else {
                 throw .cardNotPlayable(cardName)
             }
 
             let effects = onPreparePlay
                 .map {
-                    $0.copy(
+                    $0.toInstance(
                         withPlayer: action.sourcePlayer,
                         playedCard: action.playedCard,
-                        triggeredBy: [action],
-                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action)
+                        triggeredBy: action,
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action)
                     )
                 }
 
@@ -155,19 +156,19 @@ private extension Card.Effect.Name {
 
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
-            if let onPlay = cardObj.behaviour[.cardPlayed] {
-                let effects = onPlay
-                    .map {
-                        $0.copy(
-                            withPlayer: action.sourcePlayer,
-                            playedCard: action.playedCard,
-                            triggeredBy: [action],
-                            targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.name, parentAction: action),
-                            targetedCard: action.targetedCard
-                        )
-                    }
-                state.queue.insert(contentsOf: effects, at: 0)
-            }
+            let effects = cardObj.effects
+                .filter { $0.trigger == .cardPlayed }
+                .map {
+                    $0.toInstance(
+                        withPlayer: action.sourcePlayer,
+                        playedCard: action.playedCard,
+                        triggeredBy: action,
+                        targetedPlayer: NonStandardLogic.targetedPlayerForChildEffect($0.action, parentAction: action),
+                        targetedCard: action.targetedCard
+                    )
+                }
+
+            state.queue.insert(contentsOf: effects, at: 0)
 
             let playedThisTurn = state.playedThisTurn[cardName] ?? 0
             state.playedThisTurn[cardName] = playedThisTurn + 1
