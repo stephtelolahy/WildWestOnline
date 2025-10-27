@@ -34,6 +34,7 @@ jobs:
       - name: Select iPhone Simulator
         id: sim
         run: |
+          # Get the list of simulators, filter for iPhone devices, and sort by iOS version numerically
           device=$(xcrun simctl list devices | grep -i "iPhone" | sed -E 's/([A-Za-z0-9 ]+) \([A-F0-9-]+\) \((.*)\)/\1|\2/' | sort -t '|' -k2,2V | tail -n 1 | cut -d '|' -f 1 | xargs)
           echo "device=$device" >> $GITHUB_OUTPUT
           echo "Using simulator: $device"
@@ -42,8 +43,6 @@ jobs:
         env:
           DEVICE: ${{ steps.sim.outputs.device }}
         run: |
-          [ "$scheme" = "default" ] && scheme=$(cat default)
-          
           # Build and test the Swift package on iOS simulator
           xcodebuild \
             -scheme "$SCHEME" \
