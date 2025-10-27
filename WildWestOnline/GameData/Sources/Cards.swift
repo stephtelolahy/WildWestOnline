@@ -547,24 +547,22 @@ private extension Card {
     }
 
     static var mustang: Self {
-        .init(
+        .initJSON(
             name: .mustang,
             type: .playable,
             description: "the distance between other players and you is increased by 1",
-            behaviour: [
-                .cardPrePlayed: [.equip],
-                .cardEquiped: [
-                    .init(
-                        name: .increaseRemoteness,
-                        amount: 1
-                    )
-                ],
-                .cardDiscarded: [
-                    .init(
-                        name: .increaseRemoteness,
-                        amount: -1
-                    )
-                ]
+            effects: [
+                .equipOnPrePlayed,
+                .init(
+                    trigger: .cardEquiped,
+                    action: .increaseRemoteness,
+                    amount: 1
+                ),
+                .init(
+                    trigger: .cardDiscarded,
+                    action: .increaseRemoteness,
+                    amount: -1
+                )
             ]
         )
     }
