@@ -182,23 +182,24 @@ private extension GameView {
     func chooseOneAnchorView() -> some View {
         Color.clear
             .frame(width: 1, height: 1)
-            .confirmationDialog(
-                "Choose an Option",
+            .alert(
+                "Resolving ...",
                 isPresented: Binding<Bool>(
                     get: { store.state.chooseOne != nil },
                     set: { _ in }
                 ),
-                titleVisibility: .visible
             ) {
                 if let chooseOne = store.state.chooseOne, let player = store.state.controlledPlayer {
                     ForEach(chooseOne.options, id: \.self) { option in
-                        Button(option) {
+                        Button(role: option == .choicePass ? .cancel : nil) {
                             Task { await self.store.dispatch(.game(.choose(option, player: player))) }
+                        } label: {
+                            Text(option)
                         }
                     }
                 }
             } message: {
-                Text("Select one of the actions below")
+                Text("Select one of the options below")
             }
     }
 
