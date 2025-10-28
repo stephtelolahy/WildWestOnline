@@ -48,9 +48,9 @@ public extension GameView {
             let active: Bool
         }
 
-        struct ChooseOne: Equatable, Identifiable {
-            let id: UUID = UUID()
-            let choiceType: String
+        struct ChooseOne: Equatable {
+            let resolvingAction: Card.EffectName
+            let chooser: String
             let options: [String]
         }
     }
@@ -125,7 +125,8 @@ private extension GameFeature.State {
         }
 
         return .init(
-            choiceType: "",
+            resolvingAction: queue.first!.name,
+            chooser: chooseOne.chooser,
             options: chooseOne.options.map(\.label)
         )
     }

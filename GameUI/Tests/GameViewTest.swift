@@ -124,8 +124,9 @@ struct GameViewTest {
         let game = GameFeature.State.makeBuilder()
             .withPlayer("p1")
             .withPlayer("p2")
-            .withPendingChoice(
-                .init(
+            .withPendingAction(
+                name: .counterShot,
+                prompt: .init(
                     chooser: "p1",
                     options: [
                         .init(id: .missed, label: .missed),
@@ -148,5 +149,7 @@ struct GameViewTest {
         // Then
         let chooseOne = try #require(viewState.chooseOne)
         #expect(chooseOne.options == [.missed, .bang])
+        #expect(chooseOne.chooser == "p1")
+        #expect(chooseOne.resolvingAction == .counterShot)
     }
 }

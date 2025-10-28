@@ -182,24 +182,30 @@ private extension GameView {
     func chooseOneAnchorView() -> some View {
         Color.clear
             .frame(width: 1, height: 1)
-            .confirmationDialog(
-                "Choose an Option",
+            .alert(
+                "Resolving \(store.state.chooseOne?.resolvingAction.rawValue ?? "") ...",
                 isPresented: Binding<Bool>(
                     get: { store.state.chooseOne != nil },
                     set: { _ in }
                 ),
-                titleVisibility: .visible
-            ) {
-                if let chooseOne = store.state.chooseOne, let player = store.state.controlledPlayer {
+                presenting: store.state.chooseOne,
+                actions: { chooseOne in
                     ForEach(chooseOne.options, id: \.self) { option in
-                        Button(option) {
-                            Task { await self.store.dispatch(.game(.choose(option, player: player))) }
+                        let button = Button(option) {
+                            Task { await self.store.dispatch(.game(.choose(option, player: chooseOne.chooser))) }
+                        }
+
+                        if option == .choicePass {
+                            button.keyboardShortcut(.defaultAction)
+                        } else {
+                            button
                         }
                     }
+                },
+                message: { _ in
+                    Text("Select one of the options below")
                 }
-            } message: {
-                Text("Select one of the actions below")
-            }
+            )
     }
 
     func animate(_ action: GameFeature.Action, positions: [GameArea: CGPoint]) {
@@ -365,7 +371,11 @@ private extension GameView.ViewState {
         return .init(
             players: [player1, player2, player3],
             message: "P1's turn",
-            chooseOne: nil,
+            chooseOne: .init(
+                resolvingAction: .counterShot,
+                chooser: "p1",
+                options: ["o1", "o2", .choicePass]
+            ),
             handCards: [
                 .init(card: "mustang-2♥️", active: false),
                 .init(card: "gatling-4♣️", active: true),
