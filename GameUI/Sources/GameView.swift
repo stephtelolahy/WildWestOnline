@@ -191,10 +191,14 @@ private extension GameView {
                 presenting: store.state.chooseOne,
                 actions: { chooseOne in
                     ForEach(chooseOne.options, id: \.self) { option in
-                        Button(role: option == .choicePass ? .cancel : nil) {
+                        let button = Button(option) {
                             Task { await self.store.dispatch(.game(.choose(option, player: chooseOne.chooser))) }
-                        } label: {
-                            Text(option)
+                        }
+
+                        if option == .choicePass {
+                            button.keyboardShortcut(.defaultAction)
+                        } else {
+                            button
                         }
                     }
                 },
@@ -367,7 +371,11 @@ private extension GameView.ViewState {
         return .init(
             players: [player1, player2, player3],
             message: "P1's turn",
-            chooseOne: nil,
+            chooseOne: .init(
+                resolvingAction: .counterShot,
+                chooser: "p1",
+                options: ["o1", "o2", .choicePass]
+            ),
             handCards: [
                 .init(card: "mustang-2♥️", active: false),
                 .init(card: "gatling-4♣️", active: true),
