@@ -24,9 +24,6 @@
         }
       }
     },
-    "Choose an Option" : {
-
-    },
     "game.message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -61,7 +58,10 @@
         }
       }
     },
-    "Select one of the actions below" : {
+    "Resolving ..." : {
+
+    },
+    "Select one of the options below" : {
 
     },
     "Settings" : {
