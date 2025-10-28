@@ -183,24 +183,25 @@ private extension GameView {
         Color.clear
             .frame(width: 1, height: 1)
             .alert(
-                "Resolving ...",
+                "Resolving \(store.state.chooseOne?.resolvingAction.rawValue ?? "") ...",
                 isPresented: Binding<Bool>(
                     get: { store.state.chooseOne != nil },
                     set: { _ in }
                 ),
-            ) {
-                if let chooseOne = store.state.chooseOne, let player = store.state.controlledPlayer {
+                presenting: store.state.chooseOne,
+                actions: { chooseOne in
                     ForEach(chooseOne.options, id: \.self) { option in
                         Button(role: option == .choicePass ? .cancel : nil) {
-                            Task { await self.store.dispatch(.game(.choose(option, player: player))) }
+                            Task { await self.store.dispatch(.game(.choose(option, player: chooseOne.chooser))) }
                         } label: {
                             Text(option)
                         }
                     }
+                },
+                message: { _ in
+                    Text("Select one of the options below")
                 }
-            } message: {
-                Text("Select one of the options below")
-            }
+            )
     }
 
     func animate(_ action: GameFeature.Action, positions: [GameArea: CGPoint]) {
