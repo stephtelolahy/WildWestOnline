@@ -29,7 +29,9 @@ public struct HomeView: View {
                 footerView
             }
         }
+#if os(iOS)
         .navigationBarHidden(true)
+#endif
         .onAppear {
             Task {
                 await AudioPlayer.shared.resume(.musicLoneRider)
