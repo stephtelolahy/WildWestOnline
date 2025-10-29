@@ -39,6 +39,7 @@ jobs:
             derived-${{ matrix.job }}-
 
       - name: Select iPhone Simulator
+        if: matrix.job == 'xcode-ui'
         id: sim
         run: |
           # Get the list of simulators, filter for iPhone devices, and sort by iOS version numerically
