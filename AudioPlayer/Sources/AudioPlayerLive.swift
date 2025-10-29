@@ -41,7 +41,9 @@ extension AudioPlayer {
 
         func load(sounds: [Sound]) throws {
             let sounds = sounds.filter { !self.players.keys.contains($0) }
+#if os(iOS) || os(tvOS) || os(watchOS)
             try AVAudioSession.sharedInstance().setActive(true, options: [])
+#endif
             var errors: [Sound: Error] = [:]
             for sound in sounds {
                 for bundle in self.bundles {

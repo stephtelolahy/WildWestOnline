@@ -61,8 +61,10 @@ public struct GameView: View {
                 }
             }
             .navigationTitle(store.state.message)
+#if os(iOS) || os(tvOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
+#endif
             .toolbar { toolBarView }
             .task {
                 await store.dispatch(.game(.startTurn(player: store.state.startPlayer)))
@@ -79,7 +81,7 @@ public struct GameView: View {
 
 private extension GameView {
     var toolBarView: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .automatic) {
             Menu {
                 Button("Actions") { }
                 Button("Settings") {
@@ -117,7 +119,7 @@ private extension GameView {
             }
         }
 
-        ForEach(players.indices, id: \ .self) { index in
+        ForEach(players.indices, id: \.self) { index in
             PlayerView(player: players[index])
                 .position(positions[.playerHand(players[index].id)]!)
         }
