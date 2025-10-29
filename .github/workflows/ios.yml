@@ -48,14 +48,12 @@ jobs:
 
       - name: Build and Test (SwiftPM)
         if: matrix.job == 'swiftpm'
-        env:
-          DEVICE: ${{ steps.sim.outputs.device }}
         run: |
           SCHEME="WildWestOnline-Package"
           echo "Running tests for scheme: $SCHEME"
           xcodebuild \
             -scheme "$SCHEME" \
-            -destination "platform=${{ env.PLATFORM }},name=$DEVICE" \
+            -destination "platform=macOS" \
             -derivedDataPath "${{ env.DERIVED_DATA_PATH }}" \
             -skipPackagePluginValidation \
             -enableCodeCoverage YES \
