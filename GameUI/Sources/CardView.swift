@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 import GameCore
 
 /// A view that displays a card
@@ -23,36 +22,31 @@ struct CardView: View {
     }
 
     var body: some View {
-        let uiImage = UIImage(named: cardImageName, in: .module, compatibleWith: nil)
-        Group {
-            if let uiImage {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: cardSize.width, height: cardSize.height)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            } else {
+        Image(cardImageName, bundle: .module)
+            .resizable()
+            .scaledToFit()
+            .background(
                 Text(cardImageName.uppercased())
                     .font(theme.fontTitle)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: cardSize.width, maxHeight: cardSize.height)
-            }
-        }
-        .shadow(radius: 2)
-        .overlay(
-            VStack {
-                Spacer()
-                HStack {
-                    Text(cardValue)
-                        .font(theme.fontHeadline)
-                        .foregroundColor(.black)
-                        .background(.white)
-                        .padding([.leading, .bottom], 8)
+            )
+            .frame(width: cardSize.width, height: cardSize.height)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .shadow(radius: 2)
+            .overlay(
+                VStack {
                     Spacer()
+                    HStack {
+                        Text(cardValue)
+                            .font(theme.fontHeadline)
+                            .foregroundColor(.black)
+                            .background(.white)
+                            .padding([.leading, .bottom], 8)
+                        Spacer()
+                    }
                 }
-            }
-        )
-        .opacity(disabled ? 0.5 : 1.0)
+            )
+            .opacity(disabled ? 0.5 : 1.0)
     }
 
     private var cardImageName: String {
