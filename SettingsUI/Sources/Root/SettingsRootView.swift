@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsRootView: View {
     @StateObject private var store: ViewStore
+    @Environment(\.dismiss) private var dismiss
 
     init(store: @escaping () -> ViewStore) {
         // SwiftUI ensures that the following initialization uses the
@@ -23,9 +24,13 @@ struct SettingsRootView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("Settings")
         .toolbar {
-            Button("Done") {
-                Task {
-                    await store.dispatch(.navigation(.dismissSettingsSheet))
+            if #available(iOS 26.0, macOS 26.0, *) {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(role: .confirm) {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
                 }
             }
         }
@@ -120,8 +125,10 @@ struct SettingsRootView: View {
 }
 
 #Preview {
-    SettingsRootView {
-        .init(initialState: .mock, dependencies: ())
+    NavigationStack {
+        SettingsRootView {
+            .init(initialState: .mock, dependencies: ())
+        }
     }
 }
 
