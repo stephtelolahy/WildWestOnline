@@ -4,17 +4,6 @@
 //  Created by Hugues Stéphano TELOLAHY on 12/10/2025.
 //
 
-/// Combine reducers —
-/// multiple reducers for the same State and Action
-public func combine<State, Action, Dependencies>(
-    _ reducers: Reducer<State, Action, Dependencies>...
-) -> Reducer<State, Action, Dependencies> {
-    { state, action, dependencies in
-        let effects = reducers.map { $0(&state, action, dependencies) }
-        return .group(effects)
-    }
-}
-
 /// Pull back reducers —
 /// lift a small reducer that operates on part of the state/action into a global one.
 public func pullback<
