@@ -19,6 +19,7 @@ public enum Cards {
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
         .nextTurnOnEliminated,
+        .draw3CardsOnEliminating,
         .stagecoach,
         .wellsFargo,
         .beer,
@@ -201,6 +202,24 @@ private extension Card {
                     selectors: [
                         .require(.isCurrentTurn),
                         .setTarget(.nextPlayer)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var draw3CardsOnEliminating: Self {
+        .init(
+            name: .draw3CardsOnEliminating,
+            type: .ability,
+            description: "Draw 3 cards on eliminating an opponent",
+            effects: [
+                .init(
+                    trigger: .eliminating,
+                    action: .drawDeck,
+                    selectors: [
+                        .setTarget(.currentPlayer),
+                        .repeat(.fixed(3))
                     ]
                 )
             ]
