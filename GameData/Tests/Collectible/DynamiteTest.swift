@@ -89,10 +89,10 @@ struct DynamiteTest {
             .withPlayer("p1") {
                 $0.withInPlay([.dynamite, "c4"])
                     .withAbilities([
-                        .startTurnNextOnTurnEnded,
+                        .nextTurnOnTurnEnded,
                         .eliminateOnDamageLethal,
                         .discardAllCardsOnEliminated,
-                        .endTurnOnEliminated
+                        .nextTurnOnEliminated
                     ])
                     .withDrawCards(1)
                     .withHealth(3)

@@ -79,7 +79,6 @@ struct ElGringoTests {
                 $0.withAbilities([.elGringo])
                     .withHealth(3)
             }
-            .withTurn("p1")
             .build()
 
         // When

@@ -14,11 +14,12 @@ public enum Cards {
         .discardCounterCardOnShot,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
-        .startTurnNextOnTurnEnded,
+        .nextTurnOnTurnEnded,
         .eliminateOnDamageLethal,
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
-        .endTurnOnEliminated,
+        .nextTurnOnEliminated,
+        .draw3CardsOnEliminating,
         .stagecoach,
         .wellsFargo,
         .beer,
@@ -100,9 +101,9 @@ private extension Card {
         )
     }
 
-    static var startTurnNextOnTurnEnded: Self {
+    static var nextTurnOnTurnEnded: Self {
         .init(
-            name: .startTurnNextOnTurnEnded,
+            name: .nextTurnOnTurnEnded,
             type: .ability,
             description: "Start next player's turn",
             effects: [
@@ -189,9 +190,9 @@ private extension Card {
         )
     }
 
-    static var endTurnOnEliminated: Self {
+    static var nextTurnOnEliminated: Self {
         .init(
-            name: .endTurnOnEliminated,
+            name: .nextTurnOnEliminated,
             type: .ability,
             description: "End turn when eliminated",
             effects: [
@@ -201,6 +202,24 @@ private extension Card {
                     selectors: [
                         .require(.isCurrentTurn),
                         .setTarget(.nextPlayer)
+                    ]
+                )
+            ]
+        )
+    }
+
+    static var draw3CardsOnEliminating: Self {
+        .init(
+            name: .draw3CardsOnEliminating,
+            type: .ability,
+            description: "Draw 3 cards on eliminating an opponent",
+            effects: [
+                .init(
+                    trigger: .eliminating,
+                    action: .drawDeck,
+                    selectors: [
+                        .setTarget(.currentPlayer),
+                        .repeat(.fixed(3))
                     ]
                 )
             ]

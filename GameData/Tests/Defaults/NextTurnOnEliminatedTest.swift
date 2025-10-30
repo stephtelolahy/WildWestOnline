@@ -1,5 +1,5 @@
 //
-//  EndTurnOnEliminatedTest.swift
+//  NextTurnOnEliminatedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,14 +8,14 @@
 import Testing
 import GameCore
 
-struct EndTurnOnEliminatedTest {
+struct NextTurnOnEliminatedTest {
     @Test func beingEliminated_currentTurn_shouldNextTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1")
             .withPlayer("p2")
             .withPlayer("p3") {
-                $0.withAbilities([.endTurnOnEliminated])
+                $0.withAbilities([.nextTurnOnEliminated])
             }
             .withTurn("p3")
             .build()
@@ -38,7 +38,7 @@ struct EndTurnOnEliminatedTest {
             .withPlayer("p1") {
                 $0.withHand(["c11"])
                     .withInPlay(["c12"])
-                    .withAbilities([.discardAllCardsOnEliminated, .endTurnOnEliminated])
+                    .withAbilities([.discardAllCardsOnEliminated, .nextTurnOnEliminated])
             }
             .withPlayer("p2") {
                 $0.withAbilities([.draw2CardsOnTurnStarted])

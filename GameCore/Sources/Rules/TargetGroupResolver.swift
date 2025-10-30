@@ -23,6 +23,7 @@ private extension Card.Selector.TargetGroup {
         case .otherPlayers: OtherPlayers()
         case .nextPlayer: NextPlayer()
         case .damagingPlayer: DamagingPlayer()
+        case .currentPlayer: CurrentPlayer()
         }
     }
 
@@ -75,6 +76,12 @@ private extension Card.Selector.TargetGroup {
             }
 
             return [parentAction.sourcePlayer]
+        }
+    }
+
+    struct CurrentPlayer: Resolver {
+        func resolve(_ pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [String] {
+            [pendingAction.sourcePlayer]
         }
     }
 }
