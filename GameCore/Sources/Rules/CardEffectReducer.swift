@@ -13,7 +13,7 @@ extension Card.EffectName {
 
 private extension Card.EffectName {
     protocol Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State
     }
 
     var reducer: Reducer {
@@ -54,7 +54,7 @@ private extension Card.EffectName {
     }
 
     struct Draw: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             let card = try state.popDeck()
             state.discard.insert(card, at: 0)
@@ -63,7 +63,7 @@ private extension Card.EffectName {
     }
 
     struct DrawDeck: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
 
             var state = state
@@ -74,7 +74,7 @@ private extension Card.EffectName {
     }
 
     struct DrawDiscard: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
 
             var state = state
@@ -85,7 +85,7 @@ private extension Card.EffectName {
     }
 
     struct DrawDiscovered: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
 
@@ -106,7 +106,7 @@ private extension Card.EffectName {
     }
 
     struct Discover: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             let discoveredAmount = state.discovered.count
             if discoveredAmount >= state.deck.count {
@@ -119,7 +119,7 @@ private extension Card.EffectName {
     }
 
     struct PreparePlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let card = action.playedCard
             let cardName = Card.extractName(from: card)
             let cardObj = state.cards.get(cardName)
@@ -146,7 +146,7 @@ private extension Card.EffectName {
     }
 
     struct Play: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let player = action.sourcePlayer
             let card = action.playedCard
             var state = state
@@ -178,7 +178,7 @@ private extension Card.EffectName {
     }
 
     struct Equip: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let player = action.sourcePlayer
             let card = action.playedCard
 
@@ -200,7 +200,7 @@ private extension Card.EffectName {
     }
 
     struct Handicap: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let player = action.sourcePlayer
             let card = action.playedCard
@@ -223,7 +223,7 @@ private extension Card.EffectName {
     }
 
     struct Heal: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let player = action.targetedPlayer!
             let amount = action.amount!
 
@@ -241,7 +241,7 @@ private extension Card.EffectName {
     }
 
     struct DiscardHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let player = action.targetedPlayer!
             let card = action.targetedCard!
 
@@ -260,7 +260,7 @@ private extension Card.EffectName {
     }
 
     struct DiscardInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let player = action.targetedPlayer!
             let card = action.targetedCard!
 
@@ -279,7 +279,7 @@ private extension Card.EffectName {
     }
 
     struct Choose: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let selection = action.chosenOption!
 
             guard let nextAction = state.queue.first,
@@ -301,7 +301,7 @@ private extension Card.EffectName {
     }
 
     struct StealHand: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
             let player = action.sourcePlayer
@@ -320,7 +320,7 @@ private extension Card.EffectName {
     }
 
     struct StealInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
             let player = action.sourcePlayer
@@ -339,7 +339,7 @@ private extension Card.EffectName {
     }
 
     struct PassInPlay: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let card = action.targetedCard!
             let player = action.sourcePlayer
@@ -358,7 +358,7 @@ private extension Card.EffectName {
     }
 
     struct Shoot: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             let damage = GameFeature.Action(
                 name: .damage,
@@ -374,7 +374,7 @@ private extension Card.EffectName {
     }
 
     struct CounterShoot: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
 
             guard let damageIndex = state.queue.firstIndex(where: {
@@ -392,7 +392,7 @@ private extension Card.EffectName {
     }
 
     struct Damage: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let player = action.targetedPlayer!
             let amount = action.amount!
 
@@ -403,7 +403,7 @@ private extension Card.EffectName {
     }
 
     struct EndTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             if let current = state.turn {
                 state.queue.removeAll { $0.sourcePlayer == current && $0.playedCard != action.playedCard }
@@ -414,7 +414,7 @@ private extension Card.EffectName {
     }
 
     struct StartTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             state.turn = action.targetedPlayer
             state.playedThisTurn = [:]
@@ -423,7 +423,7 @@ private extension Card.EffectName {
     }
 
     struct Queue: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let children = action.nestedEffects!
 
             var state = state
@@ -433,7 +433,7 @@ private extension Card.EffectName {
     }
 
     struct Eliminate: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             state.playOrder.removeAll { $0 == action.targetedPlayer }
             state.queue.removeAll { $0.sourcePlayer == action.targetedPlayer }
@@ -442,7 +442,7 @@ private extension Card.EffectName {
     }
 
     struct EndGame: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             var state = state
             state.isOver = true
             return state
@@ -450,7 +450,7 @@ private extension Card.EffectName {
     }
 
     struct Activate: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let cards = action.affectedCards!
 
@@ -461,7 +461,7 @@ private extension Card.EffectName {
     }
 
     struct SetWeapon: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let weapon = action.amount!
 
@@ -472,7 +472,7 @@ private extension Card.EffectName {
     }
 
     struct SetPlayLimitPerTurn: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let amountPerTurn = action.amountPerTurn!
 
@@ -483,7 +483,7 @@ private extension Card.EffectName {
     }
 
     struct IncreaseMagnifying: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let amount = action.amount!
 
@@ -494,7 +494,7 @@ private extension Card.EffectName {
     }
 
     struct IncreaseRemoteness: Reducer {
-        func reduce(_ action: GameFeature.Action, state: GameFeature.State, ) throws(Card.PlayError) -> GameFeature.State {
+        func reduce(_ action: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> GameFeature.State {
             let target = action.targetedPlayer!
             let amount = action.amount!
 
