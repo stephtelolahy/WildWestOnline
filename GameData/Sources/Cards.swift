@@ -14,7 +14,7 @@ public enum Cards {
         .discardCounterCardOnShot,
         .discardExcessHandOnTurnEnded,
         .draw2CardsOnTurnStarted,
-        .startTurnNextOnTurnEnded,
+        .nextTurnOnTurnEnded,
         .eliminateOnDamageLethal,
         .endGameOnEliminated,
         .discardAllCardsOnEliminated,
@@ -100,9 +100,9 @@ private extension Card {
         )
     }
 
-    static var startTurnNextOnTurnEnded: Self {
+    static var nextTurnOnTurnEnded: Self {
         .init(
-            name: .startTurnNextOnTurnEnded,
+            name: .nextTurnOnTurnEnded,
             type: .ability,
             description: "Start next player's turn",
             effects: [

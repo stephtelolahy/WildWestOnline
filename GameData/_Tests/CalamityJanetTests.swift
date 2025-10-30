@@ -18,7 +18,6 @@ struct CalamityJanetTests {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
-            .withTurn("p1")
             .build()
 
         // When
@@ -42,7 +41,6 @@ struct CalamityJanetTests {
                     .withFigure(.calamityJanet)
             }
             .withPlayer("p2")
-            .withTurn("p1")
             .build()
 
         // When

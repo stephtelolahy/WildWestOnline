@@ -1,5 +1,5 @@
 //
-//  StartTurnNextOnTurnEndedTest.swift
+//  NextTurnOnTurnEndedTest.swift
 //
 //
 //  Created by Hugues Stephano TELOLAHY on 06/01/2024.
@@ -8,14 +8,14 @@
 import Testing
 import GameCore
 
-struct StartTurnNextOnTurnEndedTest {
+struct NextTurnOnTurnEndedTest {
     @Test func endturn_shouldStartNextTurn() async throws {
         // Given
         let state = GameFeature.State.makeBuilderWithAllCards()
             .withPlayer("p1") {
                 $0.withAbilities([
                     .endTurn,
-                    .startTurnNextOnTurnEnded
+                    .nextTurnOnTurnEnded
                 ])
             }
             .withPlayer("p2")
