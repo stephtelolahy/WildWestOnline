@@ -105,13 +105,12 @@ public struct Card: Equatable, Codable, Sendable {
         case setHandLimit
         case setPlayLimitPerTurn
         case setDrawCards
-        @available(*, deprecated, message: "Use Redux.Effect.group instead")
         case queue
     }
 
     public enum Selector: Equatable, Codable, Sendable {
         case `repeat`(RepeatCount)
-        case setTarget(TargetGroup)
+        case setTarget(PlayerGroup)
         case setCard(CardGroup)
         case chooseOne(ChoiceRequirement, prompt: ChoicePrompt? = nil, selection: String? = nil)
         case require(StateCondition)
@@ -125,7 +124,7 @@ public struct Card: Equatable, Codable, Sendable {
             case receivedDamageAmount
         }
 
-        public enum TargetGroup: String, Codable, Sendable {
+        public enum PlayerGroup: String, Codable, Sendable {
             case activePlayers
             case woundedPlayers
             case otherPlayers
@@ -155,21 +154,15 @@ public struct Card: Equatable, Codable, Sendable {
         }
 
         public enum ChoiceRequirement: Equatable, Codable, Sendable {
-            /// Must choose a targeted player
-            case target([TargetFilter] = [])
-            /// Must choose a targeted card
+            case targetPlayer([PlayerFilter] = [])
             case targetCard([CardFilter] = [])
-            /// Must choose a discovered card
-            case discoveredCard
-            /// Effect can be performed by discarding a hand card
-            case optionalCostCard([CardFilter] = [])
-            /// Effect can be countered by discarding a hand card
-            case optionalCounterCard([CardFilter] = [])
-            /// Effect can be redirected by discarding a hand card
-            case optionalRedirectCard([CardFilter] = [])
+            case discoverCard
+            case costCard([CardFilter] = [])
+            case counterCard([CardFilter] = [])
+            case redirectCard([CardFilter] = [])
         }
 
-        public enum TargetFilter: Equatable, Codable, Sendable {
+        public enum PlayerFilter: Equatable, Codable, Sendable {
             case hasCards
             case atDistance(Int)
             case reachable
@@ -207,8 +200,8 @@ public struct Card: Equatable, Codable, Sendable {
         case insufficientDiscard
         case playerAlreadyMaxHealth(String)
         case noReq(Selector.StateCondition)
-        case noTarget(Selector.TargetGroup)
-        case noChoosableTarget([Selector.TargetFilter])
+        case noTarget(Selector.PlayerGroup)
+        case noChoosableTarget([Selector.PlayerFilter])
         case cardNotPlayable(String)
         case cardAlreadyInPlay(String)
     }

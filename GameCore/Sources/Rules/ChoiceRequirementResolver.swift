@@ -24,17 +24,17 @@ private extension Card.Selector.ChoiceRequirement {
 
     var resolver: Resolver {
         switch self {
-        case .target(let conditions): Target(conditions: conditions)
+        case .targetPlayer(let conditions): TargetPlayer(conditions: conditions)
         case .targetCard(let conditions): TargetCard(conditions: conditions)
-        case .optionalCostCard(let conditions): OptionalCostCard(conditions: conditions)
-        case .discoveredCard: DiscoveredCard()
-        case .optionalCounterCard(let conditions): OptionalCounterCard(conditions: conditions)
-        case .optionalRedirectCard(let conditions): OptionalRedirectCard(conditions: conditions)
+        case .costCard(let conditions): CostCard(conditions: conditions)
+        case .discoverCard: DiscoverCard()
+        case .counterCard(let conditions): CounterCard(conditions: conditions)
+        case .redirectCard(let conditions): RedirectCard(conditions: conditions)
         }
     }
 
-    struct Target: Resolver {
-        let conditions: [Card.Selector.TargetFilter]
+    struct TargetPlayer: Resolver {
+        let conditions: [Card.Selector.PlayerFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let player = pendingAction.sourcePlayer
@@ -99,7 +99,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct OptionalCostCard: Resolver {
+    struct CostCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -145,7 +145,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct DiscoveredCard: Resolver {
+    struct DiscoverCard: Resolver {
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
             let prompt = Card.Selector.ChoicePrompt(
                 chooser: pendingAction.targetedPlayer!,
@@ -162,7 +162,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct OptionalCounterCard: Resolver {
+    struct CounterCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -196,7 +196,7 @@ private extension Card.Selector.ChoiceRequirement {
         }
     }
 
-    struct OptionalRedirectCard: Resolver {
+    struct RedirectCard: Resolver {
         let conditions: [Card.Selector.CardFilter]
 
         func resolveOptions(_ requirement: Card.Selector.ChoiceRequirement, pendingAction: GameFeature.Action, state: GameFeature.State) throws(Card.PlayError) -> [GameFeature.Action] {
@@ -228,7 +228,7 @@ private extension Card.Selector.ChoiceRequirement {
                 let reversedAction = pendingAction.copy(
                     withPlayer: pendingAction.targetedPlayer,
                     targetedPlayer: pendingAction.sourcePlayer,
-                    selectors: [.chooseOne(.optionalRedirectCard(conditions))] + pendingAction.selectors
+                    selectors: [.chooseOne(.redirectCard(conditions))] + pendingAction.selectors
                 )
                 return [
                     .discardHand(selection, player: pendingAction.targetedPlayer!),
@@ -239,7 +239,7 @@ private extension Card.Selector.ChoiceRequirement {
     }
 }
 
-private extension Array where Element == Card.Selector.TargetFilter {
+private extension Array where Element == Card.Selector.PlayerFilter {
     func match(_ player: String, pendingAction: GameFeature.Action, state: GameFeature.State) -> Bool {
         allSatisfy {
             $0.match(player, pendingAction: pendingAction, state: state)

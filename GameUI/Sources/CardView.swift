@@ -52,7 +52,7 @@ struct CardView: View {
     private var cardImageName: String {
         switch content {
         case .id(let id):
-            Card.extractName(from: id)
+            Card.name(of: id)
 
         case .hidden:
             "card_back"
@@ -62,7 +62,7 @@ struct CardView: View {
     private var cardValue: String {
         switch content {
         case .id(let id):
-            Card.extractValue(from: id)
+            Card.value(of: id)
 
         case .hidden:
             ""
