@@ -4,7 +4,7 @@
 //
 //  Created by Stephano Hugues TELOLAHY on 23/03/2024.
 //
-// swiftlint:disable identifier_name force_unwrapping
+// swiftlint:disable identifier_name force_unwrapping file_length
 
 import SwiftUI
 import Theme
@@ -83,16 +83,24 @@ private extension GameView {
     var toolBarView: some ToolbarContent {
         ToolbarItem(placement: .automatic) {
             Menu {
-                Button("Actions") { }
-                Button("Settings") {
+                Button {
                     Task {
                         await store.dispatch(.navigation(.presentSettingsSheet))
                     }
+                } label: {
+                    Label("Settings", systemImage: "gearshape")
                 }
+
                 Divider()
+
                 Button(role: .destructive) {
                     Task { await store.dispatch(.quit) }
-                } label: { Text(.gameQuitButton)
+                } label: {
+                    Label {
+                        Text(.gameQuitButton)
+                    } icon: {
+                        Image(systemName: "xmark")
+                    }
                 }
             } label: { Image(systemName: "ellipsis")
             }
