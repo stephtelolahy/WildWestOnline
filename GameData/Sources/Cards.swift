@@ -629,7 +629,7 @@ private extension Card {
                     trigger: .turnStarted,
                     action: .passInPlay,
                     selectors: [
-                        .require(.drawnCardMatches(.regexPassDynamite)),
+                        .require(.drawnCardDoesNotMatch(.regex2To9Spades)),
                         .setCard(.played),
                         .setTarget(.nextPlayer)
                     ]
@@ -639,14 +639,14 @@ private extension Card {
                     action: .damage,
                     amount: 3,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexPassDynamite))
+                        .require(.drawnCardMatches(.regex2To9Spades))
                     ]
                 ),
                 .init(
                     trigger: .turnStarted,
                     action: .discardInPlay,
                     selectors: [
-                        .require(.drawnCardDoesNotMatch(.regexPassDynamite)),
+                        .require(.drawnCardMatches(.regex2To9Spades)),
                         .setCard(.played)
                     ]
                 )
@@ -799,8 +799,8 @@ private extension Card {
 /// https://regex101.com/
 private extension String {
     static let regexHearts = "♥️"
-    static let regexPassDynamite = "(♥️)|(♦️)|(♣️)|([10|J|Q|K|A]♠️)"
     static let regexRed = "(♥️)|(♦️)"
+    static let regex2To9Spades = "([2|3|4|5|6|7|8|9]♠️)"
 }
 
 private extension Card.EffectDefinition {
