@@ -170,16 +170,15 @@ private extension Card.Trigger {
 
     struct Eliminating: Matcher {
         func match(_ action: GameFeature.Action, card: String, player: String, state: GameFeature.State) -> Bool {
-            guard case .eliminate = action.name else {
+            guard case .eliminate = action.name,
+                  let parentAction = action.triggeredBy.first,
+                  parentAction.name == .damage,
+                  parentAction.sourcePlayer == player,
+                  parentAction.targetedPlayer != player else {
                 return false
             }
 
-            guard let parentAction = action.triggeredBy.first,
-                  parentAction.name == .damage else {
-                fatalError("Expected trigger from damage")
-            }
-
-            return parentAction.sourcePlayer == player
+            return true
         }
     }
 }
